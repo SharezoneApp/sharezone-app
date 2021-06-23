@@ -1,0 +1,3 @@
+#Removes package folders
+.packages
+package_config.json
