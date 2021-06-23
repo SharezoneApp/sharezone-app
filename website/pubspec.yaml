@@ -1,0 +1,53 @@
+name: sharezone_website
+description: Sharezone Webseite
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.7.3 <3.0.0"
+
+dependencies:
+  url_launcher: ^5.4.10
+  build_context: ^2.0.1
+  flutter_svg: ^0.18.0
+  flutter_markdown: ^0.4.3
+  flutter_staggered_animations: ^0.1.2
+  number_slide_animation: ^0.1.1
+  dio: ^3.0.9
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik/Rubik-Light.ttf
+          weight: 200
+        - asset: fonts/Rubik/Rubik-Regular.ttf
+          weight: 400
+        - asset: fonts/Rubik/Rubik-Medium.ttf
+          weight: 500
+        - asset: fonts/Rubik/Rubik-Bold.ttf
+          weight: 700
+        - asset: fonts/Rubik/Rubik-Black.ttf
+          weight: 900
+        - asset: fonts/Rubik/Rubik-Italic.ttf
+          style: italic
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/illustrations/
+    - assets/logo/
+    - assets/features/
+    - assets/get_it_on/
+    - assets/images/

@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "sharezone-debug"
+  },
+  "targets": {
+    "sharezone-c2bd8": {
+      "hosting": {
+        "sharezone-webseite": [
+          "sharezone-c2bd8"
+        ],
+        "website-test": [
+          "sharezone-website-test"
+        ]
+      }
+    }
+  }
+}
