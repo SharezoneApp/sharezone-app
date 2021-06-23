@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Gibt alle Argumente dieses Skriptes an das Dart-Programm weiter.
+# Wird benutzt, damit das Dart-Programm einfach per "sharezone" in der
+# Command-Line aufgerufen werden kann.
+
+# Gibt den Pfad zu diesem Skript zurück.
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+dart run $SCRIPT_DIR/../ci_cd/ci_cd_tools/bin/ci_cd_tools.dart "$@"

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Gibt alle Argumente dieses Skriptes an "sharezone" weiter.
+# Es ist praktisch ein Alias.
+sharezone "$@"
