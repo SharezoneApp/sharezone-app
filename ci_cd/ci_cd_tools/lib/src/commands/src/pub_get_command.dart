@@ -69,8 +69,6 @@ class GetPackagesUseCase {
     this.packageTimeout = packageTimeout;
     var packageStream = repo.dartLibraries.streamPackages().mergeWithValues([
       repo.sharezoneCiCdTool,
-      repo.website,
-      repo.sharezoneConsole,
       if (includeFlutterApp) repo.sharezoneFlutterApp,
     ]);
     return _getPackages(packageStream);

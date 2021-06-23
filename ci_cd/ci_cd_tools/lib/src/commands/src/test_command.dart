@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
@@ -8,11 +7,6 @@ import 'package:ci_cd_tools/src/common/common.dart';
 class TestCommand extends Command {
   TestCommand(this._repo) {
     argParser
-      ..addFlag('exclude-cfs',
-          help:
-              // used in ci - cf job is seperate from this test command
-              'excludes cloud functions from testing (used in ci)',
-          negatable: false)
       ..addFlag(
         'verbose',
         abbr: 'v',
@@ -41,10 +35,6 @@ class TestCommand extends Command {
 
     await _testFlutterApp(_repo.sharezoneFlutterApp);
     await _testPackages(_repo.dartLibraries);
-    if (!argResults['exclude-cfs']) {
-      await _testCloudFunctions(
-          _repo.cloudFunctions.functionsSubdirectory.path);
-    }
 
     print('All tests are passing!');
   }
@@ -92,24 +82,5 @@ class TestCommand extends Command {
       throw ToolExit(1);
     }
     print('All Dart package tests passed!');
-  }
-
-  Future<void> _testCloudFunctions(String functionsDirPath) async {
-    print('Starting Cloud-Functions tests...');
-    final process = await Process.start(
-      'npm',
-      ['run', 'test'],
-      workingDirectory: functionsDirPath,
-    ).timeout(packageTimeout);
-    if (isVerbose) {
-      process.stdout.listen(stdout.add);
-    }
-    if (await process.exitCode != 0) {
-      final output = await process.stdout.toUtf8String();
-      print(output);
-      print('Not all Cloud Function tests passed!');
-      throw ToolExit(1);
-    }
-    print('All Cloud Function tests passed!');
   }
 }
