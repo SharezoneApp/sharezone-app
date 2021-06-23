@@ -1,0 +1,52 @@
+{
+  "project_info": {
+    "project_number": "730263787697",
+    "firebase_url": "https://sharezone-c2bd8.firebaseio.com",
+    "project_id": "sharezone-c2bd8",
+    "storage_bucket": "sharezone-c2bd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730263787697:android:f0a3b3b856fd1383",
+        "android_client_info": {
+          "package_name": "de.codingbrain.sharezone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730263787697-3k362gt3s1lu4d2entj682com1a42ud1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.codingbrain.sharezone",
+            "certificate_hash": "26f115c341d0547dd8699b13f9b9e1cae0a236f8"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_vFdcAexcO38jtzkW_MK_LWWx4X9tJ2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730263787697-s5tqfln3apv1j27netnnv8p8305ns3j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "730263787697-nut49i43h71qd45mfulcd335l1p647vd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.codingbrain.sharezone.macos",
+                "app_store_id": "1503251344"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

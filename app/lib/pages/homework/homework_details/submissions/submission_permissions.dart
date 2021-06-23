@@ -1,0 +1,25 @@
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+
+import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:user/user.dart';
+
+class SubmissionPermissions {
+  final Stream<TypeOfUser> typeOfUserStream;
+  final CourseGateway courseGateway;
+
+  SubmissionPermissions(this.typeOfUserStream, this.courseGateway);
+
+  Future<bool> isAllowedToViewSubmittedPermissions(HomeworkDto homework) async {
+    return _isAdmin(homework.courseID) &&
+        _isTeacher(await typeOfUserStream.first);
+  }
+
+  bool _isAdmin(String courseID) {
+    final role =
+        courseGateway.getRoleFromCourseNoSync(courseID) ?? MemberRole.standard;
+    return role == MemberRole.admin || role == MemberRole.owner;
+  }
+
+  bool _isTeacher(TypeOfUser typeOfUser) => typeOfUser == TypeOfUser.teacher;
+}

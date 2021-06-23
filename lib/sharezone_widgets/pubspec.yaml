@@ -1,0 +1,30 @@
+name: sharezone_widgets
+description: A new Flutter package project.
+version: 0.0.1
+author:
+publish_to: none
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  sharezone_common:
+    path: ../sharezone_common
+  app_functions:
+    path: ../app_functions
+  sharezone_utils:
+    path: ../sharezone_utils
+  build_context:
+    path: ../build_context
+  flutter_svg: ^0.18.0
+  flutter_staggered_animations: ^0.1.2
+  shimmer: ^1.1.1
+  rxdart: ^0.24.1
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:

@@ -1,0 +1,37 @@
+name: authentification_base
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  analytics:
+    path: ../../analytics
+  bloc_base:
+    path: ../../bloc_base
+  sharezone_common:
+    path: ../../sharezone_common
+  sharezone_utils:
+    path: ../../sharezone_utils
+  streaming_shared_preferences:
+    path: ../../streaming_shared_preferences
+  user:
+    path: ../../user
+  cloud_firestore: ^0.16.0
+  firebase_auth: ^0.20.0+1
+  firebase_auth_oauth: ^0.2.4
+  google_sign_in: ^4.5.1
+  google_sign_in_dartio: ^0.0.6
+  meta: ^1.1.8
+  rxdart: ^0.24.1
+  sign_in_with_apple: ^2.5.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter: null

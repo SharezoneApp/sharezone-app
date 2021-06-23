@@ -1,0 +1,16 @@
+*.iml
+*.class
+*.log
+.idea
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+GeneratedPluginRegistrant.java
+
+# App signing stuff.
+**/**.jks
+key*.properties

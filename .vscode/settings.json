@@ -1,0 +1,11 @@
+{
+    "dart.flutterSdkPaths": [
+        "/Users/jonassharezone/development/tools/flutter",
+        "/Users/jonassharezone/fvm/versions"
+    ],
+    "dart.flutterSdkPath": "/Users/jonassharezone/development/tools/flutter"
+    // "dart.flutterSdkPaths": [
+    //     "/Users/jonassharezone/fvm/versions"
+    // ],
+    // "dart.flutterSdkPath": "/Users/jonassharezone/fvm/versions/1.23.0-18.1.pre"
+}

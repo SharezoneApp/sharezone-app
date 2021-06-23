@@ -1,0 +1,50 @@
+import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
+import 'package:sharezone/util/cache/key_value_store.dart';
+import 'package:test/test.dart';
+
+void main() {
+  group("FeedbackCache", () {
+    FeedbackCache cache;
+    InMemoryKeyValueStore dummyKeyValueStore;
+
+    setUp(() async {
+      dummyKeyValueStore = InMemoryKeyValueStore();
+      cache = FeedbackCache(dummyKeyValueStore);
+    });
+
+    test("Returns no Cooldown if no last submit was saved", () async {
+      final onCooldown =
+          await cache.hasFeedbackSubmissionCooldown(Duration(minutes: 1));
+      expect(onCooldown, false);
+    });
+    test(
+        "Returns no cooldown if cached last send time is more than cooldown range",
+        () async {
+      final cooldownDuration = Duration(minutes: 2);
+      final lastFeedbackSend = DateTime.now().subtract(cooldownDuration +
+          Duration(seconds: 10)); // So Feedback should get no cooldown
+
+      dummyKeyValueStore.setString(
+          FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
+
+      final onCooldown =
+          await cache.hasFeedbackSubmissionCooldown(cooldownDuration);
+      expect(onCooldown, false);
+    });
+
+    test(
+        "Returns cooldown if cached last send time is less than cooldown range",
+        () async {
+      final cooldownDuration = Duration(minutes: 2);
+      final lastFeedbackSend = DateTime.now().subtract(cooldownDuration -
+          Duration(seconds: 10)); // So Feedback should get cooldown
+
+      await dummyKeyValueStore.setString(
+          FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
+
+      final onCooldown =
+          await cache.hasFeedbackSubmissionCooldown(cooldownDuration);
+      expect(onCooldown, true);
+    });
+  });
+}

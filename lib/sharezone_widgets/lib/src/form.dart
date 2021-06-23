@@ -1,0 +1,159 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/theme.dart';
+
+// Like the VoidCallback, but as a Future
+typedef FutureVoidCallback = Future<void> Function();
+typedef FutureBoolCallback = Future<bool> Function();
+typedef FutureBoolValueChanged<T> = Future<bool> Function(T t);
+
+Future<void> showDeleteDialog(
+    {BuildContext context,
+    String title,
+    Widget description,
+    dynamic popTwiceResult,
+    VoidCallback onDelete,
+    bool popTwice = true}) async {
+  final result = await showLeftRightAdaptiveDialog<bool>(
+    context: context,
+    title: title,
+    content: description,
+    defaultValue: false,
+    left: AdaptiveDialogAction.cancle,
+    right: AdaptiveDialogAction.delete,
+  );
+
+  if (result) {
+    onDelete();
+    if (popTwice) Navigator.pop(context, popTwiceResult);
+  }
+}
+
+class LeaveEditedFormAlert extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Eingabe verlassen?"),
+      content: Text.rich(
+        TextSpan(
+          text: 'Möchtest du die Eingabe wirklich beenden? Die Daten werden ',
+          style: TextStyle(
+              color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+              fontSize: 16.0),
+          children: const <TextSpan>[
+            TextSpan(
+                text: 'nicht', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: ' gespeichert!'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          textColor: Theme.of(context).primaryColor,
+          child: Text('NEIN!'),
+          onPressed: () => Navigator.of(context).pop(false),
+        ),
+        FlatButton(
+          textColor: Theme.of(context).primaryColor,
+          child: Text('JA, VERLASSEN!'),
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+      ],
+    );
+  }
+}
+
+class OneTextFieldDialog extends StatefulWidget {
+  const OneTextFieldDialog({
+    Key key,
+    @required this.onTap,
+    @required this.title,
+    @required this.hint,
+    @required this.actionName,
+    this.notAllowedChars,
+    this.text,
+  }) : super(key: key);
+
+  final ValueChanged<String> onTap;
+  final String title, hint, actionName, notAllowedChars;
+
+  /// The text, which will be set at the beginning
+  final String text;
+
+  @override
+  _OneTextFieldDialogState createState() => _OneTextFieldDialogState();
+}
+
+class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
+  String name, errorText;
+  TextEditingController controller;
+
+  final FocusNode focusNode = FocusNode();
+
+  Future<void> delayKeyboard(BuildContext context) async {
+    Future.delayed(const Duration(milliseconds: 150));
+    FocusScope.of(context).requestFocus(focusNode);
+  }
+
+  @override
+  void initState() {
+    if (widget.text != null) {
+      controller = TextEditingController(text: widget.text);
+      name = widget.text;
+    }
+    super.initState();
+  }
+
+  bool containsStringNowAllowChars(String inputText) {
+    for (String char in widget.notAllowedChars.split("")) {
+      if (inputText.contains(char)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // delayKeyboard(context);
+    return AlertDialog(
+      title: Text(widget.title),
+      content: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        onChanged: (changed) => name = changed,
+        autofocus: true,
+        textInputAction: TextInputAction.done,
+        onEditingComplete: () => widget.onTap(name),
+        decoration:
+            InputDecoration(hintText: widget.hint, errorText: errorText),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text("ABBRECHEN"),
+          textColor: Theme.of(context).primaryColor,
+          onPressed: () => Navigator.pop(context),
+        ),
+        FlatButton(
+          textColor: Theme.of(context).primaryColor,
+          child: Text(widget.actionName),
+          onPressed: () {
+            if (widget.notAllowedChars == null) {
+              widget.onTap(name);
+            } else {
+              if (!containsStringNowAllowChars(name)) {
+                widget.onTap(name);
+              } else {
+                setState(() =>
+                    errorText = "Folgende Zeichen sind nicht erlaubt: / ");
+              }
+            }
+          },
+        )
+      ],
+    );
+  }
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>de</string>
+	<key>CFBundleDisplayName</key>
+	<string>$(APP_DISPLAY_NAME)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>German</string>
+		<string>de</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>sharezone</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>de.codingbrain.sharezone.app</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://sharez.one</string>
+	</array>
+	<key>FirebaseScreenReportingEnabled</key>
+	<true/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Wird benötigt um eine Audio hochzuladen.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Wird benoetigt, damit Termine und Pruefungen direkt zum Kalender hinzugefügt werden koennen.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Um einen QR-Code scannen zu können oder ein Bild hochzuladen, brauchen die App die Berechtigung für die Kamera.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Wird fuer einige Plugins zwangslaeuufig benoetigt.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Wird für einige Plugins zwangsläufig benötigt.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Wird für einige Plugins zwangsläufig benötigt.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Wird für die Aufnahme von Ton und Bild für den Image Picker verwendet.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Wird für einige Plugins zwangsläufig benötigt.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Wir benötigen die Berechtigung, um das Bild in deiner Galerie zu speichern.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wird verwendet, um den Image Picker zu verwenden.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Wird für einige Plugins zwangsläufig benötigt.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+</dict>
+</plist>

@@ -1,0 +1,103 @@
+import 'package:files_basics/local_file.dart';
+import 'package:flutter/material.dart';
+import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:open_file/open_file.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import '../widgets/file_page_app_bar.dart';
+
+class PdfFilePage extends StatelessWidget {
+  const PdfFilePage({
+    Key key,
+    @required this.localFile,
+    this.actions,
+    @required this.name,
+    this.nameStream,
+  })  : assert(name != null || localFile != null),
+        super(key: key);
+
+  final String name;
+  final Stream<String> nameStream;
+  final List<Widget> actions;
+  final LocalFile localFile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        brightness: Brightness.dark,
+        primaryColorBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        appBar: FilePageAppBar(
+          name: name,
+          actions: actions,
+          nameStream: nameStream,
+        ),
+        backgroundColor: Colors.black,
+        body: FutureBuilder<bool>(
+          future: isDeviceSupportedByPdfPlguin(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data) {
+                return PdfView(
+                  pageSnapping: false,
+                  controller:
+                      PdfController(document: getPdfDocument(localFile)),
+                  scrollDirection: Axis.vertical,
+                  errorBuilder: (exception) {
+                    return Center(
+                      child: Text(
+                        'PDF Rendering does not '
+                        'support on the system of this version',
+                      ),
+                    );
+                  },
+                  documentLoader:
+                      Center(child: AccentColorCircularProgressIndicator()),
+                );
+              } else {
+                OpenFile.open(localFile.getPath());
+                return Container();
+              }
+            }
+
+            if (snapshot.hasError) {
+              // Catch
+              return Center(
+                child: Text(
+                  'PDF Rendering does not '
+                  'support on the system of this version',
+                ),
+              );
+            }
+
+            return Center(child: AccentColorCircularProgressIndicator());
+          },
+        ),
+      ),
+    );
+  }
+
+  // Das PDF-Plugin ist nur für Geräte ab Android 5 und iOS 11 verfügbar. Deswegen
+  // wird bei älteren Geräten einfach die Datei geöffnet.
+  Future<bool> isDeviceSupportedByPdfPlguin() async {
+    if (PlatformCheck.isAndroid) {
+      final android = await MobileDeviceInformationRetreiver().androidInfo;
+      return android.version.sdkInt >= 21;
+    } else if (PlatformCheck.isIOS) {
+      final ios = await MobileDeviceInformationRetreiver().iosInfo;
+      final result = ios.systemVersion.compareTo('11.0.0');
+      return result != -1;
+    }
+    return true;
+  }
+}
+
+Future<PdfDocument> getPdfDocument(LocalFile localFile) {
+  if (PlatformCheck.isMobile)
+    return PdfDocument.openFile(localFile.getPath());
+  else
+    return PdfDocument.openData(localFile.getData());
+}

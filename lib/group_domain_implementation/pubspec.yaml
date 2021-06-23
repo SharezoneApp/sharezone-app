@@ -1,0 +1,21 @@
+name: group_domain_implementation
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  group_domain_models:
+    path: ../group_domain_models
+  sharezone_common:
+    path: ../sharezone_common
+  user:
+    path: ../user
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

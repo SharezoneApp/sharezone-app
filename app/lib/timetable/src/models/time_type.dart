@@ -1,0 +1,1 @@
+enum TimeType { period, individual }

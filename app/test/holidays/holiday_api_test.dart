@@ -1,0 +1,95 @@
+import 'package:mockito/mockito.dart';
+import 'package:sharezone/models/extern_apis/holiday.dart';
+import 'package:sharezone/util/holidays/state.dart';
+import 'package:http/http.dart' as http;
+import 'package:sharezone/util/holidays/holiday_api.dart';
+import 'package:test/test.dart';
+
+class HttpClientMock extends Mock implements http.Client {}
+
+void main() {
+  State state;
+  setUp(() {
+    state = NordrheinWestfalen();
+  });
+
+  test("If Api gets valid data returns Holidays", () {
+    HolidayApi api = apiWithHttpReponse(validResponse);
+    expect(api.load(0, state),
+        completion(TypeMatcher<List<Holiday>>()));
+  });
+
+  test('If Api gets response with faulty error code throws Exception', () {
+    HolidayApi api = apiWithHttpReponse(invalidResponse);
+    expect(api.load(0, state),
+        throwsA(TypeMatcher<ApiResponseException>()));
+  });
+  test('If Api gets empty response gives back empty list', () {
+    HolidayApi api = apiWithHttpReponse(emptyResponse);
+    expect(api.load(0,state), completion([]));
+  });
+
+  test('Api gets called for correct year', () async {
+    HttpClientMock httpClient = HttpClientMock();
+    HolidayApi api = HolidayApi(httpClient);
+    int expectedYear = DateTime.now().year;
+    String expectedUrl = HolidayApi.getApiUrl("NW", expectedYear);
+    
+    when(httpClient.get(any)).thenThrow(Exception("Should not get called"));
+    when(httpClient.get(expectedUrl)).thenAnswer((_) => Future.value(validResponse));
+
+    await api.load(0, state);
+    verify(httpClient.get(expectedUrl)).called(1);
+  });
+  test('If a response is empty still returns other valid years', () {
+    String urlThisYearRequest = HolidayApi.getApiUrl("NW", DateTime.now().year);
+
+    HttpClientMock httpClient = HttpClientMock();
+    when(httpClient.get(any)).thenAnswer((_) => Future.value(emptyResponse));
+    when(httpClient.get(urlThisYearRequest)).thenAnswer(
+        (_) => Future.value(validResponseFromString(simpleResponse)));
+
+    HolidayApi api = HolidayApi(httpClient);
+
+    expect(api.load(2, state), completion(TypeMatcher<List<Holiday>>()));
+  });
+  test('Throws when given invalid years', () {
+    expectToThrowAssertionErrorForInvalidYearInAdvance(-1);
+    expectToThrowAssertionErrorForInvalidYearInAdvance(-10000);
+  });
+
+  test("Can call dispose", () {
+    HolidayApi holidayAPI = HolidayApi(http.Client());
+    holidayAPI.dispose();
+  });
+}
+
+void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
+  expect(HolidayApi(http.Client()).load(year, NordrheinWestfalen()),
+      throwsA(TypeMatcher<AssertionError>()));
+}
+
+HolidayApi apiWithHttpReponse(http.Response validResponse) {
+  HttpClientMock client = HttpClientMock();
+  when(client.get(any)).thenAnswer((_) => Future.value(validResponse));
+  HolidayApi api = HolidayApi(client);
+  return api;
+}
+
+http.Response emptyResponse = http.Response("", 200);
+http.Response invalidResponse = http.Response("OAWNDAI", 500);
+http.Response validResponse = http.Response(validResponseString, 200);
+
+http.Response validResponseFromString(String responseString) =>
+    http.Response(responseString, 200);
+String validResponseString = """
+[{"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"},{"start":"2018-12-21T00:00","end":"2019-01-05T00:00","year":2018,"stateCode":"NW","name":"weihnachtsferien","slug":"weihnachtsferien-2018-NW"},{"start":"2018-07-16T00:00","end":"2018-08-29T00:00","year":2018,"stateCode":"NW","name":"sommerferien","slug":"sommerferien-2018-NW"},{"start":"2018-03-26T00:00","end":"2018-04-08T00:00","year":2018,"stateCode":"NW","name":"osterferien","slug":"osterferien-2018-NW"},{"start":"2018-05-22T00:00","end":"2018-05-26T00:00","year":2018,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2018-NW"}]
+""";
+
+String simpleResponse = """
+[{"start":"2018-07-16T00:00","end":"2018-08-29T00:00","year":2018,"stateCode":"NW","name":"sommerferien","slug":"sommerferien-2018-NW"}]
+""";
+
+String simpleResponse2 = """
+[{"start":"2019-05-31T00:00","end":"2019-06-01T00:00","year":2019,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2019-NW"}]
+""";

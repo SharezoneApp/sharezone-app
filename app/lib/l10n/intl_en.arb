@@ -1,0 +1,14 @@
+{
+  "Offen": "Open",
+  "@Offen": {
+    "description": "Erklärt, dass die zu sehenden Hausaufgaben in der Liste noch zu machen sind.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "Feddig": "Done",
+  "@Feddig": {
+    "description": "Erklärt, dass die zu sehenden Hausaufgaben in der Liste gemacht sind.",
+    "type": "text",
+    "placeholders": {}
+  }
+}

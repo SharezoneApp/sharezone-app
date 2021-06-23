@@ -1,0 +1,29 @@
+{
+  "projects": {
+    "default": "sharezone-debug",
+    "prod": "sharezone-c2bd8",
+    "dev": "sharezone-debug"
+  },
+  "targets": {
+    "sharezone-debug": {
+      "hosting": {
+        "test-web-app": [
+          "sharezone-test"
+        ]
+      }
+    },
+    "sharezone-c2bd8": {
+      "hosting": {
+        "alpha-web-app": [
+          "sharezone-alpha"
+        ],
+        "beta-web-app": [
+          "sharezone-beta"
+        ],
+        "release-web-app": [
+          "sharezone-release"
+        ]
+      }
+    }
+  }
+}

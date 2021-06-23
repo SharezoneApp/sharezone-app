@@ -1,0 +1,1 @@
+enum CompletionStatus { open, completed }

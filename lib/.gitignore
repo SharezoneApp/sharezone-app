@@ -1,0 +1,7 @@
+# Files and directories created by pub
+**/.dart_tool/
+**/.packages
+
+# Files created by Flutter
+**/.flutter-plugins
+**/.flutter-plugins-dependencies

@@ -1,0 +1,289 @@
+import 'package:authentification_base/authentification.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sharezone/account/account_page_bloc.dart';
+import 'package:sharezone/account/register_account_section.dart';
+import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:sharezone/blocs/auth/email_and_password_link_bloc.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/wrapper.dart';
+import 'package:user/user.dart';
+import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone/widgets/auth.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+
+import 'login_page.dart';
+
+Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
+  sendLoginDataEncryptedSnackBar(context);
+
+  final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
+  final result = await bloc.linkWithEmailAndPasswordAndHandleExceptions();
+  if (result == LinkAction.finished)
+    Navigator.pop(context, true);
+  else if (result == LinkAction.credentialAlreadyInUse)
+    showCredentialAlreadyInUseDialog(context);
+}
+
+TextStyle _hintTextSyle(BuildContext context) => TextStyle(
+    color: isDarkThemeEnabled(context)
+        ? Colors.grey
+        : Colors.grey[600].withOpacity(0.75),
+    fontSize: 11.5);
+
+class EmailAndPasswordLinkPage extends StatefulWidget {
+  const EmailAndPasswordLinkPage({Key key, this.user}) : super(key: key);
+
+  static const tag = "email-and-password-link-page";
+  final AppUser user;
+
+  @override
+  _EmailAndPasswordLinkPageState createState() =>
+      _EmailAndPasswordLinkPageState();
+}
+
+class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
+  EmailAndPasswordLinkBloc bloc;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final nameFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    final api = BlocProvider.of<SharezoneContext>(context).api;
+    bloc = EmailAndPasswordLinkBloc(
+      LinkProviderGateway(api.user),
+      UserEditBlocGateway(api.user, widget.user),
+      widget.user.name,
+      scaffoldKey,
+    );
+    delayKeyboard(context: context, focusNode: emailFocusNode);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      bloc: bloc,
+      child: Scaffold(
+        key: scaffoldKey,
+        body: Stack(
+          children: <Widget>[
+            Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(12),
+                child: SafeArea(
+                  child: MaxWidthConstraintBox(
+                    child: Column(
+                      children: <Widget>[
+                        const SharezoneLogo(
+                          height: 60,
+                          width: 200,
+                          logoColor: LogoColor.blue_long,
+                        ),
+                        const SizedBox(height: 32),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Column(
+                            children: <Widget>[
+                              NameField(
+                                focusNode: nameFocusNode,
+                                onEditingComplete: () => FocusScope.of(context)
+                                    .requestFocus(emailFocusNode),
+                                initialName: widget.user.name,
+                                nameStream: bloc.name,
+                                onChanged: bloc.changeName,
+                              ),
+                              const SizedBox(height: 16),
+                              _EmailField(
+                                focusNode: emailFocusNode,
+                                nextFocusNode: passwordFocusNode,
+                              ),
+                              const SizedBox(height: 16),
+                              _PasswordField(
+                                  passwordFocusNode: passwordFocusNode),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 38),
+                        _SubmitButton(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            BackIcon(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PasswordField extends StatelessWidget {
+  const _PasswordField({Key key, this.passwordFocusNode}) : super(key: key);
+
+  final FocusNode passwordFocusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
+    return PasswordField(
+      focusNode: passwordFocusNode,
+      onChanged: bloc.changePassword,
+      passwordStream: bloc.password,
+      isNewPassword: true,
+      onEditingComplete: () => handleEmailAndPasswordLinkSubmit(context),
+    );
+  }
+}
+
+class BackIcon extends StatelessWidget {
+  const BackIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 5,
+      left: 5,
+      child: SafeArea(
+        child: IconButton(
+          color: isDarkThemeEnabled(context)
+              ? Colors.grey
+              : darkBlueColor.withOpacity(0.4),
+          icon: Icon(themeIconData(Icons.arrow_back,
+              cupertinoIcon: Icons.arrow_back_ios)),
+          tooltip: 'Zurück',
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+    );
+  }
+}
+
+class NameField extends StatelessWidget {
+  const NameField({
+    Key key,
+    @required this.onEditingComplete,
+    this.focusNode,
+    this.initialName,
+    @required this.nameStream,
+    @required this.onChanged,
+    this.withIcon = true,
+    this.textInputAction = TextInputAction.next,
+    this.autofocus = false,
+    this.selectText = false,
+  })  : assert(selectText != null),
+        super(key: key);
+
+  final FocusNode focusNode;
+  final VoidCallback onEditingComplete;
+  final String initialName;
+  final bool withIcon;
+  final TextInputAction textInputAction;
+  final bool autofocus;
+
+  final Stream<String> nameStream;
+  final ValueChanged<String> onChanged;
+
+  /// If [selectText] is true, all characters in the TextField will be selected.
+  /// Default value is false;
+  final bool selectText;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: nameStream,
+      builder: (context, snapshot) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            PrefilledTextField(
+              prefilledText: initialName,
+              onChanged: onChanged,
+              autofocus: autofocus,
+              onEditingComplete: onEditingComplete,
+              textInputAction: textInputAction,
+              // Autofill sollte im Web mit der Kombination eines StreamBuilders /
+              // FutureBuilders nicht verwendet werden, weil es ansonsten zu
+              // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
+              // wird.
+              //
+              // Ticket: https://github.com/flutter/flutter/issues/63596
+              //
+              // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
+              // verwendet werden.
+              autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.name],
+              autoSelectAllCharactersOnFirstBuild: selectText,
+              decoration: InputDecoration(
+                labelText: 'Nickname',
+                icon: withIcon ? const Icon(Icons.person) : null,
+                errorText: snapshot.error?.toString(),
+                border: const OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: EdgeInsets.only(left: withIcon ? 38 : 0),
+              child: Text(
+                "Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.",
+                style: _hintTextSyle(context),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  const _EmailField(
+      {Key key, @required this.focusNode, @required this.nextFocusNode})
+      : super(key: key);
+
+  final FocusNode focusNode;
+  final FocusNode nextFocusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        EmailLoginField(
+          emailStream: bloc.email,
+          onChanged: bloc.changeEmail,
+          emailFocusNode: focusNode,
+          passwordFocusNode: nextFocusNode,
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.only(left: 38),
+          child: Text(
+              "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
+              style: _hintTextSyle(context)),
+        ),
+      ],
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SubmitButton(
+      onPressed: () => handleEmailAndPasswordLinkSubmit(context),
+      titel: "Verknüpfen",
+      color: Theme.of(context).primaryColor,
+      textColor: Colors.white,
+    );
+  }
+}

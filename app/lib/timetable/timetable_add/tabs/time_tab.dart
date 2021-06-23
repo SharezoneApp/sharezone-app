@@ -1,0 +1,263 @@
+part of '../timetable_add_page.dart';
+
+class _TimeTab extends StatelessWidget {
+  const _TimeTab({Key key, @required this.index}) : super(key: key);
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    return StreamBuilder<Object>(
+      stream: bloc.timeType,
+      builder: (context, snapshot) {
+        final timeType = snapshot.data ?? TimeType.period;
+        return _TimetableAddSection(
+          index: index,
+          title: timeType == TimeType.period
+              ? "In der wie vielten Stunde findet die neue Schulstunde statt?"
+              : "Wähle die Uhrzeit aus",
+          child: _SwitchTimeType(timeType: timeType),
+        );
+      },
+    );
+  }
+}
+
+class _SwitchTimeType extends StatelessWidget {
+  const _SwitchTimeType({Key key, @required this.timeType}) : super(key: key);
+
+  final TimeType timeType;
+
+  @override
+  Widget build(BuildContext context) {
+    if (timeType == TimeType.period) {
+      return Column(
+        children: [
+          const _NoteForChangingTheTimesOfTheTimetable(),
+          _PeriodList(),
+          _ChangeToIndividualButton(),
+        ],
+      );
+    }
+    return Column(
+      children: <Widget>[
+        _StartTime(),
+        const SizedBox(height: 10),
+        _EndTime(),
+        _ChangeToPeriodButton(),
+      ],
+    );
+  }
+}
+
+class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
+  const _NoteForChangingTheTimesOfTheTimetable({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.4,
+      child: Text(
+          "Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12)),
+    );
+  }
+}
+
+class _ChangeToPeriodButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    return FlatButton(
+      child: Text(
+        "Alternativ kannst du auch eine Stunde auswählen",
+        textAlign: TextAlign.center,
+      ),
+      onPressed: () => bloc.changeTimeType(TimeType.period),
+    );
+  }
+}
+
+class _ChangeToIndividualButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    return FlatButton(
+      child: Text(
+        "Alternativ kannst du auch individuell die Uhrzeit festlegen",
+        textAlign: TextAlign.center,
+      ),
+      onPressed: () => bloc.changeTimeType(TimeType.individual),
+    );
+  }
+}
+
+class _PeriodList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    final timetableBloc = BlocProvider.of<TimetableBloc>(context);
+    return StreamBuilder<TimetableConfig>(
+      stream: timetableBloc.stream,
+      builder: (context, snapshot) {
+        final config = snapshot.hasData ? snapshot.data : null;
+        return StreamBuilder<Period>(
+          stream: bloc.period,
+          builder: (context, snapshot2) {
+            final selectedPeriod = snapshot2.hasData ? snapshot2.data : null;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Wrap(
+                spacing: 6,
+                children: <Widget>[
+                  for (final period in config?.getPeriods()?.getPeriods() ?? [])
+                    _PeriodTile(
+                      period: period,
+                      selectedPeriod: selectedPeriod,
+                      onTap: () {
+                        bloc.changePeriod(period);
+                        navigateToNextTab(context);
+                      },
+                    )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _PeriodTile extends StatelessWidget {
+  final Period period;
+  final VoidCallback onTap;
+  final Period selectedPeriod;
+
+  const _PeriodTile({Key key, this.period, this.onTap, this.selectedPeriod})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isSelected = period == selectedPeriod;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: SizedBox(
+        width: (MediaQuery.of(context).size.width / 2) - 19,
+        child: Material(
+          clipBehavior: Clip.antiAlias,
+          child: ListTile(
+              title: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      period.number.toString(),
+                      style: const TextStyle(fontSize: 26),
+                    ),
+                    const SizedBox(height: 2),
+                    Opacity(
+                        opacity: 0.7,
+                        child: Text(
+                          "${period.startTime} - ${period.endTime}",
+                          style: TextStyle(fontSize: 12),
+                        )),
+                  ],
+                ),
+              ),
+              onTap: onTap),
+          color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
+              .withOpacity(0.20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StartTime extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    return StreamBuilder<Time>(
+      stream: bloc.startTime,
+      builder: (context, snapshot) {
+        final startTime = snapshot.hasData ? snapshot.data : null;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: EditTimeField(
+            time: startTime,
+            onChanged: (startTime) async {
+              bloc.changeStartTime(startTime);
+
+              if (startTime.hour < 7) {
+                showSnackSec(
+                  text:
+                      'Bitte bedenke, dass erst die Schulstunden ab 7 Uhr angezeigt werden.',
+                  context: context,
+                  seconds: 4,
+                );
+              }
+
+              // Navigate to next Tab, if endTime is not Empty and startTime is before EndTime
+              await waitingForPopAnimation();
+              try {
+                if (bloc.isEndTimeValid()) {
+                  navigateToNextTab(context);
+                }
+              } on Exception catch (e, s) {
+                print(e);
+                showSnackSec(
+                  text: handleErrorMessage(e.toString(), s),
+                  context: context,
+                );
+              }
+            },
+            label: "Startzeit",
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _EndTime extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableAddBloc>(context);
+    return StreamBuilder<Time>(
+      stream: bloc.endTime,
+      builder: (context, snapshot) {
+        final endTime = snapshot.hasData ? snapshot.data : null;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: EditTimeField(
+            time: endTime,
+            onChanged: (endTime) async {
+              bloc.changeEndTime(endTime);
+
+              // Navigate to next Tab, if startTime is not Empty and startTime is before EndTime
+              await waitingForPopAnimation();
+              try {
+                if (bloc.isStartTimeValid()) {
+                  navigateToNextTab(context);
+                }
+              } on Exception catch (e, s) {
+                print(e);
+                showSnackSec(
+                  text: handleErrorMessage(e.toString(), s),
+                  context: context,
+                );
+              }
+            },
+            label: "Endzeit",
+          ),
+        );
+      },
+    );
+  }
+}

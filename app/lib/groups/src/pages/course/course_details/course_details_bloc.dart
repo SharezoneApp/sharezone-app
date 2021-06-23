@@ -1,0 +1,188 @@
+import 'dart:async';
+import 'package:app_functions/app_functions.dart';
+import 'package:bloc_base/bloc_base.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/src/models/splitted_member_list.dart';
+import 'package:sharezone/util/api/courseGateway.dart';
+
+class CourseDetailsBloc extends BlocBase {
+  final CourseDetailsBlocGateway _gateway;
+  final UserId memberID;
+  final String courseID;
+
+  final _memberSubject = BehaviorSubject<List<MemberData>>();
+
+  CourseDetailsBloc(this._gateway, this.memberID)
+      : courseID = _gateway.courseID {
+    _memberSubject.addStream(_gateway.members, cancelOnError: false);
+  }
+
+  Course get initialData => _gateway.initialData;
+
+  Stream<List<MemberData>> get members => _memberSubject;
+
+  Stream<bool> get isLastMember =>
+      _memberSubject.map((list) => list.length <= 1);
+
+  Stream<Course> get course => _gateway.course;
+
+  Stream<MemberData> streamMemberData(UserId memberID) {
+    return _gateway.streamMemberData(memberID.toString());
+  }
+
+  Future<AppFunctionsResult<bool>> deleteCourse() async {
+    return _gateway.deleteCourse();
+  }
+
+  Stream<WritePermission> get writePermissionStream => course
+      .map((course) => course.settings.writePermission)
+      .asBroadcastStream();
+
+  Future<AppFunctionsResult<bool>> leaveCourse() async {
+    return _gateway.leaveCourse();
+  }
+
+  Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
+    return _gateway.kickMember(kickedMemberID);
+  }
+
+  Future<AppFunctionsResult<bool>> setIsPublic(bool value) {
+    return _gateway.setIsPublic(value);
+  }
+
+  Future<AppFunctionsResult<bool>> generateNewMeetingID() {
+    return _gateway.generateNewMeetingID();
+  }
+
+  Future<AppFunctionsResult<bool>> setIsGroupMeetingEnabled(bool value) {
+    return _gateway.setIsMeetingEnabled(value);
+  }
+
+  Future<bool> setWritePermission(WritePermission writePermission) {
+    return _gateway
+        .setWritePermission(writePermission)
+        .then((result) => result.hasData && result.data == true);
+  }
+
+  SplittedMemberList sortMembers(List<MemberData> members) =>
+      createSplittedMemberList(members);
+
+  bool requestAdminPermission() => requestPermission(
+      role: initialData.myRole, permissiontype: PermissionAccessType.admin);
+
+  Stream<bool> requestAdminPermissionStream() =>
+      course.map((course) => requestPermission(
+          role: course.myRole, permissiontype: PermissionAccessType.admin));
+
+  bool isAdmin(MemberRole myRole) => _isAdmin(myRole);
+
+  bool moreThanOneAdmin(List<MemberData> membersDataList) {
+    if (membersDataList
+            .where((it) => requestPermission(
+                role: it.role, permissiontype: PermissionAccessType.admin))
+            .length >
+        1) {
+      return true;
+    } else
+      return false;
+  }
+
+  Future<AppFunctionsResult<bool>> updateMemberRole(
+      UserId newMemberID, MemberRole newRole) {
+    return _gateway.updateMemberRole(
+        newMemberID: newMemberID.toString(), newRole: newRole);
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _memberSubject.drain();
+  }
+}
+
+class CourseDetailsBlocGateway {
+  final CourseGateway _gateway;
+  final Course _course;
+  final String courseID;
+
+  CourseDetailsBlocGateway(this._gateway, this._course) : courseID = _course.id;
+
+  Course get initialData => _course;
+
+  Stream<List<MemberData>> get members =>
+      _gateway.memberAccessor.streamAllMembers(_course.id);
+
+  Stream<MemberData> streamMemberData(String memberID) {
+    return _gateway.memberAccessor.streamSingleMember(_course.id, memberID);
+  }
+
+  Stream<Course> get course => _gateway.streamCourse(_course.id);
+
+  Future<AppFunctionsResult<bool>> deleteCourse() async {
+    return _gateway.deleteCourse(_course.id);
+  }
+
+  Future<AppFunctionsResult<bool>> leaveCourse() async {
+    return _gateway.leaveCourse(_course.id);
+  }
+
+  Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
+    return _gateway.kickMember(courseID, kickedMemberID);
+  }
+
+  Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
+    return _gateway.editCourseSettings(
+        courseID, _course.settings.copyWith(isPublic: isPublic));
+  }
+
+  Future<AppFunctionsResult<bool>> setIsMeetingEnabled(bool isMeetingEnabled) {
+    return _gateway.editCourseSettings(courseID,
+        _course.settings.copyWith(isMeetingEnabled: isMeetingEnabled));
+  }
+
+  Future<AppFunctionsResult<bool>> generateNewMeetingID() {
+    return _gateway.generateNewMeetingID(courseID);
+  }
+
+  Future<AppFunctionsResult<bool>> setWritePermission(
+      WritePermission writePermission) {
+    return _gateway.editCourseSettings(
+        courseID, _course.settings.copyWith(writePermission: writePermission));
+  }
+
+  Future<AppFunctionsResult<bool>> updateMemberRole(
+      {String newMemberID, MemberRole newRole}) {
+    return _gateway.memberUpdateRole(
+        courseID: courseID, newMemberID: newMemberID, newRole: newRole);
+  }
+}
+
+SplittedMemberList createSplittedMemberList(List<MemberData> viewList) {
+  final admins = viewList.where((user) => _isAdmin(user.role)).toList();
+  final creator = viewList.where((user) => _isCreator(user.role)).toList();
+  final reader = viewList.where((user) => _isReader(user.role)).toList();
+
+  admins.sort((userA, userB) => userA.name.compareTo(userB.name));
+  creator.sort((userA, userB) => userA.name.compareTo(userB.name));
+  reader.sort((userA, userB) => userA.name.compareTo(userB.name));
+
+  return SplittedMemberList(
+    admins: admins,
+    creator: creator,
+    reader: reader,
+  );
+}
+
+bool _isAdmin(MemberRole role) {
+  return role == MemberRole.admin || role == MemberRole.owner;
+}
+
+bool _isCreator(MemberRole role) {
+  return role == MemberRole.creator;
+}
+
+bool _isReader(MemberRole role) {
+  return role == MemberRole.standard || role == MemberRole.none;
+}

@@ -1,0 +1,30 @@
+import 'package:abgabe_client_lib/src/erstellung/api_authentication/firebase_auth_token_retreiver.dart';
+import 'package:abgabe_client_lib/src/models/models.dart';
+import 'package:abgabe_http_api/api/abgabedatei_api.dart';
+import 'package:abgabe_http_api/model/dateiname_dto.dart';
+
+import 'package:common_domain_models/common_domain_models.dart';
+
+abstract class AbgabendateiUmbenenner {
+  Future<void> nenneDateiUm(AbgabedateiId dateiId, Dateiname neuerName);
+}
+
+class HttpAbgabendateiUmbenenner extends AbgabendateiUmbenenner {
+  final AbgabedateiApi api;
+  final AbgabeId abgabeId;
+  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+
+  HttpAbgabendateiUmbenenner(
+      this.api, this.abgabeId, this._authHeaderRetreiver);
+
+  @override
+  Future<void> nenneDateiUm(AbgabedateiId dateiId, Dateiname neuerName) async {
+    await api.renameFile(
+        '$abgabeId',
+        '$dateiId',
+        DateinameDto(
+          (dto) => dto.name = neuerName.mitExtension,
+        ),
+        headers: await _authHeaderRetreiver.getAuthHeader());
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "366164701221",
+    "firebase_url": "https://sharezone-debug.firebaseio.com",
+    "project_id": "sharezone-debug",
+    "storage_bucket": "sharezone-debug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366164701221:android:f0a3b3b856fd1383",
+        "android_client_info": {
+          "package_name": "de.codingbrain.sharezone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.codingbrain.sharezone",
+            "certificate_hash": "0666a6084ca62b3d107ac764c17d8959de6451e5"
+          }
+        },
+        {
+          "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACrc-_Bf1cuaa5LFMa8yAiyGXyF12eRsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366164701221-fdv476f10fl969nd65dv97tfajqb9jr1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.codingbrain.sharezone.app.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366164701221:android:bac18e3910e5b836bfcfcc",
+        "android_client_info": {
+          "package_name": "de.codingbrain.sharezone.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACrc-_Bf1cuaa5LFMa8yAiyGXyF12eRsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366164701221-fdv476f10fl969nd65dv97tfajqb9jr1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.codingbrain.sharezone.app.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,11 @@
+export './class_id.dart';
+export './course_id.dart';
+export './group_id.dart';
+export './user_id.dart';
+export './file_id.dart';
+export './abgaben_id.dart';
+export './abgabedatei_id.dart';
+export './abgabenziel_id.dart';
+export './homework_id.dart';
+export './datei_id.dart';
+export './src/id.dart';

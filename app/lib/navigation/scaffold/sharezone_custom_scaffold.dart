@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
+import 'package:sharezone_utils/dimensions.dart';
+
+import 'desktop/desktop_custom_scaffold.dart';
+import 'portable/portable_custom_scaffold.dart';
+
+class SharezoneCustomScaffold extends StatelessWidget {
+  final SliverAppBarConfiguration appBarConfiguration;
+  final NavigationItem navigationItem;
+  final Widget body;
+  final Widget floatingActionButton;
+  final Key scaffoldKey;
+
+  const SharezoneCustomScaffold({
+    @required this.navigationItem,
+    @required this.body,
+    @required this.floatingActionButton,
+    @required this.appBarConfiguration,
+    this.scaffoldKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final dimensions = Dimensions.fromMediaQuery(context);
+    if (!dimensions.isDesktopModus) {
+      return PortableCustomScaffold(
+        scaffoldKey: scaffoldKey,
+        navigationItem: navigationItem,
+        appBarConfiguration: appBarConfiguration,
+        body: body,
+        floatingActionButton: floatingActionButton,
+      );
+    } else {
+      return DesktopCustomScaffold(
+        scaffoldKey: scaffoldKey,
+        navigationItem: navigationItem,
+        appBarConfiguration: appBarConfiguration,
+        body: body,
+        floatingActionButton: floatingActionButton,
+      );
+    }
+  }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Caching of HTML for about 6 hours-->
+    <meta http-equiv="cache-control" content="max-age=21600" />
+    <meta name="google-signin-client_id" content="730263787697-s5tqfln3apv1j27netnnv8p8305ns3j9.apps.googleusercontent.com">
+    <title>Sharezone</title>
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="fix">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#40c4ff">
+
+    <!-- SEO and SMO -->
+    <meta name="description" content="Sharezone ist ein vernetzter Schulplaner, mit dem sich Schüler, Lehrkräfte und Eltern gemeinsam, schnell und datenschutzkonform organisieren können.">
+
+    <!-- Styles-->
+    <link rel="stylesheet" href="index.css" type="text/css" media="screen,projection">
+    <script src="assets/packages/fast_rsa/web/assets/wasm_exec.js" type="application/javascript"></script>
+</head>
+
+<body>
+    <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/flutter_service_worker.js');
+            });
+        }
+    </script>
+
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-remote-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-performance.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-functions.js"></script>
+
+    <script src="firebase_init_debug.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.min.js"></script>
+    <script type="text/javascript">
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.worker.min.js";
+    </script>
+
+
+    <script src="main.dart.js?version=283" type="application/javascript"></script>
+
+</body>
+
+</html>

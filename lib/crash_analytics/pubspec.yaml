@@ -1,0 +1,19 @@
+name: crash_analytics
+description: A new Flutter package project.
+version: 0.0.1
+author: null
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_crashlytics: ^0.4.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter: null

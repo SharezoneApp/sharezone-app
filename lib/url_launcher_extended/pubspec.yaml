@@ -1,0 +1,17 @@
+name: url_launcher_extended
+description: A packages which extendeds the url_launcher package
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.10.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  test: ^1.6.0
+  url_launcher: ^5.7.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

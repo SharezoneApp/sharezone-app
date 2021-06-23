@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+
+class ContinueRoundButton extends StatelessWidget {
+  const ContinueRoundButton({Key key, @required this.onTap, this.tooltip})
+      : super(key: key);
+
+  final VoidCallback onTap;
+  final String tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      onTap: onTap,
+      label: tooltip,
+      child: IconButton(
+        tooltip: tooltip,
+        icon: Stack(
+          children: <Widget>[
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: Container(
+                width: 35,
+                key: ValueKey('ContinueRoundButton: ${onTap == null}'),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: onTap == null
+                      ? Colors.grey
+                      : Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: const Icon(Icons.chevron_right, color: Colors.white),
+            )
+          ],
+        ),
+        onPressed: onTap,
+      ),
+    );
+  }
+}

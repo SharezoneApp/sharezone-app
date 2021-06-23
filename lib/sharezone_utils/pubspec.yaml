@@ -1,0 +1,20 @@
+name: sharezone_utils
+description: A new Flutter package project.
+version: 0.0.1
+author: null
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  device_info: ^0.4.2+1
+  rxdart: ^0.24.1
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter: null

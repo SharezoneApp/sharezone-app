@@ -1,0 +1,16 @@
+name: time
+description: A new Flutter package project.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  intl: ^0.16.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

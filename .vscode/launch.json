@@ -1,0 +1,98 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "[Debug] main",
+            "type": "dart",
+            "request": "launch",
+            "args": [],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Release] main",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "--release",
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Debug] - Production flavor",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "--flavor",
+                "prod"
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Debug] - Development flavor",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev"
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Profiling] - Production flavor",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "--profile",
+                "--flavor",
+                "prod"
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Profiling] - Development flavor",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "--profile",
+                "--flavor",
+                "dev"
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Release] - Production Run flavor",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "--flavor",
+                "prod"
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "[Release] - Web with SKIA",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "--dart-define=FLUTTER_WEB_USE_SKIA=true",
+            ],
+            "program": "app/lib/main.dart"
+        },
+        {
+            "name": "Web with CanvasText",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=FLUTTER_WEB_USE_EXPERIMENTAL_CANVAS_TEXT=true",
+                "--web-enable-expression-evaluation"
+            ],
+            "program": "app/lib/main.dart"
+        },
+    ]
+}

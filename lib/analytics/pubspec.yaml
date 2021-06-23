@@ -1,0 +1,26 @@
+name: analytics
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  crash_analytics:
+    path: ../crash_analytics
+  sharezone_common:
+    path: ../sharezone_common
+  sharezone_utils:
+    path: ../sharezone_utils
+  firebase: 7.3.0
+  firebase_analytics: ^7.0.1
+  firebase_auth: ^0.20.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter: null

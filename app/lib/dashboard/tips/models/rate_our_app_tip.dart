@@ -1,0 +1,49 @@
+import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
+import 'package:sharezone/dashboard/tips/models/action.dart';
+import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
+import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/platform.dart';
+
+class RateOurAppTip implements DashboardTip {
+  static const _showedDashboardRatingCardKey = "dashboard-showed-rating-card";
+
+  final DashboardTipCache cache;
+
+  RateOurAppTip(this.cache);
+
+  @override
+  Action get action =>
+      Action(title: "App bewerten", onTap: () => launchURL(_getStoreLink()));
+
+  String _getStoreLink() {
+    const sharezoneLink = 'https://sharezone.net';
+    if (PlatformCheck.isAndroid) return '$sharezoneLink/android';
+    if (PlatformCheck.isIOS) return '$sharezoneLink/ios';
+    if (PlatformCheck.isMacOS) return '$sharezoneLink/macos';
+    return sharezoneLink;
+  }
+
+  @override
+  String get text =>
+      "Wir wären dir unglaublich dankbar, wenn du uns eine Bewertung im ${PlatformCheck.isMacOsOrIOS ? "App" : "Play"}Store hinterlassen könntest 🐵";
+
+  @override
+  String get title => "Gefällt dir Sharezone?";
+
+  @override
+  Stream<bool> shouldShown() {
+    return CombineLatestStream([
+      cache.showedTip(_showedDashboardRatingCardKey),
+      cache.getDashboardCounter()
+    ], (streamValues) {
+      final showedDashboardCounterCard = streamValues[0] ?? false;
+      final dashboardCounter = streamValues[1] ?? 0;
+
+      return !showedDashboardCounterCard && dashboardCounter >= 65;
+    });
+  }
+
+  @override
+  void markAsShown() => cache.markTipAsShown(_showedDashboardRatingCardKey);
+}

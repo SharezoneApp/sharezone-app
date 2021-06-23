@@ -1,0 +1,68 @@
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc.dart';
+import 'package:sharezone/activation_code/src/enter_activation_code_result_dialog.dart';
+import 'package:sharezone/auth/login_button.dart';
+
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/wrapper.dart';
+
+class EnterActivationCodeTextField extends StatelessWidget
+    implements PreferredSizeWidget {
+  const EnterActivationCodeTextField({Key key}) : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(140);
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<EnterActivationCodeBloc>(context);
+    return MaxWidthConstraintBox(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                primaryColor: Colors.white,
+                accentColor: Colors.white,
+              ),
+              child: TextField(
+                maxLines: 1,
+                style: const TextStyle(color: Colors.white),
+                onChanged: bloc.updateFieldText,
+                cursorColor: Colors.white,
+                autofocus: true,
+                textInputAction: TextInputAction.done,
+                onEditingComplete: () => onSend(context),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Aktivierungscode',
+                  hintText: "z.B. Promo2020",
+                  suffixIcon: Theme(
+                    data: Theme.of(context),
+                    child: ContinueRoundButton(
+                      tooltip: 'Senden',
+                      onTap: () => onSend(context),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 18),
+        ],
+      ),
+    );
+  }
+
+  Future<void> onSend(BuildContext context) async {
+    final bloc = BlocProvider.of<EnterActivationCodeBloc>(context);
+    hideKeyboard(context: context);
+    if (bloc.isValidActivationCodeID) {
+      bloc.submit();
+      final dialog = EnterActivationCodeResultDialog(bloc);
+      dialog.show(context);
+    }
+  }
+}
