@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-import 'package:ci_cd_tools/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 

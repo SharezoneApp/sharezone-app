@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "ci_cd/ci_cd_tools/"
+  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,7 +28,7 @@ jobs:
           flutter-version: '1.23.0-18.1.pre'
           channel: 'any'
 
-      - name: Activate ci_cd_tools package
+      - name: Activate sz_repo_cli package
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
@@ -47,7 +47,7 @@ jobs:
           flutter-version: '1.23.0-18.1.pre'
           channel: 'any'
 
-      - name: Activate ci_cd_tools package
+      - name: Activate sz_repo_cli package
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."

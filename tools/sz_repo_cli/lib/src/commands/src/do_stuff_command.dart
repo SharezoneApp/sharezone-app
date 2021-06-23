@@ -3,14 +3,14 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-import 'package:ci_cd_tools/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Useful to quickly script something for this repo. Helps by not having to use
 /// a bash script or having to create a whole new package with dependencies just
 /// to write a dart script.
 /// It's sort of a scaffold to quickly write a command.
 /// Run from the root of this repo with
-/// `dart ./ci_cd/ci_cd_tools/bin/ci_cd_tools.dart do-stuff`
+/// `dart ./tools/sz_repo_cli/bin/sz_repo_cli.dart do-stuff`
 class DoStuffCommand extends Command {
   DoStuffCommand(this.repo);
 

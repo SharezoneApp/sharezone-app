@@ -1,4 +1,4 @@
-import 'package:ci_cd_tools/src/commands/src/fix_comment_spacing_command.dart';
+import 'package:sz_repo_cli/src/commands/src/fix_comment_spacing_command.dart';
 import 'package:test/test.dart';
 
 // ignore_for_file: no_spaces_after_comment_slashes

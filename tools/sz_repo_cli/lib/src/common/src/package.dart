@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ci_cd_tools/src/commands/src/fix_comment_spacing_command.dart';
+import 'package:sz_repo_cli/src/commands/src/fix_comment_spacing_command.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';

@@ -18,7 +18,7 @@ Future<void> main(List<String> args) async {
 
   final repo = SharezoneRepo(projectRoot);
 
-  final commandRunner = CommandRunner('pub global run ci_cd_tools',
+  final commandRunner = CommandRunner('pub global run sz_repo_cli',
       'Productivity utils for everything Sharezone.')
     ..addCommand(AnalyzeCommand(repo))
     ..addCommand(LocateSharezoneAppFlutterDirectoryCommand())

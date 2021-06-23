@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:args/command_runner.dart';
 
-import 'package:ci_cd_tools/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/common.dart';
 
 class TestCommand extends Command {
   TestCommand(this._repo) {

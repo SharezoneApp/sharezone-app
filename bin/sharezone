@@ -6,4 +6,4 @@
 
 # Gibt den Pfad zu diesem Skript zurück.
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-dart run $SCRIPT_DIR/../ci_cd/ci_cd_tools/bin/ci_cd_tools.dart "$@"
+dart run $SCRIPT_DIR/../tools/sz_repo_cli/bin/sz_repo_cli.dart "$@"

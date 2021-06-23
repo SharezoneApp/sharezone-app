@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ci_cd_tools/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/common.dart';
 
 class PubGetCommand extends Command {
   final GetPackagesUseCase _useCase;

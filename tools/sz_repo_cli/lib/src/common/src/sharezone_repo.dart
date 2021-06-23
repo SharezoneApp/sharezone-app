@@ -32,8 +32,8 @@ class SharezoneRepo {
       ),
       sharezoneCiCdTool: Package.fromDirectory(Directory(path.join(
         _root,
-        'ci_cd',
-        'ci_cd_tools',
+        'tools',
+        'sz_repo_cli',
       ))),
     );
   }
