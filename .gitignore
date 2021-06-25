@@ -5,3 +5,7 @@
 **/.packages
 **/.flutter-plugins
 **/.flutter-plugins-dependencies
+
+# IDE
+.vscode/*
+!.vscode/launch.json
