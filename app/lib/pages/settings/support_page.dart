@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/widgets.dart';
