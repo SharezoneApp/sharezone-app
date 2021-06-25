@@ -17,7 +17,8 @@ class SupportPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Support'), centerTitle: true),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 12).add(const EdgeInsets.only(bottom: 12)),
+        padding: const EdgeInsets.symmetric(horizontal: 12)
+            .add(const EdgeInsets.only(bottom: 12)),
         child: SafeArea(
           child: MaxWidthConstraintBox(
             child: Column(
@@ -44,7 +45,10 @@ class _Header extends StatelessWidget {
       avatarBackgroundColor: Colors.white,
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
-        child: SizedBox(width: 70, height: 70, child: PlatformSvg.asset('assets/icons/confused.svg')),
+        child: SizedBox(
+            width: 70,
+            height: 70,
+            child: PlatformSvg.asset('assets/icons/confused.svg')),
       ),
       children: const <Widget>[
         Text(
@@ -70,7 +74,9 @@ class _SupportCard extends StatelessWidget {
   final String title, subtitle;
   final VoidCallback onPressed;
 
-  const _SupportCard({Key key, this.icon, this.title, this.subtitle, this.onPressed}) : super(key: key);
+  const _SupportCard(
+      {Key key, this.icon, this.title, this.subtitle, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +109,8 @@ class _EmailTile extends StatelessWidget {
       title: 'support@sharezone.net',
       subtitle: 'E-Mail',
       onPressed: () async {
-        final url = Uri.encodeFull('mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭');
+        final url = Uri.encodeFull(
+            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭');
         if (await canLaunch(url)) {
           launch(url);
         } else {
