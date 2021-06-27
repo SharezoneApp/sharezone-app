@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/widgets.dart';
@@ -8,8 +6,6 @@ import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:build_context/build_context.dart';
-
-const phoneNumber = '+49 1516 7754541';
 
 class SupportPage extends StatelessWidget {
   static const String tag = 'support-page';
@@ -28,8 +24,6 @@ class SupportPage extends StatelessWidget {
               children: <Widget>[
                 _Header(),
                 _EmailTile(),
-                _WhatsAppTile(),
-                _TelegramTile(),
               ],
             ),
           ),
@@ -126,92 +120,4 @@ class _EmailTile extends StatelessWidget {
       },
     );
   }
-}
-
-class _WhatsAppTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const name = 'WhatsApp';
-    return _SupportCard(
-      icon: PlatformSvg.asset(
-        'assets/icons/whatsapp.svg',
-        color: context.primaryColor,
-      ),
-      title: phoneNumber,
-      subtitle: name,
-      onPressed: () async {
-        final acceptedPrivacyTerms =
-            await _showPrivacyWarning(context: context, serviceName: name);
-        if (acceptedPrivacyTerms) {
-          await _openWhatsAppOtherwiseCopyNumber(context);
-        }
-      },
-    );
-  }
-
-  Future<void> _openWhatsAppOtherwiseCopyNumber(BuildContext context) async {
-    final url =
-        'https://api.whatsapp.com/send?phone=${numberWithoutSpacesAndPlus()}';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      Clipboard.setData(ClipboardData(text: phoneNumber));
-      showSnackSec(
-        context: context,
-        text: 'Telefonnummer wurde in die Zwischenablage kopiert',
-      );
-    }
-  }
-
-  String numberWithoutSpacesAndPlus() {
-    return phoneNumber.substring(1, phoneNumber.length).replaceAll(' ', '');
-  }
-}
-
-class _TelegramTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const name = 'Telegram';
-    return _SupportCard(
-      icon: PlatformSvg.asset('assets/icons/telegram.svg'),
-      title: phoneNumber,
-      subtitle: name,
-      onPressed: () async {
-        final acceptedPrivacyTerms =
-            await _showPrivacyWarning(context: context, serviceName: name);
-        if (acceptedPrivacyTerms) {
-          await _openTelegramOtherwiseCopyNumber(context);
-        }
-      },
-    );
-  }
-
-  Future<void> _openTelegramOtherwiseCopyNumber(BuildContext context) async {
-    const url = 'http://t.me/SharezoneApp';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      Clipboard.setData(ClipboardData(text: phoneNumber));
-      showSnack(
-        context: context,
-        text: 'Telefonnummer wurde in die Zwischenablage kopiert',
-      );
-    }
-  }
-}
-
-Future<bool> _showPrivacyWarning(
-    {@required BuildContext context, @required String serviceName}) {
-  return showLeftRightAdaptiveDialog<bool>(
-    context: context,
-    title: 'Datenschutz',
-    content: Text(
-        "Um uns über $serviceName zu kontaktieren, musst du aus datenschutzrechtlichen Gründen mindestens 16 Jahre alt sein und die Datenschutzbestimmungen von $serviceName akzeptieren. Alternativ kannst du uns eine E-Mail schreiben."),
-    defaultValue: false,
-    right: AdaptiveDialogAction<bool>(
-      isDefaultAction: true,
-      title: 'Verstanden',
-      popResult: true,
-    ),
-  );
 }
