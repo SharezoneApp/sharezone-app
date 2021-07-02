@@ -3,3 +3,4 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 pubspec.lock
+android/local.properties
