@@ -1,6 +1,6 @@
 name: sharezone
 description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
-version: 1.5.81+312
+version: 1.6.0+313
 publish_to: none
 
 environment:
