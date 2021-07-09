@@ -1,0 +1,44 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      # We only build and deploy a new version, when a user relevant files
+      # changed.
+      - "lib/**"
+      - "pubspec.yaml"
+      # We trigger also this workflow, if this workflow is changed, so that new
+      # changes will be applied.
+      - ".github/workflows/deploy.yml"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: "2.2.3"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v1.5.0
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+    
+    - name: Build
+      run: flutter build web
+    
+    - name: Deploy
+      env:
+        SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+      run: |
+        cd app
+        sudo npm i -g firebase-tools
+        echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+        firebase deploy -m "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --only hosting:sharezone-webseite
