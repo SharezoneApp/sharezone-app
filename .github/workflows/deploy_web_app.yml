@@ -1,0 +1,51 @@
+name: deploy-web-app
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      # We only build and deploy a new version, when a user relevant files
+      # changed.
+      - "app/lib/**"
+      - "lib/**"
+      - "app/pubspec.yaml"
+      # We trigger also this workflow, if this workflow is changed, so that new
+      # changes will be applied.
+      - ".github/workflows/alpha.yml"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: "1.23.0-18.1.pre"
+
+jobs:
+  deploy-alpha-web-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v1.5.0
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: any
+    
+    - name: Build
+      # We are setting with "sed" the firebase project from debug to production
+      run: |
+        cd app
+        sed -i web/index.html -e 's/firebase_init_debug/firebase_init_release/g'
+        flutter config --enable-web
+        flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true
+    
+    - name: Deploy
+      env:
+        SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+      run: |
+        cd app
+        sudo npm i -g firebase-tools
+        echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+        firebase deploy -m "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --only hosting:alpha-web-app --project prod
