@@ -164,6 +164,8 @@ class FlutterPackage extends Package {
       'flutter',
       ['pub', 'get'],
       workingDirectory: location.path,
+      // Else it does not work on Windows (file not found).
+      runInShell: true,
     );
 
     final exitCode = await process.exitCode;
