@@ -38,7 +38,9 @@ class LastOnlineReporter {
       crashAnalytics,
       debounceTime: minimumDurationBetweenReports,
     );
+
     reporter.startReporting();
+
     return reporter;
   }
 
