@@ -64,24 +64,24 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
       _sendNotificationSubject.sink.add;
   Function(List<LocalFile>) get addLocalFile => (localFiles) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.value != null) {
-          list.addAll(_localFilesSubject.value);
+        if (_localFilesSubject.valueOrNull != null) {
+          list.addAll(_localFilesSubject.valueOrNull);
         }
         list.addAll(localFiles);
         _localFilesSubject.sink.add(list);
       };
   Function(LocalFile) get removeLocalFile => (localFile) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.value != null) {
-          list.addAll(_localFilesSubject.value);
+        if (_localFilesSubject.valueOrNull != null) {
+          list.addAll(_localFilesSubject.valueOrNull);
         }
         list.remove(localFile);
         _localFilesSubject.sink.add(list);
       };
   Function(CloudFile) get removeCloudFile => (cloudFile) {
         final list = <CloudFile>[];
-        if (_cloudFilesSubject.value != null) {
-          list.addAll(_cloudFilesSubject.value);
+        if (_cloudFilesSubject.valueOrNull != null) {
+          list.addAll(_cloudFilesSubject.valueOrNull);
         }
         list.remove(cloudFile);
         _cloudFilesSubject.sink.add(list);
@@ -97,14 +97,14 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   }
 
   bool isValid() {
-    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.value);
+    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
           TextValidationException(BlackboardValidators.emptyTitleUserMessage));
       throw InvalidTitleException();
     }
 
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.value);
+    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       _courseSegmentSubject.addError(
           TextValidationException(BlackboardValidators.emptyCourseUserMessage));
@@ -121,13 +121,14 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   /// dieser Input kein großer Verlust ist, wenn man versehentlich den
   /// Dialog schließt.
   bool hasInputChanged() {
-    final title = _titleSubject.value;
-    final course = _courseSegmentSubject.value;
-    final text = _textSubject.value;
-    final localFiles = _localFilesSubject.value;
+    final title = _titleSubject.valueOrNull;
+    final course = _courseSegmentSubject.valueOrNull;
+    final text = _textSubject.valueOrNull;
+    final localFiles = _localFilesSubject.valueOrNull;
 
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-    final cloudFiles = _cloudFilesSubject.value.map((cf) => cf.id).toList();
+    final cloudFiles =
+        _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
     if (initalBlackboardItem == null) {
@@ -146,12 +147,12 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
 
   Future<void> submit({BlackboardItem oldBlackboardItem}) async {
     if (isValid()) {
-      final title = _titleSubject.value;
-      final course = _courseSegmentSubject.value;
-      final text = _textSubject.value;
-      final pictureURL = _pictureURLSubject.value;
-      final localFiles = _localFilesSubject.value;
-      final sendNotification = _sendNotificationSubject.value;
+      final title = _titleSubject.valueOrNull;
+      final course = _courseSegmentSubject.valueOrNull;
+      final text = _textSubject.valueOrNull;
+      final pictureURL = _pictureURLSubject.valueOrNull;
+      final localFiles = _localFilesSubject.valueOrNull;
+      final sendNotification = _sendNotificationSubject.valueOrNull;
 
       final userInput = UserInput(
           title: title,
@@ -172,7 +173,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
           _markdownAnalytics.logMarkdownUsedBlackboard();
       } else {
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.value);
+            initialCloudFiles, _cloudFilesSubject.valueOrNull);
 
         // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
         // weil die Daten sofort in Firestore gespeichert werden können und somit

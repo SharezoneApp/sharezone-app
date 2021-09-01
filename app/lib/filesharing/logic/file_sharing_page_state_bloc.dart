@@ -9,7 +9,7 @@ class FileSharingPageStateBloc extends BlocBase {
   Stream<FileSharingPageState> get currentState => _stateSubject;
   Function(FileSharingPageState) get changeStateTo => _stateSubject.sink.add;
 
-  FileSharingPageState get currentStateValue => _stateSubject.value;
+  FileSharingPageState get currentStateValue => _stateSubject.valueOrNull;
   @override
   void dispose() {
     _stateSubject.close();

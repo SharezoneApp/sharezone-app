@@ -1,43 +1,42 @@
 name: files_usecases
 description: A new Flutter package project.
 version: 0.0.1
-author:
+author: null
 publish_to: none
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
-  sharezone_common:
-    path: ../../sharezone_common
-  sharezone_widgets:
-    path: ../../sharezone_widgets
-  sharezone_utils:
-    path: ../../sharezone_utils
-  files_basics:
-    path: ../files_basics
-  file_chooser:
-    path: ../file_chooser
-  filesharing_logic:
-    path: ../filesharing_logic
-  files_web:
-    path: ../files_web
-  native_pdf_view: ^3.8.0
-  flutter_cache_manager: ^1.4.1
-  photo_view: ^0.9.2
-  video_player: ^0.10.11+1
-  file_picker: ^1.13.3
-  file_picker_web: any
-  chewie: ^0.9.10
-  image_picker: ^0.6.7+4
-  path: any
-  path_provider: ^1.6.11
-  flutter_image_compress: 0.7.0
-  mime: ^0.9.6+3
-  open_file: ^3.0.3
-  url_launcher: ^5.5.0
   flutter:
     sdk: flutter
+  file_chooser:
+    path: ../file_chooser
+  files_basics:
+    path: ../files_basics
+  files_web:
+    path: ../files_web
+  filesharing_logic:
+    path: ../filesharing_logic
+  sharezone_common:
+    path: ../../sharezone_common
+  sharezone_utils:
+    path: ../../sharezone_utils
+  sharezone_widgets:
+    path: ../../sharezone_widgets
+  chewie: ^1.2.0
+  file_picker: ^3.0.3
+  flutter_cache_manager: any
+  flutter_image_compress: 0.7.0
+  image_picker: ^0.8.1+4
+  mime: any
+  native_pdf_view: ^4.1.0
+  open_file: ^3.0.3
+  path: any
+  path_provider: ^2.0.2
+  photo_view: any
+  url_launcher: any
+  video_player: any
 
 dev_dependencies:
   flutter_test:
@@ -45,35 +44,35 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
-flutter:
-  # To add assets to your package, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
-  #
-  # For details regarding assets in packages, see
-  # https://flutter.dev/assets-and-images/#from-packages
-  #
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-  # To add custom fonts to your package, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts in packages, see
-  # https://flutter.dev/custom-fonts/#from-packages
+flutter: null
+
+# To add assets to your package, add an assets section, like this:
+# assets:
+#  - images/a_dot_burr.jpeg
+#  - images/a_dot_ham.jpeg
+#
+# For details regarding assets in packages, see
+# https://flutter.dev/assets-and-images/#from-packages
+#
+# An image asset can refer to one or more resolution-specific "variants", see
+# https://flutter.dev/assets-and-images/#resolution-aware.
+# To add custom fonts to your package, add a fonts section here,
+# in this "flutter" section. Each entry in this list should have a
+# "family" key with the font family name, and a "fonts" key with a
+# list giving the asset and other descriptors for the font. For
+# example:
+# fonts:
+#   - family: Schyler
+#     fonts:
+#       - asset: fonts/Schyler-Regular.ttf
+#       - asset: fonts/Schyler-Italic.ttf
+#         style: italic
+#   - family: Trajan Pro
+#     fonts:
+#       - asset: fonts/TrajanPro.ttf
+#       - asset: fonts/TrajanPro_Bold.ttf
+#         weight: 700
+#
+# For details regarding fonts in packages, see
+# https://flutter.dev/custom-fonts/#from-packages

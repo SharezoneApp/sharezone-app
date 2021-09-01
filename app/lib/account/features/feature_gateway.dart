@@ -13,7 +13,8 @@ class FeatureGateway {
     loadFeatures(userCollection, uid);
   }
 
-  void loadFeatures(CollectionReference users, String uid) {
+  void loadFeatures(
+      CollectionReference<Map<String, dynamic>> users, String uid) {
     final docStream = users.doc(uid).snapshots();
     docStream.listen((doc) {
       final featureSet = <Feature>{};

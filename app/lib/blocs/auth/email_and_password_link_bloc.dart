@@ -17,7 +17,7 @@ import 'package:sharezone_common/api_errors.dart';
 // NOTE: Or you can write "class Bloc extends Validators" since we don't really need to extend Bloc from a base class
 class EmailAndPasswordLinkBloc extends BlocBase
     with AuthentificationValidators {
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
   final LinkProviderGateway linkProviderGateway;
   final UserEditBlocGateway userEditBlocGateway;
   final String initalName;
@@ -38,7 +38,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   Stream<bool> get obscureText => _obscureTextSubject;
 
   EmailAndPasswordLinkBloc(this.linkProviderGateway, this.userEditBlocGateway,
-      this.initalName, this.scaffoldKey) {
+      this.initalName, this.scaffoldMessengerKey) {
     _nameController.sink.add(initalName);
   }
 
@@ -68,9 +68,9 @@ class EmailAndPasswordLinkBloc extends BlocBase
   }
 
   Future<void> _submit() async {
-    final validEmail = _emailController.value;
-    final validPassword = _passwordController.value;
-    final validName = _nameController.value;
+    final validEmail = _emailController.valueOrNull;
+    final validPassword = _passwordController.valueOrNull;
+    final validName = _nameController.valueOrNull;
 
     await _linkEmailandPasswordProviderToUser(validEmail, validPassword);
     if (_hasUserChangedName()) {
@@ -78,11 +78,12 @@ class EmailAndPasswordLinkBloc extends BlocBase
     }
   }
 
-  void _hideCurrentSnackBar() => scaffoldKey.currentState.hideCurrentSnackBar();
+  void _hideCurrentSnackBar() =>
+      scaffoldMessengerKey.currentState.hideCurrentSnackBar();
 
   void _showErrorSnackBar(Exception e, StackTrace s) {
     showSnackSec(
-      key: scaffoldKey,
+      key: scaffoldMessengerKey,
       text: handleErrorMessage(e.toString(), s),
       seconds: 4,
     );
@@ -91,14 +92,14 @@ class EmailAndPasswordLinkBloc extends BlocBase
   void _showMessageToFillFormularCompleteSnackBar() {
     showSnackSec(
       text: "Füll das Formular komplett aus! 😉",
-      key: scaffoldKey,
+      key: scaffoldMessengerKey,
     );
   }
 
   Future<bool> _isSubmitValid() async {
-    final e = _emailController.value;
-    final p = _passwordController.value;
-    final n = _nameController.value;
+    final e = _emailController.valueOrNull;
+    final p = _passwordController.valueOrNull;
+    final n = _nameController.valueOrNull;
     return isNotEmptyOrNull(e) && isNotEmptyOrNull(p) && isNotEmptyOrNull(n);
   }
 
@@ -113,7 +114,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   }
 
   /// Checks, if the user has changed his name
-  bool _hasUserChangedName() => _nameController.value != initalName;
+  bool _hasUserChangedName() => _nameController.valueOrNull != initalName;
 
   @override
   void dispose() {

@@ -1,24 +1,20 @@
 library sharezone_about_page_addon;
 
-import 'dart:ui' as ui;
-
 import 'package:flame/flame.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sharezone_about_page_addon/game/game.dart';
 
-void startTrexGame(BuildContext context, List<ui.Image> sprites) {
-  Flame.audio.disableLog();
-  final TRexGame game = TRexGame(spriteImage: sprites[0]);
+void startTrexGame(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-    return TrexPage(
-      game: game,
-    );
+    return const TrexPage();
   }));
 }
 
 class TrexPage extends StatelessWidget {
-  const TrexPage({Key key, this.game}) : super(key: key);
-  final TRexGame game;
+  const TrexPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,22 +29,21 @@ class TrexPage extends StatelessWidget {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(color: Colors.white),
-            child: TRexGameWrapper(
-              game: game,
-            ),
+            child: TRexGameWrapper(),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Align(
               alignment: Alignment.topCenter,
-              child: ValueListenableBuilder<double>(
-                valueListenable: game.timePlaying,
-                builder: (context, value, _) {
-                  final timePlayString = value.toStringAsFixed(1);
+              child: StreamBuilder<void>(
+                stream: Stream.periodic(const Duration(milliseconds: 50)),
+                builder: (context, _) {
+                  final timePlayString =
+                      _game?.timePlaying.toStringAsFixed(1) ?? '0';
                   return Text(
                     "Du rettest Sharezone für $timePlayString Sekunden! Danke :)",
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -65,22 +60,63 @@ class TrexPage extends StatelessWidget {
 }
 
 class TRexGameWrapper extends StatefulWidget {
-  const TRexGameWrapper({Key key, this.game}) : super(key: key);
-  final TRexGame game;
-
   @override
   _TRexGameWrapperState createState() => _TRexGameWrapperState();
 }
 
+TRexGame? _game;
+
 class _TRexGameWrapperState extends State<TRexGameWrapper> {
+  bool splashGone = false;
+  final _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
-    setState(() {});
+    startGame();
+  }
+
+  @override
+  void dispose() {
+    _game = null;
+    super.dispose();
+  }
+
+  void startGame() {
+    Flame.images.loadAll(["sprite.png"]).then(
+      (image) => {
+        setState(() {
+          _game = TRexGame(spriteImage: image[0]);
+          _focusNode.requestFocus();
+        })
+      },
+    );
+  }
+
+  void onRawKeyEvent(RawKeyEvent event) {
+    if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.space) {
+      _game!.onAction();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.game.widget;
+    if (_game == null) {
+      return const Center(
+        child: Text("Loading"),
+      );
+    }
+    return Container(
+      color: Colors.white,
+      constraints: const BoxConstraints.expand(),
+      child: RawKeyboardListener(
+        focusNode: _focusNode,
+        onKey: onRawKeyEvent,
+        child: GameWidget(
+          game: _game!,
+        ),
+      ),
+    );
   }
 }

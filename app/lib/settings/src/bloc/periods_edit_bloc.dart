@@ -38,13 +38,13 @@ class PeriodsEditBloc extends BlocBase {
   Function(Time) get changeTimetableStart => _timetableStartSubject.sink.add;
 
   bool isSubmitValid() {
-    final errors = _errorPeriodSubject.value;
+    final errors = _errorPeriodSubject.valueOrNull;
     if (errors != null && errors.isNotEmpty) throw IncorrectPeriods();
     return true;
   }
 
   void checkForErrors() {
-    final periods = _periodsDataSubject.value;
+    final periods = _periodsDataSubject.valueOrNull;
     if (periods != null) {
       periods.getPeriods().forEach((period) {
         isPeriodStartTimeValid(periods, period.number, period.startTime);
@@ -57,8 +57,8 @@ class PeriodsEditBloc extends BlocBase {
     checkForErrors();
     if (isSubmitValid()) {
       final settings = _userSettingsBloc.current().copyWith(
-          periods: _periodsDataSubject.value,
-          timetableStartTime: _timetableStartSubject.value);
+          periods: _periodsDataSubject.valueOrNull,
+          timetableStartTime: _timetableStartSubject.valueOrNull);
       _userSettingsBloc.updateSettings(settings);
     }
   }
@@ -92,8 +92,7 @@ class PeriodsEditBloc extends BlocBase {
     final lessonLength = await lessonLengthStream.first;
     final periods = await _periodsDataSubject.first;
     final period = periods.getPeriod(number).copyWith(
-        startTime: startTime,
-        endTime: startTime.add(lessonLength.duration));
+        startTime: startTime, endTime: startTime.add(lessonLength.duration));
     _changePeriods(periods.copyWithEditPeriod(period));
 
     if (number == 1) _setTimetableBeginToLessonStart(startTime);
@@ -124,16 +123,16 @@ class PeriodsEditBloc extends BlocBase {
   void _setTimetableBeginToLessonStart(Time time) => changeTimetableStart(time);
 
   void removePeriodFromErrorSubject(int number) {
-    if (_errorPeriodSubject.value != null) {
-      final value = _errorPeriodSubject.value;
+    if (_errorPeriodSubject.valueOrNull != null) {
+      final value = _errorPeriodSubject.valueOrNull;
       value.remove(number);
       _errorPeriodSubject.sink.add(value);
     }
   }
 
   void addPeriodToErrorSubject(int number) {
-    if (_errorPeriodSubject.value != null) {
-      final value = _errorPeriodSubject.value;
+    if (_errorPeriodSubject.valueOrNull != null) {
+      final value = _errorPeriodSubject.valueOrNull;
       value.add(number);
       _errorPeriodSubject.sink.add(value);
     } else {

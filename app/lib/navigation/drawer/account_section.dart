@@ -40,9 +40,10 @@ class _AccountSection extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: <Widget>[
-                                _ProfileAvatar(abbrevation: user.abbreviation),
+                                _ProfileAvatar(
+                                    abbrevation: user.abbreviation ?? ''),
                                 const SizedBox(width: 16),
-                                _NameAndEMailColumn(name: user.name),
+                                _NameAndEMailColumn(name: user.name ?? ''),
                               ],
                             ),
                           ),
@@ -50,12 +51,12 @@ class _AccountSection extends StatelessWidget {
                       ],
                     )
                   ] else ...[
-                    _ProfileAvatar(abbrevation: user.abbreviation),
+                    _ProfileAvatar(abbrevation: user.abbreviation ?? ''),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        _NameAndEMailColumn(name: user.name),
+                        _NameAndEMailColumn(name: user.name ?? ''),
                         const _ProfileArrow(),
                       ],
                     )

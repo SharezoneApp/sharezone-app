@@ -115,10 +115,13 @@ void main() {
         await tester.tap(find.text(klasse10a.name));
         await tester.pumpAndSettle();
 
-        expect(bloc.schoolClassFilterView.value.selectedSchoolClass.value.id, klasse10a.groupId);
+        expect(
+            bloc.schoolClassFilterView.valueOrNull.selectedSchoolClass.value.id,
+            klasse10a.groupId);
       });
 
-      testWidgets('If a user opens school class menu, all school classes should be shown',
+      testWidgets(
+          'If a user opens school class menu, all school classes should be shown',
           (tester) async {
         await _pumpSchoolClassSelection(tester);
         expect(find.text('Alle Schulklassen'), findsNothing);

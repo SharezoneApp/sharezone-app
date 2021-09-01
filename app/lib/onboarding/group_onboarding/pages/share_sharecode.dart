@@ -206,9 +206,11 @@ class _JoinHint extends StatelessWidget {
 class _FinsihButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColor,
+        primary: Colors.white,
+      ),
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);

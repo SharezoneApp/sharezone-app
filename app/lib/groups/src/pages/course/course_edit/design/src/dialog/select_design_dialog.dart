@@ -82,11 +82,13 @@ class _ReferralNote extends StatelessWidget {
 class _RemovePersonalColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: const Text("Persönliche Farbe entfernen"),
       onPressed: () => Navigator.pop(
           context, _SelectDesignPopResult(removePersonalColor: true)),
-      textColor: Colors.grey[700],
+      style: TextButton.styleFrom(
+        primary: Colors.grey[700],
+      ),
     );
   }
 }

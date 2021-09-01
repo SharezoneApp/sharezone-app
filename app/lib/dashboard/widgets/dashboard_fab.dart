@@ -136,8 +136,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 250),
                       child: Center(
-                        child: FlatButton(
-                          textColor: Theme.of(context).errorColor,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Theme.of(context).errorColor, // foreground
+                          ),
                           child: const Text("[DEBUG] Cache löschen"),
                           onPressed: () async {
                             final prefs = await SharedPreferences.getInstance();

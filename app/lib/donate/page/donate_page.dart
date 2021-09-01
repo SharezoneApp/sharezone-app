@@ -164,7 +164,7 @@ class _BeggingForMoneyText extends StatelessWidget {
               .copyWith(fontSize: 16, height: 1.3),
           a: linkStyle(context),
         ),
-        onTapLink: (url) => launchURL(url, context: context),
+        onTapLink: (url, _, __) => launchURL(url, context: context),
       ),
     );
   }
@@ -209,12 +209,14 @@ class _DonationOptions extends StatelessWidget {
 class _PayPalDonateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton.icon(
+    return ElevatedButton.icon(
       onPressed: () => launchURL("https://paypal.me/sharezone"),
       label: const Text("Spenden via PayPal"),
       icon: Icon(Icons.favorite),
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
+      style: ElevatedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        onPrimary: Colors.white,
+      ),
     );
   }
 }
@@ -222,15 +224,17 @@ class _PayPalDonateButton extends StatelessWidget {
 class _DonationsNotSupportedOnMacOsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RaisedButton.icon(
+    return ElevatedButton.icon(
       onPressed: () {
         _noMacOsSupportDialog(context);
         _logPressedDonationButton(context);
       },
       label: const Text("Spenden"),
       icon: Icon(Icons.favorite),
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
+      style: ElevatedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        onPrimary: Colors.white,
+      ),
     );
   }
 

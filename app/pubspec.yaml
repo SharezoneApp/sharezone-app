@@ -7,58 +7,102 @@ environment:
   sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
   abgabe_client_lib:
     path: ../lib/abgabe/abgabe_client_lib
   abgabe_http_api:
     path: ../lib/abgabe/abgabe_http_api
+  add_2_calendar: ^1.4.0
   analytics:
     path: ../lib/analytics
+  animated_stream_list: ^1.1.0
+  animations: ^1.1.2
+  animator: ^2.0.1
   app_functions:
     path: ../lib/app_functions
+  app_review: ^2.0.1
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
+  auto_size_text: ^2.1.0
+  barcode_scan: ^2.0.2
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
     path: ../lib/bloc_provider
   build_context:
     path: ../lib/build_context
+  characters: ^1.0.0
+  cloud_firestore: ^2.3.0
+  cloud_functions: ^2.0.0
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
     path: ../lib/crash_analytics
+  cupertino_icons: ^1.0.3
   date:
     path: ../lib/date
   design:
     path: ../lib/design
+  dio: ^4.0.0
   dynamic_links:
     path: ../lib/dynamic_links
+  feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
+  firebase_auth: ^2.0.0
+  firebase_core: ^1.3.0
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
+  firebase_messaging: ^10.0.3
+  firebase_performance: ^0.7.0+6
+  firebase_storage: ^9.0.0
+  flare_flutter: 2.0.5
+  flutter:
+    sdk: flutter
+  flutter_cache_manager: ^3.1.2
+  flutter_localizations:
+    sdk: flutter
+  flutter_markdown: ^0.6.2
+  flutter_native_timezone: ^1.0.4
+  flutter_rating_bar: ^3.0.1+1
+  flutter_sfsymbols: ^1.0.0
+  flutter_slidable: ^0.5.5
+  flutter_svg: ^0.22.0
+  font_awesome_flutter: ^8.8.1
   group_domain_implementation:
     path: ../lib/group_domain_implementation
   group_domain_models:
     path: ../lib/group_domain_models
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
+  intl: ^0.17.0
+  jitsi_meet: ^2.0.0
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
+  meta: ^1.1.8
+  numberpicker: ^1.2.1
+  open_file: ^3.0.3
+  optional: ^4.1.0
+  overlay_support: ^1.0.5
+  package_info_plus: ^1.0.4
+  permission_handler: ^8.1.2
+  photo_view: ^0.11.1
+  provider: ^5.0.0
+  purchases_flutter: ^1.2.1
+  qr_flutter: ^3.2.0
+  quiver: ^3.0.1
   remote_configuration:
     path: ../lib/remote_configuration
+  rxdart: ^0.27.1
+  share: ^0.6.4+3
+  shared_preferences: ^2.0.5
   sharezone_about_page_addon:
     path: ../lib/sharezone_about_page_addon
   sharezone_common:
@@ -67,71 +111,24 @@ dependencies:
     path: ../lib/sharezone_utils
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  streaming_shared_preferences:
-    path: ../lib/streaming_shared_preferences
-  time:
-    path: ../lib/time
-  url_launcher_extended:
-    path: ../lib/url_launcher_extended
-  user:
-    path: ../lib/user
-  # Nils Fork vereint folgende offene Pull Requests:
-  # - https://github.com/akshathjain/sliding_up_panel/pull/170
-  # - https://github.com/akshathjain/sliding_up_panel/pull/129
-  # - https://github.com/akshathjain/sliding_up_panel/pull/173
+  showcaseview: ^0.1.5
   sliding_up_panel:
     git:
       url: https://github.com/AndroidNils/sliding_up_panel
       ref: animation-listener
-  add_2_calendar: ^1.4.0
-  animated_stream_list: ^1.1.0
-  animations: ^1.1.2
-  animator: ^2.0.1
-  app_review: ^2.0.1
-  auto_size_text: ^2.1.0
-  barcode_scan: ^2.0.2
-  characters: ^1.0.0
-  cloud_firestore: ^0.16.0
-  cloud_functions: ^0.9.0
-  cupertino_icons: ^0.1.3
-  dio: any
-  feature_discovery: ^0.12.0+2
-  firebase_auth: ^0.20.0+1
-  firebase_core: ^0.7.0
-  firebase_messaging: ^8.0.0-dev.14
-  firebase_performance: ^0.5.0+1
-  firebase_storage: ^7.0.0
-  flare_flutter: 2.0.5
-  flutter_cache_manager: ^1.4.1
-  flutter_markdown: ^0.4.4
-  flutter_native_timezone: ^1.0.4
-  flutter_rating_bar: ^3.0.1+1
-  flutter_sfsymbols: ^1.0.0
-  flutter_slidable: ^0.5.5
-  flutter_svg: ^0.18.0
-  font_awesome_flutter: ^8.8.1
-  intl: ^0.16.1
-  jitsi_meet: ^2.0.0
-  meta: ^1.1.8
-  numberpicker: ^1.2.1
-  open_file: ^3.0.3
-  optional: ^4.1.0
-  overlay_support: ^1.0.5
-  package_info_plus: ^0.6.3
-  permission_handler: ^5.0.1+1
-  photo_view: ^0.9.2
-  provider: ^4.3.1
-  purchases_flutter: ^1.2.1
-  qr_flutter: ^3.2.0
-  quiver: any
-  rxdart: ^0.24.1
-  share: ^0.6.4+3
-  shared_preferences: ^0.5.8
-  showcaseview: ^0.1.5
+  streaming_shared_preferences:
+    path: ../lib/streaming_shared_preferences
   string_similarity: ^1.0.1
+  time:
+    path: ../lib/time
   timeago: ^2.0.26
-  url_launcher: ^5.5.0
-  video_player: ^0.10.11+1
+  url_launcher: ^6.0.9
+  url_launcher_extended:
+    path: ../lib/url_launcher_extended
+  user:
+    path: ../lib/user
+  # Is overriden, see dependency_overrides below
+  video_player: ^2.1.12
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
@@ -139,25 +136,25 @@ dependencies:
 dependency_overrides:
   # Dieser dependency_override wird verwendet, damit Videos auf macOS
   # ebenfalls abgespielt werden können. Sobald die Pull Request
-  # (https://github.com/flutter/plugins/pull/2437) gemergt ist, kann
+  # (https://github.com/flutter/plugins/pull/3712) gemergt ist, kann
   # der override wieder entfernt werden.
   video_player:
     git:
       url: https://github.com/cbenhagen/plugins.git
       path: packages/video_player/video_player
-      ref: video_player_macos
+      ref: video_player_macos_new
 
 dev_dependencies:
+  build_runner: ^1.10.0
+  built_value_generator: ^8.1.1
   flutter_driver:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.0
-  built_value_generator: ^7.1.0
   integration_test: ^1.0.2+2
   mockito: ^4.1.1
   random_string: ^2.0.1
-  test: ^1.14.7
+  test: ^1.16.8
 
 flutter:
   uses-material-design: true

@@ -168,7 +168,8 @@ void main() {
       });
 
       test('As a default value all groups should be shown', () {
-        expect(bloc.schoolClassFilterView.value.shouldShowAllGroups, true);
+        expect(
+            bloc.schoolClassFilterView.valueOrNull.shouldShowAllGroups, true);
       });
 
       test(
@@ -182,7 +183,7 @@ void main() {
 
         await pumpEventQueue();
 
-        final view = bloc.schoolClassFilterView.value;
+        final view = bloc.schoolClassFilterView.valueOrNull;
 
         /// Da keine Klasse selektiert wurde, heißt das, dass die Stunden aller
         /// Gruppen dem Nutzer angezeigt werden sollen.

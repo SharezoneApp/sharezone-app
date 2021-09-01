@@ -13,9 +13,10 @@ class BottomBarButton extends StatelessWidget {
       data: Theme.of(context).copyWith(
         buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
       ),
-      child: FlatButton(
-        color: Theme.of(context).primaryColor,
-        textColor: Colors.white,
+      child: TextButton(
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor),
         child: Text(text.toUpperCase(), style: TextStyle(fontSize: 20)),
         onPressed: onTap,
       ),

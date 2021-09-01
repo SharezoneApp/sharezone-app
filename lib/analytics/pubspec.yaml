@@ -4,7 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.4.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -15,9 +15,9 @@ dependencies:
     path: ../sharezone_common
   sharezone_utils:
     path: ../sharezone_utils
-  firebase: 7.3.0
+  firebase: ^9.0.1
   firebase_analytics: ^7.0.1
-  firebase_auth: ^0.20.0+1
+  firebase_auth: any
 
 dev_dependencies:
   flutter_test:

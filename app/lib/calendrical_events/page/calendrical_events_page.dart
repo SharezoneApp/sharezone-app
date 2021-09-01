@@ -55,7 +55,7 @@ class _CalendricalEventsPageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
     return StreamBuilder<List<EventView>>(
-      initialData: bloc.allUpcomingEvents.value,
+      initialData: bloc.allUpcomingEvents.valueOrNull,
       stream: bloc.allUpcomingEvents,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();

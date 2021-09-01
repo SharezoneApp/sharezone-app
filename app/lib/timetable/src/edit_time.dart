@@ -161,8 +161,10 @@ class _CupertinoTimerPickerWithTimeOfDayState
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       actions: <Widget>[
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: const Text("OK"),
           onPressed: () => Navigator.pop(context, timeOfDay),
         )

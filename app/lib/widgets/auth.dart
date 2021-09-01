@@ -8,7 +8,8 @@ class LogoRound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: 'logo-round',
-      child: PlatformSvg.asset("assets/logo-round",
+      child: PlatformSvg.asset(
+        "assets/logo-round",
         width: 160,
         height: 160,
       ),
@@ -74,9 +75,9 @@ class SubmitButton extends StatelessWidget {
       child: SizedBox(
         height: 45,
         width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: onPressed,
-          color: color,
+          style: ElevatedButton.styleFrom(primary: color),
           child: Text(
             titel.toUpperCase(),
             style: TextStyle(color: textColor),

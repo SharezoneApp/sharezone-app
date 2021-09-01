@@ -117,10 +117,12 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
       contentPadding: const EdgeInsets.only(),
       actions: <Widget>[
         const CancleButton(),
-        FlatButton(
+        TextButton(
           child: const Text("LÖSCHEN"),
           onPressed: confirm ? () => Navigator.pop(context, true) : null,
-          textColor: Theme.of(context).errorColor,
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).errorColor,
+          ),
         ),
       ],
     );

@@ -128,8 +128,10 @@ class CancleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      textColor: Theme.of(context).primaryColor,
+    return TextButton(
+      style: TextButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+      ),
       onPressed: () => Navigator.pop(context),
       child: const Text("ABBRECHEN"),
     );
@@ -143,8 +145,10 @@ class DeleteButtonWithPopingTrue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      textColor: textColor ?? Colors.red,
+    return TextButton(
+      style: TextButton.styleFrom(
+        primary: textColor ?? Colors.red,
+      ),
       onPressed: () => Navigator.pop(context, true),
       child: const Text("LÖSCHEN"),
     );
@@ -361,7 +365,7 @@ void showAlert(
     title: title != null ? Text(title) : null,
     content: content,
     actions: <Widget>[
-      FlatButton(
+      TextButton(
         onPressed: flatButton1OnPressed,
         child: Text(
           flatButton1Text.toUpperCase(),
@@ -369,7 +373,7 @@ void showAlert(
         ),
       ),
       flatButton2Text != null
-          ? FlatButton(
+          ? TextButton(
               onPressed: flatButton2OnPressed,
               child: Text(
                 flatButton2Text.toUpperCase(),
@@ -665,9 +669,11 @@ class InformationDialog extends StatelessWidget {
           content: Text(text),
           actions: !isEmptyOrNull(actionText)
               ? <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(actionText),
-                    textColor: Theme.of(context).primaryColor,
+                    style: TextButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
                     onPressed: () => Navigator.pop(context),
                   )
                 ]

@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: "1.23.0-18.1.pre"
+  FLUTTER_VERSION: "2.2.3"
 
 jobs:
   deploy-alpha-web-app:

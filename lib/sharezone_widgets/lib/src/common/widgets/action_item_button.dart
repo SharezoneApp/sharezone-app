@@ -10,18 +10,22 @@ class ActionItemButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (item.iconData != null)
-      return FlatButton.icon(
+      return TextButton.icon(
         icon: Icon(item.iconData, color: item.textColor),
         onPressed: item.onSelect,
-        textColor: item.textColor ?? Theme.of(context).primaryColor,
-        color: item.color,
+        style: TextButton.styleFrom(
+          primary: item.textColor ?? Theme.of(context).primaryColor,
+          backgroundColor: item.color,
+        ),
         label: Text(item.title.toUpperCase()),
       );
     else
-      return FlatButton(
+      return TextButton(
         onPressed: item.onSelect,
-        textColor: item.textColor ?? Theme.of(context).primaryColor,
-        color: item.color,
+        style: TextButton.styleFrom(
+          primary: item.textColor ?? Theme.of(context).primaryColor,
+          backgroundColor: item.color,
+        ),
         child: Text(item.title.toUpperCase()),
       );
   }

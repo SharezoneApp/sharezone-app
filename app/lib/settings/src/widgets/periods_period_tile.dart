@@ -13,7 +13,7 @@ class PeriodsPeriodTile extends StatelessWidget {
         children: <Widget>[
           Text(period.number.toString()),
           Text("${period.startTime} - ${period.endTime}"),
-          FlatButton(
+          TextButton(
             child: Text('Ändern'),
             onPressed: () {},
           )

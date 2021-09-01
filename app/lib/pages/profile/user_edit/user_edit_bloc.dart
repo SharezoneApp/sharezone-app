@@ -21,13 +21,13 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
     _nameSubject.sink.add(name);
   }
 
-  bool get hasInputChanged => initalName != _nameSubject.value;
+  bool get hasInputChanged => initalName != _nameSubject.valueOrNull;
 
   Function(String) get changeName => _nameSubject.sink.add;
   Stream<String> get name => _nameSubject.stream.transform(validateName);
 
   Future<bool> submit() async {
-    final name = _nameSubject.value;
+    final name = _nameSubject.valueOrNull;
 
     if (hasInputChanged) {
       if (_isSubmitValid(name)) {

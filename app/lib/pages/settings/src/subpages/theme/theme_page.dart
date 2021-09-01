@@ -197,7 +197,7 @@ class _NavigationRadioGroup extends StatelessWidget {
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
     return StreamBuilder<NavigationExperimentOption>(
       stream: navigationCache.currentNavigation,
-      initialData: navigationCache.currentNavigation.value,
+      initialData: navigationCache.currentNavigation.valueOrNull,
       builder: (context, snapshot) {
         final option = snapshot.data ?? NavigationExperimentOption.drawerAndBnb;
         return Column(
@@ -319,10 +319,12 @@ class _ContactSupportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
       child: Text("Support kontaktieren".toUpperCase()),
-      textColor: isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
+      style: TextButton.styleFrom(
+        primary: isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
+      ),
     );
   }
 }

@@ -21,6 +21,7 @@ class LokaleAbgabedateiFactory {
       dateigroesse: Dateigroesse(localFile.getSizeBytes()),
       pfad: localFile.getPath(),
       erstellungsdatum: _getCurrentDateTime(),
+      localFile: localFile,
     );
   }
 }

@@ -32,7 +32,8 @@ Future<void> openPeriodsEditPage(BuildContext context) async {
 }
 
 Future<void> _submit(BuildContext context,
-    {PeriodsEditBloc bloc, GlobalKey<ScaffoldState> scaffoldKey}) async {
+    {PeriodsEditBloc bloc,
+    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
   bloc ??= BlocProvider.of<PeriodsEditBloc>(context);
   try {
     await bloc.submit();
@@ -59,7 +60,7 @@ class _PeriodsEditPage extends StatefulWidget {
 
 class __PeriodsEditPageState extends State<_PeriodsEditPage> {
   PeriodsEditBloc bloc;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
@@ -133,9 +134,11 @@ class _AddTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<PeriodsEditBloc>(context);
-    return FlatButton(
+    return TextButton(
       onPressed: () => bloc.addPeriod(),
-      textColor: Theme.of(context).primaryColor,
+      style: TextButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
@@ -228,7 +231,7 @@ class _PeriodTile extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 26),
                     child: Row(
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
                             onPressed: () async {
                               final newTime = await selectTime(
                                 context,
@@ -244,7 +247,7 @@ class _PeriodTile extends StatelessWidget {
                             child: Text(period.startTime.toString(),
                                 style: style)),
                         Text("-", style: style),
-                        FlatButton(
+                        TextButton(
                             onPressed: () async {
                               final newTime = await selectTime(context,
                                   initialTime: period.endTime);

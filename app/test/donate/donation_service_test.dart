@@ -1,3 +1,4 @@
+import 'package:purchases_flutter/discount.dart';
 import 'package:purchases_flutter/product_wrapper.dart';
 import 'package:random_string/random_string.dart';
 import 'package:sharezone/donate/donation_service/donation_service.dart';
@@ -110,6 +111,9 @@ class TestProduct implements Product {
   @override
   final IntroductoryPrice introductoryPrice;
 
+  @override
+  final List<Discount> discounts;
+
   /// For Testing
   bool wasBought = false;
 
@@ -121,6 +125,7 @@ class TestProduct implements Product {
     this.priceString,
     this.currencyCode,
     this.introductoryPrice,
+    this.discounts,
   });
 }
 

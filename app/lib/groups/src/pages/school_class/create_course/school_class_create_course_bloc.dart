@@ -48,9 +48,9 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
   Function(String) get changeAbbreviation => _abbreviationSubject.sink.add;
 
   bool hasUserEditInput() {
-    final name = _nameSubject.value;
-    final subject = _subjectSubject.value;
-    final abbreviation = _abbreviationSubject.value;
+    final name = _nameSubject.valueOrNull;
+    final subject = _subjectSubject.valueOrNull;
+    final abbreviation = _abbreviationSubject.valueOrNull;
 
     if (initalCourse == null) {
       return isNotEmptyOrNull(name) ||
@@ -64,17 +64,17 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
   }
 
   Future<bool> submit() async {
-    final validator = NotEmptyOrNullValidator(_subjectSubject.value);
+    final validator = NotEmptyOrNullValidator(_subjectSubject.valueOrNull);
     if (!validator.isValid()) {
       _subjectSubject.addError(
           TextValidationException(CourseValidators.emptySubjectUserMessage));
       throw InvalidInputException();
     }
 
-    final subject = _subjectSubject.value;
-    final name = _ifNotGivenGenerateName(_nameSubject.value, subject);
-    final abbreviation =
-        _ifNotGivenGenerateAbbreviation(_abbreviationSubject.value, subject);
+    final subject = _subjectSubject.valueOrNull;
+    final name = _ifNotGivenGenerateName(_nameSubject.valueOrNull, subject);
+    final abbreviation = _ifNotGivenGenerateAbbreviation(
+        _abbreviationSubject.valueOrNull, subject);
 
     final userInput = UserInput(name, subject, abbreviation);
     _analytics.logCourseCreateFromOwn(subject, schoolClassPage);

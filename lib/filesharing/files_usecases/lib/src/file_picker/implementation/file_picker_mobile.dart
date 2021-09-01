@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:file_picker/file_picker.dart' as mobile_file_picker;
@@ -9,66 +10,82 @@ import 'package:sharezone_utils/platform.dart';
 import '../file_picker_implementation.dart';
 
 class MobileFilePicker extends FilePickerImplementation {
+  LocalFile _fileOrNull(PlatformFile _file) {
+    if (_file == null) {
+      return null;
+    }
+    return LocalFileIo.fromFile(File(_file.path));
+  }
+
+  Future<PlatformFile> _pickSinglePlatformFileOrNull(
+      [mobile_file_picker.FileType type =
+          mobile_file_picker.FileType.any]) async {
+    final files = await mobile_file_picker.FilePicker.platform
+        .pickFiles(type: type, allowMultiple: false);
+    return files.files.first;
+  }
+
+  Future<LocalFile> _pickSingleFileOrNull(
+      [mobile_file_picker.FileType type =
+          mobile_file_picker.FileType.any]) async {
+    return _fileOrNull(await _pickSinglePlatformFileOrNull(type));
+  }
+
+  Future<List<PlatformFile>> _pickMultiPlatformFilesOrNull(
+      [mobile_file_picker.FileType type =
+          mobile_file_picker.FileType.any]) async {
+    final files = await mobile_file_picker.FilePicker.platform
+        .pickFiles(type: type, allowMultiple: true);
+    return files.files;
+  }
+
+  Future<List<LocalFile>> _pickMultiFilesOrNull(
+      [mobile_file_picker.FileType type =
+          mobile_file_picker.FileType.any]) async {
+    final platformFiles = await _pickMultiPlatformFilesOrNull(type);
+    if (platformFiles == null) {
+      return null;
+    }
+    return platformFiles
+        .map(_fileOrNull)
+        .where((file) => file != null)
+        .toList();
+  }
+
   @override
   Future<LocalFile> pickFile() async {
-    final ioFile = await mobile_file_picker.FilePicker.getFile(
-        type: mobile_file_picker.FileType.any);
-    if (ioFile != null) return LocalFileIo.fromFile(ioFile);
-    return null;
+    return _pickSingleFileOrNull(mobile_file_picker.FileType.any);
   }
 
   @override
   Future<LocalFile> pickFileImage() async {
-    final ioFile = await mobile_file_picker.FilePicker.getFile(
-        type: mobile_file_picker.FileType.image);
-
-    if (ioFile != null) return LocalFileIo.fromFile(ioFile);
-    return null;
+    return _pickSingleFileOrNull(mobile_file_picker.FileType.image);
   }
 
   @override
   Future<LocalFile> pickFileVideo() async {
-    final ioFile = await mobile_file_picker.FilePicker.getFile(
-        type: mobile_file_picker.FileType.video);
-
-    if (ioFile != null) return LocalFileIo.fromFile(ioFile);
-    return null;
+    return _pickSingleFileOrNull(mobile_file_picker.FileType.video);
   }
 
   @override
   Future<List<LocalFile>> pickMultiFile() async {
-    final ioFiles = await mobile_file_picker.FilePicker.getMultiFile(
-        type: mobile_file_picker.FileType.any);
-
-    if (ioFiles != null)
-      return ioFiles.map((ioFile) => LocalFileIo.fromFile(ioFile)).toList();
-    return null;
+    return _pickMultiFilesOrNull(mobile_file_picker.FileType.any);
   }
 
   @override
   Future<List<LocalFile>> pickMultiFileImage() async {
-    final ioFiles = await mobile_file_picker.FilePicker.getMultiFile(
-        type: mobile_file_picker.FileType.image);
-
-    if (ioFiles != null)
-      return ioFiles.map((ioFile) => LocalFileIo.fromFile(ioFile)).toList();
-    return null;
+    return _pickMultiFilesOrNull(mobile_file_picker.FileType.image);
   }
 
   @override
   Future<List<LocalFile>> pickMultiFileVideo() async {
-    final ioFiles = await mobile_file_picker.FilePicker.getMultiFile(
-        type: mobile_file_picker.FileType.video);
-
-    if (ioFiles != null)
-      return ioFiles.map((ioFile) => LocalFileIo.fromFile(ioFile)).toList();
-    return null;
+    return _pickMultiFilesOrNull(mobile_file_picker.FileType.video);
   }
 
   @override
   Future<LocalFile> pickImageCamera() async {
     final pickedFile = await mobile_image_picker.ImagePicker()
-        .getImage(source: mobile_image_picker.ImageSource.camera);
+        .pickImage(source: mobile_image_picker.ImageSource.camera);
     if (pickedFile != null) return LocalFileIo.fromFile(File(pickedFile.path));
     return null;
   }
@@ -76,7 +93,7 @@ class MobileFilePicker extends FilePickerImplementation {
   @override
   Future<LocalFile> pickImageGallery() async {
     final pickedFile = await mobile_image_picker.ImagePicker()
-        .getImage(source: mobile_image_picker.ImageSource.gallery);
+        .pickImage(source: mobile_image_picker.ImageSource.camera);
     if (pickedFile != null) return LocalFileIo.fromFile(File(pickedFile.path));
     return null;
   }

@@ -20,7 +20,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
       courseId: GroupId(courseID),
       schoolClassId: GroupId(schoolClassID),
     );
-    _courses.sink.add(_courses.value..add(mockCourse));
+    _courses.sink.add(_courses.valueOrNull..add(mockCourse));
     return AppFunctionsResult.data(true);
   }
 
@@ -67,7 +67,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   @override
   Future<AppFunctionsResult<bool>> leaveSchoolClass(
       String schoolClassID) async {
-    _schoolClassListSubject.sink.add(_schoolClassListSubject.value
+    _schoolClassListSubject.sink.add(_schoolClassListSubject.valueOrNull
       ..removeWhere((schoolClass) => schoolClass.id == schoolClassID));
     return AppFunctionsResult.data(true);
   }
@@ -97,7 +97,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
-    return Stream.value(_courses.value
+    return Stream.value(_courses.valueOrNull
         .where((course) => course.schoolClassId.value.id == schoolClassID)
         .map((course) => course.courseId.id)
         .toList());
@@ -116,7 +116,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   void addSchoolClass(SchoolClass schoolClass) {
     _schoolClassListSubject.sink
-        .add(_schoolClassListSubject.value..add(schoolClass));
+        .add(_schoolClassListSubject.valueOrNull..add(schoolClass));
   }
 
   void addSchoolClasses(List<SchoolClass> schoolClasses) {

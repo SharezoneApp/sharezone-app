@@ -22,10 +22,12 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   Future<void> initialize(Map<String, dynamic> defaultValues) async {
     try {
       _defaultValues = defaultValues;
-      _remoteConfig = await RemoteConfig.instance;
+      _remoteConfig = RemoteConfig.instance;
       _remoteConfig.setDefaults(_defaultValues);
-      await _remoteConfig.fetch(expiration: const Duration(hours: 3));
-      await _remoteConfig.activateFetched();
+      _remoteConfig.setConfigSettings(RemoteConfigSettings(
+          fetchTimeout: const Duration(minutes: 1),
+          minimumFetchInterval: const Duration(hours: 3)));
+      await _remoteConfig.fetchAndActivate();
     } catch (e) {
       print("Error fetch remote confing: $e");
     }

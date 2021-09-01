@@ -51,6 +51,7 @@ Future<List<LocalFile>> selectMultipleFiles() async {
   final fileChooserResult =
       await file_chooser.showOpenPanel(allowsMultipleSelection: true);
   if (fileChooserResult.canceled) return [];
+  print('\n\nfileChooserResult.paths: ${fileChooserResult.paths}\n\n\n');
   final files =
       fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
   return files.toList();

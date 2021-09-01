@@ -5,15 +5,15 @@ author: null
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   sharezone_utils:
     path: ../sharezone_utils
-  firebase: 7.3.0
-  firebase_remote_config: ^0.6.0
+  firebase: ^9.0.1
+  firebase_remote_config: ^0.10.0+2
 
 dev_dependencies:
   flutter_test:

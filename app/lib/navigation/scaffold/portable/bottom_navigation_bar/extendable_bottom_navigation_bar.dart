@@ -83,7 +83,7 @@ class ExtendableBottomNavigationBarState
         bodyHeight: MediaQuery.of(context).size.height -
             _ExtendableBottomNavigationBarContent.height(context),
         controller: controller,
-        boxShadow: [BoxShadow(blurRadius: 0, color: Colors.transparent)],
+        boxShadow: const [BoxShadow(blurRadius: 0, color: Colors.transparent)],
       ),
     );
   }
@@ -231,7 +231,7 @@ class _ExtendableBottomNavigationBarContentState
 }
 
 /// A little line, which indicates that the user can swipe up
-/// the [ExtendableBottomNavigationBar]. Will also open the 
+/// the [ExtendableBottomNavigationBar]. Will also open the
 /// [ExtendableBottomNavigationBar] if tapped on.
 class _SwipeUpLine extends StatelessWidget {
   const _SwipeUpLine({Key key, this.controller}) : super(key: key);

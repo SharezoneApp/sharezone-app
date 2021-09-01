@@ -36,7 +36,7 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
       _coursesListSubject;
 
   void setSelectionState(GroupKey groupKey, bool isSelected) {
-    final list = _coursesListSubject.value.toList();
+    final list = _coursesListSubject.valueOrNull.toList();
     list.updateSelectionStateOf(groupKey, isSelected);
     _coursesListSubject.add(list);
   }
@@ -51,7 +51,7 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
   }
 
   Future<void> submit() async {
-    final coursesList = _coursesListSubject.value
+    final coursesList = _coursesListSubject.valueOrNull
         .where((groupInfo) => groupInfo.isSelected)
         .map((groupInfo) => groupInfo.groupKey)
         .toList();

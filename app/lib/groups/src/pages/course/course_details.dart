@@ -111,7 +111,7 @@ class _CourseDetailsPage extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.warning,
                       color: Colors.deepOrange,

@@ -93,16 +93,16 @@ bool areCorrectHolidaysForState(List<Holiday> holidays, StateEnum stateEnum) {
 }
 
 void answerHttpResponseForUrl(
-    HttpMockClient httpClient, String url, String jsonResponse) {
+    HttpMockClient httpClient, Uri url, String jsonResponse) {
   when(httpClient.get(url))
       .thenAnswer((_) => Future.value(http.Response(jsonResponse, 200)));
 }
 
 final now = DateTime(2018, 1, 1);
-final String _nrw2018apiUrl = HolidayApi.getApiUrl("NW", now.year);
-final String _nrw2019apiUrl = HolidayApi.getApiUrl("NW", now.year + 1);
-final String _hamburg2018apiUrl = HolidayApi.getApiUrl("HH", now.year);
-final String _hamburg2019apiUrl = HolidayApi.getApiUrl("HH", now.year + 1);
+final Uri _nrw2018apiUrl = HolidayApi.getApiUrl("NW", now.year);
+final Uri _nrw2019apiUrl = HolidayApi.getApiUrl("NW", now.year + 1);
+final Uri _hamburg2018apiUrl = HolidayApi.getApiUrl("HH", now.year);
+final Uri _hamburg2019apiUrl = HolidayApi.getApiUrl("HH", now.year + 1);
 
 // {"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"}
 final Holiday _nrw2018FirstHoliday = Holiday((b) => b

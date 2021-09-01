@@ -20,7 +20,7 @@ class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
 
   Future<bool> submit() async {
     if (_isSubmitValid()) {
-      final name = _nameSubject.value;
+      final name = _nameSubject.valueOrNull;
       final result = await gateway.edit(name);
       return result.hasData && result.data == true;
     }
@@ -29,7 +29,7 @@ class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
 
   /// Validates, if the name is not empty and is not the same as before.
   bool _isSubmitValid() {
-    final newName = _nameSubject.value;
+    final newName = _nameSubject.valueOrNull;
     final validator = NotEmptyOrNullValidator(newName);
     if (!validator.isValid()) {
       _nameSubject.addError(EmptyNameException().toString());

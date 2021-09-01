@@ -38,7 +38,7 @@ class _SchoolClassFilterBottomBarState
     final bloc = BlocProvider.of<TimetableBloc>(context);
     return StreamBuilder<SchoolClassFilterView>(
       stream: bloc.schoolClassFilterView,
-      initialData: bloc.schoolClassFilterView.value,
+      initialData: bloc.schoolClassFilterView.valueOrNull,
       builder: (context, snapshot) {
         final view = snapshot.data;
 

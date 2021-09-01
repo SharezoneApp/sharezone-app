@@ -4,7 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -21,13 +21,17 @@ dependencies:
     path: ../../streaming_shared_preferences
   user:
     path: ../../user
-  cloud_firestore: ^0.16.0
-  firebase_auth: ^0.20.0+1
-  firebase_auth_oauth: ^0.2.4
-  google_sign_in: ^4.5.1
-  google_sign_in_dartio: ^0.0.6
+  google_sign_in_dartio:
+    git:
+      url: https://github.com/GroovinChip/firebase_dart_sdk.git
+      ref: null_safety
+      path: google_sign_in_dart
+  cloud_firestore: any
+  firebase_auth: any
+  firebase_auth_oauth: any
+  google_sign_in: ^5.0.4
   meta: ^1.1.8
-  rxdart: ^0.24.1
+  rxdart: ^0.27.1
   sign_in_with_apple: ^2.5.2
 
 dev_dependencies:

@@ -64,7 +64,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   bool get hasAttachments =>
-      _localFilesSubject.value != null && _localFilesSubject.value.isNotEmpty;
+      _localFilesSubject.valueOrNull != null &&
+      _localFilesSubject.valueOrNull.isNotEmpty;
 
   Stream<String> get title => _titleSubject.stream.transform(validateTitle);
   Stream<DateTime> get todoUntil => _todoUntilSubject;
@@ -84,7 +85,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   Function(bool) get changeWithSubmissions => _withSubmissionsSubject.sink.add;
   Function(Course) get changeCourseSegment => (courseSegment) {
         _courseSegmentSubject.sink.add(courseSegment);
-        if (_todoUntilSubject.value == null) {
+        if (_todoUntilSubject.valueOrNull == null) {
           changeTodoUntilNextLessonOrNextSchoolDay(courseSegment.id);
         }
       };
@@ -101,24 +102,24 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   Function(List<LocalFile>) get addLocalFile => (localFiles) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.value != null) {
-          list.addAll(_localFilesSubject.value);
+        if (_localFilesSubject.valueOrNull != null) {
+          list.addAll(_localFilesSubject.valueOrNull);
         }
         list.addAll(localFiles);
         _localFilesSubject.sink.add(list);
       };
   Function(LocalFile) get removeLocalFile => (localFile) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.value != null) {
-          list.addAll(_localFilesSubject.value);
+        if (_localFilesSubject.valueOrNull != null) {
+          list.addAll(_localFilesSubject.valueOrNull);
         }
         list.remove(localFile);
         _localFilesSubject.sink.add(list);
       };
   Function(CloudFile) get removeCloudFile => (cloudFile) {
         final list = <CloudFile>[];
-        if (_cloudFilesSubject.value != null) {
-          list.addAll(_cloudFilesSubject.value);
+        if (_cloudFilesSubject.valueOrNull != null) {
+          list.addAll(_cloudFilesSubject.valueOrNull);
         }
         list.remove(cloudFile);
         _cloudFilesSubject.sink.add(list);
@@ -131,14 +132,15 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   /// dieser Input kein großer Verlust ist, wenn man versehentlich den
   /// Dialog schließt.
   bool hasInputChanged() {
-    final title = _titleSubject.value;
-    final course = _courseSegmentSubject.value;
-    final todoUntil = _todoUntilSubject.value;
-    final description = _descriptionSubject.value;
-    final localFiles = _localFilesSubject.value;
+    final title = _titleSubject.valueOrNull;
+    final course = _courseSegmentSubject.valueOrNull;
+    final todoUntil = _todoUntilSubject.valueOrNull;
+    final description = _descriptionSubject.valueOrNull;
+    final localFiles = _localFilesSubject.valueOrNull;
 
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-    final cloudFiles = _cloudFilesSubject.value.map((cf) => cf.id).toList();
+    final cloudFiles =
+        _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
     if (initalHomework == null) {
@@ -182,14 +184,14 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   bool isValid() {
-    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.value);
+    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
           TextValidationException(HomeworkValidators.emptyTitleUserMessage));
       throw InvalidTitleException();
     }
 
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.value);
+    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       _courseSegmentSubject.addError(
           TextValidationException(HomeworkValidators.emptyCourseUserMessage));
@@ -210,22 +212,24 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   Future<void> submit({HomeworkDto oldHomework}) async {
     if (isValid()) {
-      final todoUntil = DateTime(_todoUntilSubject.value.year,
-          _todoUntilSubject.value.month, _todoUntilSubject.value.day);
-      final description = _descriptionSubject.value;
-      final private = _privateSubject.value;
-      final localFiles = _localFilesSubject.value;
+      final todoUntil = DateTime(
+          _todoUntilSubject.valueOrNull.year,
+          _todoUntilSubject.valueOrNull.month,
+          _todoUntilSubject.valueOrNull.day);
+      final description = _descriptionSubject.valueOrNull;
+      final private = _privateSubject.valueOrNull;
+      final localFiles = _localFilesSubject.valueOrNull;
 
       final userInput = UserInput(
-        _titleSubject.value,
-        _courseSegmentSubject.value,
+        _titleSubject.valueOrNull,
+        _courseSegmentSubject.valueOrNull,
         todoUntil,
         description,
         private,
         localFiles,
-        _sendNotificationSubject.value,
-        _submissionTimeSubject.value,
-        _withSubmissionsSubject.value,
+        _sendNotificationSubject.valueOrNull,
+        _submissionTimeSubject.valueOrNull,
+        _withSubmissionsSubject.valueOrNull,
       );
 
       final hasAttachments = localFiles != null && localFiles.isNotEmpty;
@@ -242,7 +246,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
         // von der Hausaufgabe entfernt.
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.value);
+            initialCloudFiles, _cloudFilesSubject.valueOrNull);
         if (hasAttachments) {
           await api.edit(oldHomework, userInput,
               removedCloudFiles: removedCloudFiles);

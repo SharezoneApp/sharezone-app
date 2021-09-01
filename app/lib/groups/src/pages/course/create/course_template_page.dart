@@ -78,9 +78,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
 }
 
 class _CoursesAreNotLinkedWithSchoolClassWarning extends StatelessWidget {
-  const _CoursesAreNotLinkedWithSchoolClassWarning({
-    Key key
-  }) : super(key: key);
+  const _CoursesAreNotLinkedWithSchoolClassWarning({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -225,9 +223,13 @@ class CreateCustomCourseSection extends StatelessWidget {
             Divider(height: 0),
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
-              child: RaisedButton(
-                color: Colors.lightBlueAccent,
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.lightBlueAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
@@ -238,8 +240,6 @@ class CreateCustomCourseSection extends StatelessWidget {
                   ],
                 ),
                 onPressed: onTap,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
               ),
             ),
           ],

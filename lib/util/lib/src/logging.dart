@@ -15,7 +15,7 @@ void printLogRecord(LogRecord log, {void Function(String) printMethod}) {
 }
 
 class SlackLogPublisher {
-  final String webhookUrl;
+  final Uri webhookUrl;
 
   /// E.g. "#ci-cd"
   final String slackChannelName;

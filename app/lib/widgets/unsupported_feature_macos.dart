@@ -14,8 +14,10 @@ class UnsupportedFeature extends StatelessWidget {
             "Momentan ist diese Funktion noch nicht für macOS verfügbar 😖"),
       ),
       actions: <Widget>[
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           onPressed: () => Navigator.pop(context),
           child: Text('OK'),
         )

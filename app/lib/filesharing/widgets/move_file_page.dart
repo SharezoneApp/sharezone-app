@@ -172,13 +172,17 @@ class _MoveFileBottomBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              FlatButton(
-                textColor: Theme.of(context).errorColor,
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).errorColor,
+                ),
                 child: Text("Abbrechen".toUpperCase()),
                 onPressed: () => Navigator.pop(context),
               ),
-              FlatButton(
-                textColor: Theme.of(context).primaryColor,
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                ),
                 child: Text("Verschieben".toUpperCase()),
                 onPressed: isMoveFileAllowed
                     ? () {

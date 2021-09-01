@@ -1,7 +1,5 @@
-// ignore:avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 import 'package:files_basics/local_file.dart';
-import 'package:file_picker_web/file_picker_web.dart' as filePickerWeb;
+import 'package:file_picker/file_picker.dart' as filePickerWeb;
 import 'package:files_basics/local_file_data.dart';
 
 import '../file_picker_implementation.dart';
@@ -29,26 +27,28 @@ class FilePickerHtml extends FilePickerImplementation {
   Future<LocalFile> pickImageGallery() => _pickSingle();
 
   Future<LocalFile> _pickSingle() async {
-    final selectedFile = await filePickerWeb.FilePicker.getFile();
-    if (selectedFile != null)
-      return await localFileDataFromHtmlFile(selectedFile);
+    final res =
+        await filePickerWeb.FilePicker.platform.pickFiles(allowMultiple: false);
+    if (res.files.isNotEmpty) {
+      final file = res.files.single;
+
+      return LocalFileData.fromData(
+          file.bytes, file.path, file.name, file.extension);
+    }
     return null;
   }
 
   Future<List<LocalFile>> _pickMulti() async {
-    final selectedFiles = await filePickerWeb.FilePicker.getMultiFile();
-    final localFiles = await Future.wait(
-        selectedFiles.map((file) => localFileDataFromHtmlFile(file)));
-    return localFiles;
+    final res =
+        await filePickerWeb.FilePicker.platform.pickFiles(allowMultiple: true);
+    if (res.files.isNotEmpty) {
+      return res.files
+          .map((file) => LocalFileData.fromData(
+              file.bytes, file.path, file.name, file.extension))
+          .toList();
+    }
+    return null;
   }
-}
-
-Future<LocalFileData> localFileDataFromHtmlFile(html.File file) async {
-  final reader = html.FileReader();
-  reader.readAsArrayBuffer(file);
-  await reader.onLoadEnd.first;
-  final data = reader.result;
-  return LocalFileData.fromData(data, file.relativePath, file.name, file.type);
 }
 
 FilePickerImplementation getFilePickerImplementation() {

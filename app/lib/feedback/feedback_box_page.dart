@@ -220,8 +220,11 @@ class _GenerelRating extends StatelessWidget {
                 itemCount: 5,
                 allowHalfRating: true,
                 glow: false,
-                itemBuilder: (context, _) =>
-                    const Icon(Icons.star, color: Colors.amber),
+                ratingWidget: RatingWidget(
+                  full: const Icon(Icons.star, color: Colors.amber),
+                  half: const Icon(Icons.star_half, color: Colors.amber),
+                  empty: const Icon(Icons.star_outline, color: Colors.amber),
+                ),
                 onRatingUpdate: bloc.changeRating,
               );
             },
@@ -287,40 +290,43 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(12),
-      child: RaisedButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Icon(Icons.send, color: Colors.white),
-              SizedBox(width: 8),
-              Text("ABSCHICKEN", style: TextStyle(color: Colors.white)),
-            ],
-          ),
-          color: Colors.lightBlueAccent,
+      child: ElevatedButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Icon(Icons.send, color: Colors.white),
+            SizedBox(width: 8),
+            Text("ABSCHICKEN", style: TextStyle(color: Colors.white)),
+          ],
+        ),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.lightBlueAccent,
           padding: const EdgeInsets.symmetric(vertical: 12),
-          onPressed: () async {
-            try {
-              await bloc.submit();
-              showThankYouBottomSheet(context);
-            } on CooldownException catch (e) {
-              showSnackSec(
-                  context: context,
-                  text:
-                      "Error! Dein Cooldown(${e.cooldown}) ist noch nicht abgelaufen.");
-            } on EmptyFeedbackException {
-              showSnackSec(
-                  context: context,
-                  text: "Du musst auch schon was reinschreiben 😉");
-            } on Exception catch (e, s) {
-              print("Exception when submitting Feedback: $e, $s");
-              showSnackSec(
-                  context: context,
-                  text:
-                      "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per Email! :)");
-            }
-          },
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        ),
+        onPressed: () async {
+          try {
+            await bloc.submit();
+            showThankYouBottomSheet(context);
+          } on CooldownException catch (e) {
+            showSnackSec(
+                context: context,
+                text:
+                    "Error! Dein Cooldown(${e.cooldown}) ist noch nicht abgelaufen.");
+          } on EmptyFeedbackException {
+            showSnackSec(
+                context: context,
+                text: "Du musst auch schon was reinschreiben 😉");
+          } on Exception catch (e, s) {
+            print("Exception when submitting Feedback: $e, $s");
+            showSnackSec(
+                context: context,
+                text:
+                    "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per Email! :)");
+          }
+        },
+      ),
     );
   }
 }
@@ -346,7 +352,7 @@ class _FeedbackTextField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(_padding, 0, _padding, _padding),
           child: PrefilledTextField(
-            prefilledText: stream.value,
+            prefilledText: stream.valueOrNull,
             decoration: InputDecoration(
               icon: icon,
               labelText: labelText,

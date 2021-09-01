@@ -48,7 +48,7 @@ class EmailAndPasswordLinkPage extends StatefulWidget {
 class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
   EmailAndPasswordLinkBloc bloc;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   final nameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();

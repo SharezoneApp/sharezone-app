@@ -76,7 +76,7 @@ class _ClockAnimation extends StatelessWidget {
 class _NotNowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: () async {
         final confirmed = await confirmDialog(context);
         if (confirmed) {
@@ -85,7 +85,9 @@ class _NotNowButton extends StatelessWidget {
           await _continue(context);
         }
       },
-      textColor: Colors.grey,
+      style: TextButton.styleFrom(
+        primary: Colors.grey,
+      ),
       child: const Text("Nicht jetzt"),
     );
   }

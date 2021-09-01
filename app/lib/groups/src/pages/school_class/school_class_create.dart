@@ -67,8 +67,10 @@ class _MySchoolClassCreateDialogState extends State<MySchoolClassCreateDialog> {
               ValueListenableBuilder<String>(
                 valueListenable: bloc.name,
                 builder: (builderContext, data, _) {
-                  return FlatButton(
-                    textColor: Theme.of(context).primaryColor,
+                  return TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
                     child: const Text("ERSTELLEN"),
                     onPressed: data.isEmpty
                         ? null

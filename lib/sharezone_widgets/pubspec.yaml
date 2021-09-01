@@ -5,7 +5,7 @@ author:
 publish_to: none
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   sharezone_common:
@@ -16,10 +16,10 @@ dependencies:
     path: ../sharezone_utils
   build_context:
     path: ../build_context
-  flutter_svg: ^0.18.0
+  flutter_svg: ^0.22.0
   flutter_staggered_animations: ^0.1.2
   shimmer: ^1.1.1
-  rxdart: ^0.24.1
+  rxdart: ^0.27.1
   flutter:
     sdk: flutter
 

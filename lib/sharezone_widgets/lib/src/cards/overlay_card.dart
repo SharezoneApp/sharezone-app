@@ -83,11 +83,13 @@ class _Action extends StatelessWidget {
       button: true,
       enabled: true,
       onTap: onAction,
-      child: FlatButton(
+      child: TextButton(
         onPressed: onAction,
         child: Text(actionText),
-        textColor: Theme.of(context).primaryColor,
-        color: Theme.of(context).primaryColor.withOpacity(0.15),
+        style: TextButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
+        ),
       ),
     );
   }
@@ -105,10 +107,12 @@ class _Close extends StatelessWidget {
       button: true,
       enabled: true,
       onTap: onClose,
-      child: FlatButton(
+      child: TextButton(
         onPressed: onClose,
         child: const Text("SCHLIESSEN"),
-        textColor: Colors.grey,
+        style: TextButton.styleFrom(
+          primary: Colors.grey,
+        ),
       ),
     );
   }

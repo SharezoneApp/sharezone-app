@@ -13,7 +13,7 @@ class MarkdownSupport extends StatelessWidget {
           "[Markdown](https://sharezone.net/markdown): \*\***fett**\\*\*, \**kursiv*\\*, Zeilenumbruch: \\",
       styleSheet: MarkdownStyleSheet(p: style, a: linkStyle(context, 14)),
       selectable: true,
-      onTapLink: (link) => launchURL(link),
+      onTapLink: (link, _, __) => launchURL(link),
     );
   }
 }

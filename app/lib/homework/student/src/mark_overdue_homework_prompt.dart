@@ -58,7 +58,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
             ),
             ButtonBar(
               children: <Widget>[
-                FlatButton(
+                TextButton(
                   child: const Text("Schließen"),
                   onPressed: () {
                     analytics.log(_OverdueAnalyticsEvent.closed());
@@ -68,7 +68,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
                     cache.setAlreadyDismissed(true);
                   },
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: const Text("Abhaken"),
                   onPressed: () {
                     analytics.log(_OverdueAnalyticsEvent.confirmed());

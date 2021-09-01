@@ -26,7 +26,7 @@ void main() {
 
     testWidgets('shows given actions', (tester) async {
       final action =
-          FlatButton(onPressed: () {}, child: const Text('FlatButton'));
+          TextButton(onPressed: () {}, child: const Text('FlatButton'));
 
       await _pumpAnnouncementCard(
           tester: tester, card: AnnouncementCard(actions: [action]));

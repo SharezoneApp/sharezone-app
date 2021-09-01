@@ -73,7 +73,7 @@ class FirstNavigationRow extends StatelessWidget {
     final analytics = BlocProvider.of<NavigationAnalytics>(context);
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
     return StreamBuilder<NavigationExperimentOption>(
-      initialData: navigationCache.currentNavigation.value,
+      initialData: navigationCache.currentNavigation.valueOrNull,
       stream: navigationCache.currentNavigation,
       builder: (context, snapshot) {
         final option =
@@ -143,7 +143,7 @@ class SecondNavigationRow extends StatelessWidget {
     final analytics = BlocProvider.of<NavigationAnalytics>(context);
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
     return StreamBuilder<NavigationExperimentOption>(
-      initialData: navigationCache.currentNavigation.value,
+      initialData: navigationCache.currentNavigation.valueOrNull,
       stream: navigationCache.currentNavigation,
       builder: (context, snapshot) {
         final option =

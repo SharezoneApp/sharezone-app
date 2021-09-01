@@ -24,7 +24,7 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   Stream<AppUser> get userStream => _userSubject;
 
-  AppUser get data => _userSubject.value;
+  AppUser get data => _userSubject.valueOrNull;
 
   // Auf Grund eines Fehlers im FirebaseAuth Plugin, wird bei der
   // reload() Methode nicht der firebaseUser sofort neu geladen.
@@ -46,7 +46,7 @@ class UserGateway implements UserGatewayAuthentifcation {
         .then((snapshot) => AppUser.fromData(snapshot.data(), id: snapshot.id));
   }
 
-  String getName() => _userSubject.value.name;
+  String getName() => _userSubject.valueOrNull.name;
 
   Stream<DocumentSnapshot> get userDocument =>
       references.users.doc(uID).snapshots();

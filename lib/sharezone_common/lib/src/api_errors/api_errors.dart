@@ -184,7 +184,7 @@ class DeserializeFirestoreDocException implements Exception {
   final String message;
 
   /// The document that should have been deserialized.
-  final DocumentSnapshot documentToDeserialize;
+  final DocumentSnapshot<Map<String, dynamic>> documentToDeserialize;
 
   StackTrace stackTrace;
 

@@ -16,7 +16,7 @@ flutter:
         pluginClass: FileChooserPlugin
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:

@@ -4,18 +4,18 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   sharezone_common:
     path: ../sharezone_common
-  intl: ^0.16.0
-  rxdart: ^0.24.1
+  intl: any
+  rxdart: ^0.27.1
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  test: ^1.14.7
+  test: any
   flutter_test:
     sdk: flutter
 

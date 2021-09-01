@@ -41,7 +41,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
       Rx.combineLatest2(password, newPassword, (p, nP) => true);
 
   bool isPasswordEmpty() {
-    if (_passwordSubject.value == null || _passwordSubject.value.isEmpty) {
+    if (_passwordSubject.valueOrNull == null ||
+        _passwordSubject.valueOrNull.isEmpty) {
       _passwordSubject.sink.add("");
       return true;
     } else
@@ -49,7 +50,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   }
 
   bool compareEmail(String pEmail) {
-    if (pEmail.toLowerCase() == _emailSubject.value.toLowerCase())
+    if (pEmail.toLowerCase() == _emailSubject.valueOrNull.toLowerCase())
       return true;
     else
       return false;
@@ -66,8 +67,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> submitEmail() async {
     final String currentEmail = userAPI.authUser.email;
-    final String newEmail = _emailSubject.value;
-    final String password = _passwordSubject.value;
+    final String newEmail = _emailSubject.valueOrNull;
+    final String password = _passwordSubject.valueOrNull;
 
     if (newEmail == currentEmail) {
       throw IdenticalEmailException(
@@ -105,8 +106,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   }
 
   Future<void> submitPassword() async {
-    final String password = _passwordSubject.value;
-    final String newPassword = _newPasswordSubject.value;
+    final String password = _passwordSubject.valueOrNull;
+    final String newPassword = _newPasswordSubject.valueOrNull;
     final String email = userAPI.authUser.email;
 
     if (!isEmptyOrNull(password) &&

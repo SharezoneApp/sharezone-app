@@ -33,16 +33,16 @@ class ReportPageBloc extends BlocBase {
   ReportedItemType get reportedItemType => ReportItem(item.path).type;
 
   bool isSubmitValid() {
-    final description = _descriptionSubject.value;
-    final reason = _reasonSubject.value;
+    final description = _descriptionSubject.valueOrNull;
+    final reason = _reasonSubject.valueOrNull;
 
     return reason != null && isNotEmptyOrNull(description);
   }
 
   void send() {
     if (isSubmitValid()) {
-      final description = _descriptionSubject.value;
-      final reason = _reasonSubject.value;
+      final description = _descriptionSubject.valueOrNull;
+      final reason = _reasonSubject.valueOrNull;
 
       final report = reportFactory.create(
         description,
@@ -57,8 +57,8 @@ class ReportPageBloc extends BlocBase {
   }
 
   bool wasEdited() {
-    final description = _descriptionSubject.value;
-    final reason = _reasonSubject.value;
+    final description = _descriptionSubject.valueOrNull;
+    final reason = _reasonSubject.valueOrNull;
 
     return isNotEmptyOrNull(description) || reason != null;
   }

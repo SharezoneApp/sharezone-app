@@ -481,7 +481,7 @@ class _HomeworkDescription extends StatelessWidget {
                   ),
                 ),
               ).copyWith(a: linkStyle(context, 14)),
-              onTapLink: (url) => launchURL(url, context: context),
+              onTapLink: (url, _, __) => launchURL(url, context: context),
             ),
           )
         : Container();

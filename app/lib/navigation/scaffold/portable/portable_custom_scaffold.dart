@@ -29,7 +29,7 @@ class PortableCustomScaffold extends StatelessWidget {
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
     return StreamBuilder<NavigationExperimentOption>(
       stream: navigationCache.currentNavigation,
-      initialData: navigationCache.currentNavigation.value,
+      initialData: navigationCache.currentNavigation.valueOrNull,
       builder: (context, snapshot) {
         final option = snapshot.data ?? NavigationExperimentOption.drawerAndBnb;
         final isOldNav = option == NavigationExperimentOption.drawerAndBnb;
@@ -47,7 +47,9 @@ class PortableCustomScaffold extends StatelessWidget {
                   pinned: appBarConfiguration.pinned,
                   title: appBarConfiguration.title ?? navigationItem.getName(),
                   centerTitle: true,
-                  leading: isOldNav ? DrawerIcon(color: appBarConfiguration.drawerIconColor) : null,
+                  leading: isOldNav
+                      ? DrawerIcon(color: appBarConfiguration.drawerIconColor)
+                      : null,
                   actions: appBarConfiguration.actions,
                   flexibleSpace: appBarConfiguration.flexibleSpace,
                 ),
@@ -57,7 +59,8 @@ class PortableCustomScaffold extends StatelessWidget {
             floatingActionButton: floatingActionButton,
             drawer: isOldNav ? SharezoneDrawer() : null,
             bottomNavigationBar: isOldNav
-                ? BnbAndDrawerBottomNavigationBar(navigationItem: navigationItem)
+                ? BnbAndDrawerBottomNavigationBar(
+                    navigationItem: navigationItem)
                 : null,
           ),
         );

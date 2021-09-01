@@ -78,7 +78,7 @@ class _Header extends StatelessWidget {
                     a: linkStyle(context, 14),
                     p: const TextStyle(fontSize: 14, color: Colors.grey),
                     textAlign: WrapAlignment.center),
-            onTapLink: (url) => launchURL(url, context: context),
+            onTapLink: (url, _, __) => launchURL(url, context: context),
           ),
         ),
       ],

@@ -54,10 +54,12 @@ class __AccepctButtonState extends State<_AccepctButton> {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      color: Theme.of(context).primaryColor,
-      disabledColor: Theme.of(context).primaryColor,
-      textColor: Colors.white,
+    return TextButton(
+      style: TextButton.styleFrom(
+        primary: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        onSurface: Theme.of(context).primaryColor,
+      ),
       child: Stack(
         key: const ValueKey('SubmitButton'),
         children: [

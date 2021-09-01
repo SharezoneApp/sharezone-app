@@ -52,10 +52,12 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: actions
-              .map((action) => FlatButton(
+              .map((action) => TextButton(
                     child: Text(action.title.toUpperCase()),
-                    textColor:
-                        action.textColor ?? Theme.of(context).primaryColor,
+                    style: TextButton.styleFrom(
+                      primary:
+                          action.textColor ?? Theme.of(context).primaryColor,
+                    ),
                     onPressed: () => Navigator.pop(context, action.popResult),
                   ))
               .toList(),

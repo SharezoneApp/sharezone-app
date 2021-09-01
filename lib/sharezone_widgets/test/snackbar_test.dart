@@ -6,10 +6,17 @@ void main() {
   const tapTarget = Key('tap-target');
   const sharezone = 'sharezone';
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   Future<void> _pumpSnackBarSetup(WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Scaffold(key: scaffoldKey)));
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ScaffoldMessenger(
+          key: scaffoldKey,
+          child: Scaffold(),
+        ),
+      ),
+    );
   }
 
   group('showSnack', () {
@@ -67,8 +74,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsNothing);
     });
 
-    testWidgets('shows a snackbar with a given SnackBarAction',
-        (tester) async {
+    testWidgets('shows a snackbar with a given SnackBarAction', (tester) async {
       final action = SnackBarAction(label: sharezone, onPressed: () {});
 
       await _pumpSnackBarSetup(tester);
@@ -104,7 +110,10 @@ void main() {
 
       expect(find.text(sharezone), findsNothing);
 
-      await tester.tap(find.byKey(tapTarget));
+      // Because of how GestureDetector and the underlying Container interact
+      // Flutter thinks we don't hit the target. We do so we ignore the warning.
+      // If we wouldn't hit it the expect later wouldn't succeed anyways.
+      await tester.tap(find.byKey(tapTarget), warnIfMissed: false);
       await tester.pump();
 
       expect(find.text(sharezone), findsOneWidget);

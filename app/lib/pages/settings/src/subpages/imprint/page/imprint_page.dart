@@ -38,7 +38,7 @@ class _ImprintPageState extends State<ImprintPage> {
               final data = snapshot.data ?? offlineData;
               return MarkdownBody(
                 data: data,
-                onTapLink: (link) => launchURL(link),
+                onTapLink: (link, _, __) => launchURL(link),
                 selectable: true,
               );
             },

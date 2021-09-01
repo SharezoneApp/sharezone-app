@@ -27,7 +27,7 @@ class LocalFileAbgabedateiKonvertierer {
       } catch (e, s) {
         unconvertableFiles.add(localFile);
         var msg =
-            'LocalFile: $localFile konnte nicht zu einer LokaleAbgabedatei konvertiert werden.';
+            'LocalFile: $localFile konnte nicht zu einer LokaleAbgabedatei konvertiert werden: $e.';
         print(msg);
         _recordError(e, s);
       }

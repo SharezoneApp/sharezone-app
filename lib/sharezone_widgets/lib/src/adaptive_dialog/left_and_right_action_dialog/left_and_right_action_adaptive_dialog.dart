@@ -96,18 +96,22 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
       content: DialogWrapper(child: content),
       actions: <Widget>[
         if (left != null)
-          FlatButton(
+          TextButton(
             key: left.key,
-            textColor: left.textColor ?? Theme.of(context).primaryColor,
+            style: TextButton.styleFrom(
+              primary: left.textColor ?? Theme.of(context).primaryColor,
+            ),
             onPressed: left.onPressed != null
                 ? left.onPressed
                 : () => Navigator.pop(context, left.popResult ?? false),
             child: Text(left.title.toUpperCase()),
           ),
         if (right != null)
-          FlatButton(
+          TextButton(
             key: right.key,
-            textColor: right.textColor ?? Theme.of(context).primaryColor,
+            style: TextButton.styleFrom(
+              primary: right.textColor ?? Theme.of(context).primaryColor,
+            ),
             onPressed: right.onPressed != null
                 ? right.onPressed
                 : () => Navigator.pop(context, right.popResult ?? true),

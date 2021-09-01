@@ -4,7 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.5.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -17,12 +17,12 @@ dependencies:
     path: ../../sharezone_common
   sharezone_utils:
     path: ../../sharezone_utils
-  firebase: 7.3.0
-  firebase_storage: ^7.0.0
-  mime: ^0.9.6+3
+  firebase: ^9.0.1
+  firebase_storage: any
+  mime: ^1.0.0
   optional: 4.1.0
   path: any
-  permission_handler: ^5.0.1+1
+  permission_handler: any
 
 dev_dependencies:
   flutter_test:

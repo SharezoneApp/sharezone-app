@@ -190,12 +190,13 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
       (localFiles) async {
         final res = _localFileKonvertierer.konvertiereLocalFiles(localFiles);
 
-        final aktuelleAbgabe = _aktuelleAbgabe?.value?.abgabe?.orElse(null);
+        final aktuelleAbgabe =
+            _aktuelleAbgabe?.valueOrNull?.abgabe?.orElse(null);
         final hochgeladeneNamen =
             aktuelleAbgabe?.abgabedateien?.map((e) => e.name)?.toSet() ?? {};
 
         final hochladeneNamen =
-            _hochladeneDateien.value.map((datei) => datei.name).toSet();
+            _hochladeneDateien.valueOrNull.map((datei) => datei.name).toSet();
         final bereitsVorhandeneNamen = hochgeladeneNamen.union(hochladeneNamen);
 
         final einzigartigBenannteDateien = benenneEinzigartig(
@@ -204,19 +205,18 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
         );
 
         for (var datei in einzigartigBenannteDateien) {
-          final localFile = localFiles
-              .firstWhere((element) => element.getPath() == datei.pfad);
-          _fileSaver.saveFile('${datei.id}', localFile);
+          _fileSaver.saveFile('${datei.id}', datei.localFile);
         }
 
         for (var abgabedatei in einzigartigBenannteDateien) {
           var hochladeneDatei = HochladeneLokaleAbgabedatei(
               abgabedatei, Fortschritt.nichtGestartet());
-          final aktuelleDateien = _hochladeneDateien.value.add(hochladeneDatei);
+          final aktuelleDateien =
+              _hochladeneDateien.valueOrNull.add(hochladeneDatei);
           _hochladeneDateien.add(aktuelleDateien);
 
           _dateiUploader.ladeDateiHoch(abgabedatei).listen((_datei) {
-            final neu = _hochladeneDateien.value.replace(_datei);
+            final neu = _hochladeneDateien.valueOrNull.replace(_datei);
             _hochladeneDateien.add(neu);
           });
         }
@@ -240,16 +240,16 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   ///
   /// Die [fileId] kann von der [FileView] gelesen werden.
   Function(String fileId) get removeSubmissionFile => (fileId) async {
-        final file = _hochladeneDateien.value.firstWhere(
+        final file = _hochladeneDateien.valueOrNull.firstWhere(
           (datei) => '${datei.id}' == fileId,
           orElse: () => null,
         );
         if (file != null) {
-          final neu = _hochladeneDateien.value.rebuild(
+          final neu = _hochladeneDateien.valueOrNull.rebuild(
               (files) => files.removeWhere((datei) => '${datei.id}' == fileId));
           _hochladeneDateien.add(neu);
         }
-        final abgabeSnapshot = _aktuelleAbgabe.value;
+        final abgabeSnapshot = _aktuelleAbgabe.valueOrNull;
         if (abgabeSnapshot.existiertAbgabe) {
           final abgabe = abgabeSnapshot.abgabe.value;
           final hatDateiMitId = abgabe.abgabedateien
@@ -276,7 +276,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   /// hochgeladenen Dateien aufgerufen werden.
   /// Ansonsten ist das Verhalten undefiniert.
   Future<void> renameFile(String fileId, String newBasename) async {
-    final abgabeSnapshot = _aktuelleAbgabe.value;
+    final abgabeSnapshot = _aktuelleAbgabe.valueOrNull;
     if (abgabeSnapshot.existiertAbgabe) {
       final abgabe = abgabeSnapshot.abgabe.value;
       final datei = abgabe.abgabedateien.firstWhere(
@@ -415,7 +415,8 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
           name: datei.name,
           dateigroesse: datei.dateigroesse,
           erstellungsdatum: datei.erstellungsdatum,
-          pfad: datei.pfad,
+          pfad: datei.pfad.orElse(null),
+          localFile: datei.localFile,
         );
 
   @override

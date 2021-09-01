@@ -29,11 +29,11 @@ class MoveFileBloc extends BlocBase {
     if (canMoveFile(await fileSharingGateway.folderGateway
         .getFilesharingData(cloudFile.courseID)))
       fileSharingGateway.cloudFilesGateway
-          .moveFile(cloudFile, _newPathSubject.value);
+          .moveFile(cloudFile, _newPathSubject.valueOrNull);
   }
 
   bool canMoveFile(FileSharingData fileSharingData) {
-    final _pathValue = _newPathSubject.value;
+    final _pathValue = _newPathSubject.valueOrNull;
     if (_pathValue == cloudFile.path) return false;
     if (fileSharingData.getFolder(_pathValue) == null) return false;
 

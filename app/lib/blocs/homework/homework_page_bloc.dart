@@ -103,7 +103,7 @@ class HomeworkPageBloc extends BlocBase {
   }
 
   Future<void> checkAllOverdueHomeworks() async {
-    List<HomeworkDto> homeworkNotDone = _homeworkNotDoneSubject.value;
+    List<HomeworkDto> homeworkNotDone = _homeworkNotDoneSubject.valueOrNull;
     if (homeworkNotDone != null && homeworkNotDone.isNotEmpty) {
       for (HomeworkDto homework in homeworkNotDone) {
         final DateTime homeworkDateTime = DateTime(homework.todoUntil.year,

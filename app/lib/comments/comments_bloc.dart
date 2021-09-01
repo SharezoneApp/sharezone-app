@@ -122,7 +122,7 @@ class CommentsBloc extends BlocBase {
   }
 
   CommentStatus _searchOldStatus(String commentId) {
-    return _commentsSubject.value
+    return _commentsSubject.valueOrNull
         .firstWhere((comment) => comment.id == commentId)
         .status;
   }

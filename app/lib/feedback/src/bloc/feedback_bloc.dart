@@ -71,15 +71,16 @@ class FeedbackBloc extends BlocBase {
       throw CooldownException(
           "User has not yet exeeded the cooldown.", feedbackCooldown);
 
-    final isAnonymous = _isAnonymousSubject.value;
+    final isAnonymous = _isAnonymousSubject.valueOrNull;
 
-    final rating = _ratingSubject.value;
-    final likes = _likeSubject.value;
-    final dislikes = _dislikeSubject.value;
-    final missing = _missingSubject.value;
-    final heardFrom = _heardFromSubject.value;
+    final rating = _ratingSubject.valueOrNull;
+    final likes = _likeSubject.valueOrNull;
+    final dislikes = _dislikeSubject.valueOrNull;
+    final missing = _missingSubject.valueOrNull;
+    final heardFrom = _heardFromSubject.valueOrNull;
     final uid = isAnonymous ? "" : this.uid;
-    final userContactInformation = isAnonymous ? "" : _contactOptions.value;
+    final userContactInformation =
+        isAnonymous ? "" : _contactOptions.valueOrNull;
 
     await _platformInformationRetreiver.init();
 

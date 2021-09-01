@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  test: ^1.6.0
-  url_launcher: ^5.7.10
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: any

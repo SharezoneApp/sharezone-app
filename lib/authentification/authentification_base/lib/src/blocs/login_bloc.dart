@@ -29,15 +29,15 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
       Rx.combineLatest2(email, password, (e, p) => true);
 
   Future<void> submit() async {
-    if (!isEmptyOrNull(_emailSubject.value)) {
-      if (!isEmptyOrNull(_passwordSubject.value)) {
+    if (!isEmptyOrNull(_emailSubject.valueOrNull)) {
+      if (!isEmptyOrNull(_passwordSubject.valueOrNull)) {
         try {
           await submitValid.first;
         } catch (e) {
           throw IncorrectDataException();
         }
-        final validEmail = _emailSubject.value;
-        final validPassword = _passwordSubject.value;
+        final validEmail = _emailSubject.valueOrNull;
+        final validPassword = _passwordSubject.valueOrNull;
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: validEmail, password: validPassword);
         _analytics.logEmailAndPasswordLogin();

@@ -117,11 +117,10 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                           : Padding(
                               padding: const EdgeInsets.only(bottom: 12),
                               child: ContinueRoundButton(
-                                tooltip: 'Weiter',
-                                onTap: isValid
-                                    ? () => onSubmit(context, name)
-                                    : null
-                              ),
+                                  tooltip: 'Weiter',
+                                  onTap: isValid
+                                      ? () => onSubmit(context, name)
+                                      : null),
                             ),
                     ),
                   ),

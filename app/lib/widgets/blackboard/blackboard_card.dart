@@ -222,7 +222,7 @@ class _Text extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: MarkdownBody(
         data: text,
-        onTapLink: (url) => launchURL(url),
+        onTapLink: (url, _, __) => launchURL(url),
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(
@@ -280,15 +280,17 @@ class BottomActionBar extends StatelessWidget {
         child: Row(
           children: <Widget>[
             // if (withDetailsButton)
-            //   FlatButton(
+            //   TextButton(
             //     child: const Text('DETAILS'),
             //     textColor: Theme.of(context).primaryColor,
             //     onPressed: () => openDetails(context, view, bloc),
             //   ),
             if (!view.isAuthor && !view.isRead)
-              FlatButton(
+              TextButton(
                 child: const Text('ALS GELESEN MARKIEREN'),
-                textColor: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                ),
                 onPressed: () {
                   analytics.log(NamedAnalyticsEvent(name: "blackboard_read"));
                   bloc.changeReadState(true);

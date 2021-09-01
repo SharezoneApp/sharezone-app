@@ -102,15 +102,15 @@ extension ThemeExt on BuildContext {
 extension ScaffoldExt on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
           SnackBar snackbar) =>
-      Scaffold.of(this).showSnackBar(snackbar);
+      ScaffoldMessenger.of(this).showSnackBar(snackbar);
 
   void removeCurrentSnackBar(
           {SnackBarClosedReason reason = SnackBarClosedReason.remove}) =>
-      Scaffold.of(this).removeCurrentSnackBar(reason: reason);
+      ScaffoldMessenger.of(this).removeCurrentSnackBar(reason: reason);
 
   void hideCurrentSnackBar(
           {SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
-      Scaffold.of(this).hideCurrentSnackBar(reason: reason);
+      ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
 
   void openDrawer() => Scaffold.of(this).openDrawer();
 

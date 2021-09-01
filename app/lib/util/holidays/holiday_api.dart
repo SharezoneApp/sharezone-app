@@ -92,7 +92,7 @@ class HolidayApi {
   ///
   Future<List<dynamic>> _getHolidayAPIResponse(
       int year, String stateCode) async {
-    String apiURL = getApiUrl(stateCode, year);
+    Uri apiURL = getApiUrl(stateCode, year);
     final response = await httpClient.get(apiURL);
     if (response.statusCode == 200) {
       // If okay
@@ -119,7 +119,8 @@ class HolidayApi {
     }
   }
 
-  static String getApiUrl(String stateCode, int year) => PlatformCheck.isWeb
-      ? "https://cors-anywhere.herokuapp.com/https://ferien-api.de/api/v1/holidays/$stateCode/$year"
-      : "https://ferien-api.de/api/v1/holidays/$stateCode/$year";
+  static Uri getApiUrl(String stateCode, int year) => PlatformCheck.isWeb
+      ? Uri.parse(
+          "https://cors-anywhere.herokuapp.com/https://ferien-api.de/api/v1/holidays/$stateCode/$year")
+      : Uri.parse("https://ferien-api.de/api/v1/holidays/$stateCode/$year");
 }

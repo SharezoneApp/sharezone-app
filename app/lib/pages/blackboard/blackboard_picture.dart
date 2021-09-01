@@ -70,9 +70,11 @@ class _PictureBox extends StatelessWidget {
               content: const Text(
                   "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!"),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: const Text("OK"),
-                  textColor: Theme.of(context).primaryColor,
+                  style: TextButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 )
               ],

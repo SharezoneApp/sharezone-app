@@ -71,8 +71,10 @@ class _SignOutButton extends StatelessWidget {
     final bloc = BlocProvider.of<MissingAccountInformationGuardBloc>(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-      child: FlatButton(
-        textColor: Theme.of(context).errorColor,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          primary: Theme.of(context).errorColor,
+        ),
         onPressed: bloc.logOut,
         child: const Text("ABMELDEN"),
       ),

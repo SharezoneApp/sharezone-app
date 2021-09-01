@@ -26,21 +26,23 @@ Future<bool> showConfirmDialog(
             mainAxisSize: MainAxisSize.min,
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context, false);
               },
               child: Text("Abbrechen".toUpperCase()),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context, true);
               },
               child: Text(action.toUpperCase()),
-              color: Colors.redAccent,
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              ),
             ),
           ],
         );

@@ -76,7 +76,7 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool isTimeValid() {
-    return _timeTypeSubject.value == TimeType.individual
+    return _timeTypeSubject.valueOrNull == TimeType.individual
         ? isStartTimeValid() && isEndTimeValid()
         : isPeriodValid();
   }
@@ -92,7 +92,7 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool isPeriodValid() {
-    if (!isPeriodEmpty()) return _periodSubject.value.validate();
+    if (!isPeriodEmpty()) return _periodSubject.valueOrNull.validate();
     return false;
   }
 
@@ -108,14 +108,14 @@ class TimetableAddBloc extends BlocBase {
 
   Lesson submit(TabController controller) {
     if (_isValid(controller)) {
-      final course = _courseSegmentSubject.value;
-      final startTime = _startTimeSubject.value;
-      final endTime = _endTimeSubject.value;
-      final room = _roomSubject.value;
-      final weekDay = _weekDaySubject.value;
-      final weekType = _weekTypeSubject.value ?? WeekType.always;
-      final period = _periodSubject.value;
-      final timeType = _timeTypeSubject.value;
+      final course = _courseSegmentSubject.valueOrNull;
+      final startTime = _startTimeSubject.valueOrNull;
+      final endTime = _endTimeSubject.valueOrNull;
+      final room = _roomSubject.valueOrNull;
+      final weekDay = _weekDaySubject.valueOrNull;
+      final weekType = _weekTypeSubject.valueOrNull ?? WeekType.always;
+      final period = _periodSubject.valueOrNull;
+      final timeType = _timeTypeSubject.valueOrNull;
       print(
           "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
 
@@ -152,12 +152,12 @@ class TimetableAddBloc extends BlocBase {
     controller.animateTo(0);
   }
 
-  bool isStartTimeEmpty() => _startTimeSubject.value == null;
-  bool isEndTimeEmpty() => _endTimeSubject.value == null;
-  bool isPeriodEmpty() => _periodSubject.value == null;
+  bool isStartTimeEmpty() => _startTimeSubject.valueOrNull == null;
+  bool isEndTimeEmpty() => _endTimeSubject.valueOrNull == null;
+  bool isPeriodEmpty() => _periodSubject.valueOrNull == null;
 
   bool _isCourseValid(TabController controller) {
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.value);
+    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       _animateBackToCourseTab(controller);
       throw InvalidCourseException();
@@ -176,12 +176,12 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool _isIndividualType() {
-    final _timeType = _timeTypeSubject.value;
+    final _timeType = _timeTypeSubject.valueOrNull;
     return _timeType == TimeType.individual;
   }
 
   bool _isPeriodValid([TabController controller]) {
-    final validatorPeriod = NotNullValidator(_periodSubject.value);
+    final validatorPeriod = NotNullValidator(_periodSubject.valueOrNull);
     if (!validatorPeriod.isValid()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -192,7 +192,7 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool _isStartTimeValid([TabController controller]) {
-    final validatorStartTime = NotNullValidator(_startTimeSubject.value);
+    final validatorStartTime = NotNullValidator(_startTimeSubject.valueOrNull);
     if (!validatorStartTime.isValid()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -203,7 +203,7 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool _isEndTimeValid([TabController controller]) {
-    final validatorEndTime = NotNullValidator(_endTimeSubject.value);
+    final validatorEndTime = NotNullValidator(_endTimeSubject.valueOrNull);
     if (!validatorEndTime.isValid()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -214,7 +214,7 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool _isWeekDayValid(TabController controller) {
-    final validatorWeekDay = NotNullValidator(_weekDaySubject.value);
+    final validatorWeekDay = NotNullValidator(_weekDaySubject.valueOrNull);
     if (!validatorWeekDay.isValid()) {
       _animateBackToWeekDay(controller);
       throw InvalidWeekDayException();
@@ -223,8 +223,8 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool isStartBeforeEnd() {
-    final startTime = _startTimeSubject.value;
-    final endTime = _endTimeSubject.value;
+    final startTime = _startTimeSubject.valueOrNull;
+    final endTime = _endTimeSubject.valueOrNull;
     if (startTime != null && endTime != null) {
       return startTime.isBefore(endTime);
     }

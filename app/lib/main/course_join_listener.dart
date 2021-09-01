@@ -32,7 +32,7 @@ class CourseJoinListener extends StatelessWidget {
               showSimpleNotification(
                 Text('Du bist der Gruppe bereits beigetreten!'),
                 autoDismiss: true,
-                slideDismiss: true,
+                slideDismissDirection: DismissDirection.horizontal,
                 trailing: Icon(Icons.error_outline, color: Colors.red),
                 leading: Icon(Icons.link),
               );
@@ -54,7 +54,7 @@ class CourseJoinListener extends StatelessWidget {
         showSimpleNotification(
           Text("$sharecode beitreten..."),
           autoDismiss: true,
-          slideDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
           trailing: SizedBox(
               height: 25,
               width: 25,
@@ -72,7 +72,7 @@ class CourseJoinListener extends StatelessWidget {
                   ? 'Du bist dem Kurs "${groupname ?? "???"}" beigetreten'
                   : 'Du bist der Klasse "${groupname ?? "???"}" beigetreten'),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               trailing: Icon(Icons.check, color: Colors.lightGreen),
               leading: Icon(Icons.link),
             );
@@ -81,7 +81,7 @@ class CourseJoinListener extends StatelessWidget {
               Text(
                   'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.'),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               trailing: const Icon(Icons.error, color: Colors.red),
               leading: const Icon(Icons.link),
               duration: const Duration(seconds: 3),

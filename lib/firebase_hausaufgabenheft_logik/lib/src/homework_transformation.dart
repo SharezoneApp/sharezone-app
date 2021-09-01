@@ -10,8 +10,8 @@ import 'homework_dto.dart';
 
 typedef CourseColorRetreiver = FutureOr<int> Function(String courseId);
 
-class HomeworkTransformer
-    extends StreamTransformerBase<QuerySnapshot, List<HomeworkReadModel>> {
+class HomeworkTransformer extends StreamTransformerBase<
+    QuerySnapshot<Map<String, dynamic>>, List<HomeworkReadModel>> {
   final String userId;
   final CourseColorRetreiver getCourseColorHexValue;
 

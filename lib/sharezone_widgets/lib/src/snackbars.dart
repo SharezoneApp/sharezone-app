@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
-void snackbarSoon({BuildContext context, GlobalKey<ScaffoldState> key}) {
+void snackbarSoon(
+    {BuildContext context, GlobalKey<ScaffoldMessengerState> key}) {
   showSnackSec(
       text: "Diese Funktion ist bald verfügbar! 😊",
       seconds: 3,
@@ -14,7 +15,7 @@ void snackbarSoon({BuildContext context, GlobalKey<ScaffoldState> key}) {
 /// Snackbars absolut kacke aus ._. Deswegen wird dann für diesen Fall das
 /// [behavior] auf fixed gewechselt.
 void showDataArrivalConfirmedSnackbar(
-    {GlobalKey<ScaffoldState> key,
+    {GlobalKey<ScaffoldMessengerState> key,
     BuildContext context,
     SnackBarBehavior behavior = SnackBarBehavior.fixed}) {
   showSnack(
@@ -67,7 +68,7 @@ void showSnackSec({
   String text,
   int seconds = 3,
   BuildContext context,
-  GlobalKey<ScaffoldState> key,
+  GlobalKey<ScaffoldMessengerState> key,
   bool withLoadingCircle = false,
   SnackBarAction action,
   bool hideCurrentSnackBar = true,
@@ -89,13 +90,14 @@ void showSnack({
   String text,
   Duration duration = const Duration(seconds: 3),
   BuildContext context,
-  GlobalKey<ScaffoldState> key,
+  GlobalKey<ScaffoldMessengerState> key,
   bool withLoadingCircle = false,
   SnackBarAction action,
   bool hideCurrentSnackBar = true,
   SnackBarBehavior behavior = SnackBarBehavior.floating,
 }) {
-  assert(context != null || key != null, 'A snackbar needs a context or a key!');
+  assert(
+      context != null || key != null, 'A snackbar needs a context or a key!');
 
   final snackBar = SnackBar(
     content: Row(
@@ -110,7 +112,7 @@ void showSnack({
               child: AccentColorCircularProgressIndicator(),
             ),
           ),
-        if(text != null) Flexible(child: Text(text)),
+        if (text != null) Flexible(child: Text(text)),
       ],
     ),
     duration: duration,
@@ -127,8 +129,9 @@ void showSnack({
     }
   } else if (context != null) {
     try {
-      if (hideCurrentSnackBar) Scaffold.of(context).removeCurrentSnackBar();
-      Scaffold.of(context).showSnackBar(snackBar);
+      if (hideCurrentSnackBar)
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       print(
           "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");

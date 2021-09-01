@@ -48,7 +48,7 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
     return StreamBuilder<NavigationExperimentOption>(
       stream: navigationCache.currentNavigation,
-      initialData: navigationCache.currentNavigation.value,
+      initialData: navigationCache.currentNavigation.valueOrNull,
       builder: (context, snapshot) {
         final option = snapshot.data ?? NavigationExperimentOption.drawerAndBnb;
         final isOldNav = option == NavigationExperimentOption.drawerAndBnb;

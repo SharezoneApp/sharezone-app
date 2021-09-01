@@ -70,7 +70,7 @@ class _ChangeToPeriodButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
-    return FlatButton(
+    return TextButton(
       child: Text(
         "Alternativ kannst du auch eine Stunde auswählen",
         textAlign: TextAlign.center,
@@ -84,7 +84,7 @@ class _ChangeToIndividualButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
-    return FlatButton(
+    return TextButton(
       child: Text(
         "Alternativ kannst du auch individuell die Uhrzeit festlegen",
         textAlign: TextAlign.center,

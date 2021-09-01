@@ -41,7 +41,8 @@ void _showConfirmationSnackbar(BuildContext context) {
 }
 
 Future<void> _submit(BuildContext context,
-    {UserEditPageBloc bloc, GlobalKey<ScaffoldState> scaffoldKey}) async {
+    {UserEditPageBloc bloc,
+    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
   bloc ??= BlocProvider.of<UserEditPageBloc>(context);
   showSnackSec(
     context: context,
@@ -97,7 +98,7 @@ class _UserEditPageState extends State<UserEditPage> {
     );
   }
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {

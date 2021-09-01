@@ -68,7 +68,8 @@ class TimetableAddEventBloc extends BlocBase {
   Function(String) get changePlace => _placeSubject.sink.add;
   Function(String) get changeTitle => _titleSubject.sink.add;
   Function(Date) get changeDate => _dateSubject.sink.add;
-  Function(CalendricalEventType) get changeEventType => _eventTypeSubject.sink.add;
+  Function(CalendricalEventType) get changeEventType =>
+      _eventTypeSubject.sink.add;
   Function(String) get changeDetail => _detailSubject.sink.add;
   Function(bool) get changeSendNotification =>
       _sendNotificationSubject.sink.add;
@@ -77,7 +78,7 @@ class TimetableAddEventBloc extends BlocBase {
   Future<void>
       _calculateEndTimeAndAddToStreamIfStartTimeIsNotGivenAndLessonsLengthIsGiven(
           Time startTime) async {
-    if (_endTimeSubject.value == null) {
+    if (_endTimeSubject.valueOrNull == null) {
       final lessonsLength = await cache.streamLessonLength().first;
       if (lessonsLength.isValid) {
         final endTime =
@@ -90,7 +91,7 @@ class TimetableAddEventBloc extends BlocBase {
   Future<void>
       _calculateStartTimeAndAddToStreamIfEndTimeIsNotAndIfLessonsLengthIsGiven(
           Time endTime) async {
-    if (_startTimeSubject.value == null) {
+    if (_startTimeSubject.valueOrNull == null) {
       final lessonsLength = await cache.streamLessonLength().first;
       if (lessonsLength.isValid) {
         final startTime =
@@ -147,15 +148,15 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
 
   CalendricalEvent submit(TabController controller) {
     if (_isValid(controller)) {
-      final course = _courseSegmentSubject.value;
-      final startTime = _startTimeSubject.value;
-      final endTime = _endTimeSubject.value;
-      final place = _placeSubject.value;
-      final date = _dateSubject.value;
-      final title = _titleSubject.value;
-      final eventType = _eventTypeSubject.value;
-      final detail = _detailSubject.value;
-      final sendNotification = _sendNotificationSubject.value;
+      final course = _courseSegmentSubject.valueOrNull;
+      final startTime = _startTimeSubject.valueOrNull;
+      final endTime = _endTimeSubject.valueOrNull;
+      final place = _placeSubject.valueOrNull;
+      final date = _dateSubject.valueOrNull;
+      final title = _titleSubject.valueOrNull;
+      final eventType = _eventTypeSubject.valueOrNull;
+      final detail = _detailSubject.valueOrNull;
+      final sendNotification = _sendNotificationSubject.valueOrNull;
       print(
           "isValid: true; ${course.toString()}; $startTime; $endTime; $place $date $sendNotification");
 
@@ -200,11 +201,11 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     controller.animateTo(0);
   }
 
-  bool isStartTimeEmpty() => _startTimeSubject.value == null;
-  bool isEndTimeEmpty() => _endTimeSubject.value == null;
+  bool isStartTimeEmpty() => _startTimeSubject.valueOrNull == null;
+  bool isEndTimeEmpty() => _endTimeSubject.valueOrNull == null;
 
   bool _isCourseValid(TabController controller) {
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.value);
+    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       _animateBackToCourseTab(controller);
       throw InvalidCourseException();
@@ -213,7 +214,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
   }
 
   bool _isStartTimeValid([TabController controller]) {
-    final validatorStartTime = NotNullValidator(_startTimeSubject.value);
+    final validatorStartTime = NotNullValidator(_startTimeSubject.valueOrNull);
     if (!validatorStartTime.isValid()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -224,7 +225,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
   }
 
   bool _isEndTimeValid([TabController controller]) {
-    final validatorEndTime = NotNullValidator(_endTimeSubject.value);
+    final validatorEndTime = NotNullValidator(_endTimeSubject.valueOrNull);
     if (!validatorEndTime.isValid()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -235,7 +236,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
   }
 
   bool _isDateValid(TabController controller) {
-    final validatorDate = NotNullValidator(_dateSubject.value);
+    final validatorDate = NotNullValidator(_dateSubject.valueOrNull);
     if (!validatorDate.isValid()) {
       _animateBackToDate(controller);
       throw InvalidDateException();
@@ -244,7 +245,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
   }
 
   bool _isTitleValid(TabController controller) {
-    final validatorDate = NotNullValidator(_titleSubject.value);
+    final validatorDate = NotNullValidator(_titleSubject.valueOrNull);
     if (!validatorDate.isValid()) {
       _animateBackToTitle(controller);
       throw InvalidTitleException();
@@ -253,8 +254,8 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
   }
 
   bool isStartBeforeEnd() {
-    final startTime = _startTimeSubject.value;
-    final endTime = _endTimeSubject.value;
+    final startTime = _startTimeSubject.valueOrNull;
+    final endTime = _endTimeSubject.valueOrNull;
     if (startTime != null && endTime != null) {
       return startTime.isBefore(endTime);
     }

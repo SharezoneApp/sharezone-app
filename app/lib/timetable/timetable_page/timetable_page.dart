@@ -61,7 +61,7 @@ class TimetablePage extends StatelessWidget {
                 builder: (context, snapshot) {
                   final groupInfos = snapshot.data ?? {};
                   return StreamBuilder<List<Lesson>>(
-                    initialData: bloc.lessons.value,
+                    initialData: bloc.lessons.valueOrNull,
                     stream: bloc.lessons,
                     builder: (context, snapshot) {
                       final lessons = snapshot.data ?? <Lesson>[];
@@ -131,7 +131,8 @@ class TimeTableUnit extends StatelessWidget {
         return StreamBuilder<List<CalendricalEvent>>(
           stream: bloc.events(startOfWeek, endDate: endDate),
           builder: (context, snapshot) {
-            final events = snapshot.hasData ? snapshot.data : <CalendricalEvent>[];
+            final events =
+                snapshot.hasData ? snapshot.data : <CalendricalEvent>[];
             final builder = TimetableBuilder(
               filteredLessonsList,
               daysList,

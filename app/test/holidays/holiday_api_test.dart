@@ -15,34 +15,33 @@ void main() {
 
   test("If Api gets valid data returns Holidays", () {
     HolidayApi api = apiWithHttpReponse(validResponse);
-    expect(api.load(0, state),
-        completion(TypeMatcher<List<Holiday>>()));
+    expect(api.load(0, state), completion(TypeMatcher<List<Holiday>>()));
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
     HolidayApi api = apiWithHttpReponse(invalidResponse);
-    expect(api.load(0, state),
-        throwsA(TypeMatcher<ApiResponseException>()));
+    expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
   test('If Api gets empty response gives back empty list', () {
     HolidayApi api = apiWithHttpReponse(emptyResponse);
-    expect(api.load(0,state), completion([]));
+    expect(api.load(0, state), completion([]));
   });
 
   test('Api gets called for correct year', () async {
     HttpClientMock httpClient = HttpClientMock();
     HolidayApi api = HolidayApi(httpClient);
     int expectedYear = DateTime.now().year;
-    String expectedUrl = HolidayApi.getApiUrl("NW", expectedYear);
-    
+    Uri expectedUrl = HolidayApi.getApiUrl("NW", expectedYear);
+
     when(httpClient.get(any)).thenThrow(Exception("Should not get called"));
-    when(httpClient.get(expectedUrl)).thenAnswer((_) => Future.value(validResponse));
+    when(httpClient.get(expectedUrl))
+        .thenAnswer((_) => Future.value(validResponse));
 
     await api.load(0, state);
     verify(httpClient.get(expectedUrl)).called(1);
   });
   test('If a response is empty still returns other valid years', () {
-    String urlThisYearRequest = HolidayApi.getApiUrl("NW", DateTime.now().year);
+    Uri urlThisYearRequest = HolidayApi.getApiUrl("NW", DateTime.now().year);
 
     HttpClientMock httpClient = HttpClientMock();
     when(httpClient.get(any)).thenAnswer((_) => Future.value(emptyResponse));

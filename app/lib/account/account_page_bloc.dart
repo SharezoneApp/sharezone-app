@@ -14,7 +14,7 @@ import 'package:sharezone_common/api_errors.dart';
 enum LinkAction { credentialAlreadyInUse, finished }
 
 class AccountPageBloc extends BlocBase {
-  final GlobalKey<ScaffoldState> globalKey;
+  final GlobalKey<ScaffoldMessengerState> globalKey;
   final LinkProviderGateway linkProviderGateway;
   final UserGateway userGateway;
 

@@ -229,55 +229,55 @@ class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
 
   @override
   Future<bool> setBool(String key, bool value) {
-    storedValues.value[key] = value;
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull[key] = value;
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> setInt(String key, int value) {
-    storedValues.value[key] = value;
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull[key] = value;
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> setDouble(String key, double value) {
-    storedValues.value[key] = value;
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull[key] = value;
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> setString(String key, String value) {
-    storedValues.value[key] = value;
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull[key] = value;
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> setStringList(String key, List<String> values) {
-    storedValues.value[key] = values;
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull[key] = values;
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> clear(String key) {
-    storedValues.value.clear();
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull.clear();
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> remove(String key) {
-    storedValues.value.remove(key);
-    storedValues.add(storedValues.value);
+    storedValues.valueOrNull.remove(key);
+    storedValues.add(storedValues.valueOrNull);
     return Future.value(true);
   }
 
   @override
   Future<bool> containsKey(String key) async {
-    return storedValues.value.containsKey(key);
+    return storedValues.valueOrNull.containsKey(key);
   }
 }

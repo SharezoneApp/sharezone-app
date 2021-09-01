@@ -87,13 +87,13 @@ class TimetableEditBloc extends BlocBase {
 
   void submit() {
     if (_isValid()) {
-      final course = _courseSegmentSubject.value;
-      final startTime = _startTimeSubject.value;
-      final endTime = _endTimeSubject.value;
-      final room = _roomSubject.value;
-      final weekDay = _weekDaySubject.value;
-      final weekType = _weekTypeSubject.value;
-      final period = _periodSubject.value;
+      final course = _courseSegmentSubject.valueOrNull;
+      final startTime = _startTimeSubject.valueOrNull;
+      final endTime = _endTimeSubject.valueOrNull;
+      final room = _roomSubject.valueOrNull;
+      final weekDay = _weekDaySubject.valueOrNull;
+      final weekType = _weekTypeSubject.valueOrNull;
+      final period = _periodSubject.valueOrNull;
 
       print(
           "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
@@ -113,11 +113,11 @@ class TimetableEditBloc extends BlocBase {
     }
   }
 
-  bool isStartTimeEmpty() => _startTimeSubject.value == null;
-  bool isEndTimeEmpty() => _endTimeSubject.value == null;
+  bool isStartTimeEmpty() => _startTimeSubject.valueOrNull == null;
+  bool isEndTimeEmpty() => _endTimeSubject.valueOrNull == null;
 
   bool _isCourseValid() {
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.value);
+    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       throw InvalidCourseException();
     }
@@ -125,7 +125,7 @@ class TimetableEditBloc extends BlocBase {
   }
 
   bool _isStartTimeValid() {
-    final validatorStartTime = NotNullValidator(_startTimeSubject.value);
+    final validatorStartTime = NotNullValidator(_startTimeSubject.valueOrNull);
     if (!validatorStartTime.isValid()) {
       throw InvalidStartTimeException();
     }
@@ -133,7 +133,7 @@ class TimetableEditBloc extends BlocBase {
   }
 
   bool _isEndTimeValid() {
-    final validatorEndTime = NotNullValidator(_endTimeSubject.value);
+    final validatorEndTime = NotNullValidator(_endTimeSubject.valueOrNull);
     if (!validatorEndTime.isValid()) {
       throw InvalidEndTimeException();
     }
@@ -141,7 +141,7 @@ class TimetableEditBloc extends BlocBase {
   }
 
   bool _isWeekDayValid() {
-    final validatorWeekDay = NotNullValidator(_weekDaySubject.value);
+    final validatorWeekDay = NotNullValidator(_weekDaySubject.valueOrNull);
     if (!validatorWeekDay.isValid()) {
       throw InvalidWeekDayException();
     }
@@ -149,8 +149,8 @@ class TimetableEditBloc extends BlocBase {
   }
 
   bool isStartBeforeEnd() {
-    final startTime = _startTimeSubject.value;
-    final endTime = _endTimeSubject.value;
+    final startTime = _startTimeSubject.valueOrNull;
+    final endTime = _endTimeSubject.valueOrNull;
     if (startTime != null && endTime != null) {
       return startTime.isBefore(endTime);
     }

@@ -18,12 +18,12 @@ class EnabledWeekDaysEditBloc extends BlocBase {
       _weekDaysSubject.sink.add;
 
   Future<void> submit() async {
-    final weekDays = _weekDaysSubject.value;
+    final weekDays = _weekDaysSubject.valueOrNull;
     _userSettingsBloc.updateEnabledWeekDays(weekDays);
   }
 
   Future<void> changeWeekDay(WeekDay weekDay, bool newValue) async {
-    final weekDays = _weekDaysSubject.value;
+    final weekDays = _weekDaysSubject.valueOrNull;
     await _changeEnabledWeekDays(weekDays.copyWith(weekDay, newValue));
   }
 

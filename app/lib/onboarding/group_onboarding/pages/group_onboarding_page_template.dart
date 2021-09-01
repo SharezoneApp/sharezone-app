@@ -70,12 +70,14 @@ class _SkipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         bloc.skipOnboarding();
         Navigator.popUntil(context, ModalRoute.withName('/'));
       },
-      textColor: Theme.of(context).primaryColor,
+      style: TextButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+      ),
       child: Text("Überspringen".toUpperCase()),
     );
   }

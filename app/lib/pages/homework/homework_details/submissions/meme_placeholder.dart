@@ -45,7 +45,7 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
               height: MediaQuery.of(context).size.height * 0.3,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: _controller.value.initialized
+                child: _controller.value.isInitialized
                     ? Center(
                         key: const ValueKey('loaded'),
                         // Wegen einem Bug von Flutter funktioniert ClipRRect + VideoPlayer mit

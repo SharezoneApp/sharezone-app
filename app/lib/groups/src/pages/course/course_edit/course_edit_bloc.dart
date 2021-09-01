@@ -70,16 +70,16 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
   }
 
   String _getSubject() {
-    return _subjectSubject.value;
+    return _subjectSubject.valueOrNull;
   }
 
   Design _getDesign() {
-    return _designSubject.value;
+    return _designSubject.valueOrNull;
   }
 
   String _getAbbreviation() {
     final String subject = _getSubject();
-    String abbreviation = _abbreviationSubject.value;
+    String abbreviation = _abbreviationSubject.valueOrNull;
     if (isEmptyOrNull(abbreviation)) {
       if (subject.length <= 1) {
         abbreviation = subject;
@@ -91,7 +91,7 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
   }
 
   String _getCourseName() {
-    String courseName = _courseNameSubject.value;
+    String courseName = _courseNameSubject.valueOrNull;
     if (isEmptyOrNull(courseName)) {
       courseName = _getSubject();
     }

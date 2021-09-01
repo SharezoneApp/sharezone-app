@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
-import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
-import 'package:flame/flame.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
+
 import 'widgets/about_section.dart';
 import 'widgets/social_media_button.dart';
 import 'widgets/team.dart';
@@ -104,7 +104,7 @@ class _AboutHeader extends StatelessWidget {
           showSimpleNotification(
               Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               leading: Icon(Icons.exposure_zero));
           break;
         }
@@ -112,7 +112,7 @@ class _AboutHeader extends StatelessWidget {
         {
           showSimpleNotification(Text("Sharezone wächst, halte durch"),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               leading: Icon(Icons.exposure_plus_1));
           break;
         }
@@ -121,7 +121,7 @@ class _AboutHeader extends StatelessWidget {
           showSimpleNotification(
               Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               leading: Icon(Icons.exposure_plus_2));
           break;
         }
@@ -131,7 +131,7 @@ class _AboutHeader extends StatelessWidget {
               Text(
                   "Auf gehts, renne und rette dich vor der bösen Hausaufgabenflut."),
               autoDismiss: true,
-              slideDismiss: true,
+              slideDismissDirection: DismissDirection.horizontal,
               leading: Icon(Icons.directions_run));
           tapNotifier.value = 0;
           _openTrexGame(context);
@@ -147,7 +147,7 @@ class _AboutHeader extends StatelessWidget {
   }
 
   Future<void> _openTrexGame(BuildContext context) async {
-    startTrexGame(context, await Flame.images.loadAll(["sprite.png"]));
+    startTrexGame(context);
   }
 }
 
@@ -207,7 +207,7 @@ class _AboutSharezone extends StatelessWidget {
                 styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                     .copyWith(
                         a: linkStyle(context), p: _greyTextStyle(context)),
-                onTapLink: (url) => launchURL(url, context: context),
+                onTapLink: (url, _, __) => launchURL(url, context: context),
               ),
             ],
           ),

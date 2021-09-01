@@ -25,7 +25,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '1.23.0-18.1.pre'
+          flutter-version: "2.2.3"
           channel: 'any'
 
       - name: Activate sz_repo_cli package
@@ -44,7 +44,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '1.23.0-18.1.pre'
+          flutter-version: "2.2.3"
           channel: 'any'
 
       - name: Activate sz_repo_cli package

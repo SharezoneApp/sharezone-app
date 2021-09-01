@@ -223,9 +223,9 @@ class HomeworkGateway {
 
   /// Takes a [QuerySnapshot] and tries to transform the [List] of [DocumentSnapshot] into a [List] of [HomeworkDto].
   /// Every error while deserializing will be added as an [List] of [DeserializeFirestoreDocException] with [sink.addError()] of the [Stream].
-  static final _homeworkTransformer =
-      StreamTransformer<QuerySnapshot, List<HomeworkDto>>.fromHandlers(
-          handleData: (querySnapshot, sink) {
+  static final _homeworkTransformer = StreamTransformer<
+      QuerySnapshot<Map<String, dynamic>>,
+      List<HomeworkDto>>.fromHandlers(handleData: (querySnapshot, sink) {
     List<HomeworkDto> parsedHomeworkList = [];
     List<DeserializeFirestoreDocException> errorList = [];
 

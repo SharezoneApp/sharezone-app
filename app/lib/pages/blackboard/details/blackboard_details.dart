@@ -443,7 +443,7 @@ class _Text extends StatelessWidget {
       //       color: isDarkThemeEnabled(context) ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
-      onTapLink: (url) => launchURL(url, context: context),
+      onTapLink: (url, _, __) => launchURL(url, context: context),
     );
   }
 }

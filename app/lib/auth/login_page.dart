@@ -188,15 +188,15 @@ class _DebugLoginButtons extends StatelessWidget {
       child: SafeArea(
         child: Row(
           children: [
-            FlatButton(
+            TextButton(
               onPressed: () => _loginStudent(context),
               child: const Text("Student"),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () => _loginTeacher(context),
               child: const Text("Teacher"),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () => _loginParent(context),
               child: const Text("Parent"),
             ),
@@ -484,7 +484,7 @@ class _ResetPasswordButton extends StatelessWidget {
       stream: bloc.email,
       builder: (context, snapshot) {
         final email = snapshot.data;
-        return FlatButton(
+        return TextButton(
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(

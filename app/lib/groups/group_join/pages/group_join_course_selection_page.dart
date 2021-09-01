@@ -146,13 +146,15 @@ class _SkipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<GroupJoinSelectCoursesBloc>(context);
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         bloc.skip();
         Navigator.pop(context);
       },
       child: Text("Überspringen".toUpperCase()),
-      textColor: context.primaryColor,
+      style: TextButton.styleFrom(
+        primary: context.primaryColor,
+      ),
     );
   }
 }

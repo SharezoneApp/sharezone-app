@@ -19,7 +19,8 @@ class Imprint {
 
   const Imprint._(this.asMarkdown);
 
-  factory Imprint.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+  factory Imprint.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final markdownData = snapshot.data()['markdownData'];
     return Imprint._(markdownData);
   }

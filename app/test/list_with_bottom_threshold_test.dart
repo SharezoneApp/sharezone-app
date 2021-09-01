@@ -11,7 +11,10 @@ void main() {
     group("given no children", () {
       testWidgets("shows LoadingWidget", (WidgetTester tester) async {
         Widget loadingWidget = CircularProgressIndicator();
-        final list = ListWithBottomThreshold(loadingIndicator: loadingWidget);
+        final list = Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListWithBottomThreshold(loadingIndicator: loadingWidget),
+        );
         await tester.pumpWidget(list);
         expect(find.byWidget(loadingWidget), findsOneWidget);
       });
@@ -19,10 +22,13 @@ void main() {
       testWidgets('fires onThresholdExceeded when no children are passed',
           (WidgetTester tester) async {
         bool fired = false;
-        final list = ListWithBottomThreshold(
-          onThresholdExceeded: () {
-            fired = true;
-          },
+        final list = Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListWithBottomThreshold(
+            onThresholdExceeded: () {
+              fired = true;
+            },
+          ),
         );
         await tester.pumpWidget(list);
         expect(fired, true);
@@ -30,7 +36,10 @@ void main() {
     });
     testWidgets("The default loadingIndicator is a CircularLoadingIndicator",
         (tester) async {
-      await tester.pumpWidget(ListWithBottomThreshold());
+      await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: ListWithBottomThreshold(),
+      ));
       expect(
           find.byWidgetPredicate(
               (widget) => widget is CircularProgressIndicator),
@@ -161,10 +170,13 @@ void main() {
       });
 
       testWidgets("Should not throw if no callback was passed", (tester) async {
-        final list = ListWithBottomThreshold(
-          children: children,
-          loadingIndicator:
-              Container(), // So pumpAndSettle does not wait for an animation to finish.
+        final list = Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListWithBottomThreshold(
+            children: children,
+            loadingIndicator:
+                Container(), // So pumpAndSettle does not wait for an animation to finish.
+          ),
         );
 
         await tester.pumpWidget(list);
@@ -199,10 +211,13 @@ void main() {
       testWidgets(
           "should show the loading indicator if not enough children are in the list to fill the screen",
           (tester) async {
-        final list = ListWithBottomThreshold(
-          children: List.filled(2, container),
-          loadingIndicator: loadingWidget,
-          thresholdHeight: listThreshold,
+        final list = Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListWithBottomThreshold(
+            children: List.filled(2, container),
+            loadingIndicator: loadingWidget,
+            thresholdHeight: listThreshold,
+          ),
         );
 
         await tester.pumpWidget(list);

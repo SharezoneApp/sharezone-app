@@ -62,7 +62,7 @@ class NotificationsBloc extends BlocBase {
       _userGateway.setHomeworkReminderTime(null);
     } else {
       _userGateway.setHomeworkReminderTime(
-          _notificationsTimeForHomeworksSubject.value ?? seedValue);
+          _notificationsTimeForHomeworksSubject.valueOrNull ?? seedValue);
     }
     return;
   }
@@ -82,8 +82,8 @@ class NotificationsBloc extends BlocBase {
   Function(SharezoneTimeOfDay) get changeNotificationsTimeForHomeworks =>
       _changeNotificationTime;
   Future<void> _changeNotificationTime(SharezoneTimeOfDay tod) async {
-    if (_notificationsForHomeworksSubject.value != false &&
-        _notificationsTimeForHomeworksSubject.value != tod) {
+    if (_notificationsForHomeworksSubject.valueOrNull != false &&
+        _notificationsTimeForHomeworksSubject.valueOrNull != tod) {
       await _userGateway.setHomeworkReminderTime(tod);
     }
     return;

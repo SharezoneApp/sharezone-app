@@ -6,9 +6,9 @@ homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   path: any
-  mime: ^0.9.6+3
+  mime: ^1.0.0
   meta: ^1.1.8

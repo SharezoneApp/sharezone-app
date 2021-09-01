@@ -142,9 +142,11 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
             Row(
               children: <Widget>[
                 CancleButton(),
-                FlatButton(
+                TextButton(
                   child: const Text("LÖSCHEN"),
-                  textColor: Theme.of(context).errorColor,
+                  style: TextButton.styleFrom(
+                    primary: Theme.of(context).errorColor,
+                  ),
                   onPressed: confirmedToDeleteAccount
                       ? () => tryToSignOutAndDeleteUser(context)
                       : null,

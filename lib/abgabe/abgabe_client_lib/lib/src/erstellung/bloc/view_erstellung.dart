@@ -19,7 +19,7 @@ extension AbgabedateiToView on Abgabedatei {
 extension HochladeneDateiToView on HochladeneLokaleAbgabedatei {
   FileView toView() => FileView(
         id: '$id',
-        path: pfad,
+        path: pfad.orElse(null),
         basename: name.ohneExtension,
         extentionName: name.nurExtension,
         fileFormat: format,

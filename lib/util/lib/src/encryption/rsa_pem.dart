@@ -200,12 +200,12 @@ class RsaKeyHelper {
     var privateKeySeq = new ASN1Sequence();
     var modulus = ASN1Integer(privateKey.n);
     var publicExponent = ASN1Integer(BigInt.parse('65537'));
-    var privateExponent = ASN1Integer(privateKey.d);
+    var privateExponent = ASN1Integer(privateKey.privateExponent);
     var p = ASN1Integer(privateKey.p);
     var q = ASN1Integer(privateKey.q);
-    var dP = privateKey.d % (privateKey.p - BigInt.from(1));
+    var dP = privateKey.privateExponent % (privateKey.p - BigInt.from(1));
     var exp1 = ASN1Integer(dP);
-    var dQ = privateKey.d % (privateKey.q - BigInt.from(1));
+    var dQ = privateKey.privateExponent % (privateKey.q - BigInt.from(1));
     var exp2 = ASN1Integer(dQ);
     var iQ = privateKey.q.modInverse(privateKey.p);
     var co = ASN1Integer(iQ);

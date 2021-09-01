@@ -33,9 +33,11 @@ class BottomActionBar extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: onTap,
-                      textColor: Theme.of(context).primaryColor,
+                      style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                      ),
                       child: Text(title.toUpperCase()),
                     ),
                   ),

@@ -31,7 +31,7 @@ Future<void> openWeekDaysEditPage(BuildContext context) async {
 
 Future<void> _submit(BuildContext context,
     {EnabledWeekDaysEditBloc bloc,
-    GlobalKey<ScaffoldState> scaffoldKey}) async {
+    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
   bloc ??= BlocProvider.of<EnabledWeekDaysEditBloc>(context);
   try {
     await bloc.submit();
@@ -61,7 +61,7 @@ class _WeekDaysEditPage extends StatefulWidget {
 
 class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
   EnabledWeekDaysEditBloc bloc;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {

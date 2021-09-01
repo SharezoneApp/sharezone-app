@@ -6,7 +6,7 @@ homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   common_domain_models:
@@ -21,6 +21,6 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  test: ^1.14.7
+  test: any
   flutter_test:
     sdk: flutter

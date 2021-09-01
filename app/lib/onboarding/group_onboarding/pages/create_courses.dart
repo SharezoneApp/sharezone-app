@@ -70,9 +70,13 @@ class _CreateCustomCourse extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Headline("Dein Kurs ist nicht dabei?"),
-          RaisedButton(
-            color: Colors.lightBlueAccent,
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.lightBlueAccent,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
@@ -89,8 +93,6 @@ class _CreateCustomCourse extends StatelessWidget {
                 openCourseCreatePage(context);
               }
             },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           )
         ],
       ),

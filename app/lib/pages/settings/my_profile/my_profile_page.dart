@@ -126,9 +126,11 @@ class _EmailTile extends StatelessWidget {
               content: const Text(
                   "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern."),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: const Text("ALLES KLAR"),
-                  textColor: Theme.of(context).primaryColor,
+                  style: TextButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -308,10 +310,12 @@ class SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FlatButton(
+      child: TextButton(
         key: const ValueKey('sign-out-button-E2E'),
         child: Text("Abmelden".toUpperCase()),
-        textColor: Colors.red,
+        style: TextButton.styleFrom(
+          primary: Colors.red,
+        ),
         onPressed: () => signOut(context, isAnonymous),
       ),
     );
@@ -349,11 +353,13 @@ class _DangerButton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: ButtonTheme(
         minWidth: getScreenSize(context).width,
-        child: RaisedButton.icon(
+        child: ElevatedButton.icon(
           icon: icon,
           label: Text(title.toUpperCase()),
-          textColor: Colors.white,
-          color: Colors.redAccent,
+          style: ElevatedButton.styleFrom(
+            primary: Colors.redAccent,
+            onPrimary: Colors.white,
+          ),
           onPressed: onTap,
         ),
       ),
@@ -384,9 +390,11 @@ class _DeleteAccountDialogContentState
     final provider = api.user.authUser.provider;
     return [
       CancleButton(),
-      FlatButton(
+      TextButton(
         child: const Text("LÖSCHEN"),
-        textColor: Theme.of(context).errorColor,
+        style: TextButton.styleFrom(
+          primary: Theme.of(context).errorColor,
+        ),
         onPressed: provider != Provider.email
             ? signOut
                 ? () => tryToDeleteUser(context)

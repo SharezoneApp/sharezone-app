@@ -208,7 +208,7 @@ class _SubmitButton extends StatelessWidget {
   }
 
   void showConfirmationDialog(BuildContext context) {
-    Scaffold.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     showLeftRightAdaptiveDialog(
       context: context,
       title: "E-Mail wurde verschickt",
@@ -226,15 +226,16 @@ class _ResetPasswordBloc extends Object with AuthentificationValidators {
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
 
-  Stream<bool> get submitValid => email != null && _emailSubject.value != ""
-      ? Stream.value(true)
-      : Stream.value(false);
+  Stream<bool> get submitValid =>
+      email != null && _emailSubject.valueOrNull != ""
+          ? Stream.value(true)
+          : Stream.value(false);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
 
   Future<void> submit() async {
     await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: _emailSubject.value);
+        .sendPasswordResetEmail(email: _emailSubject.valueOrNull);
     return;
   }
 

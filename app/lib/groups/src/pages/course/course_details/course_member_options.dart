@@ -165,9 +165,11 @@ class _LeaveCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    return FlatButton(
+    return TextButton(
       child: Text("KURS VERLASSEN"),
-      textColor: Colors.red,
+      style: TextButton.styleFrom(
+        primary: Colors.red,
+      ),
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
@@ -191,9 +193,11 @@ class _KickUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    return FlatButton(
+    return TextButton(
       child: const Text("AUS DEM KURS KICKEN"),
-      textColor: Colors.red,
+      style: TextButton.styleFrom(
+        primary: Colors.red,
+      ),
       onPressed: isAdmin
           ? () {
               Navigator.pop(context);

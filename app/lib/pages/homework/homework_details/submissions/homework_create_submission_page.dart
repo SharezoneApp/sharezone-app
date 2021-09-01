@@ -84,7 +84,7 @@ class _HomeworkUserCreateSubmissionPageState
                     /// [showSubmitButton] false ist und onPressed null sein müsste.
                     /// Deswegen der Workaround für Web.
                     if (!kIsWeb || kIsWeb && showSubmitButton)
-                      FlatButton(
+                      TextButton(
                         child: Text('Abgeben'.toUpperCase()),
                         onPressed: showSubmitButton
                             ? () async {
@@ -433,14 +433,16 @@ class __RenameDialogState extends State<_RenameDialog> {
       ),
       actions: <Widget>[
         CancleButton(),
-        FlatButton(
+        TextButton(
           onPressed: error == null
               ? () {
                   widget.bloc.renameFile(widget.view.id, newName);
                   Navigator.pop(context);
                 }
               : null,
-          textColor: Theme.of(context).primaryColor,
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: const Text("UMBENENNEN"),
         )
       ],

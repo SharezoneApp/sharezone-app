@@ -152,7 +152,7 @@ TeacherHomeworkView randomHomeworkViewWith({
     final randomDay = randomBetween(0, 30);
     final randomMonthNr = randomBetween(0, 12);
     final randomMonth =
-        randomMonthNr < 10 ? '0${randomMonthNr}' : '$randomMonthNr';
+        randomMonthNr < 10 ? '0$randomMonthNr' : '$randomMonthNr';
 
     return '$randomDay.$randomMonth.2021';
   }

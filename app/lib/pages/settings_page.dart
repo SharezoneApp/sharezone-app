@@ -113,7 +113,7 @@ class _AppSettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SettingsSection(
       title: 'App-Einstellungen',
-      children: <Widget>[
+      children: const <Widget>[
         _SettingsOption(
           title: "Mein Konto",
           icon: Icons.account_circle,

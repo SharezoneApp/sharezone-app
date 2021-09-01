@@ -42,7 +42,7 @@ void main() {
     rx.BehaviorSubject<List<HomeworkReadModel>> homeworkSubject;
 
     void addToDataSource(List<HomeworkReadModel> homeworks) {
-      final hws = homeworkSubject.value;
+      final hws = homeworkSubject.valueOrNull;
       if (hws != null) {
         hws.addAll(homeworks);
         homeworkSubject.add(hws);

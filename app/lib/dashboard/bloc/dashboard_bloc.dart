@@ -238,8 +238,8 @@ class DashboardBloc extends BlocBase {
     // Das den folgenden Grund, dass die letze Homework Card noch ausanimiert muss.
     // Würde sofort dem Stream übergeben, dass dieser leer ist, könnte die letzte
     // Hausaufgabe nicht ausanimiert werden.
-    if (subject.value != isListEmpty) {
-      if (subject.value == null && isListEmpty) {
+    if (subject.valueOrNull != isListEmpty) {
+      if (subject.valueOrNull == null && isListEmpty) {
         subject.sink.add(true);
       } else {
         if (isListEmpty) {

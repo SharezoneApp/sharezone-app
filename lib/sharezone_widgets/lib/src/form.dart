@@ -51,13 +51,17 @@ class LeaveEditedFormAlert extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: Text('NEIN!'),
           onPressed: () => Navigator.of(context).pop(false),
         ),
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: Text('JA, VERLASSEN!'),
           onPressed: () => Navigator.of(context).pop(true),
         ),
@@ -132,13 +136,17 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
             InputDecoration(hintText: widget.hint, errorText: errorText),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: const Text("ABBRECHEN"),
-          textColor: Theme.of(context).primaryColor,
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          ),
           child: Text(widget.actionName),
           onPressed: () {
             if (widget.notAllowedChars == null) {

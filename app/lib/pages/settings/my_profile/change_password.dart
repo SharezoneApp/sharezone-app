@@ -78,7 +78,7 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
           onEditingComplete: () async =>
               submit(context, snackBarText, changeType),
           autofocus: false,
-          autofillHints: [AutofillHints.newPassword],
+          autofillHints: const [AutofillHints.newPassword],
           decoration: InputDecoration(
             labelText: 'Neues Passwort',
 //            icon: new Icon(Icons.vpn_key),
@@ -106,9 +106,11 @@ class _ResetPassword extends StatelessWidget {
     final bloc = BlocProvider.of<ChangeDataBloc>(context);
     return Align(
       alignment: Alignment.center,
-      child: FlatButton(
+      child: TextButton(
         child: const Text("Aktuelles Passwort vergessen?"),
-        textColor: Colors.grey[400],
+        style: TextButton.styleFrom(
+          primary: Colors.grey[400],
+        ),
         onPressed: () async {
           bool reset = await showDialog<bool>(
               context: context,
@@ -118,13 +120,17 @@ class _ResetPassword extends StatelessWidget {
                   content: const Text(
                       "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?"),
                   actions: <Widget>[
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                      ),
                       child: const Text("ABBRECHEN"),
                       onPressed: () => Navigator.pop(context, false),
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                      ),
                       child: const Text("JA"),
                       onPressed: () => Navigator.pop(context, true),
                     ),

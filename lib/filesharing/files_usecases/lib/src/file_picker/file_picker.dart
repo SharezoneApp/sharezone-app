@@ -2,7 +2,6 @@ import 'package:files_basics/local_file.dart';
 
 import 'file_picker_implementation.dart';
 import 'implementation/stub_file_picker.dart'
-    // ignore: uri_does_not_exist
     if (dart.library.io) 'implementation/file_picker_mobile.dart'
     if (dart.library.js) 'implementation/file_picker_html.dart'
     as implementation;

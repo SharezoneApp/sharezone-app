@@ -43,7 +43,7 @@ class DynamicLinkOverlay extends StatelessWidget {
               showSimpleNotification(
                   Text("Neuer dynamic Link: \n$einkommenderLink"),
                   autoDismiss: false,
-                  slideDismiss: true,
+                  slideDismissDirection: DismissDirection.horizontal,
                   leading: Icon(Icons.link)));
         }
         return child;

@@ -196,7 +196,8 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       data:
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
                       selectable: true,
-                      onTapLink: (url) => launchURL(url, context: context),
+                      onTapLink: (url, _, __) =>
+                          launchURL(url, context: context),
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(
@@ -272,11 +273,13 @@ class _AddToMyCalendarButton extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
               child: ButtonTheme(
                 minWidth: MediaQuery.of(context).size.width,
-                child: RaisedButton.icon(
+                child: ElevatedButton.icon(
                   icon: const Icon(Icons.add_circle),
                   label: Text("Zu meinem Kalender hinzufügen".toUpperCase()),
-                  textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                    onPrimary: Colors.white,
+                  ),
                   onPressed: () async {
                     final timezone = await _getTimezoneForMobile();
                     final calendarEvent = add_2_calendar.Event(
@@ -298,13 +301,15 @@ class _AddToMyCalendarButton extends StatelessWidget {
                       // Deswegen sollte der Workaround nur auf den Plattformen
                       // angewendet, wo dieser auch benötigt wird (in diesem
                       // Fall iOS).
-                      description: event.detail ?? (PlatformCheck.isIOS ? '' : null),
-                      location: event.place ?? (PlatformCheck.isIOS ? '' : null),
+                      description:
+                          event.detail ?? (PlatformCheck.isIOS ? '' : null),
+                      location:
+                          event.place ?? (PlatformCheck.isIOS ? '' : null),
                       timeZone: timezone,
                     );
 
                     add_2_calendar.Add2Calendar.addEvent2Cal(calendarEvent);
-                    
+
                     _logAddEventToMyCalendarEvent(context);
                   },
                 ),
