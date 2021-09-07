@@ -1,19 +1,12 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
-import 'package:bloc_provider/bloc_provider.dart';
-import 'package:sharezone/notifications/models/push_notification.dart';
-import 'package:sharezone/notifications/push_notification_action.dart';
-import 'package:sharezone/notifications/widgets/in_app_notification.dart';
-import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
-import 'package:sharezone/main.dart';
+import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
 import 'package:sharezone_utils/platform.dart';
+
 import 'logic/navigation_bloc.dart';
 import 'models/navigation_item.dart';
-part 'logic/firebase_messaging_callback_configurator.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({

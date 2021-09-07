@@ -10,10 +10,12 @@ import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
+import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/main/course_join_listener.dart';
 import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/navigation_controller.dart';
+import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
 import 'package:sharezone/pages/blackboard/blackboard_picture.dart';
 import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
@@ -89,6 +91,9 @@ class _SharezoneAppState extends State<SharezoneApp>
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser.uid),
       references: widget.blocDependencies.references,
     );
+
+    final crashAnalytics = getCrashAnalytics();
+    startLoggingRecording(crashAnalytics);
 
     _startLastOnlineReporting();
   }

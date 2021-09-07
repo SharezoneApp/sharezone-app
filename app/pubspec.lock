@@ -1132,6 +1132,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  notifications:
+    dependency: "direct main"
+    description:
+      path: "../lib/notifications"
+      relative: true
+    source: path
+    version: "0.0.1"
   numberpicker:
     dependency: "direct main"
     description:
