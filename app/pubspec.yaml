@@ -153,7 +153,8 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  integration_test: ^1.0.2+2
+  integration_test:
+    sdk: flutter
   mockito: ^4.1.1
   random_string: ^2.0.1
   test: ^1.16.8
