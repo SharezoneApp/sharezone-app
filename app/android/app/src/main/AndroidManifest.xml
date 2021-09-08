@@ -13,7 +13,7 @@
     <uses-permission android:name="com.android.vending.BILLING"/>
 
     <!-- Ignore minSdk by Jitsi Plugin, to run the app with Android 4 and 5 -->
-    <uses-sdk tools:overrideLibrary="com.gunschu.jitsi_meet, org.jitsi.meet.sdk, co.apptailor.googlesignin, com.calendarevents, com.reactnativecommunity.asyncstorage, com.reactnativecommunity.netinfo, com.rnimmersive, com.corbt.keepawake, com.BV.LinearGradient, com.horcrux.svg, com.oney.WebRTCModule, com.ocetnik.timer, com.kevinresol.react_native_default_preference"/>
+    <uses-sdk tools:overrideLibrary="com.gunschu.jitsi_meet, org.jitsi.meet.sdk, co.apptailor.googlesignin, com.calendarevents, com.reactnativecommunity.asyncstorage, com.reactnativecommunity.netinfo, com.rnimmersive, com.corbt.keepawake, com.BV.LinearGradient, com.horcrux.svg, com.oney.WebRTCModule, com.ocetnik.timer, com.kevinresol.react_native_default_preference, com.learnium.RNDeviceInfo"/>
 
     <application android:requestLegacyExternalStorage="true" android:label="@string/app_name" tools:overrideLibrary="com.gunschu.jitsi_meet" android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/statusbar_notification" />
