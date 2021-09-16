@@ -15,6 +15,7 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
+import 'package:sharezone/main.dart';
 import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
@@ -91,7 +92,12 @@ Future runFlutterApp() async {
     functions: firebaseFunctions,
   );
 
-  FlutterError.onError = (error) => flutterErrorHandler(error);
+  // integration_test will not work if we override the FlutterError.onError
+  // handler.
+  // See: https://github.com/flutter/flutter/issues/34499
+  if (!kIsDriverTest) {
+    FlutterError.onError = (error) => flutterErrorHandler(error);
+  }
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 

@@ -48,82 +48,82 @@ void main() {
       await driver.tap(find.byValueKey('sign-out-dialog-action-E2E'));
     });
 
-    test(
-      'can write text message from teacher to student in same course',
-      () async {
-        // - Einloggen mit Lehrer-Account
-        await driver.tap(find.byValueKey('go-to-login-button-E2E'));
+    test('can write text message from teacher to student in same course',
+        () async {
+      // - Einloggen mit Lehrer-Account
+      await driver.tap(find.byValueKey('go-to-login-button-E2E'));
 
-        // Die Account-Daten funktionieren auf dem "sharzone-debug" (--flavor dev)
-        await driver.tap(find.byValueKey('email-text-field-E2E'));
-        await driver.enterText('lehrer1-chat@e2e-test.com');
+      // Die Account-Daten funktionieren auf dem "sharzone-debug" (--flavor dev)
+      await driver.tap(find.byValueKey('email-text-field-E2E'));
+      await driver.enterText('lehrer1-chat@e2e-test.com');
 
-        await driver.tap(find.byValueKey('password-text-field-E2E'));
-        await driver.enterText('12345678');
-        await driver.tap(find.byValueKey('login-button-E2E'));
+      await driver.tap(find.byValueKey('password-text-field-E2E'));
+      await driver.enterText('12345678');
+      await driver.tap(find.byValueKey('login-button-E2E'));
 
-        // - Zum Chat mit Schüler gehen
-        await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
-        await driver.tap(find.byValueKey('chats-page'));
-        await driver.tap(find.byValueKey('chat-list-tile-E2E'));
+      // - Zum Chat mit Schüler gehen
+      await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
+      await driver.tap(find.byValueKey('chats-page'));
+      await driver.tap(find.byValueKey('chat-list-tile-E2E'));
 
-        // - Nachricht schreiben
+      // - Nachricht schreiben
 
-        final rdm = randomAlpha(10);
-        final msg = 'Hallo Roboter🤖 $rdm';
+      final rdm = randomAlpha(10);
+      final msg = 'Hallo Roboter🤖 $rdm';
 
-        await driver.tap(find.byValueKey('write-message-text-field-E2E'));
-        await driver.enterText(msg);
-        // Es muss gewartet werden, weil ansonsten der "Senden"-FAB noch
-        // deaktiviert ist, vermutlich weil der StreamBuilder nicht schnell
-        // genug ist.
-        await Future.delayed(Duration(milliseconds: 250));
-        await driver.tap(find.byValueKey('write-message-send-button-E2E'));
+      await driver.tap(find.byValueKey('write-message-text-field-E2E'));
+      await driver.enterText(msg);
+      // Es muss gewartet werden, weil ansonsten der "Senden"-FAB noch
+      // deaktiviert ist, vermutlich weil der StreamBuilder nicht schnell
+      // genug ist.
+      await Future.delayed(Duration(milliseconds: 250));
+      await driver.tap(find.byValueKey('write-message-send-button-E2E'));
 
-        // - Überprüfen, dass die Nachricht gesendet wurdes
+      // - Überprüfen, dass die Nachricht gesendet wurdes
 
-        await driver.waitFor(find.text(msg));
+      await driver.waitFor(find.text(msg));
 
-        // - Ausloggen
+      // - Ausloggen
 
-        await driver.tap(find.pageBack());
-        await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
-        await driver.tap(find.byValueKey('account-drawer-tile-E2E'));
-        await driver.tap(find.byValueKey('sign-out-button-E2E'));
-        await driver.tap(find.byValueKey('sign-out-dialog-action-E2E'));
+      await driver.tap(find.pageBack());
+      await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
+      await driver.tap(find.byValueKey('account-drawer-tile-E2E'));
+      await driver.tap(find.byValueKey('sign-out-button-E2E'));
+      await driver.tap(find.byValueKey('sign-out-dialog-action-E2E'));
 
-        // - Einloggen mit Schüler-Account
+      // - Einloggen mit Schüler-Account
 
-        await driver.tap(find.byValueKey('go-to-login-button-E2E'));
+      await driver.tap(find.byValueKey('go-to-login-button-E2E'));
 
-        // Die Account-Daten funktionieren auf dem "sharzone-debug" (--flavor dev)
-        await driver.tap(find.byValueKey('email-text-field-E2E'));
-        await driver.enterText('schueler1-chat@e2e-test.com');
+      // Die Account-Daten funktionieren auf dem "sharzone-debug" (--flavor dev)
+      await driver.tap(find.byValueKey('email-text-field-E2E'));
+      await driver.enterText('schueler1-chat@e2e-test.com');
 
-        await driver.tap(find.byValueKey('password-text-field-E2E'));
-        await driver.enterText('12345678');
-        await driver.tap(find.byValueKey('login-button-E2E'));
+      await driver.tap(find.byValueKey('password-text-field-E2E'));
+      await driver.enterText('12345678');
+      await driver.tap(find.byValueKey('login-button-E2E'));
 
-        // - Zur Chat-Seite gehen
+      // - Zur Chat-Seite gehen
 
-        await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
-        await driver.tap(find.byValueKey('chats-page'));
-        await driver.tap(find.byValueKey('chat-list-tile-E2E'));
+      await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
+      await driver.tap(find.byValueKey('chats-page'));
+      await driver.tap(find.byValueKey('chat-list-tile-E2E'));
 
-        // - Überprüfen, dass die Nachricht angekommen ist.
+      // - Überprüfen, dass die Nachricht angekommen ist.
 
-        await driver.waitFor(find.text(msg));
+      await driver.waitFor(find.text(msg));
 
-        // - Ausloggen
+      // - Ausloggen
 
-        await driver.tap(find.pageBack());
-        await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
-        await driver.tap(find.byValueKey('account-drawer-tile-E2E'));
-        await driver.tap(find.byValueKey('sign-out-button-E2E'));
-        await driver.tap(find.byValueKey('sign-out-dialog-action-E2E'));
-      },
-    );
-  }, skip: 'Aktuell fehlt der entsprende Code für den Chat in der App, weswegen der Test nicht funktionieren kann.');
+      await driver.tap(find.pageBack());
+      await driver.tap(find.byValueKey('drawer-open-icon-E2E'));
+      await driver.tap(find.byValueKey('account-drawer-tile-E2E'));
+      await driver.tap(find.byValueKey('sign-out-button-E2E'));
+      await driver.tap(find.byValueKey('sign-out-dialog-action-E2E'));
+    },
+        skip:
+            'Aktuell fehlt der entsprende Code für den Chat in der App, weswegen der Test nicht funktionieren kann.');
+  });
 }
 
 /// Siehe: https://github.com/flutter/flutter/issues/41029
