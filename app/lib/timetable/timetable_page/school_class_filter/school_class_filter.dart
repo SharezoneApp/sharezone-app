@@ -271,16 +271,17 @@ class _GroupIconWithFeatureDiscovery extends StatefulWidget {
       _GroupIconWithFeatureDiscoveryState();
 }
 
+const timetableSchoolclassSelectionFeatureDiscoveryStepId =
+    'school-class-filter-key';
+
 class _GroupIconWithFeatureDiscoveryState
     extends State<_GroupIconWithFeatureDiscovery> {
-  static const featureDiscoveryKey = 'school-class-filter-key';
-
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       FeatureDiscovery.discoverFeatures(
         context,
-        const <String>{featureDiscoveryKey},
+        const <String>{timetableSchoolclassSelectionFeatureDiscoveryStepId},
       );
     });
     super.initState();
@@ -302,7 +303,7 @@ class _GroupIconWithFeatureDiscoveryState
     if (context.isDesktopModus) return icon;
 
     return DescribedFeatureOverlay(
-      featureId: featureDiscoveryKey,
+      featureId: timetableSchoolclassSelectionFeatureDiscoveryStepId,
       tapTarget: icon,
       child: icon,
       onDismiss: () async {

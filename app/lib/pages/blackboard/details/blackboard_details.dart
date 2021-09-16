@@ -23,7 +23,7 @@ import 'package:sharezone_widgets/wrapper.dart';
 import '../delete_blackboard.dart';
 import 'blackboard_details_bloc.dart';
 
-const _blackboardItemReadByUsersListFeatureDiscovery =
+const blackboardItemReadByUsersListFeatureDiscoveryStepId =
     '_blackboardItemReadByUsersListFeatureDiscovery';
 
 enum BlackboardPopOption { deleted, edited, added }
@@ -327,7 +327,7 @@ class __UserReadTileState extends State<_UserReadTile> {
   void initState() {
     super.initState();
     FeatureDiscovery.discoverFeatures(context, {
-      _blackboardItemReadByUsersListFeatureDiscovery,
+      blackboardItemReadByUsersListFeatureDiscoveryStepId,
     });
   }
 
@@ -360,7 +360,8 @@ class __UserReadTileState extends State<_UserReadTile> {
                   ),
                 ),
                 DescribedFeatureOverlay(
-                  featureId: _blackboardItemReadByUsersListFeatureDiscovery,
+                  featureId:
+                      blackboardItemReadByUsersListFeatureDiscoveryStepId,
                   child: rightArrow(),
                   tapTarget: rightArrow(),
                   onDismiss: () async {

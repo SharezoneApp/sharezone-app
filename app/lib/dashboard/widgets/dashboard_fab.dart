@@ -145,7 +145,16 @@ class _DashboardFabSheet extends StatelessWidget {
                             final prefs = await SharedPreferences.getInstance();
                             final cache = FlutterKeyValueStore(prefs);
                             cache.clear();
-                            FeatureDiscovery.clearPreferences(context, []);
+                            // This will probably cause the feature discoveries
+                            // to be displayed again.
+                            //
+                            // There might be other conditions (e.g. current
+                            // user type) which might still prevent a feature
+                            // discovery from showing after this.
+                            FeatureDiscovery.clearPreferences(context, [
+                              blackboardItemReadByUsersListFeatureDiscoveryStepId,
+                              timetableSchoolclassSelectionFeatureDiscoveryStepId,
+                            ]);
                           },
                         ),
                       ),
