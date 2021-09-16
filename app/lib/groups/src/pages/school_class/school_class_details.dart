@@ -2,7 +2,6 @@ import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_settings.dart';
@@ -20,7 +19,6 @@ import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/meeting/models/meeting_id.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
-import 'package:sharezone/schoolclass_license/buying/schoolclass_license_sales_page.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
@@ -225,7 +223,6 @@ class _SchoolClassAvatarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final featureBloc = BlocProvider.of<FeatureBloc>(context);
     if (schoolClass == null) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,21 +247,6 @@ class _SchoolClassAvatarCard extends StatelessWidget {
                 schoolClass.personalSharecode ?? schoolClass.sharecode),
             const Divider(height: 40),
             ShareGroupSection(groupInfo: schoolClass.toGroupInfo()),
-            StreamBuilder(
-              stream: featureBloc.shouldShowSchoolclassLicenseFeatures,
-              builder: (context, snapshot) {
-                final shouldShow = snapshot?.data ?? false;
-                if (!shouldShow) {
-                  return Container();
-                }
-                return Column(
-                  children: [
-                    const Divider(height: 0),
-                    _SchoolclassLicenseSection(),
-                  ],
-                );
-              },
-            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -363,29 +345,6 @@ class _IsPublic extends StatelessWidget {
           final setFuture = bloc.setIsPublic(newValue);
           showAppFunctionStateDialog(context, setFuture);
         },
-      ),
-    );
-  }
-}
-
-class _SchoolclassLicenseSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => openSchoolclassLicenseSalesPage(context),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          title: Text('Noch keine Klassenlizenz 😣'),
-          subtitle: Text(
-              'Bring die Klasse mit Chats, klassenweiten Aufgaben und vielem mehr aufs nächste Level!'),
-          trailing: Align(
-            // Ansonsten geht die ListTile kaputt
-            widthFactor: .7,
-            alignment: Alignment.centerRight,
-            child: Icon(Icons.keyboard_arrow_right),
-          ),
-        ),
       ),
     );
   }

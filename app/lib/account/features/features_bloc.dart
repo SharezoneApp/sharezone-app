@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';
 import 'package:sharezone/account/features/objects/all_colors.dart';
@@ -14,18 +13,10 @@ class FeatureBloc extends BlocBase {
   final _hideDonationsSubject = BehaviorSubject<bool>();
   Stream<bool> get hideDonations => _hideDonationsSubject;
 
-  final _shouldShowSchoolclassLicenseFeaturesSubject = BehaviorSubject<bool>();
-  Stream<bool> get shouldShowSchoolclassLicenseFeatures =>
-      _shouldShowSchoolclassLicenseFeaturesSubject;
-
   StreamSubscription _unlockedFeaturesSubscription;
 
   FeatureBloc(FeatureGateway featureGateway) {
     _loadIsDarkModeUnlocked(featureGateway);
-
-    const _shouldShowSchoolclassLicenseFeatures = kDebugMode;
-    _shouldShowSchoolclassLicenseFeaturesSubject
-        .add(_shouldShowSchoolclassLicenseFeatures);
   }
 
   void _loadIsDarkModeUnlocked(FeatureGateway featureGateway) {
@@ -44,6 +35,5 @@ class FeatureBloc extends BlocBase {
     _hideDonationsSubject.close();
     _isAllColorsUnlockedSubject.close();
     _unlockedFeaturesSubscription.cancel();
-    _shouldShowSchoolclassLicenseFeaturesSubject.close();
   }
 }
