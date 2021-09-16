@@ -199,7 +199,7 @@ class _MeetingIsDisabledHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _TextBelowButton(
-      "Videokonferenzen für diese Gruppe wurden von einem Administrator.",
+      "Videokonferenzen wurden für diese Gruppe von einem Administrator deaktiviert.",
       key: ValueKey('meeting-is-disabled-hint-widget-test'),
     );
   }
