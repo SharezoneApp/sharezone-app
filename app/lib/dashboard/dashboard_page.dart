@@ -23,7 +23,6 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_custom_scaffold.dart';
 import 'package:sharezone/overview/cache/profile_page_hint_cache.dart';
 import 'package:sharezone/pages/blackboard_page.dart';
-import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/my_profile/change_state.dart';

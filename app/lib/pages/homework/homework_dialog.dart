@@ -21,9 +21,6 @@ import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_common/homework_validators.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
-import 'package:user/user.dart';
-
-const submissionsFeatureDiscovery = 'submissions_feature_discovery';
 
 class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
@@ -84,32 +81,8 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
   @override
   void initState() {
     if (widget.homework != null) editMode = true;
-    showSubmissionFeatureDiscoveryForTeacher();
+    delayKeyboard(context: context, focusNode: titleNode);
     super.initState();
-  }
-
-  void showSubmissionFeatureDiscoveryForTeacher() {
-    final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
-    userGateway.userStream
-        .map((user) => user.typeOfUser)
-        .first
-        .then((typeOfUser) {
-      if (typeOfUser == TypeOfUser.teacher) {
-        if (FeatureDiscovery.currentFeatureIdOf(context) == null) {
-          delayKeyboard(context: context, focusNode: titleNode);
-        } else {
-          FocusScope.of(context).requestFocus(FocusNode());
-          FeatureDiscovery.discoverFeatures(
-            context,
-            const <String>{
-              submissionsFeatureDiscovery,
-            },
-          );
-        }
-      } else {
-        delayKeyboard(context: context, focusNode: titleNode);
-      }
-    });
   }
 
   Future<void> leaveDialog() async {
@@ -518,14 +491,6 @@ class _SubmissionsSwitch extends StatelessWidget {
             initialData: false,
             builder: (context, snapshot) {
               final withSubmissions = snapshot.data;
-              final submissionSwitch = Switch.adaptive(
-                  value: withSubmissions,
-                  onChanged: isSubmissionEnableable
-                      ? (newValue) {
-                          bloc.changeWithSubmissions(newValue);
-                          FeatureDiscovery.completeCurrentStep(context);
-                        }
-                      : null);
               return Column(
                 children: <Widget>[
                   ListTile(
@@ -535,22 +500,14 @@ class _SubmissionsSwitch extends StatelessWidget {
                       bloc.changeWithSubmissions(!withSubmissions);
                       FeatureDiscovery.completeCurrentStep(context);
                     },
-                    trailing: DescribedFeatureOverlay(
-                      featureId:
-                          submissionsFeatureDiscovery, // Unique id that identifies this overlay.
-                      tapTarget:
-                          submissionSwitch, // The widget that will be displayed as the tap target.
-                      title: const Text('Neu: Abgabefunktion'),
-                      description: const Text(
-                          'Aktiviere die Abgabefunktion, damit Schüler eine Lösung zu der Hausaufgabe einreichen müssen. Diese Lösung ist nur für die Lehrkraft sichtbar.'),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      targetColor: Colors.white,
-                      textColor: Colors.white,
-                      enablePulsingAnimation: true,
-                      child: submissionSwitch,
-                      onDismiss: () =>
-                          FeatureDiscovery.completeCurrentStep(context),
-                    ),
+                    trailing: Switch.adaptive(
+                        value: withSubmissions,
+                        onChanged: isSubmissionEnableable
+                            ? (newValue) {
+                                bloc.changeWithSubmissions(newValue);
+                                FeatureDiscovery.completeCurrentStep(context);
+                              }
+                            : null),
                   ),
                   StreamBuilder<Time>(
                     stream: bloc.submissionTime,

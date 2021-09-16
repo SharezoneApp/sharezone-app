@@ -145,8 +145,7 @@ class _DashboardFabSheet extends StatelessWidget {
                             final prefs = await SharedPreferences.getInstance();
                             final cache = FlutterKeyValueStore(prefs);
                             cache.clear();
-                            FeatureDiscovery.clearPreferences(
-                                context, [submissionsFeatureDiscovery]);
+                            FeatureDiscovery.clearPreferences(context, []);
                           },
                         ),
                       ),
