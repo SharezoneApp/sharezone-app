@@ -53,7 +53,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
       try {
         await _submit();
         return LinkAction.finished;
-      } catch (e, s) {
+      } on Exception catch (e, s) {
         final internalException = mapExceptionIntoInternalException(e);
         if (internalException is FirebaseEmailAlreadyInUseException) {
           _hideCurrentSnackBar();

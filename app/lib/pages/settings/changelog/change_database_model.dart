@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
@@ -31,14 +32,15 @@ class ChangeDatabaseModel {
     );
   }
 
-  factory ChangeDatabaseModel.fromData(Map<String, dynamic> data, {@required String id}) {
+  factory ChangeDatabaseModel.fromData(Map<String, dynamic> data,
+      {@required String id}) {
     return ChangeDatabaseModel._(
       id: id,
-      version: data['version'],
-      releaseDate: dateTimeFromTimestamp(data['releaseDate']),
-      newFeatures: decodeList(data['newFeatures'], (it) => it),
-      improvements: decodeList(data['improvements'], (it) => it),
-      fixes: decodeList(data['fixes'], (it) => it),
+      version: data['version'] as String,
+      releaseDate: dateTimeFromTimestamp(data['releaseDate'] as Timestamp),
+      newFeatures: decodeList(data['newFeatures'], (it) => it as String),
+      improvements: decodeList(data['improvements'], (it) => it as String),
+      fixes: decodeList(data['fixes'], (it) => it as String),
     );
   }
 

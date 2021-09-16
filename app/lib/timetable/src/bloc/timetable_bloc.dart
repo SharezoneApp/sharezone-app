@@ -191,9 +191,10 @@ class TimetableBloc extends BlocBase {
 
     final streamGroup = CombineLatestStream(
         [stream, unFilteredLessonsStream, groupInfoStream], (streamValues) {
-      TimetableConfig config = streamValues[0] ?? current;
-      List<Lesson> lessons = streamValues[1] ?? [];
-      Map<String, GroupInfo> groupInfos = streamValues[2] ?? [];
+      TimetableConfig config = streamValues[0] as TimetableConfig ?? current;
+      List<Lesson> lessons = streamValues[1] as List<Lesson> ?? [];
+      Map<String, GroupInfo> groupInfos =
+          streamValues[2] as Map<String, GroupInfo> ?? {};
       final weekType = config.getWeekType(date);
       return LessonDataSnapshot(
         lessons: getFilteredLessonList(lessons, weekType),

@@ -14,7 +14,7 @@ ActionRegistration<OpenLinkRequest> openLinkRegistrationWith(
 
 OpenLinkRequest _toOpenLinkActionRequest(PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    OpenLinkRequest(notification.actionData['link']);
+    OpenLinkRequest(notification.actionData['link'] as String);
 
 /// Open a given link/url inside a browser (may be outside the app or in a
 /// WebView inside the app).

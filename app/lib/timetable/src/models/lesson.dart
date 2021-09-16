@@ -36,17 +36,17 @@ class Lesson {
   factory Lesson.fromData(Map<String, dynamic> data, {@required String id}) {
     return Lesson(
       lessonID: id,
-      groupID: data['groupID'],
-      groupType: groupTypeFromString(data['groupType']),
+      groupID: data['groupID'] as String,
+      groupType: groupTypeFromString(data['groupType'] as String),
       startDate: Date.parse(data['startDate']),
       endDate: Date.parse(data['endDate']),
-      startTime: Time.parse(data['startTime']),
-      endTime: Time.parse(data['endTime']),
-      periodNumber: data['periodNumber'],
-      weekday: weekDayEnumFromString(data['weekday']),
-      weektype: weekTypeEnumFromString(data['weektype']),
-      teacher: data['teacher'],
-      place: data['place'],
+      startTime: Time.parse(data['startTime'] as String),
+      endTime: Time.parse(data['endTime'] as String),
+      periodNumber: data['periodNumber'] as int,
+      weekday: weekDayEnumFromString(data['weekday'] as String),
+      weektype: weekTypeEnumFromString(data['weektype'] as String),
+      teacher: data['teacher'] as String,
+      place: data['place'] as String,
     );
   }
 

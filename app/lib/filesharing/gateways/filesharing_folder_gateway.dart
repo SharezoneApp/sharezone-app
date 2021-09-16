@@ -9,7 +9,7 @@ import 'package:sharezone/filesharing/logic/firebase_file_uploader/firebase_file
 class FilesharingFolderGateway implements FolderAccessor, FolderOperator {
   final AuthUser user;
   final String uID;
-  CollectionReference get fileSharingCollection =>
+  CollectionReference<Map<String, dynamic>> get fileSharingCollection =>
       _fStore.collection("FileSharing");
   final FirebaseFirestore _fStore;
   final FirebaseFileUploader fileUploader;

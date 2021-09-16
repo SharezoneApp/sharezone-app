@@ -21,12 +21,12 @@ class GroupInfoWithSelectionState {
 
   factory GroupInfoWithSelectionState.fromData(Map<String, dynamic> data) {
     return GroupInfoWithSelectionState(
-      id: data['id'],
-      groupType: groupTypeFromString(data['groupType']),
-      name: data['name'],
-      abbreviation: data['abbreviation'],
+      id: data['id'] as String,
+      groupType: groupTypeFromString(data['groupType'] as String),
+      name: data['name'] as String,
+      abbreviation: data['abbreviation'] as String,
       design: Design.fromData(data['design']),
-      isSelected: data['isPreSelected'],
+      isSelected: data['isPreSelected'] as bool,
     );
   }
 

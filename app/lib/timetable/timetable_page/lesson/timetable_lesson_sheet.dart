@@ -197,7 +197,7 @@ Future<void> _deleteLessonAndShowConfirmationSnackbar(
 Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-  final confirmed = await Navigator.push(
+  final confirmed = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
           builder: (context) => TimetableEditLessonPage(

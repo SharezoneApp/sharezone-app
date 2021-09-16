@@ -25,7 +25,7 @@ class EditDateField extends StatelessWidget {
         top: 6,
         bottom: 6,
       ),
-      child: ValueListenableBuilder(
+      child: ValueListenableBuilder<bool>(
         valueListenable: isSelected,
         builder: (context, value, _) {
           return InkWell(

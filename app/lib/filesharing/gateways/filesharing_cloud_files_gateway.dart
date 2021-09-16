@@ -8,7 +8,8 @@ class FilesharingCloudFilesGateway
     implements CloudFileAccessor, CloudFileOperator {
   final AuthUser user;
   final String uID;
-  CollectionReference get filesCollection => _fStore.collection("Files");
+  CollectionReference<Map<String, dynamic>> get filesCollection =>
+      _fStore.collection("Files");
   final FirebaseFirestore _fStore;
 
   FilesharingCloudFilesGateway(

@@ -24,8 +24,8 @@ class SuccessfullJoinResult implements GroupJoinResult {
 
   factory SuccessfullJoinResult.fromData(Map<String, dynamic> data) {
     return SuccessfullJoinResult(
-      groupInfo:
-          GroupInfo.fromData(Map<String, dynamic>.from(data['groupData'])),
+      groupInfo: GroupInfo.fromData(
+          Map<String, dynamic>.from(data['groupData'] as Map)),
     );
   }
 }
@@ -47,13 +47,13 @@ class RequireCourseSelectionsJoinResult implements GroupJoinResult {
   factory RequireCourseSelectionsJoinResult.fromData(
       Map<String, dynamic> data) {
     return RequireCourseSelectionsJoinResult(
-      groupInfo:
-          GroupInfo.fromData(Map<String, dynamic>.from(data['groupData'])),
+      groupInfo: GroupInfo.fromData(
+          Map<String, dynamic>.from(data['groupData'] as Map)),
       courses: decodeList(
           data['courses'],
           (courseData) => GroupInfoWithSelectionState.fromData(
-              Map<String, dynamic>.from(courseData))),
-      enteredValue: data['enteredValue'],
+              Map<String, dynamic>.from(courseData as Map))),
+      enteredValue: data['enteredValue'] as String,
     );
   }
 }

@@ -16,7 +16,8 @@ class CalendricalEventsPageBloc extends BlocBase {
 
   final _allUpcomingEventsSubject = BehaviorSubject<List<EventView>>();
 
-  ValueStream<List<EventView>> get allUpcomingEvents => _allUpcomingEventsSubject;
+  ValueStream<List<EventView>> get allUpcomingEvents =>
+      _allUpcomingEventsSubject;
 
   CalendricalEventsPageBloc(
     this.timetabelGateway,
@@ -27,8 +28,8 @@ class CalendricalEventsPageBloc extends BlocBase {
       timetabelGateway.streamEvents(Date.today()),
       courseGateway.getGroupInfoStream(schoolClassGateway)
     ], (streamValues) {
-      List<CalendricalEvent> events = streamValues[0] ?? [];
-      Map<String, GroupInfo> groupInfos = streamValues[1] ?? {};
+      final events = streamValues[0] as List<CalendricalEvent> ?? [];
+      final groupInfos = streamValues[1] as Map<String, GroupInfo> ?? {};
 
       final eventViews = events
           .map((event) =>

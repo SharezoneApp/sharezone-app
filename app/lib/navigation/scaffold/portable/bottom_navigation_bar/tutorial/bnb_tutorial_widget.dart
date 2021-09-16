@@ -244,7 +244,7 @@ class _MovingFinger extends StatelessWidget {
         height: height,
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: Animator(
+          child: Animator<double>(
             tween: Tween<double>(begin: 0, end: -50),
             duration: const Duration(seconds: 2),
             curve: Curves.ease,

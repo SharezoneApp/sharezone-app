@@ -98,7 +98,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
     return WillPopScope(
       onWillPop: () async => widget.bloc.hasInputChanged()
           ? warnUserAboutLeavingForm(context)
-          : true,
+          : Future.value(true),
       child: Scaffold(
         body: Column(
           children: <Widget>[

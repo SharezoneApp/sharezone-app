@@ -37,8 +37,8 @@ class RateOurAppTip implements DashboardTip {
       cache.showedTip(_showedDashboardRatingCardKey),
       cache.getDashboardCounter()
     ], (streamValues) {
-      final showedDashboardCounterCard = streamValues[0] ?? false;
-      final dashboardCounter = streamValues[1] ?? 0;
+      final showedDashboardCounterCard = streamValues[0] as bool ?? false;
+      final dashboardCounter = streamValues[1] as int ?? 0;
 
       return !showedDashboardCounterCard && dashboardCounter >= 65;
     });

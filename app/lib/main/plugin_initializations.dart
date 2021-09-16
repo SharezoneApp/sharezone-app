@@ -89,10 +89,10 @@ Future<PluginInitializations> runPluginInitializations() async {
     futureDynamicLinks,
   ]);
   return PluginInitializations(
-    sharedPreferences: result[0],
-    remoteConfiguration: result[1],
-    streamingSharedPreferences: result[2],
-    crashAnalytics: result[3],
-    dynamicLinks: result[4],
+    sharedPreferences: result[0] as SharedPreferences,
+    remoteConfiguration: result[1] as RemoteConfiguration,
+    streamingSharedPreferences: result[2] as StreamingSharedPreferences,
+    crashAnalytics: result[3] as CrashAnalytics,
+    dynamicLinks: result[4] as DynamicLinks,
   );
 }

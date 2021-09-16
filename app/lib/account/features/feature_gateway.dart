@@ -9,7 +9,8 @@ class FeatureGateway {
   final _unlockedFeaturesSubject = BehaviorSubject<Set<Feature>>();
   Stream<Set<Feature>> get unlockedFeatures => _unlockedFeaturesSubject;
 
-  FeatureGateway(CollectionReference userCollection, String uid) {
+  FeatureGateway(
+      CollectionReference<Map<String, dynamic>> userCollection, String uid) {
     loadFeatures(userCollection, uid);
   }
 
@@ -19,7 +20,8 @@ class FeatureGateway {
     docStream.listen((doc) {
       final featureSet = <Feature>{};
 
-      final features = Features.fromJson(doc?.data()['features']);
+      final features =
+          Features.fromJson(doc?.data()['features'] as Map<String, dynamic>);
       if (features != null) {
         if (features.allColors) featureSet.add(AllColors());
         if (features.hideDonations) featureSet.add(HideDonations());

@@ -151,7 +151,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
           ),
         );
       }
-    }).catchError((e, s) {
+    }).catchError((e, StackTrace s) {
       setState(() {
         isLoading = false;
         getCrashAnalytics().recordError(e, s);

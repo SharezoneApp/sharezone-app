@@ -11,7 +11,7 @@ import 'package:user/user.dart';
 
 class HomeworkGateway {
   final String userId;
-  final CollectionReference homeworkCollection;
+  final CollectionReference<Map<String, dynamic>> homeworkCollection;
   final Stream<TypeOfUser> typeOfUserStream;
 
   /// Stream that returns all homework which due date is today or in the future.

@@ -98,7 +98,7 @@ class GroupPageState extends State<GroupPage> {
       child: SharezoneMainScaffold(
         scaffoldKey: globalKey,
         // backgroundColor: Color(0xFFF6F7FB),
-        body: StreamBuilder(
+        body: StreamBuilder<ConnectionsData>(
           initialData: gateway.current(),
           stream: gateway.streamConnectionsData(),
           builder: (context, snapshot) {

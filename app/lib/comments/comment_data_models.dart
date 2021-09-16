@@ -36,14 +36,16 @@ class CommentDataModel {
     );
   }
 
-  factory CommentDataModel.fromFirestore(Map<String, dynamic> data, {@required String id}) {
+  factory CommentDataModel.fromFirestore(Map<String, dynamic> data,
+      {@required String id}) {
     return CommentDataModel(
       id: id,
-      author: CommentAuthorDataModel.fromFirestore(data["author"]),
-      comment: data["comment"],
-      dislikedBy: decodeList<String>(data["dislikedBy"], (kp) => kp),
-      likedBy: decodeList<String>(data["likedBy"], (kp) => kp),
-      writtenOn: data["writtenOn"] ?? Timestamp.now(),
+      author: CommentAuthorDataModel.fromFirestore(
+          data["author"] as Map<String, dynamic>),
+      comment: data["comment"] as String,
+      dislikedBy: decodeList<String>(data["dislikedBy"], (kp) => kp as String),
+      likedBy: decodeList<String>(data["likedBy"], (kp) => kp as String),
+      writtenOn: data["writtenOn"] as Timestamp ?? Timestamp.now(),
     );
   }
 
@@ -98,9 +100,9 @@ class CommentAuthorDataModel {
 
   factory CommentAuthorDataModel.fromFirestore(Map<String, dynamic> data) {
     return CommentAuthorDataModel(
-      abbreviation: data["abbreviation"],
-      name: data["name"],
-      uid: data["uid"],
+      abbreviation: data["abbreviation"] as String,
+      name: data["name"] as String,
+      uid: data["uid"] as String,
     );
   }
 

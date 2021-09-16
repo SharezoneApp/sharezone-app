@@ -73,7 +73,7 @@ class _CourseList extends StatelessWidget {
   }
 
   void _sortCourseListByAlphabet() {
-    courseList.sort((a,b) => a.name.compareTo(b.name));
+    courseList.sort((a, b) => a.name.compareTo(b.name));
   }
 }
 
@@ -152,10 +152,10 @@ class _JoinCourse extends StatelessWidget {
       title: "Kurs beitreten",
       iconData: Icons.vpn_key,
       onTap: () async {
-        final Course course = await handleCourseDialogOption(
+        final course = await handleCourseDialogOption(
             context, CourseDialogOption.groupJoin);
         if (course != null) {
-          bloc.changeCourse(course);
+          bloc.changeCourse(course as Course);
         }
       },
     );
@@ -170,10 +170,10 @@ class _CreateCourse extends StatelessWidget {
       title: "Kurs erstellen",
       iconData: Icons.add,
       onTap: () async {
-        final Course course = await handleCourseDialogOption(
+        final course = await handleCourseDialogOption(
             context, CourseDialogOption.courseCreate);
         if (course != null) {
-          bloc.changeCourse(course);
+          bloc.changeCourse(course as Course);
         }
       },
     );

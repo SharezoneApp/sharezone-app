@@ -25,8 +25,9 @@ class CommentsGateway extends BlocBase {
     commentsController ??= StreamController.broadcast(onListen: () {
       final snapshotStream = _getCommentCollection(commentLocation).snapshots();
 
-      final commentModelDataStream = snapshotStream
-          .map((snap) => snap.docs.map((doc) => _commentToDatamodel(doc.data(), id: doc.id)).toList());
+      final commentModelDataStream = snapshotStream.map((snap) => snap.docs
+          .map((doc) => _commentToDatamodel(doc.data(), id: doc.id))
+          .toList());
 
       firestoreSubscripton = commentModelDataStream.listen(
           commentsController.add,
@@ -38,10 +39,12 @@ class CommentsGateway extends BlocBase {
     return commentsController.stream;
   }
 
-  CommentDataModel _commentToDatamodel(Map<String, dynamic> firestoreComment, {@required String id}) =>
+  CommentDataModel _commentToDatamodel(Map<String, dynamic> firestoreComment,
+          {@required String id}) =>
       CommentDataModel.fromFirestore(firestoreComment, id: id);
 
-  CollectionReference _getCommentCollection(CommentsLocation commentLocation) {
+  CollectionReference<Map<String, dynamic>> _getCommentCollection(
+      CommentsLocation commentLocation) {
     return _firestore
         .collection(commentLocation.baseCollection)
         .doc(commentLocation.parentDocumentId)

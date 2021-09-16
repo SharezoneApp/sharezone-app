@@ -127,7 +127,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
   /// Lädt das HomeworkDbModel, weil ein paar Funktionen noch dieses verlangen.
   Future<HomeworkDto> getHomeworkDbModel(
       StudentHomeworkView homeworkView) async {
-    final CollectionReference _homeworkCollection =
+    final CollectionReference<Map<String, dynamic>> _homeworkCollection =
         FirebaseFirestore.instance.collection("Homework");
 
     final homeworkId = homeworkView.id;

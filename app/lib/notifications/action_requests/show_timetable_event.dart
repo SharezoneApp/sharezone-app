@@ -19,7 +19,8 @@ ActionRegistration<
 ShowTimetableEventRequest _toShowTimetableEventActionRequest(
         PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    ShowTimetableEventRequest(TimetableEventId(notification.actionData['id']));
+    ShowTimetableEventRequest(
+        TimetableEventId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single timetable event with the given
 /// [timetableEventId].

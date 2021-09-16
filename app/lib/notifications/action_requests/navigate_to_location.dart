@@ -26,7 +26,7 @@ ActionRegistration<
 NavigateToLocationRequest _toNavigateToLocationActionRequest(
         PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    NavigateToLocationRequest(notification.actionData['page-tag']);
+    NavigateToLocationRequest(notification.actionData['page-tag'] as String);
 
 /// Navigates to a page inside the app that has the corresponsing
 /// [navigationTag] (e.g. navigate to the [FileSharingPage]).

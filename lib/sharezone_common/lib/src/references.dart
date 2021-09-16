@@ -9,8 +9,11 @@ class References {
   final FirebaseFirestore firestore;
   final FirebaseAuth firebaseAuth;
   final SharezoneAppFunctions functions;
-  final CollectionReference schools, schoolClasses, courses, users;
-  final CollectionReference members, lessons, events;
+  final CollectionReference<Map<String, dynamic>> schools,
+      schoolClasses,
+      courses,
+      users;
+  final CollectionReference<Map<String, dynamic>> members, lessons, events;
 
   References._({
     @required this.firestore,

@@ -147,10 +147,10 @@ class _JoinCourse extends StatelessWidget {
       title: "Kurs beitreten",
       iconData: Icons.vpn_key,
       onTap: () async {
-        final Course course = await handleCourseDialogOption(
+        final course = await handleCourseDialogOption(
             context, CourseDialogOption.groupJoin);
         if (course != null) {
-          bloc.changeCourse(course);
+          bloc.changeCourse(course as Course);
         }
       },
     );
@@ -165,10 +165,10 @@ class _CreateCourse extends StatelessWidget {
       title: "Kurs erstellen",
       iconData: Icons.add,
       onTap: () async {
-        final Course course = await handleCourseDialogOption(
+        final course = await handleCourseDialogOption(
             context, CourseDialogOption.courseCreate);
         if (course != null) {
-          bloc.changeCourse(course);
+          bloc.changeCourse(course as Course);
         }
       },
     );
@@ -176,8 +176,7 @@ class _CreateCourse extends StatelessWidget {
 }
 
 class CourseManagementButton extends StatelessWidget {
-  const CourseManagementButton(
-      {Key key, this.iconData, this.title, this.onTap})
+  const CourseManagementButton({Key key, this.iconData, this.title, this.onTap})
       : super(key: key);
 
   final IconData iconData;

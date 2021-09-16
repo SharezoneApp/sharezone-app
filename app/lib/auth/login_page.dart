@@ -416,7 +416,7 @@ class PasswordField extends StatefulWidget {
 
   final FocusNode focusNode;
   final Stream<String> passwordStream;
-  final ValueChanged onChanged;
+  final ValueChanged<String> onChanged;
   final VoidCallback onEditingComplete;
   final bool isNewPassword;
 

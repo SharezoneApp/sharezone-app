@@ -31,11 +31,9 @@ class EnterActivationCodeActivator {
     if (result is FailedEnterActivationCodeResult &&
         result.enterActivationCodeException
             is UnknownEnterActivationCodeException) {
-      final UnknownEnterActivationCodeException
-          unknownEnterActivationCodeException =
-          result.enterActivationCodeException;
-      _crashAnalytics.recordError(
-          unknownEnterActivationCodeException.exception, null);
+      final unknownException = result.enterActivationCodeException
+          as UnknownEnterActivationCodeException;
+      _crashAnalytics.recordError(unknownException.exception, null);
     }
     if (result is SuccessfullEnterActivationCodeResult) {
       _analytics.log(SuccessfullEnterActivationCodeEvent(activationCode));
@@ -48,7 +46,8 @@ class EnterActivationCodeActivator {
       AppFunctionsResult appFunctionsResult) {
     try {
       if (appFunctionsResult.hasData) {
-        return EnterActivationCodeResult.fromData(appFunctionsResult.data);
+        return EnterActivationCodeResult.fromData(
+            appFunctionsResult.data as Map<String, dynamic>);
       } else {
         final exception = appFunctionsResult.exception;
         if (exception is NoInternetAppFunctionsException) {

@@ -38,23 +38,27 @@ class CalendricalEvent {
     @required this.latestEditor,
   });
 
-  factory CalendricalEvent.fromData(Map<String, dynamic> data, {@required String id}) {
+  factory CalendricalEvent.fromData(Map<String, dynamic> data,
+      {@required String id}) {
     return CalendricalEvent(
-        eventID: id,
-        groupID: data['groupID'],
-        authorID: data['authorID'],
-        date: Date.parse(data['date']),
-        startTime: Time.parse(data['startTime']),
-        endTime: Time.parse(data['endTime']),
-        title: data['title'],
-        groupType: groupTypeFromString(data['groupType']),
-        eventType: getEventTypeFromString(data['eventType']),
-        detail: data['detail'],
-        place: data['place'],
-        lessonChanges: decodeMap(data['lessonChanges'],
-            (key, value) => enumFromString(CalendricalEventChangeType.values, value)),
-        sendNotification: data['sendNotification'] ?? false,
-        latestEditor: data['latestEditor']);
+      eventID: id,
+      groupID: data['groupID'] as String,
+      authorID: data['authorID'] as String,
+      date: Date.parse(data['date']),
+      startTime: Time.parse(data['startTime'] as String),
+      endTime: Time.parse(data['endTime'] as String),
+      title: data['title'] as String,
+      groupType: groupTypeFromString(data['groupType'] as String),
+      eventType: getEventTypeFromString(data['eventType'] as String),
+      detail: data['detail'] as String,
+      place: data['place'] as String,
+      lessonChanges: decodeMap(
+          data['lessonChanges'],
+          (key, value) =>
+              enumFromString(CalendricalEventChangeType.values, value)),
+      sendNotification: data['sendNotification'] as bool ?? false,
+      latestEditor: data['latestEditor'] as String,
+    );
   }
 
   Map<String, dynamic> toJson() {

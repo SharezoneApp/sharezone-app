@@ -28,8 +28,8 @@ class GroupJoinFunction {
     // Logs Error to CrashAnalytics if it is an UnknownGroupJoinException!
     if (groupJoinResult is ErrorJoinResult &&
         groupJoinResult.groupJoinException is UnknownGroupJoinException) {
-      final UnknownGroupJoinException unknownGroupJoinException =
-          groupJoinResult.groupJoinException;
+      final unknownGroupJoinException =
+          groupJoinResult.groupJoinException as UnknownGroupJoinException;
       _crashAnalytics.recordError(unknownGroupJoinException.exception, null);
     }
     return groupJoinResult;
@@ -39,9 +39,9 @@ class GroupJoinFunction {
       AppFunctionsResult appFunctionsResult, String enteredValue) {
     try {
       if (appFunctionsResult.hasData) {
-        final data = Map<String, dynamic>.from(appFunctionsResult.data);
+        final data = Map<String, dynamic>.from(appFunctionsResult.data as Map);
         final resultType =
-            GroupJoinResultTypeConverter.fromData(data['resultType']);
+            GroupJoinResultTypeConverter.fromData(data['resultType'] as String);
         if (resultType == GroupJoinResultType.successfull) {
           return SuccessfullJoinResult.fromData(data);
         }

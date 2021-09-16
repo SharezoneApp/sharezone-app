@@ -76,7 +76,7 @@ class _SignInMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return FutureBuilder(
+    return FutureBuilder<bool>(
       future: AppleSignInLogic.isSignInGetCredentailsAvailable(),
       builder: (context, snapshot) {
         final isAppleSignInAvailable = snapshot.data ?? false;

@@ -54,8 +54,9 @@ class _ReportPageState extends State<ReportPage> {
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
-        onWillPop: () async =>
-            bloc.wasEdited() ? warnUserAboutLeavingForm(context) : true,
+        onWillPop: () async => bloc.wasEdited()
+            ? warnUserAboutLeavingForm(context)
+            : Future.value(true),
         child: Scaffold(
           appBar: AppBar(
             title: Text(

@@ -77,27 +77,28 @@ class BlackboardItem {
     );
   }
 
-  factory BlackboardItem.fromData(Map<String, dynamic> data, {@required String id}) {
+  factory BlackboardItem.fromData(Map<String, dynamic> data,
+      {@required String id}) {
     return BlackboardItem._(
       id: id,
-      courseReference: data['courseReference'],
-      courseName: data['courseName'],
-      subject: data['subject'],
-      subjectAbbreviation: data['subjectAbbreviation'],
-      latestEditor: data['latestEditor'],
-      authorReference: data['authorReference'],
-      authorID: data['authorID'],
-      authorName: data['authorName'],
-      title: data['title'],
-      text: data['text'],
-      pictureURL: data['pictureURL'],
+      courseReference: data['courseReference'] as DocumentReference,
+      courseName: data['courseName'] as String,
+      subject: data['subject'] as String,
+      subjectAbbreviation: data['subjectAbbreviation'] as String,
+      latestEditor: data['latestEditor'] as String,
+      authorReference: data['authorReference'] as DocumentReference,
+      authorID: data['authorID'] as String,
+      authorName: data['authorName'] as String,
+      title: data['title'] as String,
+      text: data['text'] as String,
+      pictureURL: data['pictureURL'] as String,
       createdOn: ((data['createdOn'] ?? Timestamp.now()) as Timestamp).toDate(),
-      attachments: decodeList(data['attachments'], (it) => it),
+      attachments: decodeList(data['attachments'], (it) => it as String),
       // unreadUsers: decodeList(data['unreadUsers'], (it) => it), // NEW
       // readUsers: decodeList(data['readUsers'], (it) => it), // NEW
       // archivedUsers: decodeList(data['archivedUsers'], (it) => it), // NEW
-      sendNotification: data['sendNotification'],
-      forUsers: decodeMap(data['forUsers'], (key, value) => value),
+      sendNotification: data['sendNotification'] as bool,
+      forUsers: decodeMap(data['forUsers'], (key, value) => value as bool),
     );
   }
 

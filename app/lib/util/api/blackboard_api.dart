@@ -11,7 +11,7 @@ import 'package:sharezone/widgets/homework/delete_homework.dart';
 
 class BlackboardGateway {
   final String uID;
-  final CollectionReference blackboardItemCollection;
+  final CollectionReference<Map<String, dynamic>> blackboardItemCollection;
 
   final Stream<List<BlackboardItem>> blackboardItemStream;
 

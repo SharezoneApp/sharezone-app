@@ -17,9 +17,9 @@ class DashboardTipSystem extends BlocBase {
     @required this.cache,
     @required this.navigationBloc,
     @required UserTipsBloc userTipsBloc,
-  }) : dashboardTip = initialiseDashboardTipStream(
-                cache, navigationBloc, userTipsBloc)
-            .asBroadcastStream() {
+  }) : dashboardTip =
+            initialiseDashboardTipStream(cache, navigationBloc, userTipsBloc)
+                .asBroadcastStream() {
     cache.increaseDashboardCounter();
   }
 
@@ -34,7 +34,7 @@ class DashboardTipSystem extends BlocBase {
 
     return CombineLatestStream(tips.map((tip) => tip.shouldShown()).toList(),
         (streamValues) {
-      final showRateOurAppCard = streamValues[0] ?? false;
+      final showRateOurAppCard = streamValues[0] as bool ?? false;
 
       if (showRateOurAppCard) return rateOurAppTip;
       return null;

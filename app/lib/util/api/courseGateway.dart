@@ -227,8 +227,9 @@ class CourseGateway {
     final schoolClassStream = schoolClassGateway.stream();
     final streamGroup =
         CombineLatestStream([courseStream, schoolClassStream], (streamValues) {
-      List<Course> courses = streamValues[0] ?? [];
-      List<SchoolClass> schoolClasses = streamValues[1] ?? [];
+      List<Course> courses = streamValues[0] as List<Course> ?? [];
+      List<SchoolClass> schoolClasses =
+          streamValues[1] as List<SchoolClass> ?? [];
       List<GroupInfo> groupInfos = [
         for (final course in courses) course.toGroupInfo(),
         for (final schoolClass in schoolClasses) schoolClass.toGroupInfo(),

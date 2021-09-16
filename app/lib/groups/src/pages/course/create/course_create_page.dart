@@ -31,7 +31,7 @@ Future<Course> openCourseCreatePage(BuildContext context,
       seconds: 2,
     );
   }
-  return createdCourse;
+  return createdCourse as Course;
 }
 
 Future<void> submit(BuildContext context) async {
@@ -87,8 +87,9 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
-        onWillPop: () async =>
-            bloc.hasUserEditInput() ? warnUserAboutLeavingForm(context) : true,
+        onWillPop: () async => bloc.hasUserEditInput()
+            ? warnUserAboutLeavingForm(context)
+            : Future.value(true),
         child: Scaffold(
           appBar:
               AppBar(title: const Text("Kurs erstellen"), centerTitle: true),

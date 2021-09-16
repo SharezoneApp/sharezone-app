@@ -108,7 +108,7 @@ class _UserEditPageState extends State<UserEditPage> {
         onWillPop: () async => bloc.hasInputChanged
             ? warnUserAboutLeavingOrSavingForm(context,
                 () => _submit(context, bloc: bloc, scaffoldKey: scaffoldKey))
-            : true,
+            : Future.value(true),
         child: Scaffold(
           key: scaffoldKey,
           appBar:

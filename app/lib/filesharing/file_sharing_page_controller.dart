@@ -71,7 +71,8 @@ class FileSharingPageBody extends StatelessWidget {
         key: ValueKey(pageState is FileSharingPageStateGroup),
         alignment: Alignment.topCenter,
         child: pageState is FileSharingPageStateGroup
-            ? FileSharingViewGroup(groupState: pageState)
+            ? FileSharingViewGroup(
+                groupState: pageState as FileSharingPageStateGroup)
             : FileSharingViewHome(),
       ),
     );

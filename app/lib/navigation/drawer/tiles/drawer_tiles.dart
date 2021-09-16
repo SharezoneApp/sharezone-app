@@ -8,7 +8,7 @@ import 'drawer_tile.dart';
 const settingsPageTile = DrawerTile(NavigationItem.settings);
 const feedbackBoxtile = DrawerTile(NavigationItem.feedbackBox);
 final donatePageTile = Builder(
-  builder: (context) => StreamBuilder(
+  builder: (context) => StreamBuilder<bool>(
     stream: BlocProvider.of<FeatureBloc>(context).hideDonations,
     builder: (context, snapshot) {
       final hideDonations = snapshot.data ?? false;

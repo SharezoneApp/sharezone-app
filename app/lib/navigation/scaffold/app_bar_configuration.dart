@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 
 class AppBarConfiguration {
   /// Default is [navigationItem.getName()]
   final String title;
 
   final List<Widget> actions;
-  final Widget bottom;
+  final PreferredSizeWidget bottom;
   final double elevation;
 
   const AppBarConfiguration({
@@ -17,9 +18,9 @@ class AppBarConfiguration {
 }
 
 class SliverAppBarConfiguration {
-  /// Default is [navigationItem.getName()]
+  /// Default is [_AppBarTitle]
   final Widget title;
-  
+
   final List<Widget> actions;
   final PreferredSizeWidget flexibleSpace;
   final double expandedHeight, elevation;
@@ -29,7 +30,7 @@ class SliverAppBarConfiguration {
 
   const SliverAppBarConfiguration({
     @required this.actions,
-    this.title,
+    this.title = const _AppBarTitle(),
     this.flexibleSpace,
     this.expandedHeight,
     this.backgroundColor,
@@ -37,4 +38,18 @@ class SliverAppBarConfiguration {
     this.pinned,
     this.drawerIconColor,
   });
+}
+
+class _AppBarTitle extends StatelessWidget {
+  const _AppBarTitle({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      NavigationItem.overview.getName(),
+      style:
+          Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+      key: const ValueKey('dashboard-appbar-title-E2E'),
+    );
+  }
 }

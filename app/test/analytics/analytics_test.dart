@@ -81,7 +81,7 @@ class LocalAnalyticsBackend extends AnalyticsBackend {
 
   Map<String, dynamic> getSingleEventData(String s) {
     final event = getEvent(s).single;
-    return event.values.first;
+    return event.values.first as Map<String, dynamic>;
   }
 
   @override

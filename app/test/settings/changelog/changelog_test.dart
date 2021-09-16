@@ -54,7 +54,8 @@ class LocalChangeGateway implements ChangelogGateway {
   }
 
   @override
-  CollectionReference get changelogCollection => throw UnimplementedError();
+  CollectionReference<Map<String, dynamic>> get changelogCollection =>
+      throw UnimplementedError();
 }
 
 class MockInformationManager extends PlatformInformationRetreiver {

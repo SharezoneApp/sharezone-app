@@ -65,7 +65,7 @@ class HomeworkDetailsView {
 
   HomeworkDetailsView copyWith({
     String id,
-    String isDone,
+    bool isDone,
     String courseName,
     String title,
     String todoUntil,
@@ -105,9 +105,12 @@ class HomeworkDetailsView {
       withSubmissions: withSubmissions ?? this.withSubmissions,
       typeOfUser: typeOfUser ?? this.typeOfUser,
       nrOfSubmissions: nrOfSubmissions ?? this.nrOfSubmissions,
-      hasPermissionToViewSubmissions: hasPermissionToViewSubmissions ?? this.hasPermissionToViewSubmissions,
-      nrOfCompletedStudents: nrOfCompletedStudents ?? this.nrOfCompletedStudents,
-      hasPermissionsToViewDoneByList: hasPermissionsToViewDoneByList ?? this.hasPermissionsToViewDoneByList,
+      hasPermissionToViewSubmissions:
+          hasPermissionToViewSubmissions ?? this.hasPermissionToViewSubmissions,
+      nrOfCompletedStudents:
+          nrOfCompletedStudents ?? this.nrOfCompletedStudents,
+      hasPermissionsToViewDoneByList:
+          hasPermissionsToViewDoneByList ?? this.hasPermissionsToViewDoneByList,
     );
   }
 }

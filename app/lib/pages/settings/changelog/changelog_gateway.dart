@@ -8,7 +8,7 @@ class ChangelogGateway {
   ChangelogGateway({@required FirebaseFirestore firestore})
       : changelogCollection = firestore.collection('Changelog');
 
-  final CollectionReference changelogCollection;
+  final CollectionReference<Map<String, dynamic>> changelogCollection;
 
   Future<List<ChangeDatabaseModel>> loadChange(
       {int from = 0, @required int to}) async {
@@ -17,7 +17,8 @@ class ChangelogGateway {
         .limit(to)
         .get();
     final models = querySnapshot.docs
-        .map((changelogDoc) => ChangeDatabaseModel.fromData(changelogDoc.data(), id: changelogDoc.id))
+        .map((changelogDoc) => ChangeDatabaseModel.fromData(changelogDoc.data(),
+            id: changelogDoc.id))
         .toList();
     return models;
   }

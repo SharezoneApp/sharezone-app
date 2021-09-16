@@ -64,7 +64,7 @@ Future<void> showTimetableEventDetails(
 Future<void> openTimetableEventEditPage(
     BuildContext context, CalendricalEvent event) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
-  final confirmed = await Navigator.push(
+  final confirmed = await Navigator.push<bool>(
     context,
     MaterialPageRoute(
       builder: (context) => TimetableEditEventPage(

@@ -61,7 +61,7 @@ class SharecodeText extends StatelessWidget {
     );
   }
 
-  void _handle(context) {
+  void _handle(BuildContext context) {
     _copySharecode();
     showSnackSec(
       context: context,

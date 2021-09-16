@@ -94,10 +94,10 @@ List<PushNotification> generateNotificationMutations({
     final _body = _getElement(bodyMutations);
 
     notifications.add(PushNotification(
-      actionType: _actionType,
-      title: _title,
-      body: _body,
-      actionData: _actionData,
+      actionType: _actionType as String,
+      title: _title as String,
+      body: _body as String,
+      actionData: _actionData as Map<String, dynamic>,
     ));
   }
 
@@ -173,7 +173,7 @@ class TestHandlerFor {
       expect(actionRequest, isA<T>(),
           reason: '$notification should get matched to a $T.');
 
-      expectActionToExecute(actionRequest);
+      expectActionToExecute(actionRequest as T);
     }
   }
 

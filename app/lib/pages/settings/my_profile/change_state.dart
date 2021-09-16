@@ -125,7 +125,7 @@ class _StateListTile extends StatelessWidget {
       title: Text(stateEnumToString[state]),
       value: state,
       groupValue: initialState,
-      onChanged: (newState) {
+      onChanged: (StateEnum newState) {
         bloc.changeState(newState);
         savedChangesSnackBar(context);
       },

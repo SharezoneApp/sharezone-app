@@ -12,9 +12,10 @@ class FileSharingGateway {
   final AuthUser user;
   final String uID;
   final FirebaseFirestore _fStore;
-  CollectionReference get fileSharingCollection =>
+  CollectionReference<Map<String, dynamic>> get fileSharingCollection =>
       _fStore.collection("FileSharing");
-  CollectionReference get filesCollection => _fStore.collection("Files");
+  CollectionReference<Map<String, dynamic>> get filesCollection =>
+      _fStore.collection("Files");
 
   final FirebaseFileUploader fileUploader;
 
@@ -57,7 +58,8 @@ class FileSharingGateway {
         );
 
         final snapshot = await uploadTask.onComplete;
-        final fileID = snapshot.storageMetaData.customMetadata['fileID'];
+        final fileID =
+            snapshot.storageMetaData.customMetadata['fileID'] as String;
         attachments.add(fileID);
       }
     }

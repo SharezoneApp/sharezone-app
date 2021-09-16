@@ -17,7 +17,7 @@ class JitsiAuth {
       },
     );
 
-    final json = Map<String, dynamic>.from(result.data);
-    return json['jwt'];
+    final json = Map<String, dynamic>.from(result.data as Map);
+    return json['jwt'] as String;
   }
 }

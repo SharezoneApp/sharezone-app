@@ -25,7 +25,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
             .doc(MemberIDUtils.getUIDFromMemberID(memberID))
             .collection("joinedCourses"),
         objectBuilder: (id, data) => Course.fromData(data, id: id).copyWith(
-              sharecode: data['sharingLink'],
+              sharecode: data['sharingLink'] as String,
               version2: false,
               myRole: MemberRole.creator,
             ));

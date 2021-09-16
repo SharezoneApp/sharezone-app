@@ -560,7 +560,7 @@ Future<bool> warnUserAboutUploadingFilesForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      false;
+      Future.value(false);
 }
 
 Future<bool> warnUserAboutNotSubmittedForm(BuildContext context) async {
@@ -579,5 +579,5 @@ Future<bool> warnUserAboutNotSubmittedForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      false;
+      Future.value(false);
 }

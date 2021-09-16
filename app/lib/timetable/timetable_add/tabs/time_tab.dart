@@ -8,7 +8,7 @@ class _TimeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
-    return StreamBuilder<Object>(
+    return StreamBuilder<TimeType>(
       stream: bloc.timeType,
       builder: (context, snapshot) {
         final timeType = snapshot.data ?? TimeType.period;
@@ -112,7 +112,8 @@ class _PeriodList extends StatelessWidget {
               child: Wrap(
                 spacing: 6,
                 children: <Widget>[
-                  for (final period in config?.getPeriods()?.getPeriods() ?? [])
+                  for (final period
+                      in config?.getPeriods()?.getPeriods() ?? <Period>[])
                     _PeriodTile(
                       period: period,
                       selectedPeriod: selectedPeriod,

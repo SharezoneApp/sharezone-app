@@ -115,7 +115,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
     return WillPopScope(
       onWillPop: () async => widget.bloc.hasInputChanged()
           ? warnUserAboutLeavingForm(context)
-          : true,
+          : Future.value(true),
       child: Scaffold(
         backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
         body: Column(

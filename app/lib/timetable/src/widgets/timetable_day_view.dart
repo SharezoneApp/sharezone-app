@@ -435,7 +435,7 @@ class TimetableElementTile extends StatelessWidget {
 
   Widget _getChildLesson(BuildContext context) {
     return TimetableEntryLesson(
-      lesson: timetableElement.data,
+      lesson: timetableElement.data as Lesson,
       date: timetableElement.date.toDateString,
       groupInfo: timetableElement.groupInfo,
     );
@@ -443,7 +443,7 @@ class TimetableElementTile extends StatelessWidget {
 
   Widget _getChildEvent(BuildContext context) {
     return TimetableEntryEvent(
-      event: timetableElement.data,
+      event: timetableElement.data as CalendricalEvent,
       groupInfo: timetableElement.groupInfo,
     );
   }

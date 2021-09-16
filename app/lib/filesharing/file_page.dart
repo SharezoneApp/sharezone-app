@@ -146,7 +146,7 @@ class _EmptyPage extends StatelessWidget {
         child: ListTile(
           leading: Icon(Icons.warning),
           title: Text("Anzeigefehler"),
-          subtitle: error != null ? Text(error) : null,
+          subtitle: error != null ? Text('$error') : null,
         ),
       ),
     );

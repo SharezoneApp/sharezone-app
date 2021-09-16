@@ -24,7 +24,7 @@ class FailedEnterActivationCodeResult implements EnterActivationCodeResult {
   const FailedEnterActivationCodeResult(this.enterActivationCodeException);
 
   factory FailedEnterActivationCodeResult.fromData(Map<String, dynamic> data) {
-    final resultType = data['resultType'];
+    final resultType = data['resultType'] as String;
     return FailedEnterActivationCodeResult(
         EnterActivationCodeException.fromData(resultType));
   }
@@ -43,6 +43,8 @@ class SuccessfullEnterActivationCodeResult
 
   factory SuccessfullEnterActivationCodeResult.fromData(dynamic resultData) {
     return SuccessfullEnterActivationCodeResult._(
-        resultData['name'], resultData['description']);
+      resultData['name'] as String,
+      resultData['description'] as String,
+    );
   }
 }

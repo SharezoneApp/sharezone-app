@@ -79,8 +79,9 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
-        onWillPop: () async =>
-            bloc.hasUserEditInput() ? warnUserAboutLeavingForm(context) : true,
+        onWillPop: () async => bloc.hasUserEditInput()
+            ? warnUserAboutLeavingForm(context)
+            : Future.value(true),
         child: Scaffold(
           appBar:
               AppBar(title: const Text("Kurs erstellen"), centerTitle: true),

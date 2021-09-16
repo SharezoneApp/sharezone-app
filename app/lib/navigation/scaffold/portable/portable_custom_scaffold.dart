@@ -45,7 +45,7 @@ class PortableCustomScaffold extends StatelessWidget {
                   expandedHeight: appBarConfiguration.expandedHeight,
                   elevation: appBarConfiguration.elevation,
                   pinned: appBarConfiguration.pinned,
-                  title: appBarConfiguration.title ?? navigationItem.getName(),
+                  title: appBarConfiguration.title,
                   centerTitle: true,
                   leading: isOldNav
                       ? DrawerIcon(color: appBarConfiguration.drawerIconColor)

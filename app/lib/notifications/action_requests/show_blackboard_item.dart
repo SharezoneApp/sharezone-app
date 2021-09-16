@@ -17,7 +17,8 @@ ActionRegistration<
 ShowBlackboardItemRequest _toShowBlackboardItemActionRequest(
         PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    ShowBlackboardItemRequest(BlackboardItemId(notification.actionData['id']));
+    ShowBlackboardItemRequest(
+        BlackboardItemId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single blackboard item with the given
 /// [blackboardItemId].

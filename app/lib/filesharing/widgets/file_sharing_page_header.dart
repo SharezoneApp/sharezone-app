@@ -13,7 +13,7 @@ class FileSharingPageHeader extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     if (pageState is FileSharingPageStateGroup) {
-      final FileSharingPageStateGroup groupState = pageState;
+      final groupState = pageState as FileSharingPageStateGroup;
 
       return ListTile(
         leading: IconButton(

@@ -142,7 +142,7 @@ class _SchoolClassFilterBottomBarState
   }
 
   RelativeRect _getMousePosition(BuildContext context) {
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     return RelativeRect.fromRect(
       _tapPosition & const Size(40, 40),
       Offset.zero & overlay.size,

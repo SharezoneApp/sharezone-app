@@ -15,7 +15,7 @@ ActionRegistration<ShowHomeworkRequest> showHomeworkRegistrationWith(
 
 ShowHomeworkRequest _toShowHomeworkActionRequest(PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    ShowHomeworkRequest(HomeworkId(notification.actionData['id']));
+    ShowHomeworkRequest(HomeworkId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single homework with the given [homeworkId].
 ///

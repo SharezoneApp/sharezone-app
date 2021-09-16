@@ -201,8 +201,8 @@ class DashboardBloc extends BlocBase {
 
     final stream =
         CombineLatestStream([eventStream, groupInfoStream], (streamValues) {
-      List<CalendricalEvent> events = streamValues[0] ?? [];
-      Map<String, GroupInfo> groupInfos = streamValues[1] ?? {};
+      final events = streamValues[0] as List<CalendricalEvent> ?? [];
+      final groupInfos = streamValues[1] as Map<String, GroupInfo> ?? {};
 
       _sortEventsByDateTime(events);
 

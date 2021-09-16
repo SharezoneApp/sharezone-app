@@ -27,7 +27,7 @@ void main() {
       );
     });
 
-    Product _productWith({String id, String title}) {
+    TestProduct _productWith({String id, String title}) {
       return TestProduct(
           identifier: id,
           price: 3,
