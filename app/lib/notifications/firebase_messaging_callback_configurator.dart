@@ -38,21 +38,51 @@ class FirebaseMessagingCallbackConfigurator {
 
     final handler = _createNotificiationHandler(context);
 
-    FirebaseMessaging.onMessage.listen((message) {
+    void handleFcmMessage(
+      RemoteMessage message, {
+      bool showInAppNotification = false,
+    }) {
       final pushNotification = PushNotification.fromFirebase(message);
-      showOverlayNotification(
-          (context) => InAppNotification(
-                title: pushNotification.title,
-                body: pushNotification.body,
-                onTap: () => handler.handlePushNotification(pushNotification),
-              ),
-          duration: const Duration(milliseconds: 6500));
+      if (showInAppNotification) {
+        showOverlayNotification(
+            (context) => InAppNotification(
+                  title: pushNotification.title,
+                  body: pushNotification.body,
+                  onTap: () => handler.handlePushNotification(pushNotification),
+                ),
+            duration: const Duration(milliseconds: 6500));
+      } else {
+        handler.handlePushNotification(pushNotification);
+      }
+    }
+
+    FirebaseMessaging.onMessage.listen((message) {
+      // App is open in the foreground.
+      //
+      // We display an in-app notification at the top of the screen as the
+      // notification won't be shown in the system notification tray because
+      // the user is already inside the app.
+      handleFcmMessage(message, showInAppNotification: true);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      final pushNotification = PushNotification.fromFirebase(message);
-      handler.handlePushNotification(pushNotification);
+      /// App is open in the background.
+      ///
+      /// The notification is received inside the system notification tray. This
+      /// code will execute if the user taps on the notification, thus we don't
+      /// need to display it a second time with an in-app notification.
+      handleFcmMessage(message, showInAppNotification: false);
     });
+
+    final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      /// App was closed / terminated (not running in the background).
+      ///
+      /// The notification is received inside the system notification tray. This
+      /// code will execute if the user taps on the notification, thus we don't
+      /// need to display it a second time with an in-app notification.
+      handleFcmMessage(initialMessage, showInAppNotification: false);
+    }
   }
 
   PushNotificationActionHandler _createNotificiationHandler(
