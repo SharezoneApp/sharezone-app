@@ -3,12 +3,12 @@ import 'package:sharezone_website/main.dart';
 
 class DividerWithText extends StatelessWidget {
   const DividerWithText(
-      {Key key, @required this.text, this.fontSize = 14, this.textStyle})
+      {Key? key, required this.text, this.fontSize = 14, this.textStyle})
       : super(key: key);
 
   final Widget text;
   final double fontSize;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {

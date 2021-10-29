@@ -18,7 +18,7 @@ class PrivacyPolicyPage extends StatelessWidget {
 }
 
 class PrivacyPolicyContent extends StatelessWidget {
-  const PrivacyPolicyContent({Key key}) : super(key: key);
+  const PrivacyPolicyContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +245,7 @@ class _Absatz extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key key}) : super(key: key);
+  const _Title(this.title, {Key? key}) : super(key: key);
 
   final String title;
 
@@ -256,7 +256,7 @@ class _Title extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle(this.subtitle, {Key key}) : super(key: key);
+  const _Subtitle(this.subtitle, {Key? key}) : super(key: key);
 
   final String subtitle;
 
@@ -267,7 +267,7 @@ class _Subtitle extends StatelessWidget {
 }
 
 class _Topic extends StatelessWidget {
-  const _Topic({Key key, @required this.title, @required this.texts})
+  const _Topic({Key? key, required this.title, required this.texts})
       : super(key: key);
 
   final Widget title;

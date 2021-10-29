@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,7 +9,6 @@ import 'widgets/max_width_constraint_box.dart';
 import 'widgets/section.dart';
 import 'widgets/shadow_card.dart';
 import 'widgets/snackbars.dart';
-import 'widgets/svg.dart';
 
 const phoneNumber = '+49 1516 7754541';
 
@@ -49,7 +49,7 @@ class _Header extends StatelessWidget {
         child: SizedBox(
             width: 70,
             height: 70,
-            child: PlatformSvg.asset('assets/icons/confused.svg')),
+            child: SvgPicture.asset('assets/icons/confused.svg')),
       ),
       children: const <Widget>[
         Text(
@@ -71,12 +71,12 @@ class _Header extends StatelessWidget {
 }
 
 class _SupportCard extends StatelessWidget {
-  final Widget icon;
-  final String title, subtitle;
-  final VoidCallback onPressed;
+  final Widget? icon;
+  final String? title, subtitle;
+  final VoidCallback? onPressed;
 
   const _SupportCard(
-      {Key key, this.icon, this.title, this.subtitle, this.onPressed})
+      {Key? key, this.icon, this.title, this.subtitle, this.onPressed})
       : super(key: key);
 
   @override
@@ -90,8 +90,8 @@ class _SupportCard extends StatelessWidget {
             height: 30,
             child: icon,
           ),
-          title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          title: Text(title!),
+          subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
         ),
       ),
@@ -103,7 +103,7 @@ class _EmailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/email.svg',
         color: Theme.of(context).primaryColor,
       ),
@@ -130,7 +130,7 @@ class _WhatsAppTile extends StatelessWidget {
   Widget build(BuildContext context) {
     const name = 'WhatsApp';
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/whatsapp.svg',
         color: Theme.of(context).primaryColor,
       ),
@@ -171,7 +171,7 @@ class _TelegramTile extends StatelessWidget {
   Widget build(BuildContext context) {
     const name = 'Telegram';
     return _SupportCard(
-      icon: PlatformSvg.asset('assets/icons/telegram.svg'),
+      icon: SvgPicture.asset('assets/icons/telegram.svg'),
       title: phoneNumber,
       subtitle: name,
       onPressed: () async {
@@ -199,8 +199,10 @@ class _TelegramTile extends StatelessWidget {
   }
 }
 
-Future<bool> _showPrivacyWarning(
-    {@required BuildContext context, @required String serviceName}) {
+Future<bool?> _showPrivacyWarning({
+  required BuildContext context,
+  required String serviceName,
+}) {
   return showDialog<bool>(
     context: context,
     builder: (context) => MaxWidthConstraintBox(
@@ -209,15 +211,19 @@ Future<bool> _showPrivacyWarning(
         content: Text(
             "Um uns über $serviceName zu kontaktieren, musst du min. 16 Jahre alt sein (hat datenschutzrechtliche Gründe) und die Datenschutzbestimmungen von $serviceName akzeptieren. Alternativ kannst du uns eine E-Mail schreiben."),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text("Abbrechen".toUpperCase()),
-            textColor: Theme.of(context).primaryColor,
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(color: Theme.of(context).primaryColor),
+            ),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: Text("Zustimmen".toUpperCase()),
-            textColor: Theme.of(context).primaryColor,
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(color: Theme.of(context).primaryColor),
+            ),
           ),
         ],
       ),

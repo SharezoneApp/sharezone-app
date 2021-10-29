@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/section_action_button.dart';
 import 'package:sharezone_website/widgets/subline.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 
 class USP extends StatelessWidget {
   @override
@@ -20,7 +20,7 @@ class USP extends StatelessWidget {
 class _UspImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlatformSvg.asset(
+    return SvgPicture.asset(
       "assets/illustrations/usp.svg",
       width: 400,
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/legal/imprint_page.dart';
 import 'package:sharezone_website/legal/privacy_policy.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 
 import 'home/home_page.dart';
 import 'widgets/column_spacing.dart';
@@ -111,7 +111,7 @@ class _FooterTablet extends StatelessWidget {
 }
 
 class _FooterDesktop extends StatelessWidget {
-  const _FooterDesktop({Key key}) : super(key: key);
+  const _FooterDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -216,47 +216,49 @@ class _FooterNavLinks extends StatelessWidget {
 
 class _FooterAction {
   final String title;
-  final String link;
-  final String tag;
+  final String? link;
+  final String? tag;
 
   _FooterAction(this.title, {this.link, this.tag});
 }
 
 class _FooterSection extends StatelessWidget {
   const _FooterSection({
-    Key key,
+    Key? key,
     this.title,
     this.links,
     this.subtitle,
   }) : super(key: key);
 
-  final String title;
-  final String subtitle;
-  final List<_FooterAction> links;
+  final String? title;
+  final String? subtitle;
+  final List<_FooterAction>? links;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _FooterTitle(title),
-        const SizedBox(height: 4),
+        if (title != null) ...[
+          _FooterTitle(title!),
+          const SizedBox(height: 4),
+        ],
         if (subtitle != null) ...[
-          SelectableText(subtitle),
+          SelectableText(subtitle!),
           const SizedBox(height: 8),
         ],
         ColumnSpacing(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 4,
           children: [
-            for (final l in links)
+            for (final l in links!)
               SectionActionButton(
                 text: l.title,
                 onTap: () {
                   if (l.link == null) {
-                    Navigator.pushNamed(context, l.tag);
+                    Navigator.pushNamed(context, l.tag!);
                   } else {
-                    launchURL(l.link);
+                    launchURL(l.link!);
                   }
                 },
                 color: Colors.white,
@@ -270,7 +272,7 @@ class _FooterSection extends StatelessWidget {
 }
 
 class _FooterTitle extends StatelessWidget {
-  const _FooterTitle(this.title, {Key key}) : super(key: key);
+  const _FooterTitle(this.title, {Key? key}) : super(key: key);
 
   final String title;
 
@@ -287,7 +289,7 @@ class _FooterTitle extends StatelessWidget {
 }
 
 class _FooterSocialMedia extends StatelessWidget {
-  const _FooterSocialMedia({Key key}) : super(key: key);
+  const _FooterSocialMedia({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -316,7 +318,7 @@ class _FooterSocialMedia extends StatelessWidget {
 }
 
 class _SocialMediaButton extends StatelessWidget {
-  const _SocialMediaButton(this.socialMediaPlatform, {Key key})
+  const _SocialMediaButton(this.socialMediaPlatform, {Key? key})
       : super(key: key);
 
   final String socialMediaPlatform;
@@ -337,7 +339,7 @@ class _SocialMediaButton extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: PlatformSvg.asset(
+            child: SvgPicture.asset(
               "assets/icons/$lowerCasePlatform.svg",
               color: context.primaryColor,
             ),

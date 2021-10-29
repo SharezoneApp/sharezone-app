@@ -4,29 +4,29 @@ import '../utils.dart';
 
 class TransparentButton extends StatelessWidget {
   const TransparentButton({
-    Key key,
+    Key? key,
     this.onTap,
     this.child,
     this.fontSize = 18,
     this.color,
   }) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final double fontSize;
-  final Color color;
-  final Widget child;
+  final Color? color;
+  final Widget? child;
 
   factory TransparentButton.openLink({
-    String link,
-    Widget child,
+    String? link,
+    Widget? child,
     double fontSize = 18,
-    Color color,
+    Color? color,
   }) {
     return TransparentButton(
       fontSize: fontSize,
       color: color,
       child: child,
-      onTap: () => launchURL(link),
+      onTap: () => launchURL(link!),
     );
   }
 
@@ -42,7 +42,7 @@ class TransparentButton extends StatelessWidget {
           fontSize: fontSize,
           color: color ?? Colors.black,
         ),
-        child: child,
+        child: child!,
       ),
     );
   }

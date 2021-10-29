@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/row_spacing.dart';
 import 'package:sharezone_website/widgets/section.dart';
 import 'package:sharezone_website/widgets/shadow_card.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 
 import '../../main.dart';
 import '../home_page.dart';
@@ -71,7 +71,7 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
                       key: ValueKey(currentFeature),
                       width: 350,
                       child: Image.asset(
-                        "assets/features/${currentFeature?.toLowerCase()}.png",
+                        "assets/features/${currentFeature.toLowerCase()}.png",
                         height: 650,
                         semanticLabel: currentFeature,
                       ),
@@ -112,7 +112,7 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
   }
 
   Widget feature(String title,
-      {List<String> bulletpoints = const [], String subtitle}) {
+      {List<String> bulletpoints = const [], String? subtitle}) {
     return MouseRegion(
       onHover: (event) => setState(() => currentFeature = title),
       onExit: (event) => setState(() => currentFeature = defaultFeature),
@@ -132,17 +132,17 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
 
 class _FeatureCard extends StatefulWidget {
   const _FeatureCard({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
     this.subtitle,
     this.onTap,
     this.bulletpoints = const [],
   }) : super(key: key);
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final List<String> bulletpoints;
-  final ValueChanged<String> onTap;
+  final ValueChanged<String>? onTap;
 
   @override
   __FeatureCardState createState() => __FeatureCardState();
@@ -162,7 +162,7 @@ class __FeatureCardState extends State<_FeatureCard> {
       onHover: (event) => showIcon = false,
       onExit: (event) => showIcon = true,
       child: CustomCard(
-        onTap: isTablet(context) ? null : () => widget.onTap(widget.title),
+        onTap: isTablet(context) ? null : () => widget.onTap!(widget.title),
         child: SizedBox(
           height: 115,
           width: isTablet(context) ? double.infinity : 230,
@@ -177,7 +177,7 @@ class __FeatureCardState extends State<_FeatureCard> {
                         child: Semantics(
                           image: true,
                           label: 'An image of the ${widget.title} feature',
-                          child: PlatformSvg.asset(
+                          child: SvgPicture.asset(
                             "assets/icons/${widget.title.toLowerCase()}.svg",
                             height: 45,
                           ),
@@ -220,12 +220,9 @@ class __FeatureCardState extends State<_FeatureCard> {
                     ),
                     if (widget.subtitle != null)
                       Text(
-                        widget.subtitle,
+                        widget.subtitle!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                   ],
                 ),

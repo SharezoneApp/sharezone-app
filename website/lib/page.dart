@@ -12,12 +12,12 @@ import 'widgets/transparent_button.dart';
 
 class PageTemplate extends StatelessWidget {
   const PageTemplate({
-    Key key,
+    Key? key,
     this.children,
     this.crossAxisAlignment = CrossAxisAlignment.center,
   }) : super(key: key);
 
-  final List<Widget> children;
+  final List<Widget>? children;
   final CrossAxisAlignment crossAxisAlignment;
 
   @override
@@ -61,7 +61,7 @@ class PageTemplate extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: crossAxisAlignment,
                   children: [
-                    ...children,
+                    ...children!,
                     Footer(),
                   ],
                 ),

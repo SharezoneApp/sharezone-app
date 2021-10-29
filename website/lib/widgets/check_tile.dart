@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-
-import 'svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CheckTile extends StatelessWidget {
   const CheckTile({
-    Key key,
+    Key? key,
     this.title,
     this.subtitle,
   }) : super(key: key);
 
-  final String title;
-  final String subtitle;
+  final String? title;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PlatformSvg.asset(
+        SvgPicture.asset(
           "assets/icons/correct.svg",
           height: 30,
         ),
@@ -26,12 +25,12 @@ class CheckTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SelectableText(
-                title,
+                title!,
                 style: TextStyle(fontSize: 20),
               ),
               if (subtitle != null)
                 SelectableText(
-                  subtitle,
+                  subtitle!,
                   style: TextStyle(color: Colors.grey, fontSize: 16),
                 ),
             ],

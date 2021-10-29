@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/check_tile.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 
 class DataProtection extends StatelessWidget {
   @override
@@ -45,7 +45,7 @@ class DataProtection extends StatelessWidget {
           ],
         ),
         image: Align(
-          child: PlatformSvg.asset(
+          child: SvgPicture.asset(
             "assets/illustrations/gdpr.svg",
             height: 420,
           ),

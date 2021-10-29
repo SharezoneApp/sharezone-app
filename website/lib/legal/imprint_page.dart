@@ -31,7 +31,7 @@ class ImprintPage extends StatelessWidget {
                     data: ThemeData.light(),
                     child: MarkdownBody(
                       data: Imprint.offline().asMarkdown,
-                      onTapLink: (link) => launchURL(link),
+                      onTapLink: (link, href, title) => launchURL(link),
                       selectable: true,
                     ),
                   ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/subline.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 import 'package:sharezone_website/widgets/transparent_button.dart';
 
 class AllPlatforms extends StatelessWidget {
@@ -51,7 +51,7 @@ class _AllPlatformsText extends StatelessWidget {
                   children: [
                     TransparentButton.openLink(
                       link: "https://sharezone.net/ios",
-                      child: PlatformSvg.asset(
+                      child: SvgPicture.asset(
                         "assets/get_it_on/appstore.svg",
                         height: 52,
                       ),
@@ -71,7 +71,7 @@ class _AllPlatformsText extends StatelessWidget {
                       link: Theme.of(context).platform == TargetPlatform.macOS
                           ? "https://sharezone.net/macos-direct"
                           : "https://sharezone.net/macos",
-                      child: PlatformSvg.asset(
+                      child: SvgPicture.asset(
                         "assets/get_it_on/macos.svg",
                         height: 52,
                       ),

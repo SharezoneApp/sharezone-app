@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/section_action_button.dart';
 import 'package:sharezone_website/widgets/subline.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 
 import '../../support_page.dart';
 
@@ -16,7 +16,7 @@ class Support extends StatelessWidget {
         desktopSpacing: 100,
         imagePosition: ImagePosition.left,
         image:
-            PlatformSvg.asset("assets/illustrations/support.svg", height: 400),
+            SvgPicture.asset("assets/illustrations/support.svg", height: 400),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

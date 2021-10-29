@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_website/home/home_page.dart';
 
 class Headline extends StatelessWidget {
-  const Headline(this.text, {Key key}) : super(key: key);
+  const Headline(this.text, {Key? key}) : super(key: key);
 
   final String text;
 

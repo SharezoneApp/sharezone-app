@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MoveLeftOnHover extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   // You can also pass the translation in here if you want to
-  MoveLeftOnHover({Key key, this.child}) : super(key: key);
+  MoveLeftOnHover({Key? key, this.child}) : super(key: key);
 
   @override
   _MoveLeftOnHoverState createState() => _MoveLeftOnHoverState();

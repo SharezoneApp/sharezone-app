@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard(
-      {@required this.child,
+      {required this.child,
       this.size,
       this.onTap,
       this.margin,
@@ -18,7 +18,7 @@ class CustomCard extends StatelessWidget {
       this.borderWidth = 1});
 
   const CustomCard.roundVertical(
-      {@required this.child,
+      {required this.child,
       this.onTap,
       this.size,
       this.margin,
@@ -35,18 +35,18 @@ class CustomCard extends StatelessWidget {
       this.borderWidth = 1});
 
   final Widget child;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final Size size;
-  final Padding margin;
-  final double opacity;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final Size? size;
+  final Padding? margin;
+  final double? opacity;
   final EdgeInsetsGeometry padding;
   final double blurRadius;
   final BorderRadius borderRadius;
   final double borderWidth;
   final Color shadowColor;
   final Offset offset;
-  final Color color;
+  final Color? color;
   final bool withBorder;
 
   @override
@@ -60,7 +60,7 @@ class CustomCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius,
         child: Padding(
-          padding: margin as EdgeInsetsGeometry ?? const EdgeInsets.all(0.0),
+          padding: margin as EdgeInsetsGeometry? ?? const EdgeInsets.all(0.0),
           child: Opacity(
             opacity: opacity ?? 1,
             child: Container(
@@ -71,7 +71,7 @@ class CustomCard extends StatelessWidget {
                 borderRadius: borderRadius,
                 // border: Border.all(color: isDarkThemeEnabled(context) ? Colors.grey[800] : Colors.grey[300]),
                 border: withBorder
-                    ? Border.all(color: Colors.grey[300], width: borderWidth)
+                    ? Border.all(color: Colors.grey[300]!, width: borderWidth)
                     : null,
               ),
               child: Material(

@@ -7,17 +7,17 @@ enum ImagePosition { right, left }
 
 class ImageText extends StatelessWidget {
   const ImageText({
-    Key key,
+    Key? key,
     this.body,
     this.imagePosition,
     this.image,
     this.desktopSpacing = 24.0,
   }) : super(key: key);
 
-  final Widget image;
-  final Widget body;
+  final Widget? image;
+  final Widget? body;
   final double desktopSpacing;
-  final ImagePosition imagePosition;
+  final ImagePosition? imagePosition;
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +25,22 @@ class ImageText extends StatelessWidget {
       child: isTablet(context)
           ? Column(
               children: [
-                image,
+                image!,
                 const SizedBox(height: 32),
-                body,
+                body!,
               ],
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 if (imagePosition == ImagePosition.left) ...[
-                  image,
+                  image!,
                   SizedBox(width: desktopSpacing),
-                  Expanded(child: body)
+                  Expanded(child: body!)
                 ] else ...[
-                  Expanded(child: body),
+                  Expanded(child: body!),
                   SizedBox(width: desktopSpacing),
-                  image
+                  image!
                 ]
               ],
             ),

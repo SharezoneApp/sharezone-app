@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Hpyerlink fürs Web
-Future<void> launchURL(String url, {BuildContext context}) async {
+Future<void> launchURL(String url, {BuildContext? context}) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {

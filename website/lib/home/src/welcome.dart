@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/section.dart';
-import 'package:sharezone_website/widgets/svg.dart';
 import "package:build_context/build_context.dart";
 
 import '../../main.dart';
@@ -57,7 +57,7 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    PlatformSvg.asset(
+                    SvgPicture.asset(
                       'assets/illustrations/releax.svg',
                       height: 250,
                     )

@@ -7,13 +7,13 @@ import 'transparent_button.dart';
 
 
 class SectionActionButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onTap;
-  final Color color;
-  final double fontSize;
+  final String? text;
+  final VoidCallback? onTap;
+  final Color? color;
+  final double? fontSize;
 
   const SectionActionButton({
-    Key key,
+    Key? key,
     this.text,
     this.onTap,
     this.color,
@@ -21,10 +21,10 @@ class SectionActionButton extends StatelessWidget {
   }) : super(key: key);
 
   factory SectionActionButton.openLink(
-      {String link, String text, Color color, double fontSize}) {
+      {String? link, String? text, Color? color, double? fontSize}) {
     return SectionActionButton(
       text: text,
-      onTap: () => launchURL(link),
+      onTap: () => launchURL(link!),
       color: color,
       fontSize: fontSize,
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharezone_website/widgets/svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'shadow_card.dart';
 
@@ -23,19 +23,19 @@ class AvatarCard extends StatelessWidget {
     this.withShadow = true,
   });
 
-  final List<Widget> children;
-  final CrossAxisAlignment crossAxisAlignment;
-  final String svgPath;
-  final Size svgSize;
-  final String imagePath;
-  final Size imageSize;
-  final double radius;
-  final String kuerzel;
-  final Color avatarBackgroundColor;
-  final double paddingBottom;
-  final Widget icon;
-  final VoidCallback onTapImage;
-  final Color fontColor;
+  final List<Widget>? children;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final String? svgPath;
+  final Size? svgSize;
+  final String? imagePath;
+  final Size? imageSize;
+  final double? radius;
+  final String? kuerzel;
+  final Color? avatarBackgroundColor;
+  final double? paddingBottom;
+  final Widget? icon;
+  final VoidCallback? onTapImage;
+  final Color? fontColor;
   final bool withShadow;
 
   @override
@@ -54,8 +54,8 @@ class AvatarCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: crossAxisAlignment == null
                         ? CrossAxisAlignment.start
-                        : crossAxisAlignment,
-                    children: children,
+                        : crossAxisAlignment!,
+                    children: children!,
                   ),
                 ),
               ),
@@ -67,7 +67,7 @@ class AvatarCard extends StatelessWidget {
                   child: Stack(
                     children: <Widget>[
                       CircleAvatar(
-                        radius: (radius == null ? 55.0 : radius) + 10,
+                        radius: (radius == null ? 55.0 : radius)! + 10,
                         backgroundColor:
                             Theme.of(context).scaffoldBackgroundColor,
                       ),
@@ -79,7 +79,7 @@ class AvatarCard extends StatelessWidget {
                             boxShadow: [
                               if (withShadow)
                                 BoxShadow(
-                                  color: Colors.grey[300],
+                                  color: Colors.grey[300]!,
                                   blurRadius: 12.5,
                                   offset: Offset(0.0, 5.0),
                                 ),
@@ -120,11 +120,10 @@ class AvatarCard extends StatelessWidget {
   Widget svg() {
     return InkWell(
       onTap: onTapImage,
-      child: PlatformSvg.asset(
-        svgPath,
+      child: SvgPicture.asset(
+        svgPath!,
         width: svgSize?.width,
         height: svgSize?.height,
-        // allowDrawingOutsideViewBox: false,
       ),
     );
   }
@@ -133,13 +132,13 @@ class AvatarCard extends StatelessWidget {
     return InkWell(
       onTap: onTapImage,
       child: Container(
-        width: imageSize == null ? 110.0 : imageSize.width,
-        height: imageSize == null ? 110.0 : imageSize.height,
+        width: imageSize == null ? 110.0 : imageSize!.width,
+        height: imageSize == null ? 110.0 : imageSize!.height,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(imagePath),
+            image: NetworkImage(imagePath!),
           ),
         ),
       ),

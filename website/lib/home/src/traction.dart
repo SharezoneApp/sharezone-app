@@ -57,7 +57,7 @@ class Traction extends StatelessWidget {
 }
 
 class _PlayStoreRating extends StatelessWidget {
-  const _PlayStoreRating({Key key}) : super(key: key);
+  const _PlayStoreRating({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _PlayStoreRating extends StatelessWidget {
 
 class _AppStoreRating extends StatelessWidget {
   const _AppStoreRating({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -94,7 +94,7 @@ class __UserCounterState extends State<_UserCounter> {
   // nicht vorhanden ist oder der Wert nicht geladen werden konnte.
   static const fallbackUserCounter = "191531";
 
-  String userCounter = fallbackUserCounter;
+  String? userCounter = fallbackUserCounter;
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class __UserCounterState extends State<_UserCounter> {
             duration: const Duration(milliseconds: 300),
             key: ValueKey(userCounter),
             child: NumberSlideAnimation(
-              number: userCounter,
+              number: userCounter!,
               duration: const Duration(seconds: 4),
               curve: Curves.easeOut,
               textStyle: TextStyle(
@@ -136,7 +136,7 @@ class __UserCounterState extends State<_UserCounter> {
     );
   }
 
-  Future<String> getUserCounter() async {
+  Future<String?> getUserCounter() async {
     try {
       const link =
           "https://europe-west1-sharezone-c2bd8.cloudfunctions.net/userCounter";
@@ -151,15 +151,15 @@ class __UserCounterState extends State<_UserCounter> {
 
 class _StoreReview extends StatelessWidget {
   const _StoreReview({
-    Key key,
+    Key? key,
     this.storeName,
     this.rating,
     this.storeLink,
   }) : super(key: key);
 
-  final String storeName;
-  final double rating;
-  final String storeLink;
+  final String? storeName;
+  final double? rating;
+  final String? storeLink;
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +190,7 @@ class _StoreReview extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            storeName,
+            storeName!,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
