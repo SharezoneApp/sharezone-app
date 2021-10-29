@@ -41,4 +41,4 @@ jobs:
         sudo npm i -g firebase-tools
         echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
         export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
-        firebase deploy -m "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --only hosting:sharezone-webseite
+        firebase deploy -m "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --only hosting:sharezone-webseite --project sharezone-c2bd8
