@@ -38,7 +38,6 @@ jobs:
       env:
         SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
       run: |
-        cd app
         sudo npm i -g firebase-tools
         echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
         export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
