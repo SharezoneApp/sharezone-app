@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: "2.2.3"
+  FLUTTER_VERSION: "2.5.3"
 
 jobs:
   deploy:
@@ -26,9 +26,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Flutter
-      uses: subosito/flutter-action@v1.5.0
+      uses: subosito/flutter-action@v1
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: stable
     
     - name: Build
       run: flutter build web
