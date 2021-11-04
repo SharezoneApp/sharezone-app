@@ -182,7 +182,20 @@ List<CommentWithBadSpacingMatch> findCommentsWithBadSpacingInCode(
       continue;
     }
     final hasSpaceAfterCommentSlashes = sourceCode[match.end] == ' ';
-    final isEmptyCommentWithNoSpacesAfter = sourceCode[match.end] == '\n';
+
+    // Windows has CRLF line endings for files ("\r\n") while Linux and macOS
+    // use LF ("\n").
+    //
+    // This means if there is a line return after the comment then
+    // `sourceCode[match.end]` (character after comment slashes) will be "\n" on
+    // Linux and macOS and "\r" on Windows (because its two characters - first
+    // "\r" and then "\n" on Windows).
+    final isEmptyCommentWithNoSpacesAfter =
+        // Linux / macOS line ending: LF (\n)
+        sourceCode[match.end] == '\n' ||
+            // Windows line ending: CRLF (\r\n). We just assume the \n after \r.
+            sourceCode[match.end] == '\r';
+
     // We assume if comment has format "://" that it is propably a Url.
     // For example https://example.com
     final isPropablyUrl =
