@@ -11,7 +11,8 @@ double _indexChangeProgress(TabController controller) {
     return (currentIndex - controllerValue).abs().clamp(0.0, 1.0).toDouble();
 
   // The TabController animation's value is changing from previousIndex to currentIndex.
-  return (controllerValue - currentIndex).abs() / (currentIndex - previousIndex).abs();
+  return (controllerValue - currentIndex).abs() /
+      (currentIndex - previousIndex).abs();
 }
 
 /// Displays a row of small circular indicators, one per tab. The selected
@@ -28,7 +29,8 @@ class SharezoneTabPageSelector extends StatelessWidget {
     this.color,
     this.selectedColor,
     this.withBorder,
-  }) : assert(indicatorSize != null && indicatorSize > 0.0), super(key: key);
+  })  : assert(indicatorSize != null && indicatorSize > 0.0),
+        super(key: key);
 
   /// This widget's selection and animation state.
   ///
@@ -48,18 +50,18 @@ class SharezoneTabPageSelector extends StatelessWidget {
   /// for all indicator circles.
   ///
   /// If this parameter is null then the indicator is filled with the theme's
-  /// accent color, [ThemeData.accentColor].
+  /// accent color, [ThemeData.colorScheme.secondary].
   final Color selectedColor;
 
   /// The indicator circle's fill the border for all circles
   final bool withBorder;
 
   Widget _buildTabIndicator(
-      int tabIndex,
-      TabController tabController,
-      ColorTween selectedColorTween,
-      ColorTween previousColorTween,
-      ) {
+    int tabIndex,
+    TabController tabController,
+    ColorTween selectedColorTween,
+    ColorTween previousColorTween,
+  ) {
     Color background;
     if (tabController.indexIsChanging) {
       // The selection's animation is animating from previousValue to value.
@@ -86,7 +88,8 @@ class SharezoneTabPageSelector extends StatelessWidget {
     }
     return _TabPageSelectorIndicator(
       backgroundColor: background,
-      borderColor: withBorder != null && withBorder ? selectedColorTween.end : null,
+      borderColor:
+          withBorder != null && withBorder ? selectedColorTween.end : null,
       size: indicatorSize,
     );
   }
@@ -94,19 +97,21 @@ class SharezoneTabPageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color fixColor = color ?? Colors.transparent;
-    final Color fixSelectedColor = selectedColor ?? Theme.of(context).accentColor;
-    final ColorTween selectedColorTween = ColorTween(begin: fixColor, end: fixSelectedColor);
-    final ColorTween previousColorTween = ColorTween(begin: fixSelectedColor, end: fixColor);
-    final TabController tabController = controller ?? DefaultTabController.of(context);
+    final Color fixSelectedColor =
+        selectedColor ?? Theme.of(context).colorScheme.secondary;
+    final ColorTween selectedColorTween =
+        ColorTween(begin: fixColor, end: fixSelectedColor);
+    final ColorTween previousColorTween =
+        ColorTween(begin: fixSelectedColor, end: fixColor);
+    final TabController tabController =
+        controller ?? DefaultTabController.of(context);
     assert(() {
       if (tabController == null) {
-        throw FlutterError(
-            'No TabController for $runtimeType.\n'
-                'When creating a $runtimeType, you must either provide an explicit TabController '
-                'using the "controller" property, or you must ensure that there is a '
-                'DefaultTabController above the $runtimeType.\n'
-                'In this case, there was neither an explicit controller nor a default controller.'
-        );
+        throw FlutterError('No TabController for $runtimeType.\n'
+            'When creating a $runtimeType, you must either provide an explicit TabController '
+            'using the "controller" property, or you must ensure that there is a '
+            'DefaultTabController above the $runtimeType.\n'
+            'In this case, there was neither an explicit controller nor a default controller.');
       }
       return true;
     }());
@@ -120,14 +125,15 @@ class SharezoneTabPageSelector extends StatelessWidget {
           return Semantics(
             label: 'Page ${tabController.index + 1} of ${tabController.length}',
             child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List<Widget>.generate(tabController.length, (int tabIndex) {
-              return _buildTabIndicator(tabIndex, tabController, selectedColorTween, previousColorTween);
-            }).toList(),
-          ),
+              mainAxisSize: MainAxisSize.min,
+              children:
+                  List<Widget>.generate(tabController.length, (int tabIndex) {
+                return _buildTabIndicator(tabIndex, tabController,
+                    selectedColorTween, previousColorTween);
+              }).toList(),
+            ),
           );
-        }
-    );
+        });
   }
 }
 
@@ -143,7 +149,9 @@ class _TabPageSelectorIndicator extends StatelessWidget {
     @required this.backgroundColor,
     this.borderColor,
     @required this.size,
-  }) : assert(backgroundColor != null), assert(size != null), super(key: key);
+  })  : assert(backgroundColor != null),
+        assert(size != null),
+        super(key: key);
 
   /// The indicator circle's background color.
   final Color backgroundColor;

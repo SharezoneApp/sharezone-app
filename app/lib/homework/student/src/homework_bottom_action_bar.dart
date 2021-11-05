@@ -1,9 +1,9 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:rxdart/rxdart.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({

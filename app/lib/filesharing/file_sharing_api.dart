@@ -1,6 +1,6 @@
-import 'package:files_basics/local_file.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/gateways/filesharing_cloud_files_gateway.dart';

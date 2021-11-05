@@ -1,6 +1,6 @@
-import 'package:time/time.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:test/test.dart';
+import 'package:time/time.dart';
 
 void main() {
   test('calculate lesson length', () {

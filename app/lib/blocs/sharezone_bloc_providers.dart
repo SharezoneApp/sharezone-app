@@ -13,8 +13,8 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:http/http.dart' as http;
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';

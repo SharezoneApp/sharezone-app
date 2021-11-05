@@ -1,11 +1,11 @@
+import 'package:app_functions/src/app_functions_result.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/src/models/auth_user.dart';
-import 'package:app_functions/src/app_functions_result.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -17,12 +17,12 @@ import 'package:sharezone/overview/views/user_view.dart';
 import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:user/src/models/user_settings.dart';
-import 'package:user/src/models/user.dart';
-import 'package:user/src/models/tips/user_tip_key.dart';
-import 'package:user/src/models/state_enum.dart';
-import 'package:sharezone_common/src/references.dart';
 import 'package:sharezone_common/src/models/sharezone_time_of_day.dart';
+import 'package:sharezone_common/src/references.dart';
+import 'package:user/src/models/state_enum.dart';
+import 'package:user/src/models/tips/user_tip_key.dart';
+import 'package:user/src/models/user.dart';
+import 'package:user/src/models/user_settings.dart';
 
 void main() {
   group('AccountPage', () {

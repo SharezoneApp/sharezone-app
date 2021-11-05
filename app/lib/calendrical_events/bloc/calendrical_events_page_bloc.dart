@@ -1,8 +1,7 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:rxdart/rxdart.dart';
 import 'package:date/date.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/util/api/courseGateway.dart';

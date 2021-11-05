@@ -1,24 +1,24 @@
 import 'dart:async';
 
 import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:feature_discovery/feature_discovery.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_common/homework_validators.dart';
+import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
 
@@ -264,7 +264,7 @@ class _AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: isDarkThemeEnabled(context)
-          ? Theme.of(context).appBarTheme.color
+          ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(

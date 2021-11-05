@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:app_functions/app_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone_common/database_foundation.dart';
-import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone_common/references.dart';
 
 class ConnectionsGateway implements MyConnectionsAccesor {

@@ -1,11 +1,10 @@
 import 'package:app_functions/app_functions.dart';
+import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
-import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
+import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/util/api/connectionsGateway.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 
 class SchoolClassGateway {
   final References references;

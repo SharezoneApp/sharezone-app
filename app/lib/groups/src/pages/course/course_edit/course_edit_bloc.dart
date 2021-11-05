@@ -1,15 +1,13 @@
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:design/design.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:sharezone_common/api_errors.dart';
+import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone_common/helper_functions.dart';
-
+import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
+import 'package:sharezone_common/helper_functions.dart';
 
 class CourseEditPageBloc extends BlocBase with CourseValidators {
   final _subjectSubject = BehaviorSubject<String>();

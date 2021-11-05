@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
 Future<void> openSchoolClassEditPage(

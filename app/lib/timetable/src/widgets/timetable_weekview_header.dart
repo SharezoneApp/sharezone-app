@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/widgets/timtable_weekview_day_tile.dart';
@@ -18,7 +18,7 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Material(
-      color: Theme.of(context).appBarTheme.color,
+      color: Theme.of(context).appBarTheme.backgroundColor,
       elevation: 1,
       child: Center(
         child: Row(
@@ -44,8 +44,7 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
                                           .color
                                       : Theme.of(context)
                                           .appBarTheme
-                                          .textTheme
-                                          .headline6
+                                          .titleTextStyle
                                           .color),
                             ),
                           );

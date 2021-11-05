@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:date/weektype.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/common/picker.dart';
 
 String getWeekTypeText(WeekType weekDay) {

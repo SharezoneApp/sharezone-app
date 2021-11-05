@@ -1,6 +1,6 @@
-import 'package:time/time.dart';
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
+import 'package:time/time.dart';
 
 /// CALCULATES THE DIMENSIONS OF ONE ELEMENT FOR THE TIMETABLE
 class TimetableElementDimensions {

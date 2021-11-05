@@ -1,7 +1,7 @@
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
-import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 abstract class GroupJoinResult {}

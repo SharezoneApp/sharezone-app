@@ -1,9 +1,11 @@
+import 'package:add_2_calendar/add_2_calendar.dart' as add_2_calendar;
 import 'package:analytics/analytics.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/report/page/report_page.dart';
@@ -15,13 +17,11 @@ import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
-import 'package:add_2_calendar/add_2_calendar.dart' as add_2_calendar;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
 

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:date/date.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
-import 'package:user/user.dart';
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
 import 'package:sharezone/timetable/src/widgets/timetable_day_view.dart';
 import 'package:sharezone/timetable/src/widgets/timetable_time_view.dart';
 import 'package:sharezone/timetable/src/widgets/timetable_weekview_header.dart';
+import 'package:user/user.dart';
 
 class TimetableWeekView extends StatelessWidget {
   final List<Date> dates;

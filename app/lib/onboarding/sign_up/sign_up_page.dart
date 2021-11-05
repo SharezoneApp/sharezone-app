@@ -1,7 +1,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
@@ -9,17 +9,16 @@ import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_pol
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
-part 'pages/privacy_policy.dart';
-part 'pages/data_protection_overview.dart';
 part 'pages/advantages.dart';
-
 part 'pages/choose_type_of_user.dart';
+part 'pages/data_protection_overview.dart';
+part 'pages/privacy_policy.dart';
 
 class SignUpPage extends StatefulWidget {
   static const tag = 'sign-up-page';

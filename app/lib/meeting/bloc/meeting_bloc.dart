@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 import 'package:sharezone/meeting/analytics/meeting_analytics.dart';
 import 'package:sharezone/meeting/cache/meeting_cache.dart';
 import 'package:sharezone/meeting/jitsi/jitsi_auth.dart';
-import 'package:sharezone/meeting/models/meeting_id.dart';
 import 'package:sharezone/meeting/jitsi/jitsi_launcher.dart';
+import 'package:sharezone/meeting/models/meeting_id.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 

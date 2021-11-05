@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart' hide Sharecode;
-
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';

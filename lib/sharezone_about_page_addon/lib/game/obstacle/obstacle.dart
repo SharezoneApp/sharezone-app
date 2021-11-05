@@ -102,7 +102,7 @@ class Obstacle extends SpriteComponent with HasGameRef<TRexGame> {
         ) {
     x = dimensions.width + xOffset;
 
-    if (internalSize > 1 && type.multipleSpeed > speed) {
+    if (internalSize > 1 && type.multipleSpeed.toDouble() > speed) {
       internalSize = 1;
     }
 

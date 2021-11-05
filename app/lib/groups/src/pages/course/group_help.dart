@@ -1,14 +1,14 @@
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:build_context/build_context.dart';
 
 TextStyle _descriptionStyle(BuildContext context) => TextStyle(
-  color: context.isDarkThemeEnabled ? Colors.grey[300] : Colors.grey[700],
-  fontSize: 16,
-);
+      color: context.isDarkThemeEnabled ? Colors.grey[300] : Colors.grey[700],
+      fontSize: 16,
+    );
 
 class CourseHelpPage extends StatelessWidget {
   static const String tag = "course-help-page";
@@ -28,7 +28,9 @@ class CourseHelpInnerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Theme(
-        data: Theme.of(context).copyWith(accentColor: Colors.black),
+        data: Theme.of(context).copyWith(
+            colorScheme:
+                ColorScheme.fromSwatch().copyWith(secondary: Colors.black)),
         child: Column(
           children: <Widget>[
             _WhatIsAPublicKey(),
@@ -121,7 +123,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
                 // Expansion is open: so let's make the svg black
                 _svgColor = isDarkThemeEnabled(context)
                     ? Colors.white
-                    : Theme.of(context).accentColor;
+                    : Theme.of(context).colorScheme.secondary;
               });
             else
               // Expansion is closed: so let's make the svg grey
@@ -162,7 +164,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
                 // Expansion is open: so let's make the svg black
                 _typeInPublicKeyIconColor = isDarkThemeEnabled(context)
                     ? Colors.white
-                    : Theme.of(context).accentColor;
+                    : Theme.of(context).colorScheme.secondary;
               });
             else
               // Expansion is closed: so let's make the svg grey

@@ -1,8 +1,8 @@
+import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/state.dart';
-import 'package:http/http.dart' as http;
 import 'package:sharezone/util/holidays/holiday_api.dart';
+import 'package:sharezone/util/holidays/state.dart';
 import 'package:test/test.dart';
 
 class HttpClientMock extends Mock implements http.Client {}

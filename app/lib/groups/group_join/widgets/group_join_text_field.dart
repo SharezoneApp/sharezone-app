@@ -3,13 +3,12 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
@@ -52,8 +51,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             ),
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: Colors.white,
-                accentColor: Colors.white,
+                primaryColor: Colors.white, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLength: 6,

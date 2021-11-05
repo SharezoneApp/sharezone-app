@@ -1,6 +1,6 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:date/weekday.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:user/user.dart';
 

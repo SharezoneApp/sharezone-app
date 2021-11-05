@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/common/picker.dart';
 import 'package:user/user.dart';
+
 import 'bloc/timetable_bloc.dart';
 
 Future<Period> selectPeriod(BuildContext context, {Period selected}) {

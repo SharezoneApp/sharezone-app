@@ -1,8 +1,9 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
@@ -10,22 +11,21 @@ import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
+import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
-import 'package:sharezone/util/smart_calculation/smart_calculation.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrapper.dart';
-import 'package:user/user.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/util/smart_calculation/smart_calculation.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
-
+import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/wrapper.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
+import 'package:user/user.dart';
+
 import 'homework_details_bloc.dart';
 import 'homework_details_view.dart';
 import 'submissions/homework_create_submission_page.dart';
@@ -158,7 +158,7 @@ class HomeworkTitleAppBar extends StatelessWidget {
       child: SliverAppBar(
         leading: CloseIconButton(color: Colors.white),
         backgroundColor: isDarkThemeEnabled(context)
-            ? Theme.of(context).appBarTheme.color
+            ? Theme.of(context).appBarTheme.backgroundColor
             : Theme.of(context).primaryColor,
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 1,

@@ -1,6 +1,6 @@
+import 'package:date/date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:date/date.dart';
 
 class EditDateField extends StatelessWidget {
   final Date date;

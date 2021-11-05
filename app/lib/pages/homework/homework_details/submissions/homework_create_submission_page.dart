@@ -10,10 +10,10 @@ import 'package:sharezone/homework/shared/placeholder_templates.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/announcement_card.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
-import 'package:sharezone_widgets/announcement_card.dart';
 
 import 'open_submission_file.dart';
 

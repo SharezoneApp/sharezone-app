@@ -2,6 +2,7 @@ import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:authentification_base/authentification_analytics.dart';
+import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -12,7 +13,6 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
-import 'package:authentification_qrcode/authentification_qrcode.dart';
 
 import 'email_and_password_link_page.dart';
 

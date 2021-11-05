@@ -1,5 +1,5 @@
-import 'package:sharezone/pages/blackboard/details/blackboard_item_read_by_users_list/user_view.dart';
 import 'package:sharezone/pages/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_bloc.dart';
+import 'package:sharezone/pages/blackboard/details/blackboard_item_read_by_users_list/user_view.dart';
 import 'package:test/test.dart';
 import 'package:user/user.dart';
 

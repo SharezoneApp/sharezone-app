@@ -1,8 +1,7 @@
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:time/time.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
+import 'package:time/time.dart';
 
 class TimetableElement {
   final Date date;

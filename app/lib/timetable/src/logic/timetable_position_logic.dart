@@ -1,6 +1,6 @@
-import 'package:time/time.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_time_properties.dart';
+import 'package:time/time.dart';
 
 bool _areTimesConflicting(
   Time firstStart,

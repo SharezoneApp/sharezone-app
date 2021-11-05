@@ -1,14 +1,13 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 
 Future<Course> openCourseCreatePage(BuildContext context,
     {Course course, String schoolClassId}) async {

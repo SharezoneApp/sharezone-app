@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:filesharing_logic/file_uploader.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:meta/meta.dart';
 
 class FirebaseFileUploaderImplementation {

@@ -1,14 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
+import 'package:date/weektype.dart';
 import 'package:flutter/widgets.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:rxdart/rxdart.dart';
-import 'package:bloc_provider/bloc_provider.dart';
-import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
@@ -16,10 +18,7 @@ import 'package:sharezone/util/api/schoolClassGateway.dart';
 import 'package:sharezone/util/api/timetableGateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:time/time.dart';
-import 'package:date/weektype.dart';
 import 'package:user/user.dart';
-import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
 
 class SchoolClassFilter {
   SchoolClassFilter.showAllGroups() : classIdToFilterBy = null;

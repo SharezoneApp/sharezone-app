@@ -1,6 +1,6 @@
+import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:bloc_base/bloc_base.dart';
 
 import '../analytics/download_app_tip_analytics.dart';
 import '../cache/download_app_tip_cache.dart';

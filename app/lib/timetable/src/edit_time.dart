@@ -2,10 +2,10 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
+import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:time/time.dart';
-import 'package:sharezone_common/helper_functions.dart';
 
 class EditTimeField extends StatelessWidget {
   final Time time;

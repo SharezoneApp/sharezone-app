@@ -1,6 +1,6 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:user/user.dart';
 
 /// If the current user matches [expectedTypeOfUser] [matchesTypeOfUserWidget] is build

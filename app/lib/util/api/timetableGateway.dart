@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TimetableGateway {
   final References references;

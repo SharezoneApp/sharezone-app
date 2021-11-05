@@ -1,14 +1,14 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
+import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
+import 'package:sharezone_common/sharezone_time_of_day.dart';
+import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
-import 'package:sharezone_common/sharezone_time_of_day.dart';
-import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:user/user.dart';
 
 const _leftPadding = EdgeInsets.only(left: 16);

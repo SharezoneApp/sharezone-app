@@ -1,6 +1,6 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:user/user.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:user/user.dart';
 
 class UserTipsBloc extends BlocBase {
   final UserGateway _userGateway;

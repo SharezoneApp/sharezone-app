@@ -1,12 +1,12 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/services.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone/util/api/connectionsGateway.dart';
-import 'package:group_domain_models/group_domain_models.dart';
 
 class GroupJoinBloc extends BlocBase {
   final ConnectionsGateway _connectionsGateway;

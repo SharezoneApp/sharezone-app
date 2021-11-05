@@ -1,14 +1,14 @@
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_widgets/alternating_colored_list.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
-import 'package:sharezone_widgets/alternating_colored_list.dart';
-import 'package:build_context/build_context.dart';
 import 'package:user/user.dart';
 
 /// Auf dieser Seite wählt der Nutzer nach einem Beitrittsversuch einer Schulklasse

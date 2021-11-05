@@ -1,6 +1,7 @@
 import 'package:animator/animator.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
@@ -10,7 +11,6 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tut
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:build_context/build_context.dart';
 
 import 'bottom_navigation_bar.dart';
 import 'navigation_experiment/navigation_experiment_option.dart';

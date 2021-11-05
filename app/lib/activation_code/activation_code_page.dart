@@ -1,9 +1,10 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/theme.dart';
+
 import 'src/widgets/enter_activation_code_text_field.dart';
 
 Future<dynamic> openEnterActivationCodePage(BuildContext context) {

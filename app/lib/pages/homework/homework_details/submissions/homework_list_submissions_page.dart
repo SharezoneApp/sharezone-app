@@ -2,8 +2,8 @@ import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:intl/intl.dart';
+import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/widgets.dart';
 

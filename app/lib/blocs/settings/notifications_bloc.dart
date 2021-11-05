@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone_common/sharezone_time_of_day.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone_common/sharezone_time_of_day.dart';
 
 class NotificationsBloc extends BlocBase {
   final UserGateway _userGateway;

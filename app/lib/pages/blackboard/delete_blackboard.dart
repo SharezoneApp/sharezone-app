@@ -1,9 +1,9 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
+import 'package:sharezone_widgets/adaptive_dialog.dart';
 
 import 'details/blackboard_details.dart';
 

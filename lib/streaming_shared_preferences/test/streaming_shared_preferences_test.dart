@@ -22,7 +22,7 @@ void main() {
       // This will crash in tests by default, so this is a minimal glue code to
       // make sure that we can run the test below without crashes.
       const channel = MethodChannel('plugins.flutter.io/shared_preferences');
-      channel.setMockMethodCallHandler((call) async {
+      channel.setMethodCallHandler((call) async {
         return call.method == 'getAll' ? {} : null;
       });
 

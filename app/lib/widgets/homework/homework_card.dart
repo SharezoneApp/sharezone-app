@@ -1,15 +1,14 @@
+import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:intl/intl.dart';
-import 'package:analytics/analytics.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/homework/homework_card_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details.dart';
@@ -22,11 +21,11 @@ import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/api/connectionsGateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:user/user.dart';
 
 enum _HomeworkTileLongPressModelSheetOption { delete, edit, done, report }

@@ -1,18 +1,17 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:optional/optional.dart';
 import 'package:sharezone/groups/src/widgets/group_qr_code.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
+import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone_widgets/additional.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:user/user.dart';
-import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
 
 class GroupOnboardingShareSharecode extends StatelessWidget {
   const GroupOnboardingShareSharecode({Key key, @required this.schoolClassId})

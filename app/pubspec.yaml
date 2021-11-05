@@ -11,12 +11,12 @@ dependencies:
     path: ../lib/abgabe/abgabe_client_lib
   abgabe_http_api:
     path: ../lib/abgabe/abgabe_http_api
-  add_2_calendar: ^1.4.0
+  add_2_calendar: ^2.1.1
   analytics:
     path: ../lib/analytics
   animated_stream_list: ^1.1.0
-  animations: ^1.1.2
-  animator: ^2.0.1
+  animations: ^2.0.1
+  animator: ^3.1.0
   app_functions:
     path: ../lib/app_functions
   app_review: ^2.0.1
@@ -34,7 +34,7 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   cloud_firestore: ^2.3.0
-  cloud_functions: ^2.0.0
+  cloud_functions: ^3.0.4
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
@@ -54,26 +54,26 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^2.0.0
+  firebase_auth: ^3.1.2
   firebase_core: ^1.3.0
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
   firebase_messaging: ^10.0.3
   firebase_performance: ^0.7.0+6
-  firebase_storage: ^9.0.0
-  flare_flutter: 2.0.5
+  firebase_storage: ^10.0.4
+  flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.2
-  flutter_native_timezone: ^1.0.4
-  flutter_rating_bar: ^3.0.1+1
-  flutter_sfsymbols: ^1.0.0
-  flutter_slidable: ^0.5.5
+  flutter_native_timezone: ^2.0.0
+  flutter_rating_bar: ^4.0.0
+  flutter_sfsymbols: ^2.0.0
+  flutter_slidable: ^0.6.0
   flutter_svg: ^0.22.0
-  font_awesome_flutter: ^8.8.1
+  font_awesome_flutter: ^9.1.0
   group_domain_implementation:
     path: ../lib/group_domain_implementation
   group_domain_models:
@@ -81,7 +81,7 @@ dependencies:
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
   intl: ^0.17.0
-  jitsi_meet: ^2.0.0
+  jitsi_meet: ^4.0.0
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
@@ -89,21 +89,21 @@ dependencies:
   meta: ^1.1.8
   notifications:
     path: ../lib/notifications
-  numberpicker: ^1.2.1
+  numberpicker: ^2.1.1
   open_file: ^3.0.3
   optional: ^4.1.0
   overlay_support: ^1.0.5
   package_info_plus: ^1.0.4
   permission_handler: ^8.1.2
-  photo_view: ^0.11.1
+  photo_view: ^0.12.0
   provider: ^5.0.0
-  purchases_flutter: ^1.2.1
-  qr_flutter: ^3.2.0
+  purchases_flutter: ^3.4.5
+  qr_flutter: ^4.0.0
   quiver: ^3.0.1
   remote_configuration:
     path: ../lib/remote_configuration
   rxdart: ^0.27.1
-  share: ^0.6.4+3
+  share: ^2.0.4
   shared_preferences: ^2.0.5
   sharezone_about_page_addon:
     path: ../lib/sharezone_about_page_addon
@@ -113,17 +113,17 @@ dependencies:
     path: ../lib/sharezone_utils
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  showcaseview: ^0.1.5
+  showcaseview: ^1.1.1
   sliding_up_panel:
     git:
       url: https://github.com/AndroidNils/sliding_up_panel
       ref: animation-listener
   streaming_shared_preferences:
     path: ../lib/streaming_shared_preferences
-  string_similarity: ^1.0.1
+  string_similarity: ^2.0.0
   time:
     path: ../lib/time
-  timeago: ^2.0.26
+  timeago: ^3.1.0
   url_launcher: ^6.0.9
   url_launcher_extended:
     path: ../lib/url_launcher_extended
@@ -147,7 +147,7 @@ dependency_overrides:
       ref: video_player_macos_new
 
 dev_dependencies:
-  build_runner: ^1.10.0
+  build_runner: ^2.1.4
   built_value_generator: ^8.1.1
   flutter_driver:
     sdk: flutter
@@ -155,7 +155,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  mockito: ^4.1.1
+  mockito: ^5.0.7
   random_string: ^2.0.1
   test: ^1.16.8
 

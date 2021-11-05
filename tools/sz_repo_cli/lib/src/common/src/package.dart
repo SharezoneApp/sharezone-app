@@ -203,6 +203,7 @@ class FlutterPackage extends Package {
       'flutter',
       ['test'],
       workingDirectory: location.path,
+      runInShell: true,
     );
   }
 }

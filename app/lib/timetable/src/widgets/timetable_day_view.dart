@@ -1,30 +1,29 @@
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:date/date.dart';
+import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
-import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_tile.dart';
-import 'package:time/time.dart';
-import 'package:date/weektype.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_selection_bloc.dart';
+import 'package:sharezone/timetable/src/logic/timetable_element_dimensions.dart';
 import 'package:sharezone/timetable/src/logic/timetable_period_dimensions.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:user/user.dart';
-import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
-import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone/timetable/src/logic/timetable_element_dimensions.dart';
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
+import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_tile.dart';
+import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
+import 'package:sharezone_widgets/placeholder.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/placeholder.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 Color _getIconColor(BuildContext context) =>
     isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];

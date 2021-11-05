@@ -1,35 +1,34 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sharezone/additional/course_permission.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
-import 'package:sharezone_widgets/wrapper.dart';
-import 'package:time/time.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
+import 'package:sharezone/markdown/markdown_support.dart';
+import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_factory.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone/widgets/fade_switch_between_index_with_tab_controller.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/tabs.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/wrapper.dart';
+import 'package:time/time.dart';
 
-part 'tabs/time_tab.dart';
-part 'tabs/optional_tab.dart';
-part 'tabs/date_tab.dart';
 part 'tabs/course_tab.dart';
+part 'tabs/date_tab.dart';
+part 'tabs/optional_tab.dart';
+part 'tabs/time_tab.dart';
 part 'tabs/title_tab.dart';
 
 void _submit(BuildContext context) {

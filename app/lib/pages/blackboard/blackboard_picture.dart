@@ -1,7 +1,7 @@
 import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 
 const List<String> localPictures = [
   "assets/wallpaper/blackboard/make-photo.png",

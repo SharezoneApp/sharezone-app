@@ -1,13 +1,13 @@
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/homework/homework_page_bloc.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:user/user.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import 'package:user/user.dart';
 
 class HomeworkArchivedPage extends StatefulWidget {
   static const String tag = "homework-archived-page";

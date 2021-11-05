@@ -2,7 +2,6 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:share/share.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
@@ -10,8 +9,8 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/dialog_wrapper.dart';
+import 'package:sharezone_widgets/snackbars.dart';
 
 import 'group_qr_code.dart';
 

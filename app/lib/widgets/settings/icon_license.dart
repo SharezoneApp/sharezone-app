@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/data/icon_licences.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_widgets/svg.dart';
 
 class IconLicense extends StatelessWidget {
   @override

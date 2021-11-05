@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/homework/shared/animated_tab_visibility.dart';
 import 'package:sharezone/homework/shared/bottom_of_scrollview_visibility.dart';
 import 'package:sharezone/homework/shared/homework_fab.dart';
 import 'package:sharezone/homework/shared/placeholder_templates.dart';
-import 'package:sharezone/homework/shared/animated_tab_visibility.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
-import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
+import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_widgets/theme.dart';
 

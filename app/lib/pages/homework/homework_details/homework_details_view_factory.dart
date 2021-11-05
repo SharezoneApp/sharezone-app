@@ -1,13 +1,13 @@
 import 'package:bloc_base/bloc_base.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view.dart';
 import 'package:sharezone/pages/homework/homework_details/submissions/submission_permissions.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:intl/intl.dart';
 import 'package:user/user.dart';
 
 import '../homework_permissions.dart';

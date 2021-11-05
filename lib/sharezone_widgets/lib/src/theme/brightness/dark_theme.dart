@@ -6,12 +6,10 @@ final darkTheme = ThemeData(
   // Brightness
   brightness: Brightness.dark,
   primaryColorBrightness: Brightness.dark,
-  accentColorBrightness: Brightness.dark,
   scaffoldBackgroundColor: ElevationColors.dp0,
 
   // Colors
   primaryColor: primaryColor,
-  accentColor: _accentColor,
   toggleableActiveColor: _accentColor,
   unselectedWidgetColor: _accentColor,
   cardColor: ElevationColors.dp0,
@@ -26,9 +24,10 @@ final darkTheme = ThemeData(
 
   // Themes
   appBarTheme: AppBarTheme(
-      brightness: Brightness.dark,
-      color: ElevationColors.dp8,
-      iconTheme: IconThemeData(color: Colors.white)),
+    color: ElevationColors.dp8,
+    foregroundColor: Colors.white,
+    iconTheme: IconThemeData(color: Colors.white),
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: _accentColor,
     foregroundColor: Colors.white,
@@ -38,6 +37,8 @@ final darkTheme = ThemeData(
   snackBarTheme: _snackBarTheme,
   bottomSheetTheme: _bottomSheetTheme,
   dialogTheme: _dialogTheme,
+  colorScheme: ColorScheme.fromSwatch()
+      .copyWith(secondary: _accentColor, brightness: Brightness.dark),
 );
 
 bool isDarkThemeEnabled(BuildContext context) =>

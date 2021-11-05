@@ -1,11 +1,11 @@
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/svg.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:build_context/build_context.dart';
 
 class SupportPage extends StatelessWidget {
   static const String tag = 'support-page';
