@@ -19,6 +19,13 @@ class AnalyzeCommand extends Command {
         help:
             'How many packages at most should be processed at once. Helpful for a CI or not as powerful PCs to not have so much processing at once.',
       )
+      ..addFlag(
+        'verbose',
+        abbr: 'v',
+        help: 'if verbose output should be printed (helpful for debugging)',
+        negatable: false,
+        defaultsTo: false,
+      )
       ..addPackageTimeoutOption(defaultInMinutes: 7);
   }
 
@@ -45,6 +52,8 @@ class AnalyzeCommand extends Command {
 
   @override
   Future<Null> run() async {
+    isVerbose = argResults['verbose'] ?? false;
+
     print('Activating tuneup package...');
     await runAndStream('dart', ['pub', 'global', 'activate', 'tuneup'],
         workingDir: _useCase.repo.sharezoneFlutterApp.location,
