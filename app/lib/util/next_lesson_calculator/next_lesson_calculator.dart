@@ -1,15 +1,14 @@
+import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:date/date.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:user/user.dart';
-
 import 'package:sharezone/util/api/timetableGateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/holidays/api_cache_manager.dart';
+import 'package:user/user.dart';
 
 class NextLessonCalculator {
   final TimetableGateway timetableGateway;
