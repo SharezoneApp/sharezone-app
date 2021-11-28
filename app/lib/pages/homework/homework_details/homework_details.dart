@@ -15,7 +15,7 @@ import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone/util/smart_calculation/smart_calculation.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
@@ -356,7 +356,7 @@ class _EditIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final smartCalculations = SmartCalculations(
+    final nextLessonCalculator = NextLessonCalculator(
       timetableGateway: api.timetable,
       userGateway: api.user,
       holidayManager: BlocProvider.of<HolidayBloc>(context).holidayManager,
@@ -368,7 +368,7 @@ class _EditIcon extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => HomeworkDialog(
-            homeworkDialogApi: HomeworkDialogApi(api, smartCalculations),
+            homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
             homework: homework,
           ),
           settings: RouteSettings(name: HomeworkDialog.tag),

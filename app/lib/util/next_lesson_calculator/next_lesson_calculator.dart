@@ -1,16 +1,54 @@
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:meta/meta.dart';
+import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone/util/holidays/api_cache_manager.dart';
 import 'package:user/user.dart';
 
-class NextLessonCalculation {
+class NextLessonCalculator {
+  final TimetableGateway timetableGateway;
+  final UserGateway userGateway;
+  final HolidayManager holidayManager;
+
+  NextLessonCalculator({
+    @required this.timetableGateway,
+    @required this.userGateway,
+    @required this.holidayManager,
+  });
+
+  Future<Date> calculateNextLesson(String courseID) async {
+    List<Lesson> lessons = await timetableGateway.getLessonsOfGroup(courseID);
+    AppUser user = await userGateway.get();
+    List<Holiday> holidays;
+    try {
+      holidays = user.state != null
+          ? await holidayManager.load(toStateOrThrow(user.state))
+          : [];
+    } catch (e) {
+      holidays = [];
+    }
+    _NextLessonCalculation nextLessonCalculation =
+        _NextLessonCalculation(lessons, holidays, user.userSettings);
+    List<Date> results = nextLessonCalculation.calculate(days: 3);
+    if (results.isEmpty) {
+      return null;
+    } else {
+      return results.first;
+    }
+  }
+}
+
+class _NextLessonCalculation {
   final List<Lesson> lessons;
   final List<Holiday> holidays;
   final UserSettings userSettings;
 
-  NextLessonCalculation(this.lessons, this.holidays, this.userSettings);
+  _NextLessonCalculation(this.lessons, this.holidays, this.userSettings);
 
   List<Date> calculate({int days = 3}) {
     if (lessons.isEmpty) return [];
