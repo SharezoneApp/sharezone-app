@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sharezone/data/icon_licences.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/svg.dart';
 
@@ -57,4 +56,64 @@ class IconListTitle extends StatelessWidget {
       },
     );
   }
+}
+
+class IconsLicenses {
+  static const freepik = "Freepik";
+  static const pixelPerfect = "Pixel Perfect";
+  static const daveGandy = "Dave Gandy";
+  static const icomoon = "Icomoon";
+  static const smashicons = "Smashicons";
+
+  static const flationURL = "https://www.flaticon.com";
+  static const freepikURL = "https://www.flaticon.com/authors/freepik";
+  static const daveGandyURL = "https://www.flaticon.com/authors/dave-gandy";
+  static const icomoonURL = "https://www.flaticon.com/authors/icomoon";
+  static const smashiconsURL = "https://www.flaticon.com/authors/smashicons";
+
+  static const licenseFlation = "Flaticon Basic License";
+  static const licenseCC = "Attribution 3.0 Unported (CC BY 3.0)";
+
+  static List<IconListTitle> icons = [
+    IconListTitle(
+        author: freepik,
+        iconPath: 'assets/icons/fire.svg',
+        url: freepikURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: freepik,
+        iconPath: 'assets/icons/professor.svg',
+        url: freepikURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: freepik,
+        iconPath: 'assets/icons/ghost.svg',
+        url: freepikURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: freepik,
+        iconPath: 'assets/icons/parents.svg',
+        url: freepikURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: freepik,
+        iconPath: 'assets/icons/students.svg',
+        url: freepikURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: pixelPerfect,
+        iconPath: 'assets/icons/instagram.svg',
+        url: flationURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: smashicons,
+        iconPath: 'assets/icons/game-controller.svg',
+        url: smashiconsURL,
+        license: licenseFlation),
+    IconListTitle(
+        author: daveGandy,
+        iconPath: 'assets/icons/email.svg',
+        url: daveGandyURL,
+        license: licenseCC),
+  ];
 }
