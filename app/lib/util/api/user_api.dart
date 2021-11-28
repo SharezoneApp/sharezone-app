@@ -5,12 +5,12 @@ import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_common/sharezone_time_of_day.dart';
 import 'package:sharezone_utils/internet_access.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:user/user.dart';
@@ -128,9 +128,9 @@ class UserGateway implements UserGatewayAuthentifcation {
     });
   }
 
-  Future<void> setHomeworkReminderTime(SharezoneTimeOfDay timeOfDay) async {
+  Future<void> setHomeworkReminderTime(TimeOfDay timeOfDay) async {
     await references.users.doc(authUser.uid).update(
-        {"reminderTime": timeOfDay?.toStringShort() ?? FieldValue.delete()});
+        {"reminderTime": timeOfDay?.toApiString() ?? FieldValue.delete()});
   }
 
   Future<void> updateSettings(UserSettings userSettings) async {
@@ -198,4 +198,20 @@ class UserGateway implements UserGatewayAuthentifcation {
     _userSubject.close();
     _authUserSubject.close();
   }
+}
+
+extension TimeOfDayToApiString on TimeOfDay {
+  String toApiString() {
+    final hour = _ifNecessaryAddZeroCharacter(this.hour);
+    final minute = _ifNecessaryAddZeroCharacter(this.minute);
+
+    return "$hour:$minute";
+  }
+}
+
+String _ifNecessaryAddZeroCharacter(int timeUnit) {
+  final stringVal = timeUnit.toString();
+  if (timeUnit == 0) return "${stringVal}0";
+  if (timeUnit > 0 && timeUnit < 10) return "0$stringVal";
+  return stringVal;
 }

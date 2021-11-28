@@ -5,7 +5,6 @@ import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
-import 'package:sharezone_common/sharezone_time_of_day.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
@@ -128,8 +127,8 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
                     minutesInterval: 30);
 
                 if (newTime != null) {
-                  bloc.changeNotificationsTimeForHomeworks(SharezoneTimeOfDay(
-                      hour: newTime.hour, minute: newTime.minute));
+                  bloc.changeNotificationsTimeForHomeworks(
+                      TimeOfDay(hour: newTime.hour, minute: newTime.minute));
                 }
               },
             );
