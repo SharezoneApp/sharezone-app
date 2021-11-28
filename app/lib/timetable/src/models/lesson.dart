@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:meta/meta.dart';
 import 'package:date/date.dart';
-import 'package:time/time.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:time/time.dart';
 
 class Lesson {
   final String lessonID, groupID;

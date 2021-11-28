@@ -1,10 +1,9 @@
 import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
-
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 

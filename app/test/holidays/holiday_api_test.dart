@@ -1,16 +1,47 @@
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/state.dart';
-import 'package:http/http.dart' as http;
 import 'package:sharezone/util/holidays/holiday_api.dart';
+import 'package:sharezone/util/holidays/state.dart';
 import 'package:test/test.dart';
 
 class HttpClientMock extends Mock implements http.Client {}
+
+class MockHolidayApiClient extends HolidayApiClient {
+  List answer;
+
+  @override
+  Future<List> getHolidayAPIResponse(int year, String stateCode) async {
+    return answer ?? [];
+  }
+}
+
+class MockitoHolidayApiClient extends Mock implements HolidayApiClient {}
+
+/// Fixes HandshakeException:<HandshakeException: Handshake error in client (OS
+/// Error: CERTIFICATE_VERIFY_FAILED: certificate has
+/// expired(../../third_party/boringssl/src/ssl/handshake.cc:359))>
+/// when running tests locally
+class IgnoreCertificateErrorsHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 void main() {
   State state;
   setUp(() {
     state = NordrheinWestfalen();
+    HttpOverrides.global = IgnoreCertificateErrorsHttpOverrides();
+  });
+
+  tearDown(() {
+    HttpOverrides.global = null;
   });
 
   test("If Api gets valid data returns Holidays", () {
@@ -29,9 +60,9 @@ void main() {
 
   test('Api gets called for correct year', () async {
     HttpClientMock httpClient = HttpClientMock();
-    HolidayApi api = HolidayApi(httpClient);
+    HolidayApi api = HolidayApi(HttpHolidayApiClient(httpClient));
     int expectedYear = DateTime.now().year;
-    Uri expectedUrl = HolidayApi.getApiUrl("NW", expectedYear);
+    Uri expectedUrl = HttpHolidayApiClient.getApiUrl("NW", expectedYear);
 
     when(httpClient.get(any)).thenThrow(Exception("Should not get called"));
     when(httpClient.get(expectedUrl))
@@ -40,38 +71,29 @@ void main() {
     await api.load(0, state);
     verify(httpClient.get(expectedUrl)).called(1);
   });
-  test('If a response is empty still returns other valid years', () {
-    Uri urlThisYearRequest = HolidayApi.getApiUrl("NW", DateTime.now().year);
 
-    HttpClientMock httpClient = HttpClientMock();
-    when(httpClient.get(any)).thenAnswer((_) => Future.value(emptyResponse));
-    when(httpClient.get(urlThisYearRequest)).thenAnswer(
-        (_) => Future.value(validResponseFromString(simpleResponse)));
-
-    HolidayApi api = HolidayApi(httpClient);
-
-    expect(api.load(2, state), completion(TypeMatcher<List<Holiday>>()));
-  });
   test('Throws when given invalid years', () {
     expectToThrowAssertionErrorForInvalidYearInAdvance(-1);
     expectToThrowAssertionErrorForInvalidYearInAdvance(-10000);
   });
 
   test("Can call dispose", () {
-    HolidayApi holidayAPI = HolidayApi(http.Client());
+    HolidayApi holidayAPI = HolidayApi(HttpHolidayApiClient(http.Client()));
     holidayAPI.dispose();
   });
 }
 
 void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
-  expect(HolidayApi(http.Client()).load(year, NordrheinWestfalen()),
+  expect(
+      HolidayApi(HttpHolidayApiClient(http.Client()))
+          .load(year, NordrheinWestfalen()),
       throwsA(TypeMatcher<AssertionError>()));
 }
 
 HolidayApi apiWithHttpReponse(http.Response validResponse) {
   HttpClientMock client = HttpClientMock();
   when(client.get(any)).thenAnswer((_) => Future.value(validResponse));
-  HolidayApi api = HolidayApi(client);
+  HolidayApi api = HolidayApi(HttpHolidayApiClient(client));
   return api;
 }
 

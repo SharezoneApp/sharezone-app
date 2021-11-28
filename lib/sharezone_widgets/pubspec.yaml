@@ -1,7 +1,6 @@
 name: sharezone_widgets
 description: A new Flutter package project.
 version: 0.0.1
-author:
 publish_to: none
 
 environment:

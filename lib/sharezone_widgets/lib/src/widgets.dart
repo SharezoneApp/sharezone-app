@@ -74,7 +74,7 @@ class DatePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final valueStyle = TextStyle(color: Colors.grey[500]);
     return Theme(
-      data: Theme.of(context).copyWith(accentColor: accentColor),
+      data: Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor)),
       child: Builder(
         builder: (context) {
           return Column(
@@ -114,7 +114,7 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(accentColor: accentColor),
+      data: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor)),
       child: CircularProgressIndicator(
         value: value,
         strokeWidth: strokeWidth ?? 4,

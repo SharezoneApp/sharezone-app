@@ -1,6 +1,6 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:flutter/material.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone_widgets/widgets.dart';
 

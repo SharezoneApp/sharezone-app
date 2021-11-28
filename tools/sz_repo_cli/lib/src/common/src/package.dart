@@ -7,6 +7,59 @@ import 'package:yaml/yaml.dart';
 
 import '../common.dart';
 
+Future<void> _run(
+  String executable,
+  List<String> arguments, {
+  String workingDirectory,
+  Map<String, String> environment,
+  // ignore: unused_element
+  bool includeParentEnvironment,
+  bool runInShell,
+  ProcessStartMode mode = ProcessStartMode.normal,
+}) async {
+  final displayableCommand = '$executable ${arguments.join(' ')}';
+  if (isVerbose) print('Starting $displayableCommand...');
+
+  final process = await Process.start(executable, arguments,
+      workingDirectory: workingDirectory,
+      environment: environment,
+      includeParentEnvironment: true,
+      runInShell: true,
+      mode: mode);
+
+  // Somehow (at least on Windows but I think also on other platforms)
+  // `await process.exitCode` below doesn't complete if we don't listen to
+  // stdout or stderr of the process?!?!?!
+  // I don't know why and it's really confusing.
+  final broadcastStdout = process.stdout.asBroadcastStream();
+  final broadcastStderr = process.stderr.asBroadcastStream();
+
+  // Stream live output if desired
+  broadcastStdout.listen(isVerbose ? stdout.add : (_) {});
+  broadcastStderr.listen(isVerbose ? stderr.add : (_) {});
+
+  // Buffer output to print if process has error
+  // We don't listen until a Stream completes because for some __ reason `dart
+  // pub get` doesn't close stderr stream when encountering an error (means that
+  // we would wait for ever).
+  final stdoutBuffer = StringBuffer();
+  broadcastStdout.toUtf8().listen(stdoutBuffer.write);
+  final stderrBuffer = StringBuffer();
+  broadcastStderr.toUtf8().listen(stderrBuffer.write);
+
+  if (isVerbose) print('Waiting for exit code...');
+  final exitCode = await process.exitCode;
+  if (isVerbose) print('Got exit code $exitCode...');
+
+  if (exitCode != 0) {
+    final stdoutOutput = stdoutBuffer.toString();
+    final stderrOutput = stderrBuffer.toString();
+
+    throw Exception(
+        'Could not run $displayableCommand (exit code $exitCode): $stderrOutput\n\n stdout:$stdoutOutput');
+  }
+}
+
 enum PackageType { pureDart, flutter }
 
 extension PackageTypeToReadableString on PackageType {
@@ -67,18 +120,11 @@ abstract class Package {
   }
 
   Future<void> _runTuneup() async {
-    final process = await Process.start(
+    await _run(
       'dart',
       ['pub', 'global', 'run', 'tuneup', 'check', '--fail-on-todos'],
       workingDirectory: location.path,
     );
-
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      // tuneup uses stdout instead of stderr
-      final stderrOutput = await process.stdout.toUtf8String();
-      throw Exception('Tuneup reported: $stderrOutput');
-    }
   }
 
   Future<void> _checkForCommentsWithBadSpacing() async {
@@ -109,40 +155,19 @@ class DartPackage extends Package {
 
   @override
   Future<void> getPackages() async {
-    final process = await Process.start(
-      'dart',
-      ['pub', 'get'],
-      workingDirectory: location.path,
-    );
-
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      final stderrOutput = await process.stderr.toUtf8String();
-      throw Exception('Could not run flutter pub get: $stderrOutput');
-    }
+    await _run('dart', ['pub', 'get'],
+        workingDirectory: location.path, runInShell: true);
   }
 
   @override
   Future<void> runTests() async {
     await getPackages();
 
-    final process = await Process.start(
+    await _run(
       'dart',
       ['test'],
       workingDirectory: location.path,
     );
-
-    final broadcastStdout = process.stdout.asBroadcastStream();
-    if (isVerbose) {
-      broadcastStdout.listen(stdout.add);
-    }
-
-    final exitCode = await process.exitCode;
-
-    if (exitCode != 0) {
-      final stdout = await broadcastStdout.toUtf8String();
-      throw Exception('Could not run pub run test: $stdout');
-    }
   }
 }
 
@@ -160,19 +185,13 @@ class FlutterPackage extends Package {
 
   @override
   Future<void> getPackages() async {
-    final process = await Process.start(
+    await _run(
       'flutter',
       ['pub', 'get'],
       workingDirectory: location.path,
       // Else it does not work on Windows (file not found).
       runInShell: true,
     );
-
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      final stderrOutput = await process.stderr.toUtf8String();
-      throw Exception('Could not run flutter pub get: $stderrOutput');
-    }
   }
 
   @override
@@ -180,32 +199,11 @@ class FlutterPackage extends Package {
     /// Flutter test lässt automatisch flutter pub get laufen.
     /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
-    final process = await Process.start(
+    await _run(
       'flutter',
       ['test'],
       workingDirectory: location.path,
+      runInShell: true,
     );
-
-    final broadcastStdout = process.stdout.asBroadcastStream();
-    if (isVerbose) {
-      broadcastStdout.listen(stdout.add);
-    }
-
-    final exitCode = await process.exitCode;
-
-    if (exitCode != 0) {
-      /// Manche Errors werden in stdout, manche auch nur in stderr ausgegeben.
-      /// Deswegen geben wir hier erstmal alles aus.
-      ///
-      /// Aktuelles Verständnis:
-      /// Probleme von Tests an sich (Fehlschläge etc.) werden in stdout,
-      /// Fehler die das Flutter-Tool selbst überprüft (z.B. Fehler, dass in
-      /// einer Test-Directory keine der vorhandenen Dateien mit _test.dart
-      /// endet) werden in stderr ausgegeben.
-      final stdoutOutput = await broadcastStdout.toUtf8String();
-      final stderrOutput = await process.stderr.toUtf8String();
-      throw Exception(
-          'Could not run flutter test: $stdoutOutput\n$stderrOutput');
-    }
   }
 }

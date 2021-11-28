@@ -1,7 +1,7 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/file_sharing/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/file_sharing_page_controller.dart';
 

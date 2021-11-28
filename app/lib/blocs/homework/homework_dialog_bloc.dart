@@ -1,11 +1,10 @@
-import 'package:files_basics/local_file.dart';
 import 'package:bloc_base/bloc_base.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';

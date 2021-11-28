@@ -1,5 +1,5 @@
-import 'package:bloc_base/bloc_base.dart';
 import 'package:analytics/analytics.dart';
+import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/navigation/analytics/events/drawer_event.dart';
 import 'package:sharezone/navigation/analytics/events/nav_bottom_bar_event.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';

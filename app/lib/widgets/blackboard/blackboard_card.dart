@@ -1,16 +1,16 @@
 import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/blackboard/blackboard_card_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/pages/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 
 import 'blackboard_view.dart';
 

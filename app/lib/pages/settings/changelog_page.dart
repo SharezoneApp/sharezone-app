@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/change_view.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
 import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.dart';
-import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/announcement_card.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/announcement_card.dart';
 
 class ChangelogPage extends StatelessWidget {
   static const String tag = "changelog-page";

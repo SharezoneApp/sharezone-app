@@ -1,7 +1,7 @@
 import 'package:bloc_base/bloc_base.dart';
+import 'package:sharezone/util/api/user_api.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
-import 'package:sharezone/util/api/user_api.dart';
 
 class UserSettingsBloc extends BlocBase {
   final UserGateway _userGateway;

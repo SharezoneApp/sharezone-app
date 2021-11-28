@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-
 import 'package:sharezone/util/api/user_api.dart';
 
 class NotificationsBloc extends BlocBase {

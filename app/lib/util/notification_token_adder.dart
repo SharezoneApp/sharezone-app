@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:user/user.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:user/user.dart';
 
 class NotificationTokenAdder {
   final NotificationTokenAdderApi _api;

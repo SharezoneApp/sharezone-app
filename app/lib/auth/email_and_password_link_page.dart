@@ -1,19 +1,19 @@
 import 'package:authentification_base/authentification.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/account/register_account_section.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/auth/email_and_password_link_bloc.dart';
+import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
+import 'package:sharezone/widgets/auth.dart';
 import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
-import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone/widgets/auth.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 
 import 'login_page.dart';
 

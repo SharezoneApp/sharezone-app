@@ -1,6 +1,6 @@
+import 'package:characters/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:characters/characters.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/snackbars.dart';

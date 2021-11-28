@@ -24,8 +24,7 @@ class EnterActivationCodeTextField extends StatelessWidget
             padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: Colors.white,
-                accentColor: Colors.white,
+                primaryColor: Colors.white, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLines: 1,

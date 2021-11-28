@@ -1,14 +1,14 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
+import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
+import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
-import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
-import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 
 Future<void> openUserEditPageIfUserIsLoaded(
     BuildContext context, AppUser user) async {

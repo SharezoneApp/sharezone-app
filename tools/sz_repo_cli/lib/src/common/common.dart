@@ -9,7 +9,7 @@ export 'src/package_timeout_exception.dart';
 export 'src/run_and_stream.dart';
 export 'src/shared_args.dart';
 export 'src/sharezone_repo.dart';
-export 'src/stream_to_utf8_string_extension.dart';
+export 'src/to_utf8_string_extension.dart';
 export 'src/tool_exit.dart';
 
 /// Die globale Variable sollte in Zukunft entfernt und in einen Parameter

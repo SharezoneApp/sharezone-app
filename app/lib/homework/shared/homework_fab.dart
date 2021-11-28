@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:analytics/analytics.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
 import 'open_homework_dialog.dart';

@@ -1,6 +1,6 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/pages/settings/my_profile/submit_method.dart';
 import 'package:sharezone/widgets/settings/my_profile/change_data.dart';

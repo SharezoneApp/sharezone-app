@@ -3,9 +3,9 @@ import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:user/user.dart';
-import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:user/user.dart';
 
 class UserEditPageBloc extends BlocBase with AuthentificationValidators {
   final _nameSubject = BehaviorSubject<String>();

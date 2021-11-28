@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/drawer/drawer.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/desktop/desktop_alignment.dart';
 
 import '../app_bar_configuration.dart';

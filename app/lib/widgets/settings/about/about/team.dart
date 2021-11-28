@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 class MemberCard extends StatelessWidget {

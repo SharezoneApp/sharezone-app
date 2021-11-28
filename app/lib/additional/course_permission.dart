@@ -1,5 +1,5 @@
-import 'package:meta/meta.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:meta/meta.dart';
 
 /*
 THIS DEFINES THE TYPE OF ACCESS

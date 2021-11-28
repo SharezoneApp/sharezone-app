@@ -46,6 +46,9 @@ void main() {};
         /// ///(Space)(Space)(Space)
         /// ///
         /// (line above has no spaces after comment)
+        ///
+        /// Windows uses CRLF (\r\n) as line endings, Linux and macOS use
+        /// LF (\n) so we test both here
         _expectNoBadCommentsFound('''
 /// This is a good doc-comment...
 /// 
@@ -54,7 +57,8 @@ void main() {};
 final x = 3;
 /// This is a good comment...
 ///        
-///
+///\n
+///\r\n
 /// ...with empty lines
 void main() {};
 ''');

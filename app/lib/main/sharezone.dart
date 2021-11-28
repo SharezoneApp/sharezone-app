@@ -1,5 +1,6 @@
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
+import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -8,7 +9,6 @@ import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/sharezone_app.dart';
-import 'package:authentification_base/authentification_base.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.

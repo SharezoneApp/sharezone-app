@@ -1,6 +1,6 @@
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:meta/meta.dart';
 import 'package:user/user.dart';
 
 class HomeworkDetailsView {

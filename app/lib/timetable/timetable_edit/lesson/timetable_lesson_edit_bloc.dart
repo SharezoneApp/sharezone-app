@@ -1,19 +1,17 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:sharezone_common/validators.dart';
-
-import 'package:time/time.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
+import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:user/user.dart';
-import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone/util/api/connectionsGateway.dart';
 import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_common/validators.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 class TimetableEditBloc extends BlocBase {
   final _courseSegmentSubject = BehaviorSubject<Course>();

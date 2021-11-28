@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:date/date.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/logic/timetable_date_helper.dart';
 import 'package:sharezone_widgets/theme.dart';
 
@@ -66,9 +66,11 @@ class TimetableWeekViewDayTile extends StatelessWidget {
   Color _getTextColorTitle(BuildContext context) {
     return isToday
         ? isDarkThemeEnabled(context)
-            ? Theme.of(context).appBarTheme.color
+            ? Theme.of(context).appBarTheme.backgroundColor
             : Colors.white
-        : isDarkThemeEnabled(context) ? Colors.white : darkBlueColor;
+        : isDarkThemeEnabled(context)
+            ? Colors.white
+            : darkBlueColor;
   }
 
   Color _getTextColorMonth(BuildContext context) => isDarkThemeEnabled(context)

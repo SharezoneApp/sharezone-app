@@ -4,9 +4,9 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/comments/comment_view.dart';
 import 'package:sharezone/comments/comments_bloc.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';
+import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section.dart';
 import 'package:sharezone/util/API.dart';
-import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:user/user.dart';
 
 class CommentSectionBuilder extends StatefulWidget {

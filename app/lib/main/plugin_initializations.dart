@@ -1,11 +1,11 @@
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-import 'package:crash_analytics/crash_analytics.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PluginInitializations {
   const PluginInitializations(
@@ -56,6 +56,7 @@ class PluginInitializations {
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
       'revenuecat_api_key': 'WLjPXTYvlcvxwFKOXWuHxDvKteGhqVpQ',
+      'useCfHolidayEndpoint': true,
     });
     return remoteConfiguration;
   }

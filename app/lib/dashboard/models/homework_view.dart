@@ -1,11 +1,10 @@
 import 'dart:ui';
 
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 
 class HomeworkView {

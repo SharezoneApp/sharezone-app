@@ -1,7 +1,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/logic/move_file_bloc.dart';
-import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 
 class MoveFilePageHeader extends StatelessWidget

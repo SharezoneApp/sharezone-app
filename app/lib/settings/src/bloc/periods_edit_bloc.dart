@@ -1,11 +1,11 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
-import 'package:time/time.dart';
-import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
-import 'package:user/user.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 class PeriodsEditBloc extends BlocBase {
   final UserSettingsBloc _userSettingsBloc;

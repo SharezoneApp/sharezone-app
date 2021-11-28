@@ -1,5 +1,5 @@
-import 'package:meta/meta.dart';
 import 'package:analytics/analytics.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 const groupPage = "group-page";

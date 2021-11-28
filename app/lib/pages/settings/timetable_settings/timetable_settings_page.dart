@@ -1,20 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
-import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc.dart';
-import 'package:sharezone_widgets/wrapper.dart';
-import 'package:time/time.dart';
 import 'package:date/weektype.dart';
-import 'package:user/user.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc.dart';
 import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/periods_edit_page.dart';
+import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/weekdays_edit_page.dart';
-import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
-import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
+import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/wrapper.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 class TimetableSettingsPage extends StatelessWidget {
   static const String tag = 'timetable-settings-page';
@@ -209,7 +210,8 @@ class LessonsLengthField extends StatelessWidget {
           onTap: () async {
             final selectedLessonLength =
                 await showNumberPickerDialog(context, lessonLength.minutes);
-            if (selectedLessonLength.isValid) {
+            if (selectedLessonLength.isValid &&
+                selectedLessonLength != lessonLength) {
               onChanged(selectedLessonLength);
               _showConfirmationSnackBar(context);
             }
@@ -242,15 +244,12 @@ class LessonsLengthField extends StatelessWidget {
       BuildContext context, int initalLengthInMinutes) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
-      builder: (context) => NumberPickerDialog.integer(
-        minValue: 1,
-        maxValue: 300,
-        cancelWidget: const Text("ABBRECHEN"),
-        title: const Text("Wähle die Länge der Stunde in Minuten aus."),
-        initialIntegerValue: initalLengthInMinutes ?? 45,
+      builder: (context) => _NumberPicker(
+        initalLength: initalLengthInMinutes,
       ),
     );
-    return LessonLength(selectedLengthInMinutes);
+
+    return LessonLength(selectedLengthInMinutes ?? initalLengthInMinutes);
   }
 
   void _showConfirmationSnackBar(BuildContext context) {
@@ -258,6 +257,64 @@ class LessonsLengthField extends StatelessWidget {
       context: context,
       duration: const Duration(milliseconds: 1500),
       text: 'Länge einer Stunde wurde gespeichert.',
+    );
+  }
+}
+
+class _NumberPicker extends StatefulWidget {
+  const _NumberPicker({Key key, this.initalLength}) : super(key: key);
+
+  final int initalLength;
+
+  @override
+  __NumberPickerState createState() => __NumberPickerState();
+}
+
+class __NumberPickerState extends State<_NumberPicker> {
+  int value;
+
+  @override
+  void initState() {
+    value = widget.initalLength;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Wähle die Länge der Stunde in Minuten aus.'),
+      actions: [
+        TextButton(
+          child: Text('Abbrechen'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          child: Text('Bestätigen'),
+          onPressed: () {
+            Navigator.pop(context, value);
+          },
+        ),
+      ],
+      // Needed to work on the web.
+      // See: https://github.com/MarcinusX/NumberPicker/issues/118
+      content: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        }),
+        child: NumberPicker(
+          minValue: 1,
+          maxValue: 300,
+          value: value,
+          onChanged: (newValue) => setState(() => value = newValue),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.black26),
+          ),
+        ),
+      ),
     );
   }
 }

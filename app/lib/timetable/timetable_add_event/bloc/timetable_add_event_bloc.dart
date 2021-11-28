@@ -1,18 +1,17 @@
 import 'package:bloc_base/bloc_base.dart';
+import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:rxdart/rxdart.dart';
-import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone_common/validators.dart';
-import 'package:time/time.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_dependencies.dart';
-import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_common/validators.dart';
+import 'package:time/time.dart';
 
 class TimetableAddEventBloc extends BlocBase {
   final _courseSegmentSubject = BehaviorSubject<Course>();

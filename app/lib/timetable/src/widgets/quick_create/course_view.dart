@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:design/design.dart';
+import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 class QuickCreateCourseView {

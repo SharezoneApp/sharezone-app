@@ -1,6 +1,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/blackboard/blackboard_page_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -13,7 +14,6 @@ import 'package:sharezone_widgets/placeholder.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'blackboard/blackboard_dialog.dart';
 import 'blackboard/details/blackboard_details.dart';

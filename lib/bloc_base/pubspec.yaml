@@ -2,7 +2,6 @@ name: bloc_base
 description: A starting point for Dart libraries or applications.
 # version: 1.0.0
 # homepage: https://www.example.com
-# author: Jonas Sander <jonassander1@googlemail.com>
 publish_to: none
 
 environment:

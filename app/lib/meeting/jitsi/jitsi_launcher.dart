@@ -1,4 +1,3 @@
-import 'package:jitsi_meet/feature_flag/feature_flag.dart';
 import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/meeting/jitsi/jitsi_auth.dart';
@@ -34,50 +33,52 @@ class JitsiLauncher {
   /// enthalten, wie z.B. Angabe, ob der Nutzer Jitsi-Moderator werden soll und
   /// somit das Meeting verwalten darf.
   /// Der [jwt] kann per [JitsiAuth] geladen werden.
-  /// 
+  ///
   /// Falls das Gerät nicht diese Bedingungen unterstützt, dann crasht die App.
   Future<void> joinMobileMeeting({
     @required String meetingId,
     @required String meetingName,
     @required String jwt,
   }) async {
-    // Mithilfe der [FeatureFlag] können bestimmte Features in der Jitsi UI
+    // Mithilfe der [FeatureFlagEnum] können bestimmte Features in der Jitsi UI
     // deaktiviert werden. Diese Einschränken gelten jedoch nur für die Mobile
     // Jitsi SDK. Für die Browser-Version müssen die Einschränkungen über die
     // "interface_config.js" beim Server getroffen werden. Mehr Infos dazu in
     // unserem Wiki:
     // https://gitlab.com/codingbrain/sharezone/sharezone-app/-/wikis/Jitsi
-    final featureFlag = FeatureFlag()
+    final featureFlags = {
       // Nutzer sollen nicht in dem Meeting die Option gezeigt bekommen, dass
       // man andere Nutzer einladen kann, da das Beitreten über die
       // Sharezone-App passieren soll.
-      ..addPeopleEnabled = false
-      // Selber Kommentar wie bei [addPeopleEnabled]
-      ..inviteEnabled = false
+      FeatureFlagEnum.ADD_PEOPLE_ENABLED: false,
+      // Selber Kommentar wie bei [FeatureFlagEnum.ADD_PEOPLE_ENABLED]
+      FeatureFlagEnum.INVITE_ENABLED: false,
       // "Call integration on Android (known as ConnectionService) has been
       // disabled on the official Jitsi Meet app because it creates a lot of
       // issues. You should disable it too to avoid these issues.""
       // Kopiert aus der Beschreibung des jitsi_meet package.
-      ..callIntegrationEnabled = false
-      // Livestreamen wird serverseitig nicht unterstützt, weswegen die Option
-      // auch nicht den Nutzern gezeigt werden soll.
-      ..liveStreamingEnabled = false
+      FeatureFlagEnum.CALL_INTEGRATION_ENABLED: false,
       // Ändern der Server-Url soll Nutzern verboten sein, da dies nicht
       // vergesehen ist.
-      ..serverURLChangeEnabled = false
+
+      // Feature Flag ist in jitsi_meet/feature_flag/feature_flag_enum.dart
+      // vorhanden aber nicht in jitsi_meet platform_interface.
+      // Siehe https://github.com/gunschu/jitsi_meet/issues/332
+      // FeatureFlagEnum.SERVER_URL_CHANGE_ENABLED: false,
+
       // Aufnehmen von Jitsi-Meetings wird serverseitig nicht unterstützt und
       // würde sowieso mehrere rechtliche Fragen aufwerfen.
-      ..recordingEnabled = false;
+      FeatureFlagEnum.RECORDING_ENABLED: false,
+    };
 
-    final options = JitsiMeetingOptions()
-      ..room = meetingId
+    final options = JitsiMeetingOptions(room: meetingId)
       ..serverURL = _serverUrl
       ..subject = meetingName
       ..audioOnly = false
       ..audioMuted = false
       ..videoMuted = true
       ..token = jwt
-      ..featureFlag = featureFlag;
+      ..featureFlags.addAll(featureFlags);
     await JitsiMeet.joinMeeting(options);
   }
 

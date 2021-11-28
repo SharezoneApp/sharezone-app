@@ -1,12 +1,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/additional.dart';
+import 'package:sharezone_widgets/svg.dart';
 
 class GroupQrCode extends StatelessWidget {
   final GroupInfo groupInfo;

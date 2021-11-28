@@ -1,13 +1,12 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/widgets.dart';
 
 import 'school_class_create_course_bloc.dart';
 

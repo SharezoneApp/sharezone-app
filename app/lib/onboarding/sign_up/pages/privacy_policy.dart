@@ -79,7 +79,7 @@ class __AccepctButtonState extends State<_AccepctButton> {
                       height: 20,
                       width: 20,
                       child: Theme(
-                        data: ThemeData(accentColor: Colors.white),
+                        data: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white)),
                         child: CircularProgressIndicator(),
                       ),
                     ),

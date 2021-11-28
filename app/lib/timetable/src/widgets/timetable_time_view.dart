@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:time/time.dart';
 import 'package:sharezone/settings/periods_edit_page.dart';
 import 'package:sharezone/timetable/src/logic/timetable_period_dimensions.dart';
-import 'package:user/user.dart';
 import 'package:sharezone_widgets/theme.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 /// THIS IS THE LEFT SECTION OF THE TIMETABLE WHERE THE TIME IS DISPLAYED
 class TimetablePeriodView extends StatelessWidget {

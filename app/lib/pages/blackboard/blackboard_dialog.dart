@@ -1,27 +1,26 @@
 import 'dart:async';
 
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/blackboard/blackboard_dialog_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/pages/blackboard_page.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_card.dart';
 import 'package:sharezone/models/blackboard_item.dart';
-import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/pages/blackboard/blackboard_picture.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone/pages/blackboard_page.dart';
+import 'package:sharezone/widgets/blackboard/blackboard_card.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
+import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
-import 'package:build_context/build_context.dart';
 
 import 'details/blackboard_details.dart';
 
@@ -244,7 +243,7 @@ class _AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: isDarkThemeEnabled(context)
-          ? Theme.of(context).appBarTheme.color
+          ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(

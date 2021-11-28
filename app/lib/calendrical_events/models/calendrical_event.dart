@@ -1,11 +1,10 @@
-import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:meta/meta.dart';
 import 'package:date/date.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
-import 'package:time/time.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:time/time.dart';
 
 import 'calendrical_event_change_type.dart';
 import 'calendrical_event_types.dart';

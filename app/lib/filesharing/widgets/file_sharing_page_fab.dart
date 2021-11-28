@@ -1,11 +1,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_picker.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
-import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_utils/platform.dart';

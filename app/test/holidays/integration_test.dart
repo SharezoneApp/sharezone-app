@@ -1,4 +1,6 @@
 import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
@@ -6,8 +8,6 @@ import 'package:sharezone/util/holidays/api_cache_manager.dart';
 import 'package:sharezone/util/holidays/holiday_api.dart';
 import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:test/test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';
@@ -54,7 +54,7 @@ void sethttpClientAnswers(HttpMockClient httpClient) {
 
 HolidayBloc setupBloc(HttpMockClient httpClient,
     HolidayStateGateway stateGateway, DateTime currentTime) {
-  HolidayApi api = HolidayApi(httpClient,
+  HolidayApi api = HolidayApi(HttpHolidayApiClient(httpClient),
       getCurrentTime: () =>
           currentTime); // Return ended Holidays, as I can't manipulate DateTime.now(). This would lead to flaky tests.
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
@@ -99,10 +99,11 @@ void answerHttpResponseForUrl(
 }
 
 final now = DateTime(2018, 1, 1);
-final Uri _nrw2018apiUrl = HolidayApi.getApiUrl("NW", now.year);
-final Uri _nrw2019apiUrl = HolidayApi.getApiUrl("NW", now.year + 1);
-final Uri _hamburg2018apiUrl = HolidayApi.getApiUrl("HH", now.year);
-final Uri _hamburg2019apiUrl = HolidayApi.getApiUrl("HH", now.year + 1);
+final Uri _nrw2018apiUrl = HttpHolidayApiClient.getApiUrl("NW", now.year);
+final Uri _nrw2019apiUrl = HttpHolidayApiClient.getApiUrl("NW", now.year + 1);
+final Uri _hamburg2018apiUrl = HttpHolidayApiClient.getApiUrl("HH", now.year);
+final Uri _hamburg2019apiUrl =
+    HttpHolidayApiClient.getApiUrl("HH", now.year + 1);
 
 // {"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"}
 final Holiday _nrw2018FirstHoliday = Holiday((b) => b

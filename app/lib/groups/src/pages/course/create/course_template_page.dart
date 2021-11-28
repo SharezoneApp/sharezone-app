@@ -1,15 +1,14 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_create_page.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/models/course_template.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/announcement_card.dart';
+import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
 
 import 'src/bloc/course_create_bloc.dart';
 

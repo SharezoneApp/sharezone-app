@@ -1,4 +1,5 @@
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/theme.dart';
-import 'package:build_context/build_context.dart';
 
 import '../drawer_controller.dart';
 

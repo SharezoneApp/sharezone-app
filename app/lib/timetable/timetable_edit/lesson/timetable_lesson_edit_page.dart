@@ -1,27 +1,26 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
-import 'package:time/time.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
+import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_period.dart';
-import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
-import 'package:user/user.dart';
+import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
-import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
-import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone/util/api/connectionsGateway.dart';
 import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 import 'timetable_lesson_edit_bloc.dart';
 

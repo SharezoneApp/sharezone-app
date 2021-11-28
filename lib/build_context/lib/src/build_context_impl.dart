@@ -60,8 +60,6 @@ extension ThemeExt on BuildContext {
 
   TextTheme get primaryTextTheme => Theme.of(this).primaryTextTheme;
 
-  TextTheme get accentTextTheme => Theme.of(this).accentTextTheme;
-
   BottomAppBarTheme get bottomAppBarTheme => Theme.of(this).bottomAppBarTheme;
 
   BottomSheetThemeData get bottomSheetTheme => Theme.of(this).bottomSheetTheme;
@@ -69,8 +67,6 @@ extension ThemeExt on BuildContext {
   Color get backgroundColor => Theme.of(this).backgroundColor;
 
   Color get primaryColor => Theme.of(this).primaryColor;
-
-  Color get buttonColor => Theme.of(this).buttonColor;
 
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
 

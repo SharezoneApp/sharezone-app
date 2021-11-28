@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:analytics/analytics.dart';
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_page_bloc.dart';
@@ -13,18 +14,17 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:user/user.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
-import 'package:sharezone_common/translations.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_common/translations.dart';
+import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/placeholder.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/widgets.dart';
+import 'package:user/user.dart';
 
 enum SortBy { date, subject }
 

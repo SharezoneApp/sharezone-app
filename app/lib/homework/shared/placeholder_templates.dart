@@ -1,8 +1,8 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 

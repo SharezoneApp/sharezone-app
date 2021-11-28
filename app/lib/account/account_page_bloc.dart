@@ -1,15 +1,15 @@
 import 'dart:async';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
-
 import 'package:sharezone/overview/views/user_view.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_utils/streams.dart';
 import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_common/api_errors.dart';
 
 enum LinkAction { credentialAlreadyInUse, finished }
 

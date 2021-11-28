@@ -28,7 +28,8 @@ Theme clearAppTheme({@required BuildContext context, @required Widget child}) {
             ? Colors.white
             : Colors.grey[900],
         brightness: parentTheme.brightness,
-        accentColor: parentTheme.accentColor,
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: parentTheme.colorScheme.secondary),
       ),
       child: child);
 }

@@ -5,4 +5,14 @@ class LessonLength {
 
   LessonLength(this.minutes);
   LessonLength.standard() : minutes = 45;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is LessonLength && other.minutes == minutes;
+  }
+
+  @override
+  int get hashCode => minutes.hashCode;
 }

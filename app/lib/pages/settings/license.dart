@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sharezone/widgets/settings/icon_license.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone/widgets/settings/icon_license.dart';
 
 class LicensesPage extends StatelessWidget {
   static const String tag = "license-page";

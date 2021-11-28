@@ -1,6 +1,6 @@
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:design/design.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 
 class CourseEditDesignBloc extends BlocBase {

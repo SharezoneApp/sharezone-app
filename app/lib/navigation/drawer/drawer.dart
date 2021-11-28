@@ -1,17 +1,19 @@
 import 'package:authentification_base/authentification.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:bloc_provider/bloc_provider.dart';
+import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:user/user.dart';
-import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
+import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
+import 'package:user/user.dart';
+
 import 'drawer_controller.dart';
 import 'tiles/drawer_tiles.dart';
+
 part 'account_section.dart';
 
 class SharezoneDrawer extends StatelessWidget {
