@@ -7,7 +7,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/util/API.dart';
-import 'package:sharezone/util/smart_calculation/smart_calculation.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/homework_validators.dart';
 import 'package:sharezone_common/validators.dart';
@@ -174,7 +174,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
-    api.smartCalculations.calculateNextLesson(courseID).then((result) {
+    api.nextLessonCalculator.calculateNextLesson(courseID).then((result) {
       if (result == null) {
         changeTodoUntil(_getSeedTodoUntilDate());
       } else {
@@ -314,9 +314,9 @@ class UserInput {
 
 class HomeworkDialogApi {
   final SharezoneGateway api;
-  final SmartCalculations smartCalculations;
+  final NextLessonCalculator nextLessonCalculator;
 
-  HomeworkDialogApi(this.api, this.smartCalculations);
+  HomeworkDialogApi(this.api, this.nextLessonCalculator);
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;

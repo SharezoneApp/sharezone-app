@@ -18,7 +18,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone_common/translations.dart';
-import 'package:sharezone/util/smart_calculation/smart_calculation.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
@@ -38,7 +38,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   HomeworkDto homework,
 }) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
-  final smartCalculations = SmartCalculations(
+  final nextLessonCalculator = NextLessonCalculator(
     timetableGateway: api.timetable,
     userGateway: api.user,
     holidayManager: BlocProvider.of<HolidayBloc>(context).holidayManager,
@@ -48,7 +48,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
       builder: (context) => HomeworkDialog(
-        homeworkDialogApi: HomeworkDialogApi(api, smartCalculations),
+        homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
         homework: homework,
       ),
       settings: RouteSettings(name: HomeworkDialog.tag),
