@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone_common/sharezone_time_of_day.dart';
+
 import 'package:sharezone/util/api/user_api.dart';
 
 class NotificationsBloc extends BlocBase {
   final UserGateway _userGateway;
 
   @visibleForTesting
-  static const seedValue = SharezoneTimeOfDay(hour: 18, minute: 0);
+  static const seedValue = TimeOfDay(hour: 18, minute: 0);
   final _notificationsForHomeworksSubject = BehaviorSubject<bool>();
   final _notificationsTimeForHomeworksSubject =
-      BehaviorSubject<SharezoneTimeOfDay>.seeded(seedValue);
+      BehaviorSubject<TimeOfDay>.seeded(seedValue);
   final _notificationsForBlackboardItemsSubject = BehaviorSubject.seeded(true);
   final _notificationsForCommentsSubject = BehaviorSubject.seeded(true);
 
@@ -36,12 +36,12 @@ class NotificationsBloc extends BlocBase {
     });
   }
 
-  SharezoneTimeOfDay convertReminderTimeToTimeOfDay(String reminderTime) {
+  TimeOfDay convertReminderTimeToTimeOfDay(String reminderTime) {
     if (reminderTime == null) return null;
     final parts = reminderTime.split(":");
     final hour = int.parse(parts[0]);
     final minute = int.parse(parts[1]);
-    return SharezoneTimeOfDay(hour: hour, minute: minute);
+    return TimeOfDay(hour: hour, minute: minute);
   }
 
   Stream<bool> get notificationsForHomeworks =>
@@ -79,9 +79,9 @@ class NotificationsBloc extends BlocBase {
 
   Stream<TimeOfDay> get notificationsTimeForHomeworks =>
       _notificationsTimeForHomeworksSubject.stream;
-  Function(SharezoneTimeOfDay) get changeNotificationsTimeForHomeworks =>
+  Function(TimeOfDay) get changeNotificationsTimeForHomeworks =>
       _changeNotificationTime;
-  Future<void> _changeNotificationTime(SharezoneTimeOfDay tod) async {
+  Future<void> _changeNotificationTime(TimeOfDay tod) async {
     if (_notificationsForHomeworksSubject.valueOrNull != false &&
         _notificationsTimeForHomeworksSubject.valueOrNull != tod) {
       await _userGateway.setHomeworkReminderTime(tod);

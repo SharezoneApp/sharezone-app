@@ -22,7 +22,6 @@ import 'package:user/src/models/user.dart';
 import 'package:user/src/models/tips/user_tip_key.dart';
 import 'package:user/src/models/state_enum.dart';
 import 'package:sharezone_common/src/references.dart';
-import 'package:sharezone_common/src/models/sharezone_time_of_day.dart';
 
 void main() {
   group('AccountPage', () {
@@ -172,7 +171,7 @@ class MockUserGateway implements UserGateway {
   void setCommentsNotifications(bool enabled) {}
 
   @override
-  Future<void> setHomeworkReminderTime(SharezoneTimeOfDay timeOfDay) {
+  Future<void> setHomeworkReminderTime(TimeOfDay timeOfDay) {
     throw UnimplementedError();
   }
 
