@@ -62,7 +62,7 @@ class _PlayStoreRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _StoreReview(
-      rating: 4.2,
+      rating: 4.8,
       storeName: "PlayStore",
       storeLink: "https://sharezone.net/android",
     );
