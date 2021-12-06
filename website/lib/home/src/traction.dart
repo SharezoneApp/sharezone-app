@@ -92,7 +92,7 @@ class _UserCounter extends StatefulWidget {
 class __UserCounterState extends State<_UserCounter> {
   // Dies ist der Fallback-Wert, falls der Wert von der Cloud-Function noch
   // nicht vorhanden ist oder der Wert nicht geladen werden konnte.
-  static const fallbackUserCounter = "191531";
+  static const fallbackUserCounter = "297403";
 
   String? userCounter = fallbackUserCounter;
 
