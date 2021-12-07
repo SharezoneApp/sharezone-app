@@ -10,7 +10,7 @@ Future<bool> showMeetingWarning(BuildContext context) async {
     content: SingleChildScrollView(
       key: const ValueKey("meeting-warning-widget-test"),
       child: Text(
-        'Die Videokonferenz läuft mit der Open Source Software Jitsi. Sollten Fehler in der Videokonferenz auftreten, hat Sharezone darauf keinen Einfluss.\n\nSollte es zu Performance-Problemen kommen, kann es helfen, wenn möglichst wenige Teilnehmer die Video-Funktion eingeschaltet haben.\n\nDas Hosting der Jitsi-Software läuft über Sharezone (Serverstandort: Frankfurt am Main).',
+        'Die Videokonferenz läuft mit der Open Source Software Jitsi. Sollten Fehler in der Videokonferenz auftreten, hat Sharezone darauf keinen Einfluss.\n\nSollte es zu Performance-Problemen kommen, kann es helfen, wenn möglichst wenige Teilnehmer die Video-Funktion eingeschaltet haben.\n\nDas Hosting der Jitsi-Software läuft über Sharezone (Serverstandort: Belgien).',
       ),
     ),
     left: AdaptiveDialogAction<bool>(
