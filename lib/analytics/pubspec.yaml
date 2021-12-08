@@ -16,7 +16,7 @@ dependencies:
   sharezone_utils:
     path: ../sharezone_utils
   firebase: ^9.0.1
-  firebase_analytics: ^7.0.1
+  firebase_analytics: ^8.3.4
   firebase_auth: any
 
 dev_dependencies:
