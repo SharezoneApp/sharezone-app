@@ -13,7 +13,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:util/encryption.dart';
-import 'package:fast_rsa/rsa.dart' as fastrsa;
+import 'package:fast_rsa/fast_rsa.dart' as fastrsa;
 
 Future<RSAEncryptable> _getRSAEncryptable(dynamic value) async {
   return RSAEncryptable.generateFromRsaKeyGenerator();
