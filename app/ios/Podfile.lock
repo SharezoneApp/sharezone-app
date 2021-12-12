@@ -11,11 +11,11 @@ PODS:
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
-  - cloud_firestore (3.1.3):
+  - cloud_firestore (3.1.4):
     - Firebase/Firestore (= 8.9.0)
     - firebase_core
     - Flutter
-  - cloud_functions (3.0.4):
+  - cloud_functions (3.2.3):
     - Firebase/Functions (= 8.9.0)
     - firebase_core
     - Flutter
@@ -95,28 +95,28 @@ PODS:
     - Firebase/Analytics (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_auth (3.1.2):
+  - firebase_auth (3.3.3):
     - Firebase/Auth (= 8.9.0)
     - firebase_core
     - Flutter
   - firebase_auth_oauth (0.0.1):
     - firebase_auth
     - Flutter
-  - firebase_core (1.10.2):
+  - firebase_core (1.10.5):
     - Firebase/CoreOnly (= 8.9.0)
     - Flutter
-  - firebase_crashlytics (2.2.2):
+  - firebase_crashlytics (2.4.3):
     - Firebase/Crashlytics (= 8.9.0)
     - firebase_core
     - Flutter
   - firebase_dynamic_links (0.1.0):
     - Firebase/DynamicLinks
     - Flutter
-  - firebase_messaging (10.0.8):
+  - firebase_messaging (10.0.9):
     - Firebase/Messaging (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_performance (0.7.1-1):
+  - firebase_performance (0.7.1-5):
     - Firebase/Performance (= 8.9.0)
     - firebase_core
     - Flutter
@@ -124,7 +124,7 @@ PODS:
     - Firebase/RemoteConfig (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_storage (10.2.2):
+  - firebase_storage (10.2.3):
     - Firebase/Storage (= 8.9.0)
     - firebase_core
     - Flutter
@@ -313,19 +313,19 @@ PODS:
     - Flutter
   - package_info_plus (0.4.5):
     - Flutter
-  - path_provider (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
   - PromisesObjC (2.0.0)
-  - Purchases (3.12.3):
-    - PurchasesCoreSwift (= 3.12.3)
-  - purchases_flutter (3.4.5):
+  - Purchases (3.13.1):
+    - PurchasesCoreSwift (= 3.13.1)
+  - purchases_flutter (3.8.0):
     - Flutter
-    - PurchasesHybridCommon (= 1.9.1)
-  - PurchasesCoreSwift (3.12.3)
-  - PurchasesHybridCommon (1.9.1):
-    - Purchases (= 3.12.3)
+    - PurchasesHybridCommon (= 1.11.1)
+  - PurchasesCoreSwift (3.13.1)
+  - PurchasesHybridCommon (1.11.1):
+    - Purchases (= 3.13.1)
   - SDWebImage (5.12.1):
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
@@ -334,7 +334,7 @@ PODS:
     - SDWebImage/Core (~> 5.10)
   - share (0.0.1):
     - Flutter
-  - shared_preferences (0.0.1):
+  - shared_preferences_ios (0.0.1):
     - Flutter
   - sign_in_with_apple (0.0.1):
     - Flutter
@@ -342,7 +342,7 @@ PODS:
     - Flutter
     - FMDB (>= 2.7.5)
   - SwiftyGif (5.4.1)
-  - url_launcher (0.0.1):
+  - url_launcher_ios (0.0.1):
     - Flutter
   - video_player (0.0.1):
     - Flutter
@@ -380,14 +380,14 @@ DEPENDENCIES:
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
 
@@ -492,22 +492,22 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   wakelock:
@@ -523,24 +523,24 @@ SPEC CHECKSUMS:
   app_review: 6f51001269c59a2f4a5b5ae68b7d106401152764
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
-  cloud_firestore: c4be21c09cc11a04dd1277b293730dc562e2cbb2
-  cloud_functions: 240f303e03bff014eef4a6bd0b75088b86bd9973
+  cloud_firestore: c978a55e0bfc675cdc2291ef7670a69695cc663a
+  cloud_functions: 786d5b5ebbb7b16daa9d4a2e302a76816cadf42f
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  fast_rsa: 0a752e284bd5641b063de5ba4e538a1b055e9ea8
+  fast_rsa: 22fec92c481d28d1624f3be7829841658759ca52
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_analytics: 7a7528bb2abf4ca22cff7a57bbf909dcab73e13d
-  firebase_auth: 45e41687f7d88ce8016c1f411320911b842245d7
-  firebase_auth_oauth: fe36b4a88a0087a79fd3fe83d8b32b1fe22af75f
-  firebase_core: 6d1a5e12a83b6d9419ecb8f2a53d876e7b4695da
-  firebase_crashlytics: f64012eeaf7c5d87a77ef1a311aa4cc35ff552a2
+  firebase_auth: fe3a1deb12ebd850295344234abc15588d086baf
+  firebase_auth_oauth: 2b6873838f5712f414740e98679481bbea640bd3
+  firebase_core: dfcae4c150a5e24436a0b7677c470478a234d5bf
+  firebase_crashlytics: 6713843d68feb3cefa1471e20dfaa72b934d6db8
   firebase_dynamic_links: 6aa278fc5e6e8cca17d5aa4c7aa46283f2b94749
-  firebase_messaging: 51b1029537c74503e935e4ccb221da8be8cbf26e
-  firebase_performance: 0c6b1c23aaba71077eeae342a396ea3c9e95dd1d
+  firebase_messaging: 1109f5449638254c47fb5904d24e11a4d7736c77
+  firebase_performance: a87be8f45dda8d075c9ae75b1b64353aa33dd49f
   firebase_remote_config: 2a43c3a6d3430fedb4f9f7360acc757d4d962bff
-  firebase_storage: 662cab6b27086ca6479b2871056a661c7bbddd2a
+  firebase_storage: 41d59adeff37c548e167ecbfa834d2d038e6ad87
   FirebaseABTesting: fc7255f7e96d3cf7a1131fd68636c47e312cef76
   FirebaseAnalytics: 4ab446ce08a3fe52e8a4303dd997cf26276bf968
   FirebaseAuth: 2b78b2a32c07b3ecfa4970bdf1d3632b8304099b
@@ -578,21 +578,21 @@ SPEC CHECKSUMS:
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  Purchases: e9839517aea4335136f3946ae228eecf5131cc25
-  purchases_flutter: ff55c9a04b918dd20d20030d5b5f5a5859c28cb9
-  PurchasesCoreSwift: dd3fd55a9895abd7906a3842bd36c7f7539a99d1
-  PurchasesHybridCommon: 1d98dd58935a4fa1009c6e17f8b740973147b899
+  Purchases: 2693d6444609de044ab25fcda9561bef038f24da
+  purchases_flutter: 214d452aaf860496aeee822487eafcdd962fab33
+  PurchasesCoreSwift: ca55f9ef671f89abed133775dd9e53f55007828d
+  PurchasesHybridCommon: a0313de4f31fbaf137518b2686ccdca4c91dd2b4
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6895c887f5551618a3c5dd3ecb512419105bacca
-  url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
+  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
