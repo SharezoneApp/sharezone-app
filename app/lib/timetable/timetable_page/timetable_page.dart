@@ -1,5 +1,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -118,6 +119,21 @@ class TimeTableUnit extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableBloc>(context);
 
     return PageView.builder(
+      // Users expect to be able to drag the timetable horizontally to the
+      // next/previous week via mouse as this is old behavior.
+      //
+      // Flutter had this as a default until they made a breaking change (
+      // disable dragging as a default for desktops with mice). So this is a
+      // workaround to explicitly re-enable this behavior. See:
+      // https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag
+      //
+      // In the future we might add explicit buttons to go forward or backwards
+      // a week in the timetable - in this case desktop might remove this
+      // behavior.
+      scrollBehavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      }),
       itemBuilder: (context, index) {
         final startOfWeek = TimetableDateHelper.dateAddWeeks(today, index);
         final endDate = TimetableDateHelper.dateAddDays(startOfWeek, 6);
