@@ -1,4 +1,5 @@
 import 'package:date/date.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
@@ -25,6 +26,24 @@ class TimetableWeekView extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       final totalWidth = constraints.maxWidth * (13 / 15);
       return CustomScrollView(
+        // Users expect to be able to drag the timetable up and down via mouse as
+        // this is old behavior.
+        //
+        // Flutter had this as a default until they made a breaking change (
+        // disable dragging as a default for desktops with mice). So this is a
+        // workaround to explicitly re-enable this behavior. See:
+        // https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag
+        //
+        // In the future we might add explicit buttons to go forward or backwards
+        // a week in the timetable - in this case we could also only allow
+        // scrolling up and down in the timetable via the scroll wheel.
+        // If we disable dragging up and down right now it might be confusing if
+        // one can drag (horizontally) to the next week via mouse but can only
+        // scroll (not drag) up and down.
+        scrollBehavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        }),
         slivers: <Widget>[
           SliverPersistentHeader(
             delegate: TimetableWeekViewHeader(dates: dates),
