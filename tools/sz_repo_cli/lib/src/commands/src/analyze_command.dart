@@ -55,9 +55,9 @@ class AnalyzeCommand extends Command {
     isVerbose = argResults['verbose'] ?? false;
 
     print('Activating tuneup package...');
-    await runAndStream('dart', ['pub', 'global', 'activate', 'tuneup'],
-        workingDir: _useCase.repo.sharezoneFlutterApp.location,
-        exitOnError: true);
+    await runProcessSucessfullyOrThrow(
+        'dart', ['pub', 'global', 'activate', 'tuneup'],
+        workingDirectory: _useCase.repo.sharezoneFlutterApp.location.path);
 
     final _max = argResults[maxConcurrentPackagesOptionName];
     final maxNumberOfPackagesBeingProcessedConcurrently = _max != null

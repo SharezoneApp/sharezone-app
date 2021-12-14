@@ -6,7 +6,7 @@ import 'package:path/path.dart' as path;
 export 'src/merge_with_value_stream_extension.dart';
 export 'src/package.dart';
 export 'src/package_timeout_exception.dart';
-export 'src/run_and_stream.dart';
+export 'src/run_process.dart';
 export 'src/shared_args.dart';
 export 'src/sharezone_repo.dart';
 export 'src/to_utf8_string_extension.dart';
