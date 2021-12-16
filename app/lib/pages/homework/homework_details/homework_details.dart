@@ -12,6 +12,7 @@ import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -364,16 +365,41 @@ class _EditIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.edit),
       tooltip: 'Bearbeiten',
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeworkDialog(
-            homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
-            homework: homework,
+      onPressed: () async {
+        // See comment below
+        // ignore: unused_local_variable
+        final successful = await Navigator.push<bool>(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeworkDialog(
+              homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
+              homework: homework,
+            ),
+            settings: RouteSettings(name: HomeworkDialog.tag),
           ),
-          settings: RouteSettings(name: HomeworkDialog.tag),
-        ),
-      ),
+        );
+
+        // We always show this SnackBar because if we don't the "sending
+        // data..." SnackBar would not disappear.
+        //
+        // Additionally we can't even really know right here if everything went
+        // okay, because we have to call Firestore synchronously because of some
+        // weird behavior of the library.
+        // I think it was because when calling Firestore with "await" while
+        // being offline the call won't complete until we're online again.
+        // Unfortunately this behavior won't be fixed by Firestore it seems so
+        // we don't use await when we don't have to.
+        // This means if the Firestore server doesn't accept the change the
+        // exception will only be thrown later after this code here has already
+        // run.
+        //
+        // This really isn't the best solution but it's more of a quick fix to
+        // get at least the "sending data..." SnackBar to disappear.
+        //
+        // if (successful) {
+        await showUserConfirmationOfHomeworkArrival(context: context);
+        // }
+      },
     );
   }
 }
