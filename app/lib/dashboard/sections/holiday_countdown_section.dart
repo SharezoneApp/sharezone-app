@@ -59,8 +59,12 @@ class _HolidayCounter extends StatelessWidget {
 
   Widget handleError(Object error) {
     if (error is UnsupportedStateException)
-      return Text(
-          "Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.");
+      return Center(
+        child: Text(
+          "Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.",
+          textAlign: TextAlign.center,
+        ),
+      );
     return Center(
         child: Text(
       "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
