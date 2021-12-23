@@ -19,6 +19,7 @@ on:
 
 env:
   FLUTTER_VERSION: "2.5.2"
+  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 jobs:
   deploy-alpha-web-app:
@@ -32,20 +33,20 @@ jobs:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: any
     
-    - name: Build
-      # We are setting with "sed" the firebase project from debug to production
-      run: |
-        cd app
-        sed -i web/index.html -e 's/firebase_init_debug/firebase_init_release/g'
-        flutter config --enable-web
-        flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true
+    - name: Activate sz_repo_cli package
+      run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+    # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+    - run: echo $(realpath ./bin) >> $GITHUB_PATH
     
-    - name: Deploy
-      env:
-        SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+    - name: Install firebase CLI
       run: |
         cd app
         sudo npm i -g firebase-tools
+
+    - name: Build and deploy web-app
+      env:
+        SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+      run: |
         echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
-        export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
-        firebase deploy -m "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --only hosting:alpha-web-app --project prod
+        sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json

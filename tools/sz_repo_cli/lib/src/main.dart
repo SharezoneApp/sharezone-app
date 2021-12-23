@@ -25,7 +25,8 @@ Future<void> main(List<String> args) async {
     ..addCommand(TestCommand(repo))
     ..addCommand(DoStuffCommand(repo))
     ..addCommand(FixCommentSpacingCommand(repo))
-    ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)));
+    ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)))
+    ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
     final ToolExit toolExit = e;
