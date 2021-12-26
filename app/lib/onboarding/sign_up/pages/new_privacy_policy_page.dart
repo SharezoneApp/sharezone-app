@@ -11,7 +11,10 @@ class NewPrivacyPolicy extends StatelessWidget {
     // Temporary - for development on Windows on Android Tablet
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     return Theme(
-      data: Theme.of(context).copyWith(/*TODO*/),
+      data: Theme.of(context).copyWith(
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Theme.of(context).primaryColor,
+      )),
       child: Builder(builder: (context) {
         return Scaffold(
           body: Center(
