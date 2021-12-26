@@ -67,7 +67,7 @@ dependencies:
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.2
+  flutter_markdown: ^0.6.9
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
