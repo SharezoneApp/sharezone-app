@@ -56,7 +56,6 @@ class PluginInitializations {
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
       'revenuecat_api_key': 'WLjPXTYvlcvxwFKOXWuHxDvKteGhqVpQ',
-      'useCfHolidayEndpoint': true,
     });
     return remoteConfiguration;
   }

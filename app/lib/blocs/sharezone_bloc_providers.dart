@@ -308,13 +308,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       widget.beitrittsversuche,
     );
 
-    // HttpHolidayApiClient and "useCfHolidayEndpoint" remote config value
-    // can be removed after 2021-12-01.
-    final useCfEndpoint = remoteConfig.getBool('useCfHolidayEndpoint') ?? false;
-    final holidayApiClient = useCfEndpoint
-        ? CloudFunctionHolidayApiClient()
-        : HttpHolidayApiClient(http.Client());
-
     final mainProviders = <BlocProvider>[
       BlocProvider<SharezoneContext>(
         bloc: SharezoneContext(
@@ -503,7 +496,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
         holidayManager: HolidayManager(
-            HolidayApi(holidayApiClient),
+            HolidayApi(CloudFunctionHolidayApiClient()),
             HolidayCache(FlutterKeyValueStore(
                 widget.blocDependencies.sharedPreferences))),
       )),
