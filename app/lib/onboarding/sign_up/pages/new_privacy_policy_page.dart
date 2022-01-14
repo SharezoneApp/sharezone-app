@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_widgets/snackbars.dart';
 
 class NewPrivacyPolicy extends StatelessWidget {
   const NewPrivacyPolicy({Key? key}) : super(key: key);
@@ -43,8 +45,21 @@ class NewPrivacyPolicy extends StatelessWidget {
                         ),
                         Divider(),
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: MarkdownBody(data: markdownPrivacyPolicy),
+                          child: Markdown(
+                            data: markdownPrivacyPolicy,
+                            onTapLink: (text, href, title) {
+                              if (href == null) return;
+                              if (href.startsWith('#')) {
+                                showSnackSec(
+                                  context: context,
+                                  text:
+                                      "Links zu anderen Text-Sektionen innerhalb dieses Dokumentes funktionieren momentan noch nicht.",
+                                  seconds: 7,
+                                );
+                                return;
+                              }
+                              launchURL(href, context: context);
+                            },
                           ),
                         ),
                         Divider(),
