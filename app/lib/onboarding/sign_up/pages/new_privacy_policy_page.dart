@@ -22,8 +22,8 @@ class NewPrivacyPolicy extends StatelessWidget {
           body: Center(
             child: Row(
               children: [
-                _TableOfContents(),
-                VerticalDivider(),
+                // _TableOfContents(),
+                // VerticalDivider(),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 200),
@@ -45,6 +45,8 @@ class NewPrivacyPolicy extends StatelessWidget {
                         ),
                         Divider(),
                         Expanded(
+                          // TODO: Text in "> Quotation" boxes are hard to read
+                          // in dark mode.
                           child: Markdown(
                             data: markdownPrivacyPolicy,
                             onTapLink: (text, href, title) {
@@ -95,89 +97,89 @@ class NewPrivacyPolicy extends StatelessWidget {
   }
 }
 
-class _TableOfContents extends StatelessWidget {
-  const _TableOfContents({
-    Key? key,
-  }) : super(key: key);
+// class _TableOfContents extends StatelessWidget {
+//   const _TableOfContents({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 400,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(height: 50),
-          Text(
-            'Inhaltsverzeichnis',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4,
-          ),
-          SizedBox(height: 50),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                horizontal: 50,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // To test scroll behavior / layout
-                  ...[...tableOfContentStrings, ...tableOfContentStrings]
-                      .map(
-                        (string) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            string,
-                            style: Theme.of(context).textTheme.bodyText2,
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 50),
-          FloatingActionButton.extended(
-            onPressed: () {
-              throw UnimplementedError(
-                  'Table of content FAB onPress not implemented.');
-            },
-            label: Text('Einklappen'),
-          ),
-          SizedBox(height: 100),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       width: 400,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           SizedBox(height: 50),
+//           Text(
+//             'Inhaltsverzeichnis',
+//             textAlign: TextAlign.center,
+//             style: Theme.of(context).textTheme.headline4,
+//           ),
+//           SizedBox(height: 50),
+//           Expanded(
+//             child: SingleChildScrollView(
+//               padding: EdgeInsets.symmetric(
+//                 horizontal: 50,
+//               ),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   // To test scroll behavior / layout
+//                   ...[...tableOfContentStrings, ...tableOfContentStrings]
+//                       .map(
+//                         (string) => Padding(
+//                           padding: const EdgeInsets.all(8.0),
+//                           child: Text(
+//                             string,
+//                             style: Theme.of(context).textTheme.bodyText2,
+//                             textAlign: TextAlign.start,
+//                           ),
+//                         ),
+//                       )
+//                       .toList(),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           SizedBox(height: 50),
+//           FloatingActionButton.extended(
+//             onPressed: () {
+//               throw UnimplementedError(
+//                   'Table of content FAB onPress not implemented.');
+//             },
+//             label: Text('Einklappen'),
+//           ),
+//           SizedBox(height: 100),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-const tableOfContentStrings = [
-  "Einführung",
-  "1. Wichtige Begriffe",
-  "2. Geltungsbereich",
-  "3. Verantwortlichkeit und Kontakt",
-  "4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten",
-  "5. Deine Rechte",
-  "6. Eure Kontaktaufnahme",
-  "7. Unser Umgang mit euren Daten",
-  "8. Account, Nickname und Passwort",
-  "9. Verarbeitung der IP-Adresse",
-  "10. Speicherdauer und Speicherfristen",
-  "11. Verarbeitung des gewählten Account-Typs und des Bundeslandes",
-  "12. Anonyme statistische Auswertung der App-Nutzung",
-  "13. Push-Nachrichten",
-  "14. Instance ID",
-  "15. Empfänger oder Kategorien von Empfängern",
-  "16. SSL/TLS-Verschlüsselung",
-  "17. Videokonferenzen",
-  "18. Datenübertragung in Drittländer außerhalb der EU",
-  "19. Datenschutzbeauftragter",
-  "20. Vorbehalt der Änderung dieser Informationen",
-];
+// const tableOfContentStrings = [
+//   "Einführung",
+//   "1. Wichtige Begriffe",
+//   "2. Geltungsbereich",
+//   "3. Verantwortlichkeit und Kontakt",
+//   "4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten",
+//   "5. Deine Rechte",
+//   "6. Eure Kontaktaufnahme",
+//   "7. Unser Umgang mit euren Daten",
+//   "8. Account, Nickname und Passwort",
+//   "9. Verarbeitung der IP-Adresse",
+//   "10. Speicherdauer und Speicherfristen",
+//   "11. Verarbeitung des gewählten Account-Typs und des Bundeslandes",
+//   "12. Anonyme statistische Auswertung der App-Nutzung",
+//   "13. Push-Nachrichten",
+//   "14. Instance ID",
+//   "15. Empfänger oder Kategorien von Empfängern",
+//   "16. SSL/TLS-Verschlüsselung",
+//   "17. Videokonferenzen",
+//   "18. Datenübertragung in Drittländer außerhalb der EU",
+//   "19. Datenschutzbeauftragter",
+//   "20. Vorbehalt der Änderung dieser Informationen",
+// ];
 
 const markdownPrivacyPolicy = """
 # Information über die Verarbeitung personenbezogener Daten
@@ -532,7 +534,7 @@ Rechtsgrundlage der Verarbeitung ist Art. 6, Absatz 1(b) der DSGVO, der besagt, 
 
 In der Regel werden personenbezogene Daten, die du uns zu deiner Person mitteilst, nur durch uns verarbeitet. Zur Erfüllung unserer Aufgaben und Pflichten kann es aber erforderlich sein, dass wir die zu eurer Person gespeicherten personenbezogenen Daten gegebenenfalls gegenüber natürlichen und juristischen Personen, Behörden, Einrichtungen oder anderen Stellen gegenüber offenlegen müssen. In Betracht kommen dabei insbesondere folgende Kategorien von Empfängern:
 
-* Google Cloud, siehe oben [Ziffer 4](#4-hosting-backend-infrastruktur-und-speicherort-für-eure-daten)
+* Google Cloud, siehe oben [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-für-eure-daten)
 * Gerichte (z.B. bei streitigen Verfahren)
 * Nicht-öffentliche Stellen sofern es sich hierbei um einen Auftragsverarbeiter handelt
 * Rechtsanwälte, Steuerberater, Notare, Wirtschaftsprüfer
