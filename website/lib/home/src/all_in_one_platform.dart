@@ -37,28 +37,22 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature(
-                          "Messenger",
-                          subtitle: "(bald verfügbar)",
-                          bulletpoints: [
-                            "ohne Handynummer",
-                            "Gruppen- und Einzelchats",
-                            "sicherer WhatsApp-Ersatz"
-                          ],
-                        ),
-                        feature("Dateiablage", bulletpoints: [
-                          "Arbeitsmaterialien teilen",
-                          "Optional: Unbegrenzter \nSpeicherplatz",
-                        ]),
-                        feature("Notifications", bulletpoints: [
-                          "Mit Ruhemodus",
-                          "Immer informiert",
-                          "Indiviuell einstellbar",
-                        ]),
                         feature("Aufgaben", bulletpoints: [
                           "Mit Erinnerungsfunktion",
                           "Mit Kommentarfunktion",
                           "Mit Abgabefunktion",
+                        ]),
+                        feature("Infozettel", bulletpoints: [
+                          "Mit Lesebestätigung",
+                          "Mit Kommentarfunktion",
+                          "Mit Notifications",
+                        ]),
+                        feature("Dateiablage", bulletpoints: [
+                          "Arbeitsmaterialien teilen",
+                          "Optional: Unbegrenzter \nSpeicherplatz",
+                        ]),
+                        feature("Termine", bulletpoints: [
+                          "Prüfungen und Termine auf einen Blick",
                         ]),
                       ],
                     ),
@@ -87,17 +81,23 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
                           "Sichere Videokonferenzen über Jitsi",
                           "Hosting in Deutschland"
                         ]),
-                        feature("Infozettel", bulletpoints: [
-                          "Mit Lesebestätigung",
-                          "Mit Kommentarfunktion",
-                          "Mit Notifications",
-                        ]),
+                        feature(
+                          "Immer verfügbar",
+                          bulletpoints: [
+                            "Offline Inhalte eintragen",
+                            "Mit mehreren Geräten nutzbar",
+                          ],
+                          leaveDefaultPicture: true,
+                          height: 60,
+                        ),
                         feature("Stundenplan", bulletpoints: [
                           "Mit A/B Wochen",
                           "Wochentage individuell einstellbar"
                         ]),
-                        feature("Termine", bulletpoints: [
-                          "Prüfungen und Termine auf einen Blick",
+                        feature("Notifications", bulletpoints: [
+                          "Mit Ruhemodus",
+                          "Immer informiert",
+                          "Indiviuell einstellbar",
                         ]),
                       ],
                     ),
@@ -111,18 +111,31 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
     );
   }
 
-  Widget feature(String title,
-      {List<String> bulletpoints = const [], String? subtitle}) {
+  Widget feature(
+    String title, {
+    List<String> bulletpoints = const [],
+    String? subtitle,
+    double? height,
+
+    /// Don't change phone mockup picture
+    bool leaveDefaultPicture = false,
+  }) {
     return MouseRegion(
-      onHover: (event) => setState(() => currentFeature = title),
+      onHover: (event) =>
+          // If we don't call setState when [leaveDefaultPicture] is `true`
+          // then the text in the [_FeatureCard] won't be drawn somehow.
+          setState(() => leaveDefaultPicture ? (_) {} : currentFeature = title),
       onExit: (event) => setState(() => currentFeature = defaultFeature),
       child: _FeatureCard(
         title: title,
         subtitle: subtitle,
         bulletpoints: bulletpoints,
+        height: height,
         onTap: (title) {
           setState(() {
-            currentFeature = title;
+            if (!leaveDefaultPicture) {
+              currentFeature = title;
+            }
           });
         },
       ),
@@ -137,12 +150,14 @@ class _FeatureCard extends StatefulWidget {
     this.subtitle,
     this.onTap,
     this.bulletpoints = const [],
+    this.height,
   }) : super(key: key);
 
   final String title;
   final String? subtitle;
   final List<String> bulletpoints;
   final ValueChanged<String>? onTap;
+  final double? height;
 
   @override
   __FeatureCardState createState() => __FeatureCardState();
@@ -179,7 +194,7 @@ class __FeatureCardState extends State<_FeatureCard> {
                           label: 'An image of the ${widget.title} feature',
                           child: SvgPicture.asset(
                             "assets/icons/${widget.title.toLowerCase()}.svg",
-                            height: 45,
+                            height: widget.height ?? 45,
                           ),
                         ),
                       )
