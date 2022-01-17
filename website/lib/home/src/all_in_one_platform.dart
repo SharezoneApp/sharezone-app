@@ -117,7 +117,7 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
     String? subtitle,
     double? height,
 
-    /// Don't change phone mockup picture
+    /// Don't change phone mockup picture if true
     bool leaveDefaultPicture = false,
   }) {
     return MouseRegion(
