@@ -44,7 +44,7 @@ class FilePickerHtml extends FilePickerImplementation {
     if (res.files.isNotEmpty) {
       return res.files
           .map((file) => LocalFileData.fromData(
-              file.bytes, file.path, file.name, file.extension))
+              file.bytes, null, file.name, file.extension))
           .toList();
     }
     return null;
