@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:built_collection/built_collection.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
