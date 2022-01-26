@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
-import 'package:file_chooser/file_chooser.dart' as file_chooser;
+import 'package:file_picker/file_picker.dart' as file_picker;
 import '../file_picker_implementation.dart';
 
 class FilePickerDesktop extends FilePickerImplementation {
@@ -49,8 +49,8 @@ class FilePickerDesktop extends FilePickerImplementation {
 
 Future<List<LocalFile>> selectMultipleFiles() async {
   final fileChooserResult =
-      await file_chooser.showOpenPanel(allowsMultipleSelection: true);
-  if (fileChooserResult.canceled) return [];
+      await file_picker.FilePicker.platform.pickFiles(allowMultiple: true);
+  if (fileChooserResult.count == 0) return [];
   print('\n\nfileChooserResult.paths: ${fileChooserResult.paths}\n\n\n');
   final files =
       fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
@@ -59,8 +59,8 @@ Future<List<LocalFile>> selectMultipleFiles() async {
 
 Future<LocalFile> selectSingleFile() async {
   final fileChooserResult =
-      await file_chooser.showOpenPanel(allowsMultipleSelection: false);
-  if (fileChooserResult.canceled) return null;
+      await file_picker.FilePicker.platform.pickFiles(allowMultiple: false);
+  if (fileChooserResult.count == 0) return null;
   final files =
       fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
   return files.toList()[0];

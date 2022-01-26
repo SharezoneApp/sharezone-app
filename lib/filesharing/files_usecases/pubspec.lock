@@ -183,20 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
-  file_chooser:
-    dependency: "direct main"
-    description:
-      path: "../file_chooser"
-      relative: true
-    source: path
-    version: "0.1.0"
   file_picker:
     dependency: "direct main"
     description:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.7"
+    version: "4.3.2"
   files_basics:
     dependency: "direct main"
     description:
