@@ -50,10 +50,13 @@ jobs:
 
   check-files-licence-headers:
     runs-on: ubuntu-latest
-    container: ghcr.io/google/addlicense:v1.0.0
     steps:
       - uses: actions/checkout@v2
-      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f .\header_template.txt /github/workspace
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.13.1'
+      - run: go install github.com/google/addlicense@latest 
+      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f .\header_template.txt .
 
   test:
     runs-on: ubuntu-latest
