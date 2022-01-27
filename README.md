@@ -20,7 +20,7 @@ This means not everything is just quite perfect right now: For example we still 
 We track the outstanding work [in this project.](https://github.com/SharezoneApp/sharezone-app/projects/1)
 
 This project is licenced under [EUPL v1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12) or later.\
-Some files may have other licences if specifically indicated.\
+For some files other licences or terms (regarding e.g. copyright) might apply. This can be indicated for example by a notice included in the file itself or a README in a parent folder.\
 Guidelines for users and developers for the EUPL v1.2 can be found [here](https://joinup.ec.europa.eu/collection/eupl/guidelines-users-and-developers).
 
 ## Contribute
