@@ -25,7 +25,7 @@ Guidelines for users and developers for the EUPL v1.2 can be found [here](https:
 
 ## Contribute
 
-PRs can already be opened but we still need to add a CLA bot before we can start merging.
+PRs can be opened already but we still need to add a CLA bot before we can start merging.
 
 ## Follow us
 
