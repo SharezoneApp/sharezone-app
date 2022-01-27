@@ -1,0 +1,11 @@
+# This file contains a list of code owners.
+#
+# Code owners will be requested automatically as a reviewer for a pull request.
+# You can set path patterns to specify which directories are owned by which code
+# owner.
+#
+# Docs:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @nilsreichardt
+* @Jonas-Sander
