@@ -1,6 +1,8 @@
 ![](https://user-images.githubusercontent.com/29028262/151260826-4d13664c-8269-442c-bf78-1197899afffb.png)
 
-Download Sharezone | ![]()  | ![]() | ![]()
+## Download Sharezone
+
+Android | iOS  | macOS | Web
 ---|---|--- | ---
 <a href='https://play.google.com/store/apps/details?id=de.codingbrain.sharezone'><img width=200 alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/> | <a href='https://apps.apple.com/de/app/sharezone/id1434868489'><img width=200 alt='Get it on Google Play' src='https://user-images.githubusercontent.com/29028262/151261787-583371c2-db71-48c0-8dcf-64abb1af9090.svg'/> | <a href='https://apps.apple.com/de/app/sharezone/id1434868489'><img width=200 alt='Get it on Google Play' src='https://user-images.githubusercontent.com/29028262/151261788-bce0bb3a-52a4-48d7-ab03-75bc4e904e7b.svg'/> | <a href='https://web.sharezone.net'><img width=200 alt='Get it on Google Play' src='https://user-images.githubusercontent.com/29028262/151261789-ac4d7496-ff14-4ef0-8d9f-c9fee72cb302.png'/>
 
