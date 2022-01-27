@@ -48,6 +48,13 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
+  check-files-licence-headers:
+    runs-on: ubuntu-latest
+    container: ghcr.io/google/addlicense:v1.0.0
+    steps:
+      - uses: actions/checkout@v2
+      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f .\header_template.txt /github/workspace
+
   test:
     runs-on: ubuntu-latest
     steps:
