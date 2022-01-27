@@ -11,7 +11,7 @@ With Sharezone pupils, teachers and even parents can organize homework, files, t
 Sharezone is currently only available in German.  
 We might expand to more languages and regions in the future 🌍🚀
 
-[Join our Discord](https://sharezone.net/discord) for active discussions, annoucements, feedback and more!
+[Join our Discord](https://sharezone.net/discord) for active discussions, announcements, feedback and more!
 
 ## Open-Source
 
