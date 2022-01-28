@@ -18,7 +18,7 @@ We might expand to more languages and regions in the future 🌍🚀
 ## Open-Source
 
 We are currently in the process of open-sourcing this repository.\
-This means not everything is just quite perfect right now: For example we still need to migrate [our old issues](https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues) to GitHub, add documentation, enable contributions and more.\
+This means not everything is just quite perfect right now: For example we still need to migrate [our old issues](https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues) to GitHub, add documentation, add labels and more.\
 We track the outstanding work [in this project.](https://github.com/SharezoneApp/sharezone-app/projects/1)
 
 This project is licensed under [EUPL v1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12) or later.\
@@ -27,7 +27,11 @@ Guidelines for users and developers for the EUPL v1.2 can be found [here](https:
 
 ## Contribute
 
-PRs can be opened already, but we still need to add a CLA bot before we can start merging.
+To contribute just open a PR and sign the [Contributor License Agreement](https://cla.sharezone.net).   
+A bot will automatically ask you ask you to accept the CLA when a PR is opened if you haven't already.  
+  
+We will add a CONTRIBUTING.md in the future with more details regarding coding standards, conventions etc.    
+For now you can just follow the existing patterns you see inside the code (which may differ inside the codebase).  
 
 ## Follow us
 
