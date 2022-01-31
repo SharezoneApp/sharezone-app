@@ -98,7 +98,10 @@ class _DescriptionField extends StatelessWidget {
                 textInputAction: TextInputAction.done,
               ),
               const SizedBox(height: 10),
-              MarkdownSupport(),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: MarkdownSupport(),
+              ),
             ],
           ),
         );
