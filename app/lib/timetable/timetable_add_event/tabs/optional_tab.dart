@@ -81,6 +81,7 @@ class _DescriptionField extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               PrefilledTextField(
                 prefilledText: description,
@@ -97,7 +98,10 @@ class _DescriptionField extends StatelessWidget {
                 textInputAction: TextInputAction.done,
               ),
               const SizedBox(height: 10),
-              MarkdownSupport(),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: MarkdownSupport(),
+              ),
             ],
           ),
         );
