@@ -33,8 +33,13 @@ Steps to reproduce the behavior:
 <!-- On which device did the bug occur? iPhone 12? Google Pixel 5? Honor View 10? -->
  - OS:
 <!-- Which OS do you use? Android 11? iOS 14? macOS 15? -->
+ - App type: <!-- web app / macOS app / iOS app / Android app -->
+<!-- What app type of Sharezone did you use? The web-app in the browser? The macOS app from the AppStore? Android app? -->
  - App version:
-<!-- (In which version of the app does the error occur? You can find the version under Settings > "About us". Otherwise you can find a tutorial with picture under this link: https://sharezone.zendesk.com/hc/de/articles/360013355879-Welche-Version-der-App-habe-ich-installiert-) -->
+<!-- In which version of the app does the error occur? 
+You can find the version under Settings > "About us". 
+Otherwise you can find a tutorial with picture under this link: 
+https://sharezone.zendesk.com/hc/de/articles/360013355879-Welche-Version-der-App-habe-ich-installiert- -->
 
 ## Additional context
 <!-- Add any other context about the problem here. -->
