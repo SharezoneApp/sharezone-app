@@ -106,4 +106,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}'
           projectId: sharezone-debug
+          entryPoint: "./app"
       
