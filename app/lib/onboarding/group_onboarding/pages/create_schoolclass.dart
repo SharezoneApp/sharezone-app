@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
@@ -14,7 +15,6 @@ import 'package:optional/optional.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone/groups/src/pages/school_class/school_class_create.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/create_courses.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
@@ -23,6 +23,17 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:user/user.dart';
+
+class SchoolClassCreateBloc extends BlocBase {
+  SchoolClassCreateBloc();
+
+  final ValueNotifier<String> name = ValueNotifier("");
+
+  @override
+  void dispose() {
+    name.dispose();
+  }
+}
 
 class GroupOnboardingCreateSchoolClass extends StatefulWidget {
   static const tag = 'onboarding-create-school-class-page';
