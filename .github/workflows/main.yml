@@ -75,6 +75,20 @@ jobs:
       - name: Run tests via "sz test"
         run: sz test -v
   
+  # We are building for every PR a web preview, which will be deployed to
+  # Firebase Hosting. The link to the website will posted as comment (like:
+  # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
+  #
+  # The previews are helping reviewer and other users to quickly view the
+  # changes in a compiled version.
+  #
+  # A link to a preview expires after 30 days.
+  #
+  # Required steps to set this up:
+  # 1. Run "firebase init hosting:github"
+  # 2. Enable "Firebase Hosting API" in Google Cloud project
+  # 3. Write GitHub action job
+  # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     runs-on: ubuntu-latest
     # Skip this job, if the pull request is a draft.
