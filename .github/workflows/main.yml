@@ -74,3 +74,36 @@ jobs:
       
       - name: Run tests via "sz test"
         run: sz test -v
+  
+  web-preview:
+    runs-on: ubuntu-latest
+    # Skip this job, if the pull request is a draft.
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "2.5.2"
+          channel: 'any'
+      
+      - name: Activate sz_repo_cli package
+        run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+      
+      - name: Get Flutter and Dart packages
+        run: sz pub get
+
+      - name: Build web app
+        working-directory: app
+        run: flutter build web --release
+
+      - name: Deploy to Firebase Hosting (sharezone-debug)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}'
+          projectId: sharezone-debug
+      
