@@ -91,10 +91,6 @@ jobs:
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     runs-on: ubuntu-latest
-    # Skip this job, if the pull request is a draft, because it could be
-    # annoying to get for every commit a GitHub push notification, because a new
-    # comment with the web preview was posted.
-    if: ${{ github.event.pull_request.draft == false }}
     steps:
       - uses: actions/checkout@v2
 
