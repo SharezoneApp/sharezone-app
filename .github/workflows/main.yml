@@ -26,9 +26,9 @@ env:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    # In "work In progress" PRs we might use TODOs temporarily.
+    # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ !contains(github.event.pull_request.title, '[WIP]') }}
+    if: ${{ github.event.pull_request.draft == false }}
     steps:
       - uses: actions/checkout@v2
 
