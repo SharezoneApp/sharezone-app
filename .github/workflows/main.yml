@@ -121,4 +121,3 @@ jobs:
           entryPoint: "./app"
           expires: '30d'
           target: 'test-web-app'
-      
