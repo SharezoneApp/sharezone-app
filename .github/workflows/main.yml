@@ -82,7 +82,7 @@ jobs:
   # The previews are helping reviewer and other users to quickly view the
   # changes in a compiled version.
   #
-  # A link to a preview expires after 30 days.
+  # A link to a preview expires after 7 days.
   #
   # Required steps to set this up:
   # 1. Run "firebase init hosting:github"
