@@ -74,3 +74,41 @@ jobs:
       
       - name: Run tests via "sz test"
         run: sz test -v
+  
+  # We are building for every PR a web preview, which will be deployed to
+  # Firebase Hosting. The link to the website will posted as comment (like:
+  # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
+  #
+  # The previews are helping reviewer and other users to quickly view the
+  # changes in a compiled version.
+  #
+  # A link to a preview expires after 7 days.
+  #
+  # Required steps to set this up:
+  # 1. Run "firebase init hosting:github"
+  # 2. Enable "Firebase Hosting API" in Google Cloud project
+  # 3. Write GitHub action job
+  # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
+  web-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "2.5.2"
+          channel: 'any'
+
+      - name: Build web app
+        working-directory: app
+        run: flutter build web --release
+
+      - name: Deploy to Firebase Hosting (sharezone-debug)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}'
+          projectId: sharezone-debug
+          entryPoint: "./app"
+          expires: '7d'
+          target: 'test-web-app'
