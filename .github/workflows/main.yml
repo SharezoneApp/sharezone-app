@@ -119,5 +119,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}'
           projectId: sharezone-debug
           entryPoint: "./app"
-          expires: '30d'
+          expires: '7d'
           target: 'test-web-app'
