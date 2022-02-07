@@ -41,7 +41,7 @@ void main() {
         getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
       ];
       expect(() => getCurrentLessonIndex(schoolIsOver),
-          throwsA(predicate((e) => e is AllLessonsAreOver)));
+          throwsA(predicate((e) => e is AllLessonsAreOverException)));
     });
 
     test('first lesson is now', () {
@@ -74,6 +74,19 @@ void main() {
         getLessonViewWithTimeStatus(LessonTimeStatus.isYetToCome),
       ];
       expect(getCurrentLessonIndex(firstLessonNow), 1);
+    });
+
+    test('acceptance test', () {
+      final lessons = [
+        getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
+        getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
+        getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
+        getLessonViewWithTimeStatus(LessonTimeStatus.isNow),
+        getLessonViewWithTimeStatus(LessonTimeStatus.isYetToCome),
+        getLessonViewWithTimeStatus(LessonTimeStatus.isYetToCome),
+        getLessonViewWithTimeStatus(LessonTimeStatus.isYetToCome),
+      ];
+      expect(getCurrentLessonIndex(lessons), 3);
     });
   });
 }
