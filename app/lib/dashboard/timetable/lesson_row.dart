@@ -22,7 +22,7 @@ class _LessonRow extends StatelessWidget {
         int currentIndex;
         try {
           currentIndex = getCurrentLessonIndex(views);
-        } on AllLessonsAreOver {
+        } on AllLessonsAreOverException {
           return _SchoolIsOver();
         }
 
