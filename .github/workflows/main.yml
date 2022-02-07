@@ -98,15 +98,6 @@ jobs:
         with:
           flutter-version: "2.5.2"
           channel: 'any'
-      
-      - name: Activate sz_repo_cli package
-        run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
-      
-      - name: Get Flutter and Dart packages
-        run: sz pub get
 
       - name: Build web app
         working-directory: app
