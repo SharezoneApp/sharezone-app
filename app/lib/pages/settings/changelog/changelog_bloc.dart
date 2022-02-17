@@ -13,11 +13,11 @@ import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone/pages/settings/changelog/change_view.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 
 class ChangelogBloc extends BlocBase {
   final ChangelogGateway _gateway;
-  final PlatformInformationRetreiver _platformInformationManager;
+  final PlatformInformationReceiver _platformInformationManager;
   final _changesSubject = BehaviorSubject<ChangelogPageView>();
   final int numberOfInitialChanges;
 

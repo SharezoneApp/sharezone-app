@@ -14,7 +14,7 @@ import 'package:sharezone/pages/settings/changelog/change_view.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -66,7 +66,7 @@ class LocalChangeGateway implements ChangelogGateway {
       throw UnimplementedError();
 }
 
-class MockInformationManager extends PlatformInformationRetreiver {
+class MockInformationManager extends PlatformInformationReceiver {
   @override
   String get appName => "Sharezone";
 

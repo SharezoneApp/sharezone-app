@@ -11,7 +11,7 @@ library abgabe_client_lib;
 export 'src/erstellung/bloc/homework_user_create_submissions_bloc_factory.dart';
 export 'src/erstellung/bloc/homework_user_submissions_bloc.dart';
 export 'src/erstellung/abnahme_erstellung_gateway.dart';
-export 'src/erstellung/api_authentication/firebase_auth_token_retreiver.dart';
+export 'src/erstellung/api_authentication/firebase_auth_token_receiver.dart';
 export 'src/erstellung/cloud_storage_abgabendatei_uploader.dart';
 export 'src/erstellung/firestore_abgaben_gateway.dart';
 export 'src/erstellung/local_file_saver.dart';

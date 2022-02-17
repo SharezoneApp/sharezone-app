@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:abgabe_client_lib/src/erstellung/abnahme_erstellung_gateway.dart';
-import 'package:abgabe_client_lib/src/erstellung/api_authentication/firebase_auth_token_retreiver.dart';
+import 'package:abgabe_client_lib/src/erstellung/api_authentication/firebase_auth_token_receiver.dart';
 import 'package:abgabe_client_lib/src/erstellung/bloc/homework_user_submissions_bloc.dart';
 import 'package:abgabe_client_lib/src/erstellung/local_file_saver.dart';
 import 'package:abgabe_client_lib/src/erstellung/uploader/abgabedatei_uploader.dart';
@@ -26,7 +26,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   final AbnahmeErstellungGateway gateway;
   final AbgabeHttpApi abgabeHttpApi;
   final Future<void> Function(dynamic exception, StackTrace stack) recordError;
-  final FirebaseAuthTokenRetreiver authTokenRetreiver;
+  final FirebaseAuthTokenReceiver authTokenRetreiver;
 
   HomeworkUserCreateSubmissionsBlocFactory({
     @required this.uploader,
@@ -43,7 +43,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
     final abgabeId =
         AbgabeId(AbgabezielId.homework(_homeworkId), UserId(userId));
     final abgabedateiApi = abgabeHttpApi.getAbgabedateiApi();
-    final headerRetreiver = FirebaseAuthHeaderRetreiver(authTokenRetreiver);
+    final headerRetreiver = FirebaseAuthHeaderReceiver(authTokenRetreiver);
     final umbenenner =
         HttpAbgabendateiUmbenenner(abgabedateiApi, abgabeId, headerRetreiver);
     final loescher =

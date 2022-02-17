@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 
-class FlutterPlatformInformationRetreiver extends PlatformInformationRetreiver {
+class FlutterPlatformInformationReceiver extends PlatformInformationReceiver {
   PackageInfo _packageInfo;
 
   @override

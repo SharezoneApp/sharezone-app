@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/get_platform_information_receiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -84,8 +84,8 @@ class _AboutHeader extends StatelessWidget {
             fontSize: 15,
           ),
         ),
-        FutureBuilder<PlatformInformationRetreiver>(
-          future: getPlatformInformationRetreiverWithInit(),
+        FutureBuilder<PlatformInformationReceiver>(
+          future: getPlatformInformationReceiverWithInit(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text("Version wird geladen...");
             if (snapshot.hasError)

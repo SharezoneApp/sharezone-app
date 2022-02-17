@@ -6,9 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 
-class MockPlatformInformationRetreiver extends PlatformInformationRetreiver {
+class MockPlatformInformationRetreiver extends PlatformInformationReceiver {
   @override
   String appName = "";
 

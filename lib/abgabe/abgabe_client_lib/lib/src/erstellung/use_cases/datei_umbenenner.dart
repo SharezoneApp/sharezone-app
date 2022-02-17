@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:abgabe_client_lib/src/erstellung/api_authentication/firebase_auth_token_retreiver.dart';
+import 'package:abgabe_client_lib/src/erstellung/api_authentication/firebase_auth_token_receiver.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
 import 'package:abgabe_http_api/api/abgabedatei_api.dart';
 import 'package:abgabe_http_api/model/dateiname_dto.dart';
@@ -20,7 +20,7 @@ abstract class AbgabendateiUmbenenner {
 class HttpAbgabendateiUmbenenner extends AbgabendateiUmbenenner {
   final AbgabedateiApi api;
   final AbgabeId abgabeId;
-  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+  final FirebaseAuthHeaderReceiver _authHeaderRetreiver;
 
   HttpAbgabendateiUmbenenner(
       this.api, this.abgabeId, this._authHeaderRetreiver);

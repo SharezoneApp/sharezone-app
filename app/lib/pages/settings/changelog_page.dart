@@ -15,7 +15,7 @@ import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
 import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/get_platform_information_receiver.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/announcement_card.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -29,7 +29,7 @@ class ChangelogPage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<ChangelogBloc>(
       bloc: ChangelogBloc(ChangelogGateway(firestore: api.references.firestore),
-          getPlatformInformationRetreiver()),
+          getPlatformInformationReceiver()),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(title: const Text("Was ist neu?"), centerTitle: true),

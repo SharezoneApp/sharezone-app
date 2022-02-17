@@ -13,7 +13,7 @@ import 'package:sharezone/feedback/src/api/feedback_api.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
-import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/platform_information_receiver.dart';
 
 class FeedbackBloc extends BlocBase {
   /// The time between successful feedback submissions that has to been exeeded,
@@ -23,7 +23,7 @@ class FeedbackBloc extends BlocBase {
   final FeedbackApi _api;
   final FeedbackCache _cache;
   final FeedbackAnalytics feedbackAnalytics;
-  final PlatformInformationRetreiver _platformInformationRetreiver;
+  final PlatformInformationReceiver _platformInformationRetreiver;
   final String uid;
 
   final _ratingSubject = BehaviorSubject<double>();
@@ -63,7 +63,7 @@ class FeedbackBloc extends BlocBase {
   /// Will add uid, contact information and platform information to the
   /// [UserFeedback] as long as [changeIsAnonymous] was not passed true as the
   /// latest value.
-  /// platform information will be read from the [PlatformInformationRetreiver].
+  /// platform information will be read from the [PlatformInformationReceiver].
   ///
   /// Throws a [CooldownException] if
   /// [FeedbackCache.hasFeedbackSubmissionCooldown] returns true.

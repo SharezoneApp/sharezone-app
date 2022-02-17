@@ -103,14 +103,14 @@ import 'package:sharezone/timetable/timetable_page/school_class_filter/school_cl
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
-import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
+import 'package:sharezone/util/firebase_auth_token_receiver_impl.dart';
 import 'package:sharezone/util/holidays/api_cache_manager.dart';
 import 'package:sharezone/util/holidays/holiday_api.dart';
 import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
-import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
-import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
+import 'package:sharezone/util/platform_information_manager/flutter_platform_information_receiver.dart';
+import 'package:sharezone/util/platform_information_manager/get_platform_information_receiver.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -162,7 +162,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       FirebaseFeedbackApi(widget.blocDependencies.firestore),
       FeedbackCache(
           FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
-      getPlatformInformationRetreiver(),
+      getPlatformInformationReceiver(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
     );
@@ -298,7 +298,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       connectTimeout: 45000,
     );
     abgabeHttpApi.dio = Dio(baseOptions);
-    var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
+    var firebaseAuthTokenRetreiver = FirebaseAuthTokenReceiverImpl(
         widget.blocDependencies.authUser.firebaseUser);
 
     final meetingServerUrl = remoteConfig.getString('meeting_server_url');
@@ -347,7 +347,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<UpdateReminderBloc>(
         bloc: UpdateReminderBloc(
-            platformInformationRetreiver: FlutterPlatformInformationRetreiver(),
+            platformInformationRetreiver: FlutterPlatformInformationReceiver(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
             updateGracePeriod: Duration(days: 3)),
@@ -394,7 +394,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               crashAnalytics,
               CloudStorageBucket(abgabenBucketName),
               HttpAbgabedateiHinzufueger(abgabeHttpApi.getAbgabedateiApi(),
-                  FirebaseAuthHeaderRetreiver(firebaseAuthTokenRetreiver))),
+                  FirebaseAuthHeaderReceiver(firebaseAuthTokenRetreiver))),
           authTokenRetreiver: firebaseAuthTokenRetreiver,
           saver: SingletonLocalFileSaver(),
           recordError: crashAnalytics.recordError,
