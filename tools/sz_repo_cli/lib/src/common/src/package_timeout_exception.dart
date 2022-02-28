@@ -9,7 +9,7 @@
 import 'package.dart';
 
 /// Exception thrown when [package] executed longer than [packageTimeout] for an
-/// action like running "flutter test".
+/// action like "flutter test".
 class PackageTimeoutException implements Exception {
   final Duration packageTimeout;
   final Package package;
