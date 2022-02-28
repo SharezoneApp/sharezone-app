@@ -160,7 +160,7 @@ class AnalyzePackagesUseCase {
           .timeout(
             packageTimeout,
             onTimeout: () =>
-                throw PackageTimoutException(packageTimeout, package),
+                throw PackageTimeoutException(packageTimeout, package),
           )
           .then((_) => _statusUpdater.success())
           .catchError((e, s) => _statusUpdater.failure(error: e, stackTrace: s))
