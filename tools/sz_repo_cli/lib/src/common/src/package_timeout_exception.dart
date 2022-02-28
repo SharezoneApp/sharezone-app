@@ -21,6 +21,6 @@ class PackageTimeoutException implements Exception {
 
   @override
   String toString() {
-    return 'The package "${package.name}" [${package.type.toReadableString()}] passed the timeout of ${packageTimeout.inMinutes} minutes.';
+    return 'The package "${package.name}" [${package.type.toReadableString()}] has exceeded the timeout of ${packageTimeout.inMinutes} minutes.';
   }
 }
