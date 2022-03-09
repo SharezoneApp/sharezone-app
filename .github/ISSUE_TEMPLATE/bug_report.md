@@ -12,14 +12,12 @@ assignees: ''
 ## Steps to reproduce the bug
 <!-- A step by step explanation on how to trigger the bug. -->
 
-Steps to reproduce the behavior:
-
 1. Go to '...'
 2. Scroll down to '....'
 3. Click on '....'
 
 ## Current _broken_ behavior
-<!-- What is the current broken behaviour that happens when following the steps above? -->
+<!-- What is the current broken behavior that happens when following the steps above? -->
 
 ## Expected behavior
 <!-- A clear and concise description of what you expected to happen instead. -->
