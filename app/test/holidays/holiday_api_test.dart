@@ -17,17 +17,6 @@ import 'package:test/test.dart';
 
 class HttpClientMock extends Mock implements http.Client {}
 
-class MockHolidayApiClient extends HolidayApiClient {
-  List answer;
-
-  @override
-  Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    return answer ?? [];
-  }
-}
-
-class MockitoHolidayApiClient extends Mock implements HolidayApiClient {}
-
 /// Fixes HandshakeException:<HandshakeException: Handshake error in client (OS
 /// Error: CERTIFICATE_VERIFY_FAILED: certificate has
 /// expired(../../third_party/boringssl/src/ssl/handshake.cc:359))>
@@ -109,16 +98,6 @@ http.Response emptyResponse = http.Response("", 200);
 http.Response invalidResponse = http.Response("OAWNDAI", 500);
 http.Response validResponse = http.Response(validResponseString, 200);
 
-http.Response validResponseFromString(String responseString) =>
-    http.Response(responseString, 200);
 String validResponseString = """
 [{"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"},{"start":"2018-12-21T00:00","end":"2019-01-05T00:00","year":2018,"stateCode":"NW","name":"weihnachtsferien","slug":"weihnachtsferien-2018-NW"},{"start":"2018-07-16T00:00","end":"2018-08-29T00:00","year":2018,"stateCode":"NW","name":"sommerferien","slug":"sommerferien-2018-NW"},{"start":"2018-03-26T00:00","end":"2018-04-08T00:00","year":2018,"stateCode":"NW","name":"osterferien","slug":"osterferien-2018-NW"},{"start":"2018-05-22T00:00","end":"2018-05-26T00:00","year":2018,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2018-NW"}]
-""";
-
-String simpleResponse = """
-[{"start":"2018-07-16T00:00","end":"2018-08-29T00:00","year":2018,"stateCode":"NW","name":"sommerferien","slug":"sommerferien-2018-NW"}]
-""";
-
-String simpleResponse2 = """
-[{"start":"2019-05-31T00:00","end":"2019-06-01T00:00","year":2019,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2019-NW"}]
 """;
