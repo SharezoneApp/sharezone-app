@@ -53,7 +53,7 @@ class _HomeState extends State<_Home> {
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: Text("Received QR code: $receivedQrCode"),
-                )
+                ),
             ],
           ),
         ),
