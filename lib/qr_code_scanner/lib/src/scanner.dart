@@ -15,6 +15,7 @@ class Scanner extends StatelessWidget {
     return Stack(
       children: [
         MobileScanner(
+          fit: BoxFit.cover,
           onDetect: (barcode, args) {
             if (onDetect != null) {
               onDetect!(barcode.rawValue);

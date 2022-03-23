@@ -3,36 +3,51 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ScanSelectionOverlay extends StatelessWidget {
-  const ScanSelectionOverlay({Key? key}) : super(key: key);
+  const ScanSelectionOverlay({
+    Key? key,
+    this.color = Colors.white,
+  }) : super(key: key);
+
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
+    const width = 250.0;
     return Stack(
+      alignment: Alignment.center,
       children: [
-        CustomPaint(
-          painter: ScanSelectionPainter(),
+        const CustomPaint(
+          painter: ScanSelectionPainter(width: width),
         ),
-        const _ScanSelectionCorner(),
+        _ScanSelectionCorner(
+          width: width,
+          color: color,
+        ),
       ],
     );
   }
 }
 
 class ScanSelectionPainter extends CustomPainter {
+  const ScanSelectionPainter({
+    this.width = 200,
+  });
+
+  final double width;
+
   @override
   void paint(Canvas canvas, Size size) {
-    const radius = 200.0;
     const center = Offset(0, 0);
     final path = Path();
     path.fillType = PathFillType.evenOdd;
     path.addRect(Rect.largest);
     path.addRRect(
       RRect.fromRectAndRadius(
-        Rect.fromCircle(center: center, radius: radius / 2),
-        const Radius.circular(radius / 10),
+        Rect.fromCircle(center: center, radius: width / 2),
+        Radius.circular(width / 10),
       ),
     );
-    canvas.drawPath(path, Paint()..color = Colors.black.withOpacity(0.3));
+    canvas.drawPath(path, Paint()..color = Colors.black.withOpacity(0.4));
   }
 
   @override
@@ -42,42 +57,37 @@ class ScanSelectionPainter extends CustomPainter {
 }
 
 class _ScanSelectionCorner extends StatelessWidget {
-  const _ScanSelectionCorner({
-    Key? key,
-    this.color = Colors.black,
-  }) : super(key: key);
+  const _ScanSelectionCorner(
+      {Key? key, this.color = Colors.black, this.width = 200})
+      : super(key: key);
 
   final Color color;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
+      alignment: Alignment.center,
       children: [
         CustomPaint(
-          painter: CornerBorderPainter(color: color),
+          painter: CornerBorderPainter(color: color, width: width),
         ),
         Transform.rotate(
           angle: pi,
           child: CustomPaint(
-            painter: CornerBorderPainter(
-              color: color,
-            ),
+            painter: CornerBorderPainter(color: color, width: width),
           ),
         ),
         Transform.rotate(
           angle: pi / 2,
           child: CustomPaint(
-            painter: CornerBorderPainter(
-              color: color,
-            ),
+            painter: CornerBorderPainter(color: color, width: width),
           ),
         ),
         Transform.rotate(
           angle: pi / -2,
           child: CustomPaint(
-            painter: CornerBorderPainter(
-              color: color,
-            ),
+            painter: CornerBorderPainter(color: color, width: width),
           ),
         ),
       ],
@@ -88,17 +98,17 @@ class _ScanSelectionCorner extends StatelessWidget {
 class CornerBorderPainter extends CustomPainter {
   CornerBorderPainter({
     this.color = Colors.black,
-    this.strokeWidth = 7.5,
+    this.strokeWidth = 5,
+    this.width = 200,
   });
 
   final Color color;
   final double strokeWidth;
+  final double width;
 
   @override
   void paint(Canvas canvas, Size size) {
-    const width = 200.0;
-
-    const start = Offset(width / -2, width / -2);
+    final start = Offset(width / -2, width / -2);
     const radius = 20.0;
     const length = 15;
 
