@@ -6,9 +6,11 @@ class Scanner extends StatelessWidget {
   const Scanner({
     Key? key,
     this.onDetect,
+    this.description,
   }) : super(key: key);
 
   final ValueChanged<String?>? onDetect;
+  final Widget? description;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class Scanner extends StatelessWidget {
             }
           },
         ),
-        const ScanOverlay()
+        ScanOverlay(
+          description: description,
+        )
       ],
     );
   }
