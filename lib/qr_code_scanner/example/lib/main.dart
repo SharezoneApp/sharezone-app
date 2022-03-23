@@ -17,8 +17,15 @@ class _ExampleApp extends StatelessWidget {
   }
 }
 
-class _Home extends StatelessWidget {
+class _Home extends StatefulWidget {
   const _Home({Key? key}) : super(key: key);
+
+  @override
+  State<_Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<_Home> {
+  String? receivedQrCode;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +33,30 @@ class _Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('QR code Example'),
       ),
-      body: ElevatedButton(
-        onPressed: () {
-          scanQrCode(context);
-        },
-        child: const Text('Scan QR code'),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  final qrCode = await scanQrCode(context);
+
+                  setState(() {
+                    receivedQrCode = qrCode;
+                  });
+                },
+                child: const Text('Scan QR code'),
+              ),
+              if (receivedQrCode != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Text("Received QR code: $receivedQrCode"),
+                )
+            ],
+          ),
+        ),
       ),
     );
   }
