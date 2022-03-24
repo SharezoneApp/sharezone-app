@@ -1,9 +1,15 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  const Device phoneLandscape = Device(
+    name: 'phone_landscape',
+    size: Size(667, 375),
+  );
+
   return GoldenToolkit.runWithConfiguration(
     () async {
       await loadAppFonts();
@@ -22,6 +28,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       skipGoldenAssertion: () => !Platform.isMacOS,
       defaultDevices: const [
         Device.phone,
+        phoneLandscape,
         Device.tabletLandscape,
         Device.tabletPortrait,
         Device.iphone11,
