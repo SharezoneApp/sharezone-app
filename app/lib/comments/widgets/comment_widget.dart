@@ -84,6 +84,7 @@ class Comment extends StatelessWidget {
                   MarkdownBody(
                     data: userComment,
                     selectable: true,
+                    softLineBreak: true,
                     styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                         .copyWith(a: linkStyle(context, 14)),
                     onTapLink: (url, _, __) => launchURL(url, context: context),
