@@ -34,36 +34,6 @@ class TeacherHomeworkBottomActionBar extends StatelessWidget {
   }
 }
 
-Future<T> showRoundedModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color backgroundColor,
-  double elevation,
-  bool isScrollControlled = false,
-  bool useRootNavigator = false,
-  T defaultValue,
-}) async {
-  assert(context != null);
-  assert(builder != null);
-  assert(isScrollControlled != null);
-  assert(useRootNavigator != null);
-  assert(debugCheckHasMediaQuery(context));
-  assert(debugCheckHasMaterialLocalizations(context));
-
-  T res = await showModalBottomSheet<T>(
-    context: context,
-    builder: builder,
-    backgroundColor: backgroundColor,
-    elevation: elevation,
-    isScrollControlled: isScrollControlled,
-    useRootNavigator: useRootNavigator,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-  );
-  return res ??= defaultValue;
-}
-
 class TeacherSortButton extends StatelessWidget {
   @visibleForTesting
   static const sortByDateSortButtonUiString = "Sortiere nach Datum";

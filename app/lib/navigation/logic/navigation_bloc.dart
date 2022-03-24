@@ -36,8 +36,3 @@ Future<bool> popToOverview(BuildContext context) async {
   navigationBloc.navigateTo(NavigationItem.overview);
   return false;
 }
-
-Future<bool> popUntilOverview(BuildContext context) {
-  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-  return null;
-}

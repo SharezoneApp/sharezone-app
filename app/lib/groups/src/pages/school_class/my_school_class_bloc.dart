@@ -21,8 +21,6 @@ enum SchoolClassDeleteType {
   withoutCourses,
 }
 
-SchoolClassDeleteType schoolClassDeleteTypeFromString(String data) =>
-    enumFromString(SchoolClassDeleteType.values, data);
 String schoolClassTypeToString(SchoolClassDeleteType data) =>
     enumToString(data);
 

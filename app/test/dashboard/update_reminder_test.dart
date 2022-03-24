@@ -20,7 +20,6 @@ import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -143,8 +142,6 @@ class MockDashboardBloc implements DashboardBloc {
   @override
   Stream<bool> get urgentHomeworksEmpty => Stream.value(true);
 }
-
-class MockNavigationBloc extends Mock implements NavigationBloc {}
 
 class MockUpdateReminderBloc extends Mock implements UpdateReminderBloc {}
 

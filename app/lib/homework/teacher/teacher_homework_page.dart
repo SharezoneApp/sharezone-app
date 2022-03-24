@@ -83,8 +83,6 @@ class TeacherHomeworkPage extends StatelessWidget {
   }
 }
 
-enum HomeworkTab { open, completed }
-
 final Color overscrollColor = Colors.grey[600];
 
 class TeacherHomeworkBody extends StatelessWidget {
