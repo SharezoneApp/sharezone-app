@@ -15,7 +15,10 @@ void main() {
               // Even with the use of 'golden_toolkit' is the font for this
               // widget not loaded. Therefore, will Flutter use the default font
               // "Ahem".
-              description: Text('Go to web.sharezone.net to get a QR Code'),
+              description: Text(
+                'Go to web.sharezone.net to get a QR Code',
+              ),
+              hasTorch: true,
             ),
           ),
         ),
