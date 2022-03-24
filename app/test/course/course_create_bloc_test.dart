@@ -13,14 +13,11 @@ import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_cr
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
-import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:test/test.dart';
 
 import '../analytics/analytics_test.dart';
-
-class MockApi extends Mock implements SharezoneGateway {}
 
 class MockCourseCreateApi extends Mock implements CourseCreateGateway {}
 

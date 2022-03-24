@@ -67,19 +67,6 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   }
 }
 
-List<HomeworkDto> getNotArchivedHomeworks(List<HomeworkDto> homeworkList) {
-  List<HomeworkDto> notArchived = <HomeworkDto>[];
-  DateTime today =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  homeworkList.forEach((HomeworkDto homework) {
-    DateTime homeworkTodoUntil = DateTime(homework.todoUntil.year,
-        homework.todoUntil.month, homework.todoUntil.day);
-    if (homeworkTodoUntil.isAtSameMomentAs(today) ||
-        homeworkTodoUntil.isBefore(today)) notArchived.add(homework);
-  });
-  return notArchived;
-}
-
 /// Gibt alle Hausaufgaben zurück, bei welchen das Ablaufdatum nicht schon abgelaufen ist, sprich das
 /// Datum entweder heute oder in der Zukunft ist.
 List<HomeworkDto> getNotArchived(List<HomeworkDto> homeworkList) {

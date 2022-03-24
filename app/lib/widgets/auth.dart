@@ -7,56 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-
-// Logo Widget - Rundes Sharezone Logo
-class LogoRound extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Hero(
-      tag: 'logo-round',
-      child: PlatformSvg.asset(
-        "assets/logo-round",
-        width: 160,
-        height: 160,
-      ),
-    );
-  }
-}
-
-// Basic Widget for Login & Register
-class NextContractor extends StatelessWidget {
-  const NextContractor({this.children, this.alignment = Alignment.center});
-
-  final List<Widget> children;
-  final AlignmentGeometry alignment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: lightTheme,
-      child: Container(
-        // Background
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/wallpaper/auth/next.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        alignment: alignment,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 16),
-          child: SafeArea(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: children),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 // Button zum Abschicken der Login-Daten, Registierungs-Daten
 // und der E-Mail bei Passwort vergessen
