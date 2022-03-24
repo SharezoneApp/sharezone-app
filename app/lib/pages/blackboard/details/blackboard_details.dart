@@ -435,6 +435,7 @@ class _Text extends StatelessWidget {
     return MarkdownBody(
       data: text,
       selectable: true,
+      softLineBreak: true,
       styleSheet: MarkdownStyleSheet.fromTheme(
         theme.copyWith(
           textTheme: theme.textTheme.copyWith(
