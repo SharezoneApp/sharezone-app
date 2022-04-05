@@ -75,7 +75,8 @@ dependencies:
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.9
+  flutter_markdown:
+    path: ../../packages/packages/flutter_markdown
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
@@ -111,6 +112,7 @@ dependencies:
   remote_configuration:
     path: ../lib/remote_configuration
   rxdart: ^0.27.1
+  scrollable_positioned_list: ^0.2.3
   share: ^2.0.4
   shared_preferences: ^2.0.5
   sharezone_about_page_addon:
@@ -137,7 +139,6 @@ dependencies:
     path: ../lib/url_launcher_extended
   user:
     path: ../lib/user
-  # Is overriden, see dependency_overrides below
   video_player: ^2.1.12
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
