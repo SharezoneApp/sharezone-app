@@ -1,5 +1,12 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter/material.dart';
-import 'package:sharezone/widgets/common/picker.dart';
 
 abstract class CalendricalEventType {
   String get key;
@@ -16,15 +23,6 @@ abstract class CalendricalEventType {
   int get hashCode {
     return key.hashCode;
   }
-}
-
-List<CalendricalEventType> getEventTypes() {
-  return [
-    Excursion(),
-    Exam(),
-    Meeting(),
-    OtherEventType(),
-  ];
 }
 
 CalendricalEventType getEventTypeFromString(String data) {
@@ -100,28 +98,4 @@ class OtherEventType extends CalendricalEventType {
 
   @override
   String name = "Anderes";
-}
-
-Future<CalendricalEventType> selectEventType(BuildContext context, {CalendricalEventType selected}) {
-  return selectItem<CalendricalEventType>(
-    context: context,
-    items: getEventTypes(),
-    builder: (context, item) {
-      bool isSelected = selected == item;
-      return ListTile(
-        leading: Icon(
-          item.iconData,
-          color: item.color,
-        ),
-        title: Text(item.name),
-        trailing: isSelected
-            ? Icon(
-                Icons.done,
-                color: Colors.green,
-              )
-            : null,
-        onTap: () => Navigator.pop(context, item),
-      );
-    },
-  );
 }

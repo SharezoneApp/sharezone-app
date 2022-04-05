@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'dart:async';
 
 import 'package:analytics/analytics.dart';
@@ -57,19 +65,6 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   if (successful != null && successful) {
     await showUserConfirmationOfHomeworkArrival(context: context);
   }
-}
-
-List<HomeworkDto> getNotArchivedHomeworks(List<HomeworkDto> homeworkList) {
-  List<HomeworkDto> notArchived = <HomeworkDto>[];
-  DateTime today =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  homeworkList.forEach((HomeworkDto homework) {
-    DateTime homeworkTodoUntil = DateTime(homework.todoUntil.year,
-        homework.todoUntil.month, homework.todoUntil.day);
-    if (homeworkTodoUntil.isAtSameMomentAs(today) ||
-        homeworkTodoUntil.isBefore(today)) notArchived.add(homework);
-  });
-  return notArchived;
 }
 
 /// Gibt alle Hausaufgaben zurück, bei welchen das Ablaufdatum nicht schon abgelaufen ist, sprich das

@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/models/cloud_file_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
@@ -55,22 +63,6 @@ List<CloudFileAction> cloudFileActions(bool hasPermissionToEdit) {
   ];
 }
 
-List<Widget> cloudFileActionsForAppBar({
-  BuildContext context,
-  bool hasPermissionToEdit,
-  Function(BuildContext context, SheetOption sheetOption)
-      onSelectCloudFileAction,
-}) {
-  return cloudFileActions(hasPermissionToEdit).map((cloudFileAction) {
-    return IconButton(
-      tooltip: cloudFileAction.name,
-      icon: Icon(cloudFileAction.iconData),
-      onPressed: () =>
-          onSelectCloudFileAction(context, cloudFileAction.sheetOption),
-    );
-  }).toList();
-}
-
 class FolderActionsColumn extends StatelessWidget {
   final bool isFolderDeletable;
   final bool hasPermissionsToEdit;
@@ -118,30 +110,6 @@ class CloudFileActionsColumn extends StatelessWidget {
             title: Text(cloudFileAction.name),
             leading: Icon(cloudFileAction.iconData),
             onTap: () =>
-                onSelectCloudFileAction(context, cloudFileAction.sheetOption),
-          )
-      ],
-    );
-  }
-}
-
-class CloudFileActionsRow extends StatelessWidget {
-  final bool hasPermissionToEdit;
-  final Function(BuildContext context, SheetOption sheetOption)
-      onSelectCloudFileAction;
-
-  const CloudFileActionsRow(
-      {Key key, this.hasPermissionToEdit, this.onSelectCloudFileAction})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        for (final cloudFileAction in cloudFileActions(hasPermissionToEdit))
-          IconButton(
-            tooltip: cloudFileAction.name,
-            icon: Icon(cloudFileAction.iconData),
-            onPressed: () =>
                 onSelectCloudFileAction(context, cloudFileAction.sheetOption),
           )
       ],

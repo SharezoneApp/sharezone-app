@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
@@ -24,36 +32,6 @@ class TeacherHomeworkBottomActionBar extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<T> showRoundedModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color backgroundColor,
-  double elevation,
-  bool isScrollControlled = false,
-  bool useRootNavigator = false,
-  T defaultValue,
-}) async {
-  assert(context != null);
-  assert(builder != null);
-  assert(isScrollControlled != null);
-  assert(useRootNavigator != null);
-  assert(debugCheckHasMediaQuery(context));
-  assert(debugCheckHasMaterialLocalizations(context));
-
-  T res = await showModalBottomSheet<T>(
-    context: context,
-    builder: builder,
-    backgroundColor: backgroundColor,
-    elevation: elevation,
-    isScrollControlled: isScrollControlled,
-    useRootNavigator: useRootNavigator,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-  );
-  return res ??= defaultValue;
 }
 
 class TeacherSortButton extends StatelessWidget {

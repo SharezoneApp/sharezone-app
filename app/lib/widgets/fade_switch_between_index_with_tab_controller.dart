@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter/material.dart';
 
 /// Zeigt bis zum [transiationPoint] das [startWidget] an
@@ -70,7 +78,11 @@ class _FadeBetween extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = this.value < 0.0 ? 0.0 : this.value > 1.0 ? 1.0 : this.value;
+    final value = this.value < 0.0
+        ? 0.0
+        : this.value > 1.0
+            ? 1.0
+            : this.value;
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
@@ -88,19 +100,4 @@ class BetweenIndex {
   const BetweenIndex(this.start, this.end)
       : assert(end - start == 1,
             "The indexies have to be next to another, while the first Index lies before second Index");
-}
-
-double indexChangeProgress(TabController controller) {
-  final double controllerValue = controller.animation.value;
-  final double previousIndex = controller.previousIndex.toDouble();
-  final double currentIndex = controller.index.toDouble();
-
-  // The controller's offset is changing because the user is dragging the
-  // TabBarView's PageView to the left or right.
-  if (!controller.indexIsChanging)
-    return (currentIndex - controllerValue).abs().clamp(0.0, 1.0).toDouble();
-
-  // The TabController animation's value is changing from previousIndex to currentIndex.
-  return (controllerValue - currentIndex).abs() /
-      (currentIndex - previousIndex).abs();
 }

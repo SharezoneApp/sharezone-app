@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:add_2_calendar/add_2_calendar.dart' as add_2_calendar;
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -198,6 +206,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       selectable: true,
                       onTapLink: (url, _, __) =>
                           launchURL(url, context: context),
+                      softLineBreak: true,
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(

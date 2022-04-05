@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
@@ -74,8 +82,6 @@ class TeacherHomeworkPage extends StatelessWidget {
     );
   }
 }
-
-enum HomeworkTab { open, completed }
 
 final Color overscrollColor = Colors.grey[600];
 

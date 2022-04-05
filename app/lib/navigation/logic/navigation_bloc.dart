@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +35,4 @@ Future<bool> popToOverview(BuildContext context) async {
   final navigationBloc = BlocProvider.of<NavigationBloc>(context);
   navigationBloc.navigateTo(NavigationItem.overview);
   return false;
-}
-
-Future<bool> popUntilOverview(BuildContext context) {
-  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-  return null;
 }

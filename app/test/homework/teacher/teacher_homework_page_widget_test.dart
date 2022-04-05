@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'dart:async';
 import 'dart:collection';
 
@@ -448,14 +456,6 @@ class _ArchivedHomeworkListFinders {
 bool _randomBool() {
   // 👈😎👉 SO SMART 👈😎👉
   return randomBetween(0, 2).isEven;
-}
-
-String randomDate() {
-  final randomDay = randomBetween(0, 30);
-  final randomMonthNr = randomBetween(0, 12);
-  final randomMonth = randomMonthNr < 10 ? '0$randomMonthNr' : '$randomMonthNr';
-
-  return '$randomDay.$randomMonth.2021';
 }
 
 TeacherHomeworkView randomHomeworkViewWith({
