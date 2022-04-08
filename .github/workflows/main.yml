@@ -20,6 +20,7 @@ on:
   workflow_dispatch:
 
 env:
+  FLUTTER_VERSION: "2.5.2"
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -34,7 +35,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "2.5.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'any'
 
       - name: Activate sz_repo_cli package
@@ -63,7 +64,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "2.5.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'any'
 
       - name: Activate sz_repo_cli package
@@ -96,7 +97,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "2.5.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'any'
 
       - name: Build web app
