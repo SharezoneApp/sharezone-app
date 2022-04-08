@@ -1,1 +1,1 @@
-export 'src/scanner.dart';
+export 'src/scan.dart';
