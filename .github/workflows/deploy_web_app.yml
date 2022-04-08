@@ -20,7 +20,7 @@ on:
       - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
-      - ".github/workflows/alpha.yml"
+      - ".github/workflows/deploy_web_app.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
