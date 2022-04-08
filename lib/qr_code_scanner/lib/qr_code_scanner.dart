@@ -1,1 +1,1 @@
-export 'src/scan_qr_code_page.dart';
+export 'src/scanner.dart';
