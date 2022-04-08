@@ -53,7 +53,7 @@ class _Description extends StatelessWidget {
           fontSize: 16,
         ),
         textAlign: TextAlign.center,
-        child: description!,
+        child: description,
       ),
     );
   }
