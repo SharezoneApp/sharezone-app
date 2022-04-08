@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 void main() {
-  runApp(const _ExampleApp());
+  runApp(const ExampleApp());
 }
 
-class _ExampleApp extends StatelessWidget {
-  const _ExampleApp({Key? key}) : super(key: key);
+@visibleForTesting
+class ExampleApp extends StatelessWidget {
+  const ExampleApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class _HomeState extends State<_Home> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
+                key: const Key('scan-qr-code-button-e2e'),
                 onPressed: () async {
                   final qrCode = await scanQrCode(
                     context,
