@@ -14,3 +14,19 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Todo
+- [ ] Add scan overlay with `CustomPainter` (UI like WhatsApp / Telegram scanning a QR code)
+- [ ] Add control for flashlight
+- [ ] Add subtitle
+- [ ] Add PR description
+- [ ] Add `README` for package
+- [ ] Manual test Android
+- [ ] Manual iOS
+- [ ] Manual macOS
+- [x] Manual web
+- [x] Add example
+- [ ] Use scanner in `app`
+- [ ] Add license header
+- [ ] Handle phone landscape
+- [ ] Unit for light

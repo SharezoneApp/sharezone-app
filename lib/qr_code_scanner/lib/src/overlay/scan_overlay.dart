@@ -79,6 +79,7 @@ class _ToggleTorchButtonState extends State<_ToggleTorchButton> {
     return Padding(
       padding: const EdgeInsets.only(top: 500),
       child: AnimatedSwitcher(
+        key: const Key('torch-button-widget-test'),
         duration: const Duration(milliseconds: 300),
         child: CircleAvatar(
           backgroundColor: isFlashlightOn ? Colors.white54 : Colors.white12,

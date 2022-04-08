@@ -7,22 +7,25 @@ class Scanner extends StatefulWidget {
     Key? key,
     this.onDetect,
     this.description,
+    this.controller,
   }) : super(key: key);
 
   final ValueChanged<String?>? onDetect;
   final Widget? description;
+  final MobileScannerController? controller;
 
   @override
-  State<Scanner> createState() => _ScannerState();
+  State<Scanner> createState() => ScannerState();
 }
 
-class _ScannerState extends State<Scanner> {
+@visibleForTesting
+class ScannerState extends State<Scanner> {
   late MobileScannerController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = MobileScannerController();
+    controller = widget.controller ?? MobileScannerController();
   }
 
   @override
