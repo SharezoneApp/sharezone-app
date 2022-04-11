@@ -95,6 +95,7 @@ dependencies:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
+  markdown: ^5.0.0
   meta: ^1.1.8
   notifications:
     path: ../lib/notifications

@@ -2,17 +2,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 
 late ItemScrollController _itemScrollController;
 late ItemPositionsListener _itemPositionsListener;
+late AnchorsController _anchorsController;
 
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({Key? key}) : super(key: key) {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
+    _anchorsController = AnchorsController();
+    _anchorsController.anchorPositions.addListener(() {
+      print(_itemPositionsListener.itemPositions);
+      print('length: ${_itemPositionsListener.itemPositions.value.length}');
+    });
     // Will print e.g.
     // ```
     // ValueNotifier<Iterable<ItemPosition>>#86cc9((
@@ -26,10 +33,10 @@ class NewPrivacyPolicy extends StatelessWidget {
     // ```
     // So only the items in and near the viewport will be included near the
     // [itemPositions] array
-    _itemPositionsListener.itemPositions.addListener(() {
-      print(_itemPositionsListener.itemPositions);
-      print('length: ${_itemPositionsListener.itemPositions.value.length}');
-    });
+    // _itemPositionsListener.itemPositions.addListener(() {
+    //   print(_itemPositionsListener.itemPositions);
+    //   print('length: ${_itemPositionsListener.itemPositions.value.length}');
+    // });
   }
 
   @override
@@ -72,8 +79,10 @@ class NewPrivacyPolicy extends StatelessWidget {
                           // TODO: Text in "> Quotation" boxes are hard to read
                           // in dark mode.
                           child: RelativeAnchorsMarkdown(
+                            extensionSet: md.ExtensionSet.gitHubWeb,
                             itemScrollController: _itemScrollController,
                             itemPositionsListener: _itemPositionsListener,
+                            anchorsController: _anchorsController,
                             data: markdownPrivacyPolicy,
                             onTapLink: (text, href, title) {
                               if (href == null) return;
@@ -178,12 +187,13 @@ class _TableOfContents extends StatelessWidget {
           ),
           SizedBox(height: 100),
           TextField(
-            decoration: InputDecoration(helperText: 'Scroll to index'),
+            decoration: InputDecoration(helperText: 'Scroll to heading'),
             onSubmitted: (text) {
-              _itemScrollController.scrollTo(
-                index: int.parse(text),
-                duration: Duration(milliseconds: 100),
-              );
+              // _itemScrollController.scrollTo(
+              //   index: int.parse(text),
+              //   duration: Duration(milliseconds: 100),
+              // );
+              _anchorsController.scrollToAnchor(text);
             },
           ),
         ],
