@@ -77,36 +77,6 @@ class NewPrivacyPolicy extends StatelessWidget {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _anchorsController = AnchorsController();
-    _anchorsController.anchorPositions.addListener(() {
-      final visible = _anchorsController.anchorPositions.value.where(
-          (anchorPos) =>
-              (anchorPos.itemTrailingEdge > 0 &&
-                  anchorPos.itemLeadingEdge < 1) ||
-              (anchorPos.itemLeadingEdge > 0 || anchorPos.itemLeadingEdge < 0));
-
-      if (visible.isEmpty) {
-        print('No anchors visible!');
-      } else {
-        print('Visible anchors: ${visible.map((e) => e.anchor.id)}');
-      }
-    });
-    // Will print e.g.
-    // ```
-    // ValueNotifier<Iterable<ItemPosition>>#86cc9((
-    // ItemPosition(index: 118, itemLeadingEdge: -0.15177065767284992, itemTrailingEdge: 0.03035413153456998),
-    //  ItemPosition(index: 119, itemLeadingEdge: 0.03035413153456998, itemTrailingEdge: 0.04384485666104553),
-    //  ItemPosition(index: 120, itemLeadingEdge: 0.04384485666104553, itemTrailingEdge: 0.15851602023608768),
-    //  ..., ItemPosition(index: 137, itemLeadingEdge: 0.96964586846543, itemTrailingEdge: 0.9831365935919055),
-    //  ItemPosition(index: 138, itemLeadingEdge: 0.9831365935919055, itemTrailingEdge: 1.069139966273187)
-    //  ))
-    // length: 21
-    // ```
-    // So only the items in and near the viewport will be included near the
-    // [itemPositions] array
-    // _itemPositionsListener.itemPositions.addListener(() {
-    //   print(_itemPositionsListener.itemPositions);
-    //   print('length: ${_itemPositionsListener.itemPositions.value.length}');
-    // });
   }
 
   @override
@@ -309,76 +279,6 @@ class _TableOfContentsDemo extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-class _TableOfContents extends StatelessWidget {
-  const _TableOfContents({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 400,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(height: 50),
-          Text(
-            'Inhaltsverzeichnis',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4,
-          ),
-          SizedBox(height: 50),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                horizontal: 50,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // To test scroll behavior / layout
-                  ...[...tableOfContentStrings, ...tableOfContentStrings]
-                      .map(
-                        (string) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            string,
-                            style: Theme.of(context).textTheme.bodyText2,
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 50),
-          FloatingActionButton.extended(
-            onPressed: () {
-              throw UnimplementedError(
-                  'Table of content FAB onPress not implemented.');
-            },
-            label: Text('Einklappen'),
-          ),
-          SizedBox(height: 100),
-          TextField(
-            decoration: InputDecoration(helperText: 'Scroll to heading'),
-            onSubmitted: (text) {
-              // _itemScrollController.scrollTo(
-              //   index: int.parse(text),
-              //   duration: Duration(milliseconds: 100),
-              // );
-              _anchorsController.scrollToAnchor(text);
-            },
-          ),
-        ],
-      ),
-    );
   }
 }
 
