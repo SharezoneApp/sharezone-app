@@ -22,6 +22,14 @@ Section "Foobar" is located later inside the text so its not visible from the st
 3. Assert Section header "Foobar" and start of Foobar section text is visible
 (Can we assert its at the top of the screen?)
 
+**Edge Case: Last chapters (can't scroll them up to the start of the page)**
+Since the last chapter is at the bottom of the page we can never scroll it up to the top of the page.
+We can only scroll to the end of the page. The heading of the last chapter will still be at the bottom of the page 
+(if the text below is not long enough to be able to scroll until the heading is at the top.)
+
+Should we test for that?
+How?
+
 ### Currently reading TOC section highlight
 **Simple case**
 Example Privacy Policy.
@@ -40,6 +48,47 @@ Section "Foobar" is located later inside the text so its not visible from the st
 **First section**
 What should we highlight if there is text at the start without a section?
 Nothing? Default Section ("Einführung")? 
+
+**Edge case: chapters at the end**
+Since chapter headings at the very end can't scroll up all the way we can't only say that the chapter at the very top is the one we're currently reading.
+
+Image that the privacy policy ends like this and the user can't scroll further:
+```markdown
+<!-- Continuation of foo chapter-->
+foo foo foo foofoo foofoo foofoo foofoo foo
+foo foofoo foo
+foo foofoo foofoo foofoo foo
+foo foofoo foofoo foo
+## Foobar chapter
+foobarfoobar foobar foobar foobarfoobar foobarfoobar foobar foobar foobarfoobar
+foobarfoobar foobar foobar foobarfoobar
+foobarfoobar foobar foobar foobarfoobarfoobarfoobar foobar foobar foobarfoobar
+## Last chapter
+last  last last last last last last last last last 
+last last 
+
+last last last last last 
+```
+
+Since at the upper end of the page we have the "foo" chapter but we can't scroll further we might guess that the user is currently reading the "foo" section.  
+
+How do we handle this case?
+
+**Special logic**
+We might add special logic that if the user scrolls to the end of the privacy policy then automatically the last chapter is highlighted.
+This would mean though that we might still skip the second last chapter in the example above.
+
+Or we could highlight all chapters that are visible (like below) when the user scrolled to the bottom of the page. 
+Then it might not be as confusing for the user in the normal case with the cost that it might be suprising to have multiple
+chapters highlighted only if scrolled to the very end. 
+
+**Multi chapter highlighting**
+We might always highlight all chapters that are currently visible.
+That means if a user is between to chapter (parts of both visible) then both will be highlighted.
+Might confuse some users why multiple chapters are highlighted (or maybe not).
+
+--> I think special logic that at the bottom we just highlight the last chapter is the best solution.
+Maybe with some padding so we don't highlight the last section only when scrolled completly to the last pixel but also a bit before. 
 
 ## flutter_markdown level
 
@@ -132,3 +181,6 @@ int indexForAnchor(String anchorId) {
 
 TODO Auf GitHub hinweisen, dass es verwirrend ist, dass der Dart Markdown Live Editor
  https://dart-lang.github.io/markdown/ nicht auf Flutter sondern HTML basiert (weil der bei flutter_markdown verlinkt wird). Da werden dann zB HTML Tags im Text nicht angezeigt, aber in Flutter schon.
+
+
+ https://github.com/flutter/packages/compare/main...SharezoneApp:main

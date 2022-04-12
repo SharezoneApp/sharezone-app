@@ -1,8 +1,11 @@
 // @dart=2.14
+import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/snackbars.dart';
@@ -11,14 +14,81 @@ late ItemScrollController _itemScrollController;
 late ItemPositionsListener _itemPositionsListener;
 late AnchorsController _anchorsController;
 
+class DocumentSection {
+  final String sectionId;
+  final String sectionName;
+
+  DocumentSection(this.sectionId, this.sectionName);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is DocumentSection &&
+        other.sectionId == sectionId &&
+        other.sectionName == sectionName;
+  }
+
+  @override
+  int get hashCode => sectionId.hashCode ^ sectionName.hashCode;
+
+  @override
+  String toString() =>
+      'DocumentSection(sectionId: $sectionId, sectionName: $sectionName)';
+}
+
+class PrivacyPolicyBloc extends BlocBase {
+  final AnchorsController anchorsController;
+
+  PrivacyPolicyBloc(this.anchorsController) {
+    anchorsController.anchorPositions.addListener(() {
+      final pos = anchorsController.anchorPositions.value;
+      final sections =
+          pos.map((pos) => _toDocumentSection(pos.anchor)).toList();
+      documentSections.add(sections);
+    });
+  }
+
+  DocumentSection _toDocumentSection(AnchorData anchorData) {
+    return DocumentSection(anchorData.id, anchorData.text);
+  }
+
+  final documentSections = BehaviorSubject<List<DocumentSection>>();
+
+  List<DocumentSection> getAllDocumentSections() {
+    return anchorsController
+        .getIndexedAnchors()
+        .map(_toDocumentSection)
+        .toList();
+  }
+
+  void scrollToSection(String documentSectionId) {
+    anchorsController.scrollToAnchor(documentSectionId);
+  }
+
+  @override
+  void dispose() {
+    documentSections.close();
+  }
+}
+
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({Key? key}) : super(key: key) {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _anchorsController = AnchorsController();
     _anchorsController.anchorPositions.addListener(() {
-      print(_itemPositionsListener.itemPositions);
-      print('length: ${_itemPositionsListener.itemPositions.value.length}');
+      final visible = _anchorsController.anchorPositions.value.where(
+          (anchorPos) =>
+              (anchorPos.itemTrailingEdge > 0 &&
+                  anchorPos.itemLeadingEdge < 1) ||
+              (anchorPos.itemLeadingEdge > 0 || anchorPos.itemLeadingEdge < 0));
+
+      if (visible.isEmpty) {
+        print('No anchors visible!');
+      } else {
+        print('Visible anchors: ${visible.map((e) => e.anchor.id)}');
+      }
     });
     // Will print e.g.
     // ```
@@ -43,92 +113,195 @@ class NewPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     // Temporary - for development on Windows on Android Tablet
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    return Theme(
-      data: Theme.of(context).copyWith(
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: Theme.of(context).primaryColor,
-      )),
-      child: Builder(builder: (context) {
-        return Scaffold(
-          body: Center(
-            child: Row(
+    return BlocProvider(
+      bloc: PrivacyPolicyBloc(_anchorsController),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Theme.of(context).primaryColor,
+        )),
+        child: Builder(builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Row(
+                children: [
+                  _TableOfContentsDemo(),
+                  VerticalDivider(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 200),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Datenschutzerklärung',
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 8.0),
+                            child: Text(
+                              'Die aktualisierte Datenschutzerklärung tritt in 14 Tagen in Kraft. Danach kannst du die App solange nicht nutzen, bis du die Datenschutzerklärung akzeptiert hast.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Divider(),
+                          Expanded(
+                            // TODO: Text in "> Quotation" boxes are hard to read
+                            // in dark mode.
+                            child: RelativeAnchorsMarkdown(
+                              extensionSet: md.ExtensionSet.gitHubWeb,
+                              itemScrollController: _itemScrollController,
+                              itemPositionsListener: _itemPositionsListener,
+                              anchorsController: _anchorsController,
+                              data: markdownPrivacyPolicy,
+                              onTapLink: (text, href, title) {
+                                if (href == null) return;
+                                if (href.startsWith('#')) {
+                                  showSnackSec(
+                                    context: context,
+                                    text:
+                                        "Links zu anderen Text-Sektionen innerhalb dieses Dokumentes funktionieren momentan noch nicht.",
+                                    seconds: 7,
+                                  );
+                                  return;
+                                }
+                                launchURL(href, context: context);
+                              },
+                            ),
+                          ),
+                          Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                  child: Text('Nicht akzeptieren'),
+                                  onPressed: () {},
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                ElevatedButton(
+                                  child: Text('Akzeptieren'),
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class _TableOfContentsDemo extends StatelessWidget {
+  const _TableOfContentsDemo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<PrivacyPolicyBloc>(context);
+    return StreamBuilder<List<DocumentSection>>(
+        stream: bloc.documentSections,
+        builder: (context, snapshot) {
+          final renderedSections = snapshot.data ?? [];
+          return SizedBox(
+            width: 400,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _TableOfContents(),
-                VerticalDivider(),
+                SizedBox(height: 50),
+                Text(
+                  'Table of contents',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                SizedBox(height: 50),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 200),
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 50,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Datenschutzerklärung',
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 8.0),
-                          child: Text(
-                            'Die aktualisierte Datenschutzerklärung tritt in 14 Tagen in Kraft. Danach kannst du die App solange nicht nutzen, bis du die Datenschutzerklärung akzeptiert hast.',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Divider(),
-                        Expanded(
-                          // TODO: Text in "> Quotation" boxes are hard to read
-                          // in dark mode.
-                          child: RelativeAnchorsMarkdown(
-                            extensionSet: md.ExtensionSet.gitHubWeb,
-                            itemScrollController: _itemScrollController,
-                            itemPositionsListener: _itemPositionsListener,
-                            anchorsController: _anchorsController,
-                            data: markdownPrivacyPolicy,
-                            onTapLink: (text, href, title) {
-                              if (href == null) return;
-                              if (href.startsWith('#')) {
-                                showSnackSec(
-                                  context: context,
-                                  text:
-                                      "Links zu anderen Text-Sektionen innerhalb dieses Dokumentes funktionieren momentan noch nicht.",
-                                  seconds: 7,
-                                );
-                                return;
-                              }
-                              launchURL(href, context: context);
-                            },
-                          ),
-                        ),
-                        Divider(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              OutlinedButton(
-                                child: Text('Nicht akzeptieren'),
-                                onPressed: () {},
+                        // To test scroll behavior / layout
+                        ...bloc
+                            .getAllDocumentSections()
+                            .map(
+                              (section) => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Material(
+                                  color: renderedSections.contains(section)
+                                      ? Colors.blueAccent
+                                      : Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      bloc.scrollToSection(section.sectionId);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '${section.sectionName}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text(
+                                          '${section.sectionId}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              ElevatedButton(
-                                child: Text('Akzeptieren'),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        )
+                            )
+                            .toList(),
                       ],
                     ),
                   ),
                 ),
+                SizedBox(height: 50),
+                FloatingActionButton.extended(
+                  onPressed: () {
+                    throw UnimplementedError(
+                        'Table of content FAB onPress not implemented.');
+                  },
+                  label: Text('Einklappen'),
+                ),
+                SizedBox(height: 100),
+                TextField(
+                  decoration: InputDecoration(helperText: 'Scroll to heading'),
+                  onSubmitted: (text) {
+                    // _itemScrollController.scrollTo(
+                    //   index: int.parse(text),
+                    //   duration: Duration(milliseconds: 100),
+                    // );
+                    _anchorsController.scrollToAnchor(text);
+                  },
+                ),
               ],
             ),
-          ),
-        );
-      }),
-    );
+          );
+        });
   }
 }
 
