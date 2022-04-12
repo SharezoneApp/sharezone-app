@@ -129,11 +129,9 @@ class NewPrivacyPolicy extends StatelessWidget {
                               onTapLink: (text, href, title) {
                                 if (href == null) return;
                                 if (href.startsWith('#')) {
-                                  showSnackSec(
-                                    context: context,
-                                    text:
-                                        "Links zu anderen Text-Sektionen innerhalb dieses Dokumentes funktionieren momentan noch nicht.",
-                                    seconds: 7,
+                                  _anchorsController.scrollToAnchor(
+                                    // Remove leading #
+                                    href.substring(1),
                                   );
                                   return;
                                 }
