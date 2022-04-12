@@ -245,6 +245,10 @@ class _TableOfContentsDemo extends StatelessWidget {
                               (section) => Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Material(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)),
+                                  ),
                                   color: renderedSections.contains(section)
                                       ? Colors.blueAccent
                                       : Colors.transparent,
@@ -252,23 +256,26 @@ class _TableOfContentsDemo extends StatelessWidget {
                                     onTap: () {
                                       bloc.scrollToSection(section.sectionId);
                                     },
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          '${section.sectionName}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        Text(
-                                          '${section.sectionId}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption,
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '${section.sectionName}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          Text(
+                                            '${section.sectionId}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
