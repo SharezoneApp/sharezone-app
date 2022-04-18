@@ -9,7 +9,7 @@ We love, that you are interested in contributing to Sharezone 💙 There are man
 If you have ans questions, please join our [Discord](https://sharezone.net/discord).
 
 ## How to set up your development environment
-If you would like to contribute 
+If you would like to contribute to our code, please follow the introduction to set up your development environment.
 
 ### Operating system
 _tl:dr: We recommend macOS._
