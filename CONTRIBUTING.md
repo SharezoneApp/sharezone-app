@@ -44,7 +44,7 @@ We written our own CLI to manage our repository. Common use cases for the CLI ar
 Execute the following steps to install the Sharezone CLI:
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
-3. Run `pub global activate --source path "tools/sz_repo_cli/"`
+3. Run `dart pub get -C tools/sz_repo_cli`
 4. Add the `./bin` to your environment variables
 5. Restart your terminal
 
