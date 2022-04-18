@@ -30,7 +30,7 @@ Flutter supports IDE support for [VS Code](https://code.visualstudio.com/) and [
 We added some files of the `.vscode` folder to this repository. This ensures that all VS Code users have the same VS Code settings (like formatting, launch configurations, etc.) for this repository.
 
 ### Flutter
-Our client uses the [Flutter](https://flutter.dev) framework. In order to run tests, compile the app, etc. you need to setup Flutter.
+Our Sharezone app uses the [Flutter](https://flutter.dev) framework. In order to run tests, compile the app, etc. you need to setup Flutter.
 
 Please follow the official documentation: [Install Flutter](https://docs.flutter.dev/get-started/install)
 
