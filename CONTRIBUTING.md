@@ -56,6 +56,7 @@ At the moment, there is no Windows support for a command alias like `sz` or `sha
 Execute the following steps to install the Sharezone CLI:
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
+3. Run `dart pub get -C tools/sz_repo_cli`
 
 You should now be able to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`.
 
