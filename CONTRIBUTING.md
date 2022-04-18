@@ -18,7 +18,7 @@ You can use the operating system you like. But we recommend to use macOS because
 
 **Known issues:**
 * Golden tests are only passing with macOS
-* Sharezone CLI has official support for macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
+* The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
 
 If you discover unknown issues which are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
 
