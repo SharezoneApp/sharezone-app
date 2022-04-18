@@ -6,7 +6,7 @@ We love, that you are interested in contributing to Sharezone 💙 There are man
 
 * [How to set up your development environment](#how-to-set-up-your-development-environment)
 
-If you have ans questions, please join our [Discord](https://sharezone.net/discord).
+If you have any questions, please join our [Discord](https://sharezone.net/discord).
 
 ## How to set up your development environment
 If you would like to contribute to our code, please follow the introduction to set up your development environment.
