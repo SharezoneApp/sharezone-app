@@ -30,7 +30,7 @@ Guidelines for users and developers for the EUPL v1.2 can be found [here](https:
 To contribute just open a PR and sign the [Contributor License Agreement](https://github.com/SharezoneApp/public/wiki/Sharezone-CLA-Overview).   
 A bot will automatically ask you to accept the CLA when a PR is opened if you haven't already.  
   
-We have more instructions to help you get started in the [CONTRIBUTING.md](contributing).
+We have more instructions to help you get started in the [CONTRIBUTING.md][contributing].
 
 ## Follow us
 
