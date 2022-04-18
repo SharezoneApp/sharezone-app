@@ -390,16 +390,7 @@ class EmailLoginField extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,
-          // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-          // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-          // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-          // wird.
-          //
-          // Ticket: https://github.com/flutter/flutter/issues/63596
-          //
-          // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-          // verwendet werden.
-          autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.email],
+          autofillHints: const [AutofillHints.email],
           decoration: InputDecoration(
             labelText: 'E-Mail',
             icon: const Icon(Icons.email),
@@ -450,20 +441,10 @@ class _PasswordFieldState extends State<PasswordField> {
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,
             enableInteractiveSelection: true,
-            // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-            // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-            // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-            // wird.
-            //
-            // Ticket: https://github.com/flutter/flutter/issues/63596
-            //
-            // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-            // verwendet werden.
             autofillHints: [
-              if (!PlatformCheck.isWeb)
-                widget.isNewPassword
-                    ? AutofillHints.newPassword
-                    : AutofillHints.password
+              widget.isNewPassword
+                  ? AutofillHints.newPassword
+                  : AutofillHints.password
             ],
             decoration: InputDecoration(
               labelText: 'Passwort',

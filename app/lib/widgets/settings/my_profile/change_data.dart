@@ -99,16 +99,7 @@ class _ChangeDataPasswordFieldState extends State<ChangeDataPasswordField> {
           onChanged: bloc.changePassword,
           onEditingComplete: () => widget.onEditComplete(),
           autofocus: widget.autofocus,
-          // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-          // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-          // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-          // wird.
-          //
-          // Ticket: https://github.com/flutter/flutter/issues/63596
-          //
-          // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-          // verwendet werden.
-          autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.password],
+          autofillHints: const [AutofillHints.password],
           decoration: InputDecoration(
             labelText: widget.labelText,
             errorText: snapshot.error?.toString(),

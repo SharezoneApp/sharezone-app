@@ -219,16 +219,7 @@ class NameField extends StatelessWidget {
               autofocus: autofocus,
               onEditingComplete: onEditingComplete,
               textInputAction: textInputAction,
-              // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-              // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-              // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-              // wird.
-              //
-              // Ticket: https://github.com/flutter/flutter/issues/63596
-              //
-              // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-              // verwendet werden.
-              autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.name],
+              autofillHints: const [AutofillHints.name],
               autoSelectAllCharactersOnFirstBuild: selectText,
               decoration: InputDecoration(
                 labelText: 'Nickname',
