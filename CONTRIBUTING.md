@@ -40,12 +40,24 @@ We written our own CLI to manage our repository. Common use cases for the CLI ar
 * Run all tests for all packages inside this repository (`sz test`)
 * Analyze all packages inside this repository (`sz analyze`)
 
+**macOS**
 Execute the following steps to install the Sharezone CLI:
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
 3. Run `pub global activate --source path "tools/sz_repo_cli/"`
 4. Add the `./bin` to your environment variables
 5. Restart your terminal
+
+You should now be able to run `sz` or `sharezone` in your terminal. 
+
+**Windows**
+At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart packages get`. Please keep this in mind when reading commands like `sz packages get`.
+
+Execute the following steps to install the Sharezone CLI:
+1. [Clone this repository](#clone-this-repository)
+2. Navigate to the repository (`cd sharezone-app`)
+
+You should now be able to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`.
 
 ### Clone this repository
 Before you can clone this repository, you need to install [git](https://git-scm.com/). After installing `git`, run this command:
