@@ -47,7 +47,7 @@ Execute the following steps to install the Sharezone CLI:
 5. Restart your terminal
 
 ### Clone this repository
-Before you can close this repository, you need to install [git](https://git-scm.com/). After installing `git`, run this command:
+Before you can clone this repository, you need to install [git](https://git-scm.com/). After installing `git`, run this command:
 
 ```sh
 git clone https://github.com/SharezoneApp/sharezone-app.git
