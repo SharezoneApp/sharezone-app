@@ -16,7 +16,7 @@ _tl:dr: We recommend macOS._
 
 You can use the operating system you like. But we recommend to use macOS because you might have some issues with other operating systems.
 
-**Known issues with other operating systems:**
+**Known issues:**
 * Golden tests are only passing with macOS
 
 If you discover unknown issues which are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
