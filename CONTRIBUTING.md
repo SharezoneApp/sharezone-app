@@ -12,18 +12,18 @@ If you have any questions, please join our [Discord](https://sharezone.net/disco
 If you would like to contribute to our code, please follow the introduction to set up your development environment.
 
 ### Operating system
-_tl:dr: We recommend macOS._
+_tl;dr: We recommend macOS._
 
 You can use the operating system you like. But we recommend to use macOS because you might have some issues with other operating systems.
 
-**Known issues:**
+#### Known issues:
 * Golden tests are only passing with macOS
 * The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
 
 If you discover unknown issues which are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
 
 ### IDE
-_tl:dr: We recommend VS Code._
+_tl;dr: We recommend VS Code._
 
 Flutter supports IDE support for [VS Code](https://code.visualstudio.com/) and [Android Studio](https://developer.android.com/studio). We support only VS Code. This doesn't mean you can't use other IDEs like Android Studio. But you might need set up more configuration steps which aren't documented by us (like launch configurations).
 
@@ -40,7 +40,7 @@ We written our own CLI to manage our repository. Common use cases for the CLI ar
 * Run all tests for all packages inside this repository (`sz test`)
 * Analyze all packages inside this repository (`sz analyze`)
 
-**macOS**
+#### macOS
 Execute the following steps to install the Sharezone CLI:
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
@@ -50,7 +50,7 @@ Execute the following steps to install the Sharezone CLI:
 
 You should now be able to run `sz` or `sharezone` in your terminal. 
 
-**Windows**
+#### Windows
 At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart packages get`. Please keep this in mind when reading commands like `sz packages get`.
 
 Execute the following steps to install the Sharezone CLI:
