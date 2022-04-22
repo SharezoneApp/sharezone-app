@@ -7,8 +7,11 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:sharezone/account/theme/theme_bloc.dart';
+import 'package:sharezone/account/theme/theme_brightness.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/theme.dart';
 
 late ItemScrollController _itemScrollController;
 late ItemPositionsListener _itemPositionsListener;
@@ -121,6 +124,14 @@ class NewPrivacyPolicy extends StatelessWidget {
                             // TODO: Text in "> Quotation" boxes are hard to read
                             // in dark mode.
                             child: RelativeAnchorsMarkdown(
+                              selectable: true,
+                              styleSheet: MarkdownStyleSheet(
+                                  blockquoteDecoration: BoxDecoration(
+                                color: isDarkThemeEnabled(context)
+                                    ? Colors.blue.shade700
+                                    : Colors.blue.shade100,
+                                borderRadius: BorderRadius.circular(2.0),
+                              )),
                               extensionSet: md.ExtensionSet.gitHubWeb,
                               itemScrollController: _itemScrollController,
                               itemPositionsListener: _itemPositionsListener,
@@ -272,6 +283,22 @@ class _TableOfContentsDemo extends StatelessWidget {
                     // );
                     _anchorsController.scrollToAnchor(text);
                   },
+                ),
+                StatefulBuilder(
+                  builder: (context, setState) => ToggleButtons(
+                    onPressed: (i) => setState(() =>
+                        BlocProvider.of<ThemeBloc>(context)
+                            .changeThemeBrightness(i == 0
+                                ? ThemeBrightness.light
+                                : ThemeBrightness.dark)),
+                    children: const [
+                      Icon(Icons.light_mode),
+                      Icon(Icons.dark_mode)
+                    ],
+                    isSelected: isDarkThemeEnabled(context)
+                        ? [false, true]
+                        : [true, false],
+                  ),
                 ),
               ],
             ),

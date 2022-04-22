@@ -8,6 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/observer.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -43,38 +44,41 @@ class SharezoneMaterialApp extends StatelessWidget {
     final themeBloc = ThemeBloc(brightnessCache: brightnessCache);
 
     return FeatureDiscovery(
-      child: StreamBuilder<ThemeBrightness>(
-        stream: themeBloc.themeBrightness,
-        builder: (context, snapshot) {
-          final themeBrightness = snapshot.data ?? ThemeBrightness.light;
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
-            color: primaryColor,
-            darkTheme:
-                themeBrightness == ThemeBrightness.system ? darkTheme : null,
-            theme: themeBrightness == ThemeBrightness.dark
-                ? darkTheme
-                : lightTheme,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('de', 'DE'),
-            ],
-            navigatorObservers: <NavigatorObserver>[
-              AnalyticsNavigationObserver(analytics: analytics)
-            ],
-            home: home,
-            routes: routes,
-            onUnknownRoute: (_) =>
-                MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
-            navigatorKey: navigatorKey,
-          );
-        },
+      child: BlocProvider<ThemeBloc>(
+        bloc: themeBloc,
+        child: StreamBuilder<ThemeBrightness>(
+          stream: themeBloc.themeBrightness,
+          builder: (context, snapshot) {
+            final themeBrightness = snapshot.data ?? ThemeBrightness.light;
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
+              color: primaryColor,
+              darkTheme:
+                  themeBrightness == ThemeBrightness.system ? darkTheme : null,
+              theme: themeBrightness == ThemeBrightness.dark
+                  ? darkTheme
+                  : lightTheme,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('de', 'DE'),
+              ],
+              navigatorObservers: <NavigatorObserver>[
+                AnalyticsNavigationObserver(analytics: analytics)
+              ],
+              home: home,
+              routes: routes,
+              onUnknownRoute: (_) =>
+                  MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
+              navigatorKey: navigatorKey,
+            );
+          },
+        ),
       ),
     );
   }
