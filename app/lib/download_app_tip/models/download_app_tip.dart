@@ -45,7 +45,7 @@ class MacOsTip extends DownloadAppTip {
   String get actionText => "Download für Mac";
 
   @override
-  String get title => "Neu: Download für Mac";
+  String get title => "Download für Mac";
 }
 
 class IOsTip extends DownloadAppTip {
