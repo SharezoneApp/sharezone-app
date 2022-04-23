@@ -502,6 +502,7 @@ class _HomeworkDescription extends StatelessWidget {
             subtitle: MarkdownBody(
               data: description,
               selectable: true,
+              softLineBreak: true,
               styleSheet: MarkdownStyleSheet.fromTheme(
                 theme.copyWith(
                   textTheme: theme.textTheme.copyWith(

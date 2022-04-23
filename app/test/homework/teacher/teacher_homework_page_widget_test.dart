@@ -458,14 +458,6 @@ bool _randomBool() {
   return randomBetween(0, 2).isEven;
 }
 
-String randomDate() {
-  final randomDay = randomBetween(0, 30);
-  final randomMonthNr = randomBetween(0, 12);
-  final randomMonth = randomMonthNr < 10 ? '0$randomMonthNr' : '$randomMonthNr';
-
-  return '$randomDay.$randomMonth.2021';
-}
-
 TeacherHomeworkView randomHomeworkViewWith({
   String title,
   int nrOfStudentsCompletedOrSubmitted,

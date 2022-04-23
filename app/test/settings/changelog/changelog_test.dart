@@ -10,7 +10,6 @@ import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone/pages/settings/changelog/change_database_model.dart';
-import 'package:sharezone/pages/settings/changelog/change_view.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
@@ -84,9 +83,6 @@ class MockInformationManager extends PlatformInformationRetreiver {
   @override
   String get versionNumber => "300";
 }
-
-ChangeView asView(ChangeDatabaseModel model) =>
-    ChangeView(version: model.version);
 
 final first = ChangeDatabaseModel.create().copyWith(version: "6.0.0");
 final second = ChangeDatabaseModel.create().copyWith(version: "5.0.0");

@@ -51,9 +51,3 @@ Future expectBlocEmitsEmptyLink(DynamicLinkBloc bloc) async {
   expect(link.typ, "");
   expect(link.zusatzinformationen, <String, String>{});
 }
-
-DynamicLinkData createMockLinkData(Map<String, String> queryParameters) {
-  final url = Uri.https("sharezone.net", "/SOMEPATH/", queryParameters);
-  final linkData = DynamicLinkData(url, null, null);
-  return linkData;
-}

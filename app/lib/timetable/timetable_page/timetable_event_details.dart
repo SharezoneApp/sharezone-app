@@ -206,6 +206,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       selectable: true,
                       onTapLink: (url, _, __) =>
                           launchURL(url, context: context),
+                      softLineBreak: true,
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(

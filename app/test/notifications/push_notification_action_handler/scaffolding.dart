@@ -307,24 +307,6 @@ class ShowErrorDialogInvocation implements Exception {
       this.notification, this.errorReason, this.errorOrNull);
 }
 
-class FatalPushNotificationActionHandlerFailure {
-  final NotificationHandlerErrorReason failureReason;
-  final dynamic error;
-  final StackTrace stackTraceOrNull;
-  final PushNotification notification;
-
-  FatalPushNotificationActionHandlerFailure({
-    @required this.failureReason,
-    @required this.error,
-    @required this.stackTraceOrNull,
-    @required this.notification,
-  }) {
-    ArgumentError.checkNotNull(failureReason, 'notification');
-    ArgumentError.checkNotNull(notification, 'notification');
-    ArgumentError.checkNotNull(error, 'error');
-  }
-}
-
 class FatalParsingError {
   final PushNotification notification;
   final dynamic error;

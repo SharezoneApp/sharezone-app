@@ -230,6 +230,7 @@ class _Text extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: MarkdownBody(
         data: text,
+        softLineBreak: true,
         onTapLink: (url, _, __) => launchURL(url),
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
