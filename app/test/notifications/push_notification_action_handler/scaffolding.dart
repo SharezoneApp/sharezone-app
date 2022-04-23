@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -297,24 +305,6 @@ class ShowErrorDialogInvocation implements Exception {
 
   ShowErrorDialogInvocation(
       this.notification, this.errorReason, this.errorOrNull);
-}
-
-class FatalPushNotificationActionHandlerFailure {
-  final NotificationHandlerErrorReason failureReason;
-  final dynamic error;
-  final StackTrace stackTraceOrNull;
-  final PushNotification notification;
-
-  FatalPushNotificationActionHandlerFailure({
-    @required this.failureReason,
-    @required this.error,
-    @required this.stackTraceOrNull,
-    @required this.notification,
-  }) {
-    ArgumentError.checkNotNull(failureReason, 'notification');
-    ArgumentError.checkNotNull(notification, 'notification');
-    ArgumentError.checkNotNull(error, 'error');
-  }
 }
 
 class FatalParsingError {

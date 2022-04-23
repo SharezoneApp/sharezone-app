@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
 import 'package:time/time.dart';

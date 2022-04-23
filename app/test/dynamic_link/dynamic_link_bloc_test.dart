@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:dynamic_links/test.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
@@ -42,10 +50,4 @@ Future expectBlocEmitsEmptyLink(DynamicLinkBloc bloc) async {
   final link = await bloc.einkommendeLinks.first;
   expect(link.typ, "");
   expect(link.zusatzinformationen, <String, String>{});
-}
-
-DynamicLinkData createMockLinkData(Map<String, String> queryParameters) {
-  final url = Uri.https("sharezone.net", "/SOMEPATH/", queryParameters);
-  final linkData = DynamicLinkData(url, null, null);
-  return linkData;
 }

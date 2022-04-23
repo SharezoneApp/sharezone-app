@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -76,6 +84,7 @@ class Comment extends StatelessWidget {
                   MarkdownBody(
                     data: userComment,
                     selectable: true,
+                    softLineBreak: true,
                     styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                         .copyWith(a: linkStyle(context, 14)),
                     onTapLink: (url, _, __) => launchURL(url, context: context),

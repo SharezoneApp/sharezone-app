@@ -1,38 +1,52 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 part of 'dashboard_bloc.dart';
 
-/// Bestimmt, welcher Index in [views] jetzt oder als nächstes stattfindet.
-/// Hat man jetzt z.B. Deutsch als zweites Fach am Tag, wird der Index 1
-/// zurückgegeben. Es wird also bei 0 angefangen zu zählen.
-int getCurrentLessonIndex(List<LessonView> views) {
-  // Prüfun, ob bisher noch keine Schulstunde stattgefunden hat (also ob die
-  // Schule noch nicht angefangen hat)
-  if (views.where((view) => view.timeStatus == LessonTimeStatus.isYetToCome).length ==
-      views.length)
-    return 0;
-  else {
-    // Prüfun, ob alle Schulstunden schon bisher stattgefunden haben (Schulschluss).
-    if (views
-            .where((view) => view.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace)
-            .length ==
-        views.length) throw AllLessonsAreOver();
-
-    // Jede Stunde prüfen, ob diese gerade stattfindet. Falls ja, wird der
-    // Index der Schulstunde zurückgegeben, die als erstes die Bedingung erfüllt.
-    for (int i = 0; i < views.length; i++) {
-      if (views[i].timeStatus == LessonTimeStatus.isNow) return i;
-    }
-
-    // Herausfinden, ob der Nutzer gerade in einer Freistunde / Pause ist. Falls ja,
-    // wird die nächste Stunde als aktueller Index zurückgegeben.
-    if (views.length >= 2) {
-      for (int i = 1; i < views.length; i++) {
-        if (views[i - 1].timeStatus == LessonTimeStatus.hasAlreadyTakenPlace &&
-            views[i].timeStatus == LessonTimeStatus.isYetToCome) return i;
-      }
-    }
-
+/// Return the index of the lesson that is
+/// a. currently taking place [LessonTimeStatus.isNow]
+/// b. the next lesson if there is no lesson taking place right now
+///    (no lesson has [LessonTimeStatus.isNow])
+///
+/// If no lesson has started yet it will return 0 (first lesson).
+/// If every lesson has already passed it will throw [AllLessonsAreOverException].
+///
+/// Example:
+/// We have the lessons [maths, english, german].
+/// If english is currently taking place ([LessonView.timeStatus] ==
+/// [LessonTimeStatus.isNow]) this function will return 1.
+int getCurrentLessonIndex(List<LessonView> lessons) {
+  // School hasn't begun yet.
+  if (lessons
+      .every((lesson) => lesson.timeStatus == LessonTimeStatus.isYetToCome)) {
     return 0;
   }
+
+  // School is over.
+  if (lessons.every(
+      (lesson) => lesson.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace))
+    throw AllLessonsAreOverException();
+
+  // If a lesson is currently taking place return its index.
+  for (int i = 0; i < lessons.length; i++) {
+    if (lessons[i].timeStatus == LessonTimeStatus.isNow) return i;
+  }
+
+  // If no lesson is currently taking place (e.g. lunch break) we return the
+  // index of the next lesson to come.
+  if (lessons.length >= 2) {
+    for (int i = 1; i < lessons.length; i++) {
+      if (lessons[i - 1].timeStatus == LessonTimeStatus.hasAlreadyTakenPlace &&
+          lessons[i].timeStatus == LessonTimeStatus.isYetToCome) return i;
+    }
+  }
+
+  return 0;
 }
 
-class AllLessonsAreOver implements Exception {}
+class AllLessonsAreOverException implements Exception {}

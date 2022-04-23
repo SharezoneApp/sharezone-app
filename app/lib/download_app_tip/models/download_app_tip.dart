@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter/foundation.dart';
 
 const baseUrl = "https://sharezone.net";
@@ -37,7 +45,7 @@ class MacOsTip extends DownloadAppTip {
   String get actionText => "Download für Mac";
 
   @override
-  String get title => "Neu: Download für Mac";
+  String get title => "Download für Mac";
 }
 
 class IOsTip extends DownloadAppTip {

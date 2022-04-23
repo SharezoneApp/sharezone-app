@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:analytics/analytics.dart';
 import 'package:async/async.dart';
 import 'package:mockito/mockito.dart';
@@ -5,14 +13,11 @@ import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_cr
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
-import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:test/test.dart';
 
 import '../analytics/analytics_test.dart';
-
-class MockApi extends Mock implements SharezoneGateway {}
 
 class MockCourseCreateApi extends Mock implements CourseCreateGateway {}
 

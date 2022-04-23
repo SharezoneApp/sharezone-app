@@ -1,8 +1,15 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone/pages/settings/changelog/change_database_model.dart';
-import 'package:sharezone/pages/settings/changelog/change_view.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
@@ -76,9 +83,6 @@ class MockInformationManager extends PlatformInformationRetreiver {
   @override
   String get versionNumber => "300";
 }
-
-ChangeView asView(ChangeDatabaseModel model) =>
-    ChangeView(version: model.version);
 
 final first = ChangeDatabaseModel.create().copyWith(version: "6.0.0");
 final second = ChangeDatabaseModel.create().copyWith(version: "5.0.0");

@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -222,6 +230,7 @@ class _Text extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: MarkdownBody(
         data: text,
+        softLineBreak: true,
         onTapLink: (url, _, __) => launchURL(url),
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(

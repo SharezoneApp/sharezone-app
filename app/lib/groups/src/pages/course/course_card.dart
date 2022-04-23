@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,17 +50,6 @@ Future<bool> showDeleteCourseDialog(
       title: "Kurs löschen?",
       content: Text(
           'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'));
-}
-
-class CourseCard extends StatelessWidget {
-  final Course course;
-
-  const CourseCard(this.course, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomCard(child: CourseTile(course));
-  }
 }
 
 class CourseCardRedesign extends StatelessWidget {
@@ -370,117 +367,6 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
 
 enum _CourseCardLongPressResult { share, leave, edit, delete, join }
 
-class CourseTile extends StatelessWidget {
-  final Course course;
-  final bool withShareOption;
-
-  const CourseTile(
-    this.course, {
-    Key key,
-    this.withShareOption = true,
-  }) : super(key: key);
-
-  Future<void> onLongPress(BuildContext context, bool isAdmin) async {
-    final api = BlocProvider.of<SharezoneContext>(context).api;
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-
-    final result =
-        await showLongPressAdaptiveDialog<_CourseCardLongPressResult>(
-      context: context,
-      title: "Kurs: ${course.name}",
-      longPressList: [
-        LongPress(
-          popResult: _CourseCardLongPressResult.share,
-          title: "Teilen",
-          icon: Icon(
-              themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share)),
-        ),
-        if (isAdmin)
-          const LongPress(
-            popResult: _CourseCardLongPressResult.edit,
-            title: "Bearbeiten",
-            icon: Icon(Icons.edit),
-          ),
-        const LongPress(
-          popResult: _CourseCardLongPressResult.leave,
-          title: "Verlassen",
-          icon: Icon(Icons.cancel),
-        ),
-        if (isAdmin)
-          const LongPress(
-            popResult: _CourseCardLongPressResult.delete,
-            title: "Löschen",
-            icon: Icon(Icons.delete),
-          ),
-      ],
-    );
-
-    switch (result) {
-      case _CourseCardLongPressResult.share:
-        showDialog(
-          context: context,
-          builder: (context) =>
-              ShareThisGroupDialogContent(groupInfo: course.toGroupInfo()),
-        );
-        break;
-      case _CourseCardLongPressResult.edit:
-        _logCourseEditViaCourseCardLongPress(analytics);
-        openCourseEditPage(context, course);
-        break;
-      case _CourseCardLongPressResult.leave:
-        _logCourseLeaveViaCourseCardLongPress(analytics);
-        final bloc = CourseDetailsBloc(
-            CourseDetailsBlocGateway(api.course, course), api.userId);
-        final isLastMember = (await bloc.members.first).length <= 1;
-        final confirmed = await showCourseLeaveDialog(context, isLastMember);
-        if (confirmed) {
-          final leaveCourseFuture = api.course.leaveCourse(course.id);
-          showAppFunctionStateDialog(context, leaveCourseFuture);
-        }
-        break;
-      case _CourseCardLongPressResult.delete:
-        _logCourseDeleteViaCourseCardLongPress(analytics);
-        final confirmed = await showDeleteCourseDialog(context, course.name);
-        if (confirmed) {
-          final deleteCourseFunction = api.course.deleteCourse(course.id);
-          showAppFunctionStateDialog(context, deleteCourseFunction);
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  void _logCourseEditViaCourseCardLongPress(Analytics analytics) {
-    analytics.log(NamedAnalyticsEvent(name: "course_edit_via_card_long_press"));
-  }
-
-  void _logCourseDeleteViaCourseCardLongPress(Analytics analytics) {
-    analytics
-        .log(NamedAnalyticsEvent(name: "course_delete_via_card_long_press"));
-  }
-
-  void _logCourseLeaveViaCourseCardLongPress(Analytics analytics) {
-    analytics
-        .log(NamedAnalyticsEvent(name: "course_leave_via_card_long_press"));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isAdmin = isUserAdminOrOwnerFromCourse(course.myRole);
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 19, vertical: 3),
-      onTap: () =>
-          openCourseDetailsPageAndShowConfirmationIfSuccessful(context, course),
-      leading: CourseCircleAvatar(
-          courseId: course.id, abbreviation: course.abbreviation),
-      title: Text(course.name),
-      trailing: withShareOption ? ShareIconButton(course: course) : null,
-      onLongPress: () => onLongPress(context, isAdmin),
-    );
-  }
-}
-
 class CourseCircleAvatar extends StatelessWidget {
   const CourseCircleAvatar(
       {Key key, this.abbreviation, this.courseId, this.heroTag})
@@ -504,30 +390,6 @@ class CourseCircleAvatar extends StatelessWidget {
           style: TextStyle(color: color),
         ),
       ),
-    );
-  }
-}
-
-class ShareIconButton extends StatelessWidget {
-  const ShareIconButton({@required this.course});
-
-  final Course course;
-
-  @override
-  Widget build(BuildContext context) {
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    return IconButton(
-      icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
-          ? CupertinoIcons.share
-          : Icons.share),
-      onPressed: () {
-        analytics.log(NamedAnalyticsEvent(name: "course_page_share_dialog"));
-        showDialog(
-          context: context,
-          builder: (context) =>
-              ShareThisGroupDialogContent(groupInfo: course.toGroupInfo()),
-        );
-      },
     );
   }
 }

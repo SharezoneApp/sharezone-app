@@ -1,3 +1,11 @@
+// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +20,6 @@ import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -135,8 +142,6 @@ class MockDashboardBloc implements DashboardBloc {
   @override
   Stream<bool> get urgentHomeworksEmpty => Stream.value(true);
 }
-
-class MockNavigationBloc extends Mock implements NavigationBloc {}
 
 class MockUpdateReminderBloc extends Mock implements UpdateReminderBloc {}
 
