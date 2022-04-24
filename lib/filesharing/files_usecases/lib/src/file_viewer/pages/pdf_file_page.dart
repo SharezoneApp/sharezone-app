@@ -35,7 +35,6 @@ class PdfFilePage extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         brightness: Brightness.dark,
-        primaryColorBrightness: Brightness.dark,
       ),
       child: Scaffold(
         appBar: FilePageAppBar(
