@@ -20,7 +20,6 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: "2.5.2"
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -33,10 +32,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'any'
+          channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Activate sz_repo_cli package
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
@@ -62,10 +64,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'any'
+          channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Activate sz_repo_cli package
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
@@ -95,10 +100,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'any'
+          channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Build web app
         working-directory: app

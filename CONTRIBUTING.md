@@ -69,3 +69,13 @@ git clone https://github.com/SharezoneApp/sharezone-app.git
 
 After cloning the repository, we recommend to execute the following steps:
 1. Get all dependencies with `sz packages get`
+
+### Flutter Version Management (FVM)
+We use [FVM](https://fvm.app) to have a consistent Flutter version across the developers and our CI/CD. You find in `.fvm/fvm_config.json` the Flutter, which we currently using.
+
+To install & use FVM, follow the following steps:
+1. Install FVM by running `dart pub global activate fvm` or use the other installation methods (see [FVM docs](https://fvm.app/docs/getting_started/installation))
+2. Navigate to the root of the repository
+3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
+
+When you are using VS Code, no further steps should be necessary, because we included the `.vscode/setting.json` to git. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
