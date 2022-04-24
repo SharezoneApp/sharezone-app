@@ -9,7 +9,6 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/auth/sign_in_with_qr_code_page.dart';

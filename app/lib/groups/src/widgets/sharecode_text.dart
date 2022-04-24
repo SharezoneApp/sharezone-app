@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:characters/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sharezone_utils/platform.dart';

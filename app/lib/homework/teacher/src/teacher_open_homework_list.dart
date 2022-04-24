@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-import 'package:sharezone/homework/shared/glowing_overscroll_color_changer.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 
 import 'teacher_homework_tile.dart';

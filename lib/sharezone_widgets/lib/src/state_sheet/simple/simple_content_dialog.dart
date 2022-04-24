@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_widgets/src/state_sheet/state_dialog_content.dart';
 import 'package:sharezone_widgets/state_sheet.dart';
 
 final stateDialogContentLoading = StateDialogContent(

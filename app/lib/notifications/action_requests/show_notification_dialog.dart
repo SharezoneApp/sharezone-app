@@ -9,7 +9,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';

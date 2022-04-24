@@ -11,7 +11,6 @@ part of 'general_theme.dart';
 final lightTheme = ThemeData(
   // Brightness
   brightness: Brightness.light,
-  primaryColorBrightness: Brightness.light,
 
   // Colors
   cardColor: Colors.white,

@@ -164,7 +164,7 @@ class _PageWithPicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

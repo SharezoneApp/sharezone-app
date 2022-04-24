@@ -11,7 +11,6 @@ import 'package:hausaufgabenheft_logik/src/views/color.dart';
 import 'package:meta/meta.dart';
 
 import '../../hausaufgabenheft_logik_lehrer.dart';
-import 'teacher_homework_view.dart';
 
 class TeacherHomeworkViewFactory {
   Date Function() _getCurrentDate;

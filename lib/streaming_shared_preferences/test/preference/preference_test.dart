@@ -10,7 +10,6 @@ import 'dart:async';
 
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:streaming_shared_preferences/src/preference/preference.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:test/test.dart';
 

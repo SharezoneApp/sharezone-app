@@ -90,7 +90,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Theme(
       data: Dimensions.fromMediaQuery(context).isDesktopModus
           ? Theme.of(context)
-          : Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+          : Theme.of(context).copyWith(brightness: Brightness.dark),
       child: SharezoneCustomScaffold(
         appBarConfiguration: SliverAppBarConfiguration(
           title: _AppBarTitle(),

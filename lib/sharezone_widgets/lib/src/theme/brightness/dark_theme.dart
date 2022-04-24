@@ -13,7 +13,6 @@ const _accentColor = Colors.lightBlue;
 final darkTheme = ThemeData(
   // Brightness
   brightness: Brightness.dark,
-  primaryColorBrightness: Brightness.dark,
   scaffoldBackgroundColor: ElevationColors.dp0,
 
   // Colors

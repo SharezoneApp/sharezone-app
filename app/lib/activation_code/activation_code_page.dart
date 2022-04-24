@@ -8,7 +8,6 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -37,7 +36,7 @@ class _EnterActivationCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
         appBar: const _EnterActivationCodeAppBar(),
         body: SafeArea(

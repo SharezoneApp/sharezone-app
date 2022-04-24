@@ -9,7 +9,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
@@ -43,7 +42,7 @@ class _GroupJoinPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
         appBar: const GroupJoinAppBar(),
         body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),

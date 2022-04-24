@@ -8,12 +8,10 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/src/theme/theme.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 import 'adaptive_dialog/adapative_dialog_action.dart';

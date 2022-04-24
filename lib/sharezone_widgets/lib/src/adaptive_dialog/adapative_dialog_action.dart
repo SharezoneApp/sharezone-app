@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AdaptiveDialogAction<T> {
   final Key key;
