@@ -126,8 +126,7 @@ dependencies:
     git:
       url: https://github.com/AndroidNils/sliding_up_panel
       ref: animation-listener
-  streaming_shared_preferences:
-    path: ../lib/streaming_shared_preferences
+  streaming_shared_preferences: ^2.0.0
   string_similarity: ^2.0.0
   time:
     path: ../lib/time
