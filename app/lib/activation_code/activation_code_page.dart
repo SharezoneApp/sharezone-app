@@ -35,17 +35,14 @@ class _EnterActivationCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(brightness: Brightness.dark),
-      child: Scaffold(
-        appBar: const _EnterActivationCodeAppBar(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: _EnterActivationCodeDescription(),
-          ),
+    return Scaffold(
+      appBar: const _EnterActivationCodeAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: _EnterActivationCodeDescription(),
         ),
-        bottomNavigationBar: ContactSupport(),
       ),
+      bottomNavigationBar: ContactSupport(),
     );
   }
 }
