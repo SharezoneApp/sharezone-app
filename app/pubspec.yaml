@@ -76,7 +76,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown:
-    path: ../../packages/packages/flutter_markdown
+    git: 
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0

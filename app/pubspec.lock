@@ -782,9 +782,11 @@ packages:
   flutter_markdown:
     dependency: "direct main"
     description:
-      path: "../../packages/packages/flutter_markdown"
-      relative: true
-    source: path
+      path: "packages/flutter_markdown"
+      ref: HEAD
+      resolved-ref: "79bcdd40daa4064686f947adec1d90d202244366"
+      url: "https://github.com/SharezoneApp/packages"
+    source: git
     version: "0.6.9+1"
   flutter_native_timezone:
     dependency: "direct main"
