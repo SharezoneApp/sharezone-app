@@ -156,10 +156,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           _LoginWithQrCodeButton(),
                           const SizedBox(height: 12),
-                          if (kDebugMode) ...[
-                            _TemporaryPrivacyPolicyButton(),
-                            const SizedBox(height: 12),
-                          ],
+                          _TemporaryPrivacyPolicyButton(),
+                          const SizedBox(height: 12),
                           if (widget.withRegistrationButton)
                             _RegistrationSection(),
                         ],
