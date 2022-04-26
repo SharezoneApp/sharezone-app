@@ -11,7 +11,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_utils/platform.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann
 /// Informatiert den Nutzer, wie wir mit seinen Daten umgehen.

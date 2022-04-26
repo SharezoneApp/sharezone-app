@@ -18,7 +18,6 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/widgets/apple_sign_in_button.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
