@@ -356,6 +356,7 @@ class _PrivacyPolicyMarkdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return RelativeAnchorsMarkdown(
       selectable: true,
+      // TODO - Fix: Links (blue colored text) have bad contrast in dark mode
       styleSheet: MarkdownStyleSheet(
           h3: Theme.of(context)
               .textTheme
@@ -363,7 +364,6 @@ class _PrivacyPolicyMarkdown extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.w500),
           blockquoteDecoration: BoxDecoration(
             color: isDarkThemeEnabled(context)
-                // TODO: Dark mode color might still have not enough contrast
                 ? Colors.blue.shade800.withOpacity(.6)
                 : Colors.blue.shade100,
             borderRadius: BorderRadius.circular(2.0),
