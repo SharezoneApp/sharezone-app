@@ -1,0 +1,17 @@
+{
+    // Set the path of the Flutter SDK to the path of the FVM Flutter version.
+    //
+    // VS Code will always use the version selected within the project for all
+    // IDE tooling.
+    //
+    // Source: https://fvm.app/docs/getting_started/configuration#option-1---automatic-switching-recommended
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    "search.exclude": {
+        // Remove .fvm files from search
+        "**/.fvm": true
+    },
+    "files.watcherExclude": {
+        // Remove .fvm files from file watching
+        "**/.fvm": true
+    }
+}

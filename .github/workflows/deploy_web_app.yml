@@ -20,13 +20,12 @@ on:
       - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
-      - ".github/workflows/alpha.yml"
+      - ".github/workflows/deploy_web_app.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: "2.5.2"
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 jobs:
@@ -35,11 +34,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set Flutter version from FVM config file to environment variables
+      uses: kuhnroyal/flutter-fvm-config-action@v1
+
     - name: Install Flutter
       uses: subosito/flutter-action@v1
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: any
+        channel: ${{ env.FLUTTER_CHANNEL }}
     
     - name: Activate sz_repo_cli package
       run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
