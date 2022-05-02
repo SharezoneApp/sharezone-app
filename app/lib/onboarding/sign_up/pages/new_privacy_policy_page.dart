@@ -9,6 +9,7 @@
 // @dart=2.14
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -28,24 +29,29 @@ late AnchorsController _anchorsController;
 class DocumentSection {
   final String sectionId;
   final String sectionName;
+  final List<DocumentSection> subsections;
 
-  DocumentSection(this.sectionId, this.sectionName);
+  DocumentSection(this.sectionId, this.sectionName,
+      [this.subsections = const []]);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
 
     return other is DocumentSection &&
         other.sectionId == sectionId &&
-        other.sectionName == sectionName;
+        other.sectionName == sectionName &&
+        listEquals(other.subsections, subsections);
   }
 
   @override
-  int get hashCode => sectionId.hashCode ^ sectionName.hashCode;
+  int get hashCode =>
+      sectionId.hashCode ^ sectionName.hashCode ^ subsections.hashCode;
 
   @override
   String toString() =>
-      'DocumentSection(sectionId: $sectionId, sectionName: $sectionName)';
+      'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
 }
 
 class PrivacyPolicyBloc extends BlocBase {
@@ -57,6 +63,12 @@ class PrivacyPolicyBloc extends BlocBase {
       final sections =
           pos.map((pos) => _toDocumentSection(pos.anchor)).toList();
       documentSections.add(sections);
+
+      // final sectionsString = getAllDocumentSections()
+      //     .map((a) =>
+      //         "DocumentSection('${a.sectionId}', '${a.sectionName}', []);")
+      //     .reduce((value, element) => '$value\n$element');
+      // debugPrint(sectionsString);
     });
   }
 
@@ -67,10 +79,11 @@ class PrivacyPolicyBloc extends BlocBase {
   final documentSections = BehaviorSubject<List<DocumentSection>>();
 
   List<DocumentSection> getAllDocumentSections() {
-    return anchorsController
-        .getIndexedAnchors()
-        .map(_toDocumentSection)
-        .toList();
+    return tocDocumentSections;
+    // return anchorsController
+    //     .getIndexedAnchors()
+    //     .map(_toDocumentSection)
+    //     .toList();
   }
 
   void scrollToSection(String documentSectionId) {
@@ -212,6 +225,8 @@ class _TableOfContents extends StatelessWidget {
         stream: bloc.documentSections,
         builder: (context, snapshot) {
           final renderedSections = snapshot.data ?? [];
+          final renderedSectionIds =
+              renderedSections.map((e) => e.sectionId).toList();
           return SizedBox(
             width: 400,
             child: Column(
@@ -256,51 +271,82 @@ class _TableOfContents extends StatelessWidget {
                           // To test scroll behavior / layout
                           ...bloc.getAllDocumentSections().map(
                             (section) {
-                              final shouldHighlight =
-                                  renderedSections.contains(section);
+                              final shouldHighlight = renderedSectionIds
+                                  .contains(section.sectionId);
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Material(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4)),
-                                  ),
-                                  color: shouldHighlight
-                                      ? (isDarkThemeEnabled(context)
-                                          ? Colors.blue.shade800
-                                          : Colors.lightBlue.shade100)
-                                      : Colors.transparent,
-                                  child: InkWell(
-                                    onTap: () {
-                                      bloc.scrollToSection(section.sectionId);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            '${section.sectionName}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2!
-                                                .copyWith(
-                                                  fontWeight: shouldHighlight
-                                                      ? FontWeight.w500
-                                                      : FontWeight.normal,
-                                                ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          // Text(
-                                          //   '${section.sectionId}',
-                                          //   style: Theme.of(context)
-                                          //       .textTheme
-                                          //       .caption,
-                                          //   textAlign: TextAlign.start,
-                                          // ),
-                                        ],
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _Highlight(
+                                      onTap: () => bloc
+                                          .scrollToSection(section.sectionId),
+                                      shouldHighlight: shouldHighlight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '${section.sectionName}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .copyWith(
+                                                fontWeight: shouldHighlight
+                                                    ? FontWeight.w500
+                                                    : FontWeight.normal,
+                                              ),
+                                          textAlign: TextAlign.start,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    ...section.subsections.map(
+                                      (subsection) {
+                                        final shouldHighlightSubsection =
+                                            renderedSectionIds
+                                                .contains(subsection.sectionId);
+
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 15.0,
+                                            top: 5,
+                                          ),
+                                          child: _Highlight(
+                                            onTap: () => bloc.scrollToSection(
+                                                section.sectionId),
+                                            shouldHighlight:
+                                                shouldHighlightSubsection,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 4,
+                                                horizontal: 8,
+                                              ),
+                                              child: Text(
+                                                '${subsection.sectionName}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText2!
+                                                    .copyWith(
+                                                      fontSize:
+                                                          Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .fontSize! -
+                                                              .5,
+                                                      fontWeight:
+                                                          shouldHighlightSubsection
+                                                              ? FontWeight.w400
+                                                              : FontWeight
+                                                                  .normal,
+                                                    ),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               );
                             },
@@ -324,6 +370,37 @@ class _TableOfContents extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class _Highlight extends StatelessWidget {
+  const _Highlight({
+    Key? key,
+    required this.child,
+    required this.shouldHighlight,
+    required this.onTap,
+  }) : super(key: key);
+
+  final bool shouldHighlight;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+      ),
+      color: shouldHighlight
+          ? (isDarkThemeEnabled(context)
+              ? Colors.blue.shade800
+              : Colors.lightBlue.shade100)
+          : Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: child,
+      ),
+    );
   }
 }
 
@@ -387,6 +464,77 @@ class _PrivacyPolicyMarkdown extends StatelessWidget {
     );
   }
 }
+
+final tocDocumentSections = [
+  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+  DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+  DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+  DocumentSection('3-verantwortlichkeit-und-kontakt',
+      '3. Verantwortlichkeit und Kontakt', []),
+  DocumentSection(
+      '4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten',
+      '4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten', []),
+  DocumentSection('5-deine-rechte', '5. Deine Rechte', [
+    DocumentSection('a-recht-auf-auskunft', 'a. Recht auf Auskunft', []),
+    DocumentSection(
+        'b-recht-auf-berichtigung', 'b. Recht auf Berichtigung', []),
+    DocumentSection('c-recht-auf-lschung', 'c. Recht auf Löschung', []),
+    DocumentSection('d-recht-auf-einschrnkung-der-verarbeitung',
+        'd. Recht auf Einschränkung der Verarbeitung', []),
+    DocumentSection('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch', []),
+    DocumentSection('f-recht-auf-widerruf', 'f. Recht auf Widerruf', []),
+    DocumentSection('g-recht-auf-datenbertragbarkeit',
+        'g. Recht auf Datenübertragbarkeit', []),
+    DocumentSection('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde', []),
+  ]),
+  DocumentSection('6-eure-kontaktaufnahme', '6. Eure Kontaktaufnahme', []),
+  DocumentSection(
+      '7-unser-umgang-mit-euren-daten', '7. Unser Umgang mit euren Daten', []),
+  DocumentSection(
+      '8-account-nickname-und-passwort', '8. Account, Nickname und Passwort', [
+    DocumentSection('a-registrierung-mittels-anonymen-accounts',
+        'a. Registrierung mittels anonymen Accounts', []),
+    DocumentSection(
+        'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-lter',
+        'b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter',
+        []),
+  ]),
+  DocumentSection(
+      '9-verarbeitung-der-ip-adresse', '9. Verarbeitung der IP-Adresse', []),
+  DocumentSection('10-speicherdauer-und-speicherfristen',
+      '10. Speicherdauer und Speicherfristen', []),
+  DocumentSection(
+      '11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes',
+      '11. Verarbeitung des gewählten Account-Typs und des Bundeslandes', []),
+  DocumentSection('12-anonyme-statistische-auswertung-der-app-nutzung',
+      '12. Anonyme statistische Auswertung der App-Nutzung', []),
+  DocumentSection('13-push-nachrichten', '13. Push-Nachrichten', []),
+  DocumentSection('14-instance-id', '14. Instance ID', [
+    DocumentSection('firebase-cloud-messaging', 'Firebase Cloud Messaging', []),
+    DocumentSection('firebase-crashlytics', 'Firebase Crashlytics', []),
+    DocumentSection('firebase-performance-monitoring',
+        'Firebase Performance Monitoring', []),
+    DocumentSection('firebase-predictions', 'Firebase Predictions', []),
+    DocumentSection('firebase-remote-config', 'Firebase Remote Config', []),
+    DocumentSection(
+        'googlefirebase-analytics', 'Google/Firebase Analytics', []),
+  ]),
+  DocumentSection('15-empfnger-oder-kategorien-von-empfngern',
+      '15. Empfänger oder Kategorien von Empfängern', []),
+  DocumentSection(
+      '16-ssltls-verschlsselung', '16. SSL/TLS-Verschlüsselung', []),
+  DocumentSection('17-videokonferenzen', '17. Videokonferenzen', []),
+  DocumentSection('18-datenbertragung-in-drittlnder-auerhalb-der-eu',
+      '18. Datenübertragung in Drittländer außerhalb der EU', [
+    DocumentSection(
+        'a-firebase-authentication', 'a. Firebase Authentication', []),
+    DocumentSection('b-firebase-hosting', 'b. Firebase Hosting', []),
+  ]),
+  DocumentSection(
+      '19-datenschutzbeauftragter', '19. Datenschutzbeauftragter', []),
+  DocumentSection('20-vorbehalt-der-nderung-dieser-informationen',
+      '20. Vorbehalt der Änderung dieser Informationen', []),
+];
 
 const tableOfContentStrings = [
   "Einführung",
