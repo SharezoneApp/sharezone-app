@@ -127,77 +127,31 @@ class NewPrivacyPolicy extends StatelessWidget {
                     children: [
                       _TableOfContents(),
                       VerticalDivider(),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(120, 20, 120, 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Datenschutzerklärung',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5!
-                                    .copyWith(
-                                      fontSize: 24,
-                                      color: isDarkThemeEnabled(context)
-                                          ? primaryColor
-                                          : Color(0xFF254D71),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 8.0),
-                                child: Text.rich(
-                                  TextSpan(
-                                    text:
-                                        'Die aktualisierte Datenschutzerklärung tritt in',
-                                    children: const [
-                                      TextSpan(
-                                        text: ' 14 Tagen ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            'in Kraft. Danach kannst du die App solange nicht nutzen, bis du die Datenschutzerklärung akzeptiert hast.',
-                                      )
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.center,
+                      Flexible(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 600),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const [
+                                _PrivacyPolicyHeading(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 8.0),
+                                  child: _PrivacyPolicySubheading(),
                                 ),
-                              ),
-                              Divider(),
-                              Expanded(
-                                child: _PrivacyPolicyMarkdown(),
-                              ),
-                              Divider(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    OutlinedButton(
-                                      child: Text('Nicht akzeptieren'),
-                                      onPressed: () {},
-                                    ),
-                                    SizedBox(
-                                      width: 50,
-                                    ),
-                                    // TODO: Making accepting more prevalent
-                                    // than not accepting might be considerd
-                                    // a dark pattern.
-                                    ElevatedButton(
-                                      child: Text('Akzeptieren'),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                Divider(),
+                                Flexible(child: _PrivacyPolicyMarkdown()),
+                                Divider(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: _AcceptionButtons(),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -209,6 +163,80 @@ class NewPrivacyPolicy extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+}
+
+class _AcceptionButtons extends StatelessWidget {
+  const _AcceptionButtons({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        OutlinedButton(
+          child: Text('Nicht akzeptieren'),
+          onPressed: () {},
+        ),
+        SizedBox(
+          width: 50,
+        ),
+        // TODO: Making accepting more prevalent
+        // than not accepting might be considerd
+        // a dark pattern.
+        ElevatedButton(
+          child: Text('Akzeptieren'),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class _PrivacyPolicySubheading extends StatelessWidget {
+  const _PrivacyPolicySubheading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        text: 'Die aktualisierte Datenschutzerklärung tritt in',
+        children: const [
+          TextSpan(
+            text: ' 14 Tagen ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text:
+                'in Kraft. Danach kannst du die App solange nicht nutzen, bis du die Datenschutzerklärung akzeptiert hast.',
+          )
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class _PrivacyPolicyHeading extends StatelessWidget {
+  const _PrivacyPolicyHeading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Datenschutzerklärung',
+      style: Theme.of(context).textTheme.headline5!.copyWith(
+            fontSize: 24,
+            color:
+                isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
+            fontWeight: FontWeight.bold,
+          ),
     );
   }
 }
@@ -312,7 +340,7 @@ class _TableOfContents extends StatelessWidget {
                                           ),
                                           child: _Highlight(
                                             onTap: () => bloc.scrollToSection(
-                                                section.sectionId),
+                                                subsection.sectionId),
                                             shouldHighlight:
                                                 shouldHighlightSubsection,
                                             child: Padding(
