@@ -87,26 +87,21 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Dimensions.fromMediaQuery(context).isDesktopModus
-          ? Theme.of(context)
-          : Theme.of(context).copyWith(brightness: Brightness.dark),
-      child: SharezoneCustomScaffold(
-        appBarConfiguration: SliverAppBarConfiguration(
-          title: _AppBarTitle(),
-          backgroundColor:
-              isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
-          expandedHeight: 210,
-          elevation: 1,
-          pinned: true,
-          actions: const <Widget>[_ProfileAvatar()],
-          flexibleSpace: _AppBarBottom(),
-          drawerIconColor: Colors.white,
-        ),
-        navigationItem: NavigationItem.overview,
-        body: DashboardPageBody(),
-        floatingActionButton: _DashboardPageFAB(),
+    return SharezoneCustomScaffold(
+      appBarConfiguration: SliverAppBarConfiguration(
+        title: _AppBarTitle(),
+        backgroundColor:
+            isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
+        expandedHeight: 210,
+        elevation: 1,
+        pinned: true,
+        actions: const <Widget>[_ProfileAvatar()],
+        flexibleSpace: _AppBarBottom(),
+        drawerIconColor: Colors.white,
       ),
+      navigationItem: NavigationItem.overview,
+      body: DashboardPageBody(),
+      floatingActionButton: _DashboardPageFAB(),
     );
   }
 }

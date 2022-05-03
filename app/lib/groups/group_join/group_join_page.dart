@@ -41,13 +41,10 @@ class _GroupJoinPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(brightness: Brightness.dark),
-      child: Scaffold(
-        appBar: const GroupJoinAppBar(),
-        body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
-        bottomNavigationBar: ContactSupport(),
-      ),
+    return Scaffold(
+      appBar: const GroupJoinAppBar(),
+      body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
+      bottomNavigationBar: ContactSupport(),
     );
   }
 }
