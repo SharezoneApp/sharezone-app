@@ -127,9 +127,10 @@ class NewPrivacyPolicy extends StatelessWidget {
                     children: [
                       _TableOfContents(),
                       VerticalDivider(),
-                      Flexible(
+                        Expanded(
+                          child: Center(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 600),
+                              constraints: BoxConstraints(maxWidth: 850),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: Column(
@@ -146,8 +147,8 @@ class NewPrivacyPolicy extends StatelessWidget {
                                 Flexible(child: _PrivacyPolicyMarkdown()),
                                 Divider(),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
                                   child: _AcceptionButtons(),
                                 )
                               ],
@@ -155,6 +156,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                           ),
                         ),
                       ),
+                        ),
                     ],
                   ),
                 ),
@@ -162,6 +164,7 @@ class NewPrivacyPolicy extends StatelessWidget {
             ),
           );
         }),
+        ),
       ),
     );
   }
