@@ -107,63 +107,66 @@ class NewPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     // Temporary - for development on Windows on Android Tablet
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    return BlocProvider(
-      bloc: PrivacyPolicyBloc(_anchorsController),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Theme.of(context).primaryColor,
-        )),
-        child: Builder(builder: (context) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                Align(
-                  child: _DarkLightModeToggle(),
-                  alignment: Alignment.bottomRight,
-                ),
-                Center(
-                  child: Row(
-                    children: [
-                      _TableOfContents(),
-                      VerticalDivider(),
+    return MediaQuery(
+      // TODO: Make UI to change dynamically?
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+      child: BlocProvider(
+        bloc: PrivacyPolicyBloc(_anchorsController),
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Theme.of(context).primaryColor,
+          )),
+          child: Builder(builder: (context) {
+            return Scaffold(
+              body: Stack(
+                children: [
+                  Align(
+                    child: _DarkLightModeToggle(),
+                    alignment: Alignment.bottomRight,
+                  ),
+                  Center(
+                    child: Row(
+                      children: [
+                        _TableOfContents(),
+                        VerticalDivider(),
                         Expanded(
                           child: Center(
-                        child: ConstrainedBox(
+                            child: ConstrainedBox(
                               constraints: BoxConstraints(maxWidth: 850),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                _PrivacyPolicyHeading(),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 8.0),
-                                  child: _PrivacyPolicySubheading(),
-                                ),
-                                Divider(),
-                                Flexible(child: _PrivacyPolicyMarkdown()),
-                                Divider(),
-                                Padding(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    _PrivacyPolicyHeading(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 8.0),
+                                      child: _PrivacyPolicySubheading(),
+                                    ),
+                                    Divider(),
+                                    Flexible(child: _PrivacyPolicyMarkdown()),
+                                    Divider(),
+                                    Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20),
-                                  child: _AcceptionButtons(),
-                                )
-                              ],
+                                      child: _AcceptionButtons(),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
