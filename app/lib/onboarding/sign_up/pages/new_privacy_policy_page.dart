@@ -133,7 +133,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 850),
+                              constraints: BoxConstraints(maxWidth: 800),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: Column(
