@@ -35,19 +35,14 @@ class CourseHelpInnerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Theme(
-        data: Theme.of(context).copyWith(
-            colorScheme:
-                ColorScheme.fromSwatch().copyWith(secondary: Colors.black)),
-        child: Column(
-          children: <Widget>[
-            _WhatIsAPublicKey(),
-            _HowToJoinAGroup(),
-            _WhyHasEveryMemberOfAGroupADifferentSharecode(),
-            _WhatIsTheDifferenceBetweenAGroupACourseAndASchoolClass(),
-            _GroupRolesExplained(),
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          _WhatIsAPublicKey(),
+          _HowToJoinAGroup(),
+          _WhyHasEveryMemberOfAGroupADifferentSharecode(),
+          _WhatIsTheDifferenceBetweenAGroupACourseAndASchoolClass(),
+          _GroupRolesExplained(),
+        ],
       ),
     );
   }
