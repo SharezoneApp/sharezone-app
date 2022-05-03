@@ -130,36 +130,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                       children: [
                         _TableOfContents(),
                         VerticalDivider(),
-                        Expanded(
-                          child: Center(
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 800),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    _PrivacyPolicyHeading(),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 8.0),
-                                      child: _PrivacyPolicySubheading(),
-                                    ),
-                                    Divider(),
-                                    Flexible(child: _PrivacyPolicyMarkdown()),
-                                    Divider(),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: _AcceptionButtons(),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _MainContent(),
                       ],
                     ),
                   ),
@@ -167,6 +138,45 @@ class NewPrivacyPolicy extends StatelessWidget {
               ),
             );
           }),
+        ),
+      ),
+    );
+  }
+}
+
+class _MainContent extends StatelessWidget {
+  const _MainContent({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 800),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                _PrivacyPolicyHeading(),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                  child: _PrivacyPolicySubheading(),
+                ),
+                Divider(),
+                Flexible(child: _PrivacyPolicyMarkdown()),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: _AcceptionButtons(),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
