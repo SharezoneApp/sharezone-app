@@ -49,7 +49,6 @@ import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/announcement_card.dart';
 import 'package:sharezone_widgets/snackbars.dart';
