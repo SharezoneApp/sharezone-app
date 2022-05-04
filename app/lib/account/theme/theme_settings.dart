@@ -13,7 +13,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 
-import 'theme_brightness.dart';
+/// [ThemeBrightness] adds a "system" value that is missing in the Flutter
+/// [Brightness] enum.
+/// This lets one choose to inherit the system brightness.
+enum ThemeBrightness {
+  /// The color is dark and will require a light text color to achieve readable
+  /// contrast.
+  ///
+  /// For example, the color might be dark grey, requiring white text.
+  dark,
+
+  /// The color is light and will require a dark text color to achieve readable
+  /// contrast.
+  ///
+  /// For example, the color might be bright white, requiring black text.
+  light,
+
+  /// Automatically use either dark or light brightness depending on the setting
+  /// of the system running this app.
+  ///
+  /// If e.g. the MacBook of the user uses dark-mode then we will also use dark-
+  /// mode.
+  system,
+}
 
 class ThemeSettings extends ChangeNotifier {
   final KeyValueStore _keyValueStore;
