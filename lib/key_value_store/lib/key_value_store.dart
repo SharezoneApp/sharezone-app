@@ -34,7 +34,7 @@ abstract class KeyValueStore {
   /// Saves a boolean [value] to persistent storage in the background.
   Future<bool> setBool(String key, bool value);
 
-  /// Saves a int [value] to persistent storage in the background.
+  /// Saves an int [value] to persistent storage in the background.
   Future<bool> setInt(String key, int value);
 
   /// Saves a double [value] to persistent storage in the background.
