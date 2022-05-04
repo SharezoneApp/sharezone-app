@@ -12,22 +12,32 @@ abstract class KeyValueStore {
 
   /// Reads a value from persistent storage, throwing an exception if it's not a bool.
   bool? getBool(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not a bool.
   bool? tryGetBool(String key) => _guard(() => getBool(key));
 
   /// Reads a value from persistent storage, throwing an exception if it's not an int.
   int? getInt(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not an int.
   int? tryGetInt(String key) => _guard(() => getInt(key));
 
   /// Reads a value from persistent storage, throwing an exception if it's not a double.
   double? getDouble(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not a double.
   double? tryGetDouble(String key) => _guard(() => getDouble(key));
 
-  // Reads a value from persistent storage, throwing an exception if it's not an String.
+  /// Reads a value from persistent storage, throwing an exception if it's not an String.
   String? getString(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not an String.
   String? tryGetString(String key) => _guard(() => getString(key));
 
   /// Reads a set of string values from persistent storage, throwing an exception if it's not a string set.
   List<String>? getStringList(String key);
+
+  /// Reads a set of string values from persistent storage, returning null if it's not a string set.
   List<String>? tryGetStringList(String key) =>
       _guard(() => getStringList(key));
 
