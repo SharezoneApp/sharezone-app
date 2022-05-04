@@ -12,12 +12,9 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_bloc.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
 import 'package:sharezone/account/theme/theme_settings_notifier.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
-import 'package:sharezone/util/cache/streaming_key_value_store.dart';
-import 'package:sharezone/util/theme/brightness_cache.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/theme.dart';
 
@@ -39,51 +36,43 @@ class SharezoneMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final brightnessCache = BrightnessCache(
-    //     streamingCache: FlutterStreamingKeyValueStore(
-    //         blocDependencies.streamingSharedPreferences));
-    // final themeBloc = ThemeBloc(brightnessCache: brightnessCache);
-
-    final themeSettings = Provider.of<ThemeSettingsNotifier>(context);
+    final themeSettings = context.watch<ThemeSettingsNotifier>();
+    final _darkTheme =
+        darkTheme.copyWith(visualDensity: themeSettings.visualDensity);
+    final _lightTheme =
+        lightTheme.copyWith(visualDensity: themeSettings.visualDensity);
 
     return FeatureDiscovery(
-      child: Theme(
-        data: ThemeData(visualDensity: themeSettings.visualDensity),
-        child: MediaQuery(
-          data: MediaQueryData(
-            textScaleFactor: themeSettings.textScalingFactor,
-          ),
-          child: Builder(builder: (context) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
-              color: primaryColor,
-              darkTheme: themeSettings.themeBrightness == ThemeBrightness.system
-                  ? darkTheme
-                  : null,
-              theme: themeSettings.themeBrightness == ThemeBrightness.dark
-                  ? darkTheme
-                  : lightTheme,
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', 'US'),
-                Locale('de', 'DE'),
-              ],
-              navigatorObservers: <NavigatorObserver>[
-                AnalyticsNavigationObserver(analytics: analytics)
-              ],
-              home: home,
-              routes: routes,
-              onUnknownRoute: (_) =>
-                  MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
-              navigatorKey: navigatorKey,
-            );
-          }),
-        ),
+      child: MaterialApp(
+        // Otherwise the MediaQuery setting the textScaleFactor above
+        // will be ignored.
+        useInheritedMediaQuery: true,
+        debugShowCheckedModeBanner: false,
+        title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
+        color: primaryColor,
+        darkTheme: themeSettings.themeBrightness == ThemeBrightness.system
+            ? _darkTheme
+            : null,
+        theme: themeSettings.themeBrightness == ThemeBrightness.dark
+            ? _darkTheme
+            : _lightTheme,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('de', 'DE'),
+        ],
+        navigatorObservers: <NavigatorObserver>[
+          AnalyticsNavigationObserver(analytics: analytics)
+        ],
+        home: home,
+        routes: routes,
+        onUnknownRoute: (_) =>
+            MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
+        navigatorKey: navigatorKey,
       ),
     );
   }

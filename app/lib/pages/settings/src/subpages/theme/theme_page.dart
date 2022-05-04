@@ -10,8 +10,9 @@ import 'package:app_review/app_review.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/account/theme/theme_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
+import 'package:sharezone/account/theme/theme_settings_notifier.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
@@ -68,35 +69,31 @@ class _BrightnessRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeBloc = BlocProvider.of<ThemeBloc>(context);
-    return StreamBuilder<ThemeBrightness>(
-      stream: themeBloc.themeBrightness,
-      builder: (context, snapshot) {
-        final themeBrightness = snapshot.data ?? ThemeBrightness.light;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _BrightnessRadio(
-              title: "Heller Modus",
-              groupValue: themeBrightness,
-              icon: const Icon(Icons.brightness_high),
-              themeBrightness: ThemeBrightness.light,
-            ),
-            _BrightnessRadio(
-              title: "Dunkler Modus",
-              groupValue: themeBrightness,
-              icon: const Icon(Icons.brightness_low),
-              themeBrightness: ThemeBrightness.dark,
-            ),
-            _BrightnessRadio(
-              title: "System",
-              groupValue: themeBrightness,
-              icon: const Icon(Icons.settings_brightness),
-              themeBrightness: ThemeBrightness.system,
-            ),
-          ],
-        );
-      },
+    final themeSettings = context.watch<ThemeSettingsNotifier>();
+    final themeBrightness = themeSettings.themeBrightness;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _BrightnessRadio(
+          title: "Heller Modus",
+          groupValue: themeBrightness,
+          icon: const Icon(Icons.brightness_high),
+          themeBrightness: ThemeBrightness.light,
+        ),
+        _BrightnessRadio(
+          title: "Dunkler Modus",
+          groupValue: themeBrightness,
+          icon: const Icon(Icons.brightness_low),
+          themeBrightness: ThemeBrightness.dark,
+        ),
+        _BrightnessRadio(
+          title: "System",
+          groupValue: themeBrightness,
+          icon: const Icon(Icons.settings_brightness),
+          themeBrightness: ThemeBrightness.system,
+        ),
+      ],
     );
   }
 }
@@ -116,13 +113,15 @@ class _BrightnessRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeBloc = BlocProvider.of<ThemeBloc>(context);
+    final themeSettings = context.read<ThemeSettingsNotifier>();
+
     return ListTile(
       leading: icon,
       title: Text(title),
-      onTap: () => themeBloc.changeThemeBrightness(themeBrightness),
+      onTap: () => themeSettings.themeBrightness = themeBrightness,
       trailing: Radio<ThemeBrightness>(
-        onChanged: themeBloc.changeThemeBrightness,
+        onChanged: (newBrightness) =>
+            themeSettings.themeBrightness = newBrightness,
         value: themeBrightness,
         groupValue: groupValue,
       ),

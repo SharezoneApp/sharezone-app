@@ -60,8 +60,8 @@ import 'package:user/user.dart';
 import 'tips/models/dashboard_tip.dart';
 
 part './sections/blackboard_section.dart';
-part './sections/dashboard_tip.dart';
 part './sections/calendrical_events_section.dart';
+part './sections/dashboard_tip.dart';
 part './sections/holiday_countdown_section.dart';
 part './sections/homework_section.dart';
 part './timetable/lesson_card.dart';
