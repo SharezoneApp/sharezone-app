@@ -5,7 +5,7 @@
 // https://joinup.ec.europa.eu/software/page/eupl
 //
 // SPDX-License-Identifier: EUPL-1.2
-//@dart=2.14
+// @dart=2.14
 import 'dart:async';
 
 import 'package:key_value_store/key_value_store.dart';
