@@ -36,6 +36,9 @@ class ThemeSettingsNotifier extends ChangeNotifier {
   set textScalingFactor(double textScalingFactor) {
     _textScalingFactor = textScalingFactor;
     notifyListeners();
+
+    keyValueStore.setDouble(
+        _currentTextScalingFactorCacheKey, textScalingFactor);
   }
 
   late VisualDensity _visualDensity;
@@ -43,6 +46,8 @@ class ThemeSettingsNotifier extends ChangeNotifier {
   set visualDensity(VisualDensity value) {
     _visualDensity = value;
     notifyListeners();
+
+    keyValueStore.setString(_currentVisualDensityCacheKey, value.serialize());
   }
 
   late ThemeBrightness _themeBrightness;
@@ -50,6 +55,8 @@ class ThemeSettingsNotifier extends ChangeNotifier {
   set themeBrightness(ThemeBrightness value) {
     _themeBrightness = value;
     notifyListeners();
+
+    keyValueStore.setString(_currentBrightnessCacheKey, value.serialize());
   }
 }
 
