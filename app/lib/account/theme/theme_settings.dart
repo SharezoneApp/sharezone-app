@@ -37,6 +37,33 @@ enum ThemeBrightness {
   system,
 }
 
+/// Used to change theme settings dynamically inside the app.
+/// The changed settings will be automatically persisted.
+///
+/// For example one can use this class to change from dark-mode to light-mode
+/// when the user toggles the corresponding setting.
+///
+/// This [ThemeSettings] should be provided via [Provider].
+/// Inside the UI [ThemeSettings] can then be used like this:
+///
+/// ```dart
+/// @override
+/// Widget build(BuildContext context) {
+///   // Will automatically rebuild if properties of [ThemeSettings] change.
+///   // See also `context.select` to only rebuild if the brightness changes.
+///   final themeSettings = context.watch<ThemeSettings>();
+///
+///   return Column(
+///     children: [
+///       Text('Current brightness: ${themeSettings.themeBrightness}'),
+///       ElevatedButton(
+///         child: Text('Change to dark-mode'),
+///         onPressed: () => themeSettings.themeBrightness = ThemeBrightness.dark,
+///       )
+///     ],
+///   );
+/// }
+/// ```
 class ThemeSettings extends ChangeNotifier {
   final KeyValueStore _keyValueStore;
 

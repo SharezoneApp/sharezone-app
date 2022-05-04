@@ -12,7 +12,6 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_brightness.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone_utils/platform.dart';

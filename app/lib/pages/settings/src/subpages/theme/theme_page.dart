@@ -11,7 +11,6 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_brightness.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
@@ -69,8 +68,8 @@ class _BrightnessRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeSettings = context.watch<ThemeSettings>();
-    final themeBrightness = themeSettings.themeBrightness;
+    final themeBrightness = context.select<ThemeSettings, ThemeBrightness>(
+        (settings) => settings.themeBrightness);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
