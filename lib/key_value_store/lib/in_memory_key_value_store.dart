@@ -12,9 +12,7 @@ import 'package:key_value_store/key_value_store.dart';
 class InMemoryKeyValueStore extends KeyValueStore {
   Map<String, dynamic> storedValues;
 
-  InMemoryKeyValueStore([this.storedValues]) {
-    storedValues ??= {};
-  }
+  InMemoryKeyValueStore([this.storedValues = const {}]);
 
   @override
   Future<bool> clear() async {
