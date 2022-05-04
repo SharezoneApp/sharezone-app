@@ -18,7 +18,7 @@ abstract class KeyValueStore {
   int? getInt(String key);
   int? tryGetInt(String key) => _guard(() => getInt(key));
 
-  // Reads a value from persistent storage, throwing an exception if it's not a double.
+  /// Reads a value from persistent storage, throwing an exception if it's not a double.
   double? getDouble(String key);
   double? tryGetDouble(String key) => _guard(() => getDouble(key));
 
