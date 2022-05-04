@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// @dart=2.14
+
 /// [ThemeBrightness] besteht aus dem [Brightness]-Enum
 /// mit einem System eintragt. So kann man unterscheiden,
 /// ob die Brighness über das System des Gerätes festgelegt
