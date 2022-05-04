@@ -14,7 +14,7 @@ abstract class KeyValueStore {
   bool? getBool(String key);
   bool? tryGetBool(String key) => _guard(() => getBool(key));
 
-  // Reads a value from persistent storage, throwing an exception if it's not an int.
+  /// Reads a value from persistent storage, throwing an exception if it's not an int.
   int? getInt(String key);
   int? tryGetInt(String key) => _guard(() => getInt(key));
 
