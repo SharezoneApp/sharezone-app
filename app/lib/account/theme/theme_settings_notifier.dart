@@ -68,24 +68,6 @@ class ThemeSettingsNotifier extends ChangeNotifier {
   }
 }
 
-extension on KeyValueStore {
-  double? tryGetDouble(String key) {
-    return _guard(() => getDouble(key));
-  }
-
-  String? tryGetString(String key) {
-    return _guard(() => getString(key));
-  }
-}
-
-T? _guard<T>(T Function() f) {
-  try {
-    return f();
-  } catch (_) {
-    return null;
-  }
-}
-
 const String _currentTextScalingFactorCacheKey =
     'currentTextScalingFactorCacheKey';
 const String _currentVisualDensityCacheKey = 'currentVisualDensityCacheKey';
