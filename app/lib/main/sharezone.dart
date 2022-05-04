@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
-import 'package:sharezone/account/theme/theme_settings_notifier.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
@@ -115,14 +115,13 @@ class _ThemeSettingsProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeSettingsNotifier(
+      create: (context) => ThemeSettings(
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
         defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
         keyValueStore: blocDependencies.keyValueStore,
       ),
-      child:
-          Consumer<ThemeSettingsNotifier>(builder: (context, themeSettings, _) {
+      child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
         /// If we didn't use MediaQuery.fromWindow and just provide a new
         /// MediaQuery with our custom textScalingFactor the UI breaks in
         /// several different weird ways.

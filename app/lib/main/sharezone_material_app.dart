@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
-import 'package:sharezone/account/theme/theme_settings_notifier.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -36,7 +36,7 @@ class SharezoneMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeSettings = context.watch<ThemeSettingsNotifier>();
+    final themeSettings = context.watch<ThemeSettings>();
     final _darkTheme =
         darkTheme.copyWith(visualDensity: themeSettings.visualDensity);
     final _lightTheme =

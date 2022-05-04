@@ -15,15 +15,21 @@ import 'package:key_value_store/key_value_store.dart';
 
 import 'theme_brightness.dart';
 
-class ThemeSettingsNotifier extends ChangeNotifier {
-  final KeyValueStore keyValueStore;
+class ThemeSettings extends ChangeNotifier {
+  final KeyValueStore _keyValueStore;
 
-  ThemeSettingsNotifier({
-    required this.keyValueStore,
+  ThemeSettings({
+    required KeyValueStore keyValueStore,
+
+    /// The value assigned to [textScalingFactor] if no other value is cached.
     required double defaultTextScalingFactor,
+
+    /// The value assigned to [visualDensity] if no other value is cached.
     required VisualDensity defaultVisualDensity,
+
+    /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness defaultThemeBrightness,
-  }) {
+  }) : _keyValueStore = keyValueStore {
     _textScalingFactor =
         keyValueStore.tryGetDouble(_currentTextScalingFactorCacheKey) ??
             defaultTextScalingFactor;
@@ -45,7 +51,7 @@ class ThemeSettingsNotifier extends ChangeNotifier {
     _textScalingFactor = textScalingFactor;
     notifyListeners();
 
-    keyValueStore.setDouble(
+    _keyValueStore.setDouble(
         _currentTextScalingFactorCacheKey, textScalingFactor);
   }
 
@@ -55,7 +61,7 @@ class ThemeSettingsNotifier extends ChangeNotifier {
     _visualDensity = value;
     notifyListeners();
 
-    keyValueStore.setString(_currentVisualDensityCacheKey, value.serialize());
+    _keyValueStore.setString(_currentVisualDensityCacheKey, value.serialize());
   }
 
   late ThemeBrightness _themeBrightness;
@@ -64,7 +70,7 @@ class ThemeSettingsNotifier extends ChangeNotifier {
     _themeBrightness = value;
     notifyListeners();
 
-    keyValueStore.setString(_currentBrightnessCacheKey, value.serialize());
+    _keyValueStore.setString(_currentBrightnessCacheKey, value.serialize());
   }
 }
 

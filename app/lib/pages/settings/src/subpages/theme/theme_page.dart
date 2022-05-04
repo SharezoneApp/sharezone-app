@@ -12,7 +12,7 @@ import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
-import 'package:sharezone/account/theme/theme_settings_notifier.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
@@ -69,7 +69,7 @@ class _BrightnessRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeSettings = context.watch<ThemeSettingsNotifier>();
+    final themeSettings = context.watch<ThemeSettings>();
     final themeBrightness = themeSettings.themeBrightness;
 
     return Column(
@@ -113,7 +113,7 @@ class _BrightnessRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeSettings = context.read<ThemeSettingsNotifier>();
+    final themeSettings = context.read<ThemeSettings>();
 
     return ListTile(
       leading: icon,
