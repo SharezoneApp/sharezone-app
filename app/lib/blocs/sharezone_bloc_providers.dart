@@ -24,10 +24,13 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';
 import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/account/theme/theme_bloc.dart';
+import 'package:sharezone/account/theme/theme_brightness.dart';
+import 'package:sharezone/account/theme/theme_settings_notifier.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
@@ -550,9 +553,21 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ...mainProviders,
         ...timetableProviders,
       ],
-      child: (context) => AnalyticsProvider(
-        analytics: analytics,
-        child: Builder(builder: (context) => widget.child),
+      child: (context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => ThemeSettingsNotifier(
+              defaultTextScalingFactor: 1.0,
+              defaultThemeBrightness: ThemeBrightness.system,
+              defaultVisualDensity: Theme.of(context).visualDensity,
+              keyValueStore: widget.blocDependencies.keyValueStore,
+            ),
+          ),
+        ],
+        child: AnalyticsProvider(
+          analytics: analytics,
+          child: Builder(builder: (context) => widget.child),
+        ),
       ),
     );
   }

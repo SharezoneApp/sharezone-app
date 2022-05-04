@@ -11,8 +11,10 @@ import 'package:analytics/observer.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_bloc.dart';
 import 'package:sharezone/account/theme/theme_brightness.dart';
+import 'package:sharezone/account/theme/theme_settings_notifier.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/theme/brightness_cache.dart';
@@ -37,44 +39,51 @@ class SharezoneMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightnessCache = BrightnessCache(
-        streamingCache: FlutterStreamingKeyValueStore(
-            blocDependencies.streamingSharedPreferences));
-    final themeBloc = ThemeBloc(brightnessCache: brightnessCache);
+    // final brightnessCache = BrightnessCache(
+    //     streamingCache: FlutterStreamingKeyValueStore(
+    //         blocDependencies.streamingSharedPreferences));
+    // final themeBloc = ThemeBloc(brightnessCache: brightnessCache);
+
+    final themeSettings = Provider.of<ThemeSettingsNotifier>(context);
 
     return FeatureDiscovery(
-      child: StreamBuilder<ThemeBrightness>(
-        stream: themeBloc.themeBrightness,
-        builder: (context, snapshot) {
-          final themeBrightness = snapshot.data ?? ThemeBrightness.light;
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
-            color: primaryColor,
-            darkTheme:
-                themeBrightness == ThemeBrightness.system ? darkTheme : null,
-            theme: themeBrightness == ThemeBrightness.dark
-                ? darkTheme
-                : lightTheme,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('de', 'DE'),
-            ],
-            navigatorObservers: <NavigatorObserver>[
-              AnalyticsNavigationObserver(analytics: analytics)
-            ],
-            home: home,
-            routes: routes,
-            onUnknownRoute: (_) =>
-                MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
-            navigatorKey: navigatorKey,
-          );
-        },
+      child: Theme(
+        data: ThemeData(visualDensity: themeSettings.visualDensity),
+        child: MediaQuery(
+          data: MediaQueryData(
+            textScaleFactor: themeSettings.textScalingFactor,
+          ),
+          child: Builder(builder: (context) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
+              color: primaryColor,
+              darkTheme: themeSettings.themeBrightness == ThemeBrightness.system
+                  ? darkTheme
+                  : null,
+              theme: themeSettings.themeBrightness == ThemeBrightness.dark
+                  ? darkTheme
+                  : lightTheme,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('de', 'DE'),
+              ],
+              navigatorObservers: <NavigatorObserver>[
+                AnalyticsNavigationObserver(analytics: analytics)
+              ],
+              home: home,
+              routes: routes,
+              onUnknownRoute: (_) =>
+                  MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
+              navigatorKey: navigatorKey,
+            );
+          }),
+        ),
       ),
     );
   }
