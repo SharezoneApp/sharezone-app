@@ -5,7 +5,7 @@
 // https://joinup.ec.europa.eu/software/page/eupl
 //
 // SPDX-License-Identifier: EUPL-1.2
-
+//@dart=2.14
 import 'dart:async';
 
 import 'package:key_value_store/key_value_store.dart';
@@ -34,24 +34,24 @@ class FlutterKeyValueStore extends KeyValueStore {
   Future<bool> clear() => preferences.clear();
 
   @override
-  bool getBool(String key) => preferences.getBool(key);
+  bool? getBool(String key) => preferences.getBool(key);
 
   @override
-  double getDouble(String key) => preferences.getDouble(key);
+  double? getDouble(String key) => preferences.getDouble(key);
 
   /// Reads a value from persistent storage, throwing an exception if it's not an int.
   @override
-  int getInt(String key) => preferences.getInt(key);
+  int? getInt(String key) => preferences.getInt(key);
 
   /// Returns all keys in the persistent storage.
   @override
   Set<String> getKeys() => preferences.getKeys();
 
   @override
-  String getString(String key) => preferences.getString(key);
+  String? getString(String key) => preferences.getString(key);
 
   @override
-  List<String> getStringList(String key) => preferences.getStringList(key);
+  List<String>? getStringList(String key) => preferences.getStringList(key);
 
   @override
   Future<bool> remove(String key) => preferences.remove(key);
