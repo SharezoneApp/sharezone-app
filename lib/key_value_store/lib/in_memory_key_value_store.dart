@@ -10,10 +10,10 @@ import 'dart:async';
 import 'package:key_value_store/key_value_store.dart';
 
 class InMemoryKeyValueStore extends KeyValueStore {
-  Map<String, dynamic> storedValues;
+  late Map<String, dynamic> storedValues;
 
-  InMemoryKeyValueStore([this.storedValues]) {
-    storedValues ??= {};
+  InMemoryKeyValueStore([Map<String, dynamic>? storedValues]) {
+    this.storedValues = storedValues ?? {};
   }
 
   @override

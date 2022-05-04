@@ -11,41 +11,51 @@ abstract class KeyValueStore {
   Set<String> getKeys();
 
   /// Reads a value from persistent storage, throwing an exception if it's not a bool.
-  bool getBool(String key);
-  // Reads a value from persistent storage, throwing an exception if it's not an int.
-  int getInt(String key);
-  // Reads a value from persistent storage, throwing an exception if it's not a double.
-  double getDouble(String key);
-  // Reads a value from persistent storage, throwing an exception if it's not an String.
-  String getString(String key);
+  bool? getBool(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not a bool.
+  bool? tryGetBool(String key) => _guard(() => getBool(key));
+
+  /// Reads a value from persistent storage, throwing an exception if it's not an int.
+  int? getInt(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not an int.
+  int? tryGetInt(String key) => _guard(() => getInt(key));
+
+  /// Reads a value from persistent storage, throwing an exception if it's not a double.
+  double? getDouble(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not a double.
+  double? tryGetDouble(String key) => _guard(() => getDouble(key));
+
+  /// Reads a value from persistent storage, throwing an exception if it's not an String.
+  String? getString(String key);
+
+  /// Reads a value from persistent storage, returning null if it's not an String.
+  String? tryGetString(String key) => _guard(() => getString(key));
 
   /// Reads a set of string values from persistent storage, throwing an exception if it's not a string set.
-  List<String> getStringList(String key);
+  List<String>? getStringList(String key);
+
+  /// Reads a set of string values from persistent storage, returning null if it's not a string set.
+  List<String>? tryGetStringList(String key) =>
+      _guard(() => getStringList(key));
 
   /// Saves a boolean [value] to persistent storage in the background.
-  ///
-  /// If [value] is null, this is equivalent to calling [remove()] on the [key].
   Future<bool> setBool(String key, bool value);
 
-  /// Reads a value from persistent storage, throwing an exception if it's not
-  /// an int.
+  /// Saves an int [value] to persistent storage in the background.
   Future<bool> setInt(String key, int value);
 
   /// Saves a double [value] to persistent storage in the background.
   ///
   /// Android doesn't support storing doubles, so it will be stored as a float.
-  ///
-  /// If [value] is null, this is equivalent to calling [remove()] on the [key].
   Future<bool> setDouble(String key, double value);
 
   /// Saves a string [value] to persistent storage in the background.
-  ///
-  /// If [value] is null, this is equivalent to calling [remove()] on the [key].
   Future<bool> setString(String key, String value);
 
   /// Saves a list of strings [value] to persistent storage in the background.
-  ///
-  /// If [value] is null, this is equivalent to calling [remove()] on the [key].
   Future<bool> setStringList(String key, List<String> values);
 
   /// Removes an entry from persistent storage.
@@ -56,4 +66,12 @@ abstract class KeyValueStore {
 
   /// Completes with true once the user preferences for the app has been cleared
   Future<bool> clear();
+}
+
+T? _guard<T>(T? Function() f) {
+  try {
+    return f();
+  } catch (_) {
+    return null;
+  }
 }
