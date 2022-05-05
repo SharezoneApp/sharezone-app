@@ -120,7 +120,7 @@ jobs:
           projectId: sharezone-debug
           entryPoint: "./app"
           expires: '7d'
-          target: "test-web-app"
+          target: 'test-web-app'
 
   # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
