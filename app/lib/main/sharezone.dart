@@ -115,6 +115,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ThemeSettings(
+        analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
         defaultVisualDensity: VisualDensity.adaptivePlatformDensity,

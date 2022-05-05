@@ -10,6 +10,8 @@
 
 import 'dart:convert';
 
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 
@@ -66,9 +68,17 @@ enum ThemeBrightness {
 /// ```
 class ThemeSettings extends ChangeNotifier {
   final KeyValueStore _keyValueStore;
+  final Analytics _analytics;
+
+  static const String currentTextScalingFactorCacheKey =
+      'currentTextScalingFactorCacheKey';
+  static const String currentVisualDensityCacheKey =
+      'currentVisualDensityCacheKey';
+  static const currentBrightnessCacheKey = 'currentBrightnessCacheKey';
 
   ThemeSettings({
     required KeyValueStore keyValueStore,
+    required Analytics analytics,
 
     /// The value assigned to [textScalingFactor] if no other value is cached.
     required double defaultTextScalingFactor,
@@ -78,18 +88,19 @@ class ThemeSettings extends ChangeNotifier {
 
     /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness defaultThemeBrightness,
-  }) : _keyValueStore = keyValueStore {
+  })  : _keyValueStore = keyValueStore,
+        _analytics = analytics {
     _textScalingFactor =
-        keyValueStore.tryGetDouble(_currentTextScalingFactorCacheKey) ??
+        keyValueStore.tryGetDouble(currentTextScalingFactorCacheKey) ??
             defaultTextScalingFactor;
 
     _visualDensity = keyValueStore
-            .tryGetString(_currentVisualDensityCacheKey)
+            .tryGetString(currentVisualDensityCacheKey)
             .toVisualDensity() ??
         defaultVisualDensity;
 
     _themeBrightness = keyValueStore
-            .tryGetString(_currentBrightnessCacheKey)
+            .tryGetString(currentBrightnessCacheKey)
             .toThemeBrightness() ??
         defaultThemeBrightness;
   }
@@ -101,7 +112,11 @@ class ThemeSettings extends ChangeNotifier {
     notifyListeners();
 
     _keyValueStore.setDouble(
-        _currentTextScalingFactorCacheKey, textScalingFactor);
+        currentTextScalingFactorCacheKey, textScalingFactor);
+    _analytics.log(NamedAnalyticsEvent(
+      name: 'ui_text_scaling_factor_changed',
+      data: {'text_scaling_factor': textScalingFactor},
+    ));
   }
 
   late VisualDensity _visualDensity;
@@ -110,7 +125,16 @@ class ThemeSettings extends ChangeNotifier {
     _visualDensity = value;
     notifyListeners();
 
-    _keyValueStore.setString(_currentVisualDensityCacheKey, value.serialize());
+    _keyValueStore.setString(currentVisualDensityCacheKey, value.serialize());
+    _analytics.log(NamedAnalyticsEvent(
+      name: 'ui_visual_density_changed',
+      data: {
+        'visual_density': {
+          'horizontal': value.horizontal,
+          'vertical': value.vertical
+        }
+      },
+    ));
   }
 
   late ThemeBrightness _themeBrightness;
@@ -119,13 +143,13 @@ class ThemeSettings extends ChangeNotifier {
     _themeBrightness = value;
     notifyListeners();
 
-    _keyValueStore.setString(_currentBrightnessCacheKey, value.serialize());
+    _keyValueStore.setString(currentBrightnessCacheKey, value.serialize());
+    _analytics.log(NamedAnalyticsEvent(
+      name: 'ui_brightness_changed',
+      data: {'brightness': value.serialize()},
+    ));
   }
 }
-
-const String _currentTextScalingFactorCacheKey =
-    'currentTextScalingFactorCacheKey';
-const String _currentVisualDensityCacheKey = 'currentVisualDensityCacheKey';
 
 extension on VisualDensity {
   String serialize() {
@@ -147,8 +171,6 @@ extension on String? {
     );
   }
 }
-
-const _currentBrightnessCacheKey = 'currentBrightnessCacheKey';
 
 extension on ThemeBrightness {
   String serialize() {

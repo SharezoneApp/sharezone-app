@@ -86,6 +86,7 @@ Future runFlutterApp() async {
   final registrationGateway =
       RegistrationGateway(references.users, firebaseDependencies.auth);
   final blocDependencies = BlocDependencies(
+    analytics: Analytics(getBackend()),
     firestore: firebaseDependencies.firestore,
     keyValueStore: keyValueStore,
     sharedPreferences: pluginInitializations.sharedPreferences,
