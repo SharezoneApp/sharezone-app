@@ -122,7 +122,7 @@ jobs:
           expires: "7d"
           target: "test-web-app"
 
-  # In the past we had several times problems with building for specific
+  # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
   # if the build is still possible.
   ios-build-test:
@@ -142,7 +142,7 @@ jobs:
         working-directory: app
         run: flutter build ios --flavor prod
 
-  # In the past we had several times problems with building for specific
+  # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
   # if the build is still possible.
   android-build-test:
@@ -162,7 +162,7 @@ jobs:
         working-directory: app
         run: flutter build appbundle --flavor prod
 
-  # In the past we had several times problems with building for specific
+  # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
   # if the build is still possible.
   macos-build-test:
