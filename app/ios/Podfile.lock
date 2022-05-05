@@ -567,7 +567,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
-  integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
+  integration_test: 7db6d89f336f671dcbc7563ee27a5b08f6f8aee1
   jitsi_meet: a797e5ffdbc1da9d424c52b1bfe3b2a803b05e31
   JitsiMeetSDK: 3b1d3757f2166b28cd03f907b47091db064302b3
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
