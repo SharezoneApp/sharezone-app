@@ -12,6 +12,8 @@ import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
@@ -72,22 +74,74 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: signUpBloc,
-      child: StreamBuilder<AuthUser>(
-        stream: listenToAuthStateChanged(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            widget.blocDependencies.authUser = snapshot.data;
-            return SharezoneApp(widget.blocDependencies, Sharezone.analytics,
-                widget.beitrittsversuche);
-          }
-          return AuthApp(
-            blocDependencies: widget.blocDependencies,
-            analytics: Sharezone.analytics,
-          );
-        },
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: _ThemeSettingsProvider(
+        blocDependencies: widget.blocDependencies,
+        child: Stack(
+          children: [
+            BlocProvider(
+              bloc: signUpBloc,
+              child: StreamBuilder<AuthUser>(
+                stream: listenToAuthStateChanged(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    widget.blocDependencies.authUser = snapshot.data;
+                    return SharezoneApp(widget.blocDependencies,
+                        Sharezone.analytics, widget.beitrittsversuche);
+                  }
+                  return AuthApp(
+                    blocDependencies: widget.blocDependencies,
+                    analytics: Sharezone.analytics,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class _ThemeSettingsProvider extends StatelessWidget {
+  const _ThemeSettingsProvider({this.child, this.blocDependencies, Key key})
+      : super(key: key);
+
+  final Widget child;
+  final BlocDependencies blocDependencies;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ThemeSettings(
+        analytics: blocDependencies.analytics,
+        defaultTextScalingFactor: 1.0,
+        defaultThemeBrightness: ThemeBrightness.system,
+        defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+        keyValueStore: blocDependencies.keyValueStore,
+      ),
+      child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
+        /// If we didn't use MediaQuery.fromWindow and just provide a new
+        /// MediaQuery with our custom textScalingFactor the UI breaks in
+        /// several different weird ways.
+        /// Thus we use MediaQuery.fromWindow which is the method that Flutter
+        /// uses internally inside MaterialApp etc to create a new MediaQuery.
+        return MediaQuery.fromWindow(
+          child: Builder(builder: (context) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: themeSettings.textScalingFactor,
+              ),
+              child: Theme(
+                data: Theme.of(context)
+                    .copyWith(visualDensity: themeSettings.visualDensity),
+                child: child,
+              ),
+            );
+          }),
+        );
+      }),
     );
   }
 }
