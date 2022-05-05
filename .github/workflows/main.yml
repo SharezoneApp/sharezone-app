@@ -140,7 +140,7 @@ jobs:
 
       - name: Ensure build for iOS is working
         working-directory: app
-        run: flutter build ios --flavor prod
+        run: flutter build ios --flavor prod --debug
 
   # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
@@ -162,7 +162,7 @@ jobs:
         working-directory: app
         # We don't build for release mode because this would require to set up
         # signing for the PlayStore.
-        run: flutter build apk --flavor prod --profile
+        run: flutter build apk --flavor prod --debug
 
   # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
@@ -182,4 +182,4 @@ jobs:
 
       - name: Ensure build for macOS is working
         working-directory: app
-        run: flutter build macos
+        run: flutter build macos --debug
