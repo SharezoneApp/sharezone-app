@@ -10,11 +10,11 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -45,7 +45,7 @@ jobs:
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
-      
+
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
@@ -55,8 +55,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
-          go-version: '^1.13.1'
-      - run: go install github.com/google/addlicense@latest 
+          go-version: "^1.13.1"
+      - run: go install github.com/google/addlicense@latest
       - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt .
 
   test:
@@ -77,10 +77,10 @@ jobs:
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
-      
+
       - name: Run tests via "sz test"
         run: sz test -v
-  
+
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
   # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
@@ -115,9 +115,69 @@ jobs:
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}"
           projectId: sharezone-debug
           entryPoint: "./app"
-          expires: '7d'
-          target: 'test-web-app'
+          expires: "7d"
+          target: "test-web-app"
+
+  # In the past we had several times problems with building for specific
+  # platforms. To prevent this on a PR level, we check for every pull request,
+  # if the build is still possible.
+  ios-build-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Ensure build for iOS is working
+        working-directory: app
+        run: flutter build ios --flavor prod
+
+  # In the past we had several times problems with building for specific
+  # platforms. To prevent this on a PR level, we check for every pull request,
+  # if the build is still possible.
+  android-build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Ensure build for Android is working
+        working-directory: app
+        run: flutter build appbundle --flavor prod
+
+  # In the past we had several times problems with building for specific
+  # platforms. To prevent this on a PR level, we check for every pull request,
+  # if the build is still possible.
+  macos-build-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Ensure build for macOS is working
+        working-directory: app
+        run: flutter build macos
