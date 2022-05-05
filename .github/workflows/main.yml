@@ -162,7 +162,7 @@ jobs:
         working-directory: app
         # We don't build for release mode because this would require to set up
         # signing for the PlayStore.
-        run: flutter build apk --debug --flavor prod
+        run: flutter build apk --debug --flavor dev
 
   # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
