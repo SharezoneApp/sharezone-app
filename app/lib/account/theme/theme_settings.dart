@@ -15,6 +15,7 @@ import 'package:key_value_store/key_value_store.dart';
 
 /// [ThemeBrightness] adds a "system" value that is missing in the Flutter
 /// [Brightness] enum.
+///
 /// This lets one choose to inherit the system brightness.
 enum ThemeBrightness {
   /// The color is dark and will require a light text color to achieve readable
