@@ -78,9 +78,15 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = TextStyle(color: Colors.grey[500]);
     return Theme(
-      data: Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor)),
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          primary: Theme.of(context).primaryColor,
+          seedColor: Theme.of(context).primaryColor,
+          brightness:
+              isDarkThemeEnabled(context) ? Brightness.dark : Brightness.light,
+        ),
+      ),
       child: Builder(
         builder: (context) {
           return Column(
@@ -92,7 +98,6 @@ class DatePicker extends StatelessWidget {
                 valueText: selectedDate != null
                     ? DateFormat.yMMMd().format(selectedDate)
                     : "Datum auswählen",
-                valueStyle: valueStyle,
                 padding: padding,
                 onPressed: () async {
                   FocusScope.of(context)
@@ -120,7 +125,9 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor)),
+      data: ThemeData(
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(secondary: accentColor)),
       child: CircularProgressIndicator(
         value: value,
         strokeWidth: strokeWidth ?? 4,
@@ -306,9 +313,8 @@ class _InputDropdown extends StatelessWidget {
                   SizedBox(width: 4.0),
                   Icon(
                     iconData,
-                    color: isDarkThemeEnabled(context)
-                        ? Colors.white
-                        : Colors.grey[500],
+                    color:
+                        isDarkThemeEnabled(context) ? null : Colors.grey[600],
                   ),
                   SizedBox(width: 32.0),
                   labelText != null
@@ -330,10 +336,7 @@ class _InputDropdown extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 3),
-                child: Icon(Icons.keyboard_arrow_down,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey[600]
-                        : Colors.white70),
+                child: Icon(Icons.keyboard_arrow_down),
               ),
             ],
           ),
