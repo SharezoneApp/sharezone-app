@@ -38,38 +38,49 @@ class EditTimeField extends StatelessWidget {
         top: 6,
         bottom: 6,
       ),
-      child: ValueListenableBuilder<bool>(
-        valueListenable: isSelected,
-        builder: (context, value, _) {
-          return InkWell(
-            child: InputDecorator(
-              isEmpty: time == null,
-              isFocused: value,
-              decoration: InputDecoration(
-                labelText: label,
-                icon: const Icon(Icons.access_time),
-                border: const OutlineInputBorder(),
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 18,
-                  child: time == null
-                      ? Container()
-                      : Text(time.toTimeOfDay().format(context),
-                          style: TextStyle(fontSize: 16.0)),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            primary: Theme.of(context).primaryColor,
+            seedColor: Theme.of(context).primaryColor,
+            brightness: isDarkThemeEnabled(context)
+                ? Brightness.dark
+                : Brightness.light,
+          ),
+        ),
+        child: ValueListenableBuilder<bool>(
+          valueListenable: isSelected,
+          builder: (context, value, _) {
+            return InkWell(
+              child: InputDecorator(
+                isEmpty: time == null,
+                isFocused: value,
+                decoration: InputDecoration(
+                  labelText: label,
+                  icon: const Icon(Icons.access_time),
+                  border: const OutlineInputBorder(),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    height: 18,
+                    child: time == null
+                        ? Container()
+                        : Text(time.toTimeOfDay().format(context),
+                            style: TextStyle(fontSize: 16.0)),
+                  ),
                 ),
               ),
-            ),
-            onTap: () {
-              isSelected.value = true;
-              selectTime(context, initialTime: time).then((newTime) {
-                if (newTime != null) onChanged(newTime);
-                isSelected.value = false;
-              });
-            },
-          );
-        },
+              onTap: () {
+                isSelected.value = true;
+                selectTime(context, initialTime: time).then((newTime) {
+                  if (newTime != null) onChanged(newTime);
+                  isSelected.value = false;
+                });
+              },
+            );
+          },
+        ),
       ),
     );
   }
