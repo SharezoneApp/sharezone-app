@@ -50,6 +50,7 @@ final darkTheme = ThemeData(
   dialogTheme: _dialogTheme,
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: _accentColor, brightness: Brightness.dark),
+  tabBarTheme: TabBarTheme(labelColor: Colors.white),
 );
 
 bool isDarkThemeEnabled(BuildContext context) =>
