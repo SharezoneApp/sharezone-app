@@ -11,10 +11,9 @@ import 'package:sharezone_common/helper_functions.dart';
 import '../../analytics.dart';
 
 class NamedAnalyticsEvent extends AnalyticsEvent {
-  NamedAnalyticsEvent({@required String name})
-      : assert(isNotEmptyOrNull(name)),
-        super(name);
-
-  @override
-  Map<String, dynamic> get data => {};
+  NamedAnalyticsEvent({
+    @required String name,
+    Map<String, dynamic> data,
+  })  : assert(isNotEmptyOrNull(name)),
+        super(name, data: data);
 }

@@ -15,7 +15,6 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/email_and_password_link_bloc.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone/widgets/auth.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
@@ -218,16 +217,7 @@ class NameField extends StatelessWidget {
               autofocus: autofocus,
               onEditingComplete: onEditingComplete,
               textInputAction: textInputAction,
-              // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-              // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-              // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-              // wird.
-              //
-              // Ticket: https://github.com/flutter/flutter/issues/63596
-              //
-              // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-              // verwendet werden.
-              autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.name],
+              autofillHints: const [AutofillHints.name],
               autoSelectAllCharactersOnFirstBuild: selectText,
               decoration: InputDecoration(
                 labelText: 'Nickname',

@@ -283,10 +283,10 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
-  - jitsi_meet (0.0.1):
+  - jitsi_meet_wrapper (0.0.1):
     - Flutter
-    - JitsiMeetSDK (= 3.3.0)
-  - JitsiMeetSDK (3.3.0)
+    - JitsiMeetSDK (= 5.0.2)
+  - JitsiMeetSDK (5.0.2)
   - libwebp (1.2.1):
     - libwebp/demux (= 1.2.1)
     - libwebp/mux (= 1.2.1)
@@ -375,7 +375,7 @@ DEPENDENCIES:
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
-  - jitsi_meet (from `.symlinks/plugins/jitsi_meet/ios`)
+  - jitsi_meet_wrapper (from `.symlinks/plugins/jitsi_meet_wrapper/ios`)
   - native_pdf_renderer (from `.symlinks/plugins/native_pdf_renderer/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -482,8 +482,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
-  jitsi_meet:
-    :path: ".symlinks/plugins/jitsi_meet/ios"
+  jitsi_meet_wrapper:
+    :path: ".symlinks/plugins/jitsi_meet_wrapper/ios"
   native_pdf_renderer:
     :path: ".symlinks/plugins/native_pdf_renderer/ios"
   open_file:
@@ -568,8 +568,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   integration_test: 7db6d89f336f671dcbc7563ee27a5b08f6f8aee1
-  jitsi_meet: a797e5ffdbc1da9d424c52b1bfe3b2a803b05e31
-  JitsiMeetSDK: 3b1d3757f2166b28cd03f907b47091db064302b3
+  jitsi_meet_wrapper: f78c5a212de5dfbadcd81ce559217f3661a26ce7
+  JitsiMeetSDK: edcac8e2b92ee0c7f3e75bd0aefefbe9faccfc93
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
   Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
@@ -596,6 +596,6 @@ SPEC CHECKSUMS:
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: 043a42efaa3cc041591ac017700c2c66164135b5
+PODFILE CHECKSUM: f01f8cc3a09573f5dcc4b182c97727831629994f
 
 COCOAPODS: 1.11.2

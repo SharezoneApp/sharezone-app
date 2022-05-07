@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +30,8 @@ class BlocDependencies {
   final RegistrationGateway registrationGateway;
   final FirebaseFunctions functions;
   final AppFunctions appFunctions;
+  final Analytics analytics;
+
   AuthUser authUser;
 
   BlocDependencies({
@@ -37,6 +40,7 @@ class BlocDependencies {
     @required this.keyValueStore,
     @required this.references,
     @required this.auth,
+    @required this.analytics,
     @required this.firestore,
     @required this.streamingSharedPreferences,
     @required this.registrationGateway,
