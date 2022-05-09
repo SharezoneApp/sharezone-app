@@ -11,7 +11,6 @@ import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';

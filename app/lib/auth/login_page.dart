@@ -12,7 +12,6 @@ import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';

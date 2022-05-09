@@ -8,8 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
-import 'package:hausaufgabenheft_logik/src/models/date.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';

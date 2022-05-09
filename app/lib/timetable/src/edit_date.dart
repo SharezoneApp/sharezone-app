@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:date/date.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EditDateField extends StatelessWidget {

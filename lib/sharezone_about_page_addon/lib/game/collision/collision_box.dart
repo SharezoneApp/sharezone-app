@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/foundation.dart';
 

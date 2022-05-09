@@ -163,30 +163,27 @@ class _PageWithPicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: _getAppBarHeight(context) - _kFabHalfSize,
-            leading: CloseIconButton(color: getAppBarIconColor(view.hasPhoto)),
-            elevation: 1,
-            pinned: true,
-            actions: _actions(view),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Hero(
-                tag: view.id,
-                child: Image.asset(
-                  view.pictureURL,
-                  fit: BoxFit.cover,
-                  height: _appBarHeight,
-                ),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          expandedHeight: _getAppBarHeight(context) - _kFabHalfSize,
+          leading: CloseIconButton(color: getAppBarIconColor(view.hasPhoto)),
+          elevation: 1,
+          pinned: true,
+          actions: _actions(view),
+          flexibleSpace: FlexibleSpaceBar(
+            background: Hero(
+              tag: view.id,
+              child: Image.asset(
+                view.pictureURL,
+                fit: BoxFit.cover,
+                height: _appBarHeight,
               ),
             ),
           ),
-          SliverToBoxAdapter(child: _Body(view)),
-        ],
-      ),
+        ),
+        SliverToBoxAdapter(child: _Body(view)),
+      ],
     );
   }
 }

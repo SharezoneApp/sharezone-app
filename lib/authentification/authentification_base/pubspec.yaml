@@ -25,8 +25,7 @@ dependencies:
     path: ../../sharezone_common
   sharezone_utils:
     path: ../../sharezone_utils
-  streaming_shared_preferences:
-    path: ../../streaming_shared_preferences
+  streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
   google_sign_in_dartio:

@@ -8,7 +8,6 @@
 
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';

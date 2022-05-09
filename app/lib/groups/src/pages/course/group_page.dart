@@ -7,10 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
