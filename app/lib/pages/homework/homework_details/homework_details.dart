@@ -163,7 +163,7 @@ class HomeworkTitleAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: SliverAppBar(
         leading: CloseIconButton(color: Colors.white),
         backgroundColor: isDarkThemeEnabled(context)

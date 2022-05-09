@@ -9,7 +9,6 @@
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_viewer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/bloc/file_page_bloc.dart';
 import 'package:sharezone_widgets/widgets.dart';
@@ -124,7 +123,7 @@ class __LoadingPageState extends State<_LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
         appBar:
             FilePageAppBar(name: widget.name, nameStream: widget.nameStream),

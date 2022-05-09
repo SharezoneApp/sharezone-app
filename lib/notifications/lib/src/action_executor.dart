@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import '../notifications.dart';
-import 'action_request.dart';
 
 class ActionExecutor {
   final Map<Type, Function> _executionMap;
