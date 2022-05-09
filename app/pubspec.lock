@@ -1032,27 +1032,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  jitsi_meet:
+  jitsi_meet_wrapper:
     dependency: "direct main"
     description:
-      name: jitsi_meet
+      name: jitsi_meet_wrapper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
-  jitsi_meet_platform_interface:
+    version: "0.0.4"
+  jitsi_meet_wrapper_platform_interface:
     dependency: transitive
     description:
-      name: jitsi_meet_platform_interface
+      name: jitsi_meet_wrapper_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
-  jitsi_meet_web_plugin:
-    dependency: transitive
-    description:
-      name: jitsi_meet_web_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
+    version: "0.0.2"
   js:
     dependency: transitive
     description:
@@ -1714,10 +1707,10 @@ packages:
   streaming_shared_preferences:
     dependency: "direct main"
     description:
-      path: "../lib/streaming_shared_preferences"
-      relative: true
-    source: path
-    version: "1.0.1"
+      name: streaming_shared_preferences
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   string_scanner:
     dependency: transitive
     description:

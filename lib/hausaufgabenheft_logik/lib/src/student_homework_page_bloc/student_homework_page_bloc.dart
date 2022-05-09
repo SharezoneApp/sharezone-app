@@ -27,12 +27,9 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_blo
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/states.dart'
     as open;
 
-import 'events.dart';
-import 'states.dart';
-
 /// This Bloc serves basically only as an interface to the outer world with 2
 /// tasks:
-/// * It delegates all incomming [HomeworkPageEvent]s to the other blocs.
+/// * It delegates all incoming [HomeworkPageEvent]s to the other blocs.
 /// * It merges the Success states from the [OpenHomeworksViewBloc] and
 ///   [CompletedHomeworksViewBloc] together into one [Success] state.
 /// * It caches the last sorting of Homeworks so that it stays consistent

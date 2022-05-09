@@ -37,7 +37,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
           minimumFetchInterval: const Duration(hours: 3)));
       await _remoteConfig.fetchAndActivate();
     } catch (e) {
-      print("Error fetch remote confing: $e");
+      print("Error fetch remote config: $e");
     }
   }
 }

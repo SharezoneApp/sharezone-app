@@ -16,9 +16,6 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:meta/meta.dart';
 import 'package:random_string/random_string.dart';
 
-import 'events.dart';
-import 'states.dart';
-
 export 'events.dart';
 export 'states.dart';
 

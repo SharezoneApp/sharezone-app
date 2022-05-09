@@ -49,7 +49,6 @@ import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/announcement_card.dart';
 import 'package:sharezone_widgets/snackbars.dart';
@@ -60,8 +59,8 @@ import 'package:user/user.dart';
 import 'tips/models/dashboard_tip.dart';
 
 part './sections/blackboard_section.dart';
-part './sections/dashboard_tip.dart';
 part './sections/calendrical_events_section.dart';
+part './sections/dashboard_tip.dart';
 part './sections/holiday_countdown_section.dart';
 part './sections/homework_section.dart';
 part './timetable/lesson_card.dart';
@@ -87,26 +86,21 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Dimensions.fromMediaQuery(context).isDesktopModus
-          ? Theme.of(context)
-          : Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
-      child: SharezoneCustomScaffold(
-        appBarConfiguration: SliverAppBarConfiguration(
-          title: _AppBarTitle(),
-          backgroundColor:
-              isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
-          expandedHeight: 210,
-          elevation: 1,
-          pinned: true,
-          actions: const <Widget>[_ProfileAvatar()],
-          flexibleSpace: _AppBarBottom(),
-          drawerIconColor: Colors.white,
-        ),
-        navigationItem: NavigationItem.overview,
-        body: DashboardPageBody(),
-        floatingActionButton: _DashboardPageFAB(),
+    return SharezoneCustomScaffold(
+      appBarConfiguration: SliverAppBarConfiguration(
+        title: _AppBarTitle(),
+        backgroundColor:
+            isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
+        expandedHeight: 210,
+        elevation: 1,
+        pinned: true,
+        actions: const <Widget>[_ProfileAvatar()],
+        flexibleSpace: _AppBarBottom(),
+        drawerIconColor: Colors.white,
       ),
+      navigationItem: NavigationItem.overview,
+      body: DashboardPageBody(),
+      floatingActionButton: _DashboardPageFAB(),
     );
   }
 }

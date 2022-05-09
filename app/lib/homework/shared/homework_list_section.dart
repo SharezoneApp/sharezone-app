@@ -28,7 +28,7 @@ class HomeworkListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final curve = Curves.easeOutSine;
+    const curve = Curves.easeOutSine;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

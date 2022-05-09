@@ -12,10 +12,7 @@ import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:notifications/src/notification_parser.dart';
 
-import 'action_request.dart';
 import 'action_executor.dart';
-import 'instrumentation.dart';
-import 'push_notification.dart';
 
 export 'action_request.dart';
 export 'instrumentation.dart' hide PushNotificationParserInstrumentationFactory;

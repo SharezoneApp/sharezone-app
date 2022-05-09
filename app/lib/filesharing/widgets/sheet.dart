@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:ui';
-
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';

@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/theme.dart';

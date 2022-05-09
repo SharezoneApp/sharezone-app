@@ -8,8 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 
-import 'src/id.dart';
-
 final _seperator = '.';
 
 class AbgabeId extends Id {

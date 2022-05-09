@@ -15,7 +15,6 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
 import 'package:sharezone/account/account_page.dart';
-import 'package:sharezone/account/theme/theme_bloc.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
@@ -51,9 +50,7 @@ import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/pages/settings_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/util/API.dart';
-import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/util/theme/brightness_cache.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -76,18 +73,12 @@ class _SharezoneAppState extends State<SharezoneApp>
     with WidgetsBindingObserver {
   final navigationService = NavigationService();
   SharezoneGateway _sharezoneGateway;
-
-  ThemeBloc themeBloc;
   FirebaseMessagingCallbackConfigurator fbMessagingConfigurator;
   final disposeCallbacks = <VoidCallback>[];
 
   @override
   void initState() {
     super.initState();
-    final brightnessCache = BrightnessCache(
-        streamingCache: FlutterStreamingKeyValueStore(
-            widget.blocDependencies.streamingSharedPreferences));
-    themeBloc = ThemeBloc(brightnessCache: brightnessCache);
 
     fbMessagingConfigurator = FirebaseMessagingCallbackConfigurator(
       navigationBloc: navigationBloc,
@@ -131,7 +122,6 @@ class _SharezoneAppState extends State<SharezoneApp>
     return SharezoneBlocProviders(
       blocDependencies: widget.blocDependencies,
       navigationService: navigationService,
-      themeBloc: themeBloc,
       beitrittsversuche: widget.beitrittsversuche,
       child: ShowCaseWidget(
         builder: Builder(builder: (context) {
