@@ -75,7 +75,7 @@ jobs:
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+      - run: echo "$(pwd)/bin" >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
         run: sz test -v
