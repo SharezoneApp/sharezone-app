@@ -19,7 +19,7 @@ import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/widgets/alpha_mode_banner.dart';
+import 'package:sharezone/widgets/alpha_version_banner.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
@@ -78,7 +78,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
       textDirection: TextDirection.ltr,
       child: _ThemeSettingsProvider(
         blocDependencies: widget.blocDependencies,
-        child: AlphaModeBanner(
+        child: AlphaVersionBanner(
           child: Stack(
             children: [
               BlocProvider(

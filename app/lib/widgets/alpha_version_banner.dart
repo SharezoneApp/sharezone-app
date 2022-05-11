@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 /// This widget is similar and inspired by the [CheckedModeBanner] which display
 /// "DEBUG" at the top right hand corner when running a Flutter app in debug
 /// mode.
-class AlphaModeBanner extends StatelessWidget {
-  /// Creates a const debug mode banner.
-  const AlphaModeBanner({
+class AlphaVersionBanner extends StatelessWidget {
+  /// Creates a const alpha version banner.
+  const AlphaVersionBanner({
     Key key,
     @required this.child,
     this.isAlphaVersion = const bool.fromEnvironment('ALPHA'),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:sharezone/widgets/alpha_mode_banner.dart';
+import 'package:sharezone/widgets/alpha_version_banner.dart';
 
 void main() {
-  group('AlphaModeBanner', () {
+  group('AlphaVersionBanner', () {
     testGoldens(
       'displays the banner correct',
       (tester) async {
         await tester.pumpWidgetBuilder(
-          AlphaModeBanner(
+          AlphaVersionBanner(
             isAlphaVersion: true,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -20,7 +20,7 @@ void main() {
           ),
         );
 
-        await screenMatchesGolden(tester, 'alpha_mode_banner');
+        await screenMatchesGolden(tester, 'alpha_version_banner');
       },
     );
 
@@ -28,7 +28,7 @@ void main() {
       "does not display the banner if app is not a alpha version",
       (tester) async {
         await tester.pumpWidgetBuilder(
-          AlphaModeBanner(
+          AlphaVersionBanner(
             isAlphaVersion: false,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
