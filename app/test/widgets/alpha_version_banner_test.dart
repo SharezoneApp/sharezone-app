@@ -25,7 +25,7 @@ void main() {
     );
 
     testWidgets(
-      "does not display the banner if app is not a alpha version",
+      "does not display the banner if app is not an alpha version",
       (tester) async {
         await tester.pumpWidgetBuilder(
           AlphaVersionBanner(
