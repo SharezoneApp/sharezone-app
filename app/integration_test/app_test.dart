@@ -12,20 +12,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 
-/// The credentials for user used in the integration tests.
-class _UserCredentials {
-  const _UserCredentials({
-    @required this.email,
-    @required this.password,
-  });
-
-  /// The email address of the user.
-  final String email;
-
-  /// The password of the user.
-  final String password;
-}
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -85,4 +71,18 @@ void main() {
       );
     });
   });
+}
+
+/// The credentials for user used in the integration tests.
+class _UserCredentials {
+  const _UserCredentials({
+    @required this.email,
+    @required this.password,
+  });
+
+  /// The email address of the user.
+  final String email;
+
+  /// The password of the user.
+  final String password;
 }
