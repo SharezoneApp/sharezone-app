@@ -77,7 +77,9 @@ Future<void> runFlutterApp() async {
   );
 }
 
-Future<AppDependencies> initializeFlutterApp() async {
+Future<AppDependencies> initializeFlutterApp({
+  bool isIntegrationTest = false,
+}) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
@@ -123,36 +125,49 @@ Future<AppDependencies> initializeFlutterApp() async {
 
   final analytics = Analytics(getBackend());
 
-  listenToAuthStateChanged().listen((currentUser) {
-    if (currentUser?.uid != null) {
-      final sharezoneGateway = SharezoneGateway(
-          authUser: currentUser,
-          memberID: currentUser.uid,
-          references: references);
+  // Skipping the listeners to the auth state to make the integration tests
+  // work.
+  //
+  // The listeners of "listenToAuthStateChanged().listen()" are not disposed.
+  // Therefore, when signing out, the app still tries to stream the Firestore
+  // documents which results into a "[cloud_firestore/permission-denied] The
+  // caller does not have permission to execute the specified operation."
+  // because the user isn't signed anymore.
+  //
+  // A good solution would be to refactor the listeners. But as a quick
+  // workaround we just skip the listeners for integration tests.
+  if (!isIntegrationTest) {
+    listenToAuthStateChanged().listen((currentUser) {
+      if (currentUser?.uid != null) {
+        final sharezoneGateway = SharezoneGateway(
+            authUser: currentUser,
+            memberID: currentUser.uid,
+            references: references);
 
-      final gruppenBeitrittsTransformer = GruppenBeitrittsversuchFilterBloc(
-        einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
-        istGruppeBereitsBeigetreten: (publicKey) async =>
-            await istSchonGruppeMitSharecodeBeigetreten(
-          sharezoneGateway,
-          publicKey,
-        ),
-      );
+        final gruppenBeitrittsTransformer = GruppenBeitrittsversuchFilterBloc(
+          einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
+          istGruppeBereitsBeigetreten: (publicKey) async =>
+              await istSchonGruppeMitSharecodeBeigetreten(
+            sharezoneGateway,
+            publicKey,
+          ),
+        );
 
-      gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(
-        beitrittsversuche.add,
-        onError: beitrittsversuche.addError,
-        cancelOnError: false,
-      );
+        gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(
+          beitrittsversuche.add,
+          onError: beitrittsversuche.addError,
+          cancelOnError: false,
+        );
 
-      UserGateway(references, currentUser).userStream.listen((user) {
-        if (user?.typeOfUser != null) {
-          analytics.setUserProperty(
-              name: 'typeOfUser', value: enumToString(user.typeOfUser));
-        }
-      });
-    }
-  });
+        UserGateway(references, currentUser).userStream.listen((user) {
+          if (user?.typeOfUser != null) {
+            analytics.setUserProperty(
+                name: 'typeOfUser', value: enumToString(user.typeOfUser));
+          }
+        });
+      }
+    });
+  }
 
   return AppDependencies(
     dynamicLinkBloc: dynamicLinkBloc,
