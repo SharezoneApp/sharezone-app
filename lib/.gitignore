@@ -6,3 +6,7 @@
 # Files created by Flutter
 **/.flutter-plugins
 **/.flutter-plugins-dependencies
+
+# We should not include the pubspec.lock file for library packages. Source:
+# https://dart.dev/guides/libraries/private-files#pubspeclock
+pubspec.lock
