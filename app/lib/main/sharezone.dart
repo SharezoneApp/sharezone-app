@@ -19,6 +19,7 @@ import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/widgets/alpha_mode_banner.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
@@ -77,26 +78,28 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
       textDirection: TextDirection.ltr,
       child: _ThemeSettingsProvider(
         blocDependencies: widget.blocDependencies,
-        child: Stack(
-          children: [
-            BlocProvider(
-              bloc: signUpBloc,
-              child: StreamBuilder<AuthUser>(
-                stream: listenToAuthStateChanged(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    widget.blocDependencies.authUser = snapshot.data;
-                    return SharezoneApp(widget.blocDependencies,
-                        Sharezone.analytics, widget.beitrittsversuche);
-                  }
-                  return AuthApp(
-                    blocDependencies: widget.blocDependencies,
-                    analytics: Sharezone.analytics,
-                  );
-                },
+        child: AlphaModeBanner(
+          child: Stack(
+            children: [
+              BlocProvider(
+                bloc: signUpBloc,
+                child: StreamBuilder<AuthUser>(
+                  stream: listenToAuthStateChanged(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      widget.blocDependencies.authUser = snapshot.data;
+                      return SharezoneApp(widget.blocDependencies,
+                          Sharezone.analytics, widget.beitrittsversuche);
+                    }
+                    return AuthApp(
+                      blocDependencies: widget.blocDependencies,
+                      analytics: Sharezone.analytics,
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
