@@ -14,12 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sharezone/account/theme/theme_bloc.dart';
-import 'package:sharezone/account/theme/theme_brightness.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 late ItemScrollController _itemScrollController;
@@ -458,8 +457,9 @@ class _DarkLightModeToggle extends StatelessWidget {
     return StatefulBuilder(
       builder: (context, setState) => ToggleButtons(
         onPressed: (i) => setState(() {
-          BlocProvider.of<ThemeBloc>(context).changeThemeBrightness(
-              i == 0 ? ThemeBrightness.light : ThemeBrightness.dark);
+          final settings = Provider.of<ThemeSettings>(context, listen: false);
+          settings.themeBrightness =
+              i == 0 ? ThemeBrightness.light : ThemeBrightness.dark;
         }),
         children: const [Icon(Icons.light_mode), Icon(Icons.dark_mode)],
         isSelected: isDarkThemeEnabled(context) ? [false, true] : [true, false],
