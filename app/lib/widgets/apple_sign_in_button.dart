@@ -8,7 +8,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Style according to
@@ -76,7 +75,8 @@ class SignInWithAppleButton extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: iconAlignment == IconAlignment.left ? 16 : 0),
+                  padding: EdgeInsets.only(
+                      left: iconAlignment == IconAlignment.left ? 16 : 0),
                   child: Text(
                     text,
                     style: TextStyle(

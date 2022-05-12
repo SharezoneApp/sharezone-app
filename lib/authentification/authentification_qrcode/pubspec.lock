@@ -607,10 +607,10 @@ packages:
   streaming_shared_preferences:
     dependency: transitive
     description:
-      path: "../../streaming_shared_preferences"
-      relative: true
-    source: path
-    version: "1.0.1"
+      name: streaming_shared_preferences
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   string_scanner:
     dependency: transitive
     description:

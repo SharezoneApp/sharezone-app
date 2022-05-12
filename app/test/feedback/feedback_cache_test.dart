@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:test/test.dart';
 
 void main() {

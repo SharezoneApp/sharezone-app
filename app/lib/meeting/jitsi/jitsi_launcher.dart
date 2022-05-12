@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/meeting/jitsi/jitsi_auth.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
@@ -48,46 +48,41 @@ class JitsiLauncher {
     @required String meetingName,
     @required String jwt,
   }) async {
-    // Mithilfe der [FeatureFlagEnum] können bestimmte Features in der Jitsi UI
-    // deaktiviert werden. Diese Einschränken gelten jedoch nur für die Mobile
-    // Jitsi SDK. Für die Browser-Version müssen die Einschränkungen über die
-    // "interface_config.js" beim Server getroffen werden. Mehr Infos dazu in
-    // unserem Wiki:
-    // https://gitlab.com/codingbrain/sharezone/sharezone-app/-/wikis/Jitsi
-    final featureFlags = {
-      // Nutzer sollen nicht in dem Meeting die Option gezeigt bekommen, dass
-      // man andere Nutzer einladen kann, da das Beitreten über die
-      // Sharezone-App passieren soll.
-      FeatureFlagEnum.ADD_PEOPLE_ENABLED: false,
-      // Selber Kommentar wie bei [FeatureFlagEnum.ADD_PEOPLE_ENABLED]
-      FeatureFlagEnum.INVITE_ENABLED: false,
-      // "Call integration on Android (known as ConnectionService) has been
-      // disabled on the official Jitsi Meet app because it creates a lot of
-      // issues. You should disable it too to avoid these issues.""
-      // Kopiert aus der Beschreibung des jitsi_meet package.
-      FeatureFlagEnum.CALL_INTEGRATION_ENABLED: false,
-      // Ändern der Server-Url soll Nutzern verboten sein, da dies nicht
-      // vergesehen ist.
-
-      // Feature Flag ist in jitsi_meet/feature_flag/feature_flag_enum.dart
-      // vorhanden aber nicht in jitsi_meet platform_interface.
-      // Siehe https://github.com/gunschu/jitsi_meet/issues/332
-      // FeatureFlagEnum.SERVER_URL_CHANGE_ENABLED: false,
-
-      // Aufnehmen von Jitsi-Meetings wird serverseitig nicht unterstützt und
-      // würde sowieso mehrere rechtliche Fragen aufwerfen.
-      FeatureFlagEnum.RECORDING_ENABLED: false,
-    };
-
-    final options = JitsiMeetingOptions(room: meetingId)
-      ..serverURL = _serverUrl
-      ..subject = meetingName
-      ..audioOnly = false
-      ..audioMuted = false
-      ..videoMuted = true
-      ..token = jwt
-      ..featureFlags.addAll(featureFlags);
-    await JitsiMeet.joinMeeting(options);
+    final options = JitsiMeetingOptions(
+      roomNameOrUrl: meetingId,
+      serverUrl: _serverUrl,
+      subject: meetingName,
+      isVideoMuted: true,
+      isAudioMuted: false,
+      isAudioOnly: false,
+      token: jwt,
+      // Mithilfe der [FeatureFlagEnum] können bestimmte Features in der Jitsi
+      // UI deaktiviert werden. Diese Einschränken gelten jedoch nur für die
+      // Mobile Jitsi SDK. Für die Browser-Version müssen die Einschränkungen
+      // über die "interface_config.js" beim Server getroffen werden. Mehr Infos
+      // dazu in unserem Wiki:
+      // https://gitlab.com/codingbrain/sharezone/sharezone-app/-/wikis/Jitsi
+      featureFlags: {
+        // Nutzer sollen nicht in dem Meeting die Option gezeigt bekommen, dass
+        // man andere Nutzer einladen kann, da das Beitreten über die
+        // Sharezone-App passieren soll.
+        FeatureFlag.isAddPeopleEnabled: false,
+        FeatureFlag.isInviteEnabled: false,
+        // Call-Integration wird von uns nicht unterstützt.
+        FeatureFlag.isCallIntegrationEnabled: false,
+        // Aufnehmen von Jitsi-Meetings wird serverseitig nicht unterstützt und
+        // würde sowieso mehrere rechtliche Fragen aufwerfen.
+        FeatureFlag.isRecordingEnabled: false,
+        // Ändern der Server-Url soll Nutzern verboten sein, da dies nicht
+        // vorgesehen ist.
+        FeatureFlag.isServerUrlChangeEnabled: false,
+        // Für Lehrkräfte würde es erschrecken, wenn Schüler plötzlich auf
+        // YouTube livestreamen. Aus diesem Grund sollte diese Option besser
+        // deaktiviert werden.
+        FeatureFlag.isLiveStreamingEnabled: false,
+      },
+    );
+    await JitsiMeetWrapper.joinMeeting(options: options);
   }
 
   /// Gibt die Meeting-URL zurück, die ein Browser aufruft, um sich mit dem

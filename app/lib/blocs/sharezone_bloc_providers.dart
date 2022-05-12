@@ -24,10 +24,10 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:http/http.dart' as http;
+import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';
 import 'package:sharezone/account/features/features_bloc.dart';
-import 'package:sharezone/account/theme/theme_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
@@ -127,14 +127,11 @@ class SharezoneBlocProviders extends StatefulWidget {
   final NavigationService navigationService;
   final Stream<Beitrittsversuch> beitrittsversuche;
 
-  final ThemeBloc themeBloc;
-
   const SharezoneBlocProviders({
     Key key,
     @required this.child,
     @required this.blocDependencies,
     this.navigationService,
-    this.themeBloc,
     this.beitrittsversuche,
   }) : super(key: key);
 
@@ -365,7 +362,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<AccountPageBlocFactory>(
           bloc: AccountPageBlocFactory(api.user)),
       BlocProvider<FeatureBloc>(bloc: featureBloc),
-      BlocProvider<ThemeBloc>(bloc: widget.themeBloc),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
           bloc: NavigationExperimentCache(FlutterStreamingKeyValueStore(

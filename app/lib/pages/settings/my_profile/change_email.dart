@@ -12,7 +12,6 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/pages/settings/my_profile/submit_method.dart';
 import 'package:sharezone/widgets/settings/my_profile/change_data.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
 const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
@@ -152,16 +151,7 @@ class __NewEmailFieldState extends State<_NewEmailField> {
         return TextField(
           controller: controller,
           autofocus: true,
-          // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-          // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-          // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-          // wird.
-          //
-          // Ticket: https://github.com/flutter/flutter/issues/63596
-          //
-          // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-          // verwendet werden.
-          autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.email],
+          autofillHints: const [AutofillHints.email],
           onEditingComplete: () =>
               FocusScope.of(context).requestFocus(widget.passwordNode),
           textInputAction: TextInputAction.next,

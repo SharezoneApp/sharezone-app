@@ -13,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -135,16 +134,7 @@ class _EmailField extends StatelessWidget {
             prefilledText: label,
             focusNode: focusNode,
             autofocus: true,
-            // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-            // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-            // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-            // wird.
-            //
-            // Ticket: https://github.com/flutter/flutter/issues/63596
-            //
-            // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-            // verwendet werden.
-            autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.email],
+            autofillHints: const [AutofillHints.email],
             keyboardType: TextInputType.emailAddress,
             onChanged: bloc.changeEmail,
             decoration: InputDecoration(

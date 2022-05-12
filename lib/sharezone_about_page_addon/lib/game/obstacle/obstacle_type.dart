@@ -9,7 +9,6 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
 import 'package:sharezone_about_page_addon/game/collision/collision_box.dart';
 
 class ObstacleType {

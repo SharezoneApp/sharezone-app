@@ -12,14 +12,12 @@ import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/pages/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/widgets/apple_sign_in_button.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/svg.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -405,16 +403,7 @@ class EmailLoginField extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,
-          // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-          // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-          // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-          // wird.
-          //
-          // Ticket: https://github.com/flutter/flutter/issues/63596
-          //
-          // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-          // verwendet werden.
-          autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.email],
+          autofillHints: const [AutofillHints.email],
           decoration: InputDecoration(
             labelText: 'E-Mail',
             icon: const Icon(Icons.email),
@@ -465,20 +454,10 @@ class _PasswordFieldState extends State<PasswordField> {
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,
             enableInteractiveSelection: true,
-            // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-            // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-            // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-            // wird.
-            //
-            // Ticket: https://github.com/flutter/flutter/issues/63596
-            //
-            // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-            // verwendet werden.
             autofillHints: [
-              if (!PlatformCheck.isWeb)
-                widget.isNewPassword
-                    ? AutofillHints.newPassword
-                    : AutofillHints.password
+              widget.isNewPassword
+                  ? AutofillHints.newPassword
+                  : AutofillHints.password
             ],
             decoration: InputDecoration(
               labelText: 'Passwort',

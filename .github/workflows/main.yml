@@ -12,9 +12,8 @@ name: CI
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on pull request events but only for the main branch
+  # Triggers the workflow on pull request events
   pull_request:
-    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -57,10 +56,10 @@ jobs:
         with:
           go-version: '^1.13.1'
       - run: go install github.com/google/addlicense@latest 
-      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt .
+      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" . 
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -76,7 +75,7 @@ jobs:
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+      - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
         run: sz test -v

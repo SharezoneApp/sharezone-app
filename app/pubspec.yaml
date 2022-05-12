@@ -92,7 +92,7 @@ dependencies:
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
   intl: ^0.17.0
-  jitsi_meet: ^4.0.0
+  jitsi_meet_wrapper: ^0.0.4
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
@@ -131,8 +131,7 @@ dependencies:
     git:
       url: https://github.com/AndroidNils/sliding_up_panel
       ref: animation-listener
-  streaming_shared_preferences:
-    path: ../lib/streaming_shared_preferences
+  streaming_shared_preferences: ^2.0.0
   string_similarity: ^2.0.0
   time:
     path: ../lib/time

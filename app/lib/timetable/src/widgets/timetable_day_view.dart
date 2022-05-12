@@ -11,7 +11,6 @@ import 'package:date/date.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
