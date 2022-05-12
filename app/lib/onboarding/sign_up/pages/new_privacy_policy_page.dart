@@ -54,8 +54,11 @@ class DocumentSection {
 
 class PrivacyPolicyBloc extends BlocBase {
   final AnchorsController anchorsController;
+  final List<DocumentSection> sections;
 
-  PrivacyPolicyBloc(this.anchorsController) {
+  final documentSections = BehaviorSubject<List<DocumentSection>>();
+
+  PrivacyPolicyBloc(this.anchorsController, this.sections) {
     anchorsController.anchorPositions.addListener(() {
       final pos = anchorsController.anchorPositions.value;
       final sections =
@@ -74,14 +77,8 @@ class PrivacyPolicyBloc extends BlocBase {
     return DocumentSection(anchorData.id, anchorData.text);
   }
 
-  final documentSections = BehaviorSubject<List<DocumentSection>>();
-
   List<DocumentSection> getAllDocumentSections() {
-    return tocDocumentSections;
-    // return anchorsController
-    //     .getIndexedAnchors()
-    //     .map(_toDocumentSection)
-    //     .toList();
+    return sections;
   }
 
   void scrollToSection(String documentSectionId) {
@@ -95,11 +92,20 @@ class PrivacyPolicyBloc extends BlocBase {
 }
 
 class NewPrivacyPolicy extends StatelessWidget {
-  NewPrivacyPolicy({Key key}) : super(key: key) {
+  NewPrivacyPolicy({
+    Key key,
+    String content,
+    List<DocumentSection> documentSections,
+  })  : content = content ?? markdownPrivacyPolicy,
+        documentSections = documentSections ?? tocDocumentSections,
+        super(key: key) {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _anchorsController = AnchorsController();
   }
+
+  final String content;
+  final List<DocumentSection> documentSections;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +115,7 @@ class NewPrivacyPolicy extends StatelessWidget {
       // TODO: Make UI to change dynamically?
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
       child: BlocProvider(
-        bloc: PrivacyPolicyBloc(_anchorsController),
+        bloc: PrivacyPolicyBloc(_anchorsController, documentSections),
         child: Theme(
           data: Theme.of(context).copyWith(
               floatingActionButtonTheme: FloatingActionButtonThemeData(
