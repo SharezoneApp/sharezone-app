@@ -30,8 +30,8 @@ void main() {
       expect(canLaunch, false);
     });
 
-    test('.launch loggs call', () async {
-      // Before method call the logged attribut should return false.
+    test('.launch logs call', () async {
+      // Before method call the logged attribute should return false.
       expect(mockUrlLauncherExtended.logCalledLaunch, false);
 
       await mockUrlLauncherExtended.launch("urlString");
@@ -39,8 +39,8 @@ void main() {
       expect(mockUrlLauncherExtended.logCalledLaunch, true);
     });
 
-    test('.launchMail loggs call', () async {
-      // Before method call the logged attribut should return false.
+    test('.launchMail logs call', () async {
+      // Before method call the logged attribute should return false.
       expect(mockUrlLauncherExtended.logCalledLaunchMail, false);
 
       await mockUrlLauncherExtended.tryLaunchMailOrThrow("test@sharezone.net");
@@ -48,14 +48,14 @@ void main() {
       expect(mockUrlLauncherExtended.logCalledLaunchMail, true);
     });
 
-    test('.tryLaunchOrThrow launchs link if it can', () async {
+    test('.tryLaunchOrThrow launches link if it can', () async {
       // .canLaunch is already true
       final result =
           await mockUrlLauncherExtended.tryLaunchOrThrow("urlString");
       expect(result, true);
     });
 
-    test('.tryLaunchOrThrow throws expection if link can not be launch',
+    test('.tryLaunchOrThrow throws exception if link can not be launch',
         () async {
       mockUrlLauncherExtended.setCanLaunch(false);
 
