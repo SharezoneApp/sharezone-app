@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// @dart=2.14
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:collection/collection.dart';
@@ -21,9 +20,9 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
 
-late ItemScrollController _itemScrollController;
-late ItemPositionsListener _itemPositionsListener;
-late AnchorsController _anchorsController;
+ItemScrollController _itemScrollController;
+ItemPositionsListener _itemPositionsListener;
+AnchorsController _anchorsController;
 
 class DocumentSection {
   final String sectionId;
@@ -96,7 +95,7 @@ class PrivacyPolicyBloc extends BlocBase {
 }
 
 class NewPrivacyPolicy extends StatelessWidget {
-  NewPrivacyPolicy({Key? key}) : super(key: key) {
+  NewPrivacyPolicy({Key key}) : super(key: key) {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _anchorsController = AnchorsController();
@@ -145,7 +144,7 @@ class NewPrivacyPolicy extends StatelessWidget {
 
 class _MainContent extends StatelessWidget {
   const _MainContent({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -184,7 +183,7 @@ class _MainContent extends StatelessWidget {
 
 class _AcceptionButtons extends StatelessWidget {
   const _AcceptionButtons({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -213,7 +212,7 @@ class _AcceptionButtons extends StatelessWidget {
 
 class _PrivacyPolicySubheading extends StatelessWidget {
   const _PrivacyPolicySubheading({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -239,14 +238,14 @@ class _PrivacyPolicySubheading extends StatelessWidget {
 
 class _PrivacyPolicyHeading extends StatelessWidget {
   const _PrivacyPolicyHeading({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       'Datenschutzerklärung',
-      style: Theme.of(context).textTheme.headline5!.copyWith(
+      style: Theme.of(context).textTheme.headline5.copyWith(
             fontSize: 24,
             color:
                 isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
@@ -258,7 +257,7 @@ class _PrivacyPolicyHeading extends StatelessWidget {
 
 class _TableOfContents extends StatelessWidget {
   const _TableOfContents({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -332,7 +331,7 @@ class _TableOfContents extends StatelessWidget {
                                           '${section.sectionName}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2!
+                                              .bodyText2
                                               .copyWith(
                                                 fontWeight: shouldHighlight
                                                     ? FontWeight.w500
@@ -368,13 +367,13 @@ class _TableOfContents extends StatelessWidget {
                                                 '${subsection.sectionName}',
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyText2!
+                                                    .bodyText2
                                                     .copyWith(
                                                       fontSize:
                                                           Theme.of(context)
                                                                   .textTheme
-                                                                  .bodyText2!
-                                                                  .fontSize! -
+                                                                  .bodyText2
+                                                                  .fontSize -
                                                               .5,
                                                       fontWeight:
                                                           shouldHighlightSubsection
@@ -418,10 +417,10 @@ class _TableOfContents extends StatelessWidget {
 
 class _Highlight extends StatelessWidget {
   const _Highlight({
-    Key? key,
-    required this.child,
-    required this.shouldHighlight,
-    required this.onTap,
+    Key key,
+    @required this.child,
+    @required this.shouldHighlight,
+    @required this.onTap,
   }) : super(key: key);
 
   final bool shouldHighlight;
@@ -449,7 +448,7 @@ class _Highlight extends StatelessWidget {
 
 class _DarkLightModeToggle extends StatelessWidget {
   const _DarkLightModeToggle({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -470,7 +469,7 @@ class _DarkLightModeToggle extends StatelessWidget {
 
 class _PrivacyPolicyMarkdown extends StatelessWidget {
   const _PrivacyPolicyMarkdown({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -481,7 +480,7 @@ class _PrivacyPolicyMarkdown extends StatelessWidget {
       styleSheet: MarkdownStyleSheet(
           h3: Theme.of(context)
               .textTheme
-              .subtitle1!
+              .subtitle1
               .copyWith(fontWeight: FontWeight.w500),
           blockquoteDecoration: BoxDecoration(
             color: isDarkThemeEnabled(context)
