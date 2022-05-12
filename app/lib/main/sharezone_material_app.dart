@@ -8,7 +8,6 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/observer.dart';
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
