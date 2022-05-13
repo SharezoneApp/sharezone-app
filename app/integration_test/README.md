@@ -7,9 +7,9 @@ Integration tests are written using the [integration_test](https://github.com/fl
 In order to run the integration tests, you need to setup a fresh Sharezone account which can be used for the integration tests. This account needs to be linked to an email address and a password.
 
 ### Mobile
-You can run the integration tests using the `flutter drive` command:
+You can run the integration tests using the `flutter test` command:
 ```sh
-flutter test \
+fvm flutter test \
   integration_test \
   --flavor dev \
   --dart-define \
@@ -44,7 +44,7 @@ chromedriver --port=4444
 
 And then run the following command in a different process:
 ```sh
-flutter test \
+fvm flutter test \
   integration_test
   --flavor dev
   -d web-server
