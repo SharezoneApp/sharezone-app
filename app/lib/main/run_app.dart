@@ -56,7 +56,7 @@ DynamicLinkBloc runDynamicLinkBloc(
 }
 
 Future<void> runFlutterApp() async {
-  final dependencies = await initializeFlutterApp();
+  final dependencies = await initializeDependencies();
 
   runZonedGuarded<Future<void>>(
     () async => runApp(Sharezone(
@@ -77,7 +77,10 @@ Future<void> runFlutterApp() async {
   );
 }
 
-Future<AppDependencies> initializeFlutterApp({
+/// Initializes the dependencies of the Flutter app.
+///
+/// Returns the initialized dependencies.
+Future<AppDependencies> initializeDependencies({
   bool isIntegrationTest = false,
 }) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
@@ -128,14 +131,22 @@ Future<AppDependencies> initializeFlutterApp({
   // Skipping the listeners to the auth state to make the integration tests
   // work.
   //
-  // The listeners of "listenToAuthStateChanged().listen()" are not disposed.
-  // Therefore, when signing out, the app still tries to stream the Firestore
-  // documents which results into a "[cloud_firestore/permission-denied] The
-  // caller does not have permission to execute the specified operation."
-  // because the user isn't signed anymore.
+  // The code below that uses listenToAuthStateChanged creates SharezoneGateway
+  // & UserGateway which automatically subscribes to document changes in several
+  // collections in Firestore. This results in errors if the user logs out since
+  // we don't correctly dispose or close the streams inside SharezoneGateway &
+  // UserGateway. The errors will cause any integration test to automatically
+  // fail.
   //
-  // A good solution would be to refactor the listeners. But as a quick
-  // workaround we just skip the listeners for integration tests.
+  // Currently we just work around that by not executing the code below at all
+  // (and thus not creating SharezoneGateway). In the future we should ensure
+  // that the SharezoneGateway does not unnecessarily subscribe to document
+  // changes and that we can properly dispose of the subscriptions before
+  // logging out. The listeners of "listenToAuthStateChanged().listen()" are not
+  // disposed. Therefore, when signing out, the app still tries to stream the
+  // Firestore documents which results into a
+  // "[cloud_firestore/permission-denied] The caller does not have permission to
+  // execute the specified operation." because the user isn't signed anymore.
   if (!isIntegrationTest) {
     listenToAuthStateChanged().listen((currentUser) {
       if (currentUser?.uid != null) {

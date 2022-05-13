@@ -19,7 +19,7 @@ void main() {
   _UserCredentials user1;
 
   setUpAll(() async {
-    dependencies = await initializeFlutterApp(isIntegrationTest: true);
+    dependencies = await initializeDependencies(isIntegrationTest: true);
   });
 
   setUp(() async {
