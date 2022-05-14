@@ -26,7 +26,7 @@ class UserGateway implements UserGatewayAuthentifcation {
   final References references;
   final String uID;
 
-  final _streamSubscriptions = <StreamSubscription>[];
+  StreamSubscription<AppUser> _appUserSubscription;
   final _userSubject = BehaviorSubject<AppUser>();
 
   Stream<AppUser> get userStream => _userSubject;
@@ -62,12 +62,12 @@ class UserGateway implements UserGatewayAuthentifcation {
       _authUserSubject.map((user) => _getProvider(user.firebaseUser));
 
   UserGateway(this.references, this.authUser) : uID = authUser.uid {
-    _streamSubscriptions
-        .add(references.users.doc(uID).snapshots().map((documentSnapshot) {
+    _appUserSubscription =
+        references.users.doc(uID).snapshots().map((documentSnapshot) {
       return AppUser.fromData(documentSnapshot.data(), id: uID);
     }).listen((newUser) {
       _userSubject.sink.add(newUser);
-    }));
+    });
     _authUserSubject.sink.add(authUser);
   }
 
@@ -200,10 +200,12 @@ class UserGateway implements UserGatewayAuthentifcation {
         .userUpdate(userID: userData.id, userData: userData.toEditJson());
   }
 
-  void dispose() {
-    _streamSubscriptions.forEach((subscription) => subscription.cancel());
-    _userSubject.close();
-    _authUserSubject.close();
+  Future<void> dispose() async {
+    await Future.wait([
+      _appUserSubscription.cancel(),
+      _authUserSubject.close(),
+      _userSubject.close(),
+    ]);
   }
 }
 

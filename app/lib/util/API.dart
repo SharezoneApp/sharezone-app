@@ -54,6 +54,7 @@ class SharezoneGateway {
       schoolGateway: SchoolGateway(references, memberID, connectionsGateway),
       authUser: authUser,
       timetable: TimetableGateway(references, memberID),
+      user: UserGateway(references, authUser),
     );
   }
 
@@ -66,18 +67,22 @@ class SharezoneGateway {
     @required this.schoolClassGateway,
     @required this.schoolGateway,
     @required this.timetable,
+    @required this.user,
   })  : _authUser = authUser,
         uID = authUser.uid,
         userId = UserId(authUser.uid),
         homework = HomeworkGateway(
             userId: authUser.uid,
             firestore: references.firestore,
-            typeOfUserStream: UserGateway(references, authUser)
-                .userStream
-                .map((user) => user?.typeOfUser)),
+            typeOfUserStream: user.userStream.map((user) => user?.typeOfUser)),
         blackboard = BlackboardGateway(
             authUser: authUser, firestore: references.firestore),
         fileSharing =
-            FileSharingGateway(user: authUser, references: references),
-        user = UserGateway(references, authUser);
+            FileSharingGateway(user: authUser, references: references);
+
+  Future<void> dispose() async {
+    await connectionsGateway.dispose();
+    await user.dispose();
+    blackboard.dispose();
+  }
 }

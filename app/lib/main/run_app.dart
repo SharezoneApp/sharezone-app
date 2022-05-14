@@ -77,12 +77,7 @@ Future<void> runFlutterApp() async {
   );
 }
 
-/// Initializes the dependencies of the Flutter app.
-///
-/// Returns the initialized dependencies.
-Future<AppDependencies> initializeDependencies({
-  bool isIntegrationTest = false,
-}) async {
+Future<AppDependencies> initializeDependencies() async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
@@ -128,57 +123,54 @@ Future<AppDependencies> initializeDependencies({
 
   final analytics = Analytics(getBackend());
 
-  // Skipping the listeners to the auth state to make the integration tests
-  // work.
-  //
-  // The code below that uses listenToAuthStateChanged creates SharezoneGateway
-  // & UserGateway which automatically subscribes to document changes in several
-  // collections in Firestore. This results in errors if the user logs out since
-  // we don't correctly dispose or close the streams inside SharezoneGateway &
-  // UserGateway. The errors will cause any integration test to automatically
-  // fail.
-  //
-  // Currently we just work around that by not executing the code below at all
-  // (and thus not creating SharezoneGateway). In the future we should ensure
-  // that the SharezoneGateway does not unnecessarily subscribe to document
-  // changes and that we can properly dispose of the subscriptions before
-  // logging out. The listeners of "listenToAuthStateChanged().listen()" are not
-  // disposed. Therefore, when signing out, the app still tries to stream the
-  // Firestore documents which results into a
-  // "[cloud_firestore/permission-denied] The caller does not have permission to
-  // execute the specified operation." because the user isn't signed anymore.
-  if (!isIntegrationTest) {
-    listenToAuthStateChanged().listen((currentUser) {
-      if (currentUser?.uid != null) {
-        final sharezoneGateway = SharezoneGateway(
-            authUser: currentUser,
-            memberID: currentUser.uid,
-            references: references);
+  UserGateway userGateway;
+  SharezoneGateway sharezoneGateway;
+  listenToAuthStateChanged().listen((currentUser) async {
+    final isAuthenticated = currentUser?.uid != null;
+    if (isAuthenticated) {
+      sharezoneGateway = SharezoneGateway(
+          authUser: currentUser,
+          memberID: currentUser.uid,
+          references: references);
 
-        final gruppenBeitrittsTransformer = GruppenBeitrittsversuchFilterBloc(
-          einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
-          istGruppeBereitsBeigetreten: (publicKey) async =>
-              await istSchonGruppeMitSharecodeBeigetreten(
-            sharezoneGateway,
-            publicKey,
-          ),
-        );
+      final gruppenBeitrittsTransformer = GruppenBeitrittsversuchFilterBloc(
+        einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
+        istGruppeBereitsBeigetreten: (publicKey) async =>
+            await istSchonGruppeMitSharecodeBeigetreten(
+          sharezoneGateway,
+          publicKey,
+        ),
+      );
 
-        gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(
-          beitrittsversuche.add,
-          onError: beitrittsversuche.addError,
-          cancelOnError: false,
-        );
+      gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(
+        beitrittsversuche.add,
+        onError: beitrittsversuche.addError,
+        cancelOnError: false,
+      );
 
-        UserGateway(references, currentUser).userStream.listen((user) {
-          if (user?.typeOfUser != null) {
-            analytics.setUserProperty(
-                name: 'typeOfUser', value: enumToString(user.typeOfUser));
-          }
-        });
+      userGateway = UserGateway(references, currentUser);
+      userGateway.userStream.listen((user) {
+        if (user?.typeOfUser != null) {
+          analytics.setUserProperty(
+              name: 'typeOfUser', value: enumToString(user.typeOfUser));
+        }
+      });
+    } else {
+      // When the user signs out, we need to dispose the listeners and stream
+      // subscriptions inside the gateways. Otherwise, we we would cause a
+      // memory leak and receiving a permission denied error from Firestore
+      // because we would try to access the user data after the user signed out.
+      // This would result an instant fail of the integration tests.
+
+      if (userGateway != null) {
+        await userGateway.dispose();
       }
-    });
-  }
+
+      if (sharezoneGateway != null) {
+        await sharezoneGateway.dispose();
+      }
+    }
+  });
 
   return AppDependencies(
     dynamicLinkBloc: dynamicLinkBloc,
