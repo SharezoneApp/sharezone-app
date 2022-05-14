@@ -119,7 +119,7 @@ class MockUserGateway implements UserGateway {
   }
 
   @override
-  void dispose() {}
+  Future<void> dispose() async {}
 
   @override
   Future<AppUser> get() {
