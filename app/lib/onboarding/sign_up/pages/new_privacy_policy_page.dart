@@ -216,7 +216,8 @@ class ActiveSectionController {
   final List<DocumentSection> allDocumentSections;
   final ValueListenable<List<DocumentSectionPosition>> visibleSections;
   final _currentActiveSectionNotifier = ValueNotifier<DocumentSectionId>(null);
-  DocumentSectionId _lastActiveSectionOrNull;
+
+  DocumentSectionPosition _lastActiveDocumentSectionPosition;
 
   ActiveSectionController(this.allDocumentSections, this.visibleSections) {
     visibleSections.addListener(() {
@@ -225,22 +226,68 @@ class ActiveSectionController {
   }
 
   void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
-    var currentlyActive = visible.isNotEmpty
-        ? DocumentSectionId(visible.first.documentSection.sectionId)
-        : null;
-    if (currentlyActive == null && _lastActiveSectionOrNull != null) {
-      currentlyActive = _lastActiveSectionOrNull;
+    var currentlyActive = visible.isNotEmpty ? visible.first : null;
+    if (currentlyActive == null && _lastActiveDocumentSectionPosition != null) {
+      // The section was near the top, so we scrolled down the page (and the
+      // last active section header out of the viewport).
+      // This means that this should be the current active section.
+      // TODO: Example?
+      if (_lastActiveDocumentSectionPosition.itemLeadingEdge < 0.5) {
+        currentlyActive = _lastActiveDocumentSectionPosition;
+      } else {
+        // The section was near the bottom, so we scrolled up the page (and the
+        // last active section header out of the viewport).
+        // This means that the section "above" the last active section should
+        // become active.
+        final index = allDocumentSections.indexWhere(
+          (element) =>
+              element.sectionId ==
+              _lastActiveDocumentSectionPosition.documentSection.sectionId,
+        );
+
+        if (index == -1) {
+          throw ArgumentError(
+              '''Tried to find the document section ${_lastActiveDocumentSectionPosition.documentSection.sectionId} inside all document sections ($allDocumentSections) but couldn't find it.
+              This is a developer error. The document section that we searched for was obtained by looking at which sections are currently shown inside the viewport of the user. 
+              The list of all document section (of the time of implementing this feature) have to be generated/sent seperately and are not dynamically read out from the document when displaying it.
+              To fix this error we need to ensure that the list of all document sections that should be shown inside the table of contents and the actual document sections inside the document match up.''');
+        } else if (index == 0) {
+          currentlyActive = null;
+        } else {
+          final section = allDocumentSections[index - 1];
+
+          // Bogus Position so we can assign the variable.
+          // We use "on the top of the screen" as the position since we're
+          // scrolling up (and the section should come into view from above).
+          currentlyActive = DocumentSectionPosition(
+            section,
+            itemLeadingEdge: 0,
+            itemTrailingEdge: 0.1,
+          );
+        }
+      }
     }
 
-    _currentActiveSectionNotifier.value = currentlyActive;
+    _currentActiveSectionNotifier.value = currentlyActive
+        ?.documentSection?.sectionId
+        ?.toDocumentSectionIdOrNull();
 
-    if (_currentActiveSectionNotifier.value != null) {
-      _lastActiveSectionOrNull = _currentActiveSectionNotifier.value;
+    if (currentlyActive != null) {
+      _lastActiveDocumentSectionPosition = currentlyActive;
     }
   }
 
   ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
       _currentActiveSectionNotifier;
+}
+
+extension on String {
+  DocumentSectionId toDocumentSectionIdOrNull() {
+    if (this == null) {
+      return null;
+    }
+    return DocumentSectionId(this);
+  }
 }
 
 // TODO: Delete when not needed anymore

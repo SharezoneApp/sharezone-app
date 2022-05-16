@@ -63,8 +63,17 @@ void main() {
       visibleSections.value = [
         DocumentSectionPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.1,
-          itemTrailingEdge: 0.15,
+          itemLeadingEdge: 0.8,
+          itemTrailingEdge: 0.85,
+        ),
+      ];
+
+      // We scroll to the top
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
         ),
       ];
 
@@ -72,6 +81,80 @@ void main() {
 
       expect(controller.currentActiveSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
+    });
+
+    test(
+        'marks the section "above" as active when scrolling back up from a previous section',
+        () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      // We scroll down to the second chapter
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.2,
+          itemTrailingEdge: 0.25,
+        ),
+      ];
+
+      // We scroll up again
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // We scroll up again (we're now between inhaltsverzeichnis and
+      // 1-wichtige-begriffe) but none of the chapter titles are visible
+      visibleSections.value = [];
+
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('inhaltsverzeichnis'));
+    });
+
+    test('edge case: scrolling above first section', () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      // We scroll to the first section
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      // We scroll up...
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      // ...and the first section out of view
+      visibleSections.value = [];
+
+      expect(controller.currentActiveSectionOrNull.value, null);
     });
   });
 }
