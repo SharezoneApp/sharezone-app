@@ -26,20 +26,20 @@ class AlphaVersionBanner extends StatelessWidget {
   const AlphaVersionBanner({
     Key key,
     @required this.child,
-    this.isAlphaVersion = const bool.fromEnvironment('ALPHA'),
+    this.enabled = const bool.fromEnvironment('ALPHA'),
   }) : super(key: key);
 
   /// The widget to show behind the banner.
   final Widget child;
 
-  /// Defines if the app is running an alpha version.
-  final bool isAlphaVersion;
+  /// Defines if the alpha banner should shown.
+  final bool enabled;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     String message = 'disabled';
-    if (isAlphaVersion) {
+    if (enabled) {
       message = 'ALPHA';
     }
     properties.add(DiagnosticsNode.message(message));
@@ -48,7 +48,7 @@ class AlphaVersionBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget result = child;
-    if (isAlphaVersion) {
+    if (enabled) {
       result = Banner(
         message: 'ALPHA',
         textDirection: TextDirection.ltr,
