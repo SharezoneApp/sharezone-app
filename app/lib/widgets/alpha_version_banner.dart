@@ -26,7 +26,7 @@ class AlphaVersionBanner extends StatelessWidget {
   const AlphaVersionBanner({
     Key key,
     @required this.child,
-    this.enabled = const bool.fromEnvironment('ALPHA'),
+    @required this.enabled,
   }) : super(key: key);
 
   /// The widget to show behind the banner.
@@ -55,6 +55,7 @@ class AlphaVersionBanner extends StatelessWidget {
       message: 'ALPHA',
       textDirection: TextDirection.ltr,
       location: BannerLocation.topEnd,
+      color: Colors.blue,
       child: child,
     );
   }
