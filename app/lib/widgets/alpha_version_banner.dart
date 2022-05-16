@@ -33,6 +33,8 @@ class AlphaVersionBanner extends StatelessWidget {
   final Widget child;
 
   /// Defines if the alpha banner should shown.
+  ///
+  /// If set to false, the banner will not be shown and is not visible.
   final bool enabled;
 
   @override
