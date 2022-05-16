@@ -201,6 +201,120 @@ void main() {
       expect(controller.currentActiveSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
+
+    test(
+        'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is active',
+        () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      // We scroll to the first section
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // We scroll down...
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      // ...and down
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.15,
+          itemTrailingEdge: 0.2,
+        ),
+        DocumentSectionPosition(
+          DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+          itemLeadingEdge: 0.6,
+          itemTrailingEdge: 0.65,
+        ),
+      ];
+
+      // ... now the first two sections are out of view
+      // (but the text of the second section is still visible)
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+          itemLeadingEdge: 0.2,
+          itemTrailingEdge: 0.25,
+        ),
+      ];
+
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('1-wichtige-begriffe'));
+    });
+
+    test('regression test: TODO: TITLE', () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      // We scroll to the first section
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // We scroll down...
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      // ...down
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+      ];
+
+      // ... we're now between 1-wichtige-begriffe and 2-geltungsbereich
+      visibleSections.value = [];
+
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('1-wichtige-begriffe'));
+    });
   });
 }
 

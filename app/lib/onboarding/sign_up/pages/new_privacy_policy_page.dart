@@ -243,9 +243,19 @@ class ActiveSectionController {
       final indexOfFirstVisible =
           allDocumentSections.indexOf(visible?.first?.documentSection);
 
-      if (indexOfLastActive != -1) {
+      if (indexOfLastActive != -1 && indexOfFirstVisible > 0) {
+        // If we scroll the last active section title out of the viewport
+        // (scrolling down the doc) and we already see the next section title
+        // then the last active section title should be active since we're still
+        // inside the chapter.
+        // Only when we scrolled the next section title is on top of the page
+        // then we mark the next chapter as active.
         if (indexOfLastActive < indexOfFirstVisible) {
-          currentlyActive = _lastActiveDocumentSectionPosition;
+          currentlyActive = DocumentSectionPosition(
+            allDocumentSections[indexOfFirstVisible - 1],
+            itemLeadingEdge: 0,
+            itemTrailingEdge: 0.1,
+          );
         }
       }
     }
