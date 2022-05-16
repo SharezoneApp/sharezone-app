@@ -9,6 +9,8 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -52,6 +54,47 @@ class DocumentSection {
       'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
 }
 
+class DocumentSectionId extends Id {
+  DocumentSectionId(String id) : super(id, 'DocumentSectionId');
+}
+
+class TocDocumentSectionView {
+  final DocumentSectionId id;
+  final String sectionName;
+  final List<TocDocumentSectionView> subsections;
+  final bool shouldHighlight;
+
+  TocDocumentSectionView({
+    @required this.id,
+    @required this.sectionName,
+    @required this.subsections,
+    @required this.shouldHighlight,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is TocDocumentSectionView &&
+        other.id == id &&
+        other.sectionName == sectionName &&
+        other.shouldHighlight == shouldHighlight &&
+        listEquals(other.subsections, subsections);
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      sectionName.hashCode ^
+      subsections.hashCode ^
+      shouldHighlight.hashCode;
+
+  @override
+  String toString() =>
+      'DocumentSection(id: $id, sectionName: $sectionName, shouldHighlight: $shouldHighlight, subsections: $subsections)';
+}
+
 class PrivacyPolicyBloc extends BlocBase {
   final AnchorsController anchorsController;
   final List<DocumentSection> sections;
@@ -81,6 +124,10 @@ class PrivacyPolicyBloc extends BlocBase {
     return sections;
   }
 
+  List<TocDocumentSectionView> getTocDocumentSections() {
+    return [];
+  }
+
   void scrollToSection(String documentSectionId) {
     anchorsController.scrollToAnchor(documentSectionId);
   }
@@ -88,6 +135,96 @@ class PrivacyPolicyBloc extends BlocBase {
   @override
   void dispose() {
     documentSections.close();
+  }
+}
+
+class TableOfContentsController extends ChangeNotifier {
+  final ActiveSectionController _activeSectionController;
+  final List<DocumentSection> allDocumentSections;
+  final AnchorsController anchorsController;
+  List<TocDocumentSectionView> _documentSections = [];
+
+  TableOfContentsController(
+    this._activeSectionController,
+    this.allDocumentSections,
+    this.anchorsController,
+  ) {
+    _activeSectionController.currentActiveSectionOrNull.addListener(() {
+      final activeSectionOrNull =
+          _activeSectionController.currentActiveSectionOrNull.value;
+
+      final views = allDocumentSections
+          .map((section) => _toView(section, activeSectionOrNull))
+          .toList();
+      _documentSections = views;
+      notifyListeners();
+    });
+  }
+
+  TocDocumentSectionView _toView(
+      DocumentSection documentSection, DocumentSectionId activeSection) {
+    final subsections = documentSection.subsections
+        .map((section) => TocDocumentSectionView(
+              id: DocumentSectionId(section.sectionId),
+              sectionName: section.sectionName,
+              shouldHighlight:
+                  DocumentSectionId(section.sectionId) == activeSection,
+              // Currently we only render the top level document sections and
+              // their subsections. We don't render the subsections of
+              // subsections so we just set it to an empty list.
+              subsections: [],
+            ))
+        .toList();
+
+    return TocDocumentSectionView(
+      id: DocumentSectionId(documentSection.sectionId),
+      sectionName: documentSection.sectionName,
+      // We highlight if this or a subsection is active
+      shouldHighlight: DocumentSectionId(documentSection.sectionId) ==
+              activeSection ||
+          subsections.where((section) => section.shouldHighlight).isNotEmpty,
+      subsections: subsections,
+    );
+  }
+
+  List<TocDocumentSectionView> get documentSections =>
+      UnmodifiableListView(_documentSections);
+
+  Future<void> scrollTo(DocumentSectionId documentSectionId) {
+    return anchorsController.scrollToAnchor(documentSectionId.id);
+  }
+}
+
+class ActiveSectionController {
+  final List<DocumentSection> allDocumentSections;
+  final ValueListenable<List<DocumentSection>> visibleSections;
+  final _currentActiveSectionNotifier = ValueNotifier<DocumentSectionId>(null);
+
+  ActiveSectionController(this.allDocumentSections, this.visibleSections) {
+    visibleSections.addListener(() {
+      _updateCurrentActiveSection(visibleSections.value);
+    });
+  }
+
+  void _updateCurrentActiveSection(List<DocumentSection> visible) {
+    _currentActiveSectionNotifier.value =
+        visible.isNotEmpty ? DocumentSectionId(visible.first.sectionId) : null;
+  }
+
+  ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
+      _currentActiveSectionNotifier;
+}
+
+// TODO: Delete when not needed anymore
+class _StreamToValueListenable<T> {
+  final Stream<T> stream;
+  final _valueNotifier = ValueNotifier<T>(null);
+  ValueListenable<T> get valueListenable => _valueNotifier;
+
+  _StreamToValueListenable(this.stream) {
+    stream.listen((event) {
+      _valueNotifier.value = event;
+    });
   }
 }
 
@@ -114,34 +251,47 @@ class NewPrivacyPolicy extends StatelessWidget {
     return MediaQuery(
       // TODO: Make UI to change dynamically?
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-      child: BlocProvider(
-        bloc: PrivacyPolicyBloc(_anchorsController, documentSections),
-        child: Theme(
-          data: Theme.of(context).copyWith(
-              floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Theme.of(context).primaryColor,
-          )),
-          child: Builder(builder: (context) {
-            return Scaffold(
-              body: Stack(
-                children: [
-                  Align(
-                    child: _DarkLightModeToggle(),
-                    alignment: Alignment.bottomRight,
-                  ),
-                  Center(
-                    child: Row(
-                      children: [
-                        _TableOfContents(),
-                        VerticalDivider(),
-                        _MainContent(),
-                      ],
+      // TODO: My god, kill this creature.
+      child: ChangeNotifierProvider<TableOfContentsController>(
+        create: (context) => TableOfContentsController(
+          ActiveSectionController(
+              documentSections,
+              _StreamToValueListenable(
+                      PrivacyPolicyBloc(_anchorsController, documentSections)
+                          .documentSections)
+                  .valueListenable),
+          documentSections,
+          _anchorsController,
+        ),
+        child: BlocProvider(
+          bloc: PrivacyPolicyBloc(_anchorsController, documentSections),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+                floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: Theme.of(context).primaryColor,
+            )),
+            child: Builder(builder: (context) {
+              return Scaffold(
+                body: Stack(
+                  children: [
+                    Align(
+                      child: _DarkLightModeToggle(),
+                      alignment: Alignment.bottomRight,
                     ),
-                  ),
-                ],
-              ),
-            );
-          }),
+                    Center(
+                      child: Row(
+                        children: [
+                          _TableOfContents(),
+                          VerticalDivider(),
+                          _MainContent(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -268,156 +418,139 @@ class _TableOfContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<PrivacyPolicyBloc>(context);
-    return StreamBuilder<List<DocumentSection>>(
-        stream: bloc.documentSections,
-        builder: (context, snapshot) {
-          final renderedSections = snapshot.data ?? [];
-          final renderedSectionIds =
-              renderedSections.map((e) => e.sectionId).toList();
-          return SizedBox(
-            width: 400,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(height: 50),
-                Text(
-                  'Inhaltsverzeichnis',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6,
+    final tocController = context.watch<TableOfContentsController>();
+    return SizedBox(
+      width: 400,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(height: 50),
+          Text(
+            'Inhaltsverzeichnis',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          SizedBox(height: 20),
+          Expanded(
+            child: ShaderMask(
+              shaderCallback: (Rect rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: const [
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.purple
+                  ],
+                  stops: const [
+                    0.0,
+                    0.1,
+                    0.9,
+                    1.0
+                  ], // 10% purple, 80% transparent, 10% purple
+                ).createShader(rect);
+              },
+              blendMode: BlendMode.dstOut,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 50,
                 ),
-                SizedBox(height: 20),
-                Expanded(
-                  child: ShaderMask(
-                    shaderCallback: (Rect rect) {
-                      return LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: const [
-                          Colors.transparent,
-                          Colors.transparent,
-                          Colors.transparent,
-                          Colors.purple
-                        ],
-                        stops: const [
-                          0.0,
-                          0.1,
-                          0.9,
-                          1.0
-                        ], // 10% purple, 80% transparent, 10% purple
-                      ).createShader(rect);
-                    },
-                    blendMode: BlendMode.dstOut,
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 50,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // To test scroll behavior / layout
-                          ...bloc.getAllDocumentSections().map(
-                            (section) {
-                              final shouldHighlight = renderedSectionIds
-                                  .contains(section.sectionId);
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _Highlight(
-                                      onTap: () => bloc
-                                          .scrollToSection(section.sectionId),
-                                      shouldHighlight: shouldHighlight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // To test scroll behavior / layout
+                    ...tocController.documentSections.map(
+                      (section) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _Highlight(
+                                onTap: () => tocController.scrollTo(section.id),
+                                shouldHighlight: section.shouldHighlight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${section.sectionName}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .copyWith(
+                                          fontWeight: section.shouldHighlight
+                                              ? FontWeight.w500
+                                              : FontWeight.normal,
+                                        ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              ),
+                              ...section.subsections.map(
+                                (subsection) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      top: 5,
+                                    ),
+                                    child: _Highlight(
+                                      onTap: () =>
+                                          tocController.scrollTo(subsection.id),
+                                      shouldHighlight:
+                                          subsection.shouldHighlight,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4,
+                                          horizontal: 8,
+                                        ),
                                         child: Text(
-                                          '${section.sectionName}',
+                                          '${subsection.sectionName}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText2
                                               .copyWith(
-                                                fontWeight: shouldHighlight
-                                                    ? FontWeight.w500
-                                                    : FontWeight.normal,
+                                                fontSize: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2
+                                                        .fontSize -
+                                                    .5,
+                                                fontWeight:
+                                                    subsection.shouldHighlight
+                                                        ? FontWeight.w400
+                                                        : FontWeight.normal,
                                               ),
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
                                     ),
-                                    ...section.subsections.map(
-                                      (subsection) {
-                                        final shouldHighlightSubsection =
-                                            renderedSectionIds
-                                                .contains(subsection.sectionId);
-
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 15.0,
-                                            top: 5,
-                                          ),
-                                          child: _Highlight(
-                                            onTap: () => bloc.scrollToSection(
-                                                subsection.sectionId),
-                                            shouldHighlight:
-                                                shouldHighlightSubsection,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 4,
-                                                horizontal: 8,
-                                              ),
-                                              child: Text(
-                                                '${subsection.sectionName}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2
-                                                    .copyWith(
-                                                      fontSize:
-                                                          Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyText2
-                                                                  .fontSize -
-                                                              .5,
-                                                      fontWeight:
-                                                          shouldHighlightSubsection
-                                                              ? FontWeight.w400
-                                                              : FontWeight
-                                                                  .normal,
-                                                    ),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        ],
-                      ),
-                    ),
-                  ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: FloatingActionButton.extended(
-                    onPressed: () {
-                      throw UnimplementedError(
-                          'Table of content FAB onPress not implemented.');
-                    },
-                    label: Text('Einklappen'),
-                  ),
-                ),
-              ],
+              ),
             ),
-          );
-        });
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                throw UnimplementedError(
+                    'Table of content FAB onPress not implemented.');
+              },
+              label: Text('Einklappen'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
