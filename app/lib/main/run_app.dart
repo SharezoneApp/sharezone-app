@@ -14,13 +14,11 @@ import 'package:authentification_base/authentification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
-import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
@@ -28,12 +26,9 @@ import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
-import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
@@ -60,7 +55,29 @@ DynamicLinkBloc runDynamicLinkBloc(
   return dynamicLinkBloc;
 }
 
-Future runFlutterApp() async {
+Future<void> runFlutterApp() async {
+  final dependencies = await initializeDependencies();
+
+  runZonedGuarded<Future<void>>(
+    () async => runApp(Sharezone(
+      beitrittsversuche: dependencies.beitrittsversuche,
+      blocDependencies: dependencies.blocDependencies,
+      dynamicLinkBloc: dependencies.dynamicLinkBloc,
+    )),
+    (error, stackTrace) async {
+      debugPrint(error.toString());
+
+      // Whenever an error occurs, call the `reportCrash`
+      // to send Dart errors to Crashlytics
+      await dependencies.pluginInitializations.crashAnalytics.recordError(
+        error,
+        stackTrace,
+      );
+    },
+  );
+}
+
+Future<AppDependencies> initializeDependencies() async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
@@ -106,9 +123,12 @@ Future runFlutterApp() async {
 
   final analytics = Analytics(getBackend());
 
-  listenToAuthStateChanged().listen((currentUser) {
-    if (currentUser?.uid != null) {
-      final sharezoneGateway = SharezoneGateway(
+  UserGateway userGateway;
+  SharezoneGateway sharezoneGateway;
+  listenToAuthStateChanged().listen((currentUser) async {
+    final isAuthenticated = currentUser?.uid != null;
+    if (isAuthenticated) {
+      sharezoneGateway = SharezoneGateway(
           authUser: currentUser,
           memberID: currentUser.uid,
           references: references);
@@ -117,46 +137,54 @@ Future runFlutterApp() async {
         einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
         istGruppeBereitsBeigetreten: (publicKey) async =>
             await istSchonGruppeMitSharecodeBeigetreten(
-                sharezoneGateway, publicKey),
+          sharezoneGateway,
+          publicKey,
+        ),
       );
 
       gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(
-          beitrittsversuche.add,
-          onError: beitrittsversuche.addError,
-          cancelOnError: false);
+        beitrittsversuche.add,
+        onError: beitrittsversuche.addError,
+        cancelOnError: false,
+      );
 
-      UserGateway(references, currentUser).userStream.listen((user) {
+      userGateway = UserGateway(references, currentUser);
+      userGateway.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
               name: 'typeOfUser', value: enumToString(user.typeOfUser));
         }
       });
+    } else {
+      // When the user signs out, we need to dispose the listeners and stream
+      // subscriptions inside the gateways. Otherwise, we we would cause a
+      // memory leak and receiving a permission denied error from Firestore
+      // because we would try to access the user data after the user signed out.
+      // This would result an instant fail of the integration tests.
+      await userGateway?.dispose();
+      await sharezoneGateway?.dispose();
     }
   });
 
-  runZonedGuarded<Future<void>>(
-    () async => runApp(
-      OverlaySupport(
-        child: DynamicLinkOverlay(
-          einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
-          activated: false,
-          child: ColorFadeIn(
-            color: PlatformCheck.isWeb ? Colors.white : primaryColor,
-            child: Sharezone(
-              blocDependencies: blocDependencies,
-              dynamicLinkBloc: dynamicLinkBloc,
-              beitrittsversuche: beitrittsversuche,
-            ),
-          ),
-        ),
-      ),
-    ),
-    (error, strack) async {
-      debugPrint(error.toString());
-
-      // Whenever an error occurs, call the `reportCrash`
-      // to send Dart errors to Crashlytics
-      await pluginInitializations.crashAnalytics.recordError(error, strack);
-    },
+  return AppDependencies(
+    dynamicLinkBloc: dynamicLinkBloc,
+    beitrittsversuche: beitrittsversuche,
+    blocDependencies: blocDependencies,
+    pluginInitializations: pluginInitializations,
   );
+}
+
+/// The dependencies for the [Sharezone] widget and the integration tests.
+class AppDependencies {
+  const AppDependencies({
+    @required this.dynamicLinkBloc,
+    @required this.beitrittsversuche,
+    @required this.blocDependencies,
+    @required this.pluginInitializations,
+  });
+
+  final DynamicLinkBloc dynamicLinkBloc;
+  final Stream<Beitrittsversuch> beitrittsversuche;
+  final BlocDependencies blocDependencies;
+  final PluginInitializations pluginInitializations;
 }
