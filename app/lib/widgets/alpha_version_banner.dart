@@ -47,15 +47,15 @@ class AlphaVersionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = child;
-    if (enabled) {
-      result = Banner(
-        message: 'ALPHA',
-        textDirection: TextDirection.ltr,
-        location: BannerLocation.topEnd,
-        child: result,
-      );
+    if (!enabled) {
+      return child;
     }
-    return result;
+
+    return Banner(
+      message: 'ALPHA',
+      textDirection: TextDirection.ltr,
+      location: BannerLocation.topEnd,
+      child: child,
+    );
   }
 }
