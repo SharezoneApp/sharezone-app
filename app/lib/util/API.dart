@@ -81,8 +81,10 @@ class SharezoneGateway {
             FileSharingGateway(user: authUser, references: references);
 
   Future<void> dispose() async {
-    await connectionsGateway.dispose();
-    await user.dispose();
-    blackboard.dispose();
+    await Future.wait([
+      connectionsGateway.dispose(),
+      user.dispose(),
+      blackboard.dispose(),
+    ]);
   }
 }

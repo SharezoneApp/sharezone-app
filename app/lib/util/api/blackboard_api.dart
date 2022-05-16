@@ -149,7 +149,7 @@ class BlackboardGateway {
     documentReference.update({"forUsers.$uID": newDoneValue});
   }
 
-  void dispose() {
-    streamOfParsedBlackboardItem.close();
+  Future<void> dispose() async {
+    await streamOfParsedBlackboardItem.close();
   }
 }
