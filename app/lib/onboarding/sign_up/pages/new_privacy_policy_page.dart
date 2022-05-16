@@ -99,13 +99,13 @@ class PrivacyPolicyBloc extends BlocBase {
   final AnchorsController anchorsController;
   final List<DocumentSection> sections;
 
-  final documentSections = BehaviorSubject<List<DocumentSection>>();
+  final documentSections = BehaviorSubject<List<DocumentSectionPosition>>();
 
   PrivacyPolicyBloc(this.anchorsController, this.sections) {
     anchorsController.anchorPositions.addListener(() {
       final pos = anchorsController.anchorPositions.value;
       final sections =
-          pos.map((pos) => _toDocumentSection(pos.anchor)).toList();
+          pos.map((pos) => _toDocumentSectionPosition(pos)).toList();
       documentSections.add(sections);
 
       // final sectionsString = getAllDocumentSections()
@@ -116,8 +116,13 @@ class PrivacyPolicyBloc extends BlocBase {
     });
   }
 
-  DocumentSection _toDocumentSection(AnchorData anchorData) {
-    return DocumentSection(anchorData.id, anchorData.text);
+  DocumentSectionPosition _toDocumentSectionPosition(
+      AnchorPosition anchorPosition) {
+    return DocumentSectionPosition(
+      DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
+      itemLeadingEdge: anchorPosition.itemLeadingEdge,
+      itemTrailingEdge: anchorPosition.itemTrailingEdge,
+    );
   }
 
   List<DocumentSection> getAllDocumentSections() {
@@ -195,10 +200,23 @@ class TableOfContentsController extends ChangeNotifier {
   }
 }
 
+class DocumentSectionPosition {
+  final DocumentSection documentSection;
+  final double itemLeadingEdge;
+  final double itemTrailingEdge;
+
+  DocumentSectionPosition(
+    this.documentSection, {
+    @required this.itemLeadingEdge,
+    @required this.itemTrailingEdge,
+  });
+}
+
 class ActiveSectionController {
   final List<DocumentSection> allDocumentSections;
-  final ValueListenable<List<DocumentSection>> visibleSections;
+  final ValueListenable<List<DocumentSectionPosition>> visibleSections;
   final _currentActiveSectionNotifier = ValueNotifier<DocumentSectionId>(null);
+  DocumentSectionId _lastActiveSectionOrNull;
 
   ActiveSectionController(this.allDocumentSections, this.visibleSections) {
     visibleSections.addListener(() {
@@ -206,9 +224,19 @@ class ActiveSectionController {
     });
   }
 
-  void _updateCurrentActiveSection(List<DocumentSection> visible) {
-    _currentActiveSectionNotifier.value =
-        visible.isNotEmpty ? DocumentSectionId(visible.first.sectionId) : null;
+  void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
+    var currentlyActive = visible.isNotEmpty
+        ? DocumentSectionId(visible.first.documentSection.sectionId)
+        : null;
+    if (currentlyActive == null && _lastActiveSectionOrNull != null) {
+      currentlyActive = _lastActiveSectionOrNull;
+    }
+
+    _currentActiveSectionNotifier.value = currentlyActive;
+
+    if (_currentActiveSectionNotifier.value != null) {
+      _lastActiveSectionOrNull = _currentActiveSectionNotifier.value;
+    }
   }
 
   ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>

@@ -13,11 +13,11 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSection>>([]);
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
-      expect(controller.currentActiveSection.value, null);
+      expect(controller.currentActiveSectionOrNull.value, null);
     });
 
     test('marks the first section as active when it is visible', () {
@@ -27,36 +27,53 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSection>>([]);
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       visibleSections.value = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', [])
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
       ];
 
-      expect(controller.currentActiveSection.value, 'inhaltsverzeichnis');
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('inhaltsverzeichnis'));
+    });
+
+    test(
+        'if currently visible sections go from some to none then it returns the section that comes before the current position inside the document',
+        () {
+      // TODO: Edge case: Scroll up from first section so that the first
+      // section is not visible anymore
+      // Scroll down from the last section so that the last section is not visible
+      // anymore
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      visibleSections.value = [];
+
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('inhaltsverzeichnis'));
     });
   });
-}
-
-class ActiveSectionController {
-  final List<DocumentSection> allDocumentSections;
-  final ValueNotifier<List<DocumentSection>> visibleSections;
-  final _currentActiveSectionNotifier = ValueNotifier<String>(null);
-
-  ActiveSectionController(this.allDocumentSections, this.visibleSections) {
-    visibleSections.addListener(() {
-      _updateCurrentActiveSection(visibleSections.value);
-    });
-  }
-
-  void _updateCurrentActiveSection(List<DocumentSection> visible) {
-    _currentActiveSectionNotifier.value = visible.single.sectionId;
-  }
-
-  ValueListenable<String> get currentActiveSection =>
-      _currentActiveSectionNotifier;
 }
 
 final tocDocumentSections = [
