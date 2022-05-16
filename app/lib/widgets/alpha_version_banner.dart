@@ -12,11 +12,7 @@ import 'package:flutter/material.dart';
 /// Displays a [Banner] saying "ALPHA" when running an alpha version at top left
 /// hand corner.
 ///
-/// Does nothing when running a beta or stable version.
-///
-/// To be able to detect if this app is running an alpha version, set is it
-/// required to set the environment variable "ALPHA" set to true (like `flutter
-/// run --dart-define ALPHA=true`).
+/// Displays nothing when [enabled] is false.
 ///
 /// This widget is similar and inspired by the [CheckedModeBanner] which display
 /// "DEBUG" at the top right hand corner when running a Flutter app in debug
