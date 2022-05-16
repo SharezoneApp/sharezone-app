@@ -6,7 +6,7 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-name: deploy-web-app
+name: alpha
 
 on:
   push:
@@ -17,10 +17,11 @@ on:
       # changed.
       - "app/lib/**"
       - "lib/**"
+      - "app/pubspec.lock"
       - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
-      - ".github/workflows/deploy_web_app.yml"
+      - ".github/workflows/alpha.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

@@ -5,6 +5,7 @@
 **/.packages
 **/.flutter-plugins
 **/.flutter-plugins-dependencies
+coverage/
 
 # IDE
 .vscode/*
