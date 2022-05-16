@@ -14,7 +14,7 @@ import 'package:sharezone/widgets/alpha_version_banner.dart';
 void main() {
   group('AlphaVersionBanner', () {
     testGoldens(
-      'displays the banner correct',
+      'displays the banner at the correct position',
       (tester) async {
         await tester.pumpWidgetBuilder(
           AlphaVersionBanner(
@@ -32,16 +32,38 @@ void main() {
       },
     );
 
-    testWidgets(
-      "does not display the banner if app is not an alpha version",
-      (tester) async {
-        await tester.pumpWidgetBuilder(
-          AlphaVersionBanner(
-            enabled: false,
+    testWidgets("does display the banner if [enabled] is true", (tester) async {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: AlphaVersionBanner(
+            enabled: true,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: Text("Text"),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(Banner), findsOneWidget);
+    });
+
+    testWidgets(
+      "does not display the banner if [enabled] is false",
+      (tester) async {
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: AlphaVersionBanner(
+              enabled: false,
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: Scaffold(
+                  body: Text("Text"),
+                ),
               ),
             ),
           ),
