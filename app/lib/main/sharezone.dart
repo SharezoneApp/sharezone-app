@@ -79,6 +79,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
       child: _ThemeSettingsProvider(
         blocDependencies: widget.blocDependencies,
         child: AlphaVersionBanner(
+          enabled: const bool.fromEnvironment('ALPHA'),
           child: Stack(
             children: [
               BlocProvider(
