@@ -133,7 +133,7 @@ void main() {
 
       final controller = ActiveSectionController(sections, visibleSections);
 
-      // We scroll to the first section
+      // We scroll to the first section...
       visibleSections.value = [
         DocumentSectionPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
@@ -142,7 +142,35 @@ void main() {
         ),
       ];
 
-      // We scroll up...
+      // ... scroll up (section title is now at bottom of the viewport)
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // ...and scroll further up (the first section is now out of view)
+      visibleSections.value = [];
+
+      expect(controller.currentActiveSectionOrNull.value, null);
+    });
+
+    test(
+        'when scrolling a section title out of viewport and another inside the viewport (at the bottom) it should mark the one scrolled out of the viewport as active',
+        () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+
+      final controller = ActiveSectionController(sections, visibleSections);
+
+      // We scroll to the first section
       visibleSections.value = [
         DocumentSectionPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
@@ -151,10 +179,27 @@ void main() {
         ),
       ];
 
-      // ...and the first section out of view
-      visibleSections.value = [];
+      // We scroll down...
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+      ];
 
-      expect(controller.currentActiveSectionOrNull.value, null);
+      // ... the first section out of view and the next one into the view at the
+      // bottom
+      visibleSections.value = [
+        DocumentSectionPosition(
+          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      expect(controller.currentActiveSectionOrNull.value,
+          DocumentSectionId('inhaltsverzeichnis'));
     });
   });
 }

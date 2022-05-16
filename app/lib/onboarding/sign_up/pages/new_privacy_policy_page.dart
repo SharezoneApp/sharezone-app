@@ -210,6 +210,11 @@ class DocumentSectionPosition {
     @required this.itemLeadingEdge,
     @required this.itemTrailingEdge,
   });
+
+  @override
+  String toString() {
+    return 'DocumentSectionPosition(itemLeadingEdge: $itemLeadingEdge, itemTrailingEdge: $itemTrailingEdge, documentSection: $documentSection)';
+  }
 }
 
 class ActiveSectionController {
@@ -221,12 +226,30 @@ class ActiveSectionController {
 
   ActiveSectionController(this.allDocumentSections, this.visibleSections) {
     visibleSections.addListener(() {
+      // debugPrint('$_lastActiveDocumentSectionPosition');
       _updateCurrentActiveSection(visibleSections.value);
     });
   }
 
   void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
+    // TODO: assert that the first in the list is the one "up top" in the viewport
+    // i.e. visible sections are ordered by position inside the document.
+
     var currentlyActive = visible.isNotEmpty ? visible.first : null;
+
+    if (currentlyActive != null) {
+      final indexOfLastActive = allDocumentSections
+          .indexOf(_lastActiveDocumentSectionPosition?.documentSection);
+      final indexOfFirstVisible =
+          allDocumentSections.indexOf(visible?.first?.documentSection);
+
+      if (indexOfLastActive != -1) {
+        if (indexOfLastActive < indexOfFirstVisible) {
+          currentlyActive = _lastActiveDocumentSectionPosition;
+        }
+      }
+    }
+
     if (currentlyActive == null && _lastActiveDocumentSectionPosition != null) {
       // The section was near the top, so we scrolled down the page (and the
       // last active section header out of the viewport).
