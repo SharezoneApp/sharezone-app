@@ -161,14 +161,8 @@ Future<AppDependencies> initializeDependencies() async {
       // memory leak and receiving a permission denied error from Firestore
       // because we would try to access the user data after the user signed out.
       // This would result an instant fail of the integration tests.
-
-      if (userGateway != null) {
-        await userGateway.dispose();
-      }
-
-      if (sharezoneGateway != null) {
-        await sharezoneGateway.dispose();
-      }
+      await userGateway?.dispose();
+      await sharezoneGateway?.dispose();
     }
   });
 
