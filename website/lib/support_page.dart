@@ -56,7 +56,7 @@ class _Header extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir sofort weiterhelfen 😉\n\nIn der Regel antworten wir von Mo. - So. innerhalb von wenigen Stunden.',
+            'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
