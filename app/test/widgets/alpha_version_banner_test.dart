@@ -18,7 +18,7 @@ void main() {
       (tester) async {
         await tester.pumpWidgetBuilder(
           AlphaVersionBanner(
-            isAlphaVersion: true,
+            enabled: true,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(
@@ -37,7 +37,7 @@ void main() {
       (tester) async {
         await tester.pumpWidgetBuilder(
           AlphaVersionBanner(
-            isAlphaVersion: false,
+            enabled: false,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(
