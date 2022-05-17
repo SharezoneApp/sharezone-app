@@ -70,10 +70,10 @@ jobs:
     - name: Setup signing
       working-directory: app/android
       env:
-        KEYSTORE_STRING: ${{ SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
-        KEY_PASSWORD: ${{ SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
-        KEY_ALIAS: ${{ SHAREZONE_ANDROID_APP_KEY_ALIAS }}
-        STORE_PASSWORD: ${{ SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
+        KEYSTORE_STRING: ${{ secrets.SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
+        KEY_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
+        STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
       run: |
         echo $KEYSTORE_STRING | base64 -di > "app/key.jks
         echo "storePassword=$STORE_PASSWORD" >> key.properties
