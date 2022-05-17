@@ -10,18 +10,6 @@ name: alpha
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      # We only build and deploy a new version, when a user relevant files
-      # changed.
-      - "app/lib/**"
-      - "lib/**"
-      - "app/pubspec.lock"
-      - "app/pubspec.yaml"
-      # We trigger also this workflow, if this workflow is changed, so that new
-      # changes will be applied.
-      - ".github/workflows/alpha.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -61,3 +49,57 @@ jobs:
       run: |
         echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
         sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json
+
+  deploy-alpha-android-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set Flutter version from FVM config file to environment variables
+      uses: kuhnroyal/flutter-fvm-config-action@v1
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
+    
+    - name: Install Firebase CLI
+      run: sudo npm i -g firebase-tools
+
+    - name: Setup signing
+      working-directory: app/android
+      env:
+        KEYSTORE_STRING: ${{ SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
+        KEY_PASSWORD: ${{ SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
+        KEY_ALIAS: ${{ SHAREZONE_ANDROID_APP_KEY_ALIAS }}
+        STORE_PASSWORD: ${{ SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
+      run: |
+        echo $KEYSTORE_STRING | base64 -di > "app/key.jks
+        echo "storePassword=$STORE_PASSWORD" >> key.properties
+        echo "keyPassword=$KEY_PASSWORD" >> key.properties
+        echo "keyAlias=$KEY_ALIAS" >> key.properties
+        echo "storeFile=key.jks" >> key.properties
+    
+    - name: Build Android
+      working-directory: app
+      run: flutter build apk --release --flavor prod --dart-define DEVELOPMENT_STAGE=ALPHA
+
+    - name: Publish to Firebase Distribution
+      env:
+        FIREBASE_DISTRIBUTION_KEY: ${{ secrets.GCP_SA_FIREBASE_DISTRIBUTION_PROD_KEY }}
+      run: |
+        echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
+          --app 1:730263787697:android:f0a3b3b856fd1383 \
+          --groups "alpha" \
+          --release-notes $(git log -1 --pretty=%B)
+
+    - name: Remove credentials
+      if: always()
+      run: |
+        rm app/sharezone-prod-key.json
+        rm app/android/key.properties
+        rm app/android/app/key.jks
+  
