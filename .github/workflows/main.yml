@@ -104,6 +104,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - uses: futureware-tech/simulator-action@v1
+        id: simulator
         with:
           model: ${{ matrix.device }}
       
