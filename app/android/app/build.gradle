@@ -18,7 +18,8 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
+def hasKeystorePropertiesFile = keystorePropertiesFile.exists()
+if (hasKeystorePropertiesFile) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
@@ -52,7 +53,7 @@ android {
     }
 
     signingConfigs {
-        if(keystorePropertiesFile.exists()) {
+        if(hasKeystorePropertiesFile) {
             release {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
@@ -63,7 +64,7 @@ android {
     }
     buildTypes {
         release {
-            if(keystorePropertiesFile.exists()) {
+            if(hasKeystorePropertiesFile) {
                 signingConfig signingConfigs.release
             }
 
