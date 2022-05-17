@@ -103,6 +103,8 @@ class DeployWebAppCommand extends Command {
           '--release',
           '--web-renderer',
           'canvaskit',
+          '--dart-define',
+          'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );
