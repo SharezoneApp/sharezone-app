@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 ///
 /// Displays nothing when [enabled] is false.
 ///
-/// This widget is similar and inspired by the [CheckedModeBanner] which display
+/// This widget is similar and inspired by the [CheckedModeBanner] which displays
 /// "DEBUG" at the top right hand corner when running a Flutter app in debug
 /// mode.
 class AlphaVersionBanner extends StatelessWidget {
