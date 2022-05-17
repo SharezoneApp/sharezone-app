@@ -75,7 +75,7 @@ jobs:
         KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
         STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
       run: |
-        echo $KEYSTORE_STRING | base64 -di > "app/key.jks
+        echo $KEYSTORE_STRING | base64 -di > app/key.jks
         echo "storePassword=$STORE_PASSWORD" >> key.properties
         echo "keyPassword=$KEY_PASSWORD" >> key.properties
         echo "keyAlias=$KEY_ALIAS" >> key.properties
