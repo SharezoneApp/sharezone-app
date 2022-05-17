@@ -1,0 +1,21 @@
+"ci/cd":
+- .github/workflows/**
+- .github/labeler.yml
+
+"documentation":
+- '**/*.md'
+
+"testing":
+- "**/*_test.dart"
+
+"platform: android":
+- 'app/android/**'
+
+"platform: ios":
+- 'app/ios/**'
+
+"platform: macos":
+- 'app/macos/**'
+
+"platform: web":
+- 'app/web/**'
