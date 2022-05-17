@@ -476,7 +476,7 @@ packages:
       name: fast_rsa
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.4.7"
   feature_discovery:
     dependency: "direct main"
     description:
@@ -750,6 +750,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  flat_buffers:
+    dependency: transitive
+    description:
+      name: flat_buffers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   flutter:
     dependency: "direct main"
     description: flutter
