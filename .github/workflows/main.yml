@@ -83,6 +83,11 @@ jobs:
   ios-integration-test:
     runs-on: macos-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        device:
+          - "iPhone 13"
+      fail-fast: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -100,13 +105,14 @@ jobs:
 
       - uses: futureware-tech/simulator-action@v1
         with:
-          model: "iPhone 12 mini"
+          model: ${{ matrix.device }}
       
       - name: Run integration tests
         working-directory: app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+          SIMULATOR_UDID: ${{steps.simulator.outputs.udid}}
         run: |
           flutter test \
               integration_test \
@@ -115,6 +121,7 @@ jobs:
               USER_1_EMAIL=$USER_1_EMAIL \
               --dart-define \
               USER_1_PASSWORD=$USER_1_PASSWORD
+              -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
