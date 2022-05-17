@@ -80,6 +80,42 @@ jobs:
       - name: Run tests via "sz test"
         run: sz test -v
   
+  ios-integration-test:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - uses: futureware-tech/simulator-action@v1
+        with:
+          model: "iPhone 12 mini"
+      
+      - name: Run integration tests
+        working-directory: app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: |
+          flutter test \
+              integration_test \
+              --flavor dev \
+              --dart-define \
+              USER_1_EMAIL=$USER_1_EMAIL \
+              --dart-define \
+              USER_1_PASSWORD=$USER_1_PASSWORD
+
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
   # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
