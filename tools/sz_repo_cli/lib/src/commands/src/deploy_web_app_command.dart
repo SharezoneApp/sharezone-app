@@ -101,7 +101,9 @@ class DeployWebAppCommand extends Command {
           'build',
           'web',
           '--release',
-          '--dart-define=FLUTTER_WEB_USE_SKIA=true'
+          '--dart-define=FLUTTER_WEB_USE_SKIA=true',
+          '--dart-define',
+          'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );
