@@ -50,6 +50,9 @@ android {
     }
 
     lintOptions {
+        // Recommanded fix for https://github.com/flutter/flutter/issues/58247.
+        checkReleaseBuilds false
+        
         disable 'InvalidPackage'
     }
 
