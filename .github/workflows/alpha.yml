@@ -95,7 +95,7 @@ jobs:
       run: | 
         # We are publishing APKs instead of App Bundles to Firebase Distribution
         # because they easier to install. App Bundles are installed via the
-        # PlayStore which resulted to problems in the fast.
+        # PlayStore which resulted in problems in the past.
 
         flutter build apk \
           --release \
