@@ -80,21 +80,37 @@ jobs:
     
     - name: Build Android
       working-directory: app
-      run: flutter build apk --release --flavor prod --dart-define DEVELOPMENT_STAGE=ALPHA
+      run: | 
+        # We are publishing APKs instead of App Bundles to Firebase Distribution
+        # because they easier to install. App Bundles are installed via the
+        # PlayStore which resulted to problems in the fast.
+        
+        flutter build apk \
+          --release \
+          --flavor prod \
+          --dart-define DEVELOPMENT_STAGE=ALPHA
 
     - name: Install Firebase CLI
       run: sudo npm i -g firebase-tools
 
     - name: Publish to Firebase Distribution
+      working-directory: app
       env:
         FIREBASE_DISTRIBUTION_KEY: ${{ secrets.GCP_SA_FIREBASE_DISTRIBUTION_PROD_KEY }}
       run: |
+        # Set up credentials for Firebase Distribution
         echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
         export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+        
+        # We use the last commit message (title and description) as release note
+        # for the alpha build. This is not most user friendly note but it's
+        # better than nothing.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        
         firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
           --app 1:730263787697:android:f0a3b3b856fd1383 \
           --groups "alpha" \
-          --release-notes $(git log -1 --pretty=%B)
+          --release-notes $LAST_COMMIT_MESSAGE
 
     - name: Remove credentials
       if: always()
