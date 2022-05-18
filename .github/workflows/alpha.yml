@@ -111,7 +111,7 @@ jobs:
         firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
           --app 1:730263787697:android:f0a3b3b856fd1383 \
           --groups "alpha" \
-          --release-notes $LAST_COMMIT_MESSAGE
+          --release-notes "$LAST_COMMIT_MESSAGE"
 
     - name: Remove credentials
       if: always()
