@@ -97,8 +97,10 @@ jobs:
         run: sz test -v
 
   android-integration-test:
-    # Is recommended to run job with macOS to take advantage of hardware
-    # acceleration support provided by HAXM.
+    # Is recommended to run the job with a macOS machine to take advantage of
+    # hardware acceleration support provided by HAXM. See more details in the
+    # README.md of the Android emulator action:
+    # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-latest
     timeout-minutes: 30
     strategy:
