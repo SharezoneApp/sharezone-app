@@ -61,3 +61,66 @@ jobs:
       run: |
         echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
         sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json
+
+  deploy-alpha-android-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set Flutter version from FVM config file to environment variables
+      uses: kuhnroyal/flutter-fvm-config-action@v1
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
+
+    - name: Setup signing
+      working-directory: app/android
+      env:
+        KEYSTORE_STRING: ${{ secrets.SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
+        KEY_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
+        STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
+      run: |
+        echo $KEYSTORE_STRING | base64 -di > app/key.jks
+        echo "storePassword=$STORE_PASSWORD" >> key.properties
+        echo "keyPassword=$KEY_PASSWORD" >> key.properties
+        echo "keyAlias=$KEY_ALIAS" >> key.properties
+        echo "storeFile=key.jks" >> key.properties
+    
+    - name: Build Android
+      working-directory: app
+      run: | 
+        # We are publishing APKs instead of App Bundles to Firebase Distribution
+        # because they easier to install. App Bundles are installed via the
+        # PlayStore which resulted in problems in the past.
+
+        flutter build apk \
+          --release \
+          --flavor prod \
+          --dart-define DEVELOPMENT_STAGE=ALPHA
+
+    - name: Install Firebase CLI
+      run: sudo npm i -g firebase-tools
+
+    - name: Publish to Firebase Distribution
+      working-directory: app
+      env:
+        FIREBASE_DISTRIBUTION_KEY: ${{ secrets.GCP_SA_FIREBASE_DISTRIBUTION_PROD_KEY }}
+      run: |
+        # Set up credentials for Firebase Distribution
+        echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+        
+        # Because we are publishing every commit a new alpha version, we are
+        # able to use the last commit message (title and description) as release
+        # note for the alpha builds. This is not the most user friendly note but
+        # it's better than nothing.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        
+        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
+          --app 1:730263787697:android:f0a3b3b856fd1383 \
+          --groups "alpha" \
+          --release-notes "$LAST_COMMIT_MESSAGE"
