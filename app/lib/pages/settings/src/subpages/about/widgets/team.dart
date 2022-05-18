@@ -64,7 +64,6 @@ class _JonasCard extends StatelessWidget {
       description: "App-Development",
       email: "jonas@sharezone.net",
       socialMediaLinks: _SocialMediaLinks(
-        instagram: "https://www.instagram.com/jsan_l/",
         linkedIn: "https://linkedin.com/in/jsanl",
       ),
     );
