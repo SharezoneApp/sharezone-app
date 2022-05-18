@@ -102,9 +102,10 @@ jobs:
         echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
         export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
         
-        # We use the last commit message (title and description) as release note
-        # for the alpha builds. This is not the most user friendly note but it's
-        # better than nothing.
+        # Because we are publishing every commit a new alpha version, we are
+        # able to use the last commit message (title and description) as release
+        # note for the alpha builds. This is not the most user friendly note but
+        # it's better than nothing.
         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
         
         firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
