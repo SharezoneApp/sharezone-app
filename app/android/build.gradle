@@ -4,9 +4,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url 'https://google.bintray.com/exoplayer/'
-        }
     }
 
     dependencies {
