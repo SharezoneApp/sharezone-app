@@ -59,7 +59,7 @@ jobs:
       uses: kuhnroyal/flutter-fvm-config-action@v1
 
     - name: Install Flutter
-      uses: subosito/flutter-action@v1
+      uses: subosito/flutter-action@main
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
