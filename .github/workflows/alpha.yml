@@ -63,9 +63,6 @@ jobs:
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
-    
-    - name: Install Firebase CLI
-      run: sudo npm i -g firebase-tools
 
     - name: Setup signing
       working-directory: app/android
@@ -84,6 +81,9 @@ jobs:
     - name: Build Android
       working-directory: app
       run: flutter build apk --release --flavor prod --dart-define DEVELOPMENT_STAGE=ALPHA
+
+    - name: Install Firebase CLI
+      run: sudo npm i -g firebase-tools
 
     - name: Publish to Firebase Distribution
       env:
