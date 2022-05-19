@@ -26,6 +26,15 @@ ItemScrollController _itemScrollController;
 ItemPositionsListener _itemPositionsListener;
 AnchorsController _anchorsController;
 
+// TODO: Make nicer, copied it from else where.
+/// A section means content beneath a markdown heading e.g. the following
+/// example would a section called "Data protection officer."
+/// ```markdown
+/// ## Data protection officer
+/// Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+/// eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+/// voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+/// ```
 class DocumentSection {
   final String sectionId;
   final String sectionName;
@@ -108,12 +117,6 @@ class PrivacyPolicyBloc extends BlocBase {
       final sections =
           pos.map((pos) => _toDocumentSectionPosition(pos)).toList();
       documentSections.add(sections);
-
-      // final sectionsString = getAllDocumentSections()
-      //     .map((a) =>
-      //         "DocumentSection('${a.sectionId}', '${a.sectionName}', []);")
-      //     .reduce((value, element) => '$value\n$element');
-      // debugPrint(sectionsString);
     });
   }
 
@@ -145,7 +148,7 @@ class PrivacyPolicyBloc extends BlocBase {
 }
 
 class TableOfContentsController extends ChangeNotifier {
-  final ActiveSectionController _activeSectionController;
+  final CurrentlyReadingSectionController _activeSectionController;
   final List<DocumentSection> allDocumentSections;
   final AnchorsController anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
@@ -155,9 +158,9 @@ class TableOfContentsController extends ChangeNotifier {
     this.allDocumentSections,
     this.anchorsController,
   ) {
-    _activeSectionController.currentActiveSectionOrNull.addListener(() {
+    _activeSectionController.currentlyReadDocumentSectionOrNull.addListener(() {
       final activeSectionOrNull =
-          _activeSectionController.currentActiveSectionOrNull.value;
+          _activeSectionController.currentlyReadDocumentSectionOrNull.value;
 
       final views = allDocumentSections
           .map((section) => _toView(section, activeSectionOrNull))
@@ -218,8 +221,14 @@ class DocumentSectionHeadingPosition {
   }
 }
 
-class ActiveSectionController {
-  final List<DocumentSection> _TocSectionHeadings;
+/// Updates which [DocumentSection] inside the table of contents the user is
+/// currently reading.
+///
+/// This is done by looking at what [DocumentSection] headings (e.g.
+/// `## Foo Heading`) are/were inside the viewport and working out where the
+/// user is currently inside the text.
+class CurrentlyReadingSectionController {
+  final List<DocumentSection> _tocSectionHeadings;
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
@@ -247,22 +256,23 @@ class ActiveSectionController {
   /// `allDocumentSections`).
   List<DocumentSection> _allSectionsFlattend;
 
-  final _currentActiveSectionHeadingNotifier =
+  final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
 
-  ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
-      _currentActiveSectionHeadingNotifier;
+  ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
+      _currentlyReadingHeadingNotifier;
 
-  ActiveSectionController(
-      this._TocSectionHeadings, this._visibleSectionHeadings) {
+  CurrentlyReadingSectionController(
+      this._tocSectionHeadings, this._visibleSectionHeadings) {
     _visibleSectionHeadings.addListener(() {
-      _updateCurrentActiveSectionHeading(_visibleSectionHeadings.value);
+      _updateCurrentlyReadSection(_visibleSectionHeadings.value);
     });
-    _allSectionsFlattend = _TocSectionHeadings.expand(
-        (element) => [element, ...element.subsections]).toList();
+    _allSectionsFlattend = _tocSectionHeadings
+        .expand((element) => [element, ...element.subsections])
+        .toList();
   }
 
-  /// The last non-null section that is at the top of the page.
+  /// The last non-null section that we see / have seen at the top of the page.
   /// Can be null if we haven't seen any sections so far.
   ///
   /// E.g. if we have:
@@ -272,16 +282,18 @@ class ActiveSectionController {
   /// ## Bar
   /// This is the Bar section.
   /// ```
-  /// then [_lastSeenTopmostVisibleSectionHeader] would equal the Foo document section.
+  /// then [_lastSeenTopmostVisibleSectionHeader] would equal the Foo document
+  /// section.
   ///
-  /// Since [_lastSeenTopmostVisibleSectionHeader] includes the last position of the section
-  /// we can see if it was scrolled out the viewport in the top or at the bottom
-  /// by looking at [DocumentSectionHeadingPosition.itemLeadingEdge] or
+  /// Since [_lastSeenTopmostVisibleSectionHeader] includes the last position of
+  /// the section we can see if it was scrolled out the viewport in the top or
+  /// at the bottom by looking at
+  /// [DocumentSectionHeadingPosition.itemLeadingEdge] or
   /// [DocumentSectionHeadingPosition.itemTrailingEdge]. (See
-  /// [_updateCurrentActiveSectionHeading]).
+  /// [_updateCurrentlyReadSection]).
   DocumentSectionHeadingPosition _lastSeenTopmostVisibleSectionHeader;
 
-  void _updateCurrentActiveSectionHeading(
+  void _updateCurrentlyReadSection(
       List<DocumentSectionHeadingPosition> visibleHeadings) {
     visibleHeadings
         .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
@@ -301,7 +313,8 @@ class ActiveSectionController {
       // this means that we scrolled down the page.
       // Thus we are inside the text section of the last seen header.
       if (_lastSeenTopmostVisibleSectionHeader.itemLeadingEdge <= 0.5) {
-        _markAsActive(_lastSeenTopmostVisibleSectionHeader.documentSection);
+        _markAsCurrentlyReading(
+            _lastSeenTopmostVisibleSectionHeader.documentSection);
       }
 
       // If the last seen header was scrolled out of the viewport at the bottom
@@ -315,22 +328,22 @@ class ActiveSectionController {
         // list. Doesn't necessary need to be an error since we might not want to
         // show all headings inside our TOC (e.g. the first `#` heading or very
         // small headings like `####`).
-        // Mark no section as active.
+        // No section should be marked as currently read.
         if (_lastIndex == -1) {
-          _markNoSectionAsActive();
+          _markNoSectionIsCurrentlyRead();
           return;
         }
 
         // We scrolled above the first section.
-        // No section should be active.
+        // No section should be marked as currently read.
         if (_lastIndex == 0) {
-          _markNoSectionAsActive();
+          _markNoSectionIsCurrentlyRead();
           return;
         }
 
         final sectionBefore = _allSectionsFlattend[_lastIndex - 1];
 
-        _markAsActive(sectionBefore);
+        _markAsCurrentlyReading(sectionBefore);
       }
       return;
     }
@@ -343,22 +356,22 @@ class ActiveSectionController {
     // list. Doesn't necessary need to be an error since we might not want to
     // show all headings inside our TOC (e.g. the first `#` heading or very
     // small headings like `####`).
-    // Mark no section as active.
+    // No section should be marked as currently read.
     if (firstVisibleHeadingIndex == -1) {
-      _markNoSectionAsActive();
+      _markNoSectionIsCurrentlyRead();
       return;
     }
 
-    // If the first section is visible then mark no section is active since if
-    // we still see the first section we haven't "entered" it.
+    // If the first section is visible then mark no section as currently read
+    // since if we still see the first section we haven't "entered" it.
     if (firstVisibleHeadingIndex == 0) {
-      _markNoSectionAsActive();
+      _markNoSectionIsCurrentlyRead();
       return;
     }
 
     final sectionBeforeTopmostVisibleHeading =
         _allSectionsFlattend[firstVisibleHeadingIndex - 1];
-    _markAsActive(sectionBeforeTopmostVisibleHeading);
+    _markAsCurrentlyReading(sectionBeforeTopmostVisibleHeading);
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
@@ -366,13 +379,13 @@ class ActiveSectionController {
         (pos) => pos.sectionId == headerPosition.documentSection.sectionId);
   }
 
-  void _markAsActive(DocumentSection _section) {
-    _currentActiveSectionHeadingNotifier.value =
+  void _markAsCurrentlyReading(DocumentSection _section) {
+    _currentlyReadingHeadingNotifier.value =
         _section.sectionId.toDocumentSectionIdOrNull();
   }
 
-  void _markNoSectionAsActive() {
-    _currentActiveSectionHeadingNotifier.value = null;
+  void _markNoSectionIsCurrentlyRead() {
+    _currentlyReadingHeadingNotifier.value = null;
   }
 }
 
@@ -424,7 +437,7 @@ class NewPrivacyPolicy extends StatelessWidget {
       // TODO: My god, kill this creature.
       child: ChangeNotifierProvider<TableOfContentsController>(
         create: (context) => TableOfContentsController(
-          ActiveSectionController(
+          CurrentlyReadingSectionController(
               documentSections,
               _StreamToValueListenable(
                       PrivacyPolicyBloc(_anchorsController, documentSections)

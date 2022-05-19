@@ -16,9 +16,10 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
-      expect(controller.currentActiveSectionOrNull.value, null);
+      expect(controller.currentlyReadDocumentSectionOrNull.value, null);
     });
 
     test('marks the first section as active when scrolling past the heading',
@@ -32,7 +33,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       visibleSections.value = [
         DocumentSectionHeadingPosition(
@@ -44,7 +46,7 @@ void main() {
 
       visibleSections.value = [];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
 
@@ -64,7 +66,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       visibleSections.value = [
         DocumentSectionHeadingPosition(
@@ -85,7 +88,7 @@ void main() {
 
       visibleSections.value = [];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
 
@@ -101,7 +104,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       // We scroll down to the second chapter
       visibleSections.value = [
@@ -125,7 +129,7 @@ void main() {
       // 1-wichtige-begriffe) but none of the chapter titles are visible
       visibleSections.value = [];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
 
@@ -139,7 +143,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       // We scroll to the first section...
       visibleSections.value = [
@@ -162,7 +167,7 @@ void main() {
       // ...and scroll further up (the first section is now out of view)
       visibleSections.value = [];
 
-      expect(controller.currentActiveSectionOrNull.value, null);
+      expect(controller.currentlyReadDocumentSectionOrNull.value, null);
     });
 
     test(
@@ -177,7 +182,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -207,7 +213,7 @@ void main() {
         ),
       ];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
 
@@ -223,7 +229,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -272,7 +279,7 @@ void main() {
         ),
       ];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('1-wichtige-begriffe'));
     });
 
@@ -286,7 +293,8 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = ActiveSectionController(sections, visibleSections);
+      final controller =
+          CurrentlyReadingSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -323,7 +331,7 @@ void main() {
       // ... we're now between 1-wichtige-begriffe and 2-geltungsbereich
       visibleSections.value = [];
 
-      expect(controller.currentActiveSectionOrNull.value,
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('1-wichtige-begriffe'));
     });
   });
