@@ -13,7 +13,8 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
@@ -28,12 +29,13 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
@@ -59,12 +61,13 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.8,
           itemTrailingEdge: 0.85,
@@ -73,7 +76,7 @@ void main() {
 
       // We scroll to the top
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
@@ -95,13 +98,14 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       // We scroll down to the second chapter
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.2,
           itemTrailingEdge: 0.25,
@@ -110,7 +114,7 @@ void main() {
 
       // We scroll up again
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
@@ -132,13 +136,14 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       // We scroll to the first section...
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.1,
           itemTrailingEdge: 0.15,
@@ -147,7 +152,7 @@ void main() {
 
       // ... scroll up (section title is now at bottom of the viewport)
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
@@ -169,13 +174,14 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
@@ -184,7 +190,7 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
@@ -194,7 +200,7 @@ void main() {
       // ... the first section out of view and the next one into the view at the
       // bottom
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
@@ -214,13 +220,14 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
@@ -229,12 +236,12 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
@@ -243,12 +250,12 @@ void main() {
 
       // ...and down
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.15,
           itemTrailingEdge: 0.2,
         ),
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
           itemLeadingEdge: 0.6,
           itemTrailingEdge: 0.65,
@@ -258,7 +265,7 @@ void main() {
       // ... now the first two sections are out of view
       // (but the text of the second section is still visible)
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
           itemLeadingEdge: 0.2,
           itemTrailingEdge: 0.25,
@@ -276,13 +283,14 @@ void main() {
         DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
 
-      final visibleSections = ValueNotifier<List<DocumentSectionPosition>>([]);
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeaderPosition>>([]);
 
       final controller = ActiveSectionController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
@@ -291,12 +299,12 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
@@ -305,7 +313,7 @@ void main() {
 
       // ...down
       visibleSections.value = [
-        DocumentSectionPosition(
+        DocumentSectionHeaderPosition(
           DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,

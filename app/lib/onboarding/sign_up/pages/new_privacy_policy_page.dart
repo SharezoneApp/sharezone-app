@@ -99,7 +99,8 @@ class PrivacyPolicyBloc extends BlocBase {
   final AnchorsController anchorsController;
   final List<DocumentSection> sections;
 
-  final documentSections = BehaviorSubject<List<DocumentSectionPosition>>();
+  final documentSections =
+      BehaviorSubject<List<DocumentSectionHeaderPosition>>();
 
   PrivacyPolicyBloc(this.anchorsController, this.sections) {
     anchorsController.anchorPositions.addListener(() {
@@ -116,9 +117,9 @@ class PrivacyPolicyBloc extends BlocBase {
     });
   }
 
-  DocumentSectionPosition _toDocumentSectionPosition(
+  DocumentSectionHeaderPosition _toDocumentSectionPosition(
       AnchorPosition anchorPosition) {
-    return DocumentSectionPosition(
+    return DocumentSectionHeaderPosition(
       DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
       itemLeadingEdge: anchorPosition.itemLeadingEdge,
       itemTrailingEdge: anchorPosition.itemTrailingEdge,
@@ -200,12 +201,12 @@ class TableOfContentsController extends ChangeNotifier {
   }
 }
 
-class DocumentSectionPosition {
+class DocumentSectionHeaderPosition {
   final DocumentSection documentSection;
   final double itemLeadingEdge;
   final double itemTrailingEdge;
 
-  DocumentSectionPosition(
+  DocumentSectionHeaderPosition(
     this.documentSection, {
     @required this.itemLeadingEdge,
     @required this.itemTrailingEdge,
@@ -218,178 +219,161 @@ class DocumentSectionPosition {
 }
 
 class ActiveSectionController {
-  final List<DocumentSection> allDocumentSections;
+  final List<DocumentSection> _TocSectionHeadings;
+  final ValueListenable<List<DocumentSectionHeaderPosition>>
+      _visibleSectionHeadings;
+
+  // We flatten all sections and their subsections into one list.
+  // E.g.
+  /// ```dart
+  /// // prints:
+  /// [DocumentSection(id: 'foo', subsections: [
+  ///   DocumentSection(id: 'sub-foo', subsections: []),
+  /// ]),
+  /// DocumentSection(id: 'bar', subsections: []),
+  /// ];
+  /// print(allDocumentSections);
+  ///
+  /// // prints:
+  /// // (Not completly true, see below)
+  /// [DocumentSection(id: 'foo', subsections: []),
+  /// DocumentSection(id: 'sub-foo', subsections: []),
+  /// DocumentSection(id: 'bar', subsections: []),];
+  /// print(_allSectionsFlattend);
+  /// ```
+  /// The example for `print(_allSectionsFlattend);` is not completly true to
+  /// the example since we don't remove the subsections after flattening the
+  /// list (`foo` would still have the subsection `sub-foo` like in
+  /// `allDocumentSections`).
   List<DocumentSection> _allSectionsFlattend;
-  final ValueListenable<List<DocumentSectionPosition>> visibleSections;
-  final _currentActiveSectionNotifier = ValueNotifier<DocumentSectionId>(null);
 
-  // Can be null before any section was active
-  DocumentSectionId _lastActive;
-  DocumentSectionPosition _lastActiveDocumentSectionPosition;
-  // Can be null before any section was active
-  DocumentSectionPosition _lastFirstVisibleSection;
+  final _currentActiveSectionHeadingnNotifier =
+      ValueNotifier<DocumentSectionId>(null);
 
-  ActiveSectionController(this.allDocumentSections, this.visibleSections) {
-    visibleSections.addListener(() {
-      // debugPrint('$_lastActiveDocumentSectionPosition');
-      _updateCurrentActiveSection(visibleSections.value);
+  ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
+      _currentActiveSectionHeadingnNotifier;
+
+  ActiveSectionController(
+      this._TocSectionHeadings, this._visibleSectionHeadings) {
+    _visibleSectionHeadings.addListener(() {
+      _updateCurrentActiveSectionHeading(_visibleSectionHeadings.value);
     });
-    _allSectionsFlattend = allDocumentSections
-        .expand((element) => [element, ...element.subsections])
-        .toList();
+    _allSectionsFlattend = _TocSectionHeadings.expand(
+        (element) => [element, ...element.subsections]).toList();
   }
 
-  void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
-    visible.sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
-    // lastFirstVisibleSection
-    // if(lastFirstVisibleSection.pos == bottom) {
-    //  currentPosAfterSection = _get(lastFirstVisibleSection.index - 1)
-    // } else {
-    //  currentPosAfterSection = lastFirstVisibleSection.section;
-    // }
-    /// currentPosAfterSection
+  /// The last non-null section that is at the top of the page.
+  /// Can be null if we haven't seen any sections so far.
+  ///
+  /// E.g. if we have:
+  /// ```
+  /// ## Foo
+  /// This is the Foo section.
+  /// ## Bar
+  /// This is the Bar section.
+  /// ```
+  /// then [_lastSeenTopmostVisibleSectionHeader] would equal the Foo document section.
+  ///
+  /// Since [_lastSeenTopmostVisibleSectionHeader] includes the last position of the section
+  /// we can see if it was scrolled out the viewport in the top or at the bottom
+  /// by looking at [DocumentSectionHeaderPosition.itemLeadingEdge] or
+  /// [DocumentSectionHeaderPosition.itemTrailingEdge]. (See
+  /// [_updateCurrentActiveSectionHeading]).
+  DocumentSectionHeaderPosition _lastSeenTopmostVisibleSectionHeader;
 
-    final firstVisible = visible.isNotEmpty ? visible.first : null;
-    if (firstVisible == null) {
-      // We havent seen any section so far
-      if (_lastFirstVisibleSection == null) {
+  void _updateCurrentActiveSectionHeading(
+      List<DocumentSectionHeaderPosition> visibleHeadings) {
+    visibleHeadings
+        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
+
+    final firstVisibleHeading =
+        visibleHeadings.isNotEmpty ? visibleHeadings.first : null;
+    // No Heading visible
+    if (firstVisibleHeading == null) {
+      // We have never seen any heading.
+      if (_lastSeenTopmostVisibleSectionHeader == null) {
         return;
       }
-      // We scrolled down (section header scrolled out of view in the top)
-      if (_lastFirstVisibleSection.itemLeadingEdge <= 0.5) {
-        _currentActiveSectionNotifier.value = _lastFirstVisibleSection
-            .documentSection.sectionId
-            .toDocumentSectionIdOrNull();
+      // We are inside a section but see no header.
+      // This can happen if there is a big amount of text between sections.
+
+      // If the last seen header was scrolled out of the viewport at the top
+      // this means that we scrolled down the page.
+      // Thus we are inside the text section of the last seen header.
+      if (_lastSeenTopmostVisibleSectionHeader.itemLeadingEdge <= 0.5) {
+        _markAsActive(_lastSeenTopmostVisibleSectionHeader.documentSection);
       }
-      // We scrolled up (section header scrolled out of view in the bottom)
+
+      // If the last seen header was scrolled out of the viewport at the bottom
+      // this means that we scrolled up the page.
+      // Thus we are inside the section of the header that comes next if we keep
+      // scrolling up.
       else {
-        final _lastIndex = _indexOf(_lastFirstVisibleSection.documentSection);
-        // TODO: Error?
+        final _lastIndex = _indexOf(_lastSeenTopmostVisibleSectionHeader);
+
+        // Unknown Heading - A heading is visible thats not inside our predefined
+        // list. Doesn't necessary need to be an error since we might not want to
+        // show all headings inside our TOC (e.g. the first `#` heading or very
+        // small headings like `####`).
+        // Mark no section as active.
         if (_lastIndex == -1) {
+          _markNoSectionAsActive();
           return;
         }
+
+        // We scrolled above the first section.
+        // No section should be active.
         if (_lastIndex == 0) {
-          // We scrolled above the first section.
-          // No section should be active.
-          _currentActiveSectionNotifier.value = null;
+          _markNoSectionAsActive();
           return;
         }
 
         final sectionBefore = _allSectionsFlattend[_lastIndex - 1];
 
-        _currentActiveSectionNotifier.value =
-            sectionBefore.sectionId.toDocumentSectionIdOrNull();
+        _markAsActive(sectionBefore);
       }
       return;
     }
 
-    _lastFirstVisibleSection = firstVisible;
+    _lastSeenTopmostVisibleSectionHeader = firstVisibleHeading;
 
-    // TODO: Can't find subsections since they are not flattend
-    final firstVisibleIndex = _indexOf(firstVisible.documentSection);
-    // TODO: Error Message
-    // If a heading is visible that is not inside the all sections list then
-    // what should be do? Throw an Erorr or return null?
-    if (firstVisibleIndex == -1) return;
+    final firstVisibleHeadingIndex = _indexOf(firstVisibleHeading);
+
+    // Unknown Heading - A heading is visible thats not inside our predefined
+    // list. Doesn't necessary need to be an error since we might not want to
+    // show all headings inside our TOC (e.g. the first `#` heading or very
+    // small headings like `####`).
+    // Mark no section as active.
+    if (firstVisibleHeadingIndex == -1) {
+      _markNoSectionAsActive();
+      return;
+    }
+
     // If the first section is visible then mark no section is active since if
     // we still see the first section we haven't "entered" it.
-    if (firstVisibleIndex == 0) {
-      _currentActiveSectionNotifier.value = null;
+    if (firstVisibleHeadingIndex == 0) {
+      _markNoSectionAsActive();
       return;
     }
 
-    final sectionBeforeFirstVisible =
-        _allSectionsFlattend[firstVisibleIndex - 1];
-    _currentActiveSectionNotifier.value =
-        sectionBeforeFirstVisible.sectionId.toDocumentSectionIdOrNull();
+    final sectionBeforeTopmostVisibleHeading =
+        _allSectionsFlattend[firstVisibleHeadingIndex - 1];
+    _markAsActive(sectionBeforeTopmostVisibleHeading);
   }
 
-  int _indexOf(DocumentSection section) {
-    return _allSectionsFlattend
-        .indexWhere((element) => element.sectionId == section.sectionId);
+  int _indexOf(DocumentSectionHeaderPosition headerPosition) {
+    return _allSectionsFlattend.indexWhere(
+        (pos) => pos.sectionId == headerPosition.documentSection.sectionId);
   }
 
-  void _updateCurrentActiveSectionOld(List<DocumentSectionPosition> visible) {
-    // TODO: assert that the first in the list is the one "up top" in the viewport
-    // i.e. visible sections are ordered by position inside the document.
-
-    var currentlyActive = visible.isNotEmpty ? visible.first : null;
-
-    if (currentlyActive != null) {
-      final indexOfLastActive = allDocumentSections
-          .indexOf(_lastActiveDocumentSectionPosition?.documentSection);
-      final indexOfFirstVisible =
-          allDocumentSections.indexOf(visible?.first?.documentSection);
-
-      if (indexOfLastActive != -1 && indexOfFirstVisible > 0) {
-        // If we scroll the last active section title out of the viewport
-        // (scrolling down the doc) and we already see the next section title
-        // then the last active section title should be active since we're still
-        // inside the chapter.
-        // Only when we scrolled the next section title is on top of the page
-        // then we mark the next chapter as active.
-        if (indexOfLastActive < indexOfFirstVisible) {
-          currentlyActive = DocumentSectionPosition(
-            allDocumentSections[indexOfFirstVisible - 1],
-            itemLeadingEdge: 0,
-            itemTrailingEdge: 0.1,
-          );
-        }
-      }
-    }
-
-    if (currentlyActive == null && _lastActiveDocumentSectionPosition != null) {
-      // The section was near the top, so we scrolled down the page (and the
-      // last active section header out of the viewport).
-      // This means that this should be the current active section.
-      // TODO: Example?
-      if (_lastActiveDocumentSectionPosition.itemLeadingEdge < 0.5) {
-        currentlyActive = _lastActiveDocumentSectionPosition;
-      } else {
-        // The section was near the bottom, so we scrolled up the page (and the
-        // last active section header out of the viewport).
-        // This means that the section "above" the last active section should
-        // become active.
-        final index = allDocumentSections.indexWhere(
-          (element) =>
-              element.sectionId ==
-              _lastActiveDocumentSectionPosition.documentSection.sectionId,
-        );
-
-        if (index == -1) {
-          throw ArgumentError(
-              '''Tried to find the document section ${_lastActiveDocumentSectionPosition.documentSection.sectionId} inside all document sections ($allDocumentSections) but couldn't find it.
-              This is a developer error. The document section that we searched for was obtained by looking at which sections are currently shown inside the viewport of the user. 
-              The list of all document section (of the time of implementing this feature) have to be generated/sent seperately and are not dynamically read out from the document when displaying it.
-              To fix this error we need to ensure that the list of all document sections that should be shown inside the table of contents and the actual document sections inside the document match up.''');
-        } else if (index == 0) {
-          currentlyActive = null;
-        } else {
-          final section = allDocumentSections[index - 1];
-
-          // Bogus Position so we can assign the variable.
-          // We use "on the top of the screen" as the position since we're
-          // scrolling up (and the section should come into view from above).
-          currentlyActive = DocumentSectionPosition(
-            section,
-            itemLeadingEdge: 0,
-            itemTrailingEdge: 0.1,
-          );
-        }
-      }
-    }
-
-    _currentActiveSectionNotifier.value = currentlyActive
-        ?.documentSection?.sectionId
-        ?.toDocumentSectionIdOrNull();
-
-    if (currentlyActive != null) {
-      _lastActiveDocumentSectionPosition = currentlyActive;
-    }
+  void _markAsActive(DocumentSection _section) {
+    _currentActiveSectionHeadingnNotifier.value =
+        _section.sectionId.toDocumentSectionIdOrNull();
   }
 
-  ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
-      _currentActiveSectionNotifier;
+  void _markNoSectionAsActive() {
+    _currentActiveSectionHeadingnNotifier.value = null;
+  }
 }
 
 extension on String {
