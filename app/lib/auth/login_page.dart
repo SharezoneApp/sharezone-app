@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone/onboarding/sign_up/pages/new_privacy_policy_page.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/widgets/apple_sign_in_button.dart';
 import 'package:sharezone_common/api_errors.dart';

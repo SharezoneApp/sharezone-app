@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/onboarding/sign_up/pages/new_privacy_policy_page.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone_utils/random_string.dart';
 
 void main() {
