@@ -136,22 +136,12 @@ dependencies:
     path: ../lib/url_launcher_extended
   user:
     path: ../lib/user
-  # Is overriden, see dependency_overrides below
-  video_player: ^2.1.12
+  video_player: ^2.4.2
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
 # * ab wann der override entfernt werden kann.
-dependency_overrides:
-  # Dieser dependency_override wird verwendet, damit Videos auf macOS
-  # ebenfalls abgespielt werden können. Sobald die Pull Request
-  # (https://github.com/flutter/plugins/pull/3712) gemergt ist, kann
-  # der override wieder entfernt werden.
-  video_player:
-    git:
-      url: https://github.com/cbenhagen/plugins.git
-      path: packages/video_player/video_player
-      ref: video_player_macos_new
+# dependency_overrides:
 
 dev_dependencies:
   build_runner: ^2.1.4
