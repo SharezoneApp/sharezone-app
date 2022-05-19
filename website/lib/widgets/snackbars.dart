@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 void showSnackSec({
@@ -32,21 +34,19 @@ void showSnack({
   final snackBar = SnackBar(
     content: withLoadingCircle == false
         ? Text(text!)
-        : Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(right: 20, left: 4),
-                  child: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: CircularProgressIndicator(),
-                  ),
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(right: 20, left: 4),
+                child: SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: CircularProgressIndicator(),
                 ),
-                Flexible(child: Text(text!)),
-              ],
-            ),
+              ),
+              Flexible(child: Text(text!)),
+            ],
           ),
     duration: duration,
     action: action,
@@ -54,11 +54,11 @@ void showSnack({
   );
 
   try {
-    if (hideCurrentSnackBar)
+    if (hideCurrentSnackBar) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    }
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   } catch (e) {
-    print(
-        "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");
+    log("Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");
   }
 }

@@ -4,12 +4,12 @@ import '../utils.dart';
 
 class TransparentButton extends StatelessWidget {
   const TransparentButton({
-    Key? key,
+    super.key,
     this.onTap,
     this.child,
     this.fontSize = 18,
     this.color,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final double fontSize;

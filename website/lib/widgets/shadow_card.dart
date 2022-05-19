@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard(
-      {required this.child,
-      this.size,
-      this.onTap,
-      this.margin,
-      this.opacity,
-      this.padding = const EdgeInsets.all(0),
-      this.blurRadius = 5,
-      this.shadowColor = Colors.grey,
-      this.offset = const Offset(0.0, 0.0),
-      this.color,
-      this.borderRadius = const BorderRadius.all(Radius.circular(10)),
-      this.onLongPress,
-      this.withBorder = true,
-      this.borderWidth = 1});
+  const CustomCard({
+    super.key,
+    required this.child,
+    this.size,
+    this.onTap,
+    this.margin,
+    this.opacity,
+    this.padding = const EdgeInsets.all(0),
+    this.blurRadius = 5,
+    this.shadowColor = Colors.grey,
+    this.offset = const Offset(0.0, 0.0),
+    this.color,
+    this.borderRadius = const BorderRadius.all(Radius.circular(10)),
+    this.onLongPress,
+    this.withBorder = true,
+    this.borderWidth = 1,
+  });
 
-  const CustomCard.roundVertical(
-      {required this.child,
-      this.onTap,
-      this.size,
-      this.margin,
-      this.opacity,
-      this.padding = const EdgeInsets.all(0),
-      this.blurRadius = 5,
-      this.borderRadius = const BorderRadius.vertical(
-          top: Radius.circular(500), bottom: Radius.circular(500)),
-      this.shadowColor = Colors.grey,
-      this.offset = const Offset(0.0, 0.0),
-      this.color,
-      this.onLongPress,
-      this.withBorder = false,
-      this.borderWidth = 1});
+  const CustomCard.roundVertical({
+    required this.child,
+    super.key,
+    this.onTap,
+    this.size,
+    this.margin,
+    this.opacity,
+    this.padding = const EdgeInsets.all(0),
+    this.blurRadius = 5,
+    this.borderRadius = const BorderRadius.vertical(
+        top: Radius.circular(500), bottom: Radius.circular(500)),
+    this.shadowColor = Colors.grey,
+    this.offset = const Offset(0.0, 0.0),
+    this.color,
+    this.onLongPress,
+    this.withBorder = false,
+    this.borderWidth = 1,
+  });
 
   final Widget child;
   final VoidCallback? onTap;

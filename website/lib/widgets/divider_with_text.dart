@@ -3,8 +3,7 @@ import 'package:sharezone_website/main.dart';
 
 class DividerWithText extends StatelessWidget {
   const DividerWithText(
-      {Key? key, required this.text, this.fontSize = 14, this.textStyle})
-      : super(key: key);
+      {super.key, required this.text, this.fontSize = 14, this.textStyle});
 
   final Widget text;
   final double fontSize;
@@ -16,9 +15,9 @@ class DividerWithText extends StatelessWidget {
       alignment: Alignment.center,
       children: <Widget>[
         Container(width: 200),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: const Divider(height: 0),
+        const Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Divider(height: 0),
         ),
         Align(
           child: Padding(

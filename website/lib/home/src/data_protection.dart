@@ -6,19 +6,21 @@ import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 
 class DataProtection extends StatelessWidget {
+  const DataProtection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('privacy'),
+      key: const ValueKey('privacy'),
       child: ImageText(
         desktopSpacing: 32,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Headline(
               "Sicher & DSGVO-konform",
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             ColumnSpacing(
               spacing: 12,
               children: [

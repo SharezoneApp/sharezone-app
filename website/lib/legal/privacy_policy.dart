@@ -4,11 +4,13 @@ import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/max_width_constraint_box.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
+  const PrivacyPolicyPage({super.key});
+
   static const tag = "privacy-app";
 
   @override
   Widget build(BuildContext context) {
-    return PageTemplate(
+    return const PageTemplate(
       children: [
         Headline("Datenschutzerklärung"),
         PrivacyPolicyContent(),
@@ -18,7 +20,7 @@ class PrivacyPolicyPage extends StatelessWidget {
 }
 
 class PrivacyPolicyContent extends StatelessWidget {
-  const PrivacyPolicyContent({Key? key}) : super(key: key);
+  const PrivacyPolicyContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -189,9 +191,9 @@ class _WhoWillGetTheData extends StatelessWidget {
 class _HowLongAreSavedTheData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _Topic(
+    return const _Topic(
       title: _Title("6. Wie lange speichern wir deine Daten?"),
-      texts: const <Widget>[
+      texts: <Widget>[
         SelectableText(
             "Die Dauer der Speicherung von personenbezogenen Daten bemisst sich anhand der gesetzlichen Aufbewahrungsrechte und -Pflichten (z.B. aus dem Handels- oder Steuerrecht). Läuft die Frist ab, werden die Daten bis zum Ende des Monats gelöscht, sofern sie nicht für die Anbahnung, Durchführung und Beendigung eines Vertrags erforderlich sind und/oder kein berechtigtes Interesse unsererseits an der Verarbeitung besteht."),
       ],
@@ -245,30 +247,30 @@ class _Absatz extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key? key}) : super(key: key);
+  const _Title(this.title, {super.key});
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(title, style: TextStyle(fontSize: 22));
+    return SelectableText(title, style: const TextStyle(fontSize: 22));
   }
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle(this.subtitle, {Key? key}) : super(key: key);
+  const _Subtitle(this.subtitle, {super.key});
 
   final String subtitle;
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(subtitle, style: TextStyle(fontWeight: FontWeight.w500));
+    return SelectableText(subtitle,
+        style: const TextStyle(fontWeight: FontWeight.w500));
   }
 }
 
 class _Topic extends StatelessWidget {
-  const _Topic({Key? key, required this.title, required this.texts})
-      : super(key: key);
+  const _Topic({super.key, required this.title, required this.texts});
 
   final Widget title;
   final List<Widget> texts;
@@ -277,7 +279,7 @@ class _Topic extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[title, ...texts, SizedBox(height: 20)],
+      children: <Widget>[title, ...texts, const SizedBox(height: 20)],
     );
   }
 }

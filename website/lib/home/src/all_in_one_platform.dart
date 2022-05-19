@@ -10,22 +10,24 @@ import '../../main.dart';
 import '../home_page.dart';
 
 class AllInOnePlace extends StatefulWidget {
+  const AllInOnePlace({super.key});
+
   @override
-  _AllInOnePlaceState createState() => _AllInOnePlaceState();
+  AllInOnePlaceState createState() => AllInOnePlaceState();
 }
 
-class _AllInOnePlaceState extends State<AllInOnePlace> {
+class AllInOnePlaceState extends State<AllInOnePlace> {
   String currentFeature = defaultFeature;
   static const defaultFeature = "uebersicht";
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('all-in-one-place'),
+      key: const ValueKey('all-in-one-place'),
       child: Section(
         child: Column(
           children: [
-            Headline("Alles an einem Ort"),
+            const Headline("Alles an einem Ort"),
             const SizedBox(height: 12),
             RowSpacing(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +63,7 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
                 if (!isTablet(context))
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    child: Container(
+                    child: SizedBox(
                       key: ValueKey(currentFeature),
                       width: 350,
                       child: Image.asset(
@@ -145,13 +147,13 @@ class _AllInOnePlaceState extends State<AllInOnePlace> {
 
 class _FeatureCard extends StatefulWidget {
   const _FeatureCard({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.onTap,
     this.bulletpoints = const [],
     this.height,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? subtitle;
@@ -202,7 +204,7 @@ class __FeatureCardState extends State<_FeatureCard> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: Container(
+                          child: SizedBox(
                             height: 52,
                             child: DefaultTextStyle(
                               style: TextStyle(
@@ -228,7 +230,7 @@ class __FeatureCardState extends State<_FeatureCard> {
                     Text(
                       widget.title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
@@ -237,7 +239,8 @@ class __FeatureCardState extends State<_FeatureCard> {
                       Text(
                         widget.subtitle!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                   ],
                 ),

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class MoveLeftOnHover extends StatefulWidget {
   final Widget? child;
   // You can also pass the translation in here if you want to
-  MoveLeftOnHover({Key? key, this.child}) : super(key: key);
+  const MoveLeftOnHover({super.key, this.child});
 
   @override
-  _MoveLeftOnHoverState createState() => _MoveLeftOnHoverState();
+  MoveLeftOnHoverState createState() => MoveLeftOnHoverState();
 }
 
-class _MoveLeftOnHoverState extends State<MoveLeftOnHover> {
+class MoveLeftOnHoverState extends State<MoveLeftOnHover> {
   // Please use 0.0 instead of 0. You will get a .toDouble() issue, if you
   // use 0 instead of 0.0
   final nonHoverTransform = Matrix4.identity()..translate(0.0, 0, 0.0);
@@ -24,8 +24,8 @@ class _MoveLeftOnHoverState extends State<MoveLeftOnHover> {
       onExit: (e) => _mouseEnter(false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        child: widget.child,
         transform: _hovering ? hoverTransform : nonHoverTransform,
+        child: widget.child,
       ),
     );
   }

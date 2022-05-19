@@ -22,25 +22,27 @@ bool isPhone(BuildContext context) {
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   static const tag = "home-page";
 
   @override
   Widget build(BuildContext context) {
-    return PageTemplate(
+    return const PageTemplate(
       children: [
         Welcome(),
         Traction(),
-        const SizedBox(height: 100),
+        SizedBox(height: 100),
         AllInOnePlace(),
-        const SizedBox(height: 135),
+        SizedBox(height: 135),
         USP(),
-        const SizedBox(height: 135),
+        SizedBox(height: 135),
         DataProtection(),
-        const SizedBox(height: 135),
+        SizedBox(height: 135),
         Support(),
-        const SizedBox(height: 135),
+        SizedBox(height: 135),
         AllPlatforms(),
-        const SizedBox(height: 135),
+        SizedBox(height: 135),
       ],
     );
   }

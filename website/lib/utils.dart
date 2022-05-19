@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,7 +9,7 @@ Future<void> launchURL(String url, {BuildContext? context}) async {
     await launch(url);
   } else {
     if (context != null) {
-      print("Der Link konnte nicht geöffnet werden!");
+      log("Der Link konnte nicht geöffnet werden!");
     } else {
       throw Exception("Could not launch $url");
     }

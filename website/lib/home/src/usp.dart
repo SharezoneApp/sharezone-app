@@ -6,6 +6,8 @@ import 'package:sharezone_website/widgets/section_action_button.dart';
 import 'package:sharezone_website/widgets/subline.dart';
 
 class USP extends StatelessWidget {
+  const USP({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ImageText(
@@ -31,16 +33,16 @@ class _UspText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('usp'),
+      key: const ValueKey('usp'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Headline("Wirklich hilfreich."),
-          Subline(
+          const Headline("Wirklich hilfreich."),
+          const Subline(
             "Sharezone ist aus den realen Problemen des Unterrichts entstanden.",
           ),
           const SizedBox(height: 10),
-          Subline(
+          const Subline(
             "Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.",
           ),
           const SizedBox(height: 25),

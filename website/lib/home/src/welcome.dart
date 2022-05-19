@@ -8,6 +8,8 @@ import '../../main.dart';
 import '../home_page.dart';
 
 class Welcome extends StatelessWidget {
+  const Welcome({super.key});
+
   @override
   Widget build(BuildContext context) {
     final height =

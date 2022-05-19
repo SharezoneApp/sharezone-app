@@ -11,6 +11,8 @@ import 'widgets/snackbars.dart';
 const phoneNumber = '+49 1516 7754541';
 
 class SupportPage extends StatelessWidget {
+  const SupportPage({super.key});
+
   static const String tag = 'support-page';
 
   @override
@@ -21,7 +23,7 @@ class SupportPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _Header(),
+              const _Header(),
               _EmailTile(),
               const SizedBox(height: 18),
             ],
@@ -72,8 +74,7 @@ class _SupportCard extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const _SupportCard(
-      {Key? key, this.icon, this.title, this.subtitle, this.onPressed})
-      : super(key: key);
+      {super.key, this.icon, this.title, this.subtitle, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,8 @@ import '../utils.dart';
 import 'imprint.dart';
 
 class ImprintPage extends StatelessWidget {
+  const ImprintPage({super.key});
+
   static const tag = 'imprint-page';
 
   @override
@@ -21,7 +23,7 @@ class ImprintPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
+                  const Align(
                     child: Headline(
                       "Impressum",
                     ),

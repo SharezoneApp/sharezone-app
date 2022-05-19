@@ -3,10 +3,10 @@ import 'package:flutter_svg/svg.dart';
 
 class CheckTile extends StatelessWidget {
   const CheckTile({
-    Key? key,
+    super.key,
     this.title,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   final String? title;
   final String? subtitle;
@@ -26,12 +26,12 @@ class CheckTile extends StatelessWidget {
             children: [
               SelectableText(
                 title!,
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
               if (subtitle != null)
                 SelectableText(
                   subtitle!,
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),
             ],
           ),

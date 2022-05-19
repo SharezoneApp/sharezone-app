@@ -18,7 +18,7 @@ class Imprint {
   const Imprint._(this.asMarkdown);
 
   factory Imprint.offline() {
-    return Imprint._("""### **Angaben gemäß § 5 TMG:**
+    return const Imprint._("""### **Angaben gemäß § 5 TMG:**
 
 Sander, Jonas; Reichardt, Nils u. Weuthen, Felix “Sharezone” GbR\n
 Blücherstraße 34\n

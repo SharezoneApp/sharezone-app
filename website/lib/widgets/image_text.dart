@@ -7,12 +7,12 @@ enum ImagePosition { right, left }
 
 class ImageText extends StatelessWidget {
   const ImageText({
-    Key? key,
+    super.key,
     this.body,
     this.imagePosition,
     this.image,
     this.desktopSpacing = 24.0,
-  }) : super(key: key);
+  });
 
   final Widget? image;
   final Widget? body;

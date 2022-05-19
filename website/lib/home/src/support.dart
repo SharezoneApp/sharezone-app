@@ -8,10 +8,12 @@ import 'package:sharezone_website/widgets/subline.dart';
 import '../../support_page.dart';
 
 class Support extends StatelessWidget {
+  const Support({super.key});
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('support'),
+      key: const ValueKey('support'),
       child: ImageText(
         desktopSpacing: 100,
         imagePosition: ImagePosition.left,
@@ -20,11 +22,11 @@ class Support extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Headline(
+            const Headline(
               "Nie im Stich gelassen.",
             ),
             const SizedBox(height: 20),
-            Subline(
+            const Subline(
               "Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.",
             ),
             const SizedBox(height: 20),

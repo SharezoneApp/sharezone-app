@@ -5,7 +5,6 @@ import '../utils.dart';
 import '../extensions/hover_extensions.dart';
 import 'transparent_button.dart';
 
-
 class SectionActionButton extends StatelessWidget {
   final String? text;
   final VoidCallback? onTap;
@@ -13,12 +12,12 @@ class SectionActionButton extends StatelessWidget {
   final double? fontSize;
 
   const SectionActionButton({
-    Key? key,
+    super.key,
     this.text,
     this.onTap,
     this.color,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   factory SectionActionButton.openLink(
       {String? link, String? text, Color? color, double? fontSize}) {
@@ -33,10 +32,10 @@ class SectionActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TransparentButton(
-      child: Text("—> $text"),
       onTap: onTap,
       fontSize: fontSize ?? 22,
       color: color ?? context.primaryColor,
+      child: Text("—> $text"),
     ).moveLeftOnHover;
   }
 }

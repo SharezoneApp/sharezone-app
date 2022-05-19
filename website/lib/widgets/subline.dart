@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_website/home/home_page.dart';
 
 class Subline extends StatelessWidget {
-  const Subline(this.text, {Key? key}) : super(key: key);
+  const Subline(this.text, {super.key});
 
   final String text;
 

@@ -12,10 +12,10 @@ import 'widgets/transparent_button.dart';
 
 class PageTemplate extends StatelessWidget {
   const PageTemplate({
-    Key? key,
+    super.key,
     this.children,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-  }) : super(key: key);
+  });
 
   final List<Widget>? children;
   final CrossAxisAlignment crossAxisAlignment;
@@ -62,7 +62,7 @@ class PageTemplate extends StatelessWidget {
                   crossAxisAlignment: crossAxisAlignment,
                   children: [
                     ...children!,
-                    Footer(),
+                    const Footer(),
                   ],
                 ),
               ),
@@ -90,15 +90,15 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 if (isPhone(context))
                   IconButton(
-                    icon: Icon(Icons.menu),
+                    icon: const Icon(Icons.menu),
                     onPressed: () => context.openDrawer(),
                   )
                 else
                   TransparentButton(
                     onTap: () =>
                         Navigator.popAndPushNamed(context, HomePage.tag),
-                    child: SharezoneLogo(
-                      logoColor: LogoColor.blue_short,
+                    child: const SharezoneLogo(
+                      logoColor: LogoColor.blueShort,
                       height: 50,
                       width: 200,
                     ),
@@ -109,14 +109,14 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       if (!isPhone(context)) ...[
                         TransparentButton(
-                          child: Text("Support"),
+                          child: const Text("Support"),
                           onTap: () =>
                               Navigator.pushNamed(context, SupportPage.tag),
                         ),
                         const SizedBox(width: 30),
                         TransparentButton.openLink(
-                          child: Text("FAQ"),
                           link: "https://sharezone.net/faq",
+                          child: const Text("FAQ"),
                         ),
                         const SizedBox(width: 30),
                       ],
@@ -133,7 +133,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(double.infinity, 30);
+  Size get preferredSize => const Size(double.infinity, 30);
 }
 
 class _GoWebAppButton extends StatelessWidget {
@@ -150,8 +150,8 @@ class _GoWebAppButton extends StatelessWidget {
           child: Material(
             borderRadius: borderRaius,
             color: context.primaryColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(

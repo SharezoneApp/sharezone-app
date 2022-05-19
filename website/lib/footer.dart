@@ -15,17 +15,19 @@ import 'widgets/sharezone_logo.dart';
 import "package:build_context/build_context.dart";
 
 class Footer extends StatelessWidget {
+  const Footer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('footer'),
+      key: const ValueKey('footer'),
       child: Container(
         color: context.primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 48),
           child: Section(
             child: DefaultTextStyle(
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
               ),
@@ -44,7 +46,7 @@ class Footer extends StatelessWidget {
     if (isTablet(context)) {
       return _FooterTablet();
     }
-    return _FooterDesktop();
+    return const _FooterDesktop();
   }
 }
 
@@ -55,7 +57,7 @@ class _FooterPhone extends StatelessWidget {
       spacing: 24,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(child: _FooterSocialMedia()),
+        const Center(child: _FooterSocialMedia()),
         const SizedBox(height: 16),
         _FooterCommunity(),
         _FooterHelp(),
@@ -74,7 +76,7 @@ class _FooterTablet extends StatelessWidget {
       children: [
         Row(
           children: [
-            _FooterSocialMedia(),
+            const _FooterSocialMedia(),
             const SizedBox(width: 48),
             Expanded(child: _FooterCommunity()),
           ],
@@ -111,14 +113,14 @@ class _FooterTablet extends StatelessWidget {
 }
 
 class _FooterDesktop extends StatelessWidget {
-  const _FooterDesktop({Key? key}) : super(key: key);
+  const _FooterDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {
     return RowSpacing(
       spacing: 32,
       children: [
-        Expanded(child: _FooterSocialMedia()),
+        const Expanded(child: _FooterSocialMedia()),
         const SizedBox(width: 16),
         Expanded(child: _FooterCommunity()),
         const SizedBox(width: 32),
@@ -224,11 +226,11 @@ class _FooterAction {
 
 class _FooterSection extends StatelessWidget {
   const _FooterSection({
-    Key? key,
+    super.key,
     this.title,
     this.links,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   final String? title;
   final String? subtitle;
@@ -272,7 +274,7 @@ class _FooterSection extends StatelessWidget {
 }
 
 class _FooterTitle extends StatelessWidget {
-  const _FooterTitle(this.title, {Key? key}) : super(key: key);
+  const _FooterTitle(this.title, {super.key});
 
   final String title;
 
@@ -280,7 +282,7 @@ class _FooterTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectableText(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w700,
       ),
@@ -289,14 +291,14 @@ class _FooterTitle extends StatelessWidget {
 }
 
 class _FooterSocialMedia extends StatelessWidget {
-  const _FooterSocialMedia({Key? key}) : super(key: key);
+  const _FooterSocialMedia({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SharezoneLogo(
+        const SharezoneLogo(
           logoColor: LogoColor.white,
           height: 50,
           width: 200,
@@ -306,7 +308,7 @@ class _FooterSocialMedia extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           alignment: WrapAlignment.center,
-          children: [
+          children: const [
             _SocialMediaButton("Twitter"),
             _SocialMediaButton("Instagram"),
             _SocialMediaButton("Discord"),
@@ -318,8 +320,7 @@ class _FooterSocialMedia extends StatelessWidget {
 }
 
 class _SocialMediaButton extends StatelessWidget {
-  const _SocialMediaButton(this.socialMediaPlatform, {Key? key})
-      : super(key: key);
+  const _SocialMediaButton(this.socialMediaPlatform, {super.key});
 
   final String socialMediaPlatform;
 

@@ -6,6 +6,8 @@ import 'package:sharezone_website/widgets/subline.dart';
 import 'package:sharezone_website/widgets/transparent_button.dart';
 
 class AllPlatforms extends StatelessWidget {
+  const AllPlatforms({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ImageText(
@@ -30,15 +32,15 @@ class _AllPlatformsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: ValueKey('all-plattforms'),
+      key: const ValueKey('all-plattforms'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Headline(
+          const Headline(
             "Auf allen Geräten verfügbar.",
           ),
           const SizedBox(height: 16),
-          Subline(
+          const Subline(
             "Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.",
           ),
           const SizedBox(height: 16),

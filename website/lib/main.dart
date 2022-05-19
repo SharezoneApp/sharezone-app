@@ -5,7 +5,7 @@ import 'home/home_page.dart';
 import 'legal/imprint_page.dart';
 import 'legal/privacy_policy.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class SharezoneStyle {
   static const primaryColor = Color(0xFF68B3E9);
@@ -13,27 +13,29 @@ class SharezoneStyle {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sharezone - Vernetzter Schulplaner',
       routes: {
-        HomePage.tag: (context) => HomePage(),
-        ImprintPage.tag: (context) => ImprintPage(),
-        SupportPage.tag: (context) => SupportPage(),
-        PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+        HomePage.tag: (context) => const HomePage(),
+        ImprintPage.tag: (context) => const ImprintPage(),
+        SupportPage.tag: (context) => const SupportPage(),
+        PrivacyPolicyPage.tag: (context) => const PrivacyPolicyPage(),
       },
       theme: ThemeData(
         primaryColor: SharezoneStyle.primaryColor,
         fontFamily: SharezoneStyle.font,
         scaffoldBackgroundColor: Colors.white,
-        pageTransitionsTheme: PageTransitionsTheme(
+        pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.macOS: FadeTransiationsBuilder(),
           },
         ),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

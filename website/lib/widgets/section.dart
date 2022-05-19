@@ -4,7 +4,7 @@ import 'package:sharezone_website/home/home_page.dart';
 import 'max_width_constraint_box.dart';
 
 class Section extends StatelessWidget {
-  const Section({Key? key, this.child}) : super(key: key);
+  const Section({super.key, this.child});
 
   final Widget? child;
 

@@ -3,17 +3,17 @@ import 'package:flutter_svg/svg.dart';
 
 enum LogoColor {
   white,
-  blue_long,
-  blue_short,
+  blueLong,
+  blueShort,
 }
 
 class SharezoneLogo extends StatelessWidget {
   const SharezoneLogo({
-    Key? key,
+    super.key,
     required this.logoColor,
     required this.height,
     required this.width,
-  }) : super(key: key);
+  });
 
   final double height;
   final double width;
@@ -21,9 +21,9 @@ class SharezoneLogo extends StatelessWidget {
 
   String getLogoPath() {
     switch (logoColor) {
-      case LogoColor.blue_long:
+      case LogoColor.blueLong:
         return "assets/logo/sharezone-logo-blue-long.svg";
-      case LogoColor.blue_short:
+      case LogoColor.blueShort:
         return "assets/logo/sharezone-logo-blue-short.svg";
       case LogoColor.white:
         return "assets/logo/sharezone-logo-white-long.svg";

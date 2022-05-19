@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
@@ -8,6 +10,8 @@ import 'package:sharezone_website/widgets/transparent_button.dart';
 import '../home_page.dart';
 
 class Traction extends StatelessWidget {
+  const Traction({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,9 +34,9 @@ class Traction extends StatelessWidget {
                         _UserCounter(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             _AppStoreRating(),
-                            const SizedBox(width: 48),
+                            SizedBox(width: 48),
                             _PlayStoreRating(),
                           ],
                         ),
@@ -42,9 +46,9 @@ class Traction extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _AppStoreRating(),
+                        const _AppStoreRating(),
                         _UserCounter(),
-                        _PlayStoreRating(),
+                        const _PlayStoreRating(),
                       ],
                     ),
             ),
@@ -56,11 +60,11 @@ class Traction extends StatelessWidget {
 }
 
 class _PlayStoreRating extends StatelessWidget {
-  const _PlayStoreRating({Key? key}) : super(key: key);
+  const _PlayStoreRating({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _StoreReview(
+    return const _StoreReview(
       rating: 4.8,
       storeName: "PlayStore",
       storeLink: "https://sharezone.net/android",
@@ -70,12 +74,12 @@ class _PlayStoreRating extends StatelessWidget {
 
 class _AppStoreRating extends StatelessWidget {
   const _AppStoreRating({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return _StoreReview(
+    return const _StoreReview(
       rating: 4.7,
       storeName: "AppStore",
       storeLink: "https://sharezone.net/ios",
@@ -115,7 +119,7 @@ class __UserCounterState extends State<_UserCounter> {
               number: userCounter!,
               duration: const Duration(seconds: 4),
               curve: Curves.easeOut,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.white,
                 fontSize: 30,
                 fontWeight: FontWeight.w600,
@@ -123,7 +127,7 @@ class __UserCounterState extends State<_UserCounter> {
             ),
           ),
           const SizedBox(height: 3),
-          SelectableText(
+          const SelectableText(
             "registrierte Nutzer",
             style: TextStyle(
               color: Colors.white70,
@@ -141,8 +145,8 @@ class __UserCounterState extends State<_UserCounter> {
           "https://europe-west1-sharezone-c2bd8.cloudfunctions.net/userCounter";
       final response = await Dio().get(link);
       return response.data;
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      log('$e', stackTrace: s);
       return fallbackUserCounter;
     }
   }
@@ -150,11 +154,11 @@ class __UserCounterState extends State<_UserCounter> {
 
 class _StoreReview extends StatelessWidget {
   const _StoreReview({
-    Key? key,
+    super.key,
     this.storeName,
     this.rating,
     this.storeLink,
-  }) : super(key: key);
+  });
 
   final String? storeName;
   final double? rating;
@@ -170,7 +174,7 @@ class _StoreReview extends StatelessWidget {
         children: [
           Text(
             rating.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -181,7 +185,7 @@ class _StoreReview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (int i = 0; i < 5; i++)
-                Icon(
+                const Icon(
                   Icons.star,
                   color: Colors.yellow,
                 )
@@ -190,7 +194,7 @@ class _StoreReview extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             storeName!,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
             ),
