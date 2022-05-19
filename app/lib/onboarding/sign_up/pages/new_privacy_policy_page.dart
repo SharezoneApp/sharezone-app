@@ -269,9 +269,9 @@ class ActiveSectionController {
           return;
         }
         if (_lastIndex == 0) {
-          _currentActiveSectionNotifier.value = _lastFirstVisibleSection
-              .documentSection.sectionId
-              .toDocumentSectionIdOrNull();
+          // We scrolled above the first section.
+          // No section should be active.
+          _currentActiveSectionNotifier.value = null;
           return;
         }
 
