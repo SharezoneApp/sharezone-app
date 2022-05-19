@@ -219,19 +219,95 @@ class DocumentSectionPosition {
 
 class ActiveSectionController {
   final List<DocumentSection> allDocumentSections;
+  List<DocumentSection> _allSectionsFlattend;
   final ValueListenable<List<DocumentSectionPosition>> visibleSections;
   final _currentActiveSectionNotifier = ValueNotifier<DocumentSectionId>(null);
 
+  // Can be null before any section was active
+  DocumentSectionId _lastActive;
   DocumentSectionPosition _lastActiveDocumentSectionPosition;
+  // Can be null before any section was active
+  DocumentSectionPosition _lastFirstVisibleSection;
 
   ActiveSectionController(this.allDocumentSections, this.visibleSections) {
     visibleSections.addListener(() {
       // debugPrint('$_lastActiveDocumentSectionPosition');
       _updateCurrentActiveSection(visibleSections.value);
     });
+    _allSectionsFlattend = allDocumentSections
+        .expand((element) => [element, ...element.subsections])
+        .toList();
   }
 
   void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
+    // lastFirstVisibleSection
+    // if(lastFirstVisibleSection.pos == bottom) {
+    //  currentPosAfterSection = _get(lastFirstVisibleSection.index - 1)
+    // } else {
+    //  currentPosAfterSection = lastFirstVisibleSection.section;
+    // }
+    /// currentPosAfterSection
+
+    final firstVisible = visible.isNotEmpty ? visible.first : null;
+    if (firstVisible == null) {
+      // We havent seen any section so far
+      if (_lastFirstVisibleSection == null) {
+        return;
+      }
+      // We scrolled down (section header scrolled out of view in the top)
+      if (_lastFirstVisibleSection.itemLeadingEdge <= 0.5) {
+        _currentActiveSectionNotifier.value = _lastFirstVisibleSection
+            .documentSection.sectionId
+            .toDocumentSectionIdOrNull();
+      }
+      // We scrolled up (section header scrolled out of view in the bottom)
+      else {
+        final _lastIndex = _indexOf(_lastFirstVisibleSection.documentSection);
+        // TODO: Error?
+        if (_lastIndex == -1) {
+          return;
+        }
+        if (_lastIndex == 0) {
+          _currentActiveSectionNotifier.value = _lastFirstVisibleSection
+              .documentSection.sectionId
+              .toDocumentSectionIdOrNull();
+          return;
+        }
+
+        final sectionBefore = _allSectionsFlattend[_lastIndex - 1];
+
+        _currentActiveSectionNotifier.value =
+            sectionBefore.sectionId.toDocumentSectionIdOrNull();
+      }
+      return;
+    }
+
+    _lastFirstVisibleSection = firstVisible;
+
+    // TODO: Can't find subsections since they are not flattend
+    final firstVisibleIndex = _indexOf(firstVisible.documentSection);
+    // TODO: Error Message
+    // If a heading is visible that is not inside the all sections list then
+    // what should be do? Throw an Erorr or return null?
+    if (firstVisibleIndex == -1) return;
+    if (firstVisibleIndex == 0) {
+      _currentActiveSectionNotifier.value =
+          firstVisible.documentSection.sectionId.toDocumentSectionIdOrNull();
+      return;
+    }
+
+    final sectionBeforeFirstVisible =
+        _allSectionsFlattend[firstVisibleIndex - 1];
+    _currentActiveSectionNotifier.value =
+        sectionBeforeFirstVisible.sectionId.toDocumentSectionIdOrNull();
+  }
+
+  int _indexOf(DocumentSection section) {
+    return _allSectionsFlattend
+        .indexWhere((element) => element.sectionId == section.sectionId);
+  }
+
+  void _updateCurrentActiveSectionOld(List<DocumentSectionPosition> visible) {
     // TODO: assert that the first in the list is the one "up top" in the viewport
     // i.e. visible sections are ordered by position inside the document.
 
