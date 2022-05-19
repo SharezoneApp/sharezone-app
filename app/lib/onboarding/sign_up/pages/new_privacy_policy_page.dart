@@ -100,7 +100,7 @@ class PrivacyPolicyBloc extends BlocBase {
   final List<DocumentSection> sections;
 
   final documentSections =
-      BehaviorSubject<List<DocumentSectionHeaderPosition>>();
+      BehaviorSubject<List<DocumentSectionHeadingPosition>>();
 
   PrivacyPolicyBloc(this.anchorsController, this.sections) {
     anchorsController.anchorPositions.addListener(() {
@@ -117,9 +117,9 @@ class PrivacyPolicyBloc extends BlocBase {
     });
   }
 
-  DocumentSectionHeaderPosition _toDocumentSectionPosition(
+  DocumentSectionHeadingPosition _toDocumentSectionPosition(
       AnchorPosition anchorPosition) {
-    return DocumentSectionHeaderPosition(
+    return DocumentSectionHeadingPosition(
       DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
       itemLeadingEdge: anchorPosition.itemLeadingEdge,
       itemTrailingEdge: anchorPosition.itemTrailingEdge,
@@ -201,12 +201,12 @@ class TableOfContentsController extends ChangeNotifier {
   }
 }
 
-class DocumentSectionHeaderPosition {
+class DocumentSectionHeadingPosition {
   final DocumentSection documentSection;
   final double itemLeadingEdge;
   final double itemTrailingEdge;
 
-  DocumentSectionHeaderPosition(
+  DocumentSectionHeadingPosition(
     this.documentSection, {
     @required this.itemLeadingEdge,
     @required this.itemTrailingEdge,
@@ -220,7 +220,7 @@ class DocumentSectionHeaderPosition {
 
 class ActiveSectionController {
   final List<DocumentSection> _TocSectionHeadings;
-  final ValueListenable<List<DocumentSectionHeaderPosition>>
+  final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
   // We flatten all sections and their subsections into one list.
@@ -247,11 +247,11 @@ class ActiveSectionController {
   /// `allDocumentSections`).
   List<DocumentSection> _allSectionsFlattend;
 
-  final _currentActiveSectionHeadingnNotifier =
+  final _currentActiveSectionHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
 
   ValueListenable<DocumentSectionId> get currentActiveSectionOrNull =>
-      _currentActiveSectionHeadingnNotifier;
+      _currentActiveSectionHeadingNotifier;
 
   ActiveSectionController(
       this._TocSectionHeadings, this._visibleSectionHeadings) {
@@ -276,13 +276,13 @@ class ActiveSectionController {
   ///
   /// Since [_lastSeenTopmostVisibleSectionHeader] includes the last position of the section
   /// we can see if it was scrolled out the viewport in the top or at the bottom
-  /// by looking at [DocumentSectionHeaderPosition.itemLeadingEdge] or
-  /// [DocumentSectionHeaderPosition.itemTrailingEdge]. (See
+  /// by looking at [DocumentSectionHeadingPosition.itemLeadingEdge] or
+  /// [DocumentSectionHeadingPosition.itemTrailingEdge]. (See
   /// [_updateCurrentActiveSectionHeading]).
-  DocumentSectionHeaderPosition _lastSeenTopmostVisibleSectionHeader;
+  DocumentSectionHeadingPosition _lastSeenTopmostVisibleSectionHeader;
 
   void _updateCurrentActiveSectionHeading(
-      List<DocumentSectionHeaderPosition> visibleHeadings) {
+      List<DocumentSectionHeadingPosition> visibleHeadings) {
     visibleHeadings
         .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
 
@@ -361,18 +361,18 @@ class ActiveSectionController {
     _markAsActive(sectionBeforeTopmostVisibleHeading);
   }
 
-  int _indexOf(DocumentSectionHeaderPosition headerPosition) {
+  int _indexOf(DocumentSectionHeadingPosition headerPosition) {
     return _allSectionsFlattend.indexWhere(
         (pos) => pos.sectionId == headerPosition.documentSection.sectionId);
   }
 
   void _markAsActive(DocumentSection _section) {
-    _currentActiveSectionHeadingnNotifier.value =
+    _currentActiveSectionHeadingNotifier.value =
         _section.sectionId.toDocumentSectionIdOrNull();
   }
 
   void _markNoSectionAsActive() {
-    _currentActiveSectionHeadingnNotifier.value = null;
+    _currentActiveSectionHeadingNotifier.value = null;
   }
 }
 
