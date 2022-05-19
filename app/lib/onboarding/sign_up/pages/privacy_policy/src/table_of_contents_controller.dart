@@ -32,13 +32,13 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   TocDocumentSectionView _toView(
-      DocumentSection documentSection, DocumentSectionId activeSection) {
+      DocumentSection documentSection, DocumentSectionId isCurrentlyReading) {
     final subsections = documentSection.subsections
         .map((section) => TocDocumentSectionView(
               id: DocumentSectionId(section.sectionId),
               sectionHeadingText: section.sectionName,
               shouldHighlight:
-                  DocumentSectionId(section.sectionId) == activeSection,
+                  DocumentSectionId(section.sectionId) == isCurrentlyReading,
               // Currently we only render the top level document sections and
               // their subsections. We don't render the subsections of
               // subsections so we just set it to an empty list.
@@ -51,7 +51,7 @@ class TableOfContentsController extends ChangeNotifier {
       sectionHeadingText: documentSection.sectionName,
       // We highlight if this or a subsection is active
       shouldHighlight: DocumentSectionId(documentSection.sectionId) ==
-              activeSection ||
+              isCurrentlyReading ||
           subsections.where((section) => section.shouldHighlight).isNotEmpty,
       subsections: subsections,
     );
