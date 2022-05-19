@@ -20,7 +20,8 @@ void main() {
       expect(controller.currentActiveSectionOrNull.value, null);
     });
 
-    test('marks the first section as active when it is visible', () {
+    test('marks the first section as active when scrolling past the heading',
+        () {
       final sections = [
         DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
         DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
@@ -34,10 +35,12 @@ void main() {
       visibleSections.value = [
         DocumentSectionPosition(
           DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.1,
-          itemTrailingEdge: 0.15,
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
         ),
       ];
+
+      visibleSections.value = [];
 
       expect(controller.currentActiveSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
