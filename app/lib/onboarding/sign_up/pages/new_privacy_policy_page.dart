@@ -240,6 +240,7 @@ class ActiveSectionController {
   }
 
   void _updateCurrentActiveSection(List<DocumentSectionPosition> visible) {
+    visible.sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
     // lastFirstVisibleSection
     // if(lastFirstVisibleSection.pos == bottom) {
     //  currentPosAfterSection = _get(lastFirstVisibleSection.index - 1)
@@ -290,9 +291,10 @@ class ActiveSectionController {
     // If a heading is visible that is not inside the all sections list then
     // what should be do? Throw an Erorr or return null?
     if (firstVisibleIndex == -1) return;
+    // If the first section is visible then mark no section is active since if
+    // we still see the first section we haven't "entered" it.
     if (firstVisibleIndex == 0) {
-      _currentActiveSectionNotifier.value =
-          firstVisible.documentSection.sectionId.toDocumentSectionIdOrNull();
+      _currentActiveSectionNotifier.value = null;
       return;
     }
 
