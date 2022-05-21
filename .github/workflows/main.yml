@@ -95,6 +95,20 @@ jobs:
       
       - name: Run tests via "sz test"
         run: sz test -v
+      
+      - name: Upload failed golden tests
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: failed-golden-tests
+          # When a golden test failed, are the results stored in the "failures"
+          # folder. The failures can be at several places, like in the app
+          # folder and in different packages.
+          path: "**/failures/*.png"
+          # We ignore it when no files could be found because the test command
+          # could also be failed because of an unit test. In this case there
+          # would be no failed golden test to upload.
+          if-no-files-found: ignore   
   
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
