@@ -232,7 +232,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                     Center(
                       child: Row(
                         children: [
-                          _TableOfContents(),
+                          TableOfContents(),
                           VerticalDivider(),
                           _MainContent(),
                         ],
@@ -362,8 +362,9 @@ class _PrivacyPolicyHeading extends StatelessWidget {
   }
 }
 
-class _TableOfContents extends StatelessWidget {
-  const _TableOfContents({
+// TODO: Make private again, after completing the UI
+class TableOfContents extends StatelessWidget {
+  const TableOfContents({
     Key key,
   }) : super(key: key);
 

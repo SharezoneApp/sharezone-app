@@ -6,14 +6,30 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_po
 
 class TableOfContentsController extends ChangeNotifier {
   final CurrentlyReadingSectionController _activeSectionController;
-  final List<DocumentSection> allDocumentSections;
-  final AnchorsController anchorsController;
+  final List<DocumentSection> _allDocumentSections;
+  final AnchorsController _anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
+
+  factory TableOfContentsController.temp({
+    ValueListenable<List<DocumentSectionHeadingPosition>>
+        visibleSectionHeadings,
+    List<DocumentSection> allDocumentSections,
+    AnchorsController anchorsController,
+  }) {
+    return TableOfContentsController(
+      CurrentlyReadingSectionController(
+        allDocumentSections,
+        visibleSectionHeadings,
+      ),
+      allDocumentSections,
+      anchorsController,
+    );
+  }
 
   TableOfContentsController(
     this._activeSectionController,
-    this.allDocumentSections,
-    this.anchorsController,
+    this._allDocumentSections,
+    this._anchorsController,
   ) {
     _updateTocDocumentSections(
         _activeSectionController.currentlyReadDocumentSectionOrNull.value);
@@ -24,7 +40,7 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   void _updateTocDocumentSections(DocumentSectionId currentlyReadSection) {
-    final views = allDocumentSections
+    final views = _allDocumentSections
         .map((section) => _toView(section, currentlyReadSection))
         .toList();
     _documentSections = views;
@@ -61,7 +77,7 @@ class TableOfContentsController extends ChangeNotifier {
       UnmodifiableListView(_documentSections);
 
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
-    return anchorsController.scrollToAnchor(documentSectionId.id);
+    return _anchorsController.scrollToAnchor(documentSectionId.id);
   }
 }
 
