@@ -520,18 +520,24 @@ class _Highlight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(4)),
+    return AnimatedContainer(
+      decoration: ShapeDecoration(
+        color: shouldHighlight
+            ? (isDarkThemeEnabled(context)
+                ? Colors.blue.shade800
+                : Colors.lightBlue.shade100)
+            : Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
       ),
-      color: shouldHighlight
-          ? (isDarkThemeEnabled(context)
-              ? Colors.blue.shade800
-              : Colors.lightBlue.shade100)
-          : Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: child,
+      duration: Duration(milliseconds: 100),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: child,
+        ),
       ),
     );
   }
