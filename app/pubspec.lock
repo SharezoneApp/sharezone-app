@@ -824,12 +824,12 @@ packages:
     source: hosted
     version: "0.6.0"
   flutter_staggered_animations:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_staggered_animations
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.3"
+    version: "1.0.0"
   flutter_svg:
     dependency: "direct main"
     description:

@@ -24,7 +24,7 @@ dependencies:
   build_context:
     path: ../build_context
   flutter_svg: ^0.22.0
-  flutter_staggered_animations: ^0.1.2
+  flutter_staggered_animations: ^1.0.0
   shimmer: ^1.1.1
   rxdart: ^0.27.1
   flutter:

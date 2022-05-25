@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -413,78 +414,14 @@ class TableOfContents extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // To test scroll behavior / layout
-                    ...tocController.documentSections.map(
-                      (section) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _Highlight(
-                                onTap: () => tocController.scrollTo(section.id),
-                                shouldHighlight: section.shouldHighlight,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '${section.sectionHeadingText}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .copyWith(
-                                          fontWeight: section.shouldHighlight
-                                              ? FontWeight.w500
-                                              : FontWeight.normal,
-                                        ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                              ),
-                              ...section.subsections.map(
-                                (subsection) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 15.0,
-                                      top: 5,
-                                    ),
-                                    child: _Highlight(
-                                      onTap: () =>
-                                          tocController.scrollTo(subsection.id),
-                                      shouldHighlight:
-                                          subsection.shouldHighlight,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 4,
-                                          horizontal: 8,
-                                        ),
-                                        child: Text(
-                                          '${subsection.sectionHeadingText}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              .copyWith(
-                                                fontSize: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2
-                                                        .fontSize -
-                                                    .5,
-                                                fontWeight:
-                                                    subsection.shouldHighlight
-                                                        ? FontWeight.w400
-                                                        : FontWeight.normal,
-                                              ),
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                    ...tocController.documentSections
+                        .map(
+                          (section) => _TocHeading(
+                            key: ValueKey(section.id),
+                            section: section,
                           ),
-                        );
-                      },
-                    ).toList(),
+                        )
+                        .toList(),
                   ],
                 ),
               ),
@@ -500,6 +437,121 @@ class TableOfContents extends StatelessWidget {
               label: Text('Einklappen'),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TocHeading extends StatefulWidget {
+  const _TocHeading({
+    Key key,
+    @required this.section,
+  }) : super(key: key);
+
+  final TocDocumentSectionView section;
+
+  @override
+  State<_TocHeading> createState() => _TocHeadingState();
+}
+
+class _TocHeadingState extends State<_TocHeading>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  bool isExpanded;
+
+  @override
+  void initState() {
+    isExpanded = widget.section.shouldHighlight;
+    _controller = AnimationController(vsync: this);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _controller.animateTo(isExpanded ? .5 : 0,
+        duration: Duration(milliseconds: 100));
+
+    final tocController =
+        Provider.of<TableOfContentsController>(context, listen: false);
+    final showExpansionArrow = widget.section.subsections.isNotEmpty;
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Highlight(
+            onTap: () => tocController.scrollTo(widget.section.id),
+            shouldHighlight: widget.section.shouldHighlight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${widget.section.sectionHeadingText}',
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                            fontWeight: widget.section.shouldHighlight
+                                ? FontWeight.w500
+                                : FontWeight.normal,
+                          ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  if (showExpansionArrow)
+                    RotationTransition(
+                      turns: _controller,
+                      child: const Icon(Icons.expand_more),
+                    )
+                ],
+              ),
+            ),
+          ),
+          if (isExpanded)
+            ...AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 350),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                horizontalOffset: 25,
+                child: FadeInAnimation(child: widget),
+              ),
+              children: widget.section.subsections.map(
+                (subsection) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15.0,
+                      top: 5,
+                    ),
+                    child: _Highlight(
+                      onTap: () => tocController.scrollTo(subsection.id),
+                      shouldHighlight: subsection.shouldHighlight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
+                        child: Text(
+                          '${subsection.sectionHeadingText}',
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize -
+                                    .5,
+                                fontWeight: subsection.shouldHighlight
+                                    ? FontWeight.w400
+                                    : FontWeight.normal,
+                              ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
         ],
       ),
     );
