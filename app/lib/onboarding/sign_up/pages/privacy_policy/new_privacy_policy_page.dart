@@ -431,8 +431,9 @@ class TableOfContents extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
             child: FloatingActionButton.extended(
               onPressed: () {
-                throw UnimplementedError(
-                    'Table of content FAB onPress not implemented.');
+                Navigator.of(context).pop();
+                // throw UnimplementedError(
+                //     'Table of content FAB onPress not implemented.');
               },
               label: Text('Einklappen'),
             ),
@@ -578,7 +579,7 @@ class _Highlight extends StatelessWidget {
             ? (isDarkThemeEnabled(context)
                 ? Colors.blue.shade800
                 : Colors.lightBlue.shade100)
-            : Colors.transparent,
+            : Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
