@@ -463,12 +463,6 @@ class _TocHeadingState extends State<_TocHeading>
   Animation<double> _heightFactor;
   Animation<double> _expansionArrowTurns;
 
-  void _print(dynamic s) {
-    if (widget.section.id.id == 'bar') {
-      debugPrint(s.toString());
-    }
-  }
-
   @override
   void didUpdateWidget(covariant _TocHeading oldWidget) {
     if (widget.section.shouldHighlight != oldWidget.section.shouldHighlight) {
@@ -491,7 +485,6 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   void initState() {
-    print('init state');
     isExpanded = widget.section.shouldHighlight;
     _controller = AnimationController(
         vsync: this,
@@ -513,8 +506,6 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   Widget build(BuildContext context) {
-    _print('isExpanded: ${widget.section.shouldHighlight}');
-
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
     final showExpansionArrow = widget.section.subsections.isNotEmpty;
