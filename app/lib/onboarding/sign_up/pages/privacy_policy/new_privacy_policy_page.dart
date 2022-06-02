@@ -414,14 +414,14 @@ class TableOfContents extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // To test scroll behavior / layout
-                    ...tocController.documentSections
-                        .map(
-                          (section) => _TocHeading(
-                            key: ValueKey(section.id),
-                            section: section,
-                          ),
-                        )
-                        .toList(),
+                    ...tocController.documentSections.map(
+                      (section) {
+                        return _TocHeading(
+                          key: ValueKey(section.id),
+                          section: section,
+                        );
+                      },
+                    ).toList(),
                   ],
                 ),
               ),
@@ -460,19 +460,59 @@ class _TocHeadingState extends State<_TocHeading>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   bool isExpanded;
+  Animation<double> _heightFactor;
+
+  void _print(dynamic s) {
+    if (widget.section.id.id == 'bar') {
+      debugPrint(s.toString());
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _TocHeading oldWidget) {
+    print(
+        'Expansion changed: ${widget.section.shouldHighlight != oldWidget.section.shouldHighlight}');
+    if (widget.section.shouldHighlight != oldWidget.section.shouldHighlight) {
+      setState(() {
+        isExpanded = widget.section.shouldHighlight;
+        if (isExpanded) {
+          _controller.forward();
+        } else {
+          _controller.reverse().then<void>((void value) {
+            if (!mounted) return;
+            setState(() {
+              // Rebuild without widget.children.
+            });
+          });
+        }
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this);
-
+    print('init state');
+    isExpanded = widget.section.shouldHighlight;
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    if (isExpanded) _controller.value = 1.0;
+    _heightFactor = _controller.view;
     super.initState();
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    isExpanded = widget.section.shouldHighlight;
-    _controller.animateTo(isExpanded ? .5 : 0,
-        duration: Duration(milliseconds: 100));
+    // isExpanded = widget.section.shouldHighlight;
+    _print('isExpanded: $isExpanded');
+
+    _print('${_controller.value}');
 
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
@@ -512,46 +552,63 @@ class _TocHeadingState extends State<_TocHeading>
             ),
           ),
           if (isExpanded)
-            ...AnimationConfiguration.toStaggeredList(
-              duration: const Duration(milliseconds: 350),
-              childAnimationBuilder: (widget) => SlideAnimation(
-                horizontalOffset: 25,
-                child: FadeInAnimation(child: widget),
+            AnimatedBuilder(
+              animation: _heightFactor,
+              builder: (context, child) => ClipRRect(
+                child: Align(
+                  alignment: Alignment.center,
+                  heightFactor: _heightFactor.value,
+                  child: child,
+                ),
               ),
-              children: widget.section.subsections.map(
-                (subsection) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      left: 15.0,
-                      top: 5,
-                    ),
-                    child: _Highlight(
-                      onTap: () => tocController.scrollTo(subsection.id),
-                      shouldHighlight: subsection.shouldHighlight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 350),
+                  childAnimationBuilder: (widget) => SlideAnimation(
+                    horizontalOffset: 25,
+                    child: FadeInAnimation(child: widget),
+                  ),
+                  children: widget.section.subsections.map(
+                    (subsection) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          left: 15.0,
+                          top: 5,
                         ),
-                        child: Text(
-                          '${subsection.sectionHeadingText}',
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize -
-                                    .5,
-                                fontWeight: subsection.shouldHighlight
-                                    ? FontWeight.w400
-                                    : FontWeight.normal,
-                              ),
-                          textAlign: TextAlign.start,
+                        child: _Highlight(
+                          onTap: () => tocController.scrollTo(subsection.id),
+                          shouldHighlight: subsection.shouldHighlight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 8,
+                            ),
+                            child: Text(
+                              '${subsection.sectionHeadingText}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize -
+                                        .5,
+                                    fontWeight: subsection.shouldHighlight
+                                        ? FontWeight.w400
+                                        : FontWeight.normal,
+                                  ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ).toList(),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ),
             ),
         ],
       ),

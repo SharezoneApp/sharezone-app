@@ -28,7 +28,9 @@ class _PrivacyPolicyTocTempDevPageState
   @override
   void initState() {
     _sections = ValueNotifier<List<TocDocumentSectionView>>([]);
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _sections.value = notReadingSubsection;
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      // _sections.value = false ? notReadingSubsection : readingSubsection;
       _sections.value =
           timer.tick.isEven ? notReadingSubsection : readingSubsection;
     });
