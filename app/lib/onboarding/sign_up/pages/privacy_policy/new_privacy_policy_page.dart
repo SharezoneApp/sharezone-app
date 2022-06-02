@@ -461,6 +461,7 @@ class _TocHeadingState extends State<_TocHeading>
   AnimationController _controller;
   bool isExpanded;
   Animation<double> _heightFactor;
+  Animation<double> _expansionArrowTurns;
 
   void _print(dynamic s) {
     if (widget.section.id.id == 'bar') {
@@ -470,8 +471,6 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   void didUpdateWidget(covariant _TocHeading oldWidget) {
-    print(
-        'Expansion changed: ${widget.section.shouldHighlight != oldWidget.section.shouldHighlight}');
     if (widget.section.shouldHighlight != oldWidget.section.shouldHighlight) {
       setState(() {
         isExpanded = widget.section.shouldHighlight;
@@ -481,7 +480,7 @@ class _TocHeadingState extends State<_TocHeading>
           _controller.reverse().then<void>((void value) {
             if (!mounted) return;
             setState(() {
-              // Rebuild without widget.children.
+              // Rebuild without subsections
             });
           });
         }
@@ -494,9 +493,14 @@ class _TocHeadingState extends State<_TocHeading>
   void initState() {
     print('init state');
     isExpanded = widget.section.shouldHighlight;
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-    if (isExpanded) _controller.value = 1.0;
+    _controller = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 200),
+        value: isExpanded ? 1 : 0);
+
+    _expansionArrowTurns = _controller.drive(
+        Tween(begin: 0.0, end: 0.5).chain(CurveTween(curve: Curves.easeIn)));
+
     _heightFactor = _controller.view;
     super.initState();
   }
@@ -509,10 +513,7 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   Widget build(BuildContext context) {
-    // isExpanded = widget.section.shouldHighlight;
-    _print('isExpanded: $isExpanded');
-
-    _print('${_controller.value}');
+    _print('isExpanded: ${widget.section.shouldHighlight}');
 
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
@@ -544,7 +545,7 @@ class _TocHeadingState extends State<_TocHeading>
                   ),
                   if (showExpansionArrow)
                     RotationTransition(
-                      turns: _controller,
+                      turns: _expansionArrowTurns,
                       child: const Icon(Icons.expand_more),
                     )
                 ],
@@ -565,9 +566,9 @@ class _TocHeadingState extends State<_TocHeading>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 350),
+                  duration: const Duration(milliseconds: 200),
                   childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 25,
+                    horizontalOffset: 15,
                     child: FadeInAnimation(child: widget),
                   ),
                   children: widget.section.subsections.map(
