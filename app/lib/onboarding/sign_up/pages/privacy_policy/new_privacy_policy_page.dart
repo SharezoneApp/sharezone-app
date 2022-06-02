@@ -463,7 +463,6 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   void initState() {
-    isExpanded = widget.section.shouldHighlight;
     _controller = AnimationController(vsync: this);
 
     super.initState();
@@ -471,6 +470,7 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   Widget build(BuildContext context) {
+    isExpanded = widget.section.shouldHighlight;
     _controller.animateTo(isExpanded ? .5 : 0,
         duration: Duration(milliseconds: 100));
 
