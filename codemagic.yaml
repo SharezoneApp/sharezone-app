@@ -24,8 +24,8 @@ workflows:
     environment:
       groups:
         - github
-        - ios-publishing
-        - certificate_credentials
+        # - ios-publishing
+        # - certificate_credentials
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
       flutter: v2.10.5
