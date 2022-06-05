@@ -40,6 +40,7 @@ workflows:
     triggering:
       events:
         - pull_request
+    working_directory: app
     scripts:
       - name: Install dependencies
         script: flutter pub get
