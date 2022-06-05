@@ -1,0 +1,59 @@
+# We are using Codemagic beside GitHub Actions for our mobile CI/CD.
+#
+# The "codemagic.yaml" allows us to configure workflows without using the
+# UI-Editor. This has the advantage that changes are tracked in Git.
+#
+# You find the documentation about the codemagic.yaml here:
+# https://docs.codemagic.io/yaml/yaml-getting-started/
+
+# With "definitions" we are able to reuse code. Therefore, we can a script once
+# and use reuse this script in other workflows without duplicating it. Just
+# define a section with &NAME and use it with *NAME.
+#
+# Docs for definitions:
+# https://docs.codemagic.io/yaml/yaml-getting-started/#reusing-sections
+#
+# Sample by Codemagic:
+# https://github.com/codemagic-ci-cd/codemagic-sample-projects/blob/main/yaml/yaml_anchors_aliases_sample/codemagic.yaml
+
+workflows:
+  app-preview:
+    name: App Preview
+    instance_type: mac_mini
+    max_build_duration: 75
+    environment:
+      groups:
+        - github
+        - ios-publishing
+        - certificate_credentials
+      vars:
+        BUNDLE_ID: de.codingbrain.sharezone.app
+      flutter: v2.10.5
+    triggering:
+      events:
+        - pull_request
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Build APK
+        script: flutter build apk --debug --flavor dev
+      # - name: iOS Code signing
+      #   script: |
+      #     keychain initialize
+      #     app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
+      #     keychain add-certificates
+      #     xcode-project use-profiles
+      # - name: Build IPA
+      #   script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/ios/ipa/*.ipa
+    publishing:
+      scripts:
+        - name: Post App Preview
+          script: |
+            # Get App Preview CLI
+            git clone https://github.com/nilsreichardt/codemagic-app-preview.git
+            $FLUTTER_ROOT/bin/dart pub get
+
+            $FLUTTER_ROOT/bin/dart run codemagic_app_preview post --token $GITHUB_PAT --owner SharezoneApp --repo sharezone-app
