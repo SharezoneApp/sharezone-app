@@ -77,13 +77,8 @@ ${generateText(10)}
             )),
           );
 
-          await expectLater(find.byType(NewPrivacyPolicy),
-              matchesGoldenFile('goldens/golden_pp1.png'));
-
-          // await tester.flingFrom(Offset(0, 0), Offset(0, -100), 10000);
           await tester.fling(
               find.byType(PrivacyPolicyText), Offset(0, -400), 10000);
-          await tester.pumpAndSettle();
 
           expect(
               find.byWidgetPredicate((widget) =>
