@@ -235,7 +235,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                         children: [
                           TableOfContents(),
                           VerticalDivider(),
-                          _MainContent(),
+                          _MainContent(privacyPolicyMarkdownText: content),
                         ],
                       ),
                     ),
@@ -251,7 +251,10 @@ class NewPrivacyPolicy extends StatelessWidget {
 }
 
 class _MainContent extends StatelessWidget {
+  final String privacyPolicyMarkdownText;
+
   const _MainContent({
+    @required this.privacyPolicyMarkdownText,
     Key key,
   }) : super(key: key);
 
@@ -266,7 +269,7 @@ class _MainContent extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 _PrivacyPolicyHeading(),
                 Padding(
                   padding:
@@ -274,7 +277,9 @@ class _MainContent extends StatelessWidget {
                   child: _PrivacyPolicySubheading(),
                 ),
                 Divider(),
-                Flexible(child: PrivacyPolicyText()),
+                Flexible(
+                    child: PrivacyPolicyText(
+                        markdownText: privacyPolicyMarkdownText)),
                 Divider(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
@@ -687,7 +692,10 @@ class _DarkLightModeToggle extends StatelessWidget {
 }
 
 class PrivacyPolicyText extends StatelessWidget {
+  final String markdownText;
+
   const PrivacyPolicyText({
+    @required this.markdownText,
     Key key,
   }) : super(key: key);
 
@@ -711,7 +719,7 @@ class PrivacyPolicyText extends StatelessWidget {
       itemScrollController: _itemScrollController,
       itemPositionsListener: _itemPositionsListener,
       anchorsController: _anchorsController,
-      data: markdownPrivacyPolicy,
+      data: markdownText,
       onTapLink: (text, href, title) {
         if (href == null) return;
         if (href.startsWith('#')) {
