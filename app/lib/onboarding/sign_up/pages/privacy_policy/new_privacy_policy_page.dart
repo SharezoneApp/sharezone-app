@@ -520,7 +520,7 @@ class _TocHeadingState extends State<_TocHeading>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Highlight(
+          SectionHighlight(
             onTap: () => tocController.scrollTo(widget.section.id),
             shouldHighlight: widget.section.shouldHighlight,
             child: Padding(
@@ -589,7 +589,7 @@ class _TocHeadingState extends State<_TocHeading>
                           left: 15.0,
                           top: 5,
                         ),
-                        child: _Highlight(
+                        child: SectionHighlight(
                           onTap: () => tocController.scrollTo(subsection.id),
                           shouldHighlight: subsection.shouldHighlight,
                           child: Padding(
@@ -628,8 +628,8 @@ class _TocHeadingState extends State<_TocHeading>
   }
 }
 
-class _Highlight extends StatelessWidget {
-  const _Highlight({
+class SectionHighlight extends StatelessWidget {
+  const SectionHighlight({
     Key key,
     @required this.child,
     @required this.shouldHighlight,
