@@ -11,6 +11,19 @@ void main() {
       // Testing this might be done in a more e2e way since we already
       // test the logic in unit tests.
       group('table of contents', () {
+        group('section expansion', () {
+          // - A section with subsections is not expanded when it is not highlighted
+          // - When going into a section it expands automatically (even when a subsection is not already highlighted)
+          // - It stays expanded when scrolling inside the subsections of that section
+          // - When scrolling out of an expanded subsection it collapses
+          // - When pressing the expansion icon on a collapsed section it expands (without scrolling in the text)
+          // - When pressing the expansion icon on a expanded section it collapses
+          // - When being inside a section (thus it is expanded) and pressing the expansion icon it collapses and scrolling inside it wont expand it.
+          // - (See above) -> Scrolling back into it expands it again (the manual collapse isn't "saved")
+          // - When manually expanding a section and then scrolling inside it then the section is expanded
+          // (See above) -> Scrolling out of it collpases it again (the manual expansion isn't "saved")
+        });
+
         testWidgets('highlights no section if we havent crossed any yet',
             (tester) async {
           tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
