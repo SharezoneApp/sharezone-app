@@ -274,7 +274,7 @@ class _MainContent extends StatelessWidget {
                   child: _PrivacyPolicySubheading(),
                 ),
                 Divider(),
-                Flexible(child: _PrivacyPolicyMarkdown()),
+                Flexible(child: PrivacyPolicyText()),
                 Divider(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
@@ -686,8 +686,8 @@ class _DarkLightModeToggle extends StatelessWidget {
   }
 }
 
-class _PrivacyPolicyMarkdown extends StatelessWidget {
-  const _PrivacyPolicyMarkdown({
+class PrivacyPolicyText extends StatelessWidget {
+  const PrivacyPolicyText({
     Key key,
   }) : super(key: key);
 
