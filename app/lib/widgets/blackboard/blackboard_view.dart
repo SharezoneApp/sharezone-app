@@ -6,9 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:ui';
-
-import 'package:characters/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';

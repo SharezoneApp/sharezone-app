@@ -15,7 +15,7 @@ class Horizon extends PositionComponent with HasGameRef<TRexGame> {
   late final horizonLine = HorizonLine();
 
   @override
-  Future<void>? onLoad() {
+  Future<void> onLoad() async {
     addChild(horizonLine);
   }
 

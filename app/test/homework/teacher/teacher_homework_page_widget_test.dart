@@ -11,7 +11,6 @@ import 'dart:collection';
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
-import 'package:analytics/src/analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -22,7 +21,6 @@ import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
-import 'package:sharezone/homework/shared/animated_tab_visibility.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/teacher/src/teacher_archived_homework_list.dart';
 import 'package:sharezone/homework/teacher/src/teacher_homework_bottom_action_bar.dart';

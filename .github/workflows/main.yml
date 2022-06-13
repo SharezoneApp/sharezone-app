@@ -12,9 +12,8 @@ name: CI
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on pull request events but only for the main branch
+  # Triggers the workflow on pull request events
   pull_request:
-    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,6 +23,22 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow applies labels to pull requests based on the paths that are
+  # modified in the pull request.
+  #
+  # Edit `.github/labeler.yml` to configure labels.
+  #
+  # For more information, see: https://github.com/actions/labeler
+  label-pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v3
+    - name: Label PR
+      uses: actions/labeler@v3
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
   analyze:
     runs-on: ubuntu-latest
     # In draft PRs we might use TODOs temporarily.
@@ -56,11 +71,11 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.13.1'
-      - run: go install github.com/google/addlicense@latest
-      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt .
+      - run: go install github.com/google/addlicense@latest 
+      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" . 
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -76,11 +91,29 @@ jobs:
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
-
+      - run: echo $(pwd)/bin >> $GITHUB_PATH
+      
       - name: Run tests via "sz test"
         run: sz test -v
-
+      
+      # Uploads the results of failed tests as .zip to GitHub.
+      #
+      # You can find the file under the "Summary" Tab on GitHub when all jobs of
+      # this workflows finished.
+      - name: Upload failed golden tests
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: failed-golden-tests
+          # When a golden test failed, are the results stored in the "failures"
+          # folder. The failures can be at several places, like in the app
+          # folder and in different packages.
+          path: "**/failures/*.png"
+          # We ignore it when no files could be found because the test command
+          # could also be failed because of an unit test. In this case there
+          # would be no failed golden test to upload.
+          if-no-files-found: ignore   
+  
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
   # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).

@@ -59,14 +59,11 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
-      child: BlocProvider(
+    return BlocProvider(
+      bloc: bloc,
+      child: __HomeworkDialog(
+        homework: widget.homework,
         bloc: bloc,
-        child: __HomeworkDialog(
-          homework: widget.homework,
-          bloc: bloc,
-        ),
       ),
     );
   }

@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import '../notifications.dart';
-import 'action_request.dart';
 import 'instrumentation.dart';
-import 'push_notification.dart';
 
 class PushNotificationParser {
   final Map<String, PushNotificationParsingFunc> _parsingMap;

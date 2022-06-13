@@ -103,10 +103,8 @@ class DataDocumentPackage<T> {
     });
   }
 
-  void close() {
-    if (_isInitiated) {
-      _listener.cancel();
-    }
+  Future<void> close() async {
+    _listener?.cancel();
   }
 
   void unlock({DocumentReference newReference}) {
@@ -498,10 +496,8 @@ class DataCollectionPackage<T> {
     });
   }
 
-  void close() {
-    if (_isInitiated) {
-      _listener.cancel();
-    }
+  Future<void> close() async {
+    await _listener?.cancel();
   }
 
   void unlock({Query newReference}) {
