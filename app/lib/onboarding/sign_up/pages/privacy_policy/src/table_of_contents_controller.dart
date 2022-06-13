@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -59,8 +60,7 @@ class TableOfContentsController extends ChangeNotifier {
               // their subsections. We don't render the subsections of
               // subsections so we just set it to an empty list.
               subsections: [],
-              isExpanded:
-                  DocumentSectionId(section.sectionId) == isCurrentlyReading,
+              isExpanded: false,
             ))
         .toList();
 

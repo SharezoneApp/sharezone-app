@@ -42,8 +42,19 @@ void main() {
           // * Sections are collapsed by default
           test('All expandable sections are collapsed by default', () {
             final sections = [
-              _Section('Foo', subsections: ['Bar', 'Baz']),
-              _Section('Quz', subsections: ['Xyzzy'])
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
             ];
 
             final result = handler.handleSections(sections);
@@ -66,9 +77,47 @@ void main() {
               _Section(
                 'Foo',
                 isCurrentlyReading: true,
-                subsections: ['Bar', 'Baz'],
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
               ),
-              _Section('Quz', subsections: ['Xyzzy'])
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
+            ];
+
+            final result = handler.handleSections(sections);
+
+            expect(
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: true),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
+          });
+
+          test(
+              'A section in which a subsection is currently read is expanded automatically.',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz', isCurrentlyReading: true),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
             ];
 
             final result = handler.handleSections(sections);
@@ -190,12 +239,22 @@ class _SectionHandler {
   _SectionHandler() {}
 
   _SectionsResult handleSections(List<_Section> sections) {
-    final isCurrentlyReadingRes =
-        sections.where((element) => element.isCurrentlyReading);
     DocumentSectionId isCurrentlyReadingId;
-    if (isCurrentlyReadingRes.length > 1) throw ArgumentError();
-    if (isCurrentlyReadingRes.length == 1) {
-      isCurrentlyReadingId = DocumentSectionId(isCurrentlyReadingRes.single.id);
+    for (var section in sections) {
+      if (section.isCurrentlyReading) {
+        if (isCurrentlyReadingId != null)
+          throw ArgumentError('Several sections marked as currently reading');
+        isCurrentlyReadingId = DocumentSectionId(section.id);
+        break;
+      }
+      for (var subsection in section.subsections) {
+        if (subsection.isCurrentlyReading) {
+          if (isCurrentlyReadingId != null)
+            throw ArgumentError('Several sections marked as currently reading');
+          isCurrentlyReadingId = DocumentSectionId(subsection.id);
+          break;
+        }
+      }
     }
 
     final _sections = sections
@@ -204,8 +263,8 @@ class _SectionHandler {
             section.id,
             section.id,
             section.subsections
-                .map((subsectionName) =>
-                    DocumentSection(subsectionName, subsectionName))
+                .map((subsection) =>
+                    DocumentSection(subsection.id, subsection.id))
                 .toList(),
           ),
         )
@@ -259,7 +318,7 @@ class _SectionResult extends Equatable {
 
 class _Section extends Equatable {
   final String id;
-  final List<String> subsections;
+  final List<_Section> subsections;
   final bool isCurrentlyReading;
 
   @override
