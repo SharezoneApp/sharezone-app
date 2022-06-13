@@ -182,4 +182,6 @@ jobs:
 
       - name: Ensure build for macOS is working
         working-directory: app
-        run: flutter build macos --debug
+        run: | 
+          flutter config --enable-macos-desktop
+          flutter build macos --debug
