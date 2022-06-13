@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -22,6 +23,7 @@ void _testWidgets(String description, WidgetTesterCallback callback) {
 }
 
 void main() {
+  EquatableConfig.stringify = true;
   group(
     'privacy policy page',
     () {
@@ -46,9 +48,13 @@ void main() {
 
             final result = handler.handleSections(sections);
 
-            expect(result.sections, hasLength(2));
-            expect(result.sections,
-                everyElement((_SectionResult section) => !section.isExpanded));
+            expect(
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: false),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
           });
 
           // - When going into a section it expands automatically (even when a subsection is not already highlighted)
@@ -67,17 +73,13 @@ void main() {
 
             final result = handler.handleSections(sections);
 
-            expect(result.sections, hasLength(2));
             expect(
-                result.sections
-                    .singleWhere((section) => section.id == 'Foo')
-                    .isExpanded,
-                true);
-            expect(
-                result.sections
-                    .singleWhere((section) => section.id == 'Quz')
-                    .isExpanded,
-                false);
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: true),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
           });
 
           //
@@ -233,28 +235,37 @@ class MockCurrentlyReadingSectionController
       this.currentlyReadDocumentSectionOrNull);
 }
 
-class _SectionsResult {
+class _SectionsResult extends Equatable {
   final List<_SectionResult> sections;
 
-  _SectionsResult(this.sections);
+  @override
+  List<Object> get props => [sections];
+
+  const _SectionsResult(this.sections);
 }
 
-class _SectionResult {
+class _SectionResult extends Equatable {
   final bool isExpanded;
   final String id;
 
-  _SectionResult(
+  @override
+  List<Object> get props => [id, isExpanded];
+
+  const _SectionResult(
     this.id, {
     @required this.isExpanded,
   });
 }
 
-class _Section {
+class _Section extends Equatable {
   final String id;
   final List<String> subsections;
   final bool isCurrentlyReading;
 
-  _Section(
+  @override
+  List<Object> get props => [id, subsections, isCurrentlyReading];
+
+  const _Section(
     this.id, {
     this.subsections = const [],
     this.isCurrentlyReading = false,
