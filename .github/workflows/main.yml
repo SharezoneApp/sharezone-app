@@ -131,9 +131,8 @@ jobs:
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
         run: |
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
+          flutter test \
+            integration_test \
             --flavor dev \
             --dart-define \
             USER_1_EMAIL=$USER_1_EMAIL \
