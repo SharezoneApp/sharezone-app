@@ -158,7 +158,7 @@ jobs:
           # We can not use a multiline command because the
           # "android-emulator-runner" doesn't support it. It just takes every
           # line as separate command.
-          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD --dart-define IS_INTEGRATION_TEST=true
   
   ios-integration-test:
     runs-on: macos-latest
@@ -200,6 +200,8 @@ jobs:
             USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define \
             USER_1_PASSWORD=$USER_1_PASSWORD \
+            --dart-define \
+            IS_INTEGRATION_TEST=true \
             -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to

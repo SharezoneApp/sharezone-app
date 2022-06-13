@@ -21,6 +21,7 @@ import 'package:sharezone/notifications/widgets/error_dialog.dart';
 import 'package:sharezone/notifications/widgets/in_app_notification.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_utils/platform.dart';
 
 import 'action_requests/action_requests.dart';
 
@@ -126,8 +127,15 @@ class FirebaseMessagingCallbackConfigurator {
 }
 
 Future<void> _requestIOSPermission(BuildContext context) async {
-  // temp
-  return;
+  const isIntegrationTest = bool.fromEnvironment('IS_INTEGRATION_TEST');
+  final isAndroid = PlatformCheck.isAndroid;
+  if (isIntegrationTest && isAndroid) {
+    // We skip requesting the permission in the integration test for Android
+    // because when running the tests with GitHub Actions Android emulators, the
+    // following exception will be thrown: "MissingPluginException(No
+    // implementation found for method Messaging#requestPermission on channel".
+    return;
+  }
 
   final signUpBloc = BlocProvider.of<SignUpBloc>(context);
   final signedUp = await signUpBloc.signedUp.first;
