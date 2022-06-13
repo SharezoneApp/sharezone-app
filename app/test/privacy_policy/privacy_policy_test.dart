@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:quiver/check.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 import 'package:sharezone_utils/random_string.dart';
@@ -28,10 +29,15 @@ void main() {
       // test the logic in unit tests.
       group('table of contents', () {
         group('section expansion', () {
+          _SectionHandler handler;
+
+          setUp(() {
+            handler = _SectionHandler();
+          });
+
           // - A section with subsections is not expanded when it is not highlighte
           // * Sections are collapsed by default
           test('All expandable sections are collapsed by default', () {
-            final handler = _SectionHandler();
             final sections = [
               _Section('Foo', subsections: ['Bar', 'Baz']),
               _Section('Quz', subsections: ['Xyzzy'])
@@ -43,10 +49,37 @@ void main() {
             expect(result.sections,
                 everyElement((_SectionResult section) => !section.isExpanded));
           });
-          //
+
           // - When going into a section it expands automatically (even when a subsection is not already highlighted)
           // * A section that is currently read is expanded automatically.
           //   It doesn't matter if a subsection is already marked as currently read (there can be text before the first subsection).
+          test('A section that is currently read is expanded automatically.',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                isCurrentlyReading: true,
+                subsections: ['Bar', 'Baz'],
+              ),
+              _Section('Quz', subsections: ['Xyzzy'])
+            ];
+
+            final result = handler.handleSections(sections);
+
+            expect(result.sections, hasLength(2));
+            expect(
+                result.sections
+                    .singleWhere((section) => section.id == 'Foo')
+                    .isExpanded,
+                true);
+            expect(
+                result.sections
+                    .singleWhere((section) => section.id == 'Quz')
+                    .isExpanded,
+                false);
+          });
+
+          //
           //
           // - It stays expanded when scrolling inside the subsections of that section
           // * A subsection stays expanded when switching between currently read subsections
@@ -154,6 +187,9 @@ class _SectionHandler {
   _SectionHandler() {}
 
   _SectionsResult handleSections(List<_Section> sections) {
+    checkArgument(
+        sections.where((element) => element.isCurrentlyReading).length <= 1);
+
     final _sections = sections
         .map(
           (section) => DocumentSection(
@@ -174,7 +210,7 @@ class _SectionHandler {
     );
 
     final results = _tocController.documentSections
-        .map((e) => _SectionResult(e.isExpanded))
+        .map((e) => _SectionResult('${e.id}', isExpanded: e.isExpanded))
         .toList();
 
     return _SectionsResult(results);
@@ -189,15 +225,24 @@ class _SectionsResult {
 
 class _SectionResult {
   final bool isExpanded;
+  final String id;
 
-  _SectionResult(this.isExpanded);
+  _SectionResult(
+    this.id, {
+    @required this.isExpanded,
+  });
 }
 
 class _Section {
   final String id;
   final List<String> subsections;
+  final bool isCurrentlyReading;
 
-  _Section(this.id, {this.subsections = const []});
+  _Section(
+    this.id, {
+    this.subsections = const [],
+    this.isCurrentlyReading = false,
+  });
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
