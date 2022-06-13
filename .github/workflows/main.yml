@@ -125,26 +125,6 @@ jobs:
   # In the past, we had several times problems with building for specific
   # platforms. To prevent this on a PR level, we check for every pull request,
   # if the build is still possible.
-  ios-build-test:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-
-      - name: Ensure build for iOS is working
-        working-directory: app
-        run: flutter build ios --flavor prod --debug
-
-  # In the past, we had several times problems with building for specific
-  # platforms. To prevent this on a PR level, we check for every pull request,
-  # if the build is still possible.
   android-build-test:
     runs-on: ubuntu-latest
     steps:
