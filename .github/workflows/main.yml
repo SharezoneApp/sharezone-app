@@ -160,6 +160,48 @@ jobs:
           # line as separate command.
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
+  ios-integration-test:
+    runs-on: macos-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - uses: futureware-tech/simulator-action@v1
+        id: simulator
+        with:
+          model: "iPhone 13"
+      
+      - name: Run integration tests
+        working-directory: app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        # We use the `flutter drive` instead of the `flutter test` command
+        # because the test command times out after 12 minutes. But building the
+        # app takes more than 12 minutes... It seems so that there is no way to
+        # set the timeout (the --timeout argument has not effect). Tracking
+        # issue: https://github.com/flutter/flutter/issues/105913
+        run: |
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
+            --flavor dev \
+            --dart-define \
+            USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define \
+            USER_1_PASSWORD=$USER_1_PASSWORD \
+            -d $SIMULATOR_UDID
+
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
   # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
