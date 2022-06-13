@@ -115,14 +115,15 @@ jobs:
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
           SIMULATOR_UDID: ${{steps.simulator.outputs.udid}}
         run: |
-          flutter test \
-              integration_test \
-              --flavor dev \
-              --dart-define \
-              USER_1_EMAIL=$USER_1_EMAIL \
-              --dart-define \
-              USER_1_PASSWORD=$USER_1_PASSWORD
-              -d $SIMULATOR_UDID
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
+            --flavor dev \
+            --dart-define \
+            USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define \
+            USER_1_PASSWORD=$USER_1_PASSWORD
+            -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
