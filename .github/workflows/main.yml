@@ -98,7 +98,7 @@ jobs:
   
   ios-integration-test:
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       matrix:
         device:
@@ -138,7 +138,7 @@ jobs:
             --dart-define \
             USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define \
-            USER_1_PASSWORD=$USER_1_PASSWORD
+            USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to
