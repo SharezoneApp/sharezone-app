@@ -75,13 +75,23 @@ class TocDocumentSectionView {
   final String sectionHeadingText;
   final List<TocDocumentSectionView> subsections;
   final bool shouldHighlight;
+  final bool isExpanded;
+  bool get isExpandable => subsections.isNotEmpty;
 
   TocDocumentSectionView({
     @required this.id,
     @required this.sectionHeadingText,
     @required this.subsections,
     @required this.shouldHighlight,
-  });
+    @required this.isExpanded,
+  }) : assert(() {
+          // If there are no subsections there cant be a way
+          // for the section to be expanded.
+          if (subsections.isEmpty) {
+            return isExpanded == false;
+          }
+          return true;
+        }());
 
   @override
   bool operator ==(Object other) {
@@ -91,20 +101,24 @@ class TocDocumentSectionView {
     return other is TocDocumentSectionView &&
         other.id == id &&
         other.sectionHeadingText == sectionHeadingText &&
+        listEquals(other.subsections, subsections) &&
         other.shouldHighlight == shouldHighlight &&
-        listEquals(other.subsections, subsections);
+        other.isExpanded == isExpanded;
   }
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      sectionHeadingText.hashCode ^
-      subsections.hashCode ^
-      shouldHighlight.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        sectionHeadingText.hashCode ^
+        subsections.hashCode ^
+        shouldHighlight.hashCode ^
+        isExpanded.hashCode;
+  }
 
   @override
-  String toString() =>
-      'DocumentSection(id: $id, sectionName: $sectionHeadingText, shouldHighlight: $shouldHighlight, subsections: $subsections)';
+  String toString() {
+    return 'TocDocumentSectionView(id: $id, sectionHeadingText: $sectionHeadingText, subsections: $subsections, shouldHighlight: $shouldHighlight, isExpanded: $isExpanded)';
+  }
 }
 
 class PrivacyPolicyBloc extends BlocBase {
@@ -470,8 +484,8 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   void didUpdateWidget(covariant _TocHeading oldWidget) {
-    if (widget.section.shouldHighlight != oldWidget.section.shouldHighlight) {
-      _changeExpansion(widget.section.shouldHighlight);
+    if (widget.section.isExpanded != oldWidget.section.isExpanded) {
+      _changeExpansion(widget.section.isExpanded);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -494,7 +508,7 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   void initState() {
-    isExpanded = widget.section.shouldHighlight;
+    isExpanded = widget.section.isExpanded;
     _controller = AnimationController(
         vsync: this,
         duration: Duration(milliseconds: 200),
@@ -517,7 +531,7 @@ class _TocHeadingState extends State<_TocHeading>
   Widget build(BuildContext context) {
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
-    final showExpansionArrow = widget.section.subsections.isNotEmpty;
+    final showExpansionArrow = widget.section.isExpandable;
 
     return Padding(
       padding: const EdgeInsets.all(2.0),

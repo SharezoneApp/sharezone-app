@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 import 'package:sharezone_utils/random_string.dart';
 
 /// Our custom widget test function that we need to use so that we automatically
@@ -147,11 +149,35 @@ ${generateText(10)}
 }
 
 class _SectionHandler {
+  TableOfContentsController _tocController;
+
+  _SectionHandler() {}
+
   _SectionsResult handleSections(List<_Section> sections) {
-    return _SectionsResult([
-      _SectionResult(false),
-      _SectionResult(false),
-    ]);
+    final _sections = sections
+        .map(
+          (section) => DocumentSection(
+            section.id,
+            section.id,
+            section.subsections
+                .map((subsectionName) =>
+                    DocumentSection(subsectionName, subsectionName))
+                .toList(),
+          ),
+        )
+        .toList();
+
+    _tocController = TableOfContentsController.temp(
+      allDocumentSections: _sections,
+      anchorsController: AnchorsController(),
+      visibleSectionHeadings: ValueNotifier([]),
+    );
+
+    final results = _tocController.documentSections
+        .map((e) => _SectionResult(e.isExpanded))
+        .toList();
+
+    return _SectionsResult(results);
   }
 }
 

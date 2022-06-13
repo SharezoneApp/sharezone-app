@@ -59,6 +59,8 @@ class TableOfContentsController extends ChangeNotifier {
               // their subsections. We don't render the subsections of
               // subsections so we just set it to an empty list.
               subsections: [],
+              // TODO:
+              isExpanded: false,
             ))
         .toList();
 
@@ -70,6 +72,8 @@ class TableOfContentsController extends ChangeNotifier {
               isCurrentlyReading ||
           subsections.where((section) => section.shouldHighlight).isNotEmpty,
       subsections: subsections,
+      // TODO:
+      isExpanded: false,
     );
   }
 
