@@ -116,6 +116,8 @@ jobs:
   
   ios-integration-test:
     runs-on: macos-latest
+    # In draft PRs we disable integration tests.
+    if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
