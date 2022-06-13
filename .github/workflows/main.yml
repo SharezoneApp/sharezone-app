@@ -112,7 +112,42 @@ jobs:
           # We ignore it when no files could be found because the test command
           # could also be failed because of an unit test. In this case there
           # would be no failed golden test to upload.
-          if-no-files-found: ignore   
+          if-no-files-found: ignore
+  
+  web-integration-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+      
+      - name: Run integration tests
+        working-directory: app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: |
+          chromedriver --port=4444 &
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
+            --flavor dev \
+            --dart-define \
+            USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define \
+            USER_1_PASSWORD=$USER_1_PASSWORD \
+            -d web-server
   
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
