@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quiver/check.dart';
@@ -187,8 +188,13 @@ class _SectionHandler {
   _SectionHandler() {}
 
   _SectionsResult handleSections(List<_Section> sections) {
-    checkArgument(
-        sections.where((element) => element.isCurrentlyReading).length <= 1);
+    final isCurrentlyReadingRes =
+        sections.where((element) => element.isCurrentlyReading);
+    DocumentSectionId isCurrentlyReadingId;
+    if (isCurrentlyReadingRes.length > 1) throw ArgumentError();
+    if (isCurrentlyReadingRes.length == 1) {
+      isCurrentlyReadingId = DocumentSectionId(isCurrentlyReadingRes.single.id);
+    }
 
     final _sections = sections
         .map(
@@ -203,10 +209,11 @@ class _SectionHandler {
         )
         .toList();
 
-    _tocController = TableOfContentsController.temp(
-      allDocumentSections: _sections,
-      anchorsController: AnchorsController(),
-      visibleSectionHeadings: ValueNotifier([]),
+    _tocController = TableOfContentsController(
+      MockCurrentlyReadingSectionController(
+          ValueNotifier<DocumentSectionId>(isCurrentlyReadingId)),
+      _sections,
+      AnchorsController(),
     );
 
     final results = _tocController.documentSections
@@ -215,6 +222,15 @@ class _SectionHandler {
 
     return _SectionsResult(results);
   }
+}
+
+class MockCurrentlyReadingSectionController
+    implements CurrentlyReadingSectionController {
+  @override
+  final ValueNotifier<DocumentSectionId> currentlyReadDocumentSectionOrNull;
+
+  MockCurrentlyReadingSectionController(
+      this.currentlyReadDocumentSectionOrNull);
 }
 
 class _SectionsResult {

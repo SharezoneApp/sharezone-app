@@ -59,21 +59,22 @@ class TableOfContentsController extends ChangeNotifier {
               // their subsections. We don't render the subsections of
               // subsections so we just set it to an empty list.
               subsections: [],
-              // TODO:
-              isExpanded: false,
+              isExpanded:
+                  DocumentSectionId(section.sectionId) == isCurrentlyReading,
             ))
         .toList();
+
+    final isThisOrSubsectionCurrentlyRead =
+        DocumentSectionId(documentSection.sectionId) == isCurrentlyReading ||
+            subsections.where((section) => section.shouldHighlight).isNotEmpty;
 
     return TocDocumentSectionView(
       id: DocumentSectionId(documentSection.sectionId),
       sectionHeadingText: documentSection.sectionName,
       // We highlight if this or a subsection is active
-      shouldHighlight: DocumentSectionId(documentSection.sectionId) ==
-              isCurrentlyReading ||
-          subsections.where((section) => section.shouldHighlight).isNotEmpty,
+      shouldHighlight: isThisOrSubsectionCurrentlyRead,
       subsections: subsections,
-      // TODO:
-      isExpanded: false,
+      isExpanded: subsections.isNotEmpty && isThisOrSubsectionCurrentlyRead,
     );
   }
 
