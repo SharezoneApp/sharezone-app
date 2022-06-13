@@ -130,16 +130,21 @@ jobs:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        # We use the `flutter drive` instead of the `flutter test` command
+        # because the test command times out after 12 minutes. But building the
+        # app takes more than 12 minutes... It seems so that there is no way to
+        # set the timeout (the --timeout argument has not effect). Tracking
+        # issue: https://github.com/flutter/flutter/issues/105913
         run: |
-          flutter test \
-            integration_test \
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
             --flavor dev \
             --dart-define \
             USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define \
             USER_1_PASSWORD=$USER_1_PASSWORD \
-            -d $SIMULATOR_UDID \
-            --timeout none
+            -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
