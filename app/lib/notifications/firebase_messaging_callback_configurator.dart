@@ -126,6 +126,9 @@ class FirebaseMessagingCallbackConfigurator {
 }
 
 Future<void> _requestIOSPermission(BuildContext context) async {
+  // temp
+  return;
+
   final signUpBloc = BlocProvider.of<SignUpBloc>(context);
   final signedUp = await signUpBloc.signedUp.first;
 
