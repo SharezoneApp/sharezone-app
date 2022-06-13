@@ -3,6 +3,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone_utils/random_string.dart';
 
+/// Our custom widget test function that we need to use so that we automatically
+/// simulate custom dimensions for the "screen".
+///
+/// We can't use setUp since we need the [WidgetTester] object to set the
+/// dimensions and we only can access it when running [testWidgets].
+void _testWidgets(String description, WidgetTesterCallback callback) {
+  testWidgets(description, (tester) {
+    tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
+    tester.binding.window.devicePixelRatioTestValue = 1.0;
+    addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    return callback(tester);
+  });
+}
+
 void main() {
   group(
     'privacy policy page',
@@ -12,11 +26,35 @@ void main() {
       // test the logic in unit tests.
       group('table of contents', () {
         group('section expansion', () {
-          // - A section with subsections is not expanded when it is not highlighted
+          // - A section with subsections is not expanded when it is not highlighte
+          // * Sections are collapsed by default
+          test('All expandable sections are collapsed by default', () {
+            final handler = _SectionHandler();
+            final sections = [
+              _Section('Foo', subsections: ['Bar', 'Baz']),
+              _Section('Quz', subsections: ['Xyzzy'])
+            ];
+
+            final result = handler.handleSections(sections);
+
+            expect(result.sections, hasLength(2));
+            expect(result.sections,
+                everyElement((_SectionResult section) => !section.isExpanded));
+          });
+          //
           // - When going into a section it expands automatically (even when a subsection is not already highlighted)
+          // * A section that is currently read is expanded automatically.
+          //   It doesn't matter if a subsection is already marked as currently read (there can be text before the first subsection).
+          //
           // - It stays expanded when scrolling inside the subsections of that section
+          // * A subsection stays expanded when switching between currently read subsections
+          //
           // - When scrolling out of an expanded subsection it collapses
+          // * If a subsection is not currently read anymore it collapses
+          //
           // - When pressing the expansion icon on a collapsed section it expands (without scrolling in the text)
+          // *
+          //
           // - When pressing the expansion icon on a expanded section it collapses
           // - When being inside a section (thus it is expanded) and pressing the expansion icon it collapses and scrolling inside it wont expand it.
           // - (See above) -> Scrolling back into it expands it again (the manual collapse isn't "saved")
@@ -106,6 +144,34 @@ ${generateText(10)}
       });
     },
   );
+}
+
+class _SectionHandler {
+  _SectionsResult handleSections(List<_Section> sections) {
+    return _SectionsResult([
+      _SectionResult(false),
+      _SectionResult(false),
+    ]);
+  }
+}
+
+class _SectionsResult {
+  final List<_SectionResult> sections;
+
+  _SectionsResult(this.sections);
+}
+
+class _SectionResult {
+  final bool isExpanded;
+
+  _SectionResult(this.isExpanded);
+}
+
+class _Section {
+  final String id;
+  final List<String> subsections;
+
+  _Section(this.id, {this.subsections = const []});
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
