@@ -117,11 +117,6 @@ jobs:
   ios-integration-test:
     runs-on: macos-latest
     timeout-minutes: 45
-    strategy:
-      matrix:
-        device:
-          - "iPhone 13"
-      fail-fast: false
     steps:
       - uses: actions/checkout@v3
 
@@ -136,7 +131,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v1
         id: simulator
         with:
-          model: ${{ matrix.device }}
+          model: "iPhone 13"
       
       - name: Run integration tests
         working-directory: app
