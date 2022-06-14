@@ -121,6 +121,12 @@ jobs:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [30]
+        # The package requires the PlayStore on the device.
+        target: [google_atd]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -142,17 +148,8 @@ jobs:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
         with:
-          # We use the "google_atd" target because it's designed for automated
-          # testing.
-          #
-          # See
-          # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html.
-          #
-          # Because of the use of "google_atd" we are bit limited in the choice
-          # of API level, arch and channel. See here all requirements:
-          # https://github.com/ReactiveCircus/android-emulator-runner#configurations 
-          api-level: 30
-          target: google_atd
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
           arch: x86
           profile: pixel_3a
           channel: canary
