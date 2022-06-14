@@ -155,6 +155,7 @@ jobs:
         # Because of the use of "google_atd" we are bit limited in the choice of
         # API level, arch and channel. See here all requirements:
         # https://github.com/ReactiveCircus/android-emulator-runner#configurations 
+        # Additionally taking Screenshots does not work on ATD (see the google blog link further above).
         with:
           api-level: 30
           target: google_atd
