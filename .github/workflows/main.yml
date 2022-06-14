@@ -121,6 +121,12 @@ jobs:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        test2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        test3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -167,21 +173,7 @@ jobs:
     runs-on: macos-latest
     if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        test2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        test3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
-      - name: Use matrix
-        env:
-          test1: ${{ matrix.test1 }}
-          test2: ${{ matrix.test2 }}
-          test3: ${{ matrix.test3 }}
-        run: |
-          echo $test1 $test2 $test3
-
       - uses: actions/checkout@v3
 
       - name: Set Flutter version from FVM config file to environment variables
