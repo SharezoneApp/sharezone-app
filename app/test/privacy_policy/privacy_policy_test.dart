@@ -196,6 +196,50 @@ void main() {
             );
           });
 
+          test(
+              'When manually expanding a section it stays open even if it the user finishes reading it',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                isCurrentlyReading: true,
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              ),
+              _Section(
+                'Mur',
+                subsections: const [
+                  _Section('Olong'),
+                ],
+              )
+            ];
+            // TODO: Split handle Sections into "build sections" and "get current state"?
+            handler.handleSections(sections);
+
+            handler.toggleExpansionOfSection('Quz');
+            handler.markAsCurrentlyRead('Quz');
+            handler.markAsCurrentlyRead('Mur');
+            handler.markAsCurrentlyRead(null);
+
+            final result = handler.handleSections(sections);
+            expect(
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: false),
+                _SectionResult('Quz', isExpanded: true),
+                _SectionResult('Mur', isExpanded: false),
+              ],
+            );
+          });
+
           // TODO: Update below - Manually toggling a section open should always
           // leave it open but closing it reverts it back to the default state
           // (open when highlighted).
@@ -295,6 +339,7 @@ ${generateText(10)}
 
 class _SectionHandler {
   TableOfContentsController _tocController;
+  ValueNotifier<DocumentSectionId> _currentlyReadingNotifier;
 
   _SectionHandler() {}
 
@@ -330,9 +375,10 @@ class _SectionHandler {
         )
         .toList();
 
+    _currentlyReadingNotifier ??=
+        ValueNotifier<DocumentSectionId>(isCurrentlyReadingId);
     _tocController ??= TableOfContentsController(
-      MockCurrentlyReadingSectionController(
-          ValueNotifier<DocumentSectionId>(isCurrentlyReadingId)),
+      MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections,
       AnchorsController(),
     );
@@ -346,6 +392,14 @@ class _SectionHandler {
 
   void toggleExpansionOfSection(String sectionId) {
     _tocController.toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
+  }
+
+  void markAsCurrentlyRead(String sectionId) {
+    if (sectionId == null) {
+      _currentlyReadingNotifier.value = null;
+    } else {
+      _currentlyReadingNotifier.value = DocumentSectionId(sectionId);
+    }
   }
 }
 
