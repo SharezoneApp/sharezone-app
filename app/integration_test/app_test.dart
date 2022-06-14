@@ -6,14 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-/// Increasing the timeout in order to be able to run the tests on slower
-/// machines.
-///
-/// The default timeout for integration tests is 12 minutes. But building the
-/// app with slower machines (e.g. GitHub Actions) takes more than 12 minutes
-/// (like 20 minutes). Therefore, the test times out even though the app isn't
-/// yet compiled.
 @Timeout(Duration(minutes: 60))
+// Increasing the timeout in order to be able to run the tests on slower
+// machines.
+//
+// The default timeout for integration tests is 12 minutes. But building the app
+// with slower machines (e.g. GitHub Actions) takes more than 12 minutes (like
+// 20 minutes). Therefore, the test times out even though the app isn't yet
+// compiled.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
