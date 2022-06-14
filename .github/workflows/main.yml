@@ -141,6 +141,15 @@ jobs:
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        # We are using the "google_atd" target because it's designed for
+        # automated testing.
+        #
+        # See
+        # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html.
+        #
+        # Because of the use of "google_atd" we are bit limited in the choice of
+        # API level, arch and channel. See here all requirements:
+        # https://github.com/ReactiveCircus/android-emulator-runner#configurations 
         with:
           api-level: 30
           target: google_atd
