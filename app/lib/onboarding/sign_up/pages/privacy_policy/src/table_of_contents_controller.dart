@@ -10,6 +10,7 @@ class TableOfContentsController extends ChangeNotifier {
   final List<DocumentSection> _allDocumentSections;
   final AnchorsController _anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
+  DocumentSectionId _manuallyToggledSectionId;
 
   factory TableOfContentsController.temp({
     ValueListenable<List<DocumentSectionHeadingPosition>>
@@ -32,15 +33,16 @@ class TableOfContentsController extends ChangeNotifier {
     this._allDocumentSections,
     this._anchorsController,
   ) {
-    _updateTocDocumentSections(
-        _activeSectionController.currentlyReadDocumentSectionOrNull.value);
+    _updateTocDocumentSections();
     _activeSectionController.currentlyReadDocumentSectionOrNull.addListener(() {
-      _updateTocDocumentSections(
-          _activeSectionController.currentlyReadDocumentSectionOrNull.value);
+      _updateTocDocumentSections();
     });
   }
 
-  void _updateTocDocumentSections(DocumentSectionId currentlyReadSection) {
+  void _updateTocDocumentSections() {
+    final currentlyReadSection =
+        _activeSectionController.currentlyReadDocumentSectionOrNull.value;
+
     final views = _allDocumentSections
         .map((section) => _toView(section, currentlyReadSection))
         .toList();
@@ -60,6 +62,8 @@ class TableOfContentsController extends ChangeNotifier {
               // their subsections. We don't render the subsections of
               // subsections so we just set it to an empty list.
               subsections: [],
+              // Since we don't display subsections of subsections this needs to
+              // be always false here.
               isExpanded: false,
             ))
         .toList();
@@ -74,7 +78,8 @@ class TableOfContentsController extends ChangeNotifier {
       // We highlight if this or a subsection is active
       shouldHighlight: isThisOrSubsectionCurrentlyRead,
       subsections: subsections,
-      isExpanded: subsections.isNotEmpty && isThisOrSubsectionCurrentlyRead,
+      isExpanded: subsections.isNotEmpty && isThisOrSubsectionCurrentlyRead ||
+          _manuallyToggledSectionId?.id == documentSection.sectionId,
     );
   }
 
@@ -83,6 +88,11 @@ class TableOfContentsController extends ChangeNotifier {
 
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
     return _anchorsController.scrollToAnchor(documentSectionId.id);
+  }
+
+  void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
+    _manuallyToggledSectionId = documentSectionId;
+    _updateTocDocumentSections();
   }
 }
 

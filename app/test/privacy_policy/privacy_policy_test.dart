@@ -131,16 +131,43 @@ void main() {
             );
           });
 
-          //
-          //
-          // - It stays expanded when scrolling inside the subsections of that section
-          // * A subsection stays expanded when switching between currently read subsections
-          //
-          // - When scrolling out of an expanded subsection it collapses
-          // * If a subsection is not currently read anymore it collapses
-          //
-          // - When pressing the expansion icon on a collapsed section it expands (without scrolling in the text)
-          // *
+          test(
+              'When manually toggling the expansion state on a collapsed section (currently not read) it expands',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
+            ];
+            handler.handleSections(sections);
+
+            handler.toggleExpansionOfSection('Quz');
+
+            final result = handler.handleSections(sections);
+            expect(
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: false),
+                _SectionResult('Quz', isExpanded: true),
+              ],
+            );
+          });
+
+          // TODO: Update below - Manually toggling a section open should always
+          // leave it open but closing it reverts it back to the default state
+          // (open when highlighted).
+          // Closing the currently read section (auto-expanded) will close it
+          // until it is again currently read.
           //
           // - When pressing the expansion icon on a expanded section it collapses
           // - When being inside a section (thus it is expanded) and pressing the expansion icon it collapses and scrolling inside it wont expand it.
@@ -270,7 +297,7 @@ class _SectionHandler {
         )
         .toList();
 
-    _tocController = TableOfContentsController(
+    _tocController ??= TableOfContentsController(
       MockCurrentlyReadingSectionController(
           ValueNotifier<DocumentSectionId>(isCurrentlyReadingId)),
       _sections,
@@ -282,6 +309,10 @@ class _SectionHandler {
         .toList();
 
     return _SectionsResult(results);
+  }
+
+  void toggleExpansionOfSection(String sectionId) {
+    _tocController.toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
   }
 }
 
