@@ -14,6 +14,10 @@ name: CI
 on:
   # Triggers the workflow on pull request events
   pull_request:
+    # The types trigger are needed to run the jobs again which are skipped for
+    # draft pull requests.
+    # https://github.community/t/dont-run-actions-on-draft-pull-requests/16817/16
+    types: [opened, synchronize, reopened, ready_for_review]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
