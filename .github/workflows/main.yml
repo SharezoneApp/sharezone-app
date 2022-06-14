@@ -146,8 +146,8 @@ jobs:
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
-        # We are using the "google_atd" target because it's designed for
-        # automated testing.
+        # We are using the "google_atd" ("Automated Test Device") target because it's designed for
+        # automated testing and thus uses fewer resources.
         #
         # See
         # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html.
