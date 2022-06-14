@@ -91,7 +91,12 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
-    _manuallyToggledSectionId = documentSectionId;
+    if (_manuallyToggledSectionId == documentSectionId) {
+      _manuallyToggledSectionId = null;
+    } else {
+      _manuallyToggledSectionId = documentSectionId;
+    }
+
     _updateTocDocumentSections();
   }
 }

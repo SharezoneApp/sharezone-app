@@ -163,6 +163,39 @@ void main() {
             );
           });
 
+          test(
+              'When manually toggling the expansion state on a manually expanded section (currently not read) it collapses',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
+            ];
+            handler.handleSections(sections);
+
+            handler.toggleExpansionOfSection('Quz');
+            handler.toggleExpansionOfSection('Quz');
+
+            final result = handler.handleSections(sections);
+            expect(
+              result.sections,
+              [
+                _SectionResult('Foo', isExpanded: false),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
+          });
+
           // TODO: Update below - Manually toggling a section open should always
           // leave it open but closing it reverts it back to the default state
           // (open when highlighted).
