@@ -149,7 +149,7 @@ jobs:
         # We are using the "google_atd" ("Automated Test Device") target because it's designed for
         # automated testing and thus uses fewer resources.
         #
-        # See
+        # See "Slimmer Emulator System Images" / "Automated Test Device" at:
         # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html.
         #
         # Because of the use of "google_atd" we are bit limited in the choice of
