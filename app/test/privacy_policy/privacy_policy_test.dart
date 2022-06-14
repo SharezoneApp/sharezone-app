@@ -27,15 +27,12 @@ void main() {
   group(
     'privacy policy page',
     () {
-      // TODO: Consider deleting these tests later.
-      // Testing this might be done in a more e2e way since we already
-      // test the logic in unit tests.
       group('table of contents', () {
         group('section expansion', () {
-          _SectionHandler handler;
+          _TableOfContentsTestController tocController;
 
           setUp(() {
-            handler = _SectionHandler();
+            tocController = _TableOfContentsTestController();
           });
 
           // - A section with subsections is not expanded when it is not highlighte
@@ -57,10 +54,10 @@ void main() {
               )
             ];
 
-            final result = handler.handleSections(sections);
+            tocController.build(sections);
 
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: false),
                 _SectionResult('Quz', isExpanded: false),
@@ -90,10 +87,10 @@ void main() {
               )
             ];
 
-            final result = handler.handleSections(sections);
+            tocController.build(sections);
 
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: true),
                 _SectionResult('Quz', isExpanded: false),
@@ -120,10 +117,10 @@ void main() {
               )
             ];
 
-            final result = handler.handleSections(sections);
+            tocController.build(sections);
 
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: true),
                 _SectionResult('Quz', isExpanded: false),
@@ -149,13 +146,12 @@ void main() {
                 ],
               )
             ];
-            handler.handleSections(sections);
+            tocController.build(sections);
 
-            handler.toggleExpansionOfSection('Quz');
+            tocController.toggleExpansionOfSection('Quz');
 
-            final result = handler.handleSections(sections);
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: false),
                 _SectionResult('Quz', isExpanded: true),
@@ -181,14 +177,13 @@ void main() {
                 ],
               )
             ];
-            handler.handleSections(sections);
+            tocController.build(sections);
 
-            handler.toggleExpansionOfSection('Quz');
-            handler.toggleExpansionOfSection('Quz');
+            tocController.toggleExpansionOfSection('Quz');
+            tocController.toggleExpansionOfSection('Quz');
 
-            final result = handler.handleSections(sections);
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: false),
                 _SectionResult('Quz', isExpanded: false),
@@ -221,17 +216,15 @@ void main() {
                 ],
               )
             ];
-            // TODO: Split handle Sections into "build sections" and "get current state"?
-            handler.handleSections(sections);
+            tocController.build(sections);
 
-            handler.toggleExpansionOfSection('Quz');
-            handler.markAsCurrentlyRead('Quz');
-            handler.markAsCurrentlyRead('Mur');
-            handler.markAsCurrentlyRead(null);
+            tocController.toggleExpansionOfSection('Quz');
+            tocController.markAsCurrentlyRead('Quz');
+            tocController.markAsCurrentlyRead('Mur');
+            tocController.markAsCurrentlyRead(null);
 
-            final result = handler.handleSections(sections);
             expect(
-              result.sections,
+              tocController.currentState.sections,
               [
                 _SectionResult('Foo', isExpanded: false),
                 _SectionResult('Quz', isExpanded: true),
@@ -253,6 +246,9 @@ void main() {
           // (See above) -> Scrolling out of it collpases it again (the manual expansion isn't "saved")
         });
 
+        // TODO: Consider deleting these tests later.
+        // Testing this might be done in a more e2e way since we already
+        // test the logic in unit tests.
         testWidgets('highlights no section if we havent crossed any yet',
             (tester) async {
           tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
@@ -337,13 +333,21 @@ ${generateText(10)}
   );
 }
 
-class _SectionHandler {
+class _TableOfContentsTestController {
   TableOfContentsController _tocController;
   ValueNotifier<DocumentSectionId> _currentlyReadingNotifier;
 
-  _SectionHandler() {}
+  _TableOfContentsTestController() {}
 
-  _SectionsResult handleSections(List<_Section> sections) {
+  _TocState get currentState {
+    final results = _tocController.documentSections
+        .map((e) => _SectionResult('${e.id}', isExpanded: e.isExpanded))
+        .toList();
+
+    return _TocState(results);
+  }
+
+  _TocState build(List<_Section> sections) {
     DocumentSectionId isCurrentlyReadingId;
     for (var section in sections) {
       if (section.isCurrentlyReading) {
@@ -387,7 +391,7 @@ class _SectionHandler {
         .map((e) => _SectionResult('${e.id}', isExpanded: e.isExpanded))
         .toList();
 
-    return _SectionsResult(results);
+    return _TocState(results);
   }
 
   void toggleExpansionOfSection(String sectionId) {
@@ -412,13 +416,13 @@ class MockCurrentlyReadingSectionController
       this.currentlyReadDocumentSectionOrNull);
 }
 
-class _SectionsResult extends Equatable {
+class _TocState extends Equatable {
   final List<_SectionResult> sections;
 
   @override
   List<Object> get props => [sections];
 
-  const _SectionsResult(this.sections);
+  const _TocState(this.sections);
 }
 
 class _SectionResult extends Equatable {
