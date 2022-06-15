@@ -39,6 +39,8 @@ void main() {
           // * Sections are collapsed by default
           // TODO: Remove unnecessary sections in some tests that are not
           // relevant to that specific test.
+          // TODO: Instead of Foo etc use section titles that are more "real"?
+          // TODO: Rename Section to Chapter?
           test('All expandable sections are collapsed by default', () {
             final sections = [
               _Section(
