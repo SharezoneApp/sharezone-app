@@ -492,7 +492,7 @@ class _TocHeadingState extends State<_TocHeading>
 
   void _changeExpansion(bool newExpansion) {
     setState(() {
-      isExpanded = newExpansion;
+      isExpanded = widget.section.isExpanded;
       if (isExpanded) {
         _controller.forward();
       } else {
@@ -573,6 +573,11 @@ class _TocHeadingState extends State<_TocHeading>
                         padding: EdgeInsets.all(0),
                         visualDensity: VisualDensity.compact,
                         onPressed: () {
+                          Provider.of<TableOfContentsController>(context,
+                                  listen: false)
+                              .toggleDocumentSectionExpansion(
+                                  widget.section.id);
+
                           _changeExpansion(!isExpanded);
                         },
                         icon: const Icon(Icons.expand_more),
