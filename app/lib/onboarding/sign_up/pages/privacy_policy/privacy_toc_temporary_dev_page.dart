@@ -66,6 +66,9 @@ class _MockTableOfContentsController extends ChangeNotifier
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
     return Future.value();
   }
+
+  @override
+  void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {}
 }
 
 final notReadingSubsection = [

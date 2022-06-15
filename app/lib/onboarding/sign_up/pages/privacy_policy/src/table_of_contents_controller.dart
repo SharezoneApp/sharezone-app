@@ -10,8 +10,9 @@ class TableOfContentsController extends ChangeNotifier {
   final List<DocumentSection> _allDocumentSections;
   final AnchorsController _anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
-  DocumentSectionId _manuallyExpandedSectionId;
-  DocumentSectionId _manuallyCollapsedSectionId;
+
+  final _manuallyExpandedSectionId = <DocumentSectionId>{};
+  final _manuallyCollapsedSectionId = <DocumentSectionId>{};
 
   factory TableOfContentsController.temp({
     ValueListenable<List<DocumentSectionHeadingPosition>>
@@ -76,16 +77,17 @@ class TableOfContentsController extends ChangeNotifier {
     bool shouldExpandSubsections = false;
     if (subsections.isNotEmpty) {
       final shouldAutomaticallyExpand = isThisOrSubsectionCurrentlyRead;
-      final isManuallyExpanded =
-          _manuallyExpandedSectionId?.id == documentSection.sectionId;
-      bool isManuallyCollapsed =
-          _manuallyCollapsedSectionId?.id == documentSection.sectionId;
+      final isManuallyExpanded = _manuallyExpandedSectionId
+          .contains(DocumentSectionId(documentSection.sectionId));
+      bool isManuallyCollapsed = _manuallyCollapsedSectionId
+          .contains(DocumentSectionId(documentSection.sectionId));
 
       if (isManuallyCollapsed && !shouldAutomaticallyExpand) {
         // If it was manually collapsed but is not currently read we reset the
         // section to its default behavior (to open automatically if currently
         // read).
-        _manuallyCollapsedSectionId = null;
+        _manuallyCollapsedSectionId
+            .remove(DocumentSectionId(documentSection.sectionId));
         isManuallyCollapsed = false;
       }
 
@@ -124,18 +126,18 @@ class TableOfContentsController extends ChangeNotifier {
 
     if (sectionToToggle.isExpanded) {
       final isManuallyExpanded =
-          _manuallyExpandedSectionId == documentSectionId;
+          _manuallyExpandedSectionId.contains(documentSectionId);
       if (isManuallyExpanded) {
-        _manuallyExpandedSectionId = null;
+        _manuallyExpandedSectionId.remove(documentSectionId);
       }
-      _manuallyCollapsedSectionId = documentSectionId;
+      _manuallyCollapsedSectionId.add(documentSectionId);
     } else {
       final isManuallyCollapsed =
-          _manuallyExpandedSectionId == documentSectionId;
+          _manuallyExpandedSectionId.contains(documentSectionId);
       if (isManuallyCollapsed) {
-        _manuallyCollapsedSectionId = null;
+        _manuallyCollapsedSectionId.remove(documentSectionId);
       }
-      _manuallyExpandedSectionId = documentSectionId;
+      _manuallyExpandedSectionId.add(documentSectionId);
     }
 
     _updateTocDocumentSections();

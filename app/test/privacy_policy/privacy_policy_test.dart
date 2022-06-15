@@ -334,6 +334,47 @@ void main() {
             );
           });
 
+          // TODO: Can be deleted later probably, was just so that my temp
+          // solution for the single section in tests above is forced to work
+          //for multiple sections.
+          test('Collapsing and Expanding multiple sections', () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              ),
+              _Section(
+                'Moa',
+                subsections: const [
+                  _Section('Zuz'),
+                ],
+              )
+            ];
+            tocController.build(sections);
+
+            tocController.toggleExpansionOfSection('Foo');
+            tocController.toggleExpansionOfSection('Quz');
+            tocController.markAsCurrentlyRead('Moa');
+
+            expect(
+              tocController.currentState.sections,
+              [
+                _SectionResult('Foo', isExpanded: true),
+                _SectionResult('Quz', isExpanded: true),
+                _SectionResult('Moa', isExpanded: true),
+              ],
+            );
+          });
+
           // TODO: Update below - Manually toggling a section open should always
           // leave it open but closing it reverts it back to the default state
           // (open when highlighted).
