@@ -11,6 +11,8 @@ class TableOfContentsController extends ChangeNotifier {
   final AnchorsController _anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
 
+  // TODO: Refactor Code and put section manual expansion/collapse code in a
+  // seperate class if possible.
   final _manuallyExpandedSectionId = <DocumentSectionId>{};
   final _manuallyCollapsedSectionId = <DocumentSectionId>{};
 
