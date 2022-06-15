@@ -10,7 +10,8 @@ class TableOfContentsController extends ChangeNotifier {
   final List<DocumentSection> _allDocumentSections;
   final AnchorsController _anchorsController;
   List<TocDocumentSectionView> _documentSections = [];
-  DocumentSectionId _manuallyToggledSectionId;
+  DocumentSectionId _manuallyExpandedSectionId;
+  DocumentSectionId _manuallyCollapsedSectionId;
 
   factory TableOfContentsController.temp({
     ValueListenable<List<DocumentSectionHeadingPosition>>
@@ -75,13 +76,23 @@ class TableOfContentsController extends ChangeNotifier {
     bool shouldExpandSubsections = false;
     if (subsections.isNotEmpty) {
       final shouldAutomaticallyExpand = isThisOrSubsectionCurrentlyRead;
-      final isManuallyToggled =
-          _manuallyToggledSectionId?.id == documentSection.sectionId;
-      if (shouldAutomaticallyExpand && !isManuallyToggled) {
-        shouldExpandSubsections = true;
+      final isManuallyExpanded =
+          _manuallyExpandedSectionId?.id == documentSection.sectionId;
+      bool isManuallyCollapsed =
+          _manuallyCollapsedSectionId?.id == documentSection.sectionId;
+
+      if (isManuallyCollapsed && !shouldAutomaticallyExpand) {
+        // If it was manually collapsed but is not currently read we reset the
+        // section to its default behavior (to open automatically if currently
+        // read).
+        _manuallyCollapsedSectionId = null;
+        isManuallyCollapsed = false;
       }
-      if (!shouldAutomaticallyExpand && isManuallyToggled) {
-        shouldExpandSubsections = true;
+
+      if (shouldAutomaticallyExpand) {
+        shouldExpandSubsections = !isManuallyCollapsed;
+      } else {
+        shouldExpandSubsections = isManuallyExpanded;
       }
     }
 
@@ -103,10 +114,28 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
-    if (_manuallyToggledSectionId == documentSectionId) {
-      _manuallyToggledSectionId = null;
+    // TODO: Write tests for ArgumentError
+    final sectionToToggle = documentSections.singleWhere(
+        (element) => element.id == documentSectionId,
+        orElse: () => throw ArgumentError(
+            "Unknown $documentSectionId. Can't toggle document section expansion."));
+    if (!sectionToToggle.isExpandable)
+      throw ArgumentError('$documentSectionId is not expandable.');
+
+    if (sectionToToggle.isExpanded) {
+      final isManuallyExpanded =
+          _manuallyExpandedSectionId == documentSectionId;
+      if (isManuallyExpanded) {
+        _manuallyExpandedSectionId = null;
+      }
+      _manuallyCollapsedSectionId = documentSectionId;
     } else {
-      _manuallyToggledSectionId = documentSectionId;
+      final isManuallyCollapsed =
+          _manuallyExpandedSectionId == documentSectionId;
+      if (isManuallyCollapsed) {
+        _manuallyCollapsedSectionId = null;
+      }
+      _manuallyExpandedSectionId = documentSectionId;
     }
 
     _updateTocDocumentSections();
