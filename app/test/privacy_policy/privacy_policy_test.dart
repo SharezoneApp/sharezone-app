@@ -259,7 +259,6 @@ void main() {
               ],
             );
           });
-          // TODO: Also if current section is not currently read
           test(
               'When manually collapsing a section that is currently read and scrolling in and out of then it will expand automatically again (default behavior)',
               () {
@@ -281,6 +280,43 @@ void main() {
             tocController.build(sections);
 
             // Will expand it automatically
+            tocController.markAsCurrentlyRead('Foo');
+            // We collapse it manually
+            tocController.toggleExpansionOfSection('Foo');
+            // "Scroll" out of the Foo chapter to Quz
+            tocController.markAsCurrentlyRead('Quz');
+            // "Scroll" back to Foo
+            tocController.markAsCurrentlyRead('Foo');
+
+            expect(
+              tocController.currentState.sections,
+              [
+                _SectionResult('Foo', isExpanded: true),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
+          });
+          test(
+              'When manually collapsing a section that is currently not read and scrolling in and out of then it will expand automatically again (default behavior)',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+              _Section(
+                'Quz',
+                subsections: const [
+                  _Section('Xyzzy'),
+                ],
+              )
+            ];
+            tocController.build(sections);
+
+            // We expand it manually
             tocController.markAsCurrentlyRead('Foo');
             // We collapse it manually
             tocController.toggleExpansionOfSection('Foo');
