@@ -197,7 +197,6 @@ void main() {
             final sections = [
               _Section(
                 'Foo',
-                isCurrentlyReading: true,
                 subsections: const [
                   _Section('Bar'),
                   _Section('Baz'),
@@ -209,26 +208,50 @@ void main() {
                   _Section('Xyzzy'),
                 ],
               ),
-              _Section(
-                'Mur',
-                subsections: const [
-                  _Section('Olong'),
-                ],
-              )
             ];
             tocController.build(sections);
 
-            tocController.toggleExpansionOfSection('Quz');
+            tocController.toggleExpansionOfSection('Foo');
+            tocController.markAsCurrentlyRead('Foo');
             tocController.markAsCurrentlyRead('Quz');
-            tocController.markAsCurrentlyRead('Mur');
             tocController.markAsCurrentlyRead(null);
 
             expect(
               tocController.currentState.sections,
               [
+                _SectionResult('Foo', isExpanded: true),
+                _SectionResult('Quz', isExpanded: false),
+              ],
+            );
+          });
+          test(
+              'When manually collapsing a section that is currently read it will stay closed when switching between its subchapters',
+              () {
+            final sections = [
+              _Section(
+                'Foo',
+                subsections: const [
+                  _Section('Bar'),
+                  _Section('Baz'),
+                ],
+              ),
+            ];
+            tocController.build(sections);
+
+            // Will expand it automatically
+            tocController.markAsCurrentlyRead('Foo');
+            // We collapse it manually
+            tocController.toggleExpansionOfSection('Foo');
+
+            // We "scroll" around in the subchapters of Foo
+            tocController.markAsCurrentlyRead('Bar');
+            tocController.markAsCurrentlyRead('Baz');
+            tocController.markAsCurrentlyRead('Bar');
+
+            expect(
+              tocController.currentState.sections,
+              [
                 _SectionResult('Foo', isExpanded: false),
-                _SectionResult('Quz', isExpanded: true),
-                _SectionResult('Mur', isExpanded: false),
               ],
             );
           });

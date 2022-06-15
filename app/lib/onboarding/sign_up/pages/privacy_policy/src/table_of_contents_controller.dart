@@ -72,14 +72,26 @@ class TableOfContentsController extends ChangeNotifier {
         DocumentSectionId(documentSection.sectionId) == isCurrentlyReading ||
             subsections.where((section) => section.shouldHighlight).isNotEmpty;
 
+    bool shouldExpandSubsections = false;
+    if (subsections.isNotEmpty) {
+      final shouldAutomaticallyExpand = isThisOrSubsectionCurrentlyRead;
+      final isManuallyToggled =
+          _manuallyToggledSectionId?.id == documentSection.sectionId;
+      if (shouldAutomaticallyExpand && !isManuallyToggled) {
+        shouldExpandSubsections = true;
+      }
+      if (!shouldAutomaticallyExpand && isManuallyToggled) {
+        shouldExpandSubsections = true;
+      }
+    }
+
     return TocDocumentSectionView(
       id: DocumentSectionId(documentSection.sectionId),
       sectionHeadingText: documentSection.sectionName,
       // We highlight if this or a subsection is active
       shouldHighlight: isThisOrSubsectionCurrentlyRead,
       subsections: subsections,
-      isExpanded: subsections.isNotEmpty && isThisOrSubsectionCurrentlyRead ||
-          _manuallyToggledSectionId?.id == documentSection.sectionId,
+      isExpanded: shouldExpandSubsections,
     );
   }
 
