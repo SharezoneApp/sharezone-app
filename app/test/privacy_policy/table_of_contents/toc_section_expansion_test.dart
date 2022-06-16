@@ -139,6 +139,7 @@ void main() {
       // relevant to that specific test.
       // TODO: Instead of Foo etc use section titles that are more "real"?
       // TODO: Rename Section to Chapter?
+      // TODO: Remove `isCurrentlyReading` property?
       test('All expandable sections are collapsed by default', () {
         final sections = [
           _Section(
