@@ -130,7 +130,7 @@ jobs:
     # README.md of the Android emulator action:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-11
-    if: ${{ github.event.pull_request.draft == false }}
+    # if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
