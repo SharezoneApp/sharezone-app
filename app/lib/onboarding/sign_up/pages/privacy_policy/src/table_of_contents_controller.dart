@@ -92,21 +92,48 @@ class TocSection {
     );
   }
 
+  // TODO: When Manually Collapsing a subsection and scrolling in it doesnt
+  // expand, only when scrolling out and in a second time.
   TocSection changeCurrentlyReadAccordingly(
       DocumentSectionId newCurrentlyReadSection) {
-    final isThisCurrentlyRead = id == newCurrentlyReadSection;
+    final wasThisOrSubsectionCurrentlyRead = isThisOrASubsectionCurrentlyRead;
 
+    // TODO: This can be removed without breaking any tests.
+    // We need to remove this, write tests that fail, and then reimplement this.
+    // (Without this "currently read" is not properly set for subsections)
     final newSubsections = subsections
-        .map((subsection) =>
-            subsection.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
+        .map((element) =>
+            element.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
         .toIList();
 
+    final newIsThisCurrentlyRead = id == newCurrentlyReadSection;
+    final isSubsectionCurrentlyRead = subsections
+        .where((sections) => sections.id == newCurrentlyReadSection)
+        .isNotEmpty;
+    final isThisOrSubsectionCurrentlyRead =
+        newIsThisCurrentlyRead || isSubsectionCurrentlyRead;
+
+    if (expansionMode == ExpansionMode.forced) {
+      if (wasThisOrSubsectionCurrentlyRead &&
+          !isThisOrSubsectionCurrentlyRead &&
+          !isExpanded) {
+        return copyWith(
+          isThisCurrentlyRead: newIsThisCurrentlyRead,
+          expansionMode: ExpansionMode.automatic,
+          subsections: newSubsections,
+        );
+      }
+      return copyWith(
+        isThisCurrentlyRead: newIsThisCurrentlyRead,
+        subsections: newSubsections,
+      );
+    }
+
     return copyWith(
-      isThisCurrentlyRead: isThisCurrentlyRead,
-      isExpanded: _isExpandedFromCurrentlyRead(isThisCurrentlyRead) ||
-          newSubsections
-              .where((subsection) => subsection.isThisCurrentlyRead)
-              .isNotEmpty,
+      isThisCurrentlyRead: newIsThisCurrentlyRead,
+      isExpanded: subsections.isNotEmpty && newIsThisCurrentlyRead ||
+          isSubsectionCurrentlyRead,
+      subsections: newSubsections,
     );
   }
 
