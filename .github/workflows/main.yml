@@ -116,7 +116,7 @@ jobs:
   
   ios-integration-test:
     runs-on: macos-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    # if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
