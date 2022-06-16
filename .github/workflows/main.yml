@@ -150,10 +150,8 @@ jobs:
             --driver=test_driver/integration_test.dart \
             --target=integration_test/app_test.dart \
             --flavor dev \
-            --dart-define \
-            USER_1_EMAIL=$USER_1_EMAIL \
-            --dart-define \
-            USER_1_PASSWORD=$USER_1_PASSWORD \
+            --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
 
   # We are building for every PR a web preview, which will be deployed to
