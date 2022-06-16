@@ -149,15 +149,16 @@ jobs:
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
-        # We are using the "google_atd" target because it's designed for
-        # automated testing.
+        # We are using the "google_atd" ("Automated Test Device") target because it's designed for
+        # automated testing and thus uses fewer resources.
         #
-        # See
+        # See "Slimmer Emulator System Images" / "Automated Test Device" at:
         # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html.
         #
         # Because of the use of "google_atd" we are bit limited in the choice of
         # API level, arch and channel. See here all requirements:
         # https://github.com/ReactiveCircus/android-emulator-runner#configurations 
+        # Additionally taking Screenshots does not work on ATD (see the google blog link further above).
         with:
           api-level: 30
           target: google_atd
@@ -167,7 +168,7 @@ jobs:
           emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back virtualscene -camera-front emulated
           working-directory: ./app
           # We can not use a multiline command because the
-          # "android-emulator-runner" doesn't support it. It just takes every
+          # "android-emulator-runner" action doesn't support it. It just takes every
           # line as separate command.
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD --dart-define IS_INTEGRATION_TEST=true
   
