@@ -171,7 +171,7 @@ jobs:
           arch: x86
           profile: pixel_3a
           channel: canary
-          # We use some boot options for the following reasons:
+          # We use some emulator options for the following reasons:
           # * "-no-boot-anim": Disables the boot animation for faster booting.
           # * "-no-window": Disables the graphical windows, so no display is
           #   required.
