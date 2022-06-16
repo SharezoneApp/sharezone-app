@@ -178,7 +178,17 @@ jobs:
           # * "-no-snapshot": Disables the quick boot feature. Therefore, the
           #   emulator does not load or save the emulator state. We want to have
           #   a fresh testing environment for every test run.
-          emulator-options: -no-snapshot -no-window -no-boot-anim
+          # * "-camera-back virtualscene": Shows this virtual room when opening
+          #   the back camera where you can walk. We are using this option
+          #   because most emulator have this option enabled when you create you
+          #   emulator via Android Studio. Can be helpful for testing things
+          #   with the camera. It's also possible to inject images into the
+          #   virtual scene to test things like qr code scanner.
+          # * "-camera-front": Shows this green monster when opening the front
+          #   camera. We are using this option because most emulator have this
+          #   option enabled when you create your emulator via Android Studio.
+          #   Can be helpful to test things with the camera.
+          emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back virtualscene -camera-front emulated
           working-directory: ./app
           # We can not use a multiline command because the
           # "android-emulator-runner" action doesn't support it. It just takes every
