@@ -235,7 +235,7 @@ jobs:
             USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define \
             USER_1_PASSWORD=$USER_1_PASSWORD \
-            --dart-define \
+            --dart-define
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
