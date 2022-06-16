@@ -128,6 +128,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
+
+      # Java is needed for building the APK, see
+      # https://github.com/marketplace/actions/flutter-action.
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
