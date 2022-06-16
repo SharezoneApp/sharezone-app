@@ -1,8 +1,169 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
+
+class _TableOfContents {
+  final IList<TocSection> sections;
+
+  _TableOfContents(this.sections);
+
+  _TableOfContents manuallyToggleShowSubsectionsOf(
+      DocumentSectionId sectionId) {
+    return copyWith(
+      sections: sections
+          .replaceAllWhereMap((section) => section.id == sectionId,
+              (section) => section.toggleExpansionManually())
+          .toIList(),
+    );
+  }
+
+  _TableOfContents copyWith({
+    IList<TocSection> sections,
+  }) {
+    return _TableOfContents(
+      sections ?? this.sections,
+    );
+  }
+
+  _TableOfContents changeCurrentlyReadSectionTo(
+      DocumentSectionId currentlyReadSection) {
+    return copyWith(
+      sections: sections
+          .map((section) =>
+              section.changeCurrentlyReadAccordingly(currentlyReadSection))
+          .toIList(),
+    );
+  }
+}
+
+extension ReplaceAllWhere<T> on IList<T> {
+  Iterable<T> replaceAllWhereMap(
+      Predicate<T> test, T Function(T element) toElement,
+      {ConfigList config}) {
+    return map((element) => test(element) ? toElement(element) : element,
+        config: config);
+  }
+}
+
+enum ExpansionMode { forced, automatic }
+
+class TocSection {
+  final DocumentSectionId id;
+  final String title;
+  final IList<TocSection> subsections;
+  final ExpansionMode expansionMode;
+  final bool isExpanded;
+  final bool isThisCurrentlyRead;
+
+  bool get isThisOrASubsectionCurrentlyRead =>
+      isThisCurrentlyRead ||
+      subsections
+          .where((subsection) => subsection.isThisOrASubsectionCurrentlyRead)
+          .isNotEmpty;
+
+  TocSection({
+    @required this.id,
+    @required this.title,
+    @required this.subsections,
+    @required this.isExpanded,
+    @required this.isThisCurrentlyRead,
+    @required this.expansionMode,
+  }) : assert(subsections
+                .where((element) => element.isThisOrASubsectionCurrentlyRead)
+                .length <=
+            1) {
+    if (subsections.isEmpty && isExpanded) {
+      throw ArgumentError(
+          '$TocSection cant be expanded if it has no subsections');
+    }
+  }
+
+  TocSection toggleExpansionManually() {
+    if (subsections.isEmpty) {
+      throw ArgumentError();
+    }
+    return copyWith(
+      isExpanded: !isExpanded,
+      expansionMode: ExpansionMode.forced,
+    );
+  }
+
+  TocSection changeCurrentlyReadAccordingly(
+      DocumentSectionId newCurrentlyReadSection) {
+    final isThisCurrentlyRead = id == newCurrentlyReadSection;
+
+    final newSubsections = subsections
+        .map((subsection) =>
+            subsection.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
+        .toIList();
+
+    return copyWith(
+      isThisCurrentlyRead: isThisCurrentlyRead,
+      isExpanded: _isExpandedFromCurrentlyRead(isThisCurrentlyRead) ||
+          newSubsections
+              .where((subsection) => subsection.isThisCurrentlyRead)
+              .isNotEmpty,
+    );
+  }
+
+  bool _isExpandedFromCurrentlyRead(bool newIsCurrentlyRead) {
+    if (subsections.isEmpty) return false;
+    if (expansionMode == ExpansionMode.forced) {
+      return isExpanded;
+    }
+    return newIsCurrentlyRead;
+  }
+
+  TocSection copyWith({
+    DocumentSectionId id,
+    String title,
+    IList<TocSection> subsections,
+    ExpansionMode expansionMode,
+    bool isExpanded,
+    bool isThisCurrentlyRead,
+  }) {
+    return TocSection(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      subsections: subsections ?? this.subsections,
+      expansionMode: expansionMode ?? this.expansionMode,
+      isExpanded: isExpanded ?? this.isExpanded,
+      isThisCurrentlyRead: isThisCurrentlyRead ?? this.isThisCurrentlyRead,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'TocSection(id: $id, title: $title, subsections: $subsections, expansionMode: $expansionMode, isExpanded: $isExpanded, isThisCurrentlyRead: $isThisCurrentlyRead, isThisOrASubsectionCurrentlyRead: $isThisOrASubsectionCurrentlyRead)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TocSection &&
+        other.id == id &&
+        other.title == title &&
+        other.subsections == subsections &&
+        other.expansionMode == expansionMode &&
+        other.isExpanded == isExpanded &&
+        other.isThisCurrentlyRead == isThisCurrentlyRead;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        title.hashCode ^
+        subsections.hashCode ^
+        expansionMode.hashCode ^
+        isExpanded.hashCode ^
+        isThisCurrentlyRead.hashCode;
+  }
+}
 
 class _SectionExpansionController {
   // TODO: Should probably be a model class not views.
@@ -50,7 +211,6 @@ class _SectionExpansionController {
       if (isManuallyCollapsed) {
         _manuallyCollapsedSectionId.remove(sectionId);
       }
-      _manuallyExpandedSectionId.add(sectionId);
     }
   }
 
@@ -98,9 +258,8 @@ class TableOfContentsController extends ChangeNotifier {
   final CurrentlyReadingSectionController _activeSectionController;
   final List<DocumentSection> _allDocumentSections;
   final AnchorsController _anchorsController;
-  // TODO: Can we somehow make this final?
-  _SectionExpansionController _sectionExpansionController;
-  List<TocDocumentSectionView> _documentSections = [];
+
+  _TableOfContents _tableOfContents;
 
   factory TableOfContentsController.temp({
     ValueListenable<List<DocumentSectionHeadingPosition>>
@@ -119,6 +278,111 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   TableOfContentsController(
+    this._activeSectionController,
+    this._allDocumentSections,
+    this._anchorsController,
+  ) {
+    final sections = _allDocumentSections
+        .map((e) => TocSection(
+              id: e.documentSectionId,
+              title: e.sectionName,
+              subsections: e.subsections
+                  .map(
+                    (sub) => TocSection(
+                      id: sub.documentSectionId,
+                      title: sub.sectionName,
+                      subsections: IList([]),
+                      isExpanded: false,
+                      isThisCurrentlyRead: false,
+                      expansionMode: ExpansionMode.automatic,
+                    ),
+                  )
+                  .toIList(),
+              isExpanded: false,
+              isThisCurrentlyRead: false,
+              expansionMode: ExpansionMode.automatic,
+            ))
+        .toIList();
+    _tableOfContents = _TableOfContents(sections);
+
+    _updateViews();
+    _activeSectionController.currentlyReadDocumentSectionOrNull.addListener(() {
+      final currentlyReadSection =
+          _activeSectionController.currentlyReadDocumentSectionOrNull.value;
+      _tableOfContents =
+          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
+      _updateViews();
+    });
+  }
+
+  Future<void> scrollTo(DocumentSectionId documentSectionId) {
+    return _anchorsController.scrollToAnchor(documentSectionId.id);
+  }
+
+  void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
+    _tableOfContents =
+        _tableOfContents.manuallyToggleShowSubsectionsOf(documentSectionId);
+
+    _updateViews();
+  }
+
+  List<TocDocumentSectionView> _documentSections;
+  List<TocDocumentSectionView> get documentSections =>
+      UnmodifiableListView(_documentSections);
+
+  void _updateViews() {
+    _documentSections =
+        _tableOfContents.sections.map((section) => _toView(section)).toList();
+    notifyListeners();
+  }
+
+  TocDocumentSectionView _toView(TocSection documentSection) {
+    print('$documentSection');
+    return TocDocumentSectionView(
+      id: documentSection.id,
+      isExpanded: documentSection.isExpanded,
+      sectionHeadingText: documentSection.title,
+      shouldHighlight: documentSection.isThisOrASubsectionCurrentlyRead,
+      subsections: documentSection.subsections
+          .map(
+            (subsection) => TocDocumentSectionView(
+              id: subsection.id,
+              isExpanded: subsection.isExpanded,
+              sectionHeadingText: subsection.title,
+              shouldHighlight: subsection.isThisOrASubsectionCurrentlyRead,
+              subsections: [],
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+
+class TableOfContentsControllerOld extends ChangeNotifier {
+  final CurrentlyReadingSectionController _activeSectionController;
+  final List<DocumentSection> _allDocumentSections;
+  final AnchorsController _anchorsController;
+  // TODO: Can we somehow make this final?
+  _SectionExpansionController _sectionExpansionController;
+  List<TocDocumentSectionView> _documentSections = [];
+
+  factory TableOfContentsControllerOld.temp({
+    ValueListenable<List<DocumentSectionHeadingPosition>>
+        visibleSectionHeadings,
+    List<DocumentSection> allDocumentSections,
+    AnchorsController anchorsController,
+  }) {
+    return TableOfContentsControllerOld(
+      CurrentlyReadingSectionController(
+        allDocumentSections,
+        visibleSectionHeadings,
+      ),
+      allDocumentSections,
+      anchorsController,
+    );
+  }
+
+  TableOfContentsControllerOld(
     this._activeSectionController,
     this._allDocumentSections,
     this._anchorsController,

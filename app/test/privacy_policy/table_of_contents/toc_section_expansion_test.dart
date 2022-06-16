@@ -18,24 +18,6 @@ class _TableOfContentsTestController {
   }
 
   _TocState build(List<_Section> sections) {
-    DocumentSectionId isCurrentlyReadingId;
-    for (var section in sections) {
-      if (section.isCurrentlyReading) {
-        if (isCurrentlyReadingId != null)
-          throw ArgumentError('Several sections marked as currently reading');
-        isCurrentlyReadingId = DocumentSectionId(section.id);
-        break;
-      }
-      for (var subsection in section.subsections) {
-        if (subsection.isCurrentlyReading) {
-          if (isCurrentlyReadingId != null)
-            throw ArgumentError('Several sections marked as currently reading');
-          isCurrentlyReadingId = DocumentSectionId(subsection.id);
-          break;
-        }
-      }
-    }
-
     final _sections = sections
         .map(
           (section) => DocumentSection(
@@ -49,8 +31,7 @@ class _TableOfContentsTestController {
         )
         .toList();
 
-    _currentlyReadingNotifier ??=
-        ValueNotifier<DocumentSectionId>(isCurrentlyReadingId);
+    _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId>(null);
     _tocController ??= TableOfContentsController(
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections,
@@ -111,15 +92,13 @@ class _SectionResult extends Equatable {
 class _Section extends Equatable {
   final String id;
   final List<_Section> subsections;
-  final bool isCurrentlyReading;
 
   @override
-  List<Object> get props => [id, subsections, isCurrentlyReading];
+  List<Object> get props => [id, subsections];
 
   const _Section(
     this.id, {
     this.subsections = const [],
-    this.isCurrentlyReading = false,
   });
 }
 
@@ -175,7 +154,6 @@ void main() {
         final sections = [
           _Section(
             'Foo',
-            isCurrentlyReading: true,
             subsections: const [
               _Section('Bar'),
               _Section('Baz'),
@@ -190,6 +168,7 @@ void main() {
         ];
 
         tocController.build(sections);
+        tocController.markAsCurrentlyRead('Foo');
 
         expect(
           tocController.currentState.sections,
@@ -208,7 +187,7 @@ void main() {
             'Foo',
             subsections: const [
               _Section('Bar'),
-              _Section('Baz', isCurrentlyReading: true),
+              _Section('Baz'),
             ],
           ),
           _Section(
@@ -220,6 +199,7 @@ void main() {
         ];
 
         tocController.build(sections);
+        tocController.markAsCurrentlyRead('Baz');
 
         expect(
           tocController.currentState.sections,
@@ -468,6 +448,38 @@ void main() {
             _SectionResult('Foo', isExpanded: true),
             _SectionResult('Quz', isExpanded: true),
             _SectionResult('Moa', isExpanded: true),
+          ],
+        );
+      });
+
+      // We had the bug that when collapsing and then extending a section you
+      // had to press two times to expand the section.
+      test(
+          'regression test: manually collapsing and expanding a section that is currently read',
+          () {
+        final sections = [
+          _Section(
+            'Foo',
+            subsections: const [
+              _Section('Bar'),
+              _Section('Baz'),
+            ],
+          ),
+        ];
+
+        tocController.build(sections);
+
+        // Will expand it automatically
+        tocController.markAsCurrentlyRead('Foo');
+        // Close is manually
+        tocController.toggleExpansionOfSection('Foo');
+        // Open it manually again
+        tocController.toggleExpansionOfSection('Foo');
+
+        expect(
+          tocController.currentState.sections,
+          [
+            _SectionResult('Foo', isExpanded: true),
           ],
         );
       });

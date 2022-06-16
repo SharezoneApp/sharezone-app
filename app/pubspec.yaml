@@ -55,6 +55,7 @@ dependencies:
   dio: ^4.0.0
   dynamic_links:
     path: ../lib/dynamic_links
+  fast_immutable_collections: ^7.4.1
   feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics

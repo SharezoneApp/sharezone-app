@@ -470,6 +470,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  fast_immutable_collections:
+    dependency: "direct main"
+    description:
+      name: fast_immutable_collections
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.4.1"
   fast_rsa:
     dependency: transitive
     description:
