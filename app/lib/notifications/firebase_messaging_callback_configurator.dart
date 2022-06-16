@@ -126,14 +126,15 @@ class FirebaseMessagingCallbackConfigurator {
   }
 }
 
+/// Prompts the native iOS permissions dialog to ask the user if we are allowed
+/// to send push notifications.
+///
+/// Does nothing if the platform is not iOS.
 Future<void> _requestIOSPermission(BuildContext context) async {
-  const isIntegrationTest = bool.fromEnvironment('IS_INTEGRATION_TEST');
-  final isAndroid = PlatformCheck.isAndroid;
-  if (isIntegrationTest && isAndroid) {
-    // We skip requesting the permission in the integration test for Android
-    // because when running the tests with GitHub Actions Android emulators, the
-    // following exception will be thrown: "MissingPluginException(No
-    // implementation found for method Messaging#requestPermission on channel".
+  if (!PlatformCheck.isIOS) {
+    // We are only using push notifications for iOS and Android. Android does
+    // not required to get the permission from the user. Therefore, we can skip
+    // this for Android devices.
     return;
   }
 
