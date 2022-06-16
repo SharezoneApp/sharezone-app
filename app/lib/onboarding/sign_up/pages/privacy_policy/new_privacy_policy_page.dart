@@ -39,7 +39,9 @@ AnchorsController _anchorsController;
 /// voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 /// ```
 class DocumentSection {
+  // TODO: Remove sectionId and replace with documentSectionId.
   final String sectionId;
+  DocumentSectionId get documentSectionId => DocumentSectionId(sectionId);
   final String sectionName;
   final List<DocumentSection> subsections;
 
