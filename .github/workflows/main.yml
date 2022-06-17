@@ -129,7 +129,7 @@ jobs:
     # hardware acceleration support provided by HAXM. See more details in the
     # README.md of the Android emulator action:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
-    runs-on: macos-11
+    runs-on: macos-latest
     # if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 30
     strategy:
@@ -174,7 +174,7 @@ jobs:
           api-level: 30
           target: google_atd
           arch: x86
-          profile: pixel_3a
+          profile: Galaxy Nexus
           channel: canary
           # We use some emulator options for the following reasons:
           # * "-no-boot-anim": Disables the boot animation for faster booting.
