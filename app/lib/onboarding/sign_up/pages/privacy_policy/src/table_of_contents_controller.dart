@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -55,10 +56,13 @@ class TocSection {
   final DocumentSectionId id;
   final String title;
   final IList<TocSection> subsections;
+
   final ExpansionMode expansionMode;
   final bool isExpanded;
-  final bool isThisCurrentlyRead;
+  bool get isCollapsed => !isExpanded;
+  bool get isExpandable => subsections.isNotEmpty;
 
+  final bool isThisCurrentlyRead;
   bool get isThisOrASubsectionCurrentlyRead =>
       isThisCurrentlyRead ||
       subsections
@@ -94,60 +98,24 @@ class TocSection {
 
   TocSection changeCurrentlyReadAccordingly(
       DocumentSectionId newCurrentlyReadSection) {
-    final wasThisOrSubsectionCurrentlyRead = isThisOrASubsectionCurrentlyRead;
-
     final newSubsections = subsections
-        .map((element) =>
-            element.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
+        .map((subsection) =>
+            subsection.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
         .toIList();
 
-    final newIsThisCurrentlyRead = id == newCurrentlyReadSection;
-    final isSubsectionCurrentlyRead = subsections
-        .where((sections) => sections.id == newCurrentlyReadSection)
-        .isNotEmpty;
-    final isThisOrSubsectionCurrentlyRead =
-        newIsThisCurrentlyRead || isSubsectionCurrentlyRead;
+    TocSection updated = copyWith(
+      isThisCurrentlyRead: id == newCurrentlyReadSection,
+      subsections: newSubsections,
+    );
 
-    if (expansionMode == ExpansionMode.forced) {
-      // When we go from some other section into a forced closed one we update
-      // the current section to it's "automatic" expansion mode (i.e. it
-      // expands again).
-      //
-      // We want that manually closed sections only stay closed when currently
-      // read and scrolling aroung in it.
-      // In every other case manually closing a section makes it expand
-      // automatically again (this is the case here).
-      if (!wasThisOrSubsectionCurrentlyRead &&
-          isThisOrSubsectionCurrentlyRead &&
-          !isExpanded) {
-        return copyWith(
-          isThisCurrentlyRead: newIsThisCurrentlyRead,
-          expansionMode: ExpansionMode.automatic,
-          subsections: newSubsections,
-          isExpanded: true,
-        );
-      }
-      // We either:
-      //
-      // 1. were and still are in a force-closed section.
-      //    It stays closed since else closing a currently read section and
-      //    scrolling around in it would expand it again right away.
-      //
-      // 2. are in a forced open section which is ment to always stay open until
-      //    a user closes it again manually.
-      return copyWith(
-        isThisCurrentlyRead: newIsThisCurrentlyRead,
-        subsections: newSubsections,
+    if (isExpandable) {
+      updated = _updateWithComputedExpansion(
+        old: this,
+        partiallyUpdated: updated,
       );
     }
 
-    // Normal automatic behavior.
-    return copyWith(
-      isThisCurrentlyRead: newIsThisCurrentlyRead,
-      isExpanded: subsections.isNotEmpty && newIsThisCurrentlyRead ||
-          isSubsectionCurrentlyRead,
-      subsections: newSubsections,
-    );
+    return updated;
   }
 
   TocSection copyWith({
@@ -195,6 +163,77 @@ class TocSection {
         isExpanded.hashCode ^
         isThisCurrentlyRead.hashCode;
   }
+}
+
+TocSection _updateWithComputedExpansion({
+  @required TocSection old,
+  @required TocSection partiallyUpdated,
+}) {
+  assert(old.isExpandable);
+  assert(partiallyUpdated.isExpandable);
+  // We use enum because it's more readable but don't use a switch statement
+  // because it makes its more unreadable than an if-else.
+  assert(partiallyUpdated.expansionMode == ExpansionMode.forced ||
+      partiallyUpdated.expansionMode == ExpansionMode.automatic);
+
+  // Default behavior
+  if (old.expansionMode == ExpansionMode.automatic) {
+    return partiallyUpdated.copyWith(
+      isExpanded: partiallyUpdated.isThisOrASubsectionCurrentlyRead,
+    );
+  }
+
+  if (old.expansionMode == ExpansionMode.forced) {
+    // When we go from some other section into a forced closed one we update
+    // the current section to it's "automatic" expansion mode (i.e. it
+    // expands again).
+    //
+    // We want that manually closed sections only stay closed when currently
+    // read and scrolling aroung in it.
+    // In every other case manually closing a section makes it expand
+    // automatically again when it is read (this is the case here).
+    //
+    // *Implementation note*
+    // This was implemented before that if we force-closed a currently read
+    // section and scrolled out of it that we would update the [ExpansionMode]
+    // to [ExpansionMode.automatic] again.
+    // This had the problem that if we come from a "no section read" state (e.g.
+    // this is the first section) that a force-closed section wouldn't open
+    // since we have never scrolled out of it (currently reading wasn't updated
+    // before we entered this section).
+
+    // If this is force-closed...
+    if (partiallyUpdated.isCollapsed &&
+        // ... and we just started reading this
+        !old.isThisOrASubsectionCurrentlyRead &&
+        partiallyUpdated.isThisOrASubsectionCurrentlyRead) {
+      // ... then we expand it and change to the default auto-expand behavior
+      return partiallyUpdated.copyWith(
+        isExpanded: true,
+        expansionMode: ExpansionMode.automatic,
+      );
+    }
+
+    // Behavior for if we
+    //
+    // 1. were and still are in a force-closed section.
+    //    It stays closed since else closing a currently read section and
+    //    scrolling around in it would expand it again right away.
+    //
+    // 2. are in a forced open section which is ment to always stay open until
+    //    a user closes it again manually.
+    //
+    // Altough this will also be the run if we scroll out of a forced-close
+    // section since we update to the default auto-expand mode only if when we
+    // enter the section again (see above).
+
+    // We could also just return [partiallyUpdated] but this is more explicit.
+    return partiallyUpdated.copyWith(
+      isExpanded: old.isExpanded,
+    );
+  }
+
+  throw UnimplementedError();
 }
 
 class TableOfContentsController extends ChangeNotifier {
@@ -249,6 +288,7 @@ class TableOfContentsController extends ChangeNotifier {
     _tableOfContents = _TableOfContents(sections);
 
     _updateViews();
+
     _activeSectionController.currentlyReadDocumentSectionOrNull.addListener(() {
       final currentlyReadSection =
           _activeSectionController.currentlyReadDocumentSectionOrNull.value;
