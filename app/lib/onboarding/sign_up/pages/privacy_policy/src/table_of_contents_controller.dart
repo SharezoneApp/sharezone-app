@@ -242,22 +242,6 @@ class TableOfContentsController extends ChangeNotifier {
 
   _TableOfContents _tableOfContents;
 
-  factory TableOfContentsController.temp({
-    ValueListenable<List<DocumentSectionHeadingPosition>>
-        visibleSectionHeadings,
-    List<DocumentSection> allDocumentSections,
-    AnchorsController anchorsController,
-  }) {
-    return TableOfContentsController(
-      CurrentlyReadingSectionController(
-        allDocumentSections,
-        visibleSectionHeadings,
-      ),
-      allDocumentSections,
-      anchorsController,
-    );
-  }
-
   TableOfContentsController(
     this._activeSectionController,
     this._allDocumentSections,
