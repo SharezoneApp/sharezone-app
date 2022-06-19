@@ -13,7 +13,7 @@ void main() {
     }
 
     test(
-        'doesnt mark ayn section as active if none are or have been visible on the page',
+        'doesnt mark any section as active if none are or have been visible on the page',
         () {
       final sections = [
         DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
