@@ -348,8 +348,9 @@ void main() {
           DocumentSectionId('1-wichtige-begriffe'));
     });
 
-    // TODO:
-    test('regression test: TODO: TITLE', () {
+    test(
+        'regression test: Being inbetween two sections (both headings not visible)',
+        () {
       final sections = [
         DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
         DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
