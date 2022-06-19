@@ -483,6 +483,42 @@ void main() {
           ],
         );
       });
+      test(
+          'regression test: reading a manually collapsed section should expand it',
+          () {
+        final sections = [
+          _Section(
+            'Foo',
+            subsections: const [
+              _Section('Bar'),
+              _Section('Baz'),
+            ],
+          ),
+          _Section(
+            'Quz',
+            subsections: const [
+              _Section('Xyzzy'),
+            ],
+          ),
+        ];
+
+        tocController.build(sections);
+
+        // Open manually
+        tocController.toggleExpansionOfSection('Foo');
+        // Close manually
+        tocController.toggleExpansionOfSection('Foo');
+
+        tocController.markAsCurrentlyRead('Foo');
+
+        expect(
+          tocController.currentState.sections,
+          [
+            _SectionResult('Foo', isExpanded: true),
+            _SectionResult('Quz', isExpanded: false),
+          ],
+        );
+      });
     });
   });
 }

@@ -92,8 +92,6 @@ class TocSection {
     );
   }
 
-  // TODO: When Manually Collapsing a subsection and scrolling in it doesnt
-  // expand, only when scrolling out and in a second time.
   TocSection changeCurrentlyReadAccordingly(
       DocumentSectionId newCurrentlyReadSection) {
     final wasThisOrSubsectionCurrentlyRead = isThisOrASubsectionCurrentlyRead;
@@ -114,21 +112,39 @@ class TocSection {
         newIsThisCurrentlyRead || isSubsectionCurrentlyRead;
 
     if (expansionMode == ExpansionMode.forced) {
-      if (wasThisOrSubsectionCurrentlyRead &&
-          !isThisOrSubsectionCurrentlyRead &&
+      // When we go from some other section into a forced closed one we update
+      // the current section to it's "automatic" expansion mode (i.e. it
+      // expands again).
+      //
+      // We want that manually closed sections only stay closed when currently
+      // read and scrolling aroung in it.
+      // In every other case manually closing a section makes it expand
+      // automatically again (this is the case here).
+      if (!wasThisOrSubsectionCurrentlyRead &&
+          isThisOrSubsectionCurrentlyRead &&
           !isExpanded) {
         return copyWith(
           isThisCurrentlyRead: newIsThisCurrentlyRead,
           expansionMode: ExpansionMode.automatic,
           subsections: newSubsections,
+          isExpanded: true,
         );
       }
+      // We either:
+      //
+      // 1. were and still are in a force-closed section.
+      //    It stays closed since else closing a currently read section and
+      //    scrolling around in it would expand it again right away.
+      //
+      // 2. are in a forced open section which is ment to always stay open until
+      //    a user closes it again manually.
       return copyWith(
         isThisCurrentlyRead: newIsThisCurrentlyRead,
         subsections: newSubsections,
       );
     }
 
+    // Normal automatic behavior.
     return copyWith(
       isThisCurrentlyRead: newIsThisCurrentlyRead,
       isExpanded: subsections.isNotEmpty && newIsThisCurrentlyRead ||
@@ -364,7 +380,6 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   TocDocumentSectionView _toView(TocSection documentSection) {
-    print('$documentSection');
     return TocDocumentSectionView(
       id: documentSection.id,
       isExpanded: documentSection.isExpanded,
