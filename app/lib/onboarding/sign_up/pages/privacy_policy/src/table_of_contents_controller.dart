@@ -96,9 +96,6 @@ class TocSection {
       DocumentSectionId newCurrentlyReadSection) {
     final wasThisOrSubsectionCurrentlyRead = isThisOrASubsectionCurrentlyRead;
 
-    // TODO: This can be removed without breaking any tests.
-    // We need to remove this, write tests that fail, and then reimplement this.
-    // (Without this "currently read" is not properly set for subsections)
     final newSubsections = subsections
         .map((element) =>
             element.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
