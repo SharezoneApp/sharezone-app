@@ -450,17 +450,159 @@ class TableOfContents extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // throw UnimplementedError(
-                //     'Table of content FAB onPress not implemented.');
-              },
-              label: Text('Einklappen'),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment(-.7, 0.0),
+                  child: Text(
+                    'Weitere Optionen',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                SizedBox(height: 13),
+                TextButton.icon(
+                  onPressed: () {
+                    final privacyPolicyPageContext = context;
+                    showDialog(
+                      context: context,
+                      builder: (context) => DisplaySettingsDialog(
+                        oldContext: privacyPolicyPageContext,
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.display_settings),
+                  label: Text('Darstellung ändern'),
+                ),
+                SizedBox(height: 8),
+                TextButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.download),
+                  label: Text('Als PDF herunterladen'),
+                ),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class DisplaySettingsDialog extends StatelessWidget {
+  const DisplaySettingsDialog({Key key, @required this.oldContext})
+      : super(key: key);
+
+  // TODO: Better name (here and below)
+  final BuildContext oldContext;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: Text('Anzeigeeinstellungen'),
+      children: [
+        _TextSize(oldContext: oldContext),
+        _LightOrDarkMode(oldContext: oldContext),
+      ],
+    );
+  }
+}
+
+class _TextSize extends StatelessWidget {
+  const _TextSize({
+    Key key,
+    this.oldContext,
+  }) : super(key: key);
+
+  final BuildContext oldContext;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeSettings = oldContext.watch<ThemeSettings>();
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Schriftgröße', style: Theme.of(context).textTheme.button),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).textTheme.bodyMedium.color,
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    themeSettings.textScalingFactor =
+                        (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
+                  },
+                ),
+                Text('${themeSettings.textScalingFactor}'),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    themeSettings.textScalingFactor =
+                        (themeSettings.textScalingFactor * 10 + 0.1 * 10) / 10;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LightOrDarkMode extends StatelessWidget {
+  const _LightOrDarkMode({
+    Key key,
+    this.oldContext,
+  }) : super(key: key);
+
+  final BuildContext oldContext;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeSettings = oldContext.watch<ThemeSettings>();
+
+    return Row(
+      children: [
+        Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
+        ToggleButtons(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          borderColor: Theme.of(context).textTheme.bodyMedium.color,
+          children: [
+            Icon(Icons.dark_mode),
+            Icon(Icons.light_mode),
+            Icon(Icons.settings_brightness),
+          ],
+          isSelected: [
+            themeSettings.themeBrightness == ThemeBrightness.dark,
+            themeSettings.themeBrightness == ThemeBrightness.light,
+            themeSettings.themeBrightness == ThemeBrightness.system,
+          ],
+          onPressed: (index) {
+            final brightness = <int, ThemeBrightness>{
+              0: ThemeBrightness.dark,
+              1: ThemeBrightness.light,
+              2: ThemeBrightness.system,
+            }[index];
+
+            themeSettings.themeBrightness = brightness;
+          },
+        ),
+      ],
     );
   }
 }
