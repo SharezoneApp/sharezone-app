@@ -426,6 +426,9 @@ class CurrentlyReadingSectionController {
       else {
         final _lastIndex = _indexOf(_lastSeenTopmostVisibleSectionHeader);
 
+        // TODO: Last currently read section should be marked as read?
+        // At least for small headers?
+
         // Unknown Heading - A heading is visible thats not inside our predefined
         // list. Doesn't necessary need to be an error since we might not want to
         // show all headings inside our TOC (e.g. the first `#` heading or very
