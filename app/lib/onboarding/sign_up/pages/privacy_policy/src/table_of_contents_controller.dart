@@ -95,6 +95,8 @@ class TocSection {
     );
   }
 
+  // TODO: Rename method (so its clear that it changes also its expansion
+  // instead of only updating the currently read state)
   TocSection changeCurrentlyReadAccordingly(
       DocumentSectionId newCurrentlyReadSection) {
     final newSubsections = subsections
