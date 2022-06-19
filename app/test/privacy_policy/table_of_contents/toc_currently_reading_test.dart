@@ -1,10 +1,17 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 
 void main() {
   group('the table of contents', () {
+    TestCurrentlyReadingSectionController _createController(
+        List<DocumentSection> sections,
+        ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections) {
+      return TestCurrentlyReadingSectionController(sections, visibleSections);
+    }
+
     test(
         'doesnt mark ayn section as active if none are or have been visible on the page',
         () {
@@ -17,8 +24,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       expect(controller.currentlyReadDocumentSectionOrNull.value, null);
     });
@@ -34,8 +40,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       visibleSections.value = [
         DocumentSectionHeadingPosition(
@@ -67,8 +72,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       visibleSections.value = [
         DocumentSectionHeadingPosition(
@@ -105,8 +109,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       // We scroll down to the second chapter
       visibleSections.value = [
@@ -144,8 +147,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section...
       visibleSections.value = [
@@ -183,8 +185,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -217,6 +218,70 @@ void main() {
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
     });
+    // TODO: Not sure if this test belongs here.
+    // we need to test this since before there was no test for this behavior.
+    // im not sure though if I originally didn't want to tie these tests to a
+    // notion of a subsection i.e. make this more markdown document based (what
+    // is the heading that we're in, doesnt matter what kind) instead of already
+    // of already tying to to our model of section/subsection etc.
+    // On the other hand it might still be best to do it like this.
+    test('A subsection is marked as active correctly', () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', [
+          DocumentSection('quz', 'quz', []),
+          DocumentSection('baz', 'baz', []),
+        ]),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
+
+      final controller = _createController(sections, visibleSections);
+
+      // We scroll to the first section (its at the bottom)
+      visibleSections.value = [
+        DocumentSectionHeadingPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      // We scroll down...
+      visibleSections.value = [
+        DocumentSectionHeadingPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+      ];
+
+      // ... the first section out of view and the next one into the view at the
+      // bottom
+      visibleSections.value = [
+        DocumentSectionHeadingPosition(
+          DocumentSection('quz', 'quz', []),
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
+        ),
+      ];
+
+      // ... to the top
+      visibleSections.value = [
+        DocumentSectionHeadingPosition(
+          DocumentSection('quz', 'quz', []),
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
+        ),
+      ];
+
+      // ... and out of the view
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
+          DocumentSectionId('quz'));
+    });
 
     test(
         'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is active',
@@ -230,8 +295,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -295,8 +359,7 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller =
-          CurrentlyReadingSectionController(sections, visibleSections);
+      final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -337,6 +400,64 @@ void main() {
           DocumentSectionId('1-wichtige-begriffe'));
     });
   });
+}
+
+class TestCurrentlyReadingSectionController {
+  final List<DocumentSection> _tocSectionHeadings;
+  final ValueListenable<List<DocumentSectionHeadingPosition>>
+      _visibleSectionHeadings;
+
+  final ValueNotifier<DocumentSectionId> _currentlyRead =
+      ValueNotifier<DocumentSectionId>(null);
+
+  TableOfContentsController _tableOfContentsController;
+
+  ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
+      _currentlyRead;
+
+  DocumentSectionId _getCurrentlyHighlighted() {
+    final highlightedRes = _tableOfContentsController.documentSections
+        .where((element) => element.shouldHighlight);
+    if (highlightedRes.isEmpty) {
+      return null;
+    }
+    final highlighted = highlightedRes.single;
+    final subHighlightedRes =
+        highlighted.subsections.where((element) => element.shouldHighlight);
+    if (subHighlightedRes.isEmpty) {
+      return highlighted.id;
+    }
+    return subHighlightedRes.single.id;
+  }
+
+  TestCurrentlyReadingSectionController(
+      this._tocSectionHeadings, this._visibleSectionHeadings) {
+    _tableOfContentsController = TableOfContentsController(
+      CurrentlyReadingSectionController(
+          _tocSectionHeadings, _visibleSectionHeadings),
+      _tocSectionHeadings,
+      MockAnchorsController(),
+    );
+    _tableOfContentsController.addListener(() {
+      _currentlyRead.value = _getCurrentlyHighlighted();
+    });
+  }
+}
+
+class MockAnchorsController implements AnchorsController {
+  @override
+  ValueListenable<Iterable<AnchorPosition>> get anchorPositions =>
+      throw UnimplementedError();
+
+  @override
+  List<IndexedAnchorData> getIndexedAnchors() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> scrollToAnchor(String anchorId) {
+    return Future.value();
+  }
 }
 
 final tocDocumentSections = [
