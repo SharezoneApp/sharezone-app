@@ -1,4 +1,4 @@
-![](https://user-images.githubusercontent.com/29028262/151260826-4d13664c-8269-442c-bf78-1197899afffb.png)
+![Sharezone Banner](https://user-images.githubusercontent.com/29028262/151260826-4d13664c-8269-442c-bf78-1197899afffb.png)
 
 ## Download Sharezone
 
