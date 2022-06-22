@@ -256,23 +256,15 @@ class NewPrivacyPolicy extends StatelessWidget {
                       )),
                       child: Builder(builder: (context) {
                         return Scaffold(
-                          body: Stack(
-                            children: [
-                              Align(
-                                child: _DarkLightModeToggle(),
-                                alignment: Alignment.bottomRight,
-                              ),
-                              Center(
-                                child: Row(
-                                  children: [
-                                    TableOfContents(),
-                                    VerticalDivider(),
-                                    _MainContent(
-                                        privacyPolicyMarkdownText: content),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          body: Center(
+                            child: Row(
+                              children: [
+                                TableOfContents(),
+                                VerticalDivider(),
+                                _MainContent(
+                                    privacyPolicyMarkdownText: content),
+                              ],
+                            ),
                           ),
                         );
                       }),
@@ -861,27 +853,6 @@ class SectionHighlight extends StatelessWidget {
           onTap: onTap,
           child: child,
         ),
-      ),
-    );
-  }
-}
-
-class _DarkLightModeToggle extends StatelessWidget {
-  const _DarkLightModeToggle({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StatefulBuilder(
-      builder: (context, setState) => ToggleButtons(
-        onPressed: (i) => setState(() {
-          final settings = Provider.of<ThemeSettings>(context, listen: false);
-          settings.themeBrightness =
-              i == 0 ? ThemeBrightness.light : ThemeBrightness.dark;
-        }),
-        children: const [Icon(Icons.light_mode), Icon(Icons.dark_mode)],
-        isSelected: isDarkThemeEnabled(context) ? [false, true] : [true, false],
       ),
     );
   }
