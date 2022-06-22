@@ -6,13 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -23,6 +23,7 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
 
+import 'src/privacy_policy_theme_settings.dart';
 import 'src/table_of_contents_controller.dart';
 
 ItemScrollController _itemScrollController;
@@ -214,53 +215,70 @@ class NewPrivacyPolicy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      // TODO: Make UI to change dynamically?
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-      // TODO: My god, kill this creature.
-      child: ChangeNotifierProvider<TableOfContentsController>(
-        create: (context) => TableOfContentsController(
-          CurrentlyReadingSectionController(
-              documentSections,
-              _StreamToValueListenable(
-                      PrivacyPolicyBloc(_anchorsController, documentSections)
-                          .documentSections)
-                  .valueListenable),
-          documentSections,
-          _anchorsController,
-        ),
-        child: BlocProvider(
-          bloc: PrivacyPolicyBloc(_anchorsController, documentSections),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-                floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: Theme.of(context).primaryColor,
-            )),
-            child: Builder(builder: (context) {
-              return Scaffold(
-                body: Stack(
-                  children: [
-                    Align(
-                      child: _DarkLightModeToggle(),
-                      alignment: Alignment.bottomRight,
+    return ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+        create: (context) {
+          final themeSettings =
+              Provider.of<ThemeSettings>(context, listen: false);
+          return PrivacyPolicyThemeSettings(
+            analytics: AnalyticsProvider.ofOrNullObject(context),
+            themeSettings: Provider.of(context, listen: false),
+            initialTextScalingFactor: themeSettings.textScalingFactor,
+            initialVisualDensity: themeSettings.visualDensity,
+            initialThemeBrightness: themeSettings.themeBrightness,
+          );
+        },
+        child: Builder(
+            builder: (context) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: context
+                        .watch<PrivacyPolicyThemeSettings>()
+                        .textScalingFactor),
+                // TODO: My god, kill this creature.
+                child: ChangeNotifierProvider<TableOfContentsController>(
+                  create: (context) => TableOfContentsController(
+                    CurrentlyReadingSectionController(
+                        documentSections,
+                        _StreamToValueListenable(PrivacyPolicyBloc(
+                                    _anchorsController, documentSections)
+                                .documentSections)
+                            .valueListenable),
+                    documentSections,
+                    _anchorsController,
+                  ),
+                  child: BlocProvider(
+                    bloc:
+                        PrivacyPolicyBloc(_anchorsController, documentSections),
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                          floatingActionButtonTheme:
+                              FloatingActionButtonThemeData(
+                        backgroundColor: Theme.of(context).primaryColor,
+                      )),
+                      child: Builder(builder: (context) {
+                        return Scaffold(
+                          body: Stack(
+                            children: [
+                              Align(
+                                child: _DarkLightModeToggle(),
+                                alignment: Alignment.bottomRight,
+                              ),
+                              Center(
+                                child: Row(
+                                  children: [
+                                    TableOfContents(),
+                                    VerticalDivider(),
+                                    _MainContent(
+                                        privacyPolicyMarkdownText: content),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
                     ),
-                    Center(
-                      child: Row(
-                        children: [
-                          TableOfContents(),
-                          VerticalDivider(),
-                          _MainContent(privacyPolicyMarkdownText: content),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ),
-        ),
-      ),
-    );
+                  ),
+                ))));
   }
 }
 
@@ -320,7 +338,10 @@ class _AcceptionButtons extends StatelessWidget {
       children: [
         OutlinedButton(
           child: Text('Nicht akzeptieren'),
-          onPressed: () {},
+          onPressed: () {
+            // TODO: Only for development.
+            Navigator.of(context).pop();
+          },
         ),
         SizedBox(
           width: 50,
@@ -461,11 +482,13 @@ class TableOfContents extends StatelessWidget {
                 SizedBox(height: 13),
                 TextButton.icon(
                   onPressed: () {
-                    final privacyPolicyPageContext = context;
+                    final themeSettings =
+                        Provider.of<PrivacyPolicyThemeSettings>(context,
+                            listen: false);
                     showDialog(
                       context: context,
                       builder: (context) => DisplaySettingsDialog(
-                        oldContext: privacyPolicyPageContext,
+                        themeSettings: themeSettings,
                       ),
                     );
                   },
@@ -488,35 +511,39 @@ class TableOfContents extends StatelessWidget {
 }
 
 class DisplaySettingsDialog extends StatelessWidget {
-  const DisplaySettingsDialog({Key key, @required this.oldContext})
+  const DisplaySettingsDialog({Key key, @required this.themeSettings})
       : super(key: key);
 
-  // TODO: Better name (here and below)
-  final BuildContext oldContext;
+  final PrivacyPolicyThemeSettings themeSettings;
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: Text('Anzeigeeinstellungen'),
       children: [
-        _TextSize(oldContext: oldContext),
-        _LightOrDarkMode(oldContext: oldContext),
+        _TextSize(themeSettings: themeSettings),
+        _LightOrDarkMode(themeSettings: themeSettings),
       ],
     );
   }
 }
 
-class _TextSize extends StatelessWidget {
+class _TextSize extends StatefulWidget {
   const _TextSize({
     Key key,
-    this.oldContext,
+    this.themeSettings,
   }) : super(key: key);
 
-  final BuildContext oldContext;
+  final PrivacyPolicyThemeSettings themeSettings;
 
   @override
+  State<_TextSize> createState() => _TextSizeState();
+}
+
+class _TextSizeState extends State<_TextSize> {
+  @override
   Widget build(BuildContext context) {
-    final themeSettings = oldContext.watch<ThemeSettings>();
+    final themeSettings = widget.themeSettings;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -541,6 +568,7 @@ class _TextSize extends StatelessWidget {
                   onPressed: () {
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
+                    setState(() {});
                   },
                 ),
                 Text('${themeSettings.textScalingFactor}'),
@@ -549,6 +577,7 @@ class _TextSize extends StatelessWidget {
                   onPressed: () {
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 + 0.1 * 10) / 10;
+                    setState(() {});
                   },
                 ),
               ],
@@ -560,17 +589,22 @@ class _TextSize extends StatelessWidget {
   }
 }
 
-class _LightOrDarkMode extends StatelessWidget {
+class _LightOrDarkMode extends StatefulWidget {
   const _LightOrDarkMode({
     Key key,
-    this.oldContext,
+    this.themeSettings,
   }) : super(key: key);
 
-  final BuildContext oldContext;
+  final PrivacyPolicyThemeSettings themeSettings;
 
   @override
+  State<_LightOrDarkMode> createState() => _LightOrDarkModeState();
+}
+
+class _LightOrDarkModeState extends State<_LightOrDarkMode> {
+  @override
   Widget build(BuildContext context) {
-    final themeSettings = oldContext.watch<ThemeSettings>();
+    final themeSettings = widget.themeSettings;
 
     return Row(
       children: [
@@ -598,6 +632,7 @@ class _LightOrDarkMode extends StatelessWidget {
             }[index];
 
             themeSettings.themeBrightness = brightness;
+            setState(() {});
           },
         ),
       ],
