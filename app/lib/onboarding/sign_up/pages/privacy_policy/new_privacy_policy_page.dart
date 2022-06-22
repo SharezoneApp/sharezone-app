@@ -214,8 +214,6 @@ class NewPrivacyPolicy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Temporary - for development on Windows on Android Tablet
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     return MediaQuery(
       // TODO: Make UI to change dynamically?
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
