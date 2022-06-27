@@ -1,5 +1,10 @@
+import 'package:analytics/analytics.dart';
+import 'package:analytics/null_analytics_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 
 /// Our custom widget test function that we need to use so that we automatically
@@ -128,5 +133,22 @@ Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ame
 }
 
 Widget wrapWithScaffold(Widget privacyPolicyPage) {
-  return MaterialApp(home: privacyPolicyPage);
+  return MaterialApp(
+      home: AnalyticsProvider(
+    analytics: Analytics(NullAnalyticsBackend()),
+    child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeSettings>(
+          create: (context) => ThemeSettings(
+            analytics: Analytics(NullAnalyticsBackend()),
+            defaultTextScalingFactor: 1.0,
+            defaultThemeBrightness: ThemeBrightness.light,
+            defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+            keyValueStore: InMemoryKeyValueStore(),
+          ),
+        ),
+      ],
+      child: privacyPolicyPage,
+    ),
+  ));
 }

@@ -259,7 +259,8 @@ class DocumentSectionController {
   }
 
   // TODO: Use IList instead?
-  ValueNotifier<List<DocumentSectionHeadingPosition>> _visibleSectionHeadings;
+  final _visibleSectionHeadings =
+      ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
   ValueListenable<List<DocumentSectionHeadingPosition>>
       get visibleSectionHeadings => _visibleSectionHeadings;
