@@ -239,6 +239,9 @@ TocSection _updateWithComputedExpansion({
 
 class TableOfContentsController extends ChangeNotifier {
   final CurrentlyReadingSectionController _activeSectionController;
+  // TODO: Change name
+  // They are not really all sections but only the sections that we want
+  // to display in the table of contents.
   final List<DocumentSection> _allDocumentSections;
   final AnchorsController _anchorsController;
 
