@@ -20,7 +20,8 @@ class DisplaySettingsDialog extends StatelessWidget {
         ),
         child: Theme(
           data: ThemeData(
-              brightness: _getBrightness(themeSettings.themeBrightness)),
+              brightness:
+                  _getBrightness(context, themeSettings.themeBrightness)),
           child: SimpleDialog(
             title: Text('Anzeigeeinstellungen'),
             children: [
@@ -35,7 +36,8 @@ class DisplaySettingsDialog extends StatelessWidget {
   }
 }
 
-Brightness _getBrightness(ThemeBrightness themeBrightness) {
+Brightness _getBrightness(
+    BuildContext context, ThemeBrightness themeBrightness) {
   switch (themeBrightness) {
     case ThemeBrightness.dark:
       return Brightness.dark;
@@ -43,26 +45,16 @@ Brightness _getBrightness(ThemeBrightness themeBrightness) {
       return Brightness.light;
     default:
   }
-  return null;
+  return MediaQuery.of(context).platformBrightness;
 }
 
-class _TextSize extends StatefulWidget {
-  const _TextSize({
-    Key key,
-    this.themeSettings,
-  }) : super(key: key);
+class _TextSize extends StatelessWidget {
+  const _TextSize({Key key, @required this.themeSettings}) : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
 
   @override
-  State<_TextSize> createState() => _TextSizeState();
-}
-
-class _TextSizeState extends State<_TextSize> {
-  @override
   Widget build(BuildContext context) {
-    final themeSettings = widget.themeSettings;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -87,8 +79,6 @@ class _TextSizeState extends State<_TextSize> {
                   onPressed: () {
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
-
-                    setState(() {});
                   },
                 ),
                 Text('${themeSettings.textScalingFactor}'),
@@ -97,8 +87,6 @@ class _TextSizeState extends State<_TextSize> {
                   onPressed: () {
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 + 0.1 * 10) / 10;
-
-                    setState(() {});
                   },
                 ),
               ],
@@ -110,55 +98,62 @@ class _TextSizeState extends State<_TextSize> {
   }
 }
 
-class _LightOrDarkMode extends StatefulWidget {
-  const _LightOrDarkMode({
-    Key key,
-    this.themeSettings,
-  }) : super(key: key);
+class _LightOrDarkMode extends StatelessWidget {
+  const _LightOrDarkMode({Key key, @required this.themeSettings})
+      : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
 
   @override
-  State<_LightOrDarkMode> createState() => _LightOrDarkModeState();
-}
-
-class _LightOrDarkModeState extends State<_LightOrDarkMode> {
-  @override
   Widget build(BuildContext context) {
-    final themeSettings = widget.themeSettings;
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
+          SizedBox(width: 10),
+          Column(
+            children: [
+              ToggleButtons(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                borderColor: Theme.of(context).textTheme.bodyMedium.color,
+                children: const [
+                  Icon(Icons.dark_mode),
+                  Icon(Icons.light_mode),
+                  Icon(Icons.settings_brightness),
+                ],
+                isSelected: [
+                  themeSettings.themeBrightness == ThemeBrightness.dark,
+                  themeSettings.themeBrightness == ThemeBrightness.light,
+                  themeSettings.themeBrightness == ThemeBrightness.system,
+                ],
+                onPressed: (index) {
+                  final brightness = <int, ThemeBrightness>{
+                    0: ThemeBrightness.dark,
+                    1: ThemeBrightness.light,
+                    2: ThemeBrightness.system,
+                  }[index];
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
-        SizedBox(width: 20),
-        ToggleButtons(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
+                  themeSettings.themeBrightness = brightness;
+                },
+              ),
+              Text(_getText())
+            ],
           ),
-          borderColor: Theme.of(context).textTheme.bodyMedium.color,
-          children: [
-            Icon(Icons.dark_mode),
-            Icon(Icons.light_mode),
-            Icon(Icons.settings_brightness),
-          ],
-          isSelected: [
-            themeSettings.themeBrightness == ThemeBrightness.dark,
-            themeSettings.themeBrightness == ThemeBrightness.light,
-            themeSettings.themeBrightness == ThemeBrightness.system,
-          ],
-          onPressed: (index) {
-            final brightness = <int, ThemeBrightness>{
-              0: ThemeBrightness.dark,
-              1: ThemeBrightness.light,
-              2: ThemeBrightness.system,
-            }[index];
-
-            themeSettings.themeBrightness = brightness;
-            setState(() {});
-          },
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  String _getText() {
+    return <ThemeBrightness, String>{
+      ThemeBrightness.dark: 'Dunkler Modus',
+      ThemeBrightness.light: 'Heller Modus',
+      ThemeBrightness.system: 'Automatisch',
+    }[themeSettings.themeBrightness];
   }
 }
