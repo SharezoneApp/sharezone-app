@@ -143,8 +143,13 @@ class FirestoreFilePage extends StatelessWidget {
         id: id,
       );
     }
-    // Video Page für Android, iOS und Web
-    if (fileFormat == FileFormat.video) {
+
+    // Video Page for Android, iOS und Web
+    //
+    // We just download the video for macOS because the video_player package is
+    // not available on macOS yet. Tracking issue:
+    // https://github.com/flutter/flutter/issues/41688
+    if (fileFormat == FileFormat.video && !PlatformCheck.isMacOS) {
       return VideoFilePage(
         name: name,
         nameStream: nameStream,

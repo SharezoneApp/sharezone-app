@@ -11,14 +11,20 @@ import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
+import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/widgets/alpha_version_banner.dart';
+import 'package:sharezone/widgets/animation/color_fade_in.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/theme.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
@@ -73,30 +79,42 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: _ThemeSettingsProvider(
-        blocDependencies: widget.blocDependencies,
-        child: Stack(
-          children: [
-            BlocProvider(
-              bloc: signUpBloc,
-              child: StreamBuilder<AuthUser>(
-                stream: listenToAuthStateChanged(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    widget.blocDependencies.authUser = snapshot.data;
-                    return SharezoneApp(widget.blocDependencies,
-                        Sharezone.analytics, widget.beitrittsversuche);
-                  }
-                  return AuthApp(
-                    blocDependencies: widget.blocDependencies,
-                    analytics: Sharezone.analytics,
-                  );
-                },
+    return OverlaySupport(
+      child: DynamicLinkOverlay(
+        einkommendeLinks: widget.dynamicLinkBloc.einkommendeLinks,
+        child: ColorFadeIn(
+          color: PlatformCheck.isWeb ? Colors.white : primaryColor,
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: _ThemeSettingsProvider(
+              blocDependencies: widget.blocDependencies,
+              child: AlphaVersionBanner(
+                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
+                    'ALPHA',
+                child: Stack(
+                  children: [
+                    BlocProvider(
+                      bloc: signUpBloc,
+                      child: StreamBuilder<AuthUser>(
+                        stream: listenToAuthStateChanged(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            widget.blocDependencies.authUser = snapshot.data;
+                            return SharezoneApp(widget.blocDependencies,
+                                Sharezone.analytics, widget.beitrittsversuche);
+                          }
+                          return AuthApp(
+                            blocDependencies: widget.blocDependencies,
+                            analytics: Sharezone.analytics,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

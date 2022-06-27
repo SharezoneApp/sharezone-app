@@ -193,4 +193,9 @@ class ConnectionsGateway implements MyConnectionsAccesor {
       schoolClassDeleteType: schoolClassTypeToString(schoolClassDeleteType),
     );
   }
+
+  Future<void> dispose() async {
+    await _connectionDataPackage.close();
+    await joinedCoursesPackage.close();
+  }
 }

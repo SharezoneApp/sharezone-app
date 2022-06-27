@@ -105,7 +105,7 @@ PODS:
   - firebase_core (1.10.5):
     - Firebase/CoreOnly (= 8.9.0)
     - Flutter
-  - firebase_crashlytics (2.4.3):
+  - firebase_crashlytics (2.6.3):
     - Firebase/Crashlytics (= 8.9.0)
     - firebase_core
     - Flutter
@@ -344,7 +344,7 @@ PODS:
   - SwiftyGif (5.4.1)
   - url_launcher_ios (0.0.1):
     - Flutter
-  - video_player (0.0.1):
+  - video_player_avfoundation (0.0.1):
     - Flutter
   - wakelock (0.0.1):
     - Flutter
@@ -388,7 +388,7 @@ DEPENDENCIES:
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
 
 SPEC REPOS:
@@ -508,8 +508,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
-  video_player:
-    :path: ".symlinks/plugins/video_player/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
 
@@ -528,14 +528,14 @@ SPEC CHECKSUMS:
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  fast_rsa: 0a752e284bd5641b063de5ba4e538a1b055e9ea8
+  fast_rsa: c4c0090842efc2eaefe7d650ec5f8021ed05e76b
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_analytics: 7a7528bb2abf4ca22cff7a57bbf909dcab73e13d
   firebase_auth: fe3a1deb12ebd850295344234abc15588d086baf
   firebase_auth_oauth: 2b6873838f5712f414740e98679481bbea640bd3
   firebase_core: dfcae4c150a5e24436a0b7677c470478a234d5bf
-  firebase_crashlytics: 6713843d68feb3cefa1471e20dfaa72b934d6db8
+  firebase_crashlytics: cbd19db068714f8c2319491042f06fc2d2c65bcb
   firebase_dynamic_links: 6aa278fc5e6e8cca17d5aa4c7aa46283f2b94749
   firebase_messaging: 1109f5449638254c47fb5904d24e11a4d7736c77
   firebase_performance: a87be8f45dda8d075c9ae75b1b64353aa33dd49f
@@ -593,7 +593,7 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6895c887f5551618a3c5dd3ecb512419105bacca
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
 PODFILE CHECKSUM: f01f8cc3a09573f5dcc4b182c97727831629994f
