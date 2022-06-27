@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 
-import 'src/privacy_policy_src.dart';
+import 'src/privacy_policy_src.dart' hide TableOfContents;
 
 class PrivacyPolicyTocTempDevPage extends StatefulWidget {
   const PrivacyPolicyTocTempDevPage({Key key}) : super(key: key);
