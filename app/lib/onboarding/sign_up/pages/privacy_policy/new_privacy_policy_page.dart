@@ -233,17 +233,11 @@ class NewPrivacyPolicy extends StatelessWidget {
                     textScaleFactor: context
                         .watch<PrivacyPolicyThemeSettings>()
                         .textScalingFactor),
-                // TODO: My god, kill this creature.
                 child: ChangeNotifierProvider<TableOfContentsController>(
                   create: (context) => TableOfContentsController(
-                    CurrentlyReadingSectionController(
-                        documentSections,
-                        _StreamToValueListenable(PrivacyPolicyBloc(
-                                    _anchorsController, documentSections)
-                                .documentSections)
-                            .valueListenable),
-                    documentSections,
-                    _anchorsController,
+                    documentSectionController:
+                        DocumentSectionController(_anchorsController),
+                    tocDocumentSections: documentSections,
                   ),
                   child: BlocProvider(
                     bloc:

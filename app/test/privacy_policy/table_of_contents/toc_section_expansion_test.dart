@@ -32,10 +32,10 @@ class _TableOfContentsTestController {
         .toList();
 
     _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId>(null);
-    _tocController ??= TableOfContentsController(
+    _tocController ??= TableOfContentsController.internal(
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections,
-      AnchorsController(),
+      DocumentSectionController(AnchorsController()).scrollToDocumentSection,
     );
 
     final results = _tocController.documentSections

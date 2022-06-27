@@ -433,31 +433,14 @@ class TestCurrentlyReadingSectionController {
 
   TestCurrentlyReadingSectionController(
       this._tocSectionHeadings, this._visibleSectionHeadings) {
-    _tableOfContentsController = TableOfContentsController(
-      CurrentlyReadingSectionController(
-          _tocSectionHeadings, _visibleSectionHeadings),
-      _tocSectionHeadings,
-      MockAnchorsController(),
-    );
+    _tableOfContentsController = TableOfContentsController.internal(
+        CurrentlyReadingSectionController(
+            _tocSectionHeadings, _visibleSectionHeadings),
+        _tocSectionHeadings,
+        (sectionId) => Future.value());
     _tableOfContentsController.addListener(() {
       _currentlyRead.value = _getCurrentlyHighlighted();
     });
-  }
-}
-
-class MockAnchorsController implements AnchorsController {
-  @override
-  ValueListenable<Iterable<AnchorPosition>> get anchorPositions =>
-      throw UnimplementedError();
-
-  @override
-  List<IndexedAnchorData> getIndexedAnchors() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> scrollToAnchor(String anchorId) {
-    return Future.value();
   }
 }
 

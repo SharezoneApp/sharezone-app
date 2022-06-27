@@ -237,20 +237,69 @@ TocSection _updateWithComputedExpansion({
   throw UnimplementedError();
 }
 
+class DocumentSectionController {
+  final AnchorsController _anchorsController;
+
+  DocumentSectionController(this._anchorsController) {
+    _anchorsController.anchorPositions.addListener(() {
+      final anchorPositions = _anchorsController.anchorPositions.value;
+      final sectionPositions =
+          anchorPositions.map(_toDocumentSectionPosition).toList();
+      _visibleSectionHeadings.value = sectionPositions;
+    });
+  }
+
+  DocumentSectionHeadingPosition _toDocumentSectionPosition(
+      AnchorPosition anchorPosition) {
+    return DocumentSectionHeadingPosition(
+      DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
+      itemLeadingEdge: anchorPosition.itemLeadingEdge,
+      itemTrailingEdge: anchorPosition.itemTrailingEdge,
+    );
+  }
+
+  // TODO: Use IList instead?
+  ValueNotifier<List<DocumentSectionHeadingPosition>> _visibleSectionHeadings;
+
+  ValueListenable<List<DocumentSectionHeadingPosition>>
+      get visibleSectionHeadings => _visibleSectionHeadings;
+
+  Future<void> scrollToDocumentSection(DocumentSectionId documentSectionId) {
+    return _anchorsController.scrollToAnchor(documentSectionId.id);
+  }
+}
+
+// TODO: Remove this?
+typedef ScrollToDocumentSectionFunc = Future<void> Function(
+    DocumentSectionId documentSectionId);
+
 class TableOfContentsController extends ChangeNotifier {
   final CurrentlyReadingSectionController _activeSectionController;
   // TODO: Change name
   // They are not really all sections but only the sections that we want
   // to display in the table of contents.
   final List<DocumentSection> _allDocumentSections;
-  final AnchorsController _anchorsController;
+  final ScrollToDocumentSectionFunc scrollToDocumentSection;
 
   _TableOfContents _tableOfContents;
 
-  TableOfContentsController(
+  factory TableOfContentsController({
+    @required DocumentSectionController documentSectionController,
+    @required List<DocumentSection> tocDocumentSections,
+  }) {
+    return TableOfContentsController.internal(
+      CurrentlyReadingSectionController(tocDocumentSections,
+          documentSectionController.visibleSectionHeadings),
+      tocDocumentSections,
+      documentSectionController.scrollToDocumentSection,
+    );
+  }
+
+  @visibleForTesting
+  TableOfContentsController.internal(
     this._activeSectionController,
     this._allDocumentSections,
-    this._anchorsController,
+    this.scrollToDocumentSection,
   ) {
     final sections = _allDocumentSections
         .map((e) => TocSection(
@@ -287,7 +336,7 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
-    return _anchorsController.scrollToAnchor(documentSectionId.id);
+    return scrollToDocumentSection(documentSectionId);
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
@@ -370,7 +419,9 @@ class CurrentlyReadingSectionController {
       _currentlyReadingHeadingNotifier;
 
   CurrentlyReadingSectionController(
-      this._tocSectionHeadings, this._visibleSectionHeadings) {
+    this._tocSectionHeadings,
+    this._visibleSectionHeadings,
+  ) {
     _visibleSectionHeadings.addListener(() {
       _updateCurrentlyReadSection(_visibleSectionHeadings.value);
     });
