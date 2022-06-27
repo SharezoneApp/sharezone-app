@@ -10,7 +10,6 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:collection/collection.dart';
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -20,11 +19,9 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
-
-import 'src/privacy_policy_theme_settings.dart';
-import 'src/table_of_contents_controller.dart';
 
 ItemScrollController _itemScrollController;
 ItemPositionsListener _itemPositionsListener;
@@ -67,61 +64,6 @@ class DocumentSection {
   @override
   String toString() =>
       'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
-}
-
-class DocumentSectionId extends Id {
-  DocumentSectionId(String id) : super(id, 'DocumentSectionId');
-}
-
-class TocDocumentSectionView {
-  final DocumentSectionId id;
-  final String sectionHeadingText;
-  final List<TocDocumentSectionView> subsections;
-  final bool shouldHighlight;
-  final bool isExpanded;
-  bool get isExpandable => subsections.isNotEmpty;
-
-  TocDocumentSectionView({
-    @required this.id,
-    @required this.sectionHeadingText,
-    @required this.subsections,
-    @required this.shouldHighlight,
-    @required this.isExpanded,
-  }) : assert(() {
-          // If there are no subsections there cant be a way
-          // for the section to be expanded.
-          if (subsections.isEmpty) {
-            return isExpanded == false;
-          }
-          return true;
-        }());
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
-
-    return other is TocDocumentSectionView &&
-        other.id == id &&
-        other.sectionHeadingText == sectionHeadingText &&
-        listEquals(other.subsections, subsections) &&
-        other.shouldHighlight == shouldHighlight &&
-        other.isExpanded == isExpanded;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        sectionHeadingText.hashCode ^
-        subsections.hashCode ^
-        shouldHighlight.hashCode ^
-        isExpanded.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'TocDocumentSectionView(id: $id, sectionHeadingText: $sectionHeadingText, subsections: $subsections, shouldHighlight: $shouldHighlight, isExpanded: $isExpanded)';
-  }
 }
 
 class PrivacyPolicyBloc extends BlocBase {

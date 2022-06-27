@@ -1,10 +1,17 @@
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
+
+import 'privacy_policy_src.dart';
+
+class DocumentSectionId extends Id {
+  DocumentSectionId(String id) : super(id, 'DocumentSectionId');
+}
 
 class _TableOfContents {
   final IList<TocSection> sections;
@@ -280,7 +287,7 @@ class TableOfContentsController extends ChangeNotifier {
   // They are not really all sections but only the sections that we want
   // to display in the table of contents.
   final List<DocumentSection> _allDocumentSections;
-  final ScrollToDocumentSectionFunc scrollToDocumentSection;
+  final ScrollToDocumentSectionFunc _scrollToDocumentSection;
 
   _TableOfContents _tableOfContents;
 
@@ -300,7 +307,7 @@ class TableOfContentsController extends ChangeNotifier {
   TableOfContentsController.internal(
     this._activeSectionController,
     this._allDocumentSections,
-    this.scrollToDocumentSection,
+    this._scrollToDocumentSection,
   ) {
     final sections = _allDocumentSections
         .map((e) => TocSection(
@@ -337,7 +344,7 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
-    return scrollToDocumentSection(documentSectionId);
+    return _scrollToDocumentSection(documentSectionId);
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
