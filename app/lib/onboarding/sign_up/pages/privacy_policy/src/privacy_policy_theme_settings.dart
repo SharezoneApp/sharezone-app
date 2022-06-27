@@ -17,6 +17,8 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 class PrivacyPolicyThemeSettings extends ChangeNotifier {
   final Analytics _analytics;
   final ThemeSettings _themeSettings;
+  final double textScalingFactorLowerBound;
+  final double textScalingFactorUpperBound;
 
   PrivacyPolicyThemeSettings({
     required Analytics analytics,
@@ -30,16 +32,28 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
 
     /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness initialThemeBrightness,
+    this.textScalingFactorLowerBound = 0.1,
+    this.textScalingFactorUpperBound = 5.0,
   })  : _analytics = analytics,
         _themeSettings = themeSettings {
+    // TODO: Write tests for error
+    if (initialTextScalingFactor.clamp(
+            textScalingFactorLowerBound, textScalingFactorUpperBound) !=
+        initialTextScalingFactor) {
+      throw ArgumentError(
+          'initialTextScalingFactor must be inside (inclusive) $textScalingFactorLowerBound - $textScalingFactorUpperBound');
+    }
     _textScalingFactor = initialTextScalingFactor;
     _visualDensity = initialVisualDensity;
     _themeBrightness = initialThemeBrightness;
   }
 
+  // TODO: Write tests for clamping
   late double _textScalingFactor;
   double get textScalingFactor => _textScalingFactor;
   set textScalingFactor(double textScalingFactor) {
+    textScalingFactor = textScalingFactor.clamp(
+        textScalingFactorLowerBound, textScalingFactorUpperBound);
     _textScalingFactor = textScalingFactor;
     notifyListeners();
 

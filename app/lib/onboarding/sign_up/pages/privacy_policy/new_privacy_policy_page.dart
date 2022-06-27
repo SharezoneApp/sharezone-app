@@ -23,6 +23,8 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_po
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
 
+import 'src/widgets/display_settings.dart';
+
 ItemScrollController _itemScrollController;
 ItemPositionsListener _itemPositionsListener;
 AnchorsController _anchorsController;
@@ -335,136 +337,6 @@ class TableOfContents extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class DisplaySettingsDialog extends StatelessWidget {
-  const DisplaySettingsDialog({Key key, @required this.themeSettings})
-      : super(key: key);
-
-  final PrivacyPolicyThemeSettings themeSettings;
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: Text('Anzeigeeinstellungen'),
-      children: [
-        _TextSize(themeSettings: themeSettings),
-        _LightOrDarkMode(themeSettings: themeSettings),
-      ],
-    );
-  }
-}
-
-class _TextSize extends StatefulWidget {
-  const _TextSize({
-    Key key,
-    this.themeSettings,
-  }) : super(key: key);
-
-  final PrivacyPolicyThemeSettings themeSettings;
-
-  @override
-  State<_TextSize> createState() => _TextSizeState();
-}
-
-class _TextSizeState extends State<_TextSize> {
-  @override
-  Widget build(BuildContext context) {
-    final themeSettings = widget.themeSettings;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Schriftgröße', style: Theme.of(context).textTheme.button),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).textTheme.bodyMedium.color,
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    themeSettings.textScalingFactor =
-                        (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
-                    setState(() {});
-                  },
-                ),
-                Text('${themeSettings.textScalingFactor}'),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    themeSettings.textScalingFactor =
-                        (themeSettings.textScalingFactor * 10 + 0.1 * 10) / 10;
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LightOrDarkMode extends StatefulWidget {
-  const _LightOrDarkMode({
-    Key key,
-    this.themeSettings,
-  }) : super(key: key);
-
-  final PrivacyPolicyThemeSettings themeSettings;
-
-  @override
-  State<_LightOrDarkMode> createState() => _LightOrDarkModeState();
-}
-
-class _LightOrDarkModeState extends State<_LightOrDarkMode> {
-  @override
-  Widget build(BuildContext context) {
-    final themeSettings = widget.themeSettings;
-
-    return Row(
-      children: [
-        Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
-        ToggleButtons(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-          borderColor: Theme.of(context).textTheme.bodyMedium.color,
-          children: [
-            Icon(Icons.dark_mode),
-            Icon(Icons.light_mode),
-            Icon(Icons.settings_brightness),
-          ],
-          isSelected: [
-            themeSettings.themeBrightness == ThemeBrightness.dark,
-            themeSettings.themeBrightness == ThemeBrightness.light,
-            themeSettings.themeBrightness == ThemeBrightness.system,
-          ],
-          onPressed: (index) {
-            final brightness = <int, ThemeBrightness>{
-              0: ThemeBrightness.dark,
-              1: ThemeBrightness.light,
-              2: ThemeBrightness.system,
-            }[index];
-
-            themeSettings.themeBrightness = brightness;
-            setState(() {});
-          },
-        ),
-      ],
     );
   }
 }
