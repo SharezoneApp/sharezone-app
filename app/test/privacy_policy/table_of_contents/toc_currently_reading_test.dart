@@ -13,6 +13,7 @@ void main() {
       return TestCurrentlyReadingSectionController(sections, visibleSections);
     }
 
+    // TODO: Dont the first few tests more or less all test the same logic?
     test(
         'doesnt mark any section as active if none are or have been visible on the page',
         () {
@@ -330,8 +331,8 @@ void main() {
         ),
         DocumentSectionHeadingPosition(
           DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
-          itemLeadingEdge: 0.6,
-          itemTrailingEdge: 0.65,
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 0.95,
         ),
       ];
 
@@ -340,8 +341,8 @@ void main() {
       visibleSections.value = [
         DocumentSectionHeadingPosition(
           DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
-          itemLeadingEdge: 0.2,
-          itemTrailingEdge: 0.25,
+          itemLeadingEdge: 0.6,
+          itemTrailingEdge: 0.65,
         ),
       ];
 
