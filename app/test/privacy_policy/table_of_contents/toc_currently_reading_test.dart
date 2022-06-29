@@ -8,10 +8,43 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_c
 void main() {
   group('the table of contents', () {
     TestCurrentlyReadingSectionController _createController(
-        List<DocumentSection> sections,
-        ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections) {
-      return TestCurrentlyReadingSectionController(sections, visibleSections);
+      List<DocumentSection> sections,
+      ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections, {
+      double threshold = 0.1,
+    }) {
+      return TestCurrentlyReadingSectionController(
+        sections,
+        visibleSections,
+        threshold: threshold,
+      );
     }
+
+    test(
+        'Marks a section as active when the top of the section touches the threshold',
+        () {
+      final sections = [
+        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+      ];
+
+      final visibleSections =
+          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
+
+      final controller =
+          _createController(sections, visibleSections, threshold: 0.1);
+
+      visibleSections.value = [
+        DocumentSectionHeadingPosition(
+          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      expect(controller.currentlyReadDocumentSectionOrNull.value,
+          DocumentSectionId('inhaltsverzeichnis'));
+    });
 
     // TODO: Dont the first few tests more or less all test the same logic?
     test(
@@ -111,7 +144,11 @@ void main() {
       final visibleSections =
           ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
-      final controller = _createController(sections, visibleSections);
+      final controller = _createController(
+        sections,
+        visibleSections,
+        threshold: 0.2,
+      );
 
       // We scroll down to the second chapter
       visibleSections.value = [
@@ -434,10 +471,16 @@ class TestCurrentlyReadingSectionController {
   }
 
   TestCurrentlyReadingSectionController(
-      this._tocSectionHeadings, this._visibleSectionHeadings) {
+    this._tocSectionHeadings,
+    this._visibleSectionHeadings, {
+    @required double threshold,
+  }) {
     _tableOfContentsController = TableOfContentsController.internal(
         CurrentlyReadingSectionController(
-            _tocSectionHeadings, _visibleSectionHeadings),
+          _tocSectionHeadings,
+          _visibleSectionHeadings,
+          threshold: threshold,
+        ),
         _tocSectionHeadings,
         (sectionId) => Future.value());
     _tableOfContentsController.addListener(() {
