@@ -82,7 +82,6 @@ ThemeMode _getThemeMode(ThemeBrightness themeBrightness) {
       return ThemeMode.light;
     case ThemeBrightness.system:
       return ThemeMode.system;
-    default:
   }
   throw UnimplementedError();
 }
