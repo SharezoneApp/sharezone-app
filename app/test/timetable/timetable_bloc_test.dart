@@ -73,7 +73,6 @@ void main() {
         eventID: 'eventId',
         eventType: Meeting(),
         latestEditor: '',
-        lessonChanges: {},
         sendNotification: false,
         title: 'title',
       );
