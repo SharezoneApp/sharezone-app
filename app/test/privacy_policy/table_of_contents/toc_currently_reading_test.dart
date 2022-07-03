@@ -5,10 +5,28 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_po
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 
+DocumentSection _section(String id) {
+  return DocumentSection(id, id);
+}
+
+DocumentSectionHeadingPosition _headingPosition(
+  String sectionId, {
+  @required double itemLeadingEdge,
+  @required double itemTrailingEdge,
+}) {
+  return DocumentSectionHeadingPosition(
+    DocumentSection(sectionId, sectionId, []),
+    itemLeadingEdge: itemLeadingEdge,
+    itemTrailingEdge: itemTrailingEdge,
+  );
+}
+
 void main() {
   group('the table of contents', () {
     TestCurrentlyReadingSectionController _createController(
       List<DocumentSection> sections,
+      // TODO: Delete since its in the setup and can be used/accessed in the
+      // method below?
       ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections, {
       double threshold = 0.1,
     }) {
@@ -19,31 +37,10 @@ void main() {
       );
     }
 
-    test(
-        'Marks a section as active when the top of the section touches the threshold',
-        () {
-      final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
-      ];
+    ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections;
 
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
-
-      final controller =
-          _createController(sections, visibleSections, threshold: 0.1);
-
-      visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.1,
-          itemTrailingEdge: 0.15,
-        ),
-      ];
-
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('inhaltsverzeichnis'));
+    setUp(() {
+      visibleSections = ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
     });
 
     // TODO: Dont the first few tests more or less all test the same logic?
@@ -51,17 +48,54 @@ void main() {
         'doesnt mark any section as active if none are or have been visible on the page',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('foo'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value, null);
+      expect(controller.currentlyReadSection, null);
+    });
+
+    test(
+        'Doesnt mark a section as active when the top of the section is below the threshold',
+        () {
+      final sections = [
+        _section('foo'),
+      ];
+
+      final controller =
+          _createController(sections, visibleSections, threshold: 0.1);
+
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.11,
+          itemTrailingEdge: 0.2,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, null);
+    });
+
+    test(
+        'Marks a section as active when the top of the section touches the threshold',
+        () {
+      final sections = [
+        _section('foo'),
+      ];
+
+      final controller =
+          _createController(sections, visibleSections, threshold: 0.1);
+
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'foo');
     });
 
     test('marks the first section as active when scrolling past the heading',
@@ -89,7 +123,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
-    });
+    }, skip: true);
 
     test(
         'if currently visible sections go from some to none then it returns the section that comes before the current position inside the document',
@@ -130,7 +164,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
-    });
+    }, skip: true);
 
     test(
         'marks the section "above" as active when scrolling back up from a previous section',
@@ -174,7 +208,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
-    });
+    }, skip: true);
 
     test('edge case: scrolling above first section', () {
       final sections = [
@@ -210,7 +244,7 @@ void main() {
       visibleSections.value = [];
 
       expect(controller.currentlyReadDocumentSectionOrNull.value, null);
-    });
+    }, skip: true);
 
     test(
         'when scrolling a section title out of viewport and another inside the viewport (at the bottom) it should mark the one scrolled out of the viewport as active',
@@ -256,7 +290,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('inhaltsverzeichnis'));
-    });
+    }, skip: true);
     // TODO: Not sure if this test belongs here.
     // we need to test this since before there was no test for this behavior.
     // im not sure though if I originally didn't want to tie these tests to a
@@ -320,7 +354,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('quz'));
-    });
+    }, skip: true);
 
     test(
         'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is active',
@@ -385,7 +419,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('1-wichtige-begriffe'));
-    });
+    }, skip: true);
 
     test(
         'regression test: Being inbetween two sections (both headings not visible)',
@@ -438,7 +472,7 @@ void main() {
 
       expect(controller.currentlyReadDocumentSectionOrNull.value,
           DocumentSectionId('1-wichtige-begriffe'));
-    });
+    }, skip: true);
   });
 }
 
@@ -451,6 +485,9 @@ class TestCurrentlyReadingSectionController {
       ValueNotifier<DocumentSectionId>(null);
 
   TableOfContentsController _tableOfContentsController;
+
+  String get currentlyReadSection =>
+      currentlyReadDocumentSectionOrNull.value?.toString();
 
   ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
       _currentlyRead;

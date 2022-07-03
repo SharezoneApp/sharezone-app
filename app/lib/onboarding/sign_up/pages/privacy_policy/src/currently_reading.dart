@@ -82,7 +82,21 @@ class CurrentlyReadingSectionController {
 
   void _updateCurrentlyReadSection(
       List<DocumentSectionHeadingPosition> visibleHeadings) {
-    print('_updateCurrentlyReadSection: $visibleHeadings');
+    if (visibleHeadings.isEmpty) {
+      return;
+    }
+
+    final heading = visibleHeadings.single;
+
+    if (heading.itemLeadingEdge > _threshold) {
+      return;
+    }
+
+    _markAsCurrentlyReading(heading.documentSection);
+  }
+
+  void _updateCurrentlyReadSectionOld(
+      List<DocumentSectionHeadingPosition> visibleHeadings) {
     visibleHeadings
         .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
 
@@ -164,6 +178,7 @@ class CurrentlyReadingSectionController {
     // }
     if (firstVisibleHeadingIndex == 0) {
       _markAsCurrentlyReading(_allSectionsFlattend[0]);
+      return;
     }
 
     final sectionBeforeTopmostVisibleHeading =
