@@ -178,7 +178,6 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
         eventID: null, authorID: null, // WILL BE ADDED IN THE GATEWAY!
         title: title,
         detail: detail,
-        lessonChanges: {},
         sendNotification: sendNotification,
         latestEditor: gateway.memberID,
       );

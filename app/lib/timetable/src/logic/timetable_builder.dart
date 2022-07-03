@@ -95,13 +95,6 @@ class TimetableBuilder {
       if (lesson.startDate != null && lesson.startDate.isBefore(date))
         return false;
       if (lesson.endDate != null && lesson.endDate.isAfter(date)) return false;
-      /*
-      if (events
-          .where((event) =>
-              event.lessonChanges.containsKey(lesson.lessonID) &&
-              event.date == date)
-          .isNotEmpty) return false;
-    */
       return lesson.weekday == weekday;
     });
   }
