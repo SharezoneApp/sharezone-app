@@ -65,6 +65,13 @@ class CurrentlyReadingSectionController {
         .toList();
   }
 
+  // TODO: I don't like that the whole thing is necessary mutable since
+  // we need to save _lastSeenHeadingState. Is there maybe a way to make a
+  // immutable class that has the logic of _updateCurrentlyReadSection and
+  // _lastSeenHeadingState as an attribute?
+  // The controller class would still have state but it would be more
+  // encapsulated.
+
   /// The state of the heading that was last seen.
   /// This is set when we scroll the only heading on the screen outside the view
   /// so that no heading is visible anymore.
