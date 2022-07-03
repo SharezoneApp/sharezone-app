@@ -89,7 +89,7 @@ class CurrentlyReadingSectionController {
       assert(oldVisibleHeadings.length == 1);
       final lastVisible = oldVisibleHeadings.first;
 
-      _lastSeenHeadingState = lastVisible.itemLeadingEdge <= _threshold
+      _lastSeenHeadingState = lastVisible.itemLeadingEdge < .5
           ? _HeadingState(
               documentSection: lastVisible.documentSection,
               scrolledOutAt: _ScrolledOut.atTheTop,

@@ -117,9 +117,10 @@ ${generateText(10)}
 // Used temporarily when testing so one can see what happens "on the screen" in
 // a widget test without having to use a real device / simulator to run these
 // tests.
-Future<void> generateGolden() async {
+// --update-goldens
+Future<void> generateGolden(String name) async {
   await expectLater(find.byType(NewPrivacyPolicy),
-      matchesGoldenFile('goldens/golden_pp2.png'));
+      matchesGoldenFile('goldens/golden_$name.png'));
 }
 
 String generateText(int times) {
