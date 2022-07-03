@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import 'privacy_policy_src.dart';
 
+// TODO: Can we replace this with extended enum?
 class _ReadingState {
   final DocumentSection documentSection;
   final _ScrolledOut state;
