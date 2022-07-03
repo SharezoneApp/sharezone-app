@@ -3,19 +3,6 @@ import 'package:flutter/foundation.dart';
 
 import 'privacy_policy_src.dart';
 
-// TODO: Can we replace this with extended enum?
-class _ReadingState {
-  final DocumentSection documentSection;
-  final _ScrolledOut state;
-
-  _ReadingState({
-    @required this.documentSection,
-    @required this.state,
-  });
-}
-
-enum _ScrolledOut { atTheTop, atTheBottom }
-
 /// Updates which [DocumentSection] inside the table of contents the user is
 /// currently reading.
 ///
@@ -78,63 +65,72 @@ class CurrentlyReadingSectionController {
         .toList();
   }
 
-  /// The last non-null section that we see / have seen at the top of the page.
-  /// Can be null if we haven't seen any sections so far.
+  /// The state of the heading that was last seen.
+  /// This is set when we scroll the only heading on the screen outside the view
+  /// so that no heading is visible anymore.
   ///
-  /// E.g. if we have:
-  /// ```
-  /// ## Foo
-  /// This is the Foo section.
-  /// ## Bar
-  /// This is the Bar section.
-  /// ```
-  /// then [_lastSeenTopmostVisibleSectionHeader] would equal the Foo document
-  /// section.
-  ///
-  /// Since [_lastSeenTopmostVisibleSectionHeader] includes the last position of
-  /// the section we can see if it was scrolled out the viewport in the top or
-  /// at the bottom by looking at
-  /// [DocumentSectionHeadingPosition.itemLeadingEdge] or
-  /// [DocumentSectionHeadingPosition.itemTrailingEdge]. (See
-  /// [_updateCurrentlyReadSection]).
-  DocumentSectionHeadingPosition _lastSeenTopmostVisibleSectionHeader;
-
-  _ReadingState _readingState;
+  /// This is needed so we can compute where in which section we are even when
+  /// we see not section headings currently.
+  _HeadingState _lastSeenHeadingState;
 
   void _updateCurrentlyReadSection(
       List<DocumentSectionHeadingPosition> visibleHeadings,
       List<DocumentSectionHeadingPosition> oldVisibleHeadings) {
     assert(oldVisibleHeadings != null);
-    final _visibleHeadings = visibleHeadings.toIList();
 
+    // If we see no section headings on screen we save what heading was last
+    // seen. Later we can use that so we know what section we're currently in.
+    //
+    // Seeing no section heading can happen if we e.g. scroll inside a section
+    // with more text than can be displayed on the screen at once.
     if (visibleHeadings.isEmpty && oldVisibleHeadings.isNotEmpty) {
-      // Realistically there should only ever be a single heading before (so
-      // visibleHeadings.single should work instead of visibleHeadings.first).
+      // Realistically there should only ever be a single heading but we use
+      // .first for safety if that doesn't hold true.
+      assert(oldVisibleHeadings.length == 1);
       final lastVisible = oldVisibleHeadings.first;
-      _readingState = lastVisible.itemLeadingEdge <= _threshold
-          ? _ReadingState(
+
+      _lastSeenHeadingState = lastVisible.itemLeadingEdge <= _threshold
+          ? _HeadingState(
               documentSection: lastVisible.documentSection,
-              state: _ScrolledOut.atTheTop,
+              scrolledOutAt: _ScrolledOut.atTheTop,
             )
-          : _ReadingState(
+          : _HeadingState(
               documentSection: lastVisible.documentSection,
-              state: _ScrolledOut.atTheBottom,
+              scrolledOutAt: _ScrolledOut.atTheBottom,
             );
     }
 
-    if (visibleHeadings.isEmpty) {
-      if (_readingState != null) {
-        // TODO: index == -1
-        final index = _allSectionsFlattend
-            .indexWhere((element) => element == _readingState.documentSection);
+    // Sort so that the top-most section on screen is first in list
+    visibleHeadings
+        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
 
-        if (index == 0 && _readingState.state == _ScrolledOut.atTheBottom) {
-          _markNoSectionIsCurrentlyRead();
+    // If we see no section headings on screen...
+    if (visibleHeadings.isEmpty) {
+      // ...and we saved what happend with the last section on screen...
+      if (_lastSeenHeadingState != null) {
+        // ... we find the index of the last section on screen...
+        final index = _allSectionsFlattend.indexWhere((section) =>
+            section.documentSectionId ==
+            _lastSeenHeadingState.documentSection.documentSectionId);
+
+        if (index == -1) {
+          throw ArgumentError(
+              "Can't find section with id ${_lastSeenHeadingState.documentSection.documentSectionId} inside allSectionsFlattend ($_allSectionsFlattend)");
+        }
+
+        // ... and compute what section we're currently in:
+
+        // Special case: We scrolled above the first section.
+        if (index == 0 &&
+            _lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
+          _markAsCurrentlyReading(null);
           return;
         }
-        if (_readingState.state == _ScrolledOut.atTheTop) {
+
+        if (_lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
           _markAsCurrentlyReading(_allSectionsFlattend[index]);
-        } else if (_readingState.state == _ScrolledOut.atTheBottom) {
+        } else if (_lastSeenHeadingState.scrolledOutAt ==
+            _ScrolledOut.atTheBottom) {
           _markAsCurrentlyReading(_allSectionsFlattend[index - 1]);
         } else {
           throw UnimplementedError();
@@ -144,125 +140,35 @@ class CurrentlyReadingSectionController {
       return;
     }
 
-    // Sections that intersect or are above the threshold
-    final insideThreshold = _visibleHeadings
-        .where((section) => section.itemLeadingEdge <= _threshold)
-        .toIList();
+    // Sections that intersect with or are above the threshold
+    final insideThreshold = visibleHeadings
+        .where((section) => section.itemLeadingEdge <= _threshold);
 
+    // If no section headings are inside the threshold...
     if (insideThreshold.isEmpty) {
-      final index = _indexOf(_visibleHeadings
-          .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge))
-          .first);
+      // ... we get the index of the top-most section heading on screen...
+      final index = _indexOf(visibleHeadings.first);
 
+      // Special case: If it's the first section we mark no section as currently
+      // read since we haven't "entered" the first section since it's below
+      // the threshold.
       if (index == 0) {
-        _markNoSectionIsCurrentlyRead();
+        _markAsCurrentlyReading(null);
         return;
       }
 
+      // ... and mark the section before it as currently read (since our current
+      // section is below the threshold):
       _markAsCurrentlyReading(
         _allSectionsFlattend[index - 1],
       );
       return;
     }
 
-    final closest = insideThreshold
-        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge))
-        .last;
-
-    final heading = closest;
-
-    _markAsCurrentlyReading(heading.documentSection);
-  }
-
-  void _updateCurrentlyReadSectionOld(
-      List<DocumentSectionHeadingPosition> visibleHeadings) {
-    visibleHeadings
-        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
-
-    final visibleAfterThreshold = visibleHeadings
-        .where((heading) => heading.itemLeadingEdge <= _threshold);
-
-    final firstVisibleHeading =
-        visibleHeadings.isNotEmpty ? visibleHeadings.first : null;
-    // No Heading visible
-    if (firstVisibleHeading == null) {
-      // We have never seen any heading.
-      if (_lastSeenTopmostVisibleSectionHeader == null) {
-        return;
-      }
-      // We are inside a section but see no header.
-      // This can happen if there is a big amount of text between sections.
-
-      // If the last seen header was scrolled out of the viewport at the top
-      // this means that we scrolled down the page.
-      // Thus we are inside the text section of the last seen header.
-      if (_lastSeenTopmostVisibleSectionHeader.itemLeadingEdge <= _threshold) {
-        _markAsCurrentlyReading(
-            _lastSeenTopmostVisibleSectionHeader.documentSection);
-      }
-
-      // If the last seen header was scrolled out of the viewport at the bottom
-      // this means that we scrolled up the page.
-      // Thus we are inside the section of the header that comes next if we keep
-      // scrolling up.
-      else {
-        final _lastIndex = _indexOf(_lastSeenTopmostVisibleSectionHeader);
-
-        // TODO: Last currently read section should be marked as read?
-        // At least for small headers?
-
-        // Unknown Heading - A heading is visible thats not inside our predefined
-        // list. Doesn't necessary need to be an error since we might not want to
-        // show all headings inside our TOC (e.g. the first `#` heading or very
-        // small headings like `####`).
-        // No section should be marked as currently read.
-        if (_lastIndex == -1) {
-          _markNoSectionIsCurrentlyRead();
-          return;
-        }
-
-        // We scrolled above the first section.
-        // No section should be marked as currently read.
-        if (_lastIndex == 0) {
-          _markNoSectionIsCurrentlyRead();
-          return;
-        }
-
-        final sectionBefore = _allSectionsFlattend[_lastIndex - 1];
-
-        _markAsCurrentlyReading(sectionBefore);
-      }
-      return;
-    }
-
-    _lastSeenTopmostVisibleSectionHeader = firstVisibleHeading;
-
-    final firstVisibleHeadingIndex = _indexOf(firstVisibleHeading);
-
-    // Unknown Heading - A heading is visible thats not inside our predefined
-    // list. Doesn't necessary need to be an error since we might not want to
-    // show all headings inside our TOC (e.g. the first `#` heading or very
-    // small headings like `####`).
-    // No section should be marked as currently read.
-    if (firstVisibleHeadingIndex == -1) {
-      _markNoSectionIsCurrentlyRead();
-      return;
-    }
-
-    // If the first section is visible then mark no section as currently read
-    // since if we still see the first section we haven't "entered" it.
-    // if (firstVisibleHeadingIndex == 0) {
-    //   _markNoSectionIsCurrentlyRead();
-    //   return;
-    // }
-    if (firstVisibleHeadingIndex == 0) {
-      _markAsCurrentlyReading(_allSectionsFlattend[0]);
-      return;
-    }
-
-    final sectionBeforeTopmostVisibleHeading =
-        _allSectionsFlattend[firstVisibleHeadingIndex - 1];
-    _markAsCurrentlyReading(sectionBeforeTopmostVisibleHeading);
+    // If there are section headings inside the threshold we just mark the one
+    // that is closest to the threshold as currently read:
+    final closest = insideThreshold.last;
+    _markAsCurrentlyReading(closest.documentSection);
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
@@ -272,11 +178,7 @@ class CurrentlyReadingSectionController {
 
   void _markAsCurrentlyReading(DocumentSection _section) {
     _currentlyReadingHeadingNotifier.value =
-        _section.sectionId.toDocumentSectionIdOrNull();
-  }
-
-  void _markNoSectionIsCurrentlyRead() {
-    _currentlyReadingHeadingNotifier.value = null;
+        _section?.sectionId?.toDocumentSectionIdOrNull();
   }
 }
 
@@ -288,3 +190,16 @@ extension on String {
     return DocumentSectionId(this);
   }
 }
+
+// TODO: Can we replace this with extended enum?
+class _HeadingState {
+  final DocumentSection documentSection;
+  final _ScrolledOut scrolledOutAt;
+
+  _HeadingState({
+    @required this.documentSection,
+    @required this.scrolledOutAt,
+  });
+}
+
+enum _ScrolledOut { atTheTop, atTheBottom }
