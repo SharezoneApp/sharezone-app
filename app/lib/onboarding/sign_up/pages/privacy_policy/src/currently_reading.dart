@@ -149,8 +149,9 @@ class CurrentlyReadingSectionController {
         .toIList();
 
     if (insideThreshold.isEmpty) {
-      // TODO: This will break if no headings are visible#
-      final index = _indexOf(visibleHeadings.first);
+      final index = _indexOf(_visibleHeadings
+          .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge))
+          .first);
 
       if (index == 0) {
         _markNoSectionIsCurrentlyRead();
