@@ -1,6 +1,19 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
 import 'privacy_policy_src.dart';
+
+class _ReadingState {
+  final DocumentSection documentSection;
+  final _ScrolledOut state;
+
+  _ReadingState({
+    @required this.documentSection,
+    @required this.state,
+  });
+}
+
+enum _ScrolledOut { atTheTop, atTheBottom }
 
 /// Updates which [DocumentSection] inside the table of contents the user is
 /// currently reading.
@@ -45,14 +58,19 @@ class CurrentlyReadingSectionController {
   ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
       _currentlyReadingHeadingNotifier;
 
+  List<DocumentSectionHeadingPosition> _oldVisibleHeadings;
+
   CurrentlyReadingSectionController(
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
     // TODO: Maybe make required?
     double threshold = 0.1,
   }) : _threshold = threshold {
+    _oldVisibleHeadings = _visibleSectionHeadings.value ?? [];
     _visibleSectionHeadings.addListener(() {
-      _updateCurrentlyReadSection(_visibleSectionHeadings.value);
+      _updateCurrentlyReadSection(
+          _visibleSectionHeadings.value, _oldVisibleHeadings);
+      _oldVisibleHeadings = _visibleSectionHeadings.value;
     });
     _allSectionsFlattend = _tocSectionHeadings
         .expand((element) => [element, ...element.subsections])
@@ -80,17 +98,74 @@ class CurrentlyReadingSectionController {
   /// [_updateCurrentlyReadSection]).
   DocumentSectionHeadingPosition _lastSeenTopmostVisibleSectionHeader;
 
+  _ReadingState _readingState;
+
   void _updateCurrentlyReadSection(
-      List<DocumentSectionHeadingPosition> visibleHeadings) {
+      List<DocumentSectionHeadingPosition> visibleHeadings,
+      List<DocumentSectionHeadingPosition> oldVisibleHeadings) {
+    assert(oldVisibleHeadings != null);
+    final _visibleHeadings = visibleHeadings.toIList();
+
+    if (visibleHeadings.isEmpty && oldVisibleHeadings.isNotEmpty) {
+      // Realistically there should only ever be a single heading before (so
+      // visibleHeadings.single should work instead of visibleHeadings.first).
+      final lastVisible = oldVisibleHeadings.first;
+      _readingState = lastVisible.itemLeadingEdge <= _threshold
+          ? _ReadingState(
+              documentSection: lastVisible.documentSection,
+              state: _ScrolledOut.atTheTop,
+            )
+          : _ReadingState(
+              documentSection: lastVisible.documentSection,
+              state: _ScrolledOut.atTheBottom,
+            );
+    }
+
     if (visibleHeadings.isEmpty) {
+      if (_readingState != null) {
+        // TODO: index == -1
+        final index = _allSectionsFlattend
+            .indexWhere((element) => element == _readingState.documentSection);
+
+        if (index == 0 && _readingState.state == _ScrolledOut.atTheBottom) {
+          _markNoSectionIsCurrentlyRead();
+        } else if (index == 0 && _readingState.state == _ScrolledOut.atTheTop) {
+          _markAsCurrentlyReading(_allSectionsFlattend[index]);
+        } else {
+          // TODO: Don't we need to differentiate if scrolled out at the top or
+          // bottom here as well?
+          _markAsCurrentlyReading(_allSectionsFlattend[index - 1]);
+        }
+      }
+
       return;
     }
 
-    final heading = visibleHeadings.single;
+    // Sections that intersect or are above the threshold
+    final insideThreshold = _visibleHeadings
+        .where((section) => section.itemLeadingEdge <= _threshold)
+        .toIList();
 
-    if (heading.itemLeadingEdge > _threshold) {
+    if (insideThreshold.isEmpty) {
+      // TODO: This will break if no headings are visible#
+      final index = _indexOf(visibleHeadings.first);
+
+      if (index == 0) {
+        _markNoSectionIsCurrentlyRead();
+        return;
+      }
+
+      _markAsCurrentlyReading(
+        _allSectionsFlattend[index - 1],
+      );
       return;
     }
+
+    final closest = insideThreshold
+        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge))
+        .last;
+
+    final heading = closest;
 
     _markAsCurrentlyReading(heading.documentSection);
   }

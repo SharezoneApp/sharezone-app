@@ -98,32 +98,46 @@ void main() {
       expect(controller.currentlyReadSection, 'foo');
     });
 
-    test('marks the first section as active when scrolling past the heading',
+    test(
+        'Marks a section as active when the the section intersects the threshold',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('foo'),
       ];
 
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
-
-      final controller = _createController(sections, visibleSections);
+      final controller =
+          _createController(sections, visibleSections, threshold: 0.1);
 
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0,
-          itemTrailingEdge: 0.05,
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.05,
+          itemTrailingEdge: 0.15,
         ),
       ];
 
-      visibleSections.value = [];
+      expect(controller.currentlyReadSection, 'foo');
+    });
+    test(
+        'Marks a section as active when the the section is above the threshold',
+        () {
+      final sections = [
+        _section('foo'),
+      ];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('inhaltsverzeichnis'));
-    }, skip: true);
+      final controller =
+          _createController(sections, visibleSections, threshold: 0.1);
+
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.05,
+          itemTrailingEdge: 0.09,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'foo');
+    });
 
     test(
         'if currently visible sections go from some to none then it returns the section that comes before the current position inside the document',
@@ -133,146 +147,99 @@ void main() {
       // Scroll down from the last section so that the last section is not visible
       // anymore
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('foo'),
+        _section('bar'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
+      // At bottom of the screen
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'foo',
           itemLeadingEdge: 0.8,
           itemTrailingEdge: 0.85,
         ),
       ];
 
-      // We scroll to the top
+      // We scroll it to the top
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0,
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.0,
           itemTrailingEdge: 0.05,
         ),
       ];
 
+      // We scroll it out of the view
       visibleSections.value = [];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('inhaltsverzeichnis'));
-    }, skip: true);
-
+      expect(controller.currentlyReadSection, 'foo');
+    });
     test(
-        'marks the section "above" as active when scrolling back up from a previous section',
+        'marks the one thats past/intersects with the threshold as active when several sections are on screen',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('foo'),
+        _section('bar'),
+        _section('baz'),
+        _section('quz'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
-
-      final controller = _createController(
-        sections,
-        visibleSections,
-        threshold: 0.2,
-      );
-
-      // We scroll down to the second chapter
-      visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-          itemLeadingEdge: 0.2,
-          itemTrailingEdge: 0.25,
-        ),
-      ];
-
-      // We scroll up again
-      visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-          itemLeadingEdge: 0.95,
-          itemTrailingEdge: 1,
-        ),
-      ];
-
-      // We scroll up again (we're now between inhaltsverzeichnis and
-      // 1-wichtige-begriffe) but none of the chapter titles are visible
-      visibleSections.value = [];
-
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('inhaltsverzeichnis'));
-    }, skip: true);
-
-    test('edge case: scrolling above first section', () {
-      final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
-      ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
-      // We scroll to the first section...
+      // At bottom of the screen
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.1,
-          itemTrailingEdge: 0.15,
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.05,
         ),
-      ];
-
-      // ... scroll up (section title is now at bottom of the viewport)
-      visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.95,
+        // intersects with thershold - should be active
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.08,
+          itemTrailingEdge: 0.12,
+        ),
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0.2,
+          itemTrailingEdge: 0.25,
+        ),
+        _headingPosition(
+          'quz',
+          itemLeadingEdge: 0.8,
           itemTrailingEdge: 1,
         ),
       ];
 
-      // ...and scroll further up (the first section is now out of view)
-      visibleSections.value = [];
-
-      expect(controller.currentlyReadDocumentSectionOrNull.value, null);
-    }, skip: true);
+      expect(controller.currentlyReadSection, 'bar');
+    });
 
     test(
         'when scrolling a section title out of viewport and another inside the viewport (at the bottom) it should mark the one scrolled out of the viewport as active',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('foo'),
+        _section('bar'),
+        _section('baz'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-          itemLeadingEdge: 0.9,
-          itemTrailingEdge: 0.95,
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.8,
+          itemTrailingEdge: 0.85,
         ),
       ];
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'foo',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
@@ -281,16 +248,95 @@ void main() {
       // ... the first section out of view and the next one into the view at the
       // bottom
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-          itemLeadingEdge: 0.9,
-          itemTrailingEdge: 0.95,
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.8,
+          itemTrailingEdge: 0.85,
         ),
       ];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('inhaltsverzeichnis'));
-    }, skip: true);
+      expect(controller.currentlyReadSection, 'foo');
+    });
+
+    test(
+        'marks the section "above" as active when scrolling back up from a previous section',
+        () {
+      final sections = [
+        _section('foo'),
+        _section('bar'),
+      ];
+
+      final controller = _createController(sections, visibleSections);
+
+      // We scroll the second chapter to the bottom of the screen
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.8,
+          itemTrailingEdge: 0.85,
+        ),
+      ];
+
+      // We scroll it to the top post the threshold
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+      ];
+
+      // We the section down to the bottom again (we scroll up the page)
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // We scroll it out of the view (we scroll up the page)
+      // We're now in-between foo and bar (both not visible)
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, 'foo');
+    });
+
+    test('edge case: scrolling above first section', () {
+      FlutterError.presentError = (error) {
+        throw error;
+      };
+
+      final sections = [
+        _section('foo'),
+      ];
+
+      final controller = _createController(sections, visibleSections);
+
+      // We scroll to the first section...
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.05,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      // ... scroll up (section title is now at bottom of the viewport)
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1,
+        ),
+      ];
+
+      // ...and scroll further up (the first section is now out of view)
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, null);
+    });
+
     // TODO: Not sure if this test belongs here.
     // we need to test this since before there was no test for this behavior.
     // im not sure though if I originally didn't want to tie these tests to a
