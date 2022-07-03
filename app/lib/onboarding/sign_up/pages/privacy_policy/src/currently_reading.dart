@@ -129,12 +129,14 @@ class CurrentlyReadingSectionController {
 
         if (index == 0 && _readingState.state == _ScrolledOut.atTheBottom) {
           _markNoSectionIsCurrentlyRead();
-        } else if (index == 0 && _readingState.state == _ScrolledOut.atTheTop) {
+          return;
+        }
+        if (_readingState.state == _ScrolledOut.atTheTop) {
           _markAsCurrentlyReading(_allSectionsFlattend[index]);
-        } else {
-          // TODO: Don't we need to differentiate if scrolled out at the top or
-          // bottom here as well?
+        } else if (_readingState.state == _ScrolledOut.atTheBottom) {
           _markAsCurrentlyReading(_allSectionsFlattend[index - 1]);
+        } else {
+          throw UnimplementedError();
         }
       }
 

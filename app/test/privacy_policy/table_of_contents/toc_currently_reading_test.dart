@@ -5,8 +5,8 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_po
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 
-DocumentSection _section(String id) {
-  return DocumentSection(id, id);
+DocumentSection _section(String id, {List<DocumentSection> subsections}) {
+  return DocumentSection(id, id, subsections ?? []);
 }
 
 DocumentSectionHeadingPosition _headingPosition(
@@ -303,10 +303,6 @@ void main() {
     });
 
     test('edge case: scrolling above first section', () {
-      FlutterError.presentError = (error) {
-        throw error;
-      };
-
       final sections = [
         _section('foo'),
       ];
@@ -346,22 +342,18 @@ void main() {
     // On the other hand it might still be best to do it like this.
     test('A subsection is marked as active correctly', () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', [
-          DocumentSection('quz', 'quz', []),
-          DocumentSection('baz', 'baz', []),
+        _section('foo', subsections: [
+          _section('quz'),
+          _section('baz'),
         ]),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section (its at the bottom)
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'foo',
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
         ),
@@ -369,8 +361,8 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'foo',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
@@ -379,8 +371,8 @@ void main() {
       // ... the first section out of view and the next one into the view at the
       // bottom
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('quz', 'quz', []),
+        _headingPosition(
+          'quz',
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
         ),
@@ -388,8 +380,8 @@ void main() {
 
       // ... to the top
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('quz', 'quz', []),
+        _headingPosition(
+          'quz',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
@@ -398,28 +390,24 @@ void main() {
       // ... and out of the view
       visibleSections.value = [];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('quz'));
-    }, skip: true);
+      expect(controller.currentlyReadSection, 'quz');
+    });
 
     test(
         'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is active',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('inhaltsverzeichnis'),
+        _section('1-wichtige-begriffe'),
+        _section('2-geltungsbereich'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'inhaltsverzeichnis',
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
         ),
@@ -427,13 +415,13 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'inhaltsverzeichnis',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        _headingPosition(
+          '1-wichtige-begriffe',
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
         ),
@@ -441,13 +429,13 @@ void main() {
 
       // ...and down
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        _headingPosition(
+          '1-wichtige-begriffe',
           itemLeadingEdge: 0.15,
           itemTrailingEdge: 0.2,
         ),
-        DocumentSectionHeadingPosition(
-          DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _headingPosition(
+          '2-geltungsbereich',
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
         ),
@@ -456,35 +444,31 @@ void main() {
       // ... now the first two sections are out of view
       // (but the text of the second section is still visible)
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _headingPosition(
+          '2-geltungsbereich',
           itemLeadingEdge: 0.6,
           itemTrailingEdge: 0.65,
         ),
       ];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('1-wichtige-begriffe'));
-    }, skip: true);
+      expect(controller.currentlyReadSection, '1-wichtige-begriffe');
+    });
 
     test(
         'regression test: Being inbetween two sections (both headings not visible)',
         () {
       final sections = [
-        DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
-        DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
-        DocumentSection('2-geltungsbereich', '2. Geltungsbereich', []),
+        _section('inhaltsverzeichnis'),
+        _section('1-wichtige-begriffe'),
+        _section('2-geltungsbereich'),
       ];
-
-      final visibleSections =
-          ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
 
       final controller = _createController(sections, visibleSections);
 
       // We scroll to the first section
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'inhaltsverzeichnis',
           itemLeadingEdge: 0.95,
           itemTrailingEdge: 1,
         ),
@@ -492,13 +476,13 @@ void main() {
 
       // We scroll down...
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),
+        _headingPosition(
+          'inhaltsverzeichnis',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        _headingPosition(
+          '1-wichtige-begriffe',
           itemLeadingEdge: 0.9,
           itemTrailingEdge: 0.95,
         ),
@@ -506,8 +490,8 @@ void main() {
 
       // ...down
       visibleSections.value = [
-        DocumentSectionHeadingPosition(
-          DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe', []),
+        _headingPosition(
+          '1-wichtige-begriffe',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
@@ -516,9 +500,8 @@ void main() {
       // ... we're now between 1-wichtige-begriffe and 2-geltungsbereich
       visibleSections.value = [];
 
-      expect(controller.currentlyReadDocumentSectionOrNull.value,
-          DocumentSectionId('1-wichtige-begriffe'));
-    }, skip: true);
+      expect(controller.currentlyReadSection, '1-wichtige-begriffe');
+    });
   });
 }
 
