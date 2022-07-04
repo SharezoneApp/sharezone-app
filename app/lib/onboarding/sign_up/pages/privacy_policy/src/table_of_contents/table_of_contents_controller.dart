@@ -190,15 +190,19 @@ class TableOfContentsController extends ChangeNotifier {
                       id: sub.documentSectionId,
                       title: sub.sectionName,
                       subsections: IList([]),
-                      isExpanded: false,
+                      expansionState: ExpansionState(
+                        expansionMode: ExpansionMode.automatic,
+                        isExpanded: false,
+                      ),
                       isThisCurrentlyRead: false,
-                      expansionMode: ExpansionMode.automatic,
                     ),
                   )
                   .toIList(),
-              isExpanded: false,
               isThisCurrentlyRead: false,
-              expansionMode: ExpansionMode.automatic,
+              expansionState: ExpansionState(
+                expansionMode: ExpansionMode.automatic,
+                isExpanded: false,
+              ),
             ))
         .toIList();
     _tableOfContents = TableOfContents(sections);

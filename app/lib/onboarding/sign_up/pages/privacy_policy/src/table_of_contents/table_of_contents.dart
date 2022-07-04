@@ -10,6 +10,8 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:meta/meta.dart';
 
+part './section_expansion.dart';
+
 class DocumentSectionId extends Id {
   DocumentSectionId(String id) : super(id, 'DocumentSectionId');
 }
@@ -58,13 +60,49 @@ extension ReplaceAllWhere<T> on IList<T> {
 
 enum ExpansionMode { forced, automatic }
 
+class ExpansionState {
+  final bool isExpanded;
+  final ExpansionMode expansionMode;
+
+  ExpansionState({
+    @required this.isExpanded,
+    @required this.expansionMode,
+  });
+
+  ExpansionState copyWith({
+    bool isExpanded,
+    ExpansionMode expansionMode,
+  }) {
+    return ExpansionState(
+      isExpanded: isExpanded ?? this.isExpanded,
+      expansionMode: expansionMode ?? this.expansionMode,
+    );
+  }
+
+  @override
+  String toString() =>
+      'ExpansionState(isExpanded: $isExpanded, expansionMode: $expansionMode)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ExpansionState &&
+        other.isExpanded == isExpanded &&
+        other.expansionMode == expansionMode;
+  }
+
+  @override
+  int get hashCode => isExpanded.hashCode ^ expansionMode.hashCode;
+}
+
 class TocSection {
   final DocumentSectionId id;
   final String title;
   final IList<TocSection> subsections;
 
-  final ExpansionMode expansionMode;
-  final bool isExpanded;
+  final ExpansionState expansionState;
+  bool get isExpanded => expansionState.isExpanded;
   bool get isCollapsed => !isExpanded;
   bool get isExpandable => subsections.isNotEmpty;
 
@@ -79,9 +117,8 @@ class TocSection {
     @required this.id,
     @required this.title,
     @required this.subsections,
-    @required this.isExpanded,
+    @required this.expansionState,
     @required this.isThisCurrentlyRead,
-    @required this.expansionMode,
   }) : assert(subsections
                 .where((element) => element.isThisOrASubsectionCurrentlyRead)
                 .length <=
@@ -97,8 +134,10 @@ class TocSection {
       throw ArgumentError();
     }
     return copyWith(
-      isExpanded: !isExpanded,
-      expansionMode: ExpansionMode.forced,
+      expansionState: expansionState.copyWith(
+        isExpanded: !isExpanded,
+        expansionMode: ExpansionMode.forced,
+      ),
     );
   }
 
@@ -117,9 +156,8 @@ class TocSection {
     );
 
     if (isExpandable) {
-      updated = _updateWithComputedExpansion(
-        old: this,
-        partiallyUpdated: updated,
+      updated = updated.copyWith(
+        expansionState: _computeNewExpansionState(before: this, after: updated),
       );
     }
 
@@ -130,23 +168,21 @@ class TocSection {
     DocumentSectionId id,
     String title,
     IList<TocSection> subsections,
-    ExpansionMode expansionMode,
-    bool isExpanded,
+    ExpansionState expansionState,
     bool isThisCurrentlyRead,
   }) {
     return TocSection(
       id: id ?? this.id,
       title: title ?? this.title,
       subsections: subsections ?? this.subsections,
-      expansionMode: expansionMode ?? this.expansionMode,
-      isExpanded: isExpanded ?? this.isExpanded,
+      expansionState: expansionState ?? this.expansionState,
       isThisCurrentlyRead: isThisCurrentlyRead ?? this.isThisCurrentlyRead,
     );
   }
 
   @override
   String toString() {
-    return 'TocSection(id: $id, title: $title, subsections: $subsections, expansionMode: $expansionMode, isExpanded: $isExpanded, isThisCurrentlyRead: $isThisCurrentlyRead, isThisOrASubsectionCurrentlyRead: $isThisOrASubsectionCurrentlyRead)';
+    return 'TocSection(id: $id, title: $title, subsections: $subsections, expansionState: $expansionState, isThisCurrentlyRead: $isThisCurrentlyRead, isThisOrASubsectionCurrentlyRead: $isThisOrASubsectionCurrentlyRead)';
   }
 
   @override
@@ -157,8 +193,7 @@ class TocSection {
         other.id == id &&
         other.title == title &&
         other.subsections == subsections &&
-        other.expansionMode == expansionMode &&
-        other.isExpanded == isExpanded &&
+        other.expansionState == expansionState &&
         other.isThisCurrentlyRead == isThisCurrentlyRead;
   }
 
@@ -167,79 +202,7 @@ class TocSection {
     return id.hashCode ^
         title.hashCode ^
         subsections.hashCode ^
-        expansionMode.hashCode ^
-        isExpanded.hashCode ^
+        expansionState.hashCode ^
         isThisCurrentlyRead.hashCode;
   }
-}
-
-TocSection _updateWithComputedExpansion({
-  @required TocSection old,
-  @required TocSection partiallyUpdated,
-}) {
-  assert(old.isExpandable);
-  assert(partiallyUpdated.isExpandable);
-  // We use enum because it's more readable but don't use a switch statement
-  // because it makes its more unreadable than an if-else.
-  assert(partiallyUpdated.expansionMode == ExpansionMode.forced ||
-      partiallyUpdated.expansionMode == ExpansionMode.automatic);
-
-  // Default behavior
-  if (old.expansionMode == ExpansionMode.automatic) {
-    return partiallyUpdated.copyWith(
-      isExpanded: partiallyUpdated.isThisOrASubsectionCurrentlyRead,
-    );
-  }
-
-  if (old.expansionMode == ExpansionMode.forced) {
-    // When we go from some other section into a forced closed one we update
-    // the current section to it's "automatic" expansion mode (i.e. it
-    // expands again).
-    //
-    // We want that manually closed sections only stay closed when currently
-    // read and scrolling aroung in it.
-    // In every other case manually closing a section makes it expand
-    // automatically again when it is read (this is the case here).
-    //
-    // *Implementation note*
-    // This was implemented before that if we force-closed a currently read
-    // section and scrolled out of it that we would update the [ExpansionMode]
-    // to [ExpansionMode.automatic] again.
-    // This had the problem that if we come from a "no section read" state (e.g.
-    // this is the first section) that a force-closed section wouldn't open
-    // since we have never scrolled out of it (currently reading wasn't updated
-    // before we entered this section).
-
-    // If this is force-closed...
-    if (partiallyUpdated.isCollapsed &&
-        // ... and we just started reading this
-        !old.isThisOrASubsectionCurrentlyRead &&
-        partiallyUpdated.isThisOrASubsectionCurrentlyRead) {
-      // ... then we expand it and change to the default auto-expand behavior
-      return partiallyUpdated.copyWith(
-        isExpanded: true,
-        expansionMode: ExpansionMode.automatic,
-      );
-    }
-
-    // Behavior for if we
-    //
-    // 1. were and still are in a force-closed section.
-    //    It stays closed since else closing a currently read section and
-    //    scrolling around in it would expand it again right away.
-    //
-    // 2. are in a forced open section which is ment to always stay open until
-    //    a user closes it again manually.
-    //
-    // Altough this will also be the run if we scroll out of a forced-close
-    // section since we update to the default auto-expand mode only if when we
-    // enter the section again (see above).
-
-    // We could also just return [partiallyUpdated] but this is more explicit.
-    return partiallyUpdated.copyWith(
-      isExpanded: old.isExpanded,
-    );
-  }
-
-  throw UnimplementedError();
 }
