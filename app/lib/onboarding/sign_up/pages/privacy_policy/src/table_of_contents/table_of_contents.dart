@@ -43,7 +43,7 @@ class TableOfContents {
     return copyWith(
       sections: sections
           .map((section) =>
-              section.changeCurrentlyReadAccordingly(currentlyReadSection))
+              section.notifyOfNewCurrentlyRead(currentlyReadSection))
           .toIList(),
     );
   }
@@ -143,11 +143,11 @@ class TocSection {
 
   // TODO: Rename method (so its clear that it changes also its expansion
   // instead of only updating the currently read state)
-  TocSection changeCurrentlyReadAccordingly(
+  TocSection notifyOfNewCurrentlyRead(
       DocumentSectionId newCurrentlyReadSection) {
     final newSubsections = subsections
         .map((subsection) =>
-            subsection.changeCurrentlyReadAccordingly(newCurrentlyReadSection))
+            subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection))
         .toIList();
 
     TocSection updated = copyWith(
