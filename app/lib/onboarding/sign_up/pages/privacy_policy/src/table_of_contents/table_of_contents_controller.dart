@@ -13,7 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rxdart/subjects.dart';
 
-import 'privacy_policy_src.dart';
+import '../privacy_policy_src.dart';
 
 // TODO: Is this still needed?
 // TODO: Make nicer, copied it from else where.

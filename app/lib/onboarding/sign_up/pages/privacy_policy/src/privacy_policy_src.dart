@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-export './currently_reading.dart';
-export './document_section_view.dart';
 export './privacy_policy_theme_settings.dart';
-export './table_of_contents.dart';
-export './table_of_contents_controller.dart';
+export './table_of_contents/currently_reading.dart';
+export './table_of_contents/document_section_view.dart';
+export './table_of_contents/table_of_contents.dart';
+export './table_of_contents/table_of_contents_controller.dart';

@@ -9,7 +9,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
-import 'privacy_policy_src.dart';
+import '../privacy_policy_src.dart';
 
 /// Updates which [DocumentSection] inside the table of contents the user is
 /// currently reading.

@@ -9,7 +9,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
-import 'privacy_policy_src.dart';
+import '../privacy_policy_src.dart';
 
 class TocDocumentSectionView {
   final DocumentSectionId id;
