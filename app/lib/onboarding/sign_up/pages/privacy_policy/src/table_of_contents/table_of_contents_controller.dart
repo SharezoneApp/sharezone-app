@@ -224,7 +224,7 @@ class TableOfContentsController extends ChangeNotifier {
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
     _tableOfContents =
-        _tableOfContents.manuallyToggleShowSubsectionsOf(documentSectionId);
+        _tableOfContents.forceToggleExpansionOf(documentSectionId);
 
     _updateViews();
   }

@@ -21,12 +21,21 @@ class TableOfContents {
 
   TableOfContents(this.sections);
 
-  TableOfContents manuallyToggleShowSubsectionsOf(DocumentSectionId sectionId) {
+  TableOfContents changeCurrentlyReadSectionTo(
+      DocumentSectionId currentlyReadSection) {
+    return _copyWith(
+        sections: sections
+            .map((section) =>
+                section.notifyOfNewCurrentlyRead(currentlyReadSection))
+            .toIList());
+  }
+
+  TableOfContents forceToggleExpansionOf(DocumentSectionId sectionId) {
     return _copyWith(
       sections: sections
           .replaceWhere(
             where: (section) => section.id == sectionId,
-            replace: (section) => section.toggleExpansionManually(),
+            replace: (section) => section.forceToggleExpansion(),
           )
           .toIList(),
     );
@@ -39,66 +48,6 @@ class TableOfContents {
       sections ?? this.sections,
     );
   }
-
-  TableOfContents changeCurrentlyReadSectionTo(
-      DocumentSectionId currentlyReadSection) {
-    return _copyWith(
-        sections: sections
-            .map((section) =>
-                section.notifyOfNewCurrentlyRead(currentlyReadSection))
-            .toIList());
-  }
-}
-
-extension ReplaceWhere<T> on IList<T> {
-  Iterable<T> replaceWhere({
-    @required Predicate<T> where,
-    @required T Function(T element) replace,
-    ConfigList config,
-  }) {
-    return map(
-      (element) => where(element) ? replace(element) : element,
-      config: config,
-    );
-  }
-}
-
-enum ExpansionMode { forced, automatic }
-
-class ExpansionState {
-  final bool isExpanded;
-  final ExpansionMode expansionMode;
-
-  ExpansionState({
-    @required this.isExpanded,
-    @required this.expansionMode,
-  });
-
-  ExpansionState copyWith({
-    bool isExpanded,
-    ExpansionMode expansionMode,
-  }) {
-    return ExpansionState(
-      isExpanded: isExpanded ?? this.isExpanded,
-      expansionMode: expansionMode ?? this.expansionMode,
-    );
-  }
-
-  @override
-  String toString() =>
-      'ExpansionState(isExpanded: $isExpanded, expansionMode: $expansionMode)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ExpansionState &&
-        other.isExpanded == isExpanded &&
-        other.expansionMode == expansionMode;
-  }
-
-  @override
-  int get hashCode => isExpanded.hashCode ^ expansionMode.hashCode;
 }
 
 class TocSection {
@@ -134,7 +83,7 @@ class TocSection {
     }
   }
 
-  TocSection toggleExpansionManually() {
+  TocSection forceToggleExpansion() {
     if (subsections.isEmpty) {
       throw ArgumentError();
     }
@@ -214,5 +163,18 @@ class TocSection {
         subsections.hashCode ^
         expansionState.hashCode ^
         isThisCurrentlyRead.hashCode;
+  }
+}
+
+extension ReplaceWhere<T> on IList<T> {
+  Iterable<T> replaceWhere({
+    @required Predicate<T> where,
+    @required T Function(T element) replace,
+    ConfigList config,
+  }) {
+    return map(
+      (element) => where(element) ? replace(element) : element,
+      config: config,
+    );
   }
 }
