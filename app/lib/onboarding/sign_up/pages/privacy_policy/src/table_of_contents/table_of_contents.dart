@@ -43,11 +43,10 @@ class TableOfContents {
   TableOfContents changeCurrentlyReadSectionTo(
       DocumentSectionId currentlyReadSection) {
     return copyWith(
-      sections: sections
-          .map((section) =>
-              section.notifyOfNewCurrentlyRead(currentlyReadSection))
-          .toIList(),
-    );
+        sections: sections
+            .map((section) =>
+                section.notifyOfNewCurrentlyRead(currentlyReadSection))
+            .toIList());
   }
 }
 
@@ -147,8 +146,13 @@ class TocSection {
     );
   }
 
-  // TODO: Rename method (so its clear that it changes also its expansion
-  // instead of only updating the currently read state)
+  /// Change [isThisCurrentlyRead] and [expansionState] of this and
+  /// [subsections] and according to [newCurrentlyReadSection].
+  ///
+  /// For example if this [TocSection.id] == [newCurrentlyReadSection] and the
+  /// [ExpansionMode] == [ExpansionMode.automatic] then calling
+  /// [notifyOfNewCurrentlyRead] would return an updated version of `this` with
+  /// [isThisCurrentlyRead] == `true` and [isExpanded] == `true`.
   TocSection notifyOfNewCurrentlyRead(
       DocumentSectionId newCurrentlyReadSection) {
     final newSubsections = subsections
