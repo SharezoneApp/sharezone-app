@@ -22,7 +22,7 @@ class TableOfContents {
   TableOfContents(this.sections);
 
   TableOfContents manuallyToggleShowSubsectionsOf(DocumentSectionId sectionId) {
-    return copyWith(
+    return _copyWith(
       sections: sections
           .replaceWhere(
             where: (section) => section.id == sectionId,
@@ -32,7 +32,7 @@ class TableOfContents {
     );
   }
 
-  TableOfContents copyWith({
+  TableOfContents _copyWith({
     IList<TocSection> sections,
   }) {
     return TableOfContents(
@@ -42,7 +42,7 @@ class TableOfContents {
 
   TableOfContents changeCurrentlyReadSectionTo(
       DocumentSectionId currentlyReadSection) {
-    return copyWith(
+    return _copyWith(
         sections: sections
             .map((section) =>
                 section.notifyOfNewCurrentlyRead(currentlyReadSection))
@@ -138,7 +138,7 @@ class TocSection {
     if (subsections.isEmpty) {
       throw ArgumentError();
     }
-    return copyWith(
+    return _copyWith(
       expansionState: expansionState.copyWith(
         isExpanded: !isExpanded,
         expansionMode: ExpansionMode.forced,
@@ -160,13 +160,13 @@ class TocSection {
             subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection))
         .toIList();
 
-    TocSection updated = copyWith(
+    TocSection updated = _copyWith(
       isThisCurrentlyRead: id == newCurrentlyReadSection,
       subsections: newSubsections,
     );
 
     if (isExpandable) {
-      updated = updated.copyWith(
+      updated = updated._copyWith(
         expansionState: _computeNewExpansionState(before: this, after: updated),
       );
     }
@@ -174,7 +174,7 @@ class TocSection {
     return updated;
   }
 
-  TocSection copyWith({
+  TocSection _copyWith({
     DocumentSectionId id,
     String title,
     IList<TocSection> subsections,
