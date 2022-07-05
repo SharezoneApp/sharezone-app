@@ -24,8 +24,10 @@ class TableOfContents {
   TableOfContents manuallyToggleShowSubsectionsOf(DocumentSectionId sectionId) {
     return copyWith(
       sections: sections
-          .replaceAllWhereMap((section) => section.id == sectionId,
-              (section) => section.toggleExpansionManually())
+          .replaceWhere(
+            where: (section) => section.id == sectionId,
+            replace: (section) => section.toggleExpansionManually(),
+          )
           .toIList(),
     );
   }
@@ -49,12 +51,16 @@ class TableOfContents {
   }
 }
 
-extension ReplaceAllWhere<T> on IList<T> {
-  Iterable<T> replaceAllWhereMap(
-      Predicate<T> test, T Function(T element) toElement,
-      {ConfigList config}) {
-    return map((element) => test(element) ? toElement(element) : element,
-        config: config);
+extension ReplaceWhere<T> on IList<T> {
+  Iterable<T> replaceWhere({
+    @required Predicate<T> where,
+    @required T Function(T element) replace,
+    ConfigList config,
+  }) {
+    return map(
+      (element) => where(element) ? replace(element) : element,
+      config: config,
+    );
   }
 }
 
