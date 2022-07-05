@@ -73,12 +73,12 @@ ExpansionState _computeNewExpansionState({
 }) {
   assert(before.isExpandable);
   assert(after.isExpandable);
-  // We use enum because it's more readable but don't use a switch statement
-  // because it makes its more unreadable than an if-else.
+  // We use enums inside if clauses because of readability.
   assert(after.expansionState.expansionMode == ExpansionMode.forced ||
       after.expansionState.expansionMode == ExpansionMode.automatic);
 
-  // Default behavior
+  // Automatic default behavior:
+  // Expand if the section or a subsection is currently read.
   if (before.expansionState.expansionMode == ExpansionMode.automatic) {
     return after.expansionState.copyWith(
       isExpanded: after.isThisOrASubsectionCurrentlyRead,
@@ -86,54 +86,40 @@ ExpansionState _computeNewExpansionState({
   }
 
   if (before.expansionState.expansionMode == ExpansionMode.forced) {
-    // When we go from some other section into a forced closed one we update
-    // the current section to it's "automatic" expansion mode (i.e. it
-    // expands again).
-    //
-    // We want that manually closed sections only stay closed when currently
-    // read and scrolling aroung in it.
-    // In every other case manually closing a section makes it expand
-    // automatically again when it is read (this is the case here).
-    //
-    // *Implementation note*
-    // This was implemented before that if we force-closed a currently read
-    // section and scrolled out of it that we would update the [ExpansionMode]
-    // to [ExpansionMode.automatic] again.
-    // This had the problem that if we come from a "no section read" state (e.g.
-    // this is the first section) that a force-closed section wouldn't open
-    // since we have never scrolled out of it (currently reading wasn't updated
-    // before we entered this section).
-
-    // If this is force-closed...
-    if (after.isCollapsed &&
-        // ... and we just started reading this
-        !before.isThisOrASubsectionCurrentlyRead &&
-        after.isThisOrASubsectionCurrentlyRead) {
-      // ... then we expand it and change to the default auto-expand behavior
-      return ExpansionState(
+    // If we are in force-opened section we leave the section expanded.
+    if (before.expansionState.isExpanded) {
+      return after.expansionState.copyWith(
         isExpanded: true,
-        expansionMode: ExpansionMode.automatic,
       );
     }
 
-    // Behavior for if we
-    //
-    // 1. were and still are in a force-closed section.
-    //    It stays closed since else closing a currently read section and
-    //    scrolling around in it would expand it again right away.
-    //
-    // 2. are in a forced open section which is ment to always stay open until
-    //    a user closes it again manually.
-    //
-    // Altough this will also be the run if we scroll out of a forced-close
-    // section since we update to the default auto-expand mode only if when we
-    // enter the section again (see above).
+    // We are in a force-collapsed section.
+    if (before.isCollapsed) {
+      // We force-collapsed a section we were already currently reading.
+      //
+      // It stays collapsed since else collapsing a currently read section and
+      // scrolling around in it (changing currently read of the subsections)
+      // would expand it again right away again which is unexpected for the
+      // user.
+      if (before.isThisOrASubsectionCurrentlyRead &&
+          after.isThisOrASubsectionCurrentlyRead) {
+        return after.expansionState.copyWith(
+          isExpanded: before.isExpanded,
+        );
+      }
 
-    // We could also just return [partiallyUpdated] but this is more explicit.
-    return after.expansionState.copyWith(
-      isExpanded: before.isExpanded,
-    );
+      /// In any other case we just switch back to the automatic behavior (there
+      /// is no "stay always closed" behavior).
+      return after.expansionState.copyWith(
+        expansionMode: ExpansionMode.automatic,
+        isExpanded: after.isThisOrASubsectionCurrentlyRead,
+      );
+    }
   }
 
+  // Make the linter happy, we should never get here.
+  // (We don't use if-else and use enums instead of bools in some cases for
+  // better readability but this will cause the linter to complain that we won't
+  // always return a value if we don't throw an error here.)
   throw UnimplementedError();
 }
