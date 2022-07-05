@@ -436,30 +436,15 @@ class _TocHeadingState extends State<_TocHeading>
                     ),
                   ),
                   if (showExpansionArrow)
-                    RotationTransition(
-                      turns: _expansionArrowTurns,
-                      // TODO: When using the IconButton without constraints
-                      // the section is way bigger than the sections without
-                      // an arrow.
-                      // Consider looking at the sizes between devices/form
-                      // factors and see what looks best and what is also
-                      // accessible.
-                      // Right now we shrank the size below the minimum
-                      // accessbile size.
-                      child: IconButton(
-                        constraints: BoxConstraints(maxHeight: 30),
-                        padding: EdgeInsets.all(0),
-                        visualDensity: VisualDensity.compact,
-                        onPressed: () {
-                          Provider.of<TableOfContentsController>(context,
-                                  listen: false)
-                              .toggleDocumentSectionExpansion(
-                                  widget.section.id);
+                    _ExpansionArrow(
+                      expansionArrowTurns: _expansionArrowTurns,
+                      onPressed: () {
+                        Provider.of<TableOfContentsController>(context,
+                                listen: false)
+                            .toggleDocumentSectionExpansion(widget.section.id);
 
-                          _changeExpansion(!isExpanded);
-                        },
-                        icon: const Icon(Icons.expand_more),
-                      ),
+                        _changeExpansion(!isExpanded);
+                      },
                     )
                 ],
               ),
@@ -525,6 +510,38 @@ class _TocHeadingState extends State<_TocHeading>
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _ExpansionArrow extends StatelessWidget {
+  const _ExpansionArrow({
+    Key key,
+    @required this.expansionArrowTurns,
+    @required this.onPressed,
+  }) : super(key: key);
+
+  final Animation<double> expansionArrowTurns;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: _expansionArrowTurns,
+      // TODO: When using the IconButton without constraints
+      // the section is way bigger than the sections without
+      // an arrow.
+      // Consider looking at the sizes between devices/form
+      // factors and see what looks best and what is also
+      // accessible.
+      // Right now we shrank the size below the minimum
+      // accessbile size.
+      child: IconButton(
+        constraints: BoxConstraints(maxHeight: 30),
+        padding: EdgeInsets.all(0),
+        visualDensity: VisualDensity.compact,
+        icon: const Icon(Icons.expand_more),
       ),
     );
   }
