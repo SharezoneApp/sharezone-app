@@ -86,31 +86,36 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
           color: PlatformCheck.isWeb ? Colors.white : primaryColor,
           child: Directionality(
             textDirection: TextDirection.ltr,
-            child: _ThemeSettingsProvider(
-              blocDependencies: widget.blocDependencies,
-              child: AlphaVersionBanner(
-                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
-                    'ALPHA',
-                child: Stack(
-                  children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: StreamBuilder<AuthUser>(
-                        stream: listenToAuthStateChanged(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            widget.blocDependencies.authUser = snapshot.data;
-                            return SharezoneApp(widget.blocDependencies,
-                                Sharezone.analytics, widget.beitrittsversuche);
-                          }
-                          return AuthApp(
-                            blocDependencies: widget.blocDependencies,
-                            analytics: Sharezone.analytics,
-                          );
-                        },
+            child: AnalyticsProvider(
+              analytics: Analytics(getBackend()),
+              child: _ThemeSettingsProvider(
+                blocDependencies: widget.blocDependencies,
+                child: AlphaVersionBanner(
+                  enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
+                      'ALPHA',
+                  child: Stack(
+                    children: [
+                      BlocProvider(
+                        bloc: signUpBloc,
+                        child: StreamBuilder<AuthUser>(
+                          stream: listenToAuthStateChanged(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              widget.blocDependencies.authUser = snapshot.data;
+                              return SharezoneApp(
+                                  widget.blocDependencies,
+                                  Sharezone.analytics,
+                                  widget.beitrittsversuche);
+                            }
+                            return AuthApp(
+                              blocDependencies: widget.blocDependencies,
+                              analytics: Sharezone.analytics,
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
