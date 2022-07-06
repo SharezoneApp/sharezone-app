@@ -99,9 +99,9 @@ class CurrentlyReadingSectionController {
     // Seeing no section heading can happen if we e.g. scroll inside a section
     // with more text than can be displayed on the screen at once.
     if (visibleHeadings.isEmpty && oldVisibleHeadings.isNotEmpty) {
-      // Realistically there should only ever be a single heading but we use
-      // .first for safety if that doesn't hold true.
-      assert(oldVisibleHeadings.length == 1);
+      // Realistically there should only ever be a single heading but when
+      // scrolling really fast it can happen that several headings disappear
+      // together.
       final lastVisible = oldVisibleHeadings.first;
 
       _lastSeenHeadingState = lastVisible.itemLeadingEdge < .5
