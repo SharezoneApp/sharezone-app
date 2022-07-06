@@ -528,7 +528,7 @@ class _ExpansionArrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
-      turns: _expansionArrowTurns,
+      turns: expansionArrowTurns,
       // TODO: When using the IconButton without constraints
       // the section is way bigger than the sections without
       // an arrow.
@@ -541,6 +541,7 @@ class _ExpansionArrow extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 30),
         padding: EdgeInsets.all(0),
         visualDensity: VisualDensity.compact,
+        onPressed: onPressed,
         icon: const Icon(Icons.expand_more),
       ),
     );
@@ -612,7 +613,17 @@ class PrivacyPolicyText extends StatelessWidget {
       itemScrollController: _itemScrollController,
       itemPositionsListener: _itemPositionsListener,
       anchorsController: _anchorsController,
-      data: markdownText,
+// TODO: Replace this temporary placeholder with the real thing
+      data: '''
+$markdownText
+
+---
+
+##### Metadaten
+Version: v2.0.0
+
+Zuletzt aktualisiert: 06.01.2022 
+''',
       onTapLink: (text, href, title) {
         if (href == null) return;
         if (href.startsWith('#')) {
