@@ -22,7 +22,7 @@ DocumentSectionHeadingPosition _headingPosition(
   @required double itemTrailingEdge,
 }) {
   return DocumentSectionHeadingPosition(
-    DocumentSection(sectionId, sectionId, []),
+    DocumentSectionId(sectionId),
     itemLeadingEdge: itemLeadingEdge,
     itemTrailingEdge: itemTrailingEdge,
   );

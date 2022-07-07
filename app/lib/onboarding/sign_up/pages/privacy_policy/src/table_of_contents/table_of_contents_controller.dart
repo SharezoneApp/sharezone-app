@@ -74,7 +74,7 @@ class PrivacyPolicyBloc extends BlocBase {
   DocumentSectionHeadingPosition _toDocumentSectionPosition(
       AnchorPosition anchorPosition) {
     return DocumentSectionHeadingPosition(
-      DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
+      DocumentSectionId(anchorPosition.anchor.id),
       itemLeadingEdge: anchorPosition.itemLeadingEdge,
       itemTrailingEdge: anchorPosition.itemTrailingEdge,
     );
@@ -99,19 +99,19 @@ class PrivacyPolicyBloc extends BlocBase {
 }
 
 class DocumentSectionHeadingPosition {
-  final DocumentSection documentSection;
+  final DocumentSectionId documentSectionId;
   final double itemLeadingEdge;
   final double itemTrailingEdge;
 
   DocumentSectionHeadingPosition(
-    this.documentSection, {
+    this.documentSectionId, {
     @required this.itemLeadingEdge,
     @required this.itemTrailingEdge,
   });
 
   @override
   String toString() {
-    return 'DocumentSectionPosition(itemLeadingEdge: $itemLeadingEdge, itemTrailingEdge: $itemTrailingEdge, documentSection: $documentSection)';
+    return 'DocumentSectionPosition(itemLeadingEdge: $itemLeadingEdge, itemTrailingEdge: $itemTrailingEdge, documentSectionId: $documentSectionId)';
   }
 }
 
@@ -130,7 +130,7 @@ class DocumentSectionController {
   DocumentSectionHeadingPosition _toDocumentSectionPosition(
       AnchorPosition anchorPosition) {
     return DocumentSectionHeadingPosition(
-      DocumentSection(anchorPosition.anchor.id, anchorPosition.anchor.text),
+      DocumentSectionId(anchorPosition.anchor.id),
       itemLeadingEdge: anchorPosition.itemLeadingEdge,
       itemTrailingEdge: anchorPosition.itemTrailingEdge,
     );

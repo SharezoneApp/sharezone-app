@@ -18,35 +18,8 @@ import '../privacy_policy_src.dart';
 /// `## Foo Heading`) are/were inside the viewport and working out where the
 /// user is currently inside the text.
 class CurrentlyReadingSectionController {
-  final List<DocumentSection> _tocSectionHeadings;
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
-  // TODO: Better name?
-  final double _threshold;
-
-  // We flatten all sections and their subsections into one list.
-  // E.g.
-  /// ```dart
-  /// // prints:
-  /// [DocumentSection(id: 'foo', subsections: [
-  ///   DocumentSection(id: 'sub-foo', subsections: []),
-  /// ]),
-  /// DocumentSection(id: 'bar', subsections: []),
-  /// ];
-  /// print(allDocumentSections);
-  ///
-  /// // prints:
-  /// // (Not completly true, see below)
-  /// [DocumentSection(id: 'foo', subsections: []),
-  /// DocumentSection(id: 'sub-foo', subsections: []),
-  /// DocumentSection(id: 'bar', subsections: []),];
-  /// print(_allSectionsFlattend);
-  /// ```
-  /// The example for `print(_allSectionsFlattend);` is not completly true to
-  /// the example since we don't remove the subsections after flattening the
-  /// list (`foo` would still have the subsection `sub-foo` like in
-  /// `allDocumentSections`).
-  List<DocumentSection> _allSectionsFlattend;
 
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
@@ -54,83 +27,114 @@ class CurrentlyReadingSectionController {
   ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
       _currentlyReadingHeadingNotifier;
 
-  List<DocumentSectionHeadingPosition> _oldVisibleHeadings;
+  _PrivacyPolicyViewport _privacyPolicyViewport;
 
   CurrentlyReadingSectionController(
-    this._tocSectionHeadings,
+    List<DocumentSection> _tocSectionHeadings,
     this._visibleSectionHeadings, {
     // TODO: Maybe make required?
     double threshold = 0.1,
-  }) : _threshold = threshold {
-    _oldVisibleHeadings = _visibleSectionHeadings.value ?? [];
-    _visibleSectionHeadings.addListener(() {
-      _updateCurrentlyReadSection(
-          _visibleSectionHeadings.value, _oldVisibleHeadings);
-      _oldVisibleHeadings = _visibleSectionHeadings.value;
-    });
-    _allSectionsFlattend = _tocSectionHeadings
+  }) {
+    final sectionAndSubsectionIds = _tocSectionHeadings
         .expand((element) => [element, ...element.subsections])
+        .map((e) => e.documentSectionId)
         .toList();
+
+    _privacyPolicyViewport = _PrivacyPolicyViewport(
+      tocSections: sectionAndSubsectionIds,
+      headingPositions: _visibleSectionHeadings.value,
+      threshold: threshold,
+    );
+
+    _visibleSectionHeadings.addListener(() {
+      _privacyPolicyViewport = _privacyPolicyViewport
+          .headingPositionsUpdated(_visibleSectionHeadings.value);
+
+      _currentlyReadingHeadingNotifier.value =
+          _privacyPolicyViewport.currentlyReadSectionOrNull;
+    });
+  }
+}
+
+class _PrivacyPolicyViewport {
+  final List<DocumentSectionId> _tocSections;
+  final List<DocumentSectionHeadingPosition> _headingPositions;
+  final double _threshold;
+  final _HeadingState _lastSeenHeadingState;
+
+  _PrivacyPolicyViewport({
+    @required List<DocumentSectionId> tocSections,
+    @required List<DocumentSectionHeadingPosition> headingPositions,
+    @required double threshold,
+    _HeadingState lastSeenHeadingState,
+  })  : _tocSections = tocSections,
+        _headingPositions = headingPositions,
+        _threshold = threshold,
+        _lastSeenHeadingState = lastSeenHeadingState {
+    // Sort so that the top-most section on screen is first in list
+    _headingPositions
+        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
   }
 
-  // TODO: I don't like that the whole thing is necessary mutable since
-  // we need to save _lastSeenHeadingState. Is there maybe a way to make a
-  // immutable class that has the logic of _updateCurrentlyReadSection and
-  // _lastSeenHeadingState as an attribute?
-  // The controller class would still have state but it would be more
-  // encapsulated.
-
-  /// The state of the heading that was last seen.
-  /// This is set when we scroll the only heading on the screen outside the view
-  /// so that no heading is visible anymore.
-  ///
-  /// This is needed so we can compute where in which section we are even when
-  /// we see not section headings currently.
-  _HeadingState _lastSeenHeadingState;
-
-  void _updateCurrentlyReadSection(
-      List<DocumentSectionHeadingPosition> visibleHeadings,
-      List<DocumentSectionHeadingPosition> oldVisibleHeadings) {
-    assert(oldVisibleHeadings != null);
-
+  _PrivacyPolicyViewport headingPositionsUpdated(
+      List<DocumentSectionHeadingPosition> newHeadingPositions) {
     // If we see no section headings on screen we save what heading was last
     // seen. Later we can use that so we know what section we're currently in.
     //
     // Seeing no section heading can happen if we e.g. scroll inside a section
     // with more text than can be displayed on the screen at once.
-    if (visibleHeadings.isEmpty && oldVisibleHeadings.isNotEmpty) {
+    if (newHeadingPositions.isEmpty && _headingPositions.isNotEmpty) {
       // Realistically there should only ever be a single heading but when
       // scrolling really fast it can happen that several headings disappear
       // together.
-      final lastVisible = oldVisibleHeadings.first;
+      final lastVisible = _headingPositions.first;
 
-      _lastSeenHeadingState = lastVisible.itemLeadingEdge < .5
+      final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
           ? _HeadingState(
-              documentSection: lastVisible.documentSection,
+              id: lastVisible.documentSectionId,
               scrolledOutAt: _ScrolledOut.atTheTop,
             )
           : _HeadingState(
-              documentSection: lastVisible.documentSection,
+              id: lastVisible.documentSectionId,
               scrolledOutAt: _ScrolledOut.atTheBottom,
             );
+
+      return _copyWith(
+        headingPositions: newHeadingPositions,
+        lastSeenHeadingState: newLastSeenHeadingState,
+      );
     }
+    return _copyWith(
+      headingPositions: newHeadingPositions,
+    );
+  }
 
-    // Sort so that the top-most section on screen is first in list
-    visibleHeadings
-        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
+  DocumentSectionId _currentlyReadSectionOrNull;
+  bool _isCached = false;
 
+  DocumentSectionId get currentlyReadSectionOrNull {
+    // Can't use this since _computeCurrentlyRead can return null:
+    // `return _currentlyReadSectionOrNull ??= _computeCurrentlyRead();`
+
+    if (!_isCached) {
+      _currentlyReadSectionOrNull = _computeCurrentlyRead();
+      _isCached = true;
+    }
+    return _currentlyReadSectionOrNull;
+  }
+
+  DocumentSectionId _computeCurrentlyRead() {
     // If we see no section headings on screen...
-    if (visibleHeadings.isEmpty) {
+    if (_headingPositions.isEmpty) {
       // ...and we saved what happend with the last section on screen...
       if (_lastSeenHeadingState != null) {
         // ... we find the index of the last section on screen...
-        final index = _allSectionsFlattend.indexWhere((section) =>
-            section.documentSectionId ==
-            _lastSeenHeadingState.documentSection.documentSectionId);
+        final index = _tocSections
+            .indexWhere((section) => section == _lastSeenHeadingState.id);
 
         if (index == -1) {
           throw ArgumentError(
-              "Can't find section with id ${_lastSeenHeadingState.documentSection.documentSectionId} inside allSectionsFlattend ($_allSectionsFlattend)");
+              "Can't find section with id ${_lastSeenHeadingState.id} inside allSectionsFlattend ($_tocSections)");
         }
 
         // ... and compute what section we're currently in:
@@ -138,81 +142,77 @@ class CurrentlyReadingSectionController {
         // Special case: We scrolled above the first section.
         if (index == 0 &&
             _lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
-          _markAsCurrentlyReading(null);
-          return;
+          return null;
         }
 
         if (_lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
-          _markAsCurrentlyReading(_allSectionsFlattend[index]);
+          return _tocSections[index];
         } else if (_lastSeenHeadingState.scrolledOutAt ==
             _ScrolledOut.atTheBottom) {
-          _markAsCurrentlyReading(_allSectionsFlattend[index - 1]);
+          return _tocSections[index - 1];
         } else {
           throw UnimplementedError();
         }
       }
 
-      return;
+      // Never seen a section on screen.
+      return null;
     }
 
     // Sections that intersect with or are above the threshold
-    final insideThreshold = visibleHeadings
+    final insideThreshold = _headingPositions
         .where((section) => section.itemLeadingEdge <= _threshold);
 
     // If no section headings are inside the threshold...
     if (insideThreshold.isEmpty) {
       // ... we get the index of the top-most section heading on screen...
-      final index = _indexOf(visibleHeadings.first);
+      final index = _indexOf(_headingPositions.first);
 
       // Special case: If it's the first section we mark no section as currently
       // read since we haven't "entered" the first section since it's below
       // the threshold.
       if (index == 0) {
-        _markAsCurrentlyReading(null);
-        return;
+        return null;
       }
 
       // ... and mark the section before it as currently read (since our current
       // section is below the threshold):
-      _markAsCurrentlyReading(
-        _allSectionsFlattend[index - 1],
-      );
-      return;
+      return _tocSections[index - 1];
     }
 
     // If there are section headings inside the threshold we just mark the one
     // that is closest to the threshold as currently read:
     final closest = insideThreshold.last;
-    _markAsCurrentlyReading(closest.documentSection);
+    return closest.documentSectionId;
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
-    return _allSectionsFlattend.indexWhere(
-        (pos) => pos.sectionId == headerPosition.documentSection.sectionId);
+    return _tocSections
+        .indexWhere((pos) => pos == headerPosition.documentSectionId);
   }
 
-  void _markAsCurrentlyReading(DocumentSection _section) {
-    _currentlyReadingHeadingNotifier.value =
-        _section?.sectionId?.toDocumentSectionIdOrNull();
-  }
-}
-
-extension on String {
-  DocumentSectionId toDocumentSectionIdOrNull() {
-    if (this == null) {
-      return null;
-    }
-    return DocumentSectionId(this);
+  _PrivacyPolicyViewport _copyWith({
+    List<DocumentSectionId> tocSections,
+    List<DocumentSectionHeadingPosition> headingPositions,
+    double threshold,
+    _HeadingState lastSeenHeadingState,
+  }) {
+    return _PrivacyPolicyViewport(
+      headingPositions: headingPositions ?? _headingPositions,
+      threshold: threshold ?? _threshold,
+      tocSections: tocSections ?? _tocSections,
+      lastSeenHeadingState: lastSeenHeadingState ?? _lastSeenHeadingState,
+    );
   }
 }
 
 // TODO: Can we replace this with extended enum?
 class _HeadingState {
-  final DocumentSection documentSection;
+  final DocumentSectionId id;
   final _ScrolledOut scrolledOutAt;
 
   _HeadingState({
-    @required this.documentSection,
+    @required this.id,
     @required this.scrolledOutAt,
   });
 }
