@@ -84,30 +84,25 @@ class NewPrivacyPolicy extends StatelessWidget {
                         DocumentSectionController(_anchorsController),
                     tocDocumentSections: documentSections,
                   ),
-                  child: BlocProvider(
-                    bloc:
-                        PrivacyPolicyBloc(_anchorsController, documentSections),
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          floatingActionButtonTheme:
-                              FloatingActionButtonThemeData(
-                        backgroundColor: Theme.of(context).primaryColor,
-                      )),
-                      child: Builder(builder: (context) {
-                        return Scaffold(
-                          body: Center(
-                            child: Row(
-                              children: [
-                                TableOfContents(),
-                                VerticalDivider(),
-                                _MainContent(
-                                    privacyPolicyMarkdownText: content),
-                              ],
-                            ),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        floatingActionButtonTheme:
+                            FloatingActionButtonThemeData(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    )),
+                    child: Builder(builder: (context) {
+                      return Scaffold(
+                        body: Center(
+                          child: Row(
+                            children: [
+                              TableOfContents(),
+                              VerticalDivider(),
+                              _MainContent(privacyPolicyMarkdownText: content),
+                            ],
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                      );
+                    }),
                   ),
                 ))));
   }

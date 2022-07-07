@@ -55,49 +55,6 @@ class DocumentSection {
       'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
 }
 
-class PrivacyPolicyBloc extends BlocBase {
-  final AnchorsController anchorsController;
-  final List<DocumentSection> sections;
-
-  final documentSections =
-      BehaviorSubject<List<DocumentSectionHeadingPosition>>();
-
-  PrivacyPolicyBloc(this.anchorsController, this.sections) {
-    anchorsController.anchorPositions.addListener(() {
-      final pos = anchorsController.anchorPositions.value;
-      final sections =
-          pos.map((pos) => _toDocumentSectionPosition(pos)).toList();
-      documentSections.add(sections);
-    });
-  }
-
-  DocumentSectionHeadingPosition _toDocumentSectionPosition(
-      AnchorPosition anchorPosition) {
-    return DocumentSectionHeadingPosition(
-      DocumentSectionId(anchorPosition.anchor.id),
-      itemLeadingEdge: anchorPosition.itemLeadingEdge,
-      itemTrailingEdge: anchorPosition.itemTrailingEdge,
-    );
-  }
-
-  List<DocumentSection> getAllDocumentSections() {
-    return sections;
-  }
-
-  List<TocDocumentSectionView> getTocDocumentSections() {
-    return [];
-  }
-
-  void scrollToSection(String documentSectionId) {
-    anchorsController.scrollToAnchor(documentSectionId);
-  }
-
-  @override
-  void dispose() {
-    documentSections.close();
-  }
-}
-
 class DocumentSectionHeadingPosition {
   final DocumentSectionId documentSectionId;
   final double itemLeadingEdge;
