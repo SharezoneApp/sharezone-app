@@ -7,16 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:bloc_base/bloc_base.dart';
-import 'package:bloc_provider/bloc_provider.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:markdown/markdown.dart' as md;
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
@@ -28,19 +22,6 @@ import 'src/widgets/privacy_policy_display_settings.dart';
 ItemScrollController _itemScrollController;
 ItemPositionsListener _itemPositionsListener;
 AnchorsController _anchorsController;
-
-// TODO: Delete when not needed anymore
-class _StreamToValueListenable<T> {
-  final Stream<T> stream;
-  final _valueNotifier = ValueNotifier<T>(null);
-  ValueListenable<T> get valueListenable => _valueNotifier;
-
-  _StreamToValueListenable(this.stream) {
-    stream.listen((event) {
-      _valueNotifier.value = event;
-    });
-  }
-}
 
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({

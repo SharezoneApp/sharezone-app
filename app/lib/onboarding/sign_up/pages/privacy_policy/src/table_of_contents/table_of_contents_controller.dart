@@ -6,12 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_base/bloc_base.dart';
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:rxdart/subjects.dart';
 
 import '../privacy_policy_src.dart';
 

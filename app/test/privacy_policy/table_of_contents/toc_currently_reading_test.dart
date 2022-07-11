@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
 DocumentSection _section(String id, {List<DocumentSection> subsections}) {
