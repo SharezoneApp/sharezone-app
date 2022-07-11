@@ -244,6 +244,11 @@ class TableOfContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
     return SizedBox(
       width: 400,
       child: Column(
@@ -271,9 +276,17 @@ class TableOfContents extends StatelessWidget {
                     // To test scroll behavior / layout
                     ...tocController.documentSections.map(
                       (section) {
-                        return _TocHeading(
-                          key: ValueKey(section.id),
-                          section: section,
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: visualDensity
+                                .effectiveConstraints(BoxConstraints())
+                                .constrainHeight(
+                                    15 + visualDensity.vertical * 5),
+                          ),
+                          child: _TocHeading(
+                            key: ValueKey(section.id),
+                            section: section,
+                          ),
                         );
                       },
                     ).toList(),
@@ -447,110 +460,111 @@ class _TocHeadingState extends State<_TocHeading>
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
     final showExpansionArrow = widget.section.isExpandable;
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
 
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionHighlight(
-            onTap: () => tocController.scrollTo(widget.section.id),
-            shouldHighlight: widget.section.shouldHighlight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${widget.section.sectionHeadingText}',
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(
-                            fontWeight: widget.section.shouldHighlight
-                                ? FontWeight.w500
-                                : FontWeight.normal,
-                          ),
-                      textAlign: TextAlign.start,
-                    ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHighlight(
+          onTap: () => tocController.scrollTo(widget.section.id),
+          shouldHighlight: widget.section.shouldHighlight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${widget.section.sectionHeadingText}',
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          fontWeight: widget.section.shouldHighlight
+                              ? FontWeight.w500
+                              : FontWeight.normal,
+                        ),
+                    textAlign: TextAlign.start,
                   ),
-                  if (showExpansionArrow)
-                    _ExpansionArrow(
-                      expansionArrowTurns: _expansionArrowTurns,
-                      onPressed: () {
-                        Provider.of<TableOfContentsController>(context,
-                                listen: false)
-                            .toggleDocumentSectionExpansion(widget.section.id);
+                ),
+                if (showExpansionArrow)
+                  _ExpansionArrow(
+                    expansionArrowTurns: _expansionArrowTurns,
+                    onPressed: () {
+                      Provider.of<TableOfContentsController>(context,
+                              listen: false)
+                          .toggleDocumentSectionExpansion(widget.section.id);
 
-                        _changeExpansion(!isExpanded);
-                      },
-                    )
-                ],
+                      _changeExpansion(!isExpanded);
+                    },
+                  )
+              ],
+            ),
+          ),
+        ),
+        if (isExpanded)
+          AnimatedBuilder(
+            animation: _heightFactor,
+            builder: (context, child) => ClipRRect(
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: _heightFactor.value,
+                child: child,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              // CrossAxisAlignment.start causes single line text to not be
+              // aligned with multiline text. Single line text would have too
+              // much space on the left.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 200),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  horizontalOffset: 15,
+                  child: FadeInAnimation(child: widget),
+                ),
+                children: widget.section.subsections.map(
+                  (subsection) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: 15.0,
+                        top: visualDensity
+                            .effectiveConstraints(BoxConstraints(maxHeight: 20))
+                            .constrainHeight(13 + visualDensity.vertical * 2.5),
+                      ),
+                      child: SectionHighlight(
+                        onTap: () => tocController.scrollTo(subsection.id),
+                        shouldHighlight: subsection.shouldHighlight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 8,
+                          ),
+                          child: Text(
+                            '${subsection.sectionHeadingText}',
+                            style:
+                                Theme.of(context).textTheme.bodyText2.copyWith(
+                                      fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .fontSize -
+                                          .5,
+                                      fontWeight: subsection.shouldHighlight
+                                          ? FontWeight.w400
+                                          : FontWeight.normal,
+                                    ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
               ),
             ),
           ),
-          if (isExpanded)
-            AnimatedBuilder(
-              animation: _heightFactor,
-              builder: (context, child) => ClipRRect(
-                child: Align(
-                  alignment: Alignment.center,
-                  heightFactor: _heightFactor.value,
-                  child: child,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // CrossAxisAlignment.start causes single line text to not be
-                // aligned with multiline text. Single line text would have too
-                // much space on the left.
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 200),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 15,
-                    child: FadeInAnimation(child: widget),
-                  ),
-                  children: widget.section.subsections.map(
-                    (subsection) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15.0,
-                          top: 5,
-                        ),
-                        child: SectionHighlight(
-                          onTap: () => tocController.scrollTo(subsection.id),
-                          shouldHighlight: subsection.shouldHighlight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 8,
-                            ),
-                            child: Text(
-                              '${subsection.sectionHeadingText}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .copyWith(
-                                    fontSize: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .fontSize -
-                                        .5,
-                                    fontWeight: subsection.shouldHighlight
-                                        ? FontWeight.w400
-                                        : FontWeight.normal,
-                                  ),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
-              ),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }
