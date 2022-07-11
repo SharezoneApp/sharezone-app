@@ -267,7 +267,7 @@ class TableOfContents extends StatelessWidget {
               child: SingleChildScrollView(
                 controller: scrollController,
                 padding: EdgeInsets.symmetric(
-                  horizontal: 50,
+                  horizontal: 35,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -473,7 +473,14 @@ class _TocHeadingState extends State<_TocHeading>
           onTap: () => tocController.scrollTo(widget.section.id),
           shouldHighlight: widget.section.shouldHighlight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(
+              vertical: (14 + visualDensity.vertical * 3)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+              horizontal: (10 + visualDensity.horizontal)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -537,9 +544,13 @@ class _TocHeadingState extends State<_TocHeading>
                         onTap: () => tocController.scrollTo(subsection.id),
                         shouldHighlight: subsection.shouldHighlight,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 8,
+                          padding: EdgeInsets.symmetric(
+                            vertical: (12 + visualDensity.vertical * 3)
+                                .clamp(0, double.infinity)
+                                .toDouble(),
+                            horizontal: (10 + visualDensity.horizontal)
+                                .clamp(0, double.infinity)
+                                .toDouble(),
                           ),
                           child: Text(
                             '${subsection.sectionHeadingText}',
