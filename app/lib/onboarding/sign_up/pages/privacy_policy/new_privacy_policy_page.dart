@@ -495,7 +495,10 @@ class _TocHeadingState extends State<_TocHeading>
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // CrossAxisAlignment.start causes single line text to not be
+                // aligned with multiline text. Single line text would have too
+                // much space on the left.
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 200),
                   childAnimationBuilder: (widget) => SlideAnimation(
