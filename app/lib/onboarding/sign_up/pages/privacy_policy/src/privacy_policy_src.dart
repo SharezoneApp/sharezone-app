@@ -11,3 +11,4 @@ export './table_of_contents/currently_reading.dart';
 export './table_of_contents/document_section_view.dart';
 export './table_of_contents/table_of_contents.dart';
 export './table_of_contents/table_of_contents_controller.dart';
+export 'sharezone_markdown_extensions.dart';

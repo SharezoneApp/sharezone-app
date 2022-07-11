@@ -604,7 +604,7 @@ class PrivacyPolicyText extends StatelessWidget {
                 : Colors.blue.shade100,
             borderRadius: BorderRadius.circular(2.0),
           )),
-      extensionSet: md.ExtensionSet.gitHubWeb,
+      extensionSet: sharezoneMarkdownExtensionSet,
       itemScrollController: _itemScrollController,
       itemPositionsListener: _itemPositionsListener,
       anchorsController: _anchorsController,
@@ -734,7 +734,7 @@ const markdownPrivacyPolicy = """
 
 Hey, du bzw. ihr! Das ist die Datenschutzerklärung unserer App „Sharezone“ (kurz: „App“). Im Folgenden informieren wir, die Sharezone UG (haftungsbeschränkt), Speditionstraße 15A, 40221 Düsseldorf, Deutschland (kurz: „Sharezone“, „wir“ oder „uns“), über die Erhebung personenbezogener Daten bei der Nutzung der App.
 
-> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den farblich hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.\
+> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.\
 Auch wenn wir euch die Zusammenfassung anbieten, ist es wichtig und erforderlich, dass ihr die allein maßgeblich geltenden „Informationen über die Verarbeitung personenbezogener Daten“ gänzlich lest.
 
 Nachfolgend findet ihr eine Übersicht des Inhalts. Durch einen Klick auf eine bestimmte Überschrift landet ihr direkt bei der betreffenden Stelle.
@@ -745,23 +745,23 @@ Nachfolgend findet ihr eine Übersicht des Inhalts. Durch einen Klick auf eine b
 * [1. Wichtige Begriffe](#1-wichtige-begriffe)
 * [2. Geltungsbereich](#2-geltungsbereich)
 * [3. Verantwortlichkeit und Kontakt](#3-verantwortlichkeit-und-kontakt)
-* [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-für-eure-daten)
+* [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten)
 * [5. Deine Rechte](#5-deine-rechte)
 * [6. Eure Kontaktaufnahme](#6-eure-kontaktaufnahme)
 * [7. Unser Umgang mit euren Daten](#7-unser-umgang-mit-euren-daten)
 * [8. Account, Nickname und Passwort](#8-account-nickname-und-passwort)
 * [9. Verarbeitung der IP-Adresse](#9-verarbeitung-der-ip-adresse)
 * [10. Speicherdauer und Speicherfristen](#10-speicherdauer-und-speicherfristen)
-* [11. Verarbeitung des gewählten Account-Typs und des Bundeslandes](#11-verarbeitung-des-gewählten-account-typs-und-des-bundeslandes)
+* [11. Verarbeitung des gewählten Account-Typs und des Bundeslandes](#11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes)
 * [12. Anonyme statistische Auswertung der App-Nutzung](#12-anonyme-statistische-auswertung-der-app-nutzung)
 * [13. Push-Nachrichten](#13-push-nachrichten)
 * [14. Instance ID](#14-instance-id)
-* [15. Empfänger oder Kategorien von Empfängern](#15-empfänger-oder-kategorien-von-empfängern)
-* [16. SSL/TLS-Verschlüsselung](#16-ssltls-verschlüsselung)
+* [15. Empfänger oder Kategorien von Empfängern](#15-empfnger-oder-kategorien-von-empfngern)
+* [16. SSL/TLS-Verschlüsselung](#16-ssltls-verschlsselung)
 * [17. Videokonferenzen](#17-videokonferenzen)
-* [18. Datenübertragung in Drittländer außerhalb der EU](#18-datenübertragung-in-drittländer-außerhalb-der-eu)
+* [18. Datenübertragung in Drittländer außerhalb der EU](#18-datenbertragung-in-drittlnder-auerhalb-der-eu)
 * [19. Datenschutzbeauftragter](#19-datenschutzbeauftragter)
-* [20. Vorbehalt der Änderung dieser Informationen](#20-vorbehalt-der-änderung-dieser-informationen)
+* [20. Vorbehalt der Änderung dieser Informationen](#20-vorbehalt-der-nderung-dieser-informationen)
 
 ## 1. Wichtige Begriffe
 
@@ -939,7 +939,7 @@ Der Fantasie- oder euer freiwillig angegebene Nickname in der App ist erforderli
 
 Soweit ihr unter 16 Jahren alt seid, verbieten wir für die Erlangung eines Nutzungsrechts an der App ausdrücklich, dass ihr dabei euren echten Namen verwendet, damit eure Privatsphäre so weit wie möglich gewahrt bleibt.
 
-Bei dieser Registrierungsart wird lediglich die IP-Adresse temporär nach Maßgabe der Ziffer 10 verarbeitet; Hier geht es zu Ziffer 10.
+Bei dieser Registrierungsart wird lediglich die IP-Adresse temporär nach Maßgabe der Ziffer 9 [("9. Verarbeitung der IP-Adresse")](#9-verarbeitung-der-ip-adresse) verarbeitet.
 
 Die Verarbeitung der IP-Adresse ist technisch zwingend erforderlich, damit euer Gerät ein Verbindungsaufbau zu unseren Servern erzeugen kann und ihr so die Möglichkeit habt, die Informationen aus euren Gruppenräumen bzw. die weiteren Anwendungsmöglichkeiten der App abzurufen und zu nutzen (Zweck der Verarbeitung).
 
@@ -981,7 +981,7 @@ Daneben kann es Fälle geben, wo viele Geräte nur eine IP-Adresse haben, sodass
 
 Die Speicherung der IP-Adresse erfolgt auf den Servern von Google und ist nach Angaben von Google nur temporär. Eine nähere Bestimmung der Speicherdauer war trotz schriftlicher Nachfrage seitens Googles nicht möglich.
 
-Zusätzlich speichern wir die IP-Adresse und MAC-Adresse, wenn du die Datenschutzerklärung akzeptierst, um unserer Nachweispflicht nachzugehen.
+Zusätzlich speichern wir die IP-Adresse, wenn du die Datenschutzerklärung akzeptierst, um unserer Nachweispflicht nachzugehen.
 
 Aufgrund gesetzlicher Verjährungsfristen sind wir dazu angehalten, diese Daten 3 Jahre zu speichern. Die Frist zur Löschung beginnt mit dem Schluss des Jahres, in dem die Daten gespeichert wurden.
 
@@ -1082,7 +1082,7 @@ Rechtsgrundlage der Verarbeitung ist Art. 6, Absatz 1(b) der DSGVO, der besagt, 
 
 In der Regel werden personenbezogene Daten, die du uns zu deiner Person mitteilst, nur durch uns verarbeitet. Zur Erfüllung unserer Aufgaben und Pflichten kann es aber erforderlich sein, dass wir die zu eurer Person gespeicherten personenbezogenen Daten gegebenenfalls gegenüber natürlichen und juristischen Personen, Behörden, Einrichtungen oder anderen Stellen gegenüber offenlegen müssen. In Betracht kommen dabei insbesondere folgende Kategorien von Empfängern:
 
-* Google Cloud, siehe oben [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-für-eure-daten)
+* Google Cloud, siehe oben [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten)
 * Gerichte (z.B. bei streitigen Verfahren)
 * Nicht-öffentliche Stellen sofern es sich hierbei um einen Auftragsverarbeiter handelt
 * Rechtsanwälte, Steuerberater, Notare, Wirtschaftsprüfer
