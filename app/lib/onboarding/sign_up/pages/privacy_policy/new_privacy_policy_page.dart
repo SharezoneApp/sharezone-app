@@ -231,9 +231,11 @@ class _PrivacyPolicyHeading extends StatelessWidget {
 
 // TODO: Make private again, after completing the UI
 class TableOfContents extends StatelessWidget {
-  const TableOfContents({
+  TableOfContents({
     Key key,
   }) : super(key: key);
+
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -251,27 +253,10 @@ class TableOfContents extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Expanded(
-            child: ShaderMask(
-              shaderCallback: (Rect rect) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: const [
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.purple
-                  ],
-                  stops: const [
-                    0.0,
-                    0.1,
-                    0.9,
-                    1.0
-                  ], // 10% purple, 80% transparent, 10% purple
-                ).createShader(rect);
-              },
-              blendMode: BlendMode.dstOut,
+            child: _BottomFade(
+              scrollController: scrollController,
               child: SingleChildScrollView(
+                controller: scrollController,
                 padding: EdgeInsets.symmetric(
                   horizontal: 50,
                 ),
@@ -333,6 +318,59 @@ class TableOfContents extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _BottomFade extends StatelessWidget {
+  const _BottomFade({
+    Key key,
+    @required this.child,
+    @required this.scrollController,
+  }) : super(key: key);
+
+  final Widget child;
+  final ScrollController scrollController;
+  ScrollPosition get position => scrollController.position;
+
+  // TODO: Remove?
+  double get pixelsUntilBottom => position.maxScrollExtent - position.pixels;
+  double get percentToBottom =>
+      ((position.maxScrollExtent / pixelsUntilBottom) / 100)
+          .clamp(0, 1)
+          .toDouble();
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: scrollController,
+        child: child,
+        builder: (context, _child) {
+          final isAtBottom = scrollController.hasClients &&
+              scrollController.position.pixels >=
+                  scrollController.position.maxScrollExtent;
+          return ShaderMask(
+            shaderCallback: (Rect rect) {
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.transparent,
+                  Colors.transparent,
+                  isAtBottom ? Colors.transparent : Colors.purple,
+                ],
+                stops: const [
+                  0.0,
+                  .1,
+                  0.9,
+                  1.0,
+                ], // 10% purple, 80% transparent, 10% purple
+              ).createShader(rect);
+            },
+            blendMode: BlendMode.dstOut,
+            child: _child,
+          );
+        });
   }
 }
 
