@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 
 // TODO: Add tests and docs
+/// Mostly copied from [ThemeSettings]
 class PrivacyPolicyThemeSettings extends ChangeNotifier {
   final Analytics _analytics;
   final ThemeSettings _themeSettings;
@@ -28,7 +29,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     required double initialTextScalingFactor,
 
     /// The value assigned to [visualDensity] if no other value is cached.
-    required VisualDensity initialVisualDensity,
+    required VisualDensitySetting initialVisualDensity,
 
     /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness initialThemeBrightness,
@@ -44,7 +45,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
           'initialTextScalingFactor must be inside (inclusive) $textScalingFactorLowerBound - $textScalingFactorUpperBound');
     }
     _textScalingFactor = initialTextScalingFactor;
-    _visualDensity = initialVisualDensity;
+    _visualDensitySetting = initialVisualDensity;
     _themeBrightness = initialThemeBrightness;
   }
 
@@ -63,18 +64,19 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     ));
   }
 
-  late VisualDensity _visualDensity;
-  VisualDensity get visualDensity => _visualDensity;
-  set visualDensity(VisualDensity value) {
-    _visualDensity = value;
+  late VisualDensitySetting _visualDensitySetting;
+  VisualDensitySetting get visualDensitySetting => _visualDensitySetting;
+  set visualDensitySetting(VisualDensitySetting value) {
+    _visualDensitySetting = value;
     notifyListeners();
 
     _analytics.log(NamedAnalyticsEvent(
       name: 'ui_privacy_policy_visual_density_changed',
       data: {
         'visual_density': {
-          'horizontal': value.horizontal,
-          'vertical': value.vertical
+          'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity,
+          'horizontal': value.visualDensity.horizontal,
+          'vertical': value.visualDensity.vertical
         }
       },
     ));

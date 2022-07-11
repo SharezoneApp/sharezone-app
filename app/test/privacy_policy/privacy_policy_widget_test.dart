@@ -153,7 +153,8 @@ Widget wrapWithScaffold(Widget privacyPolicyPage) {
             analytics: Analytics(NullAnalyticsBackend()),
             defaultTextScalingFactor: 1.0,
             defaultThemeBrightness: ThemeBrightness.light,
-            defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+            defaultVisualDensity:
+                VisualDensitySetting.adaptivePlatformDensity(),
             keyValueStore: InMemoryKeyValueStore(),
           ),
         ),

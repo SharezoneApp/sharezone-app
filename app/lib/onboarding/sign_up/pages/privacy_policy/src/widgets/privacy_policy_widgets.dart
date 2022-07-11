@@ -6,4 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-export './display_settings.dart';
+export 'privacy_policy_display_settings.dart';

@@ -23,7 +23,7 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_po
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
 
-import 'src/widgets/display_settings.dart';
+import 'src/widgets/privacy_policy_display_settings.dart';
 
 ItemScrollController _itemScrollController;
 ItemPositionsListener _itemPositionsListener;
@@ -68,7 +68,7 @@ class NewPrivacyPolicy extends StatelessWidget {
             analytics: AnalyticsProvider.ofOrNullObject(context),
             themeSettings: Provider.of(context, listen: false),
             initialTextScalingFactor: themeSettings.textScalingFactor,
-            initialVisualDensity: themeSettings.visualDensity,
+            initialVisualDensity: themeSettings.visualDensitySetting,
             initialThemeBrightness: themeSettings.themeBrightness,
           );
         },
@@ -86,10 +86,14 @@ class NewPrivacyPolicy extends StatelessWidget {
                   ),
                   child: Theme(
                     data: Theme.of(context).copyWith(
+                        visualDensity: context
+                            .watch<PrivacyPolicyThemeSettings>()
+                            .visualDensitySetting
+                            .visualDensity,
                         floatingActionButtonTheme:
                             FloatingActionButtonThemeData(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    )),
+                          backgroundColor: Theme.of(context).primaryColor,
+                        )),
                     child: Builder(builder: (context) {
                       return Scaffold(
                         body: Center(

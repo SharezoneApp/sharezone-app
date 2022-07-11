@@ -36,6 +36,8 @@ class DisplaySettingsDialog extends StatelessWidget {
               _TextSize(themeSettings: themeSettings),
               SizedBox(height: 20),
               _LightOrDarkMode(themeSettings: themeSettings),
+              SizedBox(height: 10),
+              _VisualDensity(themeSettings: themeSettings),
             ],
           ),
         ),
@@ -163,5 +165,44 @@ class _LightOrDarkMode extends StatelessWidget {
       ThemeBrightness.light: 'Heller Modus',
       ThemeBrightness.system: 'Automatisch',
     }[themeSettings.themeBrightness];
+  }
+}
+
+class _VisualDensity extends StatelessWidget {
+  const _VisualDensity({Key key, @required this.themeSettings})
+      : super(key: key);
+
+  final PrivacyPolicyThemeSettings themeSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text('Visuelle Kompaktheit', style: Theme.of(context).textTheme.button),
+        SizedBox(width: 10),
+        DropdownButton<VisualDensitySetting>(
+          value: themeSettings.visualDensitySetting,
+          items: [
+            DropdownMenuItem(
+              child: Text('Kompakt'),
+              value: VisualDensitySetting.manual(VisualDensity.compact),
+            ),
+            DropdownMenuItem(
+              child: Text('Komfortabel'),
+              value: VisualDensitySetting.manual(VisualDensity.comfortable),
+            ),
+            DropdownMenuItem(
+              child: Text('Automatisch'),
+              value: VisualDensitySetting.adaptivePlatformDensity(),
+            ),
+          ],
+          onChanged: (visualDensity) {
+            themeSettings.visualDensitySetting = visualDensity;
+          },
+        ),
+      ],
+    );
   }
 }

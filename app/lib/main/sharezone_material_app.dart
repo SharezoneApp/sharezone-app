@@ -36,10 +36,10 @@ class SharezoneMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeSettings = context.watch<ThemeSettings>();
-    final _darkTheme =
-        darkTheme.copyWith(visualDensity: themeSettings.visualDensity);
-    final _lightTheme =
-        lightTheme.copyWith(visualDensity: themeSettings.visualDensity);
+    final _darkTheme = darkTheme.copyWith(
+        visualDensity: themeSettings.visualDensitySetting.visualDensity);
+    final _lightTheme = lightTheme.copyWith(
+        visualDensity: themeSettings.visualDensitySetting.visualDensity);
 
     return FeatureDiscovery(
       child: MaterialApp(

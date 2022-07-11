@@ -40,6 +40,42 @@ enum ThemeBrightness {
   system,
 }
 
+/// The current [VisualDensity].
+///
+/// This extra class is necessary to differentiate if a user has chosen
+/// [VisualDensity.adaptivePlatformDensity] or a manual setting which happens to
+/// be the same value (one can't tell by just looking at [VisualDensity]).
+class VisualDensitySetting {
+  final VisualDensity visualDensity;
+  final bool isAdaptivePlatformDensity;
+
+  VisualDensitySetting.adaptivePlatformDensity()
+      : visualDensity = VisualDensity.adaptivePlatformDensity,
+        isAdaptivePlatformDensity = true;
+
+  VisualDensitySetting.manual(this.visualDensity)
+      : isAdaptivePlatformDensity = false;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is VisualDensitySetting &&
+        other.visualDensity == visualDensity &&
+        other.isAdaptivePlatformDensity == isAdaptivePlatformDensity;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(visualDensity, isAdaptivePlatformDensity);
+  }
+
+  @override
+  String toString() {
+    return 'VisualDensitySetting(visualDensity: $visualDensity, isAdaptivePlatformDensity: $isAdaptivePlatformDensity)';
+  }
+}
+
 /// Used to change theme settings dynamically inside the app.
 ///
 /// The changed settings will be automatically persisted.
@@ -86,7 +122,7 @@ class ThemeSettings extends ChangeNotifier {
     required double defaultTextScalingFactor,
 
     /// The value assigned to [visualDensity] if no other value is cached.
-    required VisualDensity defaultVisualDensity,
+    required VisualDensitySetting defaultVisualDensity,
 
     /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness defaultThemeBrightness,
@@ -96,7 +132,7 @@ class ThemeSettings extends ChangeNotifier {
         keyValueStore.tryGetDouble(currentTextScalingFactorCacheKey) ??
             defaultTextScalingFactor;
 
-    _visualDensity = keyValueStore
+    _visualDensitySetting = keyValueStore
             .tryGetString(currentVisualDensityCacheKey)
             .toVisualDensity() ??
         defaultVisualDensity;
@@ -121,10 +157,10 @@ class ThemeSettings extends ChangeNotifier {
     ));
   }
 
-  late VisualDensity _visualDensity;
-  VisualDensity get visualDensity => _visualDensity;
-  set visualDensity(VisualDensity value) {
-    _visualDensity = value;
+  late VisualDensitySetting _visualDensitySetting;
+  VisualDensitySetting get visualDensitySetting => _visualDensitySetting;
+  set visualDensitySetting(VisualDensitySetting value) {
+    _visualDensitySetting = value;
     notifyListeners();
 
     _keyValueStore.setString(currentVisualDensityCacheKey, value.serialize());
@@ -132,8 +168,9 @@ class ThemeSettings extends ChangeNotifier {
       name: 'ui_visual_density_changed',
       data: {
         'visual_density': {
-          'horizontal': value.horizontal,
-          'vertical': value.vertical
+          'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity,
+          'horizontal': value.visualDensity.horizontal,
+          'vertical': value.visualDensity.vertical
         }
       },
     ));
@@ -153,23 +190,30 @@ class ThemeSettings extends ChangeNotifier {
   }
 }
 
-extension on VisualDensity {
+extension on VisualDensitySetting {
   String serialize() {
     return jsonEncode({
-      'horizontal': horizontal,
-      'vertical': vertical,
+      'isAdaptivePlatformDensity': isAdaptivePlatformDensity,
+      'horizontal': visualDensity.horizontal,
+      'vertical': visualDensity.vertical,
     });
   }
 }
 
 extension on String? {
-  VisualDensity? toVisualDensity() {
+  VisualDensitySetting? toVisualDensity() {
     if (this == null) return null;
     final _map = jsonDecode(this!) as Map;
 
-    return VisualDensity(
-      horizontal: _map['horizontal'] as double,
-      vertical: _map['vertical'] as double,
+    if (_map['isAdaptivePlatformDensity'] != null) {
+      return VisualDensitySetting.adaptivePlatformDensity();
+    }
+
+    return VisualDensitySetting.manual(
+      VisualDensity(
+        horizontal: _map['horizontal'] as double,
+        vertical: _map['vertical'] as double,
+      ),
     );
   }
 }
