@@ -7,12 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
+import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -75,28 +77,35 @@ class NewPrivacyPolicy extends StatelessWidget {
                             FloatingActionButtonThemeData(
                           backgroundColor: Theme.of(context).primaryColor,
                         )),
-                    child: Builder(builder: (context) {
-                      return Scaffold(
-                        body: Center(
-                          child: Row(
-                            children: [
-                              TableOfContents(),
-                              VerticalDivider(),
-                              _MainContent(privacyPolicyMarkdownText: content),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+                    child: Scaffold(
+                      body: Center(
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          print(constraints);
+                          if (constraints.maxWidth > 880) {
+                            return Row(
+                              children: [
+                                TableOfContents(),
+                                VerticalDivider(),
+                                _MainContentWide(
+                                    privacyPolicyMarkdownText: content),
+                              ],
+                            );
+                          } else {
+                            return _MainContentNarrow(
+                                privacyPolicyMarkdownText: content);
+                          }
+                        }),
+                      ),
+                    ),
                   ),
                 ))));
   }
 }
 
-class _MainContent extends StatelessWidget {
+class _MainContentWide extends StatelessWidget {
   final String privacyPolicyMarkdownText;
 
-  const _MainContent({
+  const _MainContentWide({
     @required this.privacyPolicyMarkdownText,
     Key key,
   }) : super(key: key);
@@ -130,6 +139,94 @@ class _MainContent extends StatelessWidget {
                 )
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MainContentNarrow extends StatelessWidget {
+  final String privacyPolicyMarkdownText;
+
+  const _MainContentNarrow({
+    @required this.privacyPolicyMarkdownText,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 800),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _PrivacyPolicyHeading(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                child: _PrivacyPolicySubheading(),
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.spaceEvenly,
+                alignment: WrapAlignment.spaceEvenly,
+                spacing: 25,
+                children: const [
+                  _ChangeAppearanceButton(),
+                  _DownloadAsPDFButton(),
+                ],
+              ),
+              Divider(),
+              Flexible(
+                  child: PrivacyPolicyText(
+                      markdownText: privacyPolicyMarkdownText)),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text('Inhaltsverzeichnis'),
+                      Icon(Icons.expand_less),
+                    ],
+                  ),
+                  onPressed: () {
+                    final oldContext = context;
+                    showRoundedModalBottomSheet(
+                      context: context,
+                      builder: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider<TableOfContentsController>(
+                            create: (context) =>
+                                Provider.of<TableOfContentsController>(
+                                    oldContext,
+                                    listen: false),
+                          ),
+                          ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+                            create: (context) =>
+                                Provider.of<PrivacyPolicyThemeSettings>(
+                                    oldContext,
+                                    listen: false),
+                          ),
+                        ],
+                        child: TableOfContents(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -289,32 +386,55 @@ class TableOfContents extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 13),
-                TextButton.icon(
-                  onPressed: () {
-                    final themeSettings =
-                        Provider.of<PrivacyPolicyThemeSettings>(context,
-                            listen: false);
-                    showDialog(
-                      context: context,
-                      builder: (context) => DisplaySettingsDialog(
-                        themeSettings: themeSettings,
-                      ),
-                    );
-                  },
-                  icon: Icon(Icons.display_settings),
-                  label: Text('Darstellung ändern'),
-                ),
+                _ChangeAppearanceButton(),
                 SizedBox(height: 8),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.download),
-                  label: Text('Als PDF herunterladen'),
-                ),
+                _DownloadAsPDFButton(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _DownloadAsPDFButton extends StatelessWidget {
+  const _DownloadAsPDFButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () {
+        context.pop();
+      },
+      icon: Icon(Icons.download),
+      label: Text('Als PDF herunterladen'),
+    );
+  }
+}
+
+class _ChangeAppearanceButton extends StatelessWidget {
+  const _ChangeAppearanceButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () {
+        final themeSettings =
+            Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
+        showDialog(
+          context: context,
+          builder: (context) => DisplaySettingsDialog(
+            themeSettings: themeSettings,
+          ),
+        );
+      },
+      icon: Icon(Icons.display_settings),
+      label: Text('Darstellung ändern'),
     );
   }
 }
