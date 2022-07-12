@@ -326,7 +326,7 @@ class __TableOfContentsBottomSheetState
                 child: Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       'Inhaltsverzeichnis',
                       style: Theme.of(context).textTheme.headline6,
@@ -346,7 +346,7 @@ class __TableOfContentsBottomSheetState
               ),
             ],
           ),
-          Divider(),
+          Divider(thickness: 2, height: 0),
           Expanded(child: _TocSectionHeadingListMobile())
         ],
       ),
@@ -525,25 +525,16 @@ class _TocSectionHeadingListMobile extends StatelessWidget {
     // ScrollablePositionedList wants to scroll to the last items).
     // It seems like this has to be fixed inside ScrollablePositionedList.
     // See: https://github.com/google/flutter.widgets/issues/276
-    return ScrollablePositionedList.builder(
+    return ScrollablePositionedList.separated(
+      separatorBuilder: (context, index) => Divider(height: 1, thickness: .7),
       initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
       itemScrollController: itemScrollController,
-      padding: EdgeInsets.symmetric(
-        horizontal: 35,
-      ),
       itemCount: tocController.documentSections.length,
       itemBuilder: (context, index) {
         final section = tocController.documentSections[index];
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: visualDensity
-                .effectiveConstraints(BoxConstraints())
-                .constrainHeight(15 + visualDensity.vertical * 5),
-          ),
-          child: _TocHeadingMobile(
-            key: ValueKey(section.id),
-            section: section,
-          ),
+        return _TocHeadingMobile(
+          key: ValueKey(section.id),
+          section: section,
         );
       },
     );
@@ -916,6 +907,7 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHighlight(
+          shape: ContinuousRectangleBorder(),
           onTap: () async {
             // TODO: Should probabaly be tested via widget test that it pops?
             await tocController.scrollTo(widget.section.id);
@@ -925,10 +917,10 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
           backgroundColor: Theme.of(context).canvasColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: (14 + visualDensity.vertical * 3)
+              vertical: (22 + visualDensity.vertical * 3)
                   .clamp(0, double.infinity)
                   .toDouble(),
-              horizontal: (10 + visualDensity.horizontal)
+              horizontal: (25 + visualDensity.horizontal)
                   .clamp(0, double.infinity)
                   .toDouble(),
             ),
@@ -946,13 +938,16 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
                   ),
                 ),
                 if (showExpansionArrow)
-                  _ExpansionArrow(
-                    expansionArrowTurns: _expansionArrowTurns,
-                    onPressed: () {
-                      Provider.of<TableOfContentsController>(context,
-                              listen: false)
-                          .toggleDocumentSectionExpansion(widget.section.id);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: _ExpansionArrow(
+                      expansionArrowTurns: _expansionArrowTurns,
+                      onPressed: () {
+                        Provider.of<TableOfContentsController>(context,
+                                listen: false)
+                            .toggleDocumentSectionExpansion(widget.section.id);
+                      },
+                    ),
                   )
               ],
             ),
@@ -1075,12 +1070,16 @@ class SectionHighlight extends StatelessWidget {
     @required this.shouldHighlight,
     @required this.onTap,
     this.backgroundColor,
+    this.shape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+    ),
   }) : super(key: key);
 
   final Widget child;
   final bool shouldHighlight;
   final VoidCallback onTap;
   final Color backgroundColor;
+  final ShapeBorder shape;
 
   @override
   Widget build(BuildContext context) {
@@ -1091,9 +1090,7 @@ class SectionHighlight extends StatelessWidget {
                 ? Colors.blue.shade800
                 : Colors.lightBlue.shade100)
             : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
+        shape: shape,
       ),
       duration: Duration(milliseconds: 100),
       child: Material(
