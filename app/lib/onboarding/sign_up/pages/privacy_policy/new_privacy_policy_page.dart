@@ -917,6 +917,7 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
       children: [
         SectionHighlight(
           onTap: () async {
+            // TODO: Should probabaly be tested via widget test that it pops?
             await tocController.scrollTo(widget.section.id);
             Navigator.pop(context);
           },
@@ -992,6 +993,8 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
                       ),
                       child: SectionHighlight(
                         onTap: () async {
+                          // TODO: Should probabaly be tested via widget test
+                          // that it pops?
                           await tocController.scrollTo(subsection.id);
                           Navigator.pop(context);
                         },
