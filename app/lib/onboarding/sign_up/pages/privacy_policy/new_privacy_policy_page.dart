@@ -991,7 +991,10 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
                             .constrainHeight(13 + visualDensity.vertical * 2.5),
                       ),
                       child: SectionHighlight(
-                        onTap: () => tocController.scrollTo(subsection.id),
+                        onTap: () async {
+                          await tocController.scrollTo(subsection.id);
+                          Navigator.pop(context);
+                        },
                         shouldHighlight: subsection.shouldHighlight,
                         backgroundColor: Theme.of(context).canvasColor,
                         child: Padding(
