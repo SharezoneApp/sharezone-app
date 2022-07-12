@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
 class _TemporaryPrivacyPolicyButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       children: [
         ElevatedButton(
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(
