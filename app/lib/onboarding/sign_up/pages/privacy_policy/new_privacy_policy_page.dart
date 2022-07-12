@@ -952,8 +952,6 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
                       Provider.of<TableOfContentsController>(context,
                               listen: false)
                           .toggleDocumentSectionExpansion(widget.section.id);
-
-                      _changeExpansion(!isExpanded);
                     },
                   )
               ],
