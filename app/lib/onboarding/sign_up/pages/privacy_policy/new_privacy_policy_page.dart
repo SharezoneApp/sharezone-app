@@ -234,38 +234,6 @@ class _MainContentNarrow extends StatelessWidget {
   }
 }
 
-class _AcceptionButtons extends StatelessWidget {
-  const _AcceptionButtons({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        OutlinedButton(
-          child: Text('Nicht akzeptieren'),
-          onPressed: () {
-            // TODO: Only for development.
-            Navigator.of(context).pop();
-          },
-        ),
-        SizedBox(
-          width: 50,
-        ),
-        // TODO: Making accepting more prevalent
-        // than not accepting might be considerd
-        // a dark pattern.
-        ElevatedButton(
-          child: Text('Akzeptieren'),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-}
-
 class _PrivacyPolicySubheading extends StatelessWidget {
   const _PrivacyPolicySubheading({
     Key key,
