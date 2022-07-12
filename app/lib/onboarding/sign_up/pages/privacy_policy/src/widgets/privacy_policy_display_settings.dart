@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone_widgets/theme.dart';
 
 class DisplaySettingsDialog extends StatelessWidget {
   const DisplaySettingsDialog({Key key, @required this.themeSettings})
@@ -130,7 +131,15 @@ class _LightOrDarkMode extends StatelessWidget {
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
+                selectedColor: isDarkThemeEnabled(context)
+                    ? Colors.black.withAlpha(240)
+                    : null, // standard color
+                fillColor: isDarkThemeEnabled(context)
+                    ? blueColor
+                    : null, // standard color
                 borderColor: Theme.of(context).textTheme.bodyMedium.color,
+                selectedBorderColor:
+                    Theme.of(context).textTheme.bodyMedium.color,
                 children: const [
                   Icon(Icons.dark_mode),
                   Icon(Icons.light_mode),
