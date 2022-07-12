@@ -62,6 +62,10 @@ class NewPrivacyPolicy extends StatelessWidget {
                         .watch<PrivacyPolicyThemeSettings>()
                         .textScalingFactor),
                 child: ChangeNotifierProvider<TableOfContentsController>(
+                  // Else the currently active section doesn't get tracked until
+                  // the table of contents inside the bottom sheet was at least
+                  // once manually opened (for layouts with a bottom sheet).
+                  lazy: false,
                   create: (context) => TableOfContentsController(
                     documentSectionController:
                         DocumentSectionController(_anchorsController),
@@ -80,7 +84,6 @@ class NewPrivacyPolicy extends StatelessWidget {
                     child: Scaffold(
                       body: Center(
                         child: LayoutBuilder(builder: (context, constraints) {
-                          print(constraints);
                           if (constraints.maxWidth > 880) {
                             return Row(
                               children: [
@@ -913,7 +916,10 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHighlight(
-          onTap: () => tocController.scrollTo(widget.section.id),
+          onTap: () async {
+            await tocController.scrollTo(widget.section.id);
+            Navigator.pop(context);
+          },
           shouldHighlight: widget.section.shouldHighlight,
           backgroundColor: Theme.of(context).canvasColor,
           child: Padding(
