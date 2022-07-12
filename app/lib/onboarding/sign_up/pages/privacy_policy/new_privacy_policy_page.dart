@@ -90,8 +90,11 @@ class NewPrivacyPolicy extends StatelessWidget {
                                     privacyPolicyMarkdownText: content),
                               ],
                             );
-                          } else {
+                          } else if (constraints.maxWidth > 500) {
                             return _MainContentNarrow(
+                                privacyPolicyMarkdownText: content);
+                          } else {
+                            return _MainContentMobile(
                                 privacyPolicyMarkdownText: content);
                           }
                         }),
@@ -132,11 +135,6 @@ class _MainContentWide extends StatelessWidget {
                 Flexible(
                     child: PrivacyPolicyText(
                         markdownText: privacyPolicyMarkdownText)),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: _AcceptionButtons(),
-                )
               ],
             ),
           ),
@@ -171,8 +169,7 @@ class _MainContentNarrow extends StatelessWidget {
             children: [
               _PrivacyPolicyHeading(),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: _PrivacyPolicySubheading(),
               ),
               Wrap(
@@ -180,6 +177,7 @@ class _MainContentNarrow extends StatelessWidget {
                 runAlignment: WrapAlignment.spaceEvenly,
                 alignment: WrapAlignment.spaceEvenly,
                 spacing: 25,
+                runSpacing: 3,
                 children: const [
                   _ChangeAppearanceButton(),
                   _DownloadAsPDFButton(),
@@ -202,33 +200,152 @@ class _MainContentNarrow extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
-                    final oldContext = context;
-                    showRoundedModalBottomSheet(
-                      context: context,
-                      builder: (context) => MultiProvider(
-                        providers: [
-                          ChangeNotifierProvider<TableOfContentsController>(
-                            create: (context) =>
-                                Provider.of<TableOfContentsController>(
-                                    oldContext,
-                                    listen: false),
-                          ),
-                          ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
-                            create: (context) =>
-                                Provider.of<PrivacyPolicyThemeSettings>(
-                                    oldContext,
-                                    listen: false),
-                          ),
-                        ],
-                        child: TableOfContents(),
-                      ),
-                    );
+                    _showTableOfContentsBottomSheet(context);
                   },
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MainContentMobile extends StatelessWidget {
+  final String privacyPolicyMarkdownText;
+
+  const _MainContentMobile({
+    @required this.privacyPolicyMarkdownText,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Datenschutzerklärung'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                _showDisplaySettingsDialog(context);
+              },
+              icon: Icon(Icons.display_settings)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.download)),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _PrivacyPolicySubheading(),
+            ),
+            Divider(),
+            Flexible(
+                child:
+                    PrivacyPolicyText(markdownText: privacyPolicyMarkdownText)),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Text('Inhaltsverzeichnis'),
+                    Icon(Icons.expand_less),
+                  ],
+                ),
+                onPressed: () {
+                  _showTableOfContentsBottomSheet(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void _showTableOfContentsBottomSheet(BuildContext context) {
+  final oldContext = context;
+  showRoundedModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    builder: (context) => MultiProvider(
+      providers: [
+        ListenableProvider<TableOfContentsController>(
+          create: (context) =>
+              Provider.of<TableOfContentsController>(oldContext, listen: false),
+        ),
+        ListenableProvider<PrivacyPolicyThemeSettings>(
+          create: (context) => Provider.of<PrivacyPolicyThemeSettings>(
+              oldContext,
+              listen: false),
+        ),
+      ],
+      child: _TableOfContentsBottomSheet(),
+    ),
+  );
+}
+
+class _TableOfContentsBottomSheet extends StatefulWidget {
+  const _TableOfContentsBottomSheet({Key key}) : super(key: key);
+
+  @override
+  State<_TableOfContentsBottomSheet> createState() =>
+      __TableOfContentsBottomSheetState();
+}
+
+class __TableOfContentsBottomSheetState
+    extends State<_TableOfContentsBottomSheet>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return BottomSheet(
+      constraints: BoxConstraints(maxHeight: 600),
+      enableDrag: true,
+      onClosing: () {},
+      animationController: BottomSheet.createAnimationController(this),
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Inhaltsverzeichnis',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: Icon(Icons.close, color: Colors.grey[600]),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Divider(),
+          Expanded(child: _TocSectionHeadingListMobile())
+        ],
       ),
     );
   }
@@ -284,8 +401,6 @@ class TableOfContents extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  final scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
@@ -307,38 +422,7 @@ class TableOfContents extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Expanded(
-            child: _BottomFade(
-              scrollController: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 35,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // To test scroll behavior / layout
-                    ...tocController.documentSections.map(
-                      (section) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: visualDensity
-                                .effectiveConstraints(BoxConstraints())
-                                .constrainHeight(
-                                    15 + visualDensity.vertical * 5),
-                          ),
-                          child: _TocHeading(
-                            key: ValueKey(section.id),
-                            section: section,
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  ],
-                ),
-              ),
-            ),
+            child: _TocSectionHeadingListDesktop(),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -365,102 +449,106 @@ class TableOfContents extends StatelessWidget {
   }
 }
 
-class _DownloadAsPDFButton extends StatelessWidget {
-  const _DownloadAsPDFButton({
+class _TocSectionHeadingListDesktop extends StatelessWidget {
+  _TocSectionHeadingListDesktop({
     Key key,
   }) : super(key: key);
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: () {
-        context.pop();
-      },
-      icon: Icon(Icons.download),
-      label: Text('Als PDF herunterladen'),
+    final tocController = context.watch<TableOfContentsController>();
+    // TODO: Create Extension?
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    return _BottomFade(
+      scrollController: scrollController,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        padding: EdgeInsets.symmetric(
+          horizontal: 35,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // To test scroll behavior / layout
+            ...tocController.documentSections.map(
+              (section) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: visualDensity
+                        .effectiveConstraints(BoxConstraints())
+                        .constrainHeight(15 + visualDensity.vertical * 5),
+                  ),
+                  child: _TocHeadingDesktop(
+                    key: ValueKey(section.id),
+                    section: section,
+                  ),
+                );
+              },
+            ).toList(),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _ChangeAppearanceButton extends StatelessWidget {
-  const _ChangeAppearanceButton({
+class _TocSectionHeadingListMobile extends StatelessWidget {
+  _TocSectionHeadingListMobile({
     Key key,
   }) : super(key: key);
+  final itemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: () {
-        final themeSettings =
-            Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
-        showDialog(
-          context: context,
-          builder: (context) => DisplaySettingsDialog(
-            themeSettings: themeSettings,
+    final tocController = context.watch<TableOfContentsController>();
+    // TODO: Create Extension?
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    int indexHighlighted = tocController.documentSections
+        .indexWhere((section) => section.shouldHighlight);
+
+    // TODO: Can we make _BottomFade work with ItemScrollController?
+    // This list bounces when opening the bottom sheet and viewing the list
+    // if the user is reading one of the last chapters (so
+    // ScrollablePositionedList wants to scroll to the last items).
+    // It seems like this has to be fixed inside ScrollablePositionedList.
+    // See: https://github.com/google/flutter.widgets/issues/276
+    return ScrollablePositionedList.builder(
+      initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
+      itemScrollController: itemScrollController,
+      padding: EdgeInsets.symmetric(
+        horizontal: 35,
+      ),
+      itemCount: tocController.documentSections.length,
+      itemBuilder: (context, index) {
+        final section = tocController.documentSections[index];
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: visualDensity
+                .effectiveConstraints(BoxConstraints())
+                .constrainHeight(15 + visualDensity.vertical * 5),
+          ),
+          child: _TocHeadingMobile(
+            key: ValueKey(section.id),
+            section: section,
           ),
         );
       },
-      icon: Icon(Icons.display_settings),
-      label: Text('Darstellung ändern'),
     );
   }
 }
 
-class _BottomFade extends StatelessWidget {
-  const _BottomFade({
-    Key key,
-    @required this.child,
-    @required this.scrollController,
-  }) : super(key: key);
-
-  final Widget child;
-  final ScrollController scrollController;
-  ScrollPosition get position => scrollController.position;
-
-  // TODO: Remove?
-  double get pixelsUntilBottom => position.maxScrollExtent - position.pixels;
-  double get percentToBottom =>
-      ((position.maxScrollExtent / pixelsUntilBottom) / 100)
-          .clamp(0, 1)
-          .toDouble();
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: scrollController,
-        child: child,
-        builder: (context, _child) {
-          final isAtBottom = scrollController.hasClients &&
-              scrollController.position.pixels >=
-                  scrollController.position.maxScrollExtent;
-          return ShaderMask(
-            shaderCallback: (Rect rect) {
-              return LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.transparent,
-                  isAtBottom ? Colors.transparent : Colors.purple,
-                ],
-                stops: const [
-                  0.0,
-                  .1,
-                  0.9,
-                  1.0,
-                ], // 10% purple, 80% transparent, 10% purple
-              ).createShader(rect);
-            },
-            blendMode: BlendMode.dstOut,
-            child: _child,
-          );
-        });
-  }
-}
-
-class _TocHeading extends StatefulWidget {
-  const _TocHeading({
+class _TocHeadingDesktop extends StatefulWidget {
+  const _TocHeadingDesktop({
     Key key,
     @required this.section,
   }) : super(key: key);
@@ -468,10 +556,10 @@ class _TocHeading extends StatefulWidget {
   final TocDocumentSectionView section;
 
   @override
-  State<_TocHeading> createState() => _TocHeadingState();
+  State<_TocHeadingDesktop> createState() => _TocHeadingDesktopState();
 }
 
-class _TocHeadingState extends State<_TocHeading>
+class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   bool isExpanded;
@@ -479,7 +567,7 @@ class _TocHeadingState extends State<_TocHeading>
   Animation<double> _expansionArrowTurns;
 
   @override
-  void didUpdateWidget(covariant _TocHeading oldWidget) {
+  void didUpdateWidget(covariant _TocHeadingDesktop oldWidget) {
     if (widget.section.isExpanded != oldWidget.section.isExpanded) {
       _changeExpansion(widget.section.isExpanded);
     }
@@ -648,6 +736,295 @@ class _TocHeadingState extends State<_TocHeading>
   }
 }
 
+class _DownloadAsPDFButton extends StatelessWidget {
+  const _DownloadAsPDFButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () {
+        context.pop();
+      },
+      icon: Icon(Icons.download),
+      label: Text('Als PDF herunterladen'),
+    );
+  }
+}
+
+class _ChangeAppearanceButton extends StatelessWidget {
+  const _ChangeAppearanceButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () {
+        _showDisplaySettingsDialog(context);
+      },
+      icon: Icon(Icons.display_settings),
+      label: Text('Darstellung ändern'),
+    );
+  }
+}
+
+void _showDisplaySettingsDialog(BuildContext context) {
+  final themeSettings =
+      Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
+  showDialog(
+    context: context,
+    builder: (context) => DisplaySettingsDialog(
+      themeSettings: themeSettings,
+    ),
+  );
+}
+
+class _BottomFade extends StatelessWidget {
+  const _BottomFade({
+    Key key,
+    @required this.child,
+    @required this.scrollController,
+  }) : super(key: key);
+
+  final Widget child;
+  final ScrollController scrollController;
+  ScrollPosition get position => scrollController.position;
+
+  // TODO: Remove?
+  double get pixelsUntilBottom => position.maxScrollExtent - position.pixels;
+  double get percentToBottom =>
+      ((position.maxScrollExtent / pixelsUntilBottom) / 100)
+          .clamp(0, 1)
+          .toDouble();
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: scrollController,
+        child: child,
+        builder: (context, _child) {
+          final isAtBottom = scrollController.hasClients &&
+              scrollController.position.pixels >=
+                  scrollController.position.maxScrollExtent;
+          return ShaderMask(
+            shaderCallback: (Rect rect) {
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.transparent,
+                  Colors.transparent,
+                  isAtBottom ? Colors.transparent : Colors.purple,
+                ],
+                stops: const [
+                  0.0,
+                  .1,
+                  0.9,
+                  1.0,
+                ], // 10% purple, 80% transparent, 10% purple
+              ).createShader(rect);
+            },
+            blendMode: BlendMode.dstOut,
+            child: _child,
+          );
+        });
+  }
+}
+
+class _TocHeadingMobile extends StatefulWidget {
+  const _TocHeadingMobile({
+    Key key,
+    @required this.section,
+  }) : super(key: key);
+
+  final TocDocumentSectionView section;
+
+  @override
+  State<_TocHeadingMobile> createState() => _TocHeadingMobileState();
+}
+
+class _TocHeadingMobileState extends State<_TocHeadingMobile>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  bool isExpanded;
+  Animation<double> _heightFactor;
+  Animation<double> _expansionArrowTurns;
+
+  @override
+  void didUpdateWidget(covariant _TocHeadingMobile oldWidget) {
+    if (widget.section.isExpanded != oldWidget.section.isExpanded) {
+      _changeExpansion(widget.section.isExpanded);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _changeExpansion(bool newExpansion) {
+    setState(() {
+      isExpanded = widget.section.isExpanded;
+      if (isExpanded) {
+        _controller.forward();
+      } else {
+        _controller.reverse().then<void>((void value) {
+          if (!mounted) return;
+          setState(() {
+            // Rebuild without subsections
+          });
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    isExpanded = widget.section.isExpanded;
+    _controller = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 200),
+        value: isExpanded ? 1 : 0);
+
+    _expansionArrowTurns = _controller.drive(
+        Tween(begin: 0.0, end: 0.5).chain(CurveTween(curve: Curves.easeIn)));
+
+    _heightFactor = _controller.view;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tocController =
+        Provider.of<TableOfContentsController>(context, listen: false);
+    final showExpansionArrow = widget.section.isExpandable;
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHighlight(
+          onTap: () => tocController.scrollTo(widget.section.id),
+          shouldHighlight: widget.section.shouldHighlight,
+          backgroundColor: Theme.of(context).canvasColor,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: (14 + visualDensity.vertical * 3)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+              horizontal: (10 + visualDensity.horizontal)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${widget.section.sectionHeadingText}',
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          fontWeight: widget.section.shouldHighlight
+                              ? FontWeight.w500
+                              : FontWeight.normal,
+                        ),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                if (showExpansionArrow)
+                  _ExpansionArrow(
+                    expansionArrowTurns: _expansionArrowTurns,
+                    onPressed: () {
+                      Provider.of<TableOfContentsController>(context,
+                              listen: false)
+                          .toggleDocumentSectionExpansion(widget.section.id);
+
+                      _changeExpansion(!isExpanded);
+                    },
+                  )
+              ],
+            ),
+          ),
+        ),
+        if (isExpanded)
+          AnimatedBuilder(
+            animation: _heightFactor,
+            builder: (context, child) => ClipRRect(
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: _heightFactor.value,
+                child: child,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              // CrossAxisAlignment.start causes single line text to not be
+              // aligned with multiline text. Single line text would have too
+              // much space on the left.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 200),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  horizontalOffset: 15,
+                  child: FadeInAnimation(child: widget),
+                ),
+                children: widget.section.subsections.map(
+                  (subsection) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: 15.0,
+                        top: visualDensity
+                            .effectiveConstraints(BoxConstraints(maxHeight: 20))
+                            .constrainHeight(13 + visualDensity.vertical * 2.5),
+                      ),
+                      child: SectionHighlight(
+                        onTap: () => tocController.scrollTo(subsection.id),
+                        shouldHighlight: subsection.shouldHighlight,
+                        backgroundColor: Theme.of(context).canvasColor,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: (12 + visualDensity.vertical * 3)
+                                .clamp(0, double.infinity)
+                                .toDouble(),
+                            horizontal: (10 + visualDensity.horizontal)
+                                .clamp(0, double.infinity)
+                                .toDouble(),
+                          ),
+                          child: Text(
+                            '${subsection.sectionHeadingText}',
+                            style:
+                                Theme.of(context).textTheme.bodyText2.copyWith(
+                                      fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .fontSize -
+                                          .5,
+                                      fontWeight: subsection.shouldHighlight
+                                          ? FontWeight.w400
+                                          : FontWeight.normal,
+                                    ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
 class _ExpansionArrow extends StatelessWidget {
   const _ExpansionArrow({
     Key key,
@@ -687,11 +1064,13 @@ class SectionHighlight extends StatelessWidget {
     @required this.child,
     @required this.shouldHighlight,
     @required this.onTap,
+    this.backgroundColor,
   }) : super(key: key);
 
+  final Widget child;
   final bool shouldHighlight;
   final VoidCallback onTap;
-  final Widget child;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -701,7 +1080,7 @@ class SectionHighlight extends StatelessWidget {
             ? (isDarkThemeEnabled(context)
                 ? Colors.blue.shade800
                 : Colors.lightBlue.shade100)
-            : Theme.of(context).scaffoldBackgroundColor,
+            : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),

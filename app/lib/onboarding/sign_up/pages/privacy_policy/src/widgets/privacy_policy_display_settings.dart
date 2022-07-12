@@ -67,11 +67,11 @@ class _TextSize extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text('Schriftgröße', style: Theme.of(context).textTheme.button),
-          // SizedBox(width: 20),
           DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
@@ -118,9 +118,9 @@ class _LightOrDarkMode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
           SizedBox(width: 10),
@@ -176,9 +176,9 @@ class _VisualDensity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.spaceAround,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text('Visuelle Kompaktheit', style: Theme.of(context).textTheme.button),
         SizedBox(width: 10),
