@@ -282,8 +282,7 @@ class _PrivacyPolicySubheading extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text:
-                'in Kraft. Danach kannst du die App solange nicht nutzen, bis du die Datenschutzerklärung akzeptiert hast.',
+            text: 'in Kraft.',
           )
         ],
       ),
