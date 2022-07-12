@@ -100,6 +100,8 @@ ExpansionState _computeNewExpansionState({
     );
   }
 
+  // [ExpansionMode.forced] means that a user manually expanded / collapsed a
+  // section by e.g. tapping on an expansion icon.
   if (expansionMode == ExpansionMode.forced) {
     // We are in force-opened section.
     // We leave the section expanded regardless if it is currently read or not.
