@@ -173,6 +173,9 @@ class TableOfContentsController extends ChangeNotifier {
     });
   }
 
+  // TODO: Parameters - how much space
+  // TODO: Should have at least on mobile a little bit more space above the
+  // heading we scroll to.
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
     return _scrollToDocumentSection(documentSectionId);
   }

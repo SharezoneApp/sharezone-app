@@ -238,34 +238,39 @@ class _MainContentMobile extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 20,
+              ),
               child: _PrivacyPolicySubheading(),
             ),
-            Divider(),
+            Divider(height: 0, thickness: .5),
             Flexible(
                 child:
                     PrivacyPolicyText(markdownText: privacyPolicyMarkdownText)),
-            Divider(),
+            Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text('Inhaltsverzeichnis'),
-                    Icon(Icons.expand_less),
-                  ],
+              child: SafeArea(
+                child: TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text('Inhaltsverzeichnis'),
+                      Icon(Icons.expand_less),
+                    ],
+                  ),
+                  onPressed: () {
+                    _showTableOfContentsBottomSheet(context);
+                  },
                 ),
-                onPressed: () {
-                  _showTableOfContentsBottomSheet(context);
-                },
               ),
             ),
           ],
@@ -306,8 +311,9 @@ class _TableOfContentsBottomSheet extends StatefulWidget {
 }
 
 class __TableOfContentsBottomSheetState
-    extends State<_TableOfContentsBottomSheet>
-    with SingleTickerProviderStateMixin {
+    extends State<_TableOfContentsBottomSheet> with TickerProviderStateMixin {
+  // TODO:
+  // with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
@@ -526,7 +532,7 @@ class _TocSectionHeadingListMobile extends StatelessWidget {
     // It seems like this has to be fixed inside ScrollablePositionedList.
     // See: https://github.com/google/flutter.widgets/issues/276
     return ScrollablePositionedList.separated(
-      separatorBuilder: (context, index) => Divider(height: 1, thickness: .7),
+      separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
       initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
       itemScrollController: itemScrollController,
       itemCount: tocController.documentSections.length,
@@ -841,7 +847,9 @@ class _TocHeadingMobile extends StatefulWidget {
 }
 
 class _TocHeadingMobileState extends State<_TocHeadingMobile>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
+  // TODO: Breaks hot reload: Add later again
+  // with SingleTickerProviderStateMixin {
   AnimationController _controller;
   bool isExpanded;
   Animation<double> _heightFactor;
@@ -914,7 +922,9 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
             Navigator.pop(context);
           },
           shouldHighlight: widget.section.shouldHighlight,
-          backgroundColor: Theme.of(context).canvasColor,
+          backgroundColor: isDarkThemeEnabled(context)
+              ? Theme.of(context).canvasColor
+              : Theme.of(context).scaffoldBackgroundColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: (22 + visualDensity.vertical * 3)
@@ -964,67 +974,133 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              // CrossAxisAlignment.start causes single line text to not be
-              // aligned with multiline text. Single line text would have too
-              // much space on the left.
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 200),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  horizontalOffset: 15,
-                  child: FadeInAnimation(child: widget),
-                ),
-                children: widget.section.subsections.map(
-                  (subsection) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        left: 15.0,
-                        top: visualDensity
-                            .effectiveConstraints(BoxConstraints(maxHeight: 20))
-                            .constrainHeight(13 + visualDensity.vertical * 2.5),
-                      ),
-                      child: SectionHighlight(
-                        onTap: () async {
-                          // TODO: Should probabaly be tested via widget test
-                          // that it pops?
-                          await tocController.scrollTo(subsection.id);
-                          Navigator.pop(context);
-                        },
-                        shouldHighlight: subsection.shouldHighlight,
-                        backgroundColor: Theme.of(context).canvasColor,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: (12 + visualDensity.vertical * 3)
-                                .clamp(0, double.infinity)
-                                .toDouble(),
-                            horizontal: (10 + visualDensity.horizontal)
-                                .clamp(0, double.infinity)
-                                .toDouble(),
-                          ),
-                          child: Text(
-                            '${subsection.sectionHeadingText}',
-                            style:
-                                Theme.of(context).textTheme.bodyText2.copyWith(
-                                      fontSize: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              .fontSize -
-                                          .5,
-                                      fontWeight: subsection.shouldHighlight
-                                          ? FontWeight.w400
-                                          : FontWeight.normal,
-                                    ),
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ).toList(),
+                mainAxisAlignment: MainAxisAlignment.start,
+                // CrossAxisAlignment.start causes single line text to not be
+                // aligned with multiline text. Single line text would have too
+                // much space on the left.
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _buildMobileSubheadings(
+                    context, widget.section.subsections)),
+          ),
+      ],
+    );
+  }
+}
+
+List<Widget> _buildMobileSubheadings(
+    BuildContext context, List<TocDocumentSectionView> subheadings) {
+  final visualDensity =
+      Provider.of<PrivacyPolicyThemeSettings>(context, listen: false)
+          .visualDensitySetting
+          .visualDensity;
+  final tocController =
+      Provider.of<TableOfContentsController>(context, listen: false);
+
+  final widgets = <Widget>[];
+
+  for (var subheading in subheadings) {
+    if (subheading == subheadings.first) {
+      // Else the first Divider appears thinner as it is partly swallowed by the
+      // heading above.
+      // We don't want to use Divider.height to provider the space instead of
+      // this as Divider.height would make the last Subsection assymetric as
+      // there is no header below.
+      widgets.add(ColoredBox(
+        color: subheadings.first.shouldHighlight
+            ? Colors.black.withOpacity(.3)
+            : Colors.transparent,
+        child: SizedBox(height: .5),
+      ));
+    }
+
+    widgets.add(Divider(height: 0, thickness: .5));
+
+    widgets.add(SectionHighlight(
+      backgroundColor: isDarkThemeEnabled(context)
+          ? Color(0xff121212)
+          : Theme.of(context).scaffoldBackgroundColor,
+      shape: ContinuousRectangleBorder(),
+      shouldHighlight: subheading.shouldHighlight,
+      onTap: () async {
+        // TODO: Should probabaly be tested via widget test
+        // that it pops?
+        await tocController.scrollTo(subheading.id);
+        Navigator.pop(context);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 19.0,
+        ).add(
+          EdgeInsets.symmetric(
+            vertical: visualDensity
+                .effectiveConstraints(BoxConstraints(maxHeight: 20))
+                .constrainHeight(6 + visualDensity.vertical * 2),
+          ),
+        ),
+        child: _SubheadingMobile(
+          subsection: subheading,
+        ),
+      ),
+    ));
+  }
+
+  return widgets;
+}
+
+class _SubheadingMobile extends StatelessWidget {
+  const _SubheadingMobile({
+    Key key,
+    @required this.subsection,
+  }) : super(key: key);
+
+  final TocDocumentSectionView subsection;
+
+  @override
+  Widget build(BuildContext context) {
+    final tocController =
+        Provider.of<TableOfContentsController>(context, listen: false);
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(width: 8),
+        Icon(Icons.circle, size: 6),
+        SizedBox(width: 10),
+        Flexible(
+          child: SectionHighlightOnly(
+            shouldHighlight: subsection.shouldHighlight,
+            backgroundColor: Theme.of(context).canvasColor,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: (16 + visualDensity.vertical * 3)
+                    .clamp(0, double.infinity)
+                    .toDouble(),
+                horizontal: (10 + visualDensity.horizontal)
+                    .clamp(0, double.infinity)
+                    .toDouble(),
+              ),
+              child: Text(
+                '${subsection.sectionHeadingText}',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontSize:
+                          Theme.of(context).textTheme.bodyText2.fontSize - .5,
+                      fontWeight: subsection.shouldHighlight
+                          ? FontWeight.w400
+                          : FontWeight.normal,
+                    ),
+                textAlign: TextAlign.start,
               ),
             ),
           ),
+        ),
+        // So that if the highlighted text overflows there is a bit of white
+        // space on the right. Else the highlight would fill the whole right
+        // side which looks weird.
+        SizedBox(width: 10),
       ],
     );
   }
@@ -1103,6 +1179,44 @@ class SectionHighlight extends StatelessWidget {
     );
   }
 }
+
+// TODO: Better name
+class SectionHighlightOnly extends StatelessWidget {
+  const SectionHighlightOnly({
+    Key key,
+    @required this.child,
+    @required this.shouldHighlight,
+    this.backgroundColor,
+    this.shape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4)),
+    ),
+  }) : super(key: key);
+
+  final Widget child;
+  final bool shouldHighlight;
+  final Color backgroundColor;
+  final ShapeBorder shape;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO Dont need background color then I think?
+    if (!shouldHighlight) return child;
+    return AnimatedContainer(
+      decoration: ShapeDecoration(
+        color: shouldHighlight
+            ? _getHighlightColor(context)
+            : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+        shape: shape,
+      ),
+      duration: Duration(milliseconds: 100),
+      child: child,
+    );
+  }
+}
+
+Color _getHighlightColor(BuildContext context) => isDarkThemeEnabled(context)
+    ? Colors.blue.shade800
+    : Colors.lightBlue.shade100;
 
 class PrivacyPolicyText extends StatelessWidget {
   final String markdownText;
