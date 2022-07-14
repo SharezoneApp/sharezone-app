@@ -84,7 +84,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                     child: Scaffold(
                       body: Center(
                         child: LayoutBuilder(builder: (context, constraints) {
-                          if (constraints.maxWidth > 880) {
+                          if (constraints.maxWidth > 1100) {
                             return _MainContentWide(
                                 privacyPolicyMarkdownText: content);
                           } else if (constraints.maxWidth > 500) {
@@ -804,6 +804,10 @@ class _BottomFade extends StatelessWidget {
           .clamp(0, 1)
           .toDouble();
 
+  bool get isScrollable =>
+      scrollController.position.maxScrollExtent !=
+      scrollController.position.minScrollExtent;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -813,6 +817,18 @@ class _BottomFade extends StatelessWidget {
           final isAtBottom = scrollController.hasClients &&
               scrollController.position.pixels >=
                   scrollController.position.maxScrollExtent;
+
+          // This was an approach to disable the bottom fade if the
+          // SingleChildScrollView is not scrollable (the screen is big enough
+          // to fit everything without scrolling). The Problem was that the code
+          // below would also set "isNotScrollable" true if the scrollview size
+          // changed because e.g. a chapter was expanded to show its
+          // subchapters.
+          //
+          // final isNotScrollable = !scrollController.hasClients || !isScrollable;
+          // final showBottomFade = !(isAtBottom || isNotScrollable);
+
+          final showBottomFade = !isAtBottom;
           return ShaderMask(
             shaderCallback: (Rect rect) {
               return LinearGradient(
@@ -822,7 +838,7 @@ class _BottomFade extends StatelessWidget {
                   Colors.transparent,
                   Colors.transparent,
                   Colors.transparent,
-                  isAtBottom ? Colors.transparent : Colors.purple,
+                  showBottomFade ? Colors.purple : Colors.transparent,
                 ],
                 stops: const [
                   0.0,
