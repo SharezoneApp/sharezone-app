@@ -289,6 +289,10 @@ void _showTableOfContentsBottomSheet(BuildContext context) {
     context: context,
     builder: (context) => MultiProvider(
       providers: [
+        // We use ListenableProvider instead of ChangeNotifierProvider because
+        // ChangeNotifierProvider would auto-dispose our Controllers when the
+        // bottom sheet is closed (i.e. the providers are removed from the
+        // widget tree).
         ListenableProvider<TableOfContentsController>(
           create: (context) =>
               Provider.of<TableOfContentsController>(oldContext, listen: false),
