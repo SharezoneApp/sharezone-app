@@ -172,9 +172,11 @@ class _MainContentNarrow extends StatelessWidget {
             children: [
               _PrivacyPolicyHeading(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: _PrivacyPolicySubheading(),
               ),
+              SizedBox(height: 3),
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 runAlignment: WrapAlignment.spaceEvenly,
