@@ -138,7 +138,7 @@ class _MainContentWide extends StatelessWidget {
                 Expanded(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: 650,
+                      maxWidth: 830,
                       minWidth: 400,
                     ),
                     child: PrivacyPolicyText(
