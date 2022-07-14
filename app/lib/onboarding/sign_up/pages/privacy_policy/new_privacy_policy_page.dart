@@ -335,25 +335,20 @@ class __TableOfContentsBottomSheetState
             children: [
               Expanded(
                 flex: 2,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      'Inhaltsverzeichnis',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0)
+                      .add(EdgeInsets.only(left: 20)),
+                  child: Text(
+                    'Inhaltsverzeichnis',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: Icon(Icons.close, color: Colors.grey[600]),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  icon: Icon(Icons.close, color: Colors.grey[600]),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
             ],
