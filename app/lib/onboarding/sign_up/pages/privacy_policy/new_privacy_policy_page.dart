@@ -85,14 +85,8 @@ class NewPrivacyPolicy extends StatelessWidget {
                       body: Center(
                         child: LayoutBuilder(builder: (context, constraints) {
                           if (constraints.maxWidth > 880) {
-                            return Row(
-                              children: [
-                                TableOfContents(),
-                                VerticalDivider(),
-                                _MainContentWide(
-                                    privacyPolicyMarkdownText: content),
-                              ],
-                            );
+                            return _MainContentWide(
+                                privacyPolicyMarkdownText: content);
                           } else if (constraints.maxWidth > 500) {
                             return _MainContentNarrow(
                                 privacyPolicyMarkdownText: content);
@@ -118,14 +112,20 @@ class _MainContentWide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 800),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 450),
+            child: TableOfContents(),
+          ),
+        ),
+        VerticalDivider(),
+        Center(
           child: Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _PrivacyPolicyHeading(),
@@ -135,12 +135,119 @@ class _MainContentWide extends StatelessWidget {
                   child: _PrivacyPolicySubheading(),
                 ),
                 Divider(),
-                Flexible(
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 650,
+                      minWidth: 400,
+                    ),
                     child: PrivacyPolicyText(
-                        markdownText: privacyPolicyMarkdownText)),
+                        markdownText: privacyPolicyMarkdownText),
+                  ),
+                ),
               ],
             ),
           ),
+        )
+      ],
+    );
+  }
+}
+
+// TODO: Make private again, after completing the UI
+class TableOfContents extends StatelessWidget {
+  TableOfContents({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final tocController = context.watch<TableOfContentsController>();
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SizedBox(height: 50),
+        Text(
+          'Inhaltsverzeichnis',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        SizedBox(height: 20),
+        Expanded(
+          child: _TocSectionHeadingListDesktop(),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment(-.7, 0.0),
+                child: Text(
+                  'Weitere Optionen',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              SizedBox(height: 13),
+              _ChangeAppearanceButton(),
+              SizedBox(height: 8),
+              _DownloadAsPDFButton(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TocSectionHeadingListDesktop extends StatelessWidget {
+  _TocSectionHeadingListDesktop({
+    Key key,
+  }) : super(key: key);
+  final scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    final tocController = context.watch<TableOfContentsController>();
+    // TODO: Create Extension?
+    final visualDensity = context
+        .watch<PrivacyPolicyThemeSettings>()
+        .visualDensitySetting
+        .visualDensity;
+
+    return _BottomFade(
+      scrollController: scrollController,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // To test scroll behavior / layout
+            ...tocController.documentSections.map(
+              (section) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: visualDensity
+                        .effectiveConstraints(BoxConstraints())
+                        .constrainHeight(15 + visualDensity.vertical * 5),
+                  ),
+                  child: _TocHeadingDesktop(
+                    key: ValueKey(section.id),
+                    section: section,
+                  ),
+                );
+              },
+            ).toList(),
+          ],
         ),
       ),
     );
@@ -401,109 +508,6 @@ class _PrivacyPolicyHeading extends StatelessWidget {
                 isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
             fontWeight: FontWeight.bold,
           ),
-    );
-  }
-}
-
-// TODO: Make private again, after completing the UI
-class TableOfContents extends StatelessWidget {
-  TableOfContents({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final tocController = context.watch<TableOfContentsController>();
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
-
-    return SizedBox(
-      width: 400,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(height: 50),
-          Text(
-            'Inhaltsverzeichnis',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          SizedBox(height: 20),
-          Expanded(
-            child: _TocSectionHeadingListDesktop(),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment(-.7, 0.0),
-                  child: Text(
-                    'Weitere Optionen',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                SizedBox(height: 13),
-                _ChangeAppearanceButton(),
-                SizedBox(height: 8),
-                _DownloadAsPDFButton(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TocSectionHeadingListDesktop extends StatelessWidget {
-  _TocSectionHeadingListDesktop({
-    Key key,
-  }) : super(key: key);
-  final scrollController = ScrollController();
-
-  @override
-  Widget build(BuildContext context) {
-    final tocController = context.watch<TableOfContentsController>();
-    // TODO: Create Extension?
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
-
-    return _BottomFade(
-      scrollController: scrollController,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        padding: EdgeInsets.symmetric(
-          horizontal: 35,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // To test scroll behavior / layout
-            ...tocController.documentSections.map(
-              (section) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    bottom: visualDensity
-                        .effectiveConstraints(BoxConstraints())
-                        .constrainHeight(15 + visualDensity.vertical * 5),
-                  ),
-                  child: _TocHeadingDesktop(
-                    key: ValueKey(section.id),
-                    section: section,
-                  ),
-                );
-              },
-            ).toList(),
-          ],
-        ),
-      ),
     );
   }
 }
