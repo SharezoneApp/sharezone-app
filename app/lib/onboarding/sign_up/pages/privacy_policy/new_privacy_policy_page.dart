@@ -84,13 +84,27 @@ class NewPrivacyPolicy extends StatelessWidget {
                     child: Scaffold(
                       body: Center(
                         child: LayoutBuilder(builder: (context, constraints) {
+                          // TODO: changeExpansionBehavior is called waaay to
+                          // often.
+                          final tocController =
+                              Provider.of<TableOfContentsController>(context,
+                                  listen: false);
                           if (constraints.maxWidth > 1100) {
+                            tocController.changeExpansionBehavior(
+                                ExpansionBehavior
+                                    .leaveManuallyOpenedSectionsOpen);
                             return _MainContentWide(
                                 privacyPolicyMarkdownText: content);
                           } else if (constraints.maxWidth > 500) {
+                            tocController.changeExpansionBehavior(
+                                ExpansionBehavior
+                                    .alwaysAutomaticallyCloseSectionsAgain);
                             return _MainContentNarrow(
                                 privacyPolicyMarkdownText: content);
                           } else {
+                            tocController.changeExpansionBehavior(
+                                ExpansionBehavior
+                                    .alwaysAutomaticallyCloseSectionsAgain);
                             return _MainContentMobile(
                                 privacyPolicyMarkdownText: content);
                           }

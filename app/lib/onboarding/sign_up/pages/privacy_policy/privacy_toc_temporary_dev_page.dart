@@ -78,6 +78,11 @@ class _MockTableOfContentsController extends ChangeNotifier
 
   @override
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {}
+
+  @override
+  void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
+    throw UnimplementedError();
+  }
 }
 
 final notReadingSubsection = [

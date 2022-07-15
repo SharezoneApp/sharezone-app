@@ -146,6 +146,8 @@ class TableOfContentsController extends ChangeNotifier {
                       title: sub.sectionName,
                       subsections: IList([]),
                       expansionState: ExpansionState(
+                        expansionBehavior: ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain,
                         expansionMode: ExpansionMode.automatic,
                         isExpanded: false,
                       ),
@@ -155,6 +157,8 @@ class TableOfContentsController extends ChangeNotifier {
                   .toIList(),
               isThisCurrentlyRead: false,
               expansionState: ExpansionState(
+                expansionBehavior:
+                    ExpansionBehavior.alwaysAutomaticallyCloseSectionsAgain,
                 expansionMode: ExpansionMode.automatic,
                 isExpanded: false,
               ),
@@ -171,6 +175,12 @@ class TableOfContentsController extends ChangeNotifier {
           _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
       _updateViews();
     });
+  }
+
+  // TODO: Test
+  void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
+    _tableOfContents =
+        _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
   }
 
   // TODO: Parameters - how much space

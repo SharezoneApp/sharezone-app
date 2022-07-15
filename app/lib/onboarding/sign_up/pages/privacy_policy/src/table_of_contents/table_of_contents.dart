@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:meta/meta.dart';
@@ -47,6 +49,15 @@ class TableOfContents {
     return TableOfContents(
       sections ?? this.sections,
     );
+  }
+
+  TableOfContents changeExpansionBehaviorTo(
+      ExpansionBehavior expansionBehavior) {
+    return _copyWith(
+        sections: sections
+            .map((section) =>
+                section.changeExpansionBehaviorTo(expansionBehavior))
+            .toIList());
   }
 }
 
@@ -95,6 +106,17 @@ class TocSection {
     );
   }
 
+  TocSection changeExpansionBehaviorTo(ExpansionBehavior expansionBehavior) {
+    if (!isExpandable) {
+      return this;
+    }
+
+    return _copyWith(
+      expansionState:
+          expansionState.copyWith(expansionBehavior: expansionBehavior),
+    );
+  }
+
   /// Change [isThisCurrentlyRead] and [expansionState] of this and
   /// [subsections] and according to [newCurrentlyReadSection].
   ///
@@ -116,7 +138,8 @@ class TocSection {
 
     if (isExpandable) {
       updated = updated._copyWith(
-        expansionState: _computeNewExpansionState(before: this, after: updated),
+        expansionState:
+            expansionState.computeExpansionState(before: this, after: updated),
       );
     }
 
