@@ -8,9 +8,11 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 
 import 'src/privacy_policy_src.dart' hide TableOfContents;
@@ -50,9 +52,29 @@ class _PrivacyPolicyTocTempDevPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: ChangeNotifierProvider<TableOfContentsController>(
-        create: (context) => _MockTableOfContentsController(_sections),
-        child: TableOfContents(),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<TableOfContentsController>(
+            create: (context) => _MockTableOfContentsController(_sections),
+          ),
+          ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+            create: (context) {
+              final themeSettings =
+                  Provider.of<ThemeSettings>(context, listen: false);
+              return PrivacyPolicyThemeSettings(
+                analytics: AnalyticsProvider.ofOrNullObject(context),
+                themeSettings: Provider.of(context, listen: false),
+                initialTextScalingFactor: themeSettings.textScalingFactor,
+                initialVisualDensity: themeSettings.visualDensitySetting,
+                initialThemeBrightness: themeSettings.themeBrightness,
+              );
+            },
+          ),
+        ],
+        child: ChangeNotifierProvider<TableOfContentsController>(
+          create: (context) => _MockTableOfContentsController(_sections),
+          child: TableOfContents(),
+        ),
       ),
     );
   }
