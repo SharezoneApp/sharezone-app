@@ -899,6 +899,9 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
   Animation<double> _heightFactor;
   Animation<double> _expansionArrowTurns;
 
+  final expansionDuration = Duration(milliseconds: 200);
+  final collapsionDuration = Duration(milliseconds: 150);
+
   @override
   void didUpdateWidget(covariant _TocHeadingMobile oldWidget) {
     if (widget.section.isExpanded != oldWidget.section.isExpanded) {
@@ -908,19 +911,13 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
   }
 
   void _changeExpansion(bool newExpansion) {
-    setState(() {
-      isExpanded = widget.section.isExpanded;
-      if (isExpanded) {
-        _controller.forward();
-      } else {
-        _controller.reverse().then<void>((void value) {
-          if (!mounted) return;
-          setState(() {
-            // Rebuild without subsections
-          });
-        });
-      }
-    });
+    if (newExpansion) {
+      _controller.forward();
+    } else {
+      _controller.reverse().then<void>((void value) {
+        if (!mounted) return;
+      });
+    }
   }
 
   @override
@@ -928,7 +925,8 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
     isExpanded = widget.section.isExpanded;
     _controller = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 200),
+        duration: expansionDuration,
+        reverseDuration: collapsionDuration,
         value: isExpanded ? 1 : 0);
 
     _expansionArrowTurns = _controller.drive(
@@ -1007,7 +1005,7 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
             ),
           ),
         ),
-        if (isExpanded)
+        if (widget.section.isExpandable)
           AnimatedBuilder(
             animation: _heightFactor,
             builder: (context, child) => ClipRRect(
