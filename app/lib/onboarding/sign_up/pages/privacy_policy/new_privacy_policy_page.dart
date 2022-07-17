@@ -578,12 +578,15 @@ class _TocHeadingDesktop extends StatefulWidget {
   State<_TocHeadingDesktop> createState() => _TocHeadingDesktopState();
 }
 
+// TODO: Make some base widget / merge some code with bottom sheet version
 class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   bool isExpanded;
   Animation<double> _heightFactor;
   Animation<double> _expansionArrowTurns;
+  final expansionDuration = Duration(milliseconds: 300);
+  final collapsionDuration = Duration(milliseconds: 200);
 
   @override
   void didUpdateWidget(covariant _TocHeadingDesktop oldWidget) {
@@ -594,19 +597,13 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
   }
 
   void _changeExpansion(bool newExpansion) {
-    setState(() {
-      isExpanded = widget.section.isExpanded;
-      if (isExpanded) {
-        _controller.forward();
-      } else {
-        _controller.reverse().then<void>((void value) {
-          if (!mounted) return;
-          setState(() {
-            // Rebuild without subsections
-          });
-        });
-      }
-    });
+    if (newExpansion) {
+      _controller.forward();
+    } else {
+      _controller.reverse().then<void>((void value) {
+        if (!mounted) return;
+      });
+    }
   }
 
   @override
@@ -614,7 +611,8 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     isExpanded = widget.section.isExpanded;
     _controller = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 200),
+        duration: expansionDuration,
+        reverseDuration: collapsionDuration,
         value: isExpanded ? 1 : 0);
 
     _expansionArrowTurns = _controller.drive(
@@ -684,25 +682,36 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
             ),
           ),
         ),
-        if (isExpanded)
+        if (widget.section.isExpandable)
           AnimatedBuilder(
             animation: _heightFactor,
-            builder: (context, child) => ClipRRect(
-              child: Align(
-                alignment: Alignment.center,
-                heightFactor: _heightFactor.value,
-                child: child,
-              ),
-            ),
+            builder: (context, child) {
+              return ClipRRect(
+                child: Align(
+                  alignment: Alignment.center,
+                  heightFactor: _heightFactor.value,
+                  child: AnimatedOpacity(
+                    opacity: _heightFactor.value,
+                    curve: Curves.easeOutExpo,
+                    duration: widget.section.isExpanded
+                        ? expansionDuration
+                        : collapsionDuration,
+                    child: child,
+                  ),
+                ),
+              );
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               // CrossAxisAlignment.start causes single line text to not be
               // aligned with multiline text. Single line text would have too
               // much space on the left.
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              // TODO: Doesn't work anymore?
               children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 200),
+                duration: expansionDuration,
                 childAnimationBuilder: (widget) => SlideAnimation(
+                  duration: expansionDuration,
                   horizontalOffset: 15,
                   child: FadeInAnimation(child: widget),
                 ),
