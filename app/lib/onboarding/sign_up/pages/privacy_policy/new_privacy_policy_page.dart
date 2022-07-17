@@ -586,7 +586,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
   Animation<double> _heightFactor;
   Animation<double> _expansionArrowTurns;
   final expansionDuration = Duration(milliseconds: 300);
-  final collapsionDuration = Duration(milliseconds: 200);
+  final collapseDuration = Duration(milliseconds: 200);
 
   @override
   void didUpdateWidget(covariant _TocHeadingDesktop oldWidget) {
@@ -612,7 +612,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     _controller = AnimationController(
         vsync: this,
         duration: expansionDuration,
-        reverseDuration: collapsionDuration,
+        reverseDuration: collapseDuration,
         value: isExpanded ? 1 : 0);
 
     _expansionArrowTurns = _controller.drive(
@@ -695,7 +695,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                     curve: Curves.easeOutExpo,
                     duration: widget.section.isExpanded
                         ? expansionDuration
-                        : collapsionDuration,
+                        : collapseDuration,
                     child: child,
                   ),
                 ),
@@ -900,7 +900,7 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
   Animation<double> _expansionArrowTurns;
 
   final expansionDuration = Duration(milliseconds: 200);
-  final collapsionDuration = Duration(milliseconds: 150);
+  final collapseDuration = Duration(milliseconds: 150);
 
   @override
   void didUpdateWidget(covariant _TocHeadingMobile oldWidget) {
@@ -926,7 +926,7 @@ class _TocHeadingMobileState extends State<_TocHeadingMobile>
     _controller = AnimationController(
         vsync: this,
         duration: expansionDuration,
-        reverseDuration: collapsionDuration,
+        reverseDuration: collapseDuration,
         value: isExpanded ? 1 : 0);
 
     _expansionArrowTurns = _controller.drive(
