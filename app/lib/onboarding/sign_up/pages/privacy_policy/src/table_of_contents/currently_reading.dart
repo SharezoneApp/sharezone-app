@@ -20,6 +20,8 @@ class CurrentlyReadingSectionController {
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
+  final DocumentSectionId bottomSectionId = DocumentSectionId('metadaten');
+
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
 
@@ -49,8 +51,18 @@ class CurrentlyReadingSectionController {
       _privacyPolicyViewport = _privacyPolicyViewport
           .headingPositionsUpdated(_visibleSectionHeadings.value);
 
-      _currentlyReadingHeadingNotifier.value =
-          _privacyPolicyViewport.currentlyReadSectionOrNull;
+      // TODO: Protyped workaround, implement in a nicer way (Add to
+      // _PrivacyPolicyViewport?)
+      final bottomRes = _visibleSectionHeadings.value
+          .where((element) => element.documentSectionId == bottomSectionId);
+
+      if (bottomRes.isNotEmpty && bottomRes.first.itemTrailingEdge <= 1) {
+        _currentlyReadingHeadingNotifier.value =
+            _tocSectionHeadings.last.documentSectionId;
+      } else {
+        _currentlyReadingHeadingNotifier.value =
+            _privacyPolicyViewport.currentlyReadSectionOrNull;
+      }
     });
   }
 }
