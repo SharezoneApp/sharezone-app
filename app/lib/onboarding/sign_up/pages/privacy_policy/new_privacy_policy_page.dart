@@ -531,10 +531,10 @@ class _PrivacyPolicySubheading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
-        text: 'Die aktualisierte Datenschutzerklärung tritt in',
+        text: 'Diese aktualisierte Datenschutzerklärung tritt am',
         children: const [
           TextSpan(
-            text: ' 14 Tagen ',
+            text: ' 25.06.2022 ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
