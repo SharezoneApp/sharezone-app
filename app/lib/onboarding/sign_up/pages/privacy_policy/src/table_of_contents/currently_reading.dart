@@ -20,7 +20,7 @@ class CurrentlyReadingSectionController {
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
-  final DocumentSectionId bottomSectionId = DocumentSectionId('metadaten');
+  final DocumentSectionId _bottomSectionId = DocumentSectionId('metadaten');
 
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
@@ -54,7 +54,7 @@ class CurrentlyReadingSectionController {
       // TODO: Protyped workaround, implement in a nicer way (Add to
       // _PrivacyPolicyViewport?)
       final bottomRes = _visibleSectionHeadings.value
-          .where((element) => element.documentSectionId == bottomSectionId);
+          .where((element) => element.documentSectionId == _bottomSectionId);
 
       if (bottomRes.isNotEmpty && bottomRes.first.itemTrailingEdge <= 1) {
         _currentlyReadingHeadingNotifier.value =
