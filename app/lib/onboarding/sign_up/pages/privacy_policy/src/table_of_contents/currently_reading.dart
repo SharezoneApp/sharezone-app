@@ -143,6 +143,10 @@ class _PrivacyPolicyViewport {
         final index = _tocSections
             .indexWhere((section) => section == _lastSeenHeadingState.id);
 
+        // TODO: This is thrown if an unknwon heading is the only one on screen
+        // and is scrolled out i think?
+        // I guess unkown headings should never be saved to
+        // _lastSeenHeadingState?
         if (index == -1) {
           throw ArgumentError(
               "Can't find section with id ${_lastSeenHeadingState.id} inside allSectionsFlattend ($_tocSections)");
