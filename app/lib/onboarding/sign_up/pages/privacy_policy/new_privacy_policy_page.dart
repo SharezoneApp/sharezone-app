@@ -104,13 +104,15 @@ class NewPrivacyPolicy extends StatelessWidget {
                             final tocController =
                                 Provider.of<TableOfContentsController>(context,
                                     listen: false);
+
                             if (constraints.maxWidth > 1100) {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .leaveManuallyOpenedSectionsOpen);
                               return _MainContentWide(
                                   privacyPolicyMarkdownText: content);
-                            } else if (constraints.maxWidth > 500) {
+                            } else if (constraints.maxWidth > 500 &&
+                                constraints.maxHeight > 400) {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
@@ -178,11 +180,11 @@ class _MainContentWide extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
-                _PrivacyPolicyHeading(),
-                Padding(
+                          _PrivacyPolicyHeading(),
+                          Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8.0),
-                  child: _PrivacyPolicySubheading(),
+                            child: _PrivacyPolicySubheading(),
                           ),
                         ],
                       ),
@@ -336,9 +338,7 @@ class _MainContentNarrow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // TODO: Different Icons on different plattforms?
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios_new),
+                  BackButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
