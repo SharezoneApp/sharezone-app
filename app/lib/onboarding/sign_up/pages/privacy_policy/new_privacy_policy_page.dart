@@ -21,9 +21,17 @@ import 'package:sharezone_widgets/theme.dart';
 
 import 'src/widgets/privacy_policy_display_settings.dart';
 
-ItemScrollController _itemScrollController;
-ItemPositionsListener _itemPositionsListener;
-AnchorsController _anchorsController;
+class _PrivacyPolicyTextDependencies {
+  final ItemScrollController itemScrollController;
+  final ItemPositionsListener itemPositionsListener;
+  final AnchorsController anchorsController;
+
+  _PrivacyPolicyTextDependencies({
+    @required this.itemScrollController,
+    @required this.itemPositionsListener,
+    @required this.anchorsController,
+  });
+}
 
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({
@@ -32,11 +40,7 @@ class NewPrivacyPolicy extends StatelessWidget {
     List<DocumentSection> documentSections,
   })  : content = content ?? markdownPrivacyPolicy,
         documentSections = documentSections ?? tocDocumentSections,
-        super(key: key) {
-    _itemScrollController = ItemScrollController();
-    _itemPositionsListener = ItemPositionsListener.create();
-    _anchorsController = AnchorsController();
-  }
+        super(key: key);
 
   final String content;
   final List<DocumentSection> documentSections;
@@ -55,64 +59,76 @@ class NewPrivacyPolicy extends StatelessWidget {
             initialThemeBrightness: themeSettings.themeBrightness,
           );
         },
-        child: Builder(
-            builder: (context) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: context
-                        .watch<PrivacyPolicyThemeSettings>()
-                        .textScalingFactor),
-                child: ChangeNotifierProvider<TableOfContentsController>(
-                  // Else the currently active section doesn't get tracked until
-                  // the table of contents inside the bottom sheet was at least
-                  // once manually opened (for layouts with a bottom sheet).
-                  lazy: false,
-                  create: (context) => TableOfContentsController(
-                    documentSectionController:
-                        DocumentSectionController(_anchorsController),
-                    tocDocumentSections: documentSections,
-                  ),
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        visualDensity: context
-                            .watch<PrivacyPolicyThemeSettings>()
-                            .visualDensitySetting
-                            .visualDensity,
-                        floatingActionButtonTheme:
-                            FloatingActionButtonThemeData(
-                          backgroundColor: Theme.of(context).primaryColor,
-                        )),
-                    child: Scaffold(
-                      body: Center(
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          // TODO: changeExpansionBehavior is called waaay to
-                          // often.
-                          final tocController =
-                              Provider.of<TableOfContentsController>(context,
-                                  listen: false);
-                          if (constraints.maxWidth > 1100) {
-                            tocController.changeExpansionBehavior(
-                                ExpansionBehavior
-                                    .leaveManuallyOpenedSectionsOpen);
-                            return _MainContentWide(
-                                privacyPolicyMarkdownText: content);
-                          } else if (constraints.maxWidth > 500) {
-                            tocController.changeExpansionBehavior(
-                                ExpansionBehavior
-                                    .alwaysAutomaticallyCloseSectionsAgain);
-                            return _MainContentNarrow(
-                                privacyPolicyMarkdownText: content);
-                          } else {
-                            tocController.changeExpansionBehavior(
-                                ExpansionBehavior
-                                    .alwaysAutomaticallyCloseSectionsAgain);
-                            return _MainContentMobile(
-                                privacyPolicyMarkdownText: content);
-                          }
-                        }),
+        child: Provider(
+          create: (context) => _PrivacyPolicyTextDependencies(
+            itemScrollController: ItemScrollController(),
+            itemPositionsListener: ItemPositionsListener.create(),
+            anchorsController: AnchorsController(),
+          ),
+          child: Builder(
+              builder: (context) => MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                      textScaleFactor: context
+                          .watch<PrivacyPolicyThemeSettings>()
+                          .textScalingFactor),
+                  child: ChangeNotifierProvider<TableOfContentsController>(
+                    // Else the currently active section doesn't get tracked until
+                    // the table of contents inside the bottom sheet was at least
+                    // once manually opened (for layouts with a bottom sheet).
+                    lazy: false,
+                    create: (context) {
+                      final dependencies =
+                          Provider.of<_PrivacyPolicyTextDependencies>(context,
+                              listen: false);
+                      return TableOfContentsController(
+                        documentSectionController: DocumentSectionController(
+                            dependencies.anchorsController),
+                        tocDocumentSections: documentSections,
+                      );
+                    },
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                          visualDensity: context
+                              .watch<PrivacyPolicyThemeSettings>()
+                              .visualDensitySetting
+                              .visualDensity,
+                          floatingActionButtonTheme:
+                              FloatingActionButtonThemeData(
+                            backgroundColor: Theme.of(context).primaryColor,
+                          )),
+                      child: Scaffold(
+                        body: Center(
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            // TODO: changeExpansionBehavior is called waaay to
+                            // often.
+                            final tocController =
+                                Provider.of<TableOfContentsController>(context,
+                                    listen: false);
+                            if (constraints.maxWidth > 1100) {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .leaveManuallyOpenedSectionsOpen);
+                              return _MainContentWide(
+                                  privacyPolicyMarkdownText: content);
+                            } else if (constraints.maxWidth > 500) {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .alwaysAutomaticallyCloseSectionsAgain);
+                              return _MainContentNarrow(
+                                  privacyPolicyMarkdownText: content);
+                            } else {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .alwaysAutomaticallyCloseSectionsAgain);
+                              return _MainContentMobile(
+                                  privacyPolicyMarkdownText: content);
+                            }
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-                ))));
+                  ))),
+        ));
   }
 }
 
@@ -1270,6 +1286,9 @@ class PrivacyPolicyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dependencies =
+        Provider.of<_PrivacyPolicyTextDependencies>(context, listen: false);
+
     return RelativeAnchorsMarkdown(
       selectable: true,
       // TODO - Fix: Links (blue colored text) have bad contrast in dark mode
@@ -1285,9 +1304,9 @@ class PrivacyPolicyText extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.0),
           )),
       extensionSet: sharezoneMarkdownExtensionSet,
-      itemScrollController: _itemScrollController,
-      itemPositionsListener: _itemPositionsListener,
-      anchorsController: _anchorsController,
+      itemScrollController: dependencies.itemScrollController,
+      itemPositionsListener: dependencies.itemPositionsListener,
+      anchorsController: dependencies.anchorsController,
 // TODO: Replace this temporary placeholder with the real thing
       data: '''
 $markdownText
@@ -1302,7 +1321,7 @@ Zuletzt aktualisiert: 06.01.2022
       onTapLink: (text, href, title) {
         if (href == null) return;
         if (href.startsWith('#')) {
-          _anchorsController.scrollToAnchor(
+          dependencies.anchorsController.scrollToAnchor(
             // Remove leading #
             href.substring(1),
           );
