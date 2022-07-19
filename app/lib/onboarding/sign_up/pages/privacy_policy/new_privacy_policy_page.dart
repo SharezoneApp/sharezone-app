@@ -158,11 +158,36 @@ class _MainContentWide extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  // TODO: Move BackButton to the very left.
+                  // We can't seem to use Expanded since that conflicts with the
+                  // table of contents to the left.
+                  children: [
+                    BackButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    // TODO: This might also not be centered correctly (too much
+                    // on the right because of the back button)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
                 _PrivacyPolicyHeading(),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 8.0),
                   child: _PrivacyPolicySubheading(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 Divider(),
                 Expanded(
