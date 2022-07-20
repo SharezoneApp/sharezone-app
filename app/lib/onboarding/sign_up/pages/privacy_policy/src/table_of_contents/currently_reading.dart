@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
 import '../privacy_policy_src.dart';
@@ -17,115 +18,68 @@ import '../privacy_policy_src.dart';
 /// `## Foo Heading`) are/were inside the viewport and working out where the
 /// user is currently inside the text.
 class CurrentlyReadingSectionController {
-  final ValueListenable<List<DocumentSectionHeadingPosition>>
-      _visibleSectionHeadings;
-
-  DocumentSectionId _bottomSectionId;
-
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
-
   ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
       _currentlyReadingHeadingNotifier;
 
-  _PrivacyPolicyViewport _privacyPolicyViewport;
+  _CurrentlyReadingState _currentState;
 
   CurrentlyReadingSectionController(
-    List<DocumentSection> _tocSectionHeadings,
-    this._visibleSectionHeadings, {
-    @required DocumentSectionId lastSectionId,
+    List<DocumentSection> tableOfContentsDocumentSections,
+    ValueListenable<List<DocumentSectionHeadingPosition>>
+        visibleSectionHeadings, {
+    @required DocumentSectionId endOfDocumentSectionId,
     // TODO: Maybe make required?
     double threshold = 0.1,
   }) {
-    _bottomSectionId = lastSectionId;
-
-    final sectionAndSubsectionIds = _tocSectionHeadings
+    final sectionAndSubsectionIds = tableOfContentsDocumentSections
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.documentSectionId)
         .toList();
 
-    _privacyPolicyViewport = _PrivacyPolicyViewport(
+    _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
-      headingPositions: _visibleSectionHeadings.value,
-      threshold: threshold,
+      endOfDocumentSectionId: endOfDocumentSectionId,
+      viewport: _Viewport(
+        headingPositions: visibleSectionHeadings.value.toIList(),
+        threshold: threshold,
+      ),
     );
 
-    _visibleSectionHeadings.addListener(() {
-      _privacyPolicyViewport = _privacyPolicyViewport
-          .headingPositionsUpdated(_visibleSectionHeadings.value);
+    visibleSectionHeadings.addListener(() {
+      _currentState = _currentState.viewportWasUpdated(
+        _Viewport(
+          headingPositions: visibleSectionHeadings.value.toIList(),
+          threshold: threshold,
+        ),
+      );
 
-      // TODO: Protyped workaround, implement in a nicer way (Add to
-      // _PrivacyPolicyViewport?)
-      final bottomRes = _visibleSectionHeadings.value
-          .where((element) => element.documentSectionId == _bottomSectionId);
-
-      if (bottomRes.isNotEmpty && bottomRes.first.itemTrailingEdge <= 1) {
-        _currentlyReadingHeadingNotifier.value =
-            _tocSectionHeadings.last.documentSectionId;
-      } else {
-        _currentlyReadingHeadingNotifier.value =
-            _privacyPolicyViewport.currentlyReadSectionOrNull;
-      }
+      _currentlyReadingHeadingNotifier.value =
+          _currentState.currentlyReadSectionOrNull;
     });
   }
 }
 
-class _PrivacyPolicyViewport {
+class _CurrentlyReadingState {
   final List<DocumentSectionId> _tocSections;
-  final List<DocumentSectionHeadingPosition> _headingPositions;
-  final double _threshold;
   final _HeadingState _lastSeenHeadingState;
+  final _Viewport _viewport;
+  // TODO: Document here and/or in constructor
+  final DocumentSectionId _endOfDocumentSectionId;
 
-  _PrivacyPolicyViewport({
+  _CurrentlyReadingState({
     @required List<DocumentSectionId> tocSections,
-    @required List<DocumentSectionHeadingPosition> headingPositions,
-    @required double threshold,
+    @required _Viewport viewport,
+    @required DocumentSectionId endOfDocumentSectionId,
     _HeadingState lastSeenHeadingState,
   })  : _tocSections = tocSections,
-        _headingPositions = headingPositions,
-        _threshold = threshold,
-        _lastSeenHeadingState = lastSeenHeadingState {
-    // Sort so that the top-most section on screen is first in list
-    _headingPositions
-        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
-  }
-
-  _PrivacyPolicyViewport headingPositionsUpdated(
-      List<DocumentSectionHeadingPosition> newHeadingPositions) {
-    // If we see no section headings on screen we save what heading was last
-    // seen. Later we can use that so we know what section we're currently in.
-    //
-    // Seeing no section heading can happen if we e.g. scroll inside a section
-    // with more text than can be displayed on the screen at once.
-    if (newHeadingPositions.isEmpty && _headingPositions.isNotEmpty) {
-      // Realistically there should only ever be a single heading but when
-      // scrolling really fast it can happen that several headings disappear
-      // together.
-      final lastVisible = _headingPositions.first;
-
-      final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
-          ? _HeadingState(
-              id: lastVisible.documentSectionId,
-              scrolledOutAt: _ScrolledOut.atTheTop,
-            )
-          : _HeadingState(
-              id: lastVisible.documentSectionId,
-              scrolledOutAt: _ScrolledOut.atTheBottom,
-            );
-
-      return _copyWith(
-        headingPositions: newHeadingPositions,
-        lastSeenHeadingState: newLastSeenHeadingState,
-      );
-    }
-    return _copyWith(
-      headingPositions: newHeadingPositions,
-    );
-  }
+        _viewport = viewport,
+        _lastSeenHeadingState = lastSeenHeadingState,
+        _endOfDocumentSectionId = endOfDocumentSectionId;
 
   DocumentSectionId _currentlyReadSectionOrNull;
   bool _isCached = false;
-
   DocumentSectionId get currentlyReadSectionOrNull {
     // Can't use this since _computeCurrentlyRead can return null:
     // `return _currentlyReadSectionOrNull ??= _computeCurrentlyRead();`
@@ -139,7 +93,7 @@ class _PrivacyPolicyViewport {
 
   DocumentSectionId _computeCurrentlyRead() {
     // If we see no section headings on screen...
-    if (_headingPositions.isEmpty) {
+    if (_viewport.noHeadingsVisible) {
       // ...and we saved what happend with the last section on screen...
       if (_lastSeenHeadingState != null) {
         // ... we find the index of the last section on screen...
@@ -177,14 +131,24 @@ class _PrivacyPolicyViewport {
       return null;
     }
 
+    // Special case: We see the document section that signals to us that the
+    // user reached the bottom of the document.
+    final pos = _viewport.getFirstPositionOfOrNull(_endOfDocumentSectionId);
+    // If the heading is completly visible in the viewport
+    if (pos != null && pos.itemTrailingEdge <= 1.0) {
+      // then we mark the last section in our table of contents as active
+      // (will probably not be the same as [_endOfDocumentSectionId]).
+      // For more info see docs of [_endOfDocumentSectionId].
+      return _tocSections.last;
+    }
+
     // Sections that intersect with or are above the threshold
-    final insideThreshold = _headingPositions
-        .where((section) => section.itemLeadingEdge <= _threshold);
+    final insideThreshold = _viewport.sectionsInThreshold;
 
     // If no section headings are inside the threshold...
     if (insideThreshold.isEmpty) {
       // ... we get the index of the top-most section heading on screen...
-      final index = _indexOf(_headingPositions.first);
+      final index = _indexOf(_viewport.sortedHeadingPositions.first);
 
       // Special case: If it's the first section we mark no section as currently
       // read since we haven't "entered" the first section since it's below
@@ -200,8 +164,7 @@ class _PrivacyPolicyViewport {
 
     // If there are section headings inside the threshold we just mark the one
     // that is closest to the threshold as currently read:
-    final closest = insideThreshold.last;
-    return closest.documentSectionId;
+    return _viewport.closestToThresholdOrNull?.documentSectionId;
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
@@ -209,18 +172,92 @@ class _PrivacyPolicyViewport {
         .indexWhere((pos) => pos == headerPosition.documentSectionId);
   }
 
-  _PrivacyPolicyViewport _copyWith({
+  _CurrentlyReadingState viewportWasUpdated(_Viewport updatedViewport) {
+    // If we see no section headings on screen we save what heading was last
+    // seen. Later we can use that so we know what section we're currently in.
+    //
+    // Seeing no section heading can happen if we e.g. scroll inside a section
+    // with more text than can be displayed on the screen at once.
+    if (_viewport.headingsVisible && updatedViewport.noHeadingsVisible) {
+      // Realistically there should only ever be a single heading but when
+      // scrolling really fast it can happen that several headings disappear
+      // together.
+      final lastVisible = _viewport.sortedHeadingPositions.first;
+
+      final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
+          ? _HeadingState(
+              id: lastVisible.documentSectionId,
+              scrolledOutAt: _ScrolledOut.atTheTop,
+            )
+          : _HeadingState(
+              id: lastVisible.documentSectionId,
+              scrolledOutAt: _ScrolledOut.atTheBottom,
+            );
+
+      return _copyWith(
+        viewport: updatedViewport,
+        lastSeenHeadingState: newLastSeenHeadingState,
+      );
+    }
+    return _copyWith(
+      viewport: updatedViewport,
+    );
+  }
+
+  _CurrentlyReadingState _copyWith({
     List<DocumentSectionId> tocSections,
-    List<DocumentSectionHeadingPosition> headingPositions,
-    double threshold,
+    _Viewport viewport,
     _HeadingState lastSeenHeadingState,
   }) {
-    return _PrivacyPolicyViewport(
-      headingPositions: headingPositions ?? _headingPositions,
-      threshold: threshold ?? _threshold,
+    return _CurrentlyReadingState(
+      endOfDocumentSectionId: _endOfDocumentSectionId,
+      viewport: viewport ?? _viewport,
       tocSections: tocSections ?? _tocSections,
       lastSeenHeadingState: lastSeenHeadingState ?? _lastSeenHeadingState,
     );
+  }
+}
+
+class _Viewport {
+  final IList<DocumentSectionHeadingPosition> sortedHeadingPositions;
+  final double threshold;
+
+  factory _Viewport({
+    @required IList<DocumentSectionHeadingPosition> headingPositions,
+    @required double threshold,
+  }) {
+    final sorted = headingPositions.sort(
+        (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge));
+
+    return _Viewport._(
+      sortedHeadingPositions: sorted,
+      threshold: threshold,
+    );
+  }
+
+  const _Viewport._({
+    @required this.sortedHeadingPositions,
+    @required this.threshold,
+  });
+
+  bool get headingsVisible => !noHeadingsVisible;
+  bool get noHeadingsVisible => sortedHeadingPositions.isEmpty;
+
+  DocumentSectionHeadingPosition get closestToThresholdOrNull {
+    return sectionsInThreshold.last;
+  }
+
+  IList<DocumentSectionHeadingPosition> get sectionsInThreshold {
+    return sortedHeadingPositions
+        .where((section) => section.itemLeadingEdge <= threshold)
+        .toIList();
+  }
+
+  DocumentSectionHeadingPosition getFirstPositionOfOrNull(
+      DocumentSectionId documentSectionId) {
+    return sortedHeadingPositions.firstWhere(
+        (element) => element.documentSectionId == documentSectionId,
+        orElse: () => null);
   }
 }
 

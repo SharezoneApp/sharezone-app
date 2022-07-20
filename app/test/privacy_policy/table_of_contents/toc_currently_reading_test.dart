@@ -660,7 +660,7 @@ class TestCurrentlyReadingSectionController {
         _tocSectionHeadings,
         _visibleSectionHeadings,
         threshold: threshold,
-        lastSectionId: lastSection,
+        endOfDocumentSectionId: lastSection,
       ),
       _tocSectionHeadings,
       (sectionId) => Future.value(),

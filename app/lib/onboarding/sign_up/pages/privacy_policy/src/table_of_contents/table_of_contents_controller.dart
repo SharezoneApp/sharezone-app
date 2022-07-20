@@ -128,7 +128,7 @@ class TableOfContentsController extends ChangeNotifier {
       CurrentlyReadingSectionController(
         tocDocumentSections,
         documentSectionController.visibleSectionHeadings,
-        lastSectionId: lastSectionId,
+        endOfDocumentSectionId: lastSectionId,
       ),
       tocDocumentSections,
       documentSectionController.scrollToDocumentSection,
