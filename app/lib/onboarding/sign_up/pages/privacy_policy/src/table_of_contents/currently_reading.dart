@@ -48,7 +48,7 @@ class CurrentlyReadingSectionController {
     );
 
     visibleSectionHeadings.addListener(() {
-      _currentState = _currentState.viewportWasUpdated(
+      _currentState = _currentState.updateViewport(
         _Viewport(
           headingPositions: visibleSectionHeadings.value.toIList(),
           threshold: threshold,
@@ -172,7 +172,7 @@ class _CurrentlyReadingState {
         .indexWhere((pos) => pos == headerPosition.documentSectionId);
   }
 
-  _CurrentlyReadingState viewportWasUpdated(_Viewport updatedViewport) {
+  _CurrentlyReadingState updateViewport(_Viewport updatedViewport) {
     // If we see no section headings on screen we save what heading was last
     // seen. Later we can use that so we know what section we're currently in.
     //
