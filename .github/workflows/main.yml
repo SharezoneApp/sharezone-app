@@ -117,7 +117,7 @@ jobs:
   ios-integration-test:
     runs-on: macos-latest
     if: ${{ github.event.pull_request.draft == false }}
-    timeout-minutes: 45
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v3
 
@@ -146,9 +146,8 @@ jobs:
         # set the timeout (the --timeout argument has not effect). Tracking
         # issue: https://github.com/flutter/flutter/issues/105913
         run: |
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
+          flutter test \
+            integration_test \
             --flavor dev \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
