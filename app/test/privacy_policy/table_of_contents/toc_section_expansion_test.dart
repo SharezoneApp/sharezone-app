@@ -43,6 +43,7 @@ class _TableOfContentsTestController {
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections,
       DocumentSectionController(AnchorsController()).scrollToDocumentSection,
+      ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );
 
     final results = _tocController.documentSections

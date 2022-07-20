@@ -114,18 +114,21 @@ class TableOfContentsController extends ChangeNotifier {
   // to display in the table of contents.
   final List<DocumentSection> _allDocumentSections;
   final ScrollToDocumentSectionFunc _scrollToDocumentSection;
+  final ExpansionBehavior _initalExpansionBehavior;
 
   TableOfContents _tableOfContents;
 
   factory TableOfContentsController({
     @required DocumentSectionController documentSectionController,
     @required List<DocumentSection> tocDocumentSections,
+    @required ExpansionBehavior initialExpansionBehavior,
   }) {
     return TableOfContentsController.internal(
       CurrentlyReadingSectionController(tocDocumentSections,
           documentSectionController.visibleSectionHeadings),
       tocDocumentSections,
       documentSectionController.scrollToDocumentSection,
+      initialExpansionBehavior,
     );
   }
 
@@ -134,6 +137,7 @@ class TableOfContentsController extends ChangeNotifier {
     this._activeSectionController,
     this._allDocumentSections,
     this._scrollToDocumentSection,
+    this._initalExpansionBehavior,
   ) {
     final sections = _allDocumentSections
         .map((e) => TocSection(
@@ -146,8 +150,7 @@ class TableOfContentsController extends ChangeNotifier {
                       title: sub.sectionName,
                       subsections: IList([]),
                       expansionState: ExpansionState(
-                        expansionBehavior: ExpansionBehavior
-                            .alwaysAutomaticallyCloseSectionsAgain,
+                        expansionBehavior: _initalExpansionBehavior,
                         expansionMode: ExpansionMode.automatic,
                         isExpanded: false,
                       ),
@@ -157,8 +160,7 @@ class TableOfContentsController extends ChangeNotifier {
                   .toIList(),
               isThisCurrentlyRead: false,
               expansionState: ExpansionState(
-                expansionBehavior:
-                    ExpansionBehavior.alwaysAutomaticallyCloseSectionsAgain,
+                expansionBehavior: _initalExpansionBehavior,
                 expansionMode: ExpansionMode.automatic,
                 isExpanded: false,
               ),

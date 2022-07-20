@@ -576,13 +576,15 @@ class TestCurrentlyReadingSectionController {
     @required double threshold,
   }) {
     _tableOfContentsController = TableOfContentsController.internal(
-        CurrentlyReadingSectionController(
-          _tocSectionHeadings,
-          _visibleSectionHeadings,
-          threshold: threshold,
-        ),
+      CurrentlyReadingSectionController(
         _tocSectionHeadings,
-        (sectionId) => Future.value());
+        _visibleSectionHeadings,
+        threshold: threshold,
+      ),
+      _tocSectionHeadings,
+      (sectionId) => Future.value(),
+      ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
+    );
     _tableOfContentsController.addListener(() {
       _currentlyRead.value = _getCurrentlyHighlighted();
     });
