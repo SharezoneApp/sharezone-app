@@ -1,0 +1,7 @@
+tags:
+  # The tag "golden" is used by the "golden_toolkit" package.
+  #
+  # This will indicate that goldens are an expected test tag. All tests that use
+  # testGoldens() will automatically be given this tag. This allows you to
+  # easily target golden tests from the command line.
+  golden:

@@ -47,8 +47,6 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/filepaths" tools:replace="android:resource" />
         </provider>
 
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
-
         <!-- Set up the Sign in with Apple activity, such that it's callable from the browser-redirect -->
         <activity android:name="de.codingbrain.sharezone.SignInWithAppleCallback" android:exported="true">
             <intent-filter>
