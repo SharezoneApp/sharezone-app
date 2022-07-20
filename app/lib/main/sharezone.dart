@@ -86,31 +86,36 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
           color: PlatformCheck.isWeb ? Colors.white : primaryColor,
           child: Directionality(
             textDirection: TextDirection.ltr,
-            child: _ThemeSettingsProvider(
-              blocDependencies: widget.blocDependencies,
-              child: AlphaVersionBanner(
-                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
-                    'ALPHA',
-                child: Stack(
-                  children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: StreamBuilder<AuthUser>(
-                        stream: listenToAuthStateChanged(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            widget.blocDependencies.authUser = snapshot.data;
-                            return SharezoneApp(widget.blocDependencies,
-                                Sharezone.analytics, widget.beitrittsversuche);
-                          }
-                          return AuthApp(
-                            blocDependencies: widget.blocDependencies,
-                            analytics: Sharezone.analytics,
-                          );
-                        },
+            child: AnalyticsProvider(
+              analytics: Analytics(getBackend()),
+              child: _ThemeSettingsProvider(
+                blocDependencies: widget.blocDependencies,
+                child: AlphaVersionBanner(
+                  enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
+                      'ALPHA',
+                  child: Stack(
+                    children: [
+                      BlocProvider(
+                        bloc: signUpBloc,
+                        child: StreamBuilder<AuthUser>(
+                          stream: listenToAuthStateChanged(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              widget.blocDependencies.authUser = snapshot.data;
+                              return SharezoneApp(
+                                  widget.blocDependencies,
+                                  Sharezone.analytics,
+                                  widget.beitrittsversuche);
+                            }
+                            return AuthApp(
+                              blocDependencies: widget.blocDependencies,
+                              analytics: Sharezone.analytics,
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -135,7 +140,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
         analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
-        defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+        defaultVisualDensity: VisualDensitySetting.adaptivePlatformDensity(),
         keyValueStore: blocDependencies.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
@@ -151,8 +156,9 @@ class _ThemeSettingsProvider extends StatelessWidget {
                 textScaleFactor: themeSettings.textScalingFactor,
               ),
               child: Theme(
-                data: Theme.of(context)
-                    .copyWith(visualDensity: themeSettings.visualDensity),
+                data: Theme.of(context).copyWith(
+                    visualDensity:
+                        themeSettings.visualDensitySetting.visualDensity),
                 child: child,
               ),
             );

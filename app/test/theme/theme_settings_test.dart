@@ -32,13 +32,15 @@ void main() {
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity: VisualDensity.comfortable,
+        defaultVisualDensity:
+            VisualDensitySetting.manual(VisualDensity.comfortable),
         keyValueStore: keyValueStore,
       );
 
       expect(themeSettings.textScalingFactor, 1.2);
       expect(themeSettings.themeBrightness, ThemeBrightness.dark);
-      expect(themeSettings.visualDensity, VisualDensity.comfortable);
+      expect(themeSettings.visualDensitySetting,
+          VisualDensitySetting.manual(VisualDensity.comfortable));
     });
 
     test(
@@ -48,26 +50,29 @@ void main() {
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity: VisualDensity.comfortable,
+        defaultVisualDensity:
+            VisualDensitySetting.manual(VisualDensity.comfortable),
         keyValueStore: keyValueStore,
       );
 
       // Will write to cache internally
       themeSettings.textScalingFactor = 1.5;
       themeSettings.themeBrightness = ThemeBrightness.light;
-      themeSettings.visualDensity = VisualDensity.compact;
+      themeSettings.visualDensitySetting =
+          VisualDensitySetting.manual(VisualDensity.compact);
 
       themeSettings = ThemeSettings(
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity: VisualDensity.comfortable,
+        defaultVisualDensity:
+            VisualDensitySetting.manual(VisualDensity.comfortable),
         keyValueStore: keyValueStore,
       );
 
       expect(themeSettings.textScalingFactor, 1.5);
       expect(themeSettings.themeBrightness, ThemeBrightness.light);
-      expect(themeSettings.visualDensity, VisualDensity.compact);
+      expect(themeSettings.visualDensitySetting, VisualDensity.compact);
     });
 
     test('Tracks value changes via analytics', () {
@@ -75,7 +80,8 @@ void main() {
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity: VisualDensity.comfortable,
+        defaultVisualDensity:
+            VisualDensitySetting.manual(VisualDensity.comfortable),
         keyValueStore: keyValueStore,
       );
 
@@ -89,8 +95,8 @@ void main() {
         'ui_brightness_changed': {'brightness': 'system'}
       });
 
-      themeSettings.visualDensity =
-          VisualDensity(horizontal: 1.0, vertical: 1.5);
+      themeSettings.visualDensitySetting = VisualDensitySetting.manual(
+          VisualDensity(horizontal: 1.0, vertical: 1.5));
       expect(localAnalyticsBackend.loggedEvents[2], {
         'ui_visual_density_changed': {
           'visual_density': {'horizontal': 1.0, 'vertical': 1.5}
