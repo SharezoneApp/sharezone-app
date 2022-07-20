@@ -84,6 +84,11 @@ class ExpansionState implements ExpansionBehavior {
 abstract class ExpansionBehavior {
   const ExpansionBehavior();
 
+  static const ExpansionBehavior leaveManuallyOpenedSectionsOpen =
+      _LeaveManuallyOpenedSectionsOpenExpansionBehavior();
+  static const ExpansionBehavior alwaysAutomaticallyCloseSectionsAgain =
+      _AlwaysCloseAgainExpansionBehavior();
+
   static void assertValid({
     @required TocSection before,
     @required TocSection after,
@@ -114,11 +119,6 @@ abstract class ExpansionBehavior {
     @required TocSection before,
     @required TocSection after,
   });
-
-  static const ExpansionBehavior leaveManuallyOpenedSectionsOpen =
-      _LeaveManuallyOpenedSectionsOpenExpansionBehavior();
-  static const ExpansionBehavior alwaysAutomaticallyCloseSectionsAgain =
-      _AlwaysCloseAgainExpansionBehavior();
 }
 
 /// Used in mobile layouts where expanded sections will take more place and just
