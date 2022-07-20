@@ -62,21 +62,26 @@ class CurrentlyReadingSectionController {
 }
 
 class _CurrentlyReadingState {
-  final List<DocumentSectionId> _tocSections;
-  final _HeadingState _lastSeenHeadingState;
-  final _Viewport _viewport;
-  // TODO: Document here and/or in constructor
-  final DocumentSectionId _endOfDocumentSectionId;
+  final List<DocumentSectionId> tocSections;
+  final _Viewport viewport;
+
+  /// The [DocumentSectionId] that is at the very end of the privacy policy.
+  /// It is used to see if the user has reached the bottom of the document.
+  ///
+  /// We use this workaround since we can't access the `ScrollController` of the
+  /// privacy policy text to look at the the scroll position / offset.
+  /// This is because the privacy policy text widget uses
+  /// `ScrollablePositionedList` which doesn't expose its internal
+  /// `ScrollController`.
+  final DocumentSectionId endOfDocumentSectionId;
+  final _HeadingState lastSeenHeadingState;
 
   _CurrentlyReadingState({
-    @required List<DocumentSectionId> tocSections,
-    @required _Viewport viewport,
-    @required DocumentSectionId endOfDocumentSectionId,
-    _HeadingState lastSeenHeadingState,
-  })  : _tocSections = tocSections,
-        _viewport = viewport,
-        _lastSeenHeadingState = lastSeenHeadingState,
-        _endOfDocumentSectionId = endOfDocumentSectionId;
+    @required this.tocSections,
+    @required this.viewport,
+    @required this.endOfDocumentSectionId,
+    this.lastSeenHeadingState,
+  });
 
   DocumentSectionId _currentlyReadSectionOrNull;
   bool _isCached = false;
@@ -93,12 +98,12 @@ class _CurrentlyReadingState {
 
   DocumentSectionId _computeCurrentlyRead() {
     // If we see no section headings on screen...
-    if (_viewport.noHeadingsVisible) {
+    if (viewport.noHeadingsVisible) {
       // ...and we saved what happend with the last section on screen...
-      if (_lastSeenHeadingState != null) {
+      if (lastSeenHeadingState != null) {
         // ... we find the index of the last section on screen...
-        final index = _tocSections
-            .indexWhere((section) => section == _lastSeenHeadingState.id);
+        final index = tocSections
+            .indexWhere((section) => section == lastSeenHeadingState.id);
 
         // TODO: This is thrown if an unknwon heading is the only one on screen
         // and is scrolled out i think?
@@ -106,22 +111,22 @@ class _CurrentlyReadingState {
         // _lastSeenHeadingState?
         if (index == -1) {
           throw ArgumentError(
-              "Can't find section with id ${_lastSeenHeadingState.id} inside allSectionsFlattend ($_tocSections)");
+              "Can't find section with id ${lastSeenHeadingState.id} inside allSectionsFlattend ($tocSections)");
         }
 
         // ... and compute what section we're currently in:
 
         // Special case: We scrolled above the first section.
         if (index == 0 &&
-            _lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
+            lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
           return null;
         }
 
-        if (_lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
-          return _tocSections[index];
-        } else if (_lastSeenHeadingState.scrolledOutAt ==
+        if (lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
+          return tocSections[index];
+        } else if (lastSeenHeadingState.scrolledOutAt ==
             _ScrolledOut.atTheBottom) {
-          return _tocSections[index - 1];
+          return tocSections[index - 1];
         } else {
           throw UnimplementedError();
         }
@@ -133,22 +138,22 @@ class _CurrentlyReadingState {
 
     // Special case: We see the document section that signals to us that the
     // user reached the bottom of the document.
-    final pos = _viewport.getFirstPositionOfOrNull(_endOfDocumentSectionId);
+    final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
     // If the heading is completly visible in the viewport
     if (pos != null && pos.itemTrailingEdge <= 1.0) {
       // then we mark the last section in our table of contents as active
       // (will probably not be the same as [_endOfDocumentSectionId]).
       // For more info see docs of [_endOfDocumentSectionId].
-      return _tocSections.last;
+      return tocSections.last;
     }
 
     // Sections that intersect with or are above the threshold
-    final insideThreshold = _viewport.sectionsInThreshold;
+    final insideThreshold = viewport.sectionsInThreshold;
 
     // If no section headings are inside the threshold...
     if (insideThreshold.isEmpty) {
       // ... we get the index of the top-most section heading on screen...
-      final index = _indexOf(_viewport.sortedHeadingPositions.first);
+      final index = _indexOf(viewport.sortedHeadingPositions.first);
 
       // Special case: If it's the first section we mark no section as currently
       // read since we haven't "entered" the first section since it's below
@@ -159,16 +164,16 @@ class _CurrentlyReadingState {
 
       // ... and mark the section before it as currently read (since our current
       // section is below the threshold):
-      return _tocSections[index - 1];
+      return tocSections[index - 1];
     }
 
     // If there are section headings inside the threshold we just mark the one
     // that is closest to the threshold as currently read:
-    return _viewport.closestToThresholdOrNull?.documentSectionId;
+    return viewport.closestToThresholdOrNull?.documentSectionId;
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
-    return _tocSections
+    return tocSections
         .indexWhere((pos) => pos == headerPosition.documentSectionId);
   }
 
@@ -178,11 +183,11 @@ class _CurrentlyReadingState {
     //
     // Seeing no section heading can happen if we e.g. scroll inside a section
     // with more text than can be displayed on the screen at once.
-    if (_viewport.headingsVisible && updatedViewport.noHeadingsVisible) {
+    if (viewport.headingsVisible && updatedViewport.noHeadingsVisible) {
       // Realistically there should only ever be a single heading but when
       // scrolling really fast it can happen that several headings disappear
       // together.
-      final lastVisible = _viewport.sortedHeadingPositions.first;
+      final lastVisible = viewport.sortedHeadingPositions.first;
 
       final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
           ? _HeadingState(
@@ -210,10 +215,10 @@ class _CurrentlyReadingState {
     _HeadingState lastSeenHeadingState,
   }) {
     return _CurrentlyReadingState(
-      endOfDocumentSectionId: _endOfDocumentSectionId,
-      viewport: viewport ?? _viewport,
-      tocSections: tocSections ?? _tocSections,
-      lastSeenHeadingState: lastSeenHeadingState ?? _lastSeenHeadingState,
+      endOfDocumentSectionId: endOfDocumentSectionId,
+      viewport: viewport ?? this.viewport,
+      tocSections: tocSections ?? this.tocSections,
+      lastSeenHeadingState: lastSeenHeadingState ?? this.lastSeenHeadingState,
     );
   }
 }
