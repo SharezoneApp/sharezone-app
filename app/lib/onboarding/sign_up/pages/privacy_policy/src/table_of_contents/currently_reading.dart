@@ -20,7 +20,7 @@ class CurrentlyReadingSectionController {
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
-  final DocumentSectionId _bottomSectionId = DocumentSectionId('metadaten');
+  DocumentSectionId _bottomSectionId;
 
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId>(null);
@@ -33,9 +33,12 @@ class CurrentlyReadingSectionController {
   CurrentlyReadingSectionController(
     List<DocumentSection> _tocSectionHeadings,
     this._visibleSectionHeadings, {
+    @required DocumentSectionId lastSectionId,
     // TODO: Maybe make required?
     double threshold = 0.1,
   }) {
+    _bottomSectionId = lastSectionId;
+
     final sectionAndSubsectionIds = _tocSectionHeadings
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.documentSectionId)

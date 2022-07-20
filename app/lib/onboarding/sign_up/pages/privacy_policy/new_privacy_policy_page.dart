@@ -82,8 +82,17 @@ class NewPrivacyPolicy extends StatelessWidget {
                               listen: false);
                       return TableOfContentsController(
                         documentSectionController: DocumentSectionController(
-                            dependencies.anchorsController),
+                          dependencies.anchorsController,
+                        ),
                         tocDocumentSections: documentSections,
+                        // We change it when building the different layouts
+                        // anyway so it doesn't really matter what value we use
+                        // here.
+                        initialExpansionBehavior: ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain,
+                        // TODO: Make it change dynamically depending on the
+                        // heading that is really used at the end
+                        lastSectionId: DocumentSectionId('metadata'),
                       );
                     },
                     child: Theme(

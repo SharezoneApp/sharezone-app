@@ -34,11 +34,14 @@ void main() {
       // method below?
       ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections, {
       double threshold = 0.1,
+      String lastSection,
     }) {
       return TestCurrentlyReadingSectionController(
         sections,
         visibleSections,
         threshold: threshold,
+        lastSection:
+            lastSection != null ? DocumentSectionId(lastSection) : null,
       );
     }
 
@@ -536,6 +539,82 @@ void main() {
 
       expect(controller.currentlyReadSection, 'foo');
     });
+
+    test(
+        'When the trailing edge of the "last heading" is <= 1.0 then the last toc section is highlighted',
+        () {
+      final sections = [
+        _section('bar'),
+        _section('baz'),
+      ];
+
+      final controller = _createController(
+        sections,
+        visibleSections,
+        lastSection: 'last-section-id',
+      );
+
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0.6,
+          itemTrailingEdge: 0.7,
+        ),
+        _headingPosition(
+          'last-section-id',
+          itemLeadingEdge: 0.9,
+          // Not 1.0 so it doesn't count yet
+          itemTrailingEdge: 1.1,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'bar');
+
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0.6,
+          itemTrailingEdge: 0.7,
+        ),
+        _headingPosition(
+          'last-section-id',
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 1.0,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'baz');
+
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0.6,
+          itemTrailingEdge: 0.7,
+        ),
+        _headingPosition(
+          'last-section-id',
+          itemLeadingEdge: 0.8,
+          itemTrailingEdge: 0.9,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'baz');
+    });
   });
 }
 
@@ -574,12 +653,14 @@ class TestCurrentlyReadingSectionController {
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
     @required double threshold,
+    DocumentSectionId lastSection,
   }) {
     _tableOfContentsController = TableOfContentsController.internal(
       CurrentlyReadingSectionController(
         _tocSectionHeadings,
         _visibleSectionHeadings,
         threshold: threshold,
+        lastSectionId: lastSection,
       ),
       _tocSectionHeadings,
       (sectionId) => Future.value(),

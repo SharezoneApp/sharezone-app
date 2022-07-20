@@ -122,10 +122,14 @@ class TableOfContentsController extends ChangeNotifier {
     @required DocumentSectionController documentSectionController,
     @required List<DocumentSection> tocDocumentSections,
     @required ExpansionBehavior initialExpansionBehavior,
+    @required DocumentSectionId lastSectionId,
   }) {
     return TableOfContentsController.internal(
-      CurrentlyReadingSectionController(tocDocumentSections,
-          documentSectionController.visibleSectionHeadings),
+      CurrentlyReadingSectionController(
+        tocDocumentSections,
+        documentSectionController.visibleSectionHeadings,
+        lastSectionId: lastSectionId,
+      ),
       tocDocumentSections,
       documentSectionController.scrollToDocumentSection,
       initialExpansionBehavior,
