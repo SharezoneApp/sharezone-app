@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'scan_selection.dart';
 
+/// Defines if the height of the device is too small to use the portrait layout.
+///
+/// If the height of the device of allows to use the portrait layout, the
+/// portrait layout should be used. In cases where this is not possible (e. g. a
+/// smartphone is in landscape mode), the landscape layout should be used.
+bool _shouldUseLandscapeLayout(BuildContext context) {
+  return MediaQuery.of(context).size.height < 500;
+}
+
 class ScanOverlay extends StatelessWidget {
   const ScanOverlay({
     Key? key,
@@ -45,8 +54,13 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscapeLayout = _shouldUseLandscapeLayout(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 400, left: 32, right: 32),
+      padding: EdgeInsets.only(
+        bottom: isLandscapeLayout ? 0 : 400,
+        left: 32,
+        right: isLandscapeLayout ? 500 : 32,
+      ),
       child: DefaultTextStyle(
         style: const TextStyle(
           color: Colors.white,
@@ -76,8 +90,12 @@ class _ToggleTorchButtonState extends State<_ToggleTorchButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscapeLayout = _shouldUseLandscapeLayout(context);
     return Padding(
-      padding: const EdgeInsets.only(top: 500),
+      padding: EdgeInsets.only(
+        top: isLandscapeLayout ? 0 : 500,
+        left: isLandscapeLayout ? 450 : 0,
+      ),
       child: AnimatedSwitcher(
         key: const Key('torch-button-widget-test'),
         duration: const Duration(milliseconds: 300),
