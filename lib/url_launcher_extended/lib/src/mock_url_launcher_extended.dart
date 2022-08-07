@@ -50,8 +50,11 @@ class MockUrlLauncherExtended extends UrlLauncherExtended {
   }
 
   @override
-  Future<bool> tryLaunchMailOrThrow(String address,
-      {String subject, String body}) async {
+  Future<bool> tryLaunchMailOrThrow(
+    String address, {
+    String subject,
+    String body,
+  }) async {
     logCalledLaunchMail = true;
     return true;
   }

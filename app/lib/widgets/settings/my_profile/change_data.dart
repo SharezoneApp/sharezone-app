@@ -11,7 +11,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_utils/platform.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann
 /// Informatiert den Nutzer, wie wir mit seinen Daten umgehen.
@@ -99,16 +98,7 @@ class _ChangeDataPasswordFieldState extends State<ChangeDataPasswordField> {
           onChanged: bloc.changePassword,
           onEditingComplete: () => widget.onEditComplete(),
           autofocus: widget.autofocus,
-          // Autofill sollte im Web mit der Kombination eines StreamBuilders /
-          // FutureBuilders nicht verwendet werden, weil es ansonsten zu
-          // Problemen mit den TextFeldern kommt, wenn ein Error-Text angezeigt
-          // wird.
-          //
-          // Ticket: https://github.com/flutter/flutter/issues/63596
-          //
-          // Sobald dieser Bug behoben ist, kann Autofill fürs Web wieder
-          // verwendet werden.
-          autofillHints: [if (!PlatformCheck.isWeb) AutofillHints.password],
+          autofillHints: const [AutofillHints.password],
           decoration: InputDecoration(
             labelText: widget.labelText,
             errorText: snapshot.error?.toString(),

@@ -14,7 +14,6 @@ import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:group_domain_models/src/models/school_class.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -74,7 +73,6 @@ void main() {
         eventID: 'eventId',
         eventType: Meeting(),
         latestEditor: '',
-        lessonChanges: {},
         sendNotification: false,
         title: 'title',
       );

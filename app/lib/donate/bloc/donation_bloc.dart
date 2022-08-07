@@ -14,7 +14,6 @@ import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:purchases_flutter/errors.dart';
 import 'package:sharezone/donate/analytics/donation_analytics.dart';
-import 'package:sharezone/donate/donation_service/donation_item.dart';
 import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/donate/page/donation_item_view.dart';
 import 'package:sharezone_utils/platform.dart';

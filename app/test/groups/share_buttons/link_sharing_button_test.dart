@@ -8,7 +8,6 @@
 
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';

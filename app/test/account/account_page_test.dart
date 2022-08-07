@@ -8,12 +8,10 @@
 
 import 'package:app_functions/src/app_functions_result.dart';
 import 'package:authentification_base/authentification.dart';
-import 'package:authentification_base/src/models/auth_user.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -121,7 +119,7 @@ class MockUserGateway implements UserGateway {
   }
 
   @override
-  void dispose() {}
+  Future<void> dispose() async {}
 
   @override
   Future<AppUser> get() {

@@ -42,7 +42,8 @@ class BlackboardPageBloc extends BlocBase {
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
+    await _viewsSubject.drain();
     _viewsSubject.close();
   }
 }

@@ -9,7 +9,6 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
 import 'package:sharezone_about_page_addon/game/game.dart';
 import 'package:sharezone_about_page_addon/game/t_rex/config.dart';
 
@@ -45,7 +44,7 @@ class TRex extends PositionComponent with HasGameRef<TRexGame> {
   }
 
   @override
-  Future? onLoad() {
+  Future<void> onLoad() async {
     addChild(idleDino);
     addChild(runningDino);
     addChild(jumpingTRex);

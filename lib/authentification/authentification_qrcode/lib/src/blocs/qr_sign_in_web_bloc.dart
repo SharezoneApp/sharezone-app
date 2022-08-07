@@ -17,7 +17,6 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:util/encryption.dart';

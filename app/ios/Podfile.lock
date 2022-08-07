@@ -105,7 +105,7 @@ PODS:
   - firebase_core (1.10.5):
     - Firebase/CoreOnly (= 8.9.0)
     - Flutter
-  - firebase_crashlytics (2.4.3):
+  - firebase_crashlytics (2.6.3):
     - Firebase/Crashlytics (= 8.9.0)
     - firebase_core
     - Flutter
@@ -283,10 +283,10 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
-  - jitsi_meet (0.0.1):
+  - jitsi_meet_wrapper (0.0.1):
     - Flutter
-    - JitsiMeetSDK (= 3.3.0)
-  - JitsiMeetSDK (3.3.0)
+    - JitsiMeetSDK (= 5.0.2)
+  - JitsiMeetSDK (5.0.2)
   - libwebp (1.2.1):
     - libwebp/demux (= 1.2.1)
     - libwebp/mux (= 1.2.1)
@@ -344,7 +344,7 @@ PODS:
   - SwiftyGif (5.4.1)
   - url_launcher_ios (0.0.1):
     - Flutter
-  - video_player (0.0.1):
+  - video_player_avfoundation (0.0.1):
     - Flutter
   - wakelock (0.0.1):
     - Flutter
@@ -375,7 +375,7 @@ DEPENDENCIES:
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
-  - jitsi_meet (from `.symlinks/plugins/jitsi_meet/ios`)
+  - jitsi_meet_wrapper (from `.symlinks/plugins/jitsi_meet_wrapper/ios`)
   - native_pdf_renderer (from `.symlinks/plugins/native_pdf_renderer/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -388,7 +388,7 @@ DEPENDENCIES:
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
 
 SPEC REPOS:
@@ -482,8 +482,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
-  jitsi_meet:
-    :path: ".symlinks/plugins/jitsi_meet/ios"
+  jitsi_meet_wrapper:
+    :path: ".symlinks/plugins/jitsi_meet_wrapper/ios"
   native_pdf_renderer:
     :path: ".symlinks/plugins/native_pdf_renderer/ios"
   open_file:
@@ -508,8 +508,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
-  video_player:
-    :path: ".symlinks/plugins/video_player/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
 
@@ -528,14 +528,14 @@ SPEC CHECKSUMS:
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  fast_rsa: 22fec92c481d28d1624f3be7829841658759ca52
+  fast_rsa: c4c0090842efc2eaefe7d650ec5f8021ed05e76b
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_analytics: 7a7528bb2abf4ca22cff7a57bbf909dcab73e13d
   firebase_auth: fe3a1deb12ebd850295344234abc15588d086baf
   firebase_auth_oauth: 2b6873838f5712f414740e98679481bbea640bd3
   firebase_core: dfcae4c150a5e24436a0b7677c470478a234d5bf
-  firebase_crashlytics: 6713843d68feb3cefa1471e20dfaa72b934d6db8
+  firebase_crashlytics: cbd19db068714f8c2319491042f06fc2d2c65bcb
   firebase_dynamic_links: 6aa278fc5e6e8cca17d5aa4c7aa46283f2b94749
   firebase_messaging: 1109f5449638254c47fb5904d24e11a4d7736c77
   firebase_performance: a87be8f45dda8d075c9ae75b1b64353aa33dd49f
@@ -567,9 +567,9 @@ SPEC CHECKSUMS:
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
-  integration_test: 7db6d89f336f671dcbc7563ee27a5b08f6f8aee1
-  jitsi_meet: a797e5ffdbc1da9d424c52b1bfe3b2a803b05e31
-  JitsiMeetSDK: 3b1d3757f2166b28cd03f907b47091db064302b3
+  integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
+  jitsi_meet_wrapper: f78c5a212de5dfbadcd81ce559217f3661a26ce7
+  JitsiMeetSDK: edcac8e2b92ee0c7f3e75bd0aefefbe9faccfc93
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
   Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
@@ -593,9 +593,9 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6895c887f5551618a3c5dd3ecb512419105bacca
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: 043a42efaa3cc041591ac017700c2c66164135b5
+PODFILE CHECKSUM: f01f8cc3a09573f5dcc4b182c97727831629994f
 
 COCOAPODS: 1.11.2

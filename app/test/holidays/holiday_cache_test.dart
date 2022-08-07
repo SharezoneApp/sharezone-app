@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:built_collection/built_collection.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:sharezone/util/holidays/state.dart';
 import "package:test/test.dart";

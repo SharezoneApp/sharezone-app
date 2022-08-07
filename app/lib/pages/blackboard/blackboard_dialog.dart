@@ -63,16 +63,13 @@ class _BlackboardDialogState extends State<BlackboardDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColorBrightness: Brightness.dark),
-      child: BlocProvider(
+    return BlocProvider(
+      bloc: bloc,
+      child: _BlackboardDialog(
+        oldBlackboardItem: widget.blackboardItem,
+        course: widget.course,
+        popTwice: widget.popTwice,
         bloc: bloc,
-        child: _BlackboardDialog(
-          oldBlackboardItem: widget.blackboardItem,
-          course: widget.course,
-          popTwice: widget.popTwice,
-          bloc: bloc,
-        ),
       ),
     );
   }

@@ -11,13 +11,20 @@ import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
+import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/widgets/alpha_version_banner.dart';
+import 'package:sharezone/widgets/animation/color_fade_in.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_widgets/theme.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
@@ -72,22 +79,86 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: signUpBloc,
-      child: StreamBuilder<AuthUser>(
-        stream: listenToAuthStateChanged(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            widget.blocDependencies.authUser = snapshot.data;
-            return SharezoneApp(widget.blocDependencies, Sharezone.analytics,
-                widget.beitrittsversuche);
-          }
-          return AuthApp(
-            blocDependencies: widget.blocDependencies,
-            analytics: Sharezone.analytics,
-          );
-        },
+    return OverlaySupport(
+      child: DynamicLinkOverlay(
+        einkommendeLinks: widget.dynamicLinkBloc.einkommendeLinks,
+        child: ColorFadeIn(
+          color: PlatformCheck.isWeb ? Colors.white : primaryColor,
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: _ThemeSettingsProvider(
+              blocDependencies: widget.blocDependencies,
+              child: AlphaVersionBanner(
+                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
+                    'ALPHA',
+                child: Stack(
+                  children: [
+                    BlocProvider(
+                      bloc: signUpBloc,
+                      child: StreamBuilder<AuthUser>(
+                        stream: listenToAuthStateChanged(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            widget.blocDependencies.authUser = snapshot.data;
+                            return SharezoneApp(widget.blocDependencies,
+                                Sharezone.analytics, widget.beitrittsversuche);
+                          }
+                          return AuthApp(
+                            blocDependencies: widget.blocDependencies,
+                            analytics: Sharezone.analytics,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _ThemeSettingsProvider extends StatelessWidget {
+  const _ThemeSettingsProvider({this.child, this.blocDependencies, Key key})
+      : super(key: key);
+
+  final Widget child;
+  final BlocDependencies blocDependencies;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ThemeSettings(
+        analytics: blocDependencies.analytics,
+        defaultTextScalingFactor: 1.0,
+        defaultThemeBrightness: ThemeBrightness.system,
+        defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+        keyValueStore: blocDependencies.keyValueStore,
+      ),
+      child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
+        /// If we didn't use MediaQuery.fromWindow and just provide a new
+        /// MediaQuery with our custom textScalingFactor the UI breaks in
+        /// several different weird ways.
+        /// Thus we use MediaQuery.fromWindow which is the method that Flutter
+        /// uses internally inside MaterialApp etc to create a new MediaQuery.
+        return MediaQuery.fromWindow(
+          child: Builder(builder: (context) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: themeSettings.textScalingFactor,
+              ),
+              child: Theme(
+                data: Theme.of(context)
+                    .copyWith(visualDensity: themeSettings.visualDensity),
+                child: child,
+              ),
+            );
+          }),
+        );
+      }),
     );
   }
 }

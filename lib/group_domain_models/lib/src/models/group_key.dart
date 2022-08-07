@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'group_type.dart';
 
 class GroupKey {

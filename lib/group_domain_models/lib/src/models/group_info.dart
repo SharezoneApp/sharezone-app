@@ -9,8 +9,6 @@
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:design/design.dart';
-import 'group_type.dart';
-import 'member_role.dart';
 
 class GroupInfo {
   final String id;

@@ -63,10 +63,10 @@ class KiloByteSize implements Comparable<KiloByteSize> {
 
   /// Divides the size by the [other] and returns the (truncated) result.
   ///
-  /// Throws [IntegerDivisionByZeroException] if other is exactly 0 bytes.
+  /// Throws [UnsupportedError] if other is exactly 0 bytes.
   KiloByteSize operator ~/(KiloByteSize other) {
     if (other.inBytes == 0) {
-      throw IntegerDivisionByZeroException();
+      throw UnsupportedError('Cannot divide by zero.');
     }
     return KiloByteSize._bytes(inBytes ~/ other.inBytes);
   }
