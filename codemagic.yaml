@@ -59,11 +59,11 @@ workflows:
       - build/ios/ipa/*.ipa
     publishing:
       scripts:
+        - name: Add Dart SDK to PATH
+          script: |
+            echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
+            echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
         - name: Post App Preview
           script: |
-            # Get App Preview CLI
-            git clone https://github.com/nilsreichardt/codemagic-app-preview.git
-            cd codemagic-app-preview
-            $FLUTTER_ROOT/bin/dart pub get
-
-            $FLUTTER_ROOT/bin/dart run codemagic_app_preview post --token $GITHUB_PAT --owner SharezoneApp --repo sharezone-app
+            dart pub global activate codemagic_app_preview
+            app_preview post --gh_token $GITHUB_PAT
