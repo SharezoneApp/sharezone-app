@@ -32,8 +32,8 @@ workflows:
     environment:
       groups:
         - github
-        # - ios-publishing
-        # - certificate_credentials
+        - ios-publishing
+        - certificate_credentials
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
       flutter: v2.10.5
@@ -46,14 +46,14 @@ workflows:
         script: flutter pub get
       - name: Build APK
         script: flutter build apk --debug --flavor dev
-      # - name: iOS Code signing
-      #   script: |
-      #     keychain initialize
-      #     app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
-      #     keychain add-certificates
-      #     xcode-project use-profiles
-      # - name: Build IPA
-      #   script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+      - name: iOS Code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Build IPA
+        script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa
