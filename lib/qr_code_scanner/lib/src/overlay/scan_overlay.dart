@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'scan_selection.dart';
+import 'scan_area.dart';
 
 /// Defines if the height of the device is too small to use the portrait layout.
 ///
 /// If the height of the device of allows to use the portrait layout, the
-/// portrait layout should be used. In cases where this is not possible (e. g. a
+/// portrait layout should be used. In cases where this is not possible (e.g. a
 /// smartphone is in landscape mode), the landscape layout should be used.
 bool _shouldUseLandscapeLayout(BuildContext context) {
   return MediaQuery.of(context).size.height < 500;
 }
 
+/// A overlay widget that displays a scan selection, a button to toggle the
+/// torch (if [hasTorch] is true) and optionally a description text.
 class ScanOverlay extends StatelessWidget {
   const ScanOverlay({
     Key? key,
@@ -19,8 +21,17 @@ class ScanOverlay extends StatelessWidget {
     this.onTorchToggled,
   }) : super(key: key);
 
+  /// A description that is displayed below the scan selection or on the left
+  /// side of the scan area.
   final Widget? description;
+
+  /// A callback that is called when the torch is toggled.
   final VoidCallback? onTorchToggled;
+
+  /// Defines if the device has a torch.
+  ///
+  /// Some devices do not have a torch. In this case, the torch button should
+  /// not be displayed.
   final bool hasTorch;
 
   @override
@@ -29,7 +40,7 @@ class ScanOverlay extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          const ScanSelectionOverlay(),
+          const ScanArea(),
           if (hasTorch)
             _ToggleTorchButton(
               onTorchToggled: onTorchToggled,

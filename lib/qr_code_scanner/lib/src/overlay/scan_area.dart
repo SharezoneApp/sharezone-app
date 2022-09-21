@@ -2,12 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ScanSelectionOverlay extends StatelessWidget {
-  const ScanSelectionOverlay({
+/// A widget that indicates a scan selection in the middle of the screen.
+class ScanArea extends StatelessWidget {
+  const ScanArea({
     Key? key,
     this.color = Colors.white,
   }) : super(key: key);
 
+  /// The color of the scan selection corners.
+  ///
+  /// Defaults to [Colors.white].
   final Color color;
 
   @override
@@ -17,7 +21,7 @@ class ScanSelectionOverlay extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         const CustomPaint(
-          painter: ScanSelectionPainter(width: width),
+          painter: _ScanSelectionPainter(width: width),
         ),
         _ScanSelectionCorner(
           width: width,
@@ -28,11 +32,14 @@ class ScanSelectionOverlay extends StatelessWidget {
   }
 }
 
-class ScanSelectionPainter extends CustomPainter {
-  const ScanSelectionPainter({
-    this.width = 200,
+class _ScanSelectionPainter extends CustomPainter {
+  const _ScanSelectionPainter({
+    this.width = 250,
   });
 
+  /// The width of the scan selection.
+  ///
+  /// Defaults to 250.
   final double width;
 
   @override
@@ -57,11 +64,17 @@ class ScanSelectionPainter extends CustomPainter {
 }
 
 class _ScanSelectionCorner extends StatelessWidget {
-  const _ScanSelectionCorner(
-      {Key? key, this.color = Colors.black, this.width = 200})
-      : super(key: key);
+  const _ScanSelectionCorner({
+    Key? key,
+    this.color = Colors.white,
+    this.width = 200,
+  }) : super(key: key);
 
+  /// The color of the scan selection corners.
+  ///
+  /// Defaults to [Colors.white].
   final Color color;
+
   final double width;
 
   @override
@@ -70,24 +83,36 @@ class _ScanSelectionCorner extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CustomPaint(
-          painter: CornerBorderPainter(color: color, width: width),
+          painter: _CornerBorderPainter(
+            color: color,
+            width: width,
+          ),
         ),
         Transform.rotate(
           angle: pi,
           child: CustomPaint(
-            painter: CornerBorderPainter(color: color, width: width),
+            painter: _CornerBorderPainter(
+              color: color,
+              width: width,
+            ),
           ),
         ),
         Transform.rotate(
           angle: pi / 2,
           child: CustomPaint(
-            painter: CornerBorderPainter(color: color, width: width),
+            painter: _CornerBorderPainter(
+              color: color,
+              width: width,
+            ),
           ),
         ),
         Transform.rotate(
           angle: pi / -2,
           child: CustomPaint(
-            painter: CornerBorderPainter(color: color, width: width),
+            painter: _CornerBorderPainter(
+              color: color,
+              width: width,
+            ),
           ),
         ),
       ],
@@ -95,15 +120,29 @@ class _ScanSelectionCorner extends StatelessWidget {
   }
 }
 
-class CornerBorderPainter extends CustomPainter {
-  CornerBorderPainter({
-    this.color = Colors.black,
+/// A painter that draws rounded corners.
+class _CornerBorderPainter extends CustomPainter {
+  const _CornerBorderPainter({
+    this.color = Colors.white,
     this.strokeWidth = 5,
-    this.width = 200,
+    this.width = 250,
   });
 
+  /// The color of the scan selection corners.
+  ///
+  /// Defaults to [Colors.white].
   final Color color;
+
+  /// The stroke of the corner border.
+  ///
+  /// Defaults to 5.
   final double strokeWidth;
+
+  /// The width of the scan selection.
+  ///
+  /// Is used to calculate the position of the corner border.
+  ///
+  /// Defaults to 250.
   final double width;
 
   @override
