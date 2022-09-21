@@ -21,7 +21,7 @@ class ScanArea extends StatelessWidget {
     this.width = 250,
   }) : super(key: key);
 
-  /// The color of the scan selection corners.
+  /// The color of the scan area corners.
   ///
   /// Defaults to [Colors.white].
   final Color color;
@@ -39,7 +39,7 @@ class ScanArea extends StatelessWidget {
         CustomPaint(
           painter: _ScanSelectionPainter(width: width),
         ),
-        _ScanSelectionCorner(
+        _Corners(
           width: width,
           color: color,
         ),
@@ -79,11 +79,11 @@ class _ScanSelectionPainter extends CustomPainter {
   }
 }
 
-class _ScanSelectionCorner extends StatelessWidget {
-  const _ScanSelectionCorner({
+class _Corners extends StatelessWidget {
+  const _Corners({
     Key? key,
     this.color = Colors.white,
-    this.width = 200,
+    this.width = 250,
   }) : super(key: key);
 
   /// The color of the scan selection corners.
@@ -91,6 +91,9 @@ class _ScanSelectionCorner extends StatelessWidget {
   /// Defaults to [Colors.white].
   final Color color;
 
+  /// The width of the visual scan area.
+  ///
+  /// Defaults to 250.
   final double width;
 
   @override
