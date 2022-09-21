@@ -23,6 +23,7 @@ Future<String?> scanQrCode(
   BuildContext context, {
   Widget? title = const Text('Scan QR Code'),
   Widget? description,
+  RouteSettings? settings,
 }) {
   return Navigator.push(
     context,
@@ -31,6 +32,7 @@ Future<String?> scanQrCode(
         title: title,
         description: description,
       ),
+      settings: settings,
     ),
   );
 }
