@@ -25,7 +25,7 @@ Future<String?> scanQrCode(
   Widget? description,
   RouteSettings? settings,
 }) {
-  return Navigator.push(
+  return Navigator.push<String?>(
     context,
     MaterialPageRoute(
       builder: (context) => _ScanQrCodePage(
