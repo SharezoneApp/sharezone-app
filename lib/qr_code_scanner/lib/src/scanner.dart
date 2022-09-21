@@ -52,6 +52,7 @@ class _ScannerState extends State<Scanner> {
     return Stack(
       children: [
         MobileScanner(
+          controller: controller,
           fit: BoxFit.cover,
           onDetect: (barcode, args) {
             if (widget.onDetect != null && barcode.rawValue != null) {

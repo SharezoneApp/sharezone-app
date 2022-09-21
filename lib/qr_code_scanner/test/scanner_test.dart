@@ -1,20 +1,59 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import 'scanner_test.mocks.dart';
+class FakeMobileScannerController extends Fake
+    implements MobileScannerController {
+  @override
+  final ValueNotifier<MobileScannerArguments?> args = ValueNotifier(
+    MobileScannerArguments(
+      hasTorch: true,
+      size: const Size(100, 100),
+      textureId: 0,
+    ),
+  );
 
-@GenerateMocks([MobileScannerController])
+  @override
+  final StreamController<Barcode> barcodesController =
+      StreamController<Barcode>();
+
+  @override
+  Stream<Barcode> get barcodes => barcodesController.stream;
+
+  @override
+  bool hasTorch = true;
+
+  @override
+  void handleEvent(Map map) {
+    barcodesController.add(Barcode(
+      rawValue: map['data'],
+    ));
+  }
+
+  @override
+  Future<void> toggleTorch() async {
+    hasTorch = !hasTorch;
+  }
+
+  @override
+  void dispose() {
+    barcodesController.close();
+  }
+}
+
 void main() {
   group('Scanner', () {
+    late FakeMobileScannerController controller;
+
+    setUp(() {
+      controller = FakeMobileScannerController();
+    });
+
     testWidgets('should turn on the torch when pressing the torch icon',
         (tester) async {
-      final controller = MockMobileScannerController();
-      when(controller.hasTorch).thenReturn(true);
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -25,32 +64,30 @@ void main() {
 
       await tester.tap(find.byKey(const Key('torch-button-widget-test')));
 
-      verify(controller.toggleTorch()).called(1);
+      expect(controller.hasTorch, false);
     });
 
-    testWidgets(
-      ('should return the scanned qr code value when detecting an qr code'),
-      (tester) async {
-        final controller = MockMobileScannerController();
-        String? scannedQrCode;
+    testWidgets('should return the detected qr code', (tester) async {
+      String? scannedQrCode;
 
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: Scanner(
-                controller: controller,
-                onDetect: (qrCode) {
-                  scannedQrCode = qrCode;
-                },
-              ),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Scanner(
+              controller: controller,
+              onDetect: (qrCode) {
+                scannedQrCode = qrCode;
+              },
             ),
           ),
-        );
+        ),
+      );
 
-        controller.barcodesController.add(Barcode(rawValue: 'myQrCode'));
+      // Simulate a detected qr code
+      controller.handleEvent({'data': 'myQrCode'});
+      await tester.pump();
 
-        expect(scannedQrCode, 'myQrCode');
-      },
-    );
+      expect(scannedQrCode, 'myQrCode');
+    });
   });
 }
