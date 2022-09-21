@@ -2,7 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-/// A widget that indicates a scan selection in the middle of the screen.
+/// A widget that indicates a scan area in the middle of the screen.
+///
+/// Technically, everything that is covered by the camera could be scanned. The
+/// [ScanArea] is just a visual indicator for the user.
 class ScanArea extends StatelessWidget {
   const ScanArea({
     Key? key,

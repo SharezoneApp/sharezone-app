@@ -38,6 +38,8 @@ class _ScanQrCodePage extends StatelessWidget {
   /// The title that is displayed at the top in the [AppBar]
   final Widget? title;
 
+  /// A description that is displayed above the scan area or on the left side of
+  /// the scan area.
   final Widget? description;
 
   @override
