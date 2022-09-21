@@ -67,9 +67,40 @@ void main() {
       expect(controller.hasTorch, false);
     });
 
+    testWidgets('should not display the torch if device has no torch',
+        (tester) async {
+      controller.hasTorch = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Scanner(controller: controller),
+          ),
+        ),
+      );
+
+      expect(find.byKey(const Key('torch-button-widget-test')), findsNothing);
+    });
+
+    testWidgets('should display the description', (tester) async {
+      controller.hasTorch = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Scanner(
+              controller: controller,
+              description: const Text('Hello! I am a description!'),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Hello! I am a description!'), findsOneWidget);
+    });
+
     testWidgets('should return the detected qr code', (tester) async {
       String? scannedQrCode;
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
