@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  mobile_scanner: ^1.0.0
+  mobile_scanner: ^1.1.2-play-services
 
 dev_dependencies:
   flutter_test:
