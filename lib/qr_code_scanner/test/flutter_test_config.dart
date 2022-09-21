@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+/// Configurations for the [GoldenToolkit] library.
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   const Device phoneLandscape = Device(
     name: 'phone_landscape',
