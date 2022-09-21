@@ -6,51 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class FakeMobileScannerController extends Fake
-    implements MobileScannerController {
-  @override
-  final ValueNotifier<MobileScannerArguments?> args = ValueNotifier(
-    MobileScannerArguments(
-      hasTorch: true,
-      size: const Size(100, 100),
-      textureId: 0,
-    ),
-  );
-
-  @override
-  final StreamController<Barcode> barcodesController =
-      StreamController<Barcode>();
-
-  @override
-  Stream<Barcode> get barcodes => barcodesController.stream;
-
-  @override
-  bool hasTorch = true;
-
-  @override
-  void handleEvent(Map map) {
-    barcodesController.add(Barcode(
-      rawValue: map['data'],
-    ));
-  }
-
-  @override
-  Future<void> toggleTorch() async {
-    hasTorch = !hasTorch;
-  }
-
-  @override
-  void dispose() {
-    barcodesController.close();
-  }
-}
+import 'fake_mobile_scanner_controller.dart';
 
 void main() {
   group('Scanner', () {
