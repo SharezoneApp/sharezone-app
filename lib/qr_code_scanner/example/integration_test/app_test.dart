@@ -11,18 +11,14 @@ void main() {
   //
   // And you need to grand the permission to access the camera.
   testWidgets(
-    "scan qr code",
+    "scan the qr code from the camera",
     (tester) async {
       await tester.pumpWidget(const ExampleApp());
 
       await tester.tap(find.byKey(const Key('scan-qr-code-button-e2e')));
       await tester.pumpAndSettle();
 
-      // await tester.pump(const Duration(seconds: 10));
-
       await waitFor(tester, find.byKey(const Key('scan-qr-code-button-e2e')));
-
-      print("FSA");
 
       expect(
         find.text('Received QR code: https://sharez.one/pGmfH4rTQeuxXbLE6'),
@@ -32,7 +28,7 @@ void main() {
     // Not working at the moment. Sometimes the camera does not include the
     // screenshot and otherwise you get a 'PlatformException(error, No active
     // stream to cancel, null, null)' error.
-    skip: false,
+    skip: true,
     // At the moment only for Android the setup for this test is known.
     variant: TargetPlatformVariant.only(TargetPlatform.android),
   );
