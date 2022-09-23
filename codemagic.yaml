@@ -27,7 +27,6 @@
 workflows:
   app-preview:
     name: App Preview
-    instance_type: mac_mini
     max_build_duration: 75
     environment:
       groups:
@@ -44,8 +43,8 @@ workflows:
     scripts:
       - name: Install dependencies
         script: flutter pub get
-      - name: Build APK
-        script: flutter build apk --debug --flavor dev
+      # - name: Build APK
+      #   script: flutter build apk --debug --flavor dev
       - name: iOS Code signing
         script: |
           keychain initialize
