@@ -49,12 +49,9 @@ class SharezoneMaterialApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
         color: primaryColor,
-        darkTheme: themeSettings.themeBrightness == ThemeBrightness.system
-            ? _darkTheme
-            : null,
-        theme: themeSettings.themeBrightness == ThemeBrightness.dark
-            ? _darkTheme
-            : _lightTheme,
+        darkTheme: _darkTheme,
+        theme: _lightTheme,
+        themeMode: _getThemeMode(themeSettings.themeBrightness),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -75,4 +72,16 @@ class SharezoneMaterialApp extends StatelessWidget {
       ),
     );
   }
+}
+
+ThemeMode _getThemeMode(ThemeBrightness themeBrightness) {
+  switch (themeBrightness) {
+    case ThemeBrightness.dark:
+      return ThemeMode.dark;
+    case ThemeBrightness.light:
+      return ThemeMode.light;
+    case ThemeBrightness.system:
+      return ThemeMode.system;
+  }
+  throw UnimplementedError();
 }
