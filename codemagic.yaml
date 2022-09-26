@@ -34,6 +34,7 @@ workflows:
         - ios-publishing
         - android_publishing
         - certificate_credentials
+        - test
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
       flutter: v2.10.5
@@ -43,6 +44,13 @@ workflows:
       cancel_previous_builds: true
     working_directory: app
     scripts:
+      - name: Just print the credential
+        script: |
+          echo $top_secret_test
+      - name: Write to file
+        script: |
+          echo $top_secret_test >> secret.txt
+          cat secret.txt
       - name: iOS code signing
         script: |
           keychain initialize
