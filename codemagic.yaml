@@ -75,4 +75,4 @@ workflows:
         - name: Post App Preview
           script: |
             dart pub global activate codemagic_app_preview
-            app_preview post --gh_token $GITHUB_PAT
+            app_preview post --gh_token $GITHUB_PAT --message "Please not that only Sharezone Team members are able to install the iOS app."
