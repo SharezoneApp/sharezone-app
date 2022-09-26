@@ -40,6 +40,7 @@ workflows:
     triggering:
       events:
         - pull_request
+      cancel_previous_builds: true
     working_directory: app
     scripts:
       - name: iOS code signing
