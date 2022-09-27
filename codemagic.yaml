@@ -60,6 +60,7 @@ workflows:
         script: |
           dart pub global activate fvm 
           fvm install
+          fvm list
       - name: iOS code signing
         script: |
           keychain initialize
