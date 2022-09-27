@@ -20,11 +20,11 @@ on:
       - reopened
       - closed
 
-# Declare default permissions as read only.
+# Declare default permissions as none.
 #
 # Having workflows without default permissions is considered a bad security
 # practice and it is causing alerts from our scanning tools.
-permissions: read-all
+permissions: {}
 
 jobs:
   # This workflow applies labels to pull requests based on the paths that are
