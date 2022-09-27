@@ -60,7 +60,8 @@ workflows:
         script: |
           dart pub global activate fvm 
           fvm install
-          fvm list
+          echo PATH="$PATH":"/Users/builder/fvm/default/bin" >> $CM_ENV
+          flutter --version
       - name: iOS code signing
         script: |
           keychain initialize
