@@ -45,6 +45,7 @@ workflows:
           - "app/**"
           - "lib/**"
           - "codemagic.yaml"
+          - ".fvm/fvm_config.json"
         excludes:
           - "*.md"
     triggering:
