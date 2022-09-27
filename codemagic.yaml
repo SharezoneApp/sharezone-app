@@ -37,20 +37,29 @@ workflows:
         - test
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
-      flutter: v2.10.5
+      # We won't use this Flutter version because we are going to download FVM
+      # later and use the specified Flutter version in our repository.
+      #
+      # As predefined Flutter version we are using here the newest stable
+      # version because this version is preinstalled on Codemagic VMs.
+      flutter: stable
     triggering:
       events:
         - pull_request
       cancel_previous_builds: true
     working_directory: app
     scripts:
-      - name: Just print the credential
+      - name: Add Dart SDK to PATH
         script: |
-          echo $top_secret_test
-      - name: Write to file
+          echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
+          echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
+      - name: Install FVM
+        # Settings working directory back to the root of the repository because
+        # there is our .fvm folder with all the FVM configurations.
+        working_directory: .
         script: |
-          echo $top_secret_test >> secret.txt
-          cat secret.txt
+          dart pub global activate fvm 
+          fvm install
       - name: iOS code signing
         script: |
           keychain initialize
@@ -67,11 +76,11 @@ workflows:
           storeFile=key.jks
           EOF
       - name: Install dependencies
-        script: flutter pub get
+        script: fvm flutter pub get
       - name: Build APK
-        script: flutter build apk --flavor dev
+        script: fvm flutter build apk --flavor dev
       - name: Build IPA
-        script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist --flavor dev
+        script: fvm flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa
