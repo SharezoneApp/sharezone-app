@@ -37,31 +37,13 @@ workflows:
         - test
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
-      # We won't use this Flutter version because we are going to download FVM
-      # later and use the specified Flutter version in our repository.
-      #
-      # As predefined Flutter version we are using here the newest stable
-      # version because this version is preinstalled on Codemagic VMs.
-      flutter: stable
+      flutter: v2.10.5
     triggering:
       events:
         - pull_request
       cancel_previous_builds: true
     working_directory: app
     scripts:
-      - name: Add Dart SDK to PATH
-        script: |
-          echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
-          echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
-      - name: Install FVM
-        # Settings working directory back to the root of the repository because
-        # there is our .fvm folder with all the FVM configurations.
-        working_directory: .
-        script: |
-          dart pub global activate fvm 
-          fvm install
-          echo PATH="$PATH":"/Users/builder/fvm/default/bin" >> $CM_ENV
-          flutter --version
       - name: iOS code signing
         script: |
           keychain initialize
@@ -88,6 +70,10 @@ workflows:
       - build/ios/ipa/*.ipa
     publishing:
       scripts:
+        - name: Add Dart SDK to PATH
+          script: |
+            echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
+            echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
         - name: Post App Preview
           script: |
             dart pub global activate codemagic_app_preview
