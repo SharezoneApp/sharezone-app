@@ -61,7 +61,6 @@ workflows:
           dart pub global activate fvm 
           fvm install
           echo PATH="$PATH":"/Users/builder/fvm/default/bin" >> $CM_ENV
-          fvm global
           flutter --version
       - name: iOS code signing
         script: |
