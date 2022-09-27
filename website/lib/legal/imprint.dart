@@ -11,7 +11,7 @@ class Imprint {
   /// Nils Reichardt
   ///
   /// **Kontakt:**
-  /// Telefon: +49 1516 7754541
+  /// Telefon: +49 15678 612205
   /// E-Mail: support@sharezone.net
   final String asMarkdown;
 
@@ -30,7 +30,7 @@ Nils Reichardt
 \n
 ### **Kontakt:**
 
-Telefon: +49 1516 7754541\n
+Telefon: +49 15678 612205\n
 E-Mail: support@sharezone.net""");
   }
 
