@@ -60,11 +60,11 @@ workflows:
           storeFile=key.jks
           EOF
       - name: Install dependencies
-        script: fvm flutter pub get
+        script: flutter pub get
       - name: Build APK
-        script: fvm flutter build apk --flavor dev
+        script: flutter build apk --flavor dev
       - name: Build IPA
-        script: fvm flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist --flavor dev
+        script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa
