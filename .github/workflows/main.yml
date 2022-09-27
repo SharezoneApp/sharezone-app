@@ -46,6 +46,13 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Try a thing
+        env:
+          SECRET_TEST: ${{ secrets.SECRET_TEST }}
+        run: |
+          echo $SECRET_TEST >> my_secret.txt
+          cat my_secret.txt
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
