@@ -86,10 +86,6 @@ workflows:
       - build/ios/ipa/*.ipa
     publishing:
       scripts:
-        - name: Add Dart SDK to PATH
-          script: |
-            echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
-            echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
         - name: Post App Preview
           script: |
             dart pub global activate codemagic_app_preview
