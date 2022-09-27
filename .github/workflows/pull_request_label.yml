@@ -1,0 +1,30 @@
+name: Pull Request Labeler
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+
+# Declare default permissions as read only.
+#
+# Having workflows without default permissions is considered a bad security
+# practice and it is causing alerts from our scanning tools.
+permissions: read-all
+
+jobs:
+  # This workflow applies labels to pull requests based on the paths that are
+  # modified in the pull request.
+  #
+  # Edit `.github/labeler.yml` to configure labels.
+  #
+  # For more information, see: https://github.com/actions/labeler
+  label:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/labeler@a96e5aec3e3d5caaefde174986c02d40560a0b91
