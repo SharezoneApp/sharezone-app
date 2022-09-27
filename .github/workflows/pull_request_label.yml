@@ -6,10 +6,14 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-name: Pull Request Labeler
+name: pull-request-labeler
 
 on:
-  pull_request_target:
+  # Trigger "pull_request" would not work for pull request from a fork because
+  # the secrets would be not accessible. "pull_request_target" uses the context
+  # from the base branch which allows to use secrets for pull requests from a
+  # fork.
+  pull_request:
     types:
       - opened
       - synchronize
@@ -36,3 +40,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/labeler@a96e5aec3e3d5caaefde174986c02d40560a0b91
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
