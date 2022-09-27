@@ -10,7 +10,7 @@ jobs:
   # Edit `.github/labeler.yml` to configure labels.
   #
   # For more information, see: https://github.com/actions/labeler
-  test:
+  test-1:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
