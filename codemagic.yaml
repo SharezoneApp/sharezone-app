@@ -37,6 +37,16 @@ workflows:
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app
       flutter: v2.10.5
+    when:
+      # To save Codemagic usage we only run the tests for non draft PRs
+      condition: not event.pull_request.draft
+      changeset:
+        includes:
+          - "app/**"
+          - "lib/**"
+          - "codemagic.yaml"
+        excludes:
+          - "*.md"
     triggering:
       events:
         - pull_request
