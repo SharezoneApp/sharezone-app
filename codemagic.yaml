@@ -69,7 +69,7 @@ workflows:
         # there is our .fvm folder with all the FVM configurations.
         working_directory: .
         script: |
-          dart pub global activate codemagic_app_preview
+          dart pub global activate fvm
           fvm install
       - name: iOS code signing
         script: |
