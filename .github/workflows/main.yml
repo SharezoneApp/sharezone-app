@@ -21,6 +21,12 @@ on:
 env:
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
+# Declare default permissions as none.
+#
+# Having workflows without setting the permission for the workflow is considered
+# a bad security practice and it is causing alerts from our scanning tools.
+permissions: {}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   analyze:
@@ -154,6 +160,8 @@ jobs:
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v2
 
