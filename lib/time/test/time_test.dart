@@ -68,6 +68,12 @@ void main() {
     expect(Time(hour: 1).totalMinutes, 60);
   });
 
+  test('==', () {
+    expect(Time(hour: 1, minute: 1), Time(hour: 1, minute: 1));
+    expect(Time(hour: 0), Time(hour: 0));
+    expect(Time(hour: 0) == Time(hour: 1), false);
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
