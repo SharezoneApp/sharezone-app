@@ -142,6 +142,13 @@ void main() {
     expect(Time(hour: 0).hashCode, '00:00'.hashCode);
   });
 
+  test('.toTimeOfDay()', () {
+    expect(
+      Time(hour: 0, minute: 1).toTimeOfDay(),
+      TimeOfDay(hour: 0, minute: 1),
+    );
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
