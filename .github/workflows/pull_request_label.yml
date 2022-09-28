@@ -22,8 +22,8 @@ on:
 
 # Declare default permissions as none.
 #
-# Having workflows without default permissions is considered a bad security
-# practice and it is causing alerts from our scanning tools.
+# Having workflows without setting the permission for the workflow is considered
+# a bad security practice and it is causing alerts from our scanning tools.
 permissions: {}
 
 jobs:
