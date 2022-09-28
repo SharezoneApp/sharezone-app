@@ -162,9 +162,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
-      contents: write
-      # actions: write
-      # checks: write
+      contents: read
+      actions: write
+      checks: write
       # deployments: write #--
       # statuses: write
       # repository-projects: write
