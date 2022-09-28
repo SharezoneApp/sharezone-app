@@ -74,6 +74,13 @@ void main() {
     expect(Time(hour: 0) == Time(hour: 1), false);
   });
 
+  test('.add()', () {
+    expect(Time(hour: 0).add(Duration(hours: 1)), Time(hour: 1));
+    expect(Time(hour: 0).add(Duration(minutes: 23)), Time(hour: 0, minute: 23));
+    expect(Time(hour: 0).add(Duration(minutes: 70)), Time(hour: 1, minute: 10));
+    expect(Time(hour: 23).add(Duration(hours: 2)), Time(hour: 1));
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
