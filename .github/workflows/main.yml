@@ -164,7 +164,6 @@ jobs:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       contents: read
       actions: read
-      id-token: read
       checks: read
       deployments: read
     steps:
