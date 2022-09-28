@@ -52,6 +52,13 @@ void main() {
     expect(Time(hour: 1, minute: 12).hour, 1);
   });
 
+  test('.minute', () {
+    expect(Time(hour: 0, minute: 0).minute, 0);
+    expect(Time(hour: 0, minute: 1).minute, 1);
+    expect(Time(hour: 0, minute: 10).minute, 10);
+    expect(Time(hour: 1, minute: 10).minute, 10);
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
