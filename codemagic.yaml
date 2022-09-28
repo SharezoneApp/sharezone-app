@@ -78,12 +78,12 @@ workflows:
         script: |
           dart pub global activate fvm
           fvm install
-      - name: iOS code signing
-        script: |
-          keychain initialize
-          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
-          keychain add-certificates
-          xcode-project use-profiles
+      # - name: iOS code signing
+        # script: |
+          # keychain initialize
+          # app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
+          # keychain add-certificates
+          # xcode-project use-profiles
       - name: Set up key properties (Android)
         script: |
           echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
@@ -97,8 +97,8 @@ workflows:
         script: fvm flutter pub get
       - name: Build APK
         script: fvm flutter build apk --flavor dev
-      - name: Build IPA
-        script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
+      # - name: Build IPA
+        # script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa
