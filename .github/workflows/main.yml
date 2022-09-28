@@ -167,13 +167,13 @@ jobs:
       checks: write
       deployments: write #--
       statuses: write
-      repository-projects: write
-      discussions: write #---
-      id-token: write
-      issues: write
-      packages: write
-      pages: write
-      security-events: write
+      # repository-projects: write
+      # discussions: write #---
+      # id-token: write
+      # issues: write
+      # packages: write
+      # pages: write
+      # security-events: write
     steps:
       - uses: actions/checkout@v2
 
