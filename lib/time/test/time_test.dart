@@ -138,6 +138,10 @@ void main() {
     expect(Time.parse('23:59'), Time(hour: 23, minute: 59));
   });
 
+  test('.hashCode', () {
+    expect(Time(hour: 0).hashCode, '00:00'.hashCode);
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
