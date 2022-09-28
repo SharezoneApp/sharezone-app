@@ -98,6 +98,12 @@ void main() {
     expect('${Time(hour: 12, minute: 59)}', '12:59');
   });
 
+  test('.compareTo', () {
+    expect(Time(hour: 5).compareTo(Time(hour: 5)), 0);
+    expect(Time(hour: 5).compareTo(Time(hour: 0)), 1);
+    expect(Time(hour: 0).compareTo(Time(hour: 5)), -1);
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
