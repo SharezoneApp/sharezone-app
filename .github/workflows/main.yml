@@ -163,7 +163,7 @@ jobs:
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       contents: read
-      actions: write
+      # actions: write
       checks: write
       # deployments: write #--
       # statuses: write
