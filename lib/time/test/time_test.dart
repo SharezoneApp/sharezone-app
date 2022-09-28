@@ -91,6 +91,13 @@ void main() {
     );
   });
 
+  test('.time', () {
+    expect(Time(hour: 2).time, '02:00');
+    expect(Time(hour: 2, minute: 1).time, '02:01');
+    expect(Time(hour: 2, minute: 10).time, '02:10');
+    expect(Time(hour: 12, minute: 59).time, '12:59');
+  });
+
   test('.toString()', () {
     expect('${Time(hour: 2)}', '02:00');
     expect('${Time(hour: 2, minute: 1)}', '02:01');
