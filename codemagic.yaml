@@ -35,7 +35,7 @@ workflows:
         - android_publishing
         - certificate_credentials
       vars:
-        BUNDLE_ID: de.codingbrain.sharezone.app
+        BUNDLE_ID: de.codingbrain.sharezone.app.dev
       flutter: v2.10.5
     when:
       # To save Codemagic usage we only run the tests for non draft PRs
