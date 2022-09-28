@@ -162,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
-      checks: write
+      checks: write # for FirebaseExtended/action-hosting-deploy
     steps:
       - uses: actions/checkout@v2
 
