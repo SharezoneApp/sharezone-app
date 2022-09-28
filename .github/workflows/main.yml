@@ -50,7 +50,7 @@ jobs:
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@1e6ee87cb840500837bcd50a667fb28815d8e310 # v2.7.1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -82,7 +82,7 @@ jobs:
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@1e6ee87cb840500837bcd50a667fb28815d8e310 # v2.7.1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -124,7 +124,7 @@ jobs:
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@1e6ee87cb840500837bcd50a667fb28815d8e310 # v2.7.1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -176,7 +176,7 @@ jobs:
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@1e6ee87cb840500837bcd50a667fb28815d8e310 # v2.7.1
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
