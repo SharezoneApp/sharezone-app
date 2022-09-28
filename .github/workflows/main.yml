@@ -168,7 +168,12 @@ jobs:
       deployments: read #--
       statuses: read
       repository-projects: read
-      discussions: read
+      discussions: read #---
+      id-token: read
+      issues: read
+      packages: read
+      pages: read
+      security-events: read
     steps:
       - uses: actions/checkout@v2
 
