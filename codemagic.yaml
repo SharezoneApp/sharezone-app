@@ -29,6 +29,7 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
+      xcode: 13.3
       groups:
         - github
         - ios-publishing
@@ -76,19 +77,19 @@ workflows:
           app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
           keychain add-certificates
           xcode-project use-profiles
-      - name: Set up key properties (Android)
-        script: |
-          echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
-          cat >> "android/key.properties" <<EOF
-          storePassword=$FCI_KEYSTORE_PASSWORD
-          keyPassword=$FCI_KEY_PASSWORD
-          keyAlias=$FCI_KEY_ALIAS
-          storeFile=key.jks
-          EOF
+      # - name: Set up key properties (Android)
+        # script: |
+          # echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
+          # cat >> "android/key.properties" <<EOF
+          # storePassword=$FCI_KEYSTORE_PASSWORD
+          # keyPassword=$FCI_KEY_PASSWORD
+          # keyAlias=$FCI_KEY_ALIAS
+          # storeFile=key.jks
+          # EOF
       - name: Install dependencies
         script: fvm flutter pub get
-      - name: Build APK
-        script: fvm flutter build apk --flavor dev
+      # - name: Build APK
+        # script: fvm flutter build apk --flavor dev
       - name: Build IPA
         script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
