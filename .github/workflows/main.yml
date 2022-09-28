@@ -23,22 +23,6 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow applies labels to pull requests based on the paths that are
-  # modified in the pull request.
-  #
-  # Edit `.github/labeler.yml` to configure labels.
-  #
-  # For more information, see: https://github.com/actions/labeler
-  label-pr:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-    - uses: actions/checkout@v3
-    - name: Label PR
-      uses: actions/labeler@v3
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-
   analyze:
     runs-on: ubuntu-latest
     # In draft PRs we might use TODOs temporarily.
