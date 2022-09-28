@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:time/time.dart';
 
@@ -112,6 +113,21 @@ void main() {
       Time(hour: 1),
       skip:
           'Not working because .fromTotalMinutes() needs to do modulo 24. Ticket: https://github.com/SharezoneApp/sharezone-app/issues/303',
+    );
+  });
+
+  test('.fromTimeOfDay()', () {
+    expect(
+      Time.fromTimeOfDay(TimeOfDay(hour: 1, minute: 1)),
+      Time(hour: 1, minute: 1),
+    );
+    expect(
+      Time.fromTimeOfDay(TimeOfDay(hour: 0, minute: 0)),
+      Time(hour: 0, minute: 0),
+    );
+    expect(
+      Time.fromTimeOfDay(TimeOfDay(hour: 10, minute: 10)),
+      Time(hour: 10, minute: 10),
     );
   });
 
