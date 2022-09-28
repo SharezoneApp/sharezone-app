@@ -29,6 +29,13 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
+      # We can't use XCode +14.0 because they changed some behavior how code
+      # signing works, which is the reason why are getting "Signing for
+      # "DKPhotoGallery-DKPhotoGallery" requires a development team." as an
+      # error. When https://github.com/flutter/flutter/pull/111714 is in our
+      # Flutter version that we are using, we can try again to use XCode +14.0.
+      #
+      # Ticket: https://github.com/flutter/flutter/issues/111475
       xcode: 13.3
       groups:
         - github
@@ -77,19 +84,19 @@ workflows:
           app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
           keychain add-certificates
           xcode-project use-profiles
-      # - name: Set up key properties (Android)
-        # script: |
-          # echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
-          # cat >> "android/key.properties" <<EOF
-          # storePassword=$FCI_KEYSTORE_PASSWORD
-          # keyPassword=$FCI_KEY_PASSWORD
-          # keyAlias=$FCI_KEY_ALIAS
-          # storeFile=key.jks
-          # EOF
+      - name: Set up key properties (Android)
+        script: |
+          echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
+          cat >> "android/key.properties" <<EOF
+          storePassword=$FCI_KEYSTORE_PASSWORD
+          keyPassword=$FCI_KEY_PASSWORD
+          keyAlias=$FCI_KEY_ALIAS
+          storeFile=key.jks
+          EOF
       - name: Install dependencies
         script: fvm flutter pub get
-      # - name: Build APK
-        # script: fvm flutter build apk --flavor dev
+      - name: Build APK
+        script: fvm flutter build apk --flavor dev
       - name: Build IPA
         script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
