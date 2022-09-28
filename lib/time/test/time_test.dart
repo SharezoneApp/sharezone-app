@@ -91,6 +91,13 @@ void main() {
     );
   });
 
+  test('.toString()', () {
+    expect('${Time(hour: 2)}', '02:00');
+    expect('${Time(hour: 2, minute: 1)}', '02:01');
+    expect('${Time(hour: 2, minute: 10)}', '02:10');
+    expect('${Time(hour: 12, minute: 59)}', '12:59');
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
