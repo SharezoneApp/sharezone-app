@@ -165,7 +165,10 @@ jobs:
       contents: read
       actions: read
       checks: read
-      deployments: read
+      deployments: read #--
+      statuses: read
+      repository-projects: read
+      discussions: read
     steps:
       - uses: actions/checkout@v2
 
