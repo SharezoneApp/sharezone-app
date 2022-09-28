@@ -104,6 +104,18 @@ void main() {
     expect(Time(hour: 0).compareTo(Time(hour: 5)), -1);
   });
 
+  test('.copyWithAddedMinutes()', () {
+    expect(Time(hour: 0).copyWithAddedMinutes((60)), Time(hour: 1));
+    expect(Time(hour: 0).copyWithAddedMinutes(23), Time(hour: 0, minute: 23));
+    expect(Time(hour: 0).copyWithAddedMinutes(70), Time(hour: 1, minute: 10));
+    expect(
+      Time(hour: 23).copyWithAddedMinutes(120),
+      Time(hour: 1),
+      skip:
+          'Not working because .fromTotalMinutes() needs to do modulo 24. Ticket: https://github.com/SharezoneApp/sharezone-app/issues/303',
+    );
+  });
+
   test('plus operator', () {
     expect(am8.add(const Duration(minutes: 45)), Time(hour: 8, minute: 45));
     expect(am8.add(const Duration(minutes: 60)), Time(hour: 9, minute: 0));
