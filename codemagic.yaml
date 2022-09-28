@@ -51,7 +51,7 @@ workflows:
       # version because this version is preinstalled on Codemagic VMs.
       flutter: stable
     when:
-      # To save Codemagic usage we only run the tests for non draft PRs
+      # To save Codemagic usage we only build non draft PRs
       condition: not event.pull_request.draft
       changeset:
         includes:
