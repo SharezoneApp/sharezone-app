@@ -104,16 +104,17 @@ void main() {
     expect(Time(hour: 0).compareTo(Time(hour: 5)), -1);
   });
 
-  test('.copyWithAddedMinutes()', () {
-    expect(Time(hour: 0).copyWithAddedMinutes((60)), Time(hour: 1));
-    expect(Time(hour: 0).copyWithAddedMinutes(23), Time(hour: 0, minute: 23));
-    expect(Time(hour: 0).copyWithAddedMinutes(70), Time(hour: 1, minute: 10));
-    expect(
-      Time(hour: 23).copyWithAddedMinutes(120),
-      Time(hour: 1),
-      skip:
-          'Not working because .fromTotalMinutes() needs to do modulo 24. Ticket: https://github.com/SharezoneApp/sharezone-app/issues/303',
-    );
+  test('.fromTotalMinutes()', () {
+    expect(Time.fromTotalMinutes(0), Time(hour: 0));
+    expect(Time.fromTotalMinutes(70), Time(hour: 1, minute: 10));
+    expect(Time.fromTotalMinutes(24 * 60 + 10), Time(hour: 0, minute: 10));
+  });
+
+  test('.isNextDayWith()', () {
+    expect(Time(hour: 0, minute: 0).isNextDayWith(Duration(hours: 1)), false);
+    expect(Time(hour: 0, minute: 0).isNextDayWith(Duration(hours: 10)), false);
+    expect(Time(hour: 23, minute: 0).isNextDayWith(Duration(hours: 1)), true);
+    expect(Time(hour: 23, minute: 0).isNextDayWith(Duration(hours: 2)), true);
   });
 
   test('.fromTimeOfDay()', () {
