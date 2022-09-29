@@ -9,9 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -76,10 +74,7 @@ class _SchoolClassFilterBottomBarState
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        _GroupIconWithFeatureDiscovery(
-                          onFeatureDiscoveryTap: () =>
-                              _openAndHandleSelectionMenu(context, bloc, view),
-                        ),
+                        _GroupIcon(),
                         const SizedBox(width: 12),
                         _Text(view: view),
                       ],
@@ -266,66 +261,14 @@ class _SelectionSheetTile extends StatelessWidget {
   }
 }
 
-class _GroupIconWithFeatureDiscovery extends StatefulWidget {
-  const _GroupIconWithFeatureDiscovery({
-    Key key,
-    @required this.onFeatureDiscoveryTap,
-  }) : super(key: key);
-
-  final VoidCallback onFeatureDiscoveryTap;
-
-  @override
-  _GroupIconWithFeatureDiscoveryState createState() =>
-      _GroupIconWithFeatureDiscoveryState();
-}
-
-const timetableSchoolclassSelectionFeatureDiscoveryStepId =
-    'school-class-filter-key';
-
-class _GroupIconWithFeatureDiscoveryState
-    extends State<_GroupIconWithFeatureDiscovery> {
-  @override
-  void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      FeatureDiscovery.discoverFeatures(
-        context,
-        const <String>{timetableSchoolclassSelectionFeatureDiscoveryStepId},
-      );
-    });
-    super.initState();
-  }
+class _GroupIcon extends StatelessWidget {
+  const _GroupIcon();
 
   @override
   Widget build(BuildContext context) {
-    final icon = Icon(
+    return Icon(
       themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill),
       color: context.isDarkThemeEnabled ? Colors.white : Colors.grey[600],
-    );
-
-    // Bei Geräten mit einem großen Screen soll das Feature Discovery nicht
-    // angezeigt werden, weil der zweite Kreis des Feature Discoverys viel zu
-    // groß ist und somit massiv gegen die Material Design Guidelines verstößt.
-    // Wenn dies vom Package behoben wurde, kann das Feature Discovery für große
-    // Screens wieder aktiviert werden. Ticket:
-    // https://github.com/ayalma/feature_discovery/issues/43
-    if (context.isDesktopModus) return icon;
-
-    return DescribedFeatureOverlay(
-      featureId: timetableSchoolclassSelectionFeatureDiscoveryStepId,
-      tapTarget: icon,
-      child: icon,
-      onDismiss: () async {
-        FeatureDiscovery.completeCurrentStep(context);
-        return true;
-      },
-      onComplete: () async {
-        widget.onFeatureDiscoveryTap();
-        return true;
-      },
-      targetColor:
-          context.isDarkThemeEnabled ? ElevationColors.dp1 : Colors.white,
-      title: const Text(
-          'Neu: Wähle den Stundenplan für eine spezifische Schulklasse aus.'),
     );
   }
 }
