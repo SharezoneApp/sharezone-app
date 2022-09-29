@@ -161,7 +161,6 @@ class _DashboardFabSheet extends StatelessWidget {
                             // discovery from showing after this.
                             FeatureDiscovery.clearPreferences(context, [
                               blackboardItemReadByUsersListFeatureDiscoveryStepId,
-                              timetableSchoolclassSelectionFeatureDiscoveryStepId,
                             ]);
                           },
                         ),
