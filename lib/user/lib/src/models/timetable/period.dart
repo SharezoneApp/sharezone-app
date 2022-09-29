@@ -171,8 +171,6 @@ class Periods {
       final lastPeriod = getPeriods()?.last;
       final minutesOfLastPeriod =
           lastPeriod.endTime.differenceInMinutes(lastPeriod.startTime);
-      final newEndTime =
-          lastPeriod.endTime.add(Duration(minutes: minutesOfLastPeriod));
 
       final wouldBeNextDay = lastPeriod.endTime
           .isNextDayWith(Duration(minutes: minutesOfLastPeriod));
@@ -180,6 +178,8 @@ class Periods {
         // When the new period would be longer than a day, we don't add it.
         return null;
       }
+      final newEndTime =
+          lastPeriod.endTime.add(Duration(minutes: minutesOfLastPeriod));
 
       final newPeriod = Period(
           number: lastPeriod.number + 1,
