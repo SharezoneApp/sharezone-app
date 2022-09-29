@@ -14,6 +14,17 @@ name: CI
 on:
   # Triggers the workflow on pull request events
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      # It's important to trigger this workflow again when the pull is changing
+      # from a draft pull request to a ready for review pull request.
+      #
+      # Some jobs are skipped when the pull request is a draft. Therefore, we
+      # need to trigger these jobs again when the pull request is changing to
+      # ready for review.
+      - ready_for_review
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
