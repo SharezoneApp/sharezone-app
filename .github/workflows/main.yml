@@ -163,9 +163,9 @@ jobs:
         # Additionally taking Screenshots does not work on ATD (see the google blog link further above).
         with:
           api-level: 30
-          target: google_atd
-          arch: x86
-          profile: Galaxy Nexus
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 5X
           channel: canary
           # We use some emulator options for the following reasons:
           # * "-no-boot-anim": Disables the boot animation for faster booting.
