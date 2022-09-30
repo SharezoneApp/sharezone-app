@@ -29,11 +29,11 @@ class PlatformCheck {
   }
 
   @visibleForTesting
-  static void setCurrentPlatformForTesting(Platform currentPlatform) {
+  static void setCurrentPlatformForTesting(Platform? currentPlatform) {
     _mockedCurrentPlatformForTesting = currentPlatform;
   }
 
-  static Platform _mockedCurrentPlatformForTesting;
+  static Platform? _mockedCurrentPlatformForTesting;
 
   static bool get isAndroid => currentPlatform == Platform.android;
   static bool get isIOS => currentPlatform == Platform.iOS;
@@ -131,7 +131,7 @@ class PlatformCheckVariant extends TestVariant<Platform> {
 
   /// This method behaviour is copied from TargetPlatformVariant
   @override
-  Future<void> tearDown(Platform value, Platform memento) async {
+  Future<void> tearDown(Platform value, Platform? memento) async {
     // Why setting [memento] as current platform? See in [TestVariant.tearDown]
     PlatformCheck.setCurrentPlatformForTesting(memento);
   }
