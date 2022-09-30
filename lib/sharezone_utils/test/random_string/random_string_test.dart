@@ -7,4 +7,10 @@ void main() {
       expect(randomString(10), hasLength(10));
     }
   });
+
+  test('randomIDString()', () {
+    for (int i = 0; i < 50; i++) {
+      expect(randomIDString(10), hasLength(10));
+    }
+  });
 }
