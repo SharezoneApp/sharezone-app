@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 /// Version values of the current Android operating system build derived from
 /// `android.os.Build.VERSION`.
 ///

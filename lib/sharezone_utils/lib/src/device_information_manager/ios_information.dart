@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 /// Information derived from `UIDevice`.
 ///
 /// See: https://developer.apple.com/documentation/uikit/uidevice
