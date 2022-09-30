@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 class Time {
   final String _time;
 
-  factory Time({@required int hour, int minute = 0}) {
+  factory Time({required int hour, int minute = 0}) {
     final numberFormat = NumberFormat("00");
     return Time._(
         "${numberFormat.format(hour)}:${numberFormat.format(minute)}");
@@ -27,7 +27,6 @@ class Time {
   const factory Time.parse(String timeString) = Time._;
 
   factory Time.fromTimeOfDay(TimeOfDay timeOfDay) {
-    if (timeOfDay == null) return null;
     final numberFormat = NumberFormat("00");
     return Time._(
         "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}");
