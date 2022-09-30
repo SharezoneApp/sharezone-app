@@ -52,7 +52,7 @@ workflows:
       flutter: stable
     when:
       # To save Codemagic usage we only build non draft PRs
-      condition: not event.pull_request.draft
+      # TEMP condition: not event.pull_request.draft
       changeset:
         includes:
           - "app/**"
@@ -78,12 +78,10 @@ workflows:
         script: |
           dart pub global activate fvm
           fvm install
-      - name: iOS code signing
-        script: |
-          keychain initialize
-          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
-          keychain add-certificates
-          xcode-project use-profiles
+      - name: Install dependencies
+        script: fvm flutter pub get
+      - name: Build macOS
+        script: flutter build macos
       - name: Set up key properties (Android)
         script: |
           echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
@@ -93,10 +91,14 @@ workflows:
           keyAlias=$FCI_KEY_ALIAS
           storeFile=key.jks
           EOF
-      - name: Install dependencies
-        script: fvm flutter pub get
       - name: Build APK
         script: fvm flutter build apk --flavor dev
+      - name: iOS code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
+          keychain add-certificates
+          xcode-project use-profiles
       - name: Build IPA
         script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
     artifacts:
