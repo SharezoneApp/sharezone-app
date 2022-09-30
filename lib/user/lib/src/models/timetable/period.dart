@@ -169,12 +169,17 @@ class Periods {
           number: 1, startTime: Time(hour: 7), endTime: Time(hour: 8));
     } else {
       final lastPeriod = getPeriods()?.last;
-      final durationOfLastPeriod =
+      final minutesOfLastPeriod =
           lastPeriod.endTime.differenceInMinutes(lastPeriod.startTime);
-      final newEndTime =
-          lastPeriod.endTime.copyWithAddedMinutes(durationOfLastPeriod);
 
-      if (newEndTime.isAfter(Time(hour: 24))) return null;
+      final wouldBeNextDay = lastPeriod.endTime
+          .isNextDayWith(Duration(minutes: minutesOfLastPeriod));
+      if (wouldBeNextDay) {
+        // When the new period would be longer than a day, we don't add it.
+        return null;
+      }
+      final newEndTime =
+          lastPeriod.endTime.add(Duration(minutes: minutesOfLastPeriod));
 
       final newPeriod = Period(
           number: lastPeriod.number + 1,
