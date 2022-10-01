@@ -34,17 +34,17 @@ class Dimensions {
   }
 
   EdgeInsets get dialogPaddingDimensions {
-    if (isDesktopModus == false)
+    if (isDesktopModus == false) {
       return EdgeInsets.zero;
-    else {
-      return EdgeInsets.symmetric(
-          horizontal: 32,
-          vertical: sizeByPixels(
-            height,
-            min: 0,
-            max: 64,
-          ));
     }
+
+    return EdgeInsets.symmetric(
+      horizontal: 32,
+      vertical: _sizeByPixels(
+        height,
+        max: 64,
+      ),
+    );
   }
 
   double get dialogBorderRadiusDimensions {
@@ -56,19 +56,17 @@ class Dimensions {
   }
 }
 
-double sizeByPixels(
+double _sizeByPixels(
   double pixels, {
-  double min,
-  double max,
-  double factor,
-  double breakpoint,
+  required double max,
+  double min = 0,
 }) {
-  double value = pow(100 * e, (pixels / 300) - 1);
+  final value = pow(100 * e, (pixels / 300) - 1);
   if (value < min) {
     return min;
   }
   if (value > max) {
     return max;
   }
-  return value;
+  return value as double;
 }
