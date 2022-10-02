@@ -158,6 +158,9 @@ jobs:
   macos-integration-test:
     runs-on: macos-latest
     timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: app
     steps:
       - uses: actions/checkout@v3
       - name: Set Flutter version from FVM config file to environment variables
@@ -166,8 +169,9 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+      - name: Install dependencies
+        run: flutter pub get
       - name: Run integration tests
-        working-directory: app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
