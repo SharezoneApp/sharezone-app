@@ -81,10 +81,10 @@ class _Description extends StatelessWidget {
         right: isLandscapeLayout ? 500 : 32,
       ),
       child: DefaultTextStyle(
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
+        style: DefaultTextStyle.of(context).style.copyWith(
+              color: Colors.white,
+              fontSize: 16,
+            ),
         textAlign: TextAlign.center,
         child: description,
       ),
