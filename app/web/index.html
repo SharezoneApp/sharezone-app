@@ -35,6 +35,10 @@
     <!-- Styles-->
     <link rel="stylesheet" href="index.css" type="text/css" media="screen,projection">
     <script src="assets/packages/fast_rsa/web/assets/wasm_exec.js" type="application/javascript"></script>
+
+    <!-- Package "mobile_scanner" depends on "jsQR", see
+    https://pub.dev/packages/mobile_scanner#web -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 
 <body>
@@ -65,10 +69,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-functions.js"></script>
 
     <script src="firebase_init_debug.js"></script>
-
-    <!-- Package "mobile_scanner" depends on "jsQR", see
-    https://pub.dev/packages/mobile_scanner#web -->
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.min.js"></script>
     <script type="text/javascript">
