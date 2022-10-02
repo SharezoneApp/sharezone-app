@@ -50,7 +50,7 @@ jobs:
         channel: ${{ env.FLUTTER_CHANNEL }}
     
     - name: Activate sz_repo_cli package
-      run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+      run: dart pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
     # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
     - run: echo $(realpath ./bin) >> $GITHUB_PATH
