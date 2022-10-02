@@ -129,7 +129,7 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
           child: const Text("LÖSCHEN"),
           onPressed: confirm ? () => Navigator.pop(context, true) : null,
           style: TextButton.styleFrom(
-            primary: Theme.of(context).errorColor,
+            foregroundColor: Theme.of(context).errorColor,
           ),
         ),
       ],

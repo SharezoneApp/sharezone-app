@@ -22,9 +22,9 @@ enum PermissionAccessType {
 
 bool requestPermission(
     {@required MemberRole role,
-    @required PermissionAccessType permissiontype}) {
+    @required PermissionAccessType permissionType}) {
   if (role == null) return true;
-  switch (permissiontype) {
+  switch (permissionType) {
     case PermissionAccessType.admin:
       {
         return [MemberRole.owner, MemberRole.admin].contains(role);

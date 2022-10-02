@@ -10,7 +10,6 @@ import 'dart:async';
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
-import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -80,7 +79,6 @@ class _BlackboardDialog extends StatefulWidget {
   final Course course;
   final BlackboardDialogBloc bloc;
   final bool popTwice;
-  final List<CloudFile> cloudFiles;
 
   const _BlackboardDialog({
     Key key,
@@ -88,7 +86,6 @@ class _BlackboardDialog extends StatefulWidget {
     this.course,
     this.bloc,
     this.popTwice,
-    this.cloudFiles,
   }) : super(key: key);
 
   @override

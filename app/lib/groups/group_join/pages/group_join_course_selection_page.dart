@@ -161,7 +161,7 @@ class _SkipButton extends StatelessWidget {
       },
       child: Text("Überspringen".toUpperCase()),
       style: TextButton.styleFrom(
-        primary: context.primaryColor,
+        foregroundColor: context.primaryColor,
       ),
     );
   }

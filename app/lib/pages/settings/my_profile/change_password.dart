@@ -117,7 +117,7 @@ class _ResetPassword extends StatelessWidget {
       child: TextButton(
         child: const Text("Aktuelles Passwort vergessen?"),
         style: TextButton.styleFrom(
-          primary: Colors.grey[400],
+          foregroundColor: Colors.grey[400],
         ),
         onPressed: () async {
           bool reset = await showDialog<bool>(
@@ -130,14 +130,14 @@ class _ResetPassword extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: const Text("ABBRECHEN"),
                       onPressed: () => Navigator.pop(context, false),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: const Text("JA"),
                       onPressed: () => Navigator.pop(context, true),

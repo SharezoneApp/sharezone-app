@@ -23,7 +23,6 @@ import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
-import 'blackboard/blackboard_dialog.dart';
 import 'blackboard/details/blackboard_details.dart';
 
 /// Open the blackboard page and returns true, if the user added a blackboard item

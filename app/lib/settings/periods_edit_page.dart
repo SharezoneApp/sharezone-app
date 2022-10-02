@@ -145,7 +145,7 @@ class _AddTile extends StatelessWidget {
     return TextButton(
       onPressed: () => bloc.addPeriod(),
       style: TextButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColor,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),

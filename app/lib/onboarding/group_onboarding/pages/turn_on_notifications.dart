@@ -94,7 +94,7 @@ class _NotNowButton extends StatelessWidget {
         }
       },
       style: TextButton.styleFrom(
-        primary: Colors.grey,
+        foregroundColor: Colors.grey,
       ),
       child: const Text("Nicht jetzt"),
     );

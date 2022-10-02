@@ -137,7 +137,7 @@ class _EmailTile extends StatelessWidget {
                 TextButton(
                   child: const Text("ALLES KLAR"),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -322,7 +322,7 @@ class SignOutButton extends StatelessWidget {
         key: const ValueKey('sign-out-button-E2E'),
         child: Text("Abmelden".toUpperCase()),
         style: TextButton.styleFrom(
-          primary: Colors.red,
+          foregroundColor: Colors.red,
         ),
         onPressed: () => signOut(context, isAnonymous),
       ),
@@ -365,8 +365,7 @@ class _DangerButton extends StatelessWidget {
           icon: icon,
           label: Text(title.toUpperCase()),
           style: ElevatedButton.styleFrom(
-            primary: Colors.redAccent,
-            onPrimary: Colors.white,
+            foregroundColor: Colors.white, backgroundColor: Colors.redAccent,
           ),
           onPressed: onTap,
         ),
@@ -401,7 +400,7 @@ class _DeleteAccountDialogContentState
       TextButton(
         child: const Text("LÖSCHEN"),
         style: TextButton.styleFrom(
-          primary: Theme.of(context).errorColor,
+          foregroundColor: Theme.of(context).errorColor,
         ),
         onPressed: provider != Provider.email
             ? signOut

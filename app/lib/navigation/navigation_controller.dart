@@ -12,7 +12,6 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
 import 'package:sharezone_utils/platform.dart';
 
-import 'logic/navigation_bloc.dart';
 import 'models/navigation_item.dart';
 
 class NavigationController extends StatefulWidget {

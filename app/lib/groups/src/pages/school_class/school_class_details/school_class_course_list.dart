@@ -195,7 +195,7 @@ class _CourseTile extends StatelessWidget {
         BlocProvider.of<SharezoneContext>(context).api.schoolClassGateway;
     final enabled = requestPermission(
       role: course.myRole,
-      permissiontype: PermissionAccessType.admin,
+      permissionType: PermissionAccessType.admin,
     );
     return DialogTile(
       symbolText: course.abbreviation.toUpperCase(),

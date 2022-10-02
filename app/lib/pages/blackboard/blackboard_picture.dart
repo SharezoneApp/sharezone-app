@@ -81,7 +81,7 @@ class _PictureBox extends StatelessWidget {
                 TextButton(
                   child: const Text("OK"),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
                 )

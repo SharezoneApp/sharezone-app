@@ -44,7 +44,7 @@ class BottomActionBar extends StatelessWidget {
                     child: TextButton(
                       onPressed: onTap,
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: Text(title.toUpperCase()),
                     ),

@@ -222,8 +222,7 @@ class _PayPalDonateButton extends StatelessWidget {
       label: const Text("Spenden via PayPal"),
       icon: Icon(Icons.favorite),
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
@@ -240,8 +239,7 @@ class _DonationsNotSupportedOnMacOsButton extends StatelessWidget {
       label: const Text("Spenden"),
       icon: Icon(Icons.favorite),
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }

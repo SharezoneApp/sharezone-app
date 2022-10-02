@@ -241,7 +241,7 @@ class _LoginButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: TextButton(
         style: TextButton.styleFrom(
-          primary: Colors.grey,
+          foregroundColor: Colors.grey,
         ),
         onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
         child: Padding(

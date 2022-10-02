@@ -38,7 +38,7 @@ class CommentViewFactory {
   bool _hasPermissionsToManageComments(String courseID, String authorID) {
     final myRole = courseGateway.getRoleFromCourseNoSync(courseID);
     return requestPermission(
-            role: myRole, permissiontype: PermissionAccessType.admin) ||
+            role: myRole, permissionType: PermissionAccessType.admin) ||
         authorID == uid;
   }
 

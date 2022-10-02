@@ -58,7 +58,7 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
           role: membersDataList
               .singleWhere((member) => member.id == api.userId)
               .role,
-          permissiontype: PermissionAccessType.admin),
+          permissionType: PermissionAccessType.admin),
       stream: bloc.isAdminStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;
@@ -181,7 +181,7 @@ class _LeaveCourse extends StatelessWidget {
     return TextButton(
       child: Text("SCHULKLASSE VERLASSEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -209,7 +209,7 @@ class _KickUser extends StatelessWidget {
     return TextButton(
       child: const Text("AUS DER SCHULKLASSE KICKEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: isAdmin
           ? () {

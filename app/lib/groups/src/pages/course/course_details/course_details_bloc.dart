@@ -79,18 +79,18 @@ class CourseDetailsBloc extends BlocBase {
       createSplittedMemberList(members);
 
   bool requestAdminPermission() => requestPermission(
-      role: initialData.myRole, permissiontype: PermissionAccessType.admin);
+      role: initialData.myRole, permissionType: PermissionAccessType.admin);
 
   Stream<bool> requestAdminPermissionStream() =>
       course.map((course) => requestPermission(
-          role: course.myRole, permissiontype: PermissionAccessType.admin));
+          role: course.myRole, permissionType: PermissionAccessType.admin));
 
   bool isAdmin(MemberRole myRole) => _isAdmin(myRole);
 
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
             .where((it) => requestPermission(
-                role: it.role, permissiontype: PermissionAccessType.admin))
+                role: it.role, permissionType: PermissionAccessType.admin))
             .length >
         1) {
       return true;

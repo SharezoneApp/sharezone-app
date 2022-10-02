@@ -186,18 +186,16 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.courseName, this.focusNode})
+  const _CourseName({Key key, this.focusNode})
       : super(key: key);
 
-  final String courseName;
   final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
     return TextFieldWithDescription(
-      textField: PrefilledTextField(
-        prefilledText: courseName,
+      textField: TextField(
         focusNode: focusNode,
         onChanged: bloc.changeName,
         onEditingComplete: () => submit(context),

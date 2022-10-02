@@ -91,7 +91,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
               CancleButton(),
               TextButton(
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   child: const Text("ERSTELLEN"),
                   onPressed: className.isEmpty

@@ -13,5 +13,5 @@ import 'package:sharezone/additional/course_permission.dart';
 bool hasPermissionToManageHomeworks(MemberRole myRole, bool isAuthor) {
   return isAuthor ||
       requestPermission(
-          role: myRole, permissiontype: PermissionAccessType.admin);
+          role: myRole, permissionType: PermissionAccessType.admin);
 }

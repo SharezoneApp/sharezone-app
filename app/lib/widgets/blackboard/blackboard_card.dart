@@ -298,7 +298,7 @@ class BottomActionBar extends StatelessWidget {
               TextButton(
                 child: const Text('ALS GELESEN MARKIEREN'),
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
                   analytics.log(NamedAnalyticsEvent(name: "blackboard_read"));

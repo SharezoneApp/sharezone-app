@@ -449,7 +449,7 @@ class __RenameDialogState extends State<_RenameDialog> {
                 }
               : null,
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: const Text("UMBENENNEN"),
         )

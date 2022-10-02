@@ -9,10 +9,10 @@
 part of '../../course_edit_design.dart';
 
 class _SelectTypePopResult {
-  final Design initalDesign;
+  final Design initialDesign;
   final _EditDesignType editDesignType;
 
-  const _SelectTypePopResult(this.initalDesign, this.editDesignType);
+  const _SelectTypePopResult(this.initialDesign, this.editDesignType);
 }
 
 class _SelectTypeDialog extends StatelessWidget {
@@ -66,15 +66,6 @@ class _PersonalDesign extends StatelessWidget {
 }
 
 class _DesignTypeSection extends StatelessWidget {
-  const _DesignTypeSection({
-    Key key,
-    this.stream,
-    this.title,
-    this.subtitle,
-    this.padding,
-    this.type,
-  }) : super(key: key);
-
   final Stream<Design> stream;
   final String title, subtitle;
   final EdgeInsets padding;
@@ -101,13 +92,13 @@ class _DesignTypeSection extends StatelessWidget {
       child: StreamBuilder<Design>(
         stream: stream,
         builder: (context, snapshot) {
-          final initalDesign = snapshot.data;
+          final initialDesign = snapshot.data;
           return Opacity(
             opacity: hasPermissionToEdit ? 1 : 0.5,
             child: InkWell(
               onTap: hasPermissionToEdit
                   ? () => Navigator.pop(
-                      context, _SelectTypePopResult(initalDesign, type))
+                      context, _SelectTypePopResult(initialDesign, type))
                   : null,
               child: Padding(
                 padding: padding,
@@ -115,8 +106,10 @@ class _DesignTypeSection extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     _ColorCircleSelectType(
-                        design: initalDesign,
-                        hasPermission: hasPermissionToEdit),
+                      design: initialDesign,
+                      hasPermission: hasPermissionToEdit,
+                      size: 50,
+                    ),
                     const SizedBox(height: 12),
                     Text(title, textAlign: TextAlign.center),
                     Text(
@@ -140,7 +133,9 @@ class _DesignTypeSection extends StatelessWidget {
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
     final memberRole = courseGateway.getRoleFromCourseNoSync(bloc.courseId);
     return requestPermission(
-        role: memberRole, permissiontype: PermissionAccessType.creator);
+      role: memberRole,
+      permissionType: PermissionAccessType.creator,
+    );
   }
 }
 

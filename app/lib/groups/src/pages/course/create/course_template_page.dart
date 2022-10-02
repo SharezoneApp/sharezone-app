@@ -232,7 +232,7 @@ class CreateCustomCourseSection extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightBlueAccent,
+                  backgroundColor: Colors.lightBlueAccent,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),

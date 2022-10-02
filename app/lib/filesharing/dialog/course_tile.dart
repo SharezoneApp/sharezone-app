@@ -99,7 +99,7 @@ class _CourseList extends StatelessWidget {
       children: courseList.map((course) {
         final enabled = requestPermission(
           role: course.myRole,
-          permissiontype: PermissionAccessType.creator,
+          permissionType: PermissionAccessType.creator,
         );
         return Theme(
           data: Theme.of(context)

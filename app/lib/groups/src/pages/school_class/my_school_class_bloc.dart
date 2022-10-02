@@ -79,7 +79,7 @@ class MySchoolClassBloc extends BlocBase {
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
             .where((it) => requestPermission(
-                role: it.role, permissiontype: PermissionAccessType.admin))
+                role: it.role, permissionType: PermissionAccessType.admin))
             .length >
         1) {
       return true;
@@ -127,12 +127,12 @@ class MySchoolClassBloc extends BlocBase {
 
   bool isAdmin() {
     return requestPermission(
-        role: schoolClass.myRole, permissiontype: PermissionAccessType.admin);
+        role: schoolClass.myRole, permissionType: PermissionAccessType.admin);
   }
 
   Stream<bool> isAdminStream() {
     return streamSchoolClass().map((sc) => requestPermission(
-        role: sc.myRole, permissiontype: PermissionAccessType.admin));
+        role: sc.myRole, permissionType: PermissionAccessType.admin));
   }
 
   @override

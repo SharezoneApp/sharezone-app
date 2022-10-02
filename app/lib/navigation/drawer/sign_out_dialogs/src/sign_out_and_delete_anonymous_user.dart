@@ -153,7 +153,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
                 TextButton(
                   child: const Text("LÖSCHEN"),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).errorColor,
+                    foregroundColor: Theme.of(context).errorColor,
                   ),
                   onPressed: confirmedToDeleteAccount
                       ? () => tryToSignOutAndDeleteUser(context)
