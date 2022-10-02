@@ -81,6 +81,32 @@ void main() {
       expect(scannedQrCode, qrCode);
     });
 
+    testWidgets('passes description', (tester) async {
+      const description = 'my-description';
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(builder: (context) {
+              return ElevatedButton(
+                onPressed: () => scanQrCode(
+                  context,
+                  controller: controller,
+                  description: const Text(description),
+                ),
+                child: const Text('Scan QR Code'),
+              );
+            }),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+
+      expect(find.text(description), findsOneWidget);
+    });
+
     testGoldens('displays scanner page as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
