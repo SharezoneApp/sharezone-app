@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
@@ -59,7 +59,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             ),
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: Colors.white, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+                primaryColor: Colors.white,
+                colorScheme:
+                    ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLength: 6,
@@ -119,12 +121,11 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   Future<String> _scanQRCode() async {
-    try {
-      final scanResult = await BarcodeScanner.scan();
-      return scanResult;
-    } catch (e) {
-      return null;
-    }
+    return scanQrCode(
+      context,
+      title: const Text('QR-Code zum Beitreten scannen'),
+      settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
+    );
   }
 
   void copySharecodeFromClipboardOrOpenKeyboard() {

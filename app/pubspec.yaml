@@ -33,7 +33,6 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^2.1.0
-  barcode_scan: ^2.0.2
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
@@ -131,6 +130,8 @@ dependencies:
   time:
     path: ../lib/time
   timeago: ^3.1.0
+  qr_code_scanner:
+    path: ../lib/qr_code_scanner
   url_launcher: ^6.0.9
   url_launcher_extended:
     path: ../lib/url_launcher_extended
