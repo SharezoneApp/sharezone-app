@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:device_info/device_info.dart'
+import 'package:device_info_plus/device_info_plus.dart'
     hide AndroidBuildVersion, IosUtsname;
 import 'package:flutter/cupertino.dart';
 
@@ -86,7 +86,7 @@ class MobileDeviceInformationRetreiver extends DeviceInformationRetreiver {
   /// 30 - v11 - Android11\
   ///
   /// Source: https://source.android.com/setup/start/build-numbers
-  Future<int> androidSdkInt() async {
+  Future<int?> androidSdkInt() async {
     final info = await androidInfo;
     return info.version.sdkInt;
   }
@@ -116,14 +116,14 @@ class MobileDeviceInformationRetreiver extends DeviceInformationRetreiver {
 @visibleForTesting
 class MockMobileDeviceInformationRetreiver
     implements MobileDeviceInformationRetreiver {
-  int _androidSdkInt;
+  int? _androidSdkInt;
 
   @override
   Future<AndroidDeviceInformation> get androidInfo =>
       throw UnimplementedError();
 
   @override
-  Future<int> androidSdkInt() async {
+  Future<int?> androidSdkInt() async {
     return _androidSdkInt;
   }
 
