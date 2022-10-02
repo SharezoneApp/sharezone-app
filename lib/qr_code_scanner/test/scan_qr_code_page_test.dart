@@ -16,9 +16,14 @@ class RouteSettingsObserver extends NavigatorObserver {
 
 void main() {
   group('scanQrCode()', () {
+    late FakeMobileScannerController controller;
+
+    setUp(() {
+      controller = FakeMobileScannerController();
+    });
+
     testWidgets('passes route settings', (tester) async {
       final routeSettingsObserver = RouteSettingsObserver();
-      final controller = FakeMobileScannerController();
       const route = 'my-route';
 
       await tester.pumpWidget(
