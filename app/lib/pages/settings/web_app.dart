@@ -8,7 +8,6 @@
 
 import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
