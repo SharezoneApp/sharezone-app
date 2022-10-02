@@ -123,7 +123,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   Future<String> _scanQRCode() async {
     return scanQrCode(
       context,
-      title: const Text('QR-Code zum Beitreten scannen'),
+      title: const Text('QR-Code scannen'),
+      description:
+          const Text('Scanne einen QR-Code, um einer Gruppe beizutreten.'),
       settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
     );
   }
