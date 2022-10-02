@@ -25,3 +25,7 @@ Add this `script` to the `head` of your `web/index.html`.
 <!-- Package "mobile_scanner" depends on "jsQR" -->
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 ```
+
+### macOS
+
+Add "Camera" permission in XCode -> Signing & Capabilities.
