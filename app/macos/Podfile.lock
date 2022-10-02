@@ -9,6 +9,8 @@ PODS:
     - Firebase/Functions (~> 8.9.0)
     - firebase_core
     - FlutterMacOS
+  - device_info_plus_macos (0.0.1):
+    - FlutterMacOS
   - fast_rsa (0.6.0):
     - FlutterMacOS
   - Firebase/Auth (8.9.0):
@@ -184,6 +186,7 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
   - cloud_functions (from `Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos`)
+  - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
   - fast_rsa (from `Flutter/ephemeral/.symlinks/plugins/fast_rsa/macos`)
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
@@ -233,6 +236,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
   cloud_functions:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos
+  device_info_plus_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos
   fast_rsa:
     :path: Flutter/ephemeral/.symlinks/plugins/fast_rsa/macos
   firebase_auth:
@@ -283,6 +288,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   cloud_firestore: 3051145668296ed0007f1010057c36f44dce97cb
   cloud_functions: 6228c727520b90dff66cdf8ee0a161ca9922f108
+  device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   fast_rsa: 87a964a26439f5b8a603949463525110ab025944
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_auth: ac5ffd9f7f6482baa91140dd6ad947b24ba1b252
@@ -303,7 +309,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: a75c1bd44ebd3ed4ad3fa1ff09414a8b133be405
   FirebaseStorage: 452c98c31ccb40b819764bf3039426c4388d9939
   flutter_native_timezone: 3a4724189c47dea215bb3e168e555e18308d312c
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
