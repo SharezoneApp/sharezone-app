@@ -21,7 +21,7 @@ dependencies:
   mobile_scanner: ^1.1.2-play-services
 
 dev_dependencies:
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.13.0
