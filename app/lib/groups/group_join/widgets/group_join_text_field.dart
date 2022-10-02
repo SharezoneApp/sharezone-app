@@ -81,29 +81,22 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                   border: const OutlineInputBorder(),
                   labelText: 'Sharecode',
                   hintText: "z.B. Qb32vF",
-                  suffixIcon: PlatformCheck.isDesktopOrWeb
-                      ? null
-                      : GestureDetector(
-                          onTap: () async {
-                            hideKeyboard(context: context);
-                            final qrCode = await _scanQRCode();
-                            if (_isValidQrCode(qrCode)) {
-                              bloc.enterValue(qrCode);
-                              final groupJoinResultDialog =
-                                  GroupJoinResultDialog(bloc);
-                              groupJoinResultDialog.show(context);
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 10, 8),
-                            child: PlatformSvg.asset(
-                              "assets/icons/qr-code.svg",
-                              color: Colors.white,
-                              width: 18,
-                              height: 18,
-                            ),
-                          ),
-                        ),
+                  suffixIcon: IconButton(
+                    onPressed: () async {
+                      hideKeyboard(context: context);
+                      final qrCode = await _scanQRCode();
+                      if (_isValidQrCode(qrCode)) {
+                        bloc.enterValue(qrCode);
+                        final groupJoinResultDialog =
+                            GroupJoinResultDialog(bloc);
+                        groupJoinResultDialog.show(context);
+                      }
+                    },
+                    icon: PlatformSvg.asset(
+                      "assets/icons/qr-code.svg",
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
