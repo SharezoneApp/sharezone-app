@@ -50,6 +50,37 @@ void main() {
       expect(routeSettingsObserver.routeName, route);
     });
 
+    testWidgets('returns the scanned qr code', (tester) async {
+      const qrCode = 'my-qr-code';
+      String? scannedQrCode;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(builder: (context) {
+              return ElevatedButton(
+                onPressed: () async {
+                  scannedQrCode = await scanQrCode(
+                    context,
+                    controller: controller,
+                  );
+                },
+                child: const Text('Scan QR Code'),
+              );
+            }),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(ElevatedButton));
+
+      // Simulate a detected qr code
+      controller.handleEvent({'data': qrCode});
+      await tester.pump();
+
+      expect(scannedQrCode, qrCode);
+    });
+
     testGoldens('displays scanner page as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
