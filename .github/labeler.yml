@@ -14,7 +14,7 @@
 "documentation":
 - '**/*.md'
 
-"external dependencies":
+"dependencies":
 - '**/pubspec.yaml'
 - '**/pubspec.lock'
 
