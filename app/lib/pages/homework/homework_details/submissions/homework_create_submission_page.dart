@@ -440,7 +440,7 @@ class __RenameDialogState extends State<_RenameDialog> {
         },
       ),
       actions: <Widget>[
-        CancleButton(),
+        CancelButton(),
         TextButton(
           onPressed: error == null
               ? () {

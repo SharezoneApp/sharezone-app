@@ -365,7 +365,8 @@ class _DangerButton extends StatelessWidget {
           icon: icon,
           label: Text(title.toUpperCase()),
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white, backgroundColor: Colors.redAccent,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.redAccent,
           ),
           onPressed: onTap,
         ),
@@ -396,7 +397,7 @@ class _DeleteAccountDialogContentState
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final provider = api.user.authUser.provider;
     return [
-      CancleButton(),
+      CancelButton(),
       TextButton(
         child: const Text("LÖSCHEN"),
         style: TextButton.styleFrom(

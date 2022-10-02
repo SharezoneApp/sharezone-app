@@ -88,7 +88,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       actions: isLoading
           ? <Widget>[LoadingCircle()]
           : <Widget>[
-              CancleButton(),
+              CancelButton(),
               TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColor,

@@ -149,7 +149,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
           else
             Row(
               children: <Widget>[
-                CancleButton(),
+                CancelButton(),
                 TextButton(
                   child: const Text("LÖSCHEN"),
                   style: TextButton.styleFrom(

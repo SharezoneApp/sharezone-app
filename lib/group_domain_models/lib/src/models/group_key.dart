@@ -21,6 +21,6 @@ class GroupKey {
   }
 
   int get hashCode {
-    return hashList([id, groupType]);
+    return Object.hashAll([id, groupType]);
   }
 }
