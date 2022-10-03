@@ -57,9 +57,13 @@ class _HolidayCounter extends StatelessWidget {
           if (!snapshot.hasData)
             return const Center(child: AccentColorCircularProgressIndicator());
           if (snapshot.data.isEmpty) return handleError(null);
-          return _HolidayText(
-            maxItems: 2,
-            holidayList: snapshot.data,
+          return DefaultTextStyle(
+            style: DefaultTextStyle.of(context).style,
+            textAlign: TextAlign.center,
+            child: _HolidayText(
+              maxItems: 2,
+              holidayList: snapshot.data,
+            ),
           );
         },
       ),

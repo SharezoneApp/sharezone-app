@@ -39,7 +39,7 @@ void main() {
         "end": "${now.year + 1}-02-01",
         "year": now.year,
         "stateCode": "HB",
-        "name": "winterferien",
+        "name": "winterferien, aber mit einem sehr langen Namen",
         "slug": "winterferien 2022-2022-HB"
       }));
 
@@ -68,7 +68,7 @@ void main() {
         ),
       );
 
-      await screenMatchesGolden(tester, 'holiday_card');
+      await multiScreenGolden(tester, 'holiday_card', devices: [Device.phone]);
     });
   });
 }
