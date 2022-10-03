@@ -31,7 +31,7 @@ void main() {
   group('DashboardPage', () {
     testGoldens('displays holiday card as excepted', (tester) async {
       final holidayBloc = FakeHolidayBloc();
-      holidayBloc.hasStateSelectedController.add(true);
+      addTearDown(holidayBloc.dispose);
 
       final now = DateTime.now();
       final firstHolidays = Holiday.fromJson(jsonEncode({
@@ -54,6 +54,7 @@ void main() {
       }));
 
       holidayBloc.holidaysController.add([firstHolidays, secondHolidays]);
+      holidayBloc.hasStateSelectedController.add(true);
 
       await tester.pumpWidget(
         BlocProvider<HolidayBloc>(
