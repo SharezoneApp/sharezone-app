@@ -82,6 +82,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                   labelText: 'Sharecode',
                   hintText: "z.B. Qb32vF",
                   suffixIcon: IconButton(
+                    tooltip: 'QR-Code scannen',
                     onPressed: () async {
                       hideKeyboard(context: context);
                       final qrCode = await _scanQRCode();
