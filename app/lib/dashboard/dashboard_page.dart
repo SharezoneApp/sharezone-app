@@ -134,7 +134,7 @@ class DashboardPageBody extends StatelessWidget {
               const _HomeworkSection(),
               _EventsSection(),
               _BlackboardSection(),
-              _HolidayCountdownSection(),
+              HolidayCountdownSection(),
               const SizedBox(height: 32)
             ],
           ),

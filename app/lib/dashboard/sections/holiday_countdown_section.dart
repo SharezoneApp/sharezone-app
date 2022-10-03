@@ -8,8 +8,9 @@
 
 part of '../dashboard_page.dart';
 
-class _HolidayCountdownSection extends StatelessWidget {
-  const _HolidayCountdownSection({Key key}) : super(key: key);
+@visibleForTesting
+class HolidayCountdownSection extends StatelessWidget {
+  const HolidayCountdownSection({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,11 @@ class _HolidayCountdownSection extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           child: CustomCard(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
             child: SizedBox(
               width: double.infinity,
               child: StreamBuilder<bool>(
-                stream: bloc.userState
-                    .map((state) => state != StateEnum.notSelected),
+                stream: bloc.hasStateSelected,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return Container(height: 50);
                   final hasUserSelectedState = snapshot.data;
@@ -140,6 +141,12 @@ class _HolidayText extends StatelessWidget {
           textWidget = Text(
               "$holidayTitle: Noch $daysTillHolidayEnd ${daysTillHolidayEnd > 1 ? "Tage" : "Tag"} $emoji");
         }
+      }
+
+      final isFirstText = holidayList.first.slug == holiday.slug;
+      if (!isFirstText) {
+        // Add padding between the text widgets
+        widgetList.add(SizedBox(height: 4));
       }
 
       widgetList.add(textWidget);
