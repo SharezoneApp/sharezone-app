@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -72,6 +73,7 @@ class _ScanQrCodePage extends StatelessWidget {
             appBarTheme: AppBarTheme(
               elevation: 0,
               backgroundColor: Colors.transparent,
+              // systemOverlayStyle: SystemUiOverlayStyle.dark,
               titleTextStyle: AppBarTheme.of(context).titleTextStyle?.copyWith(
                     color: Colors.white,
                   ),
