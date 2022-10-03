@@ -139,7 +139,7 @@ class _HolidayText extends StatelessWidget {
       } else {
         int daysTillHolidayEnd = holiday.end.difference(DateTime.now()).inDays;
         if (daysTillHolidayEnd == 0) {
-          textWidget = Text("$holidayTitle: Letzer Tag 😱");
+          textWidget = Text("$holidayTitle: Letzter Tag 😱");
         } else {
           emoji = daysTillHolidayEnd > 4 ? "☺🎈" : "😔";
           textWidget = Text(
