@@ -19,7 +19,7 @@ bool _shouldUseLandscapeLayout(BuildContext context) {
   return MediaQuery.of(context).size.height < 500;
 }
 
-/// A overlay widget that displays a scan selection, a button to toggle the
+/// An overlay widget that displays a scan selection, a button to toggle the
 /// torch (if [hasTorch] is true) and optionally a description text.
 class ScanOverlay extends StatelessWidget {
   const ScanOverlay({
