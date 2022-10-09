@@ -8,7 +8,7 @@ class Subline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(
+    return Text(
       text,
       style: TextStyle(
         fontSize: isTablet(context) ? 20 : 24,

@@ -24,12 +24,12 @@ class CheckTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SelectableText(
+              Text(
                 title!,
                 style: const TextStyle(fontSize: 20),
               ),
               if (subtitle != null)
-                SelectableText(
+                Text(
                   subtitle!,
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),

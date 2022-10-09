@@ -34,7 +34,7 @@ class Welcome extends StatelessWidget {
                     Semantics(
                       header: true,
                       label: 'Headline of the sharezone app',
-                      child: SelectableText(
+                      child: Text(
                         "Simpel. Sicher. Stabil.",
                         style: TextStyle(
                           fontSize: isTablet(context) ? 64 : 85,
@@ -48,7 +48,7 @@ class Welcome extends StatelessWidget {
                     const SizedBox(height: 20),
                     Semantics(
                       label: 'A description of the sharezone app',
-                      child: SelectableText(
+                      child: Text(
                         "Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.",
                         style: TextStyle(
                           color: Colors.grey,

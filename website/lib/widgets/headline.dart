@@ -8,7 +8,7 @@ class Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(
+    return Text(
       text,
       style: TextStyle(
         fontSize: isTablet(context) ? 40 : 65,

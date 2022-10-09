@@ -23,34 +23,38 @@ class Traction extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: MaxWidthConstraintBox(
-            maxWidth: 700,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
-              child: isPhone(context)
-                  ? ColumnSpacing(
-                      spacing: 24,
-                      children: [
-                        _UserCounter(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            _AppStoreRating(),
-                            SizedBox(width: 48),
-                            _PlayStoreRating(),
-                          ],
-                        ),
-                      ],
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const _AppStoreRating(),
-                        _UserCounter(),
-                        const _PlayStoreRating(),
-                      ],
-                    ),
+          // Disable selection to prevent showing a selection mouse pointer.
+          child: SelectionContainer.disabled(
+            child: MaxWidthConstraintBox(
+              maxWidth: 700,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+                child: isPhone(context)
+                    ? ColumnSpacing(
+                        spacing: 24,
+                        children: [
+                          _UserCounter(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              _AppStoreRating(),
+                              SizedBox(width: 48),
+                              _PlayStoreRating(),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const _AppStoreRating(),
+                          _UserCounter(),
+                          const _PlayStoreRating(),
+                        ],
+                      ),
+              ),
             ),
           ),
         ),
@@ -125,7 +129,7 @@ class __UserCounterState extends State<_UserCounter> {
             ),
           ),
           const SizedBox(height: 3),
-          const SelectableText(
+          const Text(
             "registrierte Nutzer",
             style: TextStyle(
               color: Colors.white70,

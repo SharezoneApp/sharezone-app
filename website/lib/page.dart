@@ -22,52 +22,55 @@ class PageTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: isPhone(context)
-          ? Drawer(
-              child: ColumnSpacing(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.home),
-                    title: const Text("Hauptseite"),
-                    onTap: () =>
-                        Navigator.popAndPushNamed(context, HomePage.tag),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.question_answer),
-                    title: const Text("FAQ"),
-                    onTap: () => launchURL("https://sharezone.net/faq"),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.help),
-                    title: const Text("Support"),
-                    onTap: () => Navigator.pushNamed(context, SupportPage.tag),
-                  ),
-                ],
-              ),
-            )
-          : null,
-      body: Scrollbar(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              floating: false,
-              backgroundColor: Colors.white,
-              pinned: true,
-              bottom: _AppBarTitle(),
-            ),
-            SliverToBoxAdapter(
-              child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: crossAxisAlignment,
+    return SelectionArea(
+      child: Scaffold(
+        drawer: isPhone(context)
+            ? Drawer(
+                child: ColumnSpacing(
                   children: [
-                    ...children!,
-                    const Footer(),
+                    ListTile(
+                      leading: const Icon(Icons.home),
+                      title: const Text("Hauptseite"),
+                      onTap: () =>
+                          Navigator.popAndPushNamed(context, HomePage.tag),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.question_answer),
+                      title: const Text("FAQ"),
+                      onTap: () => launchURL("https://sharezone.net/faq"),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.help),
+                      title: const Text("Support"),
+                      onTap: () =>
+                          Navigator.pushNamed(context, SupportPage.tag),
+                    ),
                   ],
                 ),
+              )
+            : null,
+        body: Scrollbar(
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                floating: false,
+                backgroundColor: Colors.white,
+                pinned: true,
+                bottom: _AppBarTitle(),
               ),
-            ),
-          ],
+              SliverToBoxAdapter(
+                child: SafeArea(
+                  child: Column(
+                    crossAxisAlignment: crossAxisAlignment,
+                    children: [
+                      ...children!,
+                      const Footer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -77,54 +80,57 @@ class PageTemplate extends StatelessWidget {
 class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: MaxWidthConstraintBox(
-        maxWidth: maxWidthConstraint,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: SizedBox(
-            height: 80,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (isPhone(context))
-                  IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () => context.openDrawer(),
-                  )
-                else
-                  TransparentButton(
-                    onTap: () =>
-                        Navigator.popAndPushNamed(context, HomePage.tag),
-                    child: const SharezoneLogo(
-                      logoColor: LogoColor.blueShort,
-                      height: 50,
-                      width: 200,
+    // Disable selection to prevent showing a selection mouse pointer.
+    return SelectionContainer.disabled(
+      child: Align(
+        alignment: Alignment.center,
+        child: MaxWidthConstraintBox(
+          maxWidth: maxWidthConstraint,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: SizedBox(
+              height: 80,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (isPhone(context))
+                    IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () => context.openDrawer(),
+                    )
+                  else
+                    TransparentButton(
+                      onTap: () =>
+                          Navigator.popAndPushNamed(context, HomePage.tag),
+                      child: const SharezoneLogo(
+                        logoColor: LogoColor.blueShort,
+                        height: 50,
+                        width: 200,
+                      ),
+                    ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (!isPhone(context)) ...[
+                          TransparentButton(
+                            child: const Text("Support"),
+                            onTap: () =>
+                                Navigator.pushNamed(context, SupportPage.tag),
+                          ),
+                          const SizedBox(width: 30),
+                          TransparentButton.openLink(
+                            link: "https://sharezone.net/faq",
+                            child: const Text("FAQ"),
+                          ),
+                          const SizedBox(width: 30),
+                        ],
+                        _GoWebAppButton(),
+                      ],
                     ),
                   ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if (!isPhone(context)) ...[
-                        TransparentButton(
-                          child: const Text("Support"),
-                          onTap: () =>
-                              Navigator.pushNamed(context, SupportPage.tag),
-                        ),
-                        const SizedBox(width: 30),
-                        TransparentButton.openLink(
-                          link: "https://sharezone.net/faq",
-                          child: const Text("FAQ"),
-                        ),
-                        const SizedBox(width: 30),
-                      ],
-                      _GoWebAppButton(),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

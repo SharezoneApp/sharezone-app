@@ -31,11 +31,14 @@ class SectionActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TransparentButton(
-      onTap: onTap,
-      fontSize: fontSize ?? 22,
-      color: color ?? context.primaryColor,
-      child: Text("—> $text"),
-    ).moveLeftOnHover;
+    // Disable selection to prevent showing a selection mouse pointer.
+    return SelectionContainer.disabled(
+      child: TransparentButton(
+        onTap: onTap,
+        fontSize: fontSize ?? 22,
+        color: color ?? context.primaryColor,
+        child: Text("—> $text"),
+      ).moveLeftOnHover,
+    );
   }
 }

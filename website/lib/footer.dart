@@ -245,7 +245,7 @@ class _FooterSection extends StatelessWidget {
           const SizedBox(height: 4),
         ],
         if (subtitle != null) ...[
-          SelectableText(subtitle!),
+          Text(subtitle!),
           const SizedBox(height: 8),
         ],
         ColumnSpacing(
@@ -279,7 +279,7 @@ class _FooterTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(
+    return Text(
       title,
       style: const TextStyle(
         fontSize: 18,
