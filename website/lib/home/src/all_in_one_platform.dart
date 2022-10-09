@@ -147,7 +147,6 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
 
 class _FeatureCard extends StatefulWidget {
   const _FeatureCard({
-    super.key,
     required this.title,
     this.subtitle,
     this.onTap,

@@ -247,7 +247,7 @@ class _Absatz extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {super.key});
+  const _Title(this.title);
 
   final String title;
 
@@ -258,7 +258,7 @@ class _Title extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle(this.subtitle, {super.key});
+  const _Subtitle(this.subtitle);
 
   final String subtitle;
 
@@ -270,7 +270,7 @@ class _Subtitle extends StatelessWidget {
 }
 
 class _Topic extends StatelessWidget {
-  const _Topic({super.key, required this.title, required this.texts});
+  const _Topic({required this.title, required this.texts});
 
   final Widget title;
   final List<Widget> texts;

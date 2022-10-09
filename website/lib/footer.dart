@@ -113,7 +113,7 @@ class _FooterTablet extends StatelessWidget {
 }
 
 class _FooterDesktop extends StatelessWidget {
-  const _FooterDesktop({super.key});
+  const _FooterDesktop();
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +226,6 @@ class _FooterAction {
 
 class _FooterSection extends StatelessWidget {
   const _FooterSection({
-    super.key,
     this.title,
     this.links,
     this.subtitle,
@@ -274,7 +273,7 @@ class _FooterSection extends StatelessWidget {
 }
 
 class _FooterTitle extends StatelessWidget {
-  const _FooterTitle(this.title, {super.key});
+  const _FooterTitle(this.title);
 
   final String title;
 
@@ -291,7 +290,7 @@ class _FooterTitle extends StatelessWidget {
 }
 
 class _FooterSocialMedia extends StatelessWidget {
-  const _FooterSocialMedia({super.key});
+  const _FooterSocialMedia();
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +319,7 @@ class _FooterSocialMedia extends StatelessWidget {
 }
 
 class _SocialMediaButton extends StatelessWidget {
-  const _SocialMediaButton(this.socialMediaPlatform, {super.key});
+  const _SocialMediaButton(this.socialMediaPlatform);
 
   final String socialMediaPlatform;
 

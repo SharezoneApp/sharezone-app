@@ -73,8 +73,7 @@ class _SupportCard extends StatelessWidget {
   final String? title, subtitle;
   final VoidCallback? onPressed;
 
-  const _SupportCard(
-      {super.key, this.icon, this.title, this.subtitle, this.onPressed});
+  const _SupportCard({this.icon, this.title, this.subtitle, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -60,7 +60,7 @@ class Traction extends StatelessWidget {
 }
 
 class _PlayStoreRating extends StatelessWidget {
-  const _PlayStoreRating({super.key});
+  const _PlayStoreRating();
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +73,7 @@ class _PlayStoreRating extends StatelessWidget {
 }
 
 class _AppStoreRating extends StatelessWidget {
-  const _AppStoreRating({
-    super.key,
-  });
+  const _AppStoreRating();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +152,6 @@ class __UserCounterState extends State<_UserCounter> {
 
 class _StoreReview extends StatelessWidget {
   const _StoreReview({
-    super.key,
     this.storeName,
     this.rating,
     this.storeLink,
