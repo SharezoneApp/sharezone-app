@@ -42,3 +42,9 @@ app.*.map.json
 
 #firebase
 .firebase/
+
+# FVM will create a relative symlink in your project from .fvm/flutter_sdk to
+# the cache of the selected version. We should add this to our .gitignore.
+#
+# Source: https://fvm.app/docs/getting_started/configuration#project
+.fvm/flutter_sdk
