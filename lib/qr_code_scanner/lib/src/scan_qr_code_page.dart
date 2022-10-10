@@ -72,7 +72,6 @@ class _ScanQrCodePage extends StatelessWidget {
             appBarTheme: AppBarTheme(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              // systemOverlayStyle: SystemUiOverlayStyle.dark,
               titleTextStyle: AppBarTheme.of(context).titleTextStyle?.copyWith(
                     color: Colors.white,
                   ),
