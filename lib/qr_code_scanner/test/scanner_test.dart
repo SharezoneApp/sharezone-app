@@ -35,7 +35,7 @@ void main() {
       expect(controller.hasTorch, false);
     });
 
-    testWidgets('should not display the torch if device has no torch',
+    testWidgets('should not display the torch icon if device has no torch',
         (tester) async {
       controller.hasTorch = false;
 
