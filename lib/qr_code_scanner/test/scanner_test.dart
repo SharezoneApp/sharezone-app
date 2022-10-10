@@ -32,7 +32,7 @@ void main() {
 
       await tester.tap(find.byKey(const Key('torch-button-widget-test')));
 
-      expect(controller.hasTorch, false);
+      expect(controller.torchEnabled, true);
     });
 
     testWidgets('should not display the torch icon if device has no torch',

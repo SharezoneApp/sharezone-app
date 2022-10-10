@@ -31,6 +31,9 @@ class FakeMobileScannerController extends Fake
   Stream<Barcode> get barcodes => barcodesController.stream;
 
   @override
+  bool torchEnabled = false;
+
+  @override
   bool hasTorch = true;
 
   @override
@@ -42,7 +45,7 @@ class FakeMobileScannerController extends Fake
 
   @override
   Future<void> toggleTorch() async {
-    hasTorch = !hasTorch;
+    torchEnabled = !torchEnabled;
   }
 
   @override
