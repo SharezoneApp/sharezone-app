@@ -95,7 +95,7 @@ class _Header extends StatelessWidget {
 
 class _ScanQrCode extends StatelessWidget {
   Future<String> _scanQRCode(BuildContext context) async {
-    return scanQrCode(
+    return scanQrCodeScanner(
       context,
       title: const Text('QR-Code scannen'),
       description: const Text(

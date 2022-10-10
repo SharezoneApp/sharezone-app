@@ -27,7 +27,7 @@ Future<String?> showQrCodeScanner(
   Widget? title = const Text('Scan QR Code'),
   Widget? description,
   RouteSettings? settings,
-  MobileScannerController? controller,
+  @visibleForTesting MobileScannerController? controller,
 }) {
   return Navigator.push<String?>(
     context,

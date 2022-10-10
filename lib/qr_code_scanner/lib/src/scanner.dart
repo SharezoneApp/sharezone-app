@@ -12,8 +12,8 @@ import 'package:qr_code_scanner/src/overlay/scan_overlay.dart';
 
 /// A scanner to scan QR codes and barcodes.
 ///
-/// Usually, instead of including [Scanner] into the app, the [scanQrCode]
-/// method is used to open a full screen scanner.
+/// Usually, instead of including [Scanner] into the app, the
+/// [scanQrCodeScanner] method is used to open a full screen scanner.
 class Scanner extends StatefulWidget {
   const Scanner({
     Key? key,

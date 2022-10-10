@@ -115,7 +115,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   Future<String> _scanQRCode() async {
-    return scanQrCode(
+    return scanQrCodeScanner(
       context,
       title: const Text('QR-Code scannen'),
       description:
