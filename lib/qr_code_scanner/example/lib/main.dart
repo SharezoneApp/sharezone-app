@@ -51,7 +51,7 @@ class _HomeState extends State<_Home> {
               ElevatedButton(
                 key: const Key('scan-qr-code-button-e2e'),
                 onPressed: () async {
-                  final qrCode = await scanQrCode(
+                  final qrCode = await showQrCodeScanner(
                     context,
                     description:
                         const Text('Go to web.sharezone.net to get a QR Code'),

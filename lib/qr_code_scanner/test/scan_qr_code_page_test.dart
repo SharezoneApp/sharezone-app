@@ -24,7 +24,7 @@ class RouteSettingsObserver extends NavigatorObserver {
 }
 
 void main() {
-  group('scanQrCode()', () {
+  group('showQrCodeScanner()', () {
     late FakeMobileScannerController controller;
 
     setUp(() {
@@ -41,7 +41,7 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => scanQrCode(
+                onPressed: () => showQrCodeScanner(
                   context,
                   controller: controller,
                   settings: const RouteSettings(name: route),
@@ -68,7 +68,7 @@ void main() {
             body: Builder(builder: (context) {
               return ElevatedButton(
                 onPressed: () async {
-                  scannedQrCode = await scanQrCode(
+                  scannedQrCode = await showQrCodeScanner(
                     context,
                     controller: controller,
                   );
@@ -97,7 +97,7 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => scanQrCode(
+                onPressed: () => showQrCodeScanner(
                   context,
                   controller: controller,
                   description: const Text(description),
@@ -123,7 +123,7 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => scanQrCode(
+                onPressed: () => showQrCodeScanner(
                   context,
                   controller: controller,
                   title: const Text(title),
@@ -147,7 +147,7 @@ void main() {
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(
-                onPressed: () => scanQrCode(
+                onPressed: () => showQrCodeScanner(
                   context,
                   controller: controller,
                 ),

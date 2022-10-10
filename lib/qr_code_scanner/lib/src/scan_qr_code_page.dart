@@ -23,7 +23,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 /// code".
 ///
 /// For testing purposes, you can pass a [controller] to mock the scanner.
-Future<String?> scanQrCode(
+Future<String?> showQrCodeScanner(
   BuildContext context, {
   Widget? title = const Text('Scan QR Code'),
   Widget? description,
