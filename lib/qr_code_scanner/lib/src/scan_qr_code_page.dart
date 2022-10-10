@@ -82,6 +82,8 @@ class _ScanQrCodePage extends StatelessWidget {
             ),
           ),
           child: Scaffold(
+            // Because we make the [AppBar] transparent, we need to extend the
+            // body to the top.
             extendBodyBehindAppBar: true,
             appBar: AppBar(title: title),
             body: Scanner(
