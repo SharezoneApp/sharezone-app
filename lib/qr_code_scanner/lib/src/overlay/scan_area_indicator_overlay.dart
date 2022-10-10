@@ -37,7 +37,7 @@ class ScanAreaIndicatorOverlay extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CustomPaint(
-          painter: _ScanSelectionPainter(width: width),
+          painter: _ScanAreaPainter(width: width),
         ),
         _Corners(
           width: width,
@@ -48,8 +48,8 @@ class ScanAreaIndicatorOverlay extends StatelessWidget {
   }
 }
 
-class _ScanSelectionPainter extends CustomPainter {
-  const _ScanSelectionPainter({
+class _ScanAreaPainter extends CustomPainter {
+  const _ScanAreaPainter({
     this.width = 250,
   });
 
