@@ -43,7 +43,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () => showQrCodeScanner(
                   context,
-                  controller: controller,
+                  mockController: controller,
                   settings: const RouteSettings(name: route),
                 ),
                 child: const Text('Scan QR Code'),
@@ -70,7 +70,7 @@ void main() {
                 onPressed: () async {
                   scannedQrCode = await showQrCodeScanner(
                     context,
-                    controller: controller,
+                    mockController: controller,
                   );
                 },
                 child: const Text('Scan QR Code'),
@@ -99,7 +99,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () => showQrCodeScanner(
                   context,
-                  controller: controller,
+                  mockController: controller,
                   description: const Text(description),
                 ),
                 child: const Text('Scan QR Code'),
@@ -125,7 +125,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () => showQrCodeScanner(
                   context,
-                  controller: controller,
+                  mockController: controller,
                   title: const Text(title),
                 ),
                 child: const Text('Scan QR Code'),
@@ -149,7 +149,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () => showQrCodeScanner(
                   context,
-                  controller: controller,
+                  mockController: controller,
                 ),
                 child: const Text('Scan QR Code'),
               );

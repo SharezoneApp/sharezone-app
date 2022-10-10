@@ -25,7 +25,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: Scanner(controller: controller),
+            body: Scanner(mockController: controller),
           ),
         ),
       );
@@ -42,7 +42,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: Scanner(controller: controller),
+            body: Scanner(mockController: controller),
           ),
         ),
       );
@@ -57,7 +57,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: Scanner(
-              controller: controller,
+              mockController: controller,
               description: const Text('Hello! I am a description!'),
             ),
           ),
@@ -73,7 +73,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: Scanner(
-              controller: controller,
+              mockController: controller,
               onDetect: (qrCode) {
                 scannedQrCode = qrCode;
               },

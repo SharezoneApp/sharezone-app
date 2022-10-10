@@ -21,13 +21,13 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 /// can an assistance for the user, like "Go to web.sharezone.net to get a QR
 /// code".
 ///
-/// For testing purposes, you can pass a [controller] to mock the scanner.
+/// For testing purposes, you can pass a [mockController] to mock the scanner.
 Future<String?> showQrCodeScanner(
   BuildContext context, {
   Widget? title = const Text('Scan QR Code'),
   Widget? description,
   RouteSettings? settings,
-  @visibleForTesting MobileScannerController? controller,
+  MobileScannerController? mockController,
 }) {
   return Navigator.push<String?>(
     context,
@@ -35,7 +35,7 @@ Future<String?> showQrCodeScanner(
       builder: (context) => _ScanQrCodePage(
         title: title,
         description: description,
-        controller: controller,
+        mockController: mockController,
       ),
       settings: settings,
     ),
@@ -48,7 +48,7 @@ class _ScanQrCodePage extends StatelessWidget {
     Key? key,
     required this.title,
     this.description,
-    this.controller,
+    this.mockController,
   }) : super(key: key);
 
   /// The title that is displayed at the top in the [AppBar]
@@ -61,7 +61,7 @@ class _ScanQrCodePage extends StatelessWidget {
   /// A controller that can be used to control the scanner.
   ///
   /// Is primarily used for testing to mock the scanner.
-  final MobileScannerController? controller;
+  final MobileScannerController? mockController;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _ScanQrCodePage extends StatelessWidget {
             extendBodyBehindAppBar: true,
             appBar: AppBar(title: title),
             body: Scanner(
-              controller: controller,
+              mockController: mockController,
               description: description,
               onDetect: (qrCode) => Navigator.pop(context, qrCode),
             ),

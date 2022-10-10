@@ -19,7 +19,7 @@ class Scanner extends StatefulWidget {
     Key? key,
     this.onDetect,
     this.description,
-    this.controller,
+    this.mockController,
   }) : super(key: key);
 
   /// A callback that is called when a code is detected.
@@ -34,7 +34,7 @@ class Scanner extends StatefulWidget {
   /// A controller that can be used to control the scanner.
   ///
   /// Is primarily used for testing to mock the scanner.
-  final MobileScannerController? controller;
+  final MobileScannerController? mockController;
 
   @override
   State<Scanner> createState() => _ScannerState();
@@ -46,7 +46,7 @@ class _ScannerState extends State<Scanner> {
   @override
   void initState() {
     super.initState();
-    controller = widget.controller ?? MobileScannerController();
+    controller = widget.mockController ?? MobileScannerController();
   }
 
   @override
