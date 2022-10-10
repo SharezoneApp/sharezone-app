@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 /// A widget that indicates a scan area in the middle of the screen.
 ///
 /// Technically, everything that is covered by the camera could be scanned. The
-/// [ScanArea] is just a visual indicator for the user.
-class ScanArea extends StatelessWidget {
-  const ScanArea({
+/// [ScanAreaIndicatorOverlay] is just a visual indicator for the user.
+class ScanAreaIndicatorOverlay extends StatelessWidget {
+  const ScanAreaIndicatorOverlay({
     Key? key,
     this.color = Colors.white,
     this.width = 250,

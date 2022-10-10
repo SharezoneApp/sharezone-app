@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'scan_area.dart';
+import 'scan_area_indicator_overlay.dart';
 
 /// Defines if the height of the device is too small to use the portrait layout.
 ///
@@ -48,7 +48,7 @@ class ScanOverlay extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          const ScanArea(),
+          const ScanAreaIndicatorOverlay(),
           if (hasTorch)
             _ToggleTorchButton(
               onTorchToggled: onTorchToggled,
