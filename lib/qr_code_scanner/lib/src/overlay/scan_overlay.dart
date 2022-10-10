@@ -124,12 +124,12 @@ class _ToggleTorchButtonState extends State<_ToggleTorchButton> {
           child: IconButton(
             key: ValueKey(isFlashlightOn),
             onPressed: () {
-              setState(() {
-                isFlashlightOn = !isFlashlightOn;
-              });
               if (widget.onTorchToggled != null) {
                 widget.onTorchToggled!();
               }
+              setState(() {
+                isFlashlightOn = !isFlashlightOn;
+              });
             },
             color: Colors.white,
             icon: const Icon(Icons.flashlight_on),
