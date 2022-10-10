@@ -48,6 +48,7 @@ class ScanAreaIndicatorOverlay extends StatelessWidget {
   }
 }
 
+/// Darkens the screen except for a rectangular area in the middle.
 class _ScanAreaPainter extends CustomPainter {
   const _ScanAreaPainter({
     this.width = 250,
