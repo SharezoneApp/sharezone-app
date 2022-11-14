@@ -8,6 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:build_context/build_context.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -33,17 +34,48 @@ class _PrivacyPolicyTextDependencies {
   });
 }
 
+class PrivacyPolicy {
+  final String markdownText;
+  final List<DocumentSection> tableOfContentSections;
+  final String version;
+  final DateTime lastChanged;
+
+  const PrivacyPolicy({
+    @required this.markdownText,
+    @required this.tableOfContentSections,
+    @required this.version,
+    @required this.lastChanged,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is PrivacyPolicy &&
+        other.markdownText == markdownText &&
+        listEquals(other.tableOfContentSections, tableOfContentSections) &&
+        other.version == version &&
+        other.lastChanged == lastChanged;
+  }
+
+  @override
+  int get hashCode {
+    return markdownText.hashCode ^
+        tableOfContentSections.hashCode ^
+        version.hashCode ^
+        lastChanged.hashCode;
+  }
+}
+
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({
     Key key,
-    String content,
-    List<DocumentSection> documentSections,
-  })  : content = content ?? markdownPrivacyPolicy,
-        documentSections = documentSections ?? tocDocumentSections,
+    PrivacyPolicy privacyPolicy,
+  })  : privacyPolicy = privacyPolicy ?? _v2PrivacyPolicy,
         super(key: key);
 
-  final String content;
-  final List<DocumentSection> documentSections;
+  final PrivacyPolicy privacyPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +123,8 @@ class NewPrivacyPolicy extends StatelessWidget {
                         documentSectionController: DocumentSectionController(
                           dependencies.anchorsController,
                         ),
-                        tocDocumentSections: documentSections,
+                        tocDocumentSections:
+                            privacyPolicy.tableOfContentSections,
                         // We change it when building the different layouts
                         // anyway so it doesn't really matter what value we use
                         // here.
@@ -99,7 +132,7 @@ class NewPrivacyPolicy extends StatelessWidget {
                             .alwaysAutomaticallyCloseSectionsAgain,
                         // TODO: Make it change dynamically depending on the
                         // heading that is really used at the end
-                        lastSectionId: DocumentSectionId('metadata'),
+                        lastSectionId: DocumentSectionId('metadaten'),
                       );
                     },
                     child: Theme(
@@ -126,20 +159,20 @@ class NewPrivacyPolicy extends StatelessWidget {
                                   ExpansionBehavior
                                       .leaveManuallyOpenedSectionsOpen);
                               return _MainContentWide(
-                                  privacyPolicyMarkdownText: content);
+                                  privacyPolicy: privacyPolicy);
                             } else if (constraints.maxWidth > 500 &&
                                 constraints.maxHeight > 400) {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return _MainContentNarrow(
-                                  privacyPolicyMarkdownText: content);
+                                  privacyPolicy: privacyPolicy);
                             } else {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return _MainContentMobile(
-                                  privacyPolicyMarkdownText: content);
+                                  privacyPolicy: privacyPolicy);
                             }
                           }),
                         ),
@@ -151,10 +184,10 @@ class NewPrivacyPolicy extends StatelessWidget {
 }
 
 class _MainContentWide extends StatelessWidget {
-  final String privacyPolicyMarkdownText;
+  final PrivacyPolicy privacyPolicy;
 
   const _MainContentWide({
-    @required this.privacyPolicyMarkdownText,
+    @required this.privacyPolicy,
     Key key,
   }) : super(key: key);
 
@@ -214,8 +247,7 @@ class _MainContentWide extends StatelessWidget {
                       maxWidth: 830,
                       minWidth: 400,
                     ),
-                    child: PrivacyPolicyText(
-                        markdownText: privacyPolicyMarkdownText),
+                    child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
                   ),
                 ),
               ],
@@ -328,10 +360,10 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
 }
 
 class _MainContentNarrow extends StatelessWidget {
-  final String privacyPolicyMarkdownText;
+  final PrivacyPolicy privacyPolicy;
 
   const _MainContentNarrow({
-    @required this.privacyPolicyMarkdownText,
+    @required this.privacyPolicy,
     Key key,
   }) : super(key: key);
 
@@ -391,9 +423,7 @@ class _MainContentNarrow extends StatelessWidget {
                 ],
               ),
               Divider(),
-              Flexible(
-                  child: PrivacyPolicyText(
-                      markdownText: privacyPolicyMarkdownText)),
+              Flexible(child: PrivacyPolicyText(privacyPolicy: privacyPolicy)),
               Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -420,10 +450,10 @@ class _MainContentNarrow extends StatelessWidget {
 }
 
 class _MainContentMobile extends StatelessWidget {
-  final String privacyPolicyMarkdownText;
+  final PrivacyPolicy privacyPolicy;
 
   const _MainContentMobile({
-    @required this.privacyPolicyMarkdownText,
+    @required this.privacyPolicy,
     Key key,
   }) : super(key: key);
 
@@ -456,8 +486,9 @@ class _MainContentMobile extends StatelessWidget {
             ),
             Divider(height: 0, thickness: .5),
             Flexible(
-                child:
-                    PrivacyPolicyText(markdownText: privacyPolicyMarkdownText)),
+                child: PrivacyPolicyText(
+              privacyPolicy: privacyPolicy,
+            )),
             Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -1342,10 +1373,10 @@ Color _getHighlightColor(BuildContext context) => isDarkThemeEnabled(context)
     : Colors.lightBlue.shade100;
 
 class PrivacyPolicyText extends StatelessWidget {
-  final String markdownText;
+  final PrivacyPolicy privacyPolicy;
 
   const PrivacyPolicyText({
-    @required this.markdownText,
+    @required this.privacyPolicy,
     Key key,
   }) : super(key: key);
 
@@ -1374,12 +1405,12 @@ class PrivacyPolicyText extends StatelessWidget {
       anchorsController: dependencies.anchorsController,
 // TODO: Replace this temporary placeholder with the real thing
       data: '''
-$markdownText
+${privacyPolicy.markdownText}
 
 ---
 
 ##### Metadaten
-Version: v2.0.0
+Version: v${privacyPolicy.version}
 
 Zuletzt aktualisiert: 06.01.2022 
 ''',
@@ -1397,6 +1428,13 @@ Zuletzt aktualisiert: 06.01.2022
     );
   }
 }
+
+final _v2PrivacyPolicy = PrivacyPolicy(
+  markdownText: markdownPrivacyPolicy,
+  tableOfContentSections: tocDocumentSections,
+  version: '2.0.0',
+  lastChanged: DateTime(2022, 11, 10),
+);
 
 final tocDocumentSections = [
   DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis', []),

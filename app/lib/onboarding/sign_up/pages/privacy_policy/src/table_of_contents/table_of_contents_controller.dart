@@ -122,6 +122,9 @@ class TableOfContentsController extends ChangeNotifier {
     @required DocumentSectionController documentSectionController,
     @required List<DocumentSection> tocDocumentSections,
     @required ExpansionBehavior initialExpansionBehavior,
+    // TODO: Document why we have to use this workaround.
+    // Can't see if we have reached bottom of document i think as we cant access
+    // ScrollController when using ScrollablePositionedList.
     @required DocumentSectionId lastSectionId,
   }) {
     return TableOfContentsController.internal(
