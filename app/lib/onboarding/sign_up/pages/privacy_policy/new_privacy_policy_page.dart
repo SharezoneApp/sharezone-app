@@ -60,11 +60,18 @@ class NewPrivacyPolicy extends StatelessWidget {
           );
         },
         child: Provider(
-          create: (context) => _PrivacyPolicyTextDependencies(
-            itemScrollController: ItemScrollController(),
-            itemPositionsListener: ItemPositionsListener.create(),
-            anchorsController: AnchorsController(),
-          ),
+          create: (context) {
+            final itemScrollController = ItemScrollController();
+            final itemPositionsListener = ItemPositionsListener.create();
+            return _PrivacyPolicyTextDependencies(
+              itemScrollController: itemScrollController,
+              itemPositionsListener: itemPositionsListener,
+              anchorsController: AnchorsController(
+                itemPositionsListener: itemPositionsListener,
+                itemScrollController: itemScrollController,
+              ),
+            );
+          },
           child: Builder(
               builder: (context) => MediaQuery(
                   data: MediaQuery.of(context).copyWith(
