@@ -18,6 +18,7 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 import 'src/widgets/privacy_policy_display_settings.dart';
@@ -39,12 +40,16 @@ class PrivacyPolicy {
   final List<DocumentSection> tableOfContentSections;
   final String version;
   final DateTime lastChanged;
+  // TODO: Use to display dialog at top of the screen.
+  // What if it is in the past or today?
+  final DateTime entersIntoForceOnOrNull;
 
   const PrivacyPolicy({
     @required this.markdownText,
     @required this.tableOfContentSections,
     @required this.version,
     @required this.lastChanged,
+    this.entersIntoForceOnOrNull,
   });
 
   @override
@@ -56,7 +61,8 @@ class PrivacyPolicy {
         other.markdownText == markdownText &&
         listEquals(other.tableOfContentSections, tableOfContentSections) &&
         other.version == version &&
-        other.lastChanged == lastChanged;
+        other.lastChanged == lastChanged &&
+        other.entersIntoForceOnOrNull == entersIntoForceOnOrNull;
   }
 
   @override
@@ -64,7 +70,8 @@ class PrivacyPolicy {
     return markdownText.hashCode ^
         tableOfContentSections.hashCode ^
         version.hashCode ^
-        lastChanged.hashCode;
+        lastChanged.hashCode ^
+        entersIntoForceOnOrNull.hashCode;
   }
 }
 
@@ -147,34 +154,38 @@ class NewPrivacyPolicy extends StatelessWidget {
                           )),
                       child: Scaffold(
                         body: Center(
-                          child: LayoutBuilder(builder: (context, constraints) {
-                            // TODO: changeExpansionBehavior is called waaay to
-                            // often.
-                            final tocController =
-                                Provider.of<TableOfContentsController>(context,
-                                    listen: false);
+                          child: GrayShimmer(
+                            child:
+                                LayoutBuilder(builder: (context, constraints) {
+                              // TODO: changeExpansionBehavior is called waaay to
+                              // often.
+                              final tocController =
+                                  Provider.of<TableOfContentsController>(
+                                      context,
+                                      listen: false);
 
-                            if (constraints.maxWidth > 1100) {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .leaveManuallyOpenedSectionsOpen);
-                              return _MainContentWide(
-                                  privacyPolicy: privacyPolicy);
-                            } else if (constraints.maxWidth > 500 &&
-                                constraints.maxHeight > 400) {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return _MainContentNarrow(
-                                  privacyPolicy: privacyPolicy);
-                            } else {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return _MainContentMobile(
-                                  privacyPolicy: privacyPolicy);
-                            }
-                          }),
+                              if (constraints.maxWidth > 1100) {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .leaveManuallyOpenedSectionsOpen);
+                                return _MainContentWide(
+                                    privacyPolicy: privacyPolicy);
+                              } else if (constraints.maxWidth > 500 &&
+                                  constraints.maxHeight > 400) {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return _MainContentNarrow(
+                                    privacyPolicy: privacyPolicy);
+                              } else {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return _MainContentMobile(
+                                    privacyPolicy: privacyPolicy);
+                              }
+                            }),
+                          ),
                         ),
                       ),
                     ),
