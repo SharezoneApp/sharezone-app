@@ -38,7 +38,6 @@ import 'package:sharezone/pages/settings/my_profile/change_state.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
-import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
@@ -135,7 +134,7 @@ class DashboardPageBody extends StatelessWidget {
               const _HomeworkSection(),
               _EventsSection(),
               _BlackboardSection(),
-              _HolidayCountdownSection(),
+              HolidayCountdownSection(),
               const SizedBox(height: 32)
             ],
           ),

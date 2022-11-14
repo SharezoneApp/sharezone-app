@@ -104,7 +104,10 @@ Future<Time> selectTime(BuildContext context,
             minutesInterval ?? (isFiveMinutesIntervalActive ? 5 : 1),
         title: title,
       ),
-    ).then((timeOfDay) => Time.fromTimeOfDay(timeOfDay));
+    ).then((timeOfDay) {
+      if (timeOfDay == null) return null;
+      return Time.fromTimeOfDay(timeOfDay);
+    });
   }
 
   return showTimePicker(
@@ -120,7 +123,10 @@ Future<Time> selectTime(BuildContext context,
     initialEntryMode: PlatformCheck.isDesktopOrWeb
         ? TimePickerEntryMode.input
         : TimePickerEntryMode.dial,
-  ).then((timeOfDay) => Time.fromTimeOfDay(timeOfDay));
+  ).then((timeOfDay) {
+    if (timeOfDay == null) return null;
+    return Time.fromTimeOfDay(timeOfDay);
+  });
 }
 
 class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {

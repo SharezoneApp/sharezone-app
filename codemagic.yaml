@@ -1,0 +1,110 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# We are using Codemagic beside GitHub Actions for our mobile CI/CD.
+#
+# The "codemagic.yaml" allows us to configure workflows without using the
+# UI-Editor. This has the advantage that changes are tracked in Git.
+#
+# You find the documentation about the codemagic.yaml here:
+# https://docs.codemagic.io/yaml/yaml-getting-started/
+
+# With "definitions" we are able to reuse code. Therefore, we can a script once
+# and use reuse this script in other workflows without duplicating it. Just
+# define a section with &NAME and use it with *NAME.
+#
+# Docs for definitions:
+# https://docs.codemagic.io/yaml/yaml-getting-started/#reusing-sections
+#
+# Sample by Codemagic:
+# https://github.com/codemagic-ci-cd/codemagic-sample-projects/blob/main/yaml/yaml_anchors_aliases_sample/codemagic.yaml
+
+workflows:
+  app-preview:
+    name: App Preview
+    max_build_duration: 75
+    environment:
+      # We can't use XCode +14.0 because they changed some behavior how code
+      # signing works, which is the reason why are getting "Signing for
+      # "DKPhotoGallery-DKPhotoGallery" requires a development team." as an
+      # error. When https://github.com/flutter/flutter/pull/111714 is in our
+      # Flutter version that we are using, we can try again to use XCode +14.0.
+      #
+      # Ticket: https://github.com/flutter/flutter/issues/111475
+      xcode: 13.3
+      groups:
+        - github
+        - ios-publishing
+        - android_publishing
+        - certificate_credentials
+      vars:
+        BUNDLE_ID: de.codingbrain.sharezone.app.dev
+      # We won't use this Flutter version because we are going to download FVM
+      # later and use the specified Flutter version in our repository.
+      #
+      # As predefined Flutter version we are using here the newest stable
+      # version because this version is preinstalled on Codemagic VMs.
+      flutter: stable
+    when:
+      # To save Codemagic usage we only build non draft PRs
+      condition: not event.pull_request.draft
+      changeset:
+        includes:
+          - "app/**"
+          - "lib/**"
+          - "codemagic.yaml"
+          - ".fvm/fvm_config.json"
+        excludes:
+          - "*.md"
+    triggering:
+      events:
+        - pull_request
+      cancel_previous_builds: true
+    working_directory: app
+    scripts:
+      - name: Add Dart SDK to PATH
+        script: |
+          echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
+          echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
+      - name: Install FVM
+        # Settings working directory back to the root of the repository because
+        # there is our .fvm folder with all the FVM configurations.
+        working_directory: .
+        script: |
+          dart pub global activate fvm
+          fvm install
+      - name: iOS code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_ADHOC --create
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Set up key properties (Android)
+        script: |
+          echo $FCI_KEYSTORE | base64 --decode > android/app/key.jks
+          cat >> "android/key.properties" <<EOF
+          storePassword=$FCI_KEYSTORE_PASSWORD
+          keyPassword=$FCI_KEY_PASSWORD
+          keyAlias=$FCI_KEY_ALIAS
+          storeFile=key.jks
+          EOF
+      - name: Install dependencies
+        script: fvm flutter pub get
+      - name: Build APK
+        script: fvm flutter build apk --flavor dev
+      - name: Build IPA
+        script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/ios/ipa/*.ipa
+    publishing:
+      scripts:
+        - name: Post App Preview
+          script: |
+            dart pub global activate codemagic_app_preview
+            app_preview post --gh_token $GITHUB_PAT --message "_Note_: Only Sharezone team members are able to install the iOS app."

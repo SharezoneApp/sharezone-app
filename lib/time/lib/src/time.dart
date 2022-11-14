@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 class Time {
   final String _time;
 
-  factory Time({@required int hour, int minute = 0}) {
+  factory Time({required int hour, int minute = 0}) {
     final numberFormat = NumberFormat("00");
     return Time._(
         "${numberFormat.format(hour)}:${numberFormat.format(minute)}");
@@ -27,14 +27,13 @@ class Time {
   const factory Time.parse(String timeString) = Time._;
 
   factory Time.fromTimeOfDay(TimeOfDay timeOfDay) {
-    if (timeOfDay == null) return null;
     final numberFormat = NumberFormat("00");
     return Time._(
         "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}");
   }
 
   factory Time.fromTotalMinutes(int totalMinutes) {
-    final hour = totalMinutes ~/ 60;
+    final hour = (totalMinutes ~/ 60) % 24;
     final minute = totalMinutes.remainder(60);
     return Time(hour: hour, minute: minute);
   }
@@ -81,6 +80,13 @@ class Time {
     return Time(hour: hours, minute: minutes);
   }
 
+  /// Returns a bool indicating whether the new time added to the [duration] is
+  /// a new day.
+  bool isNextDayWith(Duration duration) {
+    final minutesOfADay = 24 * 60;
+    return totalMinutes + duration.inMinutes >= minutesOfADay;
+  }
+
   bool isBefore(Time other) {
     return totalMinutes < other.totalMinutes;
   }
@@ -95,11 +101,6 @@ class Time {
 
   int compareTo(Time other) {
     return totalMinutes.compareTo(other.totalMinutes);
-  }
-
-  Time copyWithAddedMinutes(int addedMinutes) {
-    final newTotalMinutes = totalMinutes + addedMinutes;
-    return Time.fromTotalMinutes(newTotalMinutes);
   }
 
   @override

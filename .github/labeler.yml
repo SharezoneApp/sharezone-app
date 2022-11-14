@@ -9,9 +9,14 @@
 "ci/cd":
 - .github/workflows/**
 - .github/labeler.yml
+- codemagic.yaml
 
 "documentation":
 - '**/*.md'
+
+"dependencies":
+- '**/pubspec.yaml'
+- '**/pubspec.lock'
 
 "testing":
 - "**/*_test.dart"

@@ -26,6 +26,8 @@ class HolidayBloc extends BlocBase {
 
   final HolidayStateGateway stateGateway;
   Stream<StateEnum> get userState => stateGateway.userState;
+  Stream<bool> get hasStateSelected =>
+      userState.map((state) => state != null && state != StateEnum.notSelected);
   Future<void> Function(StateEnum state) get changeState =>
       stateGateway.changeState;
 

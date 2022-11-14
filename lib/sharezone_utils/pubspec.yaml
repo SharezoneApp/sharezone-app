@@ -12,16 +12,14 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  device_info_plus: ^3.1.2
   flutter:
     sdk: flutter
-  device_info: ^2.0.2
-  rxdart: ^0.27.1
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-flutter: null
