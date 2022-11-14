@@ -72,7 +72,8 @@ class _TextSize extends StatelessWidget {
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text('Schriftgröße', style: Theme.of(context).textTheme.button),
+          Text('Textskalierungsfaktor',
+              style: Theme.of(context).textTheme.button),
           DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
