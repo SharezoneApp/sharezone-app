@@ -54,10 +54,14 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(NewPrivacyPolicy(
-              content: text,
-              documentSections: [
-                DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
-              ],
+              privacyPolicy: PrivacyPolicy(
+                lastChanged: DateTime(2022, 03, 04),
+                tableOfContentSections: [
+                  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                ],
+                version: '2.0.0',
+                markdownText: text,
+              ),
             )),
           );
 
@@ -97,10 +101,14 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(NewPrivacyPolicy(
-              content: text,
-              documentSections: [
-                DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
-              ],
+              privacyPolicy: PrivacyPolicy(
+                lastChanged: DateTime(2022, 03, 04),
+                tableOfContentSections: [
+                  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                ],
+                version: '2.0.0',
+                markdownText: text,
+              ),
             )),
           );
 
