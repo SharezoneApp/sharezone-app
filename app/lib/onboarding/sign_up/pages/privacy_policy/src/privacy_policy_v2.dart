@@ -8,6 +8,7 @@ final v2PrivacyPolicy = PrivacyPolicy(
   tableOfContentSections: tocDocumentSections,
   version: '2.0.0',
   lastChanged: DateTime(2022, 11, 10),
+  entersIntoForceOnOrNull: DateTime(2023, 01, 20),
 );
 
 final tocDocumentSections = [
