@@ -72,7 +72,8 @@ void main() {
 
       expect(themeSettings.textScalingFactor, 1.5);
       expect(themeSettings.themeBrightness, ThemeBrightness.light);
-      expect(themeSettings.visualDensitySetting, VisualDensity.compact);
+      expect(themeSettings.visualDensitySetting,
+          VisualDensitySetting.manual(VisualDensity.compact));
     });
 
     test('Tracks value changes via analytics', () {
@@ -99,7 +100,11 @@ void main() {
           VisualDensity(horizontal: 1.0, vertical: 1.5));
       expect(localAnalyticsBackend.loggedEvents[2], {
         'ui_visual_density_changed': {
-          'visual_density': {'horizontal': 1.0, 'vertical': 1.5}
+          'visual_density': {
+            'isAdaptivePlatformDensity': false,
+            'horizontal': 1.0,
+            'vertical': 1.5
+          }
         }
       });
     });

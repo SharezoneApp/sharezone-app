@@ -205,7 +205,8 @@ extension on String? {
     if (this == null) return null;
     final _map = jsonDecode(this!) as Map;
 
-    if (_map['isAdaptivePlatformDensity'] != null) {
+    if (_map['isAdaptivePlatformDensity'] != null &&
+        _map['isAdaptivePlatformDensity'] == true) {
       return VisualDensitySetting.adaptivePlatformDensity();
     }
 
