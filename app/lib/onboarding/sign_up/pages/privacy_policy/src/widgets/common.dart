@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:quiver/time.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -210,13 +211,12 @@ class PrivacyPolicyText extends StatelessWidget {
       itemScrollController: dependencies.itemScrollController,
       itemPositionsListener: dependencies.itemPositionsListener,
       anchorsController: dependencies.anchorsController,
-// TODO: Replace this temporary placeholder with the real thing
       data: '''
 ${privacyPolicy.markdownText}
 
 ---
 
-##### Metadaten
+##### ${privacyPolicy.lastSectionHeadingText}
 Version: v${privacyPolicy.version}
 
 Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
@@ -247,12 +247,15 @@ class PrivacyPolicy {
   bool get hasNotYetEnteredIntoForce =>
       entersIntoForceOnOrNull != null &&
       entersIntoForceOnOrNull.isAfter(Clock().now());
+  // TODO: Document
+  final String lastSectionHeadingText;
 
   const PrivacyPolicy({
     @required this.markdownText,
     @required this.tableOfContentSections,
     @required this.version,
     @required this.lastChanged,
+    this.lastSectionHeadingText = 'Metadaten',
     this.entersIntoForceOnOrNull,
   });
 
