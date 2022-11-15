@@ -40,13 +40,17 @@ class MainContentNarrow extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           PrivacyPolicyHeading(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 6),
-                            child: PrivacyPolicySubheading(),
-                          ),
+                          if (privacyPolicy.hasNotYetEnteredIntoForce)
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 6),
+                              child: PrivacyPolicySubheading(
+                                entersIntoForceOn:
+                                    privacyPolicy.entersIntoForceOnOrNull,
+                              ),
+                            ),
                         ],
                       ),
                     ),

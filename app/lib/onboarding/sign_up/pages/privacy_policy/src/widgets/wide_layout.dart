@@ -50,13 +50,17 @@ class MainContentWide extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          PrivacyPolicyHeading(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8.0),
-                            child: PrivacyPolicySubheading(),
-                          ),
+                        children: [
+                          const PrivacyPolicyHeading(),
+                          if (privacyPolicy.hasNotYetEnteredIntoForce)
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8.0),
+                              child: PrivacyPolicySubheading(
+                                entersIntoForceOn:
+                                    privacyPolicy.entersIntoForceOnOrNull,
+                              ),
+                            ),
                         ],
                       ),
                     ),

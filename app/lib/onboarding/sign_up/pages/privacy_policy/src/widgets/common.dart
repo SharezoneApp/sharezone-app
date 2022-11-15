@@ -244,6 +244,9 @@ class PrivacyPolicy {
   // TODO: Use to display dialog at top of the screen.
   // What if it is in the past or today?
   final DateTime entersIntoForceOnOrNull;
+  bool get hasNotYetEnteredIntoForce =>
+      entersIntoForceOnOrNull != null &&
+      entersIntoForceOnOrNull.isAfter(Clock().now());
 
   const PrivacyPolicy({
     @required this.markdownText,

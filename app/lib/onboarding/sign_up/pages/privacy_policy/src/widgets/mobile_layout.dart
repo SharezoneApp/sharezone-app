@@ -30,13 +30,16 @@ class MainContentMobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
+            if (privacyPolicy.hasNotYetEnteredIntoForce)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                child: PrivacyPolicySubheading(
+                  entersIntoForceOn: privacyPolicy.entersIntoForceOnOrNull,
+                ),
               ),
-              child: PrivacyPolicySubheading(),
-            ),
             Divider(height: 0, thickness: .5),
             Flexible(
                 child: PrivacyPolicyText(
