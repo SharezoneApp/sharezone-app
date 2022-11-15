@@ -219,7 +219,7 @@ ${privacyPolicy.markdownText}
 ##### Metadaten
 Version: v${privacyPolicy.version}
 
-Zuletzt aktualisiert: 06.01.2022 
+Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
 ''',
       onTapLink: (text, href, title) {
         if (href == null) return;
