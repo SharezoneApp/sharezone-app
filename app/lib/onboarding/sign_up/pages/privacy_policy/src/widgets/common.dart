@@ -4,6 +4,7 @@ import 'package:build_context/build_context.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -34,16 +35,19 @@ class PrivacyPolicyHeading extends StatelessWidget {
 class PrivacyPolicySubheading extends StatelessWidget {
   const PrivacyPolicySubheading({
     Key key,
+    @required this.entersIntoForceOn,
   }) : super(key: key);
+
+  final DateTime entersIntoForceOn;
 
   @override
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
         text: 'Diese aktualisierte Datenschutzerklärung tritt am',
-        children: const [
+        children: [
           TextSpan(
-            text: ' 25.06.2022 ',
+            text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn)} ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
