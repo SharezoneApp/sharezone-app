@@ -155,7 +155,7 @@ class TableOfContentsController extends ChangeNotifier {
                     (sub) => TocSection(
                       id: sub.documentSectionId,
                       title: sub.sectionName,
-                      subsections: IList([]),
+                      subsections: IList(const []),
                       expansionState: ExpansionState(
                         expansionBehavior: _initalExpansionBehavior,
                         expansionMode: ExpansionMode.automatic,

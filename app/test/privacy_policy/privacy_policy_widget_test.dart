@@ -11,20 +11,43 @@ import 'package:analytics/null_analytics_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
 
 /// Our custom widget test function that we need to use so that we automatically
 /// simulate custom dimensions for the "screen".
 ///
 /// We can't use setUp since we need the [WidgetTester] object to set the
 /// dimensions and we only can access it when running [testWidgets].
-void _testWidgets(String description, WidgetTesterCallback callback) {
+@isTest
+void _testWidgets(
+  String description,
+  WidgetTesterCallback callback, {
+  Size physicalSize = const Size(1920, 1080),
+  double devicePixelRatio = 1.0,
+}) {
+  testWidgetsWithDimensions(
+    description,
+    callback,
+    physicalSize: physicalSize,
+    devicePixelRatio: devicePixelRatio,
+  );
+}
+
+@isTest
+void testWidgetsWithDimensions(
+  String description,
+  WidgetTesterCallback callback, {
+  @required Size physicalSize,
+  @required double devicePixelRatio,
+}) {
   testWidgets(description, (tester) {
-    tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
-    tester.binding.window.devicePixelRatioTestValue = 1.0;
+    tester.binding.window.physicalSizeTestValue = physicalSize;
+    tester.binding.window.devicePixelRatioTestValue = devicePixelRatio;
     addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     return callback(tester);
   });
@@ -38,7 +61,7 @@ void main() {
         // TODO: Consider deleting these tests later.
         // Testing this might be done in a more e2e way since we already
         // test the logic in unit tests.
-        testWidgets('highlights no section if we havent crossed any yet',
+        _testWidgets('highlights no section if we havent crossed any yet',
             (tester) async {
           tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
           tester.binding.window.devicePixelRatioTestValue = 1.0;
@@ -75,7 +98,7 @@ ${generateText(10)}
                   widget is SectionHighlight && widget.shouldHighlight == true),
               findsNothing);
         });
-        testWidgets('highlights section if we have scrolled past it',
+        _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
           tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
           tester.binding.window.devicePixelRatioTestValue = 1.0;
