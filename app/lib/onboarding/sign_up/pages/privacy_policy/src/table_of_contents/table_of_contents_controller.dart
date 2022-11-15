@@ -23,6 +23,8 @@ import '../privacy_policy_src.dart';
 /// eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
 /// voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 /// ```
+// TODO: This class in used in the ui code I think, should we create a seperate
+// view?
 class DocumentSection {
   // TODO: Remove sectionId and replace with documentSectionId.
   final String sectionId;
@@ -188,6 +190,8 @@ class TableOfContentsController extends ChangeNotifier {
 
   // TODO: Test
   void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
+    // TODO: Should/Can this check be moved into TableOfContents
+    // changeExpansionBehaviorTo method?
     // We assume that every section has same behavior.
     if (_tableOfContents.sections.first.expansionState.expansionBehavior !=
         expansionBehavior) {
