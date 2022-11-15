@@ -189,6 +189,9 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
       }
 
       // We are in a force-collapsed section.
+      // So either the user manually collapsed a automatically opened section
+      // (i.e a section that is currently read) or he manually opened and then
+      // closed a section that was not currently read.
       if (wasCollapsed) {
         // We are in a force-collapsed section / we force-collapsed a section
         // that we were already reading.
