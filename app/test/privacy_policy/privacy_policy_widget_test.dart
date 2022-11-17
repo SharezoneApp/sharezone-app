@@ -99,14 +99,9 @@ ${generateText(10)}
           );
 
           expect(
-              find.byWidgetPredicate((widget) =>
-                  widget is SectionHighlight &&
-                  widget.shouldHighlight == false),
-              findsOneWidget);
-          expect(
-              find.byWidgetPredicate((widget) =>
-                  widget is SectionHighlight && widget.shouldHighlight == true),
-              findsNothing);
+            find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
+            false,
+          );
         });
         _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
@@ -143,14 +138,9 @@ ${generateText(10)}
               find.byType(PrivacyPolicyText), Offset(0, -400), 10000);
 
           expect(
-              find.byWidgetPredicate((widget) =>
-                  widget is SectionHighlight && widget.shouldHighlight == true),
-              findsOneWidget);
-          expect(
-              find.byWidgetPredicate((widget) =>
-                  widget is SectionHighlight &&
-                  widget.shouldHighlight == false),
-              findsNothing);
+            find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
+            true,
+          );
         });
 
         /// While developing I used a threshold that was near the top of the
@@ -207,17 +197,30 @@ ${generateText(10)}
 
           await tester.pumpAndSettle();
 
-          final smallSectionHighlight = find
-              .widgetWithText(SectionHighlight, 'Small section')
-              .evaluate()
-              .first
-              .widget as SectionHighlight;
-
-          expect(smallSectionHighlight.shouldHighlight, true);
+          expect(
+            find.sectionHighlightWidget('Small section').shouldHighlight,
+            true,
+          );
         });
       });
     },
   );
+}
+
+extension on CommonFinders {
+  Finder sectionHighlight(String name) {
+    return find.widgetWithText(SectionHighlight, name);
+  }
+
+  Finder sectionHighlightPredicate(
+      bool Function(SectionHighlight widget) predicate) {
+    return find
+        .byWidgetPredicate((widget) => predicate(widget as SectionHighlight));
+  }
+
+  SectionHighlight sectionHighlightWidget(String name) {
+    return sectionHighlight(name).evaluate().first.widget as SectionHighlight;
+  }
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
