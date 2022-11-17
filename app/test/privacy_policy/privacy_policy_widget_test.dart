@@ -148,6 +148,75 @@ ${generateText(10)}
                   widget.shouldHighlight == false),
               findsNothing);
         });
+
+        /// While developing I used a threshold that was near the top of the
+        /// page but not at the very top `threshold: 0.1`. Automatic
+        /// scrolling (i.e. tapping on a section heading in the table of
+        /// contents) would scroll the heading to the very top though back
+        /// then.
+        ///
+        /// This lead to the case that automatically scrolling to a section
+        /// heading of a very small heading might skip this section as the
+        /// heading of the next section was already in the threshold.
+        ///
+        /// With this test we ensure that we scroll the heading always right
+        /// up to the threshold.
+        _testWidgets('scrolls a section heading always into the threshold',
+            (tester) async {
+          tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
+          tester.binding.window.devicePixelRatioTestValue = 1.0;
+          addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
+          final text = '''
+${generateText(10)}
+# Small section
+very smoll
+# Bigger section
+${generateText(10)}
+
+${generateText(10)}
+${generateText(10)}
+
+
+
+${generateText(10)}
+''';
+
+          await tester.pumpWidget(
+            wrapWithScaffold(NewPrivacyPolicy(
+              privacyPolicy: PrivacyPolicy(
+                lastChanged: DateTime(2022, 03, 04),
+                tableOfContentSections: [
+                  DocumentSection('small-section', 'Small section'),
+                  DocumentSection('bigger-section', 'Bigger section'),
+                ],
+                version: '2.0.0',
+                markdownText: text,
+              ),
+              config: PrivacyPolicyPageConfig(
+                // We put the threhold in the middle of the page so that we know
+                // that this can't be a fluke (i.e. if we used `0.1` a small
+                // section might have still covered the whole threhold.)
+                threshold: 0.5,
+                showDebugThresholdMarker: true,
+              ),
+            )),
+          );
+
+          // tap on section in table of contents
+          await tester
+              .tap(find.widgetWithText(SectionHighlight, 'Small section'));
+
+          await tester.pumpAndSettle();
+
+          final smallSectionHighlight = find
+              .widgetWithText(SectionHighlight, 'Small section')
+              .evaluate()
+              .first
+              .widget as SectionHighlight;
+
+          expect(smallSectionHighlight.shouldHighlight, true);
+        });
       });
     },
   );

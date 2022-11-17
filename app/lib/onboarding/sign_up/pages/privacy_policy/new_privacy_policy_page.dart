@@ -17,117 +17,142 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_po
 import 'src/privacy_policy_v2.dart';
 import 'src/widgets/privacy_policy_widgets.dart';
 
+class PrivacyPolicyPageConfig {
+  final double threshold;
+  final bool showDebugThresholdMarker;
+
+  const PrivacyPolicyPageConfig({
+    @required this.threshold,
+    this.showDebugThresholdMarker = false,
+  });
+}
+
+const _defaultConfig = PrivacyPolicyPageConfig(
+  threshold: 0.1,
+  showDebugThresholdMarker: true,
+);
+
 class NewPrivacyPolicy extends StatelessWidget {
   NewPrivacyPolicy({
     Key key,
     PrivacyPolicy privacyPolicy,
+    PrivacyPolicyPageConfig config,
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
+        config = config ?? _defaultConfig,
         super(key: key);
 
   final PrivacyPolicy privacyPolicy;
+  final PrivacyPolicyPageConfig config;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
-        create: (context) {
-          final themeSettings =
-              Provider.of<ThemeSettings>(context, listen: false);
-          return PrivacyPolicyThemeSettings(
-            analytics: AnalyticsProvider.ofOrNullObject(context),
-            themeSettings: Provider.of(context, listen: false),
-            initialTextScalingFactor: themeSettings.textScalingFactor,
-            initialVisualDensity: themeSettings.visualDensitySetting,
-            initialThemeBrightness: themeSettings.themeBrightness,
-          );
-        },
-        child: Provider(
+    return Provider<PrivacyPolicyPageConfig>(
+      create: (context) => config,
+      child: ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
           create: (context) {
-            final itemScrollController = ItemScrollController();
-            final itemPositionsListener = ItemPositionsListener.create();
-            return PrivacyPolicyTextDependencies(
-              itemScrollController: itemScrollController,
-              itemPositionsListener: itemPositionsListener,
-              anchorsController: AnchorsController(
-                itemPositionsListener: itemPositionsListener,
-                itemScrollController: itemScrollController,
-              ),
+            final themeSettings =
+                Provider.of<ThemeSettings>(context, listen: false);
+            return PrivacyPolicyThemeSettings(
+              analytics: AnalyticsProvider.ofOrNullObject(context),
+              themeSettings: Provider.of(context, listen: false),
+              initialTextScalingFactor: themeSettings.textScalingFactor,
+              initialVisualDensity: themeSettings.visualDensitySetting,
+              initialThemeBrightness: themeSettings.themeBrightness,
             );
           },
-          child: Builder(
-              builder: (context) => MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                      textScaleFactor: context
-                          .watch<PrivacyPolicyThemeSettings>()
-                          .textScalingFactor),
-                  child: ChangeNotifierProvider<TableOfContentsController>(
-                    // Else the currently active section doesn't get tracked until
-                    // the table of contents inside the bottom sheet was at least
-                    // once manually opened (for layouts with a bottom sheet).
-                    lazy: false,
-                    create: (context) {
-                      final dependencies =
-                          Provider.of<PrivacyPolicyTextDependencies>(context,
-                              listen: false);
-                      return TableOfContentsController(
-                        documentSectionController: DocumentSectionController(
-                          dependencies.anchorsController,
-                        ),
-                        tocDocumentSections:
-                            privacyPolicy.tableOfContentSections,
-                        // We change it when building the different layouts
-                        // anyway so it doesn't really matter what value we use
-                        // here.
-                        initialExpansionBehavior: ExpansionBehavior
-                            .alwaysAutomaticallyCloseSectionsAgain,
-                        // TODO: Make it change dynamically depending on the
-                        // heading that is really used at the end
-                        lastSectionId: DocumentSectionId('metadaten'),
-                      );
-                    },
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          visualDensity: context
-                              .watch<PrivacyPolicyThemeSettings>()
-                              .visualDensitySetting
-                              .visualDensity,
-                          floatingActionButtonTheme:
-                              FloatingActionButtonThemeData(
-                            backgroundColor: Theme.of(context).primaryColor,
-                          )),
-                      child: Scaffold(
-                        body: Center(
-                          child: LayoutBuilder(builder: (context, constraints) {
-                            // TODO: changeExpansionBehavior is called waaay to
-                            // often.
-                            final tocController =
-                                Provider.of<TableOfContentsController>(context,
-                                    listen: false);
+          child: Provider(
+            create: (context) {
+              final itemScrollController = ItemScrollController();
+              final itemPositionsListener = ItemPositionsListener.create();
+              return PrivacyPolicyTextDependencies(
+                itemScrollController: itemScrollController,
+                itemPositionsListener: itemPositionsListener,
+                anchorsController: AnchorsController(
+                  itemPositionsListener: itemPositionsListener,
+                  itemScrollController: itemScrollController,
+                ),
+              );
+            },
+            child: Builder(
+                builder: (context) => MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                        textScaleFactor: context
+                            .watch<PrivacyPolicyThemeSettings>()
+                            .textScalingFactor),
+                    child: ChangeNotifierProvider<TableOfContentsController>(
+                      // Else the currently active section doesn't get tracked until
+                      // the table of contents inside the bottom sheet was at least
+                      // once manually opened (for layouts with a bottom sheet).
+                      lazy: false,
+                      create: (context) {
+                        final dependencies =
+                            Provider.of<PrivacyPolicyTextDependencies>(context,
+                                listen: false);
+                        return TableOfContentsController(
+                          documentSectionController: DocumentSectionController(
+                            dependencies.anchorsController,
+                            threshold: config.threshold,
+                          ),
+                          tocDocumentSections:
+                              privacyPolicy.tableOfContentSections,
+                          threshold: config.threshold,
+                          // We change it when building the different layouts
+                          // anyway so it doesn't really matter what value we use
+                          // here.
+                          initialExpansionBehavior: ExpansionBehavior
+                              .alwaysAutomaticallyCloseSectionsAgain,
+                          // TODO: Make it change dynamically depending on the
+                          // heading that is really used at the end
+                          lastSectionId: DocumentSectionId('metadaten'),
+                        );
+                      },
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                            visualDensity: context
+                                .watch<PrivacyPolicyThemeSettings>()
+                                .visualDensitySetting
+                                .visualDensity,
+                            floatingActionButtonTheme:
+                                FloatingActionButtonThemeData(
+                              backgroundColor: Theme.of(context).primaryColor,
+                            )),
+                        child: Scaffold(
+                          body: Center(
+                            child:
+                                LayoutBuilder(builder: (context, constraints) {
+                              // TODO: changeExpansionBehavior is called waaay to
+                              // often.
+                              final tocController =
+                                  Provider.of<TableOfContentsController>(
+                                      context,
+                                      listen: false);
 
-                            if (constraints.maxWidth > 1100) {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .leaveManuallyOpenedSectionsOpen);
-                              return MainContentWide(
-                                  privacyPolicy: privacyPolicy);
-                            } else if (constraints.maxWidth > 500 &&
-                                constraints.maxHeight > 400) {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return MainContentNarrow(
-                                  privacyPolicy: privacyPolicy);
-                            } else {
-                              tocController.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return MainContentMobile(
-                                  privacyPolicy: privacyPolicy);
-                            }
-                          }),
+                              if (constraints.maxWidth > 1100) {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .leaveManuallyOpenedSectionsOpen);
+                                return MainContentWide(
+                                    privacyPolicy: privacyPolicy);
+                              } else if (constraints.maxWidth > 500 &&
+                                  constraints.maxHeight > 400) {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return MainContentNarrow(
+                                    privacyPolicy: privacyPolicy);
+                              } else {
+                                tocController.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return MainContentMobile(
+                                    privacyPolicy: privacyPolicy);
+                              }
+                            }),
+                          ),
                         ),
                       ),
-                    ),
-                  ))),
-        ));
+                    ))),
+          )),
+    );
   }
 }

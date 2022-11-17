@@ -30,8 +30,7 @@ class CurrentlyReadingSectionController {
     ValueListenable<List<DocumentSectionHeadingPosition>>
         visibleSectionHeadings, {
     @required DocumentSectionId endOfDocumentSectionId,
-    // TODO: Maybe make required?
-    double threshold = 0.1,
+    @required double threshold,
   }) {
     final sectionAndSubsectionIds = tableOfContentsDocumentSections
         .expand((element) => [element, ...element.subsections])

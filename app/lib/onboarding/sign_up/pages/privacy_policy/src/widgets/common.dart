@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/time.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/theme.dart';
 
@@ -192,28 +193,31 @@ class PrivacyPolicyText extends StatelessWidget {
   Widget build(BuildContext context) {
     final dependencies =
         Provider.of<PrivacyPolicyTextDependencies>(context, listen: false);
+    final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
 
-    return RelativeAnchorsMarkdown(
-      selectable: true,
-      // TODO - Fix: Links (blue colored text) have bad contrast in dark mode
-      styleSheet: MarkdownStyleSheet(
-          h3: Theme.of(context)
-              .textTheme
-              .subtitle1
-              .copyWith(fontWeight: FontWeight.w500),
-          blockquoteDecoration: BoxDecoration(
-            color: isDarkThemeEnabled(context)
-                ? Colors.blue.shade800.withOpacity(.6)
-                : Colors.blue.shade100,
-            borderRadius: BorderRadius.circular(2.0),
-          )),
-      extensionSet: sharezoneMarkdownExtensionSet,
-      itemScrollController: dependencies.itemScrollController,
-      itemPositionsListener: dependencies.itemPositionsListener,
-      anchorsController: dependencies.anchorsController,
-      data: '''
+    return Stack(
+      children: [
+        RelativeAnchorsMarkdown(
+          selectable: true,
+          // TODO - Fix: Links (blue colored text) have bad contrast in dark mode
+          styleSheet: MarkdownStyleSheet(
+              h3: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontWeight: FontWeight.w500),
+              blockquoteDecoration: BoxDecoration(
+                color: isDarkThemeEnabled(context)
+                    ? Colors.blue.shade800.withOpacity(.6)
+                    : Colors.blue.shade100,
+                borderRadius: BorderRadius.circular(2.0),
+              )),
+          extensionSet: sharezoneMarkdownExtensionSet,
+          itemScrollController: dependencies.itemScrollController,
+          itemPositionsListener: dependencies.itemPositionsListener,
+          anchorsController: dependencies.anchorsController,
+          data: '''
 ${privacyPolicy.markdownText}
-
+    
 ---
 
 ##### ${privacyPolicy.lastSectionHeadingText}
@@ -221,17 +225,39 @@ Version: v${privacyPolicy.version}
 
 Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
 ''',
-      onTapLink: (text, href, title) {
-        if (href == null) return;
-        if (href.startsWith('#')) {
-          dependencies.anchorsController.scrollToAnchor(
-            // Remove leading #
-            href.substring(1),
-          );
-          return;
-        }
-        launchURL(href, context: context);
-      },
+          onTapLink: (text, href, title) {
+            if (href == null) return;
+            if (href.startsWith('#')) {
+              // TODO: Dont use anchorsController directly.
+              dependencies.anchorsController.scrollToAnchor(
+                // Remove leading #
+                href.substring(1),
+              );
+              return;
+            }
+            launchURL(href, context: context);
+          },
+        ),
+        if (config.showDebugThresholdMarker)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: Align(
+                alignment: Alignment.topCenter
+                    // Just using `config.threshold` doesn't line up with the
+                    // real threshold so we use `config.threshold * 2` (which
+                    // does always line up).
+                    // I have absolutely no clue why though. If you dear reader
+                    // know why then please replace this comment.
+                    .add(Alignment(0, config.threshold * 2)),
+                child: Divider(
+                  color: Colors.red,
+                  thickness: 2,
+                  height: 0,
+                ),
+              ),
+            ),
+          )
+      ],
     );
   }
 }
