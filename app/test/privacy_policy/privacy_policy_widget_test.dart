@@ -63,10 +63,6 @@ void main() {
         // test the logic in unit tests.
         _testWidgets('highlights no section if we havent crossed any yet',
             (tester) async {
-          tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
-          tester.binding.window.devicePixelRatioTestValue = 1.0;
-          addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-
           final text = '''
 ${generateText(10)}
 # Inhaltsverzeichnis
@@ -100,10 +96,6 @@ ${generateText(10)}
         });
         _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
-          tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
-          tester.binding.window.devicePixelRatioTestValue = 1.0;
-          addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-
           final text = '''
 Test test test
 
@@ -163,10 +155,6 @@ ${generateText(10)}
         /// up to the threshold.
         _testWidgets('scrolls a section heading always into the threshold',
             (tester) async {
-          tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
-          tester.binding.window.devicePixelRatioTestValue = 1.0;
-          addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-
           final text = '''
 ${generateText(10)}
 # Small section
