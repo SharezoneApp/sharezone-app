@@ -53,6 +53,20 @@ void testWidgetsWithDimensions(
   });
 }
 
+PrivacyPolicy _privacyPolicyWith({
+  @required List<DocumentSection> tableOfContentSections,
+  @required String markdown,
+}) {
+  return PrivacyPolicy(
+    lastChanged: DateTime(2022, 03, 04),
+    tableOfContentSections: tableOfContentSections,
+    version: '2.0.0',
+    markdownText: markdown,
+    entersIntoForceOnOrNull: null,
+    lastSectionHeadingText: 'Metadaten',
+  );
+}
+
 void main() {
   group(
     'privacy policy page',
@@ -72,16 +86,16 @@ ${generateText(10)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: PrivacyPolicy(
-                lastChanged: DateTime(2022, 03, 04),
-                tableOfContentSections: [
-                  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
-                ],
-                version: '2.0.0',
-                markdownText: text,
+            wrapWithScaffold(
+              PrivacyPolicyPage(
+                privacyPolicy: _privacyPolicyWith(
+                  tableOfContentSections: [
+                    DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                  ],
+                  markdown: text,
+                ),
               ),
-            )),
+            ),
           );
 
           expect(
@@ -116,13 +130,11 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: PrivacyPolicy(
-                lastChanged: DateTime(2022, 03, 04),
+              privacyPolicy: _privacyPolicyWith(
                 tableOfContentSections: [
                   DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                 ],
-                version: '2.0.0',
-                markdownText: text,
+                markdown: text,
               ),
             )),
           );
@@ -172,14 +184,12 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: PrivacyPolicy(
-                lastChanged: DateTime(2022, 03, 04),
+              privacyPolicy: _privacyPolicyWith(
                 tableOfContentSections: [
                   DocumentSection('small-section', 'Small section'),
                   DocumentSection('bigger-section', 'Bigger section'),
                 ],
-                version: '2.0.0',
-                markdownText: text,
+                markdown: text,
               ),
               config: PrivacyPolicyPageConfig(
                 // We put the threhold in the middle of the page so that we know
