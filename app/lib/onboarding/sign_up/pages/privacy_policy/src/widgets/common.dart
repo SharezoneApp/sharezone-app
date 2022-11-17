@@ -194,6 +194,8 @@ class PrivacyPolicyText extends StatelessWidget {
     final dependencies =
         Provider.of<PrivacyPolicyTextDependencies>(context, listen: false);
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
+    final tocController =
+        Provider.of<TableOfContentsController>(context, listen: false);
 
     return Stack(
       children: [
@@ -228,12 +230,14 @@ Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChange
           onTapLink: (text, href, title) {
             if (href == null) return;
             if (href.startsWith('#')) {
-              // TODO: Dont use anchorsController directly.
-              dependencies.anchorsController.scrollToAnchor(
+              // TODO: Doesn't really make sense that we use the
+              // "table of contents" controller here, does it?
+              tocController.scrollTo(
+                DocumentSectionId(
                 // Remove leading #
                 href.substring(1),
+                ),
               );
-              return;
             }
             launchURL(href, context: context);
           },
