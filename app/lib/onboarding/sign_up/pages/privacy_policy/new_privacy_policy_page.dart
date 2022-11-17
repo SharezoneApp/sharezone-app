@@ -32,8 +32,8 @@ const _defaultConfig = PrivacyPolicyPageConfig(
   // showDebugThresholdMarker: true,
 );
 
-class NewPrivacyPolicy extends StatelessWidget {
-  NewPrivacyPolicy({
+class PrivacyPolicyPage extends StatelessWidget {
+  PrivacyPolicyPage({
     Key key,
     PrivacyPolicy privacyPolicy,
     PrivacyPolicyPageConfig config,

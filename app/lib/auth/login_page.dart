@@ -203,7 +203,7 @@ class _TemporaryPrivacyPolicyButtons extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => NewPrivacyPolicy())),
+              MaterialPageRoute(builder: (context) => PrivacyPolicyPage())),
           child: Text('Öffne Datenschutzerklärung'),
         ),
       ],

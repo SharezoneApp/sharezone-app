@@ -76,7 +76,7 @@ ${generateText(10)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(NewPrivacyPolicy(
+            wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: PrivacyPolicy(
                 lastChanged: DateTime(2022, 03, 04),
                 tableOfContentSections: [
@@ -123,7 +123,7 @@ ${generateText(10)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(NewPrivacyPolicy(
+            wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: PrivacyPolicy(
                 lastChanged: DateTime(2022, 03, 04),
                 tableOfContentSections: [
@@ -183,7 +183,7 @@ ${generateText(10)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(NewPrivacyPolicy(
+            wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: PrivacyPolicy(
                 lastChanged: DateTime(2022, 03, 04),
                 tableOfContentSections: [
@@ -227,7 +227,7 @@ ${generateText(10)}
 // tests.
 // --update-goldens
 Future<void> generateGolden(String name) async {
-  await expectLater(find.byType(NewPrivacyPolicy),
+  await expectLater(find.byType(PrivacyPolicyPage),
       matchesGoldenFile('goldens/golden_$name.png'));
 }
 
