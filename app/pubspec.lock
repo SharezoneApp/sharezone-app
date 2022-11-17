@@ -847,7 +847,7 @@ packages:
     description:
       path: "packages/flutter_markdown"
       ref: HEAD
-      resolved-ref: "4b9e5ca382e48b61157f8745ee4141ebf4beb225"
+      resolved-ref: "5e43ea63ece8f3c3d6e79ed5c56c0779533426fa"
       url: "https://github.com/SharezoneApp/packages"
     source: git
     version: "0.6.9+1"

@@ -214,8 +214,6 @@ class PrivacyPolicyText extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2.0),
               )),
           extensionSet: sharezoneMarkdownExtensionSet,
-          itemScrollController: dependencies.itemScrollController,
-          itemPositionsListener: dependencies.itemPositionsListener,
           anchorsController: dependencies.anchorsController,
           data: '''
 ${privacyPolicy.markdownText}
@@ -234,8 +232,8 @@ Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChange
               // "table of contents" controller here, does it?
               tocController.scrollTo(
                 DocumentSectionId(
-                // Remove leading #
-                href.substring(1),
+                  // Remove leading #
+                  href.substring(1),
                 ),
               );
             }
