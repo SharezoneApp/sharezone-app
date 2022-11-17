@@ -236,6 +236,7 @@ Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChange
                   href.substring(1),
                 ),
               );
+              return;
             }
             launchURL(href, context: context);
           },
