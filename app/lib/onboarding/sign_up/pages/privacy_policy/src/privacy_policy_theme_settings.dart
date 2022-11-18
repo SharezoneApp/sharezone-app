@@ -13,8 +13,12 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 
-// TODO: Add tests and docs
-/// Mostly copied from [ThemeSettings]
+/// Ephemeral theme settings that are scoped only to the privacy policy page.
+///
+/// Unlike [ThemeSettings] this class doesn't cache the settings.
+/// Additionally all changes are only applied to the privacy policy page.
+/// If e.g. the the [PrivacyPolicyThemeSettings.textScalingFactor] is changed
+/// [ThemeSettings.textScalingFactor] will stay the same.
 class PrivacyPolicyThemeSettings extends ChangeNotifier {
   final Analytics _analytics;
   final ThemeSettings _themeSettings;
@@ -24,14 +28,8 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
   PrivacyPolicyThemeSettings({
     required Analytics analytics,
     required ThemeSettings themeSettings,
-
-    /// The value assigned to [textScalingFactor] if no other value is cached.
     required double initialTextScalingFactor,
-
-    /// The value assigned to [visualDensity] if no other value is cached.
     required VisualDensitySetting initialVisualDensity,
-
-    /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness initialThemeBrightness,
     this.textScalingFactorLowerBound = 0.1,
     this.textScalingFactorUpperBound = 5.0,
