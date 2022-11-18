@@ -10,22 +10,30 @@ import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
 
 import '../privacy_policy_src.dart';
 
-// TODO: Is this still needed?
-// TODO: Make nicer, copied it from else where.
-/// A section means content beneath a markdown heading e.g. the following
-/// example would a section called "Data protection officer."
+/// A model of a section (or chapter) of the markdown document.
+/// Used by the table of contents to list and navigate to specific sections of
+/// the privacy policy.
+///
+/// A section is created inside the markdown document by an headline with
+/// following content:
 /// ```markdown
-/// ## Data protection officer
-/// Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-/// eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-/// voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+/// # Section
+/// Lorem Ipsum
+/// ## Subsection
+/// Bla bla bla
 /// ```
-// TODO: This class in used in the ui code I think, should we create a seperate
-// view?
+///
+/// This will create the following [DocumentSection]:
+/// ```dart
+/// DocumentSection('section', 'Section', [
+///   DocumentSection('subsection', 'Subsection'),
+/// ]);
+/// ```
 class DocumentSection {
   // TODO: Remove sectionId and replace with documentSectionId.
   final String sectionId;
@@ -56,6 +64,12 @@ class DocumentSection {
       'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
 }
 
+/// The position of the heading with [documentSectionId] on the screen.
+/// Used to compute which document section is currently read (see
+/// [CurrentlyReadingSectionController]).
+///
+/// This is analogus to the [ItemPosition] of the [ScrollablePositionedList]
+/// used by [RelativeAnchorsMarkdown] to display the markdown.
 class DocumentSectionHeadingPosition {
   final DocumentSectionId documentSectionId;
   final double itemLeadingEdge;
