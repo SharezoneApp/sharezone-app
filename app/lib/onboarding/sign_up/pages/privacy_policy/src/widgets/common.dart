@@ -238,12 +238,11 @@ class PrivacyPolicyText extends StatelessWidget {
             child: IgnorePointer(
               child: Align(
                 alignment: Alignment.topCenter
-                    // Just using `config.threshold` doesn't line up with the
-                    // real threshold so we use `config.threshold * 2` (which
-                    // does always line up).
+                    // We have to multiply the [config.threshold] with two so
+                    // that it lines up with the real threshold on screen.
                     // I have absolutely no clue why though. If you dear reader
                     // know why then please replace this comment.
-                    .add(Alignment(0, config.threshold * 2)),
+                    .add(Alignment(0, config.threshold.position * 2)),
                 child: Divider(
                   color: Colors.red,
                   thickness: 2,
@@ -316,16 +315,16 @@ class PrivacyPolicyTextDependencies {
 /// 2. If the [sectionName] is seen on screen (we arrive at the end of the
 /// document) we automatically change the last section in the table of contents
 /// to "currrently read", ignoring the chapter that would usually be
-/// marked as "currently read" by using the threshold.
+/// marked as "currently read" by using the [CurrentlyReadThreshold].
 ///
 /// This is done because in some cases the last chapter of the privacy
-/// policy is too short to scroll past the "currently read" threshold. In this
+/// policy is too short to scroll past the [CurrentlyReadThreshold]. In this
 /// case the last chapter in the table of contents will never be highlighted.
 /// For a nicer user experience we highlight the last section in the table of
 /// contents if we arrive at the end of the document.
 ///
 /// We use this weird workaround (observing if this specific chapter is
-/// seen somewhere on screen regardless of the "currently read" threshold)
+/// seen somewhere on screen regardless of the [CurrentlyReadThreshold])
 /// because we can't observe the [ScrollController] to do a check like this:
 /// ```dart
 /// final isAtBottomOfDocument =
@@ -361,5 +360,23 @@ Version: v${privacyPolicy.version}
 
 Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
 ''');
+  }
+}
+
+/// The threshold at which a [DocumentSection] is marked as "currently read"
+/// when the [DocumentSectionHeadingPosition] intersects with [position].
+///
+/// For the exact behavior for when a section is marked as active see
+/// [CurrentlyReadingSectionController] (and the tests).
+///
+/// This is encapsulated as a class for documentation purposes.
+class CurrentlyReadThreshold {
+  final double position;
+
+  const CurrentlyReadThreshold(this.position)
+      : assert(position >= 0.0 && position <= 1.0);
+
+  bool intersectsOrIsPast(DocumentSectionHeadingPosition headingPosition) {
+    return headingPosition.itemLeadingEdge <= position;
   }
 }

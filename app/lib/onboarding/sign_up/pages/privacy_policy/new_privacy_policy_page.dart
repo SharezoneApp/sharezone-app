@@ -18,17 +18,19 @@ import 'src/privacy_policy_v2.dart';
 import 'src/widgets/privacy_policy_widgets.dart';
 
 class PrivacyPolicyPageConfig {
-  final double threshold;
+  final CurrentlyReadThreshold threshold;
+
+  /// Show a marker at [CurrentlyReadThreshold.position].
   final bool showDebugThresholdMarker;
   final PrivacyPolicyEndSection endSection;
 
   factory PrivacyPolicyPageConfig({
-    double threshold,
+    CurrentlyReadThreshold threshold,
     bool showDebugThresholdMarker,
     PrivacyPolicyEndSection endSection,
   }) {
     return PrivacyPolicyPageConfig._(
-      threshold ?? 0.1,
+      threshold ?? CurrentlyReadThreshold(0.1),
       showDebugThresholdMarker ?? false,
       endSection ?? PrivacyPolicyEndSection.metadata(),
     );

@@ -40,7 +40,7 @@ void main() {
       return TestCurrentlyReadingSectionController(
         sections,
         visibleSections,
-        threshold: threshold,
+        threshold: CurrentlyReadThreshold(threshold),
         lastSection:
             lastSection != null ? DocumentSectionId(lastSection) : null,
       );
@@ -653,7 +653,7 @@ class TestCurrentlyReadingSectionController {
   TestCurrentlyReadingSectionController(
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
-    @required double threshold,
+    @required CurrentlyReadThreshold threshold,
     DocumentSectionId lastSection,
   }) {
     _tableOfContentsController = TableOfContentsController.internal(

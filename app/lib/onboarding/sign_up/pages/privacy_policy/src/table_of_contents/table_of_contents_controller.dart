@@ -75,7 +75,7 @@ class DocumentSectionHeadingPosition {
 
 class DocumentSectionController {
   final AnchorsController _anchorsController;
-  final double threshold;
+  final CurrentlyReadThreshold threshold;
 
   DocumentSectionController(
     this._anchorsController, {
@@ -111,7 +111,7 @@ class DocumentSectionController {
       duration: Duration(milliseconds: 100),
       // Overscroll a tiny bit. Otherwise it can sometimes happen that the
       // section / element we scroll to is still not marked as currently read.
-      alignment: threshold - 0.001,
+      alignment: threshold.position - 0.001,
     );
   }
 }
@@ -139,7 +139,7 @@ class TableOfContentsController extends ChangeNotifier {
     // Can't see if we have reached bottom of document i think as we cant access
     // ScrollController when using ScrollablePositionedList.
     @required PrivacyPolicyEndSection endSection,
-    @required double threshold,
+    @required CurrentlyReadThreshold threshold,
   }) {
     return TableOfContentsController.internal(
       CurrentlyReadingSectionController(

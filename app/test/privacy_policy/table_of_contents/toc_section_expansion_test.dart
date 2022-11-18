@@ -10,6 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
 import 'package:test/test.dart';
 
 class _TableOfContentsTestController {
@@ -42,7 +43,8 @@ class _TableOfContentsTestController {
     _tocController ??= TableOfContentsController.internal(
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections,
-      DocumentSectionController(AnchorsController(), threshold: 0.1)
+      DocumentSectionController(AnchorsController(),
+              threshold: CurrentlyReadThreshold(0.1))
           .scrollToDocumentSection,
       ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );

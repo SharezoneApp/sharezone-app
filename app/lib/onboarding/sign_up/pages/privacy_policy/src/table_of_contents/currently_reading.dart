@@ -32,7 +32,7 @@ class CurrentlyReadingSectionController {
         visibleSectionHeadings, {
     // TODO: lastTocDocumentSectionId or sth like this might be more fitting now
     @required PrivacyPolicyEndSection endSection,
-    @required double threshold,
+    @required CurrentlyReadThreshold threshold,
   }) {
     final sectionAndSubsectionIds = tableOfContentsDocumentSections
         .expand((element) => [element, ...element.subsections])
@@ -235,11 +235,11 @@ class _CurrentlyReadingState {
 
 class _Viewport {
   final IList<DocumentSectionHeadingPosition> sortedHeadingPositions;
-  final double threshold;
+  final CurrentlyReadThreshold threshold;
 
   factory _Viewport({
     @required IList<DocumentSectionHeadingPosition> headingPositions,
-    @required double threshold,
+    @required CurrentlyReadThreshold threshold,
   }) {
     final sorted = headingPositions.sort(
         (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge));
@@ -263,8 +263,11 @@ class _Viewport {
   }
 
   IList<DocumentSectionHeadingPosition> get sectionsInThreshold {
+    // Since [sortedHeadingPositions] includes only headings that are currently
+    // drawn we don't return all the headings that we already scrolled off the
+    // screen.
     return sortedHeadingPositions
-        .where((section) => section.itemLeadingEdge <= threshold)
+        .where((section) => threshold.intersectsOrIsPast(section))
         .toIList();
   }
 

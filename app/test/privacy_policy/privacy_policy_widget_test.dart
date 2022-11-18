@@ -184,7 +184,7 @@ ${generateText(10)}
                 // We put the threhold in the middle of the page so that we know
                 // that this can't be a fluke (i.e. if we used `0.1` a small
                 // section might have still covered the whole threhold.)
-                threshold: 0.5,
+                threshold: CurrentlyReadThreshold(0.5),
                 showDebugThresholdMarker: true,
               ),
             )),
