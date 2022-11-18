@@ -35,6 +35,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     required ThemeBrightness initialThemeBrightness,
     this.textScalingFactorLowerBound = 0.1,
     this.textScalingFactorUpperBound = 5.0,
+    bool initialShowDebugThresholdIndicator = false,
   })  : _analytics = analytics,
         _themeSettings = themeSettings {
     // TODO: Write tests for error
@@ -47,6 +48,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     _textScalingFactor = initialTextScalingFactor;
     _visualDensitySetting = initialVisualDensity;
     _themeBrightness = initialThemeBrightness;
+    _showDebugThresholdIndicator = initialShowDebugThresholdIndicator;
   }
 
   // TODO: Write tests for clamping
@@ -90,6 +92,13 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     // we don't need a specific analytics event only for the privacy policy page
     // like for other attributes above.
     _themeSettings.themeBrightness = value;
+    notifyListeners();
+  }
+
+  late bool _showDebugThresholdIndicator;
+  bool get showDebugThresholdIndicator => _showDebugThresholdIndicator;
+  set showDebugThresholdIndicator(bool value) {
+    _showDebugThresholdIndicator = value;
     notifyListeners();
   }
 }

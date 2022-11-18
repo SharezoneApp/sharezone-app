@@ -21,7 +21,7 @@ class PrivacyPolicyPageConfig {
   final CurrentlyReadThreshold threshold;
 
   /// Show a marker at [CurrentlyReadThreshold.position].
-  final bool showDebugThresholdMarker;
+  final bool showDebugThresholdIndicator;
   final PrivacyPolicyEndSection endSection;
 
   factory PrivacyPolicyPageConfig({
@@ -37,7 +37,7 @@ class PrivacyPolicyPageConfig {
   }
   PrivacyPolicyPageConfig._(
     this.threshold,
-    this.showDebugThresholdMarker,
+    this.showDebugThresholdIndicator,
     this.endSection,
   );
 }
@@ -68,6 +68,8 @@ class PrivacyPolicyPage extends StatelessWidget {
               initialTextScalingFactor: themeSettings.textScalingFactor,
               initialVisualDensity: themeSettings.visualDensitySetting,
               initialThemeBrightness: themeSettings.themeBrightness,
+              initialShowDebugThresholdIndicator:
+                  config.showDebugThresholdIndicator,
             );
           },
           child: Provider(

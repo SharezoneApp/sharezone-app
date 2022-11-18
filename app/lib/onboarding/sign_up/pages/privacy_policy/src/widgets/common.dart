@@ -194,6 +194,8 @@ class PrivacyPolicyText extends StatelessWidget {
     final dependencies =
         Provider.of<PrivacyPolicyTextDependencies>(context, listen: false);
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
+    final theme =
+        Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
 
@@ -233,7 +235,7 @@ class PrivacyPolicyText extends StatelessWidget {
             launchURL(href, context: context);
           },
         ),
-        if (config.showDebugThresholdMarker)
+        if (theme.showDebugThresholdIndicator)
           Positioned.fill(
             child: IgnorePointer(
               child: Align(

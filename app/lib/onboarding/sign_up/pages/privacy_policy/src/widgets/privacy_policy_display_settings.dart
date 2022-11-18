@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
@@ -39,6 +40,10 @@ class DisplaySettingsDialog extends StatelessWidget {
               _LightOrDarkMode(themeSettings: themeSettings),
               SizedBox(height: 10),
               _VisualDensity(themeSettings: themeSettings),
+              if (kDebugMode) ...[
+                SizedBox(height: 10),
+                _DrawDebugThresholdIndicator(themeSettings: themeSettings),
+              ]
             ],
           ),
         ),
@@ -214,5 +219,31 @@ class _VisualDensity extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _DrawDebugThresholdIndicator extends StatelessWidget {
+  const _DrawDebugThresholdIndicator({Key key, @required this.themeSettings})
+      : super(key: key);
+
+  final PrivacyPolicyThemeSettings themeSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    final drawIndicator = themeSettings.showDebugThresholdIndicator;
+    return Wrap(
+        alignment: WrapAlignment.spaceAround,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Text('"Am Lesen"-Indikator anzeigen',
+              style: Theme.of(context).textTheme.button),
+          SizedBox(width: 10),
+          Checkbox(
+            value: drawIndicator,
+            onChanged: (newValue) {
+              themeSettings.showDebugThresholdIndicator = newValue;
+            },
+          ),
+        ]);
   }
 }
