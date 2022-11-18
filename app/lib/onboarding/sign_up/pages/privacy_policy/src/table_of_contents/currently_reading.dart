@@ -30,7 +30,6 @@ class CurrentlyReadingSectionController {
     List<DocumentSection> tableOfContentsDocumentSections,
     ValueListenable<List<DocumentSectionHeadingPosition>>
         visibleSectionHeadings, {
-    // TODO: lastTocDocumentSectionId or sth like this might be more fitting now
     @required PrivacyPolicyEndSection endSection,
     @required CurrentlyReadThreshold threshold,
   }) {
