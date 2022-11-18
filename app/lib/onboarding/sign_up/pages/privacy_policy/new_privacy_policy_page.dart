@@ -126,8 +126,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                           body: Center(
                             child:
                                 LayoutBuilder(builder: (context, constraints) {
-                              // TODO: changeExpansionBehavior is called waaay to
-                              // often.
                               final tocController =
                                   Provider.of<TableOfContentsController>(
                                       context,
