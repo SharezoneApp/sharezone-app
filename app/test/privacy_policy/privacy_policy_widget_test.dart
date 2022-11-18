@@ -63,7 +63,6 @@ PrivacyPolicy _privacyPolicyWith({
     version: '2.0.0',
     markdownText: markdown,
     entersIntoForceOnOrNull: null,
-    lastSectionHeadingText: 'Metadaten',
   );
 }
 
@@ -199,6 +198,70 @@ ${generateText(10)}
 
           expect(
             find.sectionHighlightWidget('Small section').shouldHighlight,
+            true,
+          );
+        });
+
+        /// The heading of the very last section might not scroll high enough on
+        /// the privacy policy page to pass the "currently reading" threshold as
+        /// the section might have not enough text and one can't scroll further
+        /// than the end of the text.
+        /// In this case the last section would never be highlighted even if the
+        /// user scrolls to the very end of the privacy policy.
+        ///
+        /// With this test we want to ensure that if we scroll to the very
+        /// bottom of the page we highlight the last section in the table of
+        /// contents, regardless of the last section heading not having passed
+        /// the threshold yet.
+        ///
+        /// This is done for a nicer user expierence.
+        /// There will still be edge-cases though: If chapters right before
+        /// the last section are also too short to be scrolled past the
+        /// "currently reading" threshold they will never get highlighted.
+        /// In this case we would skip highlighting these chapters in the table
+        /// of contents when scrolling to the very end of the document.
+        ///
+        /// Regarding the implementation of this behavior we use a workaround
+        /// described further in documentation of [PrivacyPolicyEndSection].
+        _testWidgets(
+            'highlights the last section in the table of contents if we scroll to the very end of the document',
+            (tester) async {
+          const endSectionName = 'end section W!ith some_ special Chars.';
+          final endSection = PrivacyPolicyEndSection(
+            sectionName: endSectionName,
+            generateMarkdown: (privacyPolicy) => '''
+
+#### $endSectionName
+This is not enough text to scroll the heading past the currently read threshold.
+''',
+          );
+
+          final text = '''
+# Foo
+${generateText(200)}
+''';
+
+          await tester.pumpWidget(
+            wrapWithScaffold(PrivacyPolicyPage(
+              privacyPolicy: _privacyPolicyWith(
+                tableOfContentSections: [
+                  DocumentSection('foo', 'Foo'),
+                  DocumentSection(
+                      endSection.sectionId.id, endSection.sectionName),
+                ],
+                markdown: text,
+              ),
+              config: PrivacyPolicyPageConfig(endSection: endSection),
+            )),
+          );
+
+          await tester.fling(
+              find.byType(PrivacyPolicyText), Offset(0, -40000), 100000);
+
+          await tester.pumpAndSettle();
+
+          expect(
+            find.sectionHighlightWidget(endSectionName).shouldHighlight,
             true,
           );
         });

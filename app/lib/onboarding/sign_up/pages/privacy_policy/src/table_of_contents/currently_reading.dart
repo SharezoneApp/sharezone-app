@@ -10,6 +10,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
 import '../privacy_policy_src.dart';
+import '../widgets/common.dart';
 
 /// Updates which [DocumentSection] inside the table of contents the user is
 /// currently reading.
@@ -29,7 +30,8 @@ class CurrentlyReadingSectionController {
     List<DocumentSection> tableOfContentsDocumentSections,
     ValueListenable<List<DocumentSectionHeadingPosition>>
         visibleSectionHeadings, {
-    @required DocumentSectionId endOfDocumentSectionId,
+    // TODO: lastTocDocumentSectionId or sth like this might be more fitting now
+    @required PrivacyPolicyEndSection endSection,
     @required double threshold,
   }) {
     final sectionAndSubsectionIds = tableOfContentsDocumentSections
@@ -39,7 +41,7 @@ class CurrentlyReadingSectionController {
 
     _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
-      endOfDocumentSectionId: endOfDocumentSectionId,
+      endOfDocumentSectionId: endSection.sectionId,
       viewport: _Viewport(
         headingPositions: visibleSectionHeadings.value.toIList(),
         threshold: threshold,
@@ -153,6 +155,15 @@ class _CurrentlyReadingState {
     if (insideThreshold.isEmpty) {
       // ... we get the index of the top-most section heading on screen...
       final index = _indexOf(viewport.sortedHeadingPositions.first);
+
+      // Saw this happen once in a wrongly configured test. Shouldn't happen in
+      // the real world but if it does we throw an Error to indicate it being
+      // a developer error, not an user error. I don't really understand when it
+      // could happen.
+      if (index == -1) {
+        throw StateError(
+            'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. viewport.sortedHeadingPositions: ${viewport.sortedHeadingPositions}');
+      }
 
       // Special case: If it's the first section we mark no section as currently
       // read since we haven't "entered" the first section since it's below

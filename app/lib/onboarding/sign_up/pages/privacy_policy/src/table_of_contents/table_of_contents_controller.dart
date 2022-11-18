@@ -10,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
 
 import '../privacy_policy_src.dart';
 
@@ -137,14 +138,14 @@ class TableOfContentsController extends ChangeNotifier {
     // TODO: Document why we have to use this workaround.
     // Can't see if we have reached bottom of document i think as we cant access
     // ScrollController when using ScrollablePositionedList.
-    @required DocumentSectionId lastSectionId,
+    @required PrivacyPolicyEndSection endSection,
     @required double threshold,
   }) {
     return TableOfContentsController.internal(
       CurrentlyReadingSectionController(
         tocDocumentSections,
         documentSectionController.visibleSectionHeadings,
-        endOfDocumentSectionId: lastSectionId,
+        endSection: endSection,
         threshold: threshold,
       ),
       tocDocumentSections,

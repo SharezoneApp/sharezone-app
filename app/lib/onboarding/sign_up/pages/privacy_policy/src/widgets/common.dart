@@ -215,16 +215,8 @@ class PrivacyPolicyText extends StatelessWidget {
               )),
           extensionSet: sharezoneMarkdownExtensionSet,
           anchorsController: dependencies.anchorsController,
-          data: '''
-${privacyPolicy.markdownText}
-    
----
-
-##### ${privacyPolicy.lastSectionHeadingText}
-Version: v${privacyPolicy.version}
-
-Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
-''',
+          data: privacyPolicy.markdownText +
+              config.endSection.generateMarkdown(privacyPolicy),
           onTapLink: (text, href, title) {
             if (href == null) return;
             if (href.startsWith('#')) {
@@ -276,15 +268,12 @@ class PrivacyPolicy {
   bool get hasNotYetEnteredIntoForce =>
       entersIntoForceOnOrNull != null &&
       entersIntoForceOnOrNull.isAfter(Clock().now());
-  // TODO: Document
-  final String lastSectionHeadingText;
 
   const PrivacyPolicy({
     @required this.markdownText,
     @required this.tableOfContentSections,
     @required this.version,
     @required this.lastChanged,
-    this.lastSectionHeadingText = 'Metadaten',
     this.entersIntoForceOnOrNull,
   });
 
@@ -311,14 +300,66 @@ class PrivacyPolicy {
   }
 }
 
+// TODO: Can we remove this?
 class PrivacyPolicyTextDependencies {
-  final ItemScrollController itemScrollController;
-  final ItemPositionsListener itemPositionsListener;
   final AnchorsController anchorsController;
 
   PrivacyPolicyTextDependencies({
-    @required this.itemScrollController,
-    @required this.itemPositionsListener,
     @required this.anchorsController,
   });
+}
+
+/// This will be added to the end of the privacy policy.
+/// We use this for two purposes:
+/// 1. Show the user the metadata of the privacy policy (version, last changes)
+///
+/// 2. If the [sectionName] is seen on screen (we arrive at the end of the
+/// document) we automatically change the last section in the table of contents
+/// to "currrently read", ignoring the chapter that would usually be
+/// marked as "currently read" by using the threshold.
+///
+/// This is done because in some cases the last chapter of the privacy
+/// policy is too short to scroll past the "currently read" threshold. In this
+/// case the last chapter in the table of contents will never be highlighted.
+/// For a nicer user experience we highlight the last section in the table of
+/// contents if we arrive at the end of the document.
+///
+/// We use this weird workaround (observing if this specific chapter is
+/// seen somewhere on screen regardless of the "currently read" threshold)
+/// because we can't observe the [ScrollController] to do a check like this:
+/// ```dart
+/// final isAtBottomOfDocument =
+/// _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
+/// ```
+/// To implement the scrolling to a specific chapter we had to replace the
+/// [ListView] with a [ScrollablePositionedList] used in the
+/// [RelativeAnchorsMarkdown] widget internally to render the markdown text.
+/// A [ScrollablePositionedList] internally uses two [ScrollController] that it
+/// doesn't expose to the outside world:
+/// https://github.com/google/flutter.widgets/issues/235
+class PrivacyPolicyEndSection {
+  final String sectionName;
+  DocumentSectionId get sectionId =>
+      DocumentSectionId(generateAnchorHash(sectionName));
+  final String Function(PrivacyPolicy privacyPolicy) generateMarkdown;
+
+  const PrivacyPolicyEndSection({
+    @required this.sectionName,
+    @required this.generateMarkdown,
+  });
+
+  factory PrivacyPolicyEndSection.metadata() {
+    return PrivacyPolicyEndSection(
+        sectionName: 'Metadaten',
+        generateMarkdown: (privacyPolicy) => '''
+
+
+---
+
+##### Metadaten
+Version: v${privacyPolicy.version}
+
+Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
+''');
+  }
 }

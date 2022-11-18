@@ -9,6 +9,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
 
 DocumentSection _section(String id, {List<DocumentSection> subsections}) {
   return DocumentSection(id, id, subsections ?? []);
@@ -660,7 +661,13 @@ class TestCurrentlyReadingSectionController {
         _tocSectionHeadings,
         _visibleSectionHeadings,
         threshold: threshold,
-        endOfDocumentSectionId: lastSection,
+        endSection: PrivacyPolicyEndSection(
+          sectionName: lastSection?.id ?? 'metadaten',
+          generateMarkdown: (pp) => '''
+
+#### ${lastSection?.id ?? 'metadaten'}
+''',
+        ),
       ),
       _tocSectionHeadings,
       (sectionId) => Future.value(),

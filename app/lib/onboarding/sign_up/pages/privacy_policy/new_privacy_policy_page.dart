@@ -20,17 +20,25 @@ import 'src/widgets/privacy_policy_widgets.dart';
 class PrivacyPolicyPageConfig {
   final double threshold;
   final bool showDebugThresholdMarker;
+  final PrivacyPolicyEndSection endSection;
 
-  const PrivacyPolicyPageConfig({
-    @required this.threshold,
-    this.showDebugThresholdMarker = false,
-  });
+  factory PrivacyPolicyPageConfig({
+    double threshold,
+    bool showDebugThresholdMarker,
+    PrivacyPolicyEndSection endSection,
+  }) {
+    return PrivacyPolicyPageConfig._(
+      threshold ?? 0.1,
+      showDebugThresholdMarker ?? false,
+      endSection ?? PrivacyPolicyEndSection.metadata(),
+    );
+  }
+  PrivacyPolicyPageConfig._(
+    this.threshold,
+    this.showDebugThresholdMarker,
+    this.endSection,
+  );
 }
-
-const _defaultConfig = PrivacyPolicyPageConfig(
-  threshold: 0.1,
-  // showDebugThresholdMarker: true,
-);
 
 class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({
@@ -38,7 +46,7 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicy privacyPolicy,
     PrivacyPolicyPageConfig config,
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
-        config = config ?? _defaultConfig,
+        config = config ?? PrivacyPolicyPageConfig(),
         super(key: key);
 
   final PrivacyPolicy privacyPolicy;
@@ -65,8 +73,6 @@ class PrivacyPolicyPage extends StatelessWidget {
               final itemScrollController = ItemScrollController();
               final itemPositionsListener = ItemPositionsListener.create();
               return PrivacyPolicyTextDependencies(
-                itemScrollController: itemScrollController,
-                itemPositionsListener: itemPositionsListener,
                 anchorsController: AnchorsController(
                   itemPositionsListener: itemPositionsListener,
                   itemScrollController: itemScrollController,
@@ -89,22 +95,20 @@ class PrivacyPolicyPage extends StatelessWidget {
                             Provider.of<PrivacyPolicyTextDependencies>(context,
                                 listen: false);
                         return TableOfContentsController(
-                          documentSectionController: DocumentSectionController(
-                            dependencies.anchorsController,
+                            documentSectionController:
+                                DocumentSectionController(
+                              dependencies.anchorsController,
+                              threshold: config.threshold,
+                            ),
+                            tocDocumentSections:
+                                privacyPolicy.tableOfContentSections,
                             threshold: config.threshold,
-                          ),
-                          tocDocumentSections:
-                              privacyPolicy.tableOfContentSections,
-                          threshold: config.threshold,
-                          // We change it when building the different layouts
-                          // anyway so it doesn't really matter what value we use
-                          // here.
-                          initialExpansionBehavior: ExpansionBehavior
-                              .alwaysAutomaticallyCloseSectionsAgain,
-                          // TODO: Make it change dynamically depending on the
-                          // heading that is really used at the end
-                          lastSectionId: DocumentSectionId('metadaten'),
-                        );
+                            // We change it when building the different layouts
+                            // anyway so it doesn't really matter what value we use
+                            // here.
+                            initialExpansionBehavior: ExpansionBehavior
+                                .alwaysAutomaticallyCloseSectionsAgain,
+                            endSection: config.endSection);
                       },
                       child: Theme(
                         data: Theme.of(context).copyWith(
