@@ -203,14 +203,8 @@ class TableOfContentsController extends ChangeNotifier {
 
   // TODO: Test
   void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
-    // TODO: Should/Can this check be moved into TableOfContents
-    // changeExpansionBehaviorTo method?
-    // We assume that every section has same behavior.
-    if (_tableOfContents.sections.first.expansionState.expansionBehavior !=
-        expansionBehavior) {
-      _tableOfContents =
-          _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
-    }
+    _tableOfContents =
+        _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
   }
 
   // TODO: Parameters - how much space

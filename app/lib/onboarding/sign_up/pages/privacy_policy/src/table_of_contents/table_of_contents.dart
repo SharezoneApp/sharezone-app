@@ -51,6 +51,15 @@ class TableOfContents {
 
   TableOfContents changeExpansionBehaviorTo(
       ExpansionBehavior expansionBehavior) {
+    // This check is important for performance reasons - when resizing the
+    // window / redrawing often this method gets called very often without
+    // a different [expansionBehavior] we should change to.
+    //
+    // Every section should have the same behavior so we only check the first
+    // section.
+    if (sections.first.expansionState.expansionBehavior != expansionBehavior) {
+      return this;
+    }
     return _copyWith(
         sections: sections
             .map((section) =>
