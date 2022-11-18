@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:analytics/analytics.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,7 +92,8 @@ class _MockTableOfContentsController extends ChangeNotifier
   }
 
   @override
-  List<TocDocumentSectionView> get documentSections => _documentSections.value;
+  IList<TocDocumentSectionView> get documentSections =>
+      _documentSections.value.toIList();
 
   @override
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
@@ -111,7 +113,7 @@ final notReadingSubsection = [
   TocDocumentSectionView(
     id: DocumentSectionId('foo'),
     sectionHeadingText: 'Inhaltsverzeichnis',
-    subsections: [],
+    subsections: const IListConst([]),
     shouldHighlight: true,
     isExpanded: false,
   ),
@@ -124,51 +126,51 @@ final notReadingSubsection = [
       TocDocumentSectionView(
         id: DocumentSectionId('a-recht-auf-auskunft'),
         sectionHeadingText: 'a. Recht auf Auskunft',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('b-recht-auf-berichtigung'),
         sectionHeadingText: 'b. Recht auf Berichtigung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('c-recht-auf-lschung'),
         sectionHeadingText: 'c. Recht auf Löschung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('d-recht-auf-einschrnkung-der-verarbeitung'),
         sectionHeadingText: 'd. Recht auf Einschränkung der Verarbeitung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('e-recht-auf-widerspruch'),
         sectionHeadingText: 'e. Recht auf Widerspruch',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('f-recht-auf-widerruf'),
         sectionHeadingText: 'f. Recht auf Widerruf',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
-    ],
+    ].toIList(),
   ),
   TocDocumentSectionView(
     id: DocumentSectionId('baz'),
     sectionHeadingText: 'Kontakt',
-    subsections: [],
+    subsections: const IListConst([]),
     shouldHighlight: false,
     isExpanded: false,
   ),
@@ -178,7 +180,7 @@ final readingSubsection = [
   TocDocumentSectionView(
     id: DocumentSectionId('foo'),
     sectionHeadingText: 'Inhaltsverzeichnis',
-    subsections: [],
+    subsections: const IListConst([]),
     shouldHighlight: false,
     isExpanded: false,
   ),
@@ -191,51 +193,51 @@ final readingSubsection = [
       TocDocumentSectionView(
         id: DocumentSectionId('a-recht-auf-auskunft'),
         sectionHeadingText: 'a. Recht auf Auskunft',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: true,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('b-recht-auf-berichtigung'),
         sectionHeadingText: 'b. Recht auf Berichtigung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('c-recht-auf-lschung'),
         sectionHeadingText: 'c. Recht auf Löschung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('d-recht-auf-einschrnkung-der-verarbeitung'),
         sectionHeadingText: 'd. Recht auf Einschränkung der Verarbeitung',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('e-recht-auf-widerspruch'),
         sectionHeadingText: 'e. Recht auf Widerspruch',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
       TocDocumentSectionView(
         id: DocumentSectionId('f-recht-auf-widerruf'),
         sectionHeadingText: 'f. Recht auf Widerruf',
-        subsections: [],
+        subsections: const IListConst([]),
         shouldHighlight: false,
         isExpanded: false,
       ),
-    ],
+    ].toIList(),
   ),
   TocDocumentSectionView(
     id: DocumentSectionId('baz'),
     sectionHeadingText: 'Kontakt',
-    subsections: [],
+    subsections: const IListConst([]),
     shouldHighlight: false,
     isExpanded: false,
   ),

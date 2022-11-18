@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
@@ -34,7 +35,7 @@ class _TableOfContentsTestController {
             section.subsections
                 .map((subsection) =>
                     DocumentSection(subsection.id, subsection.id))
-                .toList(),
+                .toIList(),
           ),
         )
         .toList();
@@ -42,7 +43,7 @@ class _TableOfContentsTestController {
     _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId>(null);
     _tocController ??= TableOfContentsController.internal(
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
-      _sections,
+      _sections.toIList(),
       DocumentSectionController(AnchorsController(),
               threshold: CurrentlyReadThreshold(0.1))
           .scrollToDocumentSection,

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:meta/meta.dart';
 
 import '../privacy_policy_src.dart';
@@ -14,7 +15,7 @@ import '../privacy_policy_src.dart';
 class TocDocumentSectionView {
   final DocumentSectionId id;
   final String sectionHeadingText;
-  final List<TocDocumentSectionView> subsections;
+  final IList<TocDocumentSectionView> subsections;
   final bool shouldHighlight;
   final bool isExpanded;
   bool get isExpandable => subsections.isNotEmpty;

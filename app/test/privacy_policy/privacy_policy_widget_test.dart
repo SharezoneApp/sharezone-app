@@ -8,6 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
@@ -59,7 +60,7 @@ PrivacyPolicy _privacyPolicyWith({
 }) {
   return PrivacyPolicy(
     lastChanged: DateTime(2022, 03, 04),
-    tableOfContentSections: tableOfContentSections,
+    tableOfContentSections: tableOfContentSections.toIList(),
     version: '2.0.0',
     markdownText: markdown,
     entersIntoForceOnOrNull: null,

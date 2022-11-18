@@ -27,8 +27,8 @@ class CurrentlyReadingSectionController {
   _CurrentlyReadingState _currentState;
 
   CurrentlyReadingSectionController(
-    List<DocumentSection> tableOfContentsDocumentSections,
-    ValueListenable<List<DocumentSectionHeadingPosition>>
+    IList<DocumentSection> tableOfContentsDocumentSections,
+    ValueListenable<IList<DocumentSectionHeadingPosition>>
         visibleSectionHeadings, {
     @required PrivacyPolicyEndSection endSection,
     @required CurrentlyReadThreshold threshold,
@@ -36,7 +36,7 @@ class CurrentlyReadingSectionController {
     final sectionAndSubsectionIds = tableOfContentsDocumentSections
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.documentSectionId)
-        .toList();
+        .toIList();
 
     _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
@@ -62,7 +62,7 @@ class CurrentlyReadingSectionController {
 }
 
 class _CurrentlyReadingState {
-  final List<DocumentSectionId> tocSections;
+  final IList<DocumentSectionId> tocSections;
   final _Viewport viewport;
 
   /// The [DocumentSectionId] that is at the very end of the privacy policy.
@@ -219,7 +219,7 @@ class _CurrentlyReadingState {
   }
 
   _CurrentlyReadingState _copyWith({
-    List<DocumentSectionId> tocSections,
+    IList<DocumentSectionId> tocSections,
     _Viewport viewport,
     _HeadingState lastSeenHeadingState,
   }) {

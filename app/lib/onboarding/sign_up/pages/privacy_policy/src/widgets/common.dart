@@ -2,6 +2,7 @@
 
 import 'package:build_context/build_context.dart';
 import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
@@ -260,7 +261,7 @@ class PrivacyPolicyText extends StatelessWidget {
 
 class PrivacyPolicy {
   final String markdownText;
-  final List<DocumentSection> tableOfContentSections;
+  final IList<DocumentSection> tableOfContentSections;
   final String version;
   final DateTime lastChanged;
   // TODO: Use to display dialog at top of the screen.

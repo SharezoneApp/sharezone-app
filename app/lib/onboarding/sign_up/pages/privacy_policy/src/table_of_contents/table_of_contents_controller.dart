@@ -39,10 +39,10 @@ class DocumentSection {
   final String sectionId;
   DocumentSectionId get documentSectionId => DocumentSectionId(sectionId);
   final String sectionName;
-  final List<DocumentSection> subsections;
+  final IList<DocumentSection> subsections;
 
   DocumentSection(this.sectionId, this.sectionName,
-      [this.subsections = const []]);
+      [this.subsections = const IListConst([])]);
 
   @override
   bool operator ==(Object other) {
@@ -98,7 +98,7 @@ class DocumentSectionController {
     _anchorsController.anchorPositions.addListener(() {
       final anchorPositions = _anchorsController.anchorPositions.value;
       final sectionPositions =
-          anchorPositions.map(_toDocumentSectionPosition).toList();
+          anchorPositions.map(_toDocumentSectionPosition).toIList();
       _visibleSectionHeadings.value = sectionPositions;
     });
   }
@@ -112,11 +112,10 @@ class DocumentSectionController {
     );
   }
 
-  // TODO: Use IList instead?
   final _visibleSectionHeadings =
-      ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
+      ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList(const []));
 
-  ValueListenable<List<DocumentSectionHeadingPosition>>
+  ValueListenable<IList<DocumentSectionHeadingPosition>>
       get visibleSectionHeadings => _visibleSectionHeadings;
 
   Future<void> scrollToDocumentSection(DocumentSectionId documentSectionId) {
@@ -139,7 +138,7 @@ class TableOfContentsController extends ChangeNotifier {
   // TODO: Change name
   // They are not really all sections but only the sections that we want
   // to display in the table of contents.
-  final List<DocumentSection> _allDocumentSections;
+  final IList<DocumentSection> _allDocumentSections;
   final ScrollToDocumentSectionFunc _scrollToDocumentSection;
   final ExpansionBehavior _initalExpansionBehavior;
 
@@ -147,7 +146,7 @@ class TableOfContentsController extends ChangeNotifier {
 
   factory TableOfContentsController({
     @required DocumentSectionController documentSectionController,
-    @required List<DocumentSection> tocDocumentSections,
+    @required IList<DocumentSection> tocDocumentSections,
     @required ExpansionBehavior initialExpansionBehavior,
     // TODO: Document why we have to use this workaround.
     // Can't see if we have reached bottom of document i think as we cant access
@@ -235,13 +234,12 @@ class TableOfContentsController extends ChangeNotifier {
     _updateViews();
   }
 
-  List<TocDocumentSectionView> _documentSections;
-  List<TocDocumentSectionView> get documentSections =>
-      UnmodifiableListView(_documentSections);
+  IList<TocDocumentSectionView> _documentSections;
+  IList<TocDocumentSectionView> get documentSections => _documentSections;
 
   void _updateViews() {
     _documentSections =
-        _tableOfContents.sections.map((section) => _toView(section)).toList();
+        _tableOfContents.sections.map((section) => _toView(section)).toIList();
     notifyListeners();
   }
 
@@ -258,10 +256,10 @@ class TableOfContentsController extends ChangeNotifier {
               isExpanded: subsection.isExpanded,
               sectionHeadingText: subsection.title,
               shouldHighlight: subsection.isThisOrASubsectionCurrentlyRead,
-              subsections: [],
+              subsections: const IListConst([]),
             ),
           )
-          .toList(),
+          .toIList(),
     );
   }
 }

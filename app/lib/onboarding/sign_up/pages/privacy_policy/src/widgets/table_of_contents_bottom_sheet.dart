@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -275,7 +276,7 @@ class _TocHeadingState extends State<_TocHeading>
 }
 
 List<Widget> _buildSubheadings(
-    BuildContext context, List<TocDocumentSectionView> subheadings) {
+    BuildContext context, IList<TocDocumentSectionView> subheadings) {
   final visualDensity =
       Provider.of<PrivacyPolicyThemeSettings>(context, listen: false)
           .visualDensitySetting
