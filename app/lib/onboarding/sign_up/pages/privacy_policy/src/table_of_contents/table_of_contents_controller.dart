@@ -87,6 +87,8 @@ class DocumentSectionHeadingPosition {
   }
 }
 
+//TODO: Make this class be used by both TOC controller and currently reading
+//controller.
 class DocumentSectionController {
   final AnchorsController _anchorsController;
   final CurrentlyReadThreshold threshold;
@@ -155,6 +157,7 @@ class TableOfContentsController extends ChangeNotifier {
     @required CurrentlyReadThreshold threshold,
   }) {
     return TableOfContentsController.internal(
+      // TODO: Might make more sense architecturally to pass it in.
       CurrentlyReadingSectionController(
         tocDocumentSections,
         documentSectionController.visibleSectionHeadings,
