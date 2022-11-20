@@ -515,35 +515,6 @@ void main() {
       expect(controller.currentlyReadSection, '1-wichtige-begriffe');
     });
 
-    // TODO: We should make it an api contract that they will be always ordered
-    // from the api that we consume (they should be ordererd already)
-    test('regression test: Ordering of visible items inside ', () {
-      final sections = [
-        _section('foo'),
-        _section('bar'),
-        _section('baz'),
-      ];
-
-      final controller = _createController(sections, visibleSections);
-
-      // We purposefully order the lower one first in this list to simulate
-      // unordered values from the "visible sections" api we consume
-      visibleSections.value = [
-        _headingPosition(
-          'baz',
-          itemLeadingEdge: 0.95,
-          itemTrailingEdge: 1,
-        ),
-        _headingPosition(
-          'bar',
-          itemLeadingEdge: 0.5,
-          itemTrailingEdge: 0.6,
-        ),
-      ];
-
-      expect(controller.currentlyReadSection, 'foo');
-    });
-
     test(
         'When the trailing edge of the "last heading" is <= 1.0 then the last toc section is highlighted',
         () {
@@ -678,7 +649,7 @@ class TestCurrentlyReadingController {
     );
 
     final documentController = MockDocumentController();
-    when(documentController.visibleSectionHeadings).thenReturn(listenable);
+    when(documentController.sortedSectionHeadings).thenReturn(listenable);
 
     final currentlyReadingController = CurrentlyReadingController(
       documentController: documentController,
