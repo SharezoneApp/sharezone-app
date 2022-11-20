@@ -10,7 +10,6 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
@@ -47,17 +46,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             );
           },
           child: Provider(
-            create: (context) {
-              final itemScrollController = ItemScrollController();
-              final itemPositionsListener = ItemPositionsListener.create();
-              // TODO: Do we still need this class?
-              return PrivacyPolicyTextDependencies(
-                anchorsController: AnchorsController(
-                  itemPositionsListener: itemPositionsListener,
-                  itemScrollController: itemScrollController,
-                ),
-              );
-            },
+            create: (context) => AnchorsController(),
             child: Builder(
                 builder: (context) => MediaQuery(
                     data: MediaQuery.of(context).copyWith(
@@ -75,11 +64,11 @@ class PrivacyPolicyPage extends StatelessWidget {
                       // once manually opened (for layouts with a bottom sheet).
                       lazy: false,
                       create: (context) {
-                        final dependencies =
-                            Provider.of<PrivacyPolicyTextDependencies>(context,
+                        final anchorsController =
+                            Provider.of<AnchorsController>(context,
                                 listen: false);
                         final factory = PrivacyPolicyPageDependencyFactory(
-                          anchorsController: dependencies.anchorsController,
+                          anchorsController: anchorsController,
                           privacyPolicy: privacyPolicy,
                           config: config,
                         );

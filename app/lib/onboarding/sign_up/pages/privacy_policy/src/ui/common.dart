@@ -187,8 +187,8 @@ class PrivacyPolicyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dependencies =
-        Provider.of<PrivacyPolicyTextDependencies>(context, listen: false);
+    final anchorController =
+        Provider.of<AnchorsController>(context, listen: false);
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
     final theme =
         Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
@@ -212,7 +212,7 @@ class PrivacyPolicyText extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2.0),
               )),
           extensionSet: sharezoneMarkdownExtensionSet,
-          anchorsController: dependencies.anchorsController,
+          anchorsController: anchorController,
           data: privacyPolicy.markdownText +
               config.endSection.generateMarkdown(privacyPolicy),
           onTapLink: (text, href, title) {
@@ -252,13 +252,4 @@ class PrivacyPolicyText extends StatelessWidget {
       ],
     );
   }
-}
-
-// TODO: Can we remove this?
-class PrivacyPolicyTextDependencies {
-  final AnchorsController anchorsController;
-
-  PrivacyPolicyTextDependencies({
-    @required this.anchorsController,
-  });
 }
