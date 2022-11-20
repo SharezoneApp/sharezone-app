@@ -33,27 +33,29 @@ class CurrentlyReadingController {
     @required PrivacyPolicy privacyPolicy,
     @required PrivacyPolicyPageConfig config,
   }) {
+    final threshold = config.threshold;
+    final endSectionId = config.endSection.sectionId;
+    final sortedSectionHeadings = documentController.sortedSectionHeadings;
+
     final sectionAndSubsectionIds = privacyPolicy.tableOfContentSections
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.documentSectionId)
         .toIList();
 
-    final visibleSectionHeadings = documentController.visibleSectionHeadings;
-
     _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
-      endOfDocumentSectionId: config.endSection.sectionId,
+      endOfDocumentSectionId: endSectionId,
       viewport: _Viewport(
-        headingPositions: visibleSectionHeadings.value.toIList(),
-        threshold: config.threshold,
+        sortedHeadingPositions: sortedSectionHeadings.value,
+        threshold: threshold,
       ),
     );
 
-    visibleSectionHeadings.addListener(() {
+    sortedSectionHeadings.addListener(() {
       _currentState = _currentState.updateViewport(
         _Viewport(
-          headingPositions: visibleSectionHeadings.value.toIList(),
-          threshold: config.threshold,
+          sortedHeadingPositions: sortedSectionHeadings.value,
+          threshold: threshold,
         ),
       );
 
@@ -76,6 +78,15 @@ class _CurrentlyReadingState {
   /// `ScrollablePositionedList` which doesn't expose its internal
   /// `ScrollController`.
   final DocumentSectionId endOfDocumentSectionId;
+
+  /// Saves the [_HeadingState] of the last heading seen on screen after we call
+  /// [updateViewport] with a [_Viewport] where [_Viewport.noHeadingsVisible] is
+  /// true.
+  ///
+  /// Basically if we scroll out the last heading on screen we need to know if
+  /// we scrolled it out the top or bottom of the page so that we can compute
+  /// which section we are currently reading even though no headings are visible
+  /// anymore.
   final _HeadingState lastSeenHeadingState;
 
   _CurrentlyReadingState({
@@ -238,20 +249,7 @@ class _Viewport {
   final IList<DocumentSectionHeadingPosition> sortedHeadingPositions;
   final CurrentlyReadThreshold threshold;
 
-  factory _Viewport({
-    @required IList<DocumentSectionHeadingPosition> headingPositions,
-    @required CurrentlyReadThreshold threshold,
-  }) {
-    final sorted = headingPositions.sort(
-        (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge));
-
-    return _Viewport._(
-      sortedHeadingPositions: sorted,
-      threshold: threshold,
-    );
-  }
-
-  const _Viewport._({
+  const _Viewport({
     @required this.sortedHeadingPositions,
     @required this.threshold,
   });
