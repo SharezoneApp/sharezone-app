@@ -34,7 +34,7 @@ DocumentSectionHeadingPosition _headingPosition(
 
 void main() {
   group('the table of contents', () {
-    TestCurrentlyReadingSectionController _createController(
+    TestCurrentlyReadingController _createController(
       List<DocumentSection> sections,
       // TODO: Delete since its in the setup and can be used/accessed in the
       // method below?
@@ -42,7 +42,7 @@ void main() {
       double threshold = 0.1,
       String lastSection,
     }) {
-      return TestCurrentlyReadingSectionController(
+      return TestCurrentlyReadingController(
         sections,
         visibleSections,
         threshold: CurrentlyReadThreshold(threshold),
@@ -624,7 +624,7 @@ void main() {
   });
 }
 
-class TestCurrentlyReadingSectionController {
+class TestCurrentlyReadingController {
   final List<DocumentSection> _tocSectionHeadings;
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
@@ -655,7 +655,7 @@ class TestCurrentlyReadingSectionController {
     return subHighlightedRes.single.id;
   }
 
-  TestCurrentlyReadingSectionController(
+  TestCurrentlyReadingController(
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
     @required CurrentlyReadThreshold threshold,
@@ -682,7 +682,7 @@ class TestCurrentlyReadingSectionController {
     final documentController = MockDocumentController();
     when(documentController.visibleSectionHeadings).thenReturn(listenable);
 
-    final currentlyReadingController = CurrentlyReadingSectionController(
+    final currentlyReadingController = CurrentlyReadingController(
       documentController: documentController,
       privacyPolicy: privacyPolicy,
       config: config,

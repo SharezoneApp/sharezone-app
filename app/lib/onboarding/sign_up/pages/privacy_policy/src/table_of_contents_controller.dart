@@ -13,7 +13,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
 
-import '../privacy_policy_src.dart';
+import 'privacy_policy_src.dart';
 
 /// A model of a section (or chapter) of the markdown document.
 /// Used by the table of contents to list and navigate to specific sections of
@@ -66,7 +66,7 @@ class DocumentSection {
 
 /// The position of the heading with [documentSectionId] on the screen.
 /// Used to compute which document section is currently read (see
-/// [CurrentlyReadingSectionController]).
+/// [CurrentlyReadingController]).
 ///
 /// This is analogus to the [ItemPosition] of the [ScrollablePositionedList]
 /// used by [RelativeAnchorsMarkdown] to display the markdown.
@@ -96,7 +96,7 @@ class TableOfContentsController extends ChangeNotifier {
   TableOfContents _tableOfContents;
 
   TableOfContentsController({
-    @required CurrentlyReadingSectionController currentlyReadingController,
+    @required CurrentlyReadingController currentlyReadingController,
     @required PrivacyPolicy privacyPolicy,
     @required DocumentController documentController,
     @required ExpansionBehavior initialExpansionBehavior,

@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 export './privacy_policy_theme_settings.dart';
-export './table_of_contents/currently_reading.dart';
-export './table_of_contents/document_controller.dart';
 export './table_of_contents/document_section_view.dart';
-export './table_of_contents/factory.dart';
 export './table_of_contents/table_of_contents.dart';
-export './table_of_contents/table_of_contents_controller.dart';
+export 'currently_reading_controller.dart';
+export 'document_controller.dart';
+export 'factory.dart';
 export 'sharezone_markdown_extensions.dart';
+export 'table_of_contents_controller.dart';

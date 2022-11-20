@@ -370,7 +370,7 @@ Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChange
 /// when the [DocumentSectionHeadingPosition] intersects with [position].
 ///
 /// For the exact behavior for when a section is marked as active see
-/// [CurrentlyReadingSectionController] (and the tests).
+/// [CurrentlyReadingController] (and the tests).
 ///
 /// This is encapsulated as a class for documentation purposes.
 class CurrentlyReadThreshold {

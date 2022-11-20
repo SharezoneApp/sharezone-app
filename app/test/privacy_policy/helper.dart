@@ -1,6 +1,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_v2.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents/table_of_contents_controller.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
 
 // TODO: Add randomness depending on env seed?

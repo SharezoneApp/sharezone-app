@@ -1,13 +1,13 @@
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:meta/meta.dart';
 
-import '../../new_privacy_policy_page.dart';
-import '../privacy_policy_src.dart';
-import '../widgets/common.dart';
+import '../new_privacy_policy_page.dart';
+import 'privacy_policy_src.dart';
+import 'widgets/common.dart';
 
 class PrivacyPolicyPageDependencyFactory {
   final TableOfContentsController tableOfContentsController;
-  final CurrentlyReadingSectionController currentlyReadingController;
+  final CurrentlyReadingController currentlyReadingController;
   final DocumentController documentController;
 
   factory PrivacyPolicyPageDependencyFactory({
@@ -21,7 +21,7 @@ class PrivacyPolicyPageDependencyFactory {
       anchorsController: anchorsController,
       threshold: config.threshold,
     );
-    final currentlyReadingController = CurrentlyReadingSectionController(
+    final currentlyReadingController = CurrentlyReadingController(
       config: config,
       privacyPolicy: privacyPolicy,
       documentController: documentController,

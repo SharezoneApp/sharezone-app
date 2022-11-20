@@ -45,7 +45,7 @@ class _TableOfContentsTestController {
 
     _tocController ??= TableOfContentsController(
       currentlyReadingController:
-          MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
+          MockCurrentlyReadingController(_currentlyReadingNotifier),
       privacyPolicy: privacyPolicyWith(tableOfContentSections: _sections),
       documentController: MockDocumentController(),
       initialExpansionBehavior:
@@ -72,13 +72,11 @@ class _TableOfContentsTestController {
   }
 }
 
-class MockCurrentlyReadingSectionController
-    implements CurrentlyReadingSectionController {
+class MockCurrentlyReadingController implements CurrentlyReadingController {
   @override
   final ValueNotifier<DocumentSectionId> currentlyReadDocumentSectionOrNull;
 
-  MockCurrentlyReadingSectionController(
-      this.currentlyReadDocumentSectionOrNull);
+  MockCurrentlyReadingController(this.currentlyReadDocumentSectionOrNull);
 }
 
 class _TocState extends Equatable {
