@@ -76,6 +76,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             create: (context) {
               final itemScrollController = ItemScrollController();
               final itemPositionsListener = ItemPositionsListener.create();
+              // TODO: Do we still need this class?
               return PrivacyPolicyTextDependencies(
                 anchorsController: AnchorsController(
                   itemPositionsListener: itemPositionsListener,
@@ -90,6 +91,11 @@ class PrivacyPolicyPage extends StatelessWidget {
                             .watch<PrivacyPolicyThemeSettings>()
                             .textScalingFactor),
                     child: ChangeNotifierProvider<TableOfContentsController>(
+                      // TODO: Since CurrentlyReadController can now be
+                      // instantiated independently it might make sense to
+                      // initialize it when first building. Then lazy could be
+                      // true again.
+                      //
                       // Else the currently active section doesn't get tracked until
                       // the table of contents inside the bottom sheet was at least
                       // once manually opened (for layouts with a bottom sheet).
@@ -98,21 +104,12 @@ class PrivacyPolicyPage extends StatelessWidget {
                         final dependencies =
                             Provider.of<PrivacyPolicyTextDependencies>(context,
                                 listen: false);
-                        return TableOfContentsController(
-                            documentSectionController:
-                                DocumentSectionController(
-                              dependencies.anchorsController,
-                              threshold: config.threshold,
-                            ),
-                            tocDocumentSections:
-                                privacyPolicy.tableOfContentSections,
-                            threshold: config.threshold,
-                            // We change it when building the different layouts
-                            // anyway so it doesn't really matter what value we use
-                            // here.
-                            initialExpansionBehavior: ExpansionBehavior
-                                .alwaysAutomaticallyCloseSectionsAgain,
-                            endSection: config.endSection);
+                        final factory = PrivacyPolicyPageDependencyFactory(
+                          anchorsController: dependencies.anchorsController,
+                          privacyPolicy: privacyPolicy,
+                          config: config,
+                        );
+                        return factory.tableOfContentsController;
                       },
                       child: Theme(
                         data: Theme.of(context).copyWith(

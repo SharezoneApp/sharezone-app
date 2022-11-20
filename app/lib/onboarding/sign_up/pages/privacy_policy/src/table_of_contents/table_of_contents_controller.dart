@@ -87,50 +87,6 @@ class DocumentSectionHeadingPosition {
   }
 }
 
-//TODO: Make this class be used by both TOC controller and currently reading
-//controller.
-class DocumentSectionController {
-  final AnchorsController _anchorsController;
-  final CurrentlyReadThreshold threshold;
-
-  DocumentSectionController(
-    this._anchorsController, {
-    @required this.threshold,
-  }) {
-    _anchorsController.anchorPositions.addListener(() {
-      final anchorPositions = _anchorsController.anchorPositions.value;
-      final sectionPositions =
-          anchorPositions.map(_toDocumentSectionPosition).toIList();
-      _visibleSectionHeadings.value = sectionPositions;
-    });
-  }
-
-  DocumentSectionHeadingPosition _toDocumentSectionPosition(
-      AnchorPosition anchorPosition) {
-    return DocumentSectionHeadingPosition(
-      DocumentSectionId(anchorPosition.anchor.id),
-      itemLeadingEdge: anchorPosition.itemLeadingEdge,
-      itemTrailingEdge: anchorPosition.itemTrailingEdge,
-    );
-  }
-
-  final _visibleSectionHeadings =
-      ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList(const []));
-
-  ValueListenable<IList<DocumentSectionHeadingPosition>>
-      get visibleSectionHeadings => _visibleSectionHeadings;
-
-  Future<void> scrollToDocumentSection(DocumentSectionId documentSectionId) {
-    return _anchorsController.scrollToAnchor(
-      documentSectionId.id,
-      duration: Duration(milliseconds: 100),
-      // Overscroll a tiny bit. Otherwise it can sometimes happen that the
-      // section / element we scroll to is still not marked as currently read.
-      alignment: threshold.position - 0.001,
-    );
-  }
-}
-
 // TODO: Remove this?
 typedef ScrollToDocumentSectionFunc = Future<void> Function(
     DocumentSectionId documentSectionId);
@@ -146,26 +102,20 @@ class TableOfContentsController extends ChangeNotifier {
 
   TableOfContents _tableOfContents;
 
+  // TODO: Use same abstraction level.
+  // Either pass no Controller (like currentlyReadingController) and only
+  // properties (like scrollToDocumentSection) or use only controllers and no
+  // properties.
   factory TableOfContentsController({
-    @required DocumentSectionController documentSectionController,
-    @required IList<DocumentSection> tocDocumentSections,
-    @required ExpansionBehavior initialExpansionBehavior,
-    // TODO: Document why we have to use this workaround.
-    // Can't see if we have reached bottom of document i think as we cant access
-    // ScrollController when using ScrollablePositionedList.
-    @required PrivacyPolicyEndSection endSection,
-    @required CurrentlyReadThreshold threshold,
+    @required CurrentlyReadingSectionController currentlyReadingController,
+    @required PrivacyPolicy privacyPolicy,
+    @required DocumentController documentController,
+    ExpansionBehavior initialExpansionBehavior,
   }) {
     return TableOfContentsController.internal(
-      // TODO: Might make more sense architecturally to pass it in.
-      CurrentlyReadingSectionController(
-        tocDocumentSections,
-        documentSectionController.visibleSectionHeadings,
-        endSection: endSection,
-        threshold: threshold,
-      ),
-      tocDocumentSections,
-      documentSectionController.scrollToDocumentSection,
+      currentlyReadingController,
+      privacyPolicy.tableOfContentSections,
+      documentController.scrollToDocumentSection,
       initialExpansionBehavior,
     );
   }

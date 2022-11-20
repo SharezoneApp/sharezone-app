@@ -44,9 +44,10 @@ class _TableOfContentsTestController {
     _tocController ??= TableOfContentsController.internal(
       MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
       _sections.toIList(),
-      DocumentSectionController(AnchorsController(),
-              threshold: CurrentlyReadThreshold(0.1))
-          .scrollToDocumentSection,
+      DocumentController(
+        anchorsController: AnchorsController(),
+        threshold: CurrentlyReadThreshold(0.1),
+      ).scrollToDocumentSection,
       ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );
 

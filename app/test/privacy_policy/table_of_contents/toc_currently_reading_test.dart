@@ -665,7 +665,7 @@ class TestCurrentlyReadingSectionController {
     });
 
     _tableOfContentsController = TableOfContentsController.internal(
-      CurrentlyReadingSectionController(
+      CurrentlyReadingSectionController.internal(
         _tocSectionHeadings.toIList(),
         listenable,
         threshold: threshold,
