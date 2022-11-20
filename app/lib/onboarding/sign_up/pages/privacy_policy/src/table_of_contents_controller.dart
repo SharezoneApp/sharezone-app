@@ -86,10 +86,6 @@ class DocumentSectionHeadingPosition {
   }
 }
 
-// TODO: Remove this?
-typedef ScrollToDocumentSectionFunc = Future<void> Function(
-    DocumentSectionId documentSectionId);
-
 class TableOfContentsController extends ChangeNotifier {
   final DocumentController _documentController;
   TableOfContents _tableOfContents;
