@@ -22,13 +22,14 @@ class DocumentController {
       final anchorPositions = anchorsController.anchorPositions.value;
       final sectionPositions =
           anchorPositions.map(_toDocumentSectionPosition).toIList();
-      // Same sorting as underlying `ItemPositionsListener.itemPositions`.
+      // [sectionPositions] has the same sorting as underlying
+      // `ItemPositionsListener.itemPositions`.
       // From experimenting this seems to be sorted in the way the items appear
       // on screen: From top to bottom when scrolling down, from bottom to top
       // when scrolling up.
-      _visibleSectionHeadings.value = sectionPositions;
-      // Sorted so that always the top-most heading is the first and bottom-most
-      // heading is the last in the list.
+      //
+      // We pre-sort the headings so that the  top-most heading is the first and
+      // bottom-most heading is the last in the list.
       _sortedSectionHeadings.value = sectionPositions.sort(
           (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge));
     });
@@ -43,15 +44,11 @@ class DocumentController {
     );
   }
 
-  // TODO: Do we even need the unsorted headings if we have the sorted ones now?
-  final _visibleSectionHeadings =
-      ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList(const []));
-
-  ValueListenable<IList<DocumentSectionHeadingPosition>>
-      get visibleSectionHeadings => _visibleSectionHeadings;
-
   final _sortedSectionHeadings =
       ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList(const []));
+
+  // Sorted so that always the top-most heading is the first and bottom-most
+  // heading is the last in the list.
   ValueListenable<IList<DocumentSectionHeadingPosition>>
       get sortedSectionHeadings => _sortedSectionHeadings;
 
