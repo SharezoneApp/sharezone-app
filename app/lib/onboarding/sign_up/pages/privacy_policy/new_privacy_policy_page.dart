@@ -46,12 +46,11 @@ class PrivacyPolicyPage extends StatelessWidget {
                 final themeSettings =
                     Provider.of<ThemeSettings>(context, listen: false);
                 return _createPrivacyPolicyThemeSettings(
-                    context, themeSettings);
+                    context, themeSettings, config);
               },
             ),
             Provider<DocumentController>(
-              create: (context) => _factory(context).documentController,
-            ),
+                create: (context) => _factory(context).documentController),
             ChangeNotifierProvider<TableOfContentsController>(
               create: (context) => _factory(context).tableOfContentsController,
             ),
@@ -97,22 +96,25 @@ class PrivacyPolicyPage extends StatelessWidget {
               ))),
     );
   }
+}
 
-  PrivacyPolicyThemeSettings _createPrivacyPolicyThemeSettings(
-      BuildContext context, ThemeSettings themeSettings) {
-    return PrivacyPolicyThemeSettings(
-      analytics: AnalyticsProvider.ofOrNullObject(context),
-      themeSettings: Provider.of(context, listen: false),
-      initialTextScalingFactor: themeSettings.textScalingFactor,
-      initialVisualDensity: themeSettings.visualDensitySetting,
-      initialThemeBrightness: themeSettings.themeBrightness,
-      initialShowDebugThresholdIndicator: config.showDebugThresholdIndicator,
-    );
-  }
+PrivacyPolicyThemeSettings _createPrivacyPolicyThemeSettings(
+  BuildContext context,
+  ThemeSettings themeSettings,
+  PrivacyPolicyPageConfig config,
+) {
+  return PrivacyPolicyThemeSettings(
+    analytics: AnalyticsProvider.ofOrNullObject(context),
+    themeSettings: Provider.of(context, listen: false),
+    initialTextScalingFactor: themeSettings.textScalingFactor,
+    initialVisualDensity: themeSettings.visualDensitySetting,
+    initialThemeBrightness: themeSettings.themeBrightness,
+    initialShowDebugThresholdIndicator: config.showDebugThresholdIndicator,
+  );
+}
 
-  PrivacyPolicyPageDependencyFactory _factory(BuildContext context) {
-    final factory =
-        Provider.of<PrivacyPolicyPageDependencyFactory>(context, listen: false);
-    return factory;
-  }
+PrivacyPolicyPageDependencyFactory _factory(BuildContext context) {
+  final factory =
+      Provider.of<PrivacyPolicyPageDependencyFactory>(context, listen: false);
+  return factory;
 }
