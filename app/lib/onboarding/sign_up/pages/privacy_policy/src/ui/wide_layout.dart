@@ -381,6 +381,8 @@ class _BottomFade extends StatelessWidget {
   ScrollPosition get position => scrollController.position;
 
   // TODO: Remove?
+  // I think this didn't work because it didn't update itself when a section
+  // was expanded / collapsed through scrolling through the text.
   double get pixelsUntilBottom => position.maxScrollExtent - position.pixels;
   double get percentToBottom =>
       ((position.maxScrollExtent / pixelsUntilBottom) / 100)
