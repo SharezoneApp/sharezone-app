@@ -56,7 +56,7 @@ void main() {
       visibleSections = ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
     });
 
-    // TODO: Dont the first few tests more or less all test the same logic?
+    // TODO: Change "active" to "currently read" in all tests and other places.
     test(
         'doesnt mark any section as active if none are or have been visible on the page',
         () {
