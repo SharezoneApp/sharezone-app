@@ -21,7 +21,7 @@ class MainContentWide extends StatelessWidget {
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 450),
-            child: TableOfContentsDesktop(),
+            child: _TableOfContentsDesktop(),
           ),
         ),
         VerticalDivider(),
@@ -85,9 +85,8 @@ class MainContentWide extends StatelessWidget {
   }
 }
 
-// TODO: Make private again, after completing the UI
-class TableOfContentsDesktop extends StatelessWidget {
-  const TableOfContentsDesktop({
+class _TableOfContentsDesktop extends StatelessWidget {
+  const _TableOfContentsDesktop({
     Key key,
   }) : super(key: key);
 
