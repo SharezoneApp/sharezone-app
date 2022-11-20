@@ -136,10 +136,10 @@ class _TocHeading extends StatefulWidget {
   State<_TocHeading> createState() => _TocHeadingState();
 }
 
+// TickerProviderStateMixin instead of SingleTickerProviderStateMixin because
+// else we get an error if we hot reload while the bottom bar is opened.
 class _TocHeadingState extends State<_TocHeading>
     with TickerProviderStateMixin {
-  // TODO: Breaks hot reload: Add later again
-  // with SingleTickerProviderStateMixin {
   AnimationController _controller;
   bool isExpanded;
   Animation<double> _heightFactor;
