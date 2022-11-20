@@ -1,4 +1,3 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:meta/meta.dart';
 

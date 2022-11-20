@@ -7,6 +7,10 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../privacy_policy_src.dart';
 import '../widgets/common.dart';
 
+// TODO: It might make sense to add a property like .isNearBottomOfDocument
+// to make the rest of code more uncoupled from endSection class and behavior.
+// Since if someday we can access the scrollController of the underlying list
+// I guess we would probably also expose it here?
 class DocumentController {
   final AnchorsController anchorsController;
   final CurrentlyReadThreshold threshold;

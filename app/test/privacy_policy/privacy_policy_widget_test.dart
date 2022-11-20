@@ -8,7 +8,6 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
@@ -18,6 +17,8 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
+
+import 'helper.dart';
 
 /// Our custom widget test function that we need to use so that we automatically
 /// simulate custom dimensions for the "screen".
@@ -54,19 +55,6 @@ void testWidgetsWithDimensions(
   });
 }
 
-PrivacyPolicy _privacyPolicyWith({
-  @required List<DocumentSection> tableOfContentSections,
-  @required String markdown,
-}) {
-  return PrivacyPolicy(
-    lastChanged: DateTime(2022, 03, 04),
-    tableOfContentSections: tableOfContentSections.toIList(),
-    version: '2.0.0',
-    markdownText: markdown,
-    entersIntoForceOnOrNull: null,
-  );
-}
-
 void main() {
   group(
     'privacy policy page',
@@ -88,7 +76,7 @@ ${generateText(10)}
           await tester.pumpWidget(
             wrapWithScaffold(
               PrivacyPolicyPage(
-                privacyPolicy: _privacyPolicyWith(
+                privacyPolicy: privacyPolicyWith(
                   tableOfContentSections: [
                     DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                   ],
@@ -125,7 +113,7 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: _privacyPolicyWith(
+              privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
                   DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                 ],
@@ -174,7 +162,7 @@ ${generateText(10)}
 
           await tester.pumpWidget(
             wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: _privacyPolicyWith(
+              privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
                   DocumentSection('small-section', 'Small section'),
                   DocumentSection('bigger-section', 'Bigger section'),
@@ -244,7 +232,7 @@ ${generateText(200)}
 
           await tester.pumpWidget(
             wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: _privacyPolicyWith(
+              privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
                   DocumentSection('foo', 'Foo'),
                   DocumentSection(

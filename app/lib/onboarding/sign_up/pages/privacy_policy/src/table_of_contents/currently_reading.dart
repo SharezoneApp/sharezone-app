@@ -27,38 +27,24 @@ class CurrentlyReadingSectionController {
 
   _CurrentlyReadingState _currentState;
 
-  factory CurrentlyReadingSectionController({
+  CurrentlyReadingSectionController({
     @required DocumentController documentController,
     @required PrivacyPolicy privacyPolicy,
     @required PrivacyPolicyPageConfig config,
   }) {
-    return CurrentlyReadingSectionController.internal(
-      privacyPolicy.tableOfContentSections,
-      documentController.visibleSectionHeadings,
-      endSection: config.endSection,
-      threshold: config.threshold,
-    );
-  }
-
-  @visibleForTesting
-  CurrentlyReadingSectionController.internal(
-    IList<DocumentSection> tableOfContentsDocumentSections,
-    ValueListenable<IList<DocumentSectionHeadingPosition>>
-        visibleSectionHeadings, {
-    @required PrivacyPolicyEndSection endSection,
-    @required CurrentlyReadThreshold threshold,
-  }) {
-    final sectionAndSubsectionIds = tableOfContentsDocumentSections
+    final sectionAndSubsectionIds = privacyPolicy.tableOfContentSections
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.documentSectionId)
         .toIList();
 
+    final visibleSectionHeadings = documentController.visibleSectionHeadings;
+
     _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
-      endOfDocumentSectionId: endSection.sectionId,
+      endOfDocumentSectionId: config.endSection.sectionId,
       viewport: _Viewport(
         headingPositions: visibleSectionHeadings.value.toIList(),
-        threshold: threshold,
+        threshold: config.threshold,
       ),
     );
 
@@ -66,7 +52,7 @@ class CurrentlyReadingSectionController {
       _currentState = _currentState.updateViewport(
         _Viewport(
           headingPositions: visibleSectionHeadings.value.toIList(),
-          threshold: threshold,
+          threshold: config.threshold,
         ),
       );
 

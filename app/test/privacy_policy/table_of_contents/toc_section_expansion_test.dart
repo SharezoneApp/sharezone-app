@@ -9,10 +9,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
 import 'package:test/test.dart';
+
+import '../helper.dart';
+import 'toc_currently_reading_test.dart';
 
 class _TableOfContentsTestController {
   TableOfContentsController _tocController;
@@ -41,14 +42,14 @@ class _TableOfContentsTestController {
         .toList();
 
     _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId>(null);
-    _tocController ??= TableOfContentsController.internal(
-      MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
-      _sections.toIList(),
-      DocumentController(
-        anchorsController: AnchorsController(),
-        threshold: CurrentlyReadThreshold(0.1),
-      ).scrollToDocumentSection,
-      ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
+
+    _tocController ??= TableOfContentsController(
+      currentlyReadingController:
+          MockCurrentlyReadingSectionController(_currentlyReadingNotifier),
+      privacyPolicy: privacyPolicyWith(tableOfContentSections: _sections),
+      documentController: MockDocumentController(),
+      initialExpansionBehavior:
+          ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );
 
     final results = _tocController.documentSections
@@ -132,6 +133,7 @@ void main() {
       // TODO: Instead of Foo etc use section titles that are more "real"?
       // TODO: Rename Section to Chapter?
       // TODO: Remove `isCurrentlyReading` property?
+      // TODO: Test different ExpansionBehavior?
       test('All expandable sections are collapsed by default', () {
         final sections = [
           _Section(
@@ -386,6 +388,7 @@ void main() {
           ],
         );
       });
+      // TODO: Same test as above?
       test(
           'When manually collapsing a section that is currently not read and scrolling in and out of then it will expand automatically again (default behavior)',
           () {

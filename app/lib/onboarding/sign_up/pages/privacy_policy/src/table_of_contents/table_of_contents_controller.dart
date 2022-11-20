@@ -92,42 +92,33 @@ typedef ScrollToDocumentSectionFunc = Future<void> Function(
     DocumentSectionId documentSectionId);
 
 class TableOfContentsController extends ChangeNotifier {
-  final CurrentlyReadingSectionController _activeSectionController;
-  // TODO: Change name
-  // They are not really all sections but only the sections that we want
-  // to display in the table of contents.
-  final IList<DocumentSection> _allDocumentSections;
-  final ScrollToDocumentSectionFunc _scrollToDocumentSection;
-  final ExpansionBehavior _initalExpansionBehavior;
-
+  final DocumentController _documentController;
   TableOfContents _tableOfContents;
 
-  // TODO: Use same abstraction level.
-  // Either pass no Controller (like currentlyReadingController) and only
-  // properties (like scrollToDocumentSection) or use only controllers and no
-  // properties.
-  factory TableOfContentsController({
+  TableOfContentsController({
     @required CurrentlyReadingSectionController currentlyReadingController,
     @required PrivacyPolicy privacyPolicy,
     @required DocumentController documentController,
-    ExpansionBehavior initialExpansionBehavior,
-  }) {
-    return TableOfContentsController.internal(
-      currentlyReadingController,
-      privacyPolicy.tableOfContentSections,
-      documentController.scrollToDocumentSection,
-      initialExpansionBehavior,
-    );
+    @required ExpansionBehavior initialExpansionBehavior,
+  }) : _documentController = documentController {
+    _tableOfContents =
+        _createTableOfContents(privacyPolicy, initialExpansionBehavior);
+
+    _updateViews();
+
+    currentlyReadingController.currentlyReadDocumentSectionOrNull
+        .addListener(() {
+      final currentlyReadSection =
+          currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
+      _tableOfContents =
+          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
+      _updateViews();
+    });
   }
 
-  @visibleForTesting
-  TableOfContentsController.internal(
-    this._activeSectionController,
-    this._allDocumentSections,
-    this._scrollToDocumentSection,
-    this._initalExpansionBehavior,
-  ) {
-    final sections = _allDocumentSections
+  TableOfContents _createTableOfContents(
+      PrivacyPolicy privacyPolicy, ExpansionBehavior initialExpansionBehavior) {
+    final sections = privacyPolicy.tableOfContentSections
         .map((e) => TocSection(
               id: e.documentSectionId,
               title: e.sectionName,
@@ -138,7 +129,7 @@ class TableOfContentsController extends ChangeNotifier {
                       title: sub.sectionName,
                       subsections: IList(const []),
                       expansionState: ExpansionState(
-                        expansionBehavior: _initalExpansionBehavior,
+                        expansionBehavior: initialExpansionBehavior,
                         expansionMode: ExpansionMode.automatic,
                         isExpanded: false,
                       ),
@@ -148,23 +139,14 @@ class TableOfContentsController extends ChangeNotifier {
                   .toIList(),
               isThisCurrentlyRead: false,
               expansionState: ExpansionState(
-                expansionBehavior: _initalExpansionBehavior,
+                expansionBehavior: initialExpansionBehavior,
                 expansionMode: ExpansionMode.automatic,
                 isExpanded: false,
               ),
             ))
         .toIList();
-    _tableOfContents = TableOfContents(sections);
 
-    _updateViews();
-
-    _activeSectionController.currentlyReadDocumentSectionOrNull.addListener(() {
-      final currentlyReadSection =
-          _activeSectionController.currentlyReadDocumentSectionOrNull.value;
-      _tableOfContents =
-          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
-      _updateViews();
-    });
+    return TableOfContents(sections);
   }
 
   // TODO: Test
@@ -177,7 +159,7 @@ class TableOfContentsController extends ChangeNotifier {
   // TODO: Should have at least on mobile a little bit more space above the
   // heading we scroll to.
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
-    return _scrollToDocumentSection(documentSectionId);
+    return _documentController.scrollToDocumentSection(documentSectionId);
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {

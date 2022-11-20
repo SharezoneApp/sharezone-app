@@ -9,8 +9,12 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
+
+import '../helper.dart';
 
 DocumentSection _section(String id, {List<DocumentSection> subsections}) {
   return DocumentSection(id, id, subsections.toIList() ?? const IListConst([]));
@@ -664,27 +668,46 @@ class TestCurrentlyReadingSectionController {
       listenable.value = _visibleSectionHeadings.value.toIList();
     });
 
-    _tableOfContentsController = TableOfContentsController.internal(
-      CurrentlyReadingSectionController.internal(
-        _tocSectionHeadings.toIList(),
-        listenable,
-        threshold: threshold,
-        endSection: PrivacyPolicyEndSection(
-          sectionName: lastSection?.id ?? 'metadaten',
-          generateMarkdown: (pp) => '''
+    final privacyPolicy =
+        privacyPolicyWith(tableOfContentSections: _tocSectionHeadings);
 
-#### ${lastSection?.id ?? 'metadaten'}
-''',
-        ),
+    final config = PrivacyPolicyPageConfig(
+      threshold: threshold,
+      endSection: PrivacyPolicyEndSection(
+        sectionName: lastSection?.id ?? 'metadaten',
+        generateMarkdown: (pp) => _generateEndSectionMarkdown(lastSection),
       ),
-      _tocSectionHeadings.toIList(),
-      (sectionId) => Future.value(),
-      ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
+    );
+
+    final documentController = MockDocumentController();
+    when(documentController.visibleSectionHeadings).thenReturn(listenable);
+
+    final currentlyReadingController = CurrentlyReadingSectionController(
+      documentController: documentController,
+      privacyPolicy: privacyPolicy,
+      config: config,
+    );
+
+    _tableOfContentsController = TableOfContentsController(
+      currentlyReadingController: currentlyReadingController,
+      documentController: documentController,
+      privacyPolicy: privacyPolicy,
+      initialExpansionBehavior:
+          ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );
     _tableOfContentsController.addListener(() {
       _currentlyRead.value = _getCurrentlyHighlighted();
     });
   }
+}
+
+class MockDocumentController extends Mock implements DocumentController {}
+
+String _generateEndSectionMarkdown(DocumentSectionId lastSectionId) {
+  return '''
+
+#### ${lastSectionId ?? 'metadaten'}
+''';
 }
 
 final tocDocumentSections = [
