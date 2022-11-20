@@ -45,10 +45,10 @@ class _TableOfContentsBottomSheet extends StatefulWidget {
       __TableOfContentsBottomSheetState();
 }
 
+// TickerProviderStateMixin instead of SingleTickerProviderStateMixin because
+// else we get an error if we hot reload while the bottom bar is opened.
 class __TableOfContentsBottomSheetState
     extends State<_TableOfContentsBottomSheet> with TickerProviderStateMixin {
-  // TODO:
-  // with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
