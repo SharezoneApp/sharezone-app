@@ -192,8 +192,8 @@ class PrivacyPolicyText extends StatelessWidget {
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
     final theme =
         Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
-    final tocController =
-        Provider.of<TableOfContentsController>(context, listen: false);
+    final documentController =
+        Provider.of<DocumentController>(context, listen: false);
 
     return Stack(
       children: [
@@ -218,9 +218,7 @@ class PrivacyPolicyText extends StatelessWidget {
           onTapLink: (text, href, title) {
             if (href == null) return;
             if (href.startsWith('#')) {
-              // TODO: Doesn't really make sense that we use the
-              // "table of contents" controller here, does it?
-              tocController.scrollTo(
+              documentController.scrollToDocumentSection(
                 DocumentSectionId(
                   // Remove leading #
                   href.substring(1),

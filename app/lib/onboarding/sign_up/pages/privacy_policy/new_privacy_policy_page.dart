@@ -22,103 +22,97 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicyPageConfig config,
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
         config = config ?? PrivacyPolicyPageConfig(),
+        anchorsController = AnchorsController(),
         super(key: key);
 
   final PrivacyPolicy privacyPolicy;
   final PrivacyPolicyPageConfig config;
+  final AnchorsController anchorsController;
 
   @override
   Widget build(BuildContext context) {
-    return Provider<PrivacyPolicyPageConfig>(
-      create: (context) => config,
-      child: ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
-          create: (context) {
-            final themeSettings =
-                Provider.of<ThemeSettings>(context, listen: false);
-            return PrivacyPolicyThemeSettings(
-              analytics: AnalyticsProvider.ofOrNullObject(context),
-              themeSettings: Provider.of(context, listen: false),
-              initialTextScalingFactor: themeSettings.textScalingFactor,
-              initialVisualDensity: themeSettings.visualDensitySetting,
-              initialThemeBrightness: themeSettings.themeBrightness,
-              initialShowDebugThresholdIndicator:
-                  config.showDebugThresholdIndicator,
-            );
-          },
-          child: Provider(
-            create: (context) => AnchorsController(),
-            child: Builder(
-                builder: (context) => MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: context
-                            .watch<PrivacyPolicyThemeSettings>()
-                            .textScalingFactor),
-                    child: ChangeNotifierProvider<TableOfContentsController>(
-                      // TODO: Since CurrentlyReadController can now be
-                      // instantiated independently it might make sense to
-                      // initialize it when first building. Then lazy could be
-                      // true again.
-                      //
-                      // Else the currently active section doesn't get tracked until
-                      // the table of contents inside the bottom sheet was at least
-                      // once manually opened (for layouts with a bottom sheet).
-                      lazy: false,
-                      create: (context) {
-                        final anchorsController =
-                            Provider.of<AnchorsController>(context,
-                                listen: false);
-                        final factory = PrivacyPolicyPageDependencyFactory(
-                          anchorsController: anchorsController,
-                          privacyPolicy: privacyPolicy,
-                          config: config,
-                        );
-                        return factory.tableOfContentsController;
-                      },
-                      child: Theme(
-                        data: Theme.of(context).copyWith(
-                            visualDensity: context
-                                .watch<PrivacyPolicyThemeSettings>()
-                                .visualDensitySetting
-                                .visualDensity,
-                            floatingActionButtonTheme:
-                                FloatingActionButtonThemeData(
-                              backgroundColor: Theme.of(context).primaryColor,
-                            )),
-                        child: Scaffold(
-                          body: Center(
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
-                              final tocController =
-                                  Provider.of<TableOfContentsController>(
-                                      context,
-                                      listen: false);
+    return Provider(
+      create: (context) => PrivacyPolicyPageDependencyFactory(
+        anchorsController: anchorsController,
+        config: config,
+        privacyPolicy: privacyPolicy,
+      ),
+      builder: (context, _) => MultiProvider(
+          providers: [
+            Provider(create: (context) => anchorsController),
+            Provider<PrivacyPolicyPageConfig>(create: (context) => config),
+            ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+              create: (context) {
+                final themeSettings =
+                    Provider.of<ThemeSettings>(context, listen: false);
+                return _createPrivacyPolicyThemeSettings(
+                    context, themeSettings);
+              },
+            ),
+            Provider<DocumentController>(
+              create: (context) => _factory(context).documentController,
+            ),
+            ChangeNotifierProvider<TableOfContentsController>(
+              create: (context) => _factory(context).tableOfContentsController,
+            ),
+          ],
+          builder: (context, _) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: context
+                      .watch<PrivacyPolicyThemeSettings>()
+                      .textScalingFactor),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                    visualDensity: context
+                        .watch<PrivacyPolicyThemeSettings>()
+                        .visualDensitySetting
+                        .visualDensity,
+                    floatingActionButtonTheme: FloatingActionButtonThemeData(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    )),
+                child: Scaffold(
+                  body: Center(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final tocController =
+                          Provider.of<TableOfContentsController>(context,
+                              listen: false);
 
-                              if (constraints.maxWidth > 1100) {
-                                tocController.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .leaveManuallyOpenedSectionsOpen);
-                                return MainContentWide(
-                                    privacyPolicy: privacyPolicy);
-                              } else if (constraints.maxWidth > 500 &&
-                                  constraints.maxHeight > 400) {
-                                tocController.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .alwaysAutomaticallyCloseSectionsAgain);
-                                return MainContentNarrow(
-                                    privacyPolicy: privacyPolicy);
-                              } else {
-                                tocController.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .alwaysAutomaticallyCloseSectionsAgain);
-                                return MainContentMobile(
-                                    privacyPolicy: privacyPolicy);
-                              }
-                            }),
-                          ),
-                        ),
-                      ),
-                    ))),
-          )),
+                      if (constraints.maxWidth > 1100) {
+                        tocController.changeExpansionBehavior(
+                            ExpansionBehavior.leaveManuallyOpenedSectionsOpen);
+                        return MainContentWide(privacyPolicy: privacyPolicy);
+                      } else if (constraints.maxWidth > 500 &&
+                          constraints.maxHeight > 400) {
+                        tocController.changeExpansionBehavior(ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain);
+                        return MainContentNarrow(privacyPolicy: privacyPolicy);
+                      } else {
+                        tocController.changeExpansionBehavior(ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain);
+                        return MainContentMobile(privacyPolicy: privacyPolicy);
+                      }
+                    }),
+                  ),
+                ),
+              ))),
     );
+  }
+
+  PrivacyPolicyThemeSettings _createPrivacyPolicyThemeSettings(
+      BuildContext context, ThemeSettings themeSettings) {
+    return PrivacyPolicyThemeSettings(
+      analytics: AnalyticsProvider.ofOrNullObject(context),
+      themeSettings: Provider.of(context, listen: false),
+      initialTextScalingFactor: themeSettings.textScalingFactor,
+      initialVisualDensity: themeSettings.visualDensitySetting,
+      initialThemeBrightness: themeSettings.themeBrightness,
+      initialShowDebugThresholdIndicator: config.showDebugThresholdIndicator,
+    );
+  }
+
+  PrivacyPolicyPageDependencyFactory _factory(BuildContext context) {
+    final factory =
+        Provider.of<PrivacyPolicyPageDependencyFactory>(context, listen: false);
+    return factory;
   }
 }
