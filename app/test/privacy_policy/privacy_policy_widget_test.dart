@@ -264,6 +264,7 @@ extension on CommonFinders {
     return find.widgetWithText(SectionHighlight, name);
   }
 
+  // ignore: unused_element
   Finder sectionHighlightPredicate(
       bool Function(SectionHighlight widget) predicate) {
     return find
