@@ -10,6 +10,12 @@ import 'privacy_policy_src.dart';
 // to make the rest of code more uncoupled from endSection class and behavior.
 // Since if someday we can access the scrollController of the underlying list
 // I guess we would probably also expose it here?
+/// Used to observe the current [DocumentSectionHeadingPosition] on screen and
+/// jump to a specific [DocumentSectionId].
+///
+/// [DocumentController] abstracts away the underlying [AnchorsController] and
+/// "translates" the API that is specific to Markdown (e.g. [AnchorPosition])
+/// into our own API ([DocumentSectionHeadingPosition]).
 class DocumentController {
   final AnchorsController anchorsController;
   final CurrentlyReadThreshold threshold;
