@@ -1,9 +1,7 @@
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:meta/meta.dart';
 
-import '../new_privacy_policy_page.dart';
 import 'privacy_policy_src.dart';
-import 'widgets/common.dart';
 
 class PrivacyPolicyPageDependencyFactory {
   final TableOfContentsController tableOfContentsController;

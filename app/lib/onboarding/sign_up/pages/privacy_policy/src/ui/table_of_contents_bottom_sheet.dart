@@ -9,7 +9,7 @@ import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 import '../privacy_policy_src.dart';
-import 'privacy_policy_widgets.dart';
+import 'ui.dart';
 
 void showTableOfContentsBottomSheet(BuildContext context) {
   final oldContext = context;

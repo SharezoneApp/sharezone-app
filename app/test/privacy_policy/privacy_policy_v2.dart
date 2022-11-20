@@ -1,8 +1,7 @@
 // TODO: Remove this file before merging. This is only for development.
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/table_of_contents_controller.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/common.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
 final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: markdownPrivacyPolicy,

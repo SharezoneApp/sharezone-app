@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 
 import 'src/privacy_policy_src.dart' hide TableOfContents;
-import 'src/widgets/privacy_policy_widgets.dart';
+import 'src/ui/ui.dart';
 
 class PrivacyPolicyTocTempDevPage extends StatefulWidget {
   const PrivacyPolicyTocTempDevPage({Key key}) : super(key: key);

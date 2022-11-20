@@ -14,33 +14,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
-import 'src/privacy_policy_v2.dart';
-import 'src/widgets/privacy_policy_widgets.dart';
-
-class PrivacyPolicyPageConfig {
-  final CurrentlyReadThreshold threshold;
-
-  /// Show a marker at [CurrentlyReadThreshold.position].
-  final bool showDebugThresholdIndicator;
-  final PrivacyPolicyEndSection endSection;
-
-  factory PrivacyPolicyPageConfig({
-    CurrentlyReadThreshold threshold,
-    bool showDebugThresholdMarker,
-    PrivacyPolicyEndSection endSection,
-  }) {
-    return PrivacyPolicyPageConfig._(
-      threshold ?? CurrentlyReadThreshold(0.1),
-      showDebugThresholdMarker ?? false,
-      endSection ?? PrivacyPolicyEndSection.metadata(),
-    );
-  }
-  PrivacyPolicyPageConfig._(
-    this.threshold,
-    this.showDebugThresholdIndicator,
-    this.endSection,
-  );
-}
+import 'src/ui/ui.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'privacy_policy_widgets.dart';
+import '../privacy_policy_src.dart';
+import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
   final PrivacyPolicy privacyPolicy;

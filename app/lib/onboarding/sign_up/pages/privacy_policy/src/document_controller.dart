@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'privacy_policy_src.dart';
-import 'widgets/common.dart';
 
 // TODO: It might make sense to add a property like .isNearBottomOfDocument
 // to make the rest of code more uncoupled from endSection class and behavior.

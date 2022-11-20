@@ -11,7 +11,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/widgets/privacy_policy_widgets.dart';
 
 import 'privacy_policy_src.dart';
 

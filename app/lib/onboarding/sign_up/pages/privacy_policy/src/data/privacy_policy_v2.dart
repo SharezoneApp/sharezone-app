@@ -2,8 +2,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import 'privacy_policy_src.dart';
-import 'widgets/privacy_policy_widgets.dart';
+import '../privacy_policy_src.dart';
 
 final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: markdownPrivacyPolicy,

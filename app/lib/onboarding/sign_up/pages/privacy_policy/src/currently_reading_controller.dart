@@ -8,10 +8,8 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 
 import 'privacy_policy_src.dart';
-import 'widgets/common.dart';
 
 /// Updates which [DocumentSection] inside the user is currently reading.
 /// Used by the [TableOfContentsController] to highlight the currently read

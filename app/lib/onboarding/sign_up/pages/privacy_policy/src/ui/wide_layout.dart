@@ -3,7 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 import '../privacy_policy_src.dart';
-import 'privacy_policy_widgets.dart';
+import 'ui.dart';
 
 class MainContentWide extends StatelessWidget {
   final PrivacyPolicy privacyPolicy;
