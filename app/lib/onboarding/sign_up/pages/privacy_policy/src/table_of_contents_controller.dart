@@ -147,9 +147,6 @@ class TableOfContentsController extends ChangeNotifier {
         _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
   }
 
-  // TODO: Parameters - how much space
-  // TODO: Should have at least on mobile a little bit more space above the
-  // heading we scroll to.
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
     return _documentController.scrollToDocumentSection(documentSectionId);
   }
