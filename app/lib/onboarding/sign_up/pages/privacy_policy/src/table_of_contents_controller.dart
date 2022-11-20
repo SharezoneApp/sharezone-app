@@ -34,13 +34,11 @@ import 'privacy_policy_src.dart';
 /// ]);
 /// ```
 class DocumentSection {
-  // TODO: Remove sectionId and replace with documentSectionId.
-  final String sectionId;
-  DocumentSectionId get documentSectionId => DocumentSectionId(sectionId);
+  final DocumentSectionId id;
   final String sectionName;
   final IList<DocumentSection> subsections;
 
-  DocumentSection(this.sectionId, this.sectionName,
+  DocumentSection(this.id, this.sectionName,
       [this.subsections = const IListConst([])]);
 
   @override
@@ -49,18 +47,17 @@ class DocumentSection {
     final listEquals = const DeepCollectionEquality().equals;
 
     return other is DocumentSection &&
-        other.sectionId == sectionId &&
+        other.id == id &&
         other.sectionName == sectionName &&
         listEquals(other.subsections, subsections);
   }
 
   @override
-  int get hashCode =>
-      sectionId.hashCode ^ sectionName.hashCode ^ subsections.hashCode;
+  int get hashCode => id.hashCode ^ sectionName.hashCode ^ subsections.hashCode;
 
   @override
   String toString() =>
-      'DocumentSection(sectionId: $sectionId, sectionName: $sectionName, subsections: $subsections)';
+      'DocumentSection(sectionId: $id, sectionName: $sectionName, subsections: $subsections)';
 }
 
 /// The position of the heading with [documentSectionId] on the screen.
@@ -115,12 +112,12 @@ class TableOfContentsController extends ChangeNotifier {
       PrivacyPolicy privacyPolicy, ExpansionBehavior initialExpansionBehavior) {
     final sections = privacyPolicy.tableOfContentSections
         .map((e) => TocSection(
-              id: e.documentSectionId,
+              id: e.id,
               title: e.sectionName,
               subsections: e.subsections
                   .map(
                     (sub) => TocSection(
-                      id: sub.documentSectionId,
+                      id: sub.id,
                       title: sub.sectionName,
                       subsections: IList(const []),
                       expansionState: ExpansionState(

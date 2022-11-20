@@ -78,7 +78,7 @@ ${generateText(10)}
               PrivacyPolicyPage(
                 privacyPolicy: privacyPolicyWith(
                   tableOfContentSections: [
-                    DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                    section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                   ],
                   markdown: text,
                 ),
@@ -115,7 +115,7 @@ ${generateText(10)}
             wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
-                  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                  section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                 ],
                 markdown: text,
               ),
@@ -164,8 +164,8 @@ ${generateText(10)}
             wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
-                  DocumentSection('small-section', 'Small section'),
-                  DocumentSection('bigger-section', 'Bigger section'),
+                  section('small-section', 'Small section'),
+                  section('bigger-section', 'Bigger section'),
                 ],
                 markdown: text,
               ),
@@ -234,9 +234,8 @@ ${generateText(200)}
             wrapWithScaffold(PrivacyPolicyPage(
               privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
-                  DocumentSection('foo', 'Foo'),
-                  DocumentSection(
-                      endSection.sectionId.id, endSection.sectionName),
+                  section('foo', 'Foo'),
+                  DocumentSection(endSection.sectionId, endSection.sectionName),
                 ],
                 markdown: text,
               ),

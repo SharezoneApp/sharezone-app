@@ -1,95 +1,95 @@
-// TODO: Remove this file before merging. This is only for development.
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
 final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: markdownPrivacyPolicy,
-  tableOfContentSections: tocDocumentSections,
+  tableOfContentSections: tocDocumentSections.toIList(),
   version: '2.0.0',
   lastChanged: DateTime(2022, 11, 10),
   entersIntoForceOnOrNull: DateTime(2023, 01, 20),
 );
 
 final tocDocumentSections = [
-  DocumentSection('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
-  DocumentSection('1-wichtige-begriffe', '1. Wichtige Begriffe'),
-  DocumentSection('2-geltungsbereich', '2. Geltungsbereich'),
-  DocumentSection(
+  _section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+  _section('1-wichtige-begriffe', '1. Wichtige Begriffe'),
+  _section('2-geltungsbereich', '2. Geltungsbereich'),
+  _section(
       '3-verantwortlichkeit-und-kontakt', '3. Verantwortlichkeit und Kontakt'),
-  DocumentSection(
-      '4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten',
+  _section('4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten',
       '4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten'),
-  DocumentSection(
+  _section(
     '5-deine-rechte',
     '5. Deine Rechte',
     [
-      DocumentSection('a-recht-auf-auskunft', 'a. Recht auf Auskunft'),
-      DocumentSection('b-recht-auf-berichtigung', 'b. Recht auf Berichtigung'),
-      DocumentSection('c-recht-auf-lschung', 'c. Recht auf Löschung'),
-      DocumentSection('d-recht-auf-einschrnkung-der-verarbeitung',
+      _section('a-recht-auf-auskunft', 'a. Recht auf Auskunft'),
+      _section('b-recht-auf-berichtigung', 'b. Recht auf Berichtigung'),
+      _section('c-recht-auf-lschung', 'c. Recht auf Löschung'),
+      _section('d-recht-auf-einschrnkung-der-verarbeitung',
           'd. Recht auf Einschränkung der Verarbeitung'),
-      DocumentSection('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch'),
-      DocumentSection('f-recht-auf-widerruf', 'f. Recht auf Widerruf'),
-      DocumentSection('g-recht-auf-datenbertragbarkeit',
+      _section('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch'),
+      _section('f-recht-auf-widerruf', 'f. Recht auf Widerruf'),
+      _section('g-recht-auf-datenbertragbarkeit',
           'g. Recht auf Datenübertragbarkeit'),
-      DocumentSection('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde'),
-    ].toIList(),
+      _section('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde'),
+    ],
   ),
-  DocumentSection('6-eure-kontaktaufnahme', '6. Eure Kontaktaufnahme'),
-  DocumentSection(
-      '7-unser-umgang-mit-euren-daten', '7. Unser Umgang mit euren Daten'),
-  DocumentSection(
+  _section('6-eure-kontaktaufnahme', '6. Eure Kontaktaufnahme'),
+  _section('7-unser-umgang-mit-euren-daten', '7. Unser Umgang mit euren Daten'),
+  _section(
     '8-account-nickname-und-passwort',
     '8. Account, Nickname und Passwort',
     [
-      DocumentSection('a-registrierung-mittels-anonymen-accounts',
+      _section('a-registrierung-mittels-anonymen-accounts',
           'a. Registrierung mittels anonymen Accounts'),
-      DocumentSection(
+      _section(
           'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-lter',
           'b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter'),
-    ].toIList(),
+    ],
   ),
-  DocumentSection(
-      '9-verarbeitung-der-ip-adresse', '9. Verarbeitung der IP-Adresse'),
-  DocumentSection('10-speicherdauer-und-speicherfristen',
+  _section('9-verarbeitung-der-ip-adresse', '9. Verarbeitung der IP-Adresse'),
+  _section('10-speicherdauer-und-speicherfristen',
       '10. Speicherdauer und Speicherfristen'),
-  DocumentSection(
-      '11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes',
+  _section('11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes',
       '11. Verarbeitung des gewählten Account-Typs und des Bundeslandes'),
-  DocumentSection('12-anonyme-statistische-auswertung-der-app-nutzung',
+  _section('12-anonyme-statistische-auswertung-der-app-nutzung',
       '12. Anonyme statistische Auswertung der App-Nutzung'),
-  DocumentSection('13-push-nachrichten', '13. Push-Nachrichten'),
-  DocumentSection(
+  _section('13-push-nachrichten', '13. Push-Nachrichten'),
+  _section(
     '14-instance-id',
     '14. Instance ID',
     [
-      DocumentSection('firebase-cloud-messaging', 'Firebase Cloud Messaging'),
-      DocumentSection('firebase-crashlytics', 'Firebase Crashlytics'),
-      DocumentSection(
+      _section('firebase-cloud-messaging', 'Firebase Cloud Messaging'),
+      _section('firebase-crashlytics', 'Firebase Crashlytics'),
+      _section(
           'firebase-performance-monitoring', 'Firebase Performance Monitoring'),
-      DocumentSection('firebase-predictions', 'Firebase Predictions'),
-      DocumentSection('firebase-remote-config', 'Firebase Remote Config'),
-      DocumentSection('googlefirebase-analytics', 'Google/Firebase Analytics'),
-    ].toIList(),
+      _section('firebase-predictions', 'Firebase Predictions'),
+      _section('firebase-remote-config', 'Firebase Remote Config'),
+      _section('googlefirebase-analytics', 'Google/Firebase Analytics'),
+    ],
   ),
-  DocumentSection('15-empfnger-oder-kategorien-von-empfngern',
+  _section('15-empfnger-oder-kategorien-von-empfngern',
       '15. Empfänger oder Kategorien von Empfängern'),
-  DocumentSection('16-ssltls-verschlsselung', '16. SSL/TLS-Verschlüsselung'),
-  DocumentSection('17-videokonferenzen', '17. Videokonferenzen'),
-  DocumentSection(
+  _section('16-ssltls-verschlsselung', '16. SSL/TLS-Verschlüsselung'),
+  _section('17-videokonferenzen', '17. Videokonferenzen'),
+  _section(
     '18-datenbertragung-in-drittlnder-auerhalb-der-eu',
     '18. Datenübertragung in Drittländer außerhalb der EU',
     [
-      DocumentSection(
-          'a-firebase-authentication', 'a. Firebase Authentication'),
-      DocumentSection('b-firebase-hosting', 'b. Firebase Hosting'),
-    ].toIList(),
+      _section('a-firebase-authentication', 'a. Firebase Authentication'),
+      _section('b-firebase-hosting', 'b. Firebase Hosting'),
+    ],
   ),
-  DocumentSection('19-datenschutzbeauftragter', '19. Datenschutzbeauftragter'),
-  DocumentSection('20-vorbehalt-der-nderung-dieser-informationen',
+  _section('19-datenschutzbeauftragter', '19. Datenschutzbeauftragter'),
+  _section('20-vorbehalt-der-nderung-dieser-informationen',
       '20. Vorbehalt der Änderung dieser Informationen'),
-].toIList();
+];
+
+DocumentSection _section(
+  String id,
+  String name, [
+  List<DocumentSection> subsections,
+]) =>
+    DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
 const tableOfContentStrings = [
   "Einführung",

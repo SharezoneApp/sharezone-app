@@ -37,7 +37,7 @@ class CurrentlyReadingController {
 
     final sectionAndSubsectionIds = privacyPolicy.tableOfContentSections
         .expand((element) => [element, ...element.subsections])
-        .map((e) => e.documentSectionId)
+        .map((e) => e.id)
         .toIList();
 
     _currentState = _CurrentlyReadingState(

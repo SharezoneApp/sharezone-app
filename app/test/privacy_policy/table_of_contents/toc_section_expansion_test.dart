@@ -31,11 +31,11 @@ class _TableOfContentsTestController {
     final _sections = sections
         .map(
           (section) => DocumentSection(
-            section.id,
+            DocumentSectionId(section.id),
             section.id,
             section.subsections
-                .map((subsection) =>
-                    DocumentSection(subsection.id, subsection.id))
+                .map((subsection) => DocumentSection(
+                    DocumentSectionId(subsection.id), subsection.id))
                 .toIList(),
           ),
         )
