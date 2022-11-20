@@ -1,5 +1,3 @@
-//TODO: Make this class be used by both TOC controller and currently reading
-//controller.
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';

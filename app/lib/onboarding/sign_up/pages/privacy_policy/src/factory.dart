@@ -13,8 +13,6 @@ class PrivacyPolicyPageDependencyFactory {
     @required PrivacyPolicy privacyPolicy,
     @required PrivacyPolicyPageConfig config,
   }) {
-    // TODO: See if internal constructors of classes below don't make sense
-    // anymore.
     final documentController = DocumentController(
       anchorsController: anchorsController,
       threshold: config.threshold,
