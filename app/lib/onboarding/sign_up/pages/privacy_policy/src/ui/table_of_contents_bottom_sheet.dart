@@ -193,10 +193,7 @@ class _TocHeadingState extends State<_TocHeading>
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
     final showExpansionArrow = widget.section.isExpandable;
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
+    final visualDensity = context.ppVisualDensity;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -277,10 +274,7 @@ class _TocHeadingState extends State<_TocHeading>
 
 List<Widget> _buildSubheadings(
     BuildContext context, IList<TocDocumentSectionView> subheadings) {
-  final visualDensity =
-      Provider.of<PrivacyPolicyThemeSettings>(context, listen: false)
-          .visualDensitySetting
-          .visualDensity;
+  final visualDensity = context.ppVisualDensity;
   final tocController =
       Provider.of<TableOfContentsController>(context, listen: false);
 
@@ -345,10 +339,7 @@ class _Subheading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
+    final visualDensity = context.ppVisualDensity;
 
     return Row(
       mainAxisSize: MainAxisSize.min,

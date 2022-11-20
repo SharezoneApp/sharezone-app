@@ -251,3 +251,8 @@ class PrivacyPolicyText extends StatelessWidget {
     );
   }
 }
+
+extension PrivacyPolicyVisualDensity on BuildContext {
+  VisualDensity get ppVisualDensity =>
+      watch<PrivacyPolicyThemeSettings>().visualDensitySetting.visualDensity;
+}

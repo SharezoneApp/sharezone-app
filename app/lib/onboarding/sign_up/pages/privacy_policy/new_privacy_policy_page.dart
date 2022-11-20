@@ -62,10 +62,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                       .textScalingFactor),
               child: Theme(
                 data: Theme.of(context).copyWith(
-                    visualDensity: context
-                        .watch<PrivacyPolicyThemeSettings>()
-                        .visualDensitySetting
-                        .visualDensity,
+                    visualDensity: context.ppVisualDensity,
                     floatingActionButtonTheme: FloatingActionButtonThemeData(
                       backgroundColor: Theme.of(context).primaryColor,
                     )),

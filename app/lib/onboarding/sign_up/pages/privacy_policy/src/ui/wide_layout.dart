@@ -138,11 +138,7 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
-    // TODO: Create Extension?
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
+    final visualDensity = context.ppVisualDensity;
 
     return _BottomFade(
       scrollController: scrollController,
@@ -245,10 +241,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     final tocController =
         Provider.of<TableOfContentsController>(context, listen: false);
     final showExpansionArrow = widget.section.isExpandable;
-    final visualDensity = context
-        .watch<PrivacyPolicyThemeSettings>()
-        .visualDensitySetting
-        .visualDensity;
+    final visualDensity = context.ppVisualDensity;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
