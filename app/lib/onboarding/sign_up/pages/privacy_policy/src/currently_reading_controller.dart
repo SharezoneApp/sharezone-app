@@ -50,12 +50,10 @@ class CurrentlyReadingController {
     );
 
     sortedSectionHeadings.addListener(() {
-      _currentState = _currentState.updateViewport(
-        _Viewport(
-          sortedHeadingPositions: sortedSectionHeadings.value,
-          threshold: threshold,
-        ),
-      );
+      _currentState = _currentState.updateViewport(_Viewport(
+        sortedHeadingPositions: sortedSectionHeadings.value,
+        threshold: threshold,
+      ));
 
       _currentlyReadingHeadingNotifier.value =
           _currentState.currentlyReadSectionOrNull;
@@ -65,6 +63,16 @@ class CurrentlyReadingController {
 
 class _CurrentlyReadingState {
   final IList<DocumentSectionId> tocSections;
+
+  /// Viewport with only known headings.
+  ///
+  /// We filter out all headings which are not inside [tocSections] or equal to
+  /// [endOfDocumentSectionId] so that we can keep the logic in this class
+  /// simpler.
+  ///
+  /// From a UX perspective we want to ignore unknown headings since it would be
+  /// confusing if a user scrolls past a unknown heading and suddendly no
+  /// section is marked as currently read inside the table of contents anymore.
   final _Viewport viewport;
 
   /// The [DocumentSectionId] that is at the very end of the privacy policy.
@@ -87,12 +95,38 @@ class _CurrentlyReadingState {
   /// anymore.
   final _HeadingState lastSeenHeadingState;
 
-  _CurrentlyReadingState({
+  factory _CurrentlyReadingState({
+    @required IList<DocumentSectionId> tocSections,
+    @required _Viewport viewport,
+    @required DocumentSectionId endOfDocumentSectionId,
+  }) {
+    final noUnknwonHeadings = viewport.removeUnknownHeadings(
+        knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
+
+    return _CurrentlyReadingState._(
+      tocSections: tocSections,
+      viewport: noUnknwonHeadings,
+      endOfDocumentSectionId: endOfDocumentSectionId,
+      lastSeenHeadingState: null,
+    );
+  }
+
+  _CurrentlyReadingState._({
     @required this.tocSections,
     @required this.viewport,
     @required this.endOfDocumentSectionId,
-    this.lastSeenHeadingState,
-  });
+    @required this.lastSeenHeadingState,
+  }) : assert(() {
+          // We assume that we already filtered out all headings that are
+          // unknown to us.
+          // See documentation of [viewport] property.
+          final viewportContainsOnlyKnownHeadings =
+              viewport.sortedHeadingPositions.every((element) =>
+                  tocSections.contains(element.documentSectionId) ||
+                  element.documentSectionId == endOfDocumentSectionId);
+
+          return viewportContainsOnlyKnownHeadings;
+        }());
 
   DocumentSectionId _currentlyReadSectionOrNull;
   bool _isCached = false;
@@ -113,16 +147,13 @@ class _CurrentlyReadingState {
       // ...and we saved what happend with the last section on screen...
       if (lastSeenHeadingState != null) {
         // ... we find the index of the last section on screen...
-        final index = tocSections
+        final sections = [...tocSections, endOfDocumentSectionId];
+        final index = sections
             .indexWhere((section) => section == lastSeenHeadingState.id);
 
-        // TODO: This is thrown if an unknwon heading is the only one on screen
-        // and is scrolled out i think?
-        // I guess unkown headings should never be saved to
-        // _lastSeenHeadingState?
         if (index == -1) {
-          throw ArgumentError(
-              "Can't find section with id ${lastSeenHeadingState.id} inside allSectionsFlattend ($tocSections)");
+          throw StateError(
+              "Can't find section with id ${lastSeenHeadingState.id} inside TOC sections + end section ($sections). This is an developer error and needs to be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState.");
         }
 
         // ... and compute what section we're currently in:
@@ -150,9 +181,8 @@ class _CurrentlyReadingState {
     // Special case: We see the document section that signals to us that the
     // user reached the bottom of the document.
     final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
-    // If the heading is completly visible in the viewport
-    if (pos != null && pos.itemTrailingEdge <= 1.0) {
-      // then we mark the last section in our table of contents as active
+    if (pos != null) {
+      // We mark the last section in our table of contents as active
       // (will probably not be the same as [_endOfDocumentSectionId]).
       // For more info see docs of [_endOfDocumentSectionId].
       return tocSections.last;
@@ -166,13 +196,9 @@ class _CurrentlyReadingState {
       // ... we get the index of the top-most section heading on screen...
       final index = _indexOf(viewport.sortedHeadingPositions.first);
 
-      // Saw this happen once in a wrongly configured test. Shouldn't happen in
-      // the real world but if it does we throw an Error to indicate it being
-      // a developer error, not an user error. I don't really understand when it
-      // could happen.
       if (index == -1) {
         throw StateError(
-            'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. viewport.sortedHeadingPositions: ${viewport.sortedHeadingPositions}');
+            'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState');
       }
 
       // Special case: If it's the first section we mark no section as currently
@@ -198,6 +224,9 @@ class _CurrentlyReadingState {
   }
 
   _CurrentlyReadingState updateViewport(_Viewport updatedViewport) {
+    updatedViewport = updatedViewport.removeUnknownHeadings(
+        knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
+
     // If we see no section headings on screen we save what heading was last
     // seen. Later we can use that so we know what section we're currently in.
     //
@@ -234,7 +263,7 @@ class _CurrentlyReadingState {
     _Viewport viewport,
     _HeadingState lastSeenHeadingState,
   }) {
-    return _CurrentlyReadingState(
+    return _CurrentlyReadingState._(
       endOfDocumentSectionId: endOfDocumentSectionId,
       viewport: viewport ?? this.viewport,
       tocSections: tocSections ?? this.tocSections,
@@ -251,6 +280,18 @@ class _Viewport {
     @required this.sortedHeadingPositions,
     @required this.threshold,
   });
+
+  /// Remove all headings which are not inside [knownHeadings].
+  /// More details inside [_CurrentlyReadingState.viewport].
+  _Viewport removeUnknownHeadings(
+      {@required IList<DocumentSectionId> knownHeadings}) {
+    return _Viewport(
+      sortedHeadingPositions: sortedHeadingPositions
+          .where((element) => knownHeadings.contains(element.documentSectionId))
+          .toIList(),
+      threshold: threshold,
+    );
+  }
 
   bool get headingsVisible => !noHeadingsVisible;
   bool get noHeadingsVisible => sortedHeadingPositions.isEmpty;
@@ -274,6 +315,10 @@ class _Viewport {
         (element) => element.documentSectionId == documentSectionId,
         orElse: () => null);
   }
+
+  @override
+  String toString() =>
+      '_Viewport(sortedHeadingPositions: $sortedHeadingPositions, threshold: $threshold)';
 }
 
 // TODO: Can we replace this with extended enum?
@@ -285,6 +330,9 @@ class _HeadingState {
     @required this.id,
     @required this.scrolledOutAt,
   });
+
+  @override
+  String toString() => '_HeadingState(id: $id, scrolledOutAt: $scrolledOutAt)';
 }
 
 enum _ScrolledOut { atTheTop, atTheBottom }

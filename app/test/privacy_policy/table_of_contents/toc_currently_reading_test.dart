@@ -54,6 +54,7 @@ void main() {
 
     setUp(() {
       visibleSections = ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
+      FlutterError.onError = (e) => fail(e.toString());
     });
 
     // TODO: Change "active" to "currently read" in all tests and other places.
@@ -517,7 +518,7 @@ void main() {
     });
 
     test(
-        'When the trailing edge of the "last heading" is <= 1.0 then the last toc section is highlighted',
+        'When "last heading" is visible then the last toc section is highlighted',
         () {
       final sections = [
         _section('bar'),
@@ -541,15 +542,16 @@ void main() {
           itemLeadingEdge: 0.6,
           itemTrailingEdge: 0.7,
         ),
+        // partially visible heading is enough (otherwise code would be
+        // unnecessarily complex)
         _headingPosition(
           'last-section-id',
           itemLeadingEdge: 0.9,
-          // Not 1.0 so it doesn't count yet
           itemTrailingEdge: 1.1,
         ),
       ];
 
-      expect(controller.currentlyReadSection, 'bar');
+      expect(controller.currentlyReadSection, 'baz');
 
       visibleSections.value = [
         _headingPosition(
@@ -570,24 +572,111 @@ void main() {
       ];
 
       expect(controller.currentlyReadSection, 'baz');
+    });
+
+    test('ignores unknwon heading', () {
+      final sections = [
+        _section('baz'),
+      ];
+
+      final controller = _createController(
+        sections,
+        visibleSections,
+        lastSection: 'last-section-id',
+      );
 
       visibleSections.value = [
         _headingPosition(
-          'bar',
+          'baz',
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.1,
         ),
         _headingPosition(
-          'baz',
+          'unknown-section-id',
           itemLeadingEdge: 0.6,
-          itemTrailingEdge: 0.7,
-        ),
-        _headingPosition(
-          'last-section-id',
-          itemLeadingEdge: 0.8,
-          itemTrailingEdge: 0.9,
+          itemTrailingEdge: 1.7,
         ),
       ];
+
+      expect(controller.currentlyReadSection, 'baz');
+
+      visibleSections.value = [
+        _headingPosition(
+          'unknown-section-id',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'baz');
+
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, 'baz');
+    });
+    test('regression test: ignores end section if it is not fully scrolled in',
+        () {
+      final sections = [
+        _section('baz'),
+      ];
+
+      final controller = _createController(
+        sections,
+        visibleSections,
+        lastSection: 'last-section-id',
+      );
+
+      visibleSections.value = [
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+      ];
+      visibleSections.value = [
+        _headingPosition(
+          'unknown',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+      ];
+      visibleSections.value = [
+        _headingPosition(
+          'last-section-id',
+          itemLeadingEdge: 0.95,
+          itemTrailingEdge: 1.1,
+        ),
+      ];
+
+      expect(controller.currentlyReadSection, 'baz');
+    });
+    test('regression test: scroll back up into only text area from end section',
+        () {
+      final sections = [
+        _section('baz'),
+      ];
+
+      final controller = _createController(
+        sections,
+        visibleSections,
+        lastSection: 'last-section-id',
+      );
+
+      visibleSections.value = [
+        _headingPosition(
+          'baz',
+          itemLeadingEdge: 0,
+          itemTrailingEdge: 0.1,
+        ),
+      ];
+      visibleSections.value = [
+        _headingPosition(
+          'last-section-id',
+          itemLeadingEdge: 0.9,
+          itemTrailingEdge: 1,
+        ),
+      ];
+      visibleSections.value = [];
 
       expect(controller.currentlyReadSection, 'baz');
     });
