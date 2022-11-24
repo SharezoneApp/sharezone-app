@@ -126,25 +126,16 @@ void main() {
 
       // - A section with subsections is not expanded when it is not highlighte
       // * Sections are collapsed by default
-      // TODO: Remove unnecessary sections in some tests that are not
-      // relevant to that specific test.
-      // TODO: Instead of Foo etc use section titles that are more "real"?
       // TODO: Rename Section to Chapter?
       // TODO: Remove `isCurrentlyReading` property?
       // TODO: Test different ExpansionBehavior?
-      test('All expandable sections are collapsed by default', () {
+      test('Expandable sections are collapsed by default', () {
         final sections = [
           _Section(
             'Foo',
             subsections: const [
               _Section('Bar'),
               _Section('Baz'),
-            ],
-          ),
-          _Section(
-            'Quz',
-            subsections: const [
-              _Section('Xyzzy'),
             ],
           )
         ];
@@ -155,7 +146,6 @@ void main() {
           tocController.currentState.sections,
           [
             _SectionResult('Foo', isExpanded: false),
-            _SectionResult('Quz', isExpanded: false),
           ],
         );
       });
@@ -234,22 +224,22 @@ void main() {
               _Section('Baz'),
             ],
           ),
-          _Section(
-            'Quz',
-            subsections: const [
-              _Section('Xyzzy'),
-            ],
-          )
         ];
         tocController.build(sections);
-
-        tocController.toggleExpansionOfSection('Quz');
 
         expect(
           tocController.currentState.sections,
           [
             _SectionResult('Foo', isExpanded: false),
-            _SectionResult('Quz', isExpanded: true),
+          ],
+        );
+
+        tocController.toggleExpansionOfSection('Foo');
+
+        expect(
+          tocController.currentState.sections,
+          [
+            _SectionResult('Foo', isExpanded: true),
           ],
         );
       });
@@ -259,13 +249,6 @@ void main() {
           () {
         final sections = [
           _Section(
-            'Foo',
-            subsections: const [
-              _Section('Bar'),
-              _Section('Baz'),
-            ],
-          ),
-          _Section(
             'Quz',
             subsections: const [
               _Section('Xyzzy'),
@@ -280,7 +263,6 @@ void main() {
         expect(
           tocController.currentState.sections,
           [
-            _SectionResult('Foo', isExpanded: false),
             _SectionResult('Quz', isExpanded: false),
           ],
         );
@@ -296,25 +278,17 @@ void main() {
               _Section('Baz'),
             ],
           ),
-          _Section(
-            'Quz',
-            subsections: const [
-              _Section('Xyzzy'),
-            ],
-          ),
         ];
         tocController.build(sections);
 
         tocController.toggleExpansionOfSection('Foo');
         tocController.markAsCurrentlyRead('Foo');
-        tocController.markAsCurrentlyRead('Quz');
         tocController.markAsCurrentlyRead(null);
 
         expect(
           tocController.currentState.sections,
           [
             _SectionResult('Foo', isExpanded: true),
-            _SectionResult('Quz', isExpanded: false),
           ],
         );
       });
@@ -337,9 +311,10 @@ void main() {
         // We collapse it manually
         tocController.toggleExpansionOfSection('Foo');
 
-        // We "scroll" around in the subchapters of Foo
+        // We "scroll" around in the subchapters and the main chapter of Foo
         tocController.markAsCurrentlyRead('Bar');
         tocController.markAsCurrentlyRead('Baz');
+        tocController.markAsCurrentlyRead('Foo');
         tocController.markAsCurrentlyRead('Bar');
 
         expect(
@@ -386,9 +361,8 @@ void main() {
           ],
         );
       });
-      // TODO: Same test as above?
       test(
-          'When manually collapsing a section that is currently not read and scrolling in and out of then it will expand automatically again (default behavior)',
+          'When manually collapsing a section that is not(!) currently read and scrolling in and out of then it will expand automatically again (default behavior)',
           () {
         final sections = [
           _Section(
@@ -398,29 +372,20 @@ void main() {
               _Section('Baz'),
             ],
           ),
-          _Section(
-            'Quz',
-            subsections: const [
-              _Section('Xyzzy'),
-            ],
-          )
         ];
         tocController.build(sections);
 
         // We expand it manually
-        tocController.markAsCurrentlyRead('Foo');
+        tocController.toggleExpansionOfSection('Foo');
         // We collapse it manually
         tocController.toggleExpansionOfSection('Foo');
-        // "Scroll" out of the Foo chapter to Quz
-        tocController.markAsCurrentlyRead('Quz');
-        // "Scroll" back to Foo
+        // "Scroll" to Foo
         tocController.markAsCurrentlyRead('Foo');
 
         expect(
           tocController.currentState.sections,
           [
             _SectionResult('Foo', isExpanded: true),
-            _SectionResult('Quz', isExpanded: false),
           ],
         );
       });
@@ -494,42 +459,6 @@ void main() {
           tocController.currentState.sections,
           [
             _SectionResult('Foo', isExpanded: true),
-          ],
-        );
-      });
-      test(
-          'regression test: reading a manually collapsed section should expand it',
-          () {
-        final sections = [
-          _Section(
-            'Foo',
-            subsections: const [
-              _Section('Bar'),
-              _Section('Baz'),
-            ],
-          ),
-          _Section(
-            'Quz',
-            subsections: const [
-              _Section('Xyzzy'),
-            ],
-          ),
-        ];
-
-        tocController.build(sections);
-
-        // Open manually
-        tocController.toggleExpansionOfSection('Foo');
-        // Close manually
-        tocController.toggleExpansionOfSection('Foo');
-
-        tocController.markAsCurrentlyRead('Foo');
-
-        expect(
-          tocController.currentState.sections,
-          [
-            _SectionResult('Foo', isExpanded: true),
-            _SectionResult('Quz', isExpanded: false),
           ],
         );
       });
