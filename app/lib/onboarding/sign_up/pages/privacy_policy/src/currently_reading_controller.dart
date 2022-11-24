@@ -141,6 +141,8 @@ class _CurrentlyReadingState {
     return _currentlyReadSectionOrNull;
   }
 
+  // TODO: See if we can make the doc comments read more smoothly with the edge
+  // cases in between
   DocumentSectionId _computeCurrentlyRead() {
     // If we see no section headings on screen...
     if (viewport.noHeadingsVisible) {

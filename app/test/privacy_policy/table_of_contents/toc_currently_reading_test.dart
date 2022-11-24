@@ -43,6 +43,7 @@ void main() {
     TestCurrentlyReadingController _createController(
       List<DocumentSection> sections, {
       double threshold = 0.1,
+      // TODO: Rename to end section?
       String lastSection,
     }) {
       return TestCurrentlyReadingController(
