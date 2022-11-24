@@ -127,7 +127,6 @@ void main() {
       // - A section with subsections is not expanded when it is not highlighte
       // * Sections are collapsed by default
       // TODO: Rename Section to Chapter?
-      // TODO: Remove `isCurrentlyReading` property?
       // TODO: Test different ExpansionBehavior?
       test('Expandable sections are collapsed by default', () {
         final sections = [
@@ -389,11 +388,7 @@ void main() {
           ],
         );
       });
-
-      // TODO: Can be deleted later probably, was just so that my temp
-      // solution for the single section in tests above is forced to work
-      //for multiple sections.
-      test('Collapsing and Expanding multiple sections', () {
+      test('Collapsing and Expanding multiple sections works', () {
         final sections = [
           _Section(
             'Foo',
