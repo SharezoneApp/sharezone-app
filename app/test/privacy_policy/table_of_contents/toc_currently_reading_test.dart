@@ -149,10 +149,6 @@ void main() {
     test(
         'if currently visible sections go from some to none then it returns the section that comes before the current position inside the document',
         () {
-      // TODO: Edge case: Scroll up from first section so that the first
-      // section is not visible anymore
-      // Scroll down from the last section so that the last section is not visible
-      // anymore
       final sections = [
         _section('foo'),
         _section('bar'),
@@ -316,7 +312,7 @@ void main() {
 
       final controller = _createController(sections);
 
-      // We scroll to the first section...
+      // We start with the first section at the top of the screen...
       visibleSections.value = [
         _headingPosition(
           'foo',
