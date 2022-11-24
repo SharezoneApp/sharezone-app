@@ -164,6 +164,14 @@ class _CurrentlyReadingState {
           return null;
         }
 
+        // Special case: We scrolled past the special end section (
+        // realistically it shouldn't be big enough for that to happen but who
+        // knows).
+        if (lastSeenHeadingState.id == endOfDocumentSectionId &&
+            lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
+          return tocSections.last;
+        }
+
         if (lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
           return tocSections[index];
         } else if (lastSeenHeadingState.scrolledOutAt ==

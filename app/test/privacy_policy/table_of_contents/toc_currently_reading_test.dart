@@ -339,6 +339,32 @@ void main() {
       expect(controller.currentlyReadSection, null);
     });
 
+    test('edge case: scrolling below the last section (special case section)',
+        () {
+      const endSectionId = 'last-section-id';
+
+      final sections = [
+        _section('foo'),
+        _section('bar'),
+      ];
+
+      final controller = _createController(sections, lastSection: endSectionId);
+
+      // We start with the last section at the top of the screen...
+      visibleSections.value = [
+        _headingPosition(
+          endSectionId,
+          itemLeadingEdge: 0.05,
+          itemTrailingEdge: 0.15,
+        ),
+      ];
+
+      // ...and scroll further down (the first section is now out of view)
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, 'bar');
+    });
+
     // TODO: Not sure if this test belongs here.
     // we need to test this since before there was no test for this behavior.
     // im not sure though if I originally didn't want to tie these tests to a
