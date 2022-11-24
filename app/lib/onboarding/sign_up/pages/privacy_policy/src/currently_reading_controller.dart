@@ -182,7 +182,7 @@ class _CurrentlyReadingState {
     // user reached the bottom of the document.
     final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
     if (pos != null) {
-      // We mark the last section in our table of contents as active
+      // We mark the last section in our table of contents as currently read
       // (will probably not be the same as [_endOfDocumentSectionId]).
       // For more info see docs of [_endOfDocumentSectionId].
       return tocSections.last;

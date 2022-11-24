@@ -54,9 +54,8 @@ void main() {
       );
     }
 
-    // TODO: Change "active" to "currently read" in all tests and other places.
     test(
-        'doesnt mark any section as active if none are or have been visible on the page',
+        'doesnt mark any section as currently read if none are or have been visible on the page',
         () {
       final sections = [
         _section('foo'),
@@ -68,7 +67,7 @@ void main() {
     });
 
     test(
-        'Doesnt mark a section as active when the top of the section is below the threshold',
+        'Doesnt mark a section as currently read when the top of the section is below the threshold',
         () {
       final sections = [
         _section('foo'),
@@ -88,7 +87,7 @@ void main() {
     });
 
     test(
-        'Marks a section as active when the top of the section touches the threshold',
+        'Marks a section as currently read when the top of the section touches the threshold',
         () {
       final sections = [
         _section('foo'),
@@ -108,7 +107,7 @@ void main() {
     });
 
     test(
-        'Marks a section as active when the the section intersects the threshold',
+        'Marks a section as currently read when the the section intersects the threshold',
         () {
       final sections = [
         _section('foo'),
@@ -127,7 +126,7 @@ void main() {
       expect(controller.currentlyReadSection, 'foo');
     });
     test(
-        'Marks a section as active when the the section is above the threshold',
+        'Marks a section as currently read when the the section is above the threshold',
         () {
       final sections = [
         _section('foo'),
@@ -184,7 +183,7 @@ void main() {
       expect(controller.currentlyReadSection, 'foo');
     });
     test(
-        'marks the one thats past/intersects with the threshold as active when several sections are on screen',
+        'marks the one thats past/intersects with the threshold as currently read when several sections are on screen',
         () {
       final sections = [
         _section('foo'),
@@ -202,7 +201,7 @@ void main() {
           itemLeadingEdge: 0,
           itemTrailingEdge: 0.05,
         ),
-        // intersects with thershold - should be active
+        // intersects with thershold - should be currently read
         _headingPosition(
           'bar',
           itemLeadingEdge: 0.08,
@@ -224,7 +223,7 @@ void main() {
     });
 
     test(
-        'when scrolling a section title out of viewport and another inside the viewport (at the bottom) it should mark the one scrolled out of the viewport as active',
+        'when scrolling a section title out of viewport and another inside the viewport (at the bottom) it should mark the one scrolled out of the viewport as currently read',
         () {
       final sections = [
         _section('foo'),
@@ -266,7 +265,7 @@ void main() {
     });
 
     test(
-        'marks the section "above" as active when scrolling back up from a previous section',
+        'marks the section "above" as currently read when scrolling back up from a previous section',
         () {
       final sections = [
         _section('foo'),
@@ -347,7 +346,7 @@ void main() {
     // is the heading that we're in, doesnt matter what kind) instead of already
     // of already tying to to our model of section/subsection etc.
     // On the other hand it might still be best to do it like this.
-    test('A subsection is marked as active correctly', () {
+    test('A subsection is marked as currently read correctly', () {
       final sections = [
         _section('foo', subsections: [
           _section('quz'),
@@ -401,7 +400,7 @@ void main() {
     });
 
     test(
-        'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is active',
+        'regression test: When several sections scroll in and out of view (always at least one visible) then the right section is currently read',
         () {
       final sections = [
         _section('inhaltsverzeichnis'),
