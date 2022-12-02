@@ -259,11 +259,15 @@ class _TocHeadingState extends State<_TocHeading>
         if (widget.section.isExpandable)
           AnimatedBuilder(
             animation: _heightFactor,
-            builder: (context, child) => ClipRRect(
-              child: Align(
-                alignment: Alignment.center,
-                heightFactor: _heightFactor.value,
-                child: child,
+            builder: (context, child) => Visibility(
+              // If the subsections are not visible we don't need to draw them.
+              visible: _heightFactor.value != 0,
+              child: ClipRRect(
+                child: Align(
+                  alignment: Alignment.center,
+                  heightFactor: _heightFactor.value,
+                  child: child,
+                ),
               ),
             ),
             child: Column(
