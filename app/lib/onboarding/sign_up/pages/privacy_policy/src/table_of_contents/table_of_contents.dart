@@ -57,7 +57,7 @@ class TableOfContents {
     //
     // Every section should have the same behavior so we only check the first
     // section.
-    if (sections.first.expansionState.expansionBehavior != expansionBehavior) {
+    if (sections.first.expansionState.expansionBehavior == expansionBehavior) {
       return this;
     }
     return _copyWith(

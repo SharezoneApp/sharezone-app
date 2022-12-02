@@ -477,6 +477,46 @@ void main() {
         });
       });
 
+      test('Regression test: Changing the expansion behavior works', () {
+        final sections = [
+          _Section(
+            'Foo',
+            subsections: const [
+              _Section('Bar'),
+              _Section('Baz'),
+            ],
+          ),
+        ];
+        tocController.changeExpansionBehaviorTo(
+            ExpansionBehavior.alwaysAutomaticallyCloseSectionsAgain);
+        tocController.build(sections);
+
+        tocController.toggleExpansionOfSection('Foo');
+        tocController.markAsCurrentlyRead('Foo');
+        tocController.markAsCurrentlyRead(null);
+
+        expect(
+          tocController.currentState.sections,
+          [
+            _SectionResult('Foo', isExpanded: false),
+          ],
+        );
+
+        tocController.changeExpansionBehaviorTo(
+            ExpansionBehavior.leaveManuallyOpenedSectionsOpen);
+
+        tocController.toggleExpansionOfSection('Foo');
+        tocController.markAsCurrentlyRead('Foo');
+        tocController.markAsCurrentlyRead(null);
+
+        expect(
+          tocController.currentState.sections,
+          [
+            _SectionResult('Foo', isExpanded: true),
+          ],
+        );
+      });
+
       // We had the bug that when collapsing and then extending a section you
       // had to press two times to expand the section.
       test(
