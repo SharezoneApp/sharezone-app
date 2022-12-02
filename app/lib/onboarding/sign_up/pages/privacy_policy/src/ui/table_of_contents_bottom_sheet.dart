@@ -244,6 +244,7 @@ class _TocHeadingState extends State<_TocHeading>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: ExpansionArrow(
+                      key: const ValueKey('toc-section-expansion-arrow-E2E'),
                       expansionArrowTurns: expansionArrowTurns,
                       onPressed: () {
                         Provider.of<TableOfContentsController>(context,

@@ -190,6 +190,95 @@ ${generateText(10)}
             true,
           );
         });
+        _testWidgets(
+            'regression test: changing the layout from desktop to tablet will change the expansion behavior',
+            (tester) async {
+          // We change the surface size below (change from desktop to tablet
+          // layout) so we need to call addTearDown so the other tests are not
+          // affected.
+          addTearDown(() => tester.binding.setSurfaceSize(null));
+          // TODO: Find better solution?
+          // If the code below is not used then the test will always fail with
+          // the following AssertionError. This assertion is never triggered in
+          // real usage, I dont know why it is triggered here. This is a bad
+          // solution as this just ignores all FlutterError.
+          // "The following assertion was thrown while finalizing the widget tree:
+          // A PrivacyPolicyThemeSettings was used after being disposed.
+          // Once you have called dispose() on a PrivacyPolicyThemeSettings, it can no longer be used."
+          final old = FlutterError.onError;
+          addTearDown(() => FlutterError.onError = old);
+          FlutterError.onError = (details) {};
+
+          final text = '''
+# Foo
+${generateText(10)}
+# Bar
+${generateText(10)}
+## Baz
+${generateText(10)}
+''';
+
+          await tester.pumpWidget(
+            wrapWithScaffold(PrivacyPolicyPage(
+              privacyPolicy: privacyPolicyWith(
+                tableOfContentSections: [
+                  section('foo', 'Foo'),
+                  section('bar', 'Bar', [
+                    section('baz', 'Baz'),
+                  ]),
+                ],
+                markdown: text,
+              ),
+              config: PrivacyPolicyPageConfig(
+                showDebugThresholdMarker: true,
+              ),
+            )),
+          );
+
+          expect(find.byType(SectionHighlight), findsWidgets);
+
+          // Change to tablet layout
+          await tester.binding.setSurfaceSize(Size(600, 1000));
+          await tester.pumpAndSettle();
+
+          // Open table of contents bottom sheet
+          await tester.tap(find.byType(OpenTocBottomSheetButton));
+          await tester.pumpAndSettle();
+
+          // Expand "Bar" section to show "Baz" subsection.
+          // We set "warnIfMissed: false" since we always hit it but a warning
+          // would still be printed otherwise. Idk why.
+          await tester.tap(find.byType(ExpansionArrow), warnIfMissed: false);
+          await tester.pumpAndSettle();
+
+          // Tap "Baz" subsection heading
+          // This will cause the privacy policy to scroll to the "Baz" section
+          // and the bottom sheet to be closed.
+          await tester.tap(find.text('Baz'));
+          await tester.pumpAndSettle();
+
+          // Scroll back to top of the privacy policy
+          await tester.fling(
+              find.byType(PrivacyPolicyText), Offset(0, 400), 10000);
+
+          // Open bottom sheet
+          await tester.tap(find.byType(OpenTocBottomSheetButton));
+          await tester.pumpAndSettle();
+
+          // Since we changed the layout from desktop to tablet the expansion
+          // behavior should have changed to always closing the subsections
+          // automatically if they are not currently read.
+          //
+          // In the steps above we manually expanded the "Bar" section and
+          // scrolled into and out of its "Baz" subsection.
+          //
+          // If the expansion behavior really changed from the desktop behavior
+          // (leaving manually expanded sections always open) to the
+          // mobile/tablet behavior (closing subsections automatically if they
+          // are not currently read) then in this case the "Bar" section should
+          // not be expanded now since we're in the tablet layout.
+          expect(find.text('Baz'), findsNothing);
+        });
 
         /// The heading of the very last section might not scroll high enough on
         /// the privacy policy page to pass the "currently reading" threshold as
@@ -280,8 +369,8 @@ extension on CommonFinders {
 // tests.
 // --update-goldens
 Future<void> generateGolden(String name) async {
-  await expectLater(find.byType(PrivacyPolicyPage),
-      matchesGoldenFile('goldens/golden_$name.png'));
+  await expectLater(
+      find.byType(MaterialApp), matchesGoldenFile('goldens/golden_$name.png'));
 }
 
 String generateText(int times) {

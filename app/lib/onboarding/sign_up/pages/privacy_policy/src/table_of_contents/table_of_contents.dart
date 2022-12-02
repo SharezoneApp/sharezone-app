@@ -18,8 +18,18 @@ class DocumentSectionId extends Id {
 
 class TableOfContents {
   final IList<TocSection> sections;
+  ExpansionBehavior expansionBehavior;
 
-  TableOfContents(this.sections);
+  TableOfContents(this.sections, this.expansionBehavior)
+      : assert(() {
+          final sectionsHaveCorrectExpansionBehavior = sections.every(
+              (element) =>
+                  element.expansionStateOrNull == null ||
+                  element.expansionStateOrNull.expansionBehavior ==
+                      expansionBehavior);
+
+          return sectionsHaveCorrectExpansionBehavior;
+        }());
 
   TableOfContents changeCurrentlyReadSectionTo(
       DocumentSectionId currentlyReadSection) {
@@ -43,28 +53,33 @@ class TableOfContents {
 
   TableOfContents _copyWith({
     IList<TocSection> sections,
+    ExpansionBehavior expansionBehavior,
   }) {
     return TableOfContents(
       sections ?? this.sections,
+      expansionBehavior ?? this.expansionBehavior,
     );
   }
 
   TableOfContents changeExpansionBehaviorTo(
-      ExpansionBehavior expansionBehavior) {
+      ExpansionBehavior newExpansionBehavior) {
     // This check is important for performance reasons - when resizing the
     // window / redrawing often this method gets called very often without
     // a different [expansionBehavior] we should change to.
     //
     // Every section should have the same behavior so we only check the first
     // section.
-    if (sections.first.expansionState.expansionBehavior == expansionBehavior) {
+    if (expansionBehavior == newExpansionBehavior) {
       return this;
     }
+
     return _copyWith(
-        sections: sections
-            .map((section) =>
-                section.changeExpansionBehaviorTo(expansionBehavior))
-            .toIList());
+      sections: sections
+          .map((section) =>
+              section.changeExpansionBehaviorTo(newExpansionBehavior))
+          .toIList(),
+      expansionBehavior: newExpansionBehavior,
+    );
   }
 }
 
@@ -73,8 +88,8 @@ class TocSection {
   final String title;
   final IList<TocSection> subsections;
 
-  final ExpansionState expansionState;
-  bool get isExpanded => expansionState.isExpanded;
+  final ExpansionState expansionStateOrNull;
+  bool get isExpanded => expansionStateOrNull?.isExpanded ?? false;
   bool get isCollapsed => !isExpanded;
   bool get isExpandable => subsections.isNotEmpty;
 
@@ -89,8 +104,8 @@ class TocSection {
     @required this.id,
     @required this.title,
     @required this.subsections,
-    @required this.expansionState,
     @required this.isThisCurrentlyRead,
+    this.expansionStateOrNull,
   }) : assert(subsections
                 .where((element) => element.isThisOrASubsectionCurrentlyRead)
                 .length <=
@@ -102,11 +117,11 @@ class TocSection {
   }
 
   TocSection forceToggleExpansion() {
-    if (subsections.isEmpty) {
+    if (!isExpandable) {
       throw ArgumentError();
     }
     return _copyWith(
-      expansionState: expansionState.copyWith(
+      expansionStateOrNull: expansionStateOrNull.copyWith(
         isExpanded: !isExpanded,
         expansionMode: ExpansionMode.forced,
       ),
@@ -119,12 +134,12 @@ class TocSection {
     }
 
     return _copyWith(
-      expansionState:
-          expansionState.copyWith(expansionBehavior: expansionBehavior),
+      expansionStateOrNull:
+          expansionStateOrNull.copyWith(expansionBehavior: expansionBehavior),
     );
   }
 
-  /// Change [isThisCurrentlyRead] and [expansionState] of this and
+  /// Change [isThisCurrentlyRead] and [expansionStateOrNull] of this and
   /// [subsections] and according to [newCurrentlyReadSection].
   ///
   /// For example if this [TocSection.id] == [newCurrentlyReadSection] and the
@@ -145,8 +160,8 @@ class TocSection {
 
     if (isExpandable) {
       updated = updated._copyWith(
-        expansionState:
-            expansionState.computeExpansionState(before: this, after: updated),
+        expansionStateOrNull: expansionStateOrNull.computeExpansionState(
+            before: this, after: updated),
       );
     }
 
@@ -157,21 +172,21 @@ class TocSection {
     DocumentSectionId id,
     String title,
     IList<TocSection> subsections,
-    ExpansionState expansionState,
+    ExpansionState expansionStateOrNull,
     bool isThisCurrentlyRead,
   }) {
     return TocSection(
       id: id ?? this.id,
       title: title ?? this.title,
       subsections: subsections ?? this.subsections,
-      expansionState: expansionState ?? this.expansionState,
+      expansionStateOrNull: expansionStateOrNull ?? this.expansionStateOrNull,
       isThisCurrentlyRead: isThisCurrentlyRead ?? this.isThisCurrentlyRead,
     );
   }
 
   @override
   String toString() {
-    return 'TocSection(id: $id, title: $title, subsections: $subsections, expansionState: $expansionState, isThisCurrentlyRead: $isThisCurrentlyRead, isThisOrASubsectionCurrentlyRead: $isThisOrASubsectionCurrentlyRead)';
+    return 'TocSection(id: $id, title: $title, subsections: $subsections, expansionStateOrNull: $expansionStateOrNull, isThisCurrentlyRead: $isThisCurrentlyRead, isThisOrASubsectionCurrentlyRead: $isThisOrASubsectionCurrentlyRead)';
   }
 
   @override
@@ -182,7 +197,7 @@ class TocSection {
         other.id == id &&
         other.title == title &&
         other.subsections == subsections &&
-        other.expansionState == expansionState &&
+        other.expansionStateOrNull == expansionStateOrNull &&
         other.isThisCurrentlyRead == isThisCurrentlyRead;
   }
 
@@ -191,7 +206,7 @@ class TocSection {
     return id.hashCode ^
         title.hashCode ^
         subsections.hashCode ^
-        expansionState.hashCode ^
+        expansionStateOrNull.hashCode ^
         isThisCurrentlyRead.hashCode;
   }
 }

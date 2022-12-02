@@ -120,25 +120,23 @@ class TableOfContentsController extends ChangeNotifier {
                       id: sub.id,
                       title: sub.sectionName,
                       subsections: IList(const []),
-                      expansionState: ExpansionState(
-                        expansionBehavior: initialExpansionBehavior,
-                        expansionMode: ExpansionMode.automatic,
-                        isExpanded: false,
-                      ),
+                      expansionStateOrNull: null,
                       isThisCurrentlyRead: false,
                     ),
                   )
                   .toIList(),
               isThisCurrentlyRead: false,
-              expansionState: ExpansionState(
-                expansionBehavior: initialExpansionBehavior,
-                expansionMode: ExpansionMode.automatic,
-                isExpanded: false,
-              ),
+              expansionStateOrNull: e.subsections.isNotEmpty
+                  ? ExpansionState(
+                      expansionBehavior: initialExpansionBehavior,
+                      expansionMode: ExpansionMode.automatic,
+                      isExpanded: false,
+                    )
+                  : null,
             ))
         .toIList();
 
-    return TableOfContents(sections);
+    return TableOfContents(sections, initialExpansionBehavior);
   }
 
   // TODO: Test
