@@ -83,19 +83,7 @@ class MainContentNarrow extends StatelessWidget {
               Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text('Inhaltsverzeichnis'),
-                      Icon(Icons.expand_less),
-                    ],
-                  ),
-                  onPressed: () {
-                    showTableOfContentsBottomSheet(context);
-                  },
-                ),
+                child: OpenTocBottomSheetButton(),
               ),
             ],
           ),

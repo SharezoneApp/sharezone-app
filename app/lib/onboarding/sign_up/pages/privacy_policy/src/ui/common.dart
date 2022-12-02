@@ -260,6 +260,30 @@ class PrivacyPolicyText extends StatelessWidget {
   }
 }
 
+class OpenTocBottomSheetButton extends StatelessWidget {
+  const OpenTocBottomSheetButton()
+      : super(key: const ValueKey('open-toc-bottom-sheet-button-E2E'));
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: TextButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text('Inhaltsverzeichnis'),
+            Icon(Icons.expand_less),
+          ],
+        ),
+        onPressed: () {
+          showTableOfContentsBottomSheet(context);
+        },
+      ),
+    );
+  }
+}
+
 extension PrivacyPolicyVisualDensity on BuildContext {
   VisualDensity get ppVisualDensity =>
       watch<PrivacyPolicyThemeSettings>().visualDensitySetting.visualDensity;
