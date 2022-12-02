@@ -207,7 +207,14 @@ ${generateText(10)}
           // Once you have called dispose() on a PrivacyPolicyThemeSettings, it can no longer be used."
           final old = FlutterError.onError;
           addTearDown(() => FlutterError.onError = old);
-          FlutterError.onError = (details) {};
+          FlutterError.onError = (details) {
+            if (details
+                .exceptionAsString()
+                .contains('PrivacyPolicyThemeSettings')) {
+              return;
+            }
+            old(details);
+          };
 
           final text = '''
 # Foo
