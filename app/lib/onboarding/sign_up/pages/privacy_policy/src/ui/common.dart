@@ -97,14 +97,23 @@ void showDisplaySettingsDialog(BuildContext context) {
 class DownloadAsPDFButton extends StatelessWidget {
   const DownloadAsPDFButton({
     Key key,
+    this.enabled = true,
   }) : super(key: key);
+
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: () {
-        context.pop();
-      },
+      onPressed: enabled
+          ? () {
+              context.pop();
+            }
+          : null,
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith((states) =>
+            states.contains(MaterialState.disabled) ? Colors.grey : null),
+      ),
       icon: Icon(Icons.download),
       label: Text('Als PDF herunterladen'),
     );
