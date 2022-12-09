@@ -68,26 +68,39 @@ class PrivacyPolicyPage extends StatelessWidget {
                     )),
                 child: Scaffold(
                   body: Center(
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      final tocController =
-                          Provider.of<TableOfContentsController>(context,
-                              listen: false);
+                    child: FutureBuilder<PrivacyPolicy>(
+                        future: Future.delayed(
+                            Duration(seconds: 2), () => privacyPolicy),
+                        builder: (context, snapshot) {
+                          return LayoutBuilder(builder: (context, constraints) {
+                            final tocController =
+                                Provider.of<TableOfContentsController>(context,
+                                    listen: false);
 
-                      if (constraints.maxWidth > 1100) {
-                        tocController.changeExpansionBehavior(
-                            ExpansionBehavior.leaveManuallyOpenedSectionsOpen);
-                        return MainContentWide(privacyPolicy: privacyPolicy);
-                      } else if (constraints.maxWidth > 500 &&
-                          constraints.maxHeight > 400) {
-                        tocController.changeExpansionBehavior(ExpansionBehavior
-                            .alwaysAutomaticallyCloseSectionsAgain);
-                        return MainContentNarrow(privacyPolicy: privacyPolicy);
-                      } else {
-                        tocController.changeExpansionBehavior(ExpansionBehavior
-                            .alwaysAutomaticallyCloseSectionsAgain);
-                        return MainContentMobile(privacyPolicy: privacyPolicy);
-                      }
-                    }),
+                            // TODO: Handle snapshot.error
+
+                            if (constraints.maxWidth > 1100) {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .leaveManuallyOpenedSectionsOpen);
+                              return MainContentWide(
+                                  privacyPolicy: snapshot.data);
+                            } else if (constraints.maxWidth > 500 &&
+                                constraints.maxHeight > 400) {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .alwaysAutomaticallyCloseSectionsAgain);
+                              return MainContentMobile(
+                                  privacyPolicy: snapshot.data);
+                            } else {
+                              tocController.changeExpansionBehavior(
+                                  ExpansionBehavior
+                                      .alwaysAutomaticallyCloseSectionsAgain);
+                              return MainContentMobile(
+                                  privacyPolicy: snapshot.data);
+                            }
+                          });
+                        }),
                   ),
                 ),
               ))),

@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_widgets/additional.dart';
 
 import '../privacy_policy_src.dart';
 import 'ui.dart';
@@ -23,13 +24,14 @@ class MainContentWide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = privacyPolicy == null;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 450),
-            child: _TableOfContentsDesktop(),
+            child: _TableOfContentsDesktop(isLoading: isLoading),
           ),
         ),
         VerticalDivider(),
@@ -60,7 +62,8 @@ class MainContentWide extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const PrivacyPolicyHeading(),
-                          if (privacyPolicy.hasNotYetEnteredIntoForce)
+                          if (!isLoading &&
+                              privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8.0),
@@ -81,7 +84,9 @@ class MainContentWide extends StatelessWidget {
                       maxWidth: 830,
                       minWidth: 400,
                     ),
-                    child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
+                    child: isLoading
+                        ? PrivacyTextLoadingPlaceholder()
+                        : PrivacyPolicyText(privacyPolicy: privacyPolicy),
                   ),
                 ),
               ],
@@ -96,7 +101,10 @@ class MainContentWide extends StatelessWidget {
 class _TableOfContentsDesktop extends StatelessWidget {
   const _TableOfContentsDesktop({
     Key key,
+    @required this.isLoading,
   }) : super(key: key);
+
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +119,12 @@ class _TableOfContentsDesktop extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Expanded(
-          child: _TocSectionHeadingListDesktop(),
+          child: GrayShimmer(
+            enabled: isLoading,
+            child: isLoading
+                ? _TocLoadingSectionHeadingList()
+                : _TocSectionHeadingListDesktop(),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -128,11 +141,42 @@ class _TableOfContentsDesktop extends StatelessWidget {
               SizedBox(height: 13),
               ChangeAppearanceButton(),
               SizedBox(height: 8),
-              DownloadAsPDFButton(),
+              DownloadAsPDFButton(enabled: !isLoading),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _TocLoadingSectionHeadingList extends StatelessWidget {
+  const _TocLoadingSectionHeadingList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Column(
+        children: List.filled(
+          20,
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Colors.blue,
+              ),
+              child: SizedBox(
+                height: 30,
+                width: 350,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

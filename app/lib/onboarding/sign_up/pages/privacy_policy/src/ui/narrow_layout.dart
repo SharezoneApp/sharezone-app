@@ -21,6 +21,7 @@ class MainContentNarrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = privacyPolicy == null;
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 800),
@@ -51,7 +52,8 @@ class MainContentNarrow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           PrivacyPolicyHeading(),
-                          if (privacyPolicy.hasNotYetEnteredIntoForce)
+                          if (!isLoading &&
+                              privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 6),
@@ -73,17 +75,20 @@ class MainContentNarrow extends StatelessWidget {
                 alignment: WrapAlignment.spaceEvenly,
                 spacing: 25,
                 runSpacing: 3,
-                children: const [
-                  ChangeAppearanceButton(),
-                  DownloadAsPDFButton(),
+                children: [
+                  const ChangeAppearanceButton(),
+                  DownloadAsPDFButton(enabled: !isLoading),
                 ],
               ),
               Divider(),
-              Flexible(child: PrivacyPolicyText(privacyPolicy: privacyPolicy)),
+              Flexible(
+                  child: isLoading
+                      ? PrivacyTextLoadingPlaceholder()
+                      : PrivacyPolicyText(privacyPolicy: privacyPolicy)),
               Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: OpenTocBottomSheetButton(),
+                child: OpenTocBottomSheetButton(enabled: !isLoading),
               ),
             ],
           ),

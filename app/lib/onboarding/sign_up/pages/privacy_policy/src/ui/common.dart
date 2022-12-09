@@ -14,6 +14,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 import '../privacy_policy_src.dart';
@@ -110,15 +111,17 @@ class DownloadAsPDFButton extends StatelessWidget {
               context.pop();
             }
           : null,
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith((states) =>
-            states.contains(MaterialState.disabled) ? Colors.grey : null),
-      ),
+      style: _buttonStyle,
       icon: Icon(Icons.download),
       label: Text('Als PDF herunterladen'),
     );
   }
 }
+
+final _buttonStyle = ButtonStyle(
+  foregroundColor: MaterialStateProperty.resolveWith(
+      (states) => states.contains(MaterialState.disabled) ? Colors.grey : null),
+);
 
 class ExpansionArrow extends StatelessWidget {
   const ExpansionArrow({
@@ -269,14 +272,80 @@ class PrivacyPolicyText extends StatelessWidget {
   }
 }
 
+class PrivacyTextLoadingPlaceholder extends StatelessWidget {
+  const PrivacyTextLoadingPlaceholder({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GrayShimmer(
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _textLine(context, widthFactor: .7, height: 40),
+            ..._textLines(context, 5, widthFactor: 1),
+            SizedBox(height: 20),
+            _textLine(context, widthFactor: .65, height: 30),
+            ..._textLines(context, 1, widthFactor: .5, height: 20),
+            SizedBox(height: 5),
+            ..._textLines(context, 3, widthFactor: 1, height: 20),
+            ..._textLines(context, 1, widthFactor: .7, height: 20),
+            SizedBox(height: 20),
+            _textLine(context, widthFactor: .65, height: 30),
+            ..._textLines(context, 2, widthFactor: 1),
+            SizedBox(height: 10),
+            ..._textLines(context, 5, widthFactor: .8),
+            SizedBox(height: 10),
+            ..._textLines(context, 10, widthFactor: 1),
+            ..._textLines(context, 10, widthFactor: .8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _textLines(BuildContext context, int n,
+      {double widthFactor = 1, double height = 25}) {
+    final lines = <Widget>[];
+    for (var i = 0; i < n; i++) {
+      lines.addAll([
+        SizedBox(height: 10),
+        _textLine(context, widthFactor: widthFactor, height: height),
+      ]);
+    }
+    return lines;
+  }
+
+  Widget _textLine(
+    BuildContext context, {
+    @required double widthFactor,
+    @required double height,
+  }) {
+    return SizedBox(
+      height: height,
+      child: FractionallySizedBox(
+        widthFactor: widthFactor,
+        child: ColoredBox(color: Theme.of(context).canvasColor),
+      ),
+    );
+  }
+}
+
 class OpenTocBottomSheetButton extends StatelessWidget {
-  const OpenTocBottomSheetButton()
-      : super(key: const ValueKey('open-toc-bottom-sheet-button-E2E'));
+  const OpenTocBottomSheetButton({
+    this.enabled = true,
+  }) : super(key: const ValueKey('open-toc-bottom-sheet-button-E2E'));
+
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: TextButton(
+        style: _buttonStyle,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -285,9 +354,11 @@ class OpenTocBottomSheetButton extends StatelessWidget {
             Icon(Icons.expand_less),
           ],
         ),
-        onPressed: () {
-          showTableOfContentsBottomSheet(context);
-        },
+        onPressed: enabled
+            ? () {
+                showTableOfContentsBottomSheet(context);
+              }
+            : null,
       ),
     );
   }

@@ -21,6 +21,7 @@ class MainContentMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = privacyPolicy == null;
     return Scaffold(
       appBar: AppBar(
         title: Text('Datenschutzerklärung'),
@@ -30,7 +31,10 @@ class MainContentMobile extends StatelessWidget {
                 showDisplaySettingsDialog(context);
               },
               icon: Icon(Icons.display_settings)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.download)),
+          IconButton(
+            onPressed: isLoading ? null : () {},
+            icon: Icon(Icons.download),
+          ),
         ],
       ),
       body: Padding(
@@ -39,7 +43,7 @@ class MainContentMobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (privacyPolicy.hasNotYetEnteredIntoForce)
+            if (!isLoading && privacyPolicy.hasNotYetEnteredIntoForce)
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
@@ -51,13 +55,16 @@ class MainContentMobile extends StatelessWidget {
               ),
             Divider(height: 0, thickness: .5),
             Flexible(
-                child: PrivacyPolicyText(
-              privacyPolicy: privacyPolicy,
-            )),
+                child: isLoading
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: PrivacyTextLoadingPlaceholder(),
+                      )
+                    : PrivacyPolicyText(privacyPolicy: privacyPolicy)),
             Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: OpenTocBottomSheetButton(),
+              child: OpenTocBottomSheetButton(enabled: !isLoading),
             ),
           ],
         ),
