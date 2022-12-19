@@ -31,82 +31,98 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (context) => PrivacyPolicyPageDependencyFactory(
-        anchorsController: anchorsController,
-        config: config,
-        privacyPolicy: privacyPolicy,
-      ),
-      builder: (context, _) => MultiProvider(
-          providers: [
-            Provider(create: (context) => anchorsController),
-            Provider<PrivacyPolicyPageConfig>(create: (context) => config),
-            ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
-              create: (context) {
-                final themeSettings =
-                    Provider.of<ThemeSettings>(context, listen: false);
-                return _createPrivacyPolicyThemeSettings(
-                    context, themeSettings, config);
-              },
+    return FutureBuilder<PrivacyPolicy>(
+        future: Future.delayed(Duration(seconds: 2), () => privacyPolicy),
+        builder: (context, snapshot) {
+          return Provider(
+            create: (context) => PrivacyPolicyPageDependencyFactory(
+              anchorsController: anchorsController,
+              config: config,
+              // Because the Provider will only lazily run `create` we will only
+              // access the PrivacyPolicyPageDependencyFactory (which needs the
+              // privacyPolicy) after the privacyPolicy has been sucessfully
+              // loaded.
+              // Otherwise this would lead to an error since `snapshot.data`
+              // would equal `null`.
+              privacyPolicy: snapshot.data,
             ),
-            Provider<DocumentController>(
-                create: (context) => _factory(context).documentController),
-            ChangeNotifierProvider<TableOfContentsController>(
-              create: (context) => _factory(context).tableOfContentsController,
-            ),
-          ],
-          builder: (context, _) => MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: context
-                      .watch<PrivacyPolicyThemeSettings>()
-                      .textScalingFactor),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                    visualDensity: context.ppVisualDensity,
-                    floatingActionButtonTheme: FloatingActionButtonThemeData(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    )),
-                child: Scaffold(
-                  body: Center(
-                    child: FutureBuilder<PrivacyPolicy>(
-                        future: Future.delayed(
-                            Duration(seconds: 2), () => privacyPolicy),
-                        builder: (context, snapshot) {
-                          return LayoutBuilder(builder: (context, constraints) {
-                            final tocController =
-                                Provider.of<TableOfContentsController>(context,
-                                    listen: false);
+            builder: (context, _) => MultiProvider(
+                providers: [
+                  Provider(create: (context) => anchorsController),
+                  Provider<PrivacyPolicyPageConfig>(
+                      create: (context) => config),
+                  ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+                    create: (context) {
+                      final themeSettings =
+                          Provider.of<ThemeSettings>(context, listen: false);
+                      return _createPrivacyPolicyThemeSettings(
+                          context, themeSettings, config);
+                    },
+                  ),
+                  Provider<DocumentController>(
+                      create: (context) =>
+                          _factory(context).documentController),
+                  ChangeNotifierProvider<TableOfContentsController>(
+                    create: (context) =>
+                        _factory(context).tableOfContentsController,
+                  ),
+                ],
+                builder: (context, _) => MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                        textScaleFactor: context
+                            .watch<PrivacyPolicyThemeSettings>()
+                            .textScalingFactor),
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                          visualDensity: context.ppVisualDensity,
+                          floatingActionButtonTheme:
+                              FloatingActionButtonThemeData(
+                            backgroundColor: Theme.of(context).primaryColor,
+                          )),
+                      child: Scaffold(
+                        body: Center(
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            // If the privacy policy hasn't loaded yet we don't
+                            //  use `Provider` to access a controller since this
+                            //  would cause an error by running the
+                            //  Provider.create function which requires a valid
+                            //  privacy policy.
+                            final tocControllerOrNull = snapshot.hasData
+                                ? Provider.of<TableOfContentsController>(
+                                    context,
+                                    listen: false)
+                                : null;
 
                             // TODO: Handle snapshot.error
 
                             // TODO: Test that layouts appear correctly on
                             // certain window sizes
                             if (constraints.maxWidth > 1100) {
-                              tocController.changeExpansionBehavior(
+                              tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .leaveManuallyOpenedSectionsOpen);
                               return MainContentWide(
                                   privacyPolicy: snapshot.data);
                             } else if (constraints.maxWidth > 500 &&
                                 constraints.maxHeight > 400) {
-                              tocController.changeExpansionBehavior(
+                              tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentNarrow(
                                   privacyPolicy: snapshot.data);
                             } else {
-                              tocController.changeExpansionBehavior(
+                              tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentMobile(
                                   privacyPolicy: snapshot.data);
                             }
-                          });
-                        }),
-                  ),
-                ),
-              ))),
-    );
+                          }),
+                        ),
+                      ),
+                    ))),
+          );
+        });
   }
 }
 
