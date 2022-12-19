@@ -79,6 +79,8 @@ class PrivacyPolicyPage extends StatelessWidget {
 
                             // TODO: Handle snapshot.error
 
+                            // TODO: Test that layouts appear correctly on
+                            // certain window sizes
                             if (constraints.maxWidth > 1100) {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
@@ -90,7 +92,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                               tocController.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
-                              return MainContentMobile(
+                              return MainContentNarrow(
                                   privacyPolicy: snapshot.data);
                             } else {
                               tocController.changeExpansionBehavior(
