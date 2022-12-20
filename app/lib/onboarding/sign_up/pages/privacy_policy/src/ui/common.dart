@@ -364,7 +364,75 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   }
 }
 
+class LoadingFailureMainAreaContent extends StatelessWidget {
+  const LoadingFailureMainAreaContent({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Center(
+        child: SingleChildScrollView(
+            child: Column(
+          children: [
+            Icon(Icons.warning, color: Colors.orange, size: 60),
+            SizedBox(height: 12),
+            Text(
+              'Fehler beim Laden der Datenschutzerklärung',
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 5),
+            Text(
+              'Versuche es erneut oder lade dir die PDF-Version der Datenschutzerklärung herunter.',
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              'Stelle sicher, dass du eine funktionierende Internetverbindung hast.',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 15),
+            TextButton.icon(
+                icon: Icon(Icons.refresh),
+                label: Text('Erneut versuchen'),
+                onPressed: () {}),
+            SizedBox(height: 7),
+            DownloadAsPDFButton(enabled: true)
+          ],
+        )),
+      ),
+    );
+  }
+}
+
 extension PrivacyPolicyVisualDensity on BuildContext {
   VisualDensity get ppVisualDensity =>
       watch<PrivacyPolicyThemeSettings>().visualDensitySetting.visualDensity;
+}
+
+class PrivacyPolicyLoadingState {
+  final AsyncSnapshot<PrivacyPolicy> privacyPolicySnapshot;
+
+  PrivacyPolicy get privacyPolicyOrNull => privacyPolicySnapshot.data;
+
+  // TODO: I think this might be broken if we return null?
+  bool get isSuccessful => privacyPolicySnapshot.hasData;
+  bool get isError => privacyPolicySnapshot.hasError;
+  bool get isLoading => !isSuccessful && !isError;
+
+  PrivacyPolicyLoadingState(this.privacyPolicySnapshot);
+
+  T when<T>(
+      {T Function(dynamic error, StackTrace stackTrace) onError,
+      T Function() onLoading,
+      T Function(PrivacyPolicy) onSuccess}) {
+    if (privacyPolicySnapshot.hasError) {
+      return onError?.call(
+          privacyPolicySnapshot.error, privacyPolicySnapshot.stackTrace);
+    }
+    if (!privacyPolicySnapshot.hasData) {
+      return onLoading?.call();
+    }
+    return onSuccess?.call(privacyPolicySnapshot.data);
+  }
 }

@@ -8,20 +8,18 @@
 
 import 'package:flutter/material.dart';
 
-import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentMobile extends StatelessWidget {
-  final PrivacyPolicy privacyPolicy;
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
 
   const MainContentMobile({
-    @required this.privacyPolicy,
+    @required this.privacyPolicyLoadingState,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = privacyPolicy == null;
     return Scaffold(
       appBar: AppBar(
         title: Text('Datenschutzerklärung'),
@@ -32,7 +30,7 @@ class MainContentMobile extends StatelessWidget {
               },
               icon: Icon(Icons.display_settings)),
           IconButton(
-            onPressed: isLoading ? null : () {},
+            onPressed: () {},
             icon: Icon(Icons.download),
           ),
         ],
@@ -43,28 +41,37 @@ class MainContentMobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (!isLoading && privacyPolicy.hasNotYetEnteredIntoForce)
+            if (privacyPolicyLoadingState
+                    .privacyPolicyOrNull?.hasNotYetEnteredIntoForce ??
+                false)
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 20,
                 ),
                 child: PrivacyPolicySubheading(
-                  entersIntoForceOn: privacyPolicy.entersIntoForceOnOrNull,
+                  entersIntoForceOn: privacyPolicyLoadingState
+                      .privacyPolicyOrNull.entersIntoForceOnOrNull,
                 ),
               ),
             Divider(height: 0, thickness: .5),
             Flexible(
-                child: isLoading
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: PrivacyTextLoadingPlaceholder(),
-                      )
-                    : PrivacyPolicyText(privacyPolicy: privacyPolicy)),
+              child: privacyPolicyLoadingState.when(
+                onError: (e, s) =>
+                    SizedBox.expand(child: LoadingFailureMainAreaContent()),
+                onLoading: () => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: PrivacyTextLoadingPlaceholder(),
+                ),
+                onSuccess: (privacyPolicy) =>
+                    PrivacyPolicyText(privacyPolicy: privacyPolicy),
+              ),
+            ),
             Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: OpenTocBottomSheetButton(enabled: !isLoading),
+              child: OpenTocBottomSheetButton(
+                  enabled: !privacyPolicyLoadingState.isSuccessful),
             ),
           ],
         ),

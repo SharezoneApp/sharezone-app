@@ -32,8 +32,11 @@ class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<PrivacyPolicy>(
-        future: Future.delayed(Duration(seconds: 2), () => privacyPolicy),
+        // future: Future.delayed(Duration(seconds: 2), () => privacyPolicy),
+        future: Future.delayed(
+            Duration(seconds: 2), () => throw Exception('Bla bla')),
         builder: (context, snapshot) {
+          final privacyPolicyLoadingState = PrivacyPolicyLoadingState(snapshot);
           return Provider(
             create: (context) => PrivacyPolicyPageDependencyFactory(
               anchorsController: anchorsController,
@@ -93,8 +96,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                                     listen: false)
                                 : null;
 
-                            // TODO: Handle snapshot.error
-
                             // TODO: Test that layouts appear correctly on
                             // certain window sizes
                             if (constraints.maxWidth > 1100) {
@@ -102,20 +103,23 @@ class PrivacyPolicyPage extends StatelessWidget {
                                   ExpansionBehavior
                                       .leaveManuallyOpenedSectionsOpen);
                               return MainContentWide(
-                                  privacyPolicy: snapshot.data);
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState);
                             } else if (constraints.maxWidth > 500 &&
                                 constraints.maxHeight > 400) {
                               tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentNarrow(
-                                  privacyPolicy: snapshot.data);
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState);
                             } else {
                               tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentMobile(
-                                  privacyPolicy: snapshot.data);
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState);
                             }
                           }),
                         ),

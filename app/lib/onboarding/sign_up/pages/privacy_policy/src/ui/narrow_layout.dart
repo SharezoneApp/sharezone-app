@@ -7,21 +7,18 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-
-import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
-  final PrivacyPolicy privacyPolicy;
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
 
   const MainContentNarrow({
-    @required this.privacyPolicy,
+    @required this.privacyPolicyLoadingState,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = privacyPolicy == null;
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 800),
@@ -52,14 +49,16 @@ class MainContentNarrow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           PrivacyPolicyHeading(),
-                          if (!isLoading &&
-                              privacyPolicy.hasNotYetEnteredIntoForce)
+                          if (privacyPolicyLoadingState.privacyPolicyOrNull
+                                  ?.hasNotYetEnteredIntoForce ??
+                              false)
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 6),
                               child: PrivacyPolicySubheading(
-                                entersIntoForceOn:
-                                    privacyPolicy.entersIntoForceOnOrNull,
+                                entersIntoForceOn: privacyPolicyLoadingState
+                                    .privacyPolicyOrNull
+                                    .entersIntoForceOnOrNull,
                               ),
                             ),
                         ],
@@ -77,19 +76,24 @@ class MainContentNarrow extends StatelessWidget {
                 runSpacing: 3,
                 children: [
                   const ChangeAppearanceButton(),
-                  DownloadAsPDFButton(enabled: !isLoading),
+                  const DownloadAsPDFButton(),
                 ],
               ),
               Divider(),
               Flexible(
-                  child: isLoading
-                      ? PrivacyTextLoadingPlaceholder()
-                      : PrivacyPolicyText(privacyPolicy: privacyPolicy)),
+                child: privacyPolicyLoadingState.when(
+                  onError: (e, s) =>
+                      SizedBox.expand(child: LoadingFailureMainAreaContent()),
+                  onLoading: () => PrivacyTextLoadingPlaceholder(),
+                  onSuccess: (privacyPolicy) =>
+                      PrivacyPolicyText(privacyPolicy: privacyPolicy),
+                ),
+              ),
               Divider(),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: OpenTocBottomSheetButton(enabled: !isLoading),
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: OpenTocBottomSheetButton(
+                      enabled: privacyPolicyLoadingState.isSuccessful)),
             ],
           ),
         ),

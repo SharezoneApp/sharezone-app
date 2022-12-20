@@ -15,23 +15,23 @@ import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentWide extends StatelessWidget {
-  final PrivacyPolicy privacyPolicy;
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
 
   const MainContentWide({
-    @required this.privacyPolicy,
+    @required this.privacyPolicyLoadingState,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = privacyPolicy == null;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 450),
-            child: _TableOfContentsDesktop(isLoading: isLoading),
+            child: _TableOfContentsDesktop(
+                privacyPolicyLoadingState: privacyPolicyLoadingState),
           ),
         ),
         VerticalDivider(),
@@ -62,16 +62,18 @@ class MainContentWide extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const PrivacyPolicyHeading(),
-                          if (!isLoading &&
-                              privacyPolicy.hasNotYetEnteredIntoForce)
+                          if (privacyPolicyLoadingState.privacyPolicyOrNull
+                                  ?.hasNotYetEnteredIntoForce ??
+                              false)
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8.0),
                               child: PrivacyPolicySubheading(
-                                entersIntoForceOn:
-                                    privacyPolicy.entersIntoForceOnOrNull,
+                                entersIntoForceOn: privacyPolicyLoadingState
+                                    .privacyPolicyOrNull
+                                    .entersIntoForceOnOrNull,
                               ),
-                            ),
+                            )
                         ],
                       ),
                     ),
@@ -80,14 +82,17 @@ class MainContentWide extends StatelessWidget {
                 Divider(),
                 Expanded(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 830,
-                      minWidth: 400,
-                    ),
-                    child: isLoading
-                        ? PrivacyTextLoadingPlaceholder()
-                        : PrivacyPolicyText(privacyPolicy: privacyPolicy),
-                  ),
+                      constraints: BoxConstraints(
+                        maxWidth: 830,
+                        minWidth: 400,
+                      ),
+                      child: privacyPolicyLoadingState.when(
+                        onError: (e, s) => SizedBox.expand(
+                            child: LoadingFailureMainAreaContent()),
+                        onLoading: () => PrivacyTextLoadingPlaceholder(),
+                        onSuccess: (privacyPolicy) =>
+                            PrivacyPolicyText(privacyPolicy: privacyPolicy),
+                      )),
                 ),
               ],
             ),
@@ -101,10 +106,10 @@ class MainContentWide extends StatelessWidget {
 class _TableOfContentsDesktop extends StatelessWidget {
   const _TableOfContentsDesktop({
     Key key,
-    @required this.isLoading,
+    @required this.privacyPolicyLoadingState,
   }) : super(key: key);
 
-  final bool isLoading;
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +124,11 @@ class _TableOfContentsDesktop extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Expanded(
-          child: GrayShimmer(
-            enabled: isLoading,
-            child: isLoading
-                ? _TocLoadingSectionHeadingList()
-                : _TocSectionHeadingListDesktop(),
-          ),
-        ),
+            child: privacyPolicyLoadingState.when(
+          onError: (e, s) => SizedBox.shrink(),
+          onLoading: () => GrayShimmer(child: _TocLoadingSectionHeadingList()),
+          onSuccess: (privacyPolicy) => _TocSectionHeadingListDesktop(),
+        )),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
           child: Column(
@@ -141,7 +144,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
               SizedBox(height: 13),
               ChangeAppearanceButton(),
               SizedBox(height: 8),
-              DownloadAsPDFButton(enabled: !isLoading),
+              DownloadAsPDFButton(),
             ],
           ),
         ),
