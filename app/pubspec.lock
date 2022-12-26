@@ -1013,6 +1013,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  holidays:
+    dependency: "direct main"
+    description:
+      path: "../lib/holidays"
+      relative: true
+    source: path
+    version: "1.0.0"
   html:
     dependency: transitive
     description:

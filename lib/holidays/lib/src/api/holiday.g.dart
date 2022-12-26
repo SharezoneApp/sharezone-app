@@ -1,11 +1,3 @@
-// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
-// Licensed under the EUPL-1.2-or-later.
-//
-// You may obtain a copy of the Licence at:
-// https://joinup.ec.europa.eu/software/page/eupl
-//
-// SPDX-License-Identifier: EUPL-1.2
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of holiday;
@@ -26,7 +18,7 @@ class _$HolidayCacheDataSerializer
   final String wireName = 'HolidayCacheData';
 
   @override
-  Iterable serialize(Serializers serializers, HolidayCacheData object,
+  Iterable<Object> serialize(Serializers serializers, HolidayCacheData object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'saved',
@@ -42,7 +34,8 @@ class _$HolidayCacheDataSerializer
   }
 
   @override
-  HolidayCacheData deserialize(Serializers serializers, Iterable serialized,
+  HolidayCacheData deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayCacheDataBuilder();
 
@@ -50,7 +43,7 @@ class _$HolidayCacheDataSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'saved':
           result.saved = serializers.deserialize(value,
@@ -58,8 +51,9 @@ class _$HolidayCacheDataSerializer
           break;
         case 'holidays':
           result.holidays.replace(serializers.deserialize(value,
-              specifiedType: const FullType(
-                  BuiltList, const [const FullType(Holiday)])) as BuiltList);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Holiday)]))
+              as BuiltList<Object>);
           break;
       }
     }
@@ -75,7 +69,7 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   final String wireName = 'Holiday';
 
   @override
-  Iterable serialize(Serializers serializers, Holiday object,
+  Iterable<Object> serialize(Serializers serializers, Holiday object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'start',
@@ -99,7 +93,7 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   }
 
   @override
-  Holiday deserialize(Serializers serializers, Iterable serialized,
+  Holiday deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayBuilder();
 
@@ -107,7 +101,7 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'start':
           result.start = serializers.deserialize(value,
@@ -148,15 +142,12 @@ class _$HolidayCacheData extends HolidayCacheData {
 
   factory _$HolidayCacheData(
           [void Function(HolidayCacheDataBuilder) updates]) =>
-      (new HolidayCacheDataBuilder()..update(updates)).build();
+      (new HolidayCacheDataBuilder()..update(updates))._build();
 
   _$HolidayCacheData._({this.saved, this.holidays}) : super._() {
-    if (saved == null) {
-      throw new BuiltValueNullFieldError('HolidayCacheData', 'saved');
-    }
-    if (holidays == null) {
-      throw new BuiltValueNullFieldError('HolidayCacheData', 'holidays');
-    }
+    BuiltValueNullFieldError.checkNotNull(saved, r'HolidayCacheData', 'saved');
+    BuiltValueNullFieldError.checkNotNull(
+        holidays, r'HolidayCacheData', 'holidays');
   }
 
   @override
@@ -182,7 +173,7 @@ class _$HolidayCacheData extends HolidayCacheData {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('HolidayCacheData')
+    return (newBuiltValueToStringHelper(r'HolidayCacheData')
           ..add('saved', saved)
           ..add('holidays', holidays))
         .toString();
@@ -205,9 +196,10 @@ class HolidayCacheDataBuilder
   HolidayCacheDataBuilder();
 
   HolidayCacheDataBuilder get _$this {
-    if (_$v != null) {
-      _saved = _$v.saved;
-      _holidays = _$v.holidays?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _saved = $v.saved;
+      _holidays = $v.holidays.toBuilder();
       _$v = null;
     }
     return this;
@@ -215,9 +207,7 @@ class HolidayCacheDataBuilder
 
   @override
   void replace(HolidayCacheData other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$HolidayCacheData;
   }
 
@@ -227,11 +217,16 @@ class HolidayCacheDataBuilder
   }
 
   @override
-  _$HolidayCacheData build() {
+  HolidayCacheData build() => _build();
+
+  _$HolidayCacheData _build() {
     _$HolidayCacheData _$result;
     try {
       _$result = _$v ??
-          new _$HolidayCacheData._(saved: saved, holidays: holidays.build());
+          new _$HolidayCacheData._(
+              saved: BuiltValueNullFieldError.checkNotNull(
+                  saved, r'HolidayCacheData', 'saved'),
+              holidays: holidays.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -239,7 +234,7 @@ class HolidayCacheDataBuilder
         holidays.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'HolidayCacheData', _$failedField, e.toString());
+            r'HolidayCacheData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -263,29 +258,17 @@ class _$Holiday extends Holiday {
   final String slug;
 
   factory _$Holiday([void Function(HolidayBuilder) updates]) =>
-      (new HolidayBuilder()..update(updates)).build();
+      (new HolidayBuilder()..update(updates))._build();
 
   _$Holiday._(
       {this.start, this.end, this.year, this.stateCode, this.name, this.slug})
       : super._() {
-    if (start == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'start');
-    }
-    if (end == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'end');
-    }
-    if (year == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'year');
-    }
-    if (stateCode == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'stateCode');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'name');
-    }
-    if (slug == null) {
-      throw new BuiltValueNullFieldError('Holiday', 'slug');
-    }
+    BuiltValueNullFieldError.checkNotNull(start, r'Holiday', 'start');
+    BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end');
+    BuiltValueNullFieldError.checkNotNull(year, r'Holiday', 'year');
+    BuiltValueNullFieldError.checkNotNull(stateCode, r'Holiday', 'stateCode');
+    BuiltValueNullFieldError.checkNotNull(name, r'Holiday', 'name');
+    BuiltValueNullFieldError.checkNotNull(slug, r'Holiday', 'slug');
   }
 
   @override
@@ -319,7 +302,7 @@ class _$Holiday extends Holiday {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Holiday')
+    return (newBuiltValueToStringHelper(r'Holiday')
           ..add('start', start)
           ..add('end', end)
           ..add('year', year)
@@ -360,13 +343,14 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   HolidayBuilder();
 
   HolidayBuilder get _$this {
-    if (_$v != null) {
-      _start = _$v.start;
-      _end = _$v.end;
-      _year = _$v.year;
-      _stateCode = _$v.stateCode;
-      _name = _$v.name;
-      _slug = _$v.slug;
+    final $v = _$v;
+    if ($v != null) {
+      _start = $v.start;
+      _end = $v.end;
+      _year = $v.year;
+      _stateCode = $v.stateCode;
+      _name = $v.name;
+      _slug = $v.slug;
       _$v = null;
     }
     return this;
@@ -374,9 +358,7 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
 
   @override
   void replace(Holiday other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Holiday;
   }
 
@@ -386,18 +368,25 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   }
 
   @override
-  _$Holiday build() {
+  Holiday build() => _build();
+
+  _$Holiday _build() {
     final _$result = _$v ??
         new _$Holiday._(
-            start: start,
-            end: end,
-            year: year,
-            stateCode: stateCode,
-            name: name,
-            slug: slug);
+            start: BuiltValueNullFieldError.checkNotNull(
+                start, r'Holiday', 'start'),
+            end: BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end'),
+            year:
+                BuiltValueNullFieldError.checkNotNull(year, r'Holiday', 'year'),
+            stateCode: BuiltValueNullFieldError.checkNotNull(
+                stateCode, r'Holiday', 'stateCode'),
+            name:
+                BuiltValueNullFieldError.checkNotNull(name, r'Holiday', 'name'),
+            slug: BuiltValueNullFieldError.checkNotNull(
+                slug, r'Holiday', 'slug'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

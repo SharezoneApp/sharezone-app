@@ -6,15 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:holidays/holidays.dart';
 import 'package:mockito/mockito.dart';
 import 'package:random_string/random_string.dart' as rdm;
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
-import 'package:sharezone/util/holidays/state.dart';
 import 'package:test/test.dart';
 import 'package:user/user.dart';
 
