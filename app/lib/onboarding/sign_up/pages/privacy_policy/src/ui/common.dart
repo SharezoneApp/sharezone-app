@@ -393,6 +393,7 @@ class LoadingFailureMainAreaContent extends StatelessWidget {
             ),
             SizedBox(height: 15),
             TextButton.icon(
+                key: ValueKey('retry-loading-button-E2E'),
                 icon: Icon(Icons.refresh),
                 label: Text('Erneut versuchen'),
                 onPressed: () {}),
