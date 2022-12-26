@@ -32,9 +32,10 @@ class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<PrivacyPolicy>(
+        initialData: privacyPolicy,
         // future: Future.delayed(Duration(seconds: 2), () => privacyPolicy),
-        future: Future.delayed(
-            Duration(seconds: 2), () => throw Exception('Bla bla')),
+        // future: Future.delayed(
+        //     Duration(seconds: 2), () => throw Exception('Bla bla')),
         builder: (context, snapshot) {
           final privacyPolicyLoadingState = PrivacyPolicyLoadingState(snapshot);
           return Provider(
