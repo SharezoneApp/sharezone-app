@@ -8,7 +8,7 @@
 
 library holidays;
 
-export 'src/api_cache_manager.dart';
+export 'src/holiday_service.dart';
 export 'src/api/holiday.dart';
 export 'src/state.dart';
 export 'src/holiday_api.dart';

@@ -20,7 +20,7 @@ import 'package:user/user.dart';
 class NextLessonCalculator {
   final TimetableGateway timetableGateway;
   final UserGateway userGateway;
-  final HolidayManager holidayManager;
+  final HolidayService holidayManager;
 
   NextLessonCalculator({
     @required this.timetableGateway,

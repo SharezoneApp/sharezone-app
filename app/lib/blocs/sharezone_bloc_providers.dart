@@ -504,7 +504,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<HolidayBloc>(
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
-        holidayManager: HolidayManager(
+        holidayManager: HolidayService(
             HolidayApi(holidayApiClient),
             HolidayCache(FlutterKeyValueStore(
                 widget.blocDependencies.sharedPreferences))),

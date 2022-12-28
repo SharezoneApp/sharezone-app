@@ -11,11 +11,11 @@ import 'holiday_cache.dart';
 import 'api/holiday.dart';
 import 'state.dart';
 
-class HolidayManager {
+class HolidayService {
   final HolidayApi api;
   final HolidayCache cache;
 
-  HolidayManager(this.api, this.cache);
+  HolidayService(this.api, this.cache);
 
   Future<List<Holiday>> load(State state,
       {bool ignoreCachedData = false}) async {

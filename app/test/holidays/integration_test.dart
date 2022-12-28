@@ -65,7 +65,7 @@ HolidayBloc setupBloc(HttpMockClient httpClient,
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
   HolidayCache cache =
       HolidayCache(keyValueStore, getCurrentTime: () => currentTime);
-  HolidayManager holidayManager = HolidayManager(api, cache);
+  HolidayService holidayManager = HolidayService(api, cache);
   HolidayBloc holidayBloc = HolidayBloc(
       holidayManager: holidayManager,
       stateGateway: stateGateway,

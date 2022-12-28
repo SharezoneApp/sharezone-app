@@ -29,7 +29,7 @@ void main() {
     mockAPI = MockAPI();
   });
 
-  HolidayManager getMockManager() => HolidayManager(mockAPI, mockCache);
+  HolidayService getMockManager() => HolidayService(mockAPI, mockCache);
   HolidayBloc getBlocWithMocks() => HolidayBloc(
       holidayManager: getMockManager(),
       stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum));
