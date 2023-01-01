@@ -14,6 +14,8 @@ publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  # Needed to run holiday_api_test.dart
+  flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   built_collection: ^5.1.0
