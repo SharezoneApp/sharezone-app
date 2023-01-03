@@ -75,7 +75,7 @@ extension ImprovedSorting on List<UserView> {
       TypeOfUser typeOfUser) {
     return where((user) => user.typeOfUser == typeOfUser.toReadableString())
         .toList()
-          ..sort((a, b) => a.name.compareTo(b.name));
+      ..sort((a, b) => a.name.compareTo(b.name));
   }
 
   /// Gibt eine neue Liste zurück, die nach [TypeOfUser] sortiert ist. Die Sortierung

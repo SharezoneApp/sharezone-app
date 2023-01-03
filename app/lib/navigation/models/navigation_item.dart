@@ -9,13 +9,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:sharezone/account/account_page.dart';
+import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/donate/page/donate_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
-import 'package:sharezone/pages/blackboard_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
