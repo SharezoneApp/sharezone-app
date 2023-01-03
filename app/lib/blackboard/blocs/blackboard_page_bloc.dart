@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/models/blackboard_item.dart';
+import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 import 'package:sharezone/widgets/blackboard/blackboard_view.dart';

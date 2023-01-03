@@ -10,7 +10,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/models/blackboard_item.dart';
+import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:user/user.dart';
