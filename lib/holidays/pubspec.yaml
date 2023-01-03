@@ -28,6 +28,9 @@ dependencies:
     path: ../app_functions
 
 dev_dependencies:
+  # Needed to run holiday_api_test.dart
+  flutter:
+    sdk: flutter
   mockito: ^5.0.7
   build_runner: ^2.1.4
   built_value_generator: ^8.1.1
