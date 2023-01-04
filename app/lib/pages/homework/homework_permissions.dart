@@ -11,7 +11,5 @@ import 'package:sharezone/additional/course_permission.dart';
 
 /// User  has to be a creator and a teacher or student
 bool hasPermissionToManageHomeworks(MemberRole myRole, bool isAuthor) {
-  return isAuthor ||
-      requestPermission(
-          role: myRole, permissiontype: PermissionAccessType.admin);
+  return isAuthor || myRole.hasPermission(PermissionAccessType.admin);
 }

@@ -54,11 +54,10 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return StreamBuilder<bool>(
-      initialData: requestPermission(
-          role: membersDataList
-              .singleWhere((member) => member.id == api.userId)
-              .role,
-          permissiontype: PermissionAccessType.admin),
+      initialData: membersDataList
+          .singleWhere((member) => member.id == api.userId)
+          .role
+          .hasPermission(PermissionAccessType.admin),
       stream: bloc.isAdminStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;

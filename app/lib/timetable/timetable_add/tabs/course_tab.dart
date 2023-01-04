@@ -90,8 +90,9 @@ class _CourseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
-    final hasPermissions = requestPermission(
-        role: course.myRole, permissiontype: PermissionAccessType.creator);
+
+    final hasPermissions =
+        course.myRole.hasPermission(PermissionAccessType.creator);
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Opacity(

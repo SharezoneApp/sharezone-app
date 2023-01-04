@@ -79,8 +79,8 @@ class SchoolClassDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    final isAdmin = requestPermission(
-        role: schoolClass.myRole, permissiontype: PermissionAccessType.admin);
+    final isAdmin =
+        schoolClass.myRole.hasPermission(PermissionAccessType.admin);
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolClass.name),

@@ -97,10 +97,8 @@ class _CourseList extends StatelessWidget {
     _sortCourseListByAlphabet(courseList);
     return Column(
       children: courseList.map((course) {
-        final enabled = requestPermission(
-          role: course.myRole,
-          permissiontype: PermissionAccessType.creator,
-        );
+        final enabled =
+            course.myRole.hasPermission(PermissionAccessType.creator);
         return Theme(
           data: Theme.of(context)
               .copyWith(primaryColor: course.getDesign().color),

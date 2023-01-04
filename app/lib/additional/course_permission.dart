@@ -15,36 +15,29 @@ IN [requestPermission] the required Roles are listed
 */
 enum PermissionAccessType {
   admin,
-  creator, // DEFAULT ROLES
-  memberManagement,
-  courseEdit,
+
+  /// DEFAULT ROLES - Creator as in "able to create/add homeworks etc.", not course creator
+  creator,
 }
 
-bool requestPermission(
-    {@required MemberRole role,
-    @required PermissionAccessType permissiontype}) {
-  if (role == null) return true;
-  switch (permissiontype) {
+extension HasRolePermission on MemberRole {
+  bool hasPermission(PermissionAccessType permission) {
+    return _hasPermission(permission, currentRole: this);
+  }
+}
+
+bool _hasPermission(PermissionAccessType permissionType,
+    {@required MemberRole currentRole}) {
+  if (currentRole == null) return true;
+  switch (permissionType) {
     case PermissionAccessType.admin:
       {
-        return [MemberRole.owner, MemberRole.admin].contains(role);
+        return [MemberRole.owner, MemberRole.admin].contains(currentRole);
       }
     case PermissionAccessType.creator:
       {
         return [MemberRole.owner, MemberRole.admin, MemberRole.creator]
-            .contains(role);
-      }
-    case PermissionAccessType.memberManagement:
-      {
-        return [MemberRole.owner, MemberRole.admin].contains(role);
-      }
-    case PermissionAccessType.courseEdit:
-      {
-        return [
-          MemberRole.owner,
-          MemberRole.admin,
-          MemberRole.creator,
-        ].contains(role);
+            .contains(currentRole);
       }
   }
   return false;
