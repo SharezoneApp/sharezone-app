@@ -12,7 +12,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:meta/meta.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/helper_functions.dart';
 

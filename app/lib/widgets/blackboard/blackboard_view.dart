@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/models/blackboard_item.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 import 'package:sharezone_common/helper_functions.dart';

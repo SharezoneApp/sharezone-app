@@ -10,9 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/API.dart';
 
 class FileSharingPermissions {
