@@ -17,7 +17,7 @@ import 'package:sharezone/blackboard/blackboard_card.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
-import 'package:sharezone/blackboard/blocs/blackboard_dialog_bloc.dart';
+import 'package:sharezone/blackboard/create_edit_dialog/blackboard_dialog_bloc.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -30,7 +30,7 @@ import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
-import 'details/blackboard_details.dart';
+import '../details/blackboard_details.dart';
 
 class BlackboardDialog extends StatefulWidget {
   const BlackboardDialog(
