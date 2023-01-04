@@ -14,6 +14,10 @@ enum GroupPermission {
   /// editing homeworks created by another user in the group.
   administration,
 
+  /// Used to see if a user can create content (homeworks, info sheets, etc).
+  /// In some places in the code this is also used to check if certain content
+  /// can be edited, even if created by other users (timetable entry).
+  /// There might be more usages than just strictly content creation.
   contentCreation,
 }
 
