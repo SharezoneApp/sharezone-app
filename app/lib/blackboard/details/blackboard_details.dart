@@ -28,7 +28,7 @@ import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
-import '../delete_blackboard.dart';
+import '../show_delete_blackboard_item_dialog.dart';
 import 'blackboard_details_bloc.dart';
 
 const blackboardItemReadByUsersListFeatureDiscoveryStepId =
@@ -199,7 +199,7 @@ class _DeleteIcon extends StatelessWidget {
       tooltip: 'Eintrag löschen',
       icon: Icon(Icons.delete, color: getAppBarIconColor(view.hasPhoto)),
       onPressed: () =>
-          deleteBlackboardDialogsEntry(context, view, popTwice: true),
+          showDeleteBlackboardItemDialog(context, view, popTwice: true),
     );
   }
 }
