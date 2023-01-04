@@ -34,7 +34,7 @@ class SchoolClassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isAdmin =
-        schoolClass.myRole.hasPermission(PermissionAccessType.admin);
+        schoolClass.myRole.hasPermission(GroupPermission.administration);
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = MySchoolClassBloc(schoolClass: schoolClass, gateway: gateway);
     return CustomCard(

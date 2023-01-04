@@ -57,7 +57,7 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
       initialData: membersDataList
           .singleWhere((member) => member.id == api.userId)
           .role
-          .hasPermission(PermissionAccessType.admin),
+          .hasPermission(GroupPermission.administration),
       stream: bloc.isAdminStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;

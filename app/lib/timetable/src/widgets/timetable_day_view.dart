@@ -330,7 +330,7 @@ class _QuickCreateCourseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasCreatorPermissions =
-        course.myRole.hasPermission(PermissionAccessType.creator);
+        course.myRole.hasPermission(GroupPermission.contentCreation);
     return ListTile(
       enabled: hasCreatorPermissions,
       title: Text(course.name),

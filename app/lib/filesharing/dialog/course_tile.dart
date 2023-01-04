@@ -98,7 +98,7 @@ class _CourseList extends StatelessWidget {
     return Column(
       children: courseList.map((course) {
         final enabled =
-            course.myRole.hasPermission(PermissionAccessType.creator);
+            course.myRole.hasPermission(GroupPermission.contentCreation);
         return Theme(
           data: Theme.of(context)
               .copyWith(primaryColor: course.getDesign().color),

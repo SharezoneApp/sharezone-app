@@ -9,32 +9,29 @@
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 
-/*
-THIS DEFINES THE TYPE OF ACCESS
-IN [requestPermission] the required Roles are listed
-*/
-enum PermissionAccessType {
-  admin,
+enum GroupPermission {
+  /// Used for administrative tasks like e.g. editing course names/settings or
+  /// editing homeworks created by another user in the group.
+  administration,
 
-  /// DEFAULT ROLES - Creator as in "able to create/add homeworks etc.", not course creator
-  creator,
+  contentCreation,
 }
 
 extension HasRolePermission on MemberRole {
-  bool hasPermission(PermissionAccessType permission) {
+  bool hasPermission(GroupPermission permission) {
     return _hasPermission(permission, currentRole: this);
   }
 }
 
-bool _hasPermission(PermissionAccessType permissionType,
+bool _hasPermission(GroupPermission permissionType,
     {@required MemberRole currentRole}) {
   if (currentRole == null) return true;
   switch (permissionType) {
-    case PermissionAccessType.admin:
+    case GroupPermission.administration:
       {
         return [MemberRole.owner, MemberRole.admin].contains(currentRole);
       }
-    case PermissionAccessType.creator:
+    case GroupPermission.contentCreation:
       {
         return [MemberRole.owner, MemberRole.admin, MemberRole.creator]
             .contains(currentRole);

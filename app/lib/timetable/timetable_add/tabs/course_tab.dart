@@ -92,7 +92,7 @@ class _CourseTile extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
 
     final hasPermissions =
-        course.myRole.hasPermission(PermissionAccessType.creator);
+        course.myRole.hasPermission(GroupPermission.contentCreation);
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Opacity(

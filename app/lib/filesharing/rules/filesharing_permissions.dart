@@ -32,7 +32,8 @@ class FileSharingPermissions {
   Future<bool> canUploadFiles(
       {@required String courseID, @required FolderPath folderPath}) async {
     final myRole = await _getMemberRole(courseID);
-    final bool isCreator = myRole.hasPermission(PermissionAccessType.creator);
+    final bool isCreator =
+        myRole.hasPermission(GroupPermission.contentCreation);
     if (isCreator) return true;
 
     return false;
@@ -68,7 +69,7 @@ class FileSharingPermissionsNoSync {
   }) {
     final myRole = _getMemberRole(courseID);
 
-    final isCreator = myRole.hasPermission(PermissionAccessType.creator);
+    final isCreator = myRole.hasPermission(GroupPermission.contentCreation);
 
     if (isCreator) return true;
 
@@ -80,13 +81,13 @@ class FileSharingPermissionsNoSync {
     final isAuthor = cloudFile.creatorID == _userID;
     if (isAuthor) return true;
     final myRole = _getMemberRole(cloudFile.courseID);
-    final isAdmin = myRole.hasPermission(PermissionAccessType.admin);
+    final isAdmin = myRole.hasPermission(GroupPermission.administration);
     return isAdmin;
   }
 
   bool canCreateDefaultFolder({@required String courseID}) {
     final role = _getMemberRole(courseID);
-    return role.hasPermission(PermissionAccessType.creator);
+    return role.hasPermission(GroupPermission.contentCreation);
   }
 
   /// Ob ein Nutzer einen Ordner Löschen oder Umbenennen darf.
@@ -95,7 +96,7 @@ class FileSharingPermissionsNoSync {
     @required Folder folder,
   }) {
     final role = _getMemberRole(courseID);
-    final isAdmin = role.hasPermission(PermissionAccessType.admin);
+    final isAdmin = role.hasPermission(GroupPermission.administration);
     if (isAdmin) return true;
     return folder.creatorID == _userID;
   }

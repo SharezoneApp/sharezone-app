@@ -80,7 +80,7 @@ class SchoolClassDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     final isAdmin =
-        schoolClass.myRole.hasPermission(PermissionAccessType.admin);
+        schoolClass.myRole.hasPermission(GroupPermission.administration);
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolClass.name),
