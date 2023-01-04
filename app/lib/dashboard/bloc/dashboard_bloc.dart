@@ -15,6 +15,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
@@ -28,7 +29,6 @@ import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/api/schoolClassGateway.dart';
 import 'package:sharezone/util/api/timetableGateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone_utils/streams.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';

@@ -16,15 +16,15 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 class BlackboardView {
-  final String title,
-      text,
-      previewText,
-      id,
-      pictureURL,
-      courseName,
-      courseID,
-      createdOnText,
-      authorName;
+  final String title;
+  final String text;
+  final String previewText;
+  final String id;
+  final String pictureURL;
+  final String courseName;
+  final String courseID;
+  final String createdOnText;
+  final String authorName;
   final int readPercent;
   final Color readPerecentColor, courseNameColor;
   final bool isAuthor, hasAttachments, hasPhoto, hasPermissionToEdit, isRead;

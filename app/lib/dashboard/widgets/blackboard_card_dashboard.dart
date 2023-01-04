@@ -8,10 +8,10 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/blackboard/blackboard_card.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_card_bloc.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_card.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
