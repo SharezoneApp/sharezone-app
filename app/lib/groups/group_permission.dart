@@ -40,7 +40,7 @@ bool _hasPermission(GroupPermission permissionType,
   return false;
 }
 
-bool isUserAdminOrOwnerFromCourse(MemberRole role) {
+bool isUserAdminOrOwnerOfGroup(MemberRole role) {
   if (role == MemberRole.admin || role == MemberRole.owner)
     return true;
   else

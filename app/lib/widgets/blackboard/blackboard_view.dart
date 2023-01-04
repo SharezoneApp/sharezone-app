@@ -129,7 +129,7 @@ class BlackboardView {
   static bool _hasPermissionToEdit(
       bool isAuthor, String courseID, CourseGateway courseGateway) {
     if (isAuthor) return true;
-    final isAdmin = isUserAdminOrOwnerFromCourse(
+    final isAdmin = isUserAdminOrOwnerOfGroup(
         courseGateway.getRoleFromCourseNoSync(courseID));
     if (isAdmin) return true;
     return false;

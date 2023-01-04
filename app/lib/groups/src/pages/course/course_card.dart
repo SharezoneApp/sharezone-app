@@ -149,7 +149,7 @@ class CourseCardRedesign extends StatelessWidget {
         final fullWidth = constrains.maxWidth;
         final width = (fullWidth / (fullWidth > 1200 ? 4 : 3)) - 6;
         final courseColor = course.getDesign().color;
-        final isAdmin = isUserAdminOrOwnerFromCourse(course.myRole);
+        final isAdmin = isUserAdminOrOwnerOfGroup(course.myRole);
         return SizedBox(
           width: width,
           height: 120,
@@ -333,9 +333,8 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
         builder: (context, snapshot) {
           final courseFromOwn = snapshot.data;
           final isMember = courseFromOwn != null;
-          final isAdmin = isMember
-              ? isUserAdminOrOwnerFromCourse(courseFromOwn.myRole)
-              : null;
+          final isAdmin =
+              isMember ? isUserAdminOrOwnerOfGroup(courseFromOwn.myRole) : null;
           return ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 19, vertical: 3),
