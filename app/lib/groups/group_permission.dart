@@ -10,11 +10,14 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 
 enum GroupPermission {
-  /// Used for administrative tasks like e.g. editing course names/settings or
-  /// editing homework created by another user in the group.
+  /// Permission to perform administrative tasks for the group and its content.
+  ///
+  /// For example: editing course names/settings or editing homework created by
+  /// another user in the group.
   administration,
 
-  /// Used to see if a user can create content (homework, info sheets, etc).
+  /// Permission to create content for the group (homework, info sheets, etc).
+  ///
   /// In some places in the code this is also used to check if certain content
   /// can be edited, even if created by other users (timetable entry).
   /// There might be more usages than just strictly content creation.
