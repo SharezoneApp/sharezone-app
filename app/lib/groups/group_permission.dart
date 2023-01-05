@@ -47,9 +47,5 @@ bool _hasPermission(GroupPermission permissionType,
   return false;
 }
 
-bool isUserAdminOrOwnerOfGroup(MemberRole role) {
-  if (role == MemberRole.admin || role == MemberRole.owner)
-    return true;
-  else
-    return false;
-}
+bool isUserAdminOrOwnerOfGroup(MemberRole role) =>
+    role == MemberRole.admin || role == MemberRole.owner;
