@@ -11,6 +11,7 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
@@ -21,7 +22,6 @@ import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:user/user.dart';
 
