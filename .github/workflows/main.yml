@@ -116,7 +116,7 @@ jobs:
           if-no-files-found: ignore   
   
   ios-integration-test:
-    runs-on: macos-12
+    runs-on: macos-11
     if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
     steps:
