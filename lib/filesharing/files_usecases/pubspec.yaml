@@ -32,7 +32,7 @@ dependencies:
   chewie: ^1.2.0
   file_picker: ^4.3.2
   flutter_cache_manager: any
-  flutter_image_compress: 0.7.0
+  flutter_image_compress: 1.1.0
   image_picker: ^0.8.1+4
   mime: any
   native_pdf_view: ^4.1.0
