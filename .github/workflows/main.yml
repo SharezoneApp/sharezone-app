@@ -116,7 +116,10 @@ jobs:
           if-no-files-found: ignore   
   
   ios-integration-test:
-    runs-on: macos-latest
+    # It seems so that our integration tests are not working `macos-12`. The
+    # problem is that the XCode build fails. When we upgraded to Flutter 3, we
+    # can try it again.
+    runs-on: macos-11
     if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
     steps:
