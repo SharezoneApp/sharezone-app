@@ -329,9 +329,9 @@ PODS:
   - PurchasesCoreSwift (3.13.1)
   - PurchasesHybridCommon (1.11.1):
     - Purchases (= 3.13.1)
-  - SDWebImage (5.14.2):
-    - SDWebImage/Core (= 5.14.2)
-  - SDWebImage/Core (5.14.2)
+  - SDWebImage (5.14.3):
+    - SDWebImage/Core (= 5.14.3)
+  - SDWebImage/Core (5.14.3)
   - SDWebImageWebPCoder (0.9.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.13)
@@ -592,7 +592,7 @@ SPEC CHECKSUMS:
   purchases_flutter: 214d452aaf860496aeee822487eafcdd962fab33
   PurchasesCoreSwift: ca55f9ef671f89abed133775dd9e53f55007828d
   PurchasesHybridCommon: a0313de4f31fbaf137518b2686ccdca4c91dd2b4
-  SDWebImage: b9a731e1d6307f44ca703b3976d18c24ca561e84
+  SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
   SDWebImageWebPCoder: 18503de6621dd2c420d680e33d46bf8e1d5169b0
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
