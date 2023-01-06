@@ -12,7 +12,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/models/splitted_member_list.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 
@@ -78,19 +78,18 @@ class CourseDetailsBloc extends BlocBase {
   SplittedMemberList sortMembers(List<MemberData> members) =>
       createSplittedMemberList(members);
 
-  bool requestAdminPermission() => requestPermission(
-      role: initialData.myRole, permissiontype: PermissionAccessType.admin);
+  bool requestAdminPermission() =>
+      initialData.myRole.hasPermission(GroupPermission.administration);
 
-  Stream<bool> requestAdminPermissionStream() =>
-      course.map((course) => requestPermission(
-          role: course.myRole, permissiontype: PermissionAccessType.admin));
+  Stream<bool> requestAdminPermissionStream() => course.map(
+      (course) => course.myRole.hasPermission(GroupPermission.administration));
 
   bool isAdmin(MemberRole myRole) => _isAdmin(myRole);
 
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
-            .where((it) => requestPermission(
-                role: it.role, permissiontype: PermissionAccessType.admin))
+            .where((member) =>
+                member.role.hasPermission(GroupPermission.administration))
             .length >
         1) {
       return true;
