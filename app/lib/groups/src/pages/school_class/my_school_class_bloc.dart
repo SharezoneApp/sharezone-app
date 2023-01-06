@@ -12,7 +12,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:meta/meta.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
@@ -78,8 +78,8 @@ class MySchoolClassBloc extends BlocBase {
 
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
-            .where((it) => requestPermission(
-                role: it.role, permissiontype: PermissionAccessType.admin))
+            .where((member) =>
+                member.role.hasPermission(GroupPermission.administration))
             .length >
         1) {
       return true;
@@ -126,13 +126,12 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   bool isAdmin() {
-    return requestPermission(
-        role: schoolClass.myRole, permissiontype: PermissionAccessType.admin);
+    return schoolClass.myRole.hasPermission(GroupPermission.administration);
   }
 
   Stream<bool> isAdminStream() {
-    return streamSchoolClass().map((sc) => requestPermission(
-        role: sc.myRole, permissiontype: PermissionAccessType.admin));
+    return streamSchoolClass()
+        .map((sc) => sc.myRole.hasPermission(GroupPermission.administration));
   }
 
   @override
