@@ -11,8 +11,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_page.dart';
@@ -149,7 +149,7 @@ class CourseCardRedesign extends StatelessWidget {
         final fullWidth = constrains.maxWidth;
         final width = (fullWidth / (fullWidth > 1200 ? 4 : 3)) - 6;
         final courseColor = course.getDesign().color;
-        final isAdmin = isUserAdminOrOwnerFromCourse(course.myRole);
+        final isAdmin = isUserAdminOrOwnerOfGroup(course.myRole);
         return SizedBox(
           width: width,
           height: 120,
@@ -333,9 +333,8 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
         builder: (context, snapshot) {
           final courseFromOwn = snapshot.data;
           final isMember = courseFromOwn != null;
-          final isAdmin = isMember
-              ? isUserAdminOrOwnerFromCourse(courseFromOwn.myRole)
-              : null;
+          final isAdmin =
+              isMember ? isUserAdminOrOwnerOfGroup(courseFromOwn.myRole) : null;
           return ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 19, vertical: 3),
