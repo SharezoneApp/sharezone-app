@@ -57,10 +57,9 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
-      - name: install FVM
+      - name: Install FVM
         run: |
-          brew tap leoafarias/fvm
-          brew install fvm
+          flutter pub global activate fvm
           fvm config --cache-path ${{ steps.install-flutter.outputs.CACHE-PATH }}
 
       - name: Flutter doctor via FVM
