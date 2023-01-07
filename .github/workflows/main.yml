@@ -56,10 +56,14 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+      
+      - name: Install homebrew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          brew tap leoafarias/fvm
+          brew install fvm
           fvm config --cache-path ${{ steps.install-flutter.outputs.CACHE-PATH }}
 
       - name: Flutter doctor via FVM
