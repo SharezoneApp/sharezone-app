@@ -23,6 +23,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
+import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
@@ -104,9 +105,6 @@ import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
@@ -506,7 +504,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<HolidayBloc>(
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
-        holidayManager: HolidayManager(
+        holidayManager: HolidayService(
             HolidayApi(holidayApiClient),
             HolidayCache(FlutterKeyValueStore(
                 widget.blocDependencies.sharedPreferences))),

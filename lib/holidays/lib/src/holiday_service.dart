@@ -6,18 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
-import 'package:sharezone/util/holidays/state.dart';
+import 'holiday_api.dart';
+import 'holiday_cache.dart';
+import 'api/holiday.dart';
+import 'state.dart';
 
-class HolidayManager {
+class HolidayService {
   final HolidayApi api;
   final HolidayCache cache;
 
-  HolidayManager(this.api, this.cache);
+  HolidayService(this.api, this.cache);
 
-  Future<List<Holiday>> load(State state,{bool ignoreCachedData = false}) async {
+  Future<List<Holiday>> load(State state,
+      {bool ignoreCachedData = false}) async {
     CacheResponse cached;
     if (!ignoreCachedData) {
       cached = _tryToloadCachedData(state);
@@ -26,18 +27,19 @@ class HolidayManager {
     List<Holiday> apiResponse;
     if (cached?.payload == null || !cached.inValidTimeframe) {
       apiResponse = await _tryCallingApi(apiResponse, state);
-      if(apiResponse != null) await _trySavingToCache(apiResponse, state);
+      if (apiResponse != null) await _trySavingToCache(apiResponse, state);
     }
-    
+
     List<Holiday> response = apiResponse ?? cached?.payload;
     // Don't retrun null, as in most StreamBuilers there will be just a loading indicator.
-    if(response == null)
-     throw HolidayLoadingException("Loading from Cache and Api both failed");
+    if (response == null)
+      throw HolidayLoadingException("Loading from Cache and Api both failed");
 
     return response;
   }
 
-  Future<List<Holiday>> _tryCallingApi(List<Holiday> response, State state) async {
+  Future<List<Holiday>> _tryCallingApi(
+      List<Holiday> response, State state) async {
     try {
       response = await api.load(1, state);
     } on Exception catch (e) {
@@ -65,17 +67,16 @@ class HolidayManager {
   }
 }
 
-class HolidayLoadingException implements Exception{
+class HolidayLoadingException implements Exception {
   final String message;
 
   HolidayLoadingException([this.message]);
 
   @override
-    String toString() {
-      String report = "HolidayLoadingException";
-      if(message != null || message == "")
-        report += ": $message";
-      report += ".";
-      return report;
-    }
+  String toString() {
+    String report = "HolidayLoadingException";
+    if (message != null || message == "") report += ": $message";
+    report += ".";
+    return report;
+  }
 }
