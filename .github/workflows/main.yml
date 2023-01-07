@@ -56,6 +56,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
+      - run: which flutter
+
       - name: Activate sz_repo_cli package
         run: pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
