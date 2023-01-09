@@ -67,7 +67,7 @@ jobs:
         run: flutter pub global activate fvm
       
       - name: Set FVM cache path
-        run: fvm config --cache-path ${{ steps.install-flutter.outputs.CACHE-PATH }}
+        run: fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Flutter doctor via FVM
         run: fvm flutter doctor
