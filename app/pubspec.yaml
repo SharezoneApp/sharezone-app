@@ -88,6 +88,8 @@ dependencies:
     path: ../lib/group_domain_models
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
+  holidays:
+    path: ../lib/holidays
   intl: ^0.17.0
   jitsi_meet_wrapper: ^0.0.5
   key_value_store:

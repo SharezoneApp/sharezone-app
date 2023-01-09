@@ -13,10 +13,10 @@ import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:http/http.dart' as http;
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/models/serializers.dart';
 
-import 'package:sharezone/util/holidays/state.dart';
+import 'api/holiday.dart';
+import 'api/serializers.dart';
+import 'state.dart';
 
 class ApiResponseException implements Exception {
   final String message;
