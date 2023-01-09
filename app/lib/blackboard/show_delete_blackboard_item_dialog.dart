@@ -8,14 +8,13 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone_widgets/adaptive_dialog.dart';
-
 import 'details/blackboard_details.dart';
 
-Future<void> deleteBlackboardDialogsEntry(
+Future<void> showDeleteBlackboardItemDialog(
     BuildContext context, BlackboardView view,
     {bool popTwice = true}) async {
   final confirmed = await _showConfirmDeletingDialog(context);

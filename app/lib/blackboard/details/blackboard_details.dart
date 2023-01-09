@@ -11,24 +11,24 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/blackboard/blackboard_dialog.dart';
+import 'package:sharezone/blackboard/blackboard_item.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
+import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_page.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
-import 'package:sharezone/models/blackboard_item.dart';
-import 'package:sharezone/pages/blackboard/blackboard_dialog.dart';
-import 'package:sharezone/pages/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
-import '../delete_blackboard.dart';
+import '../show_delete_blackboard_item_dialog.dart';
 import 'blackboard_details_bloc.dart';
 
 const blackboardItemReadByUsersListFeatureDiscoveryStepId =
@@ -199,7 +199,7 @@ class _DeleteIcon extends StatelessWidget {
       tooltip: 'Eintrag löschen',
       icon: Icon(Icons.delete, color: getAppBarIconColor(view.hasPhoto)),
       onPressed: () =>
-          deleteBlackboardDialogsEntry(context, view, popTwice: true),
+          showDeleteBlackboardItemDialog(context, view, popTwice: true),
     );
   }
 }

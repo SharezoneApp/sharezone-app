@@ -8,8 +8,8 @@
 
 import 'package:built_collection/built_collection.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/state.dart';
+import 'api/holiday.dart';
+import 'state.dart';
 
 class HolidayCache {
   static const _kCacheKeyPrefix = "holidays";

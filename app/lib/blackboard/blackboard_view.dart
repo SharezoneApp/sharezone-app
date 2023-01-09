@@ -9,22 +9,23 @@
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/additional/course_permission.dart';
-import 'package:sharezone/models/blackboard_item.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api/courseGateway.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/theme.dart';
 
+import 'blackboard_item.dart';
+
 class BlackboardView {
-  final String title,
-      text,
-      previewText,
-      id,
-      pictureURL,
-      courseName,
-      courseID,
-      createdOnText,
-      authorName;
+  final String title;
+  final String text;
+  final String previewText;
+  final String id;
+  final String pictureURL;
+  final String courseName;
+  final String courseID;
+  final String createdOnText;
+  final String authorName;
   final int readPercent;
   final Color readPerecentColor, courseNameColor;
   final bool isAuthor, hasAttachments, hasPhoto, hasPermissionToEdit, isRead;
@@ -129,7 +130,7 @@ class BlackboardView {
   static bool _hasPermissionToEdit(
       bool isAuthor, String courseID, CourseGateway courseGateway) {
     if (isAuthor) return true;
-    final isAdmin = isUserAdminOrOwnerFromCourse(
+    final isAdmin = isUserAdminOrOwnerOfGroup(
         courseGateway.getRoleFromCourseNoSync(courseID));
     if (isAdmin) return true;
     return false;

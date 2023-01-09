@@ -11,7 +11,7 @@ library serializers;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
+import 'holiday.dart';
 
 import 'datetime_serializer.dart';
 
