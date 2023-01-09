@@ -44,7 +44,6 @@ jobs:
       uses: kuhnroyal/flutter-fvm-config-action@v1
 
     - uses: subosito/flutter-action@v2
-      id: install-flutter
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
@@ -86,7 +85,6 @@ jobs:
       uses: kuhnroyal/flutter-fvm-config-action@v1
 
     - uses: subosito/flutter-action@v2
-      id: install-flutter
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
