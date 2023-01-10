@@ -64,7 +64,7 @@ class AnalyzeCommand extends Command {
 
     print('Activating tuneup package...');
     await runProcessSucessfullyOrThrow(
-        'dart', ['pub', 'global', 'activate', 'tuneup'],
+        'fvm', ['dart', 'pub', 'global', 'activate', 'tuneup'],
         workingDirectory: _useCase.repo.sharezoneFlutterApp.location.path);
 
     final _max = argResults[maxConcurrentPackagesOptionName];

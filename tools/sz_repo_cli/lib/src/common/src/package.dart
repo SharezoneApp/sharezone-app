@@ -80,8 +80,8 @@ abstract class Package {
 
   Future<void> _runTuneup() async {
     await runProcessSucessfullyOrThrow(
-      'dart',
-      ['pub', 'global', 'run', 'tuneup', 'check', '--fail-on-todos'],
+      'fvm',
+      ['dart', 'pub', 'global', 'run', 'tuneup', 'check', '--fail-on-todos'],
       workingDirectory: location.path,
     );
   }
@@ -114,7 +114,7 @@ class DartPackage extends Package {
 
   @override
   Future<void> getPackages() async {
-    await runProcessSucessfullyOrThrow('dart', ['pub', 'get'],
+    await runProcessSucessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
         workingDirectory: location.path);
   }
 
@@ -123,8 +123,8 @@ class DartPackage extends Package {
     await getPackages();
 
     await runProcessSucessfullyOrThrow(
-      'dart',
-      ['test'],
+      'fvm',
+      ['dart', 'test'],
       workingDirectory: location.path,
     );
   }
@@ -145,8 +145,8 @@ class FlutterPackage extends Package {
   @override
   Future<void> getPackages() async {
     await runProcessSucessfullyOrThrow(
-      'flutter',
-      ['pub', 'get'],
+      'fvm',
+      ['flutter', 'pub', 'get'],
       workingDirectory: location.path,
     );
   }
@@ -157,8 +157,8 @@ class FlutterPackage extends Package {
     /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
     await runProcessSucessfullyOrThrow(
-      'flutter',
-      ['test'],
+      'fvm',
+      ['flutter', 'test'],
       workingDirectory: location.path,
     );
   }
