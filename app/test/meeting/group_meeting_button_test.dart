@@ -8,11 +8,12 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:crash_analytics/mock_crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button.dart';
 import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button_view.dart';
 import 'package:sharezone/meeting/analytics/meeting_analytics.dart';
@@ -51,8 +52,8 @@ void main() {
     Future<void> _pumpGroupMeetingButton(
         WidgetTester tester, GroupMeetingView view) async {
       await tester.pumpWidget(
-        BlocProvider<CrashAnalyticsBloc>(
-          bloc: CrashAnalyticsBloc(mockCrashAnalytics),
+        Provider<CrashAnalytics>(
+          create: (context) => mockCrashAnalytics,
           child: BlocProvider<MeetingBlocFactory>(
             bloc: blocFactory,
             child: MaterialApp(
@@ -328,8 +329,8 @@ void main() {
             future: meetingIdFuture(),
             initialData: firstMeetingId,
             builder: (context, snapshot) {
-              return BlocProvider<CrashAnalyticsBloc>(
-                bloc: CrashAnalyticsBloc(mockCrashAnalytics),
+              return Provider<CrashAnalytics>(
+                create: (context) => mockCrashAnalytics,
                 child: BlocProvider<MeetingBlocFactory>(
                   bloc: blocFactory,
                   child: MaterialApp(

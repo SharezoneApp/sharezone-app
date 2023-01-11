@@ -8,10 +8,11 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/meeting/bloc/meeting_bloc.dart';
 import 'package:sharezone/meeting/bloc/meeting_bloc_factory.dart';
 import 'package:sharezone/meeting/models/meeting_id.dart';
@@ -194,9 +195,7 @@ class _GroupMeetingButtonState extends State<GroupMeetingButton> {
   }
 
   void _logError(BuildContext context, dynamic e, StackTrace s) {
-    BlocProvider.of<CrashAnalyticsBloc>(context)
-        .crashAnalytics
-        .recordError(e, s);
+    Provider.of<CrashAnalytics>(context, listen: false).recordError(e, s);
   }
 }
 
