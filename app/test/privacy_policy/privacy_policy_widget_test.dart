@@ -91,6 +91,16 @@ ${generateText(10)}
             false,
           );
         });
+        _testWidgets('shows fallback page if version is below backend response',
+            (tester) async {
+          // TODO: Add test that ensures that Sharezone always has a build number in pubspec version?
+          // scaffold.setAppBuildNumberTo(315);
+          // scaffold.fakeBackend
+          //     .setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
+          //         316);
+          // expect to find fallback widgets:
+          // expect(find. , findsOneWidget);
+        });
         _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
           final text = '''
