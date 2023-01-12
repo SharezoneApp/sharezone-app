@@ -26,6 +26,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';
 import 'package:sharezone/account/features/features_bloc.dart';
@@ -41,7 +42,6 @@ import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/gateway/dashboard_gateway.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
@@ -318,7 +318,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ? CloudFunctionHolidayApiClient()
         : HttpHolidayApiClient(http.Client());
 
-    final mainProviders = <BlocProvider>[
+    // In the past we used BlocProvider for everything (even non-bloc classes).
+    // This forced us to use BlocProvider wrapper classes for non-bloc entities,
+    // Provider allows us to skip using these wrapper classes.
+    final providers = [
+      Provider<CrashAnalytics>(create: (context) => crashAnalytics)
+    ];
+
+    final mainBlocProviders = <BlocProvider>[
       BlocProvider<SharezoneContext>(
         bloc: SharezoneContext(
           api,
@@ -398,8 +405,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<GroupAnalytics>(bloc: GroupAnalytics(analytics)),
-      BlocProvider<CrashAnalyticsBloc>(
-          bloc: CrashAnalyticsBloc(getCrashAnalytics())),
       BlocProvider<EnterActivationCodeBlocFactory>(
         bloc: EnterActivationCodeBlocFactory(
           crashAnalytics: crashAnalytics,
@@ -538,15 +543,18 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
 
-    return MultiBlocProvider(
-      key: const ValueKey("MultiBlocProvider"),
-      blocProviders: [
-        ...mainProviders,
-        ...timetableProviders,
-      ],
-      child: (context) => AnalyticsProvider(
-        analytics: analytics,
-        child: Builder(builder: (context) => widget.child),
+    return MultiProvider(
+      providers: providers,
+      child: MultiBlocProvider(
+        key: const ValueKey("MultiBlocProvider"),
+        blocProviders: [
+          ...mainBlocProviders,
+          ...timetableProviders,
+        ],
+        child: (context) => AnalyticsProvider(
+          analytics: analytics,
+          child: Builder(builder: (context) => widget.child),
+        ),
       ),
     );
   }
