@@ -1,0 +1,19 @@
+# This file is the "source of truth" for running commands that are the same for all operating systems.
+# We want to run the same command everywhere, on local dev machines and on CI systems.
+# Since Sharezone can be developed on Linux / Mac / Windows just putting the command in a a .sh file isn't enough, since Windows couldn't execute it.
+# 
+# CI:
+# When running these commands via CI we just read them in inside the bash script and execute the command.
+# This saves us first installing Dart for e.g. just executing a simple go script.
+#
+# Sharezone CLI:
+# When running these commands via the sharezone CLI we also read the command string from below and execute the command.
+# In this case we can use Dart since it will be installed anyways.
+# As bash will not be installed on a Windows machine we can't use the bash script used by the CI.
+
+# There might very well be a better way to do this.
+
+# Note: The directory at the end of the command is missing.
+# The programs using these commands need to add it themselves.
+check_license_headers: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" -ignore "**/**.g.dart"
+add_license_headers: addlicense -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" -ignore "**/**.g.dart"
