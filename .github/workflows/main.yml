@@ -85,6 +85,9 @@ jobs:
       - run: ./bin/check_license_headers.sh
 
   test:
+    strategy:
+      matrix:
+        concurrency: [1, 3, 5, 7]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -112,9 +115,9 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
-      - name: Run tests via "sz test"
+      - name: 'Run tests via "sz test" (concurrency: ${{ matrix.concurrency }})'
         # run: sz test -v
-        run: sz test -c 3
+        run: sz test -c ${{ matrix.concurrency }}
       
       # Uploads the results of failed tests as .zip to GitHub.
       #
