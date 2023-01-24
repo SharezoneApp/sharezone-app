@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 import 'merge_with_value_stream_extension.dart';
 import 'package:path/path.dart' as path;
 
@@ -50,7 +51,7 @@ class SharezoneRepo {
   }
 
   Stream<Package> streamPackages() {
-    return dartLibraries.streamPackages().mergeWithValues([
+    return dartLibraries.streamPackages().endWithMany([
       sharezoneFlutterApp,
       sharezoneCiCdTool,
     ]);
