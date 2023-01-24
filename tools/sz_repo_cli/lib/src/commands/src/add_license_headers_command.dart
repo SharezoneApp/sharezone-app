@@ -14,7 +14,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 
 import 'check_license_headers_command.dart';
 
-/// Add license headers to all files without.
+/// Add license headers to all files without one.
 class AddLicenseHeadersCommand extends Command {
   AddLicenseHeadersCommand(this.repo);
 

@@ -46,6 +46,7 @@ class CheckLicenseHeadersCommand extends Command {
 }
 
 /// Run a license header command via a key.
+///
 /// The key can be seen in the [repo.commandsSourceOfTruthYamlFile] file.
 Future<ProcessResult> runLicenseHeaderCommand({
   @required String commandKey,
