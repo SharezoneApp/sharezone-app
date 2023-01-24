@@ -7,7 +7,6 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-
 root_dir=$(git rev-parse --show-toplevel)
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )

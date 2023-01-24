@@ -7,7 +7,6 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 commands_file="$script_dir/commands_source_of_truth.yaml"
 

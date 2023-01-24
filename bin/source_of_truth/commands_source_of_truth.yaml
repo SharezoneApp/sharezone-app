@@ -15,7 +15,7 @@
 # This saves us first installing Dart for e.g. just executing a simple go script.
 #
 # Sharezone CLI:
-# When running these commands via the sharezone CLI we also read the command string from below and execute the command.
+# When running these commands via the Sharezone CLI we also read the command string from below and execute the command.
 # In this case we can use Dart since it will be installed anyways.
 # As bash will not be installed on a Windows machine we can't use the bash script used by the CI.
 
