@@ -34,7 +34,7 @@ class TestCommand extends Command {
         negatable: false,
         defaultsTo: false,
       )
-      ..addPackageTimeoutOption(defaultInMinutes: 7);
+      ..addPackageTimeoutOption(defaultInMinutes: 10);
   }
 
   static const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
