@@ -32,7 +32,7 @@ Future<void> runProcessSucessfullyOrThrow(
       mode: mode);
   if (result.exitCode != 0) {
     throw Exception(
-        'Could not run ${displayableCommand} (exit code ${result.exitCode}): ${result.stderr}\n\n stdout:${result.stdout}');
+        'Process ended with non-zero exit code: ${displayableCommand} (exit code ${result.exitCode}): ${result.stderr}\n\n stdout:${result.stdout}');
   }
 }
 

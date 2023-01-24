@@ -20,6 +20,9 @@ class SharezoneRepo {
   final Package sharezoneCiCdTool;
   final DartLibraries dartLibraries;
 
+  File get commandsSourceOfTruthYamlFile => File(path.join(location.path, 'bin',
+      'source_of_truth', 'commands_source_of_truth.yaml'));
+
   SharezoneRepo._({
     @required this.location,
     @required this.sharezoneFlutterApp,
