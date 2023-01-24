@@ -15,9 +15,9 @@ void main() {
 
     final repo = SharezoneRepo(projectRoot);
 
-    /// If the file gets moved and the path for
-    /// [repo.commandsSourceOfTruthYamlFile] not updated this will cause the CI
-    /// pipeline to fail.
+    // If the file gets moved and the path for
+    // [repo.commandsSourceOfTruthYamlFile] not updated this will cause the CI
+    // pipeline to fail.
     expect(repo.commandsSourceOfTruthYamlFile.existsSync(), true,
         reason:
             'Commands source of truth file should exist at ${repo.commandsSourceOfTruthYamlFile.path}.\n'
