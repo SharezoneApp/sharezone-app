@@ -146,7 +146,6 @@ class PackageStatusUpdater {
   }
 
   void success() {
-    // TODO:
     if (_running == null) {
       throw StateError('success can only be called after calling running');
     }
