@@ -71,8 +71,8 @@ class ConcurrentPackageTaskRunner {
     return;
   }
 
-  PackageStatusUpdater _getStatusUpdater(Package package) =>
-      PackageStatusUpdater(
+  _PackageTaskStatusUpdater _getStatusUpdater(Package package) =>
+      _PackageTaskStatusUpdater(
           package: package, getCurrentDateTime: _getCurrentDateTime);
 }
 
@@ -136,14 +136,14 @@ class _MaxConcurrentPackageStreamTransformer
   }
 }
 
-class PackageStatusUpdater {
+class _PackageTaskStatusUpdater {
   final Package package;
   final DateTime Function() getCurrentDateTime;
   final _controller = BehaviorSubject<PackageTaskStatus>();
   Stream<PackageTaskStatus> get statusStream => _controller;
   Running _running;
 
-  PackageStatusUpdater({
+  _PackageTaskStatusUpdater({
     @required this.package,
     this.getCurrentDateTime,
   });
