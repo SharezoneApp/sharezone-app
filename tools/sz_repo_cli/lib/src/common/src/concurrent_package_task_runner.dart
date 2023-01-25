@@ -101,9 +101,9 @@ class _MaxConcurrentPackageStreamTransformer
         maxConcurrentItems: maxConcurrentItems);
   }
 
-  /// Informiert diesen Transformer, dass ein Package (sei es erfolreich oder
-  /// nicht) verarbeitet wurde und das nächste Package (falls die maximale
-  /// Anzahl zuvor überschritten wurde) ausgegeben werden kann.
+  /// Notifies that a package that package has been finished being processed.
+  ///
+  /// This means that the next package can be processed.
   void notifyPackageProcessed() {
     if (noConcurrencyLimit) return;
 
