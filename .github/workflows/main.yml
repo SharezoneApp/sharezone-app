@@ -85,9 +85,6 @@ jobs:
       - run: ./bin/check_license_headers.sh
 
   test:
-    strategy:
-      matrix:
-        concurrency: [3, 4, 5, 6]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -116,8 +113,7 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
-        # run: sz test -v
-        run: sz test -c ${{ matrix.concurrency }}
+        run: sz test -v
       
       # Uploads the results of failed tests as .zip to GitHub.
       #
