@@ -7,14 +7,21 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:args/command_runner.dart';
-
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class TestCommand extends Command {
-  TestCommand(this._repo) {
+  TestCommand(this.repo) {
     argParser
+      ..addOption(
+        maxConcurrentPackagesOptionName,
+        abbr: 'c',
+        defaultsTo: '5',
+        help:
+            'How many packages at most should be processed at once. Helpful for a CI or not as powerful PCs to not have so much processing at once.',
+      )
       ..addFlag(
         'verbose',
         abbr: 'v',
@@ -25,6 +32,10 @@ class TestCommand extends Command {
       ..addPackageTimeoutOption(defaultInMinutes: 10);
   }
 
+  static const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
+
+  final SharezoneRepo repo;
+
   @override
   final String name = 'test';
 
@@ -32,63 +43,44 @@ class TestCommand extends Command {
   final String description = 'Runs the Dart tests for all packages.\n\n'
       'This command requires "flutter" to be in your path.';
 
-  final SharezoneRepo _repo;
-
-  Duration packageTimeout;
-
   @override
-  Future<void> run() async {
-    packageTimeout = argResults.packageTimeoutDuration;
+  Future<Null> run() async {
     isVerbose = argResults['verbose'] ?? false;
 
-    await _testFlutterApp(_repo.sharezoneFlutterApp);
-    await _testPackages(_repo.dartLibraries);
+    final _max = argResults[maxConcurrentPackagesOptionName];
+    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
+        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
+        // null wird nachher als "keine Begrenzung" gehandhabt.
+        : null;
 
-    print('All tests are passing!');
-  }
+    final taskRunner = ConcurrentPackageTaskRunner(
+      getCurrentDateTime: () => DateTime.now(),
+    );
 
-  Future _testFlutterApp(Package flutterApp) async {
-    print('Starting flutter app tests...');
+    final res = taskRunner
+        .runTaskForPackages(
+          packageStream: repo
+              .streamPackages()
+              .where((package) => package.hasTestDirectory),
+          runTask: (package) => package.runTests(),
+          maxNumberOfPackagesBeingProcessedConcurrently:
+              maxNumberOfPackagesBeingProcessedConcurrently,
+          perPackageTaskTimeout: argResults.packageTimeoutDuration,
+        )
+        .asBroadcastStream();
 
-    try {
-      await flutterApp.runTests().timeout(packageTimeout);
-    } catch (e) {
-      // Weil der Error ansonsten nicht ausgeprintet wird
-      print('$e');
-      print('Not all flutter app tests passed!');
-      throw ToolExit(1);
+    final presenter = PackageTasksStatusPresenter();
+    presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);
+
+    final failures = await res.allFailures;
+
+    if (failures.isNotEmpty) {
+      print('There were failures. See above for more information.');
+      await presenter.printFailedTasksSummary(failures);
+      exit(1);
+    } else {
+      print('All packages tested successfully!');
+      exit(0);
     }
-
-    print('All flutter app tests passed!');
-  }
-
-  Future<void> _testPackages(DartLibraries dartLibraries) async {
-    final failingPackages = <String>[];
-    await for (final package in dartLibraries
-        .streamPackages()
-        .where((package) => package.hasTestDirectory)) {
-      final packageName = package.name;
-
-      print(
-          'RUNNING $packageName ${[package.type.toReadableString()]} tests...');
-
-      try {
-        await package.runTests().timeout(packageTimeout);
-        print('COMPLETED $packageName tests');
-      } catch (e) {
-        print('FAILURE: $e');
-        failingPackages.add(packageName);
-      }
-    }
-
-    print('\n\n');
-    if (failingPackages.isNotEmpty) {
-      print('Tests for the following packages are failing (see above):');
-      failingPackages.forEach((String package) {
-        print(' * $package');
-      });
-      throw ToolExit(1);
-    }
-    print('All Dart package tests passed!');
   }
 }
