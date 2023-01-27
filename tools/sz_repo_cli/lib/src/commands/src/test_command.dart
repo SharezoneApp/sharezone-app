@@ -78,3 +78,4 @@ class TestCommand extends Command {
     }
   }
 }
+
