@@ -9,7 +9,7 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
-import 'merge_with_value_stream_extension.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:path/path.dart' as path;
 
 import 'package.dart';
@@ -50,7 +50,45 @@ class SharezoneRepo {
   }
 
   Stream<Package> streamPackages() {
-    return dartLibraries.streamPackages().mergeWithValues([
+    // This stream is often used to start tasks for all packages (like testing
+    // or analyzing every Dart package), including our Sharezone app package.
+    //
+    // The order in which the packages are output by this stream will most
+    // likely be the order in which tasks are started for these packages. E.g.
+    // if we put the Sharezone app package at the start of the stream then it
+    // will be the first package to be tested.
+    //
+    // There is a tradeoff between starting with the Sharezone app or putting it
+    // at the end of the stream, since its very big (many widget tests, many
+    // files) and a task for this package takes way longer than the same task
+    // for the other packages (at least at time of writing this).
+    //
+    // In GitHub Actions the Sharezone app task was often the first to start and
+    // the last to end (when we were starting with it).
+    //
+    // We assume that we run tasks concurrently for several packages (e.g. test
+    // 5 packages at the same time).
+    //
+    // If we start with the task for the Sharezone app then it will run
+    // continously while we start and finish the same tasks for the smaller
+    // other Dart packages (since they will finish faster).
+    //
+    // Starting with the Sharezone app will cause the overall goal (e.g. testing
+    // all Dart packages) to be a bit faster from what we measured (might be
+    // different in the future or per machine) but on slow machines like CI
+    // runner we might hit the package task timeout for the Sharezone app
+    // package since the single task will takes longer.
+    //
+    // So either we increase the package task timeout or we end with the
+    // Sharezone app task.
+    //
+    // For now I (Jonas) decided to output the Sharezone package at the end so
+    // that we can keep our per package task timeout low (so we know right away
+    // if something takes too long).
+    //
+    // This might be changed in the future. As always - just measure and see for
+    // yourselves.
+    return dartLibraries.streamPackages().endWithMany([
       sharezoneFlutterApp,
       sharezoneCiCdTool,
     ]);
