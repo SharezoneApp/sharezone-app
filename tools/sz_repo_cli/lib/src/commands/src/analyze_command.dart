@@ -15,13 +15,6 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class AnalyzeCommand extends Command {
   AnalyzeCommand(this.repo) {
     argParser
-      ..addOption(
-        maxConcurrentPackagesOptionName,
-        abbr: 'c',
-        defaultsTo: '5',
-        help:
-            'How many packages at most should be processed at once. Helpful for a CI or not as powerful PCs to not have so much processing at once.',
-      )
       ..addFlag(
         'verbose',
         abbr: 'v',
@@ -29,6 +22,7 @@ class AnalyzeCommand extends Command {
         negatable: false,
         defaultsTo: false,
       )
+      ..addConcurrencyOption(defaultMaxConcurrency: 5)
       ..addPackageTimeoutOption(defaultInMinutes: 7);
   }
 
