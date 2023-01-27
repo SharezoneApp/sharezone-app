@@ -24,7 +24,7 @@ class ConcurrentPackageTaskRunner {
     _getCurrentDateTime = getCurrentDateTime ?? () => DateTime.now();
   }
 
-  /// Run [runTask] for every package from the [packageStream].
+  /// Run [runTask] for every [Package] emitted by the [packageStream].
   Stream<PackageTask> runTaskForPackages({
     /// Stream of packages for which [runTask] will be called.
     ///
