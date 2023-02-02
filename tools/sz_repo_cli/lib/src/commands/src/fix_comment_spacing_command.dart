@@ -10,10 +10,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-
-import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:glob/glob.dart';
+import 'package:glob/list_local_fs.dart';
 import 'package:meta/meta.dart';
+import 'package:sz_repo_cli/src/common/common.dart';
 
 // ignore_for_file: no_spaces_after_comment_slashes
 
