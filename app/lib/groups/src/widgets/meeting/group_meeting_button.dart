@@ -52,7 +52,7 @@ class _MeetingIsDisabledHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _TextBelowButton(
-      "Videokonferenzen wurden für diese Gruppe von einem Administrator deaktiviert.",
+      "Videokonferenzen wurden aus Sharezone entfernt.",
       key: ValueKey('meeting-is-disabled-hint-widget-test'),
     );
   }
