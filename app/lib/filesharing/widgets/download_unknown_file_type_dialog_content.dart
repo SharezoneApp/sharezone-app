@@ -162,7 +162,7 @@ class _ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _Dialog(
-      leading: Icon(Icons.error, color: Theme.of(context).errorColor),
+      leading: Icon(Icons.error, color: Theme.of(context).colorScheme.error),
       text: "Fehler: $error",
     );
   }

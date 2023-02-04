@@ -77,7 +77,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
               Text(
                 errorTextForUser,
                 style: TextStyle(
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                   fontSize: 14,
                 ),
               ),

@@ -35,7 +35,7 @@ class TeacherHomeworkTile extends StatelessWidget {
       todoDate: homework.todoDate,
       todoDateColor: homework.colorDate
           ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyText2.color,
+          : Theme.of(context).textTheme.bodyMedium.color,
       onTap: () => _showHomeworkDetails(context),
       trailing: homework.withSubmissions
           ? _SubmissionsCounter(

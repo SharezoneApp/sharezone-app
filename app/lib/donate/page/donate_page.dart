@@ -92,7 +92,7 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Unterstütze Sharezone 💙',
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );
   }
@@ -168,7 +168,7 @@ class _BeggingForMoneyText extends StatelessWidget {
           textAlign: WrapAlignment.center,
           p: Theme.of(context)
               .textTheme
-              .bodyText2
+              .bodyMedium
               .copyWith(fontSize: 16, height: 1.3),
           a: linkStyle(context),
         ),

@@ -82,7 +82,7 @@ class _GroupMeetingButtonState extends State<GroupMeetingButton> {
                   padding: const EdgeInsets.only(left: 16, top: 16),
                   child: Text(
                     "Videokonferenz",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 if (widget.view.isEnabled)

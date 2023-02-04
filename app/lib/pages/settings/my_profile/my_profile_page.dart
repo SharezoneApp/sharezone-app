@@ -402,7 +402,7 @@ class _DeleteAccountDialogContentState
       TextButton(
         child: const Text("LÖSCHEN"),
         style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).errorColor,
+          foregroundColor: Theme.of(context).colorScheme.error,
         ),
         onPressed: provider != Provider.email
             ? signOut

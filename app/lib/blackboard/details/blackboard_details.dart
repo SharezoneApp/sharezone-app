@@ -286,7 +286,7 @@ class _Title extends StatelessWidget {
         title,
         style: Theme.of(context)
             .textTheme
-            .headline4
+            .headlineMedium
             .copyWith(color: isDarkThemeEnabled(context) ? null : Colors.black),
       ),
     );
@@ -301,7 +301,7 @@ class _InformationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _greyTextStyle =
-        Theme.of(context).textTheme.caption.copyWith(fontSize: 14);
+        Theme.of(context).textTheme.bodySmall.copyWith(fontSize: 14);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -436,7 +436,7 @@ class _Text extends StatelessWidget {
       styleSheet: MarkdownStyleSheet.fromTheme(
         theme.copyWith(
           textTheme: theme.textTheme.copyWith(
-              bodyText2: flowingText.copyWith(
+              bodyMedium: flowingText.copyWith(
                   color: isDarkThemeEnabled(context)
                       ? Colors.white
                       : Colors.black)),

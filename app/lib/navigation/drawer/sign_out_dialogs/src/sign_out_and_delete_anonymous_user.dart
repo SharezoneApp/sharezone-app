@@ -153,7 +153,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
                 TextButton(
                   child: const Text("LÖSCHEN"),
                   style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).errorColor,
+                    foregroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: confirmedToDeleteAccount
                       ? () => tryToSignOutAndDeleteUser(context)
@@ -193,7 +193,7 @@ class DeleteAccountDialogErrorText extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(ThemePlatform.isCupertino ? 0 : 24, 16,
           ThemePlatform.isCupertino ? 0 : 24, 0),
       child: Text(text,
-          style: TextStyle(color: Theme.of(context).errorColor, fontSize: 14)),
+          style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 14)),
     );
   }
 }

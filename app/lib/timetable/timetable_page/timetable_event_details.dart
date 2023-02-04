@@ -210,7 +210,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(
-                            bodyText2: TextStyle(
+                            bodyMedium: TextStyle(
                               color: isDarkThemeEnabled(context)
                                   ? Colors.white
                                   : Colors.black,

@@ -130,7 +130,7 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
           child: const Text("LÖSCHEN"),
           onPressed: confirm ? () => Navigator.pop(context, true) : null,
           style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).errorColor,
+            foregroundColor: Theme.of(context).colorScheme.error,
           ),
         ),
       ],
@@ -267,7 +267,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Text("Details",
-                      style: Theme.of(context).textTheme.headline6),
+                      style: Theme.of(context).textTheme.titleLarge),
                 ),
               ),
               Row(

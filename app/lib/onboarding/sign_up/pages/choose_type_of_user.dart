@@ -36,7 +36,7 @@ class ChooseTypeOfUser extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Text("Ich bin...",
-                              style: Theme.of(context).textTheme.headline5),
+                              style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 12),
                           typeOfUserButtons(context),
                           if (withLogin) ...[

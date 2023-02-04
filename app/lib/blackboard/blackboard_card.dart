@@ -235,7 +235,7 @@ class _Text extends StatelessWidget {
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(
-              bodyText2: TextStyle(
+              bodyMedium: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
                 fontFamily: rubik,
