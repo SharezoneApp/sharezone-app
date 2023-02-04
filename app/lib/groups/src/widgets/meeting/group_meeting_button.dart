@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/adaptive_dialog.dart';
 import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
@@ -35,6 +36,11 @@ class GroupMeetingButton extends StatelessWidget {
                 _MeetingDisabledListTile(),
               ],
             ),
+            onTap: () => showLeftRightAdaptiveDialog(
+                context: context,
+                title: 'Meetings deaktiviert.',
+                content: Text(
+                    'Videokonferenzen wurden für alle Nutzer:innen von Sharezone endgültig deaktiviert.')),
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 375),
