@@ -37,6 +37,7 @@ class GroupMeetingButton extends StatelessWidget {
               ],
             ),
             onTap: () => showLeftRightAdaptiveDialog(
+                right: AdaptiveDialogAction.ok,
                 context: context,
                 title: 'Meetings deaktiviert.',
                 content: Text(
