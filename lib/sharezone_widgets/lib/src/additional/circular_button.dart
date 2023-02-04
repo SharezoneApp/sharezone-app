@@ -38,7 +38,7 @@ class CircularButton extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(title, style: Theme.of(context).textTheme.headline6),
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
           Text(subtitle,
               style: TextStyle(fontSize: 15, color: Colors.grey[400])),
           const SizedBox(height: 16),
