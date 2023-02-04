@@ -20,11 +20,8 @@ import 'package:sharezone/groups/src/pages/school_class/school_class_details/sch
 import 'package:sharezone/groups/src/pages/school_class/school_class_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button.dart';
-import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button_view.dart';
-import 'package:sharezone/groups/src/widgets/meeting/is_group_meeting_enabled_switch.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
-import 'package:sharezone/meeting/models/meeting_id.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
@@ -101,13 +98,7 @@ class SchoolClassDetailsPage extends StatelessWidget {
                 children: <Widget>[
                   _SchoolClassAvatarCard(
                       schoolClass: schoolClass, memberCount: members.length),
-                  GroupMeetingButton(
-                    view: schoolClass.toGroupMeetingView(),
-                    groupId: schoolClass.groupId,
-                    groupName: schoolClass.name,
-                    groupType: GroupType.schoolclass,
-                    meetingId: MeetingId(schoolClass.meetingID),
-                  ),
+                  GroupMeetingButton(),
                   SchoolClassCoursesList(
                     key: ValueKey(schoolClass.id),
                     schoolClassID: schoolClass.id,
@@ -296,8 +287,6 @@ class SchoolClassSettingsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _IsPublic(isPublic: settings.isPublic),
-          _IsGroupMeetingEnabledSwitch(
-              isMeetingEnabled: settings.isMeetingEnabled),
           WritePermissions(
             initalWritePermission: settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
@@ -307,25 +296,6 @@ class SchoolClassSettingsCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _IsGroupMeetingEnabledSwitch extends StatelessWidget {
-  const _IsGroupMeetingEnabledSwitch({Key key, @required this.isMeetingEnabled})
-      : super(key: key);
-
-  final bool isMeetingEnabled;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    return IsGroupMeetingEnbaldedSwitch(
-      isMeetingEnabled: isMeetingEnabled,
-      onChanged: (newValue) {
-        final setFuture = bloc.setIsGroupMeetingEnabled(newValue);
-        showAppFunctionStateDialog(context, setFuture);
-      },
     );
   }
 }

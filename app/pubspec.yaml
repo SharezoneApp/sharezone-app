@@ -91,7 +91,6 @@ dependencies:
   holidays:
     path: ../lib/holidays
   intl: ^0.17.0
-  jitsi_meet_wrapper: ^0.0.5
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
