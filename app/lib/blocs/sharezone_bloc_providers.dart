@@ -68,11 +68,6 @@ import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/meeting/analytics/meeting_analytics.dart';
-import 'package:sharezone/meeting/bloc/meeting_bloc_factory.dart';
-import 'package:sharezone/meeting/cache/meeting_cache.dart';
-import 'package:sharezone/meeting/jitsi/jitsi_auth.dart';
-import 'package:sharezone/meeting/jitsi/jitsi_launcher.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
@@ -110,9 +105,7 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
 import 'dashbord_widgets_blocs/holiday_bloc.dart';
@@ -296,13 +289,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
         widget.blocDependencies.authUser.firebaseUser);
 
-    final meetingServerUrl = remoteConfig.getString('meeting_server_url');
-    // Im Web muss die Server-URL zum lokalen Testen manuell gesetzt werden,
-    // weil Remote Config noch im Web funktioniert.
-    // "https://dev.meet.sharezone.net"
-
-    final urlLauncherExtended = UrlLauncherExtended();
-
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
 
     final typeOfUserStream = api.user.userStream.map((user) => user.typeOfUser);
@@ -442,17 +428,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<ImprintAnalytics>(bloc: ImprintAnalytics(analytics)),
-      BlocProvider<MeetingBlocFactory>(
-        bloc: MeetingBlocFactory(
-          analytics: MeetingAnalytics(analytics),
-          jitsiAuth: JitsiAuth(widget.blocDependencies.functions),
-          cache: MeetingCache(
-            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
-          ),
-          mobileDeviceInformationRetreiver: MobileDeviceInformationRetreiver(),
-          jitsiLauncher: JitsiLauncher(meetingServerUrl, urlLauncherExtended),
-        ),
-      ),
       BlocProvider<OnboardingNavigator>(bloc: onboardingNavigator),
       BlocProvider<GroupOnboardingBloc>(
         bloc: GroupOnboardingBloc(
