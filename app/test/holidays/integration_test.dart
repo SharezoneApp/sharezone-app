@@ -7,14 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:async/async.dart';
+import 'package:holidays/holidays.dart';
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:test/test.dart';
 import 'package:user/user.dart';
 
@@ -68,7 +65,7 @@ HolidayBloc setupBloc(HttpMockClient httpClient,
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
   HolidayCache cache =
       HolidayCache(keyValueStore, getCurrentTime: () => currentTime);
-  HolidayManager holidayManager = HolidayManager(api, cache);
+  HolidayService holidayManager = HolidayService(api, cache);
   HolidayBloc holidayBloc = HolidayBloc(
       holidayManager: holidayManager,
       stateGateway: stateGateway,

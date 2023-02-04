@@ -10,8 +10,8 @@ import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone_common/helper_functions.dart';
@@ -54,11 +54,10 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return StreamBuilder<bool>(
-      initialData: requestPermission(
-          role: membersDataList
-              .singleWhere((member) => member.id == api.userId)
-              .role,
-          permissionType: PermissionAccessType.admin),
+      initialData: membersDataList
+          .singleWhere((member) => member.id == api.userId)
+          .role
+          .hasPermission(GroupPermission.administration),
       stream: bloc.isAdminStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;

@@ -132,10 +132,7 @@ class _DesignTypeSection extends StatelessWidget {
     final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
     final memberRole = courseGateway.getRoleFromCourseNoSync(bloc.courseId);
-    return requestPermission(
-      role: memberRole,
-      permissionType: PermissionAccessType.creator,
-    );
+    return memberRole.hasPermission(GroupPermission.contentCreation);
   }
 }
 

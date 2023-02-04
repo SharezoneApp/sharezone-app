@@ -7,11 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 
 /// User  has to be a creator and a teacher or student
 bool hasPermissionToManageHomeworks(MemberRole myRole, bool isAuthor) {
-  return isAuthor ||
-      requestPermission(
-          role: myRole, permissionType: PermissionAccessType.admin);
+  return isAuthor || myRole.hasPermission(GroupPermission.administration);
 }

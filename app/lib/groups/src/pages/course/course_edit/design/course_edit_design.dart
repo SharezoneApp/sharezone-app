@@ -10,8 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/features/features_bloc.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/src/bloc/course_edit_design_bloc.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 

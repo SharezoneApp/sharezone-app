@@ -14,6 +14,10 @@
 "documentation":
 - '**/*.md'
 
+"dependencies":
+- '**/pubspec.yaml'
+- '**/pubspec.lock'
+
 "testing":
 - "**/*_test.dart"
 

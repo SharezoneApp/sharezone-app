@@ -11,14 +11,15 @@ import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_apple.dart';
 import 'package:authentification_base/authentification_google.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_page.dart';
@@ -275,7 +276,7 @@ class _PrivacyOptOut extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     final crashAnalytics =
-        BlocProvider.of<CrashAnalyticsBloc>(context).crashAnalytics;
+        pv.Provider.of<CrashAnalytics>(context, listen: false);
     final preferences =
         BlocProvider.of<SharezoneContext>(context).streamingSharedPreferences;
 

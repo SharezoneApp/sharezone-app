@@ -11,6 +11,9 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as p;
+import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 
 import 'commands/commands.dart';
 import 'common/common.dart';
@@ -34,6 +37,9 @@ Future<void> main(List<String> args) async {
     ..addCommand(DoStuffCommand(repo))
     ..addCommand(FixCommentSpacingCommand(repo))
     ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)))
+    ..addCommand(LicenseHeadersCommand()
+      ..addSubcommand(CheckLicenseHeadersCommand(repo))
+      ..addSubcommand(AddLicenseHeadersCommand(repo)))
     ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)));
 
   await commandRunner.run(args).catchError((Object e) {

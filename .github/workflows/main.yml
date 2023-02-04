@@ -55,9 +55,18 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package
-        run: dart pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
@@ -73,7 +82,7 @@ jobs:
         with:
           go-version: '^1.13.1'
       - run: go install github.com/google/addlicense@latest 
-      - run: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" . 
+      - run: ./bin/check_license_headers.sh
 
   test:
     runs-on: macos-latest
@@ -87,15 +96,24 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package
-        run: dart pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
-        run: sz test -v
+        run: sz test -c 4
       
       # Uploads the results of failed tests as .zip to GitHub.
       #
@@ -116,7 +134,10 @@ jobs:
           if-no-files-found: ignore   
   
   ios-integration-test:
-    runs-on: macos-latest
+    # It seems so that our integration tests are not working `macos-12`. The
+    # problem is that the XCode build fails. When we upgraded to Flutter 3, we
+    # can try it again.
+    runs-on: macos-11
     if: ${{ github.event.pull_request.draft == false }}
     timeout-minutes: 45
     steps:
@@ -129,6 +150,15 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - uses: futureware-tech/simulator-action@v1
         id: simulator
@@ -147,7 +177,7 @@ jobs:
         # set the timeout (the --timeout argument has not effect). Tracking
         # issue: https://github.com/flutter/flutter/issues/105913
         run: |
-          flutter drive \
+          fvm flutter drive \
             --driver=test_driver/integration_test.dart \
             --target=integration_test/app_test.dart \
             --flavor dev \
@@ -184,10 +214,19 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Build web app
         working-directory: app
-        run: flutter build web --release
+        run: fvm flutter build web --release
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@v0

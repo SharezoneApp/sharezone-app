@@ -10,7 +10,7 @@ import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_settings.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/write_permission_options.dart';
@@ -79,8 +79,8 @@ class SchoolClassDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    final isAdmin = requestPermission(
-        role: schoolClass.myRole, permissionType: PermissionAccessType.admin);
+    final isAdmin =
+        schoolClass.myRole.hasPermission(GroupPermission.administration);
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolClass.name),
