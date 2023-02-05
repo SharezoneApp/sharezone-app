@@ -23,20 +23,20 @@ Future<void> delayKeyboard(
     @required FocusNode focusNode,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
-  FocusScope.of(context).requestFocus(focusNode);
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 Future<void> hideKeyboardWithDelay(
     {@required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
-  FocusScope.of(context).requestFocus(FocusNode());
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 void hideKeyboard(
     {@required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) {
-  FocusScope.of(context).requestFocus(FocusNode());
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 const double cardElevation = 1.5; // Elevation of Cards

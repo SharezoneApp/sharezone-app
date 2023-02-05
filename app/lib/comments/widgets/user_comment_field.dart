@@ -53,7 +53,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
                 bloc.addComment(text);
                 text = null;
                 controller.clear();
-                FocusScope.of(context).requestFocus(FocusNode());
+                FocusManager.instance.primaryFocus?.unfocus();
               } else {
                 showSnackSec(
                     context: context,

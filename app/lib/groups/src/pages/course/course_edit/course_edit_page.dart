@@ -145,7 +145,7 @@ class _SubjectField extends StatelessWidget {
         return PrefilledTextField(
           autofocus: true,
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(nextNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Fach",
@@ -176,7 +176,7 @@ class _AbbreviationField extends StatelessWidget {
       prefilledText: initialAbbreviation,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(labelText: "Kürzel des Fachs"),
-      onEditingComplete: () => FocusScope.of(context).requestFocus(nextNode),
+      onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: bloc.changeAbbreviation,
       maxLength: 3,
     );
