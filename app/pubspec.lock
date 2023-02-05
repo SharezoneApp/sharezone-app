@@ -74,10 +74,10 @@ packages:
     dependency: "direct main"
     description:
       name: animator
-      sha256: "8abee840f02254eecbdf05524f2cb41c8fce3063c125e5408c51b18acddaf529"
+      sha256: "5a99c15dc79e09dc62f3d3f1f24c2b2a1765ff51ec7445bf9509e5a70ece8025"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   app_functions:
     dependency: "direct main"
     description:
@@ -1332,6 +1332,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  navigation_builder:
+    dependency: transitive
+    description:
+      name: navigation_builder
+      sha256: cbf966253e1f5b1798f3fbcae571fb6d452e5c7a606a5c451e2b9a3d343920f0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2+4"
   nested:
     dependency: transitive
     description:
@@ -1953,10 +1961,10 @@ packages:
     dependency: transitive
     description:
       name: states_rebuilder
-      sha256: e2debaf1378edf623bc9943fd74de268d9cf76b2f2734b6d1b3b3ac372e2c05c
+      sha256: e8612993e97a5caeb9d983f6081304ef10868ba436ae49a723ee089ab51e2d12
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "6.2.0"
   stream_channel:
     dependency: transitive
     description:
@@ -2330,5 +2338,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=2.18.2 <3.0.0"
   flutter: ">=3.0.0"
