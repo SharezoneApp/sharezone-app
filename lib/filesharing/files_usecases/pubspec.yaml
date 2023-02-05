@@ -35,7 +35,7 @@ dependencies:
   flutter_image_compress: 1.1.0
   image_picker: ^0.8.1+4
   mime: any
-  native_pdf_view: ^4.1.0
+  pdfx: ^2.3.0
   # We need to use the reference to git until open_file 3.2.2 is published.
   open_file:
     git:

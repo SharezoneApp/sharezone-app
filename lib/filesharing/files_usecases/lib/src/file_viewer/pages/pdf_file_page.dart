@@ -8,7 +8,7 @@
 
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
-import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -53,16 +53,19 @@ class PdfFilePage extends StatelessWidget {
                   controller:
                       PdfController(document: getPdfDocument(localFile)),
                   scrollDirection: Axis.vertical,
-                  errorBuilder: (exception) {
-                    return Center(
-                      child: Text(
-                        'PDF Rendering does not '
-                        'support on the system of this version',
-                      ),
-                    );
-                  },
-                  documentLoader:
-                      Center(child: AccentColorCircularProgressIndicator()),
+                  builders: PdfViewBuilders(
+                    options: DefaultBuilderOptions(),
+                    errorBuilder: (context, exception) {
+                      return Center(
+                        child: Text(
+                          'PDF Rendering does not '
+                          'support on the system of this version',
+                        ),
+                      );
+                    },
+                    documentLoaderBuilder: (context) =>
+                        Center(child: AccentColorCircularProgressIndicator()),
+                  ),
                 );
               } else {
                 OpenFile.open(localFile.getPath());
