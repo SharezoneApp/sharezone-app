@@ -33,7 +33,7 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^2.1.0
-  barcode_scan: ^2.0.2
+  barcode_scan2: ^4.2.3
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:

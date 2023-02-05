@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:authentification_qrcode/authentification_qrcode.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +134,7 @@ class _ScanQrCode extends StatelessWidget {
   Future<String> _scanQRCode() async {
     try {
       final scanResult = await BarcodeScanner.scan();
-      return scanResult;
+      return scanResult.rawContent;
     } catch (e) {
       getCrashAnalytics().recordError(e, null);
       return null;
