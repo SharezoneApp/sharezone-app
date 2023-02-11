@@ -100,8 +100,8 @@ class DatePicker extends StatelessWidget {
                     : "Datum auswählen",
                 padding: padding,
                 onPressed: () async {
-                  FocusScope.of(context)
-                      .requestFocus(FocusNode()); // Close keyboard
+                  FocusManager.instance.primaryFocus
+                      ?.unfocus(); // Close keyboard
                   await Future.delayed(const Duration(
                       milliseconds: 150)); // Waiting for closing keyboard
                   _selectDate(context);
