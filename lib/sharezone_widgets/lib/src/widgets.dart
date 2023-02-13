@@ -26,7 +26,7 @@ Future<void> waitingForBottomModelSheetClosing() async =>
     await Future.delayed(const Duration(milliseconds: 100));
 
 Future<void> closeKeyboardAndWait(BuildContext context) async {
-  FocusScope.of(context).requestFocus(FocusNode());
+  FocusManager.instance.primaryFocus?.unfocus();
   await Future.delayed(const Duration(milliseconds: 150));
 }
 
@@ -63,7 +63,7 @@ class DatePicker extends StatelessWidget {
   final EdgeInsets padding;
 
   Future<void> _selectDate(BuildContext context) async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
     final DateTime tomorrow =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
             .add(const Duration(days: 1));
@@ -100,8 +100,8 @@ class DatePicker extends StatelessWidget {
                     : "Datum auswählen",
                 padding: padding,
                 onPressed: () async {
-                  FocusScope.of(context)
-                      .requestFocus(FocusNode()); // Close keyboard
+                  FocusManager.instance.primaryFocus
+                      ?.unfocus(); // Close keyboard
                   await Future.delayed(const Duration(
                       milliseconds: 150)); // Waiting for closing keyboard
                   _selectDate(context);

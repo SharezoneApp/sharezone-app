@@ -149,7 +149,7 @@ class _Subject extends StatelessWidget {
             textInputAction: TextInputAction.next,
             onChanged: bloc.changeSubject,
             onEditingComplete: () =>
-                FocusScope.of(context).requestFocus(nextFocusNode),
+                FocusManager.instance.primaryFocus?.unfocus(),
           ),
         );
       },
@@ -172,8 +172,7 @@ class _Abbreviation extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: abbreviation,
       focusNode: focusNode,
-      onEditingComplete: () =>
-          FocusScope.of(context).requestFocus(nextFocusNode),
+      onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       textInputAction: TextInputAction.next,
       onChanged: bloc.changeAbbreviation,
       decoration: const InputDecoration(

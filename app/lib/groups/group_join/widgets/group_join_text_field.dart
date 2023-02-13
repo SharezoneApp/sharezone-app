@@ -59,7 +59,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             ),
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: Colors.white, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+                primaryColor: Colors.white,
+                colorScheme:
+                    ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLength: 6,
@@ -139,7 +141,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   void _openKeyboardForSharecodeField() {
-    FocusScope.of(context).requestFocus(sharecodeFieldFocusNode);
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   Future<void> showCopySharecodeFromClipboardDialog(Sharecode sharecode) async {
