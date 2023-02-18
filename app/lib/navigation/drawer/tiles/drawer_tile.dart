@@ -13,7 +13,6 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/theme.dart';
 
 import '../drawer_controller.dart';
@@ -107,6 +106,7 @@ class DrawerTile extends StatelessWidget {
           // The code below can be reintroduced when the following bug is fixed:
           // https://github.com/flutter/flutter/issues/120874
 
+          // final dimensions = Dimensions.fromMediaQuery(context);
           // if (!dimensions.isDesktopModus) return child;
           //
           //
