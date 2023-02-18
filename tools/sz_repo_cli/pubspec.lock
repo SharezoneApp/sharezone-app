@@ -397,26 +397,26 @@ packages:
     dependency: "direct main"
     description:
       name: test
-      sha256: de3ca3495ab15223b921cb9372fe54abfb9a273a32f673f7ca0e0e7b07129d1b
+      sha256: "5301f54eb6fe945daa99bc8df6ece3f88b5ceaa6f996f250efdaaf63e22886be"
       url: "https://pub.dev"
     source: hosted
-    version: "1.21.4"
+    version: "1.23.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: b882da9bdac8e6a846796a411b13c233cd5dfd03713888225e551cf27632acdb
+      sha256: "6182294da5abf431177fccc1ee02401f6df30f766bc6130a0852c6b6d7ee6b2d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.12"
+    version: "0.4.18"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: "3f14367ebf05fcd5811d7ded583bbc93d80a12da9ad567d812f2466ef8df3bd1"
+      sha256: d2e9240594b409565524802b84b7b39341da36dd6fd8e1660b53ad928ec3e9af
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.16"
+    version: "0.4.24"
   typed_data:
     dependency: transitive
     description:
@@ -482,4 +482,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.16.0 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"

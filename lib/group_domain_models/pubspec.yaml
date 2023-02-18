@@ -28,6 +28,6 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  test: any
+  test: ^1.22.0
   flutter_test:
     sdk: flutter
