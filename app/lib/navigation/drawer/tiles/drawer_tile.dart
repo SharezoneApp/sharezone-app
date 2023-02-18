@@ -63,7 +63,6 @@ class DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    final dimensions = Dimensions.fromMediaQuery(context);
 
     final title = this.title ?? navigationItem.getName();
     final icon = this.icon ?? navigationItem.getIcon();
@@ -99,13 +98,23 @@ class DrawerTile extends StatelessWidget {
             );
           }
 
-          if (!dimensions.isDesktopModus) return child;
+          return child;
 
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            key: ValueKey(tag),
-            child: child,
-          );
+          // A Flutter regression results in the `AnimatedSwitcher` causing
+          // errors in the Flutter rendering code when changing pages in desktop
+          // mode via the permanent drawer.
+          //
+          // The code below can be reintroduced when the following bug is fixed:
+          // https://github.com/flutter/flutter/issues/120874
+
+          // if (!dimensions.isDesktopModus) return child;
+          //
+          //
+          // return AnimatedSwitcher(
+          //   duration: const Duration(milliseconds: 300),
+          //   key: ValueKey(tag),
+          //   child: child,
+          // );
         });
   }
 
