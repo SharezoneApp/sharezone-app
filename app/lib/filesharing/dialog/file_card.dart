@@ -16,7 +16,7 @@ import 'package:sharezone_widgets/widgets.dart';
 Future<void> showRemoveFileFromBlocDialog(
     {@required BuildContext context,
     @required VoidCallback removeFileFromBlocMethod}) async {
-  FocusScope.of(context).requestFocus(FocusNode()); // Closing keyboard
+  FocusManager.instance.primaryFocus?.unfocus(); // Closing keyboard
   await Future.delayed(const Duration(milliseconds: 200));
 
   showDialog(

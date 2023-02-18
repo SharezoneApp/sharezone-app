@@ -106,7 +106,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
 
   Future<void> delayKeyboard(BuildContext context) async {
     Future.delayed(const Duration(milliseconds: 150));
-    FocusScope.of(context).requestFocus(focusNode);
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override

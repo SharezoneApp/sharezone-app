@@ -141,7 +141,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   void _openKeyboardForSharecodeField() {
-    FocusScope.of(context).requestFocus(sharecodeFieldFocusNode);
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   Future<void> showCopySharecodeFromClipboardDialog(Sharecode sharecode) async {

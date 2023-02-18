@@ -31,7 +31,7 @@ class CourseTile extends StatelessWidget {
   Future<void> onTap(BuildContext context) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
 
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
     await Future.delayed(const Duration(milliseconds: 150));
 
     _showCourseListDialog(context, api);

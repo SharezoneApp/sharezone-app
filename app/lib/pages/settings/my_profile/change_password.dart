@@ -35,7 +35,7 @@ class ChangePasswordPage extends StatelessWidget {
                   labelText: "Aktuelles Passwort",
                   autofocus: true,
                   onEditComplete: () =>
-                      FocusScope.of(context).requestFocus(newPasswordNode)),
+                      FocusManager.instance.primaryFocus?.unfocus()),
               const SizedBox(height: 16),
               _NewPasswordField(newPasswordNode: newPasswordNode),
               const SizedBox(height: 16),
