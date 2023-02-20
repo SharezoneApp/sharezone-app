@@ -236,7 +236,7 @@ class _SchoolClassAvatarCard extends StatelessWidget {
           children: <Widget>[
             Text(
               schoolClass.name,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),

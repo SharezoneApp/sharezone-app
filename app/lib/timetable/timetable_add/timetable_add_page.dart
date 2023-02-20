@@ -390,7 +390,7 @@ class _TimetableAddSection extends StatelessWidget {
                   title,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),

@@ -30,7 +30,7 @@ class GroupMeetingButton extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 16, top: 16),
                   child: Text(
                     "Videokonferenz",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 _MeetingDisabledListTile(),

@@ -50,7 +50,7 @@ class HomeworkTileTemplate extends StatelessWidget {
               maxLines: 2,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   .apply(fontSizeFactor: 1.1),
             ),
           ),

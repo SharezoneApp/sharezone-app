@@ -235,7 +235,7 @@ class _Text extends StatelessWidget {
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(
-              bodyText2: TextStyle(
+              bodyMedium: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
                 fontFamily: rubik,
@@ -298,7 +298,7 @@ class BottomActionBar extends StatelessWidget {
               TextButton(
                 child: const Text('ALS GELESEN MARKIEREN'),
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
                   analytics.log(NamedAnalyticsEvent(name: "blackboard_read"));

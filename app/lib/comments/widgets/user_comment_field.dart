@@ -65,7 +65,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
         maxLines: null,
         onChanged: (s) => text = s,
         textInputAction: TextInputAction.newline,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

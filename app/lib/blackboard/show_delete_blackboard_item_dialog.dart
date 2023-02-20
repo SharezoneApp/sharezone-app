@@ -63,7 +63,7 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
         popResult: AttachmentOperation.delete,
         isDefaultAction: true,
         isDestructiveAction: true,
-        textColor: Theme.of(context).errorColor,
+        textColor: Theme.of(context).colorScheme.error,
       ),
     ],
   );

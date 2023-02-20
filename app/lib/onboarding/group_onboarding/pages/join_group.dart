@@ -62,8 +62,7 @@ class _FinishButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
-        primary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
       ),
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {

@@ -49,9 +49,7 @@ class _EnterActivationCodePage extends StatelessWidget {
 
 class _EnterActivationCodeAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const _EnterActivationCodeAppBar({Key key, this.withBackIcon = true})
-      : super(key: key);
-  final bool withBackIcon;
+  const _EnterActivationCodeAppBar({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,6 @@ class _EnterActivationCodeAppBar extends StatelessWidget
         "Aktivierungscode eingeben",
         style: TextStyle(color: Colors.white),
       ),
-      automaticallyImplyLeading: withBackIcon,
       centerTitle: true,
       backgroundColor:
           isDarkThemeEnabled(context) ? null : Theme.of(context).primaryColor,

@@ -325,7 +325,7 @@ class _TimetableAddSection extends StatelessWidget {
               Text(title,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 20)),
               const SizedBox(height: 20),
               child

@@ -67,7 +67,7 @@ class _List extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 16, top: 16),
-          child: Text("Kurse", style: Theme.of(context).textTheme.headline6),
+          child: Text("Kurse", style: Theme.of(context).textTheme.titleLarge),
         ),
         const SizedBox(height: 4),
         for (final course in courses)

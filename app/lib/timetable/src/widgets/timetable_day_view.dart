@@ -235,7 +235,7 @@ class _AppBar extends StatelessWidget {
         CloseIconButton(color: _getIconColor(context)),
       ],
       title: Text("Stunde hinzufügen",
-          style: Theme.of(context).textTheme.headline6),
+          style: Theme.of(context).textTheme.titleLarge),
     );
   }
 }

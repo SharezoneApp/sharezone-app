@@ -14,6 +14,7 @@ import 'package:sharezone/blackboard/blackboard_card.dart';
 import 'package:sharezone/blackboard/blackboard_dialog.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
+import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -22,9 +23,6 @@ import 'package:sharezone_widgets/placeholder.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
 import 'package:sharezone_widgets/widgets.dart';
-
-import 'blackboard_dialog.dart';
-import 'details/blackboard_details.dart';
 
 /// Open the blackboard page and returns true, if the user added a blackboard item
 Future<bool> openBlackboardDialogAndShowConfirmationIfSuccessful(

@@ -48,7 +48,7 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
                                   color: isDarkThemeEnabled(context)
                                       ? Theme.of(context)
                                           .textTheme
-                                          .headline6
+                                          .titleLarge
                                           .color
                                       : Theme.of(context)
                                           .appBarTheme

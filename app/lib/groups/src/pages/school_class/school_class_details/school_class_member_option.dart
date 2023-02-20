@@ -180,7 +180,7 @@ class _LeaveCourse extends StatelessWidget {
     return TextButton(
       child: Text("SCHULKLASSE VERLASSEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -208,7 +208,7 @@ class _KickUser extends StatelessWidget {
     return TextButton(
       child: const Text("AUS DER SCHULKLASSE KICKEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: isAdmin
           ? () {

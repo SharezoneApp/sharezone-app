@@ -136,14 +136,14 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
   }
 }
 
-class CancleButton extends StatelessWidget {
-  const CancleButton();
+class CancelButton extends StatelessWidget {
+  const CancelButton();
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColor,
       ),
       onPressed: () => Navigator.pop(context),
       child: const Text("ABBRECHEN"),
@@ -151,8 +151,9 @@ class CancleButton extends StatelessWidget {
   }
 }
 
-class DeleteButtonWithPopingTrue extends StatelessWidget {
-  const DeleteButtonWithPopingTrue({Key key, this.textColor}) : super(key: key);
+class DeleteButtonWithPoppingTrue extends StatelessWidget {
+  const DeleteButtonWithPoppingTrue({Key key, this.textColor})
+      : super(key: key);
 
   final Color textColor;
 
@@ -160,7 +161,7 @@ class DeleteButtonWithPopingTrue extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: textColor ?? Colors.red,
+        foregroundColor: textColor ?? Colors.red,
       ),
       onPressed: () => Navigator.pop(context, true),
       child: const Text("LÖSCHEN"),
@@ -275,22 +276,18 @@ class DialogTile extends StatelessWidget {
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
     Key key,
-    this.child,
     this.iconData,
     this.labelText,
     this.valueText,
-    this.valueStyle,
     this.onPressed,
     this.padding,
   }) : super(key: key);
 
   final String labelText;
   final String valueText;
-  final TextStyle valueStyle;
 
   final VoidCallback onPressed;
   final IconData iconData;
-  final Widget child;
   final EdgeInsets padding;
 
   @override
@@ -299,9 +296,8 @@ class _InputDropdown extends StatelessWidget {
       onTap: onPressed,
       child: InputDecorator(
         decoration: InputDecoration(
-//          labelText: labelText,
-            border: InputBorder.none),
-        baseStyle: valueStyle,
+          border: InputBorder.none,
+        ),
         child: Padding(
           padding: padding ?? const EdgeInsets.all(0),
           child: Row(
@@ -325,7 +321,7 @@ class _InputDropdown extends StatelessWidget {
                               labelText,
                               style: TextStyle(fontSize: 16.0),
                             ),
-                            Text(valueText, style: valueStyle),
+                            Text(valueText),
                           ],
                         )
                       : Text(
@@ -469,7 +465,6 @@ class CustomCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: borderRadius,
-                // border: Border.all(color: isDarkThemeEnabled(context) ? Colors.grey[800] : Colors.grey[300]),
                 border: withBorder
                     ? Border.all(
                         color: isDarkThemeEnabled(context)
@@ -681,7 +676,7 @@ class InformationDialog extends StatelessWidget {
                   TextButton(
                     child: Text(actionText),
                     style: TextButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
+                      foregroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context),
                   )
@@ -916,7 +911,7 @@ class CustomCardListTile extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
                   if (isNotEmptyOrNull(subtitle)) ...[

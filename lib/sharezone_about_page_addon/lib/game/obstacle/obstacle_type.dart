@@ -20,9 +20,6 @@ class ObstacleType {
     required this.multipleSpeed,
     required this.minGap,
     required this.minSpeed,
-    this.numFrames,
-    this.frameRate,
-    this.speedOffset,
     required this.collisionBoxes,
   });
 
@@ -33,9 +30,6 @@ class ObstacleType {
   final int multipleSpeed;
   final double minGap;
   final double minSpeed;
-  final int? numFrames;
-  final double? frameRate;
-  final double? speedOffset;
 
   final List<CollisionBox> collisionBoxes;
 

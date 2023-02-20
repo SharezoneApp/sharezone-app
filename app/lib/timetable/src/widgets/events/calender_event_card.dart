@@ -51,7 +51,7 @@ class CalenderEventCard extends StatelessWidget {
                 _Title(title: view.title),
                 const SizedBox(height: 6),
                 Text(view.dateText,
-                    style: TextStyle(color: Theme.of(context).errorColor))
+                    style: TextStyle(color: Theme.of(context).colorScheme.error))
               ],
             ),
           ),

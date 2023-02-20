@@ -31,7 +31,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
       context: context, builder: (context) => _SelectTypeDialog(bloc: bloc));
 
   if (selectTypePopResult != null) {
-    final initalDesign = selectTypePopResult.initalDesign;
+    final initalDesign = selectTypePopResult.initialDesign;
 
     final selectDesignPopResult = await _selectDesign(context, initalDesign,
         type: selectTypePopResult.editDesignType);
