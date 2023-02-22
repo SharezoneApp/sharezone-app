@@ -165,6 +165,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Build Android App
+        working-directory: ./app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
