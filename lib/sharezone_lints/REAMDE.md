@@ -17,7 +17,7 @@ To use `sharezone_lints`, follow these instructions:
 1. Add it to your dev_dependencies:
 ```yaml
 dev_dependencies:
-  family_lint:
+  sharezone_lints:
    path: ../packages/sharezone_lints
 ```
 Note: You may need to change the path to the package.
