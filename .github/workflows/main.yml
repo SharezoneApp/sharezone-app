@@ -163,6 +163,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Build Android App
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
       
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -213,7 +219,7 @@ jobs:
           # app takes more than 12 minutes... It seems so that there is no way to
           # set the timeout (the --timeout argument has not effect). Tracking
           # issue: https://github.com/flutter/flutter/issues/105913
-          script: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
     # It seems so that our integration tests are not working `macos-12`. The
