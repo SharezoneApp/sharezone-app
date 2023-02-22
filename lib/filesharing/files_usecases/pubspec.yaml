@@ -35,7 +35,14 @@ dependencies:
   flutter_image_compress: 1.1.0
   image_picker: ^0.8.1+4
   mime: any
-  pdfx: ^2.3.0
+  # We need to use the reference to git because of this issue in pdfx:
+  # https://github.com/ScerIO/packages.flutter/issues/358.
+  # 
+  # Can be removed once the issue is fixed.
+  pdfx:
+    git:
+      url: https://github.com/kyle-seongwoo-jun/packages.flutter
+      path: packages/pdfx
   # We need to use the reference to git until open_file 3.2.2 is published.
   open_file:
     git:
