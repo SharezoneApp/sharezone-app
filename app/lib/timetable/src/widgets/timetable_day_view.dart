@@ -11,10 +11,10 @@ import 'package:date/date.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_selection_bloc.dart';
@@ -235,7 +235,7 @@ class _AppBar extends StatelessWidget {
         CloseIconButton(color: _getIconColor(context)),
       ],
       title: Text("Stunde hinzufügen",
-          style: Theme.of(context).textTheme.headline6),
+          style: Theme.of(context).textTheme.titleLarge),
     );
   }
 }
@@ -329,10 +329,8 @@ class _QuickCreateCourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasCreatorPermissions = requestPermission(
-      role: course.myRole,
-      permissiontype: PermissionAccessType.courseEdit,
-    );
+    final hasCreatorPermissions =
+        course.myRole.hasPermission(GroupPermission.contentCreation);
     return ListTile(
       enabled: hasCreatorPermissions,
       title: Text(course.name),

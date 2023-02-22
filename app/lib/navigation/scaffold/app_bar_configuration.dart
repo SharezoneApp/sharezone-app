@@ -56,7 +56,7 @@ class _AppBarTitle extends StatelessWidget {
     return Text(
       NavigationItem.overview.getName(),
       style:
-          Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+          Theme.of(context).textTheme.titleLarge.copyWith(color: Colors.white),
       key: const ValueKey('dashboard-appbar-title-E2E'),
     );
   }

@@ -331,15 +331,7 @@ class _Chip extends StatelessWidget {
     @required this.controller,
     @required this.navigationItem,
     @required this.currentNavigationItem,
-    this.title,
-    this.icon,
   }) : super(key: key);
-
-  /// Default is [navigationItem.getName()]
-  final String title;
-
-  /// Default is [navigationItem.getIcon()]
-  final Widget icon;
 
   /// [PanelController] is from the "sliding_up_panel" and is needed to close
   /// the [ExtendableBottomNavigationBar], when the chip is tapped.
@@ -379,7 +371,7 @@ class _Chip extends StatelessWidget {
                 IconTheme(
                   data:
                       context.theme.iconTheme.copyWith(color: color, size: 20),
-                  child: icon ?? navigationItem.getIcon(),
+                  child: navigationItem.getIcon(),
                 ),
                 const SizedBox(width: 6),
                 Expanded(
@@ -387,7 +379,7 @@ class _Chip extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Center(
                       child: AutoSizeText(
-                        title ?? navigationItem.getName(),
+                        navigationItem.getName(),
                         style: TextStyle(color: color),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -154,7 +154,7 @@ class _MoreIdeas extends StatelessWidget {
         style: TextStyle(
             color: Theme.of(context)
                 .textTheme
-                .bodyText2
+                .bodyMedium
                 .color
                 .withOpacity(opacity)),
       ),

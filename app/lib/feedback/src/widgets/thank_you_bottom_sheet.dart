@@ -57,7 +57,7 @@ class ThankYouBottomSheetChild extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 "Vielen Dank für dein Feedback!",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ),

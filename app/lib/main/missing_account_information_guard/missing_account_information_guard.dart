@@ -81,7 +81,7 @@ class _SignOutButton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
       child: TextButton(
         style: TextButton.styleFrom(
-          primary: Theme.of(context).errorColor,
+          foregroundColor: Theme.of(context).colorScheme.error,
         ),
         onPressed: bloc.logOut,
         child: const Text("ABMELDEN"),

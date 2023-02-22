@@ -107,7 +107,7 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
           TextButton(
             key: left.key,
             style: TextButton.styleFrom(
-              primary: left.textColor ?? Theme.of(context).primaryColor,
+              foregroundColor: left.textColor ?? Theme.of(context).primaryColor,
             ),
             onPressed: left.onPressed != null
                 ? left.onPressed
@@ -118,7 +118,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
           TextButton(
             key: right.key,
             style: TextButton.styleFrom(
-              primary: right.textColor ?? Theme.of(context).primaryColor,
+              foregroundColor:
+                  right.textColor ?? Theme.of(context).primaryColor,
             ),
             onPressed: right.onPressed != null
                 ? right.onPressed

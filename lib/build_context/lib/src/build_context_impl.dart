@@ -72,7 +72,7 @@ extension ThemeExt on BuildContext {
 
   BottomSheetThemeData get bottomSheetTheme => Theme.of(this).bottomSheetTheme;
 
-  Color get backgroundColor => Theme.of(this).backgroundColor;
+  Color get backgroundColor => Theme.of(this).colorScheme.background;
 
   Color get primaryColor => Theme.of(this).primaryColor;
 

@@ -153,7 +153,7 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           autofocus: true,
           autofillHints: const [AutofillHints.email],
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(widget.passwordNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Neu",

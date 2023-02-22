@@ -182,14 +182,14 @@ class _MoveFileBottomBar extends StatelessWidget {
             children: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).errorColor,
+                  foregroundColor: Theme.of(context).colorScheme.error,
                 ),
                 child: Text("Abbrechen".toUpperCase()),
                 onPressed: () => Navigator.pop(context),
               ),
               TextButton(
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                 ),
                 child: Text("Verschieben".toUpperCase()),
                 onPressed: isMoveFileAllowed

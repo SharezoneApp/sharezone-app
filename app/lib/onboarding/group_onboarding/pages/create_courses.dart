@@ -80,7 +80,7 @@ class _CreateCustomCourse extends StatelessWidget {
           Headline("Dein Kurs ist nicht dabei?"),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.lightBlueAccent,
+              backgroundColor: Colors.lightBlueAccent,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),

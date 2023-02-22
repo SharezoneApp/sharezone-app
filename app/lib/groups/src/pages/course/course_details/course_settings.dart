@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/write_permission_options.dart';
-import 'package:sharezone/groups/src/widgets/meeting/is_group_meeting_enabled_switch.dart';
 import 'package:sharezone_widgets/state_sheet.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
@@ -37,8 +36,6 @@ class CourseSettingsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _IsPublic(isPublic: courseSettings.isPublic),
-          _IsGroupMeetingEnabledSwitch(
-              isMeetingEnabled: courseSettings.isMeetingEnabled),
           WritePermissions(
             initalWritePermission: course.settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
@@ -46,25 +43,6 @@ class CourseSettingsCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _IsGroupMeetingEnabledSwitch extends StatelessWidget {
-  const _IsGroupMeetingEnabledSwitch({Key key, @required this.isMeetingEnabled})
-      : super(key: key);
-
-  final bool isMeetingEnabled;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    return IsGroupMeetingEnbaldedSwitch(
-      isMeetingEnabled: isMeetingEnabled,
-      onChanged: (newValue) {
-        final setFuture = bloc.setIsGroupMeetingEnabled(newValue);
-        showAppFunctionStateDialog(context, setFuture);
-      },
     );
   }
 }

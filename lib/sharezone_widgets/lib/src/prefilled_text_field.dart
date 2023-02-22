@@ -58,10 +58,10 @@ class PrefilledTextField extends StatefulWidget {
   /// [StatefulWidget] parent. See [FocusNode] for more information.
   ///
   /// To give the keyboard focus to this widget, provide a [focusNode] and then
-  /// use the current [FocusScope] to request the focus:
+  /// use the [FocusManager] to request the focus:
   ///
   /// ```dart
-  /// FocusScope.of(context).requestFocus(myFocusNode);
+  /// FocusManager.instance.primaryFocus?.unfocus();
   /// ```
   ///
   /// This happens automatically when the widget is tapped.

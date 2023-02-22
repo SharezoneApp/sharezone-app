@@ -308,7 +308,7 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
           ],
         ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.lightBlueAccent,
+          backgroundColor: Colors.lightBlueAccent,
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

@@ -96,8 +96,9 @@ class DeployWebAppCommand extends Command {
 
     try {
       await runProcessSucessfullyOrThrow(
-        'flutter',
+        'fvm',
         [
+          'flutter',
           'build',
           'web',
           '--release',

@@ -24,7 +24,7 @@ dependencies:
     path: ../lib/analytics
   animated_stream_list: ^1.1.0
   animations: ^2.0.1
-  animator: ^3.1.0
+  animator: ^3.2.0
   app_functions:
     path: ../lib/app_functions
   app_review: ^2.0.1
@@ -33,7 +33,7 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^2.1.0
-  barcode_scan: ^2.0.2
+  barcode_scan2: ^4.2.3
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
@@ -88,8 +88,9 @@ dependencies:
     path: ../lib/group_domain_models
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
+  holidays:
+    path: ../lib/holidays
   intl: ^0.17.0
-  jitsi_meet_wrapper: ^0.0.5
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
@@ -98,13 +99,16 @@ dependencies:
   notifications:
     path: ../lib/notifications
   numberpicker: ^2.1.1
-  open_file: ^3.0.3
+  # We need to use the reference to git until open_file 3.2.2 is published.
+  open_file:
+    git:
+      url: https://github.com/crazecoder/open_file
   optional: ^4.1.0
   overlay_support: ^1.0.5
-  package_info_plus: ^1.0.4
-  permission_handler: ^8.1.2
-  photo_view: ^0.12.0
-  provider: ^5.0.0
+  package_info_plus: ^1.4.3+1
+  permission_handler: ^10.2.0
+  photo_view: ^0.14.0
+  provider: ^6.0.3
   purchases_flutter: ^3.4.5
   qr_flutter: ^4.0.0
   quiver: ^3.0.1
@@ -124,8 +128,8 @@ dependencies:
   showcaseview: ^1.1.1
   sliding_up_panel:
     git:
-      url: https://github.com/AndroidNils/sliding_up_panel
-      ref: animation-listener
+      url: https://github.com/nilsreichardt/sliding_up_panel
+      ref: animation-listener-null-safety
   streaming_shared_preferences: ^2.0.0
   string_similarity: ^2.0.0
   time:
@@ -155,7 +159,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.0.7
   random_string: ^2.0.1
-  test: ^1.16.8
+  test: ^1.22.0
 
 flutter:
   uses-material-design: true

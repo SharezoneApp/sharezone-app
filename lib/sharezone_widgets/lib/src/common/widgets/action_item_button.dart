@@ -22,7 +22,7 @@ class ActionItemButton extends StatelessWidget {
         icon: Icon(item.iconData, color: item.textColor),
         onPressed: item.onSelect,
         style: TextButton.styleFrom(
-          primary: item.textColor ?? Theme.of(context).primaryColor,
+          foregroundColor: item.textColor ?? Theme.of(context).primaryColor,
           backgroundColor: item.color,
         ),
         label: Text(item.title.toUpperCase()),
@@ -31,7 +31,7 @@ class ActionItemButton extends StatelessWidget {
       return TextButton(
         onPressed: item.onSelect,
         style: TextButton.styleFrom(
-          primary: item.textColor ?? Theme.of(context).primaryColor,
+          foregroundColor: item.textColor ?? Theme.of(context).primaryColor,
           backgroundColor: item.color,
         ),
         child: Text(item.title.toUpperCase()),

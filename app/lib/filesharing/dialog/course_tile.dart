@@ -9,9 +9,9 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone_widgets/widgets.dart';
@@ -31,7 +31,7 @@ class CourseTile extends StatelessWidget {
   Future<void> onTap(BuildContext context) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
 
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
     await Future.delayed(const Duration(milliseconds: 150));
 
     _showCourseListDialog(context, api);
@@ -97,10 +97,8 @@ class _CourseList extends StatelessWidget {
     _sortCourseListByAlphabet(courseList);
     return Column(
       children: courseList.map((course) {
-        final enabled = requestPermission(
-          role: course.myRole,
-          permissiontype: PermissionAccessType.creator,
-        );
+        final enabled =
+            course.myRole.hasPermission(GroupPermission.contentCreation);
         return Theme(
           data: Theme.of(context)
               .copyWith(primaryColor: course.getDesign().color),

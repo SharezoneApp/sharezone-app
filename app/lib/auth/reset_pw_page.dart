@@ -184,7 +184,7 @@ class _SubmitButton extends StatelessWidget {
         child: ContinueRoundButton(
           tooltip: 'Passwort zurücksetzen',
           onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
+            FocusManager.instance.primaryFocus?.unfocus();
             sendDataToFrankfurtSnackBar(context);
             snapshot.hasData && snapshot.data == true
                 ? bloc

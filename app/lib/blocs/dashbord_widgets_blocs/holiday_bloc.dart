@@ -7,25 +7,26 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
 import 'package:bloc_base/bloc_base.dart';
+import 'package:holidays/holidays.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/state.dart';
 import 'package:user/user.dart';
 
 class HolidayBloc extends BlocBase {
   // Siehe Kommentar dazu in dispose()
   // ignore: close_sinks
   final _holidays = BehaviorSubject<List<Holiday>>();
-  final HolidayManager holidayManager;
+  final HolidayService holidayManager;
   DateTime Function() getCurrentTime;
   Stream<List<Holiday>> get holidays => _holidays;
 
   final HolidayStateGateway stateGateway;
   Stream<StateEnum> get userState => stateGateway.userState;
+  Stream<bool> get hasStateSelected =>
+      userState.map((state) => state != null && state != StateEnum.notSelected);
   Future<void> Function(StateEnum state) get changeState =>
       stateGateway.changeState;
 

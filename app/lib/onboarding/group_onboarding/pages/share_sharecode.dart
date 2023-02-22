@@ -143,11 +143,12 @@ class _LoadingSharecodeBox extends StatelessWidget {
 }
 
 class _SharecodeBox extends StatelessWidget {
-  const _SharecodeBox({Key key, @required this.groupInfo, this.enabled})
-      : super(key: key);
+  const _SharecodeBox({
+    Key key,
+    @required this.groupInfo,
+  }) : super(key: key);
 
   final GroupInfo groupInfo;
-  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +216,8 @@ class _FinsihButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
-        primary: Colors.white,
       ),
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {

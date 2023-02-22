@@ -47,14 +47,14 @@ class _DashboardTipCard extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                primary: darkBlueColor, // foreground
+                foregroundColor: darkBlueColor, // foreground
               ),
               child: const Text("SCHLIEßEN"),
               onPressed: () => dashboardTip.markAsShown(),
             ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: darkBlueColor, // foreground
+                foregroundColor: darkBlueColor, // foreground
               ),
               child: Text(dashboardTip.action.title.toUpperCase()),
               onPressed: () {

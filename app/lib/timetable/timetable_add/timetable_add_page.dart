@@ -12,8 +12,8 @@ import 'package:date/weektype.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -390,7 +390,7 @@ class _TimetableAddSection extends StatelessWidget {
                   title,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),

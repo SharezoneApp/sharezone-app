@@ -60,14 +60,14 @@ class LeaveEditedFormAlert extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: Text('NEIN!'),
           onPressed: () => Navigator.of(context).pop(false),
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: Text('JA, VERLASSEN!'),
           onPressed: () => Navigator.of(context).pop(true),
@@ -106,7 +106,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
 
   Future<void> delayKeyboard(BuildContext context) async {
     Future.delayed(const Duration(milliseconds: 150));
-    FocusScope.of(context).requestFocus(focusNode);
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override
@@ -146,13 +146,13 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
         TextButton(
           child: const Text("ABBRECHEN"),
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: Text(widget.actionName),
           onPressed: () {

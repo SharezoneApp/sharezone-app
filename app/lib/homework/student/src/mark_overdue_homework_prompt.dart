@@ -60,7 +60,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 "Alle überfälligen Hausaufgaben abhaken?",
-                style: textTheme.headline6.apply(fontSizeFactor: 0.9),
+                style: textTheme.titleLarge.apply(fontSizeFactor: 0.9),
                 textAlign: TextAlign.center,
               ),
             ),
