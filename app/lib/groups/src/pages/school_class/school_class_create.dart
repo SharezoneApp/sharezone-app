@@ -77,7 +77,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
               Text(
                 errorTextForUser,
                 style: TextStyle(
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                   fontSize: 14,
                 ),
               ),
@@ -88,10 +88,10 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       actions: isLoading
           ? <Widget>[LoadingCircle()]
           : <Widget>[
-              CancleButton(),
+              CancelButton(),
               TextButton(
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   child: const Text("ERSTELLEN"),
                   onPressed: className.isEmpty

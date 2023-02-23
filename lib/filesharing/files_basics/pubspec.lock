@@ -5,21 +5,24 @@ packages:
     dependency: "direct main"
     description:
       name: meta
-      url: "https://pub.dartlang.org"
+      sha256: f7864e34beedecdb7079e9f31000d01dd09f98f5061de0c692f7e2041771093c
+      url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
   mime:
     dependency: "direct main"
     description:
       name: mime
-      url: "https://pub.dartlang.org"
+      sha256: a7a98ea7f366e2cc9d2b20873815aebec5e2bc124fe0da9d3f7f59b0625ea180
+      url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
   path:
     dependency: "direct main"
     description:
       name: path
-      url: "https://pub.dartlang.org"
+      sha256: "77ab9b015de381f5afddaeaae9a88295062e005581544241e5b364b583cb010a"
+      url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
 sdks:

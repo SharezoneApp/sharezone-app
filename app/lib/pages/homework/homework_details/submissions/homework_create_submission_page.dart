@@ -440,7 +440,7 @@ class __RenameDialogState extends State<_RenameDialog> {
         },
       ),
       actions: <Widget>[
-        CancleButton(),
+        CancelButton(),
         TextButton(
           onPressed: error == null
               ? () {
@@ -449,7 +449,7 @@ class __RenameDialogState extends State<_RenameDialog> {
                 }
               : null,
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: const Text("UMBENENNEN"),
         )

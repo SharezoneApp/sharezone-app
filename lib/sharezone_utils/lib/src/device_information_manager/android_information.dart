@@ -31,7 +31,6 @@ class AndroidDeviceInformation {
     required this.tags,
     required this.type,
     required this.isPhysicalDevice,
-    required this.androidId,
   })  : supported32BitAbis = List<String>.unmodifiable(supported32BitAbis),
         supported64BitAbis = List<String>.unmodifiable(supported64BitAbis),
         supportedAbis = List<String>.unmodifiable(supportedAbis);
@@ -92,9 +91,6 @@ class AndroidDeviceInformation {
 
   /// `false` if the application is running in an emulator, `true` otherwise.
   final bool? isPhysicalDevice;
-
-  /// The Android hardware device ID that is unique between the device + user and app signing.
-  final String? androidId;
 }
 
 class AndroidBuildVersion {

@@ -213,7 +213,7 @@ class _Avatar extends StatelessWidget {
         avatarText,
         style: TextStyle(color: Colors.white),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       radius: 18,
     );
   }

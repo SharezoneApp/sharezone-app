@@ -17,7 +17,6 @@ final darkTheme = ThemeData(
 
   // Colors
   primaryColor: primaryColor,
-  toggleableActiveColor: _accentColor,
   unselectedWidgetColor: _accentColor,
   cardColor: ElevationColors.dp0,
   indicatorColor: Colors.amberAccent,
@@ -39,7 +38,8 @@ final darkTheme = ThemeData(
     backgroundColor: _accentColor,
     foregroundColor: Colors.white,
   ),
-  textTheme: TextTheme().copyWith(headline4: TextStyle(color: Colors.white)),
+  textTheme:
+      TextTheme().copyWith(headlineMedium: TextStyle(color: Colors.white)),
   pageTransitionsTheme: _pageTransitionsTheme,
   snackBarTheme: _snackBarTheme.copyWith(
     contentTextStyle: TextStyle(
@@ -51,6 +51,52 @@ final darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: _accentColor, brightness: Brightness.dark),
   tabBarTheme: TabBarTheme(labelColor: Colors.white),
+  checkboxTheme: CheckboxThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return _accentColor;
+      }
+      return null;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return _accentColor;
+      }
+      return null;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return _accentColor;
+      }
+      return null;
+    }),
+    trackColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return _accentColor;
+      }
+      return null;
+    }),
+  ),
 );
 
 bool isDarkThemeEnabled(BuildContext context) =>

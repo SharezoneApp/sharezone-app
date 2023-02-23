@@ -68,7 +68,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
       todoDate: widget.homework.todoDate,
       todoDateColor: widget.homework.colorDate
           ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyText2.color,
+          : Theme.of(context).textTheme.bodyMedium.color,
       onTap: () => _showHomeworkDetails(context),
       onLongPress: () => _showLongPressDialog(context),
       key: Key(widget.homework.id),

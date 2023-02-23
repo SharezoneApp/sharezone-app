@@ -403,7 +403,7 @@ class EmailLoginField extends StatelessWidget {
           focusNode: emailFocusNode,
           onChanged: (email) => onChanged(email.trim()),
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(passwordFocusNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,

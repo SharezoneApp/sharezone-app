@@ -10,10 +10,10 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
@@ -325,7 +325,7 @@ class _TimetableAddSection extends StatelessWidget {
               Text(title,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 20)),
               const SizedBox(height: 20),
               child

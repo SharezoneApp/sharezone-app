@@ -1,0 +1,38 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: holidays
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+
+publish_to: none
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  # Needed to run holiday_api_test.dart
+  flutter: ">=1.17.0 <2.0.0"
+
+dependencies:
+  built_collection: ^5.1.0
+  built_value: ^8.1.1
+  http: ^0.13.3
+  key_value_store:
+    path: ../key_value_store
+  cloud_functions: ^3.0.4
+  app_functions:
+    path: ../app_functions
+
+dev_dependencies:
+  # Needed to run holiday_api_test.dart
+  flutter:
+    sdk: flutter
+  mockito: ^5.0.7
+  build_runner: ^2.1.4
+  built_value_generator: ^8.1.1
+  lints: ^1.0.0
+  test: ^1.22.0

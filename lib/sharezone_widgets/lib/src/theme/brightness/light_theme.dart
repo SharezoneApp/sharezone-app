@@ -18,8 +18,6 @@ final lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   highlightColor: PlatformCheck.isIOS ? const Color(0x66BCBCBC) : null,
   splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
-  toggleableActiveColor: primaryColor,
-  errorColor: Colors.red,
 
   // Font
   fontFamily: rubik,
@@ -45,6 +43,53 @@ final lightTheme = ThemeData(
   snackBarTheme: _snackBarTheme,
   bottomSheetTheme: _bottomSheetTheme,
   dialogTheme: _dialogTheme,
+  checkboxTheme: CheckboxThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+    trackColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
   colorScheme: ColorScheme.fromSwatch()
-      .copyWith(secondary: Colors.grey[600], brightness: Brightness.light),
+      .copyWith(secondary: Colors.grey[600], brightness: Brightness.light)
+      .copyWith(error: Colors.red),
 );

@@ -8,25 +8,28 @@
 
 import "package:pointycastle/export.dart" as pointycastle;
 import 'package:encrypt/encrypt.dart';
-import 'package:meta/meta.dart';
 import 'package:util/src/encryption/rsa_pem.dart';
 
 class RSAEncryptable {
   final pointycastle.RSAPublicKey _publicKey;
-  final pointycastle.RSAPrivateKey _privateKey;
+  final pointycastle.RSAPrivateKey? _privateKey;
   RSAEncryptable._(this._privateKey, this._publicKey);
 
   RSAEncryptable.fromPointCastleObjects(this._privateKey, this._publicKey);
 
-  factory RSAEncryptable.fromPublicKey({@required String publicKey}) {
+  factory RSAEncryptable.fromPublicKey({required String publicKey}) {
     final parsedPublicKey = RSAKeyParser().parse(publicKey);
-    return RSAEncryptable._(null, parsedPublicKey);
+    return RSAEncryptable._(null, parsedPublicKey as pointycastle.RSAPublicKey);
   }
 
-  factory RSAEncryptable({String publicKey, String privateKey}) {
+  factory RSAEncryptable(
+      {required String publicKey, required String privateKey}) {
     final parsedPublicKey = RSAKeyParser().parse(publicKey);
     final parsedPrivateKey = RSAKeyParser().parse(privateKey);
-    return RSAEncryptable._(parsedPrivateKey, parsedPublicKey);
+    return RSAEncryptable._(
+      parsedPrivateKey as pointycastle.RSAPrivateKey?,
+      parsedPublicKey as pointycastle.RSAPublicKey,
+    );
   }
 
   static Future<RSAEncryptable> generateFromRsaKeyGenerator() async {
@@ -38,14 +41,17 @@ class RSAEncryptable {
   }
 
   Encrypter get _encrypter {
-    return Encrypter(RSA(
+    return Encrypter(
+      RSA(
         publicKey: _publicKey,
         privateKey: _privateKey,
-        encoding: RSAEncoding.OAEP));
+        encoding: RSAEncoding.OAEP,
+      ),
+    );
   }
 
   getPrivateKeyPemString() {
-    return RsaKeyHelper().encodePrivateKeyToPem(_privateKey);
+    return RsaKeyHelper().encodePrivateKeyToPem(_privateKey!);
   }
 
   getPublicKeyPemString() {
@@ -69,6 +75,9 @@ class RSAKeyGenerator {
 
   factory RSAKeyGenerator.generate() {
     final keyPair = RsaKeyHelper().generateKeyPair();
-    return RSAKeyGenerator._(keyPair.privateKey, keyPair.publicKey);
+    return RSAKeyGenerator._(
+      keyPair.privateKey as pointycastle.RSAPrivateKey,
+      keyPair.publicKey as pointycastle.RSAPublicKey,
+    );
   }
 }

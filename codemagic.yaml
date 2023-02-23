@@ -67,10 +67,6 @@ workflows:
       cancel_previous_builds: true
     working_directory: app
     scripts:
-      - name: Add Dart SDK to PATH
-        script: |
-          echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
-          echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
       - name: Install FVM
         # Settings working directory back to the root of the repository because
         # there is our .fvm folder with all the FVM configurations.

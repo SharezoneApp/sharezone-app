@@ -53,7 +53,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
                 bloc.addComment(text);
                 text = null;
                 controller.clear();
-                FocusScope.of(context).requestFocus(FocusNode());
+                FocusManager.instance.primaryFocus?.unfocus();
               } else {
                 showSnackSec(
                     context: context,
@@ -65,7 +65,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
         maxLines: null,
         onChanged: (s) => text = s,
         textInputAction: TextInputAction.newline,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

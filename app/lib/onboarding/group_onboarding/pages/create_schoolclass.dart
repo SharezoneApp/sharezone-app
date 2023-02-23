@@ -189,6 +189,6 @@ class _ErrorText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(errorTextForUser,
-        style: TextStyle(color: Theme.of(context).errorColor, fontSize: 14));
+        style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 14));
   }
 }

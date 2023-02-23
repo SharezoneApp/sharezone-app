@@ -92,7 +92,7 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Unterstütze Sharezone 💙',
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );
   }
@@ -168,7 +168,7 @@ class _BeggingForMoneyText extends StatelessWidget {
           textAlign: WrapAlignment.center,
           p: Theme.of(context)
               .textTheme
-              .bodyText2
+              .bodyMedium
               .copyWith(fontSize: 16, height: 1.3),
           a: linkStyle(context),
         ),
@@ -222,8 +222,7 @@ class _PayPalDonateButton extends StatelessWidget {
       label: const Text("Spenden via PayPal"),
       icon: Icon(Icons.favorite),
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
@@ -240,8 +239,7 @@ class _DonationsNotSupportedOnMacOsButton extends StatelessWidget {
       label: const Text("Spenden"),
       icon: Icon(Icons.favorite),
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }

@@ -188,7 +188,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
       actions: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: const Text("OK"),
           onPressed: () => Navigator.pop(context, timeOfDay),

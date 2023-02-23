@@ -36,7 +36,7 @@ Please follow the official documentation: [Install Flutter](https://docs.flutter
 
 ### Sharezone CLI
 We written our own CLI to manage our repository. Common use cases for the CLI are:
-* Get all Flutter/Dart packages for all packages inside this repository (`sz packages get`)
+* Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
 * Run all tests for all packages inside this repository (`sz test`)
 * Analyze all packages inside this repository (`sz analyze`)
 
@@ -51,7 +51,7 @@ Execute the following steps to install the Sharezone CLI:
 You should now be able to run `sz` or `sharezone` in your terminal. 
 
 #### Windows
-At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart packages get`. Please keep this in mind when reading commands like `sz packages get`.
+At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart pub get`. Please keep this in mind when reading commands like `sz pub get`.
 
 Execute the following steps to install the Sharezone CLI:
 1. [Clone this repository](#clone-this-repository)
@@ -68,7 +68,7 @@ git clone https://github.com/SharezoneApp/sharezone-app.git
 ```
 
 After cloning the repository, we recommend to execute the following steps:
-1. Get all dependencies with `sz packages get`
+1. Get all dependencies with `sz pub get`
 
 ### Flutter Version Management (FVM)
 We use [FVM](https://fvm.app) to have a consistent Flutter version across the developers and our CI/CD. You find in `.fvm/fvm_config.json` the Flutter, which we currently using.

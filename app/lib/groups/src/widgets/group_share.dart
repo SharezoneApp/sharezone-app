@@ -186,7 +186,7 @@ class ShareGroupSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Text(
             "Lade deine Mitschüler & Lehrer in ${groupInfo.groupType == GroupType.course ? "diese Gruppe" : "diese Klasse"} ein!",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
         ),

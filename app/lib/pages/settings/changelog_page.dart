@@ -110,7 +110,7 @@ class _VersionSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(change.version, style: Theme.of(context).textTheme.headline5),
+          Text(change.version, style: Theme.of(context).textTheme.headlineSmall),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

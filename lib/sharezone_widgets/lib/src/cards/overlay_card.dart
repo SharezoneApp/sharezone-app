@@ -95,7 +95,7 @@ class _Action extends StatelessWidget {
         onPressed: onAction,
         child: Text(actionText),
         style: TextButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
         ),
       ),
@@ -119,7 +119,7 @@ class _Close extends StatelessWidget {
         onPressed: onClose,
         child: const Text("SCHLIESSEN"),
         style: TextButton.styleFrom(
-          primary: Colors.grey,
+          foregroundColor: Colors.grey,
         ),
       ),
     );

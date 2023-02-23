@@ -84,7 +84,7 @@ class _SkipButton extends StatelessWidget {
         Navigator.popUntil(context, ModalRoute.withName('/'));
       },
       style: TextButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColor,
       ),
       child: Text("Überspringen".toUpperCase()),
     );

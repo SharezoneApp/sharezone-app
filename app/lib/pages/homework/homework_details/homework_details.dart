@@ -506,7 +506,7 @@ class _HomeworkDescription extends StatelessWidget {
               styleSheet: MarkdownStyleSheet.fromTheme(
                 theme.copyWith(
                   textTheme: theme.textTheme.copyWith(
-                    bodyText2: TextStyle(
+                    bodyMedium: TextStyle(
                       color: isDarkThemeEnabled(context)
                           ? Colors.grey[400]
                           : Colors.grey[600],
@@ -605,7 +605,7 @@ class HomeworkDetailsHomeworkTitle extends StatelessWidget {
                     title,
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
+                        .headlineSmall
                         .copyWith(color: Colors.white),
                     textAlign: TextAlign.left,
                     // overflow: TextOverflow.ellipsis,
