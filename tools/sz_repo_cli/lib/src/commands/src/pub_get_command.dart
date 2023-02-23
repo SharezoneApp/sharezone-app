@@ -75,7 +75,7 @@ class PubGetCommand extends Command {
       await presenter.printFailedTasksSummary(failures);
       exit(1);
     } else {
-      print('All packages tested successfully!');
+      print('Ran "pub get" for all packages successfully!');
       exit(0);
     }
   }
