@@ -159,7 +159,7 @@ packages:
     dependency: transitive
     description:
       name: ordered_set
-      sha256: e9c8c28ffe0e32f6778c2444c3e5b73a8f5f633906d20dd390e95c3ab8f50e71
+      sha256: f88a917c6a3a54a217585e40db9bff4cb5205d689b535d54c9d949e2ab5a70c0
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"

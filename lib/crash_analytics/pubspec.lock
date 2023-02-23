@@ -5,7 +5,8 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      url: "https://pub.dartlang.org"
+      sha256: "2f428053492f92303e42c9afa8e3a78ad1886760e7b594e2b5a6b6ee47376360"
+      url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
   async:
@@ -40,6 +41,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: d023142c18c28b2610c23c196e829c96976569cc2aa2f8e45328ae8a64c428d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.7.7"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: "3d7d4fa8c1dc5a1f7cb33985ae0ab9924d33d76d4959fe26aed84b7d282887e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.8.10"
   collection:
     dependency: transitive
     description:
@@ -60,7 +77,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core
-      sha256: be7e30198750b6800b5184b151ecfbe07b93ca6be2be0cb77f390a21a010e138
+      sha256: "4f1d7c13a909e82ff026679c9b8493cdeb35a9c76bc46c42bf9e2240c9e57e80"
       url: "https://pub.dev"
     source: hosted
     version: "1.24.0"
@@ -68,7 +85,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: "3ddf85857836d32d09e6f77dd7f51f81899a836cf19670970b70e101d93539fd"
+      sha256: "5fab93f5b354648efa62e7cc829c90efb68c8796eecf87e0888cae2d5f3accd4"
       url: "https://pub.dev"
     source: hosted
     version: "4.5.2"
@@ -76,7 +93,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "2010e99ee304cd3d062ec5d46a9d00d6415a89ed0d27505e1c81c86cd79e7a9e"
+      sha256: "839f1b48032a61962792cea1225fae030d4f27163867f181d6d2072dd40acbee"
       url: "https://pub.dev"
     source: hosted
     version: "1.7.3"
@@ -84,7 +101,7 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_crashlytics
-      sha256: ed87cc1bfc2fe6fa1400e1a20175adf059ed333bb199fb81b1a9da2ef6221670
+      sha256: "09655d691972d940a89d7bb1bceb145d0051509dcb753319b36a562f96f00cae"
       url: "https://pub.dev"
     source: hosted
     version: "2.9.0"
@@ -92,7 +109,7 @@ packages:
     dependency: transitive
     description:
       name: firebase_crashlytics_platform_interface
-      sha256: "9cb63de5b3741f2fee27ed7efcb62e404f52469ec5497b4ee26c43ca7da943f6"
+      sha256: "12085451cdad3bf36eb9470b2da3478b6076d6dd2705e5d49690828b1f7a0d02"
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
@@ -155,7 +172,7 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
-      sha256: "5aadc2af7cd403ad0b95ef654c3e628517f4cae9682b4229a66caf9df71844d2"
+      sha256: dbf0f707c78beedc9200146ad3cb0ab4d5da13c246336987be6940f026500d3a
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
