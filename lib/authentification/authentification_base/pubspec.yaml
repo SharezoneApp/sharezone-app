@@ -39,7 +39,7 @@ dependencies:
   google_sign_in: ^5.0.4
   meta: ^1.1.8
   rxdart: ^0.27.1
-  sign_in_with_apple: ^3.3.0
+  sign_in_with_apple: ^4.3.0
 
 dev_dependencies:
   flutter_test:

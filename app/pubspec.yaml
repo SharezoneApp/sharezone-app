@@ -80,7 +80,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
   flutter_slidable: ^2.0.0
-  flutter_svg: ^0.22.0
+  flutter_svg: ^2.0.2
   font_awesome_flutter: ^10.4.0
   group_domain_implementation:
     path: ../lib/group_domain_implementation

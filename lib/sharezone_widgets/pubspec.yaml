@@ -23,9 +23,9 @@ dependencies:
     path: ../sharezone_utils
   build_context:
     path: ../build_context
-  flutter_svg: ^0.22.0
-  flutter_staggered_animations: ^0.1.2
-  shimmer: ^1.1.1
+  flutter_svg: ^2.0.2
+  flutter_staggered_animations: ^1.1.1
+  shimmer: ^2.0.0
   rxdart: ^0.27.1
   flutter:
     sdk: flutter

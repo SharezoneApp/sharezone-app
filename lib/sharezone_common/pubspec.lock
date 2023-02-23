@@ -298,18 +298,18 @@ packages:
     dependency: "direct main"
     description:
       name: quiver
-      sha256: "16169b1cc79f01d9c47fe05b5670b87cbf7f5cfc77757369f245c36a6ae2b290"
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.3"
+    version: "3.2.1"
   rxdart:
     dependency: transitive
     description:
       name: rxdart
-      sha256: "5d22055fd443806c03ef24a02000637cf51eae49c2a0168d38a43fc166b0209c"
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.27.5"
+    version: "0.27.7"
   sharezone_utils:
     dependency: "direct main"
     description:
@@ -390,10 +390,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: c9ebe7ee4ab0c2194e65d3a07d8c54c5d00bb001b76081c4a04cdb8448b59e46
+      sha256: "5cdbe09a75b5f4517adf213c68aaf53ffa162fadf54ba16f663f94f3d2664a56"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.3"
+    version: "4.1.1"
 sdks:
   dart: ">=2.18.0 <3.0.0"
   flutter: ">=2.11.0"
