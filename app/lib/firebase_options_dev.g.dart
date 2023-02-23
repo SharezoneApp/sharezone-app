@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     projectId: 'sharezone-debug',
     databaseURL: 'https://sharezone-debug.firebaseio.com',
     storageBucket: 'sharezone-debug.appspot.com',
-    androidClientId: '366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com',
-    iosClientId: '366164701221-obqtov9nvdds889ens9iu3fli9hltll7.apps.googleusercontent.com',
+    androidClientId:
+        '366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com',
+    iosClientId:
+        '366164701221-obqtov9nvdds889ens9iu3fli9hltll7.apps.googleusercontent.com',
     iosBundleId: 'de.codingbrain.sharezone.app',
   );
 
@@ -82,8 +84,10 @@ class DefaultFirebaseOptions {
     projectId: 'sharezone-debug',
     databaseURL: 'https://sharezone-debug.firebaseio.com',
     storageBucket: 'sharezone-debug.appspot.com',
-    androidClientId: '366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com',
-    iosClientId: '366164701221-obqtov9nvdds889ens9iu3fli9hltll7.apps.googleusercontent.com',
+    androidClientId:
+        '366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com',
+    iosClientId:
+        '366164701221-obqtov9nvdds889ens9iu3fli9hltll7.apps.googleusercontent.com',
     iosBundleId: 'de.codingbrain.sharezone.app',
   );
 }
