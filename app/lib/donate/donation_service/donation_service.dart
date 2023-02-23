@@ -61,7 +61,7 @@ class DonationService {
   }
 }
 
-extension on Product {
+extension on StoreProduct {
   DonationItem toDonationItem() {
     return DonationItem(
       id: DonationItemId(identifier),

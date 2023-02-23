@@ -6,8 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:purchases_flutter/discount.dart';
-import 'package:purchases_flutter/product_wrapper.dart';
+import 'package:purchases_flutter/models/introductory_price.dart';
+import 'package:purchases_flutter/models/store_product_discount.dart';
+import 'package:purchases_flutter/models/store_product_wrapper.dart';
 import 'package:random_string/random_string.dart';
 import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/donate/donation_service/src/purchase_service.dart';
@@ -43,7 +44,6 @@ void main() {
           description: 'Schönes Ding',
           title: title ??
               'Schokoriegel (Schulplaner, Hausaufgaben, Stundenplan: Sharezone)',
-          introductoryPrice: null,
           priceString: '3€');
     }
 
@@ -90,8 +90,8 @@ void main() {
   });
 }
 
-class TestProduct implements Product {
-  /// Product Id.
+class TestProduct implements StoreProduct {
+  /// StoreProduct Id.
   @override
   final String identifier;
 
@@ -115,13 +115,6 @@ class TestProduct implements Product {
   @override
   final String currencyCode;
 
-  /// Introductory price for product. Can be null.
-  @override
-  final IntroductoryPrice introductoryPrice;
-
-  @override
-  final List<Discount> discounts;
-
   /// For Testing
   bool wasBought = false;
 
@@ -132,9 +125,25 @@ class TestProduct implements Product {
     this.price,
     this.priceString,
     this.currencyCode,
-    this.introductoryPrice,
-    this.discounts,
   });
+
+  @override
+  $StoreProductCopyWith<StoreProduct> get copyWith =>
+      throw UnimplementedError();
+
+  @override
+  String get subscriptionPeriod => throw UnimplementedError();
+
+  @override
+  Map<String, dynamic> toJson() {
+    throw UnimplementedError();
+  }
+
+  @override
+  List<StoreProductDiscount> get discounts => throw UnimplementedError();
+
+  @override
+  IntroductoryPrice get introductoryPrice => throw UnimplementedError();
 }
 
 class MockPurchasingService extends PurchaseService {
@@ -145,7 +154,7 @@ class MockPurchasingService extends PurchaseService {
   }
 
   @override
-  Future<List<Product>> getProducts() async {
+  Future<List<StoreProduct>> getProducts() async {
     return _products;
   }
 
