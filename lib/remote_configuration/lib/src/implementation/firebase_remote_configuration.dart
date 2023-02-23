@@ -12,7 +12,7 @@ import 'package:sharezone_utils/platform.dart';
 import '../remote_configuration.dart';
 
 class FirebaseRemoteConfiguration extends RemoteConfiguration {
-  RemoteConfig _remoteConfig;
+  FirebaseRemoteConfig _remoteConfig;
   Map<String, dynamic> _defaultValues;
   FirebaseRemoteConfiguration();
 
@@ -30,7 +30,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   Future<void> initialize(Map<String, dynamic> defaultValues) async {
     try {
       _defaultValues = defaultValues;
-      _remoteConfig = RemoteConfig.instance;
+      _remoteConfig = FirebaseRemoteConfig.instance;
       _remoteConfig.setDefaults(_defaultValues);
       _remoteConfig.setConfigSettings(RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
