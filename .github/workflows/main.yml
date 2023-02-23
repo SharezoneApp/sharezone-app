@@ -140,7 +140,7 @@ jobs:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-latest
     # if: ${{ github.event.pull_request.draft == false }}
-    timeout-minutes: 30
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -164,6 +164,17 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
+      # Building the Android app as workaround for the timeout problem with
+      # integration tests.
+      #
+      # We need to build the Android app first to hope that the build for the
+      # integration test needs less than 12 minutes. Currently, it's not
+      # possible to increase the timeout for integration tests:
+      # https://github.com/flutter/flutter/issues/105913.
+      #
+      # Using `flutter drive` as workaround is not an option because it's super
+      # flaky in terms of stability. With `flutter drive` ~ 30% the Android
+      # Emulator have difficulties to start properly. 
       - name: Build Android App
         working-directory: ./app
         env:
@@ -187,7 +198,19 @@ jobs:
         # https://github.com/ReactiveCircus/android-emulator-runner#configurations 
         # Additionally taking Screenshots does not work on ATD (see the google blog link further above).
         with:
-          api-level: 30
+          # When you are going to change something here (like a different
+          # target, arch, profile, channel, etc.), please check if these
+          # configurations are stable.
+          #
+          # You can do this by running this workflow multiple times. Use a
+          # matrix to run multiple tests in parallel (matrix needs to be copied
+          # to above the "with"):
+          # strategy:
+          #   fail-fast: false
+          #   matrix:
+          #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          #     test2: [1, 2, 3]
+          #       api-level: 30
           target: google_apis
           arch: x86_64
           profile: Nexus 5X
