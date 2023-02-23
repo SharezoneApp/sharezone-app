@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:http/http.dart' as http;
 
-void printLogRecord(LogRecord log, {void Function(String) printMethod}) {
+void printLogRecord(LogRecord log, {void Function(String)? printMethod}) {
   String msg = "[${log.level}] ${log.loggerName} ${log.message}\n";
   if (log.error != null) {
     msg += "Error: ${log.error}\n";
@@ -38,7 +38,7 @@ class SlackLogPublisher {
   }
 
   void tryPublishLogs(Stream<LogRecord> logs) {
-    logs?.listen((log) {
+    logs.listen((log) {
       if (log.level >= logLevelToSend) {
         tryPublishLog(log);
       }
