@@ -46,7 +46,7 @@ class PubGetCommand extends Command {
     final _max = argResults[maxConcurrentPackagesOptionName];
     final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
         ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null wird nachher als "keine Begrenzung" gehandhabt.
+        // null as interpreted as "no conucrrency limit" (everything at once).
         : null;
 
     final taskRunner = ConcurrentPackageTaskRunner(
