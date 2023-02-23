@@ -31,9 +31,9 @@ dependencies:
     path: ../../sharezone_utils
   util:
     path: ../../util
-  cloud_firestore: any
+  cloud_firestore: ^4.4.3
   fast_rsa: ^3.4.7
-  firebase_auth: any
+  firebase_auth: ^4.2.9
   rxdart: ^0.27.1
 
 dev_dependencies:

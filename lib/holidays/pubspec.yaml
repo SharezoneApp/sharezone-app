@@ -23,7 +23,7 @@ dependencies:
   http: ^0.13.3
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^3.0.4
+  cloud_functions: ^4.0.11
   app_functions:
     path: ../app_functions
 

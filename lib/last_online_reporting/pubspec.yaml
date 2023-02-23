@@ -17,7 +17,7 @@ environment:
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
-  cloud_firestore: any
+  cloud_firestore: ^4.4.3
   common_domain_models:
     path: ../common_domain_models
   crash_analytics:
