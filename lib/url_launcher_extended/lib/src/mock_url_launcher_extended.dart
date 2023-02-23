@@ -6,18 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:ui';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 import 'url_launcher_extended.dart';
 
 /// Mocks [UrlLauncherExtended] to be used in testing environment.
 class MockUrlLauncherExtended extends UrlLauncherExtended {
-  /// If method [launch] is called, it will be set to true.
+  /// If method [launchUrl] is called, it will be set to true.
   bool logCalledLaunch = false;
 
-  /// When [launch] is called with an url, this url will be stored in
+  /// When [launchUrl] is called with an url, this url will be stored in
   /// [launchedUrl].
-  String launchedUrl;
+  Uri? launchedUrl;
 
   /// If method [launchMail] is called, it will be set to true.
   bool logCalledLaunchMail = false;
@@ -25,7 +25,7 @@ class MockUrlLauncherExtended extends UrlLauncherExtended {
   bool _canLaunch = true;
 
   @override
-  Future<bool> canLaunch(String urlString) async {
+  Future<bool> canLaunchUrl(Uri url) async {
     return _canLaunch;
   }
 
@@ -34,26 +34,23 @@ class MockUrlLauncherExtended extends UrlLauncherExtended {
   }
 
   @override
-  Future<bool> launch(
-    String urlString, {
-    bool forceSafariVC,
-    bool forceWebView,
-    bool enableJavaScript,
-    bool enableDomStorage,
-    bool universalLinksOnly,
-    Map<String, String> headers,
-    Brightness statusBarBrightness,
+  Future<bool> launchUrl(
+    Uri url, {
+    launcher.LaunchMode mode = launcher.LaunchMode.platformDefault,
+    launcher.WebViewConfiguration webViewConfiguration =
+        const launcher.WebViewConfiguration(),
+    String? webOnlyWindowName,
   }) async {
     logCalledLaunch = true;
-    launchedUrl = urlString;
+    launchedUrl = url;
     return true;
   }
 
   @override
   Future<bool> tryLaunchMailOrThrow(
     String address, {
-    String subject,
-    String body,
+    String? subject,
+    String? body,
   }) async {
     logCalledLaunchMail = true;
     return true;
@@ -65,28 +62,21 @@ class MockUrlLauncherExtended extends UrlLauncherExtended {
 
   @override
   Future<bool> tryLaunchOrThrow(
-    String urlString, {
-    bool forceSafariVC,
-    bool forceWebView,
-    bool enableJavaScript,
-    bool enableDomStorage,
-    bool universalLinksOnly,
-    Map<String, String> headers,
-    Brightness statusBarBrightness,
+    Uri url, {
+    launcher.LaunchMode mode = launcher.LaunchMode.platformDefault,
+    launcher.WebViewConfiguration webViewConfiguration =
+        const launcher.WebViewConfiguration(),
+    String? webOnlyWindowName,
   }) async {
-    if (!(await canLaunch(urlString))) {
-      CouldNotLaunchUrlException(urlString);
+    if (!(await canLaunchUrl(url))) {
+      CouldNotLaunchUrlException(url);
     }
 
-    return launch(
-      urlString,
-      forceSafariVC: forceSafariVC,
-      forceWebView: forceWebView,
-      enableJavaScript: enableJavaScript,
-      enableDomStorage: enableDomStorage,
-      universalLinksOnly: universalLinksOnly,
-      headers: headers,
-      statusBarBrightness: statusBarBrightness,
+    return launchUrl(
+      url,
+      mode: mode,
+      webViewConfiguration: webViewConfiguration,
+      webOnlyWindowName: webOnlyWindowName,
     );
   }
 }

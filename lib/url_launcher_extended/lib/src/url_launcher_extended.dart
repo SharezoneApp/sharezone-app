@@ -6,81 +6,55 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:ui';
-
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
+import 'package:url_launcher/url_launcher_string.dart';
 
 /// [UrlLauncherExtended] adds the ability to mocks the `url_launcher` by
 /// wrapping the methods into a class and adds some helpful methods.
 class UrlLauncherExtended {
-  /// Parses the specified URL string and delegates handling of it to the
-  /// underlying platform.
+  /// Passes [url] to the underlying platform for handling.
   ///
-  /// The returned future completes with a [PlatformException] on invalid URLs
-  /// and schemes which cannot be handled, that is when [canLaunch] would
-  /// complete with false.
+  /// [mode] support varies significantly by platform:
+  ///   - [LaunchMode.platformDefault] is supported on all platforms:
+  ///     - On iOS and Android, this treats web URLs as
+  ///       [LaunchMode.inAppWebView], and all other URLs as
+  ///       [LaunchMode.externalApplication].
+  ///     - On Windows, macOS, and Linux this behaves like
+  ///       [LaunchMode.externalApplication].
+  ///     - On web, this uses `webOnlyWindowName` for web URLs, and behaves like
+  ///       [LaunchMode.externalApplication] for any other content.
+  ///   - [LaunchMode.inAppWebView] is currently only supported on iOS and
+  ///     Android. If a non-web URL is passed with this mode, an [ArgumentError]
+  ///     will be thrown.
+  ///   - [LaunchMode.externalApplication] is supported on all platforms.
+  ///     On iOS, this should be used in cases where sharing the cookies of the
+  ///     user's browser is important, such as SSO flows, since Safari View
+  ///     Controller does not share the browser's context.
+  ///   - [LaunchMode.externalNonBrowserApplication] is supported on iOS 10+.
+  ///     This setting is used to require universal links to open in a non-browser
+  ///     application.
   ///
-  /// [forceSafariVC] is only used in iOS with iOS version >= 9.0. By default
-  /// (when unset), the launcher opens web URLs in the Safari View Controller,
-  /// anything else is opened using the default handler on the platform. If set
-  /// to true, it opens the URL in the Safari View Controller. If false, the URL
-  /// is opened in the default browser of the phone. Note that to work with
-  /// universal links on iOS, this must be set to false to let the platform's
-  /// system handle the URL. Set this to false if you want to use the
-  /// cookies/context of the main browser of the app (such as SSO flows). This
-  /// setting will nullify [universalLinksOnly] and will always launch a web
-  /// content in the built-in Safari View Controller regardless if the url is a
-  /// universal link or not.
+  /// For web, [webOnlyWindowName] specifies a target for the launch. This
+  /// supports the standard special link target names. For example:
+  ///  - "_blank" opens the new URL in a new tab.
+  ///  - "_self" opens the new URL in the current tab.
+  /// Default behaviour when unset is to open the url in a new tab.
   ///
-  /// [universalLinksOnly] is only used in iOS with iOS version >= 10.0. This
-  /// setting is only validated when [forceSafariVC] is set to false. The
-  /// default value of this setting is false. By default (when unset), the
-  /// launcher will either launch the url in a browser (when the url is not a
-  /// universal link), or launch the respective native app content (when the url
-  /// is a universal link). When set to true, the launcher will only launch the
-  /// content if the url is a universal link and the respective app for the
-  /// universal link is installed on the user's device; otherwise throw a
-  /// [PlatformException].
-  ///
-  /// [forceWebView] is an Android only setting. If null or false, the URL is
-  /// always launched with the default browser on device. If set to true, the
-  /// URL is launched in a WebView. Unlike iOS, browser context is shared across
-  /// WebViews. [enableJavaScript] is an Android only setting. If true, WebView
-  /// enable javascript. [enableDomStorage] is an Android only setting. If true,
-  /// WebView enable DOM storage. [headers] is an Android only setting that adds
-  /// headers to the WebView.
-  ///
-  /// Note that if any of the above are set to true but the URL is not a web
-  /// URL, this will throw a [PlatformException].
-  ///
-  /// [statusBarBrightness] Sets the status bar brightness of the application
-  /// after opening a link on iOS. Does nothing if no value is passed. This does
-  /// not handle resetting the previous status bar style.
-  ///
-  /// Returns true if launch url is successful; false is only returned when
-  /// [universalLinksOnly] is set to true and the universal link failed to
-  /// launch.
+  /// Returns true if the URL was launched successful, otherwise either returns
+  /// false or throws a [PlatformException] depending on the failure.
   ///
   /// (Copied form launch url_launcher)
-  Future<bool> launch(
-    String urlString, {
-    bool forceSafariVC,
-    bool forceWebView,
-    bool enableJavaScript,
-    bool enableDomStorage,
-    bool universalLinksOnly,
-    Map<String, String> headers,
-    Brightness statusBarBrightness,
+  Future<bool> launchUrl(
+    Uri url, {
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
   }) async {
-    return url_launcher.launch(
-      urlString,
-      forceSafariVC: forceSafariVC,
-      forceWebView: forceWebView,
-      enableJavaScript: enableJavaScript,
-      enableDomStorage: enableDomStorage,
-      universalLinksOnly: universalLinksOnly,
-      headers: headers,
-      statusBarBrightness: statusBarBrightness,
+    return url_launcher.launchUrl(
+      url,
+      mode: mode,
+      webViewConfiguration: webViewConfiguration,
+      webOnlyWindowName: webOnlyWindowName,
     );
   }
 
@@ -88,29 +62,21 @@ class UrlLauncherExtended {
   /// be launch and if it not possible a `CloudNotLaunchUrlException` will be
   /// thrown.
   Future<bool> tryLaunchOrThrow(
-    String urlString, {
-    bool forceSafariVC,
-    bool forceWebView,
-    bool enableJavaScript,
-    bool enableDomStorage,
-    bool universalLinksOnly,
-    Map<String, String> headers,
-    Brightness statusBarBrightness,
+    Uri url, {
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
   }) async {
-    final _canLaunch = await canLaunch(urlString);
+    final _canLaunch = await canLaunchUrl(url);
     if (!_canLaunch) {
-      throw CouldNotLaunchUrlException(urlString);
+      throw CouldNotLaunchUrlException(url);
     }
 
-    return url_launcher.launch(
-      urlString,
-      forceSafariVC: forceSafariVC,
-      forceWebView: forceWebView,
-      enableJavaScript: enableJavaScript,
-      enableDomStorage: enableDomStorage,
-      universalLinksOnly: universalLinksOnly,
-      headers: headers,
-      statusBarBrightness: statusBarBrightness,
+    return url_launcher.launchUrl(
+      url,
+      mode: mode,
+      webViewConfiguration: webViewConfiguration,
+      webOnlyWindowName: webOnlyWindowName,
     );
   }
 
@@ -118,15 +84,15 @@ class UrlLauncherExtended {
   /// device.
   ///
   /// (Copied form url_launcher)
-  Future<bool> canLaunch(String urlString) {
-    return url_launcher.canLaunch(urlString);
+  Future<bool> canLaunchUrl(Uri url) {
+    return url_launcher.canLaunchUrl(url);
   }
 
   /// Create email draft to the default email app by converting the parameters
   /// into an uri, like
   /// "mailto:smith@example.com?subject=Example+Subject+%26+Symbols+are+allowed%21"
   ///
-  /// Throws [CouldNotLaunchMailException] if [canLaunch] returns false.
+  /// Throws [CouldNotLaunchMailException] if [canLaunchUrl] returns false.
   ///
   /// [address] is the email address of the receiver, like
   /// "support@sharezone.net".
@@ -136,10 +102,11 @@ class UrlLauncherExtended {
   /// [body] is the message / text of the email.
   ///
   /// Returns true if launch url is successful.
-  Future<bool> tryLaunchMailOrThrow(String address,
-      {String subject, String body}) async {
-    assert(address != null);
-
+  Future<bool> tryLaunchMailOrThrow(
+    String address, {
+    String? subject,
+    String? body,
+  }) async {
     final emailLaunchString = Uri(
       scheme: 'mailto',
       path: address,
@@ -147,21 +114,21 @@ class UrlLauncherExtended {
         if (subject != null) 'subject': subject,
         if (body != null) 'body': body,
       },
-    ).toString();
+    );
 
-    final _canLaunch = await canLaunch(emailLaunchString);
+    final _canLaunch = await canLaunchUrl(emailLaunchString);
     if (!_canLaunch) {
       throw CouldNotLaunchMailException(address, subject: subject, body: body);
     }
 
-    return launch(emailLaunchString);
+    return launchUrl(emailLaunchString);
   }
 }
 
 class CouldNotLaunchMailException implements Exception {
   final String address;
-  final String subject;
-  final String body;
+  final String? subject;
+  final String? body;
 
   CouldNotLaunchMailException(this.address, {this.subject, this.body});
 
@@ -184,8 +151,8 @@ class CouldNotLaunchMailException implements Exception {
 }
 
 class CouldNotLaunchUrlException implements Exception {
-  /// URL as string which couldn't be launched.
-  final String url;
+  /// [url] which couldn't be launched.
+  final Uri url;
 
   CouldNotLaunchUrlException(this.url);
 

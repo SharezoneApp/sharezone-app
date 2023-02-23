@@ -50,7 +50,7 @@ dependencies:
   path: any
   path_provider: ^2.0.11
   photo_view: any
-  url_launcher: any
+  url_launcher: ^6.1.10
   video_player: any
 
 dev_dependencies:
