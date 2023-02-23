@@ -24,7 +24,8 @@ class PlatformSvg {
       width: width,
       height: height,
       fit: fit,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      colorFilter:
+          color == null ? null : ColorFilter.mode(color, BlendMode.srcIn),
       alignment: alignment,
       semanticsLabel: semanticsLabel,
     );
@@ -44,7 +45,8 @@ class PlatformSvg {
       width: width,
       height: height,
       fit: fit,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      colorFilter:
+          color == null ? null : ColorFilter.mode(color, BlendMode.srcIn),
       alignment: alignment,
       semanticsLabel: semanticsLabel,
     );
