@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "366164701221-p2ej8sniskgk48bircqnij553hf95v84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.codingbrain.sharezone",
+            "certificate_hash": "8dc3dc6a0b6705de73e68ed0ffee5a9c9f5a87c7"
+          }
+        },
+        {
           "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -36,14 +44,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+              "client_id": "366164701221-2i3lvsf1b0b4ikju7vf598gnbdsj7n90.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "366164701221-fdv476f10fl969nd65dv97tfajqb9jr1.apps.googleusercontent.com",
+              "client_id": "366164701221-ad0lgt4d4gktqt0ejnasj3mpn36qrhs0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "de.codingbrain.sharezone.app.dev"
+                "bundle_id": "de.codingbrain.sharezone.macos.dev"
               }
             }
           ]
@@ -55,6 +63,50 @@
         "mobilesdk_app_id": "1:366164701221:android:bac18e3910e5b836bfcfcc",
         "android_client_info": {
           "package_name": "de.codingbrain.sharezone.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366164701221-jib93mi9tmibi42d96elek3kjbbb3ate.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.codingbrain.sharezone.dev",
+            "certificate_hash": "8dc3dc6a0b6705de73e68ed0ffee5a9c9f5a87c7"
+          }
+        },
+        {
+          "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACrc-_Bf1cuaa5LFMa8yAiyGXyF12eRsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366164701221-2i3lvsf1b0b4ikju7vf598gnbdsj7n90.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366164701221-ad0lgt4d4gktqt0ejnasj3mpn36qrhs0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.codingbrain.sharezone.macos.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366164701221:android:8043c2141f50ef32bfcfcc",
+        "android_client_info": {
+          "package_name": "test.det.de"
         }
       },
       "oauth_client": [
@@ -72,14 +124,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "366164701221-891alrejtv2s1eg0cbkov0ct3gga6hjh.apps.googleusercontent.com",
+              "client_id": "366164701221-2i3lvsf1b0b4ikju7vf598gnbdsj7n90.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "366164701221-fdv476f10fl969nd65dv97tfajqb9jr1.apps.googleusercontent.com",
+              "client_id": "366164701221-ad0lgt4d4gktqt0ejnasj3mpn36qrhs0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "de.codingbrain.sharezone.app.dev"
+                "bundle_id": "de.codingbrain.sharezone.macos.dev"
               }
             }
           ]

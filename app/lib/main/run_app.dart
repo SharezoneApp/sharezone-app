@@ -31,6 +31,8 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../firebase_options_dev.dart';
+
 BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
   // ignore:close_sinks
   BehaviorSubject<Beitrittsversuch> beitrittsversuche =
@@ -82,7 +84,7 @@ Future<AppDependencies> initializeDependencies() async {
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   final pluginInitializations = await runPluginInitializations();
 
