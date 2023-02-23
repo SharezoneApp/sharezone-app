@@ -211,8 +211,8 @@ jobs:
           #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
           #     test2: [1, 2, 3]
           api-level: 30
-          target: google_apis
-          arch: x86_64
+          target: google_atd
+          arch: arm64-v8
           profile: Nexus 5X
           channel: canary
           # We use some emulator options for the following reasons:
