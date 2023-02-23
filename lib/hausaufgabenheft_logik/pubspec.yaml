@@ -21,7 +21,7 @@ dependencies:
   bloc: ^4.0.0
   rxdart: ^0.27.1
   equatable: ^1.2.2
-  optional: ^4.1.0
+  optional: ^6.1.0+1
   meta: any
   key_value_store:
     path: ../key_value_store

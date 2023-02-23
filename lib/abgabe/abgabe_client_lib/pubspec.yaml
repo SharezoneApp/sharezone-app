@@ -37,7 +37,7 @@ dependencies:
   googleapis_auth: any
   logging: ^1.1.1
   meta: ^1.1.8
-  optional: 4.1.0
+  optional: ^6.1.0+1
   rxdart: ^0.27.1
 
 dev_dependencies:

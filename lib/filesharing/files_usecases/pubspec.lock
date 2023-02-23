@@ -503,10 +503,10 @@ packages:
     dependency: transitive
     description:
       name: optional
-      sha256: "64a06f385c69724275b974fcefd7e45b218485bd2f31aafc5ce9acaa81d62ef4"
+      sha256: f80327d7a3335a0be68418072668043c7ab291df575c21aa42e0c5633641da39
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "6.1.0+1"
   path:
     dependency: "direct main"
     description:

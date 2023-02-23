@@ -103,7 +103,7 @@ dependencies:
   open_file:
     git:
       url: https://github.com/crazecoder/open_file
-  optional: ^4.1.0
+  optional: ^6.1.0+1
   overlay_support: ^2.1.0
   package_info_plus: ^3.0.3
   permission_handler: ^10.2.0

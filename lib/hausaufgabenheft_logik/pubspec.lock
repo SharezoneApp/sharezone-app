@@ -250,10 +250,10 @@ packages:
     dependency: "direct main"
     description:
       name: optional
-      sha256: "2e9bad42a7e14cf93d52026289117a2d45a8ae103433dd4277b6f37707e17923"
+      sha256: f80327d7a3335a0be68418072668043c7ab291df575c21aa42e0c5633641da39
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "6.1.0+1"
   package_config:
     dependency: transitive
     description:
