@@ -8,6 +8,7 @@
 
 name: sharezone
 description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
+# Build number (e.g. +316) is required by some functionality in our app.
 version: 1.6.2+316
 publish_to: none
 

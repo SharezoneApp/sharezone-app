@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
@@ -55,6 +56,13 @@ void testWidgetsWithDimensions(
   });
 }
 
+class _TestingScaffold {
+  void setAppBuildNumberTo(int buildNumber) {}
+
+  void setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
+      int buildNumber) {}
+}
+
 void main() {
   group(
     'privacy policy page',
@@ -93,13 +101,29 @@ ${generateText(10)}
         });
         _testWidgets('shows fallback page if version is below backend response',
             (tester) async {
+          final scaffold = _TestingScaffold();
+
           // TODO: Add test that ensures that Sharezone always has a build number in pubspec version?
-          // scaffold.setAppBuildNumberTo(315);
-          // scaffold.fakeBackend
-          //     .setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
-          //         316);
-          // expect to find fallback widgets:
-          // expect(find. , findsOneWidget);
+          scaffold.setAppBuildNumberTo(315);
+          scaffold.setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
+              316);
+
+          await tester.pumpWidget(
+            wrapWithScaffold(
+              PrivacyPolicyPage(
+                privacyPolicy: privacyPolicyWith(
+                  tableOfContentSections: [
+                    section('foo', 'Foo'),
+                  ],
+                  markdown: '# Foo',
+                ),
+              ),
+            ),
+          );
+
+          // TODO: Expect the different widgets instead of just a key?
+          expect(find.byKey(ValueKey('privacy-policy-fallback-page-E2E')),
+              findsOneWidget);
         });
         _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
