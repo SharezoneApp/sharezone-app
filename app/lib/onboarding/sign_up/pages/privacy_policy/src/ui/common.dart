@@ -208,7 +208,7 @@ class PrivacyPolicyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final anchorController =
-        Provider.of<AnchorsController>(context, listen: false);
+        Provider.of<AnchorController>(context, listen: false);
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
     final theme =
         Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
@@ -232,7 +232,7 @@ class PrivacyPolicyText extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2.0),
               )),
           extensionSet: sharezoneMarkdownExtensionSet,
-          anchorsController: anchorController,
+          anchorController: anchorController,
           data: privacyPolicy.markdownText +
               config.endSection.generateMarkdown(privacyPolicy),
           onTapLink: (text, href, title) {

@@ -17,12 +17,12 @@ class PrivacyPolicyPageDependencyFactory {
   final DocumentController documentController;
 
   factory PrivacyPolicyPageDependencyFactory({
-    @required AnchorsController anchorsController,
+    @required AnchorController anchorController,
     @required PrivacyPolicy privacyPolicy,
     @required PrivacyPolicyPageConfig config,
   }) {
     final documentController = DocumentController(
-      anchorsController: anchorsController,
+      anchorController: anchorController,
       threshold: config.threshold,
     );
     final currentlyReadingController = CurrentlyReadingController(

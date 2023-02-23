@@ -22,12 +22,12 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicyPageConfig config,
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
         config = config ?? PrivacyPolicyPageConfig(),
-        anchorsController = AnchorsController(),
+        anchorController = AnchorController(),
         super(key: key);
 
   final PrivacyPolicy privacyPolicy;
   final PrivacyPolicyPageConfig config;
-  final AnchorsController anchorsController;
+  final AnchorController anchorController;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class PrivacyPolicyPage extends StatelessWidget {
           final privacyPolicyLoadingState = PrivacyPolicyLoadingState(snapshot);
           return Provider(
             create: (context) => PrivacyPolicyPageDependencyFactory(
-              anchorsController: anchorsController,
+              anchorController: anchorController,
               config: config,
               // Because the Provider will only lazily run `create` we will only
               // access the PrivacyPolicyPageDependencyFactory (which needs the
@@ -52,7 +52,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             ),
             builder: (context, _) => MultiProvider(
                 providers: [
-                  Provider(create: (context) => anchorsController),
+                  Provider(create: (context) => anchorController),
                   Provider<PrivacyPolicyPageConfig>(
                       create: (context) => config),
                   ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
