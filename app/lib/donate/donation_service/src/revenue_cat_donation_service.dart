@@ -22,13 +22,14 @@ class RevenueCatPurchaseService implements PurchaseService {
   }
 
   @override
-  Future<List<Product>> getProducts() async {
+  Future<List<StoreProduct>> getProducts() async {
     final offerings = await Purchases.getOfferings();
 
     final availablePackages =
         offerings.getOffering('default-donate').availablePackages;
-    final identifiers =
-        availablePackages.map((package) => package.product.identifier).toList();
+    final identifiers = availablePackages
+        .map((package) => package.storeProduct.identifier)
+        .toList();
 
     final products = await Purchases.getProducts(
       identifiers,

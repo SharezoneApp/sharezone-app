@@ -61,9 +61,9 @@ class SocialButton extends StatelessWidget {
     if (socialButtonTypes != SocialButtonTypes.email)
       launchURL(link);
     else {
-      final url = Uri.encodeFull("mailto:$link");
-      if (await canLaunch(url)) {
-        launch(url);
+      final url = Uri.parse(Uri.encodeFull("mailto:$link"));
+      if (await canLaunchUrl(url)) {
+        launchUrl(url);
       } else {
         showSnackSec(
           text: "E-Mail: $link",

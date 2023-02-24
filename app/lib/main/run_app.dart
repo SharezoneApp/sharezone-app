@@ -29,7 +29,10 @@ import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
+import 'package:sharezone_utils/platform.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../firebase_options_dev.g.dart';
 
 BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
   // ignore:close_sinks
@@ -82,7 +85,13 @@ Future<AppDependencies> initializeDependencies() async {
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  // On all platforms except the Web the FirebaseOptions are read from the
+  // config files. We might update this in the future so that all platforms
+  // have their FirebaseOptions read via DefaultFirebaseOptions.
+  await Firebase.initializeApp(
+      options:
+          PlatformCheck.isWeb ? DefaultFirebaseOptions.currentPlatform : null);
 
   final pluginInitializations = await runPluginInitializations();
 

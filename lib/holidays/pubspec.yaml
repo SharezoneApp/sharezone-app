@@ -23,7 +23,7 @@ dependencies:
   http: ^0.13.3
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^3.0.4
+  cloud_functions: ^4.0.11
   app_functions:
     path: ../app_functions
 
@@ -34,5 +34,5 @@ dev_dependencies:
   mockito: ^5.0.7
   build_runner: ^2.1.4
   built_value_generator: ^8.1.1
-  lints: ^1.0.0
+  lints: ^2.0.1
   test: ^1.22.0

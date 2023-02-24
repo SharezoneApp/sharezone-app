@@ -22,5 +22,5 @@ class ProductId extends Id {
 
 abstract class PurchaseService {
   Future<void> purchase(ProductId id);
-  Future<List<Product>> getProducts();
+  Future<List<StoreProduct>> getProducts();
 }

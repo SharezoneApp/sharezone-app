@@ -21,11 +21,6 @@ class LocalDynamicLinks extends DynamicLinks {
   }
 
   @override
-  DynamicLinkData getDynamicLinkDataFromMap(Map linkData) {
-    throw UnimplementedError();
-  }
-
-  @override
   void onLink({onSuccess, onError}) {
     if (onLinkSuccessReturn != null) {
       onSuccess(onLinkSuccessReturn);
