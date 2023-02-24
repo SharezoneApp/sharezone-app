@@ -76,6 +76,7 @@ class _CurrentlyReadingState {
   final _Viewport filteredViewport;
 
   /// The [DocumentSectionId] that is at the very end of the privacy policy.
+  ///
   /// It is used to see if the user has reached the bottom of the document.
   ///
   /// We use this workaround since we can't access the `ScrollController` of the
@@ -86,14 +87,15 @@ class _CurrentlyReadingState {
   /// https://github.com/google/flutter.widgets/issues/235
   final DocumentSectionId endOfDocumentSectionId;
 
-  /// Saves the [_HeadingState] of the last heading seen on screen after we call
-  /// [updateViewport] with a [_Viewport] where [_Viewport.noHeadingsVisible] is
-  /// true.
+  /// State of last heading seen on screen.
   ///
-  /// Basically if we scroll out the last heading on screen we need to know if
-  /// we scrolled it out the top or bottom of the page so that we can compute
-  /// which section we are currently reading even though no headings are visible
-  /// anymore.
+  /// Saves the [_HeadingState] of the last heading seen in the [_Viewport] if
+  /// we currently see headings and [updateViewport] is called with a new
+  /// [_Viewport] where [_Viewport.noHeadingsVisible] is `true`.
+  ///
+  /// If we scroll out the last heading on screen we need to know if we scrolled
+  /// it out the top or bottom of the page so that we can compute which section
+  /// we are currently reading even though no headings are visible anymore.
   final _HeadingState lastSeenHeadingState;
 
   factory _CurrentlyReadingState({
