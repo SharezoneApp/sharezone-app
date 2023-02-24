@@ -73,7 +73,7 @@ class _CurrentlyReadingState {
   /// From a UX perspective we want to ignore unknown headings since it would be
   /// confusing if a user scrolls past a unknown heading and suddendly no
   /// section is marked as currently read inside the table of contents anymore.
-  final _Viewport viewport;
+  final _Viewport filteredViewport;
 
   /// The [DocumentSectionId] that is at the very end of the privacy policy.
   /// It is used to see if the user has reached the bottom of the document.
@@ -105,7 +105,7 @@ class _CurrentlyReadingState {
 
     return _CurrentlyReadingState._(
       tocSections: tocSections,
-      viewport: noUnknwonHeadings,
+      filteredViewport: noUnknwonHeadings,
       endOfDocumentSectionId: endOfDocumentSectionId,
       lastSeenHeadingState: null,
     );
@@ -113,7 +113,7 @@ class _CurrentlyReadingState {
 
   _CurrentlyReadingState._({
     @required this.tocSections,
-    @required this.viewport,
+    @required this.filteredViewport,
     @required this.endOfDocumentSectionId,
     @required this.lastSeenHeadingState,
   }) : assert(() {
@@ -121,7 +121,7 @@ class _CurrentlyReadingState {
           // unknown to us.
           // See documentation of [viewport] property.
           final viewportContainsOnlyKnownHeadings =
-              viewport.sortedHeadingPositions.every((element) =>
+              filteredViewport.sortedHeadingPositions.every((element) =>
                   tocSections.contains(element.documentSectionId) ||
                   element.documentSectionId == endOfDocumentSectionId);
 
@@ -144,6 +144,8 @@ class _CurrentlyReadingState {
   // TODO: See if we can make the doc comments read more smoothly with the edge
   // cases in between
   DocumentSectionId _computeCurrentlyRead() {
+    final viewport = filteredViewport;
+
     // If we see no section headings on screen...
     if (viewport.noHeadingsVisible) {
       // ...and we saved what happend with the last section on screen...
@@ -234,7 +236,7 @@ class _CurrentlyReadingState {
   }
 
   _CurrentlyReadingState updateViewport(_Viewport updatedViewport) {
-    updatedViewport = updatedViewport.removeUnknownHeadings(
+    final filteredUpdatedViewport = updatedViewport.removeUnknownHeadings(
         knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
 
     // If we see no section headings on screen we save what heading was last
@@ -242,11 +244,12 @@ class _CurrentlyReadingState {
     //
     // Seeing no section heading can happen if we e.g. scroll inside a section
     // with more text than can be displayed on the screen at once.
-    if (viewport.headingsVisible && updatedViewport.noHeadingsVisible) {
+    if (filteredViewport.headingsVisible &&
+        filteredUpdatedViewport.noHeadingsVisible) {
       // Realistically there should only ever be a single heading but when
       // scrolling really fast it can happen that several headings disappear
       // together.
-      final lastVisible = viewport.sortedHeadingPositions.first;
+      final lastVisible = filteredViewport.sortedHeadingPositions.first;
 
       final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
           ? _HeadingState(
@@ -259,23 +262,23 @@ class _CurrentlyReadingState {
             );
 
       return _copyWith(
-        viewport: updatedViewport,
+        filteredViewport: filteredUpdatedViewport,
         lastSeenHeadingState: newLastSeenHeadingState,
       );
     }
     return _copyWith(
-      viewport: updatedViewport,
+      filteredViewport: filteredUpdatedViewport,
     );
   }
 
   _CurrentlyReadingState _copyWith({
     IList<DocumentSectionId> tocSections,
-    _Viewport viewport,
+    _Viewport filteredViewport,
     _HeadingState lastSeenHeadingState,
   }) {
     return _CurrentlyReadingState._(
       endOfDocumentSectionId: endOfDocumentSectionId,
-      viewport: viewport ?? this.viewport,
+      filteredViewport: filteredViewport ?? this.filteredViewport,
       tocSections: tocSections ?? this.tocSections,
       lastSeenHeadingState: lastSeenHeadingState ?? this.lastSeenHeadingState,
     );
