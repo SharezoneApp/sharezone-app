@@ -265,15 +265,22 @@ class _CurrentlyReadingState {
       // Realistically there should only ever be a single heading but when
       // scrolling really fast it can happen that several headings disappear
       // together.
-      final lastVisible = filteredViewport.sortedHeadingPositions.first;
+      final sortedHeadings = filteredViewport.sortedHeadingPositions;
 
-      final newLastSeenHeadingState = lastVisible.itemLeadingEdge < .5
+      // Simple heuristic: If the last heading we've seen was in the upper half
+      // of the viewport before calling updateViewport then it was scrolled out
+      // at the top otherwise at the bottom.
+      final newLastSeenHeadingState = sortedHeadings.first.itemLeadingEdge < .5
           ? _HeadingState(
-              id: lastVisible.documentSectionId,
+              // If we scroll out multiple headings out the top then we use the
+              // lower one as "last seen".
+              id: sortedHeadings.last.documentSectionId,
               scrolledOutAt: _ScrolledOut.atTheTop,
             )
           : _HeadingState(
-              id: lastVisible.documentSectionId,
+              // If we scroll out multiple headings out the bottom then we use
+              // the upper one as "last seen".
+              id: sortedHeadings.first.documentSectionId,
               scrolledOutAt: _ScrolledOut.atTheBottom,
             );
 

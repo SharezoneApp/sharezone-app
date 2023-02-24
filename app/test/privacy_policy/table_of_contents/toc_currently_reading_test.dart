@@ -362,6 +362,67 @@ void main() {
       expect(controller.currentlyReadSection, 'bar');
     });
 
+    test(
+        'Scrolling out two headings at once out the top will mark the "lower" one as active',
+        () {
+      final sections = [
+        _section('foo'),
+        _section('bar'),
+      ];
+
+      final controller = _createController(sections, threshold: 0.1);
+
+      visibleSections.value = [];
+
+      visibleSections.value = [
+        _headingPosition(
+          'foo',
+          itemLeadingEdge: 0.1,
+          itemTrailingEdge: 0.15,
+        ),
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.2,
+          itemTrailingEdge: 0.25,
+        ),
+      ];
+
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, 'bar');
+    });
+
+    test(
+        'Scrolling out two headings at once out the bottom will mark the section "above" both sections as active',
+        () {
+      final sections = [
+        _section('foo'),
+        _section('bar'),
+        _section('xyz'),
+      ];
+
+      final controller = _createController(sections, threshold: 0.1);
+
+      visibleSections.value = [];
+
+      visibleSections.value = [
+        _headingPosition(
+          'bar',
+          itemLeadingEdge: 0.5,
+          itemTrailingEdge: 0.65,
+        ),
+        _headingPosition(
+          'xyz',
+          itemLeadingEdge: 0.7,
+          itemTrailingEdge: 0.75,
+        ),
+      ];
+
+      visibleSections.value = [];
+
+      expect(controller.currentlyReadSection, 'foo');
+    });
+
     // TODO: Not sure if this test belongs here.
     // we need to test this since before there was no test for this behavior.
     // im not sure though if I originally didn't want to tie these tests to a
