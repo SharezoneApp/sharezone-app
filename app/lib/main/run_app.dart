@@ -26,13 +26,14 @@ import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../firebase_options_dev.g.dart';
+import '../firebase_options_dev.g.dart' as fb_dev;
+import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
   // ignore:close_sinks
@@ -58,8 +59,8 @@ DynamicLinkBloc runDynamicLinkBloc(
   return dynamicLinkBloc;
 }
 
-Future<void> runFlutterApp() async {
-  final dependencies = await initializeDependencies();
+Future<void> runFlutterApp({@required Flavor flavor}) async {
+  final dependencies = await initializeDependencies(flavor: flavor);
 
   runZonedGuarded<Future<void>>(
     () async => runApp(Sharezone(
@@ -80,18 +81,15 @@ Future<void> runFlutterApp() async {
   );
 }
 
-Future<AppDependencies> initializeDependencies() async {
+Future<AppDependencies> initializeDependencies({
+  @required Flavor flavor,
+}) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
 
-  // On all platforms except the Web the FirebaseOptions are read from the
-  // config files. We might update this in the future so that all platforms
-  // have their FirebaseOptions read via DefaultFirebaseOptions.
-  await Firebase.initializeApp(
-      options:
-          PlatformCheck.isWeb ? DefaultFirebaseOptions.currentPlatform : null);
+  await _initializeFirebase(flavor);
 
   final pluginInitializations = await runPluginInitializations();
 
@@ -181,6 +179,20 @@ Future<AppDependencies> initializeDependencies() async {
     blocDependencies: blocDependencies,
     pluginInitializations: pluginInitializations,
   );
+}
+
+Future<void> _initializeFirebase(Flavor flavor) async {
+  switch (flavor) {
+    case Flavor.dev:
+      await Firebase.initializeApp(
+        options: fb_dev.DefaultFirebaseOptions.currentPlatform,
+      );
+      break;
+    case Flavor.prod:
+      await Firebase.initializeApp(
+        options: fb_prod.DefaultFirebaseOptions.currentPlatform,
+      );
+  }
 }
 
 /// The dependencies for the [Sharezone] widget and the integration tests.
