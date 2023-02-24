@@ -128,7 +128,14 @@ class HomeworkPageBloc extends BlocBase {
 
   /// Take care of closing streams.
   @override
-  void dispose() {
+  Future<void> dispose() async {
+    await Future.wait([
+      _homeworkNotDoneSubject.drain(),
+      _homeworkDoneSubject.drain(),
+      _errorsSubject.drain(),
+      _homeworkListSubject.drain(),
+    ]);
+
     _homeworkNotDoneSubject.close();
     _homeworkDoneSubject.close();
     _toggleIsHomeworkDoneToController.close();
