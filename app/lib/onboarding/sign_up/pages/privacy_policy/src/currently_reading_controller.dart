@@ -82,7 +82,8 @@ class _CurrentlyReadingState {
   /// privacy policy text to look at the the scroll position / offset.
   /// This is because the privacy policy text widget uses
   /// `ScrollablePositionedList` which doesn't expose its internal
-  /// `ScrollController`.
+  /// `ScrollController`:
+  /// https://github.com/google/flutter.widgets/issues/235
   final DocumentSectionId endOfDocumentSectionId;
 
   /// Saves the [_HeadingState] of the last heading seen on screen after we call
