@@ -39,6 +39,9 @@ import '../privacy_policy_src.dart';
 /// A [ScrollablePositionedList] internally uses two [ScrollController] that it
 /// doesn't expose to the outside world:
 /// https://github.com/google/flutter.widgets/issues/235
+///
+/// If the issue is fixed please remove the workaround that was used since its
+/// a good chunk of unnecessary complexity.
 class PrivacyPolicyEndSection {
   final String sectionName;
   DocumentSectionId get sectionId =>

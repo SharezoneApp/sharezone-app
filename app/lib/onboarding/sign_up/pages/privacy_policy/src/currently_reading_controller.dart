@@ -85,6 +85,8 @@ class _CurrentlyReadingState {
   /// `ScrollablePositionedList` which doesn't expose its internal
   /// `ScrollController`:
   /// https://github.com/google/flutter.widgets/issues/235
+  ///
+  /// For more info see documentation of [PrivacyPolicyEndSection].
   final DocumentSectionId endOfDocumentSectionId;
 
   /// State of last heading seen on screen.
@@ -144,8 +146,6 @@ class _CurrentlyReadingState {
     return _currentlyReadSectionOrNull;
   }
 
-  // TODO: See if we can make the doc comments read more smoothly with the edge
-  // cases in between
   DocumentSectionId _computeCurrentlyRead() {
     final viewport = filteredViewport;
 
@@ -165,41 +165,55 @@ class _CurrentlyReadingState {
 
         // ... and compute what section we're currently in:
 
-        // Special case: We scrolled above the first section.
+        // If we scrolled above the first section then no section is currently
+        // read.
         if (index == 0 &&
             lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
           return null;
         }
 
-        // Special case: We scrolled past the special end section (
-        // realistically it shouldn't be big enough for that to happen but who
-        // knows).
+        // If we scrolled past the special end section then the last section of
+        // the toc is currently read.
+        // (Realistically the end section shouldn't be big enough to scroll past
+        // it but who knows).
         if (lastSeenHeadingState.id == endOfDocumentSectionId &&
             lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
           return tocSections.last;
         }
 
+        // If the last seen heading was scrolled out at the top then the
+        // currently read section is the one "below" it.
         if (lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
           return tocSections[index];
-        } else if (lastSeenHeadingState.scrolledOutAt ==
-            _ScrolledOut.atTheBottom) {
-          return tocSections[index - 1];
-        } else {
-          throw UnimplementedError();
         }
+
+        // If the last seen heading was scrolled out at the bottom then the
+        // currently read section is the one "above" it.
+        if (lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
+          return tocSections[index - 1];
+        }
+
+        // Isn't reachable.
+        // We used isolated "if"s to make the code more readable, but this will
+        // make the linter complain that we didn't cover all cases without this.
+        throw UnimplementedError();
       }
 
-      // Never seen a section on screen.
+      // We've never seen a section on screen, thus no section is currently
+      // read.
       return null;
     }
 
-    // Special case: We see the document section that signals to us that the
-    // user reached the bottom of the document.
+    // We see sections on-screen:
+
+    // We see the special "end of document" section that signals to us that the
+    // user has reached (more or less) the bottom of the document.
     final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
     if (pos != null) {
       // We mark the last section in our table of contents as currently read
-      // (will probably not be the same as [_endOfDocumentSectionId]).
-      // For more info see docs of [_endOfDocumentSectionId].
+      // (which will most likely not be the same as [endOfDocumentSectionId]).
+      // For more infos for this behavior see the docs of
+      // [endOfDocumentSectionId].
       return tocSections.last;
     }
 
@@ -208,7 +222,7 @@ class _CurrentlyReadingState {
 
     // If no section headings are inside the threshold...
     if (insideThreshold.isEmpty) {
-      // ... we get the index of the top-most section heading on screen...
+      // ... we get the index of the top-most section heading on screen.
       final index = _indexOf(viewport.sortedHeadingPositions.first);
 
       if (index == -1) {
@@ -216,20 +230,19 @@ class _CurrentlyReadingState {
             'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState');
       }
 
-      // Special case: If it's the first section we mark no section as currently
-      // read since we haven't "entered" the first section since it's below
-      // the threshold.
+      // If it's the first toc section then we mark no section as currently read
+      // (since it hasn't passed the threshold yet).
       if (index == 0) {
         return null;
       }
 
-      // ... and mark the section before it as currently read (since our current
-      // section is below the threshold):
+      // Otherwise we mark the section that is "above" or before the current
+      // section as currently read.
       return tocSections[index - 1];
     }
 
-    // If there are section headings inside the threshold we just mark the one
-    // that is closest to the threshold as currently read:
+    // If there are one or multiple headings past the threshold we mark the one
+    // closest to the threhold as currently read.
     return viewport.closestToThresholdOrNull?.documentSectionId;
   }
 
