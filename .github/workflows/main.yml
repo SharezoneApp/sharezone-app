@@ -131,7 +131,98 @@ jobs:
           # We ignore it when no files could be found because the test command
           # could also be failed because of an unit test. In this case there
           # would be no failed golden test to upload.
-          if-no-files-found: ignore   
+          if-no-files-found: ignore
+  
+  android-integration-test:
+    # Is recommended to run the job with a macOS machine to take advantage of
+    # hardware acceleration support provided by HAXM. See more details in the
+    # README.md of the Android emulator action:
+    # https://github.com/ReactiveCircus/android-emulator-runner#usage
+    runs-on: macos-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v3
+
+      # Java is needed for building the APK, see
+      # https://github.com/marketplace/actions/flutter-action.
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@main
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      # Building the Android app as workaround for the timeout problem with
+      # integration tests.
+      #
+      # We need to build the Android app first to hope that the build for the
+      # integration test needs less than 12 minutes. Currently, it's not
+      # possible to increase the timeout for integration tests:
+      # https://github.com/flutter/flutter/issues/105913.
+      #
+      # Using `flutter drive` as workaround is not an option because it's super
+      # flaky in terms of stability. With `flutter drive` ~ 30% the Android
+      # Emulator have difficulties to start properly. 
+      - name: Build Android App
+        working-directory: ./app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+      
+      - name: Run integration tests
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        with:
+          # When you are going to change something here (like a different
+          # target, arch, profile, channel, etc.), please check if these
+          # configurations are stable.
+          #
+          # You can do this by running this workflow multiple times. Use a
+          # matrix to run multiple tests in parallel (matrix needs to be copied
+          # to above the "with"):
+          # strategy:
+          #   fail-fast: false
+          #   matrix:
+          #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          #     test2: [1, 2, 3]
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 5X
+          channel: canary
+          # We use some emulator options for the following reasons:
+          # * "-no-snapshot": Disables the quick boot feature. Therefore, the
+          #   emulator does not load or save the emulator state. We want to have
+          # * "-no-window": Disables the graphical windows, so no display is
+          #   required.
+          #   a fresh testing environment for every test run.
+          # * "-no-boot-anim": Disables the boot animation for faster booting.
+          # * "-camera-back virtualscene": Shows this virtual room when opening
+          #   the back camera where you can walk. Default option for emulators
+          #   created by Android Studio. We use this so we have the same
+          #   environment locally as when using this action. Is needed when
+          #   testing things with the camera. It's also possible to inject
+          #   images into the virtual scene to test things like qr code scanner.
+          # * "-camera-front": Shows this green monster when opening the front
+          #   camera. Default option for emulators created by Android Studio. We
+          #   use this so we have the same environment locally as when using
+          #   this action. Is needed when testing things with camera.
+          emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back virtualscene -camera-front emulated
+          working-directory: ./app
+          # We can not use a multiline command because the
+          # "android-emulator-runner" action doesn't support it. It just takes every
+          # line as separate command.
+          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
     # It seems so that our integration tests are not working `macos-12`. The
