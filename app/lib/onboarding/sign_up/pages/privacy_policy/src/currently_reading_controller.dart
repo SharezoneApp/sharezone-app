@@ -151,31 +151,31 @@ class _CurrentlyReadingState {
 
     // If we see no section headings on screen...
     if (viewport.noHeadingsVisible) {
-      // ...and we saved what happend with the last section on screen...
+      // ...and we saved what happend with the last heading on screen...
       if (lastSeenHeadingState != null) {
-        // ... we find the index of the last section on screen...
-        final sections = [...tocSections, endOfDocumentSectionId];
-        final index = sections
+        // ... we find the index of the last heading on screen...
+        final sectionHeadingIds = [...tocSections, endOfDocumentSectionId];
+        final index = sectionHeadingIds
             .indexWhere((section) => section == lastSeenHeadingState.id);
 
         if (index == -1) {
           throw StateError(
-              "Can't find section with id ${lastSeenHeadingState.id} inside TOC sections + end section ($sections). This is an developer error and needs to be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState.");
+              "Can't find section with id ${lastSeenHeadingState.id} inside TOC sections + end section ($sectionHeadingIds). This is an developer error and needs to be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState.");
         }
 
         // ... and compute what section we're currently in:
 
-        // If we scrolled above the first section then no section is currently
-        // read.
+        // If we scrolled above the first section heading then no section is
+        // currently read.
         if (index == 0 &&
             lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheBottom) {
           return null;
         }
 
-        // If we scrolled past the special end section then the last section of
-        // the toc is currently read.
+        // If we scrolled past the special end section heading then the last
+        // section of the toc is currently read.
         // (Realistically the end section shouldn't be big enough to scroll past
-        // it but who knows).
+        // the heading but who knows).
         if (lastSeenHeadingState.id == endOfDocumentSectionId &&
             lastSeenHeadingState.scrolledOutAt == _ScrolledOut.atTheTop) {
           return tocSections.last;
@@ -199,15 +199,15 @@ class _CurrentlyReadingState {
         throw UnimplementedError();
       }
 
-      // We've never seen a section on screen, thus no section is currently
-      // read.
+      // We've never seen a section heading on screen, thus no section is
+      // currently read.
       return null;
     }
 
-    // We see sections on-screen:
+    // We see section headings on-screen:
 
-    // We see the special "end of document" section that signals to us that the
-    // user has reached (more or less) the bottom of the document.
+    // We see the special "end of document" section heading that signals to us
+    // that the user has reached (more or less) the bottom of the document.
     final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
     if (pos != null) {
       // We mark the last section in our table of contents as currently read
@@ -217,7 +217,7 @@ class _CurrentlyReadingState {
       return tocSections.last;
     }
 
-    // Sections that intersect with or are above the threshold
+    // Section headings that intersect with or are inside the threshold
     final insideThreshold = viewport.sectionsInThreshold;
 
     // If no section headings are inside the threshold...
@@ -241,8 +241,8 @@ class _CurrentlyReadingState {
       return tocSections[index - 1];
     }
 
-    // If there are one or multiple headings past the threshold we mark the one
-    // closest to the threhold as currently read.
+    // If there are one or multiple headings inside the threshold we mark the
+    // one closest to the start of the threshold as currently read.
     return viewport.closestToThresholdOrNull?.documentSectionId;
   }
 
