@@ -87,7 +87,7 @@ workflows:
       - name: Build APK
         script: |
           fvm flutter build apk \
-            --flavor dev
+            --flavor dev \
             --target lib/main_dev.dart
       - name: Build IPA
         script: |
