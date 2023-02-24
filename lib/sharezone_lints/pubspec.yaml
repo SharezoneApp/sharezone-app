@@ -1,0 +1,27 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: sharezone_lints
+version: 1.0.0
+description: Set of lint rules for Sharezone Dart and Flutter projects
+publish_to: "none"
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  # We can not add the flutter_lints package to our dev dependencies, because
+  # otherwise you will get this error: "The include file
+  # 'package:flutter_lints/flutter.yaml' in
+  # '[...]/sharezone-app/lib/sharezone_lints/lib/analysis_options.yaml'
+  # can't be found when analyzing '/[...]/sharezone-app/app'."
+  #
+  # The flutter_lints packages depends on the lints packages and does it the
+  # same way:
+  # https://github.com/flutter/packages/blob/master/packages/flutter_lints/pubspec.yaml
+  flutter_lints: ^2.0.1

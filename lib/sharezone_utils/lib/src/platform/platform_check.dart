@@ -118,14 +118,14 @@ class PlatformCheckVariant extends TestVariant<Platform> {
   final Set<Platform> values;
 
   @override
-  String describeValue(Platform platform) => platform.toString();
+  String describeValue(Platform value) => value.toString();
 
   /// This method behaviour is copied from TargetPlatformVariant
   @override
   Future<Platform> setUp(Platform platform) async {
     final previous = PlatformCheck.currentPlatform;
     PlatformCheck.setCurrentPlatformForTesting(platform);
-    // Why returing [previous]? See in [TestVariant.setUp]
+    // Why returning [previous]? See in [TestVariant.setUp]
     return previous;
   }
 
