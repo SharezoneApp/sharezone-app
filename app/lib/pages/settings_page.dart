@@ -14,7 +14,6 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
-import 'package:sharezone/pages/settings/license.dart';
 import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_policy.dart';
@@ -99,9 +98,19 @@ class _LegalSection extends StatelessWidget {
           _SettingsOption(
             title: "Lizenzen",
             icon: Icons.layers,
-            tag: LicensesPage.tag,
+            onTap: () => _openLicensePage(context),
           ),
         ],
+      ),
+    );
+  }
+
+  void _openLicensePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LicensePage(),
+        settings: RouteSettings(name: 'license-page'),
       ),
     );
   }
