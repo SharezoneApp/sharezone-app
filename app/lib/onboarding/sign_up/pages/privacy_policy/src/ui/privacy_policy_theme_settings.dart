@@ -59,7 +59,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     notifyListeners();
 
     _analytics.log(NamedAnalyticsEvent(
-      name: 'ui_privacy_policy_text_scaling_factor_changed',
+      name: 'ui_privacy_policy_text_scaling_changed',
       data: {'text_scaling_factor': textScalingFactor},
     ));
   }
