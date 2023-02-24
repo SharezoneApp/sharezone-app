@@ -60,5 +60,6 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
 AnalyticsBackend getBackend() {
   if (PlatformCheck.isMacOS) return NullAnalyticsBackend();
-  return FirebaseAnalyticsBackend(FirebaseAnalytics(), getCrashAnalytics());
+  return FirebaseAnalyticsBackend(
+      FirebaseAnalytics.instance, getCrashAnalytics());
 }

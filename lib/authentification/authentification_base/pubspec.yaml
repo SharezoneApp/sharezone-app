@@ -33,13 +33,13 @@ dependencies:
       url: https://github.com/GroovinChip/firebase_dart_sdk.git
       ref: null_safety
       path: google_sign_in_dart
-  cloud_firestore: any
-  firebase_auth: any
+  cloud_firestore: ^4.4.3
+  firebase_auth: ^4.2.9
   firebase_auth_oauth: any
   google_sign_in: ^5.0.4
   meta: ^1.1.8
   rxdart: ^0.27.1
-  sign_in_with_apple: ^3.3.0
+  sign_in_with_apple: ^4.3.0
 
 dev_dependencies:
   flutter_test:

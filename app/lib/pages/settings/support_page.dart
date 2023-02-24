@@ -115,10 +115,10 @@ class _EmailTile extends StatelessWidget {
       title: 'support@sharezone.net',
       subtitle: 'E-Mail',
       onPressed: () async {
-        final url = Uri.encodeFull(
-            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭');
-        if (await canLaunch(url)) {
-          launch(url);
+        final url = Uri.parse(Uri.encodeFull(
+            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭'));
+        if (await canLaunchUrl(url)) {
+          launchUrl(url);
         } else {
           showSnackSec(
             context: context,

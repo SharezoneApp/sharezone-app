@@ -23,9 +23,8 @@ dependencies:
     path: ../sharezone_common
   sharezone_utils:
     path: ../sharezone_utils
-  firebase: ^9.0.1
-  firebase_analytics: ^8.3.4
-  firebase_auth: any
+  firebase_analytics: ^10.1.4
+  firebase_auth: ^4.2.9
 
 dev_dependencies:
   flutter_test:

@@ -29,14 +29,7 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
-      # We can't use XCode +14.0 because they changed some behavior how code
-      # signing works, which is the reason why are getting "Signing for
-      # "DKPhotoGallery-DKPhotoGallery" requires a development team." as an
-      # error. When https://github.com/flutter/flutter/pull/111714 is in our
-      # Flutter version that we are using, we can try again to use XCode +14.0.
-      #
-      # Ticket: https://github.com/flutter/flutter/issues/111475
-      xcode: 13.3
+      xcode: latest
       groups:
         - github
         - ios-publishing

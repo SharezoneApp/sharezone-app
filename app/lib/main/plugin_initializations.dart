@@ -43,8 +43,9 @@ class PluginInitializations {
     // Web wird vom RevenueCat-Package nicht unterstützt
     if (!PlatformCheck.isWeb) {
       try {
-        if (!kReleaseMode) await Purchases.setDebugLogsEnabled(true);
-        await Purchases.setup(apiKey, appUserId: uid);
+        if (!kReleaseMode) await Purchases.setLogLevel(LogLevel.debug);
+        await Purchases.configure(
+            PurchasesConfiguration(apiKey)..appUserID = uid);
       } catch (e) {
         print('RevenueCat konnte nicht inizialisiert werden: $e');
       }
