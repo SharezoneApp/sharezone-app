@@ -208,7 +208,7 @@ class _CurrentlyReadingState {
 
     // We see the special "end of document" section heading that signals to us
     // that the user has reached (more or less) the bottom of the document.
-    final pos = viewport.getFirstPositionOfOrNull(endOfDocumentSectionId);
+    final pos = viewport.getPositionOfOrNull(endOfDocumentSectionId);
     if (pos != null) {
       // We mark the last section in our table of contents as currently read
       // (which will most likely not be the same as [endOfDocumentSectionId]).
@@ -309,6 +309,7 @@ class _CurrentlyReadingState {
 }
 
 class _Viewport {
+  /// Visible headings sorted from top-to-bottom / start-to-finish.
   final IList<DocumentSectionHeadingPosition> sortedHeadingPositions;
   final CurrentlyReadThreshold threshold;
 
@@ -345,7 +346,7 @@ class _Viewport {
         .toIList();
   }
 
-  DocumentSectionHeadingPosition getFirstPositionOfOrNull(
+  DocumentSectionHeadingPosition getPositionOfOrNull(
       DocumentSectionId documentSectionId) {
     return sortedHeadingPositions.firstWhere(
         (element) => element.documentSectionId == documentSectionId,
@@ -357,7 +358,6 @@ class _Viewport {
       '_Viewport(sortedHeadingPositions: $sortedHeadingPositions, threshold: $threshold)';
 }
 
-// TODO: Can we replace this with extended enum?
 class _HeadingState {
   final DocumentSectionId id;
   final _ScrolledOut scrolledOutAt;
