@@ -92,7 +92,7 @@ workflows:
       - name: Build IPA
         script: |
           fvm flutter build ipa \
-            --export-options-plist=/Users/builder/export_options.plist
+            --export-options-plist=/Users/builder/export_options.plist \
             --flavor dev \
             --target lib/main_dev.dart
     artifacts:
