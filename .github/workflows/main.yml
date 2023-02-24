@@ -201,12 +201,12 @@ jobs:
           profile: Nexus 5X
           channel: canary
           # We use some emulator options for the following reasons:
-          # * "-no-boot-anim": Disables the boot animation for faster booting.
-          # * "-no-window": Disables the graphical windows, so no display is
-          #   required.
           # * "-no-snapshot": Disables the quick boot feature. Therefore, the
           #   emulator does not load or save the emulator state. We want to have
+          # * "-no-window": Disables the graphical windows, so no display is
+          #   required.
           #   a fresh testing environment for every test run.
+          # * "-no-boot-anim": Disables the boot animation for faster booting.
           # * "-camera-back virtualscene": Shows this virtual room when opening
           #   the back camera where you can walk. Default option for emulators
           #   created by Android Studio. We use this so we have the same
@@ -222,12 +222,6 @@ jobs:
           # We can not use a multiline command because the
           # "android-emulator-runner" action doesn't support it. It just takes every
           # line as separate command.
-          #
-          # We use the `flutter drive` instead of the `flutter test` command
-          # because the test command times out after 12 minutes. But building the
-          # app takes more than 12 minutes... It seems so that there is no way to
-          # set the timeout (the --timeout argument has not effect). Tracking
-          # issue: https://github.com/flutter/flutter/issues/105913
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
