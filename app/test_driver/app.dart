@@ -7,9 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:sharezone/main.dart' as app;
+import 'package:sharezone/main_common.dart' as app;
+import 'package:sharezone/util/flavor.dart';
 
 Future<void> main() async {
   enableFlutterDriverExtension();
-  return app.main(isDriverTest: true);
+  return app.main(flavor: Flavor.dev, isDriverTest: true);
 }

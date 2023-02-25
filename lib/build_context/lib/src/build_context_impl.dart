@@ -48,11 +48,11 @@ extension MediaQueryExt on BuildContext {
 }
 
 extension NavigatorExt on BuildContext {
-  Future<T> push<T>(Route<T> route) => Navigator.push(this, route);
+  Future<T?> push<T>(Route<T> route) => Navigator.push(this, route);
 
-  void pop<T extends Object>([T result]) => Navigator.pop(this, result);
+  void pop<T extends Object>([T? result]) => Navigator.pop(this, result);
 
-  Future<Object> pushNamed<T>(String routeName, {Object arguments}) =>
+  Future<Object?> pushNamed<T>(String routeName, {Object? arguments}) =>
       Navigator.pushNamed(this, routeName, arguments: arguments);
 
   bool canPop() => Navigator.canPop(this);
@@ -120,11 +120,13 @@ extension ScaffoldExt on BuildContext {
 
   void openEndDrawer() => Scaffold.of(this).openEndDrawer();
 
-  void showBottomSheet(WidgetBuilder builder,
-          {Color backgroundColor,
-          double elevation,
-          ShapeBorder shape,
-          Clip clipBehaviour}) =>
+  void showBottomSheet(
+    WidgetBuilder builder, {
+    Color? backgroundColor,
+    double? elevation,
+    ShapeBorder? shape,
+    Clip? clipBehaviour,
+  }) =>
       Scaffold.of(this).showBottomSheet(builder,
           backgroundColor: backgroundColor,
           elevation: elevation,
@@ -165,7 +167,7 @@ class _FocusScope {
 
   void nextFocus() => _node().nextFocus();
 
-  void requestFocus([FocusNode node]) => _node().requestFocus(node);
+  void requestFocus([FocusNode? node]) => _node().requestFocus(node);
 
   void previousFocus() => _node().previousFocus();
 

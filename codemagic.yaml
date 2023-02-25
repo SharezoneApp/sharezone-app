@@ -85,9 +85,16 @@ workflows:
       - name: Install dependencies
         script: fvm flutter pub get
       - name: Build APK
-        script: fvm flutter build apk --flavor dev
+        script: |
+          fvm flutter build apk \
+            --flavor dev \
+            --target lib/main_dev.dart
       - name: Build IPA
-        script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
+        script: |
+          fvm flutter build ipa \
+            --export-options-plist=/Users/builder/export_options.plist \
+            --flavor dev \
+            --target lib/main_dev.dart
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa
