@@ -34,7 +34,7 @@ jobs:
       # From https://codemagic.io/app/62d2f58c726fce097e34c0b4/
       CODEMAGIC_APP_ID: "629c82ea463af7ff553fc7a5"
       # From "codemagic.yaml"
-      CODEMAGIC_WORKFLOW_ID: "app_preview"
+      CODEMAGIC_WORKFLOW_ID: "app-preview"
     steps:
       - name: Start Codemagic Build
         run: |
