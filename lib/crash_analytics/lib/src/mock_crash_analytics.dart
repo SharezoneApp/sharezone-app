@@ -21,7 +21,7 @@ class MockCrashAnalytics implements CrashAnalytics {
   bool isCrashAnalyticsEnabled = true;
 
   @override
-  bool enableInDevMode;
+  bool? enableInDevMode;
 
   @override
   void crash() {

@@ -9,7 +9,7 @@
 import 'package:flutter/foundation.dart';
 
 abstract class CrashAnalytics {
-  bool enableInDevMode;
+  bool? enableInDevMode;
   void crash();
   Future<void> recordFlutterError(FlutterErrorDetails details);
   Future<void> recordError(dynamic exception, StackTrace stack);
