@@ -122,6 +122,7 @@ jobs:
         fvm flutter build apk \
           --release \
           --flavor prod \
+          --target=lib/main_prod.dart \
           --dart-define DEVELOPMENT_STAGE=ALPHA
 
     - name: Install Firebase CLI

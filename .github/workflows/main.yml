@@ -317,7 +317,10 @@ jobs:
 
       - name: Build web app
         working-directory: app
-        run: fvm flutter build web --release
+        run: |
+          fvm flutter build web \
+            --release \
+            --target=lib/main_dev.dart
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@v0

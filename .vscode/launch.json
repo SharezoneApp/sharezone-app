@@ -4,32 +4,15 @@
     // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-        {
-            "name": "[Debug] main",
-            "type": "dart",
-            "request": "launch",
-            "args": [],
-            "program": "app/lib/main.dart"
-        },
-        {
-            "name": "[Release] main",
-            "type": "dart",
-            "request": "launch",
-            "args": [
-                "--release",
-            ],
-            "program": "app/lib/main.dart"
-        },
         {
             "name": "[Debug] - Production flavor",
             "type": "dart",
             "request": "launch",
             "args": [
                 "--flavor",
-                "prod"
+                "prod",
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_prod.dart"
         },
         {
             "name": "[Debug] - Development flavor",
@@ -39,7 +22,7 @@
                 "--flavor",
                 "dev"
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_dev.dart"
         },
         {
             "name": "[Profiling] - Production flavor",
@@ -50,7 +33,7 @@
                 "--flavor",
                 "prod"
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_prod.dart"
         },
         {
             "name": "[Profiling] - Development flavor",
@@ -61,7 +44,7 @@
                 "--flavor",
                 "dev"
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_dev.dart"
         },
         {
             "name": "[Release] - Production Run flavor",
@@ -72,7 +55,7 @@
                 "--flavor",
                 "prod"
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_prod.dart"
         },
         {
             "name": "[Release] - Web with SKIA",
@@ -82,7 +65,7 @@
                 "--release",
                 "--dart-define=FLUTTER_WEB_USE_SKIA=true",
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_dev.dart"
         },
         {
             "name": "Web with CanvasText",
@@ -92,7 +75,7 @@
                 "--dart-define=FLUTTER_WEB_USE_EXPERIMENTAL_CANVAS_TEXT=true",
                 "--web-enable-expression-evaluation"
             ],
-            "program": "app/lib/main.dart"
+            "program": "app/lib/main_dev.dart"
         },
     ]
 }
