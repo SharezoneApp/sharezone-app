@@ -34,7 +34,6 @@ import 'package:sharezone/navigation/navigation_controller.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
-import 'package:sharezone/pages/settings/license.dart';
 import 'package:sharezone/pages/settings/my_profile/change_email.dart';
 import 'package:sharezone/pages/settings/my_profile/change_password.dart';
 import 'package:sharezone/pages/settings/my_profile/change_state.dart';
@@ -150,7 +149,6 @@ class _SharezoneAppState extends State<SharezoneApp>
                 HomeworkArchivedPage.tag: (context) => HomeworkArchivedPage(),
                 AccountPage.tag: (context) => AccountPage(),
                 AboutPage.tag: (context) => AboutPage(),
-                LicensesPage.tag: (context) => LicensesPage(),
                 FeedbackPage.tag: (context) => FeedbackPage(),
                 ChangelogPage.tag: (context) => ChangelogPage(),
                 CourseHelpPage.tag: (context) => CourseHelpPage(),
