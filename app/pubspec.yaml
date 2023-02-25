@@ -116,7 +116,7 @@ dependencies:
     path: ../lib/remote_configuration
   rxdart: ^0.27.1
   share: ^2.0.4
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.18
   sharezone_about_page_addon:
     path: ../lib/sharezone_about_page_addon
   sharezone_common:
