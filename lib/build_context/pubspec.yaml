@@ -7,12 +7,12 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 name: build_context
-description: A package that simplifies the access most of used properties/fuctions right in the BuildContext.
+description: A package that simplifies the access most of used properties/functions right in the BuildContext.
 version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
