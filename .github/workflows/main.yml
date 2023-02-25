@@ -285,17 +285,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          # Because of https://github.com/flutter/flutter/issues/118469 we can't
+          # use a newer version.
+          flutter-version: '3.3.10'
 
       - name: Install dependencies
         run: flutter pub get
