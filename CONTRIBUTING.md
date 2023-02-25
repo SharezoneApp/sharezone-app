@@ -91,3 +91,19 @@ To install & use FVM, follow the following steps:
 3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
 
 When you are using VS Code, no further steps should be necessary, because we included the `.vscode/setting.json` to git. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
+
+## Running the app
+
+After you have set up your development environment, you can run the app. To run the app, you need to execute the following command:
+
+### Android & iOS
+
+```sh
+fvm flutter run --flavor dev --target lib/main_dev.dart
+```
+
+### Web & macOS
+
+```sh
+fvm flutter run --target lib/main_dev.dart
+```
