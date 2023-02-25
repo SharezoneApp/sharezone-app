@@ -8,7 +8,9 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:sharezone/main/run_app.dart';
+import 'package:sharezone/util/flavor.dart';
 
 /// Zeigt, ob die App momentan von einem Flutter-Driver Test ausgeführt wird.
 ///
@@ -33,7 +35,10 @@ bool kIsDriverTest = false;
 /// [isDriverTest] setzt die globale Variable [kIsDriverTest], um Verhalten für
 /// einfachere Driver-Tests zu ändern. Für mehr Infos siehe Dokumentation von
 /// [kIsDriverTest].
-Future main({bool isDriverTest = false}) async {
+Future main({
+  @required Flavor flavor,
+  bool isDriverTest = false,
+}) async {
   kIsDriverTest = isDriverTest;
-  return runFlutterApp();
+  return runFlutterApp(flavor: flavor);
 }

@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
+import 'package:sharezone/util/flavor.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ void main() {
   _UserCredentials user1;
 
   setUpAll(() async {
-    dependencies = await initializeDependencies();
+    dependencies = await initializeDependencies(flavor: Flavor.dev);
   });
 
   setUp(() async {
