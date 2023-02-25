@@ -309,12 +309,13 @@ jobs:
       # https://github.com/flutter/flutter/issues/105913.
       #
       # Using `flutter test` is way more stable than `flutter drive`.
-      - name: Build Android App
+      - name: Build macOS App
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
         run: |
           flutter build macos \
+            --debug \
             --target=integration_test/app_test.dart \
             --dart-define USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
