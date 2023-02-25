@@ -16,7 +16,7 @@ environment:
   sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
-  firebase_dynamic_links: ^0.5.3
+  firebase_dynamic_links: ^5.0.15
   sharezone_utils:
     path: ../sharezone_utils
   flutter:

@@ -36,7 +36,7 @@ class ChooseTypeOfUser extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Text("Ich bin...",
-                              style: Theme.of(context).textTheme.headline5),
+                              style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 12),
                           typeOfUserButtons(context),
                           if (withLogin) ...[
@@ -241,7 +241,7 @@ class _LoginButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: TextButton(
         style: TextButton.styleFrom(
-          primary: Colors.grey,
+          foregroundColor: Colors.grey,
         ),
         onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
         child: Padding(

@@ -84,7 +84,7 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
     bloc ??= BlocProvider.of<CourseCreateBlocFactory>(context).create(
       schoolClassId: widget.schoolClassId,
     );
-    bloc.setInitalCourse(widget.course);
+    bloc.setInitialCourse(widget.course);
     super.initState();
   }
 
@@ -157,7 +157,7 @@ class _Subject extends StatelessWidget {
             textInputAction: TextInputAction.next,
             onChanged: bloc.changeSubject,
             onEditingComplete: () =>
-                FocusScope.of(context).requestFocus(nextFocusNode),
+                FocusManager.instance.primaryFocus?.unfocus(),
           ),
         );
       },
@@ -180,8 +180,7 @@ class _Abbreviation extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: abbreviation,
       focusNode: focusNode,
-      onEditingComplete: () =>
-          FocusScope.of(context).requestFocus(nextFocusNode),
+      onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       textInputAction: TextInputAction.next,
       onChanged: bloc.changeAbbreviation,
       decoration: const InputDecoration(
@@ -194,18 +193,15 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.courseName, this.focusNode})
-      : super(key: key);
+  const _CourseName({Key key, this.focusNode}) : super(key: key);
 
-  final String courseName;
   final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseCreateBloc>(context);
     return TextFieldWithDescription(
-      textField: PrefilledTextField(
-        prefilledText: courseName,
+      textField: TextField(
         focusNode: focusNode,
         onChanged: bloc.changeName,
         onEditingComplete: () => submit(context),

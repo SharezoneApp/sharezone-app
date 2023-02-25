@@ -29,14 +29,7 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
-      # We can't use XCode +14.0 because they changed some behavior how code
-      # signing works, which is the reason why are getting "Signing for
-      # "DKPhotoGallery-DKPhotoGallery" requires a development team." as an
-      # error. When https://github.com/flutter/flutter/pull/111714 is in our
-      # Flutter version that we are using, we can try again to use XCode +14.0.
-      #
-      # Ticket: https://github.com/flutter/flutter/issues/111475
-      xcode: 13.3
+      xcode: latest
       groups:
         - github
         - ios-publishing
@@ -67,10 +60,6 @@ workflows:
       cancel_previous_builds: true
     working_directory: app
     scripts:
-      - name: Add Dart SDK to PATH
-        script: |
-          echo PATH="$PATH":"$FLUTTER_ROOT/.pub-cache/bin" >> $CM_ENV
-          echo PATH="$PATH":"$FLUTTER_ROOT/bin" >> $CM_ENV
       - name: Install FVM
         # Settings working directory back to the root of the repository because
         # there is our .fvm folder with all the FVM configurations.
@@ -96,9 +85,16 @@ workflows:
       - name: Install dependencies
         script: fvm flutter pub get
       - name: Build APK
-        script: fvm flutter build apk --flavor dev
+        script: |
+          fvm flutter build apk \
+            --flavor dev \
+            --target lib/main_dev.dart
       - name: Build IPA
-        script: fvm flutter build ipa --export-options-plist=/Users/builder/export_options.plist --flavor dev
+        script: |
+          fvm flutter build ipa \
+            --export-options-plist=/Users/builder/export_options.plist \
+            --flavor dev \
+            --target lib/main_dev.dart
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/ios/ipa/*.ipa

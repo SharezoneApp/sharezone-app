@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:encrypt/encrypt.dart';
-import 'package:meta/meta.dart';
 
 class AESEncryptable {
   final Key key;
@@ -16,8 +15,8 @@ class AESEncryptable {
   AESEncryptable._(this.key, this.iv);
 
   factory AESEncryptable.fromKeyString({
-    @required String key,
-    @required String iv,
+    required String key,
+    required String iv,
   }) {
     return AESEncryptable._(Key.fromBase64(key), IV.fromBase64(iv));
   }

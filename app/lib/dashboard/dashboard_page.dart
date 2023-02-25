@@ -13,7 +13,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:holidays/holidays.dart' hide State;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/blackboard/blackboard_page.dart';
+import 'package:sharezone/blackboard/blackboard_view.dart';
+import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
@@ -24,14 +28,11 @@ import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/dashboard/widgets/blackboard_card_dashboard.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_custom_scaffold.dart';
 import 'package:sharezone/overview/cache/profile_page_hint_cache.dart';
-import 'package:sharezone/pages/blackboard/details/blackboard_details.dart';
-import 'package:sharezone/pages/blackboard_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/my_profile/change_state.dart';
@@ -43,7 +44,6 @@ import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/animated_stream_list.dart';
-import 'package:sharezone/widgets/blackboard/blackboard_view.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
@@ -134,7 +134,7 @@ class DashboardPageBody extends StatelessWidget {
               const _HomeworkSection(),
               _EventsSection(),
               _BlackboardSection(),
-              _HolidayCountdownSection(),
+              HolidayCountdownSection(),
               const SizedBox(height: 32)
             ],
           ),
@@ -165,7 +165,7 @@ class _AppBarTitle extends StatelessWidget {
     return Text(
       NavigationItem.overview.getName(),
       style:
-          Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+          Theme.of(context).textTheme.titleLarge.copyWith(color: Colors.white),
       key: const ValueKey('dashboard-appbar-title-E2E'),
     );
   }

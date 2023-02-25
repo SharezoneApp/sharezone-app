@@ -1,0 +1,20 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    # Generated files with build_runner
+    - "**/*.g.dart"
+    # Generated files with Mockito
+    - "**/**.mocks.dart"
+
+linter:
+  rules:
+    # We can add here our own rules, which are not included in the flutter_lints

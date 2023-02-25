@@ -45,8 +45,12 @@ abstract class Package {
   factory Package.fromDirectory(Directory directory) {
     final pubspecFile = File(path.join(directory.path, 'pubspec.yaml'));
     final YamlMap pubspecYaml = loadYaml(pubspecFile.readAsStringSync());
-    final YamlMap dependencies = pubspecYaml['dependencies'];
-    final containsFlutter = dependencies?.containsKey('flutter') ?? false;
+    final YamlMap dependencies = pubspecYaml['dependencies'] ?? YamlMap();
+    final YamlMap devDependencies =
+        pubspecYaml['dev_dependencies'] ?? YamlMap();
+    final containsFlutter = dependencies.containsKey('flutter') ||
+            devDependencies.containsKey('flutter') ??
+        false;
     final name = pubspecYaml['name'] as String;
     final hasTestDirectory =
         Directory(path.join(directory.path, 'test')).existsSync();
@@ -76,8 +80,8 @@ abstract class Package {
 
   Future<void> _runTuneup() async {
     await runProcessSucessfullyOrThrow(
-      'dart',
-      ['pub', 'global', 'run', 'tuneup', 'check', '--fail-on-todos'],
+      'fvm',
+      ['dart', 'pub', 'global', 'run', 'tuneup', 'check', '--fail-on-todos'],
       workingDirectory: location.path,
     );
   }
@@ -110,7 +114,7 @@ class DartPackage extends Package {
 
   @override
   Future<void> getPackages() async {
-    await runProcessSucessfullyOrThrow('dart', ['pub', 'get'],
+    await runProcessSucessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
         workingDirectory: location.path);
   }
 
@@ -119,8 +123,8 @@ class DartPackage extends Package {
     await getPackages();
 
     await runProcessSucessfullyOrThrow(
-      'dart',
-      ['test'],
+      'fvm',
+      ['dart', 'test'],
       workingDirectory: location.path,
     );
   }
@@ -141,8 +145,8 @@ class FlutterPackage extends Package {
   @override
   Future<void> getPackages() async {
     await runProcessSucessfullyOrThrow(
-      'flutter',
-      ['pub', 'get'],
+      'fvm',
+      ['flutter', 'pub', 'get'],
       workingDirectory: location.path,
     );
   }
@@ -153,8 +157,8 @@ class FlutterPackage extends Package {
     /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
     await runProcessSucessfullyOrThrow(
-      'flutter',
-      ['test'],
+      'fvm',
+      ['flutter', 'test'],
       workingDirectory: location.path,
     );
   }

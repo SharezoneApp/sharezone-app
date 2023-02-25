@@ -189,13 +189,8 @@ class _NewNavigationExperiment extends StatelessWidget {
 }
 
 class _NavigationRadioGroup extends StatelessWidget {
-  final NavigationExperimentOption option;
-  final int number;
-
   const _NavigationRadioGroup({
     Key key,
-    this.option,
-    this.number,
   }) : super(key: key);
 
   @override
@@ -329,7 +324,8 @@ class _ContactSupportButton extends StatelessWidget {
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
       child: Text("Support kontaktieren".toUpperCase()),
       style: TextButton.styleFrom(
-        primary: isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
+        foregroundColor:
+            isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
       ),
     );
   }

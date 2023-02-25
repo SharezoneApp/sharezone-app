@@ -100,8 +100,9 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                             children: <Widget>[
                               NameField(
                                 focusNode: nameFocusNode,
-                                onEditingComplete: () => FocusScope.of(context)
-                                    .requestFocus(emailFocusNode),
+                                onEditingComplete: () => FocusManager
+                                    .instance.primaryFocus
+                                    .unfocus(),
                                 initialName: widget.user.name,
                                 nameStream: bloc.name,
                                 onChanged: bloc.changeName,

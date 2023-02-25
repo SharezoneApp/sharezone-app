@@ -11,21 +11,16 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:args/src/arg_results.dart';
-import 'package:meta/meta.dart';
-import 'package:path/path.dart' as path;
 import 'package:sz_repo_cli/src/common/common.dart';
-
-const _debugConfig = 'firebase_init_debug.js';
-const _prodConfig = 'firebase_init_release.js';
 
 // All apps are deployed in the production firebase project but under different
 // domains.
 // All apps also have the production config (they use and display the production
 // data).
 final _webAppConfigs = {
-  'alpha': _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', _prodConfig),
-  'beta': _WebAppConfig('beta-web-app', 'sharezone-c2bd8', _prodConfig),
-  'prod': _WebAppConfig('release-web-app', 'sharezone-c2bd8', _prodConfig),
+  'alpha': _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
+  'beta': _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
+  'prod': _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
 };
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
@@ -88,72 +83,60 @@ class DeployWebAppCommand extends Command {
     final releaseStage = _parseReleaseStage(argResults);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    final webAppIndexHtmlFile = File(path.join(
-        _repo.sharezoneFlutterApp.location.path, 'web', 'index.html'));
-    _replaceFirebaseConfig(webAppIndexHtmlFile,
-        oldConfigName: _debugConfig,
-        newConfigName: webAppConfig.firebaseConfigFileName);
-
-    try {
-      await runProcessSucessfullyOrThrow(
+    await runProcessSucessfullyOrThrow(
+      'fvm',
+      [
         'flutter',
+        'build',
+        'web',
+        '--target',
+        'lib/main_${webAppConfig.flavor}.dart',
+        '--release',
+        '--web-renderer',
+        'canvaskit',
+        '--dart-define',
+        'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
+      ],
+      workingDirectory: _repo.sharezoneFlutterApp.location.path,
+    );
+
+    String deployMessage;
+    if (overriddenDeployMessageOrNull == null) {
+      final currentCommit = await _getCurrentCommitHash();
+      deployMessage = 'Commit: $currentCommit';
+    }
+
+    await runProcessSucessfullyOrThrow(
+        'firebase',
         [
-          'build',
-          'web',
-          '--release',
-          '--web-renderer',
-          'canvaskit',
-          '--dart-define',
-          'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
+          'deploy',
+          '--only',
+          'hosting:${webAppConfig.deployTargetName}',
+          '--project',
+          webAppConfig.firebaseProjectId,
+          '--message',
+          deployMessage ?? overriddenDeployMessageOrNull,
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
-      );
 
-      String deployMessage;
-      if (overriddenDeployMessageOrNull == null) {
-        final currentCommit = await _getCurrentCommitHash();
-        deployMessage = 'Commit: $currentCommit';
-      }
-
-      await runProcessSucessfullyOrThrow(
-          'firebase',
-          [
-            'deploy',
-            '--only',
-            'hosting:${webAppConfig.deployTargetName}',
-            '--project',
-            webAppConfig.firebaseProjectId,
-            '--message',
-            deployMessage ?? overriddenDeployMessageOrNull,
-          ],
-          workingDirectory: _repo.sharezoneFlutterApp.location.path,
-
-          // If we run this inside the CI/CD system we want this call to be
-          // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
-          // variable.
-          //
-          // Unfortunately it doesn't work to export the environment variable
-          // inside the CI/CD job and let the firebase cli use it automatically.
-          // Even when using [Process.includeParentEnvironment] the variables
-          // are not passed to the firebase cli.
-          //
-          // Thus the CI/CD script can pass the
-          // [googleApplicationCredentialsFile] manually via an command line
-          // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
-          // below.
-          environment: {
-            if (googleApplicationCredentialsFile != null)
-              'GOOGLE_APPLICATION_CREDENTIALS':
-                  googleApplicationCredentialsFile.absolute.path,
-          });
-    } finally {
-      // Even if we fail to build or deploy we want to reset the web config
-      // back to the debug config. Otherwise developers might unexpectedly
-      // use the production project for developing purposes.
-      _replaceFirebaseConfig(webAppIndexHtmlFile,
-          oldConfigName: webAppConfig.firebaseConfigFileName,
-          newConfigName: _debugConfig);
-    }
+        // If we run this inside the CI/CD system we want this call to be
+        // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
+        // variable.
+        //
+        // Unfortunately it doesn't work to export the environment variable
+        // inside the CI/CD job and let the firebase cli use it automatically.
+        // Even when using [Process.includeParentEnvironment] the variables
+        // are not passed to the firebase cli.
+        //
+        // Thus the CI/CD script can pass the
+        // [googleApplicationCredentialsFile] manually via an command line
+        // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
+        // below.
+        environment: {
+          if (googleApplicationCredentialsFile != null)
+            'GOOGLE_APPLICATION_CREDENTIALS':
+                googleApplicationCredentialsFile.absolute.path,
+        });
   }
 
   File _parseCredentialsFile(ArgResults _argResults) {
@@ -214,25 +197,6 @@ class DeployWebAppCommand extends Command {
     }
     return currentCommit;
   }
-
-  void _replaceFirebaseConfig(
-    File indexHtmlFile, {
-    @required String oldConfigName,
-    @required String newConfigName,
-  }) {
-    final content = indexHtmlFile.readAsStringSync();
-    final newContent = content.replaceAll(oldConfigName, newConfigName);
-    if (content == newContent && oldConfigName != newConfigName) {
-      print(
-          'Replacing $oldConfigName with $newConfigName inside of ${indexHtmlFile.path} failed. This *might* have failed because $oldConfigName was not found inside the ${path.basename(indexHtmlFile.path)} when attempting to replace.');
-      throw ToolExit(10);
-    }
-    indexHtmlFile.writeAsStringSync(newContent);
-
-    if (isVerbose) {
-      print('Replaced firebase config inside index.html with $newConfigName');
-    }
-  }
 }
 
 class _WebAppConfig {
@@ -242,14 +206,19 @@ class _WebAppConfig {
   /// E.g. sharezone-c2bd8 or sharezone-debug
   final String firebaseProjectId;
 
-  /// E.g. firebase_init_release.js
-  /// Needs to be inside /app/web folder.
-  final String firebaseConfigFileName;
+  /// E.g. prod or dev
+  ///
+  /// Will be used to select the correct main file, e.g. main_prod.dart for
+  /// prod.
+  final String flavor;
 
-  const _WebAppConfig(this.deployTargetName, this.firebaseProjectId,
-      this.firebaseConfigFileName);
+  const _WebAppConfig(
+    this.deployTargetName,
+    this.firebaseProjectId,
+    this.flavor,
+  );
 
   @override
   String toString() =>
-      '_WebApp(deployTargetName: $deployTargetName, firebaseProjectId: $firebaseProjectId, firebaseConfigFileName: $firebaseConfigFileName)';
+      '_WebApp(deployTargetName: $deployTargetName, firebaseProjectId: $firebaseProjectId, flavor: $flavor)';
 }

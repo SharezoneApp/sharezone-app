@@ -215,25 +215,19 @@ class _SettingsOption extends StatelessWidget {
     this.icon,
     this.onTap,
     this.tag,
-    this.enabled,
-    this.trailing,
   });
 
   final String title;
   final IconData icon;
-  final bool enabled;
   final GestureTapCallback onTap;
   final String tag;
-  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
       leading: Icon(icon),
-      enabled: enabled ?? true,
       onTap: onTap != null ? onTap : () => Navigator.pushNamed(context, tag),
-      trailing: trailing,
     );
   }
 }

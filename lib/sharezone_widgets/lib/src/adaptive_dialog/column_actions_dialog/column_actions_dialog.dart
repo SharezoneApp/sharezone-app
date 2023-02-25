@@ -63,7 +63,7 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
               .map((action) => TextButton(
                     child: Text(action.title.toUpperCase()),
                     style: TextButton.styleFrom(
-                      primary:
+                      foregroundColor:
                           action.textColor ?? Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context, action.popResult),

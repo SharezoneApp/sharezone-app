@@ -35,7 +35,7 @@ class SubmitButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           onPressed: onPressed,
-          style: ElevatedButton.styleFrom(primary: color),
+          style: ElevatedButton.styleFrom(backgroundColor: color),
           child: Text(
             titel.toUpperCase(),
             style: TextStyle(color: textColor),

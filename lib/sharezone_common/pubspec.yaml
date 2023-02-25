@@ -23,8 +23,8 @@ dependencies:
     path: ../crash_analytics
   sharezone_utils:
     path: ../sharezone_utils
-  cloud_firestore: any
-  firebase_auth: any
+  cloud_firestore: ^4.4.3
+  firebase_auth: ^4.2.9
   intl: any
   quiver: any
 

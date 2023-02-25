@@ -13,7 +13,7 @@ import 'package:notifications/notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
-import 'package:sharezone/main.dart';
+import 'package:sharezone/main_common.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/push_notification_action_handler_instrumentation_implementation.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
@@ -21,6 +21,7 @@ import 'package:sharezone/notifications/widgets/error_dialog.dart';
 import 'package:sharezone/notifications/widgets/in_app_notification.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_utils/platform.dart';
 
 import 'action_requests/action_requests.dart';
 
@@ -125,7 +126,18 @@ class FirebaseMessagingCallbackConfigurator {
   }
 }
 
+/// Prompts the native iOS permissions dialog to ask the user if we are allowed
+/// to send push notifications.
+///
+/// Does nothing if the platform is not iOS.
 Future<void> _requestIOSPermission(BuildContext context) async {
+  if (!PlatformCheck.isIOS) {
+    // We are only using push notifications for iOS and Android. Android does
+    // not required to get the permission from the user. Therefore, we can skip
+    // this for Android devices.
+    return;
+  }
+
   final signUpBloc = BlocProvider.of<SignUpBloc>(context);
   final signedUp = await signUpBloc.signedUp.first;
 

@@ -95,7 +95,7 @@ class _RemovePersonalColor extends StatelessWidget {
       onPressed: () => Navigator.pop(
           context, _SelectDesignPopResult(removePersonalColor: true)),
       style: TextButton.styleFrom(
-        primary: Colors.grey[700],
+        foregroundColor: Colors.grey[700],
       ),
     );
   }
@@ -132,6 +132,7 @@ class _Colors extends StatelessWidget {
                 design: design,
                 isSelected: _isDesignSelected(design),
                 hasPermission: isFullColorSetUnlocked,
+                size: 50,
               ),
             )
             .toList()
@@ -148,7 +149,7 @@ class _ColorCircleSelectDesign extends StatelessWidget {
     @required this.design,
     this.isSelected = false,
     this.hasPermission = true,
-    this.size = 50,
+    this.size,
   }) : super(key: key);
 
   final Design design;
@@ -188,7 +189,9 @@ class _BackToSelectTypeButton extends StatelessWidget {
       icon: Icon(Icons.arrow_back),
       color: Colors.grey,
       onPressed: () => Navigator.pop(
-          context, _SelectDesignPopResult(navigateBackToSelectType: true)),
+        context,
+        _SelectDesignPopResult(navigateBackToSelectType: true),
+      ),
     );
   }
 }

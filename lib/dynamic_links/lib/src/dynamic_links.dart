@@ -33,8 +33,6 @@ abstract class DynamicLinks {
   /// the first attempt.
   Future<DynamicLinkData> getInitialLink();
 
-  DynamicLinkData getDynamicLinkDataFromMap(Map<dynamic, dynamic> linkData);
-
   /// Configures onLink listeners: it has two methods for success and failure.
   void onLink({
     OnLinkSuccessCallback onSuccess,

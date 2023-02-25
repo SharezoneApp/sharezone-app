@@ -24,10 +24,11 @@ class Dimensions {
     if (width < 700) {
       return false;
     } else if (width >= 700 && width <= 700) {
-      if (height > 500)
+      if (height > 500) {
         return true;
-      else
+      } else {
         return false;
+      }
     } else {
       return true;
     }
@@ -48,9 +49,9 @@ class Dimensions {
   }
 
   double get dialogBorderRadiusDimensions {
-    if (isDesktopModus == false)
+    if (isDesktopModus == false) {
       return 0;
-    else {
+    } else {
       return 8;
     }
   }

@@ -145,7 +145,7 @@ class _AddTile extends StatelessWidget {
     return TextButton(
       onPressed: () => bloc.addPeriod(),
       style: TextButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColor,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -220,7 +220,7 @@ class _PeriodTile extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8),
                 child: Text(
                   period.number.toString(),
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
               // StreamBuilder<bool>(
@@ -229,11 +229,11 @@ class _PeriodTile extends StatelessWidget {
                 builder: (context, snapshot) {
                   var style = Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 18);
                   if (snapshot.hasData &&
                       snapshot.data.contains(period.number)) {
-                    style = style.copyWith(color: Theme.of(context).errorColor);
+                    style = style.copyWith(color: Theme.of(context).colorScheme.error);
                   }
                   return Padding(
                     padding: const EdgeInsets.only(left: 26),
