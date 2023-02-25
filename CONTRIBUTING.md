@@ -107,3 +107,5 @@ fvm flutter run --flavor dev --target lib/main_dev.dart
 ```sh
 fvm flutter run --target lib/main_dev.dart
 ```
+
+This command runs the app in the development mode. Keep in mind that the app will not use our production backend. Instead, it will use the development backend. This means that you can't use the app with your production account. You need to create a new account on the development backend. 
