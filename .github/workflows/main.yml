@@ -278,20 +278,47 @@ jobs:
 
   macos-integration-test:
     runs-on: macos-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: app
     steps:
       - uses: actions/checkout@v3
+
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
       - name: Install dependencies
         run: flutter pub get
+
+      # Building the macOS app as workaround for the timeout problem with
+      # integration tests.
+      #
+      # We need to build the macOS app first to hope that the build for the
+      # integration test needs less than 12 minutes. Currently, it's not
+      # possible to increase the timeout for integration tests:
+      # https://github.com/flutter/flutter/issues/105913.
+      #
+      # Using `flutter test` is way more stable than `flutter drive`.
+      - name: Build Android App
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: |
+          flutter build macos \
+            --target=integration_test/app_test.dart \
+            --dart-define USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+
       - name: Run integration tests
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
@@ -302,10 +329,7 @@ jobs:
         # set the timeout (the --timeout argument has not effect). Tracking
         # issue: https://github.com/flutter/flutter/issues/105913
         run: |
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
-            --flavor dev \
+          flutter test integration_test \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d macos
