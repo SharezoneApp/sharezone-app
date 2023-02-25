@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "[Debug] Production without flavor",
+            "type": "dart",
+            "request": "launch",
+            "args": [],
+            "program": "app/lib/main_prod.dart"
+        },
+        {
+            "name": "[Debug] Development without flavor",
+            "type": "dart",
+            "request": "launch",
+            "args": [],
+            "program": "app/lib/main_dev.dart"
+        },
+        {
             "name": "[Debug] - Production flavor",
             "type": "dart",
             "request": "launch",
