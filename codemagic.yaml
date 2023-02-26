@@ -48,12 +48,10 @@ workflows:
       condition: not event.pull_request.draft
       changeset:
         includes:
-          - "app/**"
-          - "lib/**"
+          # In general, this workflow should only be triggered via the GitHub
+          # Action "label_app_preview.yaml". But if we change this file, we
+          # should ensure that the workflow is still working.
           - "codemagic.yaml"
-          - ".fvm/fvm_config.json"
-        excludes:
-          - "*.md"
     triggering:
       events:
         - pull_request
