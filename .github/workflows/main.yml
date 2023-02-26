@@ -354,8 +354,9 @@ jobs:
 
         mkdir private_keys
         echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
+        ls private_keys
 
-        keychain initialize
+        keychain initialize --verbose
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_STORE \
@@ -397,7 +398,7 @@ jobs:
         # note for the alpha builds. This is not the most user friendly note but
         # it's better than nothing.
         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-        
+
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
           --key-id $APPSTORE_KEY_ID \
