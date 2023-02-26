@@ -393,6 +393,10 @@ jobs:
         # Because TestFlight requires a build number that is higher than the
         # latest build number, we need to get the latest build number and
         # increment it by one.
+        #
+        # The "| head -2 | tail -1" part is to get the second line of the output
+        # of the "app-store-connect get-latest-build-number" command because the
+        # second line includes the build number.
         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID | head -2 | tail -1)
         BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
