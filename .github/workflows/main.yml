@@ -333,7 +333,7 @@ jobs:
           target: 'test-web-app'
 
   deploy-alpha-ios-app:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: app
