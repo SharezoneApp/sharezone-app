@@ -346,10 +346,12 @@ jobs:
 
     - name: Setup signing
       env:
+        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
       shell: bash
       run: |
         keychain initialize
@@ -380,6 +382,10 @@ jobs:
     
     - name: Build iOS app
       env:
+        # From https://appstoreconnect.apple.com/apps/1434868489/
+        IOS_APP_ID: 1434868489
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
@@ -387,7 +393,7 @@ jobs:
         # Because TestFlight requires a build number that is higher than the
         # latest build number, we need to get the latest build number and
         # increment it by one.
-        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number 1434868489 | head -2 | tail -1)
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID | head -2 | tail -1)
         BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
         fvm flutter build ipa \
@@ -400,6 +406,8 @@ jobs:
 
     - name: Publish to App Store Connect
       env:
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
