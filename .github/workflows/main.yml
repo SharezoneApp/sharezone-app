@@ -380,12 +380,16 @@ jobs:
     
     - name: Build iOS app
       run: |
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number 1434868489 | head -2 | tail -1)
+        BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+
         fvm flutter build ipa \
           --release \
           --flavor prod \
-          --target=lib/main_prod.dart \
+          --target lib/main_prod.dart \
           --dart-define DEVELOPMENT_STAGE=ALPHA \
-          --export-options-plist=$HOME/export_options.plist
+          --export-options-plist=$HOME/export_options.plist \
+          --build-number $BUMPED_BUILD_NUMBER
 
     - name: Publish to App Store Connect
       env:
