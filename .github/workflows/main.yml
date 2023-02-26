@@ -408,4 +408,5 @@ jobs:
           --beta-group=alpha \
           --testflight \
           --release-type=AFTER_APPROVAL \
-          --whats-new="$LAST_COMMIT_MESSAGE"
+          --whats-new="$LAST_COMMIT_MESSAGE" \
+          --verbose
