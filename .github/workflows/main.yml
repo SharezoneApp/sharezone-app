@@ -352,9 +352,6 @@ jobs:
         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
       shell: bash
       run: |
-        mkdir private_keys
-        echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
-
         keychain initialize
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
@@ -394,6 +391,7 @@ jobs:
       env:
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
       run: |
         # Because we are publishing every commit a new alpha version, we are
         # able to use the last commit message (title and description) as release
@@ -403,14 +401,7 @@ jobs:
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
-          --key-id $APP_STORE_CONNECT_KEY_IDENTIFIER \
-          --issuer-id $APP_STORE_CONNECT_ISSUER_ID \
           --beta-group=alpha \
           --testflight \
           --release-type=AFTER_APPROVAL \
-          --whats-new="$LAST_COMMIT_MESSAGE" \
-          --verbose
-
-    - name: Print logs
-      if: failure()
-      run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-26-02-23.log
+          --whats-new="$LAST_COMMIT_MESSAGE"
