@@ -354,13 +354,14 @@ jobs:
 
         mkdir private_keys
         echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
-        ls private_keys
 
-        keychain initialize --verbose
+        keychain initialize
+        CERT_PATH=$GITHUB_WORKSPACE/app/cert_key
+        echo $CERT_PATH
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_STORE \
-          --certificate-key=@file:/$GITHUB_WORKSPACE/app/cert_key \
+          --certificate-key=@file:/$CERT_PATH \
           --create
         keychain add-certificates
         xcode-project use-profiles
