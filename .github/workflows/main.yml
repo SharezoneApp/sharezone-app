@@ -351,7 +351,7 @@ jobs:
         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
       run: |
         echo $CERTIFICATE_PRIVATE_KEY > cert_key
-        CERT_PATH=$(realpath cert_key)
+        CERT_PATH=$(readlink -f cert_key)
         echo "Certificate path:"
         echo $CERT_PATH
 
