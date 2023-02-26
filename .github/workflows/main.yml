@@ -379,6 +379,10 @@ jobs:
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
     - name: Build iOS app
+      env:
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
       run: |
         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number 1434868489 | head -2 | tail -1)
         BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
