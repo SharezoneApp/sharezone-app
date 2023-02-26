@@ -349,6 +349,7 @@ jobs:
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+      shell: bash
       run: |
         echo $CERTIFICATE_PRIVATE_KEY > cert_key
         CERT_PATH=$(readlink -f cert_key)
