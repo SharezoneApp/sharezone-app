@@ -331,3 +331,78 @@ jobs:
           entryPoint: "./app"
           expires: '7d'
           target: 'test-web-app'
+
+  deploy-alpha-ios-app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Codemagic CLI Tools
+      run: pip3 install codemagic-cli-tools
+
+    - name: Setup signing
+      env:
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+      run: |
+        echo $CERTIFICATE_PRIVATE_KEY > cert_key
+
+        mkdir private_keys
+        echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
+
+        keychain initialize
+        app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          --platform IOS \
+          --type IOS_APP_STORE \
+          --certificate-key=@file:/$GITHUB_WORKSPACE/app/cert_key \
+          --create
+        keychain add-certificates
+        xcode-project use-profiles
+    
+    - name: Set Flutter version from FVM config file to environment variables
+      uses: kuhnroyal/flutter-fvm-config-action@v1
+
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
+        # Use format expected by FVM.
+        # Else this won't be recognized as an installed version when setting
+        # '.../flutter' as the FVM Flutter version cache folder.
+        cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+    - name: Install FVM
+      run: |
+        flutter pub global activate fvm
+        fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+    
+    - name: Build iOS app
+      run: |
+        fvm flutter build ipa \
+          --release \
+          --flavor prod \
+          --target=lib/main_prod.dart \
+          --dart-define DEVELOPMENT_STAGE=ALPHA \
+          --export-options-plist=$HOME/export_options.plist
+
+    - name: Publish to App Store Connect
+      run: |
+        # Because we are publishing every commit a new alpha version, we are
+        # able to use the last commit message (title and description) as release
+        # note for the alpha builds. This is not the most user friendly note but
+        # it's better than nothing.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        
+        app-store-connect publish \
+          --path build/ios/ipa/*.ipa \
+          --key-id $APPSTORE_KEY_ID \
+          --issuer-id $APPSTORE_ISSUER \
+          --beta-group=beta \
+          --testflight \
+          --release-type=AFTER_APPROVAL \
+          --whats-new="$LAST_COMMIT_MESSAGE"
