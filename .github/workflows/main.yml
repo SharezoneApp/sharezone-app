@@ -351,13 +351,14 @@ jobs:
         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
       run: |
         echo $CERTIFICATE_PRIVATE_KEY > cert_key
+        CERT_PATH=$(realpath cert_key)
+        echo "Certificate path:"
+        echo $CERT_PATH
 
         mkdir private_keys
         echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
 
         keychain initialize
-        CERT_PATH=$GITHUB_WORKSPACE/app/cert_key
-        echo $CERT_PATH
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_STORE \
