@@ -364,6 +364,10 @@ jobs:
           --create
         keychain add-certificates
         xcode-project use-profiles
+
+    - name: Log prints
+      if: always()
+      run: cat /tmp/codemagic-26-02-23.log
     
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@v1
