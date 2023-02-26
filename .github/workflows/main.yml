@@ -352,7 +352,7 @@ jobs:
       run: |
         echo $CERTIFICATE_PRIVATE_KEY > cert_key
         CERT_PATH=$(readlink -f cert_key)
-        echo "Certificate path:"
+        echo "Certificate path: "
         echo $CERT_PATH
 
         mkdir private_keys
