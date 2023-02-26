@@ -294,6 +294,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Set Up XCode
+        uses: devbotsxyz/xcode-select@v1.1.0
+
       # Building the macOS app as workaround for the timeout problem with
       # integration tests.
       #
