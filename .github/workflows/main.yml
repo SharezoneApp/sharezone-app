@@ -355,7 +355,7 @@ jobs:
         CERT_PATH=$(readlink -f cert_key)
         echo "Certificate path: "
         echo $CERT_PATH
-        md5sum $CERT_PATH
+        shasum $CERT_PATH
 
         mkdir private_keys
         echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
