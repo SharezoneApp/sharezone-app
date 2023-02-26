@@ -351,14 +351,6 @@ jobs:
         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
       shell: bash
       run: |
-        echo $CERTIFICATE_PRIVATE_KEY > cert_key
-        CERT_PATH=$(readlink -f cert_key)
-        echo "Certificate path: "
-        echo $CERT_PATH
-        shasum $CERT_PATH
-        echo "File size"
-        ls -l $CERT_PATH
-
         mkdir private_keys
         echo $APP_STORE_CONNECT_PRIVATE_KEY > private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
 
@@ -366,7 +358,7 @@ jobs:
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_STORE \
-          --certificate-key=@file:$CERT_PATH \
+          --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
           --create
         keychain add-certificates
         xcode-project use-profiles
