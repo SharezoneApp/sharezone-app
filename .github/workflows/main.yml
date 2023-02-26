@@ -410,3 +410,7 @@ jobs:
           --release-type=AFTER_APPROVAL \
           --whats-new="$LAST_COMMIT_MESSAGE" \
           --verbose
+
+    - name: Print logs
+      if: failure()
+      run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-26-02-23.log
