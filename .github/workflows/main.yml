@@ -334,6 +334,7 @@ jobs:
 
   deploy-alpha-ios-app:
     runs-on: macos-latest
+    timeout-minutes: 120
     defaults:
       run:
         working-directory: app
@@ -390,6 +391,9 @@ jobs:
           --export-options-plist=$HOME/export_options.plist
 
     - name: Publish to App Store Connect
+      env:
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
       run: |
         # Because we are publishing every commit a new alpha version, we are
         # able to use the last commit message (title and description) as release
@@ -399,9 +403,9 @@ jobs:
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
-          --key-id $APPSTORE_KEY_ID \
-          --issuer-id $APPSTORE_ISSUER \
-          --beta-group=beta \
+          --key-id $APP_STORE_CONNECT_KEY_IDENTIFIER \
+          --issuer-id $APP_STORE_CONNECT_ISSUER_ID \
+          --beta-group=alpha \
           --testflight \
           --release-type=AFTER_APPROVAL \
           --whats-new="$LAST_COMMIT_MESSAGE"
