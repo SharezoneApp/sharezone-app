@@ -28,11 +28,7 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
-  google_sign_in_dartio:
-    git:
-      url: https://github.com/GroovinChip/firebase_dart_sdk.git
-      ref: null_safety
-      path: google_sign_in_dart
+  google_sign_in_dartio: ^0.2.2
   cloud_firestore: ^4.4.3
   firebase_auth: ^4.2.9
   firebase_auth_oauth: any

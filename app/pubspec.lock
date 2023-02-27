@@ -1039,12 +1039,11 @@ packages:
   google_sign_in_dartio:
     dependency: transitive
     description:
-      path: google_sign_in_dart
-      ref: null_safety
-      resolved-ref: "14c106855590ab3dc8300b30ccd9e697d8571365"
-      url: "https://github.com/GroovinChip/firebase_dart_sdk.git"
-    source: git
-    version: "0.0.9"
+      name: google_sign_in_dartio
+      sha256: "3818d5f93cd2299574dda9cd05c1329beafd7506bf9a26786c98e73d2310fe04"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   google_sign_in_ios:
     dependency: transitive
     description:
@@ -1732,14 +1731,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  shared_preferences_macos:
-    dependency: transitive
-    description:
-      name: shared_preferences_macos
-      sha256: "81b6a60b2d27020eb0fc41f4cebc91353047309967901a79ee8203e40c42ed46"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
