@@ -313,6 +313,8 @@ jobs:
             --type MAC_APP_DEVELOPMENT \
             --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create
+          app-store-connect list-certificates --type MAC_INSTALLER_DISTRIBUTION --save || \
+          app-store-connect create-certificate --type MAC_INSTALLER_DISTRIBUTION --save
           keychain add-certificates
           xcode-project use-profiles
       
