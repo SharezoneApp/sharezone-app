@@ -49,5 +49,3 @@ ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 *.ipa
 builds/
 ios/Flutter/flutter_export_environment.sh
-
-test_driver/chromedriver
