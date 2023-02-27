@@ -9,8 +9,10 @@
 name: sharezone
 description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
 # Note that this build number is not the latest build number. Please go to App
-# Store Connect or use "app-store-connect get-latest-build-number 1434868489" to
-# get the latest build number.
+# Store Connect
+# (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
+# "app-store-connect get-latest-build-number 1434868489" to get the latest build
+# number.
 version: 1.6.2+318
 publish_to: none
 
