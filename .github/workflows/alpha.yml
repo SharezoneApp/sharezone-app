@@ -13,7 +13,7 @@ concurrency:
   # build a new version while a build is already running. This is why we use the
   # branch name as a concurrency group. This way, we can only build one version
   # per branch at the same time.
-  group: alpha-${{ github.ref }}
+  group: alpha
 
 on:
   push:
