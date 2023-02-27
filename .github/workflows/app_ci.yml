@@ -43,7 +43,6 @@ on:
       - "!**.md"
       - "!**.mdx"
       - "!**.gitignore"
-      - "!**.gitattributes"
       - "!**/firebase.json"
       - "!**/.firebaserc"
 
