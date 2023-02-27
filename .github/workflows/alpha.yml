@@ -22,13 +22,30 @@ on:
     paths:
       # We only build and deploy a new version, when a user relevant files
       # changed.
-      - "app/lib/**"
+      - "app/**"
       - "lib/**"
-      - "app/pubspec.lock"
-      - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
       - ".github/workflows/alpha.yml"
+      # The following paths are excluded from the above paths. It's important to
+      # list the paths at the end of the file, so that the exclude paths are
+      # applied.
+      #
+      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+      - "!**.md"
+      - "!**.mdx"
+      - "!**.gitignore"
+      # The macOS version of our app has no alpha program. Therefore, we don't
+      # need to build it.
+      - "!app/macos/**"
+      # Test files are not relevant for the alpha program.
+      - "!**/test/**"
+      - "!**/test_driver/**"
+      - "!**/integration_test/**"
+      # Example files are not relevant for the alpha program.
+      - "!**/example/**"
+      - "!**/analysis_options.yaml"
+      - "!**/dart_test.yaml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -63,7 +80,6 @@ jobs:
       run: |
         flutter pub global activate fvm
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-    
     
     - name: Activate sz_repo_cli package
       run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
