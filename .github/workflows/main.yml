@@ -297,8 +297,9 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+          BUNDLE_ID: de.codingbrain.sharezone.app
         run: |
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          app-store-connect fetch-signing-files $BUNDLE_ID \
             --platform MAC_OS \
             --type MAC_APP_DEVELOPMENT \
             --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
@@ -322,7 +323,7 @@ jobs:
       - name: Build macOS app
         run: |
           flutter build macos \
-            -t lib/main_dev.dart
+            -t lib/main_prod.dart
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
