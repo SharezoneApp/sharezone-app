@@ -300,7 +300,7 @@ jobs:
         run: |
           keychain initialize
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
-            --platform IOS \
+            --platform MAC_OS \
             --type MAC_APP_STORE \
             --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create
