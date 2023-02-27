@@ -30,8 +30,6 @@ on:
       # changed.
       - "app/**"
       - "lib/**"
-      - "app/pubspec.lock"
-      - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
       - ".github/workflows/app_ci.yml"
