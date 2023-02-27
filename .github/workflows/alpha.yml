@@ -175,7 +175,6 @@ jobs:
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-      shell: bash
       run: |
         keychain initialize
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
