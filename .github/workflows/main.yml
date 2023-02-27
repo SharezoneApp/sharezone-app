@@ -286,17 +286,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools
 
       - name: Setup signing
         env:
@@ -315,6 +306,18 @@ jobs:
             --create
           keychain add-certificates
           xcode-project use-profiles
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
       
       - name: Build macOS app
         run: |
