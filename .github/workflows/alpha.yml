@@ -8,6 +8,13 @@
 
 name: alpha
 
+concurrency:
+  # Our iOS builds require unique build numbers. Therefore, we should never
+  # build a new version while a build is already running. This is why we use the
+  # branch name as a concurrency group. This way, we can only build one version
+  # per branch at the same time.
+  group: alpha
+
 on:
   push:
     branches:
@@ -15,13 +22,30 @@ on:
     paths:
       # We only build and deploy a new version, when a user relevant files
       # changed.
-      - "app/lib/**"
+      - "app/**"
       - "lib/**"
-      - "app/pubspec.lock"
-      - "app/pubspec.yaml"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
       - ".github/workflows/alpha.yml"
+      # The following paths are excluded from the above paths. It's important to
+      # list the paths at the end of the file, so that the exclude paths are
+      # applied.
+      #
+      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+      - "!**.md"
+      - "!**.mdx"
+      - "!**.gitignore"
+      # The macOS version of our app has no alpha program. Therefore, we don't
+      # need to build it.
+      - "!app/macos/**"
+      # Test files are not relevant for the alpha program.
+      - "!**/test/**"
+      - "!**/test_driver/**"
+      - "!**/integration_test/**"
+      # Example files are not relevant for the alpha program.
+      - "!**/example/**"
+      - "!**/analysis_options.yaml"
+      - "!**/dart_test.yaml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -56,7 +80,6 @@ jobs:
       run: |
         flutter pub global activate fvm
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-    
     
     - name: Activate sz_repo_cli package
       run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
@@ -147,3 +170,99 @@ jobs:
           --app 1:730263787697:android:f0a3b3b856fd1383 \
           --groups "alpha" \
           --release-notes "$LAST_COMMIT_MESSAGE"
+
+  deploy-alpha-ios-app:
+    runs-on: macos-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: app
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Codemagic CLI Tools
+      run: pip3 install codemagic-cli-tools
+
+    - name: Setup signing
+      env:
+        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+      run: |
+        keychain initialize
+        app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          --platform IOS \
+          --type IOS_APP_STORE \
+          --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
+          --create
+        keychain add-certificates
+        xcode-project use-profiles
+
+    - name: Set Flutter version from FVM config file to environment variables
+      uses: kuhnroyal/flutter-fvm-config-action@v1
+
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
+        # Use format expected by FVM.
+        # Else this won't be recognized as an installed version when setting
+        # '.../flutter' as the FVM Flutter version cache folder.
+        cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+
+    - name: Install FVM
+      run: |
+        flutter pub global activate fvm
+        fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+    
+    - name: Build iOS app
+      env:
+        # From https://appstoreconnect.apple.com/apps/1434868489/
+        IOS_APP_ID: 1434868489
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+      run: |
+        # Because TestFlight requires a build number that is higher than the
+        # latest build number, we need to get the latest build number and
+        # increment it by one.
+        #
+        # The "| head -2 | tail -1" part is to get the second line of the output
+        # of the "app-store-connect get-latest-build-number" command because the
+        # second line includes the build number.
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID | head -2 | tail -1)
+        BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+
+        fvm flutter build ipa \
+          --release \
+          --flavor prod \
+          --target lib/main_prod.dart \
+          --dart-define DEVELOPMENT_STAGE=ALPHA \
+          --export-options-plist=$HOME/export_options.plist \
+          --build-number $BUMPED_BUILD_NUMBER
+
+    - name: Publish to App Store Connect
+      env:
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+      run: |
+        # Because we are publishing every commit a new alpha version, we are
+        # able to use the last commit message (title and description) as release
+        # note for the alpha builds. This is not the most user friendly note but
+        # it's better than nothing.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+
+        app-store-connect publish \
+          --path build/ios/ipa/*.ipa \
+          --beta-group=alpha \
+          --testflight \
+          --release-type=AFTER_APPROVAL \
+          --whats-new="$LAST_COMMIT_MESSAGE"

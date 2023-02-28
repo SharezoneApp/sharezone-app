@@ -49,3 +49,6 @@ ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 *.ipa
 builds/
 ios/Flutter/flutter_export_environment.sh
+
+# Default location for App Store Connect API keys
+private_keys/
