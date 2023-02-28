@@ -50,4 +50,5 @@ ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 builds/
 ios/Flutter/flutter_export_environment.sh
 
-test_driver/chromedriver
+# Default location for App Store Connect API keys
+private_keys/

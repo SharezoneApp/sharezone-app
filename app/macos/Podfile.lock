@@ -234,8 +234,6 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - shared_preferences_macos (0.0.1):
-    - FlutterMacOS
   - sign_in_with_apple (0.0.1):
     - FlutterMacOS
   - sqflite (0.0.2):
@@ -267,7 +265,6 @@ DEPENDENCIES:
   - pdfx (from `Flutter/ephemeral/.symlinks/plugins/pdfx/macos`)
   - purchases_flutter (from `Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
-  - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
   - sign_in_with_apple (from `Flutter/ephemeral/.symlinks/plugins/sign_in_with_apple/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
@@ -344,8 +341,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos
   shared_preferences_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
-  shared_preferences_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos
   sign_in_with_apple:
     :path: Flutter/ephemeral/.symlinks/plugins/sign_in_with_apple/macos
   sqflite:
@@ -407,7 +402,6 @@ SPEC CHECKSUMS:
   PurchasesHybridCommon: 13aed39e96393747d2416f2a51aeb67ea6bb1786
   RevenueCat: 42769d9dcc26c1294ec8e2e0d58320ab69974f75
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
-  shared_preferences_macos: 8b221d457159a85f478c0b9d2f19aeae9feff475
   sign_in_with_apple: a9e97e744e8edc36aefc2723111f652102a7a727
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: 45af3d61de06997666568a7149c1be98b41c95d4

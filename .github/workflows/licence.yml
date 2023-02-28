@@ -1,0 +1,34 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: licence-ci
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on pull request events
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+# Set permissions to none.
+#
+# Using the broad default permissions is considered a bad security practice 
+# and would cause alerts from our scanning tools.
+permissions: {}
+
+jobs:
+  check-files-licence-headers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.13.1'
+      - run: go install github.com/google/addlicense@latest 
+      - run: ./bin/check_license_headers.sh
