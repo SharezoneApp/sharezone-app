@@ -21,6 +21,11 @@ name: app-fallback-ci
 
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     paths-ignore:
       - "app/**"
       - "lib/**"
