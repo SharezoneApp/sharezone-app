@@ -17,7 +17,7 @@
 #
 # https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
 
-name: app-ci
+name: app-fallback-ci
 
 on:
   pull_request:
