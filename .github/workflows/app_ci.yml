@@ -26,6 +26,8 @@ on:
       # ready for review.
       - ready_for_review
     paths:
+      # When we change the Flutter version, we need to trigger this workflow.
+      - ".fvm/fvm_config.json"
       # We only build and deploy a new version, when a user relevant files
       # changed.
       - "app/**"
