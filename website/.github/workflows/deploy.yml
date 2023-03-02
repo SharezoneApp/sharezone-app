@@ -16,9 +16,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  FLUTTER_VERSION: "3.0.0"
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
