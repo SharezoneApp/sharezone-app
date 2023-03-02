@@ -173,6 +173,11 @@
                 "source": "/github",
                 "destination": "https://github.com/SharezoneApp/sharezone-app",
                 "type": 302
+            },
+            {
+                "source": "/alpha",
+                "destination": "https://docs.sharezone.net/more/alpha-program",
+                "type": 302
             }
         ],
         "rewrites": [
