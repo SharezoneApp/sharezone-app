@@ -5,6 +5,11 @@ on:
     branches:
       - main
     paths:
+      # When we update the Flutter version, we want to trigger a new build.
+      - ".fvm/fvm_config.json"
+      # When we update the Firebase configuration (like a new redirect), we want
+      # to trigger a new build.
+      - "firebase.json"
       # We only build and deploy a new version, when a user relevant files
       # changed.
       - "lib/**"
