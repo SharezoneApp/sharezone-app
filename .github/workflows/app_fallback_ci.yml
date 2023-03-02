@@ -27,6 +27,7 @@ on:
       - reopened
       - ready_for_review
     paths-ignore:
+      - ".fvm/fvm_config.json"
       - "app/**"
       - "lib/**"
       - ".github/workflows/app_ci.yml"
