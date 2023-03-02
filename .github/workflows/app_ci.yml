@@ -26,6 +26,9 @@ on:
       # ready for review.
       - ready_for_review
     paths:
+      # When you add a new path, make sure to also add the path to the
+      # "paths-ignore" section in the "app_fallback_ci.yml" file.
+      # 
       # When we change the Flutter version, we need to trigger this workflow.
       - ".fvm/fvm_config.json"
       # We only build and deploy a new version, when a user relevant files
