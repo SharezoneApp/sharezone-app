@@ -1,0 +1,73 @@
+name: cli-ci
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      # It's important to trigger this workflow again when the pull is changing
+      # from a draft pull request to a ready for review pull request.
+      #
+      # Some jobs are skipped when the pull request is a draft. Therefore, we
+      # need to trigger these jobs again when the pull request is changing to
+      # ready for review.
+      - ready_for_review
+    paths:
+      - .fvm/fvm_config.json
+      - 'cli/**'
+      - '.github/workflows/cli_ci.yml'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/sz_repo_cli
+    # In draft PRs we might use TODOs temporarily.
+    # In this case the analyze pipeline would fail, thus we won't run it.
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      # Even though the CLI only needs Dart and not Flutter, we use Flutter
+      # because it's easier to ensure that we are using the same version of Dart
+      # as the Flutter SDK of this repository.
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+      
+      - name: Install dependencies
+        run: dart pub get
+      
+      - name: Analyze
+        run: dart analyze
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/sz_repo_cli
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      # Even though the CLI only needs Dart and not Flutter, we use Flutter
+      # because it's easier to ensure that we are using the same version of Dart
+      # as the Flutter SDK of this repository.
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+      
+      - name: Install dependencies
+        run: dart pub get
+      
+      - name: Analyze
+        run: dart test
