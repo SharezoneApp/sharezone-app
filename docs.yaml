@@ -18,7 +18,7 @@ name: "Docs"
 # The description of your project. This will be used for website metadata (e.g.
 # social tags) if provided. If a page frontmatter description is provided, it
 # will be used instead.
-description: "Dokumentation der App Sharezone. Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart."
+description: "Dokumentation für die Sharezone-App. Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart."
 # The path (either absolute or relative to the /docs directory) to the logo of
 # your project. This will be displayed in the header.
 logo: "assets/logo-blue.png"
