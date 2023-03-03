@@ -259,7 +259,7 @@ class _FooterSection extends StatelessWidget {
                   if (l.link == null) {
                     Navigator.pushNamed(context, l.tag!);
                   } else {
-                    launchURL(l.link!);
+                    launchUrl(l.link!);
                   }
                 },
                 color: Colors.white,
@@ -327,7 +327,7 @@ class _SocialMediaButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final lowerCasePlatform = socialMediaPlatform.toLowerCase();
     return InkWell(
-      onTap: () => launchURL("https://sharezone.net/$lowerCasePlatform"),
+      onTap: () => launchUrl("https://sharezone.net/$lowerCasePlatform"),
       child: Material(
         color: Colors.transparent,
         child: Container(

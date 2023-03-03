@@ -37,7 +37,7 @@ class PageTemplate extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.question_answer),
                       title: const Text("FAQ"),
-                      onTap: () => launchURL("https://sharezone.net/faq"),
+                      onTap: () => launchUrl("https://sharezone.net/faq"),
                     ),
                     ListTile(
                       leading: const Icon(Icons.help),
@@ -151,7 +151,7 @@ class _GoWebAppButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: InkWell(
-          onTap: () => launchURL("https://web.sharezone.net"),
+          onTap: () => launchUrl("https://web.sharezone.net"),
           borderRadius: borderRaius,
           child: Material(
             borderRadius: borderRaius,

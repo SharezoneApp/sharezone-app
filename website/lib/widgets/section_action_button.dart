@@ -23,7 +23,7 @@ class SectionActionButton extends StatelessWidget {
       {String? link, String? text, Color? color, double? fontSize}) {
     return SectionActionButton(
       text: text,
-      onTap: () => launchURL(link!),
+      onTap: () => launchUrl(link!),
       color: color,
       fontSize: fontSize,
     );

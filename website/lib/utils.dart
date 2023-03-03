@@ -1,31 +1,20 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sharezone_website/widgets/snackbars.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-/// Hpyerlink fürs Web
-Future<void> launchURL(String url, {BuildContext? context}) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    if (context != null) {
-      log("Der Link konnte nicht geöffnet werden!");
-    } else {
-      throw Exception("Could not launch $url");
-    }
-  }
-}
+/// Launches the given [url] in the browser.
+///
+/// If the [url] can't be launched, a [SnackBar] is shown.
+Future<void> launchUrl(String url, {BuildContext? context}) async {
+  try {
+    await url_launcher.launchUrl(Uri.parse(url));
+  } catch (e) {
+    if (context == null) return;
+    if (!context.mounted) return;
 
-/// Hyperlink für E-Mail;
-/// [email] = Example: nils@codingbrain.de
-/// [subject] = Example: Sharezone: Feedback geben
-/// [body] = Example: Hey, was geht ab?
-Future<void> launchMail(String email,
-    [String subject = "", String body = ""]) async {
-  String url = Uri.encodeFull("mailto:$email?subject=$subject&body=$body");
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw Exception("Could not launch $url");
+    showSnackSec(
+      context: context,
+      text: 'Link konnte nicht geöffnet werden!',
+    );
   }
 }

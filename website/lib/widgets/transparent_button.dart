@@ -26,7 +26,7 @@ class TransparentButton extends StatelessWidget {
       fontSize: fontSize,
       color: color,
       child: child,
-      onTap: () => launchURL(link!),
+      onTap: () => launchUrl(link!),
     );
   }
 
