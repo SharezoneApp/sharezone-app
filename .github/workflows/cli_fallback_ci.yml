@@ -30,6 +30,8 @@ on:
       - ".fvm/fvm_config.json"
       - "tools/sz_repo_cli/**"
       - ".github/workflows/app_ci.yml"
+      - '!**.md'
+      - '!**.mdx'
 
 jobs:
   test:

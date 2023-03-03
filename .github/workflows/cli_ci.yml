@@ -17,6 +17,8 @@ on:
       - .fvm/fvm_config.json
       - 'cli/**'
       - '.github/workflows/cli_ci.yml'
+      - '!**.md'
+      - '!**.mdx'
 
 jobs:
   analyze:
