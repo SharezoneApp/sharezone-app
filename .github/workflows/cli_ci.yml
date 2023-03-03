@@ -88,5 +88,5 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       
-      - name: Analyze
+      - name: Test
         run: dart test
