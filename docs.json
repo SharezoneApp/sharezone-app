@@ -9,6 +9,12 @@
     [
       "Another Page",
       "/another-page"
+    ],
+    [
+      "Weiteres",
+      [
+        ["Alpha-Programm", "/more/alpha-program"]
+      ]
     ]
   ]
 }
