@@ -19,6 +19,7 @@ on:
       - '.github/workflows/cli_ci.yml'
       - '!**.md'
       - '!**.mdx'
+      - '!**.gitignore'
 
 jobs:
   analyze:

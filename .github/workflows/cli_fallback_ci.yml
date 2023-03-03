@@ -32,6 +32,7 @@ on:
       - ".github/workflows/app_ci.yml"
       - '!**.md'
       - '!**.mdx'
+      - '!**.gitignore'
 
 jobs:
   test:
