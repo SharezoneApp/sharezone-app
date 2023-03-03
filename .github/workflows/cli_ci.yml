@@ -10,10 +10,10 @@ name: cli-ci
 
 concurrency:
   group: ci-${{ github.head_ref }}
-  # In order to save GitHub Actions usage, we are canceling the running action
-  # of the previous commit. This means, if you first push commit "A" and after a
-  # few minutes commit "B" to the pull request, the workflow run for commit "A"
-  # will be canceled.
+  # In order to conserve the use of GitHub Actions, we cancel the running action
+  # of the previous commit. This means that if you first commit "A" and then
+  # commit "B" to the pull request a few minutes later, the workflow for commit
+  # "A" will be cancelled.
   cancel-in-progress: true
 
 on:
