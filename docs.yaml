@@ -39,20 +39,20 @@ theme: "#68B3E9"
 # For the icons, you can use the name of any standard Font Awesome Classic Icon
 # or Brand Icons, for example:
 anchors:
-- title: "Homepage"
-  link: "https://sharezone.net"
-  icon: "house"
-- title: "Discord"
-  link: "https://sharezone.net/discord"
-  icon: "discord"
+  - title: "Homepage"
+    link: "https://sharezone.net"
+    icon: "house"
+  - title: "Discord"
+    link: "https://sharezone.net/discord"
+    icon: "discord"
 # This property allows you to render sidebar links to navigate around your
 # documentation. It can either be an array/list of links, or an object where the
 # key is a locale identifier and the value the sidebar links for that locale.
 #
 # The sidebar only supports a single level of nesting.
 sidebar:
-- - Übersicht
-  - "/"
-- - Weiteres
-  - - - Alpha-Programm
-      - "/more/alpha-program"
+  - - Übersicht
+    - "/"
+  - - Weiteres
+    - - - Alpha-Programm
+        - "/more/alpha-program"
