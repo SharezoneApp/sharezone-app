@@ -6,7 +6,7 @@
 #
 # The name of your project. This will be displayed in the header of the website.
 # If not provided, the GitHub repository name will be used instead.
-name: "Sharezone Docs"
+name: "Docs"
 # The description of your project. This will be used for website metadata (e.g.
 # social tags) if provided. If a page frontmatter description is provided, it
 # will be used instead.
@@ -24,6 +24,12 @@ twitter: "SharezoneApp"
 # This should color be visible on both dark and light modes. Can either be a hex
 # color (e.g. #00bcd4) or a RGB (e.g. rgb(0,188,212)).
 theme: "#68B3E9"
+# When provided, the anchors will be displayed above the sidebar menu. These are
+# useful for important links which persist across your documentation (e.g.
+# homepage, CTA buttons etc).
+#
+# For the icons, you can use the name of any standard Font Awesome Classic Icon
+# or Brand Icons, for example:
 anchors:
 - title: "Homepage"
   link: "https://sharezone.net"
@@ -31,3 +37,14 @@ anchors:
 - title: "Discord"
   link: "https://sharezone.net/discord"
   icon: "discord"
+# This property allows you to render sidebar links to navigate around your
+# documentation. It can either be an array/list of links, or an object where the
+# key is a locale identifier and the value the sidebar links for that locale.
+#
+# The sidebar only supports a single level of nesting.
+sidebar:
+- - Übersicht
+  - "/"
+- - Weiteres
+  - - - Alpha-Programm
+      - "/more/alpha-program"
