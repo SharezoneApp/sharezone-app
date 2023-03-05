@@ -46,7 +46,7 @@ abstract class Input {
 }
 
 class TextValidationException implements Exception {
-  final String message;
+  final String? message;
 
   TextValidationException([this.message]);
 
