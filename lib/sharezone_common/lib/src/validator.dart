@@ -12,13 +12,13 @@ abstract class Validator {
 }
 
 class NotEmptyOrNullValidator implements Validator {
-  final String _string;
+  final String? _string;
 
   NotEmptyOrNullValidator(this._string);
 
   @override
   bool isValid() {
-    if (_string != null && _string.isNotEmpty) return true;
+    if (_string != null && _string!.isNotEmpty) return true;
     return false;
   }
 }
