@@ -19,7 +19,6 @@ environment:
 dependencies:
   equatable: ^2.0.5
   firebase_messaging: ^14.2.5
-  meta: any
   flutter:
     sdk: flutter
 
