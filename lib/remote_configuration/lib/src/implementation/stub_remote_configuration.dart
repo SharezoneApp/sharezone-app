@@ -9,15 +9,21 @@
 import '../remote_configuration.dart';
 
 class StubRemoteConfiguration extends RemoteConfiguration {
-  Map<String, dynamic> _defaultValues;
+  Map<String, dynamic>? _defaultValues;
 
   String getString(String key) {
-    return _defaultValues[key];
+    if (_defaultValues == null) {
+      throw RemoteConfigurationNotInitializedException();
+    }
+    return _defaultValues![key];
   }
 
   @override
   bool getBool(String key) {
-    return _defaultValues[key];
+    if (_defaultValues == null) {
+      throw RemoteConfigurationNotInitializedException();
+    }
+    return _defaultValues![key];
   }
 
   @override

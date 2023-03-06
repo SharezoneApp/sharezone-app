@@ -11,3 +11,5 @@ abstract class RemoteConfiguration {
   String getString(String key);
   bool getBool(String key);
 }
+
+class RemoteConfigurationNotInitializedException implements Exception {}

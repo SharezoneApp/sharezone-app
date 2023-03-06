@@ -12,18 +12,25 @@ import 'package:sharezone_utils/platform.dart';
 import '../remote_configuration.dart';
 
 class FirebaseRemoteConfiguration extends RemoteConfiguration {
-  FirebaseRemoteConfig _remoteConfig;
-  Map<String, dynamic> _defaultValues;
   FirebaseRemoteConfiguration();
+
+  FirebaseRemoteConfig? _remoteConfig;
+  Map<String, dynamic>? _defaultValues;
 
   @override
   String getString(String key) {
-    return _remoteConfig.getString(key);
+    if (_remoteConfig == null) {
+      throw RemoteConfigurationNotInitializedException();
+    }
+    return _remoteConfig!.getString(key);
   }
 
   @override
   bool getBool(String key) {
-    return _remoteConfig.getBool(key);
+    if (_remoteConfig == null) {
+      throw RemoteConfigurationNotInitializedException();
+    }
+    return _remoteConfig!.getBool(key);
   }
 
   @override
@@ -31,11 +38,11 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
     try {
       _defaultValues = defaultValues;
       _remoteConfig = FirebaseRemoteConfig.instance;
-      _remoteConfig.setDefaults(_defaultValues);
-      _remoteConfig.setConfigSettings(RemoteConfigSettings(
+      _remoteConfig!.setDefaults(_defaultValues!);
+      _remoteConfig!.setConfigSettings(RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
           minimumFetchInterval: const Duration(hours: 3)));
-      await _remoteConfig.fetchAndActivate();
+      await _remoteConfig!.fetchAndActivate();
     } catch (e) {
       print("Error fetch remote config: $e");
     }
