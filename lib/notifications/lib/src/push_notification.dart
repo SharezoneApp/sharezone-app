@@ -53,8 +53,8 @@ class PushNotification {
   factory PushNotification.fromFirebase(RemoteMessage message) {
     final actionType = message.data['actionType'];
     final actionData = message.data..remove('actionType');
-    final title = message.notification!.title;
-    final body = message.notification!.body;
+    final title = message.notification?.title;
+    final body = message.notification?.body;
 
     return PushNotification(
       title: title,

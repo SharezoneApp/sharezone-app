@@ -176,17 +176,17 @@ class PushNotificationActionHandler {
   Future<void> handlePushNotification(PushNotification pushNotification) async {
     ArgumentError.checkNotNull(pushNotification, 'pushNotification');
     instrumentation.startHandlingPushNotification(pushNotification);
-    ActionRequest? actionRequest;
+    late ActionRequest actionRequest;
 
     try {
       actionRequest = parser.parseNotification(pushNotification);
       instrumentation.parsingSucceeded(pushNotification, actionRequest);
     } on UnknownActionTypeException {
       instrumentation.parsingFailedOnUnknownActionType(pushNotification);
-      onUnhandledActionType(pushNotification);
+      return onUnhandledActionType(pushNotification);
     } catch (e, s) {
       instrumentation.parsingFailedFataly(pushNotification, e, s);
-      onFatalParsingError(pushNotification, e);
+      return onFatalParsingError(pushNotification, e);
     }
 
     try {

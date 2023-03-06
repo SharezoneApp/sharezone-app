@@ -73,8 +73,6 @@ class PushNotificationParserInstrumentation {
     required T Function() parse,
     required T fallbackValue,
   }) {
-    assert(fallbackValue != null);
-
     try {
       final result = parse();
       if (result == null) {
@@ -148,7 +146,7 @@ abstract class PushNotificationActionHandlerInstrumentation {
   void parsingFailedNonFatalyOnAttribute(
     String attributeName, {
     dynamic fallbackValueChosenInstead,
-    PushNotification? notification,
+    required PushNotification notification,
     dynamic error,
   });
 
@@ -172,12 +170,12 @@ abstract class PushNotificationActionHandlerInstrumentation {
 
   /// Successfully parsed the [actionRequest] from the [pushNotification].
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest? actionRequest);
+      PushNotification pushNotification, ActionRequest actionRequest);
 
   /// Failed to execute the [actionRequest].
   void actionExecutionFailed(
-      ActionRequest? actionRequest, dynamic exception, StackTrace stacktrace);
+      ActionRequest actionRequest, dynamic exception, StackTrace stacktrace);
 
   /// Successfully executed the [actionRequest].
-  void actionExecutedSuccessfully(ActionRequest? actionRequest);
+  void actionExecutedSuccessfully(ActionRequest actionRequest);
 }

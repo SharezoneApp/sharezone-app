@@ -55,11 +55,11 @@ class PrintSecretMessage extends ActionRequest {
 class LoggingPushNotificationActionHandlerInstrumentation
     extends PushNotificationActionHandlerInstrumentation {
   @override
-  void actionExecutedSuccessfully(ActionRequest? actionRequest) {}
+  void actionExecutedSuccessfully(ActionRequest actionRequest) {}
 
   @override
   void actionExecutionFailed(
-      ActionRequest? actionRequest, exception, StackTrace stacktrace) {}
+      ActionRequest actionRequest, exception, StackTrace stacktrace) {}
 
   @override
   void startHandlingPushNotification(PushNotification pushNotification) {}
@@ -70,12 +70,14 @@ class LoggingPushNotificationActionHandlerInstrumentation
 
   @override
   void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead, PushNotification? notification, error}) {}
+      {fallbackValueChosenInstead,
+      required PushNotification notification,
+      error}) {}
 
   @override
   void parsingFailedOnUnknownActionType(PushNotification pushNotification) {}
 
   @override
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest? actionRequest) {}
+      PushNotification pushNotification, ActionRequest actionRequest) {}
 }
