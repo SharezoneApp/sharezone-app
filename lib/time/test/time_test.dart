@@ -111,32 +111,36 @@ void main() {
   });
 
   test('.isNextDayWith()', () {
-    expect(Time(hour: 0, minute: 0).isNextDayWith(Duration(hours: 1)), false);
-    expect(Time(hour: 0, minute: 0).isNextDayWith(Duration(hours: 10)), false);
-    expect(Time(hour: 23, minute: 0).isNextDayWith(Duration(hours: 1)), true);
-    expect(Time(hour: 23, minute: 0).isNextDayWith(Duration(hours: 2)), true);
+    expect(Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 1)),
+        false);
+    expect(Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 10)),
+        false);
+    expect(Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 1)),
+        true);
+    expect(Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 2)),
+        true);
   });
 
   test('.fromTimeOfDay()', () {
     expect(
-      Time.fromTimeOfDay(TimeOfDay(hour: 1, minute: 1)),
+      Time.fromTimeOfDay(const TimeOfDay(hour: 1, minute: 1)),
       Time(hour: 1, minute: 1),
     );
     expect(
-      Time.fromTimeOfDay(TimeOfDay(hour: 0, minute: 0)),
+      Time.fromTimeOfDay(const TimeOfDay(hour: 0, minute: 0)),
       Time(hour: 0, minute: 0),
     );
     expect(
-      Time.fromTimeOfDay(TimeOfDay(hour: 10, minute: 10)),
+      Time.fromTimeOfDay(const TimeOfDay(hour: 10, minute: 10)),
       Time(hour: 10, minute: 10),
     );
   });
 
   test('.parse()', () {
-    expect(Time.parse('00:01'), Time(hour: 0, minute: 1));
-    expect(Time.parse('00:00'), Time(hour: 0, minute: 0));
-    expect(Time.parse('00:10'), Time(hour: 0, minute: 10));
-    expect(Time.parse('23:59'), Time(hour: 23, minute: 59));
+    expect(const Time.parse('00:01'), Time(hour: 0, minute: 1));
+    expect(const Time.parse('00:00'), Time(hour: 0, minute: 0));
+    expect(const Time.parse('00:10'), Time(hour: 0, minute: 10));
+    expect(const Time.parse('23:59'), Time(hour: 23, minute: 59));
   });
 
   test('.hashCode', () {
@@ -146,7 +150,7 @@ void main() {
   test('.toTimeOfDay()', () {
     expect(
       Time(hour: 0, minute: 1).toTimeOfDay(),
-      TimeOfDay(hour: 0, minute: 1),
+      const TimeOfDay(hour: 0, minute: 1),
     );
   });
 
