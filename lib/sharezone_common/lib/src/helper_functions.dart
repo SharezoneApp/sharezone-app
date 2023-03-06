@@ -68,5 +68,3 @@ Timestamp? timestampFromDateTime(DateTime? dateTime) {
   if (dateTime == null) return null;
   return Timestamp.fromDate(dateTime);
 }
-
-enum LoadingStatus { successful, loading, failed }
