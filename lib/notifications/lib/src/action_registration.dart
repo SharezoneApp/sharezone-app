@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:notifications/src/action_executor.dart';
 
@@ -116,9 +115,9 @@ class ActionRegistration<T extends ActionRequest> {
   ///   be registered by passing an empty string into
   ///   [registerForActionTypeStrings].
   ActionRegistration({
-    @required this.registerForActionTypeStrings,
-    @required this.parseActionRequestFromNotification,
-    @required this.executeActionRequest,
+    required this.registerForActionTypeStrings,
+    required this.parseActionRequestFromNotification,
+    required this.executeActionRequest,
   }) {
     assert(T is! ActionRequest,
         '$ActionRegistration requires T to be a subclass of $ActionRequest');

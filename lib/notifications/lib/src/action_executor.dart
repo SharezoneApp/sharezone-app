@@ -26,7 +26,7 @@ class ActionExecutor {
 
   /// Finds the corresponding [ActionRequestExecutorFunc] of the given
   /// [ActionRegistration] and calls it with the given [actionRequest].
-  void executeAction(ActionRequest actionRequest) {
+  void executeAction(ActionRequest? actionRequest) {
     final execute = _executionMap[actionRequest.runtimeType];
     execute?.call(actionRequest);
   }

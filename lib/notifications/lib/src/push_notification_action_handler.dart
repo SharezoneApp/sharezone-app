@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:notifications/src/notification_parser.dart';
 
@@ -152,10 +151,10 @@ class PushNotificationActionHandler {
   /// [DuplicateRegistrationsError] will be thrown in this case. This is check
   /// only run in debug mode.
   PushNotificationActionHandler({
-    @required List<ActionRegistration> actionRegistrations,
-    @required this.onUnhandledActionType,
-    @required this.onFatalParsingError,
-    @required this.instrumentation,
+    required List<ActionRegistration> actionRegistrations,
+    required this.onUnhandledActionType,
+    required this.onFatalParsingError,
+    required this.instrumentation,
   })  : parser = PushNotificationParser(actionRegistrations, instrumentation),
         executer = ActionExecutor(actionRegistrations) {
     assert(() {
@@ -177,7 +176,7 @@ class PushNotificationActionHandler {
   Future<void> handlePushNotification(PushNotification pushNotification) async {
     ArgumentError.checkNotNull(pushNotification, 'pushNotification');
     instrumentation.startHandlingPushNotification(pushNotification);
-    ActionRequest actionRequest;
+    ActionRequest? actionRequest;
 
     try {
       actionRequest = parser.parseNotification(pushNotification);
