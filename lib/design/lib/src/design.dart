@@ -17,17 +17,17 @@ enum DesignType {
   color,
 }
 
-DesignType designTypeFromJson(dynamic data) =>
+DesignType? designTypeFromJson(dynamic data) =>
     enumFromString<DesignType>(DesignType.values, data,
         orElse: DesignType.color);
 
-String designTypeToJson(DesignType designType) => enumToString(designType);
+String? designTypeToJson(DesignType? designType) => enumToString(designType);
 
 class Design {
   final String hex;
   final DesignType type;
 
-  const Design._({this.hex, this.type});
+  const Design._({required this.hex, required this.type});
 
   factory Design.standard() => Design.fromColor(Colors.lightBlue);
 
@@ -46,9 +46,9 @@ class Design {
       if (data is String) {
         return Design._(hex: data, type: DesignType.color);
       }
-      DesignType type = designTypeFromJson(data['type']);
+      DesignType? type = designTypeFromJson(data['type']);
       if (type == DesignType.color) {
-        return Design._(hex: data['color'], type: type);
+        return Design._(hex: data['color'], type: type!);
       }
       return Design.standard();
     } catch (_) {
@@ -93,5 +93,5 @@ class Design {
     Colors.grey,
     Colors.brown,
     Colors.black87,
-  ].map((color) => Design.fromColor(color)).toList();
+  ].map((color) => Design.fromColor(color!)).toList();
 }
