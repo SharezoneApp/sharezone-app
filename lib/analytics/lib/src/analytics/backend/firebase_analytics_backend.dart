@@ -9,7 +9,6 @@
 import 'package:analytics/null_analytics_backend.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
 import 'package:sharezone_utils/platform.dart';
 import '../analytics.dart';
 
@@ -20,7 +19,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
   const FirebaseAnalyticsBackend(this._firebaseAnalytics, this.crashAnalytics);
 
   @override
-  void log(String name, [Map<String, dynamic> data]) {
+  void log(String name, [Map<String, dynamic>? data]) {
     _firebaseAnalytics.logEvent(name: name, parameters: data);
     crashAnalytics.log(name);
   }
@@ -32,14 +31,14 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
   @override
   Future<void> logSignUp({
-    @required String signUpMethod,
+    required String signUpMethod,
   }) async {
     await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
     crashAnalytics.log('signUp: $signUpMethod');
   }
 
   @override
-  Future<void> setCurrentScreen({String screenName}) async {
+  Future<void> setCurrentScreen({String? screenName}) async {
     await _firebaseAnalytics.setCurrentScreen(screenName: screenName);
     crashAnalytics.log('setCurrentScreen: $screenName');
   }
@@ -53,8 +52,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
   /// alphanumeric characters or underscores and must start with an alphabetic
   /// character. The "firebase_" prefix is reserved and should not be used for
   /// user property names.
-  Future<void> setUserProperty(
-          {@required String name, @required String value}) =>
+  Future<void> setUserProperty({required String name, required String value}) =>
       _firebaseAnalytics.setUserProperty(name: name, value: value);
 }
 
