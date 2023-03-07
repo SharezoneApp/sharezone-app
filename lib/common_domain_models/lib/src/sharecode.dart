@@ -9,17 +9,7 @@
 class Sharecode {
   final String key;
 
-  Sharecode(this.key) {
-    ArgumentError.checkNotNull(key, 'sharecode');
-  }
-
-  factory Sharecode.tryCreateOrNull(final String key) {
-    try {
-      return Sharecode(key);
-    } catch (_) {
-      return null;
-    }
-  }
+  Sharecode(this.key);
 
   @override
   bool operator ==(dynamic other) {

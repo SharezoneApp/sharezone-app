@@ -71,6 +71,7 @@ class AbgabezielId extends Id {
         _id = HomeworkId(contentIdString);
         break;
       default:
+        _id = Id(contentIdString);
     }
 
     return AbgabezielId._(type, _id);
