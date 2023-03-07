@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:test/test.dart';
 import 'package:notifications/notifications.dart';
 
@@ -21,7 +23,7 @@ void main() {
         );
       },
       executeActionRequest: (request) {
-        print(request.stringToPrint);
+        log(request.stringToPrint);
       },
     );
 
@@ -33,7 +35,7 @@ void main() {
     );
 
     handler.handlePushNotification(
-      PushNotification(
+      const PushNotification(
         actionType: 'print-secret-string',
         actionData: {'secret-message': 'SHAREZONE4EVER'},
         title: 'Title',
