@@ -14,8 +14,8 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 class AbgabedateienApi {
-  final Dio _dio;
-  Serializers _serializers;
+  final Dio? _dio;
+  Serializers? _serializers;
 
   AbgabedateienApi(this._dio, this._serializers);
 
@@ -25,8 +25,8 @@ class AbgabedateienApi {
   Future<Response> addFiles(
     String submissionId,
     DateienHinzufuegenCommandDto dateienHinzufuegenCommandDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
     String _path = "/v1/submissions/{submissionId}/files/addList"
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
@@ -40,11 +40,11 @@ class AbgabedateienApi {
 
     List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(dateienHinzufuegenCommandDto);
+    var serializedBody = _serializers!.serialize(dateienHinzufuegenCommandDto);
     var jsondateienHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateienHinzufuegenCommandDto;
 
-    return _dio.request(
+    return _dio!.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,

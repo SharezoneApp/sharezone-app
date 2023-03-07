@@ -16,7 +16,7 @@ import 'package:dio/dio.dart';
 
 class AbgabedateiApi {
   final Dio _dio;
-  Serializers _serializers;
+  final Serializers _serializers;
 
   AbgabedateiApi(this._dio, this._serializers);
 
@@ -26,8 +26,8 @@ class AbgabedateiApi {
   Future<Response> addFile(
     String submissionId,
     DateiHinzufuegenCommandDto dateiHinzufuegenCommandDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String?>? headers,
   }) async {
     String _path = "/v1/submissions/{submissionId}/files"
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
@@ -45,7 +45,7 @@ class AbgabedateiApi {
     var jsondateiHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateiHinzufuegenCommandDto;
 
-    return _dio.request(
+    return _dio!.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
@@ -65,8 +65,8 @@ class AbgabedateiApi {
   Future<Response> deleteFile(
     String submissionId,
     String fileId, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
     String _path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
@@ -81,7 +81,7 @@ class AbgabedateiApi {
 
     List<String> contentTypes = [];
 
-    return _dio.request(
+    return _dio!.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
@@ -102,8 +102,8 @@ class AbgabedateiApi {
     String submissionId,
     String fileId,
     DateinameDto dateinameDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
     String _path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
@@ -118,11 +118,11 @@ class AbgabedateiApi {
 
     List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(dateinameDto);
+    var serializedBody = _serializers!.serialize(dateinameDto);
     var jsondateinameDto = json.encode(serializedBody);
     bodyData = jsondateinameDto;
 
-    return _dio.request(
+    return _dio!.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
