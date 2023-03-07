@@ -70,7 +70,9 @@ class LoggingPushNotificationActionHandlerInstrumentation
 
   @override
   void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead, PushNotification notification, error}) {}
+      {fallbackValueChosenInstead,
+      required PushNotification notification,
+      error}) {}
 
   @override
   void parsingFailedOnUnknownActionType(PushNotification pushNotification) {}
