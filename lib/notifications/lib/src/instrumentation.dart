@@ -70,11 +70,9 @@ class PushNotificationParserInstrumentation {
   /// ```
   T parseAttributeOrLogFailure<T>(
     String attributeName, {
-    @required T Function() parse,
-    @required T fallbackValue,
+    required T Function() parse,
+    required T fallbackValue,
   }) {
-    assert(fallbackValue != null);
-
     try {
       final result = parse();
       if (result == null) {
@@ -148,7 +146,7 @@ abstract class PushNotificationActionHandlerInstrumentation {
   void parsingFailedNonFatalyOnAttribute(
     String attributeName, {
     dynamic fallbackValueChosenInstead,
-    PushNotification notification,
+    required PushNotification notification,
     dynamic error,
   });
 
