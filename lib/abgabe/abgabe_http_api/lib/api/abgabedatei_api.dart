@@ -77,7 +77,7 @@ class AbgabedateiApi {
 
     List<String> contentTypes = [];
 
-    return _dio!.request(
+    return _dio.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
@@ -112,7 +112,7 @@ class AbgabedateiApi {
 
     List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers!.serialize(dateinameDto);
+    var serializedBody = _serializers.serialize(dateinameDto);
     var jsondateinameDto = json.encode(serializedBody);
     bodyData = jsondateinameDto;
 

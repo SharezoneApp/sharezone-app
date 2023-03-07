@@ -38,7 +38,7 @@ class AbgabedateienApi {
 
     List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers!.serialize(dateienHinzufuegenCommandDto);
+    var serializedBody = _serializers.serialize(dateienHinzufuegenCommandDto);
     var jsondateienHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateienHinzufuegenCommandDto;
 
