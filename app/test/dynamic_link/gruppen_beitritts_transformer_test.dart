@@ -11,7 +11,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/einkommender_link.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('GruppenBeitrittsTransformer', () {

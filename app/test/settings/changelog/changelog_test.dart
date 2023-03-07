@@ -14,7 +14,7 @@ import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('paginated loading', () async {

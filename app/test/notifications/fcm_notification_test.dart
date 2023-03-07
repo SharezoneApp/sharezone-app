@@ -8,7 +8,7 @@
 
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class MockNotificationTokenAdderApi extends Mock
     implements NotificationTokenAdderApi {}

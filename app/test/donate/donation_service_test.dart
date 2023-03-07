@@ -13,7 +13,7 @@ import 'package:random_string/random_string.dart';
 import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/donate/donation_service/src/purchase_service.dart';
 import 'package:sharezone/donate/donation_service/src/sharezone_donation_backend.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'mock_donate_analytics.dart';
 

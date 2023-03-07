@@ -8,7 +8,7 @@
 
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("FeedbackCache", () {

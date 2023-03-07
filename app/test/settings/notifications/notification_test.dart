@@ -13,7 +13,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/util/api/user_api.dart';
 
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:user/user.dart';
 
 class MockUserApi extends Mock implements UserGateway {}

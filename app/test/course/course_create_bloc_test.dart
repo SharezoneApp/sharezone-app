@@ -15,7 +15,7 @@ import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dar
 import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../analytics/analytics_test.dart';
 

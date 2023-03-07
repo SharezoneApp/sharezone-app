@@ -8,7 +8,7 @@
 
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   LessonView getLessonViewWithTimeStatus(LessonTimeStatus timeline) {

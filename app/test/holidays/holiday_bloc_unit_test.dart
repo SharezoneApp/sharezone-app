@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import 'package:random_string/random_string.dart' as rdm;
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:user/user.dart';
 
 class MockAPI extends Mock implements HolidayApi {}

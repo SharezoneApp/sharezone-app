@@ -10,7 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../analytics/analytics_test.dart';
 
