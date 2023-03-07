@@ -7,15 +7,15 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:app_functions/app_functions.dart';
+import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
-import 'package:app_functions/sharezone_app_functions.dart';
+
 import 'firebase_dependencies.dart';
 
 class References {
   final FirebaseFirestore firestore;
-  final FirebaseAuth firebaseAuth;
+  final FirebaseAuth? firebaseAuth;
   final SharezoneAppFunctions functions;
   final CollectionReference<Map<String, dynamic>> schools,
       schoolClasses,
@@ -24,23 +24,23 @@ class References {
   final CollectionReference<Map<String, dynamic>> members, lessons, events;
 
   References._({
-    @required this.firestore,
-    @required this.firebaseAuth,
-    @required this.functions,
-    @required this.schools,
-    @required this.schoolClasses,
-    @required this.courses,
-    @required this.users,
-    @required this.members,
-    @required this.lessons,
-    @required this.events,
+    required this.firestore,
+    required this.firebaseAuth,
+    required this.functions,
+    required this.schools,
+    required this.schoolClasses,
+    required this.courses,
+    required this.users,
+    required this.members,
+    required this.lessons,
+    required this.events,
   });
 
   factory References.init({
-    @required FirebaseDependencies firebaseDependencies,
-    @required AppFunctions appFunctions,
+    required FirebaseDependencies firebaseDependencies,
+    required AppFunctions appFunctions,
   }) {
-    final firestore = firebaseDependencies.firestore;
+    final firestore = firebaseDependencies.firestore!;
     return References._(
       firestore: firestore,
       firebaseAuth: firebaseDependencies.auth,
@@ -69,7 +69,7 @@ class References {
 }
 
 class MemberIDUtils {
-  static String getMemberID({@required String uid}) {
+  static String getMemberID({required String uid}) {
     return uid;
     // ALTERNATIVE: return "$uid::default"
   }

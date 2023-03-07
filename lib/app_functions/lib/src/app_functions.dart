@@ -8,20 +8,18 @@
 
 import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/src/app_functions_result.dart';
-
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 class AppFunctions {
   final FirebaseFunctions _firebaseFunctions;
 
   AppFunctions(this._firebaseFunctions);
 
-  Future<AppFunctionsResult<T>> callCloudFunction<T>(
-      {@required String functionName,
-      @required Map<String, dynamic> parameters}) async {
+  Future<AppFunctionsResult<T>> callCloudFunction<T>({
+    required String functionName,
+    required Map<String, dynamic> parameters,
+  }) async {
     try {
       final httpsCallableResult =
           await _firebaseFunctions.httpsCallable(functionName).call(parameters);
@@ -47,7 +45,7 @@ class AppFunctions {
       FirebaseFunctionsException cloudFunctionsException) {
     print("Code: " + cloudFunctionsException.code);
     print("Details: " + cloudFunctionsException.details);
-    print("Message: " + cloudFunctionsException.message);
+    print("Message: ${cloudFunctionsException.message}");
     if (cloudFunctionsException.code == 'DeadlineExceeded')
       return TimeoutAppFunctionsException();
 
@@ -59,7 +57,7 @@ class AppFunctions {
     if (platformException.code == '-1009')
       return NoInternetAppFunctionsException();
     print("Code: " + platformException.code);
-    print("Message: " + platformException.message);
+    print("Message: ${platformException.message}");
 
     return UnknownAppFunctionsException(platformException);
   }

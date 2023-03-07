@@ -9,7 +9,7 @@
 import 'package:test/test.dart';
 import 'package:url_launcher_extended/mock_url_launcher_extended.dart';
 
-import '../lib/url_launcher_extended.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 void main() {
   group('MockUrlLauncherExtended', () {

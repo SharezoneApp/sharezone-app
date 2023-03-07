@@ -13,13 +13,12 @@ homepage: null
 publish_to: null
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   equatable: ^2.0.5
   firebase_messaging: ^14.2.5
-  meta: any
   flutter:
     sdk: flutter
 
