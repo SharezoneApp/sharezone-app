@@ -6,10 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:developer';
-
 import 'package:test/test.dart';
 import 'package:notifications/notifications.dart';
+
+// Because this file is an example for the documentation, we allow to use the
+// print method.
+//
+// ignore_for_file: avoid_print
 
 void main() {
   test('Example usage for documentation of the $PushNotificationActionHandler',
@@ -23,7 +26,7 @@ void main() {
         );
       },
       executeActionRequest: (request) {
-        log(request.stringToPrint);
+        print(request.stringToPrint);
       },
     );
 
