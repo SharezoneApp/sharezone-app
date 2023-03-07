@@ -83,7 +83,7 @@ class Time {
   /// Returns a bool indicating whether the new time added to the [duration] is
   /// a new day.
   bool isNextDayWith(Duration duration) {
-    final minutesOfADay = 24 * 60;
+    const minutesOfADay = 24 * 60;
     return totalMinutes + duration.inMinutes >= minutesOfADay;
   }
 
