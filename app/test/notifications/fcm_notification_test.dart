@@ -6,9 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 class MockNotificationTokenAdderApi extends Mock
     implements NotificationTokenAdderApi {}
