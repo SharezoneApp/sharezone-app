@@ -21,3 +21,7 @@ dependencies:
   logging: ^1.1.1
   pointycastle: ^3.6.2
   rsa_pkcs: ^2.0.1
+
+dev_dependencies:
+  sharezone_lints:
+    path: ../sharezone_lints
