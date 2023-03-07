@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:quiver/core.dart';
-import 'package:sharezone_common/course_validators.dart' as course_validators;
 import 'package:sharezone_common/blackboard_validators.dart'
     as blackboard_validators;
-import 'package:crash_analytics/crash_analytics.dart';
+import 'package:sharezone_common/course_validators.dart' as course_validators;
 
 part 'handle_error_message.dart';
 
@@ -189,12 +189,12 @@ class DeserializeFirestoreDocException implements Exception {
   /// Message to describe the deserializing Exeption.
   /// Should include the type that the [documentToDeserialize] should have been
   /// deserialized to.
-  final String message;
+  final String? message;
 
   /// The document that should have been deserialized.
-  final DocumentSnapshot<Map<String, dynamic>> documentToDeserialize;
+  final DocumentSnapshot<Map<String, dynamic>>? documentToDeserialize;
 
-  StackTrace stackTrace;
+  StackTrace? stackTrace;
 
   DeserializeFirestoreDocException(
       [this.documentToDeserialize, this.message, this.stackTrace]) {
@@ -211,7 +211,7 @@ class DeserializeFirestoreDocException implements Exception {
       report += "\n Fields of Document:\n";
       List<String> listOfContent = [];
       try {
-        listOfContent.add("\nDocument ID: ${documentToDeserialize.id}");
+        listOfContent.add("\nDocument ID: ${documentToDeserialize!.id}");
         documentToDeserialize?.data()?.forEach((string, dyn) {
           listOfContent.add("\n$string: ${dyn.runtimeType}: ${dyn.toString()}");
         });
