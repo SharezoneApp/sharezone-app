@@ -14,8 +14,8 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 class AbgabedateienApi {
-  final Dio? _dio;
-  Serializers? _serializers;
+  final Dio _dio;
+  final Serializers _serializers;
 
   AbgabedateienApi(this._dio, this._serializers);
 
@@ -32,11 +32,9 @@ class AbgabedateienApi {
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
@@ -44,13 +42,13 @@ class AbgabedateienApi {
     var jsondateienHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateienHinzufuegenCommandDto;
 
-    return _dio!.request(
+    return _dio.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'post'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),

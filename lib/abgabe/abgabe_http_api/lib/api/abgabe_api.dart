@@ -48,7 +48,7 @@ class AbgabeApi {
       data: bodyData,
       options: Options(
         method: 'patch'.toUpperCase(),
-        headers: headers ?? {},
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),

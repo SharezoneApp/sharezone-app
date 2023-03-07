@@ -33,11 +33,9 @@ class AbgabedateiApi {
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
@@ -45,13 +43,13 @@ class AbgabedateiApi {
     var jsondateiHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateiHinzufuegenCommandDto;
 
-    return _dio!.request(
+    return _dio.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'post'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),
@@ -73,11 +71,9 @@ class AbgabedateiApi {
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = [];
 
@@ -87,7 +83,7 @@ class AbgabedateiApi {
       data: bodyData,
       options: Options(
         method: 'delete'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),
@@ -110,11 +106,9 @@ class AbgabedateiApi {
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
@@ -122,13 +116,13 @@ class AbgabedateiApi {
     var jsondateinameDto = json.encode(serializedBody);
     bodyData = jsondateinameDto;
 
-    return _dio!.request(
+    return _dio.request(
       _path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'post'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),
