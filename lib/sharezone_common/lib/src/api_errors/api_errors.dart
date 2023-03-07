@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:quiver/core.dart';
@@ -217,7 +219,7 @@ class DeserializeFirestoreDocException implements Exception {
         });
         report += listOfContent.toString();
       } catch (e) {
-        print("Error while reading document data.");
+        log("Error while reading document data.");
       }
     }
     return report;
@@ -236,10 +238,11 @@ class DeserializeFirestoreDocException implements Exception {
 }
 
 InternalException mapExceptionIntoInternalException(Exception e) {
-  if (e.toString().contains("credential-already-in-use"))
+  if (e.toString().contains("credential-already-in-use")) {
     return FirebaseCredentialAlreadyInUseException();
-  else if (e.toString().contains("email-already-in-use"))
+  } else if (e.toString().contains("email-already-in-use")) {
     return FirebaseEmailAlreadyInUseException();
+  }
   return UnknownInternalException(e);
 }
 
