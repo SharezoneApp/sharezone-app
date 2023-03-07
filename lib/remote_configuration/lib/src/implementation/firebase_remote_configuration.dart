@@ -43,6 +43,5 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
 }
 
 RemoteConfiguration getRemoteConfiguration() {
-  if (PlatformCheck.isMacOS) return StubRemoteConfiguration();
   return FirebaseRemoteConfiguration();
 }
