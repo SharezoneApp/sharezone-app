@@ -27,7 +27,10 @@ class Design {
   final String hex;
   final DesignType type;
 
-  const Design._({required this.hex, required this.type});
+  const Design._({
+    required this.hex,
+    required this.type,
+  });
 
   factory Design.standard() => Design.fromColor(Colors.lightBlue);
 
