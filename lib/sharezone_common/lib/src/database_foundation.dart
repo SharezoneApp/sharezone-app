@@ -75,20 +75,25 @@ class DataDocumentPackage<T> {
       if (_loadedData == false) _loadedData = true;
       if (event.exists) {
         data = objectBuilder(event.data() as Map<String, dynamic>?);
-        for (StreamController<T?> controller in _listStreamController)
+        for (StreamController<T?> controller in _listStreamController) {
           controller.add(data);
-        for (StreamController<T?> controller in _listStreamControllerOnce)
+        }
+        for (StreamController<T?> controller in _listStreamControllerOnce) {
           controller.add(data);
+        }
         _listStreamControllerOnce.clear();
       } else {
-        if (loadNullData)
+        if (loadNullData) {
           data = objectBuilder(event.data() as Map<String, dynamic>?);
-        else
+        } else {
           data = null;
-        for (StreamController<T?> controller in _listStreamController)
+        }
+        for (StreamController<T?> controller in _listStreamController) {
           controller.add(data);
-        for (StreamController<T?> controller in _listStreamControllerOnce)
+        }
+        for (StreamController<T?> controller in _listStreamControllerOnce) {
           controller.add(data);
+        }
         _listStreamControllerOnce.clear();
       }
     });
@@ -101,13 +106,15 @@ class DataDocumentPackage<T> {
   void unlock({DocumentReference? newReference}) {
     _isLocked = false;
     if (newReference != null) reference = newReference;
-    if (_listStreamController.isNotEmpty) if (_isInitiated == false)
+    if (_listStreamController.isNotEmpty) if (_isInitiated == false) {
       _initiate();
+    }
   }
 
   void forceUpdate() {
-    for (StreamController<T?> controller in _listStreamController)
+    for (StreamController<T?> controller in _listStreamController) {
       controller.add(data);
+    }
   }
 }
 
@@ -146,23 +153,26 @@ class DataCollectionPackage<T> {
     if (id == null) return null;
     if (getKey == null) {
       throw Exception("Missing Implementation for getKey");
-    } else
+    } else {
       return getItemByFilter((item) => getKey!(item) == id);
+    }
   }
 
   T? getItemByFilter(ItemFilter<T> filter) {
     Iterable<T> iterable = data.where(filter);
-    if (iterable.isNotEmpty)
+    if (iterable.isNotEmpty) {
       return iterable.first;
-    else
+    } else {
       return null;
+    }
   }
 
   Stream<T> getItemStream(String id) {
     if (getKey == null) {
       throw Exception("Missing Implementation for getKey");
-    } else
+    } else {
       return getItemFilteredStream((item) => getKey!(item) == id);
+    }
   }
 
   Stream<T> getItemFilteredStream(ItemFilter<T> filter) {
@@ -219,10 +229,12 @@ class DataCollectionPackage<T> {
           .toList();
       if (sorter != null) preData.sort(sorter);
       data = preData;
-      for (StreamController<List<T>> controller in _listStreamController)
+      for (StreamController<List<T>> controller in _listStreamController) {
         controller.add(data);
-      for (StreamController<List<T>> controller in _listStreamControllerOnce)
+      }
+      for (StreamController<List<T>> controller in _listStreamControllerOnce) {
         controller.add(data);
+      }
       _listStreamControllerOnce.clear();
     });
   }
@@ -234,7 +246,8 @@ class DataCollectionPackage<T> {
   void unlock({Query? newReference}) {
     _isLocked = false;
     if (newReference != null) reference = newReference;
-    if (_listStreamController.isNotEmpty) if (_isInitiated == false)
+    if (_listStreamController.isNotEmpty) if (_isInitiated == false) {
       _initiate();
+    }
   }
 }

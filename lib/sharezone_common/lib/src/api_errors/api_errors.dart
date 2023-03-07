@@ -236,10 +236,11 @@ class DeserializeFirestoreDocException implements Exception {
 }
 
 InternalException mapExceptionIntoInternalException(Exception e) {
-  if (e.toString().contains("credential-already-in-use"))
+  if (e.toString().contains("credential-already-in-use")) {
     return FirebaseCredentialAlreadyInUseException();
-  else if (e.toString().contains("email-already-in-use"))
+  } else if (e.toString().contains("email-already-in-use")) {
     return FirebaseEmailAlreadyInUseException();
+  }
   return UnknownInternalException(e);
 }
 
