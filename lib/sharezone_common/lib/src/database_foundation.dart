@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 
-typedef ObjectBuilder<T> = T Function(Map<String, dynamic> data);
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+typedef ObjectBuilder<T> = T Function(Map<String, dynamic>? data);
 typedef KeyObjectBuilder<T> = T Function(String key, Map<String, dynamic> data);
 typedef ItemFilter<T> = bool Function(T item);
 typedef GetKey<T> = String Function(T item);
@@ -27,15 +27,16 @@ class DataDocumentPackage<T> {
   bool _isInitiated = false;
   bool _isLocked = false;
   bool _loadedData = false;
-  List<StreamController<T>> _listStreamController;
-  List<StreamController<T>> _listStreamControllerOnce;
-  StreamSubscription<DocumentSnapshot> _listener;
-  DataDocumentPackage(
-      {@required this.reference,
-      @required this.objectBuilder,
-      this.directlyLoad = false,
-      this.lockedOnStart = false,
-      this.loadNullData = false}) {
+  late List<StreamController<T?>> _listStreamController;
+  late List<StreamController<T?>> _listStreamControllerOnce;
+  StreamSubscription<DocumentSnapshot>? _listener;
+  DataDocumentPackage({
+    required this.reference,
+    required this.objectBuilder,
+    this.directlyLoad = false,
+    this.lockedOnStart = false,
+    this.loadNullData = false,
+  }) {
     _listStreamController = [];
     _listStreamControllerOnce = [];
     if (lockedOnStart) _isLocked = true;
@@ -44,11 +45,11 @@ class DataDocumentPackage<T> {
     }
   }
 
-  T data;
+  T? data;
 
-  Stream<T> get stream {
+  Stream<T?> get stream {
     if (_isLocked == false) if (_isInitiated == false) _initiate();
-    StreamController<T> newcontroller = StreamController();
+    StreamController<T?> newcontroller = StreamController();
     _listStreamController.add(newcontroller);
     newcontroller.add(data);
     newcontroller.onCancel = () {
@@ -73,21 +74,26 @@ class DataDocumentPackage<T> {
     _listener = reference.snapshots().listen((event) {
       if (_loadedData == false) _loadedData = true;
       if (event.exists) {
-        data = objectBuilder(event.data());
-        for (StreamController<T> controller in _listStreamController)
+        data = objectBuilder(event.data() as Map<String, dynamic>?);
+        for (StreamController<T?> controller in _listStreamController) {
           controller.add(data);
-        for (StreamController<T> controller in _listStreamControllerOnce)
+        }
+        for (StreamController<T?> controller in _listStreamControllerOnce) {
           controller.add(data);
+        }
         _listStreamControllerOnce.clear();
       } else {
-        if (loadNullData)
-          data = objectBuilder(event.data());
-        else
+        if (loadNullData) {
+          data = objectBuilder(event.data() as Map<String, dynamic>?);
+        } else {
           data = null;
-        for (StreamController<T> controller in _listStreamController)
+        }
+        for (StreamController<T?> controller in _listStreamController) {
           controller.add(data);
-        for (StreamController<T> controller in _listStreamControllerOnce)
+        }
+        for (StreamController<T?> controller in _listStreamControllerOnce) {
           controller.add(data);
+        }
         _listStreamControllerOnce.clear();
       }
     });
@@ -97,16 +103,18 @@ class DataDocumentPackage<T> {
     _listener?.cancel();
   }
 
-  void unlock({DocumentReference newReference}) {
+  void unlock({DocumentReference? newReference}) {
     _isLocked = false;
     if (newReference != null) reference = newReference;
-    if (_listStreamController.isNotEmpty) if (_isInitiated == false)
+    if (_listStreamController.isNotEmpty && _isInitiated == false) {
       _initiate();
+    }
   }
 
   void forceUpdate() {
-    for (StreamController<T> controller in _listStreamController)
+    for (StreamController<T?> controller in _listStreamController) {
       controller.add(data);
+    }
   }
 }
 
@@ -114,22 +122,23 @@ class DataCollectionPackage<T> {
   Query reference;
   final bool directlyLoad, lockedOnStart;
   final KeyObjectBuilder<T> objectBuilder;
-  final GetKey<T> getKey;
-  final Sorter<T> sorter;
+  final GetKey<T>? getKey;
+  final Sorter<T>? sorter;
   bool _isInitiated = false;
   bool _isLocked = false;
   bool _loadedData = false;
 
-  List<StreamController<List<T>>> _listStreamController;
-  List<StreamController<List<T>>> _listStreamControllerOnce;
-  StreamSubscription<QuerySnapshot> _listener;
-  DataCollectionPackage(
-      {@required this.reference,
-      @required this.objectBuilder,
-      this.getKey,
-      this.directlyLoad = false,
-      this.lockedOnStart = false,
-      this.sorter}) {
+  late List<StreamController<List<T>>> _listStreamController;
+  late List<StreamController<List<T>>> _listStreamControllerOnce;
+  StreamSubscription<QuerySnapshot>? _listener;
+  DataCollectionPackage({
+    required this.reference,
+    required this.objectBuilder,
+    this.getKey,
+    this.directlyLoad = false,
+    this.lockedOnStart = false,
+    this.sorter,
+  }) {
     _listStreamController = [];
     _listStreamControllerOnce = [];
     if (lockedOnStart) _isLocked = true;
@@ -140,27 +149,30 @@ class DataCollectionPackage<T> {
 
   List<T> data = [];
 
-  T getItem(String id) {
+  T? getItem(String? id) {
     if (id == null) return null;
     if (getKey == null) {
       throw Exception("Missing Implementation for getKey");
-    } else
-      return getItemByFilter((item) => getKey(item) == id);
+    } else {
+      return getItemByFilter((item) => getKey!(item) == id);
+    }
   }
 
-  T getItemByFilter(ItemFilter<T> filter) {
-    Iterable<T> iterable = data?.where(filter);
-    if (iterable != null && iterable.isNotEmpty)
+  T? getItemByFilter(ItemFilter<T> filter) {
+    Iterable<T> iterable = data.where(filter);
+    if (iterable.isNotEmpty) {
       return iterable.first;
-    else
+    } else {
       return null;
+    }
   }
 
   Stream<T> getItemStream(String id) {
     if (getKey == null) {
       throw Exception("Missing Implementation for getKey");
-    } else
-      return getItemFilteredStream((item) => getKey(item) == id);
+    } else {
+      return getItemFilteredStream((item) => getKey!(item) == id);
+    }
   }
 
   Stream<T> getItemFilteredStream(ItemFilter<T> filter) {
@@ -212,14 +224,17 @@ class DataCollectionPackage<T> {
     _listener = reference.snapshots().listen((event) {
       if (_loadedData == false) _loadedData = true;
       var preData = event.docs
-          .map((docSnap) => objectBuilder(docSnap.id, docSnap.data()))
+          .map((docSnap) =>
+              objectBuilder(docSnap.id, docSnap.data() as Map<String, dynamic>))
           .toList();
       if (sorter != null) preData.sort(sorter);
       data = preData;
-      for (StreamController<List<T>> controller in _listStreamController)
+      for (StreamController<List<T>> controller in _listStreamController) {
         controller.add(data);
-      for (StreamController<List<T>> controller in _listStreamControllerOnce)
+      }
+      for (StreamController<List<T>> controller in _listStreamControllerOnce) {
         controller.add(data);
+      }
       _listStreamControllerOnce.clear();
     });
   }
@@ -228,10 +243,11 @@ class DataCollectionPackage<T> {
     await _listener?.cancel();
   }
 
-  void unlock({Query newReference}) {
+  void unlock({Query? newReference}) {
     _isLocked = false;
     if (newReference != null) reference = newReference;
-    if (_listStreamController.isNotEmpty) if (_isInitiated == false)
+    if (_listStreamController.isNotEmpty && _isInitiated == false) {
       _initiate();
+    }
   }
 }

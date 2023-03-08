@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:design/design.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:random_string/random_string.dart';
@@ -16,7 +17,6 @@ import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
-import 'package:test/test.dart';
 
 class MockGroupJoinBloc extends GroupJoinBloc {
   // Resent, da der JoinVersuch hier ja ein zweites Mal erfolgt, aber diesmal mit einer
@@ -158,7 +158,9 @@ void main() {
           unorderedEquals(['englisch', 'spanisch']));
     });
 
-    test('sends new request with all preselected courses, if users skips the selection', () async {
+    test(
+        'sends new request with all preselected courses, if users skips the selection',
+        () async {
       // Arrange
       final bloc = _blocWith(courses: [
         _courseWith(id: 'englisch', name: 'Englisch', isSelected: true),

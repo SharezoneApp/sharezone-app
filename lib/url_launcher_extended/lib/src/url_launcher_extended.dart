@@ -67,8 +67,8 @@ class UrlLauncherExtended {
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
     String? webOnlyWindowName,
   }) async {
-    final _canLaunch = await canLaunchUrl(url);
-    if (!_canLaunch) {
+    final canLaunch = await canLaunchUrl(url);
+    if (!canLaunch) {
       throw CouldNotLaunchUrlException(url);
     }
 
@@ -116,8 +116,8 @@ class UrlLauncherExtended {
       },
     );
 
-    final _canLaunch = await canLaunchUrl(emailLaunchString);
-    if (!_canLaunch) {
+    final canLaunch = await canLaunchUrl(emailLaunchString);
+    if (!canLaunch) {
       throw CouldNotLaunchMailException(address, subject: subject, body: body);
     }
 
@@ -133,13 +133,13 @@ class CouldNotLaunchMailException implements Exception {
   CouldNotLaunchMailException(this.address, {this.subject, this.body});
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is CouldNotLaunchMailException &&
-        o.address == address &&
-        o.subject == subject &&
-        o.body == body;
+    return other is CouldNotLaunchMailException &&
+        other.address == address &&
+        other.subject == subject &&
+        other.body == body;
   }
 
   @override
@@ -157,10 +157,10 @@ class CouldNotLaunchUrlException implements Exception {
   CouldNotLaunchUrlException(this.url);
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is CouldNotLaunchUrlException && o.url == url;
+    return other is CouldNotLaunchUrlException && other.url == url;
   }
 
   @override

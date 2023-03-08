@@ -7,8 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:remote_configuration/src/implementation/stub_remote_configuration.dart';
-import 'package:sharezone_utils/platform.dart';
+
 import '../remote_configuration.dart';
 
 class FirebaseRemoteConfiguration extends RemoteConfiguration {
@@ -44,6 +43,5 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
 }
 
 RemoteConfiguration getRemoteConfiguration() {
-  if (PlatformCheck.isMacOS) return StubRemoteConfiguration();
   return FirebaseRemoteConfiguration();
 }
