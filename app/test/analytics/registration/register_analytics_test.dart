@@ -8,7 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../analytics_test.dart';
 
