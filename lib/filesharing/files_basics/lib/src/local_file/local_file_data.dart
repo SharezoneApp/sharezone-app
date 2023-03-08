@@ -34,7 +34,7 @@ class LocalFileData extends LocalFile {
 
   @override
   getFile() {
-    throw UnimplementedError();
+    return null;
   }
 
   @override
