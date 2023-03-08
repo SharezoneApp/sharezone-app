@@ -25,7 +25,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@v1
