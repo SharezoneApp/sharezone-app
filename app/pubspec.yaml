@@ -150,7 +150,35 @@ dependencies:
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
 # * ab wann der override entfernt werden kann.
-# dependency_overrides:
+dependency_overrides:
+  # Override for firebase_auth_web.
+  #
+  # WHY?
+  # We need to override `firebase_storage_web` and this depends on a newer
+  # version of `firebase_auth_web`.
+  #
+  # UNTIL?
+  # When we upgrade our Firebase dependencies to the latest version.
+  firebase_auth_web:
+    git:
+      url: https://github.com/nilsreichardt/flutterfire
+      ref: fix-unexpected-null-value
+      path: packages/firebase_auth/firebase_auth_web
+  # Override for firebase_storage_web.
+  #
+  # WHY?
+  # Currently, there is a bug in the firebase_storage_web package which causes a
+  # "Error: Unexpected null value." error when uploading a file on web. I (Nils)
+  # opened a PR with a fix: https://github.com/firebase/flutterfire/pull/10577
+  #
+  # UNTIL?
+  # When the PR (https://github.com/firebase/flutterfire/pull/10577) is merged
+  # and the fix is published.
+  firebase_storage_web:
+    git:
+      url: https://github.com/nilsreichardt/flutterfire
+      ref: fix-unexpected-null-value
+      path: packages/firebase_storage/firebase_storage_web
 
 dev_dependencies:
   build_runner: ^2.1.4

@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: "64fcb0dbca4386356386c085142fa6e79c00a3326ceaa778a2d25f5d9ba61441"
+      sha256: cb3a948a1eebbf8efd987c43f95418269930e912a88bc7b6a5a7658423133635
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.16"
+    version: "1.0.17"
   abgabe_client_lib:
     dependency: "direct main"
     description:
@@ -651,26 +651,27 @@ packages:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
-      sha256: c645fec50b0391aa878288f58fa4fe9762c271380c457aedf5c7c9b718604f68
+      sha256: "98e4a414db0e083a2cb8a24735bb57ef3a1ee40a1407a93513391b24ad6ffd5d"
       url: "https://pub.dev"
     source: hosted
-    version: "6.11.11"
+    version: "6.11.12"
   firebase_auth_web:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: firebase_auth_web
-      sha256: "2dcf2a36852b9091741b4a4047a02e1f2c43a62c6cacec7df573a793a6543e6d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.8"
+      path: "packages/firebase_auth/firebase_auth_web"
+      ref: fix-unexpected-null-value
+      resolved-ref: ca91d7f0be78739b8dcb4046cdf336d14efd7203
+      url: "https://github.com/nilsreichardt/flutterfire"
+    source: git
+    version: "5.2.9"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: fe30ac230f12f8836bb97e6e09197340d3c584526825b1746ea362a82e1e43f7
+      sha256: "1c121a478af23755b0b93fd4aa70d3bd32a587dd51ef0a3979091ac0d2317d32"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.7.1"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -683,10 +684,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "291fbcace608aca6c860652e1358ef89752be8cc3ef227f8bbcd1e62775b833a"
+      sha256: "0c1cf1f1022d2245ac117443bb95207952ca770281524d2908e323bc063fb8ff"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   firebase_crashlytics:
     dependency: transitive
     description:
@@ -810,18 +811,19 @@ packages:
     dependency: transitive
     description:
       name: firebase_storage_platform_interface
-      sha256: c58dedec6d12416306e08dde463f3c65443aa2d5ccc100856ae7da75bab63e29
+      sha256: "818e64f900401b6553184c9e1ca9ac057029d75d85f07f974f155b6e019699d6"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.30"
+    version: "4.1.31"
   firebase_storage_web:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: firebase_storage_web
-      sha256: "28e2c6317214f63af56b1b3f2907d168534a7629ec24269b036556f399063d5a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.23"
+      path: "packages/firebase_storage/firebase_storage_web"
+      ref: fix-unexpected-null-value
+      resolved-ref: ca91d7f0be78739b8dcb4046cdf336d14efd7203
+      url: "https://github.com/nilsreichardt/flutterfire"
+    source: git
+    version: "3.3.24"
   fixnum:
     dependency: transitive
     description:
