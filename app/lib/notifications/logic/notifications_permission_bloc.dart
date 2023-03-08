@@ -13,7 +13,7 @@ class NotificationsPermissionBloc extends BlocBase {
     @required this.firebaseMessaging,
   });
 
-  /// Returns if this device is required to request permission for
+  /// Returns `true` if this device is required to request permission for
   /// notifications.
   Future<bool> isRequiredToRequestPermission() async {
     if (PlatformCheck.isAndroid) {
