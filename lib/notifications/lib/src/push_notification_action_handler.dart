@@ -213,21 +213,20 @@ void _checkForDuplicateActionTypeRegistrations(
 }
 
 extension on ActionRegistration {
-  bool hasIntersection(ActionRegistration _other) =>
-      registerForActionTypeStrings
-          .intersection(_other.registerForActionTypeStrings)
-          .isNotEmpty;
+  bool hasIntersection(ActionRegistration other) => registerForActionTypeStrings
+      .intersection(other.registerForActionTypeStrings)
+      .isNotEmpty;
 
   Set<ActionRegistration> getDuplicates(
       List<ActionRegistration> registrations) {
-    Set<ActionRegistration> _duplicates = {};
+    Set<ActionRegistration> duplicates = {};
 
     for (var registration in registrations.where((r) => r != this)) {
       if (hasIntersection(registration)) {
-        _duplicates.add(registration);
+        duplicates.add(registration);
       }
     }
-    return _duplicates;
+    return duplicates;
   }
 }
 

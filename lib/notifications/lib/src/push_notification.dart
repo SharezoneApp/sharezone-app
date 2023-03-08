@@ -48,7 +48,7 @@ class PushNotification {
     required this.title,
     required this.body,
     Map<String, dynamic>? actionData,
-  }) : this.actionData = actionData ?? const {};
+  }) : actionData = actionData ?? const {};
 
   factory PushNotification.fromFirebase(RemoteMessage message) {
     final actionType = message.data['actionType'];
