@@ -1,0 +1,22 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: test
+
+on:
+  pull_request:
+
+jobs:
+  playground:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Print commit message
+      run: |
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | xargs)
+        echo $LAST_COMMIT_MESSAGE
