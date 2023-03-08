@@ -11,7 +11,7 @@ import 'package:util/util.dart';
 class Id {
   final String id;
 
-  Id(this.id, [String idName]) {
+  Id(this.id, [String? idName]) {
     throwIfNullOrEmpty(id, idName ?? 'id');
   }
 
