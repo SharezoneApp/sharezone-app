@@ -260,12 +260,7 @@ jobs:
         # able to use the last commit message (title and description) as release
         # note for the alpha builds. This is not the most user friendly note but
         # it's better than nothing.
-        #
-        # The "| xargs" part is to trim the output of the "git log" command
-        # because whitespace at the end causes sometimes issue with publishing
-        # to App Store Connect (see
-        # https://github.com/SharezoneApp/sharezone-app/issues/422)
-        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | xargs)
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
