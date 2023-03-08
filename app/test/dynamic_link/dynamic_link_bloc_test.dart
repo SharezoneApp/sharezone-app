@@ -8,8 +8,8 @@
 
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:dynamic_links/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
-import 'package:test/test.dart';
 
 void main() {
   group('DynamicLinkBloc', () {

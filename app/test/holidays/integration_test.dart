@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:async/async.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:test/test.dart';
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';

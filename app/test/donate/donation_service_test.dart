@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:purchases_flutter/models/introductory_price.dart';
 import 'package:purchases_flutter/models/store_product_discount.dart';
 import 'package:purchases_flutter/models/store_product_wrapper.dart';
@@ -13,7 +14,6 @@ import 'package:random_string/random_string.dart';
 import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/donate/donation_service/src/purchase_service.dart';
 import 'package:sharezone/donate/donation_service/src/sharezone_donation_backend.dart';
-import 'package:test/test.dart';
 
 import 'mock_donate_analytics.dart';
 

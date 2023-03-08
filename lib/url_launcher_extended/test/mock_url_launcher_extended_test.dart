@@ -6,9 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:url_launcher_extended/mock_url_launcher_extended.dart';
-
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 void main() {

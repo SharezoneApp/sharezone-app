@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:built_collection/built_collection.dart';
+import "package:flutter_test/flutter_test.dart";
 import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
-import "package:test/test.dart";
 
 import 'holiday_bloc_unit_test.dart';
 
