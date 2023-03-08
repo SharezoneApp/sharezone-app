@@ -6,11 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:analytics/null_analytics_backend.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_utils/platform.dart';
 import '../analytics.dart';
 
 class FirebaseAnalyticsBackend extends AnalyticsBackend {
@@ -59,7 +57,6 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 }
 
 AnalyticsBackend getBackend() {
-  if (PlatformCheck.isMacOS) return NullAnalyticsBackend();
   return FirebaseAnalyticsBackend(
       FirebaseAnalytics.instance, getCrashAnalytics());
 }
