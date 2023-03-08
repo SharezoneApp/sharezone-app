@@ -28,7 +28,7 @@ import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:random_string/random_string.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group(
@@ -834,9 +834,6 @@ void main() {
         });
       });
     },
-    timeout: Timeout(
-      Duration(seconds: 5),
-    ),
   );
 }
 

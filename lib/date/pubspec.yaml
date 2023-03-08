@@ -22,11 +22,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-dev_dependencies:
-  test: ^1.22.0
-  flutter_test:
-    sdk: flutter
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
