@@ -18,7 +18,7 @@ class PushNotificationParser {
 
   factory PushNotificationParser(
     List<ActionRegistration<ActionRequest>> actionRegistrations,
-    PushNotificationActionHandlerInstrumentation _instrumentation,
+    PushNotificationActionHandlerInstrumentation instrumentation,
   ) {
     final parserMap = <String?, PushNotificationParsingFunc>{};
 
@@ -39,7 +39,7 @@ class PushNotificationParser {
     }
 
     return PushNotificationParser._(parserMap,
-        PushNotificationParserInstrumentationFactory(_instrumentation));
+        PushNotificationParserInstrumentationFactory(instrumentation));
   }
 
   /// Finds the corresponding parsing function for the [notification] by looking
