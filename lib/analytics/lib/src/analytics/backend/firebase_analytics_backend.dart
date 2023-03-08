@@ -8,7 +8,6 @@
 
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
 import '../analytics.dart';
 
 class FirebaseAnalyticsBackend extends AnalyticsBackend {
