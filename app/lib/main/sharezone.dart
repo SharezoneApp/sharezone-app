@@ -10,6 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +22,11 @@ import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
+import 'package:sharezone/notifications/logic/notifications_permission_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/theme.dart';
 
@@ -93,9 +97,18 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     'ALPHA',
                 child: Stack(
                   children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: StreamBuilder<AuthUser>(
+                    MultiBlocProvider(
+                      blocProviders: [
+                        BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                        BlocProvider<NotificationsPermissionBloc>(
+                          bloc: NotificationsPermissionBloc(
+                            firebaseMessaging: FirebaseMessaging.instance,
+                            mobileDeviceInformationRetreiver:
+                                MobileDeviceInformationRetreiver(),
+                          ),
+                        )
+                      ],
+                      child: (context) => StreamBuilder<AuthUser>(
                         stream: listenToAuthStateChanged(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
