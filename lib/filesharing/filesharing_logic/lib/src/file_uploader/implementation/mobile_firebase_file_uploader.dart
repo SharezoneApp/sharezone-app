@@ -31,7 +31,7 @@ class MobileFirebaseFileUploader extends FileUploader {
     fb.SettableMetadata metadata,
   }) {
     // Defines if the file is available as Dart IO file. Normally this is the
-    // case except for files from the web.
+    // case except for files using the web app.
     final hasIOFile = file.getFile() != null;
 
     if (hasIOFile) {
