@@ -21,8 +21,8 @@ import 'package:notifications/src/action_executor.dart';
 /// `ShowDialog.title` and `ShowDialog.body`).
 ///
 /// Is usually implemented by a subclass of [ActionExecutor].
-typedef FutureOr<void> ActionRequestExecutorFunc<T extends ActionRequest>(
-    T actionRequest);
+typedef ActionRequestExecutorFunc<T extends ActionRequest> = FutureOr<void>
+    Function(T actionRequest);
 
 /// Parse the [ActionRequest] of type [T] from the [notification] and
 /// report non-fatal errors via the [instrumentation].
