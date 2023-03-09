@@ -46,9 +46,7 @@ class PubGetCommand extends Command {
 
     final res = taskRunner
         .runTaskForPackages(
-          packageStream: repo
-              .streamPackages()
-              .where((package) => package.hasTestDirectory),
+          packageStream: repo.streamPackages(),
           runTask: (package) => package.getPackages(),
           maxNumberOfPackagesBeingProcessedConcurrently:
               maxNumberOfPackagesBeingProcessedConcurrently,
