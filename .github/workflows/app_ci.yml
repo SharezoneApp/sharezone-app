@@ -48,7 +48,7 @@ jobs:
   # * https://github.com/community/community/discussions/45899 (merge groups)
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
-  path-filter:
+  changes:
     runs-on: ubuntu-latest
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
@@ -81,7 +81,7 @@ jobs:
               - "!**/.firebaserc"
 
   analyze:
-    needs: path-filter
+    needs: changes
     runs-on: ubuntu-latest
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
@@ -116,7 +116,7 @@ jobs:
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
   test:
-    needs: path-filter
+    needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: macos-latest
     steps:
@@ -167,7 +167,7 @@ jobs:
           if-no-files-found: ignore
   
   android-integration-test:
-    needs: path-filter
+    needs: changes
     # Is recommended to run the job with a macOS machine to take advantage of
     # hardware acceleration support provided by HAXM. See more details in the
     # README.md of the Android emulator action:
@@ -259,7 +259,7 @@ jobs:
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
-    needs: path-filter
+    needs: changes
     runs-on: macos-latest
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
@@ -323,7 +323,7 @@ jobs:
   # 3. Write GitHub action job
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
-    needs: path-filter
+    needs: changes
     # We only want to build the web app only for PRs.
     #
     # Otherwise this will be triggered inside a merge-queue.
