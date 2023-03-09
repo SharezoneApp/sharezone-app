@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// Using a import prefix to avoid conflicts with the analytics and developer
+// `log` method.
 import 'dart:developer' as developer;
 
 import '../analytics.dart';
