@@ -22,7 +22,7 @@ class LinkProviderAnalytics {
   void logGoogleLink() {
     _analytics.log(AuthentifactionEvent(provider: google, name: name));
   }
-  
+
   void logAppleLink() {
     _analytics.log(AuthentifactionEvent(provider: apple, name: name));
   }

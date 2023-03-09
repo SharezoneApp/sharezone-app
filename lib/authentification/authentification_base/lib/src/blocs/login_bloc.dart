@@ -34,7 +34,7 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
   Function(String) get changePassword => _passwordSubject.sink.add;
 
   Stream<bool> get submitValid =>
-      Rx.combineLatest2(email, password, (e, p) => true);
+      Rx.combineLatest2(email, password, (dynamic e, dynamic p) => true);
 
   Future<void> submit() async {
     if (!isEmptyOrNull(_emailSubject.valueOrNull)) {
@@ -44,8 +44,8 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
         } catch (e) {
           throw IncorrectDataException();
         }
-        final validEmail = _emailSubject.valueOrNull;
-        final validPassword = _passwordSubject.valueOrNull;
+        final validEmail = _emailSubject.valueOrNull!;
+        final validPassword = _passwordSubject.valueOrNull!;
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: validEmail, password: validPassword);
         _analytics.logEmailAndPasswordLogin();
