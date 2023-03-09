@@ -70,7 +70,7 @@ jobs:
               - "tools/sz_repo_cli/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
-              # - ".github/workflows/cli_ci.yml"
+              - ".github/workflows/cli_ci.yml"
               # The following paths are excluded from the above paths. It's important to
               # list the paths at the end of the file, so that the exclude paths are
               # applied.
