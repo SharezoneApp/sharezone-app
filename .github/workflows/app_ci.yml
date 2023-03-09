@@ -11,14 +11,6 @@
 
 name: app-ci
 
-concurrency:
-  group: app-ci-${{ github.head_ref }}
-  # In order to conserve the use of GitHub Actions, we cancel the running action
-  # of the previous commit. This means that if you first commit "A" and then
-  # commit "B" to the pull request a few minutes later, the workflow for commit
-  # "A" will be cancelled.
-  cancel-in-progress: true
-
 on:
   # Triggers the workflow on pull request events
   pull_request:
@@ -33,29 +25,9 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
-    paths:
-      # When you add a new path, make sure to also add the path to the
-      # "paths-ignore" section in the "app_fallback_ci.yml" file.
-      # 
-      # When we change the Flutter version, we need to trigger this workflow.
-      - ".fvm/fvm_config.json"
-      # We only build and deploy a new version, when a user relevant files
-      # changed.
-      - "app/**"
-      - "lib/**"
-      # We trigger also this workflow, if this workflow is changed, so that new
-      # changes will be applied.
-      - ".github/workflows/app_ci.yml"
-      # The following paths are excluded from the above paths. It's important to
-      # list the paths at the end of the file, so that the exclude paths are
-      # applied.
-      #
-      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
-      - "!**.md"
-      - "!**.mdx"
-      - "!**.gitignore"
-      - "!**/firebase.json"
-      - "!**/.firebaserc"
+  merge_group:
+    types:
+      - checks_requested
 
 env:
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
@@ -68,11 +40,51 @@ permissions: {}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # We can't use the official "paths" filter because it has no support for merge
+  # groups and we would need some kind of fallback CI when a check is required
+  # but ignored because of the path filter.
+  #
+  # See:
+  # * https://github.com/community/community/discussions/45899 (merge groups)
+  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
+  #   (workaround for required checks with path filters)
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changesFound: ${{ steps.filter.outputs.changesFound }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: AurorNZ/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changesFound:
+              # When we change the Flutter version, we need to trigger this workflow.
+              - ".fvm/fvm_config.json"
+              # We only build and deploy a new version, when a user relevant files
+              # changed.
+              - "app/**"
+              - "lib/**"
+              # We trigger also this workflow, if this workflow is changed, so that new
+              # changes will be applied.
+              - ".github/workflows/app_ci.yml"
+              # The following paths are excluded from the above paths. It's important to
+              # list the paths at the end of the file, so that the exclude paths are
+              # applied.
+              #
+              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+              - "!**.md"
+              - "!**.mdx"
+              - "!**.gitignore"
+              - "!**/firebase.json"
+              - "!**/.firebaserc"
+
   analyze:
+    needs: changes
     runs-on: ubuntu-latest
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@v3
 
@@ -103,6 +115,8 @@ jobs:
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
   test:
+    needs: changes
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -152,12 +166,13 @@ jobs:
           if-no-files-found: ignore
   
   android-integration-test:
+    needs: changes
     # Is recommended to run the job with a macOS machine to take advantage of
     # hardware acceleration support provided by HAXM. See more details in the
     # README.md of the Android emulator action:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v3
@@ -243,8 +258,9 @@ jobs:
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
+    needs: changes
     runs-on: macos-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
@@ -306,6 +322,11 @@ jobs:
   # 3. Write GitHub action job
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
+    needs: changes
+    # We only want to build the web app only for PRs.
+    #
+    # Otherwise this will be triggered inside a merge-queue.
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
