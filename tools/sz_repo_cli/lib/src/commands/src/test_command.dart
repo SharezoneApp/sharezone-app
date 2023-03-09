@@ -15,13 +15,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class TestCommand extends Command {
   TestCommand(this.repo) {
     argParser
-      ..addFlag(
-        'verbose',
-        abbr: 'v',
-        help: 'if verbose output should be printed (helpful for debugging)',
-        negatable: false,
-        defaultsTo: false,
-      )
+      ..addVerboseFlag()
       ..addConcurrencyOption(defaultMaxConcurrency: 5)
       ..addPackageTimeoutOption(defaultInMinutes: 10);
   }
@@ -78,4 +72,3 @@ class TestCommand extends Command {
     }
   }
 }
-
