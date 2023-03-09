@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Print GitHub event action
         run: |
-          echo "${{ github.event.type }}"
+          echo "${{ toJSON(github.event) }}"
