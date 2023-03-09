@@ -59,7 +59,7 @@ jobs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
+      - uses: AurorNZ/paths-filter@v3
         id: filter
         with:
           filters: |
