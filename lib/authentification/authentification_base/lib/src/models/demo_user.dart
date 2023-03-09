@@ -32,7 +32,7 @@ class DemoUser extends AuthUser {
 class DemoFirebaseUser implements User {
   @override
   Future<void> delete() async {
-    log('DemoFirebaseUser.delete(): Not implemented');
+    throw UnimplementedError();
   }
 
   @override
