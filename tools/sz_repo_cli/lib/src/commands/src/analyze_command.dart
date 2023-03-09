@@ -15,13 +15,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class AnalyzeCommand extends Command {
   AnalyzeCommand(this.repo) {
     argParser
-      ..addFlag(
-        'verbose',
-        abbr: 'v',
-        help: 'if verbose output should be printed (helpful for debugging)',
-        negatable: false,
-        defaultsTo: false,
-      )
+      ..addVerboseFlag()
       ..addConcurrencyOption(defaultMaxConcurrency: 5)
       ..addPackageTimeoutOption(defaultInMinutes: 7);
   }

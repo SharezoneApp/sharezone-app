@@ -13,6 +13,16 @@ const _packageTimeoutName = 'package-timeout-minutes';
 const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
 
 extension AddPackageTimeout on ArgParser {
+  void addVerboseFlag() {
+    addFlag(
+      'verbose',
+      abbr: 'v',
+      help: 'if verbose output should be printed (helpful for debugging)',
+      negatable: false,
+      defaultsTo: false,
+    );
+  }
+
   void addPackageTimeoutOption({@required int defaultInMinutes}) {
     addOption(
       _packageTimeoutName,
