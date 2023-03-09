@@ -23,6 +23,8 @@ on:
   merge_group:
     types:
       - checks_requested
+    # For fallback CIs we don't need to add the paths-ignore because it's no
+    # harm when the fallback checks being executed.
   pull_request:
     types:
       - opened

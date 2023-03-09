@@ -12,9 +12,6 @@
 name: app-ci
 
 on:
-  merge_group:
-    types:
-      - checks_requested
   # Triggers the workflow on pull request events
   pull_request:
     types:
@@ -29,9 +26,16 @@ on:
       # ready for review.
       - ready_for_review
     paths:
-      # When you add a new path, make sure to also add the path to the
-      # "paths-ignore" section in the "app_fallback_ci.yml" file.
-      # 
+      # IMPORTANT!
+      #
+      # When you add a new path, make sure to also add the path to the following
+      # locations:
+      # * "paths" section of "merge_group" in the "app_ci.yml" file
+      # * "paths-ignore" section of "pull_request" in the "app_fallback_ci.yml"
+      #   file
+      #
+      # ---
+      #
       # When we change the Flutter version, we need to trigger this workflow.
       - ".fvm/fvm_config.json"
       # We only build and deploy a new version, when a user relevant files
@@ -46,6 +50,22 @@ on:
       # applied.
       #
       # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+      - "!**.md"
+      - "!**.mdx"
+      - "!**.gitignore"
+      - "!**/firebase.json"
+      - "!**/.firebaserc"
+  merge_group:
+    types:
+      - checks_requested
+    # It's important to the paths also to the "merge_group" event, so that the
+    # workflow is only triggered when it's necessary.
+    paths:
+      # Keep this in sync with "pull_request". See comment above for more
+      # information.
+      - "app/**"
+      - "lib/**"
+      - ".github/workflows/app_ci.yml"
       - "!**.md"
       - "!**.mdx"
       - "!**.gitignore"
