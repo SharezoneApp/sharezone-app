@@ -16,13 +16,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class PubGetCommand extends Command {
   PubGetCommand(this.repo) {
     argParser
-      ..addFlag(
-        'verbose',
-        abbr: 'v',
-        help: 'if verbose output should be printed (helpful for debugging)',
-        negatable: false,
-        defaultsTo: false,
-      )
+      ..addVerboseFlag()
       ..addConcurrencyOption(defaultMaxConcurrency: 8)
       ..addPackageTimeoutOption(defaultInMinutes: 5);
   }
