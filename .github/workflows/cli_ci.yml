@@ -104,7 +104,8 @@ jobs:
   test:
     needs: changes
     # Because we run our the tests for all packages for now, we need to use a
-    # macOS runner because we have Golden Tests which requires a macOS runner.
+    # macOS runner because we have Golden Tests in some packages which requires
+    # a macOS runner.
     #
     # When the Sharezone CLI supports filters for the test command (like
     # `--only="tools/sz_repo_cli"`), we can change this to a Linux runner.
