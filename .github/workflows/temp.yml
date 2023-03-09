@@ -1,0 +1,11 @@
+on:
+  pull_request:
+
+jobs:
+  prJob:    
+    name: Print info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print GitHub event action
+        run: |
+          echo "${{ github.event.action }}"
