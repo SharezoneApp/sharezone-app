@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 /// Usually, the route name is not a plain string, and it may contains some
 /// unique ids that makes it difficult to aggregate over them in Firebase
 /// Analytics.
-typedef String? ScreenNameExtractor(RouteSettings settings);
+typedef ScreenNameExtractor = String? Function(RouteSettings settings);
 
 String? defaultNameExtractor(RouteSettings settings) => settings.name;
 
