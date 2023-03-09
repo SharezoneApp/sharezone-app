@@ -21,22 +21,6 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
-    paths:
-      # IMPORTANT!
-      #
-      # When you add a new path, make sure to also add the path to the following
-      # locations:
-      # * "paths" section of "merge_group" in the "cli_ci.yml" file
-      # * "paths-ignore" section of "pull_request" in the "cli_fallback_ci.yml"
-      #   file
-      #
-      # When we change the Flutter version, we need to trigger this workflow.
-      - .fvm/fvm_config.json
-      - "cli/**"
-      - ".github/workflows/cli_ci.yml"
-      - "!**.md"
-      - "!**.mdx"
-      - "!**.gitignore"
   merge_group:
     types:
       - checks_requested
