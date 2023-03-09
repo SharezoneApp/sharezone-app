@@ -11,14 +11,6 @@
 
 name: app-ci
 
-concurrency:
-  group: app-ci-${{ github.head_ref }}
-  # In order to conserve the use of GitHub Actions, we cancel the running action
-  # of the previous commit. This means that if you first commit "A" and then
-  # commit "B" to the pull request a few minutes later, the workflow for commit
-  # "A" will be cancelled.
-  cancel-in-progress: true
-
 on:
   merge_group:
     types:
@@ -309,6 +301,10 @@ jobs:
   # 3. Write GitHub action job
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
+    # We only want to build the web app only for PRs.
+    #
+    # Otherwise this will be triggered inside a merge-queue.
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
