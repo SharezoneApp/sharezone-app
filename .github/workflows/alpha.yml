@@ -260,7 +260,10 @@ jobs:
         # able to use the last commit message (title and description) as release
         # note for the alpha builds. This is not the most user friendly note but
         # it's better than nothing.
-        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        #
+        # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
+        # because the App Store doesn't allow them.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
