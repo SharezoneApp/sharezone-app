@@ -6,13 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 class UserTipKey {
   final bool defaultValue;
   final String key;
+
   const UserTipKey({
-    @required this.defaultValue,
-    @required this.key,
+    required this.defaultValue,
+    required this.key,
   });
 }

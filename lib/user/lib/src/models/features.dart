@@ -6,15 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 class Features {
   final bool allColors;
   final bool hideDonations;
 
   Features({
-    @required this.allColors,
-    @required this.hideDonations,
+    required this.allColors,
+    required this.hideDonations,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,7 +22,7 @@ class Features {
     };
   }
 
-  factory Features.fromJson(Map<String, dynamic> map) {
+  factory Features.fromJson(Map<String, dynamic>? map) {
     return Features(
       allColors: map == null ? true : map['allColors'] ?? true,
       hideDonations: map == null ? false : map['hideDonations'] ?? false,
@@ -34,15 +32,16 @@ class Features {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is Features &&
-      o.allColors == allColors &&
-      o.hideDonations == hideDonations;
+        o.allColors == allColors &&
+        o.hideDonations == hideDonations;
   }
 
   @override
   int get hashCode => allColors.hashCode ^ hideDonations.hashCode;
 
   @override
-  String toString() => 'Features(allColors: $allColors, hideDonations: $hideDonations)';
+  String toString() =>
+      'Features(allColors: $allColors, hideDonations: $hideDonations)';
 }
