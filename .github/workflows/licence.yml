@@ -10,6 +10,9 @@ name: licence-ci
 
 # Controls when the action will run. 
 on:
+  merge_group:
+    types:
+      - checks_requested
   # Triggers the workflow on pull request events
   pull_request:
     types:
