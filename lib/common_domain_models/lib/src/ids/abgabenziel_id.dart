@@ -71,6 +71,7 @@ class AbgabezielId extends Id {
         _id = HomeworkId(contentIdString);
         break;
       default:
+        throw Exception('Unknown AbgabenzielTyp: $type');
     }
 
     return AbgabezielId._(type, _id);

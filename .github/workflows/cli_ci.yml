@@ -8,14 +8,6 @@
 
 name: cli-ci
 
-concurrency:
-  group: cli-ci-${{ github.head_ref }}
-  # In order to conserve the use of GitHub Actions, we cancel the running action
-  # of the previous commit. This means that if you first commit "A" and then
-  # commit "B" to the pull request a few minutes later, the workflow for commit
-  # "A" will be cancelled.
-  cancel-in-progress: true
-
 on:
   pull_request:
     types:
@@ -29,23 +21,57 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
-    paths:
-      - .fvm/fvm_config.json
-      - "cli/**"
-      - ".github/workflows/cli_ci.yml"
-      - "!**.md"
-      - "!**.mdx"
-      - "!**.gitignore"
+  merge_group:
+    types:
+      - checks_requested
 
 env:
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 jobs:
+  # We can't use the official "paths" filter because it has no support for merge
+  # groups and we would need some kind of fallback CI when a check is required
+  # but ignored because of the path filter.
+  #
+  # See:
+  # * https://github.com/community/community/discussions/45899 (merge groups)
+  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
+  #   (workaround for required checks with path filters)
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changesFound: ${{ steps.filter.outputs.changesFound }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: AurorNZ/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changesFound:
+              # When we change the Flutter version, we need to trigger this workflow.
+              - ".fvm/fvm_config.json"
+              # Changes in the CLI directory should trigger the CI.
+              - "tools/sz_repo_cli/**"
+              # We trigger also this workflow, if this workflow is changed, so that new
+              # changes will be applied.
+              - ".github/workflows/cli_ci.yml"
+              # The following paths are excluded from the above paths. It's important to
+              # list the paths at the end of the file, so that the exclude paths are
+              # applied.
+              #
+              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+              - "!**.md"
+              - "!**.mdx"
+              - "!**.gitignore"
+              - "!**/firebase.json"
+              - "!**/.firebaserc"
+
   analyze:
+    needs: changes
     runs-on: ubuntu-latest
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@v3
 
@@ -76,7 +102,9 @@ jobs:
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
   test:
+    needs: changes
     runs-on: ubuntu-latest
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@v3
 
