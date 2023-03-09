@@ -50,6 +50,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
   /// alphanumeric characters or underscores and must start with an alphabetic
   /// character. The "firebase_" prefix is reserved and should not be used for
   /// user property names.
+  @override
   Future<void> setUserProperty({required String name, required String value}) =>
       _firebaseAnalytics.setUserProperty(name: name, value: value);
 }
