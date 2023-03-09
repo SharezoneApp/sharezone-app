@@ -301,6 +301,10 @@ jobs:
   # 3. Write GitHub action job
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
+    # We only want to build the web app only for PRs.
+    #
+    # Otherwise this will be triggered inside a merge-queue.
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
