@@ -20,6 +20,11 @@ class Date {
     return Date._(dateString);
   }
 
+  static Date? parseOrNull(String? dateString) {
+    if (dateString == null) return null;
+    return Date._(dateString);
+  }
+
   const Date._(this._iso8601String);
 
   factory Date.fromDateTime(DateTime dateTime) {
