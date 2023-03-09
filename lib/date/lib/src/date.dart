@@ -16,18 +16,13 @@ class Date {
     return Date._(dateString);
   }
 
-  factory Date.parse(dynamic dateString) {
-    if (dateString != null && dateString is String) {
-      return Date._(dateString);
-    } else {
-      return null;
-    }
+  factory Date.parse(String dateString) {
+    return Date._(dateString);
   }
 
   const Date._(this._iso8601String);
 
   factory Date.fromDateTime(DateTime dateTime) {
-    if (dateTime == null) return null;
     return Date._(dateTime.toIso8601String().substring(0, 10));
   }
 
