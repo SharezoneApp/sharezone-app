@@ -6,11 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:meta/meta.dart';
+import 'package:sharezone_common/helper_functions.dart';
 import 'package:time/time.dart';
-
-import 'package:quiver/core.dart';
 
 const Periods standardPeriods = Periods({
   1: Period(
@@ -52,7 +50,8 @@ const Periods standardPeriods = Periods({
 
 class Period {
   final int number;
-  final Time startTime, endTime;
+  final Time startTime;
+  final Time endTime;
 
   const Period(
       {@required this.number,
@@ -100,16 +99,13 @@ class Period {
   }
 
   @override
-  bool operator ==(other) {
-    return other is Period &&
-        number == other.number &&
-        startTime == other.startTime &&
-        endTime == other.endTime;
-  }
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  @override
-  int get hashCode {
-    return hash3(number, startTime, endTime);
+    return other is Period &&
+        other.number == number &&
+        other.startTime == startTime &&
+        other.endTime == endTime;
   }
 
   Period copyWith({
@@ -122,6 +118,9 @@ class Period {
       endTime: endTime ?? this.endTime,
     );
   }
+
+  @override
+  int get hashCode => number.hashCode ^ startTime.hashCode ^ endTime.hashCode;
 }
 
 class Periods {

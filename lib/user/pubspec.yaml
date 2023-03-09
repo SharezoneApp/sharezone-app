@@ -23,7 +23,6 @@ dependencies:
     path: ../date
   time:
     path: ../time
-  quiver: any
   characters: ^1.0.0
 
 dev_dependencies:
