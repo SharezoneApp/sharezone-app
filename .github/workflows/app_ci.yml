@@ -305,6 +305,8 @@ jobs:
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
+    # We only want to build the web app for PRs because other types doesn't
+    # make sense.
     if: ${{ github.event_name == "pull_request" }}
     steps:
       - uses: actions/checkout@v3
