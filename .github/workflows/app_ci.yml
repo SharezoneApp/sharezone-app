@@ -211,7 +211,7 @@ jobs:
         run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
       
       - name: Run integration tests
-        uses: reactivecircus/android-emulator-runner@6fd58f95fca234f6afffa070854b8c4c520b2d81
+        uses: reactivecircus/android-emulator-runner@50986b1464923454c95e261820bc626f38490ec0
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
