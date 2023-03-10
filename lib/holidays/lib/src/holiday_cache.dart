@@ -16,7 +16,7 @@ class HolidayCache {
 
   final KeyValueStore cache;
   final Duration maxValidDurationTillLastSaved;
-  SavingDateTimeFunction getCurrentTime;
+  SavingDateTimeFunction? getCurrentTime;
 
   HolidayCache(this.cache,
       {this.maxValidDurationTillLastSaved = const Duration(days: 30),
@@ -24,11 +24,11 @@ class HolidayCache {
     getCurrentTime ??= () => DateTime.now();
   }
 
-  CacheResponse load(State state) {
-    String jsonHolidayCacheData = cache.getString(getKeyString(state));
+  CacheResponse? load(State state) {
+    String? jsonHolidayCacheData = cache.getString(getKeyString(state));
     if (jsonHolidayCacheData == null) return null;
     HolidayCacheData cacheData =
-        HolidayCacheData.fromJson(jsonHolidayCacheData);
+        HolidayCacheData.fromJson(jsonHolidayCacheData)!;
     List<Holiday> holidays = cacheData.holidays.toList();
     holidays = removePassedHolidays(holidays);
     bool isValid = isCacheDataValid(cacheData, maxValidDurationTillLastSaved);
@@ -36,15 +36,15 @@ class HolidayCache {
   }
 
   List<Holiday> removePassedHolidays(List<Holiday> holidays) {
-    holidays.removeWhere((holiday) => holiday.end.isBefore(getCurrentTime()));
+    holidays.removeWhere((holiday) => holiday.end.isBefore(getCurrentTime!()));
     if (holidays.isEmpty) throw OnlyPassedHolidaysInCacheException();
     return holidays;
   }
 
-  Future<void> save(List<Holiday> holidays, State state) {
+  Future<void> save(List<Holiday?> holidays, State state) {
     HolidayCacheData cacheData = HolidayCacheData((b) => b
       ..holidays = ListBuilder(holidays)
-      ..saved = getCurrentTime());
+      ..saved = getCurrentTime!());
 
     cache.setString(getKeyString(state), cacheData.toJson());
 
@@ -53,7 +53,7 @@ class HolidayCache {
 
   bool isCacheDataValid(
       HolidayCacheData cacheData, Duration maxDurationTillLastSaved) {
-    return getCurrentTime()
+    return getCurrentTime!()
             .difference(cacheData.saved)
             .compareTo(maxDurationTillLastSaved) <
         0;
