@@ -152,7 +152,7 @@ jobs:
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
       run: |
-        # Even when Firebase Distribution does not required a new build number,
+        # Even when Firebase Distribution does not require a new build number,
         # we still bump it to identify the different builds easier. Therefore,
         # users can easier say in which version of the app they encountered a
         # bug.
