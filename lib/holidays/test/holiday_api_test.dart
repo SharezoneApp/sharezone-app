@@ -32,7 +32,28 @@ void main() {
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
-    HolidayApi api = apiWithCfResponse(invalidResponse);
+    MockSharezoneFunctions functions = MockSharezoneFunctions();
+    final szAppFunction = SharezoneAppFunctions(functions);
+
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult.exception(
+          UnknownAppFunctionsException(
+            FirebaseFunctionsException(
+              message: validResponse.body,
+              code: 'unknown',
+            ),
+          ),
+        ),
+      ),
+    );
+    HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
+
     expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
   test('If Api gets empty response gives back empty list', () {
@@ -80,38 +101,18 @@ HolidayApi apiWithCfResponse(http.Response validResponse) {
   MockSharezoneFunctions functions = MockSharezoneFunctions();
   final szAppFunction = SharezoneAppFunctions(functions);
 
-  if (validResponse.statusCode == 200) {
-    when(
-      functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
+  when(
+    functions.callCloudFunction<Map<String, dynamic>>(
+      functionName: anyNamed('functionName'),
+      parameters: anyNamed('parameters'),
+    ),
+  ).thenAnswer(
+    (_) => Future.value(
+      AppFunctionsResult<Map<String, dynamic>>.data(
+        {'rawResponseBody': validResponse.body},
       ),
-    ).thenAnswer(
-      (_) => Future.value(
-        AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': validResponse.body},
-        ),
-      ),
-    );
-  } else {
-    when(
-      functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
-      ),
-    ).thenAnswer(
-      (_) => Future.value(
-        AppFunctionsResult.exception(
-          UnknownAppFunctionsException(
-            FirebaseFunctionsException(
-              message: validResponse.body,
-              code: 'unknown',
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+    ),
+  );
 
   HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
   return api;
