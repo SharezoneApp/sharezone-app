@@ -62,7 +62,7 @@ env:
 permissions: {}
 jobs:
   deploy-alpha-web-app:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
@@ -102,7 +102,7 @@ jobs:
         sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json
 
   deploy-alpha-android-app:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
     
@@ -203,7 +203,7 @@ jobs:
           --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-latest
+    runs-on: macos-12
     timeout-minutes: 120
     defaults:
       run:

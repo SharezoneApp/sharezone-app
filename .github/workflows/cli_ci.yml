@@ -38,7 +38,7 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
@@ -68,7 +68,7 @@ jobs:
 
   analyze:
     needs: changes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
@@ -109,7 +109,7 @@ jobs:
     #
     # When the Sharezone CLI supports filters for the test command (like
     # `--only="tools/sz_repo_cli"`), we can change this to a Linux runner.
-    runs-on: macos-latest
+    runs-on: macos-12
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
