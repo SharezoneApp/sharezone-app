@@ -24,23 +24,6 @@ void main() {
   MockSharezoneFunctions functions;
   HolidayApi api;
 
-  HolidayApi apiWithCfResponse(http.Response validResponse) {
-    when(
-      functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
-      ),
-    ).thenAnswer(
-      (_) => Future.value(
-        AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': validResponse.body},
-        ),
-      ),
-    );
-
-    return api;
-  }
-
   void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
     expect(api.load(year, NordrheinWestfalen()),
         throwsA(TypeMatcher<AssertionError>()));
@@ -58,7 +41,19 @@ void main() {
   });
 
   test("If Api gets valid data returns Holidays", () {
-    HolidayApi api = apiWithCfResponse(validResponse);
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult<Map<String, dynamic>>.data(
+          {'rawResponseBody': validResponse.body},
+        ),
+      ),
+    );
+
     expect(api.load(0, state), completion(TypeMatcher<List<Holiday>>()));
   });
 
@@ -84,7 +79,19 @@ void main() {
     expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
   test('If Api gets empty response gives back empty list', () {
-    HolidayApi api = apiWithCfResponse(emptyResponse);
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult<Map<String, dynamic>>.data(
+          {'rawResponseBody': validResponse.body},
+        ),
+      ),
+    );
+
     expect(api.load(0, state), completion([]));
   });
 
