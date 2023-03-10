@@ -21,9 +21,40 @@ class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
 
 void main() {
   State state;
+  MockSharezoneFunctions functions;
+  HolidayApi api;
+
+  HolidayApi apiWithCfResponse(http.Response validResponse) {
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult<Map<String, dynamic>>.data(
+          {'rawResponseBody': validResponse.body},
+        ),
+      ),
+    );
+
+    return api;
+  }
+
+  void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
+    expect(api.load(year, NordrheinWestfalen()),
+        throwsA(TypeMatcher<AssertionError>()));
+  }
 
   setUp(() {
     state = NordrheinWestfalen();
+    functions = MockSharezoneFunctions();
+
+    api = HolidayApi(
+      CloudFunctionHolidayApiClient(
+        SharezoneAppFunctions(functions),
+      ),
+    );
   });
 
   test("If Api gets valid data returns Holidays", () {
@@ -32,9 +63,6 @@ void main() {
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
-    MockSharezoneFunctions functions = MockSharezoneFunctions();
-    final szAppFunction = SharezoneAppFunctions(functions);
-
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: anyNamed('functionName'),
@@ -52,7 +80,6 @@ void main() {
         ),
       ),
     );
-    HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
 
     expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
@@ -85,37 +112,6 @@ void main() {
     expectToThrowAssertionErrorForInvalidYearInAdvance(-1);
     expectToThrowAssertionErrorForInvalidYearInAdvance(-10000);
   });
-}
-
-void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
-  MockSharezoneFunctions functions = MockSharezoneFunctions();
-  final szAppFunction = SharezoneAppFunctions(functions);
-
-  expect(
-      HolidayApi(CloudFunctionHolidayApiClient(szAppFunction))
-          .load(year, NordrheinWestfalen()),
-      throwsA(TypeMatcher<AssertionError>()));
-}
-
-HolidayApi apiWithCfResponse(http.Response validResponse) {
-  MockSharezoneFunctions functions = MockSharezoneFunctions();
-  final szAppFunction = SharezoneAppFunctions(functions);
-
-  when(
-    functions.callCloudFunction<Map<String, dynamic>>(
-      functionName: anyNamed('functionName'),
-      parameters: anyNamed('parameters'),
-    ),
-  ).thenAnswer(
-    (_) => Future.value(
-      AppFunctionsResult<Map<String, dynamic>>.data(
-        {'rawResponseBody': validResponse.body},
-      ),
-    ),
-  );
-
-  HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
-  return api;
 }
 
 http.Response emptyResponse = http.Response("", 200);
