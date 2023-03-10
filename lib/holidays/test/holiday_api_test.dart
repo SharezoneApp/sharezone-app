@@ -90,8 +90,11 @@ void main() {
 }
 
 void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
+  MockSharezoneFunctions functions = MockSharezoneFunctions();
+  final szAppFunction = SharezoneAppFunctions(functions);
+
   expect(
-      HolidayApi(HttpHolidayApiClient(http.Client()))
+      HolidayApi(CloudFunctionHolidayApiClient(szAppFunction))
           .load(year, NordrheinWestfalen()),
       throwsA(TypeMatcher<AssertionError>()));
 }
