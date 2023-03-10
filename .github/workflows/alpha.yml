@@ -80,7 +80,7 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
     - name: Activate sz_repo_cli package
@@ -120,7 +120,7 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
     - name: Setup signing
@@ -246,7 +246,7 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
     - name: Build iOS app
