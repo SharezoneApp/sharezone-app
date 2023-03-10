@@ -64,7 +64,7 @@ jobs:
   deploy-alpha-web-app:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -104,7 +104,7 @@ jobs:
   deploy-alpha-android-app:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
     
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -209,7 +209,7 @@ jobs:
       run:
         working-directory: app
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
     - name: Install Codemagic CLI Tools
       run: pip3 install codemagic-cli-tools

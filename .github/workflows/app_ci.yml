@@ -53,7 +53,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
       - uses: AurorNZ/paths-filter@v3
         id: filter
         with:
@@ -86,7 +86,7 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -119,7 +119,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -175,7 +175,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
@@ -263,7 +263,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -332,7 +332,7 @@ jobs:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@v1
