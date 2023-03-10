@@ -21,6 +21,8 @@ class HttpClientMock extends Mock implements http.Client {}
 
 class MockSharezoneFunctions extends Mock implements AppFunctions {}
 
+class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
+
 /// Fixes HandshakeException:<HandshakeException: Handshake error in client (OS
 /// Error: CERTIFICATE_VERIFY_FAILED: certificate has
 /// expired(../../third_party/boringssl/src/ssl/handshake.cc:359))>
@@ -61,17 +63,23 @@ void main() {
   });
 
   test('Api gets called for correct year', () async {
-    HttpClientMock httpClient = HttpClientMock();
-    HolidayApi api = HolidayApi(HttpHolidayApiClient(httpClient));
-    int expectedYear = DateTime.now().year;
-    Uri expectedUrl = HttpHolidayApiClient.getApiUrl("NW", expectedYear);
+    final szAppFunction = MockAppSharezoneFunctions();
 
-    when(httpClient.get(any)).thenThrow(Exception("Should not get called"));
-    when(httpClient.get(expectedUrl))
-        .thenAnswer((_) => Future.value(validResponse));
+    HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
+    int expectedYear = DateTime.now().year;
+
+    when(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'))
+        .thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult<Map<String, dynamic>>.data(
+          {'rawResponseBody': ""},
+        ),
+      ),
+    );
 
     await api.load(0, state);
-    verify(httpClient.get(expectedUrl)).called(1);
+
+    verify(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'));
   });
 
   test('Throws when given invalid years', () {
