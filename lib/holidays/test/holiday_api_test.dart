@@ -11,7 +11,6 @@ import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:holidays/holidays.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -32,6 +31,7 @@ void main() {
       CloudFunctionHolidayApiClient(
         SharezoneAppFunctions(functions),
       ),
+      getCurrentTime: () => DateTime(2017, 1, 1),
     );
   });
 
@@ -44,7 +44,7 @@ void main() {
     ).thenAnswer(
       (_) => Future.value(
         AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': validResponse.body},
+          {'rawResponseBody': validResponseString},
         ),
       ),
     );
@@ -63,7 +63,7 @@ void main() {
         AppFunctionsResult.exception(
           UnknownAppFunctionsException(
             FirebaseFunctionsException(
-              message: validResponse.body,
+              message: 'Could not return holidays',
               code: 'unknown',
             ),
           ),
@@ -73,7 +73,8 @@ void main() {
 
     expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
-  test('If Api gets empty response gives back empty list', () {
+
+  test('If Api gets empty response gives back empty list', () async {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: anyNamed('functionName'),
@@ -82,12 +83,12 @@ void main() {
     ).thenAnswer(
       (_) => Future.value(
         AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': validResponse.body},
+          {'rawResponseBody': ""},
         ),
       ),
     );
 
-    expect(api.load(0, state), completion([]));
+    expect(await api.load(0, state), []);
   });
 
   test('Api gets called for correct year', () async {
@@ -120,10 +121,6 @@ void main() {
     expectToThrowAssertionErrorForInvalidYearInAdvance(-10000);
   });
 }
-
-http.Response emptyResponse = http.Response("", 200);
-http.Response invalidResponse = http.Response("OAWNDAI", 500);
-http.Response validResponse = http.Response(validResponseString, 200);
 
 String validResponseString = """
 [{"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"},{"start":"2018-12-21T00:00","end":"2019-01-05T00:00","year":2018,"stateCode":"NW","name":"weihnachtsferien","slug":"weihnachtsferien-2018-NW"},{"start":"2018-07-16T00:00","end":"2018-08-29T00:00","year":2018,"stateCode":"NW","name":"sommerferien","slug":"sommerferien-2018-NW"},{"start":"2018-03-26T00:00","end":"2018-04-08T00:00","year":2018,"stateCode":"NW","name":"osterferien","slug":"osterferien-2018-NW"},{"start":"2018-05-22T00:00","end":"2018-05-26T00:00","year":2018,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2018-NW"}]

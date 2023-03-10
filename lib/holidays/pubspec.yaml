@@ -20,7 +20,6 @@ environment:
 dependencies:
   built_collection: ^5.1.0
   built_value: ^8.1.1
-  http: ^0.13.3
   key_value_store:
     path: ../key_value_store
   cloud_functions: ^4.0.11
