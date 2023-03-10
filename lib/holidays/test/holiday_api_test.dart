@@ -11,35 +11,40 @@ import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:holidays/holidays.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-class MockSharezoneFunctions extends Mock implements AppFunctions {}
+import 'holiday_api_test.mocks.dart';
 
-class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
-
+@GenerateMocks([AppFunctions, SharezoneAppFunctions])
 void main() {
-  State state;
-  MockSharezoneFunctions functions;
-  HolidayApi api;
+  late State state;
+  late MockAppFunctions functions;
+  late HolidayApi api;
+  late DateTime dateTime;
 
   setUp(() {
     state = NordrheinWestfalen();
-    functions = MockSharezoneFunctions();
+    functions = MockAppFunctions();
+    dateTime = DateTime(2018, 1, 1);
 
     api = HolidayApi(
       CloudFunctionHolidayApiClient(
         SharezoneAppFunctions(functions),
       ),
-      getCurrentTime: () => DateTime(2017, 1, 1),
+      getCurrentTime: () => dateTime,
     );
   });
 
-  test("If Api gets valid data returns Holidays", () {
+  test("If Api gets valid data returns Holidays", () async {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
+        functionName: "loadHolidays",
+        parameters: {
+          "stateCode": "NW",
+          "year": "2018",
+        },
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -49,14 +54,17 @@ void main() {
       ),
     );
 
-    expect(api.load(0, state), completion(TypeMatcher<List<Holiday>>()));
+    expect(await api.load(0, state), TypeMatcher<List<Holiday>>());
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
+        functionName: "loadHolidays",
+        parameters: {
+          "stateCode": "NW",
+          "year": "2018",
+        },
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -71,14 +79,18 @@ void main() {
       ),
     );
 
-    expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
+    expect(() async => await api.load(0, state),
+        throwsA(TypeMatcher<ApiResponseException>()));
   });
 
   test('If Api gets empty response gives back empty list', () async {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
-        functionName: anyNamed('functionName'),
-        parameters: anyNamed('parameters'),
+        functionName: "loadHolidays",
+        parameters: {
+          "stateCode": "NW",
+          "year": "2018",
+        },
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -92,15 +104,20 @@ void main() {
   });
 
   test('Api gets called for correct year', () async {
-    final szAppFunction = MockAppSharezoneFunctions();
+    final szAppFunction = MockSharezoneAppFunctions();
 
-    HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
-    int expectedYear = DateTime.now().year;
+    HolidayApi api = HolidayApi(
+      CloudFunctionHolidayApiClient(szAppFunction),
+      getCurrentTime: () => dateTime,
+    );
+    int expectedYear = dateTime.year;
 
     when(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'))
         .thenAnswer(
       (_) => Future.value(
         AppFunctionsResult<Map<String, dynamic>>.data(
+          // Doesn't matter what we return here, we just want to check that
+          // loadHoliday is called.
           {'rawResponseBody': ""},
         ),
       ),

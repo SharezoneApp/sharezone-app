@@ -16,7 +16,7 @@ import 'api/serializers.dart';
 import 'state.dart';
 
 class ApiResponseException implements Exception {
-  final String message;
+  final String? message;
 
   ApiResponseException([this.message]);
 
@@ -71,13 +71,14 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
         await functions.loadHolidays(stateCode: stateCode, year: '$year');
     if (result.hasException) {
       throw ApiResponseException(
-          "Got bad response: ${result.exception.code} ${result.exception.message}");
+        "Got bad response: ${result.exception?.code} ${result.exception?.message}",
+      );
     }
     if (!result.hasData) {
       return [];
     }
 
-    final responseBody = result.data['rawResponseBody'] as String;
+    final responseBody = result.data!['rawResponseBody'] as String;
     if (responseBody.isEmpty) {
       return [];
     }
@@ -92,12 +93,13 @@ class HolidayApi {
   final bool returnPassedHolidays;
   DateTime Function() getCurrentTime;
 
-  HolidayApi(this.apiClient,
-      {this.returnPassedHolidays = false, this.getCurrentTime}) {
-    getCurrentTime ??= () => DateTime.now();
-  }
+  HolidayApi(
+    this.apiClient, {
+    required this.getCurrentTime,
+    this.returnPassedHolidays = false,
+  });
 
-  /// Returns a List of comming Holidays for [state] for this plus [yearsInAdvance] years.
+  /// Returns a List of coming Holidays for [state] for this plus [yearsInAdvance] years.
   /// e.g. This year is 2019, [yearsInAdvance] == 0 -> Gets Holiday for 2019
   ///                        [yearsInAdvance] == 1 -> Gets Holiday for 2018 + 2019
   /// If [returnPassedHolidays] is false, then the Holidays which end have already passed,
@@ -124,8 +126,9 @@ class HolidayApi {
 
   List<Holiday> _deserializeHolidaysFromJSON(List jsonHolidayList) {
     List<Holiday> holidayList = jsonHolidayList
-        .map((jsonHolidy) =>
-            jsonSerializer.deserializeWith(Holiday.serializer, jsonHolidy))
+        .map((jsonHoliday) =>
+            jsonSerializer.deserializeWith(Holiday.serializer, jsonHoliday))
+        .whereType<Holiday>()
         .toList();
     return holidayList;
   }
