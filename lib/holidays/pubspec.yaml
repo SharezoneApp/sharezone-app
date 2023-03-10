@@ -25,6 +25,13 @@ dependencies:
     path: ../app_functions
 
 dev_dependencies:
+  # We need to add the `flutter` package as dev dependency as workaround for the
+  # following issue: https://github.com/SharezoneApp/sharezone-app/issues/474
+  #
+  # When this issue is resolved, we can remove the `flutter` package from the
+  # dev dependencies.
+  flutter:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   mockito: ^5.0.7
