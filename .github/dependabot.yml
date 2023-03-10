@@ -1,0 +1,11 @@
+# To keep our dependencies up to date, we use Dependabot.
+#
+# This file configures the Dependabot. See
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
