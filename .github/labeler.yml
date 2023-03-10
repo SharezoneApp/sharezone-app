@@ -13,6 +13,7 @@
 
 "documentation":
 - '**/*.md'
+- '**/*.mdx'
 
 "dependencies":
 - '**/pubspec.yaml'
