@@ -8,12 +8,18 @@
 
 import 'dart:io';
 
+import 'package:app_functions/app_functions.dart';
+import 'package:app_functions/exceptions.dart';
+import 'package:app_functions/sharezone_app_functions.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:holidays/holidays.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 class HttpClientMock extends Mock implements http.Client {}
+
+class MockSharezoneFunctions extends Mock implements AppFunctions {}
 
 /// Fixes HandshakeException:<HandshakeException: Handshake error in client (OS
 /// Error: CERTIFICATE_VERIFY_FAILED: certificate has
@@ -30,6 +36,7 @@ class IgnoreCertificateErrorsHttpOverrides extends HttpOverrides {
 
 void main() {
   State state;
+
   setUp(() {
     state = NordrheinWestfalen();
     HttpOverrides.global = IgnoreCertificateErrorsHttpOverrides();
@@ -40,16 +47,16 @@ void main() {
   });
 
   test("If Api gets valid data returns Holidays", () {
-    HolidayApi api = apiWithHttpReponse(validResponse);
+    HolidayApi api = apiWithCfResponse(validResponse);
     expect(api.load(0, state), completion(TypeMatcher<List<Holiday>>()));
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
-    HolidayApi api = apiWithHttpReponse(invalidResponse);
+    HolidayApi api = apiWithCfResponse(invalidResponse);
     expect(api.load(0, state), throwsA(TypeMatcher<ApiResponseException>()));
   });
   test('If Api gets empty response gives back empty list', () {
-    HolidayApi api = apiWithHttpReponse(emptyResponse);
+    HolidayApi api = apiWithCfResponse(emptyResponse);
     expect(api.load(0, state), completion([]));
   });
 
@@ -83,6 +90,47 @@ void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
       HolidayApi(HttpHolidayApiClient(http.Client()))
           .load(year, NordrheinWestfalen()),
       throwsA(TypeMatcher<AssertionError>()));
+}
+
+HolidayApi apiWithCfResponse(http.Response validResponse) {
+  MockSharezoneFunctions functions = MockSharezoneFunctions();
+  final szAppFunction = SharezoneAppFunctions(functions);
+
+  if (validResponse.statusCode == 200) {
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult<Map<String, dynamic>>.data(
+          {'rawResponseBody': validResponse.body},
+        ),
+      ),
+    );
+  } else {
+    when(
+      functions.callCloudFunction<Map<String, dynamic>>(
+        functionName: anyNamed('functionName'),
+        parameters: anyNamed('parameters'),
+      ),
+    ).thenAnswer(
+      (_) => Future.value(
+        AppFunctionsResult.exception(
+          UnknownAppFunctionsException(
+            FirebaseFunctionsException(
+              message: validResponse.body,
+              code: 'unknown',
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
+  return api;
 }
 
 HolidayApi apiWithHttpReponse(http.Response validResponse) {
