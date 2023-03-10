@@ -20,7 +20,7 @@ const weekDayDefaults = {
 };
 
 class EnabledWeekDays {
-  final Map<String?, bool?> _internalMap;
+  final Map<String, bool?> _internalMap;
 
   const EnabledWeekDays._(this._internalMap);
 
@@ -31,13 +31,12 @@ class EnabledWeekDays {
   }
 
   bool? getValue(WeekDay weekDay) {
-    return _internalMap[weekDayEnumToString(weekDay)] ??
-        weekDayDefaults[weekDay];
+    return _internalMap[weekDay.name] ?? weekDayDefaults[weekDay];
   }
 
   EnabledWeekDays copyWith(WeekDay weekDay, bool newValue) {
     final newMap = Map.of(_internalMap);
-    newMap[weekDayEnumToString(weekDay)] = newValue;
+    newMap[weekDay.name] = newValue;
     return EnabledWeekDays._(newMap);
   }
 
