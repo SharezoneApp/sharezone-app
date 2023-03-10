@@ -16,15 +16,16 @@ class NotificationsPermission {
   /// notifications.
   Future<bool> isRequiredToRequestPermission() async {
     if (PlatformCheck.isAndroid) {
-      final androidInfo = await mobileDeviceInformationRetreiver.androidInfo;
+      final currentAndroidSdk =
+          await mobileDeviceInformationRetreiver.androidSdkInt();
 
       // Android SDK 33 equals Android 13.
       //
       // See: https://developer.android.com/studio/releases/platforms#13
       const android13SdkInt = 33;
 
-      final isAndroid12OrLower = androidInfo.version.sdkInt < android13SdkInt;
-      if (!isAndroid12OrLower) {
+      final isAndroid12OrLower = currentAndroidSdk < android13SdkInt;
+      if (isAndroid12OrLower) {
         // Android 12 and lower don't need to request permission.
         return false;
       }
