@@ -301,7 +301,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // can be removed after 2021-12-01.
     final useCfEndpoint = remoteConfig.getBool('useCfHolidayEndpoint') ?? false;
     final holidayApiClient = useCfEndpoint
-        ? CloudFunctionHolidayApiClient()
+        ? CloudFunctionHolidayApiClient(api.references.functions)
         : HttpHolidayApiClient(http.Client());
 
     // In the past we used BlocProvider for everything (even non-bloc classes).

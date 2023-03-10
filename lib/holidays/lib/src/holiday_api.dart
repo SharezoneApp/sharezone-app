@@ -68,10 +68,12 @@ abstract class HolidayApiClient {
 /// reverse-proxy with correct CORS headers. In this way we could also add
 /// caching via CF or change to our own implementation if we want.
 class CloudFunctionHolidayApiClient extends HolidayApiClient {
+  final SharezoneAppFunctions functions;
+
+  CloudFunctionHolidayApiClient(this.functions);
+
   @override
   Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    final functions = SharezoneAppFunctions(
-        AppFunctions(FirebaseFunctions.instanceFor(region: 'europe-west1')));
     final result =
         await functions.loadHolidays(stateCode: stateCode, year: '$year');
     if (result.hasException) {
@@ -81,7 +83,11 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
     if (!result.hasData) {
       return [];
     }
+
     final responseBody = result.data['rawResponseBody'] as String;
+    if (responseBody.isEmpty) {
+      return [];
+    }
 
     List<dynamic> holidayList = json.decode(responseBody) as List<dynamic>;
     return holidayList;
