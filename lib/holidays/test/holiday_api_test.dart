@@ -80,7 +80,11 @@ void main() {
   });
 
   test("Can call dispose", () {
-    HolidayApi holidayAPI = HolidayApi(HttpHolidayApiClient(http.Client()));
+    MockSharezoneFunctions functions = MockSharezoneFunctions();
+    final szAppFunction = SharezoneAppFunctions(functions);
+
+    HolidayApi holidayAPI =
+        HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
     holidayAPI.dispose();
   });
 }
