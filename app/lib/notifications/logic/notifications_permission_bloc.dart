@@ -7,7 +7,7 @@ class NotificationsPermission {
   final MobileDeviceInformationRetreiver mobileDeviceInformationRetreiver;
   final FirebaseMessaging firebaseMessaging;
 
-  NotificationsPermission({
+  const NotificationsPermission({
     @required this.mobileDeviceInformationRetreiver,
     @required this.firebaseMessaging,
   });
