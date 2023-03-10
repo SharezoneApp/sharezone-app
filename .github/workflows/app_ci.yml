@@ -179,7 +179,7 @@ jobs:
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@888b4006f39f9718dc69efb685c48e14340507b6
         with:
           distribution: 'temurin'
           java-version: '11'
