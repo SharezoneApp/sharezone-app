@@ -52,10 +52,6 @@ abstract class HolidayApiClient {
   ///
   /// API Documentation/Information: https://www.ferien-api.de/
   Future<List<dynamic>> getHolidayAPIResponse(int year, String stateCode);
-
-  Future<void> close() {
-    return Future.value();
-  }
 }
 
 /// Is used as a successor to [HttpHolidayApiClient] as the
@@ -99,9 +95,6 @@ class HolidayApi {
   HolidayApi(this.apiClient,
       {this.returnPassedHolidays = false, this.getCurrentTime}) {
     getCurrentTime ??= () => DateTime.now();
-  }
-  void dispose() {
-    apiClient.close();
   }
 
   /// Returns a List of comming Holidays for [state] for this plus [yearsInAdvance] years.

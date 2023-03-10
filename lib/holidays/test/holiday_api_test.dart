@@ -64,15 +64,6 @@ void main() {
     expectToThrowAssertionErrorForInvalidYearInAdvance(-1);
     expectToThrowAssertionErrorForInvalidYearInAdvance(-10000);
   });
-
-  test("Can call dispose", () {
-    MockSharezoneFunctions functions = MockSharezoneFunctions();
-    final szAppFunction = SharezoneAppFunctions(functions);
-
-    HolidayApi holidayAPI =
-        HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
-    holidayAPI.dispose();
-  });
 }
 
 void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
