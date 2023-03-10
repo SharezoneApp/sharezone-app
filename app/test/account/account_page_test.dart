@@ -208,5 +208,5 @@ class MockUserGateway implements UserGateway {
   Stream<DocumentSnapshot> get userDocument => throw UnimplementedError();
 
   @override
-  Stream<AppUser> get userStream => Stream.value(AppUser.create());
+  Stream<AppUser> get userStream => Stream.value(AppUser.create(id: ""));
 }

@@ -21,7 +21,7 @@ class _AccountSection extends StatelessWidget {
       initialData: api.user.data,
       stream: api.user.userStream,
       builder: (context, snapshot) {
-        final user = snapshot.data ?? AppUser.create();
+        final user = snapshot.data ?? AppUser.create(id: "Id");
         return Tooltip(
           message: 'Profile',
           child: InkWell(

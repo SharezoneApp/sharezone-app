@@ -45,7 +45,7 @@ class UserView {
   factory UserView.empty() {
     return UserView(
       id: "",
-      user: AppUser.create(),
+      user: AppUser.create(id: ""),
       email: "",
       name: "",
       typeOfUser: "",

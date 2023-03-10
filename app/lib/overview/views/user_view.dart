@@ -55,5 +55,5 @@ class UserView {
         state = "",
         isAnonymous = false,
         provider = null,
-        user = AppUser.create();
+        user = AppUser.create(id: "");
 }

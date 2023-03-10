@@ -53,9 +53,9 @@ class AppUser {
     this.features,
   });
 
-  factory AppUser.create({String? id}) {
+  factory AppUser.create({required String id}) {
     return AppUser._(
-      id: id ?? "Id",
+      id: id,
       name: "Anonymer Account",
       abbreviation: "AA",
       typeOfUser: TypeOfUser.student,
