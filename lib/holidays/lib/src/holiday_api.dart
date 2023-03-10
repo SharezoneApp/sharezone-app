@@ -9,10 +9,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:http/http.dart' as http;
 
 import 'api/holiday.dart';
 import 'api/serializers.dart';
@@ -91,36 +88,6 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
 
     List<dynamic> holidayList = json.decode(responseBody) as List<dynamic>;
     return holidayList;
-  }
-}
-
-/// See [CloudFunctionHolidayApiClient].
-class HttpHolidayApiClient extends HolidayApiClient {
-  final http.Client httpClient;
-
-  HttpHolidayApiClient(this.httpClient);
-
-  static Uri getApiUrl(String stateCode, int year) =>
-      Uri.parse("https://ferien-api.de/api/v1/holidays/$stateCode/$year");
-
-  @override
-  Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    Uri apiURL = getApiUrl(stateCode, year);
-    final response = await httpClient.get(apiURL);
-    if (response.statusCode == 200) {
-      // If okay
-      if (response.body.isEmpty) throw EmptyResponseException();
-      List<dynamic> holidayList = json.decode(response.body) as List<dynamic>;
-      return holidayList;
-    } else {
-      throw ApiResponseException(
-          "Expected response status 200, got: ${response.statusCode}");
-    }
-  }
-
-  @override
-  Future<void> close() async {
-    httpClient.close();
   }
 }
 
