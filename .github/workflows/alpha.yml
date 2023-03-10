@@ -158,9 +158,10 @@ jobs:
         # bug.
         #
         # We use the latest build number from the App Store Connect API, because
-        # the is now easy API to get the latest build number from Firebase
-        # Distribution and the build number from App Store Connect is the same
-        # as the one from Firebase Distribution.
+        # this build number is always the the newest one and there is no easy
+        # API to get the latest build number from Firebase Distribution and the
+        # build number from App Store Connect is the same as the one from
+        # Firebase Distribution.
         #
         # Bumping the build number for Firebase Distribution has no effect on
         # the PlayStore build number.
