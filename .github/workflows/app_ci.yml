@@ -89,7 +89,7 @@ jobs:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@v2
         with:
@@ -122,7 +122,7 @@ jobs:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@v2
         with:
@@ -185,7 +185,7 @@ jobs:
           java-version: '11'
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@main
         with:
@@ -266,7 +266,7 @@ jobs:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@v2
         with:
@@ -335,7 +335,7 @@ jobs:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@v2
         with:
