@@ -24,11 +24,6 @@ void main() {
   MockSharezoneFunctions functions;
   HolidayApi api;
 
-  void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
-    expect(api.load(year, NordrheinWestfalen()),
-        throwsA(TypeMatcher<AssertionError>()));
-  }
-
   setUp(() {
     state = NordrheinWestfalen();
     functions = MockSharezoneFunctions();
@@ -114,6 +109,11 @@ void main() {
 
     verify(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'));
   });
+
+  void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
+    expect(api.load(year, NordrheinWestfalen()),
+        throwsA(TypeMatcher<AssertionError>()));
+  }
 
   test('Throws when given invalid years', () {
     expectToThrowAssertionErrorForInvalidYearInAdvance(-1);
