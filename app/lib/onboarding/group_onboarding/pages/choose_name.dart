@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/notifications/logic/notifications_permission_bloc.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/turn_on_notifications.dart';

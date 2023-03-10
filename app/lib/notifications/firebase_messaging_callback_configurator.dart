@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
-import 'package:sharezone/notifications/logic/notifications_permission_bloc.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/notifications/push_notification_action_handler_instrumentation_implementation.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
 import 'package:sharezone/notifications/widgets/error_dialog.dart';

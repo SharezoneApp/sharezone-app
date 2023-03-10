@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/notifications/logic/notifications_permission_bloc.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
