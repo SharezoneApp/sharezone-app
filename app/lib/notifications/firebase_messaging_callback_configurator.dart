@@ -11,6 +11,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -22,7 +23,6 @@ import 'package:sharezone/notifications/widgets/in_app_notification.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
-import 'package:sharezone_utils/platform.dart';
 
 import 'action_requests/action_requests.dart';
 
@@ -131,10 +131,9 @@ class FirebaseMessagingCallbackConfigurator {
 ///
 /// Does nothing if the platform is not iOS.
 Future<void> _requestPermissionIfNeeded(BuildContext context) async {
-  final notificationsPermissionBloc =
-      BlocProvider.of<NotificationsPermission>(context);
+  final notificationsPermission = Provider.of<NotificationsPermission>(context);
   final isNeeded =
-      await notificationsPermissionBloc.isRequiredToRequestPermission();
+      await notificationsPermission.isRequiredToRequestPermission();
   if (!isNeeded) {
     return;
   }
@@ -148,6 +147,6 @@ Future<void> _requestPermissionIfNeeded(BuildContext context) async {
   // iPad an (zweit Gerät), würde dieser nicht die Abfrage für die Push-Nachrichten
   // erhalten und somit niemals Push-Nachricht zugeschickt bekommen.
   if (!signedUp) {
-    await notificationsPermissionBloc.requestPermission();
+    await notificationsPermission.requestPermission();
   }
 }

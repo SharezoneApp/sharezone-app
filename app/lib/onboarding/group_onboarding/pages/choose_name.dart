@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -181,10 +182,10 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   /// angezeigt. Falls nicht, wird das normale GroupOnboarding aufgerufen.
   Future<void> _navigateToNextPage(
       BuildContext context, GroupOnboardingStatus status) async {
-    final notificationsPermissionBloc =
-        BlocProvider.of<NotificationsPermission>(context);
+    final notificationsPermission =
+        Provider.of<NotificationsPermission>(context);
     final isNeededToRequestNotificationsPermission =
-        await notificationsPermissionBloc.isRequiredToRequestPermission();
+        await notificationsPermission.isRequiredToRequestPermission();
 
     if (status == GroupOnboardingStatus.onlyNameAndTurnOfNotifactions ||
         isNeededToRequestNotificationsPermission) {

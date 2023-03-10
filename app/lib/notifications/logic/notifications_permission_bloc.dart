@@ -1,10 +1,9 @@
-import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 
-class NotificationsPermission extends BlocBase {
+class NotificationsPermission {
   final MobileDeviceInformationRetreiver mobileDeviceInformationRetreiver;
   final FirebaseMessaging firebaseMessaging;
 
@@ -41,7 +40,4 @@ class NotificationsPermission extends BlocBase {
       badge: true,
     );
   }
-
-  @override
-  void dispose() {}
 }

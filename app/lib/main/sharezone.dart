@@ -7,8 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:authentification_base/authentification.dart';
-import 'package:authentification_base/authentification_base.dart';
+import 'package:authentification_base/authentification.dart' hide Provider;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -97,30 +96,36 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     'ALPHA',
                 child: Stack(
                   children: [
-                    MultiBlocProvider(
-                      blocProviders: [
-                        BlocProvider<SignUpBloc>(bloc: signUpBloc),
-                        BlocProvider<NotificationsPermission>(
-                          bloc: NotificationsPermission(
+                    MultiProvider(
+                      providers: [
+                        Provider<NotificationsPermission>(
+                          create: (_) => NotificationsPermission(
                             firebaseMessaging: FirebaseMessaging.instance,
                             mobileDeviceInformationRetreiver:
                                 MobileDeviceInformationRetreiver(),
                           ),
                         )
                       ],
-                      child: (context) => StreamBuilder<AuthUser>(
-                        stream: listenToAuthStateChanged(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            widget.blocDependencies.authUser = snapshot.data;
-                            return SharezoneApp(widget.blocDependencies,
-                                Sharezone.analytics, widget.beitrittsversuche);
-                          }
-                          return AuthApp(
-                            blocDependencies: widget.blocDependencies,
-                            analytics: Sharezone.analytics,
-                          );
-                        },
+                      child: MultiBlocProvider(
+                        blocProviders: [
+                          BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                        ],
+                        child: (context) => StreamBuilder<AuthUser>(
+                          stream: listenToAuthStateChanged(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              widget.blocDependencies.authUser = snapshot.data;
+                              return SharezoneApp(
+                                  widget.blocDependencies,
+                                  Sharezone.analytics,
+                                  widget.beitrittsversuche);
+                            }
+                            return AuthApp(
+                              blocDependencies: widget.blocDependencies,
+                              analytics: Sharezone.analytics,
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
