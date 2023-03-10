@@ -139,7 +139,35 @@ jobs:
     
     - name: Build Android
       working-directory: app
-      run: | 
+      env:
+        # The iOS and App Store environment variables are used by the Codemagic
+        # CLI tool. It's important to use the same names as the CLI tool
+        # expects. 
+        #
+        # From https://appstoreconnect.apple.com/apps/1434868489/
+        IOS_APP_ID: 1434868489
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+      run: |
+        # Even when Firebase Distribution does not require a new build number,
+        # we still bump it to identify the different builds easier. Therefore,
+        # users can easier say in which version of the app they encountered a
+        # bug.
+        #
+        # We use the latest build number from the App Store Connect API, because
+        # this build number is always the the newest one and there is no easy
+        # API to get the latest build number from Firebase Distribution and the
+        # build number from App Store Connect is the same as the one from
+        # Firebase Distribution.
+        #
+        # Bumping the build number for Firebase Distribution has no effect on
+        # the PlayStore build number.
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID | head -2 | tail -1)
+        BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+
         # We are publishing APKs instead of App Bundles to Firebase Distribution
         # because they easier to install. App Bundles are installed via the
         # PlayStore which resulted in problems in the past.
@@ -148,7 +176,8 @@ jobs:
           --release \
           --flavor prod \
           --target=lib/main_prod.dart \
-          --dart-define DEVELOPMENT_STAGE=ALPHA
+          --dart-define DEVELOPMENT_STAGE=ALPHA \
+          --build-number $BUMPED_BUILD_NUMBER
 
     - name: Install Firebase CLI
       run: sudo npm i -g firebase-tools
