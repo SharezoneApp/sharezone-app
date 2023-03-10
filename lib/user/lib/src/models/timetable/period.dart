@@ -119,7 +119,7 @@ class Period {
   }
 
   @override
-  int get hashCode => number.hashCode ^ startTime.hashCode ^ endTime.hashCode;
+  int get hashCode => Object.hash(number, startTime, endTime);
 }
 
 class Periods {
