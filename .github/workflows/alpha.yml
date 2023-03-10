@@ -123,6 +123,9 @@ jobs:
         flutter pub global activate fvm
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
+    - name: Install Codemagic CLI Tools
+      run: pip3 install codemagic-cli-tools==0.39.1
+
     - name: Setup signing
       working-directory: app/android
       env:
