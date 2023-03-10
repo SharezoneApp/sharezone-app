@@ -141,7 +141,7 @@ class _TurnOnButton extends StatelessWidget {
   }
 
   Future<void> requestNotificationsPermission(BuildContext context) async {
-    final bloc = BlocProvider.of<NotificationsPermissionBloc>(context);
+    final bloc = BlocProvider.of<NotificationsPermission>(context);
     await bloc.requestPermission();
   }
 }

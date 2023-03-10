@@ -182,7 +182,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   Future<void> _navigateToNextPage(
       BuildContext context, GroupOnboardingStatus status) async {
     final notificationsPermissionBloc =
-        BlocProvider.of<NotificationsPermissionBloc>(context);
+        BlocProvider.of<NotificationsPermission>(context);
     final isNeededToRequestNotificationsPermission =
         await notificationsPermissionBloc.isRequiredToRequestPermission();
 

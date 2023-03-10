@@ -100,8 +100,8 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     MultiBlocProvider(
                       blocProviders: [
                         BlocProvider<SignUpBloc>(bloc: signUpBloc),
-                        BlocProvider<NotificationsPermissionBloc>(
-                          bloc: NotificationsPermissionBloc(
+                        BlocProvider<NotificationsPermission>(
+                          bloc: NotificationsPermission(
                             firebaseMessaging: FirebaseMessaging.instance,
                             mobileDeviceInformationRetreiver:
                                 MobileDeviceInformationRetreiver(),

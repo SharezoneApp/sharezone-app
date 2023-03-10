@@ -4,11 +4,11 @@ import 'package:meta/meta.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 
-class NotificationsPermissionBloc extends BlocBase {
+class NotificationsPermission extends BlocBase {
   final MobileDeviceInformationRetreiver mobileDeviceInformationRetreiver;
   final FirebaseMessaging firebaseMessaging;
 
-  NotificationsPermissionBloc({
+  NotificationsPermission({
     @required this.mobileDeviceInformationRetreiver,
     @required this.firebaseMessaging,
   });

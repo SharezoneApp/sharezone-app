@@ -132,7 +132,7 @@ class FirebaseMessagingCallbackConfigurator {
 /// Does nothing if the platform is not iOS.
 Future<void> _requestPermissionIfNeeded(BuildContext context) async {
   final notificationsPermissionBloc =
-      BlocProvider.of<NotificationsPermissionBloc>(context);
+      BlocProvider.of<NotificationsPermission>(context);
   final isNeeded =
       await notificationsPermissionBloc.isRequiredToRequestPermission();
   if (!isNeeded) {
