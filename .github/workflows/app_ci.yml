@@ -54,7 +54,7 @@ jobs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
-      - uses: AurorNZ/paths-filter@v3
+      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
         id: filter
         with:
           filters: |
