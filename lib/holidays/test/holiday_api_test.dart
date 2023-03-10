@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:io';
-
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
@@ -17,35 +15,15 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class HttpClientMock extends Mock implements http.Client {}
-
 class MockSharezoneFunctions extends Mock implements AppFunctions {}
 
 class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
-
-/// Fixes HandshakeException:<HandshakeException: Handshake error in client (OS
-/// Error: CERTIFICATE_VERIFY_FAILED: certificate has
-/// expired(../../third_party/boringssl/src/ssl/handshake.cc:359))>
-/// when running tests locally
-class IgnoreCertificateErrorsHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
 
 void main() {
   State state;
 
   setUp(() {
     state = NordrheinWestfalen();
-    HttpOverrides.global = IgnoreCertificateErrorsHttpOverrides();
-  });
-
-  tearDown(() {
-    HttpOverrides.global = null;
   });
 
   test("If Api gets valid data returns Holidays", () {
@@ -145,13 +123,6 @@ HolidayApi apiWithCfResponse(http.Response validResponse) {
   }
 
   HolidayApi api = HolidayApi(CloudFunctionHolidayApiClient(szAppFunction));
-  return api;
-}
-
-HolidayApi apiWithHttpReponse(http.Response validResponse) {
-  HttpClientMock client = HttpClientMock();
-  when(client.get(any)).thenAnswer((_) => Future.value(validResponse));
-  HolidayApi api = HolidayApi(HttpHolidayApiClient(client));
   return api;
 }
 
