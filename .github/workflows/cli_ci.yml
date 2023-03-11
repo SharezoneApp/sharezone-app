@@ -38,12 +38,12 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: AurorNZ/paths-filter@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
         id: filter
         with:
           filters: |
@@ -68,17 +68,17 @@ jobs:
 
   analyze:
     needs: changes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -89,7 +89,7 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package
@@ -109,15 +109,15 @@ jobs:
     #
     # When the Sharezone CLI supports filters for the test command (like
     # `--only="tools/sz_repo_cli"`), we can change this to a Linux runner.
-    runs-on: macos-latest
+    runs-on: macos-12
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -128,7 +128,7 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package

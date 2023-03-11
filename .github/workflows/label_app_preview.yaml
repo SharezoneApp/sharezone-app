@@ -28,7 +28,7 @@ jobs:
     # list of labels. For example, if the PR is labeled with "build-app-preview"
     # and "bug", the job will be triggered when the label "bug" is removed.
     if: contains(github.event.pull_request.labels.*.name, 'build-app-preview')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       CODEMAGIC_TOKEN: ${{ secrets.CODEMAGIC_TOKEN }}
       # From https://codemagic.io/app/62d2f58c726fce097e34c0b4/
