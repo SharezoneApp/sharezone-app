@@ -6,22 +6,40 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
+# This file is used by the GitHub Action "labeler" to automatically add labels
+# to pull requests based on the files that have been changed in the pull
+# request.
+#
+# The action uses minimatch patterns to match files. For more information, see
+# https://github.com/isaacs/minimatch
+
 "ci/cd":
 - .github/workflows/**
 - .github/labeler.yml
 - .github/dependabot.yml
 - codemagic.yaml
+- "**/firebase.json"
+- "**/.firebaserc"
+- "bin/check_license_headers.sh"
+- "bin/add_license_headers.sh"
+- "bin/source_of_truth/**"
 
 "documentation":
 - '**/*.md'
 - '**/*.mdx'
+- 'docs/**'
 
 "dependencies":
 - '**/pubspec.yaml'
 - '**/pubspec.lock'
+- '.fvm/**'
 
 "testing":
 - "**/*_test.dart"
+- "**/test_driver/**"
+- "**/test/**"
+- "**/integration_test/**"
+- "dart_test.yaml"
 
 "platform: android":
 - 'app/android/**'
@@ -35,33 +53,120 @@
 "platform: web":
 - 'app/web/**'
 
+"code quality":
+- '**/analysis_options.yaml'
+- 'lib/sharezone_lints/**'
+
+"legal":
+- "LICENSE"
+
 "sharezone: cli":
-- 'tools/cli/**'
+- 'tools/sz_repo_cli/**'
+- 'bin/sz'
+- 'bin/sharezone'
+
+"ui / ux":
+- "**/theme/**"
+- "**/**theme**"
+- app/fonts/**
+- lib/sharezone_widgets/**
+- app/**/widgets/**
+# Assets like images, icons, etc.
+- "**/assets/**"
 
 "feature: holidays":
-- 'lib/holidays/**'
-- 'app/test/holidays/**'
+- '**/holidays/**'
+- '**/**holiday**'
 
 "feature: authentication":
-- 'lib/authentication/**'
+- '**/authentication/**'
+- '**/auth/**'
 
 "feature: comments":
-- 'app/lib/comments/**'
+- '**/comments/**'
+- '**/**comment**'
 
 "feature: donation":
-- 'app/lib/donate/**'
-- 'app/test/donate/**'
+- '**/donate/**'
 
 "feature: file-sharing":
-- 'app/filesharing/**'
+- '**/filesharing/**'
+- '**/file_sharing/**'
 
 "feature: groups":
-- 'app/lib/groups/**'
-- 'app/test/groups/**'
-- 'lib/group_domain_implementation'
-- 'lib/group_domain_models'
+- '**/groups/**'
+- '**/**group**'
+- 'lib/group_domain_implementation/**'
+- 'lib/group_domain_models/**'
+# We still have some old code that uses the term "gruppe" instead of "group"
+- '**/**gruppe**'
+
+"feature: groups:courses":
+- "**/course/**"
+- "**/**course**"
+
+"feature: groups:classes":
+- "**/school_class/**"
+- "**/school_class**"
 
 "feature: homework":
-- 'app/lib/homework/**'
-- 'app/lib/pages/homework/**'
-- 'app/test/homework/**'
+- '**/homework/**'
+- '**/**homework**'
+- 'lib/hausaufgabenheft_logik/**'
+
+"feature: homework-submissions":
+- '**/abgabe/**'
+- 'app/**/pages/pages/homework/homework_details/submission/**'
+
+"feature: information sheet":
+- '**/blackboard/**'
+- '**/**blackboard**'
+
+"feature: navigation":
+- '**/navigation/**'
+- 'app/test/bottom_navigation_bar/**'
+
+"feature: notifications":
+- '**/notifications/**'
+- '**/**notification**'
+- 'app/**/firebase_auth_token_retreiver_impl.dart'
+
+"feature: onboarding":
+- '**/onboarding/**'
+
+"feature: report":
+- "**/report/**"
+
+"feature: timetable / calendar":
+- '**/timetable/**'
+- '**/**timetable**'
+- '**/**lesson**'
+- '**/**lesson**/**'
+- '**/calendrical_events/**'
+
+"feature: universal file features":
+- '**/filesharing/**'
+
+"w: about-us-page":
+- 'lib/sharezone_about_page_addon/**'
+- 'app/**/pages/settings/src/subpages/about/**'
+
+"w: add-calendar-event-page":
+- 'app/**/timetable/timetable_add_event/**'
+
+"w: add-homework-page":
+- 'app/**/pages/homework/homework_dialog.dart'
+
+"w: add-information-sheet-page":
+- 'app/**/blackboard/blackboard_dialog.dart'
+
+"user: teacher":
+- "**/teacher/**"
+# We still have some old code that uses the term "lehrer" instead of "teacher"
+- "**/lehrer/**"
+
+"user: student":
+- "**/student/**"
+
+"user: parent":
+- "**/parent/**"
