@@ -34,3 +34,34 @@
 
 "platform: web":
 - 'app/web/**'
+
+"sharezone: cli":
+- 'tools/cli/**'
+
+"feature: holidays":
+- 'lib/holidays/**'
+- 'app/test/holidays/**'
+
+"feature: authentication":
+- 'lib/authentication/**'
+
+"feature: comments":
+- 'app/lib/comments/**'
+
+"feature: donation":
+- 'app/lib/donate/**'
+- 'app/test/donate/**'
+
+"feature: file-sharing":
+- 'app/filesharing/**'
+
+"feature: groups":
+- 'app/lib/groups/**'
+- 'app/test/groups/**'
+- 'lib/group_domain_implementation'
+- 'lib/group_domain_models'
+
+"feature: homework":
+- 'app/lib/homework/**'
+- 'app/lib/pages/homework/**'
+- 'app/test/homework/**'
