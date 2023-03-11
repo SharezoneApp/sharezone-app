@@ -9,6 +9,7 @@
 "ci/cd":
 - .github/workflows/**
 - .github/labeler.yml
+- .github/dependabot.yml
 - codemagic.yaml
 
 "documentation":
