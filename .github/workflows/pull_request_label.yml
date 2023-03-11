@@ -39,6 +39,6 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-      - uses: actions/labeler@a96e5aec3e3d5caaefde174986c02d40560a0b91
+      - uses: actions/labeler@59036c7b951d5b450848fd1b2b014c036cf91f46
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
