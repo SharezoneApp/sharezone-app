@@ -21,7 +21,7 @@ import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/overview/views/user_view.dart';
 import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/src/references.dart';
 import 'package:user/src/models/state_enum.dart';

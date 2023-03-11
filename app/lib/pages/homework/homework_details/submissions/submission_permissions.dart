@@ -9,7 +9,7 @@
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:user/user.dart';
 
 class SubmissionPermissions {

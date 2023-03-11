@@ -12,9 +12,9 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 
 class CalendricalEventsPageBloc extends BlocBase {
   final TimetableGateway timetabelGateway;

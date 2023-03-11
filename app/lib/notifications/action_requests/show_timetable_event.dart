@@ -12,8 +12,8 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 
 ActionRegistration<
     ShowTimetableEventRequest> showTimetableEventRegistrationWith(

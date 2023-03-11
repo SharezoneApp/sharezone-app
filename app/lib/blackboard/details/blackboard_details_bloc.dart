@@ -9,7 +9,7 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 
 class BlackboardDetailsBloc extends BlocBase {
   final BlackboardGateway gateway;

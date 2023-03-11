@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 
 import 'calendrical_events_page_bloc.dart';
 
