@@ -13,7 +13,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/homework_validators.dart';

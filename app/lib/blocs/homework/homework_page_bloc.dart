@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/api_errors.dart';
 
 class HomeworkToggleDone {

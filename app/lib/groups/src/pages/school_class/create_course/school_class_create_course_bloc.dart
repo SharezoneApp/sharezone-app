@@ -15,7 +15,7 @@ import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_cr
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/events/course_create_event.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/models/course_template.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/string_utils.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';

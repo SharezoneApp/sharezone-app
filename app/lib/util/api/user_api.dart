@@ -15,7 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:sharezone_utils/internet_access.dart';

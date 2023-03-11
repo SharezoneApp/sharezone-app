@@ -9,7 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 

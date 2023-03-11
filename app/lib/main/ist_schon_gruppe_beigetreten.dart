@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/API.dart';
 
 Future<bool> istSchonGruppeMitSharecodeBeigetreten(
     SharezoneGateway sharezoneGateway, Sharecode sharecode) async {
