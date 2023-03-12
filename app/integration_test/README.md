@@ -20,6 +20,13 @@ following data:
 4. Create a course with the subject "Französisch" and the name "Französisch LK"
 5. Create a course with the subject "Latein" and the name "Latein LK"
 6. Create a course with the subject "Spanisch" and the name "Spanisch LK"
+7. Add information sheet to the course "Deutsch LK" with the following title
+   "German Course Trip to Berlin"
+8. Add 6 lessons with the course "Deutsch LK"
+9. Add 2 lessons with the course "Englisch LK"
+10. Add 4 lessons with the course "Französisch LK"
+11. Add 4 lessons with the course "Latein LK"
+12. Add 4 lessons with the course "Spanisch LK"
 
 ### Mobile
 
