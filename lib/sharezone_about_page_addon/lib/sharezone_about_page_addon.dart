@@ -37,7 +37,7 @@ class TrexPage extends StatelessWidget {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(color: Colors.white),
-            child: TRexGameWrapper(),
+            child: const TRexGameWrapper(),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -68,8 +68,10 @@ class TrexPage extends StatelessWidget {
 }
 
 class TRexGameWrapper extends StatefulWidget {
+  const TRexGameWrapper({Key? key}) : super(key: key);
+
   @override
-  _TRexGameWrapperState createState() => _TRexGameWrapperState();
+  State createState() => _TRexGameWrapperState();
 }
 
 TRexGame? _game;
