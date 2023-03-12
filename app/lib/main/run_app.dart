@@ -23,7 +23,7 @@ import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';

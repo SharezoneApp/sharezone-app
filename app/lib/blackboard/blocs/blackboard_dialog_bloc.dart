@@ -13,7 +13,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/blackboard_validators.dart';
 import 'package:sharezone_common/helper_functions.dart';
