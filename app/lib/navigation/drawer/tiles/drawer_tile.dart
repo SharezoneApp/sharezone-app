@@ -65,7 +65,6 @@ class DrawerTile extends StatelessWidget {
 
     final title = this.title ?? navigationItem.getName();
     final icon = this.icon ?? navigationItem.getIcon();
-    final tag = this.tag ?? navigationItem.getPageTag();
 
     return StreamBuilder<NavigationItem>(
         key: ValueKey('nav-item-${navigationItem.name}-E2E'),
