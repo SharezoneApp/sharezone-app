@@ -15,7 +15,7 @@ import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view.dart';
 import 'package:sharezone/pages/homework/homework_details/submissions/submission_permissions.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:user/user.dart';
 
 import '../homework_permissions.dart';

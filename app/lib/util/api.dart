@@ -11,12 +11,12 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
-import 'package:sharezone/util/api/schoolGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
+import 'package:sharezone/util/api/school_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/references.dart';
 
