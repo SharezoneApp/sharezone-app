@@ -132,6 +132,7 @@
   - "**/**sign_in**"
   - "**/**sign_out**"
   - "**/**sign_up**"
+  - "**/**registration**"
   - "**/**login**"
 
 "feature: comments":
