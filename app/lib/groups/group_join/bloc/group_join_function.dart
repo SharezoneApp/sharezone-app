@@ -13,7 +13,7 @@ import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result_type.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 
 class GroupJoinFunction {
   final ConnectionsGateway _connectionsGateway;

@@ -9,8 +9,8 @@
 import 'package:app_functions/app_functions.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
-import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import '../bloc/user_input.dart';
 

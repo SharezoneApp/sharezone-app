@@ -16,7 +16,7 @@ import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_dependencies.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
