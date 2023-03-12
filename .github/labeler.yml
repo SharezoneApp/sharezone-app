@@ -12,6 +12,22 @@
 #
 # The action uses minimatch patterns to match files. For more information, see
 # https://github.com/isaacs/minimatch
+#
+# Here quick crash course about the glob pattern:\
+# When we have "**/homework/**" returns this always true, if in the path of file
+# a directory "homework" contains:\
+# "app/lib/homework/add.dart" -> true\
+# "app/lib/timetable/add.dart" -> false
+#
+# When we have "**/**homework**" returns this always true, if a file contains
+# the word "homework":\
+# "app/lib/homework_add.dart" -> true\
+# "app/lib/fab_homework_button.dart" -> true\
+# "app/lib/homeworks_page.dart" -> true\
+# "app/lib/homewor_page.dart" -> false\
+#
+# Try this the following link to play around with the glob pattern:
+# https://globster.xyz/?q=**%2F**homework**&f=app%2Flib%2Fhomework_page.dart%2Capp%2Flib%2Ftimetable_page.dart%2Capp%2Flib%2Fhomework%2Fadd.dart&embed=1
 
 "ci/cd":
   - .github/workflows/**
