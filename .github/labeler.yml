@@ -14,32 +14,32 @@
 # https://github.com/isaacs/minimatch
 
 "ci/cd":
-- .github/workflows/**
-- .github/labeler.yml
-- .github/dependabot.yml
-- codemagic.yaml
-- "**/firebase.json"
-- "**/.firebaserc"
-- "bin/check_license_headers.sh"
-- "bin/add_license_headers.sh"
-- "bin/source_of_truth/**"
+  - .github/workflows/**
+  - .github/labeler.yml
+  - .github/dependabot.yml
+  - codemagic.yaml
+  - "**/firebase.json"
+  - "**/.firebaserc"
+  - "bin/check_license_headers.sh"
+  - "bin/add_license_headers.sh"
+  - "bin/source_of_truth/**"
 
 "documentation":
-- '**/*.md'
-- '**/*.mdx'
-- 'docs/**'
+  - "**/*.md"
+  - "**/*.mdx"
+  - "docs/**"
 
 "dependencies":
-- '**/pubspec.yaml'
-- '**/pubspec.lock'
-- '.fvm/**'
+  - "**/pubspec.yaml"
+  - "**/pubspec.lock"
+  - ".fvm/**"
 
 "testing":
-- "**/*_test.dart"
-- "**/test_driver/**"
-- "**/test/**"
-- "**/integration_test/**"
-- "dart_test.yaml"
+  - "**/*_test.dart"
+  - "**/test_driver/**"
+  - "**/test/**"
+  - "**/integration_test/**"
+  - "dart_test.yaml"
 
 "platform: android":
   - "app/android/**"
@@ -51,122 +51,122 @@
   - "app/macos/**"
 
 "platform: web":
-- 'app/web/**'
+  - "app/web/**"
 
 "code quality":
-- '**/analysis_options.yaml'
-- 'lib/sharezone_lints/**'
+  - "**/analysis_options.yaml"
+  - "lib/sharezone_lints/**"
 
 "legal":
-- "LICENSE"
+  - "LICENSE"
 
 "sharezone: cli":
-- 'tools/sz_repo_cli/**'
-- 'bin/sz'
-- 'bin/sharezone'
+  - "tools/sz_repo_cli/**"
+  - "bin/sz"
+  - "bin/sharezone"
 
 "ui / ux":
-- "**/theme/**"
-- "**/**theme**"
-- app/fonts/**
-- lib/sharezone_widgets/**
-- app/**/widgets/**
-# Assets like images, icons, etc.
-- "**/assets/**"
+  - "**/theme/**"
+  - "**/**theme**"
+  - app/fonts/**
+  - lib/sharezone_widgets/**
+  - app/**/widgets/**
+  # Assets like images, icons, etc.
+  - "**/assets/**"
 
 "feature: holidays":
-- '**/holidays/**'
-- '**/**holiday**'
+  - "**/holidays/**"
+  - "**/**holiday**"
 
 "feature: authentication":
-- '**/authentication/**'
-- '**/auth/**'
+  - "**/authentication/**"
+  - "**/auth/**"
 
 "feature: comments":
-- '**/comments/**'
-- '**/**comment**'
+  - "**/comments/**"
+  - "**/**comment**"
 
 "feature: donation":
-- '**/donate/**'
+  - "**/donate/**"
 
 "feature: file-sharing":
-- '**/filesharing/**'
-- '**/file_sharing/**'
+  - "**/filesharing/**"
+  - "**/file_sharing/**"
 
 "feature: groups":
-- '**/groups/**'
-- '**/**group**'
-- 'lib/group_domain_implementation/**'
-- 'lib/group_domain_models/**'
-# We still have some old code that uses the term "gruppe" instead of "group"
-- '**/**gruppe**'
+  - "**/groups/**"
+  - "**/**group**"
+  - "lib/group_domain_implementation/**"
+  - "lib/group_domain_models/**"
+  # We still have some old code that uses the term "gruppe" instead of "group"
+  - "**/**gruppe**"
 
 "feature: groups:courses":
-- "**/course/**"
-- "**/**course**"
+  - "**/course/**"
+  - "**/**course**"
 
 "feature: groups:classes":
-- "**/school_class/**"
-- "**/school_class**"
+  - "**/school_class/**"
+  - "**/school_class**"
 
 "feature: homework":
-- '**/homework/**'
-- '**/**homework**'
-- 'lib/hausaufgabenheft_logik/**'
+  - "**/homework/**"
+  - "**/**homework**"
+  - "lib/hausaufgabenheft_logik/**"
 
 "feature: homework-submissions":
-- '**/abgabe/**'
-- 'app/**/pages/pages/homework/homework_details/submission/**'
+  - "**/abgabe/**"
+  - "app/**/pages/pages/homework/homework_details/submission/**"
 
 "feature: information sheet":
-- '**/blackboard/**'
-- '**/**blackboard**'
+  - "**/blackboard/**"
+  - "**/**blackboard**"
 
 "feature: navigation":
-- '**/navigation/**'
-- 'app/test/bottom_navigation_bar/**'
+  - "**/navigation/**"
+  - "app/test/bottom_navigation_bar/**"
 
 "feature: notifications":
-- '**/notifications/**'
-- '**/**notification**'
-- 'app/**/firebase_auth_token_retreiver_impl.dart'
+  - "**/notifications/**"
+  - "**/**notification**"
+  - "app/**/firebase_auth_token_retreiver_impl.dart"
 
 "feature: onboarding":
-- '**/onboarding/**'
+  - "**/onboarding/**"
 
 "feature: report":
-- "**/report/**"
+  - "**/report/**"
 
 "feature: timetable / calendar":
-- '**/timetable/**'
-- '**/**timetable**'
-- '**/**lesson**'
-- '**/**lesson**/**'
-- '**/calendrical_events/**'
+  - "**/timetable/**"
+  - "**/**timetable**"
+  - "**/**lesson**"
+  - "**/**lesson**/**"
+  - "**/calendrical_events/**"
 
 "feature: universal file features":
-- '**/filesharing/**'
+  - "**/filesharing/**"
 
 "w: about-us-page":
-- 'lib/sharezone_about_page_addon/**'
-- 'app/**/pages/settings/src/subpages/about/**'
+  - "lib/sharezone_about_page_addon/**"
+  - "app/**/pages/settings/src/subpages/about/**"
 
 "w: add-calendar-event-page":
-- 'app/**/timetable/timetable_add_event/**'
+  - "app/**/timetable/timetable_add_event/**"
 
 "w: add-homework-page":
-- 'app/**/pages/homework/homework_dialog.dart'
+  - "app/**/pages/homework/homework_dialog.dart"
 
 "w: add-information-sheet-page":
-- 'app/**/blackboard/blackboard_dialog.dart'
+  - "app/**/blackboard/blackboard_dialog.dart"
 
 "user: teacher":
-- "**/teacher/**"
-# We still have some old code that uses the term "lehrer" instead of "teacher"
-- "**/lehrer/**"
+  - "**/teacher/**"
+  # We still have some old code that uses the term "lehrer" instead of "teacher"
+  - "**/lehrer/**"
 
 "user: student":
-- "**/student/**"
+  - "**/student/**"
 
 "user: parent":
-- "**/parent/**"
+  - "**/parent/**"
