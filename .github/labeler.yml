@@ -175,23 +175,6 @@
 "feature: universal file features":
   - "**/filesharing/**"
 
-"w: login-page":
-- "**/login_page**"
-- ""
-
-"w: about-us-page":
-  - "lib/sharezone_about_page_addon/**"
-  - "app/**/pages/settings/src/subpages/about/**"
-
-"w: add-calendar-event-page":
-  - "app/**/timetable/timetable_add_event/**"
-
-"w: add-homework-page":
-  - "app/**/pages/homework/homework_dialog.dart"
-
-"w: add-information-sheet-page":
-  - "app/**/blackboard/blackboard_dialog.dart"
-
 "user: teacher":
   - "**/teacher/**"
   # We still have some old code that uses the term "lehrer" instead of "teacher"
