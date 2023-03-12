@@ -68,7 +68,7 @@ class DrawerTile extends StatelessWidget {
     final tag = this.tag ?? navigationItem.getPageTag();
 
     return StreamBuilder<NavigationItem>(
-        key: ValueKey(tag),
+        key: ValueKey('nav-item-${navigationItem.name}-E2E'),
         stream: navigationBloc.navigationItems,
         builder: (context, snapshot) {
           final currentNavigationItem = snapshot.data;

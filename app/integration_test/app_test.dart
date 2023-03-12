@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -70,6 +72,30 @@ void main() {
         find.byKey(const Key('dashboard-appbar-title-E2E')),
         findsOneWidget,
       );
+
+      // At the moment, we can't log out properly / use the navigation when
+      // signing in again. This blocks to write more integration tests. As a
+      // workaround, we put all integration test into one test.
+      //
+      // We can remove this workaround, when the following issue are resolved:
+      // * https://github.com/SharezoneApp/sharezone-app/issues/497
+      // * https://github.com/SharezoneApp/sharezone-app/issues/117
+
+      log("Test: User should be able to load groups");
+      await _pumpSharezoneApp(tester);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+
+      await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
+      await tester.pumpAndSettle();
+
+      // We assume that the user is in at least 5 groups with the following
+      // group names.
+      expect(find.text('10A'), findsOneWidget);
+      expect(find.text('Deutsch LK'), findsOneWidget);
+      expect(find.text('Englisch LK'), findsOneWidget);
+      expect(find.text('Französisch LK'), findsOneWidget);
+      expect(find.text('Latein LK'), findsOneWidget);
+      expect(find.text('Spanisch LK'), findsOneWidget);
     });
   });
 }
