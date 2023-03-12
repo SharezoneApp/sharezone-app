@@ -73,19 +73,30 @@
 "platform: android":
   - "app/android/**"
   - "**/**android**"
+  - "**/**_android/**"
+  - "**/android_**/**"
+  - "**/**_android_**/**"
 
 "platform: ios":
   - "app/ios/**"
   - "**ios**"
+  - "**/**_ios**/**"
+  - "**/ios_**/**"
+  - "**/**_ios_**/**"
 
 "platform: macos":
   - "app/macos/**"
   - "**/**macos**"
+  - "**/**_macos/**"
+  - "**/macos_**/**"
+  - "**/**_macos_**/**"
 
 "platform: web":
   - "app/web/**"
   - "**/**web**"
-  - "lib/filesharing/files_web/**"
+  - "**/**_web/**"
+  - "**/web_**/**"
+  - "**/**_web_**/**"
 
 "code quality":
   - "**/analysis_options.yaml"
