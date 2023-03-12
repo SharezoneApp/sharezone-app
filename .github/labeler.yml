@@ -29,17 +29,17 @@
 # Try this the following link to play around with the glob pattern:
 # https://globster.xyz/?q=**%2F**homework**&f=app%2Flib%2Fhomework_page.dart%2Capp%2Flib%2Ftimetable_page.dart%2Capp%2Flib%2Fhomework%2Fadd.dart&embed=1
 #
-# An recommendation is also to keep the global general and wide. For the
-# "feature: homework" label do not list all paths to the homework directories.
-# Instead just use something like "**/homework/**". This way we automatically
-# include the app files, test files, package and asset files that contain a
-# homework directory. Of course, this can lead to false positive in a few cases.
-# However, we value general glob above the small chance of false positive
-# because we think the chance of not assign the label with too specific globs is
-# much higher than having a false positive with a general glob. And when
-# searching a PR with labels you mostly prefer to find a few PR too much instead
-# of not finding a PR about a change in homework feature that does not have the
-# homework label.  
+# Another recommendation is to keep the global general and wide. For the
+# "feature: homework" label, do not list all the paths to the homework
+# directories. Instead, just use something like "**/homework/**". This will
+# automatically include the app files, test files, package files and asset files
+# that contain a homework directory. Of course, this can lead to false positives
+# in a few cases. However, we prefer the general glob to the small chance of a
+# false positive because we think the chance of not assigning the label with too
+# specific globs is much higher than having a false positive with a general
+# glob. And when searching for a PR with labels, it is usually better to find a
+# few false positives than not to find a PR about a change in the homework
+# feature that does not have the homework label. 
 
 "ci/cd":
   - .github/workflows/**
@@ -56,6 +56,7 @@
   - "**/*.md"
   - "**/*.mdx"
   - "docs/**"
+  - "docs.yaml"
 
 "dependencies":
   - "**/pubspec.yaml"
@@ -67,19 +68,24 @@
   - "**/test_driver/**"
   - "**/test/**"
   - "**/integration_test/**"
-  - "dart_test.yaml"
+  - "**/dart_test.yaml"
 
 "platform: android":
   - "app/android/**"
+  - "**/**android**"
 
 "platform: ios":
   - "app/ios/**"
+  - "**ios**"
 
 "platform: macos":
   - "app/macos/**"
+  - "**/**macos**"
 
 "platform: web":
   - "app/web/**"
+  - "**/**web**"
+  - "lib/filesharing/files_web/**"
 
 "code quality":
   - "**/analysis_options.yaml"
@@ -87,6 +93,8 @@
 
 "legal":
   - "LICENSE"
+  - "**/**privacy_policy**"
+  - "**/**imprint**"
 
 "sharezone: cli":
   - "tools/sz_repo_cli/**"
@@ -102,13 +110,18 @@
   # Assets like images, icons, etc.
   - "**/assets/**"
 
-"feature: holidays":
-  - "**/holidays/**"
-  - "**/**holiday**"
+"feature: analytics":
+  - "**/analytics/**"
+  - "**/**analytics**"
+  - "lib/analytics/**"
 
 "feature: authentication":
   - "**/authentication/**"
   - "**/auth/**"
+  - "**/**sign_in**"
+  - "**/**sign_out**"
+  - "**/**sign_up**"
+  - "**/**login**"
 
 "feature: comments":
   - "**/comments/**"
@@ -116,6 +129,11 @@
 
 "feature: donation":
   - "**/donate/**"
+  - "**/donate**"
+
+"feature: feedback":
+  - "**/feedback/**"
+  - "**/**feedback**"
 
 "feature: file-sharing":
   - "**/filesharing/**"
@@ -137,6 +155,10 @@
   - "**/school_class/**"
   - "**/school_class**"
 
+"feature: holidays":
+  - "**/holidays/**"
+  - "**/**holiday**"
+
 "feature: homework":
   - "**/homework/**"
   - "**/**homework**"
@@ -144,6 +166,7 @@
 
 "feature: homework-submissions":
   - "**/abgabe/**"
+  - "**/**submission**"
   - "app/**/pages/pages/homework/homework_details/submission/**"
 
 "feature: information sheet":
@@ -152,7 +175,10 @@
 
 "feature: navigation":
   - "**/navigation/**"
+  - "**/navigation**"
   - "app/test/bottom_navigation_bar/**"
+  - "**/drawer/**"
+  - "**/**drawer**"
 
 "feature: notifications":
   - "**/notifications/**"
@@ -161,6 +187,7 @@
 
 "feature: onboarding":
   - "**/onboarding/**"
+  - "**/**onboarding**"
 
 "feature: report":
   - "**/report/**"
@@ -174,14 +201,18 @@
 
 "feature: universal file features":
   - "**/filesharing/**"
+  - "**/**file**"
 
 "user: teacher":
   - "**/teacher/**"
+  - "**/**teacher**"
   # We still have some old code that uses the term "lehrer" instead of "teacher"
   - "**/lehrer/**"
 
 "user: student":
   - "**/student/**"
+  - "**/**student**"
 
 "user: parent":
   - "**/parent/**"
+  - "**/**parent**"
