@@ -28,6 +28,18 @@
 #
 # Try this the following link to play around with the glob pattern:
 # https://globster.xyz/?q=**%2F**homework**&f=app%2Flib%2Fhomework_page.dart%2Capp%2Flib%2Ftimetable_page.dart%2Capp%2Flib%2Fhomework%2Fadd.dart&embed=1
+#
+# An recommendation is also to keep the global general and wide. For the
+# "feature: homework" label do not list all paths to the homework directories.
+# Instead just use something like "**/homework/**". This way we automatically
+# include the app files, test files, package and asset files that contain a
+# homework directory. Of course, this can lead to false positive in a few cases.
+# However, we value general glob above the small chance of false positive
+# because we think the chance of not assign the label with too specific globs is
+# much higher than having a false positive with a general glob. And when
+# searching a PR with labels you mostly prefer to find a few PR too much instead
+# of not finding a PR about a change in homework feature that does not have the
+# homework label.  
 
 "ci/cd":
   - .github/workflows/**
@@ -162,6 +174,10 @@
 
 "feature: universal file features":
   - "**/filesharing/**"
+
+"w: login-page":
+- "**/login_page**"
+- ""
 
 "w: about-us-page":
   - "lib/sharezone_about_page_addon/**"
