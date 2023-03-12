@@ -7,30 +7,30 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 "ci/cd":
-- .github/workflows/**
-- .github/labeler.yml
-- .github/dependabot.yml
-- codemagic.yaml
+  - .github/workflows/**
+  - .github/labeler.yml
+  - .github/dependabot.yml
+  - codemagic.yaml
 
 "documentation":
-- '**/*.md'
-- '**/*.mdx'
+  - "**/*.md"
+  - "**/*.mdx"
 
 "dependencies":
-- '**/pubspec.yaml'
-- '**/pubspec.lock'
+  - "**/pubspec.yaml"
+  - "**/pubspec.lock"
 
 "testing":
-- "**/*_test.dart"
+  - "**/*_test.dart"
 
 "platform: android":
-- 'app/android/**'
+  - "app/android/**"
 
 "platform: ios":
-- 'app/ios/**'
+  - "app/ios/**"
 
 "platform: macos":
-- 'app/macos/**'
+  - "app/macos/**"
 
 "platform: web":
-- 'app/web/**'
+  - "app/web/**"
