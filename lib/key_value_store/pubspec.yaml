@@ -9,7 +9,6 @@
 name: key_value_store
 description: A key-value-store.
 version: 0.0.1
-homepage:
 publish_to: none
 
 environment:
@@ -17,3 +16,5 @@ environment:
 
 dev_dependencies:
   test: ^1.23.1
+  sharezone_lints:
+    path: ../sharezone_lints

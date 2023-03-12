@@ -19,10 +19,11 @@ extension MediaQueryExt on BuildContext {
     if (mediaQuerySize.width < 700) {
       return false;
     } else if (mediaQuerySize.width >= 700 && mediaQuerySize.width <= 700) {
-      if (mediaQuerySize.height > 500)
+      if (mediaQuerySize.height > 500) {
         return true;
-      else
+      } else {
         return false;
+      }
     } else {
       return true;
     }

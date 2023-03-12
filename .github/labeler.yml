@@ -42,13 +42,13 @@
 - "dart_test.yaml"
 
 "platform: android":
-- 'app/android/**'
+  - "app/android/**"
 
 "platform: ios":
-- 'app/ios/**'
+  - "app/ios/**"
 
 "platform: macos":
-- 'app/macos/**'
+  - "app/macos/**"
 
 "platform: web":
 - 'app/web/**'
