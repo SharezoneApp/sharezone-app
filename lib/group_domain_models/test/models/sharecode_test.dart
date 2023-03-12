@@ -10,9 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 void main() {
-  group('sharecode', () {
-    void testSharecode(String sharecode, bool expactedValue) {
-      expect(Sharecode.isValid(sharecode), expactedValue);
+  group('Sharecode', () {
+    void testSharecode(String? sharecode, bool expectedValue) {
+      expect(Sharecode.isValid(sharecode), expectedValue);
     }
 
     final validSharecode1 = "000000";

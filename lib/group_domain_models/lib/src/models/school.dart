@@ -6,30 +6,31 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'course.dart';
 import 'member_role.dart';
 
 class School {
-  final String id, name, publicKey, joinLink;
-  final MemberRole myRole;
+  final String? id, name, publicKey, joinLink;
+  final MemberRole? myRole;
   final CourseSettings settings;
 
   School._({
-    @required this.id,
-    @required this.name,
-    @required this.myRole,
-    @required this.publicKey,
-    @required this.settings,
-    @required this.joinLink,
+    required this.id,
+    required this.name,
+    required this.myRole,
+    required this.publicKey,
+    required this.settings,
+    required this.joinLink,
   });
 
   factory School.fromData(
-      Map<String, dynamic> data, {@required String id}) {
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return School._(
       id: id,
       name: data['name'],
-      myRole: memberRoleEnumFromString(data['myRole']),
+      myRole: MemberRole.values.byName(data['myRole']),
       publicKey: data['publicKey'],
       joinLink: data['joinLink'],
       settings: CourseSettings.fromData(data['settings']),
@@ -38,19 +39,19 @@ class School {
 }
 
 class SchoolData {
-  final String id, name, title, description, abbreviation;
-  final String publicKey, joinLink;
+  final String? id, name, title, description, abbreviation;
+  final String? publicKey, joinLink;
   final CourseSettings settings;
 
   const SchoolData._({
-    @required this.id,
-    @required this.name,
-    @required this.title,
-    @required this.description,
-    @required this.abbreviation,
-    @required this.publicKey,
-    @required this.joinLink,
-    @required this.settings,
+    required this.id,
+    required this.name,
+    required this.title,
+    required this.description,
+    required this.abbreviation,
+    required this.publicKey,
+    required this.joinLink,
+    required this.settings,
   });
 
   factory SchoolData.create() {
@@ -66,8 +67,10 @@ class SchoolData {
     );
   }
 
-  factory SchoolData.fromData(
-      {@required String id, @required Map<String, dynamic> data}) {
+  factory SchoolData.fromData({
+    required String id,
+    required Map<String, dynamic> data,
+  }) {
     return SchoolData._(
       id: id,
       name: data['name'],
@@ -105,14 +108,14 @@ class SchoolData {
   }
 
   SchoolData copyWith({
-    String id,
-    String name,
-    String title,
-    String description,
-    String abbreviation,
-    String publicKey,
-    String joinLink,
-    CourseSettings settings,
+    String? id,
+    String? name,
+    String? title,
+    String? description,
+    String? abbreviation,
+    String? publicKey,
+    String? joinLink,
+    CourseSettings? settings,
   }) {
     return SchoolData._(
       id: id ?? this.id,

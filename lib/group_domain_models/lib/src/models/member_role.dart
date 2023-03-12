@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
-
 enum MemberRole {
   owner,
   admin,
@@ -15,10 +13,7 @@ enum MemberRole {
   standard,
   none,
 }
-MemberRole memberRoleEnumFromString(String data) =>
-    enumFromString(MemberRole.values, data);
-String memberRoleEnumToString(MemberRole memberRole) =>
-    enumToString(memberRole);
+
 const Map<MemberRole, String> memberRoleAsString = {
   MemberRole.admin: "Admin",
   MemberRole.creator: "Aktives Mitglied (Schreib- und Leserechte)",
