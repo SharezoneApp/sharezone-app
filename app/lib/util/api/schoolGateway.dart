@@ -23,7 +23,7 @@ class SchoolGateway {
       memberID: memberID,
       id: school.id,
       data: school.toCreateJson(),
-      type: groupTypeToString(GroupType.school),
+      type: GroupType.school.name,
     );
   }
 
@@ -38,7 +38,7 @@ class SchoolGateway {
     return references.functions.groupEdit(
       id: schoolData.id,
       data: schoolData.toEditJson(),
-      type: groupTypeToString(GroupType.school),
+      type: GroupType.school.name,
     );
   }
 
@@ -47,7 +47,7 @@ class SchoolGateway {
     return references.functions.groupEditSettings(
       id: schoolID,
       settings: schoolSettings.toJson(),
-      type: groupTypeToString(GroupType.school),
+      type: GroupType.school.name,
     );
   }
 
@@ -55,7 +55,7 @@ class SchoolGateway {
       String schoolID, String kickedMemberID) async {
     return references.functions.leave(
       id: schoolID,
-      type: groupTypeToString(GroupType.school),
+      type: GroupType.school.name,
       memberID: kickedMemberID,
     );
   }

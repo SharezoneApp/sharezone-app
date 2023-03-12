@@ -30,7 +30,7 @@ class GroupInfoWithSelectionState {
   factory GroupInfoWithSelectionState.fromData(Map<String, dynamic> data) {
     return GroupInfoWithSelectionState(
       id: data['id'] as String,
-      groupType: groupTypeFromString(data['groupType'] as String),
+      groupType: GroupType.values.byName(data['groupType'] as String),
       name: data['name'] as String,
       abbreviation: data['abbreviation'] as String,
       design: Design.fromData(data['design']),
