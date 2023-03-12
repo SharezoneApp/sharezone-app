@@ -9,7 +9,7 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:design/design.dart';
 import 'package:meta/meta.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 
 class CourseEditDesignBloc extends BlocBase {
   final String courseId;

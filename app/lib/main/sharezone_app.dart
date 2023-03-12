@@ -48,7 +48,7 @@ import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_p
 import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/pages/settings_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:showcaseview/showcaseview.dart';

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import '../remote_configuration.dart';
@@ -37,7 +39,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
           minimumFetchInterval: const Duration(hours: 3)));
       await _remoteConfig.fetchAndActivate();
     } catch (e) {
-      print("Error fetch remote config: $e");
+      log("Error fetch remote config: $e");
     }
   }
 }
