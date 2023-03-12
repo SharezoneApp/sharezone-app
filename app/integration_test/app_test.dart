@@ -80,9 +80,6 @@ void main() {
       // * https://github.com/SharezoneApp/sharezone-app/issues/117
 
       print("Test: User should be able to load groups");
-      await _pumpSharezoneApp(tester);
-      await tester.pumpAndSettle(const Duration(seconds: 1));
-
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
