@@ -307,10 +307,16 @@ jobs:
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
 
+  # At the moment, Flutter Integration Tests are not working with GitHub Actions
+  # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
+  #
+  # To still have a verification that the app can be build, we just build the
+  # macOS app.
   macos-build-test:
-    runs-on: macos-latest
-    # if: ${{ github.event.pull_request.draft == false }}
-    timeout-minutes: 45
+    needs: changes
+    runs-on: macos-12
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: app
@@ -331,10 +337,10 @@ jobs:
           BUNDLE_ID: de.codingbrain.sharezone.app
         run: |
           # Even when are trying to build app, we need to use "--platform IOS".
-          # The reason for this that our bundle ID was created for only IOS.
-          # However, it's still possible to sign in a macOS app with an iOS
-          # bundle ID (requires "--strict-match-identifier", otherwise the tool
-          # would try to use our de.codingbrain.sharezone.app.dev bundle ID
+          # The reason for this that our production bundle ID was created for
+          # IOS only. However, it's still possible to sign a macOS app with an
+          # iOS bundle ID (requires "--strict-match-identifier", otherwise the
+          # tool would try to use our de.codingbrain.sharezone.app.dev bundle ID
           # which is a universal bundle ID and has no specific platform).
           #
           # See https://github.com/codemagic-ci-cd/cli-tools/issues/314
@@ -358,7 +364,7 @@ jobs:
       - name: Build macOS app
         run: |
           flutter build macos \
-            -t lib/main_dev.dart
+            -t lib/main_prod.dart
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
