@@ -173,7 +173,9 @@ jobs:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-12
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
-    timeout-minutes: 60
+    # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
+    # (~5% of the time) build takes longer and then is a long timeout needed.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
