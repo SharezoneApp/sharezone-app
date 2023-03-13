@@ -7,22 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-class TestCommand extends Command {
-  TestCommand(this.repo) {
-    argParser
-      ..addVerboseFlag()
-      ..addConcurrencyOption(defaultMaxConcurrency: 5)
-      ..addPackageTimeoutOption(defaultInMinutes: 10);
-  }
-
-  static const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
-
-  final SharezoneRepo repo;
+class TestCommand extends ConcurrentCommand {
+  TestCommand(SharezoneRepo repo) : super(repo);
 
   @override
   final String name = 'test';
@@ -32,43 +21,17 @@ class TestCommand extends Command {
       'This command requires "flutter" to be in your path.';
 
   @override
-  Future<Null> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+  int get defaultMaxConcurrency => 5;
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null wird nachher als "keine Begrenzung" gehandhabt.
-        : null;
+  @override
+  Duration get defaultPackageTimeout => Duration(minutes: 10);
 
-    final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
-    );
+  @override
+  Stream<Package> get packagesToProcess =>
+      repo.streamPackages().where((package) => package.hasTestDirectory);
 
-    final res = taskRunner
-        .runTaskForPackages(
-          packageStream: repo
-              .streamPackages()
-              .where((package) => package.hasTestDirectory),
-          runTask: (package) => package.runTests(),
-          maxNumberOfPackagesBeingProcessedConcurrently:
-              maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
-        )
-        .asBroadcastStream();
-
-    final presenter = PackageTasksStatusPresenter();
-    presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);
-
-    final failures = await res.allFailures;
-
-    if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
-      await presenter.printFailedTasksSummary(failures);
-      exit(1);
-    } else {
-      print('All packages tested successfully!');
-      exit(0);
-    }
+  @override
+  Future<void> runTaskForPackage(Package package) {
+    return package.runTests();
   }
 }
