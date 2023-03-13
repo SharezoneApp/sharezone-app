@@ -29,7 +29,7 @@ abstract class ConcurrentCommand extends Command {
   /// If [runTaskForPackage] takes longer than [defaultPackageTimeout] then the
   /// task for the package that exceeded the timeout will be marked as failing.
   ///
-  /// This can be overriden by the user via command line argument.
+  /// This can be overridden by the user via command line argument.
   Duration get defaultPackageTimeout => Duration(minutes: 10);
 
   /// Number of packages that are going to be processed concurrently.
@@ -37,7 +37,7 @@ abstract class ConcurrentCommand extends Command {
   /// Setting this to <= 0 means that there is no concurrency limit, i.e.
   /// everything will be processed at once.
   ///
-  /// This can be overriden by the user via command line argument.
+  /// This can be overridden by the user via command line argument.
   int get defaultMaxConcurrency => 5;
 
   /// Used to run setup steps before [runTaskForPackage] is called.
@@ -68,7 +68,7 @@ abstract class ConcurrentCommand extends Command {
     final _max = argResults[maxConcurrentPackagesOptionName];
     final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
         ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null as interpreted as "no conucrrency limit" (everything at once).
+        // null as interpreted as "no concurrency limit" (everything at once).
         : null;
 
     final taskRunner = ConcurrentPackageTaskRunner(
