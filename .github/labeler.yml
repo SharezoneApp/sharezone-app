@@ -163,6 +163,14 @@
   - "**/group_permissions/**"
   - "**/**permission**"
 
+"feature: groups:classes":
+  - "**/school_class/**"
+  - "**/school_class**"
+
+"feature: groups:courses":
+  - "**/course/**"
+  - "**/**course**"
+
 "feature: groups":
   - "**/groups/**"
   - "**/**group**"
@@ -171,17 +179,14 @@
   # We still have some old code that uses the term "gruppe" instead of "group"
   - "**/**gruppe**"
 
-"feature: groups:courses":
-  - "**/course/**"
-  - "**/**course**"
-
-"feature: groups:classes":
-  - "**/school_class/**"
-  - "**/school_class**"
-
 "feature: holidays":
   - "**/holidays/**"
   - "**/**holiday**"
+
+# We don't have any files for the homework reminder feature yet (only
+# notification.dart), so we can't list any paths here.
+#
+# "feature: homework reminder":
 
 "feature: homework":
   - "**/homework/**"
