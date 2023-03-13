@@ -178,8 +178,8 @@
 
 "feature: homework-submissions":
   - "**/abgabe/**"
+  - "**/**submission**/**"
   - "**/**submission**"
-  - "app/**/pages/pages/homework/homework_details/submission/**"
 
 "feature: information sheet":
   - "**/blackboard/**"
