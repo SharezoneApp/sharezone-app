@@ -212,9 +212,8 @@
   - "**/**blackboard**"
 
 "feature: navigation":
-  - "**/navigation/**"
+  - "**/**navigation**/**"
   - "**/navigation**"
-  - "app/test/bottom_navigation_bar/**"
   - "**/drawer/**"
   - "**/**drawer**"
 
