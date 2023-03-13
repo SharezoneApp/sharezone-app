@@ -340,7 +340,7 @@ jobs:
           # See https://github.com/codemagic-ci-cd/cli-tools/issues/314
           app-store-connect fetch-signing-files $BUNDLE_ID \
             --platform IOS \
-            --type MAC_APP_DEVELOPMENT \
+            --type MAC_APP_STORE \
             --strict-match-identifier \
             --create
           keychain initialize
