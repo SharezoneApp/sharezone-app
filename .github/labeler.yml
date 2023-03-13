@@ -125,6 +125,12 @@
   # Assets like images, icons, etc.
   - "**/assets/**"
 
+"ui: dark-mode":
+  - "**/**dark_theme**"
+
+"ui: light-mode":
+  - "**/**light_theme**"
+
 "feature: analytics":
   - "**/analytics/**"
   - "**/**analytics**"
