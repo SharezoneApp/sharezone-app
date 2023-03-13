@@ -310,7 +310,7 @@ jobs:
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
   #
-  # To still have a verification that the app can be build, we just build the
+  # To still have a verification that the app can be built, we just build the
   # macOS app.
   macos-build-test:
     needs: changes
