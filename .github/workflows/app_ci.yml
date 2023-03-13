@@ -145,8 +145,7 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
-        run: sz test -c 4
-      
+        run: sz test -c 4 --package-timeout-minutes 15      
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
@@ -173,7 +172,9 @@ jobs:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
     runs-on: macos-12
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
-    timeout-minutes: 60
+    # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
+    # (~5% of the time) build takes longer and then is a long timeout needed.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
