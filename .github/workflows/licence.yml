@@ -10,6 +10,9 @@ name: licence-ci
 
 # Controls when the action will run. 
 on:
+  merge_group:
+    types:
+      - checks_requested
   # Triggers the workflow on pull request events
   pull_request:
     types:
@@ -24,11 +27,11 @@ permissions: {}
 
 jobs:
   check-files-licence-headers:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: actions/setup-go@c51a7207680f1bee06f4a751214aab70667f9e25
         with:
           go-version: '^1.13.1'
-      - run: go install github.com/google/addlicense@latest 
+      - run: go install github.com/google/addlicense@v1.1.1 
       - run: ./bin/check_license_headers.sh

@@ -4,7 +4,3 @@
 
 # Conventional directory for build outputs.
 build/
-
-# Omit committing pubspec.lock for library packages; see
-# https://dart.dev/guides/libraries/private-files#pubspeclock.
-pubspec.lock

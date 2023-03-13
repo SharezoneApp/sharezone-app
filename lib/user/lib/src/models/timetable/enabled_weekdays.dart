@@ -20,32 +20,31 @@ const weekDayDefaults = {
 };
 
 class EnabledWeekDays {
-  final Map<String, bool> _internalMap;
+  final Map<String, bool?> _internalMap;
 
   const EnabledWeekDays._(this._internalMap);
 
   static const EnabledWeekDays standard = EnabledWeekDays._({});
 
-  factory EnabledWeekDays.fromData(Map<String, dynamic> data) {
-    return EnabledWeekDays._(decodeMap<bool>(data, (key, value) => value));
+  factory EnabledWeekDays.fromData(Map<String, dynamic>? data) {
+    return EnabledWeekDays._(decodeMap<bool?>(data, (key, value) => value));
   }
 
-  bool getValue(WeekDay weekDay) {
-    return _internalMap[weekDayEnumToString(weekDay)] ??
-        weekDayDefaults[weekDay];
+  bool? getValue(WeekDay weekDay) {
+    return _internalMap[weekDay.name] ?? weekDayDefaults[weekDay];
   }
 
   EnabledWeekDays copyWith(WeekDay weekDay, bool newValue) {
     final newMap = Map.of(_internalMap);
-    newMap[weekDayEnumToString(weekDay)] = newValue;
+    newMap[weekDay.name] = newValue;
     return EnabledWeekDays._(newMap);
   }
 
   List<WeekDay> getEnabledWeekDaysList() {
-    return WeekDay.values.where((it) => getValue(it)).toList();
+    return WeekDay.values.where((it) => getValue(it)!).toList();
   }
 
-  Map<String, bool> toJson() {
+  Map<String?, bool?> toJson() {
     return _internalMap;
   }
 }

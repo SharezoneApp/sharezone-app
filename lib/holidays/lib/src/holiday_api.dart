@@ -9,17 +9,14 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:http/http.dart' as http;
 
 import 'api/holiday.dart';
 import 'api/serializers.dart';
 import 'state.dart';
 
 class ApiResponseException implements Exception {
-  final String message;
+  final String? message;
 
   ApiResponseException([this.message]);
 
@@ -55,10 +52,6 @@ abstract class HolidayApiClient {
   ///
   /// API Documentation/Information: https://www.ferien-api.de/
   Future<List<dynamic>> getHolidayAPIResponse(int year, String stateCode);
-
-  Future<void> close() {
-    return Future.value();
-  }
 }
 
 /// Is used as a successor to [HttpHolidayApiClient] as the
@@ -68,53 +61,30 @@ abstract class HolidayApiClient {
 /// reverse-proxy with correct CORS headers. In this way we could also add
 /// caching via CF or change to our own implementation if we want.
 class CloudFunctionHolidayApiClient extends HolidayApiClient {
+  final SharezoneAppFunctions functions;
+
+  CloudFunctionHolidayApiClient(this.functions);
+
   @override
   Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    final functions = SharezoneAppFunctions(
-        AppFunctions(FirebaseFunctions.instanceFor(region: 'europe-west1')));
     final result =
         await functions.loadHolidays(stateCode: stateCode, year: '$year');
     if (result.hasException) {
       throw ApiResponseException(
-          "Got bad response: ${result.exception.code} ${result.exception.message}");
+        "Got bad response: ${result.exception?.code} ${result.exception?.message}",
+      );
     }
     if (!result.hasData) {
       return [];
     }
-    final responseBody = result.data['rawResponseBody'] as String;
+
+    final responseBody = result.data!['rawResponseBody'] as String;
+    if (responseBody.isEmpty) {
+      return [];
+    }
 
     List<dynamic> holidayList = json.decode(responseBody) as List<dynamic>;
     return holidayList;
-  }
-}
-
-/// See [CloudFunctionHolidayApiClient].
-class HttpHolidayApiClient extends HolidayApiClient {
-  final http.Client httpClient;
-
-  HttpHolidayApiClient(this.httpClient);
-
-  static Uri getApiUrl(String stateCode, int year) =>
-      Uri.parse("https://ferien-api.de/api/v1/holidays/$stateCode/$year");
-
-  @override
-  Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    Uri apiURL = getApiUrl(stateCode, year);
-    final response = await httpClient.get(apiURL);
-    if (response.statusCode == 200) {
-      // If okay
-      if (response.body.isEmpty) throw EmptyResponseException();
-      List<dynamic> holidayList = json.decode(response.body) as List<dynamic>;
-      return holidayList;
-    } else {
-      throw ApiResponseException(
-          "Expected response status 200, got: ${response.statusCode}");
-    }
-  }
-
-  @override
-  Future<void> close() async {
-    httpClient.close();
   }
 }
 
@@ -123,15 +93,13 @@ class HolidayApi {
   final bool returnPassedHolidays;
   DateTime Function() getCurrentTime;
 
-  HolidayApi(this.apiClient,
-      {this.returnPassedHolidays = false, this.getCurrentTime}) {
-    getCurrentTime ??= () => DateTime.now();
-  }
-  void dispose() {
-    apiClient.close();
-  }
+  HolidayApi(
+    this.apiClient, {
+    required this.getCurrentTime,
+    this.returnPassedHolidays = false,
+  });
 
-  /// Returns a List of comming Holidays for [state] for this plus [yearsInAdvance] years.
+  /// Returns a List of coming Holidays for [state] for this plus [yearsInAdvance] years.
   /// e.g. This year is 2019, [yearsInAdvance] == 0 -> Gets Holiday for 2019
   ///                        [yearsInAdvance] == 1 -> Gets Holiday for 2018 + 2019
   /// If [returnPassedHolidays] is false, then the Holidays which end have already passed,
@@ -158,8 +126,9 @@ class HolidayApi {
 
   List<Holiday> _deserializeHolidaysFromJSON(List jsonHolidayList) {
     List<Holiday> holidayList = jsonHolidayList
-        .map((jsonHolidy) =>
-            jsonSerializer.deserializeWith(Holiday.serializer, jsonHolidy))
+        .map((jsonHoliday) =>
+            jsonSerializer.deserializeWith(Holiday.serializer, jsonHoliday))
+        .whereType<Holiday>()
         .toList();
     return holidayList;
   }

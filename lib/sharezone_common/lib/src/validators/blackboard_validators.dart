@@ -10,8 +10,8 @@ import 'dart:async';
 import '../validator.dart';
 
 class BlackboardValidators {
-  final validateTitle =
-      StreamTransformer<String, String>.fromHandlers(handleData: (title, sink) {
+  final validateTitle = StreamTransformer<String?, String>.fromHandlers(
+      handleData: (title, sink) {
     if (title != null) {
       if (NotEmptyOrNullValidator(title).isValid()) {
         sink.add(title);

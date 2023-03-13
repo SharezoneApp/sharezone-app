@@ -47,4 +47,3 @@ dev_dependencies:
   mockito: ^5.0.7
   pedantic: ^1.9.0
   random_string: ^2.0.1
-  test: any

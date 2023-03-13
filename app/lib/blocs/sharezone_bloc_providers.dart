@@ -24,7 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
-import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
@@ -96,7 +95,7 @@ import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factor
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_dependencies.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_factory.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
@@ -297,12 +296,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       widget.beitrittsversuche,
     );
 
-    // HttpHolidayApiClient and "useCfHolidayEndpoint" remote config value
-    // can be removed after 2021-12-01.
-    final useCfEndpoint = remoteConfig.getBool('useCfHolidayEndpoint') ?? false;
-    final holidayApiClient = useCfEndpoint
-        ? CloudFunctionHolidayApiClient()
-        : HttpHolidayApiClient(http.Client());
+    final holidayApiClient =
+        CloudFunctionHolidayApiClient(api.references.functions);
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
@@ -485,9 +480,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
         holidayManager: HolidayService(
-            HolidayApi(holidayApiClient),
-            HolidayCache(FlutterKeyValueStore(
-                widget.blocDependencies.sharedPreferences))),
+          HolidayApi(
+            holidayApiClient,
+            getCurrentTime: () => DateTime.now(),
+          ),
+          HolidayCache(
+            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+          ),
+        ),
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(

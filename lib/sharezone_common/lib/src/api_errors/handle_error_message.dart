@@ -10,7 +10,7 @@ part of 'api_errors.dart';
 
 /// [s]: StrackTrace wird ebenfalls übergeben, damit bei einem unbekannten
 /// Fehler dieser direkt mit dem StackTrace gemeldet werde kann.
-String handleErrorMessage(String error, StackTrace s) {
+String? handleErrorMessage(String? error, StackTrace s) {
   if (error != null) {
     if (error == IncorrectDataException().toString()) {
       return "Bitte gib die Daten korrekt an!";

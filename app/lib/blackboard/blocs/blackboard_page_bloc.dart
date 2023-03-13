@@ -13,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 
 class BlackboardPageBloc extends BlocBase {
   final _viewsSubject = BehaviorSubject<List<BlackboardView>>();

@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:test/test.dart';
 import 'package:time/time.dart';
 
 void main() {

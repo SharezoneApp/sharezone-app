@@ -6,15 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:remote_configuration/src/implementation/stub_remote_configuration.dart';
-import 'package:sharezone_utils/platform.dart';
+
 import '../remote_configuration.dart';
 
 class FirebaseRemoteConfiguration extends RemoteConfiguration {
-  FirebaseRemoteConfig _remoteConfig;
-  Map<String, dynamic> _defaultValues;
-  FirebaseRemoteConfiguration();
+  FirebaseRemoteConfiguration() {
+    _remoteConfig = FirebaseRemoteConfig.instance;
+  }
+
+  late FirebaseRemoteConfig _remoteConfig;
 
   @override
   String getString(String key) {
@@ -29,20 +32,18 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   @override
   Future<void> initialize(Map<String, dynamic> defaultValues) async {
     try {
-      _defaultValues = defaultValues;
       _remoteConfig = FirebaseRemoteConfig.instance;
-      _remoteConfig.setDefaults(_defaultValues);
+      _remoteConfig.setDefaults(defaultValues);
       _remoteConfig.setConfigSettings(RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
           minimumFetchInterval: const Duration(hours: 3)));
       await _remoteConfig.fetchAndActivate();
     } catch (e) {
-      print("Error fetch remote config: $e");
+      log("Error fetch remote config: $e");
     }
   }
 }
 
 RemoteConfiguration getRemoteConfiguration() {
-  if (PlatformCheck.isMacOS) return StubRemoteConfiguration();
   return FirebaseRemoteConfiguration();
 }

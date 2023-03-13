@@ -11,10 +11,10 @@ import 'dart:async';
 import 'package:common_domain_models/src/ids/user_id.dart';
 import 'package:crash_analytics/mock_crash_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
 import 'package:last_online_reporting/src/implementation.dart';
 import 'package:quiver/testing/async.dart';
-import 'package:test/test.dart';
 
 class MockLastOnlineReporterBackend extends FirestoreLastOnlineReporterBackend {
   int reportedOnlineToBackend = 0;

@@ -33,7 +33,7 @@ abstract class HolidayCacheData
         jsonSerializer.serializeWith(HolidayCacheData.serializer, this));
   }
 
-  static HolidayCacheData fromJson(String jsonString) {
+  static HolidayCacheData? fromJson(String jsonString) {
     return jsonSerializer.deserializeWith(
         HolidayCacheData.serializer, json.decode(jsonString));
   }
@@ -62,7 +62,7 @@ abstract class Holiday implements Built<Holiday, HolidayBuilder> {
     return json.encode(jsonSerializer.serializeWith(Holiday.serializer, this));
   }
 
-  static Holiday fromJson(String jsonString) {
+  static Holiday? fromJson(String jsonString) {
     return jsonSerializer.deserializeWith(
         Holiday.serializer, json.decode(jsonString));
   }

@@ -12,8 +12,8 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:user/user.dart';
 

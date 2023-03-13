@@ -9,7 +9,7 @@
 import 'package:app_functions/app_functions.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
-import 'package:sharezone/util/api/schoolClassGateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
 
 class SchoolClassEditGateway {
   final SchoolClassGateway _gateway;
