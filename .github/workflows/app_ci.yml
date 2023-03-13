@@ -315,48 +315,50 @@ jobs:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools
+        run: pip3 install codemagic-cli-tools==0.39.1
 
       - name: Setup signing
         env:
-          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
           # The following secrets are used by the Codemagic CLI tool. It's important
           # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
           BUNDLE_ID: de.codingbrain.sharezone.app
         run: |
+          # Even when are trying to build app, we need to use "--platform IOS".
+          # The reason for this that our bundle ID was created for only IOS.
+          # However, it's still possible to sign in a macOS app with an iOS
+          # bundle ID (requires "--strict-match-identifier", otherwise the tool
+          # would try to use our de.codingbrain.sharezone.app.dev bundle ID
+          # which is a universal bundle ID and has no specific platform).
+          #
+          # See https://github.com/codemagic-ci-cd/cli-tools/issues/314
           app-store-connect fetch-signing-files $BUNDLE_ID \
-            --platform MAC_OS \
+            --platform IOS \
             --type MAC_APP_DEVELOPMENT \
-            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
+            --strict-match-identifier \
             --create
-          app-store-connect list-certificates --type MAC_INSTALLER_DISTRIBUTION --save || \
-          app-store-connect create-certificate --type MAC_INSTALLER_DISTRIBUTION --save
           keychain initialize
           keychain add-certificates
           xcode-project use-profiles
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
       
       - name: Build macOS app
         run: |
           flutter build macos \
-            -t lib/main_prod.dart
+            -t lib/main_dev.dart
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
