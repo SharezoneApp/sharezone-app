@@ -138,4 +138,4 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Run tests via "sz test"
-        run: sz test -c 4
+        run: sz test -c 4 --package-timeout-minutes 15
