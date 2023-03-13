@@ -200,7 +200,10 @@
   - "lib/hausaufgabenheft_logik/**"
 
 "feature: homework-submissions":
+  # We still have some old code that uses the term "abgabe" instead of
+  # "submission"
   - "**/abgabe/**"
+  - "**/**abgabe**"
   - "**/**submission**/**"
   - "**/**submission**"
 
