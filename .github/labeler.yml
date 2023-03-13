@@ -238,16 +238,16 @@
   - "**/filesharing/**"
   - "**/**file**"
 
+"user: parent":
+  - "**/parent/**"
+  - "**/**parent**"
+
+"user: pupil / student":
+  - "**/student/**"
+  - "**/**student**"
+
 "user: teacher":
   - "**/teacher/**"
   - "**/**teacher**"
   # We still have some old code that uses the term "lehrer" instead of "teacher"
   - "**/lehrer/**"
-
-"user: student":
-  - "**/student/**"
-  - "**/**student**"
-
-"user: parent":
-  - "**/parent/**"
-  - "**/**parent**"
