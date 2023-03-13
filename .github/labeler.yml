@@ -40,6 +40,10 @@
 # glob. And when searching for a PR with labels, it is usually better to find a
 # few false positives than not to find a PR about a change in the homework
 # feature that does not have the homework label. 
+#
+# We are not going to include "w: " labels because they are too specific and
+# it's too hard to maintain the paths for the files. Searching stuff with the
+# "feature: " label should be enough.
 
 "ci/cd":
   - .github/workflows/**
