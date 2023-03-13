@@ -268,6 +268,7 @@ class _BottomNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      key: ValueKey('nav-item-${item.name}-E2E'),
       flex: 1,
       child: InkResponse(
         child: Padding(
