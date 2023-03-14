@@ -108,7 +108,7 @@ class DownloadAsPDFButton extends StatelessWidget {
     return TextButton.icon(
       onPressed: enabled
           ? () {
-              context.pop();
+              Navigator.of(context).pop();
             }
           : null,
       style: _buttonStyle,
