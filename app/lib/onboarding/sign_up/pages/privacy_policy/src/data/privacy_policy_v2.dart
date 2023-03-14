@@ -13,14 +13,14 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import '../privacy_policy_src.dart';
 
 final v2PrivacyPolicy = PrivacyPolicy(
-  markdownText: markdownPrivacyPolicy,
-  tableOfContentSections: tocDocumentSections.toIList(),
+  markdownText: v2MarkdownPrivacyPolicy,
+  tableOfContentSections: v2TocDocumentSections.toIList(),
   version: '2.0.0',
   lastChanged: DateTime(2022, 11, 10),
   entersIntoForceOnOrNull: DateTime(2023, 01, 20),
 );
 
-final tocDocumentSections = [
+final v2TocDocumentSections = [
   section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
   section('1-wichtige-begriffe', '1. Wichtige Begriffe'),
   section('2-geltungsbereich', '2. Geltungsbereich'),
@@ -102,7 +102,7 @@ DocumentSection section(
 ]) =>
     DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
-const tableOfContentStrings = [
+const v2TableOfContentStrings = [
   "Einführung",
   "1. Wichtige Begriffe",
   "2. Geltungsbereich",
@@ -126,7 +126,7 @@ const tableOfContentStrings = [
   "20. Vorbehalt der Änderung dieser Informationen",
 ];
 
-const markdownPrivacyPolicy = """
+const v2MarkdownPrivacyPolicy = """
 # Information über die Verarbeitung personenbezogener Daten
 
 Hey, du bzw. ihr! Das ist die Datenschutzerklärung unserer App „Sharezone“ (kurz: „App“). Im Folgenden informieren wir, die Sharezone UG (haftungsbeschränkt), Speditionstraße 15A, 40221 Düsseldorf, Deutschland (kurz: „Sharezone“, „wir“ oder „uns“), über die Erhebung personenbezogener Daten bei der Nutzung der App.

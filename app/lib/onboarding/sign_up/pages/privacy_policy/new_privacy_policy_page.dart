@@ -20,7 +20,7 @@ class PrivacyPolicyPage extends StatelessWidget {
     Key key,
     PrivacyPolicy privacyPolicy,
     PrivacyPolicyPageConfig config,
-  })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
+  })  : privacyPolicy = privacyPolicy ?? v1PrivacyPolicy,
         config = config ?? PrivacyPolicyPageConfig(),
         anchorController = AnchorController(),
         super(key: key);
