@@ -6,26 +6,28 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
-import 'backend/null_analytics_backend.dart';
 
 import 'analytics.dart';
+import 'backend/null_analytics_backend.dart';
 
 class AnalyticsProvider extends InheritedWidget {
   const AnalyticsProvider({
-    Key key,
-    @required Widget child,
-    @required this.analytics,
+    Key? key,
+    required Widget child,
+    required this.analytics,
   }) : super(child: child, key: key);
 
   final Analytics analytics;
 
   static Analytics ofOrNullObject(BuildContext context) {
-    AnalyticsProvider provider =
+    AnalyticsProvider? provider =
         context.findAncestorWidgetOfExactType<AnalyticsProvider>();
     if (provider == null) {
       var loggingAnalyticsBackend = NullAnalyticsBackend();
-      print("""
+      developer.log("""
           ATTENTION: 
           AnalyticsProvider was not found in the widget tree. 
           Using Analytics with ${loggingAnalyticsBackend.runtimeType} instead.

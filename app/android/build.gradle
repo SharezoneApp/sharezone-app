@@ -20,13 +20,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-
-        // Workaround for https://github.com/saibotma/jitsi_meet_wrapper/issues/53
-        jcenter() {
-            content {
-                includeModule("com.yqritc", "android-scalablevideoview")
-            }
-        }
     }
 }
 

@@ -7,11 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:meta/meta.dart';
 
 class AnalyticsEvent {
   final String name;
-  final Map<String, dynamic> data;
+  final Map<String, dynamic>? data;
 
   const AnalyticsEvent(this.name, {this.data});
 
@@ -25,16 +24,16 @@ class AnalyticsEvent {
 abstract class AnalyticsBackend {
   const AnalyticsBackend();
 
-  void log(String name, [Map<String, dynamic> data]);
+  void log(String name, [Map<String, dynamic>? data]);
 
   Future<void> setAnalyticsCollectionEnabled(bool value);
   Future<void> logSignUp({
-    @required String signUpMethod,
+    required String signUpMethod,
   });
   Future<void> setCurrentScreen({
-    @required String screenName,
+    required String screenName,
   });
-  Future<void> setUserProperty({@required String name, @required String value});
+  Future<void> setUserProperty({required String name, required String value});
 }
 
 class Analytics {
@@ -53,18 +52,17 @@ class Analytics {
   }
 
   Future<void> logSignUp({
-    @required String signUpMethod,
+    required String signUpMethod,
   }) {
     return _backend.logSignUp(signUpMethod: signUpMethod);
   }
 
   Future<void> setCurrentScreen({
-    @required String screenName,
+    required String screenName,
   }) {
     return _backend.setCurrentScreen(screenName: screenName);
   }
 
-  Future<void> setUserProperty(
-          {@required String name, @required String value}) =>
+  Future<void> setUserProperty({required String name, required String value}) =>
       _backend.setUserProperty(name: name, value: value);
 }

@@ -13,7 +13,7 @@ import 'package:holidays/holidays.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 

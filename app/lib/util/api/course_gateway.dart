@@ -15,8 +15,8 @@ import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/references.dart';
 

@@ -31,9 +31,6 @@
 .pub/
 /build/
 
-# Web related
-lib/generated_plugin_registrant.dart
-
 # Symbolication related
 app.*.symbols
 
@@ -50,4 +47,5 @@ ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 builds/
 ios/Flutter/flutter_export_environment.sh
 
-test_driver/chromedriver
+# Default location for App Store Connect API keys
+private_keys/

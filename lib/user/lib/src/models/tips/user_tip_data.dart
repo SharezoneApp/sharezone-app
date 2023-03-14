@@ -10,7 +10,7 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'user_tip_key.dart';
 
 class UserTipData {
-  final Map<String, bool> _internalMap;
+  final Map<String, bool?> _internalMap;
 
   const UserTipData._(this._internalMap);
 
@@ -18,8 +18,8 @@ class UserTipData {
     return UserTipData._({});
   }
 
-  factory UserTipData.fromData(Map<String, dynamic> data) {
-    return UserTipData._(decodeMap<bool>(data, (key, value) => value));
+  factory UserTipData.fromData(Map<String, dynamic>? data) {
+    return UserTipData._(decodeMap<bool?>(data, (key, value) => value));
   }
 
   bool getValue(UserTipKey tipKey) {
@@ -32,7 +32,7 @@ class UserTipData {
     return UserTipData._(newMap);
   }
 
-  Map<String, bool> toJson() {
+  Map<String, bool?> toJson() {
     return _internalMap;
   }
 }

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 
 class FileSharingPermissions {
   final SharezoneGateway api;

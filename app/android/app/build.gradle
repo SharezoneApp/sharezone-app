@@ -85,9 +85,6 @@ android {
             }
 
             minifyEnabled true
-            // Proguard is needed to run Jitsi in release mdoe
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk {
                 abiFilters "x86_64", "armeabi-v7a", "arm64-v8a"
             }

@@ -8,8 +8,12 @@
 
 name: sharezone
 description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
-# Build number (e.g. +316) is required by some functionality in our app.
-version: 1.6.2+316
+# Note that this build number is not the latest build number. Please go to App
+# Store Connect
+# (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
+# "app-store-connect get-latest-build-number 1434868489" to get the latest build
+# number.
+version: 1.6.2+318
 publish_to: none
 
 environment:
@@ -158,9 +162,6 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.1.4
   built_value_generator: ^8.1.1
-  equatable: ^2.0.3
-  flutter_driver:
-    sdk: flutter
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
@@ -168,7 +169,6 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.0.7
   random_string: ^2.0.1
-  test: ^1.22.0
 
 flutter:
   uses-material-design: true

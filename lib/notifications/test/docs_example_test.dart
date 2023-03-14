@@ -9,6 +9,11 @@
 import 'package:test/test.dart';
 import 'package:notifications/notifications.dart';
 
+// Because this file is an example for the documentation, we allow to use the
+// print method.
+//
+// ignore_for_file: avoid_print
+
 void main() {
   test('Example usage for documentation of the $PushNotificationActionHandler',
       () {
@@ -33,7 +38,7 @@ void main() {
     );
 
     handler.handlePushNotification(
-      PushNotification(
+      const PushNotification(
         actionType: 'print-secret-string',
         actionData: {'secret-message': 'SHAREZONE4EVER'},
         title: 'Title',
@@ -70,7 +75,9 @@ class LoggingPushNotificationActionHandlerInstrumentation
 
   @override
   void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead, PushNotification notification, error}) {}
+      {fallbackValueChosenInstead,
+      required PushNotification notification,
+      error}) {}
 
   @override
   void parsingFailedOnUnknownActionType(PushNotification pushNotification) {}

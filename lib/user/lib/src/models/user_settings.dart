@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:date/date.dart';
 import 'package:time/time.dart';
 import 'package:date/weektype.dart';
@@ -29,12 +28,12 @@ class UserSettings {
   final EnabledWeekDays enabledWeekDays;
 
   UserSettings._({
-    @required this.isABWeekEnabled,
-    @required this.isAWeekEvenWeek,
-    @required this.timetableStartTime,
-    @required this.periods,
-    @required this.showAbbreviation,
-    @required this.enabledWeekDays,
+    required this.isABWeekEnabled,
+    required this.isAWeekEvenWeek,
+    required this.timetableStartTime,
+    required this.periods,
+    required this.showAbbreviation,
+    required this.enabledWeekDays,
   });
 
   factory UserSettings.defaultSettings() {
@@ -48,7 +47,7 @@ class UserSettings {
     );
   }
 
-  factory UserSettings.fromData(Map<String, dynamic> data) {
+  factory UserSettings.fromData(Map<String, dynamic>? data) {
     if (data == null)
       return UserSettings.defaultSettings();
     else {
@@ -76,12 +75,12 @@ class UserSettings {
   }
 
   UserSettings copyWith({
-    bool isABWeekEnabled,
-    bool isAWeekEvenWeek,
-    bool showAbbreviation,
-    Time timetableStartTime,
-    Periods periods,
-    EnabledWeekDays enabledWeekDays,
+    bool? isABWeekEnabled,
+    bool? isAWeekEvenWeek,
+    bool? showAbbreviation,
+    Time? timetableStartTime,
+    Periods? periods,
+    EnabledWeekDays? enabledWeekDays,
   }) {
     return UserSettings._(
       isABWeekEnabled: isABWeekEnabled ?? this.isABWeekEnabled,

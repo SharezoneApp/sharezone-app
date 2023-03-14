@@ -11,6 +11,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
+export 'src/concurrent_command.dart';
 export 'src/concurrent_package_task_runner.dart';
 export 'src/merge_with_value_stream_extension.dart';
 export 'src/package.dart';

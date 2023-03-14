@@ -47,7 +47,7 @@ class CalendricalEvent {
       eventID: id,
       groupID: data['groupID'] as String,
       authorID: data['authorID'] as String,
-      date: Date.parse(data['date']),
+      date: Date.parse(data['date'] as String),
       startTime: Time.parse(data['startTime'] as String),
       endTime: Time.parse(data['endTime'] as String),
       title: data['title'] as String,

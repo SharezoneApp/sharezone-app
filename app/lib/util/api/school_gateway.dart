@@ -8,7 +8,7 @@
 
 import 'package:app_functions/app_functions.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone_common/references.dart';
 
 class SchoolGateway {

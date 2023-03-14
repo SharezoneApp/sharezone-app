@@ -17,40 +17,37 @@ import 'rsa_encryption.dart' as rsa_encryptable;
 
 class RsaKeyHelper {
   AsymmetricKeyPair<PublicKey, PrivateKey> generateKeyPair() {
-    var keyParams =
-        new RSAKeyGeneratorParameters(BigInt.parse('65537'), 2048, 12);
+    var keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), 2048, 12);
 
-    var secureRandom = new FortunaRandom();
-    var random = new Random.secure();
+    var secureRandom = FortunaRandom();
+    var random = Random.secure();
     List<int> seeds = [];
     for (int i = 0; i < 32; i++) {
       seeds.add(random.nextInt(255));
     }
-    secureRandom.seed(new KeyParameter(new Uint8List.fromList(seeds)));
+    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
 
-    var rngParams = new ParametersWithRandom(keyParams, secureRandom);
-    var k = new RSAKeyGenerator();
+    var rngParams = ParametersWithRandom(keyParams, secureRandom);
+    var k = RSAKeyGenerator();
     k.init(rngParams);
 
     return k.generateKeyPair();
   }
 
   String encrypt(String plaintext, RSAPublicKey publicKey) {
-    var cipher = new RSAEngine()
-      ..init(true, new PublicKeyParameter<RSAPublicKey>(publicKey));
-    var cipherText =
-        cipher.process(new Uint8List.fromList(plaintext.codeUnits));
+    var cipher = RSAEngine()
+      ..init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
+    var cipherText = cipher.process(Uint8List.fromList(plaintext.codeUnits));
 
-    return new String.fromCharCodes(cipherText);
+    return String.fromCharCodes(cipherText);
   }
 
   String decrypt(String ciphertext, RSAPrivateKey privateKey) {
-    var cipher = new RSAEngine()
-      ..init(false, new PrivateKeyParameter<RSAPrivateKey>(privateKey));
-    var decrypted =
-        cipher.process(new Uint8List.fromList(ciphertext.codeUnits));
+    var cipher = RSAEngine()
+      ..init(false, PrivateKeyParameter<RSAPrivateKey>(privateKey));
+    var decrypted = cipher.process(Uint8List.fromList(ciphertext.codeUnits));
 
-    return new String.fromCharCodes(decrypted);
+    return String.fromCharCodes(decrypted);
   }
 
   parsePrivateKey(String privateKey) {
@@ -73,21 +70,20 @@ class RsaKeyHelper {
   }
 
   encodePublicKeyToPem(RSAPublicKey publicKey) {
-    var algorithmSeq = new ASN1Sequence();
-    var algorithmAsn1Obj = new ASN1Object.fromBytes(Uint8List.fromList(
+    var algorithmSeq = ASN1Sequence();
+    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
         [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
-    var paramsAsn1Obj =
-        new ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
+    var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
 
-    var publicKeySeq = new ASN1Sequence();
+    var publicKeySeq = ASN1Sequence();
     publicKeySeq.add(ASN1Integer(publicKey.modulus!));
     publicKeySeq.add(ASN1Integer(publicKey.exponent!));
     var publicKeySeqBitString =
-        new ASN1BitString(Uint8List.fromList(publicKeySeq.encodedBytes));
+        ASN1BitString(Uint8List.fromList(publicKeySeq.encodedBytes));
 
-    var topLevelSeq = new ASN1Sequence();
+    var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(algorithmSeq);
     topLevelSeq.add(publicKeySeqBitString);
     var dataBase64 = base64.encode(topLevelSeq.encodedBytes);
@@ -98,15 +94,14 @@ class RsaKeyHelper {
   encodePrivateKeyToPem(RSAPrivateKey privateKey) {
     var version = ASN1Integer(BigInt.from(0));
 
-    var algorithmSeq = new ASN1Sequence();
-    var algorithmAsn1Obj = new ASN1Object.fromBytes(Uint8List.fromList(
+    var algorithmSeq = ASN1Sequence();
+    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
         [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
-    var paramsAsn1Obj =
-        new ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
+    var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
 
-    var privateKeySeq = new ASN1Sequence();
+    var privateKeySeq = ASN1Sequence();
     var modulus = ASN1Integer(privateKey.n!);
     var publicExponent = ASN1Integer(BigInt.parse('65537'));
     var privateExponent = ASN1Integer(privateKey.privateExponent!);
@@ -129,9 +124,9 @@ class RsaKeyHelper {
     privateKeySeq.add(exp2);
     privateKeySeq.add(co);
     var publicKeySeqOctetString =
-        new ASN1OctetString(Uint8List.fromList(privateKeySeq.encodedBytes));
+        ASN1OctetString(Uint8List.fromList(privateKeySeq.encodedBytes));
 
-    var topLevelSeq = new ASN1Sequence();
+    var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(version);
     topLevelSeq.add(algorithmSeq);
     topLevelSeq.add(publicKeySeqOctetString);

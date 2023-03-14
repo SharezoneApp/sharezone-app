@@ -13,26 +13,28 @@ import 'package:flutter/material.dart';
 // Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
   const BlocProvider({
-    Key key,
+    Key? key,
     this.child,
-    @required this.bloc,
+    required this.bloc,
   }) : super(key: key);
 
   final T bloc;
-  final Widget child;
+  final Widget? child;
 
   @override
-  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+  State createState() => _BlocProviderState<T>();
 
   static T of<T extends BlocBase>(BuildContext context) {
     final type = _typeOf<BlocProvider<T>>();
     // ignore: invalid_assignment
     final provider = context.findAncestorWidgetOfExactType<BlocProvider<T>>();
-    assert(provider != null,
-        """A BlocProvider ancestor with Type $type should be given in the widget tree.
+    if (provider == null) {
+      throw Exception(
+          """A BlocProvider ancestor with Type $type should be given in the widget tree.
 If this is not true this propably means that BlocProvider.of<$T>(context)
 was called while no BlocProvider with Type of $T was created in an 
 ancestor widget.""");
+    }
     return provider.bloc;
   }
 
@@ -56,6 +58,6 @@ class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.child!;
   }
 }

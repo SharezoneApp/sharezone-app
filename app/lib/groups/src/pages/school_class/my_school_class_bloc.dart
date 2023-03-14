@@ -13,7 +13,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_permission.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 enum SchoolClassDeleteType {

@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:notifications/src/notification_parser.dart';
 
@@ -152,10 +151,10 @@ class PushNotificationActionHandler {
   /// [DuplicateRegistrationsError] will be thrown in this case. This is check
   /// only run in debug mode.
   PushNotificationActionHandler({
-    @required List<ActionRegistration> actionRegistrations,
-    @required this.onUnhandledActionType,
-    @required this.onFatalParsingError,
-    @required this.instrumentation,
+    required List<ActionRegistration> actionRegistrations,
+    required this.onUnhandledActionType,
+    required this.onFatalParsingError,
+    required this.instrumentation,
   })  : parser = PushNotificationParser(actionRegistrations, instrumentation),
         executer = ActionExecutor(actionRegistrations) {
     assert(() {
@@ -177,17 +176,17 @@ class PushNotificationActionHandler {
   Future<void> handlePushNotification(PushNotification pushNotification) async {
     ArgumentError.checkNotNull(pushNotification, 'pushNotification');
     instrumentation.startHandlingPushNotification(pushNotification);
-    ActionRequest actionRequest;
+    late ActionRequest actionRequest;
 
     try {
       actionRequest = parser.parseNotification(pushNotification);
       instrumentation.parsingSucceeded(pushNotification, actionRequest);
     } on UnknownActionTypeException {
       instrumentation.parsingFailedOnUnknownActionType(pushNotification);
-      onUnhandledActionType(pushNotification);
+      return onUnhandledActionType(pushNotification);
     } catch (e, s) {
       instrumentation.parsingFailedFataly(pushNotification, e, s);
-      onFatalParsingError(pushNotification, e);
+      return onFatalParsingError(pushNotification, e);
     }
 
     try {
@@ -214,21 +213,20 @@ void _checkForDuplicateActionTypeRegistrations(
 }
 
 extension on ActionRegistration {
-  bool hasIntersection(ActionRegistration _other) =>
-      registerForActionTypeStrings
-          .intersection(_other.registerForActionTypeStrings)
-          .isNotEmpty;
+  bool hasIntersection(ActionRegistration other) => registerForActionTypeStrings
+      .intersection(other.registerForActionTypeStrings)
+      .isNotEmpty;
 
   Set<ActionRegistration> getDuplicates(
       List<ActionRegistration> registrations) {
-    Set<ActionRegistration> _duplicates = {};
+    Set<ActionRegistration> duplicates = {};
 
     for (var registration in registrations.where((r) => r != this)) {
       if (hasIntersection(registration)) {
-        _duplicates.add(registration);
+        duplicates.add(registration);
       }
     }
-    return _duplicates;
+    return duplicates;
   }
 }
 

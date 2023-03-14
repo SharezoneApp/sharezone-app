@@ -23,10 +23,6 @@ build/
 # Directory created by dartdoc
 doc/api/
 
-# Don't commit pubspec lock file 
-# (Library packages only! Remove pattern if developing an application package)
-pubspec.lock
-
 # Don’t commit files and directories created by other development environments.
 # For example, if your development environment creates any of the following files,
 # consider putting them in a global ignore file:
