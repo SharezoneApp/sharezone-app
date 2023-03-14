@@ -19,6 +19,7 @@ PrivacyPolicy privacyPolicyWith({
     tableOfContentSections: tableOfContentSections.toIList() ??
         v2PrivacyPolicy.tableOfContentSections,
     version: '2.0.0',
+    downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),
     markdownText: markdown ?? v2PrivacyPolicy.markdownText,
     entersIntoForceOnOrNull: null,
   );

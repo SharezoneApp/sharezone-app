@@ -12,6 +12,7 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_po
 final v1PrivacyPolicy = PrivacyPolicy(
   markdownText: v1MarkdownPrivacyPolicy,
   tableOfContentSections: v1TocDocumentSections.toIList(),
+  downloadUrl: Uri.parse('https://sharezone.net/dse-v1-0-0-pdf'),
   version: '1.0.0',
   lastChanged: DateTime(2018, 08, 29),
 );

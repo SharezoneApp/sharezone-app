@@ -101,50 +101,57 @@ class PrivacyPolicyPage extends StatelessWidget {
                           )),
                       child: Scaffold(
                         body: Center(
-                          child: LayoutBuilder(builder: (context, constraints) {
-                            // If the privacy policy hasn't loaded yet we don't
-                            //  use `Provider` to access a controller since this
-                            //  would cause an error by running the
-                            //  Provider.create function which requires a valid
-                            //  privacy policy.
-                            final tocControllerOrNull = snapshot.hasData
-                                ? Provider.of<TableOfContentsController>(
-                                    context,
-                                    listen: false)
-                                : null;
+                          child: Provider<Uri>(
+                            // Since the download button is disabled if the
+                            // privacy policy has not been loaded yet this
+                            // should be save to access.
+                            create: (context) => snapshot.data.downloadUrl,
+                            child:
+                                LayoutBuilder(builder: (context, constraints) {
+                              // If the privacy policy hasn't loaded yet we don't
+                              //  use `Provider` to access a controller since this
+                              //  would cause an error by running the
+                              //  Provider.create function which requires a valid
+                              //  privacy policy.
+                              final tocControllerOrNull = snapshot.hasData
+                                  ? Provider.of<TableOfContentsController>(
+                                      context,
+                                      listen: false)
+                                  : null;
 
-                            // TODO: Test that layouts appear correctly on
-                            // certain window sizes
-                            if (constraints.maxWidth > 1100) {
-                              tocControllerOrNull?.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .leaveManuallyOpenedSectionsOpen);
-                              return MainContentWide(
-                                privacyPolicyLoadingState:
-                                    privacyPolicyLoadingState,
-                                showBackButton: showBackButton,
-                              );
-                            } else if (constraints.maxWidth > 500 &&
-                                constraints.maxHeight > 400) {
-                              tocControllerOrNull?.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return MainContentNarrow(
-                                privacyPolicyLoadingState:
-                                    privacyPolicyLoadingState,
-                                showBackButton: showBackButton,
-                              );
-                            } else {
-                              tocControllerOrNull?.changeExpansionBehavior(
-                                  ExpansionBehavior
-                                      .alwaysAutomaticallyCloseSectionsAgain);
-                              return MainContentMobile(
-                                privacyPolicyLoadingState:
-                                    privacyPolicyLoadingState,
-                                showBackButton: showBackButton,
-                              );
-                            }
-                          }),
+                              // TODO: Test that layouts appear correctly on
+                              // certain window sizes
+                              if (constraints.maxWidth > 1100) {
+                                tocControllerOrNull?.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .leaveManuallyOpenedSectionsOpen);
+                                return MainContentWide(
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState,
+                                  showBackButton: showBackButton,
+                                );
+                              } else if (constraints.maxWidth > 500 &&
+                                  constraints.maxHeight > 400) {
+                                tocControllerOrNull?.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return MainContentNarrow(
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState,
+                                  showBackButton: showBackButton,
+                                );
+                              } else {
+                                tocControllerOrNull?.changeExpansionBehavior(
+                                    ExpansionBehavior
+                                        .alwaysAutomaticallyCloseSectionsAgain);
+                                return MainContentMobile(
+                                  privacyPolicyLoadingState:
+                                      privacyPolicyLoadingState,
+                                  showBackButton: showBackButton,
+                                );
+                              }
+                            }),
+                          ),
                         ),
                       ),
                     ))),

@@ -17,6 +17,7 @@ class PrivacyPolicy {
   final String markdownText;
   final IList<DocumentSection> tableOfContentSections;
   final String version;
+  final Uri downloadUrl;
   final DateTime lastChanged;
   // TODO: Use to display dialog at top of the screen.
   // What if it is in the past or today?
@@ -28,6 +29,7 @@ class PrivacyPolicy {
   const PrivacyPolicy({
     @required this.markdownText,
     @required this.tableOfContentSections,
+    @required this.downloadUrl,
     @required this.version,
     @required this.lastChanged,
     this.entersIntoForceOnOrNull,
@@ -42,6 +44,7 @@ class PrivacyPolicy {
         other.markdownText == markdownText &&
         listEquals(other.tableOfContentSections, tableOfContentSections) &&
         other.version == version &&
+        other.downloadUrl == downloadUrl &&
         other.lastChanged == lastChanged &&
         other.entersIntoForceOnOrNull == entersIntoForceOnOrNull;
   }
@@ -51,6 +54,7 @@ class PrivacyPolicy {
     return markdownText.hashCode ^
         tableOfContentSections.hashCode ^
         version.hashCode ^
+        downloadUrl.hashCode ^
         lastChanged.hashCode ^
         entersIntoForceOnOrNull.hashCode;
   }

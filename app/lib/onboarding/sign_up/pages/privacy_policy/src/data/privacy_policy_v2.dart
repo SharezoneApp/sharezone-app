@@ -16,6 +16,8 @@ final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: v2MarkdownPrivacyPolicy,
   tableOfContentSections: v2TocDocumentSections.toIList(),
   version: '2.0.0',
+  // TODO:
+  downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),
   lastChanged: DateTime(2022, 11, 10),
   entersIntoForceOnOrNull: DateTime(2023, 01, 20),
 );

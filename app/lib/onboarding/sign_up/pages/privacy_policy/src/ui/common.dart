@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/additional.dart';
 import 'package:sharezone_widgets/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../privacy_policy_src.dart';
 import 'ui.dart';
@@ -107,7 +108,8 @@ class DownloadAsPDFButton extends StatelessWidget {
     return TextButton.icon(
       onPressed: enabled
           ? () {
-              Navigator.of(context).pop();
+              final downloadUrl = Provider.of<Uri>(context, listen: false);
+              launchUrl(downloadUrl);
             }
           : null,
       style: _buttonStyle,
