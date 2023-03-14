@@ -78,7 +78,7 @@ class _TextSize extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text('Textskalierungsfaktor',
-              style: Theme.of(context).textTheme.button),
+              style: Theme.of(context).textTheme.labelLarge),
           DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
@@ -129,7 +129,7 @@ class _LightOrDarkMode extends StatelessWidget {
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.button),
+          Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.labelLarge),
           SizedBox(width: 10),
           Column(
             children: [
@@ -195,7 +195,7 @@ class _VisualDensity extends StatelessWidget {
       alignment: WrapAlignment.spaceAround,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text('Visuelle Kompaktheit', style: Theme.of(context).textTheme.button),
+        Text('Visuelle Kompaktheit', style: Theme.of(context).textTheme.labelLarge),
         SizedBox(width: 10),
         DropdownButton<VisualDensitySetting>(
           value: themeSettings.visualDensitySetting,
@@ -236,7 +236,7 @@ class _DrawDebugThresholdIndicator extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text('"Am Lesen"-Indikator anzeigen',
-              style: Theme.of(context).textTheme.button),
+              style: Theme.of(context).textTheme.labelLarge),
           SizedBox(width: 10),
           Checkbox(
             value: drawIndicator,

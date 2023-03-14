@@ -120,7 +120,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
         Text(
           'Inhaltsverzeichnis',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         SizedBox(height: 20),
         Expanded(
@@ -319,7 +319,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                 Expanded(
                   child: Text(
                     '${widget.section.sectionHeadingText}',
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium.copyWith(
                           fontWeight: widget.section.shouldHighlight
                               ? FontWeight.w500
                               : FontWeight.normal,
@@ -399,10 +399,10 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                           child: Text(
                             '${subsection.sectionHeadingText}',
                             style:
-                                Theme.of(context).textTheme.bodyText2.copyWith(
+                                Theme.of(context).textTheme.bodyMedium.copyWith(
                                       fontSize: Theme.of(context)
                                               .textTheme
-                                              .bodyText2
+                                              .bodyMedium
                                               .fontSize -
                                           .5,
                                       fontWeight: subsection.shouldHighlight

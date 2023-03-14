@@ -8,7 +8,6 @@
 
 // TODO: Maybe split this file up into seperate smaller files?
 
-import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +28,7 @@ class PrivacyPolicyHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Datenschutzerklärung',
-      style: Theme.of(context).textTheme.headline5.copyWith(
+      style: Theme.of(context).textTheme.headlineSmall.copyWith(
             fontSize: 24,
             color:
                 isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
@@ -223,7 +222,7 @@ class PrivacyPolicyText extends StatelessWidget {
           styleSheet: MarkdownStyleSheet(
               h3: Theme.of(context)
                   .textTheme
-                  .subtitle1
+                  .titleMedium
                   .copyWith(fontWeight: FontWeight.w500),
               blockquoteDecoration: BoxDecoration(
                 color: isDarkThemeEnabled(context)
@@ -379,7 +378,7 @@ class LoadingFailureMainAreaContent extends StatelessWidget {
             SizedBox(height: 12),
             Text(
               'Fehler beim Laden der Datenschutzerklärung',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 5),

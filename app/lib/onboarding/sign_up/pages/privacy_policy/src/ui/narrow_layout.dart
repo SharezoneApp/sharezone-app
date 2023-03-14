@@ -74,9 +74,9 @@ class MainContentNarrow extends StatelessWidget {
                 alignment: WrapAlignment.spaceEvenly,
                 spacing: 25,
                 runSpacing: 3,
-                children: [
-                  const ChangeAppearanceButton(),
-                  const DownloadAsPDFButton(),
+                children: const [
+                  ChangeAppearanceButton(),
+                  DownloadAsPDFButton(),
                 ],
               ),
               Divider(),

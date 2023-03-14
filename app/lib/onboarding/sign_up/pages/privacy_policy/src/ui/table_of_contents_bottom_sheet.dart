@@ -77,7 +77,7 @@ class __TableOfContentsBottomSheetState
                       .add(EdgeInsets.only(left: 20)),
                   child: Text(
                     'Inhaltsverzeichnis',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
               ),
@@ -232,7 +232,7 @@ class _TocHeadingState extends State<_TocHeading>
                 Expanded(
                   child: Text(
                     '${widget.section.sectionHeadingText}',
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium.copyWith(
                           fontWeight: widget.section.shouldHighlight
                               ? FontWeight.w500
                               : FontWeight.normal,
@@ -375,9 +375,9 @@ class _Subheading extends StatelessWidget {
               ),
               child: Text(
                 '${subsection.sectionHeadingText}',
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium.copyWith(
                       fontSize:
-                          Theme.of(context).textTheme.bodyText2.fontSize - .5,
+                          Theme.of(context).textTheme.bodyMedium.fontSize - .5,
                       fontWeight: subsection.shouldHighlight
                           ? FontWeight.w400
                           : FontWeight.normal,
