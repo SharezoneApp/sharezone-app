@@ -135,6 +135,11 @@
                 "type": 302
             },
             {
+                "source": "/dse-v1-0-0-pdf",
+                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FDatenschutzerkl%C3%A4rung%20Sharezone%20v1.0.0.pdf?alt=media&token=b48bcd88-013f-4d69-9501-e55ef8d10719",
+                "type": 302
+            },
+            {
                 "source": "/support",
                 "destination": "https://sharezone.net/#support-page",
                 "type": 301
