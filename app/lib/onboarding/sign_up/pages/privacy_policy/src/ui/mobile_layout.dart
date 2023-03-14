@@ -11,17 +11,20 @@ import 'package:flutter/material.dart';
 import 'ui.dart';
 
 class MainContentMobile extends StatelessWidget {
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
-
   const MainContentMobile({
     @required this.privacyPolicyLoadingState,
+    this.showBackButton = true,
     Key key,
   }) : super(key: key);
+
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: showBackButton,
         title: Text('Datenschutzerklärung'),
         actions: [
           IconButton(

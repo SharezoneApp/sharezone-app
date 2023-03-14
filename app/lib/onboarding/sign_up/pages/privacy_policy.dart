@@ -17,31 +17,12 @@ class _PrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: SafeArea(
-            child: AnimationLimiter(
-              child: Column(
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 300),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
-                  ),
-                  children: <Widget>[
-                    PlatformSvg.asset(
-                      "assets/icons/paragraph.svg",
-                      height: 120,
-                    ),
-                    const SizedBox(height: 10),
-                    Text("Datenschutzerklärung",
-                        style: TextStyle(fontSize: 26)),
-                    const SizedBox(height: 24),
-                    PrivacyPolicyContent()
-                  ],
-                ),
-              ),
-            ),
+        child: SafeArea(
+          // TODO: Animate? (Privacy policy subpage was animated before)
+          child: PrivacyPolicyPage(
+            // Since we have the navigation bar at the bottom we don't want a
+            // second back button somewhere on the page.
+            showBackButton: false,
           ),
         ),
       ),
@@ -64,7 +45,10 @@ class __AccepctButtonState extends State<_AccepctButton> {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38),
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        disabledForegroundColor:
+            Theme.of(context).primaryColor.withOpacity(0.38),
       ),
       child: Stack(
         key: const ValueKey('SubmitButton'),
@@ -85,7 +69,9 @@ class __AccepctButtonState extends State<_AccepctButton> {
                       height: 20,
                       width: 20,
                       child: Theme(
-                        data: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white)),
+                        data: ThemeData(
+                            colorScheme: ColorScheme.fromSwatch()
+                                .copyWith(secondary: Colors.white)),
                         child: CircularProgressIndicator(),
                       ),
                     ),

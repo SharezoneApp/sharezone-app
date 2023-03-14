@@ -15,12 +15,14 @@ import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentWide extends StatelessWidget {
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
-
   const MainContentWide({
     @required this.privacyPolicyLoadingState,
+    this.showBackButton = true,
     Key key,
   }) : super(key: key);
+
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,12 @@ class MainContentWide extends StatelessWidget {
                   // We can't seem to use Expanded since that conflicts with the
                   // table of contents to the left.
                   children: [
-                    BackButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                    if (showBackButton)
+                      BackButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     // TODO: This might also not be centered correctly (too much
                     // on the right because of the back button)
                     Center(

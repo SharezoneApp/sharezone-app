@@ -51,8 +51,6 @@ const v1TableOfContentStrings = [
 ];
 
 const v1MarkdownPrivacyPolicy = """
-# Datenschutzerklärung
-
 ## 1. Einführung
 
 Hey! Das ist unsere Datenschutzerklärung! Bitte nimm dir die Zeit und lies dir die Datenschutzerklärung gründlich durch, damit du genau Bescheid weißt, was mit deinen persönlichen Daten passiert und wer auf diese Daten Zugriff hat

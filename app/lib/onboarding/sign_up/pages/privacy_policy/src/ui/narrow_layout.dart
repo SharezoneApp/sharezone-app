@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
-
   const MainContentNarrow({
     @required this.privacyPolicyLoadingState,
+    this.showBackButton = true,
     Key key,
   }) : super(key: key);
+
+  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +38,12 @@ class MainContentNarrow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  BackButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                  if (showBackButton)
+                    BackButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   // TODO: Fix - This is not centered with the stuff below it.
                   Expanded(
                     child: Center(

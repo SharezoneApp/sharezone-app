@@ -23,6 +23,8 @@ import 'package:sharezone_widgets/widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
+import 'pages/privacy_policy/new_privacy_policy_page.dart';
+
 part 'pages/advantages.dart';
 part 'pages/choose_type_of_user.dart';
 part 'pages/data_protection_overview.dart';

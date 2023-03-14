@@ -20,14 +20,30 @@ class PrivacyPolicyPage extends StatelessWidget {
     Key key,
     PrivacyPolicy privacyPolicy,
     PrivacyPolicyPageConfig config,
+    this.showBackButton = true,
   })  : privacyPolicy = privacyPolicy ?? v1PrivacyPolicy,
-        config = config ?? PrivacyPolicyPageConfig(),
+        config = config ??
+            PrivacyPolicyPageConfig(
+              // When replacing the v1 privacy policy with the v2 this can be
+              // deleted.
+              //
+              // For v1 we purposefully have to set a threshold higher up in the
+              // page since the introdution section is so short that the second
+              // section is already highlighted as currently read when opening
+              // the page (since the second section title touches the
+              // threshold).
+              // With using this as the threshold the first section is
+              // highlighted as currently read instead of the second section
+              // when opening the page.
+              threshold: CurrentlyReadThreshold(0.08),
+            ),
         anchorController = AnchorController(),
         super(key: key);
 
   final PrivacyPolicy privacyPolicy;
   final PrivacyPolicyPageConfig config;
   final AnchorController anchorController;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -104,23 +120,29 @@ class PrivacyPolicyPage extends StatelessWidget {
                                   ExpansionBehavior
                                       .leaveManuallyOpenedSectionsOpen);
                               return MainContentWide(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState);
+                                privacyPolicyLoadingState:
+                                    privacyPolicyLoadingState,
+                                showBackButton: showBackButton,
+                              );
                             } else if (constraints.maxWidth > 500 &&
                                 constraints.maxHeight > 400) {
                               tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentNarrow(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState);
+                                privacyPolicyLoadingState:
+                                    privacyPolicyLoadingState,
+                                showBackButton: showBackButton,
+                              );
                             } else {
                               tocControllerOrNull?.changeExpansionBehavior(
                                   ExpansionBehavior
                                       .alwaysAutomaticallyCloseSectionsAgain);
                               return MainContentMobile(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState);
+                                privacyPolicyLoadingState:
+                                    privacyPolicyLoadingState,
+                                showBackButton: showBackButton,
+                              );
                             }
                           }),
                         ),
