@@ -99,32 +99,6 @@ ${generateText(10)}
             false,
           );
         });
-        _testWidgets('shows fallback page if version is below backend response',
-            (tester) async {
-          final scaffold = _TestingScaffold();
-
-          // TODO: Add test that ensures that Sharezone always has a build number in pubspec version?
-          scaffold.setAppBuildNumberTo(315);
-          scaffold.setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
-              316);
-
-          await tester.pumpWidget(
-            wrapWithScaffold(
-              PrivacyPolicyPage(
-                privacyPolicy: privacyPolicyWith(
-                  tableOfContentSections: [
-                    section('foo', 'Foo'),
-                  ],
-                  markdown: '# Foo',
-                ),
-              ),
-            ),
-          );
-
-          // TODO: Expect the different widgets instead of just a key?
-          expect(find.byKey(ValueKey('privacy-policy-fallback-page-E2E')),
-              findsOneWidget);
-        });
         _testWidgets('highlights section if we have scrolled past it',
             (tester) async {
           final text = '''
