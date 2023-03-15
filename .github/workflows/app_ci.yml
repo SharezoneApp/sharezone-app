@@ -114,6 +114,12 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: git diff --exit-code
+
   test:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
@@ -148,9 +154,10 @@ jobs:
         run: sz test -c 4 --package-timeout-minutes 15
       
       # It can easily happen that a dependency changed but the .lock file is not
-      # updated. Therefore, fails this check if there are Git changes.
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: nilsreichardt/workflows/.github/workflows/fail_on_git_diffs.yml@fb4b4ba8560b8a7efcf621c38eec0bb718374a2f
+        uses: git diff --exit-code
 
       # Uploads the results of failed tests as .zip to GitHub.
       #
@@ -263,6 +270,12 @@ jobs:
           # "android-emulator-runner" action doesn't support it. It just takes every
           # line as separate command.
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+          
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: git diff --exit-code
   
   ios-integration-test:
     needs: changes
@@ -313,6 +326,12 @@ jobs:
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
+    
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: git diff --exit-code
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
@@ -372,6 +391,12 @@ jobs:
         run: |
           flutter build macos \
             -t lib/main_prod.dart
+
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: git diff --exit-code
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
@@ -433,3 +458,9 @@ jobs:
           entryPoint: "./app"
           expires: '7d'
           target: 'test-web-app'
+
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: git diff --exit-code
