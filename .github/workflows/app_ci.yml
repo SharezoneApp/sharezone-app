@@ -145,7 +145,13 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
-        run: sz test -c 4 --package-timeout-minutes 15      
+        run: sz test -c 4 --package-timeout-minutes 15
+      
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        uses: nilsreichardt/workflows/.github/workflows/fail_on_git_diffs.yml@fb4b4ba8560b8a7efcf621c38eec0bb718374a2f
+
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
