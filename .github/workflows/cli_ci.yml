@@ -100,6 +100,12 @@ jobs:
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+      
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
 
   test:
     needs: changes
@@ -139,3 +145,9 @@ jobs:
 
       - name: Run tests via "sz test"
         run: sz test -c 4 --package-timeout-minutes 15
+
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
