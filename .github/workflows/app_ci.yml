@@ -118,7 +118,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
 
   test:
     needs: changes
@@ -157,7 +157,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
 
       # Uploads the results of failed tests as .zip to GitHub.
       #
@@ -275,7 +275,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
   
   ios-integration-test:
     needs: changes
@@ -331,7 +331,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
@@ -396,7 +396,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
@@ -463,4 +463,4 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        uses: git diff --exit-code
+        run: git diff --exit-code
