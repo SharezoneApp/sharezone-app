@@ -32,10 +32,10 @@ class MainContentMobile extends StatelessWidget {
                 showDisplaySettingsDialog(context);
               },
               icon: Icon(Icons.display_settings)),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.download),
-          ),
+          // TODO: Doesn't seem to work on Android? (At lest on emulator).
+          DownloadAsPDFButton.icon(
+            enabled: privacyPolicyLoadingState.isSuccessful,
+          )
         ],
       ),
       body: Padding(

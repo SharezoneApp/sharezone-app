@@ -99,23 +99,36 @@ class DownloadAsPDFButton extends StatelessWidget {
   const DownloadAsPDFButton({
     Key key,
     this.enabled = true,
-  }) : super(key: key);
+  })  : _isIconButton = false,
+        super(key: key);
+
+  const DownloadAsPDFButton.icon({
+    Key key,
+    this.enabled = true,
+  })  : _isIconButton = true,
+        super(key: key);
 
   final bool enabled;
+  final bool _isIconButton;
+
+  Future<void> downloadPdf(BuildContext context) {
+    final downloadUrl = Provider.of<Uri>(context, listen: false);
+    return launchUrl(downloadUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: enabled
-          ? () {
-              final downloadUrl = Provider.of<Uri>(context, listen: false);
-              launchUrl(downloadUrl);
-            }
-          : null,
-      style: _buttonStyle,
-      icon: Icon(Icons.download),
-      label: Text('Als PDF herunterladen'),
-    );
+    return _isIconButton
+        ? IconButton(
+            onPressed: () => downloadPdf(context),
+            icon: Icon(Icons.download),
+          )
+        : TextButton.icon(
+            onPressed: enabled ? () => downloadPdf(context) : null,
+            style: _buttonStyle,
+            icon: Icon(Icons.download),
+            label: Text('Als PDF herunterladen'),
+          );
   }
 }
 
