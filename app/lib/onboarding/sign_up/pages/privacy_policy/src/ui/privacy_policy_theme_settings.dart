@@ -72,6 +72,8 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
 
     _analytics.log(NamedAnalyticsEvent(
       name: 'ui_privacy_policy_visual_density_changed',
+      // TODO: Fix (here and other places)
+      // Unhandled Exception: 'package:firebase_analytics/src/firebase_analytics.dart': Failed assertion: line 115 pos 9: 'value is String || value is num': 'string' OR 'number' must be set as the value of the parameter: visual_density
       data: {
         'visual_density': {
           'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity,
