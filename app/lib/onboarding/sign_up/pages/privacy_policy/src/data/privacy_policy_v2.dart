@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// TODO: Remove this file before merging. This is only for development.
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../privacy_policy_src.dart';
@@ -16,9 +14,10 @@ final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: v2MarkdownPrivacyPolicy,
   tableOfContentSections: v2TocDocumentSections.toIList(),
   version: '2.0.0',
-  // TODO:
+  // Placeholder URL, this doesn't work yet (redirect still needs to be created)
   downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),
   lastChanged: DateTime(2022, 11, 10),
+  // placeholder
   entersIntoForceOnOrNull: DateTime(2023, 01, 20),
 );
 
