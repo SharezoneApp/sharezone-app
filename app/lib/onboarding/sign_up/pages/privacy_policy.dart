@@ -18,7 +18,6 @@ class _PrivacyPolicy extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: SafeArea(
-          // TODO: Animate? (Privacy policy subpage was animated before)
           child: PrivacyPolicyPage(
             // Since we have the navigation bar at the bottom we don't want a
             // second back button somewhere on the page.
