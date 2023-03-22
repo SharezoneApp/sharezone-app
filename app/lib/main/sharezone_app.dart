@@ -32,6 +32,7 @@ import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/navigation_controller.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/my_profile/change_email.dart';
@@ -41,7 +42,6 @@ import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
 import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
-import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_policy.dart';
 import 'package:sharezone/pages/settings/src/subpages/theme/theme_page.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
@@ -163,7 +163,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 TimetableSettingsPage.tag: (context) => TimetableSettingsPage(),
                 CourseTemplatePage.tag: (context) => CourseTemplatePage(),
                 CalendricalEventsPage.tag: (context) => CalendricalEventsPage(),
-                PrivacyPolicy.tag: (context) => PrivacyPolicy(),
+                PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
                 UseAccountOnMultipleDevicesIntruction.tag: (context) =>
                     UseAccountOnMultipleDevicesIntruction(),
                 MyProfilePage.tag: (context) => MyProfilePage(),

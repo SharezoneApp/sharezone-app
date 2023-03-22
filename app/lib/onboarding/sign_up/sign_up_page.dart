@@ -13,7 +13,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
-import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_policy.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/snackbars.dart';
