@@ -19,8 +19,6 @@ class PrivacyPolicy {
   final String version;
   final Uri downloadUrl;
   final DateTime lastChanged;
-  // TODO: Use to display dialog at top of the screen.
-  // What if it is in the past or today?
   final DateTime entersIntoForceOnOrNull;
   bool get hasNotYetEnteredIntoForce =>
       entersIntoForceOnOrNull != null &&
