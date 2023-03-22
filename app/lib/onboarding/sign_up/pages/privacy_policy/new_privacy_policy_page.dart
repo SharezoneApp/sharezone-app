@@ -16,6 +16,8 @@ import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_po
 import 'src/ui/ui.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
+  static const tag = "privacy-policy-page";
+
   PrivacyPolicyPage({
     Key key,
     PrivacyPolicy privacyPolicy,
