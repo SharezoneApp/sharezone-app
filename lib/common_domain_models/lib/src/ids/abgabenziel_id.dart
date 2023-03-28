@@ -63,18 +63,19 @@ class AbgabezielId extends Id {
     final type = abgabenzielFromDtoString(typeString);
 
     final contentIdString = id.substring(seperatorMatch.start + 1);
-    Id id;
+    // ignore: no_leading_underscores_for_local_identifiers
+    Id _id;
     // Da die einzelnen Ids selbst eigene Regeln haben könnten, muss man diese
     // erst einmal erstellen um sicher zu gehen.
     switch (type) {
       case AbgabenzielTyp.hausaufgabe:
-        id = HomeworkId(contentIdString);
+        _id = HomeworkId(contentIdString);
         break;
       default:
         throw Exception('Unknown AbgabenzielTyp: $type');
     }
 
-    return AbgabezielId._(type, id);
+    return AbgabezielId._(type, _id);
   }
 }
 

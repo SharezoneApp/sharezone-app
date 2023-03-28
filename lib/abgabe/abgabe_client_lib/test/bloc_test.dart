@@ -922,9 +922,10 @@ class MockAbgabendateiUseCases
   Future<void> loescheDatei(AbgabedateiId id) async {
     _aufrufe.add(id);
     final snap = abgabe.value;
-    final abgabe = snap.abgabe.value;
-    abgabe.abgabedateien.removeWhere((datei) => datei.id == id);
-    abgabe.add(abgabe.toSnapshot());
+    // ignore: no_leading_underscores_for_local_identifiers
+    final _abgabe = snap.abgabe.value;
+    _abgabe.abgabedateien.removeWhere((datei) => datei.id == id);
+    abgabe.add(_abgabe.toSnapshot());
   }
 
   bool recordedError = false;
