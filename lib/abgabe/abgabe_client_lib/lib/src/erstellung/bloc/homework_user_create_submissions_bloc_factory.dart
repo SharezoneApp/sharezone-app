@@ -39,9 +39,8 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   });
 
   HomeworkUserCreateSubmissionsBloc create(String homeworkId) {
-    var homeworkId0 = HomeworkId(homeworkId);
-    final abgabeId =
-        AbgabeId(AbgabezielId.homework(homeworkId0), UserId(userId));
+    var id = HomeworkId(homeworkId);
+    final abgabeId = AbgabeId(AbgabezielId.homework(id), UserId(userId));
     final abgabedateiApi = abgabeHttpApi.getAbgabedateiApi();
     final headerRetreiver = FirebaseAuthHeaderRetreiver(authTokenRetreiver);
     final umbenenner =
@@ -52,7 +51,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
         abgabeHttpApi.getAbgabeApi(), headerRetreiver);
 
     return HomeworkUserCreateSubmissionsBloc(
-      AbgabeId(AbgabezielId.homework(homeworkId0), UserId(userId)),
+      AbgabeId(AbgabezielId.homework(id), UserId(userId)),
       recordError,
       saver,
       uploader,
@@ -60,7 +59,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
       loescher,
       umbenenner,
       veroeffentlicher,
-      gateway.streamAbgabezeitpunktFuerHausaufgabe(homeworkId0),
+      gateway.streamAbgabezeitpunktFuerHausaufgabe(id),
       () => DateTime.now(),
     );
   }
