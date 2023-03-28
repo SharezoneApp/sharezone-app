@@ -39,6 +39,7 @@ class StateSheet {
       if (result == true) {
         await Future.delayed(delay);
         if (!hasSheetPopped) {
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         }
       }

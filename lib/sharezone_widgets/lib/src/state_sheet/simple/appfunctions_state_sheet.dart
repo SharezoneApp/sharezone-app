@@ -20,32 +20,34 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(BuildContext context,
     context,
     future: appFunctionsResult
         .then((result) => result.hasData && result.data == true),
-    delay: Duration(milliseconds: 350),
+    delay: const Duration(milliseconds: 350),
   );
 
   return appFunctionsResult.then((value) {
-    return Future.delayed(Duration(milliseconds: 350)).then((_) => value);
+    return Future.delayed(const Duration(milliseconds: 350)).then((_) => value);
   });
 }
 
 Stream<StateSheetContent> _mapAppFunctionToStateContent(
     Future<AppFunctionsResult<bool>> appFunctionsResult) {
-  final _stateContent =
+  final stateContent =
       BehaviorSubject<StateSheetContent>.seeded(stateSheetContentLoading);
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;
-      if (boolean == true)
-        _stateContent.add(stateSheetContentSuccessfull);
-      else
-        _stateContent.add(stateSheetContentFailed);
+      if (boolean == true) {
+        stateContent.add(stateSheetContentSuccessfull);
+      } else {
+        stateContent.add(stateSheetContentFailed);
+      }
     } else {
       final exception = result.exception;
-      if (exception is NoInternetAppFunctionsException)
-        _stateContent.add(stateSheetContentNoInternetException);
-      else
-        _stateContent.add(stateSheetContentUnknownException);
+      if (exception is NoInternetAppFunctionsException) {
+        stateContent.add(stateSheetContentNoInternetException);
+      } else {
+        stateContent.add(stateSheetContentUnknownException);
+      }
     }
   });
-  return _stateContent;
+  return stateContent;
 }
