@@ -32,7 +32,8 @@ class DynamicLinkBloc extends BlocBase {
       onSuccess: (incommingLink) async =>
           _konvertiereZuEingehendemLink(incommingLink),
       onError: (e) async {
-        log("DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}");
+        log("DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
+            error: e);
       },
     );
   }

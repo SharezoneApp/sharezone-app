@@ -154,9 +154,8 @@ class _EmailField extends StatelessWidget {
                         text: _ResetPasswordPage.erfolg,
                         duration: const Duration(seconds: 5),
                         context: context))
-                    .catchError((e, s) {
-                  log('$e');
-                  log('$s');
+                    .catchError((e, StackTrace s) {
+                  log('$e', error: e, stackTrace: s);
                   showSnack(
                       text: _ResetPasswordPage.error,
                       duration: const Duration(seconds: 5),
@@ -191,9 +190,8 @@ class _SubmitButton extends StatelessWidget {
                 ? bloc
                     .submit()
                     .then((_) => showConfirmationDialog(context))
-                    .catchError((e, s) {
-                    log('$e');
-                    log('$s');
+                    .catchError((e, StackTrace s) {
+                    log('$e', error: e, stackTrace: s);
                     showSnack(
                         text: _ResetPasswordPage.error,
                         duration: const Duration(seconds: 5),

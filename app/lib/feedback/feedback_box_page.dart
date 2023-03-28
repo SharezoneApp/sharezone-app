@@ -329,7 +329,8 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
                 context: context,
                 text: "Du musst auch schon was reinschreiben 😉");
           } on Exception catch (e, s) {
-            log("Exception when submitting Feedback: $e, $s");
+            log("Exception when submitting Feedback: $e",
+                error: e, stackTrace: s);
             showSnackSec(
                 context: context,
                 text:

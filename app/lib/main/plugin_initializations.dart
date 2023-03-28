@@ -49,7 +49,7 @@ class PluginInitializations {
         await Purchases.configure(
             PurchasesConfiguration(apiKey)..appUserID = uid);
       } catch (e) {
-        log('RevenueCat konnte nicht inizialisiert werden: $e');
+        log('RevenueCat konnte nicht inizialisiert werden: $e', error: e);
       }
     }
   }

@@ -25,8 +25,8 @@ class FilePageBloc extends BlocBase {
         .downloadFileFromURL(downloadURL, name, id)
         .then((localFile) {
       _localFileSubject.add(localFile);
-    }).catchError((e) {
-      log('$e');
+    }).catchError((e, StackTrace s) {
+      log('$e', error: e, stackTrace: s);
       _localFileSubject.addError(e);
     });
   }

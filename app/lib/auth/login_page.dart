@@ -34,7 +34,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithGoogle();
   } on Exception catch (e, s) {
-    log("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Google: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,
@@ -48,7 +48,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithApple();
   } on Exception catch (e, s) {
-    log("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Apple: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,

@@ -28,7 +28,7 @@ class FeedbackCache {
       log("Cache value could not be loaded");
       return false;
     } on Exception catch (e, s) {
-      log("$e $s");
+      log("$e $s", error: e, stackTrace: s);
       return false;
     }
 

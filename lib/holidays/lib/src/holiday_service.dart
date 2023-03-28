@@ -46,7 +46,7 @@ class HolidayService {
     try {
       response = await api.load(1, state);
     } on Exception catch (e) {
-      log("Exception when loading Holidays from API: $e");
+      log("Exception when loading Holidays from API: $e", error: e);
     }
     return response;
   }
@@ -55,7 +55,7 @@ class HolidayService {
     try {
       await cache.save(response, state);
     } on Exception catch (e) {
-      log("Could not save in Cache: $e");
+      log("Could not save in Cache: $e", error: e);
     }
     return;
   }

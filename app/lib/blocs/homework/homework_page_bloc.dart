@@ -88,7 +88,8 @@ class HomeworkPageBloc extends BlocBase {
             ? doneHomework.add(homework)
             : notDoneHomework.add(homework);
       } on Exception catch (e) {
-        log("Error beim Zuweisen zu gemachten und nicht gemachten Hausaufgaben: $e");
+        log("Error beim Zuweisen zu gemachten und nicht gemachten Hausaufgaben: $e",
+            error: e);
       }
     }
 
@@ -105,9 +106,9 @@ class HomeworkPageBloc extends BlocBase {
   }
 
   /// Expects a [List] of [DeserializeFirestoreDocException], but tries to handle other cases, and adds it to [_errorsSubject].
-  void _handleAPIError(error, [dynamic s]) {
-    log("Error während dem Konvertieren der Firestore Dokumente in Hausaufgaben.");
-    log('$error $s');
+  void _handleAPIError(error, [StackTrace s]) {
+    log("Error während dem Konvertieren der Firestore Dokumente in Hausaufgaben: $error",
+        error: error, stackTrace: s);
   }
 
   Future<void> checkAllOverdueHomeworks() async {
