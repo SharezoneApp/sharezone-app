@@ -9,7 +9,7 @@
 import 'dart:developer';
 
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/random_string.dart';
 
