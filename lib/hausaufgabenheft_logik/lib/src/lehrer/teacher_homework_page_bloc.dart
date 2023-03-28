@@ -93,8 +93,8 @@ class _States {
   ], loadedAllArchivedHomeworks: true);
 
   static TeacherArchivedHomeworkListView __getArchivedListView(
-      _ArchivedHwLazyLoadingState _loadingState) {
-    switch (_loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
+    switch (loadingState) {
       case _ArchivedHwLazyLoadingState.askedForFirstBatch:
         return __archivedHomeworksFirstState;
       case _ArchivedHwLazyLoadingState.askedForSecondBatch:
@@ -106,7 +106,7 @@ class _States {
   }
 
   static Success _homeworksAllLoadedSortedBySubject(
-      _ArchivedHwLazyLoadingState _loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
     return Success(
         TeacherOpenHomeworkListView([
           TeacherHomeworkSectionView('Mathe', [
@@ -114,11 +114,11 @@ class _States {
             _Homeworks._withSubmissionNoPermissions
           ])
         ], sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        __getArchivedListView(_loadingState));
+        __getArchivedListView(loadingState));
   }
 
   static Success _homeworksAllLoadedSortedByTodoDate(
-      _ArchivedHwLazyLoadingState _loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
     return Success(
       TeacherOpenHomeworkListView([
         TeacherHomeworkSectionView('Heute', [
@@ -128,7 +128,7 @@ class _States {
           _Homeworks._withSubmissionNoPermissions,
         ])
       ], sorting: HomeworkSort.smallestDateSubjectAndTitle),
-      __getArchivedListView(_loadingState),
+      __getArchivedListView(loadingState),
     );
   }
 }
@@ -148,7 +148,7 @@ TeacherHomeworkView randomHomeworkViewWith({
   bool canDeleteForEveryone,
   bool canEditForEveryone,
 }) {
-  bool _randomBool() {
+  bool randomBool() {
     // 👈😎👉 SO SMART 👈😎👉
     return randomBetween(0, 2).isEven;
   }
@@ -162,22 +162,22 @@ TeacherHomeworkView randomHomeworkViewWith({
     return '$randomDay.$randomMonth.2021';
   }
 
-  final subject = _randomBool() ? 'Englisch' : 'Mathe';
+  final subject = randomBool() ? 'Englisch' : 'Mathe';
   return TeacherHomeworkView(
     id: HomeworkId(randomAlphaNumeric(10)),
     title: title ?? 'S. ${randomBetween(1, 300)} Nr. ${randomBetween(1, 20)}',
     abbreviation: subject.substring(0, 1),
-    colorDate: colorDate ?? _randomBool(),
+    colorDate: colorDate ?? randomBool(),
     nrOfStudentsCompletedOrSubmitted:
         nrOfStudentsCompletedOrSubmitted ?? randomBetween(0, 30),
     subject: subject,
     subjectColor: Color.fromARGB(200, randomBetween(100, 200), 200, 255),
     todoDate: randomDate(),
-    withSubmissions: withSubmissions ?? _randomBool(),
+    withSubmissions: withSubmissions ?? randomBool(),
     canViewCompletionOrSubmissionList:
-        canViewCompletionOrSubmissionList ?? _randomBool(),
-    canDeleteForEveryone: canDeleteForEveryone ?? _randomBool(),
-    canEditForEveryone: canEditForEveryone ?? _randomBool(),
+        canViewCompletionOrSubmissionList ?? randomBool(),
+    canDeleteForEveryone: canDeleteForEveryone ?? randomBool(),
+    canEditForEveryone: canEditForEveryone ?? randomBool(),
   );
 }
 
@@ -209,7 +209,7 @@ class TeacherHomeworkPageBloc
     }
     if (event is AdvanceArchivedHomeworks) {
       _advanveArchivedHwLazyLoadingState();
-      await Future.delayed(Duration(milliseconds: 1200));
+      await Future.delayed(const Duration(milliseconds: 1200));
     }
     if (event is LoadHomeworks) {
       // Reset so that we can inspect the lazy loading again when we change

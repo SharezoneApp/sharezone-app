@@ -21,24 +21,24 @@ class TodoDateSubcategorizer extends Subcategorizer {
 
   @override
   List<HomeworkSectionView> subcategorize(HomeworkList homeworks) {
-    final _latestHomeworkList = homeworks;
+    final latestHomeworkList = homeworks;
     final now = currentDate;
     final tomorrow = now.addDaysWithNoChecking(1);
     final in2Days = tomorrow.addDaysWithNoChecking(1);
 
-    final overdueHomework = _latestHomeworkList
+    final overdueHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) < now)
         .toList();
-    final todayHomework = _latestHomeworkList
+    final todayHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == now)
         .toList();
-    final tomorrowHomework = _latestHomeworkList
+    final tomorrowHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
         .toList();
-    final in2DaysHomework = _latestHomeworkList
+    final in2DaysHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
         .toList();
-    final futureHomework = _latestHomeworkList
+    final futureHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
         .toList();
 
