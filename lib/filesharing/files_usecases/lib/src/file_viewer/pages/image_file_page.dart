@@ -36,7 +36,7 @@ class ImageFilePage extends StatefulWidget {
   final String id;
 
   @override
-  _ImageFilePageState createState() => _ImageFilePageState();
+  State createState() => _ImageFilePageState();
 }
 
 class _ImageFilePageState extends State<ImageFilePage> {
@@ -83,7 +83,9 @@ class _ImageFilePageState extends State<ImageFilePage> {
       future: getFileDownloader()
           .downloadFileFromURL(widget.downloadURL, widget.name, widget.id),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const AccentColorCircularProgressIndicator();
+        if (!snapshot.hasData) {
+          return const AccentColorCircularProgressIndicator();
+        }
         return PhotoView(
           minScale: PhotoViewComputedScale.contained,
           maxScale: 10.0,

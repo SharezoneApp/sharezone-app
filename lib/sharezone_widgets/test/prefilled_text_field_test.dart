@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone_widgets/src/widgets.dart';
 
 void main() {
-  Future<void> _pumpTextField(
+  Future<void> pumpTextField(
       {@required WidgetTester tester, @required Widget textField}) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -27,7 +27,7 @@ void main() {
 
     testWidgets('prefills the TextField with the string passed via label',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
           tester: tester,
           textField: const PrefilledTextField(prefilledText: sharezone));
       final TextField textField = tester.firstWidget(find.byType(TextField));
@@ -37,7 +37,7 @@ void main() {
     testWidgets(
         'auto select the prefilled text, if autoSelectAllCharactersAtBeginning is true',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
         tester: tester,
         textField: const PrefilledTextField(
             prefilledText: sharezone,
@@ -56,7 +56,7 @@ void main() {
     testWidgets(
         'doesn\'t auto selected prefilled text, if autoSelectAllCharactersAtBeginning is false',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
         tester: tester,
         textField: const PrefilledTextField(
             prefilledText: sharezone,

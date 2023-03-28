@@ -16,7 +16,7 @@ void main() {
 
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
-  Future<void> _pumpSnackBarSetup(WidgetTester tester) async {
+  Future<void> pumpSnackBarSetup(WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: ScaffoldMessenger(
@@ -29,7 +29,7 @@ void main() {
 
   group('showSnack', () {
     testWidgets('shows given text in a snackbar', (tester) async {
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
       expect(find.text(sharezone), findsNothing);
 
       showSnack(text: sharezone, key: scaffoldKey);
@@ -41,7 +41,7 @@ void main() {
     testWidgets('shows a snackbar for a given duration', (tester) async {
       const duration = Duration(milliseconds: 500);
 
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(text: sharezone, key: scaffoldKey, duration: duration);
       await tester.pump();
@@ -53,7 +53,7 @@ void main() {
     testWidgets('shows a snackbar with a given SnackBarBehavior',
         (tester) async {
       const fixedBehavior = SnackBarBehavior.fixed;
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(behavior: fixedBehavior, key: scaffoldKey);
       await tester.pump();
@@ -64,7 +64,7 @@ void main() {
 
     testWidgets('shows a snackbar with a loading circle, if it is enabled',
         (tester) async {
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(withLoadingCircle: true, key: scaffoldKey);
       await tester.pump();
@@ -74,7 +74,7 @@ void main() {
 
     testWidgets('shows a snackbar without a loading circle, if it is disabled',
         (tester) async {
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(withLoadingCircle: false, key: scaffoldKey);
       await tester.pump();
@@ -85,7 +85,7 @@ void main() {
     testWidgets('shows a snackbar with a given SnackBarAction', (tester) async {
       final action = SnackBarAction(label: sharezone, onPressed: () {});
 
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(action: action, key: scaffoldKey);
       await tester.pump();
@@ -135,7 +135,7 @@ void main() {
       const firstTapText = 'first tap';
       const secondTapText = 'second tap';
 
-      await _pumpSnackBarSetup(tester);
+      await pumpSnackBarSetup(tester);
 
       showSnack(text: firstTapText, key: scaffoldKey);
       await tester.pump();

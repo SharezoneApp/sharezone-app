@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
@@ -48,7 +50,7 @@ class FileSharingData {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
     } catch (e) {
-      print("filesharingdata folders error: $id");
+      log("filesharingdata folders error: $id");
     }
     return FileSharingData._(
         courseID: id,

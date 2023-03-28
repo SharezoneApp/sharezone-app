@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_analytics.dart';
@@ -32,7 +34,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithGoogle();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Fehler: ${e.toString()}");
     showSnackSec(
       context: context,
       seconds: 4,
@@ -46,7 +48,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithApple();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Fehler: ${e.toString()}");
     showSnackSec(
       context: context,
       seconds: 4,
@@ -353,7 +355,7 @@ class _Logo extends StatelessWidget {
     return SharezoneLogo(
       height: 60,
       width: 200,
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
     );
   }
 }

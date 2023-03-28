@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -327,7 +329,7 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
                 context: context,
                 text: "Du musst auch schon was reinschreiben 😉");
           } on Exception catch (e, s) {
-            print("Exception when submitting Feedback: $e, $s");
+            log("Exception when submitting Feedback: $e, $s");
             showSnackSec(
                 context: context,
                 text:

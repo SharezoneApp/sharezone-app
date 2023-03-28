@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:files_basics/local_file.dart';
@@ -59,7 +60,7 @@ Future<List<LocalFile>> selectMultipleFiles() async {
   final fileChooserResult =
       await file_picker.FilePicker.platform.pickFiles(allowMultiple: true);
   if (fileChooserResult.count == 0) return [];
-  print('\n\nfileChooserResult.paths: ${fileChooserResult.paths}\n\n\n');
+  log('fileChooserResult.paths: ${fileChooserResult.paths}');
   final files =
       fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
   return files.toList();

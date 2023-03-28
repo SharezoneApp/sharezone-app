@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:rxdart/rxdart.dart';
@@ -31,8 +32,7 @@ class DynamicLinkBloc extends BlocBase {
       onSuccess: (incommingLink) async =>
           _konvertiereZuEingehendemLink(incommingLink),
       onError: (e) async {
-        print(
-            "DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}");
+        log("DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}");
       },
     );
   }

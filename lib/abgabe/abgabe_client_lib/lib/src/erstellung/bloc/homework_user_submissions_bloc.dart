@@ -77,7 +77,6 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     this._abgabenVeroeffentlicher,
     this._abgabezeitpunkt,
     this._getCurrentDateTime, {
-
     /// Wird über Parameter gemacht, damit Tests das hier mocken können
     /// Das generien einer ID ist dafür da, dass eine Datei lokal und auf dem
     /// Server als eine erkenntlich ist, unabhängig von dem Pfad oder Namen.
@@ -99,7 +98,8 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     _currentDeadlineState = rx.CombineLatestStream.combine2<DateTime, void,
         SubmissionDeadlineState>(
       _abgabezeitpunkt,
-      Stream.periodic(abgabefristUeberwachungsfrequenz ?? const Duration(seconds: 1))
+      Stream.periodic(
+              abgabefristUeberwachungsfrequenz ?? const Duration(seconds: 1))
           .startWith(null),
       (abgabezeitpunkt, _) =>
           _getDeadlineState(abgabezeitpunkt, _getCurrentDateTime()),
@@ -380,9 +380,9 @@ class Fortschritt {
   }
 
   factory Fortschritt.fromDateiUploadProzessFortschritt(
-      DateiUploadProzessFortschritt _fortschritt) {
+      DateiUploadProzessFortschritt fortschritt) {
     FileViewStatus status;
-    switch (_fortschritt.status) {
+    switch (fortschritt.status) {
       case UploadStatusEnum.imGange:
         status = FileViewStatus.uploading;
         break;
@@ -395,7 +395,7 @@ class Fortschritt {
     }
 
     return Fortschritt(
-      inProzent: _fortschritt.fortschrittInProzent,
+      inProzent: fortschritt.fortschrittInProzent,
       status: status,
     );
   }
@@ -404,10 +404,12 @@ class Fortschritt {
   String toString() => 'Fortschritt(inProzent: $inProzent, status: $status)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is Fortschritt && o.inProzent == inProzent && o.status == status;
+    return other is Fortschritt &&
+        other.inProzent == inProzent &&
+        other.status == status;
   }
 
   @override
@@ -432,12 +434,12 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
       'HochladeneDatei(datei: ${super.toString()}, fortschritt: $fortschritt)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is HochladeneLokaleAbgabedatei &&
-        o.pfad == pfad &&
-        o.fortschritt == fortschritt;
+    return other is HochladeneLokaleAbgabedatei &&
+        other.pfad == pfad &&
+        other.fortschritt == fortschritt;
   }
 
   @override

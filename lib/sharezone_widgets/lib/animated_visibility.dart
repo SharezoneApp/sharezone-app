@@ -202,7 +202,7 @@ class AnimatedVisibility extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedVisibilityState createState() => _AnimatedVisibilityState();
+  State createState() => _AnimatedVisibilityState();
 }
 
 class _AnimatedVisibilityState extends State<AnimatedVisibility> {

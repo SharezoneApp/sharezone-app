@@ -6,8 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/random_string.dart';
 
@@ -54,7 +56,7 @@ class Folder {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
     } catch (e) {
-      print("folders error: $id");
+      log("folders error: $id", error: e);
     }
     return Folder._(
       id: id,

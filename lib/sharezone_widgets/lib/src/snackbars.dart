@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/widgets.dart';
 
@@ -133,7 +135,8 @@ void showSnack({
       if (hideCurrentSnackBar) key.currentState.removeCurrentSnackBar();
       key.currentState.showSnackBar(snackBar);
     } catch (e) {
-      print("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
+          error: e);
     }
   } else if (context != null) {
     try {
@@ -142,8 +145,8 @@ void showSnack({
       }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
-      print(
-          "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}",
+          error: e);
     }
   } else {
     debugPrint("Fehler! Die SnackBar hat keinen Key und keinen Context!");

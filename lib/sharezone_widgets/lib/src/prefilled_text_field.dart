@@ -70,7 +70,7 @@ class PrefilledTextField extends StatefulWidget {
   /// to the [focusNode]:
   ///
   /// ```dart
-  /// focusNode.addListener(() { print(myFocusNode.hasFocus); });
+  /// focusNode.addListener(() { log(myFocusNode.hasFocus); });
   /// ```
   ///
   /// If null, this widget will create its own [FocusNode].
@@ -421,7 +421,7 @@ class PrefilledTextField extends StatefulWidget {
   final Iterable<String> autofillHints;
 
   @override
-  _PrefilledTextFieldState createState() => _PrefilledTextFieldState();
+  State createState() => _PrefilledTextFieldState();
 }
 
 class _PrefilledTextFieldState extends State<PrefilledTextField> {

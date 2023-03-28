@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/svg.dart';
@@ -104,6 +105,7 @@ class DatePicker extends StatelessWidget {
                       ?.unfocus(); // Close keyboard
                   await Future.delayed(const Duration(
                       milliseconds: 150)); // Waiting for closing keyboard
+                  // ignore: use_build_context_synchronously
                   _selectDate(context);
                 },
               ),
@@ -171,8 +173,8 @@ class DeleteButtonWithPoppingTrue extends StatelessWidget {
 
 enum LogoColor {
   white,
-  blue_long,
-  blue_short,
+  blueLong,
+  blueShort,
 }
 
 class SharezoneLogo extends StatelessWidget {
@@ -189,9 +191,9 @@ class SharezoneLogo extends StatelessWidget {
 
   String getLogoPath() {
     switch (logoColor) {
-      case LogoColor.blue_long:
+      case LogoColor.blueLong:
         return "assets/logo/sharezone-logo-blue-long.svg";
-      case LogoColor.blue_short:
+      case LogoColor.blueShort:
         return "assets/logo/sharezone-logo-blue-short.svg";
       case LogoColor.white:
         return "assets/logo/sharezone-logo-white-long.svg";
@@ -245,8 +247,8 @@ class DialogTile extends StatelessWidget {
               ? CircleAvatar(
                   backgroundColor:
                       enabled ? Theme.of(context).primaryColor : Colors.grey,
-                  child:
-                      Text(symbolText, style: const TextStyle(color: Colors.white)),
+                  child: Text(symbolText,
+                      style: const TextStyle(color: Colors.white)),
                 )
               : CircleAvatar(
                   backgroundColor: Colors.grey.shade200,
@@ -566,7 +568,8 @@ class CardListTile extends StatelessWidget {
 }
 
 class ExpansionTileTitle extends StatelessWidget {
-  const ExpansionTileTitle({Key key, 
+  const ExpansionTileTitle({
+    Key key,
     @required this.title,
     this.icon,
   }) : super(key: key);
@@ -604,7 +607,7 @@ class ShowCenteredError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(error);
+    log(error);
     return const Center(
         child: Text(
             "Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal."));
@@ -728,7 +731,8 @@ class TextFieldWithDescription extends StatelessWidget {
       children: <Widget>[
         textField,
         const SizedBox(height: 8),
-        Text(description, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+        Text(description,
+            style: const TextStyle(color: Colors.grey, fontSize: 12)),
       ],
     );
   }
@@ -736,6 +740,7 @@ class TextFieldWithDescription extends StatelessWidget {
 
 Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  // ignore: use_build_context_synchronously
   return showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Eingabe verlassen?',
@@ -754,6 +759,7 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
 Future<bool> warnUserAboutLeavingOrSavingForm(
     BuildContext context, VoidCallback onSave) async {
   await closeKeyboardAndWait(context);
+  // ignore: use_build_context_synchronously
   final result = await showLeftRightAdaptiveDialog<bool>(
     title: 'Verlassen oder Speichern?',
     defaultValue: null,
@@ -803,8 +809,8 @@ class CircleCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data:
-          Theme.of(context).copyWith(unselectedWidgetColor: const Color(0xFF757575)),
+      data: Theme.of(context)
+          .copyWith(unselectedWidgetColor: const Color(0xFF757575)),
       child: ClipOval(
         child: SizedBox(
           width: Checkbox.width,
@@ -862,8 +868,8 @@ class DestroyButton extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: DefaultTextStyle(
-                style:
-                    const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
                 child: title,
               ),
@@ -951,8 +957,7 @@ class DividerWithText extends StatelessWidget {
     return Stack(children: <Widget>[
       Container(width: 200),
       const Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Divider(height: 0)),
+          padding: EdgeInsets.only(top: 8), child: Divider(height: 0)),
       Padding(
         padding: const EdgeInsets.only(left: 12),
         child: Container(

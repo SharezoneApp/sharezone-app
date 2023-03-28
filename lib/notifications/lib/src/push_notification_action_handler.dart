@@ -70,7 +70,7 @@ export 'push_notification.dart';
 /// void main() {
 ///  final printSecretMessageRegistration = ActionRegistration<PrintSecretMessage>(
 ///    /// The [PushNotification.actionType] that will be handled by this [ActionRegistration].
-///    registerForActionTypeStrings: {'print-secret-string'},
+///    registerForActionTypeStrings: {'log-secret-string'},
 ///
 ///    /// The method to parse the [PrintSecretMessage] [ActionRequest] from the
 ///    /// [PushNotification].
@@ -82,7 +82,7 @@ export 'push_notification.dart';
 ///
 ///    /// The method that executes the action that the [ActionRequest] represents.
 ///    executeActionRequest: (request) {
-///      print(request.stringToPrint);
+///      log(request.stringToPrint);
 ///    },
 ///  );
 ///
@@ -95,10 +95,10 @@ export 'push_notification.dart';
 ///    instrumentation: LoggingPushNotificationActionHandlerInstrumentation(),
 ///  );
 ///
-///  // Will print 'SHAREZONE4EVER' into the console.
+///  // Will log 'SHAREZONE4EVER' into the console.
 ///  handler.handlePushNotification(
 ///    PushNotification(
-///      actionType: 'print-secret-string',
+///      actionType: 'log-secret-string',
 ///      actionData: {'secret-message': 'SHAREZONE4EVER'},
 ///      title: 'Title',
 ///      body: 'Body',

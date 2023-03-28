@@ -129,7 +129,7 @@ class _SharezoneLogo extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12)
                       .add(EdgeInsets.only(left: 10)),
                   child: SharezoneLogo(
-                    logoColor: LogoColor.blue_long,
+                    logoColor: LogoColor.blueLong,
                     height: 40,
                     width: 200,
                   ),

@@ -35,6 +35,7 @@ Future<void> showDeleteDialog(
 
   if (result) {
     onDelete();
+    // ignore: use_build_context_synchronously
     if (popTwice) Navigator.pop(context, popTwiceResult);
   }
 }
@@ -97,7 +98,7 @@ class OneTextFieldDialog extends StatefulWidget {
   final String text;
 
   @override
-  _OneTextFieldDialogState createState() => _OneTextFieldDialogState();
+  State createState() => _OneTextFieldDialogState();
 }
 
 class _OneTextFieldDialogState extends State<OneTextFieldDialog> {

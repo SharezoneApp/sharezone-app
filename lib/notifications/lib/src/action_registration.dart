@@ -43,8 +43,8 @@ typedef PushNotificationParsingFunc<T extends ActionRequest> = T Function(
 /// Example:
 ///
 /// The following can be used so that every time a [PushNotification] with the
-/// [PushNotification.actionType] being `print-string` or `print-my-string` is
-/// received the [PushNotificationActionHandler] will print the given string.
+/// [PushNotification.actionType] being `log-string` or `log-my-string` is
+/// received the [PushNotificationActionHandler] will log the given string.
 ///
 /// ```dart
 /// class PrintMyString extends ActionRequest {
@@ -57,12 +57,12 @@ typedef PushNotificationParsingFunc<T extends ActionRequest> = T Function(
 /// }
 ///
 /// final myRegistration = ActionRegistration<PrintMyString>(
-///   registerForActionTypeStrings: {'print-string', 'print-my-string'},
+///   registerForActionTypeStrings: {'log-string', 'log-my-string'},
 ///   parseActionRequestFromNotification: (notification, instrumentation) {
-///     return PrintMyString(notification.actionData['string-to-print'] ?? '');
+///     return PrintMyString(notification.actionData['string-to-log'] ?? '');
 ///   },
 ///   executeActionRequest: (request) {
-///     print(request.stringToPrint);
+///     log(request.stringToPrint);
 ///   },
 /// );
 /// ```

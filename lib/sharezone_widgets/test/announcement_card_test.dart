@@ -13,7 +13,7 @@ import 'package:sharezone_widgets/widgets.dart';
 
 void main() {
   group('AnnouncementCard', () {
-    Future<void> _pumpAnnouncementCard(
+    Future<void> pumpAnnouncementCard(
         {@required WidgetTester tester, @required Widget card}) async {
       assert(tester != null && card != null);
 
@@ -26,7 +26,7 @@ void main() {
 
     testWidgets('shows given title', (tester) async {
       const title = 'title';
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
           tester: tester, card: const AnnouncementCard(title: title));
 
       expect(find.text('» $title'), findsOneWidget);
@@ -36,7 +36,7 @@ void main() {
       final action =
           TextButton(onPressed: () {}, child: const Text('FlatButton'));
 
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
           tester: tester, card: AnnouncementCard(actions: [action]));
 
       expect(find.byWidget(action), findsOneWidget);
@@ -45,7 +45,7 @@ void main() {
     testWidgets('shows given content', (tester) async {
       const content = Text('content');
 
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
           tester: tester, card: const AnnouncementCard(content: content));
 
       expect(find.byWidget(content), findsOneWidget);
@@ -54,7 +54,7 @@ void main() {
     testWidgets('shows a card with the given color', (tester) async {
       const color = Colors.brown;
 
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
           tester: tester, card: const AnnouncementCard(color: color));
 
       final card = tester.firstWidget<CustomCard>(find.byType(CustomCard));
@@ -64,7 +64,7 @@ void main() {
     testWidgets('shows a card with the border radius', (tester) async {
       final borderRadius = BorderRadius.circular(1.5);
 
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
           tester: tester, card: AnnouncementCard(borderRadius: borderRadius));
 
       final card = tester.firstWidget<CustomCard>(find.byType(CustomCard));
@@ -74,7 +74,7 @@ void main() {
     testWidgets('execute onTap if it is given', (tester) async {
       final log = <String>[];
 
-      await _pumpAnnouncementCard(
+      await pumpAnnouncementCard(
         tester: tester,
         card: AnnouncementCard(
           onTap: () => log.add('tap'),

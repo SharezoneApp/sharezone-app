@@ -8,7 +8,7 @@
 
 import 'filesharing_data.dart';
 
-const MAXIMUM_NESTED_FOLDER_LEVEL = 8;
+const maximumNestedFolderLevel = 8;
 
 class FolderPath {
   final String _pathString;

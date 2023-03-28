@@ -19,7 +19,7 @@ class VideoViewer extends StatefulWidget {
   final String downloadURL;
 
   @override
-  __VideoViewerState createState() => __VideoViewerState();
+  State createState() => __VideoViewerState();
 }
 
 class __VideoViewerState extends State<VideoViewer> {

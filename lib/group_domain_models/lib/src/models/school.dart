@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
+
 import 'course.dart';
 import 'member_role.dart';
 
@@ -24,8 +25,7 @@ class School {
     @required this.joinLink,
   });
 
-  factory School.fromData(
-      Map<String, dynamic> data, {@required String id}) {
+  factory School.fromData(Map<String, dynamic> data, {@required String id}) {
     return School._(
       id: id,
       name: data['name'],

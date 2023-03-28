@@ -15,7 +15,7 @@ import 'package:files_usecases/src/file_saver/file_saver.dart';
 class WebFileSaver extends FileSaver {
   @override
   Future<bool> saveFromUrl(
-      String url, String filename, FileFormat extensionType) async {
+      String url, String filename, FileFormat fileType) async {
     final newUrl = await downloadAndReturnObjectUrl(url);
     final anchorElement = AnchorElement(href: newUrl);
     anchorElement.download = filename;

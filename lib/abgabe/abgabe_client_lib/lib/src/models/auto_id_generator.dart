@@ -11,9 +11,9 @@ import 'dart:math';
 /// Der ID-Generator für Firestore-Dokumente, übernommen vom Cloud-Firestore
 /// Client
 class AutoIdGenerator {
-  static const int _AUTO_ID_LENGTH = 20;
+  static const int idLength = 20;
 
-  static const String _AUTO_ID_ALPHABET =
+  static const String alphabet =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   static final Random _random = Random();
@@ -21,10 +21,10 @@ class AutoIdGenerator {
   /// Automatically Generates a random new Id
   static String autoId() {
     final stringBuffer = StringBuffer();
-    const maxRandom = _AUTO_ID_ALPHABET.length;
+    const maxRandom = alphabet.length;
 
-    for (var i = 0; i < _AUTO_ID_LENGTH; ++i) {
-      stringBuffer.write(_AUTO_ID_ALPHABET[_random.nextInt(maxRandom)]);
+    for (var i = 0; i < idLength; ++i) {
+      stringBuffer.write(alphabet[_random.nextInt(maxRandom)]);
     }
 
     return stringBuffer.toString();

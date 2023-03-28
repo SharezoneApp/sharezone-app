@@ -8,8 +8,8 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
+import 'package:flutter/foundation.dart';
 import 'group_type.dart';
-import 'package:meta/meta.dart';
 import 'package:user/user.dart';
 import 'group_info.dart';
 import 'course.dart';

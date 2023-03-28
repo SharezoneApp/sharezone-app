@@ -107,7 +107,7 @@ class _HolidayText extends StatelessWidget {
 
   Text handleError(
       AsyncSnapshot<List<Holiday>> snapshot, BuildContext context) {
-    print("Error when displaying Holidays: ${snapshot.error}");
+    log("Error when displaying Holidays: ${snapshot.error}");
     if (snapshot.error is UnsupportedStateException) {
       return Text("Ferien konnten für dein Bundesland nicht angezeigt werden");
     }

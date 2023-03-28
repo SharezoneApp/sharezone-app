@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
@@ -313,7 +314,7 @@ void main() {
         bloc.add(LoadHomeworks());
         await bloc.skip(1).first;
         bloc.add(CompletedAllOverdue());
-        bloc.listen(print);
+        bloc.listen((e) => log('$e'));
         final Success res = await bloc.firstWhere((state) =>
             state is Success &&
             state.completed.orderedHomeworks.length == 2 &&
@@ -342,7 +343,8 @@ void main() {
         () async {
       final yesterday =
           Date.fromDateTime(DateTime.now().subtract(const Duration(days: 1)));
-      final tomorrow = Date.fromDateTime(DateTime.now().add(const Duration(days: 1)));
+      final tomorrow =
+          Date.fromDateTime(DateTime.now().add(const Duration(days: 1)));
 
       final homeworks = [
         ...List.generate(
@@ -551,19 +553,20 @@ class RepositoryHomeworkCompletionDispatcher
 class VerboseBlocDelegate extends BlocDelegate {
   @override
   void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    print('${bloc.runtimeType} error: $error, stacktrace: $stacktrace');
+    log('${bloc.runtimeType} error: $error, stacktrace: $stacktrace',
+        error: error, stackTrace: stacktrace);
     super.onError(bloc, error, stacktrace);
   }
 
   // @override
   // void onTransition(Bloc bloc, Transition transition) {
-  //   print("${bloc.runtimeType} transition: $transition");
+  //   log("${bloc.runtimeType} transition: $transition");
   //   super.onTransition(bloc, transition);
   // }
 
   @override
   void onEvent(Bloc bloc, Object event) {
-    print('${bloc.runtimeType} event: ${event.runtimeType}');
+    log('${bloc.runtimeType} event: ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
 }

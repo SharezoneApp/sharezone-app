@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:abgabe_client_lib/src/erstellung/datei_upload_prozess.dart';
 import 'package:abgabe_client_lib/src/erstellung/local_file_saver.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
@@ -76,7 +78,7 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   Future _logAbgabedateireferenzHinzufuegeError(e, StackTrace s) async {
     const msg =
         'Konnte nicht die Datei-Referenz zu dem Abgabe-Dokument hinzufügen.';
-    print('$msg $e');
+    log('$msg $e', error: e, stackTrace: s);
     crashAnalytics.log(msg);
     await crashAnalytics.recordError(e, s);
   }
@@ -99,7 +101,7 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
     final nutzerId = befehl.abgabeId.nutzerId;
     final pfad =
         bucket.lokalerPfad('submissions/$abgabenzielId/$nutzerId/$dateiId');
-    print('cloudStoragePath: $pfad');
+    log('cloudStoragePath: $pfad');
 
     final task = await fileUploader.uploadFileToStorage(
       pfad,

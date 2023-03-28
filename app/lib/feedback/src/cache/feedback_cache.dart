@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:key_value_store/key_value_store.dart';
 import 'package:meta/meta.dart';
 
@@ -23,10 +25,10 @@ class FeedbackCache {
       lastSubmit = await _getLastSubmitTime();
       // ignore: avoid_catching_errors
     } on ArgumentError {
-      print("Cache value could not be loaded");
+      log("Cache value could not be loaded");
       return false;
     } on Exception catch (e, s) {
-      print("$e $s");
+      log("$e $s");
       return false;
     }
 

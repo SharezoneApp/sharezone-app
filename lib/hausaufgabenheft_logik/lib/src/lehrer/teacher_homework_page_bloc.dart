@@ -148,7 +148,7 @@ TeacherHomeworkView randomHomeworkViewWith({
   bool canDeleteForEveryone,
   bool canEditForEveryone,
 }) {
-  bool _randomBool() {
+  bool randomBool() {
     // 👈😎👉 SO SMART 👈😎👉
     return randomBetween(0, 2).isEven;
   }
@@ -162,22 +162,22 @@ TeacherHomeworkView randomHomeworkViewWith({
     return '$randomDay.$randomMonth.2021';
   }
 
-  final subject = _randomBool() ? 'Englisch' : 'Mathe';
+  final subject = randomBool() ? 'Englisch' : 'Mathe';
   return TeacherHomeworkView(
     id: HomeworkId(randomAlphaNumeric(10)),
     title: title ?? 'S. ${randomBetween(1, 300)} Nr. ${randomBetween(1, 20)}',
     abbreviation: subject.substring(0, 1),
-    colorDate: colorDate ?? _randomBool(),
+    colorDate: colorDate ?? randomBool(),
     nrOfStudentsCompletedOrSubmitted:
         nrOfStudentsCompletedOrSubmitted ?? randomBetween(0, 30),
     subject: subject,
     subjectColor: Color.fromARGB(200, randomBetween(100, 200), 200, 255),
     todoDate: randomDate(),
-    withSubmissions: withSubmissions ?? _randomBool(),
+    withSubmissions: withSubmissions ?? randomBool(),
     canViewCompletionOrSubmissionList:
-        canViewCompletionOrSubmissionList ?? _randomBool(),
-    canDeleteForEveryone: canDeleteForEveryone ?? _randomBool(),
-    canEditForEveryone: canEditForEveryone ?? _randomBool(),
+        canViewCompletionOrSubmissionList ?? randomBool(),
+    canDeleteForEveryone: canDeleteForEveryone ?? randomBool(),
+    canEditForEveryone: canEditForEveryone ?? randomBool(),
   );
 }
 
