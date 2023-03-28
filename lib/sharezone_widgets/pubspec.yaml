@@ -33,5 +33,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
 
 flutter:
