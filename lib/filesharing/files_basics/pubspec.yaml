@@ -9,12 +9,15 @@
 name: files_basics
 description: A new Flutter package project.
 version: 0.0.1
+homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   path: any
   mime: ^1.0.0
   meta: ^1.1.8
+  sharezone_lints:
+    path: ../../sharezone_lints
