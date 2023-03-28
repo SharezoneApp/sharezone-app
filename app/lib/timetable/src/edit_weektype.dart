@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/common/picker.dart';
@@ -47,7 +49,7 @@ Future<WeekType> selectWeekType(BuildContext context,
         title: Text(getWeekTypeText(item)),
         trailing: isSelected ? Icon(Icons.done, color: Colors.green) : null,
         onTap: () {
-          print("Ische poppe jetzt: ${getWeekTypeText(item)}");
+          log("Ische poppe jetzt: ${getWeekTypeText(item)}");
           Navigator.pop(context, item);
         },
       );

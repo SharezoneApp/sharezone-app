@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -198,8 +199,7 @@ class _HomeworkPageState extends State<_HomeworkPage> {
                     return StreamBuilder<List<HomeworkDto>>(
                       stream: bloc.homeworkDone,
                       builder: (context, snapshotHomeworkDone) {
-                        print(
-                            "HomeworkNotDone length: ${snapshotHomeworkNotDone?.data?.length ?? 0}");
+                        log("HomeworkNotDone length: ${snapshotHomeworkNotDone?.data?.length ?? 0}");
                         if (!snapshotHomeworkDone.hasData) return Container();
                         if (snapshotHomeworkDone.hasError)
                           return ShowCenteredError(
@@ -296,7 +296,7 @@ class _PopupMenu extends StatelessWidget {
             }
             break;
           default:
-            print("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
+            log("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
         }
       },
       itemBuilder: (BuildContext context) {

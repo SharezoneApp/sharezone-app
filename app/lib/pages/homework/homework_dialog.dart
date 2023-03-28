@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -197,7 +198,7 @@ class _SaveButton extends StatelessWidget {
         context: context,
       );
     } on Exception catch (e) {
-      print("Exception when submitting: $e");
+      log("Exception when submitting: $e", error: e);
       showSnackSec(
         text:
             "Es gab einen unbekannten Fehler (${e.toString()} 😖 Bitte kontaktiere den Support!",

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -37,7 +39,8 @@ void _submit(BuildContext context) {
     bloc.submit();
     Navigator.pop(context, true);
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
+
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }
@@ -264,7 +267,7 @@ class _WeekTypeField extends StatelessWidget {
             final newWeekType =
                 await selectWeekType(context, selected: weekType);
             if (newWeekType != null) {
-              print("WeekType beim Change: ${getWeekTypeText(weekType)}");
+              log("WeekType beim Change: ${getWeekTypeText(weekType)}");
               bloc.changeWeekType(newWeekType);
             }
           },

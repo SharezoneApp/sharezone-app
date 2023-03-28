@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -164,8 +166,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
       final eventType = _eventTypeSubject.valueOrNull;
       final detail = _detailSubject.valueOrNull;
       final sendNotification = _sendNotificationSubject.valueOrNull;
-      print(
-          "isValid: true; ${course.toString()}; $startTime; $endTime; $place $date $sendNotification");
+      log("isValid: true; ${course.toString()}; $startTime; $endTime; $place $date $sendNotification");
 
       final event = CalendricalEvent(
         groupID: course.id,
