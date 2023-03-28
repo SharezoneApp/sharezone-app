@@ -81,7 +81,7 @@ void main() {
         _lifecycleChanges.add(AppLifecycleState.detached);
         _lifecycleChanges.add(AppLifecycleState.resumed);
 
-        await pumpEventQueue();
+        fakeAsync.flushMicrotasks();
         expect(backend.reportedOnlineToBackend, 1);
 
         /// We wait for the debounce time to elapse.
@@ -90,9 +90,11 @@ void main() {
         // This should now be reported as the debounce time elapsed.
         _lifecycleChanges.add(AppLifecycleState.detached);
 
-        await pumpEventQueue();
-        expect(backend.reportedOnlineToBackend, 2);
+        fakeAsync.flushMicrotasks();
       });
+      // If this is put at the end of the `FakeAsync().run` method it won't fail
+      // if the expected value is wrong. I couldn't figure out why.
+      expect(backend.reportedOnlineToBackend, 2);
     });
     test('calls CrashAnalytics when reporting to Backend throws', () async {
       FakeAsync().run((fakeAsync) async {
