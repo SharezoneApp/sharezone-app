@@ -16,14 +16,18 @@ class LocalFileIo extends LocalFile {
   final File file;
   final String fileName;
   final String path;
-  final MimeType mimeType;
+  final MimeType? mimeType;
   final int sizeBytes;
 
-  LocalFileIo._(
-      {this.file, this.fileName, this.path, this.sizeBytes, this.mimeType});
+  LocalFileIo._({
+    required this.file,
+    required this.fileName,
+    required this.path,
+    required this.sizeBytes,
+    this.mimeType,
+  });
 
   factory LocalFileIo.fromFile(File file) {
-    if (file == null) return null;
     final fileName = basename(file.path);
     return LocalFileIo._(
       file: file,
@@ -42,7 +46,7 @@ class LocalFileIo extends LocalFile {
   }
 
   @override
-  MimeType getType() {
+  MimeType? getType() {
     return mimeType;
   }
 
