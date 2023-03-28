@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -81,7 +82,7 @@ Future<Optional<HomeworkReadModel>> tryToConvertToHomework(
     Error: $e
     Stacktrace: $s
     """;
-    print(errorMessage);
+    log(errorMessage, error: e, stackTrace: s);
   }
 
   return Optional.ofNullable(converted);
