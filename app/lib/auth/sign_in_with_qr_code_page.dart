@@ -63,7 +63,7 @@ class _InnerSignInWithQrCodePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const SharezoneLogo(
-                      logoColor: LogoColor.blueLong,
+                      logoColor: LogoColor.blue_long,
                       height: 60,
                       width: 200,
                     ),

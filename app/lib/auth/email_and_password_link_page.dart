@@ -91,7 +91,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                         const SharezoneLogo(
                           height: 60,
                           width: 200,
-                          logoColor: LogoColor.blueLong,
+                          logoColor: LogoColor.blue_long,
                         ),
                         const SizedBox(height: 32),
                         Padding(
