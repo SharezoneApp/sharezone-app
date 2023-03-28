@@ -54,7 +54,7 @@ class QrSignInWebBloc extends BlocBase {
 
   Future _initializeAuthentification() async {
     // Eine kleine Verzögerung, damit die Seite erstmal lädt und nicht stottert. Dies soll helfen.
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     _rSAEncryptable = await _computeRSAEncryptable();
     final qrID =
         qrSignInLogic.generateQrId(_rSAEncryptable.getPublicKeyPemString());
