@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_functions/sharezone_app_functions.dart';
 
@@ -117,7 +118,7 @@ class HolidayApi {
             await _loadHolidaysForYear(yearToLoad, state);
         holidays.addAll(holidayList);
       } on EmptyResponseException {
-        print("Empty Response from API for year: $yearToLoad");
+        log("Empty Response from API for year: $yearToLoad");
       }
     }
 
