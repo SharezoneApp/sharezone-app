@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class QrSignInState {
   const QrSignInState();
