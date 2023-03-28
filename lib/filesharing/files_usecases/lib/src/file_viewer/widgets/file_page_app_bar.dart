@@ -22,7 +22,7 @@ class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
 
   @override
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : _Title(name: name),
       centerTitle: true,
-      iconTheme: IconThemeData(color: Colors.white60),
+      iconTheme: const IconThemeData(color: Colors.white60),
       backgroundColor: Colors.black,
       actions: actions,
     );
@@ -54,7 +54,7 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name,
-      style: TextStyle(color: Colors.white, fontFamily: rubik),
+      style: const TextStyle(color: Colors.white, fontFamily: rubik),
     );
   }
 }

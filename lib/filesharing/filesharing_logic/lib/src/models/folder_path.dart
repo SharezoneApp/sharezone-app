@@ -27,10 +27,12 @@ class FolderPath {
   }
 
   FolderPath getChildPath(String folderID) {
-    if (folderID == null || folderID == '')
+    if (folderID == null || folderID == '') {
       throw ArgumentError("FolderID is not allowed to be null!");
-    if (_pathString == "/")
+    }
+    if (_pathString == "/") {
       return FolderPath.fromPathString(_pathString + folderID);
+    }
     return FolderPath.fromPathString("$_pathString/$folderID");
   }
 

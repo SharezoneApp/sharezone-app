@@ -43,7 +43,7 @@ class LoadingCircle extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: AccentColorCircularProgressIndicator(),
+      child: const AccentColorCircularProgressIndicator(),
     );
   }
 }
@@ -137,7 +137,7 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
 }
 
 class CancelButton extends StatelessWidget {
-  const CancelButton();
+  const CancelButton({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +246,7 @@ class DialogTile extends StatelessWidget {
                   backgroundColor:
                       enabled ? Theme.of(context).primaryColor : Colors.grey,
                   child:
-                      Text(symbolText, style: TextStyle(color: Colors.white)),
+                      Text(symbolText, style: const TextStyle(color: Colors.white)),
                 )
               : CircleAvatar(
                   backgroundColor: Colors.grey.shade200,
@@ -295,7 +295,7 @@ class _InputDropdown extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: InputDecorator(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
         ),
         child: Padding(
@@ -306,32 +306,32 @@ class _InputDropdown extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  SizedBox(width: 4.0),
+                  const SizedBox(width: 4.0),
                   Icon(
                     iconData,
                     color:
                         isDarkThemeEnabled(context) ? null : Colors.grey[600],
                   ),
-                  SizedBox(width: 32.0),
+                  const SizedBox(width: 32.0),
                   labelText != null
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               labelText,
-                              style: TextStyle(fontSize: 16.0),
+                              style: const TextStyle(fontSize: 16.0),
                             ),
                             Text(valueText),
                           ],
                         )
                       : Text(
                           valueText,
-                          style: TextStyle(fontSize: 16.0),
+                          style: const TextStyle(fontSize: 16.0),
                         ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 3),
+              const Padding(
+                padding: EdgeInsets.only(right: 3),
                 child: Icon(Icons.keyboard_arrow_down),
               ),
             ],
@@ -374,7 +374,7 @@ void showAlert(
         onPressed: flatButton1OnPressed,
         child: Text(
           flatButton1Text.toUpperCase(),
-          style: TextStyle(color: Colors.lightBlue),
+          style: const TextStyle(color: Colors.lightBlue),
         ),
       ),
       flatButton2Text != null
@@ -382,7 +382,7 @@ void showAlert(
               onPressed: flatButton2OnPressed,
               child: Text(
                 flatButton2Text.toUpperCase(),
-                style: TextStyle(color: Colors.lightBlue),
+                style: const TextStyle(color: Colors.lightBlue),
               ),
             )
           : Container(),
@@ -548,12 +548,12 @@ class CardListTile extends StatelessWidget {
                   ),
                   if (subtitle != null)
                     DefaultTextStyle(
-                      child: subtitle,
                       style: TextStyle(
                         color: Colors.grey.withOpacity(0.95),
                         fontSize: 12,
                         fontFamily: rubik,
                       ),
+                      child: subtitle,
                     )
                 ],
               ),
@@ -566,10 +566,10 @@ class CardListTile extends StatelessWidget {
 }
 
 class ExpansionTileTitle extends StatelessWidget {
-  const ExpansionTileTitle({
+  const ExpansionTileTitle({Key key, 
     @required this.title,
     this.icon,
-  });
+  }) : super(key: key);
 
   final String title;
   final Widget icon;
@@ -674,11 +674,11 @@ class InformationDialog extends StatelessWidget {
           actions: !isEmptyOrNull(actionText)
               ? <Widget>[
                   TextButton(
-                    child: Text(actionText),
                     style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context),
+                    child: Text(actionText),
                   )
                 ]
               : null,
@@ -707,7 +707,7 @@ class BottomSheetSlider extends StatelessWidget {
           height: 5,
           decoration: BoxDecoration(
             color: Colors.grey[400].withOpacity(0.7),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
         ),
       ),
@@ -728,7 +728,7 @@ class TextFieldWithDescription extends StatelessWidget {
       children: <Widget>[
         textField,
         const SizedBox(height: 8),
-        Text(description, style: TextStyle(color: Colors.grey, fontSize: 12)),
+        Text(description, style: const TextStyle(color: Colors.grey, fontSize: 12)),
       ],
     );
   }
@@ -739,10 +739,10 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   return showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Eingabe verlassen?',
-        content: Text(
+        content: const Text(
             'Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!'),
         defaultValue: false,
-        right: AdaptiveDialogAction(
+        right: const AdaptiveDialogAction(
           title: "Verlassen",
           isDefaultAction: true,
           popResult: true,
@@ -757,23 +757,23 @@ Future<bool> warnUserAboutLeavingOrSavingForm(
   final result = await showLeftRightAdaptiveDialog<bool>(
     title: 'Verlassen oder Speichern?',
     defaultValue: null,
-    content: Text(
+    content: const Text(
         'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert'),
     context: context,
     withCancleButtonOnIOS: true,
-    left: AdaptiveDialogAction(
+    left: const AdaptiveDialogAction(
       title: "Verlassen",
       popResult: false,
     ),
-    right: AdaptiveDialogAction(
+    right: const AdaptiveDialogAction(
       title: "Speichern",
       popResult: true,
     ),
   );
 
-  if (result == null)
+  if (result == null) {
     return false;
-  else if (result) {
+  } else if (result) {
     onSave();
     return false;
   }
@@ -804,7 +804,7 @@ class CircleCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data:
-          Theme.of(context).copyWith(unselectedWidgetColor: Color(0xFF757575)),
+          Theme.of(context).copyWith(unselectedWidgetColor: const Color(0xFF757575)),
       child: ClipOval(
         child: SizedBox(
           width: Checkbox.width,
@@ -813,7 +813,7 @@ class CircleCheckbox extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                   width: 2.225,
-                  color: Color(0xFF757575).withOpacity(1) ??
+                  color: const Color(0xFF757575).withOpacity(1) ??
                       Theme.of(context).disabledColor),
               borderRadius: BorderRadius.circular(100),
             ),
@@ -851,7 +851,7 @@ class DestroyButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: CustomCard(
-        borderRadius: BorderRadius.all(Radius.circular(2)),
+        borderRadius: const BorderRadius.all(Radius.circular(2)),
         onTap: onTap,
         color: color,
         withBorder: false,
@@ -863,7 +863,7 @@ class DestroyButton extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: DefaultTextStyle(
                 style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                    const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
                 child: title,
               ),
@@ -876,6 +876,8 @@ class DestroyButton extends StatelessWidget {
 }
 
 class VerticalDivider extends StatelessWidget {
+  const VerticalDivider({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -920,7 +922,7 @@ class CustomCardListTile extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         subtitle,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -948,9 +950,9 @@ class DividerWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Container(width: 200),
-      Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: const Divider(height: 0)),
+      const Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Divider(height: 0)),
       Padding(
         padding: const EdgeInsets.only(left: 12),
         child: Container(

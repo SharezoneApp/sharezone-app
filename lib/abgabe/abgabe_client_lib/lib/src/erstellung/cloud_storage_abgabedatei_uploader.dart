@@ -56,8 +56,8 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
           /// also sozusagen rückgängig gemacht wird, wenn die Anfragen parallel
           /// verarbeitet werden.
           while (DateTime.now().difference(_lastUploaded).abs() <
-              Duration(milliseconds: 900)) {
-            await Future.delayed(Duration(milliseconds: 300));
+              const Duration(milliseconds: 900)) {
+            await Future.delayed(const Duration(milliseconds: 300));
           }
           _lastUploaded = DateTime.now();
           await _fuegeAbgabedateireferenzZuAbgabeHinzu(befehl);
@@ -74,7 +74,7 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   }
 
   Future _logAbgabedateireferenzHinzufuegeError(e, StackTrace s) async {
-    final msg =
+    const msg =
         'Konnte nicht die Datei-Referenz zu dem Abgabe-Dokument hinzufügen.';
     print('$msg $e');
     crashAnalytics.log(msg);

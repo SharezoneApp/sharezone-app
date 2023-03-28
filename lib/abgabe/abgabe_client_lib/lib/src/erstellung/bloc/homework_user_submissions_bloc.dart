@@ -99,7 +99,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     _currentDeadlineState = rx.CombineLatestStream.combine2<DateTime, void,
         SubmissionDeadlineState>(
       _abgabezeitpunkt,
-      Stream.periodic(abgabefristUeberwachungsfrequenz ?? Duration(seconds: 1))
+      Stream.periodic(abgabefristUeberwachungsfrequenz ?? const Duration(seconds: 1))
           .startWith(null),
       (abgabezeitpunkt, _) =>
           _getDeadlineState(abgabezeitpunkt, _getCurrentDateTime()),
@@ -223,8 +223,8 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
               _hochladeneDateien.valueOrNull.add(hochladeneDatei);
           _hochladeneDateien.add(aktuelleDateien);
 
-          _dateiUploader.ladeDateiHoch(abgabedatei).listen((_datei) {
-            final neu = _hochladeneDateien.valueOrNull.replace(_datei);
+          _dateiUploader.ladeDateiHoch(abgabedatei).listen((datei) {
+            final neu = _hochladeneDateien.valueOrNull.replace(datei);
             _hochladeneDateien.add(neu);
           });
         }
@@ -357,7 +357,7 @@ extension on BuiltList<HochladeneLokaleAbgabedatei> {
   BuiltList<HochladeneLokaleAbgabedatei> replace(
       HochladeneLokaleAbgabedatei datei) {
     return rebuild((list) {
-      list.removeWhere((_datei) => _datei.id == datei.id);
+      list.removeWhere((datei) => datei.id == datei.id);
       list.add(datei);
     });
   }
@@ -374,7 +374,7 @@ class Fortschritt {
 
   factory Fortschritt.nichtGestartet() {
     return Fortschritt(
-      inProzent: Optional.empty(),
+      inProzent: const Optional.empty(),
       status: FileViewStatus.unitiated,
     );
   }

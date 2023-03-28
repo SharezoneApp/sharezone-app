@@ -201,10 +201,10 @@ class CloudFileMetaData {
 List<CloudFile> matchRemovedCloudFilesFromTwoList(
     List<CloudFile> biggerList, List<CloudFile> smallerList) {
   List<CloudFile> removedCloudFiles = [];
-  biggerList.forEach((biggerListFile) {
+  for (var biggerListFile in biggerList) {
     if (!smallerList.contains(biggerListFile)) {
       removedCloudFiles.add(biggerListFile);
     }
-  });
+  }
   return removedCloudFiles;
 }

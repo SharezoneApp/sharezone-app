@@ -93,8 +93,8 @@ class _States {
   ], loadedAllArchivedHomeworks: true);
 
   static TeacherArchivedHomeworkListView __getArchivedListView(
-      _ArchivedHwLazyLoadingState _loadingState) {
-    switch (_loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
+    switch (loadingState) {
       case _ArchivedHwLazyLoadingState.askedForFirstBatch:
         return __archivedHomeworksFirstState;
       case _ArchivedHwLazyLoadingState.askedForSecondBatch:
@@ -106,7 +106,7 @@ class _States {
   }
 
   static Success _homeworksAllLoadedSortedBySubject(
-      _ArchivedHwLazyLoadingState _loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
     return Success(
         TeacherOpenHomeworkListView([
           TeacherHomeworkSectionView('Mathe', [
@@ -114,11 +114,11 @@ class _States {
             _Homeworks._withSubmissionNoPermissions
           ])
         ], sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        __getArchivedListView(_loadingState));
+        __getArchivedListView(loadingState));
   }
 
   static Success _homeworksAllLoadedSortedByTodoDate(
-      _ArchivedHwLazyLoadingState _loadingState) {
+      _ArchivedHwLazyLoadingState loadingState) {
     return Success(
       TeacherOpenHomeworkListView([
         TeacherHomeworkSectionView('Heute', [
@@ -128,7 +128,7 @@ class _States {
           _Homeworks._withSubmissionNoPermissions,
         ])
       ], sorting: HomeworkSort.smallestDateSubjectAndTitle),
-      __getArchivedListView(_loadingState),
+      __getArchivedListView(loadingState),
     );
   }
 }
@@ -209,7 +209,7 @@ class TeacherHomeworkPageBloc
     }
     if (event is AdvanceArchivedHomeworks) {
       _advanveArchivedHwLazyLoadingState();
-      await Future.delayed(Duration(milliseconds: 1200));
+      await Future.delayed(const Duration(milliseconds: 1200));
     }
     if (event is LoadHomeworks) {
       // Reset so that we can inspect the lazy loading again when we change

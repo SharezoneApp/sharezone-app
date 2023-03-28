@@ -32,8 +32,9 @@ class HolidayService {
 
     List<Holiday?>? response = apiResponse ?? cached?.payload;
     // Don't retrun null, as in most StreamBuilers there will be just a loading indicator.
-    if (response == null)
+    if (response == null) {
       throw HolidayLoadingException("Loading from Cache and Api both failed");
+    }
 
     return response;
   }

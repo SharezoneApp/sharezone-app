@@ -40,30 +40,31 @@ class ViewInNewTabPage extends StatelessWidget {
         future:
             getFileSaver().downloadAndReturnObjectUrl(attachment.downloadURL),
         builder: (context, resultSnapshot) {
-          if (resultSnapshot.hasError)
-            return Center(
+          if (resultSnapshot.hasError) {
+            return const Center(
               child: Icon(
                 Icons.error_outline,
                 color: Colors.red,
               ),
             );
-          if (!resultSnapshot.hasData)
-            return Center(
+          }
+          if (!resultSnapshot.hasData) {
+            return const Center(
               child: CircularProgressIndicator(),
             );
+          }
           final src = resultSnapshot.data;
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Das Darstellen von PDF-Dateien wird vorübergehend nicht unterstützt." +
-                    " Du kannst dir diese PDF aber in einem neuen Tab ansehen."),
+                const Text("Das Darstellen von PDF-Dateien wird vorübergehend nicht unterstützt." " Du kannst dir diese PDF aber in einem neuen Tab ansehen."),
                 MaterialButton(
                   child: Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(Icons.open_in_new),
                         SizedBox(width: 8),
                         Text("In neuem Tab öffnen"),

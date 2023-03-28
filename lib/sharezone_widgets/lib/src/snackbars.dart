@@ -137,8 +137,9 @@ void showSnack({
     }
   } else if (context != null) {
     try {
-      if (hideCurrentSnackBar)
+      if (hideCurrentSnackBar) {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       print(

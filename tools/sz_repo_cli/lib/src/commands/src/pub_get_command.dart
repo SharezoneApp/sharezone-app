@@ -24,10 +24,11 @@ class PubGetCommand extends ConcurrentCommand {
   int get defaultMaxConcurrency => 8;
 
   @override
-  Duration get defaultPackageTimeout => Duration(minutes: 5);
+  Duration get defaultPackageTimeout => Duration(minutes: 10);
 
   @override
-  Future<void> runTaskForPackage(Package package) {
-    return package.getPackages();
+  Future<void> runTaskForPackage(Package package) async {
+    await runProcessSucessfullyOrThrow('fvm', ['dart', 'fix', '--apply'],
+        workingDirectory: package.location.path);
   }
 }

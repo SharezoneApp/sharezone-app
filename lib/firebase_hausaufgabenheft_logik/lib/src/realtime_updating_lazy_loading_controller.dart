@@ -84,8 +84,9 @@ class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
   void _validateInitialNumberOfHomeworksToLoad() {
     ArgumentError.checkNotNull(
         initialNumberOfHomeworksToLoad, "initialNumberOfHomeworksToLoad");
-    if (initialNumberOfHomeworksToLoad.isNegative)
+    if (initialNumberOfHomeworksToLoad.isNegative) {
       throw ArgumentError.value(initialNumberOfHomeworksToLoad,
           "initialNumberOfHomeworksToLoad", "can't be negative");
+    }
   }
 }

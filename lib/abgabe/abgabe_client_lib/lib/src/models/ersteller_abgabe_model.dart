@@ -17,7 +17,7 @@ class ErstellerAbgabeModelSnapshot {
   ErstellerAbgabeModelSnapshot(ErstellerAbgabeModel abgabe)
       : abgabe = Optional.ofNullable(abgabe);
 
-  ErstellerAbgabeModelSnapshot.nichtExistent() : abgabe = Optional.empty();
+  ErstellerAbgabeModelSnapshot.nichtExistent() : abgabe = const Optional.empty();
 
   bool get existiertAbgabe => abgabe.isPresent;
   final Optional<ErstellerAbgabeModel> abgabe;

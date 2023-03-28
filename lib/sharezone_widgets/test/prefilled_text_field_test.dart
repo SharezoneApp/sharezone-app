@@ -29,7 +29,7 @@ void main() {
         (tester) async {
       await _pumpTextField(
           tester: tester,
-          textField: PrefilledTextField(prefilledText: sharezone));
+          textField: const PrefilledTextField(prefilledText: sharezone));
       final TextField textField = tester.firstWidget(find.byType(TextField));
       expect(textField.controller.text, sharezone);
     });
@@ -39,7 +39,7 @@ void main() {
         (tester) async {
       await _pumpTextField(
         tester: tester,
-        textField: PrefilledTextField(
+        textField: const PrefilledTextField(
             prefilledText: sharezone,
             autoSelectAllCharactersOnFirstBuild: true),
       );
@@ -49,7 +49,7 @@ void main() {
       // Checks if 'sharezone' is selected in 'tf1'
       expect(
         tf1.controller.selection,
-        TextSelection(baseOffset: 0, extentOffset: sharezone.length),
+        const TextSelection(baseOffset: 0, extentOffset: sharezone.length),
       );
     });
 
@@ -58,7 +58,7 @@ void main() {
         (tester) async {
       await _pumpTextField(
         tester: tester,
-        textField: PrefilledTextField(
+        textField: const PrefilledTextField(
             prefilledText: sharezone,
             autoSelectAllCharactersOnFirstBuild: false),
       );
@@ -68,7 +68,7 @@ void main() {
       // Checks if 'sharezone' is not selected in 'tf1'
       expect(
         tf1.controller.selection,
-        TextSelection(baseOffset: -1, extentOffset: -1),
+        const TextSelection(baseOffset: -1, extentOffset: -1),
       );
     });
   });

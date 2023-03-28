@@ -21,7 +21,7 @@ class AutoIdGenerator {
   /// Automatically Generates a random new Id
   static String autoId() {
     final stringBuffer = StringBuffer();
-    final maxRandom = _AUTO_ID_ALPHABET.length;
+    const maxRandom = _AUTO_ID_ALPHABET.length;
 
     for (var i = 0; i < _AUTO_ID_LENGTH; ++i) {
       stringBuffer.write(_AUTO_ID_ALPHABET[_random.nextInt(maxRandom)]);

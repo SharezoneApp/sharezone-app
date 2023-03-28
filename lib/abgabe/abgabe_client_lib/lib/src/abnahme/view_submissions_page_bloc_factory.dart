@@ -23,14 +23,14 @@ class ViewSubmissionsPageBlocFactory extends BlocBase {
   final UserId nutzerId;
 
   ViewSubmissionsPageBloc create(String homeworkId) {
-    var _homeworkId = HomeworkId(homeworkId);
-    final abgabeId = AbgabeId(AbgabezielId.homework(_homeworkId), nutzerId);
+    var homeworkId0 = HomeworkId(homeworkId);
+    final abgabeId = AbgabeId(AbgabezielId.homework(homeworkId0), nutzerId);
 
     return ViewSubmissionsPageBloc(
-      homeworkId: _homeworkId,
+      homeworkId: homeworkId0,
       abgabedatumStream:
-          gateway.streamAbgabezeitpunktFuerHausaufgabe(_homeworkId),
-      abgegebeneAbgaben: gateway.streamAbgabenFuerHausaufgabe(_homeworkId),
+          gateway.streamAbgabezeitpunktFuerHausaufgabe(homeworkId0),
+      abgegebeneAbgaben: gateway.streamAbgabenFuerHausaufgabe(homeworkId0),
       vonAbgabeBetroffendeNutzer: gateway.vonAbgabeBetroffendeNutzer(abgabeId),
     );
   }

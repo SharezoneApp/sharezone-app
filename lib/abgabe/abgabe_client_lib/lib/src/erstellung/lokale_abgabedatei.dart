@@ -29,7 +29,7 @@ class LokaleAbgabedatei extends Abgabedatei {
     @required DateTime erstellungsdatum,
     @required this.localFile,
     String pfad,
-  })  : this.pfad = Optional.ofNullable(pfad),
+  })  : pfad = Optional.ofNullable(pfad),
         super(
             id: id,
             name: name,

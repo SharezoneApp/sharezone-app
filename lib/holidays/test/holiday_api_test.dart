@@ -25,7 +25,7 @@ void main() {
   late DateTime dateTime;
 
   setUp(() {
-    state = NordrheinWestfalen();
+    state = const NordrheinWestfalen();
     functions = MockAppFunctions();
     dateTime = DateTime(2018, 1, 1);
 
@@ -54,7 +54,7 @@ void main() {
       ),
     );
 
-    expect(await api.load(0, state), TypeMatcher<List<Holiday>>());
+    expect(await api.load(0, state), const TypeMatcher<List<Holiday>>());
   });
 
   test('If Api gets response with faulty error code throws Exception', () {
@@ -80,7 +80,7 @@ void main() {
     );
 
     expect(() async => await api.load(0, state),
-        throwsA(TypeMatcher<ApiResponseException>()));
+        throwsA(const TypeMatcher<ApiResponseException>()));
   });
 
   test('If Api gets empty response gives back empty list', () async {
@@ -129,8 +129,8 @@ void main() {
   });
 
   void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
-    expect(api.load(year, NordrheinWestfalen()),
-        throwsA(TypeMatcher<AssertionError>()));
+    expect(api.load(year, const NordrheinWestfalen()),
+        throwsA(const TypeMatcher<AssertionError>()));
   }
 
   test('Throws when given invalid years', () {

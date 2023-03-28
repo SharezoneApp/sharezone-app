@@ -66,7 +66,7 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ThemePlatform.isCupertino)
+    if (ThemePlatform.isCupertino) {
       return _ActionAndCancleDialogCupertino(
         left: left,
         right: right,
@@ -74,6 +74,7 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
         title: title,
         withCancleButtonOnIOS: withCancleButtonOnIOS,
       );
+    }
     return _ActionAndCancleDialogMaterial<T>(
       content: content,
       title: title,
@@ -109,9 +110,7 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: left.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: left.onPressed != null
-                ? left.onPressed
-                : () => Navigator.pop(context, left.popResult ?? false),
+            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult ?? false),
             child: Text(left.title.toUpperCase()),
           ),
         if (right != null)
@@ -121,9 +120,7 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
               foregroundColor:
                   right.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: right.onPressed != null
-                ? right.onPressed
-                : () => Navigator.pop(context, right.popResult ?? true),
+            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult ?? true),
             child: Text(right.title.toUpperCase()),
           )
       ],
@@ -150,34 +147,30 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      title: isNotEmptyOrNull(title) ? Text(title) : Text(""),
+      title: isNotEmptyOrNull(title) ? Text(title) : const Text(""),
       content: content,
       actions: <Widget>[
         if (left != null)
           CupertinoDialogAction(
             key: left.key,
-            child: Text(left.title),
             isDefaultAction: left.isDefaultAction,
             isDestructiveAction: left.isDestructiveAction,
-            onPressed: left.onPressed != null
-                ? left.onPressed
-                : () => Navigator.pop(context, left.popResult),
+            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult),
+            child: Text(left.title),
           ),
         if (right != null)
           CupertinoDialogAction(
             key: right.key,
-            child: Text(right.title),
             isDefaultAction: right.isDefaultAction,
             isDestructiveAction: right.isDestructiveAction,
-            onPressed: right.onPressed != null
-                ? right.onPressed
-                : () => Navigator.pop(context, right.popResult),
+            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult),
+            child: Text(right.title),
           ),
         if (ThemePlatform.isCupertino && withCancleButtonOnIOS)
           CupertinoDialogAction(
-            child: const Text("Abbrechen"),
             onPressed: () => Navigator.pop(context),
             isDestructiveAction: true,
+            child: const Text("Abbrechen"),
           )
       ],
     );

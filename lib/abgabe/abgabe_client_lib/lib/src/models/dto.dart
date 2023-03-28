@@ -188,7 +188,7 @@ T enumFromString<T>(List<T> values, dynamic json, {T orElse}) => json != null
     : orElse;
 
 String enumToString<T>(T value) =>
-    value != null ? value.toString().split('\.')[1] : null;
+    value != null ? value.toString().split('.')[1] : null;
 
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 

@@ -80,19 +80,20 @@ class FileSharingData {
     if (folderIDList.length > 1) {
       Folder lastFolder;
       for (String mFolderID in folderIDList) {
-        if (mFolderID == "")
+        if (mFolderID == "") {
           lastFolder = null;
-        else {
-          if (lastFolder == null)
+        } else {
+          if (lastFolder == null) {
             lastFolder = folders[mFolderID];
-          else {
+          } else {
             lastFolder = lastFolder.folders[mFolderID];
           }
         }
       }
       return lastFolder;
-    } else
+    } else {
       return null;
+    }
   }
 
   Map<String, Folder> getFolders(FolderPath folderPath) {
@@ -101,18 +102,19 @@ class FileSharingData {
     if (folderIDList.length > 1) {
       Folder lastFolder;
       for (String mFolderID in folderIDList) {
-        if (mFolderID == "")
+        if (mFolderID == "") {
           lastFolder = null;
-        else {
-          if (lastFolder == null)
+        } else {
+          if (lastFolder == null) {
             lastFolder = folders[mFolderID];
-          else {
+          } else {
             lastFolder = lastFolder.folders[mFolderID];
           }
         }
       }
       return lastFolder?.folders;
-    } else
+    } else {
       return folders;
+    }
   }
 }

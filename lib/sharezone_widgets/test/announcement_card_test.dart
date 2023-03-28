@@ -27,7 +27,7 @@ void main() {
     testWidgets('shows given title', (tester) async {
       const title = 'title';
       await _pumpAnnouncementCard(
-          tester: tester, card: AnnouncementCard(title: title));
+          tester: tester, card: const AnnouncementCard(title: title));
 
       expect(find.text('» $title'), findsOneWidget);
     });
@@ -46,7 +46,7 @@ void main() {
       const content = Text('content');
 
       await _pumpAnnouncementCard(
-          tester: tester, card: AnnouncementCard(content: content));
+          tester: tester, card: const AnnouncementCard(content: content));
 
       expect(find.byWidget(content), findsOneWidget);
     });
@@ -55,7 +55,7 @@ void main() {
       const color = Colors.brown;
 
       await _pumpAnnouncementCard(
-          tester: tester, card: AnnouncementCard(color: color));
+          tester: tester, card: const AnnouncementCard(color: color));
 
       final card = tester.firstWidget<CustomCard>(find.byType(CustomCard));
       expect(card.color, color);

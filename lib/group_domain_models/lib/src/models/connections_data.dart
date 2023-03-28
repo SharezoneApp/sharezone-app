@@ -22,12 +22,13 @@ class ConnectionsData {
       @required this.courses});
 
   factory ConnectionsData.fromData({@required Map<String, dynamic> data}) {
-    if (data == null)
-      return ConnectionsData._(
+    if (data == null) {
+      return const ConnectionsData._(
         school: null,
         schoolClass: null,
         courses: {},
       );
+    }
     Map<String, School> schools = decodeMap(data[CollectionNames.schools],
         (key, data) => School.fromData(data, id: key));
     Map<String, SchoolClass> schoolClasses = decodeMap(

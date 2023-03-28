@@ -53,8 +53,9 @@ class __VideoViewerState extends State<VideoViewer> {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null)
-      return Center(child: AccentColorCircularProgressIndicator());
+    if (_controller == null) {
+      return const Center(child: AccentColorCircularProgressIndicator());
+    }
     return Chewie(controller: _controller);
   }
 }

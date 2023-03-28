@@ -21,7 +21,7 @@ void main() {
       MaterialApp(
         home: ScaffoldMessenger(
           key: scaffoldKey,
-          child: Scaffold(),
+          child: const Scaffold(),
         ),
       ),
     );
@@ -52,7 +52,7 @@ void main() {
 
     testWidgets('shows a snackbar with a given SnackBarBehavior',
         (tester) async {
-      final fixedBehavior = SnackBarBehavior.fixed;
+      const fixedBehavior = SnackBarBehavior.fixed;
       await _pumpSnackBarSetup(tester);
 
       showSnack(behavior: fixedBehavior, key: scaffoldKey);
@@ -104,7 +104,7 @@ void main() {
                 return GestureDetector(
                   onTap: () => showSnack(context: context, text: sharezone),
                   behavior: HitTestBehavior.opaque,
-                  child: Container(
+                  child: const SizedBox(
                     height: 100,
                     width: 100,
                     key: tapTarget,

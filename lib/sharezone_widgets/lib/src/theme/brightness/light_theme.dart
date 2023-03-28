@@ -27,7 +27,7 @@ final lightTheme = ThemeData(
     labelColor: darkBlueColor,
     unselectedLabelColor: darkBlueColor.withOpacity(0.45),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     color: Colors.white,
     elevation: 1,
     iconTheme: IconThemeData(color: Color(0xFF8da2b6)),
@@ -37,7 +37,7 @@ final lightTheme = ThemeData(
         fontSize: 20,
         fontFamily: rubik),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
   pageTransitionsTheme: _pageTransitionsTheme,
   snackBarTheme: _snackBarTheme,

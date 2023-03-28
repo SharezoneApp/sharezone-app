@@ -52,10 +52,12 @@ class GroupInfo {
 
 String _getAbbreviationFromName(String name) {
   if (name != null) {
-    if (name.length > 2)
+    if (name.length > 2) {
       return name.substring(0, 2);
-    else
+    } else {
       return name;
-  } else
+    }
+  } else {
     return null;
+  }
 }
