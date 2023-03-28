@@ -54,9 +54,9 @@ class PdfFilePage extends StatelessWidget {
                       PdfController(document: getPdfDocument(localFile)),
                   scrollDirection: Axis.vertical,
                   builders: PdfViewBuilders(
-                    options: DefaultBuilderOptions(),
+                    options: const DefaultBuilderOptions(),
                     errorBuilder: (context, exception) {
-                      return Center(
+                      return const Center(
                         child: Text(
                           'PDF Rendering does not '
                           'support on the system of this version',
@@ -64,7 +64,7 @@ class PdfFilePage extends StatelessWidget {
                       );
                     },
                     documentLoaderBuilder: (context) =>
-                        Center(child: AccentColorCircularProgressIndicator()),
+                        const Center(child: AccentColorCircularProgressIndicator()),
                   ),
                 );
               } else {
@@ -75,7 +75,7 @@ class PdfFilePage extends StatelessWidget {
 
             if (snapshot.hasError) {
               // Catch
-              return Center(
+              return const Center(
                 child: Text(
                   'PDF Rendering does not '
                   'support on the system of this version',
@@ -83,7 +83,7 @@ class PdfFilePage extends StatelessWidget {
               );
             }
 
-            return Center(child: AccentColorCircularProgressIndicator());
+            return const Center(child: AccentColorCircularProgressIndicator());
           },
         ),
       ),
@@ -106,8 +106,9 @@ class PdfFilePage extends StatelessWidget {
 }
 
 Future<PdfDocument> getPdfDocument(LocalFile localFile) {
-  if (PlatformCheck.isMobile)
+  if (PlatformCheck.isMobile) {
     return PdfDocument.openFile(localFile.getPath());
-  else
+  } else {
     return PdfDocument.openData(localFile.getData());
+  }
 }
