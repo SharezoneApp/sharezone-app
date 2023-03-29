@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,7 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                       homework.todoUntil.month, homework.todoUntil.day);
                   return todoUntil.difference(today).inDays < 0;
                 }).toList();
-                print("length: ${homeworkList.length}");
+                log("length: ${homeworkList.length}");
 
                 if (homeworkList.isEmpty)
                   return const Center(
@@ -134,7 +136,7 @@ class _PopupMenu extends StatelessWidget {
             onPopupSortTap(context: context, sortBy: SortBy.subject);
             break;
           default:
-            print("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
+            log("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
         }
       },
       itemBuilder: (BuildContext context) => const <PopupMenuItem<String>>[

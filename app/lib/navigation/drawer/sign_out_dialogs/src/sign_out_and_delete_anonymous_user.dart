@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,14 +59,14 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
       _logAnonymousUserSignedOutEvent(analytics);
       await api.user.deleteUser(api);
     } on NoInternetAccess catch (_) {
-      print("User has no internet access!");
+      log("User has no internet access!");
       setState(() {
         isLoading = false;
         errorTextForUser =
             "Dein Gerät hat leider keinen Zugang zum Internet...";
       });
     } on Exception catch (e, s) {
-      print("$e $s");
+      log("$e $s", error: e, stackTrace: s);
       setState(() {
         isLoading = false;
         errorTextForUser = e.toString();
@@ -193,7 +195,8 @@ class DeleteAccountDialogErrorText extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(ThemePlatform.isCupertino ? 0 : 24, 16,
           ThemePlatform.isCupertino ? 0 : 24, 0),
       child: Text(text,
-          style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 14)),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.error, fontSize: 14)),
     );
   }
 }

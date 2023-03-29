@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
@@ -87,8 +88,8 @@ class HomeworkPageBloc extends BlocBase {
             ? doneHomework.add(homework)
             : notDoneHomework.add(homework);
       } on Exception catch (e) {
-        print(
-            "Error beim Zuweisen zu gemachten und nicht gemachten Hausaufgaben: $e");
+        log("Error beim Zuweisen zu gemachten und nicht gemachten Hausaufgaben: $e",
+            error: e);
       }
     }
 
@@ -105,10 +106,9 @@ class HomeworkPageBloc extends BlocBase {
   }
 
   /// Expects a [List] of [DeserializeFirestoreDocException], but tries to handle other cases, and adds it to [_errorsSubject].
-  void _handleAPIError(error, [dynamic s]) {
-    print(
-        "Error während dem Konvertieren der Firestore Dokumente in Hausaufgaben.");
-    print('$error $s');
+  void _handleAPIError(error, [StackTrace s]) {
+    log("Error während dem Konvertieren der Firestore Dokumente in Hausaufgaben: $error",
+        error: error, stackTrace: s);
   }
 
   Future<void> checkAllOverdueHomeworks() async {
