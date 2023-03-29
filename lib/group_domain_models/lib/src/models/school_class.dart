@@ -8,8 +8,8 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
+import 'package:flutter/foundation.dart';
 import 'group_type.dart';
-import 'package:meta/meta.dart';
 import 'package:user/user.dart';
 import 'group_info.dart';
 import 'course.dart';
@@ -129,7 +129,7 @@ class SchoolClassData {
   });
 
   factory SchoolClassData.create() {
-    return SchoolClassData._(
+    return const SchoolClassData._(
       id: null,
       name: "",
       description: "",
@@ -195,7 +195,7 @@ class SchoolClassData {
       abbreviation: abbreviation ?? this.abbreviation,
       sharecode: sharecode ?? this.sharecode,
       joinLink: joinLink ?? this.joinLink,
-      meetingID: meetingID ?? this.meetingID,
+      meetingID: meetingID ?? meetingID,
       referenceSchoolID: referenceSchoolID ?? this.referenceSchoolID,
       settings: settings ?? this.settings,
     );
