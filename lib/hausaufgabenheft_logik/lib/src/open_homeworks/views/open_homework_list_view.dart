@@ -41,7 +41,7 @@ class OpenHomeworkListView {
         other is OpenHomeworkListView &&
             showCompleteOverdueHomeworkPrompt ==
                 other.showCompleteOverdueHomeworkPrompt &&
-            DeepCollectionEquality().equals(sections, other.sections);
+            const DeepCollectionEquality().equals(sections, other.sections);
   }
 
   @override

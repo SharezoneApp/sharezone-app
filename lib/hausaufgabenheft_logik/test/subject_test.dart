@@ -37,9 +37,9 @@ void main() {
       expect(subject.color.isPresent, false);
     });
     test('sets the optional color to the given color', () {
-      final subject = createValidSubjectWith(color: Color(1337));
+      final subject = createValidSubjectWith(color: const Color(1337));
       expect(subject.color.isPresent, true);
-      expect(subject.color.value, Color(1337));
+      expect(subject.color.value, const Color(1337));
     });
   });
 }
