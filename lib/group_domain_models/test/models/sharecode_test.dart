@@ -15,17 +15,17 @@ void main() {
       expect(Sharecode.isValid(sharecode), expactedValue);
     }
 
-    final validSharecode1 = "000000";
-    final validSharecode2 = "AdB23c";
-    final validSharecode3 = "123a4v";
+    const validSharecode1 = "000000";
+    const validSharecode2 = "AdB23c";
+    const validSharecode3 = "123a4v";
 
-    final invalidSharecode1 = null;
-    final invalidSharecode2 = "";
-    final invalidSharecode3 = "1234567";
-    final invalidSharecode4 = "12345_";
-    final invalidSharecode5 = "_";
-    final invalidSharecode6 = "234_";
-    final invalidSharecode7 = "hh";
+    const invalidSharecode1 = null;
+    const invalidSharecode2 = "";
+    const invalidSharecode3 = "1234567";
+    const invalidSharecode4 = "12345_";
+    const invalidSharecode5 = "_";
+    const invalidSharecode6 = "234_";
+    const invalidSharecode7 = "hh";
 
     test('validation (RegEx)', () {
       testSharecode(validSharecode1, true);
