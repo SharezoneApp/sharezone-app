@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
@@ -108,22 +109,22 @@ void main() {
         'THEN he should see all open homework sorted firstly by date then subject then title',
         () async {
       var h1 = createHomework(
-          todoDate: Date(year: 2019, month: 2, day: 10),
+          todoDate: const Date(year: 2019, month: 2, day: 10),
           subject: 'Biologie',
           title: 'Analyse',
           id: '1');
       var h2 = createHomework(
-          todoDate: Date(year: 2019, month: 2, day: 12),
+          todoDate: const Date(year: 2019, month: 2, day: 12),
           subject: 'Biologie',
           title: 'Buchstaben lernen',
           id: '2');
       var h3 = createHomework(
-          todoDate: Date(year: 2019, month: 2, day: 12),
+          todoDate: const Date(year: 2019, month: 2, day: 12),
           subject: 'Computerkurs',
           title: 'Neuland erkunden',
           id: '3');
       var h4 = createHomework(
-          todoDate: Date(year: 2020, month: 4, day: 20),
+          todoDate: const Date(year: 2020, month: 4, day: 20),
           subject: 'Afrikanisch',
           title: 'Analyse',
           id: '4');
@@ -300,20 +301,20 @@ void main() {
             2,
             (_) => createHomework(
                 title: 'überfällig',
-                todoDate: Date(day: 20, month: 02, year: 2018),
+                todoDate: const Date(day: 20, month: 02, year: 2018),
                 done: false),
             growable: true)
           ..add(createHomework(
             title: 'zukunft',
             done: false,
-            todoDate: Date(year: 2121, month: 12, day: 21),
+            todoDate: const Date(year: 2121, month: 12, day: 21),
           ));
 
         await addToRepository(openHomeworks);
         bloc.add(LoadHomeworks());
         await bloc.skip(1).first;
         bloc.add(CompletedAllOverdue());
-        bloc.listen(print);
+        bloc.listen((e) => log('$e'));
         final Success res = await bloc.firstWhere((state) =>
             state is Success &&
             state.completed.orderedHomeworks.length == 2 &&
@@ -327,7 +328,7 @@ void main() {
         'should show dialog to check all completed homework when more than 2 open overdue homeworks',
         () async {
       final yesterday =
-          Date.fromDateTime(DateTime.now().subtract(Duration(days: 1)));
+          Date.fromDateTime(DateTime.now().subtract(const Duration(days: 1)));
       final homeworks = List.generate(
           3, (_) => createHomework(done: false, todoDate: yesterday));
 
@@ -341,8 +342,9 @@ void main() {
         'does not show dialog to check all completed homework with less than 3 overdue homeworks',
         () async {
       final yesterday =
-          Date.fromDateTime(DateTime.now().subtract(Duration(days: 1)));
-      final tomorrow = Date.fromDateTime(DateTime.now().add(Duration(days: 1)));
+          Date.fromDateTime(DateTime.now().subtract(const Duration(days: 1)));
+      final tomorrow =
+          Date.fromDateTime(DateTime.now().add(const Duration(days: 1)));
 
       final homeworks = [
         ...List.generate(
@@ -501,24 +503,24 @@ HomeworkPageBloc createBloc(
       getCurrentDateTime: getCurrentDateTime,
     ),
     HausaufgabenheftConfig(
-      defaultCourseColorValue: Color.fromRGBO(255, 255, 255, 1).value,
+      defaultCourseColorValue: const Color.fromRGBO(255, 255, 255, 1).value,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad,
     ),
   );
 }
 
 CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
-    StudentHomeworkViewFactory _viewFactory,
+    StudentHomeworkViewFactory viewFactory,
     InMemoryHomeworkRepository repository,
     {int nrOfInitialCompletedHomeworksToLoad}) {
-  final _completedHomeworkListViewFactory =
-      CompletedHomeworkListViewFactory(_viewFactory);
-  final _lazyLoadingCompletedHomeworksBloc =
+  final completedHomeworkListViewFactory =
+      CompletedHomeworkListViewFactory(viewFactory);
+  final lazyLoadingCompletedHomeworksBloc =
       LazyLoadingCompletedHomeworksBlocImpl(repository);
-  final _completedHomeworksViewBloc = CompletedHomeworksViewBlocImpl(
-      _lazyLoadingCompletedHomeworksBloc, _completedHomeworkListViewFactory,
+  final completedHomeworksViewBloc = CompletedHomeworksViewBlocImpl(
+      lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
-  return _completedHomeworksViewBloc;
+  return completedHomeworksViewBloc;
 }
 
 InMemoryHomeworkRepository createRepositoy() => InMemoryHomeworkRepository();
@@ -551,19 +553,20 @@ class RepositoryHomeworkCompletionDispatcher
 class VerboseBlocDelegate extends BlocDelegate {
   @override
   void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    print('${bloc.runtimeType} error: $error, stacktrace: $stacktrace');
+    log('${bloc.runtimeType} error: $error, stacktrace: $stacktrace',
+        error: error, stackTrace: stacktrace);
     super.onError(bloc, error, stacktrace);
   }
 
   // @override
   // void onTransition(Bloc bloc, Transition transition) {
-  //   print("${bloc.runtimeType} transition: $transition");
+  //   log("${bloc.runtimeType} transition: $transition");
   //   super.onTransition(bloc, transition);
   // }
 
   @override
   void onEvent(Bloc bloc, Object event) {
-    print('${bloc.runtimeType} event: ${event.runtimeType}');
+    log('${bloc.runtimeType} event: ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
 }

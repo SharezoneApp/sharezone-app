@@ -25,14 +25,14 @@ class SubmissionPageView {
   });
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 
-    return o is SubmissionPageView &&
-        o.deadlineState == deadlineState &&
-        o.submitted == submitted &&
-        listEquals(o.files, files);
+    return other is SubmissionPageView &&
+        other.deadlineState == deadlineState &&
+        other.submitted == submitted &&
+        listEquals(other.files, files);
   }
 
   @override
@@ -82,17 +82,17 @@ class FileView {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is FileView &&
-        o.path == path &&
-        o.basename == basename &&
-        o.extentionName == extentionName &&
-        o.fileFormat == fileFormat &&
-        o.status == status &&
-        o.uploadProgess == uploadProgess &&
-        o.downloadUrl == downloadUrl;
+    return other is FileView &&
+        other.path == path &&
+        other.basename == basename &&
+        other.extentionName == extentionName &&
+        other.fileFormat == fileFormat &&
+        other.status == status &&
+        other.uploadProgess == uploadProgess &&
+        other.downloadUrl == downloadUrl;
   }
 
   @override

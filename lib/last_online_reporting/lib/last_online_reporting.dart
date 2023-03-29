@@ -31,6 +31,7 @@ class LastOnlineReporter {
     FirebaseFirestore firestore,
     UserId userId,
     CrashAnalytics crashAnalytics, {
+
     /// Controls how often the client reports being online to the backend.
     /// If [minimumTimeBetweenReports] is e.g. 10 minutes the client will at max
     /// report being online every ten minutes (instead of reporting more often).
