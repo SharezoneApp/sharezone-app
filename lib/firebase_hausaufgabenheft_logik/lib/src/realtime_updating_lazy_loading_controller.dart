@@ -8,8 +8,8 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:meta/meta.dart';
 import 'realtime_completed_homework_loader.dart';
 
 class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
@@ -84,8 +84,9 @@ class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
   void _validateInitialNumberOfHomeworksToLoad() {
     ArgumentError.checkNotNull(
         initialNumberOfHomeworksToLoad, "initialNumberOfHomeworksToLoad");
-    if (initialNumberOfHomeworksToLoad.isNegative)
+    if (initialNumberOfHomeworksToLoad.isNegative) {
       throw ArgumentError.value(initialNumberOfHomeworksToLoad,
           "initialNumberOfHomeworksToLoad", "can't be negative");
+    }
   }
 }
