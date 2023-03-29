@@ -421,7 +421,7 @@ class PrefilledTextField extends StatefulWidget {
   final Iterable<String> autofillHints;
 
   @override
-  _PrefilledTextFieldState createState() => _PrefilledTextFieldState();
+  State createState() => _PrefilledTextFieldState();
 }
 
 class _PrefilledTextFieldState extends State<PrefilledTextField> {

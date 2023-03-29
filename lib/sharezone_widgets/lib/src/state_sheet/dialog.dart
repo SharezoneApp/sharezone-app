@@ -39,6 +39,7 @@ class StateDialog {
       if (result == true) {
         await Future.delayed(delay);
         if (!hasDialogPopped) {
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         }
       }
@@ -78,7 +79,7 @@ class _PlatformAlertDialog extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (ThemePlatform.isCupertino)
+    if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         title: stateDialogContent.title != null
             ? Text(stateDialogContent.title)
@@ -89,6 +90,7 @@ class _PlatformAlertDialog extends StatelessWidget {
             ActionItemButton(item: action),
         ],
       );
+    }
     return AlertDialog(
       title: stateDialogContent.title != null
           ? Text(

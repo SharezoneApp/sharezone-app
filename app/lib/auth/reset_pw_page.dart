@@ -104,7 +104,7 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SharezoneLogo(
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
       height: 50,
       width: 50,
     );

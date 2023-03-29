@@ -17,7 +17,7 @@ class ActionItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (item.iconData != null)
+    if (item.iconData != null) {
       return TextButton.icon(
         icon: Icon(item.iconData, color: item.textColor),
         onPressed: item.onSelect,
@@ -27,7 +27,7 @@ class ActionItemButton extends StatelessWidget {
         ),
         label: Text(item.title.toUpperCase()),
       );
-    else
+    } else {
       return TextButton(
         onPressed: item.onSelect,
         style: TextButton.styleFrom(
@@ -36,5 +36,6 @@ class ActionItemButton extends StatelessWidget {
         ),
         child: Text(item.title.toUpperCase()),
       );
+    }
   }
 }

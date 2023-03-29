@@ -61,12 +61,12 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: actions
               .map((action) => TextButton(
-                    child: Text(action.title.toUpperCase()),
                     style: TextButton.styleFrom(
                       foregroundColor:
                           action.textColor ?? Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context, action.popResult),
+                    child: Text(action.title.toUpperCase()),
                   ))
               .toList(),
         )
@@ -94,16 +94,16 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
       actions: <Widget>[
         ...actions
             .map((action) => CupertinoDialogAction(
-                  child: Text(action.title),
                   isDefaultAction: action.isDefaultAction,
                   isDestructiveAction: action.isDestructiveAction,
                   onPressed: () => Navigator.pop(context, action.popResult),
+                  child: Text(action.title),
                 ))
             .toList(),
         CupertinoDialogAction(
-            child: const Text("Abbrechen"),
             isDestructiveAction: true,
-            onPressed: () => Navigator.pop(context))
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Abbrechen"))
       ],
     );
   }
