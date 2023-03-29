@@ -34,20 +34,20 @@ class StateSheetSimpleBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const SizedBox(height: 16),
         Icon(iconData, size: 56, color: iconColor),
         const SizedBox(height: 16),
         Text(
           title,
-          style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
         if (description != null) Text(description, textAlign: TextAlign.center),
       ],
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
     );
   }
 }

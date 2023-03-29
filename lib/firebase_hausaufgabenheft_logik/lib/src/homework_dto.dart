@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:meta/meta.dart';
 
 class HomeworkDto {
   final String id;

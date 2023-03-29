@@ -355,7 +355,7 @@ class _Logo extends StatelessWidget {
     return SharezoneLogo(
       height: 60,
       width: 200,
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
     );
   }
 }

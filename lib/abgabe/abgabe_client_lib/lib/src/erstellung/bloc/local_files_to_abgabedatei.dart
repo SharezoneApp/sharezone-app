@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:abgabe_client_lib/src/erstellung/lokale_abgabedatei.dart';
 
 import 'package:files_basics/local_file.dart';
@@ -36,7 +38,7 @@ class LocalFileAbgabedateiKonvertierer {
         unconvertableFiles.add(localFile);
         var msg =
             'LocalFile: $localFile konnte nicht zu einer LokaleAbgabedatei konvertiert werden: $e.';
-        print(msg);
+        log(msg);
         _recordError(e, s);
       }
     }

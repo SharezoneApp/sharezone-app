@@ -30,12 +30,12 @@ class Features {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is Features &&
-        o.allColors == allColors &&
-        o.hideDonations == hideDonations;
+    return other is Features &&
+        other.allColors == allColors &&
+        other.hideDonations == hideDonations;
   }
 
   @override

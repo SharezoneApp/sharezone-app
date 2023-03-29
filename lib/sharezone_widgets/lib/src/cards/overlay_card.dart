@@ -34,7 +34,7 @@ class OverlayCard extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomRight,
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 400),
           child: Material(
             elevation: 10,
             color: isDarkThemeEnabled(context)
@@ -93,11 +93,11 @@ class _Action extends StatelessWidget {
       onTap: onAction,
       child: TextButton(
         onPressed: onAction,
-        child: Text(actionText),
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
         ),
+        child: Text(actionText),
       ),
     );
   }
@@ -117,10 +117,10 @@ class _Close extends StatelessWidget {
       onTap: onClose,
       child: TextButton(
         onPressed: onClose,
-        child: const Text("SCHLIESSEN"),
         style: TextButton.styleFrom(
           foregroundColor: Colors.grey,
         ),
+        child: const Text("SCHLIESSEN"),
       ),
     );
   }
