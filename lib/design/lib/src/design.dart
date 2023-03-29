@@ -10,7 +10,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'color_parser.dart';
-import 'package:quiver/core.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 enum DesignType {
@@ -74,7 +73,7 @@ class Design {
   }
 
   @override
-  int get hashCode => hash2(hex.hashCode, type.hashCode);
+  int get hashCode => Object.hash(hex, type);
 
   static List<Design> designList = [
     Colors.pinkAccent,
