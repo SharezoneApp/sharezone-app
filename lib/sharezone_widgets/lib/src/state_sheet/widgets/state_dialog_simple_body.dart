@@ -32,6 +32,8 @@ class StateDialogSimpleBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const SizedBox(height: 16),
         Icon(iconData, size: 35, color: iconColor),
@@ -42,8 +44,6 @@ class StateDialogSimpleBody extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
       ],
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
     );
   }
 }

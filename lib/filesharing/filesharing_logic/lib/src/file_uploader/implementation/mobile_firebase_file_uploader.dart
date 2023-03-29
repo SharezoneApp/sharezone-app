@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_compression.dart';
@@ -37,7 +39,9 @@ class MobileFirebaseFileUploader extends FileUploader {
         final compressedFile = await imageCompressor.compressImage(file);
         if (compressedFile != null) file = compressedFile;
         // }
-      } catch (e) {}
+      } catch (e) {
+        log("Couldn't compress image: $e", error: e);
+      }
     }
 
     final uploadTask = storageReference.putFile(
@@ -124,7 +128,9 @@ class MobileFirebaseFileUploader extends FileUploader {
         final compressedFile = await imageCompressor.compressImage(localFile);
         if (compressedFile != null) localFile = compressedFile;
         // }
-      } catch (e) {}
+      } catch (e) {
+        log("Couldn't compress image: $e", error: e);
+      }
     }
 
     final uploadTask = storageReference.putFile(

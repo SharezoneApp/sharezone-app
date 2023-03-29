@@ -6,8 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/random_string.dart';
 
@@ -54,7 +56,7 @@ class Folder {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
     } catch (e) {
-      print("folders error: $id");
+      log("folders error: $id", error: e);
     }
     return Folder._(
       id: id,
@@ -101,8 +103,9 @@ class Folder {
   bool isDeletable(FolderPath path) {
     if (path == FolderPath.root && id == 'attachment') {
       return false;
-    } else
+    } else {
       return true;
+    }
   }
 
   static String generateFolderID(
@@ -110,21 +113,23 @@ class Folder {
       String folderName,
       FileSharingData fileSharingData,
       int attempt = 0}) {
-    if (attempt >= 10 || attempt < 0)
+    if (attempt >= 10 || attempt < 0) {
       throw Exception('Too Many Attempts to generate random ID!');
+    }
     List<Folder> folders =
         fileSharingData.getFolders(folderPath).values.toList();
     String nameID = folderName.toLowerCase() +
         (attempt == 0 ? "" : ("(${attempt.toString()})"));
     nameID = nameID.replaceAll(RegExp("[^A-Za-z0-9-_()]"), "");
     if (nameID == "") nameID = randomIDString(6).toLowerCase();
-    if (folders.where((it) => it.id == nameID).isNotEmpty)
+    if (folders.where((it) => it.id == nameID).isNotEmpty) {
       return generateFolderID(
           fileSharingData: fileSharingData,
           folderName: folderName,
           folderPath: folderPath,
           attempt: attempt++);
-    else
+    } else {
       return nameID;
+    }
   }
 }

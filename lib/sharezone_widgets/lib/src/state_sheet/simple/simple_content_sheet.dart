@@ -8,7 +8,7 @@
 
 import 'package:sharezone_widgets/state_sheet.dart';
 
-final stateSheetContentLoading = StateSheetContent(
+const stateSheetContentLoading = StateSheetContent(
   body: StateSheetLoadingBody(),
 );
 

@@ -35,11 +35,14 @@ Future<void> showDeleteDialog(
 
   if (result) {
     onDelete();
+    // ignore: use_build_context_synchronously
     if (popTwice) Navigator.pop(context, popTwiceResult);
   }
 }
 
 class LeaveEditedFormAlert extends StatelessWidget {
+  const LeaveEditedFormAlert({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -62,14 +65,14 @@ class LeaveEditedFormAlert extends StatelessWidget {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text('NEIN!'),
+          child: const Text('NEIN!'),
           onPressed: () => Navigator.of(context).pop(false),
         ),
         TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text('JA, VERLASSEN!'),
+          child: const Text('JA, VERLASSEN!'),
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
@@ -95,7 +98,7 @@ class OneTextFieldDialog extends StatefulWidget {
   final String text;
 
   @override
-  _OneTextFieldDialogState createState() => _OneTextFieldDialogState();
+  State createState() => _OneTextFieldDialogState();
 }
 
 class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
@@ -144,11 +147,11 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text("ABBRECHEN"),
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
           onPressed: () => Navigator.pop(context),
+          child: const Text("ABBRECHEN"),
         ),
         TextButton(
           style: TextButton.styleFrom(

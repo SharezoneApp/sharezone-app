@@ -45,6 +45,6 @@ class Dateiname {
 
   @override
   String toString() {
-    return '$mitExtension';
+    return mitExtension;
   }
 }

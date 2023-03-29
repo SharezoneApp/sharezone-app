@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'holiday_api.dart';
 import 'holiday_cache.dart';
 import 'api/holiday.dart';
@@ -32,8 +34,9 @@ class HolidayService {
 
     List<Holiday?>? response = apiResponse ?? cached?.payload;
     // Don't retrun null, as in most StreamBuilers there will be just a loading indicator.
-    if (response == null)
+    if (response == null) {
       throw HolidayLoadingException("Loading from Cache and Api both failed");
+    }
 
     return response;
   }
@@ -43,7 +46,7 @@ class HolidayService {
     try {
       response = await api.load(1, state);
     } on Exception catch (e) {
-      print("Exception when loading Holidays from API: $e");
+      log("Exception when loading Holidays from API: $e", error: e);
     }
     return response;
   }
@@ -52,7 +55,7 @@ class HolidayService {
     try {
       await cache.save(response, state);
     } on Exception catch (e) {
-      print("Could not save in Cache: $e");
+      log("Could not save in Cache: $e", error: e);
     }
     return;
   }
@@ -61,7 +64,7 @@ class HolidayService {
     try {
       return cache.load(state);
     } catch (e) {
-      print("Could not load Cache data: $e");
+      log("Could not load Cache data: $e", error: e);
     }
     return null;
   }
