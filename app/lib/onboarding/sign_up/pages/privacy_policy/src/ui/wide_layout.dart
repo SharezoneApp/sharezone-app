@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone_widgets/additional.dart';
 
@@ -302,82 +301,74 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     final visualDensity = context.ppVisualDensity;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHighlight(
-          onTap: () => tocController.scrollTo(widget.section.id),
-          shouldHighlight: widget.section.shouldHighlight,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: (14 + visualDensity.vertical * 3)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
-              horizontal: (10 + visualDensity.horizontal)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '${widget.section.sectionHeadingText}',
-                    style: Theme.of(context).textTheme.bodyMedium.copyWith(
-                          fontWeight: widget.section.shouldHighlight
-                              ? FontWeight.w500
-                              : FontWeight.normal,
-                        ),
-                    textAlign: TextAlign.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHighlight(
+            onTap: () => tocController.scrollTo(widget.section.id),
+            shouldHighlight: widget.section.shouldHighlight,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: (14 + visualDensity.vertical * 3)
+                    .clamp(0, double.infinity)
+                    .toDouble(),
+                horizontal: (10 + visualDensity.horizontal)
+                    .clamp(0, double.infinity)
+                    .toDouble(),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${widget.section.sectionHeadingText}',
+                      style: Theme.of(context).textTheme.bodyMedium.copyWith(
+                            fontWeight: widget.section.shouldHighlight
+                                ? FontWeight.w500
+                                : FontWeight.normal,
+                          ),
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-                if (showExpansionArrow)
-                  ExpansionArrow(
-                    expansionArrowTurns: expansionArrowTurns,
-                    onPressed: () {
-                      Provider.of<TableOfContentsController>(context,
-                              listen: false)
-                          .toggleDocumentSectionExpansion(widget.section.id);
+                  if (showExpansionArrow)
+                    ExpansionArrow(
+                      expansionArrowTurns: expansionArrowTurns,
+                      onPressed: () {
+                        Provider.of<TableOfContentsController>(context,
+                                listen: false)
+                            .toggleDocumentSectionExpansion(widget.section.id);
 
-                      _changeExpansion(!isExpanded);
-                    },
-                  )
-              ],
+                        _changeExpansion(!isExpanded);
+                      },
+                    )
+                ],
+              ),
             ),
           ),
-        ),
-        if (widget.section.isExpandable)
-          AnimatedBuilder(
-            animation: _heightFactor,
-            builder: (context, child) {
-              return ClipRRect(
-                child: Align(
-                  alignment: Alignment.center,
-                  heightFactor: _heightFactor.value,
-                  child: AnimatedOpacity(
-                    opacity: _heightFactor.value,
-                    curve: Curves.easeOutExpo,
-                    duration: widget.section.isExpanded
-                        ? expansionDuration
-                        : collapseDuration,
-                    child: child,
+          if (widget.section.isExpandable)
+            AnimatedBuilder(
+              animation: _heightFactor,
+              builder: (context, child) {
+                return ClipRRect(
+                  child: Align(
+                    alignment: Alignment.center,
+                    heightFactor: _heightFactor.value,
+                    child: AnimatedOpacity(
+                      opacity: _heightFactor.value,
+                      curve: Curves.easeOutExpo,
+                      duration: widget.section.isExpanded
+                          ? expansionDuration
+                          : collapseDuration,
+                      child: child,
+                    ),
                   ),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              // CrossAxisAlignment.start causes single line text to not be
-              // aligned with multiline text. Single line text would have too
-              // much space on the left.
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              // TODO: Doesn't work anymore?
-              children: AnimationConfiguration.toStaggeredList(
-                duration: expansionDuration,
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  duration: expansionDuration,
-                  horizontalOffset: 15,
-                  child: FadeInAnimation(child: widget),
-                ),
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // CrossAxisAlignment.start causes single line text to not be
+                // aligned with multiline text. Single line text would have too
+                // much space on the left.
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: widget.section.subsections.map(
                   (subsection) {
                     return Padding(
@@ -420,10 +411,8 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                   },
                 ).toList(),
               ),
-            ),
-          ),
-      ],
-    );
+            )
+        ]);
   }
 }
 
