@@ -34,52 +34,46 @@ class MainContentNarrow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Stack(
                 children: [
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        PrivacyPolicyHeading(),
+                        if (privacyPolicyLoadingState.privacyPolicyOrNull
+                                ?.hasNotYetEnteredIntoForce ??
+                            false)
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 6),
+                            child: PrivacyPolicySubheading(
+                              entersIntoForceOn: privacyPolicyLoadingState
+                                  .privacyPolicyOrNull.entersIntoForceOnOrNull,
+                            ),
+                          ),
+                        SizedBox(height: 3),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          runAlignment: WrapAlignment.spaceEvenly,
+                          alignment: WrapAlignment.spaceEvenly,
+                          spacing: 25,
+                          runSpacing: 3,
+                          children: const [
+                            ChangeAppearanceButton(),
+                            DownloadAsPDFButton(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   if (showBackButton)
                     BackButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
-                  // TODO: Fix - This is not centered with the stuff below it.
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          PrivacyPolicyHeading(),
-                          if (privacyPolicyLoadingState.privacyPolicyOrNull
-                                  ?.hasNotYetEnteredIntoForce ??
-                              false)
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 6),
-                              child: PrivacyPolicySubheading(
-                                entersIntoForceOn: privacyPolicyLoadingState
-                                    .privacyPolicyOrNull
-                                    .entersIntoForceOnOrNull,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 3),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.spaceEvenly,
-                alignment: WrapAlignment.spaceEvenly,
-                spacing: 25,
-                runSpacing: 3,
-                children: const [
-                  ChangeAppearanceButton(),
-                  DownloadAsPDFButton(),
                 ],
               ),
               Divider(),
