@@ -12,6 +12,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone_widgets/show_rounded_modal_bottom_sheet.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({
@@ -54,36 +55,6 @@ class HomeworkBottomActionBar extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<T> showRoundedModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color backgroundColor,
-  double elevation,
-  bool isScrollControlled = false,
-  bool useRootNavigator = false,
-  T defaultValue,
-}) async {
-  assert(context != null);
-  assert(builder != null);
-  assert(isScrollControlled != null);
-  assert(useRootNavigator != null);
-  assert(debugCheckHasMediaQuery(context));
-  assert(debugCheckHasMaterialLocalizations(context));
-
-  T res = await showModalBottomSheet<T>(
-    context: context,
-    builder: builder,
-    backgroundColor: backgroundColor,
-    elevation: elevation,
-    isScrollControlled: isScrollControlled,
-    useRootNavigator: useRootNavigator,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-  );
-  return res ??= defaultValue;
 }
 
 enum _BottomSheetAction { completeOverdue, abort }
