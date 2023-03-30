@@ -9,7 +9,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 
-// TODO: Add randomness depending on env seed?
 PrivacyPolicy privacyPolicyWith({
   List<DocumentSection> tableOfContentSections,
   String markdown,
