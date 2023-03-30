@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -260,7 +262,8 @@ class _FinishButton extends StatelessWidget {
             Navigator.pop(context, TimetableLessonAdded(lesson));
           }
         } on Exception catch (e, s) {
-          print(e);
+          log('$e', error: e, stackTrace: s);
+
           showSnackSec(
             text: handleErrorMessage(e.toString(), s),
             context: context,

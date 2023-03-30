@@ -65,7 +65,7 @@ packages:
     source: hosted
     version: "1.1.1"
   cloud_firestore:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cloud_firestore
       sha256: "65f148d9f5b4f389320abb45847120cf5e46094c1a8cbc64934ffc1e29688596"
@@ -289,6 +289,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_lints:
+    dependency: transitive
+    description:
+      name: flutter_lints
+      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -338,6 +346,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -425,6 +441,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  sharezone_lints:
+    dependency: "direct dev"
+    description:
+      path: "../sharezone_lints"
+      relative: true
+    source: path
+    version: "1.0.0"
   sharezone_utils:
     dependency: transitive
     description:

@@ -18,11 +18,11 @@ import 'svg.dart';
 /// Hier wird definiert, wie das Widget aufgebaut sein soll
 class PlaceholderModel extends StatefulWidget {
   const PlaceholderModel(
-      {this.title,
+      {Key key, this.title,
       this.subtitle,
       this.svgPath,
       this.iconSize,
-      @required this.animateSVG});
+      @required this.animateSVG}) : super(key: key);
 
   final String title, svgPath;
   final Widget subtitle;
@@ -81,7 +81,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -145,7 +145,7 @@ class _RotateAnimation extends StatelessWidget {
         ).animate(
           CurvedAnimation(
               parent: controller,
-              curve: Interval(
+              curve: const Interval(
                 0.2, // Starts at 20% of the Animation
                 0.3, // Ends at 30% of the Animation
                 curve: Curves.ease, // Easy Ease Out
@@ -182,10 +182,10 @@ class _RotateAnimation extends StatelessWidget {
 
 /// Ghost SVG
 class SVGIcon extends StatefulWidget {
-  const SVGIcon({
+  const SVGIcon({Key key, 
     this.size,
     @required this.path,
-  });
+  }) : super(key: key);
 
   final Size size;
   final String path;

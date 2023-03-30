@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -101,8 +103,7 @@ class TimetableEditBloc extends BlocBase {
       final weekType = _weekTypeSubject.valueOrNull;
       final period = _periodSubject.valueOrNull;
 
-      print(
-          "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
+      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
 
       final lesson = initialLesson.copyWith(
         groupID: course.id,

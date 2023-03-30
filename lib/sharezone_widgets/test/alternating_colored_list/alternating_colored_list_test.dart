@@ -14,15 +14,15 @@ void main() {
   group('AlternatingColoredList', () {
     const list = [0, 1, 2, 3, 4, 5];
 
-    void _testRowWith({
+    void testRowWith({
       @required Color color,
       @required int index,
       @required WidgetTester tester,
     }) {
       assert(color != null && index != null && tester != null);
 
-      final row = tester
-          .firstWidget<Material>(find.byKey(ValueKey('AlternatingColoredList;Item:$index')));
+      final row = tester.firstWidget<Material>(
+          find.byKey(ValueKey('AlternatingColoredList;Item:$index')));
       expect(row.color, color);
     }
 
@@ -41,12 +41,12 @@ void main() {
         ),
       ));
 
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 1);
-      _testRowWith(color: theme.highlightedColor, tester: tester, index: 2);
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 3);
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 4);
-      _testRowWith(color: theme.highlightedColor, tester: tester, index: 5);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 1);
+      testRowWith(color: theme.highlightedColor, tester: tester, index: 2);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 3);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 4);
+      testRowWith(color: theme.highlightedColor, tester: tester, index: 5);
     });
 
     testWidgets('colors alternately with given Colors', (tester) async {
@@ -63,12 +63,12 @@ void main() {
         ),
       ));
 
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
-      _testRowWith(color: theme.highlightedColor, tester: tester, index: 1);
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 2);
-      _testRowWith(color: theme.highlightedColor, tester: tester, index: 3);
-      _testRowWith(color: theme.notHighlightedColor, tester: tester, index: 4);
-      _testRowWith(color: theme.highlightedColor, tester: tester, index: 5);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
+      testRowWith(color: theme.highlightedColor, tester: tester, index: 1);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 2);
+      testRowWith(color: theme.highlightedColor, tester: tester, index: 3);
+      testRowWith(color: theme.notHighlightedColor, tester: tester, index: 4);
+      testRowWith(color: theme.highlightedColor, tester: tester, index: 5);
     });
   });
 }

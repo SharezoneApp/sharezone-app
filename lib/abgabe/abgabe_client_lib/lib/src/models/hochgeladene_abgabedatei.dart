@@ -49,13 +49,13 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is HochgeladeneAbgabedatei &&
-        o.downloadUrl == downloadUrl &&
-        o.erstellungsdatum == erstellungsdatum &&
-        o.zuletztBearbeitet == zuletztBearbeitet;
+    return other is HochgeladeneAbgabedatei &&
+        other.downloadUrl == downloadUrl &&
+        other.erstellungsdatum == erstellungsdatum &&
+        other.zuletztBearbeitet == zuletztBearbeitet;
   }
 
   @override

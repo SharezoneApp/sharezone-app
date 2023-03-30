@@ -16,7 +16,7 @@ class DialogWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 450),
+      constraints: const BoxConstraints(maxWidth: 450),
       child: child,
     );
   }

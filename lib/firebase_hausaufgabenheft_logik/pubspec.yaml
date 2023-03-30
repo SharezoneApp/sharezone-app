@@ -23,7 +23,8 @@ dependencies:
     path: ../common_domain_models
   time:
     path: ../time
-
+  cloud_firestore: ^4.4.3
+  optional: ^6.1.0+1
   flutter:
     sdk: flutter
 
@@ -31,6 +32,9 @@ dev_dependencies:
   rxdart: ^0.27.1
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

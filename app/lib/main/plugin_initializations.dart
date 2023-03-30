@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:flutter/foundation.dart';
@@ -47,7 +49,7 @@ class PluginInitializations {
         await Purchases.configure(
             PurchasesConfiguration(apiKey)..appUserID = uid);
       } catch (e) {
-        print('RevenueCat konnte nicht inizialisiert werden: $e');
+        log('RevenueCat konnte nicht inizialisiert werden: $e', error: e);
       }
     }
   }

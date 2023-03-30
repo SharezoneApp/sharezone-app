@@ -22,14 +22,14 @@ class CreatedSubmissionsPageView {
   });
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 
-    return o is CreatedSubmissionsPageView &&
-        listEquals(o.submissions, submissions) &&
-        listEquals(o.afterDeadlineSubmissions, afterDeadlineSubmissions) &&
-        listEquals(o.missingSubmissions, missingSubmissions);
+    return other is CreatedSubmissionsPageView &&
+        listEquals(other.submissions, submissions) &&
+        listEquals(other.afterDeadlineSubmissions, afterDeadlineSubmissions) &&
+        listEquals(other.missingSubmissions, missingSubmissions);
   }
 
   @override

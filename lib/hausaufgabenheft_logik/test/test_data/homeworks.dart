@@ -14,16 +14,16 @@ const english = 'English';
 const maths = 'Maths';
 const informatics = 'Informatics';
 const title = 'Aufgaben S.23';
-final d28_01_2019 = Date(day: 28, month: 01, year: 2019);
+const d28_01_2019 = Date(day: 28, month: 01, year: 2019);
 
 final haDate_02_01_19 = createHomework(
-  todoDate: Date(day: 2, month: 01, year: 2019),
+  todoDate: const Date(day: 2, month: 01, year: 2019),
 );
 final haDate_23_02_19 = createHomework(
-  todoDate: Date(day: 23, month: 2, year: 2019),
+  todoDate: const Date(day: 23, month: 2, year: 2019),
 );
 final haDate_30_2_2020 = createHomework(
-  todoDate: Date(day: 30, month: 2, year: 2020),
+  todoDate: const Date(day: 30, month: 2, year: 2020),
 );
 
 final haSubjectEnglish = createHomework(subject: english);
@@ -35,37 +35,37 @@ final haTitleBlatt = createHomework(title: 'Blatt zur Erderwärmung');
 final haTitleClown = createHomework(title: 'Clown');
 
 final haIntegration1 = createHomework(
-  todoDate: Date(day: 1, month: 1, year: 2019),
+  todoDate: const Date(day: 1, month: 1, year: 2019),
   subject: english,
   title: 'AB',
 );
 final haIntegration2 = createHomework(
-  todoDate: Date(day: 1, month: 1, year: 2019),
+  todoDate: const Date(day: 1, month: 1, year: 2019),
   subject: english,
   title: 'CD hören',
 );
 final haIntegration3 = createHomework(
-  todoDate: Date(day: 1, month: 1, year: 2019),
+  todoDate: const Date(day: 1, month: 1, year: 2019),
   subject: informatics,
   title: 'Buch S. 33',
 );
 final haIntegration4 = createHomework(
-  todoDate: Date(day: 1, month: 1, year: 2019),
+  todoDate: const Date(day: 1, month: 1, year: 2019),
   subject: informatics,
   title: 'Vortrag',
 );
 final haIntegration5 = createHomework(
-  todoDate: Date(day: 1, month: 1, year: 2019),
+  todoDate: const Date(day: 1, month: 1, year: 2019),
   subject: maths,
   title: 'Buch S.34',
 );
 final haIntegration6 = createHomework(
-  todoDate: Date(day: 6, month: 10, year: 2020),
+  todoDate: const Date(day: 6, month: 10, year: 2020),
   subject: informatics,
   title: 'Buch S. 35',
 );
 final haIntegration7 = createHomework(
-  todoDate: Date(day: 6, month: 10, year: 2020),
+  todoDate: const Date(day: 6, month: 10, year: 2020),
   subject: maths,
   title: 'Buch S.37',
 );

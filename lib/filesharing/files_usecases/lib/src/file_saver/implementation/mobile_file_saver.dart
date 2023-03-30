@@ -14,7 +14,7 @@ import 'package:files_usecases/src/file_saver/file_saver.dart';
 class MobileFileSaver extends FileSaver {
   @override
   Future<bool> saveFromUrl(
-      String url, String filename, FileFormat extensionType) async {
+      String url, String filename, FileFormat fileType) async {
     return false;
   }
 

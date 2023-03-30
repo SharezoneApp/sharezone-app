@@ -74,7 +74,7 @@ class AppUser {
   }
 
   factory AppUser.fromData(Map<String, dynamic>? data, {required String id}) {
-    if (data == null)
+    if (data == null) {
       return AppUser._(
         id: id,
         name: "Anonymer Account",
@@ -92,6 +92,7 @@ class AppUser {
         userTipData: UserTipData.empty(),
         createdOn: null,
       );
+    }
     return AppUser._(
       id: id,
       name: data['name'],
@@ -180,7 +181,7 @@ class AppUser {
       userTipData: userTipData ?? this.userTipData,
       createdOn: createdOn,
       referredBy: referredBy,
-      features: features ?? this.features,
+      features: features ?? features,
     );
   }
 }

@@ -62,10 +62,10 @@ class Dateigroesse {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is Dateigroesse && o.inBytes == inBytes;
+    return other is Dateigroesse && other.inBytes == inBytes;
   }
 
   @override

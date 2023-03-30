@@ -17,16 +17,17 @@ class ErstellerAbgabeModelSnapshot {
   ErstellerAbgabeModelSnapshot(ErstellerAbgabeModel abgabe)
       : abgabe = Optional.ofNullable(abgabe);
 
-  ErstellerAbgabeModelSnapshot.nichtExistent() : abgabe = Optional.empty();
+  ErstellerAbgabeModelSnapshot.nichtExistent()
+      : abgabe = const Optional.empty();
 
   bool get existiertAbgabe => abgabe.isPresent;
   final Optional<ErstellerAbgabeModel> abgabe;
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is ErstellerAbgabeModelSnapshot && o.abgabe == abgabe;
+    return other is ErstellerAbgabeModelSnapshot && other.abgabe == abgabe;
   }
 
   @override
@@ -56,14 +57,14 @@ class ErstellerAbgabeModel {
       'ErstellerAbgabenModel(abgabeId: $abgabeId, abgegebenUm: $abgegebenUm, abgabedateien: $abgabedateien)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 
-    return o is ErstellerAbgabeModel &&
-        o.abgabeId == abgabeId &&
-        o.abgegebenUm == abgegebenUm &&
-        listEquals(o.abgabedateien, abgabedateien);
+    return other is ErstellerAbgabeModel &&
+        other.abgabeId == abgabeId &&
+        other.abgegebenUm == abgegebenUm &&
+        listEquals(other.abgabedateien, abgabedateien);
   }
 
   @override

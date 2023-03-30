@@ -61,7 +61,7 @@ void main() {
       final sorted = List<HomeworkReadModel>.generate(
         15,
         (i) => createHomework(
-            todoDate: Date(year: 2019, month: 02, day: 03),
+            todoDate: const Date(year: 2019, month: 02, day: 03),
             subject: 'Subject',
             title: '$i'),
       );

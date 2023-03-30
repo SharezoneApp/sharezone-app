@@ -20,6 +20,6 @@ class DateiDownloadUrl {
 
   @override
   String toString() {
-    return '$_url';
+    return _url;
   }
 }

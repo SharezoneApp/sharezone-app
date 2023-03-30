@@ -25,19 +25,19 @@ void main() {
       );
     });
     test('is overdue when the todoDate is before now', () {
-      final h = createHomework(todoDate: Date(year: 2019, month: 02, day: 03));
-      final today = Date(year: 2019, month: 02, day: 18);
+      final h = createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
+      const today = Date(year: 2019, month: 02, day: 18);
       expect(h.isOverdueRelativeTo(today), true);
     });
     test('is not overdue when the todoDate equals the day given', () {
-      var date = Date(year: 2019, month: 02, day: 03);
+      var date = const Date(year: 2019, month: 02, day: 03);
       final h = createHomework(todoDate: date);
       expect(h.isOverdueRelativeTo(date), false);
     });
 
     test('is not overdue when the todoDate is after the day given', () {
-      final h = createHomework(todoDate: Date(year: 2019, month: 02, day: 03));
-      final today = Date(year: 2019, month: 01, day: 02);
+      final h = createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
+      const today = Date(year: 2019, month: 01, day: 02);
       expect(h.isOverdueRelativeTo(today), false);
     });
   });
@@ -48,12 +48,12 @@ void expectThrowsArgumentError(Function f) {
 }
 
 HomeworkReadModel createWith(HomeworkParameter nullParameter, dynamic instead) {
-  final title = Title('SomeTitle');
+  const title = Title('SomeTitle');
   final subject = Subject('SomeSubject');
   final id = HomeworkId('SomeId');
-  final done = CompletionStatus.open;
-  final todoDate = Date(year: 2019, month: 02, day: 03).asDateTime();
-  final withSubmissions = true;
+  const done = CompletionStatus.open;
+  final todoDate = const Date(year: 2019, month: 02, day: 03).asDateTime();
+  const withSubmissions = true;
   switch (nullParameter) {
     case HomeworkParameter.id:
       return HomeworkReadModel(

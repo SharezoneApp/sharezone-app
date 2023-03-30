@@ -29,20 +29,20 @@ final darkTheme = ThemeData(
   fontFamily: rubik,
 
   // Themes
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     color: ElevationColors.dp8,
     foregroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.white),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: _accentColor,
     foregroundColor: Colors.white,
   ),
   textTheme:
-      TextTheme().copyWith(headlineMedium: TextStyle(color: Colors.white)),
+      const TextTheme().copyWith(headlineMedium: const TextStyle(color: Colors.white)),
   pageTransitionsTheme: _pageTransitionsTheme,
   snackBarTheme: _snackBarTheme.copyWith(
-    contentTextStyle: TextStyle(
+    contentTextStyle: const TextStyle(
       color: Colors.white,
     ),
   ),
@@ -50,7 +50,7 @@ final darkTheme = ThemeData(
   dialogTheme: _dialogTheme,
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: _accentColor, brightness: Brightness.dark),
-  tabBarTheme: TabBarTheme(labelColor: Colors.white),
+  tabBarTheme: const TabBarTheme(labelColor: Colors.white),
   checkboxTheme: CheckboxThemeData(
     fillColor:
         MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
