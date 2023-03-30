@@ -432,7 +432,6 @@ class PrivacyPolicyLoadingState {
 
   PrivacyPolicy get privacyPolicyOrNull => privacyPolicySnapshot.data;
 
-  // TODO: I think this might be broken if we return null?
   bool get isSuccessful => privacyPolicySnapshot.hasData;
   bool get isError => privacyPolicySnapshot.hasError;
   bool get isLoading => !isSuccessful && !isError;
