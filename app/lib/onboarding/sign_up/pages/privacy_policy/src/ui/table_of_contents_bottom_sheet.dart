@@ -110,7 +110,6 @@ class _TocSectionHeadingList extends StatelessWidget {
     int indexHighlighted = tocController.documentSections
         .indexWhere((section) => section.shouldHighlight);
 
-    // TODO: Can we make _BottomFade work with ItemScrollController?
     // This list bounces when opening the bottom sheet and viewing the list
     // if the user is reading one of the last chapters (so
     // ScrollablePositionedList wants to scroll to the last items).
