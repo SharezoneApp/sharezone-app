@@ -55,13 +55,6 @@ void testWidgetsWithDimensions(
   });
 }
 
-class _TestingScaffold {
-  void setAppBuildNumberTo(int buildNumber) {}
-
-  void setShowPrivacyPolicyFallbackForBuildsEqualOrBelowBuildNumber(
-      int buildNumber) {}
-}
-
 void main() {
   group(
     'privacy policy page',
