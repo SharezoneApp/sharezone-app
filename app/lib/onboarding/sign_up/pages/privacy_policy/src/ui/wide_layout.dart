@@ -60,8 +60,6 @@ class MainContentWide extends StatelessWidget {
                           },
                         ),
                       ),
-                    // TODO: This might also not be centered correctly (too much
-                    // on the right because of the back button)
                     Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
