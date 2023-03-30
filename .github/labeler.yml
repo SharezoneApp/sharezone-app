@@ -140,7 +140,7 @@
   - "**/attachments/**"
   - "**/**attachment**"
 
-"feature: authentication":
+"feature: authentification":
   - "**/authentication/**"
   - "**/auth/**"
   - "**/**sign_in**"
