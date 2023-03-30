@@ -235,8 +235,12 @@ class PrivacyPolicyText extends StatelessWidget {
       children: [
         RelativeAnchorsMarkdown(
           selectable: true,
-          // TODO - Fix: Links (blue colored text) have bad contrast in dark mode
           styleSheet: MarkdownStyleSheet(
+              // hyperlinks
+              a: TextStyle(
+                  color: isDarkThemeEnabled(context)
+                      ? Colors.blue.shade400
+                      : Colors.blue.shade600),
               h3: Theme.of(context)
                   .textTheme
                   .titleMedium
