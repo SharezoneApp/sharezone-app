@@ -113,7 +113,9 @@ class DownloadAsPDFButton extends StatelessWidget {
 
   Future<void> downloadPdf(BuildContext context) {
     final downloadUrl = Provider.of<Uri>(context, listen: false);
-    return launchUrl(downloadUrl);
+    // If `mode: LaunchMode.externalApplication` isn't used then Android would
+    // just show a blank page.
+    return launchUrl(downloadUrl, mode: LaunchMode.externalApplication);
   }
 
   @override

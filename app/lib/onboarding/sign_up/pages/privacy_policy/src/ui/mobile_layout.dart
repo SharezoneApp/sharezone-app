@@ -33,7 +33,6 @@ class MainContentMobile extends StatelessWidget {
               },
               icon: Icon(Icons.display_settings)),
           SizedBox(width: 5),
-          // TODO: Doesn't seem to work on Android? (At lest on emulator).
           DownloadAsPDFButton.icon(
             enabled: privacyPolicyLoadingState.isSuccessful,
           ),
