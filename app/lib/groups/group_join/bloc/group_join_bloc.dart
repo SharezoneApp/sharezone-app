@@ -14,7 +14,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 
 class GroupJoinBloc extends BlocBase {
   final ConnectionsGateway _connectionsGateway;

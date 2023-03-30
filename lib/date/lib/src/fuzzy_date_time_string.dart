@@ -17,13 +17,14 @@ String getFuzzyDateTimeString(BuildContext context, DateTime dateTime) {
     return TimeOfDay.fromDateTime(dateTime).format(context);
   } else {
     final dateYesterday = dateToday.addDays(-1);
-    if (dateOfDateTime.isSameDay(dateYesterday))
+    if (dateOfDateTime.isSameDay(dateYesterday)) {
       return 'Gestern';
-    else {
-      if (dateOfDateTime.year == dateToday.year)
+    } else {
+      if (dateOfDateTime.year == dateToday.year) {
         return dateOfDateTime.parser.toMMMEd;
-      else
+      } else {
         return dateOfDateTime.parser.toYMMMd;
+      }
     }
   }
 }

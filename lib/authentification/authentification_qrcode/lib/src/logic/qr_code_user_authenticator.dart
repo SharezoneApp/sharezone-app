@@ -8,7 +8,7 @@
 
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import '../models/qr_sign_in_document.dart';
 import '../models/qr_sign_in_state.dart';
 

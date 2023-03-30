@@ -22,7 +22,7 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   final Widget? child;
 
   @override
-  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+  State createState() => _BlocProviderState<T>();
 
   static T of<T extends BlocBase>(BuildContext context) {
     final type = _typeOf<BlocProvider<T>>();

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -20,8 +22,8 @@ import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/snackbars.dart';
 import 'package:sharezone_widgets/theme.dart';
@@ -37,7 +39,8 @@ void _submit(BuildContext context) {
     bloc.submit();
     Navigator.pop(context, true);
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
+
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }
@@ -264,7 +267,7 @@ class _WeekTypeField extends StatelessWidget {
             final newWeekType =
                 await selectWeekType(context, selected: weekType);
             if (newWeekType != null) {
-              print("WeekType beim Change: ${getWeekTypeText(weekType)}");
+              log("WeekType beim Change: ${getWeekTypeText(weekType)}");
               bloc.changeWeekType(newWeekType);
             }
           },

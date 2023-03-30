@@ -10,7 +10,7 @@ import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:authentification_qrcode/src/logic/qr_code_user_authenticator.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 /// Hierüber meldet sich das Gerät des bereits zuvor authentifizierten Nutzers, damit dieser sich auf
 /// einem neuen Gerät anmelden kann.

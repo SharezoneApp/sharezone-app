@@ -29,15 +29,15 @@ void main() {
     });
 
     test('Create Student homework View test', () {
-      final white = Color.fromRGBO(255, 255, 255, 1);
+      const white = Color.fromRGBO(255, 255, 255, 1);
 
       final homework = HomeworkReadModel(
         id: HomeworkId('Id'),
         status: CompletionStatus.open,
-        todoDate: Date(year: 2019, month: 1, day: 28).asDateTime(),
+        todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),
         subject: Subject('Mathematik', color: white),
         withSubmissions: false,
-        title: Title('S. 35 6a) und 8c)'),
+        title: const Title('S. 35 6a) und 8c)'),
       );
       final expectedView = StudentHomeworkView(
         id: 'Id',
@@ -68,7 +68,7 @@ void main() {
 
     test('subject is subject.name', () {
       final hw = createHomework(
-          subject: 'Mathe', todoDate: Date(year: 2018, month: 12, day: 03));
+          subject: 'Mathe', todoDate: const Date(year: 2018, month: 12, day: 03));
 
       final view = viewFactory.createFrom(hw);
 
@@ -76,7 +76,7 @@ void main() {
     });
 
     test('formates date correct', () {
-      final hw = createHomework(todoDate: Date(year: 2018, month: 12, day: 03));
+      final hw = createHomework(todoDate: const Date(year: 2018, month: 12, day: 03));
 
       final view = viewFactory.createFrom(hw);
 
@@ -87,7 +87,7 @@ void main() {
         'date should get colored if the homework is overdue, today or tomorrow',
         () {
       final overdue =
-          createHomework(todoDate: Date(year: 2016, month: 02, day: 01));
+          createHomework(todoDate: const Date(year: 2016, month: 02, day: 01));
       final today = createHomework(todoDate: currentDate);
       final tomorrow = createHomework(todoDate: currentDate.addDays(1));
 
@@ -100,7 +100,7 @@ void main() {
       expect(tomorrowView.colorDate, true);
     });
     test('date should not get colored if the homework is not overdue', () {
-      var todoDate = Date(year: 2020, month: 02, day: 01);
+      var todoDate = const Date(year: 2020, month: 02, day: 01);
       final hw = createHomework(todoDate: todoDate);
       assert(todoDate > currentDate);
 
@@ -109,11 +109,11 @@ void main() {
       expect(view.colorDate, false);
     });
     test('subject color should be taken from homework if specified', () {
-      final hw = createHomework(subjectColor: Color(1234));
+      final hw = createHomework(subjectColor: const Color(1234));
 
       final view = viewFactory.createFrom(hw);
 
-      expect(view.subjectColor, Color(1234));
+      expect(view.subjectColor, const Color(1234));
     });
 
     test('subjecet color should be the default color if homework has none', () {

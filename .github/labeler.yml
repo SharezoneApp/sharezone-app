@@ -6,29 +6,250 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
+# This file is used by the GitHub Action "labeler" to automatically add labels
+# to pull requests based on the files that have been changed in the pull
+# request.
+#
+# The action uses minimatch patterns to match files. For more information, see
+# https://github.com/isaacs/minimatch
+#
+# Here quick crash course about the glob pattern:
+# When we have "**/homework/**" returns this always true, if in the path of file
+# a directory "homework" contains:
+# "app/lib/homework/add.dart" -> true
+# "app/lib/timetable/add.dart" -> false
+#
+# When we have "**/**homework**" returns this always true, if a file contains
+# the word "homework":
+# "app/lib/homework_add.dart" -> true
+# "app/lib/fab_homework_button.dart" -> true
+# "app/lib/homeworks_page.dart" -> true
+# "app/lib/homewor_page.dart" -> false
+#
+# Try this the following link to play around with the glob pattern:
+# https://globster.xyz/?q=**%2F**homework**&f=app%2Flib%2Fhomework_page.dart%2Capp%2Flib%2Ftimetable_page.dart%2Capp%2Flib%2Fhomework%2Fadd.dart&embed=1
+#
+# Another recommendation is to keep the global general and wide. For the
+# "feature: homework" label, do not list all the paths to the homework
+# directories. Instead, just use something like "**/homework/**". This will
+# automatically include the app files, test files, package files and asset files
+# that contain a homework directory. Of course, this can lead to false positives
+# in a few cases. However, we prefer the general glob to the small chance of a
+# false positive because we think the chance of not assigning the label with too
+# specific globs is much higher than having a false positive with a general
+# glob. And when searching for a PR with labels, it is usually better to find a
+# few false positives than not to find a PR about a change in the homework
+# feature that does not have the homework label.
+#
+# We are not going to include "w: " labels because they are too specific and
+# it's too hard to maintain the paths for the files. Searching stuff with the
+# "feature: " label should be enough.
+
 "ci/cd":
-- .github/workflows/**
-- .github/labeler.yml
-- codemagic.yaml
+  - .github/workflows/**
+  - .github/labeler.yml
+  - .github/dependabot.yml
+  - codemagic.yaml
+  - "**/firebase.json"
+  - "**/.firebaserc"
+  - "bin/check_license_headers.sh"
+  - "bin/add_license_headers.sh"
+  - "bin/source_of_truth/**"
 
 "documentation":
-- '**/*.md'
+  - "**/*.md"
+  - "**/*.mdx"
+  - "docs/**"
+  - "docs.yaml"
 
 "dependencies":
-- '**/pubspec.yaml'
-- '**/pubspec.lock'
+  - "**/pubspec.yaml"
+  - "**/pubspec.lock"
+  - ".fvm/**"
 
 "testing":
-- "**/*_test.dart"
+  - "**/*_test.dart"
+  - "**/test_driver/**"
+  - "**/test/**"
+  - "**/integration_test/**"
+  - "**/dart_test.yaml"
 
 "platform: android":
-- 'app/android/**'
+  - "app/android/**"
+  - "**/**android**"
+  - "**/**_android/**"
+  - "**/android_**/**"
+  - "**/**_android_**/**"
 
 "platform: ios":
-- 'app/ios/**'
+  - "app/ios/**"
+  - "**ios**"
+  - "**/**_ios**/**"
+  - "**/ios_**/**"
+  - "**/**_ios_**/**"
 
 "platform: macos":
-- 'app/macos/**'
+  - "app/macos/**"
+  - "**/**macos**"
+  - "**/**_macos/**"
+  - "**/macos_**/**"
+  - "**/**_macos_**/**"
 
 "platform: web":
-- 'app/web/**'
+  - "app/web/**"
+  - "**/**web**"
+  - "**/**_web/**"
+  - "**/web_**/**"
+  - "**/**_web_**/**"
+
+"code quality":
+  - "**/analysis_options.yaml"
+  - "lib/sharezone_lints/**"
+
+"legal":
+  - "LICENSE"
+  - "**/**privacy_policy**"
+  - "**/**imprint**"
+
+"sharezone: cli":
+  - "tools/sz_repo_cli/**"
+  - "bin/sz"
+  - "bin/sharezone"
+
+"ui / ux":
+  - "**/theme/**"
+  - "**/**theme**"
+  - app/fonts/**
+  - lib/sharezone_widgets/**
+  - app/**/widgets/**
+  # Assets like images, icons, etc.
+  - "**/assets/**"
+
+"ui: dark-mode":
+  - "**/**dark_theme**"
+
+"ui: light-mode":
+  - "**/**light_theme**"
+
+"feature: analytics":
+  - "**/analytics/**"
+  - "**/**analytics**"
+  - "lib/analytics/**"
+
+"feature: attachments":
+  - "**/attachments/**"
+  - "**/**attachment**"
+
+"feature: authentication":
+  - "**/authentication/**"
+  - "**/auth/**"
+  - "**/**sign_in**"
+  - "**/**sign_out**"
+  - "**/**sign_up**"
+  - "**/**registration**"
+  - "**/**login**"
+
+"feature: comments":
+  - "**/comments/**"
+  - "**/**comment**"
+
+"feature: donation":
+  - "**/donate/**"
+  - "**/donate**"
+
+"feature: feedback":
+  - "**/feedback/**"
+  - "**/**feedback**"
+
+"feature: file-sharing":
+  - "**/filesharing/**"
+  - "**/file_sharing/**"
+
+"feature: group permissions":
+  - "**/group_permissions/**"
+  - "**/**permission**"
+
+"feature: groups:classes":
+  - "**/school_class/**"
+  - "**/school_class**"
+
+"feature: groups:courses":
+  - "**/course/**"
+  - "**/**course**"
+
+"feature: groups":
+  - "**/groups/**"
+  - "**/**group**"
+  - "lib/group_domain_implementation/**"
+  - "lib/group_domain_models/**"
+  # We still have some old code that uses the term "gruppe" instead of "group"
+  - "**/**gruppe**"
+
+"feature: holidays":
+  - "**/holidays/**"
+  - "**/**holiday**"
+
+# We don't have any files for the homework reminder feature yet (only
+# notification.dart), so we can't list any paths here.
+#
+# "feature: homework reminder":
+
+"feature: homework":
+  - "**/homework/**"
+  - "**/**homework**"
+  - "lib/hausaufgabenheft_logik/**"
+
+"feature: homework-submissions":
+  # We still have some old code that uses the term "abgabe" instead of
+  # "submission"
+  - "**/abgabe/**"
+  - "**/**abgabe**"
+  - "**/**submission**/**"
+  - "**/**submission**"
+
+"feature: information sheet":
+  - "**/blackboard/**"
+  - "**/**blackboard**"
+
+"feature: navigation":
+  - "**/**navigation**/**"
+  - "**/navigation**"
+  - "**/drawer/**"
+  - "**/**drawer**"
+
+"feature: notifications":
+  - "**/notifications/**"
+  - "**/**notification**"
+  - "app/**/firebase_auth_token_retreiver_impl.dart"
+
+"feature: onboarding":
+  - "**/onboarding/**"
+  - "**/**onboarding**"
+
+"feature: report":
+  - "**/report/**"
+
+"feature: timetable / calendar":
+  - "**/timetable/**"
+  - "**/**timetable**"
+  - "**/**lesson**"
+  - "**/**lesson**/**"
+  - "**/calendrical_events/**"
+
+"feature: universal file features":
+  - "**/filesharing/**"
+  - "**/**file**"
+
+"user: parent":
+  - "**/parent/**"
+  - "**/**parent**"
+
+"user: pupil / student":
+  - "**/student/**"
+  - "**/**student**"
+
+"user: teacher":
+  - "**/teacher/**"
+  - "**/**teacher**"
+  # We still have some old code that uses the term "lehrer" instead of "teacher"
+  - "**/lehrer/**"

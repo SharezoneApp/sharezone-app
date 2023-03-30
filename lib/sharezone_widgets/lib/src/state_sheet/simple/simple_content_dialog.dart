@@ -8,7 +8,7 @@
 
 import 'package:sharezone_widgets/state_sheet.dart';
 
-final stateDialogContentLoading = StateDialogContent(
+const stateDialogContentLoading = StateDialogContent(
   title: 'Bitte warten...',
   body: StateDialogLoadingBody(),
 );

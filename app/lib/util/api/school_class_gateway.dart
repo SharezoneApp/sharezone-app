@@ -11,7 +11,7 @@ import 'package:group_domain_implementation/group_domain_accessors_implementatio
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone_common/references.dart';
 
 class SchoolClassGateway {

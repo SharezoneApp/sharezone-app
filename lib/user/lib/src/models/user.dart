@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:meta/meta.dart';
 import 'features.dart';
 import 'state_enum.dart';
 import 'tips/user_tip_data.dart';
@@ -22,39 +21,39 @@ class AppUser {
 
   final TypeOfUser typeOfUser;
 
-  final String referralLink, referredBy;
+  final String? referralLink, referredBy;
   final int referralScore;
 
   final StateEnum state;
-  final String reminderTime;
-  final List<String> notificationTokens;
-  final bool blackboardNotifications;
-  final bool commentsNotifications;
+  final String? reminderTime;
+  final List<String?> notificationTokens;
+  final bool? blackboardNotifications;
+  final bool? commentsNotifications;
   final UserSettings userSettings;
   final UserTipData userTipData;
-  final DateTime createdOn;
-  final Features features;
+  final DateTime? createdOn;
+  final Features? features;
 
   AppUser._({
-    @required this.id,
-    @required this.name,
-    @required this.abbreviation,
-    @required this.typeOfUser,
-    @required this.referralLink,
-    @required this.referredBy,
-    @required this.referralScore,
-    @required this.reminderTime,
-    @required this.notificationTokens,
-    @required this.state,
-    @required this.blackboardNotifications,
-    @required this.commentsNotifications,
-    @required this.userSettings,
-    @required this.userTipData,
-    @required this.createdOn,
+    required this.id,
+    required this.name,
+    required this.abbreviation,
+    required this.typeOfUser,
+    required this.referralLink,
+    required this.referredBy,
+    required this.referralScore,
+    required this.reminderTime,
+    required this.notificationTokens,
+    required this.state,
+    required this.blackboardNotifications,
+    required this.commentsNotifications,
+    required this.userSettings,
+    required this.userTipData,
+    required this.createdOn,
     this.features,
   });
 
-  factory AppUser.create({String id}) {
+  factory AppUser.create({required String id}) {
     return AppUser._(
       id: id,
       name: "Anonymer Account",
@@ -74,8 +73,8 @@ class AppUser {
     );
   }
 
-  factory AppUser.fromData(Map<String, dynamic> data, {@required String id}) {
-    if (data == null)
+  factory AppUser.fromData(Map<String, dynamic>? data, {required String id}) {
+    if (data == null) {
       return AppUser._(
         id: id,
         name: "Anonymer Account",
@@ -93,11 +92,13 @@ class AppUser {
         userTipData: UserTipData.empty(),
         createdOn: null,
       );
+    }
     return AppUser._(
       id: id,
       name: data['name'],
       abbreviation: generateAbbreviation(data['name']),
-      typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']),
+      typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']) ??
+          TypeOfUser.unknown,
       notificationTokens: decodeList(data['notificationTokens'], (it) => it),
       reminderTime: data['reminderTime'],
       referralLink: data['referralLink'],
@@ -149,18 +150,18 @@ class AppUser {
   }
 
   AppUser copyWith({
-    String id,
-    String name,
-    String abbreviation,
-    TypeOfUser typeOfUser,
-    String reminderTime,
-    int referralScore,
-    List<String> notificationTokens,
-    StateEnum state,
-    bool blackboardNotifications,
-    bool commentsNotifications,
-    UserSettings userSettings,
-    UserTipData userTipData,
+    String? id,
+    String? name,
+    String? abbreviation,
+    TypeOfUser? typeOfUser,
+    String? reminderTime,
+    int? referralScore,
+    List<String>? notificationTokens,
+    StateEnum? state,
+    bool? blackboardNotifications,
+    bool? commentsNotifications,
+    UserSettings? userSettings,
+    UserTipData? userTipData,
   }) {
     return AppUser._(
       id: id ?? this.id,
@@ -180,12 +181,12 @@ class AppUser {
       userTipData: userTipData ?? this.userTipData,
       createdOn: createdOn,
       referredBy: referredBy,
-      features: features ?? this.features,
+      features: features ?? features,
     );
   }
 }
 
-String generateAbbreviation(String name) {
+String generateAbbreviation(String? name) {
   if (name != null) {
     if (name.length <= 1) {
       return name.toUpperCase();

@@ -23,7 +23,7 @@ abstract class LocalFile {
 
   String getName();
 
-  MimeType getType();
+  MimeType? getType();
 
   int getSizeBytes();
 

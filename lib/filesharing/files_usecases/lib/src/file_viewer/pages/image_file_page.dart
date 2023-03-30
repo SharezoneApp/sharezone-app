@@ -36,7 +36,7 @@ class ImageFilePage extends StatefulWidget {
   final String id;
 
   @override
-  _ImageFilePageState createState() => _ImageFilePageState();
+  State createState() => _ImageFilePageState();
 }
 
 class _ImageFilePageState extends State<ImageFilePage> {
@@ -83,12 +83,14 @@ class _ImageFilePageState extends State<ImageFilePage> {
       future: getFileDownloader()
           .downloadFileFromURL(widget.downloadURL, widget.name, widget.id),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return AccentColorCircularProgressIndicator();
+        if (!snapshot.hasData) {
+          return const AccentColorCircularProgressIndicator();
+        }
         return PhotoView(
           minScale: PhotoViewComputedScale.contained,
           maxScale: 10.0,
           loadingBuilder: (context, event) =>
-              AccentColorCircularProgressIndicator(),
+              const AccentColorCircularProgressIndicator(),
           imageProvider: FileImage(snapshot.data.getFile()),
         );
       },
@@ -99,24 +101,26 @@ class _ImageFilePageState extends State<ImageFilePage> {
     return FutureBuilder<Uint8List>(
         future: getFileSaver().downloadAndReturnBytes(widget.downloadURL),
         builder: (context, resultSnapshot) {
-          if (resultSnapshot.hasError)
-            return Center(
+          if (resultSnapshot.hasError) {
+            return const Center(
               child: Icon(
                 Icons.error_outline,
                 color: Colors.red,
               ),
             );
-          if (!resultSnapshot.hasData)
-            return Center(
+          }
+          if (!resultSnapshot.hasData) {
+            return const Center(
               child: CircularProgressIndicator(),
             );
+          }
           final result = resultSnapshot.data;
 
           return PhotoView(
             minScale: PhotoViewComputedScale.contained,
             maxScale: 10.0,
             loadingBuilder: (context, event) =>
-                AccentColorCircularProgressIndicator(),
+                const AccentColorCircularProgressIndicator(),
             imageProvider: MemoryImage(result),
           );
         });

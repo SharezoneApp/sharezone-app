@@ -61,22 +61,23 @@ class FileUtils {
   }
 
   static FileFormat getFileFormatFromExtension(String fileExtension) {
-    if (extensionsPDF.contains(fileExtension))
+    if (extensionsPDF.contains(fileExtension)) {
       return FileFormat.pdf;
-    else if (extensionsTEXT.contains(fileExtension))
+    } else if (extensionsTEXT.contains(fileExtension)) {
       return FileFormat.text;
-    else if (extensionsIMAGE.contains(fileExtension))
+    } else if (extensionsIMAGE.contains(fileExtension)) {
       return FileFormat.image;
-    else if (extensionsVIDEO.contains(fileExtension))
+    } else if (extensionsVIDEO.contains(fileExtension)) {
       return FileFormat.video;
-    else if (extensionsZIP.contains(fileExtension))
+    } else if (extensionsZIP.contains(fileExtension)) {
       return FileFormat.zip;
-    else if (extensionsEXCEL.contains(fileExtension))
+    } else if (extensionsEXCEL.contains(fileExtension)) {
       return FileFormat.excel;
-    else if (extensionsAUDIO.contains(fileExtension))
+    } else if (extensionsAUDIO.contains(fileExtension)) {
       return FileFormat.audio;
-    else
+    } else {
       return FileFormat.unknown;
+    }
   }
 
   static FileFormat getFileFormatFromMimeType(MimeType mimeType) {
@@ -86,33 +87,29 @@ class FileUtils {
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsPDF)) {
       return FileFormat.pdf;
       // FILEFORMAT.TEXT
-    } else if (_mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsTEXT))
+    } else if (_mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsTEXT)) {
       return FileFormat.text;
-    // FILEFORMAT.IMAGE
-    else if (mimeTypesIMAGE.contains(mimeTypeAsString) ||
+    } else if (mimeTypesIMAGE.contains(mimeTypeAsString) ||
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsIMAGE) ||
-        mimeTypeAsString.contains('image'))
+        mimeTypeAsString.contains('image')) {
       return FileFormat.image;
-    // FILEFORMAT.VIDEO
-    else if (mimeTypesVIDEO.contains(mimeTypeAsString) ||
+    } else if (mimeTypesVIDEO.contains(mimeTypeAsString) ||
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsVIDEO) ||
-        mimeTypeAsString.contains('video'))
+        mimeTypeAsString.contains('video')) {
       return FileFormat.video;
-    // FILEFORMAT.ZIP
-    else if (extensionsZIP.contains(mimeTypeAsString) ||
-        _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsZIP))
+    } else if (extensionsZIP.contains(mimeTypeAsString) ||
+        _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsZIP)) {
       return FileFormat.zip;
-    // FILEFORMAT.EXCEL
-    else if (extensionsEXCEL.contains(mimeTypeAsString) ||
-        _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsEXCEL))
+    } else if (extensionsEXCEL.contains(mimeTypeAsString) ||
+        _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsEXCEL)) {
       return FileFormat.excel;
-    // FILEFORMAT.AUDIO
-    else if (extensionsAUDIO.contains(mimeTypeAsString) ||
+    } else if (extensionsAUDIO.contains(mimeTypeAsString) ||
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsAUDIO) ||
-        mimeTypeAsString.contains('audio'))
+        mimeTypeAsString.contains('audio')) {
       return FileFormat.audio;
-    else
+    } else {
       return FileFormat.unknown;
+    }
   }
 
   static bool _mimeTypeContainsAnyOfTheseExtensions(

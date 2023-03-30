@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:authentification_base/authentification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -104,7 +105,7 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SharezoneLogo(
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
       height: 50,
       width: 50,
     );
@@ -153,9 +154,8 @@ class _EmailField extends StatelessWidget {
                         text: _ResetPasswordPage.erfolg,
                         duration: const Duration(seconds: 5),
                         context: context))
-                    .catchError((e, s) {
-                  print(e);
-                  print(s);
+                    .catchError((e, StackTrace s) {
+                  log('$e', error: e, stackTrace: s);
                   showSnack(
                       text: _ResetPasswordPage.error,
                       duration: const Duration(seconds: 5),
@@ -190,15 +190,14 @@ class _SubmitButton extends StatelessWidget {
                 ? bloc
                     .submit()
                     .then((_) => showConfirmationDialog(context))
-                    .catchError((e, s) {
-                    print(e);
-                    print(s);
+                    .catchError((e, StackTrace s) {
+                    log('$e', error: e, stackTrace: s);
                     showSnack(
                         text: _ResetPasswordPage.error,
                         duration: const Duration(seconds: 5),
                         context: context);
                   })
-                : print("Can't submit.");
+                : log("Can't submit.");
           },
         ),
       ),

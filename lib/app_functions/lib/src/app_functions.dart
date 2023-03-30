@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/src/app_functions_result.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -24,8 +26,8 @@ class AppFunctions {
       final httpsCallableResult =
           await _firebaseFunctions.httpsCallable(functionName).call(parameters);
       return AppFunctionsResult<T>.data(httpsCallableResult.data);
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      log('Can not resolve callable cloud function', error: e, stackTrace: s);
       if (e is PlatformException) {
         final PlatformException platformException = e;
         return AppFunctionsResult.exception(
@@ -43,21 +45,23 @@ class AppFunctions {
 
   AppFunctionsException _mapFirebaseFunctionsExceptionToAppFunctionsException(
       FirebaseFunctionsException cloudFunctionsException) {
-    print("Code: " + cloudFunctionsException.code);
-    print("Details: " + cloudFunctionsException.details);
-    print("Message: ${cloudFunctionsException.message}");
-    if (cloudFunctionsException.code == 'DeadlineExceeded')
+    log("Code: ${cloudFunctionsException.code}");
+    log("Details: ${cloudFunctionsException.details}");
+    log("Message: ${cloudFunctionsException.message}");
+    if (cloudFunctionsException.code == 'DeadlineExceeded') {
       return TimeoutAppFunctionsException();
+    }
 
     return UnknownAppFunctionsException(cloudFunctionsException);
   }
 
   AppFunctionsException _mapPlatformExceptionToAppFunctionsException(
       PlatformException platformException) {
-    if (platformException.code == '-1009')
+    if (platformException.code == '-1009') {
       return NoInternetAppFunctionsException();
-    print("Code: " + platformException.code);
-    print("Message: ${platformException.message}");
+    }
+    log("Code: ${platformException.code}");
+    log("Message: ${platformException.message}");
 
     return UnknownAppFunctionsException(platformException);
   }

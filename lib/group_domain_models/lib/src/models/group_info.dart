@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/foundation.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:design/design.dart';
 
 class GroupInfo {
@@ -52,10 +52,12 @@ class GroupInfo {
 
 String _getAbbreviationFromName(String name) {
   if (name != null) {
-    if (name.length > 2)
+    if (name.length > 2) {
       return name.substring(0, 2);
-    else
+    } else {
       return name;
-  } else
+    }
+  } else {
     return null;
+  }
 }

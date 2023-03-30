@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:meta/meta.dart';
@@ -48,7 +49,7 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
         if (!schonBeigetreten) {
           return Beitrittsversuch(sharecode: sharecode);
         } else {
-          print("Gruppe wurde schon beigetreten");
+          log("Gruppe wurde schon beigetreten");
           // Das dynamic-link Plugin gibt den Link beim Rückwechsel in die App nochmals als neues Event an,
           // weswegen dann der Beitrittsversuch einfach komplett ignoriert werden soll.
           // Falls allerdings beim App-Start dem Kurs bereits beigetreten worden ist,

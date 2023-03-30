@@ -202,7 +202,7 @@ class AnimatedVisibility extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedVisibilityState createState() => _AnimatedVisibilityState();
+  State createState() => _AnimatedVisibilityState();
 }
 
 class _AnimatedVisibilityState extends State<AnimatedVisibility> {
@@ -263,13 +263,8 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
     /// without a nice fade-out animation.
     /// So we use both :)
     return AnimatedOpacity(
-      child: Visibility(
-        child: widget.child,
-        visible: isVisible,
-        maintainState: widget.maintainState,
-      ),
       opacity: isTransparent ? 0 : 1,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: widget.curve,
 
       /// Only make the widget invisible after the fade-out has finished.
@@ -286,6 +281,11 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
           widget.onEnd();
         }
       },
+      child: Visibility(
+        visible: isVisible,
+        maintainState: widget.maintainState,
+        child: widget.child,
+      ),
     );
   }
 }

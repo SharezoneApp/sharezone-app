@@ -8,7 +8,7 @@
 
 import 'package:meta/meta.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 
 class TimetableAddBlocDependencies {
   final TimetableGateway gateway;

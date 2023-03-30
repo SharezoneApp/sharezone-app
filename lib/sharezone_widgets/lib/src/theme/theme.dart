@@ -41,7 +41,7 @@ void hideKeyboard(
 
 const double cardElevation = 1.5; // Elevation of Cards
 
-TextStyle flowingText = TextStyle(
+TextStyle flowingText = const TextStyle(
   textBaseline: TextBaseline.alphabetic,
   fontSize: 15.0,
   height: 24.0 / 15.0,
@@ -58,7 +58,7 @@ TextStyle linkStyle(BuildContext context, [double fontSize]) => TextStyle(
     );
 
 class Headline extends StatelessWidget {
-  const Headline(this.title, {this.textAlign});
+  const Headline(this.title, {Key key, this.textAlign}) : super(key: key);
 
   final String title;
   final TextAlign textAlign;
@@ -82,7 +82,7 @@ class Headline extends StatelessWidget {
 
 // Blau Titel - Unterteilen die Seite in Kategorien
 class CategoryTitle extends StatelessWidget {
-  const CategoryTitle(this.title);
+  const CategoryTitle(this.title, {Key key}) : super(key: key);
 
   final String title;
 

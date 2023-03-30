@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
@@ -88,7 +90,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
           } else {
             OpenFile.open(
                     _getFilePathWithLowerCaseExtension(future.data.getPath()))
-                .then((result) => print('open file result: ${result.message}'));
+                .then((result) => log('open file result: ${result.message}'));
           }
 
           _closeDialogAfter1500Milliseconds(context);

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +55,7 @@ Future<void> submit(BuildContext context) async {
   try {
     Navigator.pop(context, await bloc.submit());
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }

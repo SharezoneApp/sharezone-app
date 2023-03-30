@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -16,7 +18,7 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/src/models/time_type.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
@@ -123,8 +125,7 @@ class TimetableAddBloc extends BlocBase {
       final weekType = _weekTypeSubject.valueOrNull ?? WeekType.always;
       final period = _periodSubject.valueOrNull;
       final timeType = _timeTypeSubject.valueOrNull;
-      print(
-          "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
+      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
 
       final lesson = Lesson(
         groupID: course.id,
