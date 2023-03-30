@@ -153,15 +153,9 @@ class ExpansionArrow extends StatelessWidget {
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: expansionArrowTurns,
-      // TODO: When using the IconButton without constraints
-      // the section is way bigger than the sections without
-      // an arrow.
-      // Consider looking at the sizes between devices/form
-      // factors and see what looks best and what is also
-      // accessible.
-      // Right now we shrank the size below the minimum
-      // accessbile size.
       child: IconButton(
+        // Without constraints the TOC section containing the button would grow
+        // too large vertically.
         constraints: BoxConstraints(maxHeight: 30),
         padding: EdgeInsets.all(0),
         visualDensity: VisualDensity.compact,
