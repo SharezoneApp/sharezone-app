@@ -423,13 +423,6 @@ void main() {
       expect(controller.currentlyReadSection, 'foo');
     });
 
-    // TODO: Not sure if this test belongs here.
-    // we need to test this since before there was no test for this behavior.
-    // im not sure though if I originally didn't want to tie these tests to a
-    // notion of a subsection i.e. make this more markdown document based (what
-    // is the heading that we're in, doesnt matter what kind) instead of already
-    // of already tying to to our model of section/subsection etc.
-    // On the other hand it might still be best to do it like this.
     test('A subsection is marked as currently read correctly', () {
       final sections = [
         _section('foo', subsections: [
