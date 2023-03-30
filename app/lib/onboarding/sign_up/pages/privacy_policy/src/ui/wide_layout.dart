@@ -245,7 +245,6 @@ class _TocHeadingDesktop extends StatefulWidget {
   State<_TocHeadingDesktop> createState() => _TocHeadingDesktopState();
 }
 
-// TODO: Make some base widget / merge some code with bottom sheet version
 class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
