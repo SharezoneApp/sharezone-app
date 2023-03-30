@@ -43,15 +43,13 @@ void main() {
     TestCurrentlyReadingController _createController(
       List<DocumentSection> sections, {
       double threshold = 0.1,
-      // TODO: Rename to end section?
-      String lastSection,
+      String endSection,
     }) {
       return TestCurrentlyReadingController(
         sections,
         visibleSections,
         threshold: CurrentlyReadThreshold(threshold),
-        lastSection:
-            lastSection != null ? DocumentSectionId(lastSection) : null,
+        endSection: endSection != null ? DocumentSectionId(endSection) : null,
       );
     }
 
@@ -345,7 +343,7 @@ void main() {
         _section('bar'),
       ];
 
-      final controller = _createController(sections, lastSection: endSectionId);
+      final controller = _createController(sections, endSection: endSectionId);
 
       // We start with the last section at the top of the screen...
       visibleSections.value = [
@@ -596,7 +594,7 @@ void main() {
 
       final controller = _createController(
         sections,
-        lastSection: 'last-section-id',
+        endSection: 'last-section-id',
       );
 
       visibleSections.value = [
@@ -649,7 +647,7 @@ void main() {
 
       final controller = _createController(
         sections,
-        lastSection: 'last-section-id',
+        endSection: 'last-section-id',
       );
 
       visibleSections.value = [
@@ -689,7 +687,7 @@ void main() {
 
       final controller = _createController(
         sections,
-        lastSection: 'last-section-id',
+        endSection: 'last-section-id',
       );
 
       visibleSections.value = [
@@ -724,7 +722,7 @@ void main() {
 
       final controller = _createController(
         sections,
-        lastSection: 'last-section-id',
+        endSection: 'last-section-id',
       );
 
       visibleSections.value = [
@@ -783,7 +781,7 @@ class TestCurrentlyReadingController {
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
     @required CurrentlyReadThreshold threshold,
-    DocumentSectionId lastSection,
+    DocumentSectionId endSection,
   }) {
     final listenable =
         ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList());
@@ -798,8 +796,8 @@ class TestCurrentlyReadingController {
     final config = PrivacyPolicyPageConfig(
       threshold: threshold,
       endSection: PrivacyPolicyEndSection(
-        sectionName: lastSection?.id ?? 'metadaten',
-        generateMarkdown: (pp) => _generateEndSectionMarkdown(lastSection),
+        sectionName: endSection?.id ?? 'metadaten',
+        generateMarkdown: (pp) => _generateEndSectionMarkdown(endSection),
       ),
     );
 
@@ -827,9 +825,9 @@ class TestCurrentlyReadingController {
 
 class MockDocumentController extends Mock implements DocumentController {}
 
-String _generateEndSectionMarkdown(DocumentSectionId lastSectionId) {
+String _generateEndSectionMarkdown(DocumentSectionId endSectionId) {
   return '''
 
-#### ${lastSectionId ?? 'metadaten'}
+#### ${endSectionId ?? 'metadaten'}
 ''';
 }
