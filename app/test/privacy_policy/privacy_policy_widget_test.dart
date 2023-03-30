@@ -60,9 +60,6 @@ void main() {
     'privacy policy page',
     () {
       group('table of contents', () {
-        // TODO: Consider deleting these tests later.
-        // Testing this might be done in a more e2e way since we already
-        // test the logic in unit tests.
         _testWidgets('highlights no section if we havent crossed any yet',
             (tester) async {
           final text = '''
