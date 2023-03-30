@@ -46,15 +46,19 @@ class MainContentWide extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
-                  // TODO: Move BackButton to the very left.
-                  // We can't seem to use Expanded since that conflicts with the
-                  // table of contents to the left.
                   children: [
                     if (showBackButton)
-                      BackButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                      // This button should have orignally been at the very left
+                      // but since we can't use Expanded (as this causes layout
+                      // issues) for now we just give it some padding relative
+                      // to the heading to the right.
+                      Padding(
+                        padding: const EdgeInsets.only(right: 48.0),
+                        child: BackButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
                     // TODO: This might also not be centered correctly (too much
                     // on the right because of the back button)
