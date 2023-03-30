@@ -120,7 +120,7 @@ class DownloadAsPDFButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _isIconButton
         ? IconButton(
-            onPressed: () => downloadPdf(context),
+            onPressed: enabled ? () => downloadPdf(context) : null,
             icon: Icon(Icons.download),
           )
         : TextButton.icon(
