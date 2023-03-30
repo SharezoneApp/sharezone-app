@@ -194,24 +194,6 @@ ${generateText(10)}
           // layout) so we need to call addTearDown so the other tests are not
           // affected.
           addTearDown(() => tester.binding.setSurfaceSize(null));
-          // TODO: Find better solution?
-          // If the code below is not used then the test will always fail with
-          // the following AssertionError. This assertion is never triggered in
-          // real usage, I dont know why it is triggered here. This is a bad
-          // solution as this just ignores all FlutterError.
-          // "The following assertion was thrown while finalizing the widget tree:
-          // A PrivacyPolicyThemeSettings was used after being disposed.
-          // Once you have called dispose() on a PrivacyPolicyThemeSettings, it can no longer be used."
-          final old = FlutterError.onError;
-          addTearDown(() => FlutterError.onError = old);
-          FlutterError.onError = (details) {
-            if (details
-                .exceptionAsString()
-                .contains('PrivacyPolicyThemeSettings')) {
-              return;
-            }
-            old(details);
-          };
 
           final text = '''
 # Foo
