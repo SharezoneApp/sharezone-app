@@ -361,29 +361,25 @@ class _Subheading extends StatelessWidget {
         Icon(Icons.circle, size: 6),
         SizedBox(width: 10),
         Flexible(
-          child: SectionHighlightOnly(
-            shouldHighlight: subsection.shouldHighlight,
-            backgroundColor: Theme.of(context).canvasColor,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: (16 + visualDensity.vertical * 3)
-                    .clamp(0, double.infinity)
-                    .toDouble(),
-                horizontal: (10 + visualDensity.horizontal)
-                    .clamp(0, double.infinity)
-                    .toDouble(),
-              ),
-              child: Text(
-                '${subsection.sectionHeadingText}',
-                style: Theme.of(context).textTheme.bodyMedium.copyWith(
-                      fontSize:
-                          Theme.of(context).textTheme.bodyMedium.fontSize - .5,
-                      fontWeight: subsection.shouldHighlight
-                          ? FontWeight.w400
-                          : FontWeight.normal,
-                    ),
-                textAlign: TextAlign.start,
-              ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: (16 + visualDensity.vertical * 3)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+              horizontal: (10 + visualDensity.horizontal)
+                  .clamp(0, double.infinity)
+                  .toDouble(),
+            ),
+            child: Text(
+              '${subsection.sectionHeadingText}',
+              style: Theme.of(context).textTheme.bodyMedium.copyWith(
+                    fontSize:
+                        Theme.of(context).textTheme.bodyMedium.fontSize - .5,
+                    fontWeight: subsection.shouldHighlight
+                        ? FontWeight.w400
+                        : FontWeight.normal,
+                  ),
+              textAlign: TextAlign.start,
             ),
           ),
         ),
@@ -395,41 +391,3 @@ class _Subheading extends StatelessWidget {
     );
   }
 }
-
-// TODO: Better name
-class SectionHighlightOnly extends StatelessWidget {
-  const SectionHighlightOnly({
-    Key key,
-    @required this.child,
-    @required this.shouldHighlight,
-    this.backgroundColor,
-    this.shape = const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(4)),
-    ),
-  }) : super(key: key);
-
-  final Widget child;
-  final bool shouldHighlight;
-  final Color backgroundColor;
-  final ShapeBorder shape;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO Dont need background color then I think?
-    if (!shouldHighlight) return child;
-    return AnimatedContainer(
-      decoration: ShapeDecoration(
-        color: shouldHighlight
-            ? _getHighlightColor(context)
-            : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-        shape: shape,
-      ),
-      duration: Duration(milliseconds: 100),
-      child: child,
-    );
-  }
-}
-
-Color _getHighlightColor(BuildContext context) => isDarkThemeEnabled(context)
-    ? Colors.blue.shade800
-    : Colors.lightBlue.shade100;
