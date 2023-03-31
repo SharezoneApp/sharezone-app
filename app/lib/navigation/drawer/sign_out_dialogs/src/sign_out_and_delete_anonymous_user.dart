@@ -14,9 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/dialog_wrapper.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
   if (ThemePlatform.isCupertino) {

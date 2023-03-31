@@ -25,9 +25,7 @@ import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/homework_validators.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
 

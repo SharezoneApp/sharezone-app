@@ -14,8 +14,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'is_it_first_person_using_sharezone.dart';
 
@@ -105,7 +104,11 @@ class _NotNowButton extends StatelessWidget {
       context: context,
       title: 'Keine Push-Nachrichten? 🤨',
       content: const Text(
-          "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten."),
+        "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\n"
+        "Sollte jemand einen Infozettel eintragen, "
+        "einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, "
+        "würdest du keine Push-Nachrichten erhalten.",
+      ),
       defaultValue: false,
       right: AdaptiveDialogAction(
         title: 'Ja',

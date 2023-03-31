@@ -28,11 +28,7 @@ import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone_common/translations.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/placeholder.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 enum SortBy { date, subject }

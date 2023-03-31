@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const FilePageAppBar({
@@ -54,7 +54,10 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name,
-      style: const TextStyle(color: Colors.white, fontFamily: rubik),
+      style: const TextStyle(
+        color: Colors.white,
+        fontFamily: rubik,
+      ),
     );
   }
 }

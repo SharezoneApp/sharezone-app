@@ -18,13 +18,11 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class WebAppSettingsPage extends StatelessWidget {
   static const tag = 'web-app-settings-page';
+
   @override
   Widget build(BuildContext context) {
     final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
@@ -70,9 +68,10 @@ class _Header extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: SizedBox(
-            width: 65,
-            height: 65,
-            child: PlatformSvg.asset("assets/icons/desktop.svg")),
+          width: 65,
+          height: 65,
+          child: PlatformSvg.asset("assets/icons/desktop.svg"),
+        ),
       ),
       children: <Widget>[
         const Text("Sharezone für's Web!", style: TextStyle(fontSize: 26)),
@@ -122,7 +121,8 @@ class _ScanQrCode extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
+          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, "
+          "ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
           style: TextStyle(
             color: Colors.grey,
             fontSize: 11.5,

@@ -9,8 +9,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Like the VoidCallback, but as a Future
 typedef FutureVoidCallback = Future<void> Function();

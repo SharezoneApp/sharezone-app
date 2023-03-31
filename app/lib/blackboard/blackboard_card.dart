@@ -16,9 +16,7 @@ import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'blackboard_view.dart';
 

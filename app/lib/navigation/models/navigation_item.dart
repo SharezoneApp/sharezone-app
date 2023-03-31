@@ -19,7 +19,7 @@ import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum NavigationItem {
   overview,
@@ -83,40 +83,56 @@ extension NavigationItemExtension on NavigationItem {
     switch (this) {
       case NavigationItem.overview:
         return Icon(
-            themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill));
+          themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill),
+        );
       case NavigationItem.homework:
-        return Icon(themeIconData(Icons.book,
-            cupertinoIcon: SFSymbols.checkmark_square_fill));
+        return Icon(
+          themeIconData(Icons.book,
+              cupertinoIcon: SFSymbols.checkmark_square_fill),
+        );
       case NavigationItem.group:
         return Icon(
-            themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill));
+          themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill),
+        );
       case NavigationItem.timetable:
         return Icon(
-            themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar));
+          themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar),
+        );
       case NavigationItem.events:
-        return Icon(themeIconData(Icons.event_note,
-            cupertinoIcon: SFSymbols.clock_fill));
+        return Icon(
+          themeIconData(Icons.event_note, cupertinoIcon: SFSymbols.clock_fill),
+        );
       case NavigationItem.blackboard:
-        return Icon(themeIconData(Icons.new_releases,
-            cupertinoIcon: SFSymbols.info_circle_fill));
+        return Icon(
+          themeIconData(Icons.new_releases,
+              cupertinoIcon: SFSymbols.info_circle_fill),
+        );
       case NavigationItem.filesharing:
-        return Icon(themeIconData(Icons.insert_drive_file,
-            cupertinoIcon: SFSymbols.folder_fill));
+        return Icon(
+          themeIconData(Icons.insert_drive_file,
+              cupertinoIcon: SFSymbols.folder_fill),
+        );
       case NavigationItem.settings:
-        return Icon(themeIconData(Icons.settings,
-            cupertinoIcon: SFSymbols.gear_alt_fill));
+        return Icon(
+          themeIconData(Icons.settings, cupertinoIcon: SFSymbols.gear_alt_fill),
+        );
       case NavigationItem.feedbackBox:
-        return Icon(themeIconData(Icons.message,
-            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill));
+        return Icon(
+          themeIconData(Icons.message,
+              cupertinoIcon: SFSymbols.exclamationmark_bubble_fill),
+        );
       case NavigationItem.accountPage:
         return Icon(
-            themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
+          themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill),
+        );
       case NavigationItem.donate:
         return Icon(
-            themeIconData(Icons.favorite, cupertinoIcon: SFSymbols.heart_fill));
+          themeIconData(Icons.favorite, cupertinoIcon: SFSymbols.heart_fill),
+        );
       case NavigationItem.more:
         return Icon(
-            themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
+          themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis),
+        );
     }
     throw UnimplementedError('There is no icon for $this');
   }

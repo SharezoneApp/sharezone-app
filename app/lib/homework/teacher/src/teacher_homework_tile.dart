@@ -14,7 +14,7 @@ import 'package:sharezone/pages/homework/homework_details/homework_details.dart'
 import 'package:sharezone/pages/homework/homework_details/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/homework/homework_tile_template.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class TeacherHomeworkTile extends StatelessWidget {
   final TeacherHomeworkView homework;
@@ -102,11 +102,17 @@ class _SubmissionsCounter extends StatelessWidget {
 
 void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
   showLeftRightAdaptiveDialog(
-      context: context,
-      left: AdaptiveDialogAction.ok,
-      title: 'Keine Berechtigung',
-      content: const Text(
-          'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'));
+    context: context,
+    left: AdaptiveDialogAction.ok,
+    title: 'Keine Berechtigung',
+    content: const Text(
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
+      'in der jeweiligen Gruppe die Abgabe anschauen.\n\n'
+      'Ansonsten könnte jeder Schüler einen neuen Account als '
+      'Lehrkraft erstellen und der Gruppe beitreten, '
+      'um die Abgabe der anderen Mitschüler anzuschauen.',
+    ),
+  );
 }
 
 class _DoneHomeworksCounter extends StatelessWidget {
@@ -132,11 +138,12 @@ class _DoneHomeworksCounter extends StatelessWidget {
         }
 
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  HomeworkCompletionUserListPage(homeworkId: homeworkId),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (_) =>
+                HomeworkCompletionUserListPage(homeworkId: homeworkId),
+          ),
+        );
       },
     );
   }
@@ -144,11 +151,17 @@ class _DoneHomeworksCounter extends StatelessWidget {
 
 void _showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   showLeftRightAdaptiveDialog(
-      context: context,
-      left: AdaptiveDialogAction.ok,
-      title: 'Keine Berechtigung',
-      content: const Text(
-          'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'));
+    context: context,
+    left: AdaptiveDialogAction.ok,
+    title: 'Keine Berechtigung',
+    content: const Text(
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
+      'in der jeweiligen Gruppe die Erledigt-Liste anschauen.'
+      '\n\nAnsonsten könnte jeder Schüler einen neuen Account als '
+      'Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, '
+      'welche Mitschüler die Hausaufgaben bereits erledigt haben.',
+    ),
+  );
 }
 
 class _TrailingCounterIconButton extends StatelessWidget {

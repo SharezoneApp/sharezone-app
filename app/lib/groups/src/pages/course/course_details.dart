@@ -24,9 +24,7 @@ import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
 import 'course_edit/course_edit_page.dart';

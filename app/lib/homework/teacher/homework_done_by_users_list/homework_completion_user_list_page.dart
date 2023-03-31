@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
-import 'package:sharezone_widgets/additional.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_widgets/wrapper.dart';
 
 import 'homework_completion_user_list_bloc.dart';

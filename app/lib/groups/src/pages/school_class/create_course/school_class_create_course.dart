@@ -12,8 +12,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'school_class_create_course_bloc.dart';
 
