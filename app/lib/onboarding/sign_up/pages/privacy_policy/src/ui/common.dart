@@ -410,7 +410,9 @@ class LoadingFailureMainAreaContent extends StatelessWidget {
                 key: ValueKey('retry-loading-button-E2E'),
                 icon: Icon(Icons.refresh),
                 label: Text('Erneut versuchen'),
-                onPressed: () {}),
+                onPressed: () {
+                  // TODO: Implement.
+                }),
             SizedBox(height: 7),
             DownloadAsPDFButton(enabled: true)
           ],
