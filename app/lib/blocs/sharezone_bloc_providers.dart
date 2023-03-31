@@ -46,9 +46,6 @@ import 'package:sharezone/dashboard/gateway/dashboard_gateway.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/donate/analytics/donation_analytics.dart';
-import 'package:sharezone/donate/bloc/donation_bloc.dart';
-import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
@@ -65,7 +62,6 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
-import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -152,12 +148,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       getPlatformInformationRetreiver(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
-    );
-
-    PluginInitializations.tryInitializeRevenueCat(
-      apiKey: widget.blocDependencies.remoteConfiguration
-          .getString('revenuecat_api_key'),
-      uid: widget.blocDependencies.authUser.uid,
     );
 
     super.initState();
@@ -443,17 +433,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: ReportGateway(widget.blocDependencies.firestore)),
       BlocProvider<FeedbackBloc>(bloc: feedbackBloc),
       BlocProvider<MarkdownAnalytics>(bloc: markdownAnalytics),
-      BlocProvider<DonationBloc>(
-        bloc: DonationBloc(
-          userId: UserId(api.uID),
-          donationService: DonationService(
-            crashAnalytics: getCrashAnalytics(),
-            analytics: analytics,
-            appFunctions: widget.blocDependencies.appFunctions,
-          ),
-          analytics: DonationAnalytics(analytics),
-        ),
-      ),
       BlocProvider<CommentsBlocFactory>(
         bloc: CommentsBlocFactory(
           CommentsGateway(api.references.firestore),
