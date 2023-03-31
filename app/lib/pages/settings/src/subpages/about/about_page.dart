@@ -15,7 +15,6 @@ import 'package:sharezone/util/platform_information_manager/platform_information
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 import 'widgets/about_section.dart';
 import 'widgets/social_media_button.dart';

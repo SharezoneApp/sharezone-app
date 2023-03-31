@@ -17,7 +17,6 @@ import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_pol
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
 part 'pages/advantages.dart';

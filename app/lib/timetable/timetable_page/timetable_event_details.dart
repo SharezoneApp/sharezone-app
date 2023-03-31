@@ -26,7 +26,6 @@ import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
 

@@ -21,7 +21,6 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 const double _padding = 12.0;
 

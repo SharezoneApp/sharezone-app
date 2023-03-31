@@ -8,8 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import '../../wrapper.dart';
-import 'state_sheet_content.dart';
 
 class StateSheet {
   final Stream<StateSheetContent> stateSheetContent;

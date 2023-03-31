@@ -80,3 +80,12 @@ export 'src/widgets.dart';
 
 // wrappable_list
 export 'src/wrappable_list.dart';
+
+// animated_visibility
+export 'src/animated_visibility.dart';
+
+// expanded_chip
+export 'src/expanded_chip.dart';
+
+// wrapper
+export 'src/wrapper.dart';

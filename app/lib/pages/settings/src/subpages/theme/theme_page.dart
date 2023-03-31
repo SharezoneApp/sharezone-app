@@ -19,7 +19,6 @@ import 'package:sharezone/pages/settings/src/widgets/settings_subpage_settings.d
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 import '../../../support_page.dart';
 

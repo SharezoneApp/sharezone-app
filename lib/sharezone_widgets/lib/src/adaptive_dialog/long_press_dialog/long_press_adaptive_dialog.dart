@@ -12,8 +12,6 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'long_press.dart';
-
 Future<T> showLongPressAdaptiveDialog<T>({
   @required BuildContext context,
   @required List<LongPress<T>> longPressList,

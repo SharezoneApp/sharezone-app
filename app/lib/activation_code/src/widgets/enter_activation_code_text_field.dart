@@ -13,7 +13,6 @@ import 'package:sharezone/activation_code/src/enter_activation_code_result_dialo
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'package:sharezone_widgets/wrapper.dart';
 
 class EnterActivationCodeTextField extends StatelessWidget
     implements PreferredSizeWidget {

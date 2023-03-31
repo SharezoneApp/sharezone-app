@@ -16,6 +16,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// Hier wird definiert, wie das Widget aufgebaut sein soll
 class PlaceholderModel extends StatefulWidget {
   const PlaceholderModel({
+    Key key,
     this.title,
     this.subtitle,
     this.svgPath,
@@ -23,7 +24,7 @@ class PlaceholderModel extends StatefulWidget {
     @required this.animateSVG,
     this.rivePath,
     this.riveAnimationName,
-  });
+  }) : super(key: key);
 
   final String title, svgPath, rivePath;
   final Widget subtitle;
@@ -85,7 +86,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
               ),

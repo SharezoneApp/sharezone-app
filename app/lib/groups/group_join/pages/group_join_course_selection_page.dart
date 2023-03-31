@@ -15,7 +15,6 @@ import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
 /// Auf dieser Seite wählt der Nutzer nach einem Beitrittsversuch einer Schulklasse

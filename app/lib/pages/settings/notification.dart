@@ -14,7 +14,6 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 

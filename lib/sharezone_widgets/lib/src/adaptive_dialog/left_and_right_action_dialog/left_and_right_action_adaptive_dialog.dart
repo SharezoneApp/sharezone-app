@@ -12,9 +12,6 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import '../../dialog_wrapper.dart';
-import '../adaptive_dialog_action.dart';
-
 Future<T> showLeftRightAdaptiveDialog<T>({
   @required BuildContext context,
   String title,

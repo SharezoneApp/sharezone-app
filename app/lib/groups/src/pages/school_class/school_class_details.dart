@@ -27,7 +27,6 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 import 'school_class_details/school_class_course_list.dart';
 

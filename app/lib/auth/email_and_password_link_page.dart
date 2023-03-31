@@ -16,7 +16,6 @@ import 'package:sharezone/blocs/auth/email_and_password_link_bloc.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone/widgets/auth.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
 import 'login_page.dart';

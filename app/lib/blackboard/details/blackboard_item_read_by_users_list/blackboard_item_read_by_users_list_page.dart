@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:user/user.dart';
 
 import 'blackboard_item_read_by_users_list_bloc.dart';

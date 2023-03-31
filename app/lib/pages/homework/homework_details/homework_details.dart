@@ -29,7 +29,6 @@ import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
 
