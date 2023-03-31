@@ -378,6 +378,8 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   }
 }
 
+// TODO: Doesn't make sense right now, bc we only have the privacy policy
+// locally
 class LoadingFailureMainAreaContent extends StatelessWidget {
   const LoadingFailureMainAreaContent({Key key}) : super(key: key);
 
