@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/theme.dart';
 
-import 'adaptive_dialog/adapative_dialog_action.dart';
+import 'adaptive_dialog/adaptive_dialog_action.dart';
 import 'adaptive_dialog/left_and_right_action_dialog/left_and_right_action_adaptive_dialog.dart';
 import 'dialog_wrapper.dart';
 export 'widgets/modal_floating_action_button.dart';
