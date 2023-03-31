@@ -24,14 +24,6 @@ class AnalyzeCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 5);
 
   @override
-  Future<void> runSetup() async {
-    print('Activating tuneup package...');
-    await runProcessSucessfullyOrThrow(
-        'fvm', ['dart', 'pub', 'global', 'activate', 'tuneup'],
-        workingDirectory: repo.sharezoneFlutterApp.location.path);
-  }
-
-  @override
   Future<void> runTaskForPackage(Package package) {
     return package.analyzePackage();
   }
