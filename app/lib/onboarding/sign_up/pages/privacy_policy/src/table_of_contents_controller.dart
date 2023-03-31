@@ -139,7 +139,6 @@ class TableOfContentsController extends ChangeNotifier {
     return TableOfContents(sections, initialExpansionBehavior);
   }
 
-  // TODO: Test
   void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
     _tableOfContents =
         _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
