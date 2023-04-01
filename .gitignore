@@ -8,14 +8,9 @@
 coverage/
 
 # IDE
-
-## VS Code
 .vscode/*
 !.vscode/launch.json
 !.vscode/settings.json
-
-## Android Studio / IntelliJ
-.idea/
 
 # FVM will create a relative symlink in your project from .fvm/flutter_sdk to
 # the cache of the selected version. We should add this to our .gitignore.
