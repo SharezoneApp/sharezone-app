@@ -839,7 +839,7 @@ packages:
     source: hosted
     version: "1.0.0-rc9"
   flare_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flare_flutter
       sha256: "99d63c60f00fac81249ce6410ee015d7b125c63d8278a30da81edf3317a1f6a0"
