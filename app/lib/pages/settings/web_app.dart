@@ -121,8 +121,7 @@ class _ScanQrCode extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, "
-          "ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
+          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
           style: TextStyle(
             color: Colors.grey,
             fontSize: 11.5,

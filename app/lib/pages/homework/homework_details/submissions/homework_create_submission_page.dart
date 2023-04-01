@@ -540,8 +540,7 @@ class _NoFilesUploaded extends StatelessWidget {
         animateSVG: false,
         riveAnimationName: 'Writing',
         rivePath: 'assets/flare/submissions_empty_state.flr',
-        title: 'Lade jetzt Dateien hoch, '
-            'die du für die Hausaufgabe abgeben willst!',
+        title: 'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!',
         iconSize: Size(400, 200),
       ),
     );

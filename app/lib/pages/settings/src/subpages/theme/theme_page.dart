@@ -138,8 +138,7 @@ class _RateOurApp extends StatelessWidget {
             ? ElevationColors.dp12
             : context.primaryColor.withOpacity(0.15),
         content: const Text(
-          "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  "
-              "Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
+          "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
         ),
         actions: [
           SingleChildScrollView(

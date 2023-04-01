@@ -43,11 +43,7 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
-      'in der jeweiligen Gruppe die Abgabe anschauen.\n\n'
-      'Ansonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen '
-      'und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
-    ),
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'),
   );
 }
 
@@ -57,12 +53,7 @@ void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
-      'in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\n'
-      'Ansonsten könnte jeder Schüler einen neuen Account als Lehrkraft '
-      'erstellen und der Gruppe beitreten, um einzusehen, '
-      'welche Mitschüler die Hausaufgaben bereits erledigt haben.',
-    ),
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'),
   );
 }
 
@@ -72,9 +63,7 @@ Future<bool> confirmToMarkHomeworkAsDoneWithoutSubmission(
     context: context,
     title: 'Keine Abgabe bisher',
     content: const Text(
-      "Du hast bisher keine Abgabe gemacht. "
-      "Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?",
-    ),
+        "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?"),
     defaultValue: false,
     right: AdaptiveDialogAction<bool>(
       title: 'Abhaken',
@@ -346,8 +335,8 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
           UrlLauncherExtended().tryLaunchMailOrThrow(
             "support@sharezone.net",
             subject: "Typ des Accounts zu Schüler ändern [$uid]",
-            body: "Liebes Sharezone-Team, "
-                "bitte ändert meinen Account-Typ zum Schüler ab.",
+            body:
+                "Liebes Sharezone-Team, bitte ändert meinen Account-Typ zum Schüler ab.",
           );
         }
       },

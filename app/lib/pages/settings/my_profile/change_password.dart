@@ -126,9 +126,7 @@ class _ResetPassword extends StatelessWidget {
                 return AlertDialog(
                   title: const Text("Passwort zurücksetzen"),
                   content: const Text(
-                    "Sollen wir dir eine E-Mail schicken, "
-                    "mit der du dein Passwort zurücksetzen kannst?",
-                  ),
+                      "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?"),
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/animated_visibility.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// A widget to control the visibility of a [child] widget in different tabs of
 /// a [TabController].

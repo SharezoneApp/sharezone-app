@@ -104,11 +104,7 @@ class _NotNowButton extends StatelessWidget {
       context: context,
       title: 'Keine Push-Nachrichten? 🤨',
       content: const Text(
-        "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\n"
-        "Sollte jemand einen Infozettel eintragen, "
-        "einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, "
-        "würdest du keine Push-Nachrichten erhalten.",
-      ),
+          "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten."),
       defaultValue: false,
       right: AdaptiveDialogAction(
         title: 'Ja',

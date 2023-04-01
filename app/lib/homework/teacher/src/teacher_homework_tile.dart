@@ -106,12 +106,7 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
-      'in der jeweiligen Gruppe die Abgabe anschauen.\n\n'
-      'Ansonsten könnte jeder Schüler einen neuen Account als '
-      'Lehrkraft erstellen und der Gruppe beitreten, '
-      'um die Abgabe der anderen Mitschüler anzuschauen.',
-    ),
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'),
   );
 }
 
@@ -155,12 +150,7 @@ void _showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten '
-      'in der jeweiligen Gruppe die Erledigt-Liste anschauen.'
-      '\n\nAnsonsten könnte jeder Schüler einen neuen Account als '
-      'Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, '
-      'welche Mitschüler die Hausaufgaben bereits erledigt haben.',
-    ),
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'),
   );
 }
 
