@@ -12,7 +12,6 @@ import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
-import 'package:sharezone/donate/page/donate_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
@@ -30,7 +29,6 @@ enum NavigationItem {
   filesharing,
   events,
   feedbackBox,
-  donate,
   settings,
   accountPage,
   more,
@@ -71,8 +69,6 @@ extension NavigationItemExtension on NavigationItem {
         return 'feedback';
       case NavigationItem.accountPage:
         return 'profile';
-      case NavigationItem.donate:
-        return 'donate';
       case NavigationItem.more:
         return 'more';
     }
@@ -111,9 +107,6 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.accountPage:
         return Icon(
             themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
-      case NavigationItem.donate:
-        return Icon(
-            themeIconData(Icons.favorite, cupertinoIcon: SFSymbols.heart_fill));
       case NavigationItem.more:
         return Icon(
             themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
@@ -143,8 +136,6 @@ extension NavigationItemExtension on NavigationItem {
         return 'Feedback';
       case NavigationItem.accountPage:
         return 'Profil';
-      case NavigationItem.donate:
-        return 'Spenden';
       case NavigationItem.more:
         return 'Mehr';
     }
@@ -173,8 +164,6 @@ extension NavigationItemExtension on NavigationItem {
         return FeedbackPage();
       case NavigationItem.accountPage:
         return AccountPage();
-      case NavigationItem.donate:
-        return DonatePage();
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]
@@ -205,8 +194,6 @@ extension NavigationItemExtension on NavigationItem {
         return FeedbackPage.tag;
       case NavigationItem.accountPage:
         return AccountPage.tag;
-      case NavigationItem.donate:
-        return DonatePage.tag;
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]
