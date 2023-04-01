@@ -12,7 +12,6 @@ import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
-import 'package:sharezone/donate/page/donate_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
@@ -30,7 +29,6 @@ enum NavigationItem {
   filesharing,
   events,
   feedbackBox,
-  donate,
   settings,
   accountPage,
   more,
@@ -71,8 +69,6 @@ extension NavigationItemExtension on NavigationItem {
         return 'feedback';
       case NavigationItem.accountPage:
         return 'profile';
-      case NavigationItem.donate:
-        return 'donate';
       case NavigationItem.more:
         return 'more';
     }
@@ -83,56 +79,37 @@ extension NavigationItemExtension on NavigationItem {
     switch (this) {
       case NavigationItem.overview:
         return Icon(
-          themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill),
-        );
+            themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill));
       case NavigationItem.homework:
-        return Icon(
-          themeIconData(Icons.book,
-              cupertinoIcon: SFSymbols.checkmark_square_fill),
-        );
+        return Icon(themeIconData(Icons.book,
+            cupertinoIcon: SFSymbols.checkmark_square_fill));
       case NavigationItem.group:
         return Icon(
-          themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill),
-        );
+            themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill));
       case NavigationItem.timetable:
         return Icon(
-          themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar),
-        );
+            themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar));
       case NavigationItem.events:
-        return Icon(
-          themeIconData(Icons.event_note, cupertinoIcon: SFSymbols.clock_fill),
-        );
+        return Icon(themeIconData(Icons.event_note,
+            cupertinoIcon: SFSymbols.clock_fill));
       case NavigationItem.blackboard:
-        return Icon(
-          themeIconData(Icons.new_releases,
-              cupertinoIcon: SFSymbols.info_circle_fill),
-        );
+        return Icon(themeIconData(Icons.new_releases,
+            cupertinoIcon: SFSymbols.info_circle_fill));
       case NavigationItem.filesharing:
-        return Icon(
-          themeIconData(Icons.insert_drive_file,
-              cupertinoIcon: SFSymbols.folder_fill),
-        );
+        return Icon(themeIconData(Icons.insert_drive_file,
+            cupertinoIcon: SFSymbols.folder_fill));
       case NavigationItem.settings:
-        return Icon(
-          themeIconData(Icons.settings, cupertinoIcon: SFSymbols.gear_alt_fill),
-        );
+        return Icon(themeIconData(Icons.settings,
+            cupertinoIcon: SFSymbols.gear_alt_fill));
       case NavigationItem.feedbackBox:
-        return Icon(
-          themeIconData(Icons.message,
-              cupertinoIcon: SFSymbols.exclamationmark_bubble_fill),
-        );
+        return Icon(themeIconData(Icons.message,
+            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill));
       case NavigationItem.accountPage:
         return Icon(
-          themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill),
-        );
-      case NavigationItem.donate:
-        return Icon(
-          themeIconData(Icons.favorite, cupertinoIcon: SFSymbols.heart_fill),
-        );
+            themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
       case NavigationItem.more:
         return Icon(
-          themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis),
-        );
+            themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
     }
     throw UnimplementedError('There is no icon for $this');
   }
@@ -159,8 +136,6 @@ extension NavigationItemExtension on NavigationItem {
         return 'Feedback';
       case NavigationItem.accountPage:
         return 'Profil';
-      case NavigationItem.donate:
-        return 'Spenden';
       case NavigationItem.more:
         return 'Mehr';
     }
@@ -189,8 +164,6 @@ extension NavigationItemExtension on NavigationItem {
         return FeedbackPage();
       case NavigationItem.accountPage:
         return AccountPage();
-      case NavigationItem.donate:
-        return DonatePage();
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]
@@ -221,8 +194,6 @@ extension NavigationItemExtension on NavigationItem {
         return FeedbackPage.tag;
       case NavigationItem.accountPage:
         return AccountPage.tag;
-      case NavigationItem.donate:
-        return DonatePage.tag;
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]

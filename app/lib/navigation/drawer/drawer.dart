@@ -83,7 +83,6 @@ class _DrawerItems extends StatelessWidget {
                     ...functionTiles,
                     const Divider(),
                     feedbackBoxtile,
-                    donatePageTile,
                     settingsPageTile,
                   ],
                 ),

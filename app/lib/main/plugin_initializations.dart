@@ -6,15 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:developer';
-
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
-import 'package:flutter/foundation.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class PluginInitializations {
@@ -35,23 +30,6 @@ class PluginInitializations {
     final crashAnalytics = getCrashAnalytics();
     crashAnalytics.enableInDevMode = true;
     return crashAnalytics;
-  }
-
-  /// Unter der User-ID "$RCAnonymousID:7689187fe95f4116bd0239217a211465" wurde
-  /// bereits ein In-App-Kauf getätigt (donation_1_play_store). Diese User-ID
-  /// kann beim Debuggen genutzt werden, um Daten von Käufern abzufragen.
-  static Future<void> tryInitializeRevenueCat(
-      {@required String apiKey, @required String uid}) async {
-    // Web wird vom RevenueCat-Package nicht unterstützt
-    if (!PlatformCheck.isWeb) {
-      try {
-        if (!kReleaseMode) await Purchases.setLogLevel(LogLevel.debug);
-        await Purchases.configure(
-            PurchasesConfiguration(apiKey)..appUserID = uid);
-      } catch (e) {
-        log('RevenueCat konnte nicht inizialisiert werden: $e', error: e);
-      }
-    }
   }
 
   static Future<DynamicLinks> initializeDynamicLinks() async {
