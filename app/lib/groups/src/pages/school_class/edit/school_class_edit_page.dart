@@ -13,9 +13,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openSchoolClassEditPage(
     BuildContext context, SchoolClass schoolClass) async {

@@ -19,10 +19,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone_widgets/placeholder.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Open the blackboard page and returns true, if the user added a blackboard item
 Future<bool> openBlackboardDialogAndShowConfirmationIfSuccessful(

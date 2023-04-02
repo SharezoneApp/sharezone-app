@@ -9,15 +9,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-void snackbarSoon(
-    {BuildContext context, GlobalKey<ScaffoldMessengerState> key}) {
+void snackbarSoon({
+  BuildContext context,
+  GlobalKey<ScaffoldMessengerState> key,
+}) {
   showSnackSec(
-      text: "Diese Funktion ist bald verfügbar! 😊",
-      seconds: 3,
-      context: context,
-      key: key);
+    text: "Diese Funktion ist bald verfügbar! 😊",
+    seconds: 3,
+    context: context,
+    key: key,
+  );
 }
 
 /// [behavior] ist hier standardmäßig fixed, da die [showDataArrivalConfirmedSnackbar]
@@ -37,8 +40,10 @@ void showDataArrivalConfirmedSnackbar(
   );
 }
 
-void sendDataToFrankfurtSnackBar(BuildContext context,
-    {SnackBarBehavior behavior}) {
+void sendDataToFrankfurtSnackBar(
+  BuildContext context, {
+  SnackBarBehavior behavior,
+}) {
   showSnackSec(
     context: context,
     seconds: 3600,

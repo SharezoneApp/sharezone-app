@@ -16,7 +16,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showCourseMemberOptionsSheet({
   @required BuildContext context,

@@ -10,10 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-
-import '../../../theme.dart';
-import '../../dialog_wrapper.dart';
-import '../adapative_dialog_action.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T> showLeftRightAdaptiveDialog<T>({
   @required BuildContext context,

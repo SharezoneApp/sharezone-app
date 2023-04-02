@@ -12,7 +12,7 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/src/dialog_wrapper.dart';
 
-import '../adapative_dialog_action.dart';
+import '../adaptive_dialog_action.dart';
 
 Future<T> showColumnActionsAdaptiveDialog<T>({
   @required BuildContext context,

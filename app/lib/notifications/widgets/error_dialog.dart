@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Shows a dialog showing the contents of the [notification] and an explanation
 /// that the action of the [notification] could not be handled because of
@@ -25,9 +25,7 @@ void showNotificationHandlingErrorDialog(
         mainAxisSize: MainAxisSize.min,
         children: [
           notification.hasNonEmptyBody ? Text(notification.body) : null,
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           _ErrorBanner(errorReason: errorReason),
         ],
       ),

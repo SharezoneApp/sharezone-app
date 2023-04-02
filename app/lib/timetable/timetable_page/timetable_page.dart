@@ -30,9 +30,7 @@ import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'lesson/timetable_lesson_tile.dart';
 import 'school_class_filter/school_class_filter.dart';

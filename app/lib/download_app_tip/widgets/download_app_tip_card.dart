@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_widgets/cards.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../bloc/download_app_tip_bloc.dart';
 import '../models/download_app_tip.dart';

@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 ActionRegistration<ShowNotificationDialogRequest>
@@ -61,8 +61,10 @@ class ShowNotificationDialogRequest extends ActionRequest {
   static const Set<String> actionTypes = {''};
 
   final String title;
+
   bool get hasTitle => title != null && title != '';
   final String body;
+
   bool get hasBody => body != null && body != '';
 
   /// Whether the user should have the option to answer the support in the

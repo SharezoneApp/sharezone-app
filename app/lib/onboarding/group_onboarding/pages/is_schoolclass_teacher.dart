@@ -13,7 +13,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/create_schoolclass.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../widgets/text_button.dart';
 import 'create_courses.dart';
 

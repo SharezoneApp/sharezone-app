@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'blackboard_item.dart';
 

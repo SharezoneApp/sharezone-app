@@ -23,9 +23,7 @@ import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_p
 import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'settings/my_profile/my_profile_page.dart';
 import 'settings/src/subpages/imprint/analytics/imprint_analytics.dart';

@@ -18,7 +18,7 @@ import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum NavigationItem {
   overview,

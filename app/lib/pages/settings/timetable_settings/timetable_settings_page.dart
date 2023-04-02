@@ -20,8 +20,7 @@ import 'package:sharezone/settings/weekdays_edit_page.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 

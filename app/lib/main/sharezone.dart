@@ -24,7 +24,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart'
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
