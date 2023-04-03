@@ -6,10 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
+import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class PluginInitializations {
@@ -32,6 +38,25 @@ class PluginInitializations {
     return crashAnalytics;
   }
 
+  static Future<void> tryInitializeRevenueCat({
+    @required String appleApiKey,
+    @required String androidApiKey,
+    @required String uid,
+  }) async {
+    // Web wird vom RevenueCat-Package nicht unterstützt
+    if (!PlatformCheck.isWeb) {
+      try {
+        if (!kReleaseMode) await Purchases.setLogLevel(LogLevel.debug);
+
+        final apiKey = PlatformCheck.isAndroid ? androidApiKey : appleApiKey;
+        await Purchases.configure(
+            PurchasesConfiguration(apiKey)..appUserID = uid);
+      } catch (e, s) {
+        log('RevenueCat could not be initialized: $e', error: e, stackTrace: s);
+      }
+    }
+  }
+
   static Future<DynamicLinks> initializeDynamicLinks() async {
     final dynamicLinks = getDynamicLinks();
     return dynamicLinks;
@@ -44,7 +69,8 @@ class PluginInitializations {
       'meeting_server_url': 'https://meet.sharezone.net',
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
-      'revenuecat_api_key': 'WLjPXTYvlcvxwFKOXWuHxDvKteGhqVpQ',
+      'revenuecat_api_apple_key': 'appl_VOCPKvkVdZsqpVeDkJQVCNemPbF',
+      'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
     });
     return remoteConfiguration;
   }

@@ -62,6 +62,7 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
+import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -148,6 +149,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       getPlatformInformationRetreiver(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
+    );
+
+    PluginInitializations.tryInitializeRevenueCat(
+      androidApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_android_key'),
+      appleApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_apple_key'),
+      uid: widget.blocDependencies.authUser.uid,
     );
 
     super.initState();

@@ -114,6 +114,7 @@ dependencies:
   permission_handler: ^10.2.0
   photo_view: ^0.14.0
   provider: ^6.0.3
+  purchases_flutter: ^4.11.1
   qr_flutter: ^4.0.0
   quiver: ^3.0.1
   remote_configuration:
