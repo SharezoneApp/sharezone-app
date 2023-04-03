@@ -11,11 +11,11 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_item.dart';
 
 class ProductId extends Id {
-  ProductId._(String id) : super(id, 'productId');
+  ProductId(String id) : super(id, 'productId');
 
   /// 'donation_1_play_store' --> '1'
   factory ProductId.fromDonationItemId(SubscriptionItem id) {
-    return ProductId._(id.toString().substring(9, 10));
+    return ProductId(id.toString().substring(9, 10));
   }
 }
 
