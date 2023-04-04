@@ -8,6 +8,14 @@
 
 name: cli-ci
 
+concurrency:
+  group: app-ci-${{ github.head_ref }}
+  # In order to conserve the use of GitHub Actions, we cancel the running action
+  # of the previous commit. This means that if you first commit "A" and then
+  # commit "B" to the pull request a few minutes later, the workflow for commit
+  # "A" will be cancelled.
+  cancel-in-progress: true
+
 on:
   pull_request:
     types:
