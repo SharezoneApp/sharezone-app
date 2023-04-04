@@ -37,7 +37,7 @@ class FirebaseFileUploader extends FileUploader {
     final hasIOFile = file.getFile() != null;
 
     if (hasIOFile) {
-      // We prefer to upload the file as Dart IO file if possible.
+      // We prefer to upload the file as a Dart IO file if possible.
       //
       // Even though the Firebase Storage plugin supports uploading files via
       // data (Uint8List), we try to avoid this because using the Dart IO is
