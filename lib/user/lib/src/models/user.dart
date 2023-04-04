@@ -181,7 +181,7 @@ class AppUser {
       userTipData: userTipData ?? this.userTipData,
       createdOn: createdOn,
       referredBy: referredBy,
-      features: features ?? features,
+      features: features ?? this.features,
     );
   }
 }
