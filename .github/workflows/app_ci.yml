@@ -46,6 +46,10 @@ jobs:
   # every change is reviewed for security implications.
   remove-safe-to-build-label:
     runs-on: ubuntu-22.04
+    permissions:
+      # Required by the remove-safe-to-test action
+      contents: read
+      pull-requests: write
     steps:
       - name: Remove "safe to build" label, if PR is from a fork
         uses: nilsreichardt/remove-safe-to-test-label@3a771e93876c17e60b81bb8f6fa795d7fc262f84
