@@ -13,7 +13,7 @@ name: app-ci
 
 on:
   # Triggers the workflow on pull request events
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - synchronize
@@ -34,12 +34,21 @@ env:
 
 # Set permissions to none.
 #
-# Using the broad default permissions is considered a bad security practice 
+# Using the broad default permissions is considered a bad security practice
 # and would cause alerts from our scanning tools.
 permissions: {}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # It's important that we run this job first, because we need to remove the
+  # "safe to build" label when the PR comes from a fork in order to ensure that
+  # every change is reviewed for security implications.
+  remove-safe-to-build-label:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Remove "safe to build" label, if PR is from a fork
+        uses: nilsreichardt/remove-safe-to-test-label@3a771e93876c17e60b81bb8f6fa795d7fc262f84
+
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
   # but ignored because of the path filter.
@@ -49,11 +58,16 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
+    needs: remove-safe-to-build-label
     runs-on: ubuntu-22.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
         id: filter
         with:
@@ -87,6 +101,10 @@ jobs:
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -98,7 +116,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -110,7 +128,7 @@ jobs:
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
-      
+
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
@@ -120,6 +138,10 @@ jobs:
     runs-on: macos-12
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -131,7 +153,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -143,9 +165,9 @@ jobs:
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
-      
+
       - name: Run tests via "sz test"
-        run: sz test -c 4 --package-timeout-minutes 15      
+        run: sz test -c 4 --package-timeout-minutes 15
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
@@ -163,7 +185,7 @@ jobs:
           # could also be failed because of an unit test. In this case there
           # would be no failed golden test to upload.
           if-no-files-found: ignore
-  
+
   android-integration-test:
     needs: changes
     # Is recommended to run the job with a macOS machine to take advantage of
@@ -176,14 +198,21 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     timeout-minutes: 90
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
       - uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -203,14 +232,14 @@ jobs:
       #
       # Using `flutter drive` as workaround is not an option because it's super
       # flaky in terms of stability. With `flutter drive` ~ 30% the Android
-      # Emulator have difficulties to start properly. 
+      # Emulator have difficulties to start properly.
       - name: Build Android App
         working-directory: ./app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
         run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
-      
+
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@50986b1464923454c95e261820bc626f38490ec0
         env:
@@ -257,14 +286,21 @@ jobs:
           # "android-emulator-runner" action doesn't support it. It just takes every
           # line as separate command.
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
-  
+
   ios-integration-test:
     needs: changes
     runs-on: macos-12
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -276,7 +312,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -287,7 +323,7 @@ jobs:
         id: simulator
         with:
           model: "iPhone 13"
-      
+
       - name: Run integration tests
         working-directory: app
         env:
@@ -322,7 +358,14 @@ jobs:
       run:
         working-directory: app
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.39.1
@@ -361,7 +404,7 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
-      
+
       - name: Build macOS app
         run: |
           flutter build macos \
@@ -386,13 +429,20 @@ jobs:
     # We only want to build the web app only for PRs.
     #
     # Otherwise this will be triggered inside a merge-queue.
-    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -404,7 +454,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -425,5 +475,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
           projectId: sharezone-debug
           entryPoint: "./app"
-          expires: '7d'
-          target: 'test-web-app'
+          expires: "7d"
+          target: "test-web-app"
