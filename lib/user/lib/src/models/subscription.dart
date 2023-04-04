@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:sharezone_common/helper_functions.dart';
 
 enum SubscriptionTier {
   teacherPlus,
@@ -40,7 +40,7 @@ class Subscription {
         map['tier'],
         defaultValue: SubscriptionTier.unknown,
       ),
-      DateTime.fromMillisecondsSinceEpoch(map['lastSubscribedAt']),
+      dateTimeFromTimestamp(map['lastSubscribedAt']),
     );
   }
 

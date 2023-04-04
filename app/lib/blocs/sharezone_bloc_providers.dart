@@ -85,6 +85,7 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
@@ -298,11 +299,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final holidayApiClient =
         CloudFunctionHolidayApiClient(api.references.functions);
 
+    final subscriptionService = SubscriptionService(api.user.userStream);
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     final providers = [
-      Provider<CrashAnalytics>(create: (context) => crashAnalytics)
+      Provider<CrashAnalytics>(create: (context) => crashAnalytics),
+      Provider<SubscriptionService>(
+        create: (context) => subscriptionService,
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -456,6 +462,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseGateway: api.course,
           fileSharingGateway: api.fileSharing,
           typeOfUserStream: typeOfUserStream,
+          subscriptionService: subscriptionService,
         ),
       ),
       BlocProvider<ChangeDataBloc>(
