@@ -41,7 +41,7 @@ class FirebaseFileUploader extends FileUploader {
       //
       // Even though the Firebase Storage plugin supports uploading files via
       // data (Uint8List), we try to avoid this because using the Dart IO is
-      // much stable and and don't requires to load the whole file into memory
+      // more stable and and doesn't require to load the whole file into memory
       // (can easily causing UI freezes).
       return reference.putFile(file.getFile(), metadata);
     }
