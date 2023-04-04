@@ -20,7 +20,7 @@ dependencies:
   built_value: ^8.1.1
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^4.0.11
+  cloud_functions: ^4.1.0
   app_functions:
     path: ../app_functions
 
