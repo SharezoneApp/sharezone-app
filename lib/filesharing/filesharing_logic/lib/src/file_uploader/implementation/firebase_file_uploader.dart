@@ -22,7 +22,7 @@ import '../models/upload_task_event.dart';
 import '../models/upload_task_snapshot.dart';
 import '../models/upload_task_type.dart';
 
-class MobileFirebaseFileUploader extends FileUploader {
+class FirebaseFileUploader extends FileUploader {
   /// Uploads a [LocalFile] to Firebase Storage.
   ///
   /// Tries to use the Dart IO file if possible. If not, the file is uploaded
@@ -185,5 +185,5 @@ class MobileFirebaseFileUploader extends FileUploader {
 }
 
 FileUploader getFileUploaderImplementation() {
-  return MobileFirebaseFileUploader();
+  return FirebaseFileUploader();
 }
