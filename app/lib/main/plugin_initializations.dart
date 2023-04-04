@@ -50,7 +50,8 @@ class PluginInitializations {
 
         final apiKey = PlatformCheck.isAndroid ? androidApiKey : appleApiKey;
         await Purchases.configure(
-            PurchasesConfiguration(apiKey)..appUserID = uid);
+          PurchasesConfiguration(apiKey)..appUserID = uid,
+        );
       } catch (e, s) {
         log('RevenueCat could not be initialized: $e', error: e, stackTrace: s);
       }
