@@ -13,8 +13,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/logic/move_file_bloc.dart';
 import 'package:sharezone/filesharing/widgets/move_file_page_header.dart';
 import 'package:sharezone_utils/streams.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrappable_list.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'card_with_icon_and_text.dart';
 import 'filesharing_headline.dart';

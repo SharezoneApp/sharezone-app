@@ -15,8 +15,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_page_bloc.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class HomeworkArchivedPage extends StatefulWidget {
@@ -56,8 +55,9 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                   : bloc.homeworkList,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return Container();
-                if (snapshot.hasError)
+                if (snapshot.hasError) {
                   return ShowCenteredError(error: snapshot.error.toString());
+                }
 
                 DateTime today = DateTime(DateTime.now().year,
                     DateTime.now().month, DateTime.now().day);

@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc.dart';
 import 'package:sharezone/activation_code/src/enter_activation_code_result_dialog.dart';
 import 'package:sharezone/auth/login_button.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrapper.dart';
 
 class EnterActivationCodeTextField extends StatelessWidget
     implements PreferredSizeWidget {

@@ -16,7 +16,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/extendable_bottom_navigation_bar.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 void _logNavBottomBarEvent(NavigationItem item, NavigationAnalytics analytics) {

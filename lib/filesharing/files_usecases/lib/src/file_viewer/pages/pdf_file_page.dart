@@ -12,7 +12,7 @@ import 'package:pdfx/pdfx.dart';
 import 'package:open_file/open_file.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../widgets/file_page_app_bar.dart';
 
 class PdfFilePage extends StatelessWidget {
@@ -63,8 +63,9 @@ class PdfFilePage extends StatelessWidget {
                         ),
                       );
                     },
-                    documentLoaderBuilder: (context) =>
-                        const Center(child: AccentColorCircularProgressIndicator()),
+                    documentLoaderBuilder: (context) => const Center(
+                      child: AccentColorCircularProgressIndicator(),
+                    ),
                   ),
                 );
               } else {

@@ -14,10 +14,7 @@ import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/report/report_reason.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openReportPage(
     BuildContext context, ReportItemReference item) async {
@@ -29,8 +26,9 @@ Future<void> openReportPage(
     ),
   );
 
-  if (result != null && result)
+  if (result != null && result) {
     showDataArrivalConfirmedSnackbar(context: context);
+  }
 }
 
 class ReportPage extends StatefulWidget {

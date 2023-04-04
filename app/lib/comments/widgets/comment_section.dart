@@ -14,7 +14,7 @@ import 'package:sharezone/comments/widgets/comment_widget.dart';
 import 'package:sharezone/comments/widgets/user_comment_field.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_item.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CommentSection extends StatelessWidget {
   final List<CommentView> comments;

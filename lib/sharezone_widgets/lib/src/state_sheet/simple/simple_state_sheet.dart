@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showSimpleStateSheet(
     BuildContext context, Future<bool> future) async {

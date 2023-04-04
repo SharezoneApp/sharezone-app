@@ -15,10 +15,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/dialog_wrapper.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'group_qr_code.dart';
 

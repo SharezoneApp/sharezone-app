@@ -12,8 +12,7 @@ import 'package:files_basics/files_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'meme_placeholder.dart';
 import 'open_submission_file.dart';

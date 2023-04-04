@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/models/enter_activation_code_result.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
   final SuccessfullEnterActivationCodeResult result;

@@ -13,7 +13,7 @@ import 'package:files_usecases/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../../../file_downloader.dart';
 import '../widgets/file_page_app_bar.dart';
 

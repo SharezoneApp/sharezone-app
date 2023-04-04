@@ -140,7 +140,7 @@
   - "**/attachments/**"
   - "**/**attachment**"
 
-"feature: authentication":
+"feature: authentification":
   - "**/authentication/**"
   - "**/auth/**"
   - "**/**sign_in**"
@@ -152,10 +152,6 @@
 "feature: comments":
   - "**/comments/**"
   - "**/**comment**"
-
-"feature: donation":
-  - "**/donate/**"
-  - "**/donate**"
 
 "feature: feedback":
   - "**/feedback/**"
