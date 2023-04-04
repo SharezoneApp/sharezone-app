@@ -13,7 +13,8 @@ name: app-ci
 
 on:
   # Triggers the workflow on pull request events
-  pull_request_target:
+  # pull_request_target:
+  pull_request: # TEMP
     types:
       - opened
       - synchronize
