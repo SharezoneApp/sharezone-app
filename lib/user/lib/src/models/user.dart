@@ -162,6 +162,7 @@ class AppUser {
     bool? commentsNotifications,
     UserSettings? userSettings,
     UserTipData? userTipData,
+    Features? features,
   }) {
     return AppUser._(
       id: id ?? this.id,
