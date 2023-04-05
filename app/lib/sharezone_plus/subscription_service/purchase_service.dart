@@ -8,15 +8,9 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_item.dart';
 
 class ProductId extends Id {
   ProductId(String id) : super(id, 'productId');
-
-  /// 'donation_1_play_store' --> '1'
-  factory ProductId.fromDonationItemId(SubscriptionItem id) {
-    return ProductId(id.toString().substring(9, 10));
-  }
 }
 
 abstract class PurchaseService {
