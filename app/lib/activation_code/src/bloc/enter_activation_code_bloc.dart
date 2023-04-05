@@ -57,7 +57,6 @@ class EnterActivationCodeBloc extends BlocBase {
 
   // ignore:use_setters_to_change_properties
   void updateFieldText(String currentText) {
-    print('updateFieldText: $currentText');
     _lastEnteredValue = currentText;
   }
 
