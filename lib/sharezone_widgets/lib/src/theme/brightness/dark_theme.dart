@@ -48,8 +48,10 @@ final darkTheme = ThemeData(
   ),
   bottomSheetTheme: _bottomSheetTheme,
   dialogTheme: _dialogTheme,
-  colorScheme: ColorScheme.fromSwatch()
-      .copyWith(secondary: _accentColor, brightness: Brightness.dark),
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: primaryColor,
+    brightness: Brightness.dark,
+  ),
   tabBarTheme: const TabBarTheme(labelColor: Colors.white),
   checkboxTheme: CheckboxThemeData(
     fillColor:
