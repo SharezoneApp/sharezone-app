@@ -656,7 +656,7 @@ packages:
     source: hosted
     version: "6.13.0"
   firebase_auth_web:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: firebase_auth_web
       sha256: f50f7026b95c62dba3f0b28bdb3ab3601ea402b4908c1469103f16ae2b0f5281
@@ -815,7 +815,7 @@ packages:
     source: hosted
     version: "4.2.0"
   firebase_storage_web:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: firebase_storage_web
       sha256: b6d3c104fecafdce5fe1795306d33856c9a11fa76f73fe7eb062430fc151d686
