@@ -75,6 +75,9 @@ dependencies:
   firebase_messaging: ^14.4.0
   firebase_performance: ^0.9.1
   firebase_storage: ^11.1.0
+  # Used so that we can select a minute interval (only either XX:00 or XX:30)
+  # for the homework reminder time picker.
+  interval_time_picker: ^2.0.0+5
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
