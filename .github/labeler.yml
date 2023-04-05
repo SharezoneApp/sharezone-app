@@ -234,7 +234,6 @@
 
 "feature: universal file features":
   - "**/filesharing/**"
-  - "**/**file**"
 
 "user: parent":
   - "**/parent/**"
