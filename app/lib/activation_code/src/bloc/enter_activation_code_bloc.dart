@@ -10,9 +10,11 @@ import 'package:analytics/analytics.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone_common/helper_functions.dart';
+
 import '../models/enter_activation_code_result.dart';
 import 'enter_activation_code_activator.dart';
 
@@ -23,6 +25,7 @@ class EnterActivationCodeBloc extends BlocBase {
   final _enterActivationCodeSubject =
       BehaviorSubject<EnterActivationCodeResult>();
   final SubscriptionEnabledFlag subscriptionEnabledFlag;
+  final KeyValueStore keyValueStore;
 
   String _lastEnteredValue;
 
@@ -31,6 +34,7 @@ class EnterActivationCodeBloc extends BlocBase {
     this.crashAnalytics,
     this.appFunctions,
     this.subscriptionEnabledFlag,
+    this.keyValueStore,
   ) {
     _changeEnterActivationCodeResult(NoDataEnterActivationCodeResult());
   }
@@ -83,10 +87,25 @@ class EnterActivationCodeBloc extends BlocBase {
       return;
     }
 
+    if (_lastEnteredValue.trim() == 'ClearCache') {
+      await _clearCache();
+      return;
+    }
+
     _changeEnterActivationCodeResult(LoadingEnterActivationCodeResult());
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);
     _changeEnterActivationCodeResult(enterActivationCodeResult);
+  }
+
+  Future<void> _clearCache() async {
+    await keyValueStore.clear();
+    _changeEnterActivationCodeResult(
+      SuccessfullEnterActivationCodeResult(
+        'clear',
+        'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.',
+      ),
+    );
   }
 
   Future<EnterActivationCodeResult> _runAppFunction(String value) {

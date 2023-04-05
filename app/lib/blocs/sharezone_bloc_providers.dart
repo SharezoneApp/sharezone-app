@@ -410,6 +410,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           analytics: analytics,
           appFunctions: api.references.functions,
           subscriptionEnabledFlag: subscriptionEnabledFlag,
+          keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
       BlocProvider<DownloadAppTipBloc>(
