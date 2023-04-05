@@ -18,14 +18,28 @@ extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
 
 class Subscription {
   final SubscriptionTier tier;
-  final DateTime lastSubscribedAt;
 
-  const Subscription(this.tier, this.lastSubscribedAt);
+  /// The date the user last purchased the subscription.
+  ///
+  /// If a new subscription is made this will be overridden. Shows only the
+  /// latest subscription date.
+  /// TODO: Is this initial purchase time or will this be updated every month?
+  final DateTime purchasedAt;
+
+  /// The date the latest user's subscription expires.
+  final DateTime expiresAt;
+
+  const Subscription(
+    this.tier,
+    this.purchasedAt,
+    this.expiresAt,
+  );
 
   Map<String, dynamic> toJson() {
     return {
       'tier': tier.name,
-      'lastSubscribedAt': lastSubscribedAt,
+      'purchasedAt': purchasedAt,
+      'expiresAt': expiresAt,
     };
   }
 
@@ -40,13 +54,14 @@ class Subscription {
         map['tier'],
         defaultValue: SubscriptionTier.unknown,
       ),
-      dateTimeFromTimestamp(map['lastSubscribedAt']),
+      dateTimeFromTimestamp(map['purchasedAt']),
+      dateTimeFromTimestamp(map['expiresAt']),
     );
   }
 
   @override
   String toString() =>
-      'Subscription(tier: $tier, lastSubscribedAt: $lastSubscribedAt)';
+      'Subscription(tier: $tier, purchasedAt: $purchasedAt, expiresAt: $expiresAt)';
 
   @override
   bool operator ==(Object other) {
@@ -54,9 +69,10 @@ class Subscription {
 
     return other is Subscription &&
         other.tier == tier &&
-        other.lastSubscribedAt == lastSubscribedAt;
+        other.purchasedAt == purchasedAt &&
+        other.expiresAt == expiresAt;
   }
 
   @override
-  int get hashCode => Object.hash(tier, lastSubscribedAt);
+  int get hashCode => tier.hashCode ^ purchasedAt.hashCode ^ expiresAt.hashCode;
 }
