@@ -7,11 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
@@ -20,6 +22,7 @@ class SharezonePlusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final purchaseService = RevenueCatPurchaseService();
+    final subscriptionService = Provider.of<SubscriptionService>(context);
 
     return SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
@@ -33,6 +36,9 @@ class SharezonePlusPage extends StatelessWidget {
             FutureBuilder<StoreProduct>(
               future: purchaseService.getPlusSubscriptionProduct(),
               builder: (context, snapshot) => ListTile(
+                leading: subscriptionService.isSubscriptionActive()
+                    ? Icon(Icons.check)
+                    : Icon(Icons.close),
                 title: Text('Sharezone Plus'),
                 trailing: Text(snapshot.data?.priceString ?? '...'),
               ),
