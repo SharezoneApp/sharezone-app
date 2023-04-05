@@ -225,6 +225,11 @@
 "feature: report":
   - "**/report/**"
 
+"feature: sharezone plus":
+  - "**/sharezone_plus/**"
+  - "**/**sharezone_plus**"
+  - "**/**subscription**"
+
 "feature: timetable / calendar":
   - "**/timetable/**"
   - "**/**timetable**"
