@@ -29,9 +29,7 @@ class Subscription {
 
   /// The date the user last purchased the subscription.
   ///
-  /// If a new subscription is made this will be overridden. Shows only the
-  /// latest subscription date.
-  /// TODO: Is this initial purchase time or will this be updated every month?
+  /// This will be updated every month as the subscription is renewed.
   final DateTime purchasedAt;
 
   /// The date the latest user's subscription expires.
