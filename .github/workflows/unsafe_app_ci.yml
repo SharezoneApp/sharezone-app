@@ -6,13 +6,16 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# This workflow handles the CI for the app. Therefore, it's only triggered on
-# pull requests that make changes to the app.
+# This workflow handles the CI for the app.
+#
+# Therefore, it's only triggered on pull requests that make changes to the app.
+# It only contains jobs that require secrets. The jobs that don't require
+# secrets are handled in the "safe_app_ci.yml" workflow.
 
-name: app-ci
+name: unsafe-app-ci
 
 concurrency:
-  group: app-ci-${{ github.head_ref }}
+  group: unsafe-app-ci-${{ github.head_ref }}
   # In order to conserve the use of GitHub Actions, we cancel the running action
   # of the previous commit. This means that if you first commit "A" and then
   # commit "B" to the pull request a few minutes later, the workflow for commit
@@ -97,7 +100,7 @@ jobs:
               - "lib/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
-              - ".github/workflows/app_ci.yml"
+              - ".github/workflows/unsafe_app_ci.yml"
               # The following paths are excluded from the above paths. It's important to
               # list the paths at the end of the file, so that the exclude paths are
               # applied.
@@ -108,99 +111,6 @@ jobs:
               - "!**.gitignore"
               - "!**/firebase.json"
               - "!**/.firebaserc"
-
-  analyze:
-    needs: changes
-    runs-on: ubuntu-22.04
-    # In draft PRs we might use TODOs temporarily.
-    # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
-    steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
-        with:
-          # Because we are using the "pull_request_target" event, we need to
-          # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-
-      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
-
-      - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
-
-  test:
-    needs: changes
-    if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: macos-12
-    steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
-        with:
-          # Because we are using the "pull_request_target" event, we need to
-          # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-
-      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(pwd)/bin >> $GITHUB_PATH
-
-      - name: Run tests via "sz test"
-        run: sz test -c 4 --package-timeout-minutes 15
-      # Uploads the results of failed tests as .zip to GitHub.
-      #
-      # You can find the file under the "Summary" Tab on GitHub when all jobs of
-      # this workflows finished.
-      - name: Upload failed golden tests
-        if: failure()
-        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
-        with:
-          name: failed-golden-tests
-          # When a golden test failed, are the results stored in the "failures"
-          # folder. The failures can be at several places, like in the app
-          # folder and in different packages.
-          path: "**/failures/*.png"
-          # We ignore it when no files could be found because the test command
-          # could also be failed because of an unit test. In this case there
-          # would be no failed golden test to upload.
-          if-no-files-found: ignore
 
   android-integration-test:
     needs: changes
