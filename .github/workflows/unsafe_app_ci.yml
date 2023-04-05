@@ -44,9 +44,6 @@ on:
     types:
       - checks_requested
 
-env:
-  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
-
 # Set permissions to none.
 #
 # Using the broad default permissions is considered a bad security practice
