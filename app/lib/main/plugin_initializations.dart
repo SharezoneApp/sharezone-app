@@ -42,7 +42,7 @@ class PluginInitializations {
     @required String androidApiKey,
     @required String uid,
   }) async {
-    // Web wird vom RevenueCat-Package nicht unterstützt
+    // RevenueCat package is not supported on web.
     if (!PlatformCheck.isWeb) {
       try {
         if (!kReleaseMode) await Purchases.setLogLevel(LogLevel.debug);
