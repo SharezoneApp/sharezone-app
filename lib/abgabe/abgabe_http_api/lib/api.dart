@@ -17,21 +17,19 @@ import 'package:abgabe_http_api/api/abgabedateien_api.dart';
 
 
 class AbgabeHttpApi {
-
-    Dio dio;
-    Serializers serializers;
+    late Dio dio;
+    late Serializers serializers;
     String basePath = "https://api.sharezone.net";
 
-    AbgabeHttpApi({this.dio, Serializers serializers}) {
-    if (dio == null) {
-        BaseOptions options = new BaseOptions(
+    AbgabeHttpApi({Dio? dio, Serializers? serializers}) {
+    this.dio = dio ??
+        Dio(
+          BaseOptions(
             baseUrl: basePath,
             connectTimeout: 5000,
             receiveTimeout: 3000,
+          ),
         );
-        this.dio = new Dio(options);
-    }
-
     this.serializers = serializers ?? standardSerializers;
 }
 

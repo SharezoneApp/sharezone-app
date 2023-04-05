@@ -8,7 +8,8 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TimePickerEntryMode;
+import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -110,10 +111,11 @@ Future<Time> selectTime(BuildContext context,
     });
   }
 
-  return showTimePicker(
+  return showIntervalTimePicker(
     context: context,
     initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
-    cancelText: 'Abbrechen'.toUpperCase(),
+    interval: 30,
+    visibleStep: VisibleStep.thirtieths,
     builder: (BuildContext context, Widget child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
