@@ -57,7 +57,7 @@ jobs:
   remove-safe-to-build-label:
     runs-on: ubuntu-22.04
     permissions:
-      # Required by the remove-safe-to-test action
+      # Required by the remove-safe-to-test-label action
       contents: read
       pull-requests: write
     steps:
