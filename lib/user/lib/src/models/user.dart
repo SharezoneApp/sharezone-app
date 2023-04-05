@@ -162,6 +162,7 @@ class AppUser {
     bool? commentsNotifications,
     UserSettings? userSettings,
     UserTipData? userTipData,
+    Features? features,
   }) {
     return AppUser._(
       id: id ?? this.id,
@@ -181,7 +182,7 @@ class AppUser {
       userTipData: userTipData ?? this.userTipData,
       createdOn: createdOn,
       referredBy: referredBy,
-      features: features ?? features,
+      features: features ?? this.features,
     );
   }
 }
