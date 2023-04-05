@@ -170,6 +170,7 @@ class AppUser {
     UserSettings? userSettings,
     UserTipData? userTipData,
     Subscription? subscription,
+    Features? features,
   }) {
     return AppUser._(
       id: id ?? this.id,
@@ -189,7 +190,7 @@ class AppUser {
       userTipData: userTipData ?? this.userTipData,
       createdOn: createdOn,
       referredBy: referredBy,
-      features: features ?? features,
+      features: features ?? this.features,
       subscription: subscription ?? this.subscription,
     );
   }
