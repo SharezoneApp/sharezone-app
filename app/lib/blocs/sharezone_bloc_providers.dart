@@ -336,9 +336,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
       BlocProvider<BlackboardPageBloc>(bloc: blackboardPageBloc),
-      BlocProvider<NavigationBloc>(
-        bloc: navigationBloc,
-      ),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
             api.uID,

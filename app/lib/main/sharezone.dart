@@ -10,16 +10,19 @@ import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
@@ -93,9 +96,12 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     'ALPHA',
                 child: Stack(
                   children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: StreamBuilder<AuthUser>(
+                    MultiBlocProvider(
+                      blocProviders: [
+                        BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                        BlocProvider<NavigationBloc>(bloc: navigationBloc),
+                      ],
+                      child: (context) => StreamBuilder<AuthUser>(
                         stream: listenToAuthStateChanged(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
