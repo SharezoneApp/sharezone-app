@@ -26,6 +26,9 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
+      # Retrigger the workflow when label has been add to run the CI when the
+      # "safe to test" label is added.
+      - labeled
   merge_group:
     types:
       - checks_requested
