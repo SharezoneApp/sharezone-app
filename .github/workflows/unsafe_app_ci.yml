@@ -66,7 +66,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Remove "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/remove-safe-to-test-label@3a771e93876c17e60b81bb8f6fa795d7fc262f84
+        uses: SharezoneApp/remove-safe-to-test-label@0a166fb9eef390fa6fee111ce7457b06cc26b74c
 
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
@@ -125,7 +125,7 @@ jobs:
     timeout-minutes: 90
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
 
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
@@ -220,7 +220,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
 
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
@@ -285,7 +285,7 @@ jobs:
         working-directory: app
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
 
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
@@ -362,7 +362,7 @@ jobs:
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@5dc254cce49916c2d345cdb885d0de3656f5e40a
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
 
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
