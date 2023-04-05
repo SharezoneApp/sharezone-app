@@ -96,6 +96,9 @@ dependencies:
     path: ../lib/hausaufgabenheft_logik
   holidays:
     path: ../lib/holidays
+  # Used so that we can select a minute interval (only either XX:00 or XX:30)
+  # for the homework reminder time picker.
+  interval_time_picker: ^2.0.0+5
   intl: ^0.17.0
   key_value_store:
     path: ../lib/key_value_store
