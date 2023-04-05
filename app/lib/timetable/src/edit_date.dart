@@ -8,6 +8,7 @@
 
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class EditDateField extends StatelessWidget {
   final Date date;
@@ -25,45 +26,56 @@ class EditDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 6,
-        right: 6,
-        top: 6,
-        bottom: 6,
-      ),
-      child: ValueListenableBuilder<bool>(
-        valueListenable: isSelected,
-        builder: (context, value, _) {
-          return InkWell(
-            child: InputDecorator(
-              isEmpty: date == null,
-              isFocused: value,
-              decoration: InputDecoration(
-                labelText: label ?? "Datum auswählen",
-                icon: Icon(iconData ?? Icons.today),
-                border: const OutlineInputBorder(),
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 18,
-                  child: date == null
-                      ? Container()
-                      : Text(date.parser.toYMMMMEEEEd,
-                          style: TextStyle(fontSize: 16.0)),
+    return Theme(
+      data: isDarkThemeEnabled(context)
+          // Fix colors of the date picker in dark mode.
+          ? Theme.of(context).copyWith(
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    surface: Theme.of(context).canvasColor,
+                    onSurface: Colors.white,
+                  ),
+            )
+          : Theme.of(context),
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 6,
+          right: 6,
+          top: 6,
+          bottom: 6,
+        ),
+        child: ValueListenableBuilder<bool>(
+          valueListenable: isSelected,
+          builder: (context, value, _) {
+            return InkWell(
+              child: InputDecorator(
+                isEmpty: date == null,
+                isFocused: value,
+                decoration: InputDecoration(
+                  labelText: label ?? "Datum auswählen",
+                  icon: Icon(iconData ?? Icons.today),
+                  border: const OutlineInputBorder(),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    height: 18,
+                    child: date == null
+                        ? Container()
+                        : Text(date.parser.toYMMMMEEEEd,
+                            style: TextStyle(fontSize: 16.0)),
+                  ),
                 ),
               ),
-            ),
-            onTap: () {
-              isSelected.value = true;
-              selectDate(context, initialDate: date).then((newDate) {
-                if (newDate != null) onChanged(newDate);
-                isSelected.value = false;
-              });
-            },
-          );
-        },
+              onTap: () {
+                isSelected.value = true;
+                selectDate(context, initialDate: date).then((newDate) {
+                  if (newDate != null) onChanged(newDate);
+                  isSelected.value = false;
+                });
+              },
+            );
+          },
+        ),
       ),
     );
   }
