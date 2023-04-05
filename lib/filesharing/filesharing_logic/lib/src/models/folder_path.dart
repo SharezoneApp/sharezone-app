@@ -8,7 +8,7 @@
 
 import 'filesharing_data.dart';
 
-const MAXIMUM_NESTED_FOLDER_LEVEL = 8;
+const maximumNestedFolderLevel = 8;
 
 class FolderPath {
   final String _pathString;
@@ -27,10 +27,12 @@ class FolderPath {
   }
 
   FolderPath getChildPath(String folderID) {
-    if (folderID == null || folderID == '')
+    if (folderID == null || folderID == '') {
       throw ArgumentError("FolderID is not allowed to be null!");
-    if (_pathString == "/")
+    }
+    if (_pathString == "/") {
       return FolderPath.fromPathString(_pathString + folderID);
+    }
     return FolderPath.fromPathString("$_pathString/$folderID");
   }
 

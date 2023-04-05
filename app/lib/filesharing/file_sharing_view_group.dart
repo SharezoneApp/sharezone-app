@@ -15,9 +15,7 @@ import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_utils/dimensions.dart';
-import 'package:sharezone_widgets/placeholder.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrappable_list.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'logic/open_cloud_file.dart';
 import 'widgets/card_with_icon_and_text.dart';
@@ -33,6 +31,7 @@ class FileSharingViewGroup extends StatelessWidget {
   final FileSharingPageStateGroup groupState;
 
   FileSharingData get initialData => groupState.initialFileSharingData;
+
   FolderPath get path => groupState.path;
 
   @override
@@ -43,10 +42,9 @@ class FileSharingViewGroup extends StatelessWidget {
       stream: bloc.courseFolder(initialData.courseID),
       builder: (context, snapshot) {
         final fileSharingData = snapshot.data;
-        if (fileSharingData == null)
-          return Center(
-            child: AccentColorCircularProgressIndicator(),
-          );
+        if (fileSharingData == null) {
+          return Center(child: AccentColorCircularProgressIndicator());
+        }
         final folders = fileSharingData.getFolders(path).values.toList();
 
         return SingleChildScrollView(

@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-
-import '../../../shared/placeholder_templates.dart';
+import 'package:sharezone/homework/shared/shared.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Show animated Game Controller
 class GameController extends StatelessWidget {

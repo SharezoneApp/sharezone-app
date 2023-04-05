@@ -11,6 +11,14 @@
 
 name: app-ci
 
+concurrency:
+  group: app-ci-${{ github.head_ref }}
+  # In order to conserve the use of GitHub Actions, we cancel the running action
+  # of the previous commit. This means that if you first commit "A" and then
+  # commit "B" to the pull request a few minutes later, the workflow for commit
+  # "A" will be cancelled.
+  cancel-in-progress: true
+
 on:
   # Triggers the workflow on pull request events
   pull_request:
@@ -25,29 +33,9 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
-    paths:
-      # When you add a new path, make sure to also add the path to the
-      # "paths-ignore" section in the "app_fallback_ci.yml" file.
-      # 
-      # When we change the Flutter version, we need to trigger this workflow.
-      - ".fvm/fvm_config.json"
-      # We only build and deploy a new version, when a user relevant files
-      # changed.
-      - "app/**"
-      - "lib/**"
-      # We trigger also this workflow, if this workflow is changed, so that new
-      # changes will be applied.
-      - ".github/workflows/app_ci.yml"
-      # The following paths are excluded from the above paths. It's important to
-      # list the paths at the end of the file, so that the exclude paths are
-      # applied.
-      #
-      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
-      - "!**.md"
-      - "!**.mdx"
-      - "!**.gitignore"
-      - "!**/firebase.json"
-      - "!**/.firebaserc"
+  merge_group:
+    types:
+      - checks_requested
 
 env:
   CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
@@ -60,18 +48,58 @@ permissions: {}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # We can't use the official "paths" filter because it has no support for merge
+  # groups and we would need some kind of fallback CI when a check is required
+  # but ignored because of the path filter.
+  #
+  # See:
+  # * https://github.com/community/community/discussions/45899 (merge groups)
+  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
+  #   (workaround for required checks with path filters)
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      changesFound: ${{ steps.filter.outputs.changesFound }}
+    steps:
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
+        id: filter
+        with:
+          filters: |
+            changesFound:
+              # When we change the Flutter version, we need to trigger this workflow.
+              - ".fvm/fvm_config.json"
+              # We only build and deploy a new version, when a user relevant files
+              # changed.
+              - "app/**"
+              - "lib/**"
+              # We trigger also this workflow, if this workflow is changed, so that new
+              # changes will be applied.
+              - ".github/workflows/app_ci.yml"
+              # The following paths are excluded from the above paths. It's important to
+              # list the paths at the end of the file, so that the exclude paths are
+              # applied.
+              #
+              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+              - "!**.md"
+              - "!**.mdx"
+              - "!**.gitignore"
+              - "!**/firebase.json"
+              - "!**/.firebaserc"
+
   analyze:
-    runs-on: ubuntu-latest
+    needs: changes
+    runs-on: ubuntu-22.04
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -82,7 +110,7 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package
@@ -95,14 +123,16 @@ jobs:
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
   test:
-    runs-on: macos-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -113,7 +143,7 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Activate sz_repo_cli package
@@ -123,15 +153,14 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
       
       - name: Run tests via "sz test"
-        run: sz test -c 4
-      
+        run: sz test -c 4 --package-timeout-minutes 15      
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
         with:
           name: failed-golden-tests
           # When a golden test failed, are the results stored in the "failures"
@@ -144,25 +173,28 @@ jobs:
           if-no-files-found: ignore
   
   android-integration-test:
+    needs: changes
     # Is recommended to run the job with a macOS machine to take advantage of
     # hardware acceleration support provided by HAXM. See more details in the
     # README.md of the Android emulator action:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
-    runs-on: macos-latest
-    if: ${{ github.event.pull_request.draft == false }}
-    timeout-minutes: 60
+    runs-on: macos-12
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
+    # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
+    # (~5% of the time) build takes longer and then is a long timeout needed.
+    timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2
         with:
           distribution: 'temurin'
           java-version: '11'
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
       - uses: subosito/flutter-action@main
         with:
@@ -188,7 +220,7 @@ jobs:
         run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
       
       - name: Run integration tests
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@50986b1464923454c95e261820bc626f38490ec0
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
@@ -235,16 +267,17 @@ jobs:
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
   
   ios-integration-test:
-    runs-on: macos-latest
-    if: ${{ github.event.pull_request.draft == false }}
+    needs: changes
+    runs-on: macos-12
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -255,10 +288,10 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
-      - uses: futureware-tech/simulator-action@v1
+      - uses: futureware-tech/simulator-action@ae8f725abebda0c4c62629c7a2a5b826e161c9f1
         id: simulator
         with:
           model: "iPhone 13"
@@ -283,6 +316,65 @@ jobs:
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
 
+  # At the moment, Flutter Integration Tests are not working with GitHub Actions
+  # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
+  #
+  # To still have a verification that the app can be built, we just build the
+  # macOS app.
+  macos-build-test:
+    needs: changes
+    runs-on: macos-12
+    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.39.1
+
+      - name: Setup signing
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+          BUNDLE_ID: de.codingbrain.sharezone.app
+        run: |
+          # Even when are trying to build app, we need to use "--platform IOS".
+          # The reason for this that our production bundle ID was created for
+          # IOS only. However, it's still possible to sign a macOS app with an
+          # iOS bundle ID (requires "--strict-match-identifier", otherwise the
+          # tool would try to use our de.codingbrain.sharezone.app.dev bundle ID
+          # which is a universal bundle ID and has no specific platform).
+          #
+          # See https://github.com/codemagic-ci-cd/cli-tools/issues/314
+          app-store-connect fetch-signing-files $BUNDLE_ID \
+            --platform IOS \
+            --type MAC_APP_STORE \
+            --strict-match-identifier \
+            --create
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+      
+      - name: Build macOS app
+        run: |
+          flutter build macos \
+            -t lib/main_prod.dart
+
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
   # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
@@ -298,17 +390,22 @@ jobs:
   # 3. Write GitHub action job
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
-    runs-on: ubuntu-latest
+    needs: changes
+    # We only want to build the web app only for PRs.
+    #
+    # Otherwise this will be triggered inside a merge-queue.
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
+    runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@v1
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
@@ -319,7 +416,7 @@ jobs:
 
       - name: Install FVM
         run: |
-          flutter pub global activate fvm
+          flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Build web app
@@ -330,7 +427,7 @@ jobs:
             --target=lib/main_dev.dart
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@4d0d0023f1d92b9b7d16dda64b3d7abd2c98974b
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}

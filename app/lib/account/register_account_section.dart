@@ -16,9 +16,7 @@ import 'package:sharezone/account/use_account_on_multiple_devices_instruction.da
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import 'account_page_bloc.dart';

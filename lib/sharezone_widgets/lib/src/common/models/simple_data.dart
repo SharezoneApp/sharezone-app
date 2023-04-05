@@ -23,7 +23,7 @@ class SimpleData {
   }) : assert(iconData != null);
 
   factory SimpleData.successful() {
-    return SimpleData(
+    return const SimpleData(
       title: "Erfolgreich",
       iconData: Icons.done,
       iconColor: Colors.green,
@@ -31,7 +31,7 @@ class SimpleData {
   }
 
   factory SimpleData.failed() {
-    return SimpleData(
+    return const SimpleData(
       title: "Fehlgeschlagen",
       iconData: Icons.error_outline,
       iconColor: Colors.red,
@@ -39,7 +39,7 @@ class SimpleData {
   }
 
   factory SimpleData.unkonwnException() {
-    return SimpleData(
+    return const SimpleData(
       title: 'Unbekannter Fehler',
       iconData: Icons.error_outline,
       iconColor: Colors.red,
@@ -48,7 +48,7 @@ class SimpleData {
   }
 
   factory SimpleData.noInternet() {
-    return SimpleData(
+    return const SimpleData(
       title: 'Fehler: Keine Internetverbindung',
       iconData: Icons.error_outline,
       iconColor: Colors.red,

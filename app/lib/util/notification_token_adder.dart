@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
@@ -47,7 +49,7 @@ class NotificationTokenAdderApi {
     try {
       await _userApi.addNotificationToken(token);
     } on Exception catch (e) {
-      print("Could not add NotificationToken to User. Error: $e");
+      log("Could not add NotificationToken to User. Error: $e", error: e);
     }
     return;
   }

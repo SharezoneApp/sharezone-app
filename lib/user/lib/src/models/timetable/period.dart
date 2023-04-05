@@ -6,11 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:collection/collection.dart' show IterableNullableExtension;
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:meta/meta.dart';
 import 'package:time/time.dart';
-
-import 'package:quiver/core.dart';
 
 const Periods standardPeriods = Periods({
   1: Period(
@@ -52,15 +50,17 @@ const Periods standardPeriods = Periods({
 
 class Period {
   final int number;
-  final Time startTime, endTime;
+  final Time startTime;
+  final Time endTime;
 
-  const Period(
-      {@required this.number,
-      @required this.startTime,
-      @required this.endTime});
+  const Period({
+    required this.number,
+    required this.startTime,
+    required this.endTime,
+  });
 
   factory Period.fromData(
-      {@required int number, @required Map<String, dynamic> data}) {
+      {required int number, required Map<String, dynamic> data}) {
     return Period(
       number: number,
       startTime: Time.parse(data['startTime']),
@@ -82,39 +82,34 @@ class Period {
     return startTimeIsSameOrBefore && endTimeIsSameOrAfter;
   }
 
-  bool isBeforePeriod(Period previous) {
+  bool isBeforePeriod(Period? previous) {
     if (previous == null) return false;
     return startTime.totalMinutes < previous.endTime.totalMinutes;
   }
 
-  bool isAfterPeriod(Period next) {
+  bool isAfterPeriod(Period? next) {
     if (next == null) return false;
     return endTime.totalMinutes > next.startTime.totalMinutes;
   }
 
   bool validate() {
-    if (startTime == null) return false;
-    if (endTime == null) return false;
     if (startTime.totalMinutes > endTime.totalMinutes) return false;
     return true;
   }
 
   @override
-  bool operator ==(other) {
-    return other is Period &&
-        number == other.number &&
-        startTime == other.startTime &&
-        endTime == other.endTime;
-  }
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  @override
-  int get hashCode {
-    return hash3(number, startTime, endTime);
+    return other is Period &&
+        other.number == number &&
+        other.startTime == startTime &&
+        other.endTime == endTime;
   }
 
   Period copyWith({
-    Time startTime,
-    Time endTime,
+    Time? startTime,
+    Time? endTime,
   }) {
     return Period(
       number: number,
@@ -122,14 +117,17 @@ class Period {
       endTime: endTime ?? this.endTime,
     );
   }
+
+  @override
+  int get hashCode => Object.hash(number, startTime, endTime);
 }
 
 class Periods {
-  final Map<int, Period> _data;
+  final Map<int, Period?> _data;
 
   const Periods(this._data);
 
-  factory Periods.fromData(Map<String, dynamic> data) {
+  factory Periods.fromData(Map<String, dynamic>? data) {
     if (data == null) return standardPeriods;
     return Periods(
       decodeMap(
@@ -144,12 +142,12 @@ class Periods {
         MapEntry(key.toString(), value?.toJson() ?? emptyFirestoreValue()));
   }
 
-  Period getPeriod(int number) {
+  Period? getPeriod(int number) {
     return _data[number];
   }
 
   List<Period> getPeriods() {
-    return _data.values.where((period) => period != null).toList()
+    return _data.values.whereNotNull().toList()
       ..sort((p1, p2) => p1.number.compareTo(p2.number));
   }
 
@@ -163,12 +161,12 @@ class Periods {
     return Periods(newData);
   }
 
-  Period _internalCalculatePossibleNextPeriod() {
+  Period? _internalCalculatePossibleNextPeriod() {
     if (getPeriods().isEmpty) {
       return Period(
           number: 1, startTime: Time(hour: 7), endTime: Time(hour: 8));
     } else {
-      final lastPeriod = getPeriods()?.last;
+      final lastPeriod = getPeriods().last;
       final minutesOfLastPeriod =
           lastPeriod.endTime.differenceInMinutes(lastPeriod.startTime);
 
@@ -205,7 +203,7 @@ class Periods {
   }
 
   bool validate() {
-    Time lastTime;
+    Time? lastTime;
     for (final period in _data.values) {
       if (period == null) return false;
       if (!period.validate()) return false;
@@ -220,7 +218,7 @@ class Periods {
   bool isCloseToAnyPeriod(Time time) {
     for (final period in _data.values) {
       // Checks if time is in Period
-      if (period.includesTime(time)) return true;
+      if (period!.includesTime(time)) return true;
       if (period.startTime.differenceInMinutes(time) <= 30) return true;
       if (period.endTime.differenceInMinutes(time) <= 30) return true;
     }

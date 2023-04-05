@@ -15,10 +15,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../group_join_result_dialog.dart';
 

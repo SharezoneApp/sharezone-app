@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_analytics.dart';
@@ -17,10 +19,7 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/widgets/apple_sign_in_button.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
@@ -32,7 +31,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithGoogle();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Google: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,
@@ -46,7 +45,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithApple();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Apple: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,
@@ -353,7 +352,7 @@ class _Logo extends StatelessWidget {
     return SharezoneLogo(
       height: 60,
       width: 200,
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
     );
   }
 }

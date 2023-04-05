@@ -8,7 +8,7 @@
 
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'models/cloud_storage_helper.dart';
 import 'models/upload_task.dart';
 

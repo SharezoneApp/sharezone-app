@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupJoinHelp extends StatelessWidget {
   @override

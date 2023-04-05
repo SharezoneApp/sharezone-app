@@ -18,9 +18,9 @@ class _$HolidayCacheDataSerializer
   final String wireName = 'HolidayCacheData';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, HolidayCacheData object,
+  Iterable<Object?> serialize(Serializers serializers, HolidayCacheData object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'saved',
       serializers.serialize(object.saved,
           specifiedType: const FullType(DateTime)),
@@ -35,25 +35,25 @@ class _$HolidayCacheDataSerializer
 
   @override
   HolidayCacheData deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayCacheDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'saved':
           result.saved = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime;
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'holidays':
           result.holidays.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(Holiday)]))
-              as BuiltList<Object>);
+                      BuiltList, const [const FullType(Holiday)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -69,9 +69,9 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   final String wireName = 'Holiday';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Holiday object,
+  Iterable<Object?> serialize(Serializers serializers, Holiday object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'start',
       serializers.serialize(object.start,
           specifiedType: const FullType(DateTime)),
@@ -93,39 +93,39 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   }
 
   @override
-  Holiday deserialize(Serializers serializers, Iterable<Object> serialized,
+  Holiday deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'start':
           result.start = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime;
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'end':
           result.end = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime;
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'year':
           result.year = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'stateCode':
           result.stateCode = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'slug':
           result.slug = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -141,10 +141,11 @@ class _$HolidayCacheData extends HolidayCacheData {
   final BuiltList<Holiday> holidays;
 
   factory _$HolidayCacheData(
-          [void Function(HolidayCacheDataBuilder) updates]) =>
+          [void Function(HolidayCacheDataBuilder)? updates]) =>
       (new HolidayCacheDataBuilder()..update(updates))._build();
 
-  _$HolidayCacheData._({this.saved, this.holidays}) : super._() {
+  _$HolidayCacheData._({required this.saved, required this.holidays})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(saved, r'HolidayCacheData', 'saved');
     BuiltValueNullFieldError.checkNotNull(
         holidays, r'HolidayCacheData', 'holidays');
@@ -168,7 +169,11 @@ class _$HolidayCacheData extends HolidayCacheData {
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, saved.hashCode), holidays.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, saved.hashCode);
+    _$hash = $jc(_$hash, holidays.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
@@ -182,16 +187,16 @@ class _$HolidayCacheData extends HolidayCacheData {
 
 class HolidayCacheDataBuilder
     implements Builder<HolidayCacheData, HolidayCacheDataBuilder> {
-  _$HolidayCacheData _$v;
+  _$HolidayCacheData? _$v;
 
-  DateTime _saved;
-  DateTime get saved => _$this._saved;
-  set saved(DateTime saved) => _$this._saved = saved;
+  DateTime? _saved;
+  DateTime? get saved => _$this._saved;
+  set saved(DateTime? saved) => _$this._saved = saved;
 
-  ListBuilder<Holiday> _holidays;
+  ListBuilder<Holiday>? _holidays;
   ListBuilder<Holiday> get holidays =>
       _$this._holidays ??= new ListBuilder<Holiday>();
-  set holidays(ListBuilder<Holiday> holidays) => _$this._holidays = holidays;
+  set holidays(ListBuilder<Holiday>? holidays) => _$this._holidays = holidays;
 
   HolidayCacheDataBuilder();
 
@@ -212,7 +217,7 @@ class HolidayCacheDataBuilder
   }
 
   @override
-  void update(void Function(HolidayCacheDataBuilder) updates) {
+  void update(void Function(HolidayCacheDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -228,7 +233,7 @@ class HolidayCacheDataBuilder
                   saved, r'HolidayCacheData', 'saved'),
               holidays: holidays.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'holidays';
         holidays.build();
@@ -257,11 +262,16 @@ class _$Holiday extends Holiday {
   @override
   final String slug;
 
-  factory _$Holiday([void Function(HolidayBuilder) updates]) =>
+  factory _$Holiday([void Function(HolidayBuilder)? updates]) =>
       (new HolidayBuilder()..update(updates))._build();
 
   _$Holiday._(
-      {this.start, this.end, this.year, this.stateCode, this.name, this.slug})
+      {required this.start,
+      required this.end,
+      required this.year,
+      required this.stateCode,
+      required this.name,
+      required this.slug})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(start, r'Holiday', 'start');
     BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end');
@@ -292,12 +302,15 @@ class _$Holiday extends Holiday {
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc(
-            $jc($jc($jc($jc(0, start.hashCode), end.hashCode), year.hashCode),
-                stateCode.hashCode),
-            name.hashCode),
-        slug.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, start.hashCode);
+    _$hash = $jc(_$hash, end.hashCode);
+    _$hash = $jc(_$hash, year.hashCode);
+    _$hash = $jc(_$hash, stateCode.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, slug.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
@@ -314,31 +327,31 @@ class _$Holiday extends Holiday {
 }
 
 class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
-  _$Holiday _$v;
+  _$Holiday? _$v;
 
-  DateTime _start;
-  DateTime get start => _$this._start;
-  set start(DateTime start) => _$this._start = start;
+  DateTime? _start;
+  DateTime? get start => _$this._start;
+  set start(DateTime? start) => _$this._start = start;
 
-  DateTime _end;
-  DateTime get end => _$this._end;
-  set end(DateTime end) => _$this._end = end;
+  DateTime? _end;
+  DateTime? get end => _$this._end;
+  set end(DateTime? end) => _$this._end = end;
 
-  int _year;
-  int get year => _$this._year;
-  set year(int year) => _$this._year = year;
+  int? _year;
+  int? get year => _$this._year;
+  set year(int? year) => _$this._year = year;
 
-  String _stateCode;
-  String get stateCode => _$this._stateCode;
-  set stateCode(String stateCode) => _$this._stateCode = stateCode;
+  String? _stateCode;
+  String? get stateCode => _$this._stateCode;
+  set stateCode(String? stateCode) => _$this._stateCode = stateCode;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  String _slug;
-  String get slug => _$this._slug;
-  set slug(String slug) => _$this._slug = slug;
+  String? _slug;
+  String? get slug => _$this._slug;
+  set slug(String? slug) => _$this._slug = slug;
 
   HolidayBuilder();
 
@@ -363,7 +376,7 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   }
 
   @override
-  void update(void Function(HolidayBuilder) updates) {
+  void update(void Function(HolidayBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -389,4 +402,4 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

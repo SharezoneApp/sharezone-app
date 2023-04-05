@@ -12,7 +12,7 @@ import 'package:design/design.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/helper_functions.dart';

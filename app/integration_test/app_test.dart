@@ -70,6 +70,51 @@ void main() {
         find.byKey(const Key('dashboard-appbar-title-E2E')),
         findsOneWidget,
       );
+
+      // At the moment, we can't log out properly / use the navigation when
+      // signing in again. This blocks to write more integration tests. As a
+      // workaround, we put all integration test into one test.
+      //
+      // We can remove this workaround, when the following issue are resolved:
+      // * https://github.com/SharezoneApp/sharezone-app/issues/497
+      // * https://github.com/SharezoneApp/sharezone-app/issues/117
+
+      print("Test: User should be able to load groups");
+      await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
+      await tester.pumpAndSettle();
+
+      // We assume that the user is in at least 5 groups with the following
+      // group names.
+      expect(find.text('10A'), findsOneWidget);
+      expect(find.text('Deutsch LK'), findsOneWidget);
+      expect(find.text('Englisch LK'), findsOneWidget);
+      expect(find.text('Französisch LK'), findsOneWidget);
+      expect(find.text('Latein LK'), findsOneWidget);
+      expect(find.text('Spanisch LK'), findsOneWidget);
+
+      print("Test: User should be able to load timetable");
+      await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
+      await tester.pumpAndSettle();
+
+      // We assume that we can load the timetable when we found x-times the name
+      // of the course (the name of the course is included a lesson).
+      expect(find.text('Deutsch LK'), findsNWidgets(6));
+      expect(find.text('Englisch LK'), findsNWidgets(2));
+      expect(find.text('Französisch LK'), findsNWidgets(4));
+      expect(find.text('Latein LK'), findsNWidgets(4));
+      expect(find.text('Spanisch LK'), findsNWidgets(4));
+
+      print("Test: User should be able to load information sheets");
+      await tester.tap(find.byKey(const Key('nav-item-blackboard-E2E')));
+      await tester.pumpAndSettle();
+
+      // We a searching for an information sheet that is already created.
+      const informationSheetTitel = 'German Course Trip to Berlin';
+      expect(find.text(informationSheetTitel), findsOneWidget);
+
+      // We don't check the text of the information sheet for now because the
+      // `find.text()` can't find text `MarkdownBody` which it a bit more
+      // complex.
     });
   });
 }

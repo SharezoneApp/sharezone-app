@@ -62,14 +62,14 @@ env:
 permissions: {}
 jobs:
   deploy-alpha-web-app:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@v1
+      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-    - uses: subosito/flutter-action@v2
+    - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
@@ -80,7 +80,7 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
     - name: Activate sz_repo_cli package
@@ -89,10 +89,10 @@ jobs:
     # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
     - run: echo $(realpath ./bin) >> $GITHUB_PATH
     
-    - name: Install firebase CLI
+    - name: Install Firebase CLI
       run: |
         cd app
-        sudo npm i -g firebase-tools
+        sudo npm i -g firebase-tools@11.24.1
 
     - name: Build and deploy web-app
       env:
@@ -102,14 +102,14 @@ jobs:
         sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json
 
   deploy-alpha-android-app:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
     
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@v1
+      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-    - uses: subosito/flutter-action@v2
+    - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
@@ -120,8 +120,11 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+    - name: Install Codemagic CLI Tools
+      run: pip3 install codemagic-cli-tools==0.39.1
 
     - name: Setup signing
       working-directory: app/android
@@ -139,7 +142,35 @@ jobs:
     
     - name: Build Android
       working-directory: app
-      run: | 
+      env:
+        # The iOS and App Store environment variables are used by the Codemagic
+        # CLI tool. It's important to use the same names as the CLI tool
+        # expects. 
+        #
+        # From https://appstoreconnect.apple.com/apps/1434868489/
+        IOS_APP_ID: 1434868489
+        # The following secrets are used by the Codemagic CLI tool. It's important
+        # to use the same names as the CLI tool expects.
+        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+      run: |
+        # Even when Firebase Distribution does not require a new build number,
+        # we still bump it to identify the different builds easier. Therefore,
+        # users can easier say in which version of the app they encountered a
+        # bug.
+        #
+        # We use the latest build number from the App Store Connect API, because
+        # this build number is always the the newest one and there is no easy
+        # API to get the latest build number from Firebase Distribution and the
+        # build number from App Store Connect is the same as the one from
+        # Firebase Distribution.
+        #
+        # Bumping the build number for Firebase Distribution has no effect on
+        # the PlayStore build number.
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID | head -2 | tail -1)
+        BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+
         # We are publishing APKs instead of App Bundles to Firebase Distribution
         # because they easier to install. App Bundles are installed via the
         # PlayStore which resulted in problems in the past.
@@ -148,10 +179,11 @@ jobs:
           --release \
           --flavor prod \
           --target=lib/main_prod.dart \
-          --dart-define DEVELOPMENT_STAGE=ALPHA
+          --dart-define DEVELOPMENT_STAGE=ALPHA \
+          --build-number $BUMPED_BUILD_NUMBER
 
     - name: Install Firebase CLI
-      run: sudo npm i -g firebase-tools
+      run: sudo npm i -g firebase-tools@11.24.1
 
     - name: Publish to Firebase Distribution
       working-directory: app
@@ -174,22 +206,22 @@ jobs:
           --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-latest
+    runs-on: macos-12
     timeout-minutes: 120
     defaults:
       run:
         working-directory: app
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
 
     - name: Install Codemagic CLI Tools
-      run: pip3 install codemagic-cli-tools
+      run: pip3 install codemagic-cli-tools==0.39.1
 
     - name: Setup signing
       env:
-        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
         # The following secrets are used by the Codemagic CLI tool. It's important
         # to use the same names as the CLI tool expects.
+        CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
@@ -198,15 +230,14 @@ jobs:
         app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_STORE \
-          --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
           --create
         keychain add-certificates
         xcode-project use-profiles
 
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@v1
+      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
-    - uses: subosito/flutter-action@v2
+    - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
       with:
         flutter-version: ${{ env.FLUTTER_VERSION }}
         channel: ${{ env.FLUTTER_CHANNEL }}
@@ -217,7 +248,7 @@ jobs:
 
     - name: Install FVM
       run: |
-        flutter pub global activate fvm
+        flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
     - name: Build iOS app
@@ -260,7 +291,10 @@ jobs:
         # able to use the last commit message (title and description) as release
         # note for the alpha builds. This is not the most user friendly note but
         # it's better than nothing.
-        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        #
+        # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
+        # because the App Store doesn't allow them.
+        export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \

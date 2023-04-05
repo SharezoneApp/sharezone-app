@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc.dart';
 import 'package:sharezone/activation_code/src/enter_activation_code_result_dialog.dart';
 import 'package:sharezone/auth/login_button.dart';
-
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class EnterActivationCodeTextField extends StatelessWidget
     implements PreferredSizeWidget {
@@ -32,7 +30,9 @@ class EnterActivationCodeTextField extends StatelessWidget
             padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: Colors.white, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+                primaryColor: Colors.white,
+                colorScheme:
+                    ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLines: 1,
@@ -41,7 +41,7 @@ class EnterActivationCodeTextField extends StatelessWidget
                 cursorColor: Colors.white,
                 autofocus: true,
                 textInputAction: TextInputAction.done,
-                onEditingComplete: () => onSend(context),
+                onEditingComplete: () => onSend(context, bloc),
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: 'Aktivierungscode',
@@ -50,7 +50,7 @@ class EnterActivationCodeTextField extends StatelessWidget
                     data: Theme.of(context),
                     child: ContinueRoundButton(
                       tooltip: 'Senden',
-                      onTap: () => onSend(context),
+                      onTap: () => onSend(context, bloc),
                     ),
                   ),
                 ),
@@ -63,8 +63,10 @@ class EnterActivationCodeTextField extends StatelessWidget
     );
   }
 
-  Future<void> onSend(BuildContext context) async {
-    final bloc = BlocProvider.of<EnterActivationCodeBloc>(context);
+  Future<void> onSend(
+    BuildContext context,
+    EnterActivationCodeBloc bloc,
+  ) async {
     hideKeyboard(context: context);
     if (bloc.isValidActivationCodeID) {
       bloc.submit();

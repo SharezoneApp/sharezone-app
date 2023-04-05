@@ -36,7 +36,7 @@ List<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
           todoDate: DateTime.now(),
           status: CompletionStatus.completed,
           subject: Subject("Mathe"),
-          title: Title("ABC"),
+          title: const Title("ABC"),
           withSubmissions: false),
     );
 

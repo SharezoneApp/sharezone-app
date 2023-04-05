@@ -17,7 +17,7 @@ import 'package:sharezone/overview/views/user_view.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_utils/streams.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum LinkAction { credentialAlreadyInUse, finished }
 

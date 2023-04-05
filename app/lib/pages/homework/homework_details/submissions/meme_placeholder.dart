@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class MemePlaceholder extends StatefulWidget {
@@ -70,7 +70,8 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
                       )
                     : Center(
                         key: const ValueKey('loading'),
-                        child: AccentColorCircularProgressIndicator()),
+                        child: AccentColorCircularProgressIndicator(),
+                      ),
               ),
             ),
             if (widget.text != null)

@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/form.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'course_settings.dart';
 

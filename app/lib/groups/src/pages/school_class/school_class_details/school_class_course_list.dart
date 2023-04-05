@@ -14,9 +14,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_course_template_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
   const SchoolClassCoursesList({Key key, @required this.schoolClassID})

@@ -18,6 +18,8 @@ import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/pages/homework_page.dart';
@@ -28,10 +30,7 @@ import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dar
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
 
@@ -42,20 +41,22 @@ import 'submissions/homework_list_submissions_page.dart';
 
 void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
   showLeftRightAdaptiveDialog(
-      context: context,
-      left: AdaptiveDialogAction.ok,
-      title: 'Keine Berechtigung',
-      content: const Text(
-          'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'));
+    context: context,
+    left: AdaptiveDialogAction.ok,
+    title: 'Keine Berechtigung',
+    content: const Text(
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'),
+  );
 }
 
 void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   showLeftRightAdaptiveDialog(
-      context: context,
-      left: AdaptiveDialogAction.ok,
-      title: 'Keine Berechtigung',
-      content: const Text(
-          'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'));
+    context: context,
+    left: AdaptiveDialogAction.ok,
+    title: 'Keine Berechtigung',
+    content: const Text(
+        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'),
+  );
 }
 
 Future<bool> confirmToMarkHomeworkAsDoneWithoutSubmission(
@@ -67,7 +68,10 @@ Future<bool> confirmToMarkHomeworkAsDoneWithoutSubmission(
         "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?"),
     defaultValue: false,
     right: AdaptiveDialogAction<bool>(
-        title: 'Abhaken', popResult: true, textColor: Colors.orange),
+      title: 'Abhaken',
+      popResult: true,
+      textColor: Colors.orange,
+    ),
   );
 }
 
@@ -241,6 +245,7 @@ class _UserSubmissionsTile extends StatelessWidget {
   }
 
   bool get _isParent => view.typeOfUser == TypeOfUser.parent;
+
   bool get _isTeacher => view.typeOfUser == TypeOfUser.teacher;
 }
 
@@ -250,6 +255,15 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
 
   final HomeworkDetailsView view;
 
+  void _openSharezonePlusPage(BuildContext context) {
+    // Popping the homework details page
+    Navigator.pop(context);
+
+    // Open Sharezone Plus page
+    BlocProvider.of<NavigationBloc>(context)
+        .navigateTo(NavigationItem.sharezonePlus);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -257,7 +271,11 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
       title: Text('${view.nrOfSubmissions} Abgaben'),
       onTap: () {
         if (view.hasPermissionToViewSubmissions) {
-          _openSubmissionsList(context);
+          if (view.hasTeacherSubmissionsUnlocked) {
+            _openSubmissionsList(context);
+          } else {
+            _openSharezonePlusPage(context);
+          }
         } else {
           showTeacherMustBeAdminDialogToViewSubmissions(context);
         }

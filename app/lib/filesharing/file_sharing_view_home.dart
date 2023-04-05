@@ -11,8 +11,7 @@ import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/file_sharing/file_sharing_page_bloc.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
-import 'package:sharezone_widgets/placeholder.dart';
-import 'package:sharezone_widgets/wrappable_list.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // ignore:implementation_imports
 import 'logic/file_sharing_page_state_bloc.dart';

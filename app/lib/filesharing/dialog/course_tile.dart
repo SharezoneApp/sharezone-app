@@ -13,8 +13,8 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
-import 'package:sharezone/util/API.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone/util/api.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseTile extends StatelessWidget {
   const CourseTile({

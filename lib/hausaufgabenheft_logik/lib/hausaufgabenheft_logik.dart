@@ -27,10 +27,10 @@
 /// homeworkPageBloc.dispatch(SortHomeworks(SubjectSmallestDateAndTitleSort()))
 /// homeworkPageBloc.state.listen((state) {
 ///  if(state is Success) {
-///    print("success!");
-///    print("completed homeworks: ${state.completed}")
+///    log("success!");
+///    log("completed homeworks: ${state.completed}")
 ///  } else if (state is Loading) {
-///    print("loading!");
+///    log("loading!");
 ///  }
 /// });
 /// ```

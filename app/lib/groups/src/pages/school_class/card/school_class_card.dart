@@ -16,9 +16,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../my_school_class_bloc.dart';
 import '../school_class_details.dart';

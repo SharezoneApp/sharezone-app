@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 class EditTimeField extends StatelessWidget {

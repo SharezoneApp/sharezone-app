@@ -17,14 +17,16 @@ environment:
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
+  collection: ^1.17.0
   equatable: ^2.0.5
-  firebase_messaging: ^14.2.5
+  firebase_messaging: ^14.4.0
   flutter:
     sdk: flutter
+  meta: ^1.8.0
 
 dev_dependencies:
   test: ^1.22.0
   flutter_test:
     sdk: flutter
-
-flutter: null
+  sharezone_lints:
+    path: ../sharezone_lints
