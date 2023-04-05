@@ -6,10 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'implementation/firebase_file_uploader.dart' as implementation;
+import 'package:common_domain_models/common_domain_models.dart';
 
-import 'file_uploader.dart';
-
-FileUploader getFileUploader() {
-  return implementation.getFileUploaderImplementation();
+class SubscriptionItem extends Id {
+  SubscriptionItem(String id) : super(id, 'SubscriptionItem');
 }

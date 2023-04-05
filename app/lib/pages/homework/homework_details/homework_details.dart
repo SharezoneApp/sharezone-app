@@ -18,6 +18,8 @@ import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/pages/homework_page.dart';
@@ -253,6 +255,15 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
 
   final HomeworkDetailsView view;
 
+  void _openSharezonePlusPage(BuildContext context) {
+    // Popping the homework details page
+    Navigator.pop(context);
+
+    // Open Sharezone Plus page
+    BlocProvider.of<NavigationBloc>(context)
+        .navigateTo(NavigationItem.sharezonePlus);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -260,7 +271,11 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
       title: Text('${view.nrOfSubmissions} Abgaben'),
       onTap: () {
         if (view.hasPermissionToViewSubmissions) {
-          _openSubmissionsList(context);
+          if (view.hasTeacherSubmissionsUnlocked) {
+            _openSubmissionsList(context);
+          } else {
+            _openSharezonePlusPage(context);
+          }
         } else {
           showTeacherMustBeAdminDialogToViewSubmissions(context);
         }

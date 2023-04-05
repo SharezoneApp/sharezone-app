@@ -236,6 +236,12 @@ PODS:
   - PromisesObjC (2.2.0)
   - PromisesSwift (2.2.0):
     - PromisesObjC (= 2.2.0)
+  - purchases_flutter (4.11.1):
+    - FlutterMacOS
+    - PurchasesHybridCommon (= 4.14.1)
+  - PurchasesHybridCommon (4.14.1):
+    - RevenueCat (= 4.17.8)
+  - RevenueCat (4.17.8)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -268,6 +274,7 @@ DEPENDENCIES:
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - pdfx (from `Flutter/ephemeral/.symlinks/plugins/pdfx/macos`)
+  - purchases_flutter (from `Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
   - sign_in_with_apple (from `Flutter/ephemeral/.symlinks/plugins/sign_in_with_apple/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
@@ -302,6 +309,8 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PromisesSwift
+    - PurchasesHybridCommon
+    - RevenueCat
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -341,6 +350,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
   pdfx:
     :path: Flutter/ephemeral/.symlinks/plugins/pdfx/macos
+  purchases_flutter:
+    :path: Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos
   shared_preferences_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
   sign_in_with_apple:
@@ -402,6 +413,9 @@ SPEC CHECKSUMS:
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
+  purchases_flutter: 9d9a914e29c19470b10e38c61c5f44cdd0630c43
+  PurchasesHybridCommon: fb1a3319024c1aa9f98d40cc5820476b824409fc
+  RevenueCat: f2f96c2cbde5ddab3a86381923c6f023383342e0
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   sign_in_with_apple: a9e97e744e8edc36aefc2723111f652102a7a727
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea

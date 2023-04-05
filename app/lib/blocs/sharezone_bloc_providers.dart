@@ -13,6 +13,7 @@ import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dio/dio.dart';
@@ -62,6 +63,7 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
+import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -84,6 +86,8 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
@@ -148,6 +152,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       getPlatformInformationRetreiver(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
+    );
+
+    PluginInitializations.tryInitializeRevenueCat(
+      androidApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_android_key'),
+      appleApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_apple_key'),
+      uid: widget.blocDependencies.authUser.uid,
     );
 
     super.initState();
@@ -289,11 +301,27 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final holidayApiClient =
         CloudFunctionHolidayApiClient(api.references.functions);
 
+    final clock = Clock();
+    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
+      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+    );
+    final subscriptionService = SubscriptionService(
+      user: api.user.userStream,
+      clock: clock,
+      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
+    );
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     final providers = [
-      Provider<CrashAnalytics>(create: (context) => crashAnalytics)
+      Provider<CrashAnalytics>(create: (context) => crashAnalytics),
+      Provider<SubscriptionService>(
+        create: (context) => subscriptionService,
+      ),
+      ChangeNotifierProvider<SubscriptionEnabledFlag>(
+        create: (context) => subscriptionEnabledFlag,
+      )
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -381,6 +409,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
+          subscriptionEnabledFlag: subscriptionEnabledFlag,
         ),
       ),
       BlocProvider<DownloadAppTipBloc>(
@@ -447,6 +476,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseGateway: api.course,
           fileSharingGateway: api.fileSharing,
           typeOfUserStream: typeOfUserStream,
+          subscriptionService: subscriptionService,
         ),
       ),
       BlocProvider<ChangeDataBloc>(

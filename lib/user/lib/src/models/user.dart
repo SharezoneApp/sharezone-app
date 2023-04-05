@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:user/src/models/subscription.dart';
 import 'features.dart';
 import 'state_enum.dart';
 import 'tips/user_tip_data.dart';
@@ -33,6 +34,7 @@ class AppUser {
   final UserTipData userTipData;
   final DateTime? createdOn;
   final Features? features;
+  final Subscription? subscription;
 
   AppUser._({
     required this.id,
@@ -51,6 +53,7 @@ class AppUser {
     required this.userTipData,
     required this.createdOn,
     this.features,
+    required this.subscription,
   });
 
   factory AppUser.create({required String id}) {
@@ -70,6 +73,7 @@ class AppUser {
       userSettings: UserSettings.defaultSettings(),
       userTipData: UserTipData.empty(),
       createdOn: null,
+      subscription: null,
     );
   }
 
@@ -91,6 +95,7 @@ class AppUser {
         userSettings: UserSettings.defaultSettings(),
         userTipData: UserTipData.empty(),
         createdOn: null,
+        subscription: null,
       );
     }
     return AppUser._(
@@ -111,6 +116,7 @@ class AppUser {
       userTipData: UserTipData.fromData(data['tips']),
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       features: Features.fromJson(data['features']),
+      subscription: Subscription.fromData(data['subscription']),
     );
   }
 
@@ -129,6 +135,7 @@ class AppUser {
       'settings': userSettings.toJson(),
       'tips': userTipData.toJson(),
       'features': features?.toJson(),
+      'subscription': null,
     };
   }
 
@@ -162,6 +169,7 @@ class AppUser {
     bool? commentsNotifications,
     UserSettings? userSettings,
     UserTipData? userTipData,
+    Subscription? subscription,
     Features? features,
   }) {
     return AppUser._(
@@ -183,6 +191,7 @@ class AppUser {
       createdOn: createdOn,
       referredBy: referredBy,
       features: features ?? this.features,
+      subscription: subscription ?? this.subscription,
     );
   }
 }
