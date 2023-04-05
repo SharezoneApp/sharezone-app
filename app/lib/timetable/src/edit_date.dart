@@ -29,6 +29,7 @@ class EditDateField extends StatelessWidget {
     return Theme(
       data: isDarkThemeEnabled(context)
           // Fix colors of the date picker in dark mode.
+          // See https://github.com/SharezoneApp/sharezone-app/issues/167
           ? Theme.of(context).copyWith(
               colorScheme: Theme.of(context).colorScheme.copyWith(
                     surface: Theme.of(context).canvasColor,
