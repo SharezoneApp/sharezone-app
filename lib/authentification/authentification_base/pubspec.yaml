@@ -29,8 +29,8 @@ dependencies:
   user:
     path: ../../user
   google_sign_in_dartio: ^0.2.2
-  cloud_firestore: ^4.4.3
-  firebase_auth: ^4.2.9
+  cloud_firestore: ^4.5.0
+  firebase_auth: ^4.4.0
   firebase_auth_oauth: any
   google_sign_in: ^5.0.4
   meta: ^1.1.8
