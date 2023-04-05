@@ -64,7 +64,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
       - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
         id: filter
         with:
@@ -97,7 +97,7 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -130,7 +130,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
