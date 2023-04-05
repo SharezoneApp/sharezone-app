@@ -13,6 +13,9 @@ import 'mime_type.dart';
 /// dynamic. [LocalFileIo] ist für Mobile/Desktop, [LocalFileData] ist für
 /// Web und besitzt die Daten ausschließlich als UInt8List.
 abstract class LocalFile {
+  /// Returns the File as Dart:io File if [LocalFile] is [LocalFileIo].
+  ///
+  /// Otherwise returns null.
   dynamic getFile();
   dynamic getData();
 
