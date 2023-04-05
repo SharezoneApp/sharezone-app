@@ -46,11 +46,13 @@ class SuccessfullEnterActivationCodeResult
     implements EnterActivationCodeResult {
   final String codeName, codeDescription;
 
-  const SuccessfullEnterActivationCodeResult._(
-      this.codeName, this.codeDescription);
+  const SuccessfullEnterActivationCodeResult(
+    this.codeName,
+    this.codeDescription,
+  );
 
   factory SuccessfullEnterActivationCodeResult.fromData(dynamic resultData) {
-    return SuccessfullEnterActivationCodeResult._(
+    return SuccessfullEnterActivationCodeResult(
       resultData['name'] as String,
       resultData['description'] as String,
     );

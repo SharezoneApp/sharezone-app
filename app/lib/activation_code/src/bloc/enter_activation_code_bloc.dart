@@ -11,6 +11,7 @@ import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import '../models/enter_activation_code_result.dart';
 import 'enter_activation_code_activator.dart';
@@ -21,6 +22,7 @@ class EnterActivationCodeBloc extends BlocBase {
   final SharezoneAppFunctions appFunctions;
   final _enterActivationCodeSubject =
       BehaviorSubject<EnterActivationCodeResult>();
+  final SubscriptionEnabledFlag subscriptionEnabledFlag;
 
   String _lastEnteredValue;
 
@@ -28,6 +30,7 @@ class EnterActivationCodeBloc extends BlocBase {
     this.analytics,
     this.crashAnalytics,
     this.appFunctions,
+    this.subscriptionEnabledFlag,
   ) {
     _changeEnterActivationCodeResult(NoDataEnterActivationCodeResult());
   }
@@ -54,6 +57,7 @@ class EnterActivationCodeBloc extends BlocBase {
 
   // ignore:use_setters_to_change_properties
   void updateFieldText(String currentText) {
+    print('updateFieldText: $currentText');
     _lastEnteredValue = currentText;
   }
 
@@ -68,6 +72,18 @@ class EnterActivationCodeBloc extends BlocBase {
   Future<void> _enterValue(String enteredValue) async {
     if (isEmptyOrNull(enteredValue)) return;
     _lastEnteredValue = enteredValue;
+
+    if (_lastEnteredValue.trim() == 'SharezonePlus') {
+      subscriptionEnabledFlag.toggle();
+      _changeEnterActivationCodeResult(
+        SuccessfullEnterActivationCodeResult(
+          'SharezonePlus',
+          '"Sharezone Plus"-Prototyp ${subscriptionEnabledFlag.isEnabled ? 'aktiviert' : 'deaktiviert'}.',
+        ),
+      );
+      return;
+    }
+
     _changeEnterActivationCodeResult(LoadingEnterActivationCodeResult());
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);

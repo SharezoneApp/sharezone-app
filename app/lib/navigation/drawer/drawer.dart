@@ -9,11 +9,13 @@
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -62,6 +64,8 @@ class _DrawerItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSubscriptionEnabled =
+        context.watch<SubscriptionEnabledFlag>().isEnabled;
     return Material(
       color: getDrawerBackgroundColor(context),
       child: SafeArea(
@@ -82,7 +86,7 @@ class _DrawerItems extends StatelessWidget {
                     ],
                     ...functionTiles,
                     const Divider(),
-                    sharezonePlusTile,
+                    if (isSubscriptionEnabled) sharezonePlusTile,
                     feedbackBoxtile,
                     settingsPageTile,
                   ],

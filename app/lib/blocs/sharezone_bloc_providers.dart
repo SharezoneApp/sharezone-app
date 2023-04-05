@@ -86,6 +86,7 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
@@ -301,9 +302,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         CloudFunctionHolidayApiClient(api.references.functions);
 
     final clock = Clock();
+    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
+      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+    );
     final subscriptionService = SubscriptionService(
       user: api.user.userStream,
       clock: clock,
+      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
     );
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
@@ -314,6 +319,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
       ),
+      ChangeNotifierProvider<SubscriptionEnabledFlag>(
+        create: (context) => subscriptionEnabledFlag,
+      )
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -401,6 +409,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
+          subscriptionEnabledFlag: subscriptionEnabledFlag,
         ),
       ),
       BlocProvider<DownloadAppTipBloc>(
