@@ -6,13 +6,16 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# This workflow handles the CI for the app. Therefore, it's only triggered on
-# pull requests that make changes to the app.
+# This workflow handles the CI for the app.
+#
+# Therefore, it's only triggered on pull requests that make changes to the app.
+# It only contains jobs that require secrets. The jobs that don't require
+# secrets are handled in the "safe_app_ci.yml" workflow.
 
-name: app-ci
+name: unsafe-app-ci
 
 concurrency:
-  group: app-ci-${{ github.head_ref }}
+  group: unsafe-app-ci-${{ github.head_ref }}
   # In order to conserve the use of GitHub Actions, we cancel the running action
   # of the previous commit. This means that if you first commit "A" and then
   # commit "B" to the pull request a few minutes later, the workflow for commit
@@ -21,7 +24,7 @@ concurrency:
 
 on:
   # Triggers the workflow on pull request events
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - synchronize
@@ -33,21 +36,34 @@ on:
       # need to trigger these jobs again when the pull request is changing to
       # ready for review.
       - ready_for_review
+      # Retrigger the workflow when label has been add to run the CI when the
+      # "safe to test" label is added.
+      - labeled
   merge_group:
     types:
       - checks_requested
 
-env:
-  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
-
 # Set permissions to none.
 #
-# Using the broad default permissions is considered a bad security practice 
+# Using the broad default permissions is considered a bad security practice
 # and would cause alerts from our scanning tools.
 permissions: {}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # It's important that we run this job first, because we need to remove the
+  # "safe to test" label when the PR comes from a fork in order to ensure that
+  # every change is reviewed for security implications.
+  remove-safe-to-build-label:
+    runs-on: ubuntu-22.04
+    permissions:
+      # Required by the remove-safe-to-test-label action
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Remove "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/remove-safe-to-test-label@0a166fb9eef390fa6fee111ce7457b06cc26b74c
+
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
   # but ignored because of the path filter.
@@ -57,11 +73,16 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
+    needs: remove-safe-to-build-label
     runs-on: ubuntu-22.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
         id: filter
         with:
@@ -75,7 +96,7 @@ jobs:
               - "lib/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
-              - ".github/workflows/app_ci.yml"
+              - ".github/workflows/unsafe_app_ci.yml"
               # The following paths are excluded from the above paths. It's important to
               # list the paths at the end of the file, so that the exclude paths are
               # applied.
@@ -87,91 +108,6 @@ jobs:
               - "!**/firebase.json"
               - "!**/.firebaserc"
 
-  analyze:
-    needs: changes
-    runs-on: ubuntu-22.04
-    # In draft PRs we might use TODOs temporarily.
-    # In this case the analyze pipeline would fail, thus we won't run it.
-    if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
-    steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-
-      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
-      
-      - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
-
-  test:
-    needs: changes
-    if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: macos-12
-    steps:
-      - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-
-      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(pwd)/bin >> $GITHUB_PATH
-      
-      - name: Run tests via "sz test"
-        run: sz test -c 4 --package-timeout-minutes 15      
-      # Uploads the results of failed tests as .zip to GitHub.
-      #
-      # You can find the file under the "Summary" Tab on GitHub when all jobs of
-      # this workflows finished.
-      - name: Upload failed golden tests
-        if: failure()
-        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
-        with:
-          name: failed-golden-tests
-          # When a golden test failed, are the results stored in the "failures"
-          # folder. The failures can be at several places, like in the app
-          # folder and in different packages.
-          path: "**/failures/*.png"
-          # We ignore it when no files could be found because the test command
-          # could also be failed because of an unit test. In this case there
-          # would be no failed golden test to upload.
-          if-no-files-found: ignore
-  
   android-integration-test:
     needs: changes
     # Is recommended to run the job with a macOS machine to take advantage of
@@ -184,14 +120,21 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     timeout-minutes: 90
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
       - uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -211,14 +154,14 @@ jobs:
       #
       # Using `flutter drive` as workaround is not an option because it's super
       # flaky in terms of stability. With `flutter drive` ~ 30% the Android
-      # Emulator have difficulties to start properly. 
+      # Emulator have difficulties to start properly.
       - name: Build Android App
         working-directory: ./app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
         run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
-      
+
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@50986b1464923454c95e261820bc626f38490ec0
         env:
@@ -265,14 +208,21 @@ jobs:
           # "android-emulator-runner" action doesn't support it. It just takes every
           # line as separate command.
           script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
-  
+
   ios-integration-test:
     needs: changes
     runs-on: macos-12
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -284,7 +234,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -295,7 +245,7 @@ jobs:
         id: simulator
         with:
           model: "iPhone 13"
-      
+
       - name: Run integration tests
         working-directory: app
         env:
@@ -330,7 +280,14 @@ jobs:
       run:
         working-directory: app
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.39.1
@@ -369,7 +326,7 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
-      
+
       - name: Build macOS app
         run: |
           flutter build macos \
@@ -394,13 +351,20 @@ jobs:
     # We only want to build the web app only for PRs.
     #
     # Otherwise this will be triggered inside a merge-queue.
-    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+
       - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -412,7 +376,7 @@ jobs:
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: '${{ runner.tool_cache }}/flutter/:version:'
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
       - name: Install FVM
         run: |
@@ -433,5 +397,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
           projectId: sharezone-debug
           entryPoint: "./app"
-          expires: '7d'
-          target: 'test-web-app'
+          expires: "7d"
+          target: "test-web-app"
