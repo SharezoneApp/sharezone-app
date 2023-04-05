@@ -172,11 +172,6 @@ class _MoreSection extends StatelessWidget {
             tag: WebAppSettingsPage.tag,
           ),
         _SettingsOption(
-          title: "Häufige Fragen",
-          icon: Icons.live_help,
-          onTap: () => launchURL("https://sharezone.net/faq"),
-        ),
-        _SettingsOption(
           title: "Support",
           icon: Icons.question_answer,
           tag: SupportPage.tag,
