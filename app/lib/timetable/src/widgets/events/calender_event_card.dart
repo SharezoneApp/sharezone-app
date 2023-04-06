@@ -49,7 +49,8 @@ class CalenderEventCard extends StatelessWidget {
                 _Title(title: view.title),
                 const SizedBox(height: 6),
                 Text(view.dateText,
-                    style: TextStyle(color: Theme.of(context).colorScheme.error))
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error))
               ],
             ),
           ),
@@ -97,7 +98,8 @@ class _Title extends StatelessWidget {
   }
 }
 
-Future<void> onEventLongPress(BuildContext context, CalendricalEvent event) async {
+Future<void> onEventLongPress(
+    BuildContext context, CalendricalEvent event) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final isAuthor = api.uID == event.authorID;
   final hasPermissionsToManageEvents = hasPermissionToManageEvents(

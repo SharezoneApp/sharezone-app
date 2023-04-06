@@ -34,7 +34,8 @@ class MoveFilePageHeader extends StatelessWidget
           if (currentPath == FolderPath.root) {
             showSnackSec(
               context: context,
-              text: 'Ein Verschieben zu einem anderen Kurs ist aktuell noch nicht möglich.',
+              text:
+                  'Ein Verschieben zu einem anderen Kurs ist aktuell noch nicht möglich.',
             );
           } else {
             final moveFileBloc = BlocProvider.of<MoveFileBloc>(context);

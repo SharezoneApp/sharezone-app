@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     projectId: 'sharezone-c2bd8',
     databaseURL: 'https://sharezone-c2bd8.firebaseio.com',
     storageBucket: 'sharezone-c2bd8.appspot.com',
-    androidClientId: '730263787697-3k362gt3s1lu4d2entj682com1a42ud1.apps.googleusercontent.com',
-    iosClientId: '730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p.apps.googleusercontent.com',
+    androidClientId:
+        '730263787697-3k362gt3s1lu4d2entj682com1a42ud1.apps.googleusercontent.com',
+    iosClientId:
+        '730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p.apps.googleusercontent.com',
     iosBundleId: 'de.codingbrain.sharezone.app',
   );
 
@@ -82,8 +84,10 @@ class DefaultFirebaseOptions {
     projectId: 'sharezone-c2bd8',
     databaseURL: 'https://sharezone-c2bd8.firebaseio.com',
     storageBucket: 'sharezone-c2bd8.appspot.com',
-    androidClientId: '730263787697-3k362gt3s1lu4d2entj682com1a42ud1.apps.googleusercontent.com',
-    iosClientId: '730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p.apps.googleusercontent.com',
+    androidClientId:
+        '730263787697-3k362gt3s1lu4d2entj682com1a42ud1.apps.googleusercontent.com',
+    iosClientId:
+        '730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p.apps.googleusercontent.com',
     iosBundleId: 'de.codingbrain.sharezone.app',
   );
 }

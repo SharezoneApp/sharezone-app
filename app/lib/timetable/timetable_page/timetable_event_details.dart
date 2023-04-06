@@ -282,7 +282,8 @@ class _AddToMyCalendarButton extends StatelessWidget {
                   icon: const Icon(Icons.add_circle),
                   label: Text("Zu meinem Kalender hinzufügen".toUpperCase()),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () async {
                     final timezone = await _getTimezoneForMobile();

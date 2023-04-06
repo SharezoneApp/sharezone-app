@@ -100,7 +100,8 @@ class TimetableGateway {
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs
-            .map((document) => CalendricalEvent.fromData(document.data(), id: document.id))
+            .map((document) =>
+                CalendricalEvent.fromData(document.data(), id: document.id))
             .toList();
       });
     }
@@ -113,7 +114,8 @@ class TimetableGateway {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs
-          .map((document) => CalendricalEvent.fromData(document.data(), id: document.id))
+          .map((document) =>
+              CalendricalEvent.fromData(document.data(), id: document.id))
           .toList();
     });
   }
