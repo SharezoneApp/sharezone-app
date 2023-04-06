@@ -15,13 +15,12 @@ import 'package:abgabe_http_api/api/abgabe_api.dart';
 import 'package:abgabe_http_api/api/abgabedatei_api.dart';
 import 'package:abgabe_http_api/api/abgabedateien_api.dart';
 
-
 class AbgabeHttpApi {
-    late Dio dio;
-    late Serializers serializers;
-    String basePath = "https://api.sharezone.net";
+  late Dio dio;
+  late Serializers serializers;
+  String basePath = "https://api.sharezone.net";
 
-    AbgabeHttpApi({Dio? dio, Serializers? serializers}) {
+  AbgabeHttpApi({Dio? dio, Serializers? serializers}) {
     this.dio = dio ??
         Dio(
           BaseOptions(
@@ -31,34 +30,29 @@ class AbgabeHttpApi {
           ),
         );
     this.serializers = serializers ?? standardSerializers;
-}
+  }
 
-
-    /**
+  /**
     * Get AbgabeApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    AbgabeApi getAbgabeApi() {
+  AbgabeApi getAbgabeApi() {
     return AbgabeApi(dio, serializers);
-    }
+  }
 
-
-    /**
+  /**
     * Get AbgabedateiApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    AbgabedateiApi getAbgabedateiApi() {
+  AbgabedateiApi getAbgabedateiApi() {
     return AbgabedateiApi(dio, serializers);
-    }
+  }
 
-
-    /**
+  /**
     * Get AbgabedateienApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    AbgabedateienApi getAbgabedateienApi() {
+  AbgabedateienApi getAbgabedateienApi() {
     return AbgabedateienApi(dio, serializers);
-    }
-
-
+  }
 }
