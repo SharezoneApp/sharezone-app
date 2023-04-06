@@ -68,7 +68,7 @@ Future<void> runFlutterApp({@required Flavor flavor}) async {
       beitrittsversuche: dependencies.beitrittsversuche,
       blocDependencies: dependencies.blocDependencies,
       dynamicLinkBloc: dependencies.dynamicLinkBloc,
-      flavor: Flavor.dev,
+      flavor: flavor,
     )),
     (error, stackTrace) async {
       debugPrint(error.toString());
