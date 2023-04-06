@@ -30,8 +30,10 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
   void popAndNavigateToSubscriptionPage(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
-    // TODO: Add explanation why we use popUntil here
+    // Pop until were at the top level route (where the bottom navigation bar or
+    // desktop navigation is visible)...
     Navigator.of(context).popUntil((route) => route.isFirst);
+    // ...and navigate to the subscription page.
     navigationBloc.navigateTo(NavigationItem.sharezonePlus);
   }
 
