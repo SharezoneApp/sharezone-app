@@ -1,0 +1,273 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# This workflow is used to run integration tests on the app.
+#
+# We only run the integration tests in our merge group to save macOS machines.
+
+name: integration-tests-app-ci
+
+on:
+  pull_request:
+    paths:
+      # We trigger also this workflow, if this workflow is changed, so that new
+      # changes can be tested.
+      - ".github/workflows/integration_tests_app_ci.yml"
+  merge_group:
+    types:
+      - checks_requested
+
+# Set permissions to none.
+#
+# Using the broad default permissions is considered a bad security practice
+# and would cause alerts from our scanning tools.
+permissions: {}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # We can't use the official "paths" filter because it has no support for merge
+  # groups and we would need some kind of fallback CI when a check is required
+  # but ignored because of the path filter.
+  #
+  # See:
+  # * https://github.com/community/community/discussions/45899 (merge groups)
+  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
+  #   (workaround for required checks with path filters)
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      changesFound: ${{ steps.filter.outputs.changesFound }}
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
+        id: filter
+        with:
+          filters: |
+            changesFound:
+              # When we change the Flutter version, we need to trigger this workflow.
+              - ".fvm/fvm_config.json"
+              # We only build and deploy a new version, when a user relevant files
+              # changed.
+              - "app/**"
+              - "lib/**"
+              # We trigger also this workflow, if this workflow is changed, so that new
+              # changes will be applied.
+              - ".github/workflows/unsafe_app_ci.yml"
+              # The following paths are excluded from the above paths. It's important to
+              # list the paths at the end of the file, so that the exclude paths are
+              # applied.
+              #
+              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+              - "!**.md"
+              - "!**.mdx"
+              - "!**.gitignore"
+              - "!**/firebase.json"
+              - "!**/.firebaserc"
+
+  android-integration-test:
+    needs: changes
+    # Is recommended to run the job with a macOS machine to take advantage of
+    # hardware acceleration support provided by HAXM. See more details in the
+    # README.md of the Android emulator action:
+    # https://github.com/ReactiveCircus/android-emulator-runner#usage
+    runs-on: macos-12
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
+    # (~5% of the time) build takes longer and then is a long timeout needed.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+
+      # Java is needed for building the APK, see
+      # https://github.com/marketplace/actions/flutter-action.
+      - uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@main
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      # Building the Android app as workaround for the timeout problem with
+      # integration tests.
+      #
+      # We need to build the Android app first to hope that the build for the
+      # integration test needs less than 12 minutes. Currently, it's not
+      # possible to increase the timeout for integration tests:
+      # https://github.com/flutter/flutter/issues/105913.
+      #
+      # Using `flutter drive` as workaround is not an option because it's super
+      # flaky in terms of stability. With `flutter drive` ~ 30% the Android
+      # Emulator have difficulties to start properly.
+      - name: Build Android App
+        working-directory: ./app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+
+      - name: Run integration tests
+        uses: reactivecircus/android-emulator-runner@d94c3fbe4fe6a29e4a5ba47c12fb47677c73656b
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+        with:
+          # When you are going to change something here (like a different
+          # target, arch, profile, channel, etc.), please check if these
+          # configurations are stable.
+          #
+          # You can do this by running this workflow multiple times. Use a
+          # matrix to run multiple tests in parallel (matrix needs to be copied
+          # to above the "with"):
+          # strategy:
+          #   fail-fast: false
+          #   matrix:
+          #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          #     test2: [1, 2, 3]
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 5X
+          channel: canary
+          # We use some emulator options for the following reasons:
+          # * "-no-snapshot": Disables the quick boot feature. Therefore, the
+          #   emulator does not load or save the emulator state. We want to have
+          # * "-no-window": Disables the graphical windows, so no display is
+          #   required.
+          #   a fresh testing environment for every test run.
+          # * "-no-boot-anim": Disables the boot animation for faster booting.
+          # * "-camera-back virtualscene": Shows this virtual room when opening
+          #   the back camera where you can walk. Default option for emulators
+          #   created by Android Studio. We use this so we have the same
+          #   environment locally as when using this action. Is needed when
+          #   testing things with the camera. It's also possible to inject
+          #   images into the virtual scene to test things like qr code scanner.
+          # * "-camera-front": Shows this green monster when opening the front
+          #   camera. Default option for emulators created by Android Studio. We
+          #   use this so we have the same environment locally as when using
+          #   this action. Is needed when testing things with camera.
+          emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back virtualscene -camera-front emulated
+          working-directory: ./app
+          # We can not use a multiline command because the
+          # "android-emulator-runner" action doesn't support it. It just takes every
+          # line as separate command.
+          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+
+  ios-integration-test:
+    needs: changes
+    runs-on: macos-12
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - uses: futureware-tech/simulator-action@ae8f725abebda0c4c62629c7a2a5b826e161c9f1
+        id: simulator
+        with:
+          model: "iPhone 13"
+
+      - name: Run integration tests
+        working-directory: app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        # We use the `flutter drive` instead of the `flutter test` command
+        # because the test command times out after 12 minutes. But building the
+        # app takes more than 12 minutes... It seems so that there is no way to
+        # set the timeout (the --timeout argument has not effect). Tracking
+        # issue: https://github.com/flutter/flutter/issues/105913
+        run: |
+          fvm flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
+            --flavor dev \
+            --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
+            -d $SIMULATOR_UDID
+
+  # At the moment, Flutter Integration Tests are not working with GitHub Actions
+  # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
+  #
+  # To still have a verification that the app can be built, we just build the
+  # macOS app.
+  macos-build-test:
+    needs: changes
+    runs-on: macos-12
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.39.1
+
+      - name: Setup signing
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+          BUNDLE_ID: de.codingbrain.sharezone.app
+        run: |
+          # Even when are trying to build app, we need to use "--platform IOS".
+          # The reason for this that our production bundle ID was created for
+          # IOS only. However, it's still possible to sign a macOS app with an
+          # iOS bundle ID (requires "--strict-match-identifier", otherwise the
+          # tool would try to use our de.codingbrain.sharezone.app.dev bundle ID
+          # which is a universal bundle ID and has no specific platform).
+          #
+          # See https://github.com/codemagic-ci-cd/cli-tools/issues/314
+          app-store-connect fetch-signing-files $BUNDLE_ID \
+            --platform IOS \
+            --type MAC_APP_STORE \
+            --strict-match-identifier \
+            --create
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+
+      - name: Build macOS app
+        run: |
+          flutter build macos \
+            -t lib/main_prod.dart
