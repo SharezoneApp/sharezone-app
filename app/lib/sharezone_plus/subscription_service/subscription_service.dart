@@ -54,12 +54,14 @@ const _featuresMap = {
   SubscriptionTier.teacherPlus: {
     PaidFeature.teacherSubmission,
     PaidFeature.infoSheetReadByUsersList,
+    PaidFeature.homeworkDonyByUsersList,
   },
 };
 
 enum PaidFeature {
   teacherSubmission,
   infoSheetReadByUsersList,
+  homeworkDonyByUsersList,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
