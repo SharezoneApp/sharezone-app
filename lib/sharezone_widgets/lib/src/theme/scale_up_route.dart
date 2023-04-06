@@ -24,7 +24,7 @@ class ScaleUpRoute<T> extends MaterialPageRoute<T> {
       : super(builder: (context) => child, settings: RouteSettings(name: tag));
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 250); 
+  Duration get transitionDuration => const Duration(milliseconds: 250);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
