@@ -111,7 +111,7 @@
   - "**/**privacy_policy**"
   - "**/**imprint**"
 
-"sharezone: cli":
+"sharezone cli":
   - "tools/sz_repo_cli/**"
   - "bin/sz"
   - "bin/sharezone"
