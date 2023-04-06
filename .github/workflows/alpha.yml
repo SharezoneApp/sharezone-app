@@ -16,9 +16,6 @@ concurrency:
   group: alpha
 
 on:
-  # TEMP
-  pull_request:
-
   push:
     branches:
       - main
@@ -303,9 +300,6 @@ jobs:
         # the release notes. So we need to truncate the commit message if it's
         # longer than 4000 characters.
         export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
-
-        # TEMP
-        echo "Release notes: $SHORT_LAST_COMMIT_MESSAGE"
 
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
