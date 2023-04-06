@@ -41,7 +41,7 @@ class SubscriptionService {
     return clock.now().isBefore(_user.subscription.expiresAt);
   }
 
-  bool hasFeatureUnlocked(PaidFeature feature) {
+  bool hasFeatureUnlocked(SharezonePlusFeature feature) {
     // Subscriptions feature is disabled, so every feature is unlocked.
     if (!_isEnabled) return true;
 
@@ -51,15 +51,21 @@ class SubscriptionService {
 }
 
 const _featuresMap = {
-  SubscriptionTier.teacherPlus: {PaidFeature.teacherSubmission},
+  SubscriptionTier.teacherPlus: {
+    SharezonePlusFeature.submissionsList,
+    SharezonePlusFeature.infoSheetReadByUsersList,
+    SharezonePlusFeature.homeworkDonyByUsersList,
+  },
 };
 
-enum PaidFeature {
-  teacherSubmission,
+enum SharezonePlusFeature {
+  submissionsList,
+  infoSheetReadByUsersList,
+  homeworkDonyByUsersList,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
-  bool hasUnlocked(PaidFeature feature) {
+  bool hasUnlocked(SharezonePlusFeature feature) {
     if (this == null) return false;
     return _featuresMap[this]?.contains(feature) ?? false;
   }
