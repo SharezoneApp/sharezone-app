@@ -296,9 +296,14 @@ jobs:
         # because the App Store doesn't allow them.
         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
+        # The App Store Connect API only allows a maximum of 4000 characters for
+        # the release notes. So we need to truncate the commit message if it's
+        # longer than 4000 characters.
+        export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
+
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
           --beta-group=alpha \
           --testflight \
           --release-type=AFTER_APPROVAL \
-          --whats-new="$LAST_COMMIT_MESSAGE"
+          --whats-new="$SHORT_LAST_COMMIT_MESSAGE"
