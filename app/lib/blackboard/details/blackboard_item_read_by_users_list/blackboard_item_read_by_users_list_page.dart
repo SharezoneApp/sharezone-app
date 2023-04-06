@@ -59,12 +59,6 @@ class _BlackboardItemReadByUsersListPageState
   Widget build(BuildContext context) {
     return SharezonePlusFeatureGuard(
       paidFeature: PaidFeature.infoSheetReadByUsersList,
-      onFeatureNotUnlocked: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        BlocProvider.of<NavigationBloc>(context)
-            .navigateTo(NavigationItem.sharezonePlus);
-      },
       child: BlocProvider(
         bloc: bloc,
         child: Scaffold(
