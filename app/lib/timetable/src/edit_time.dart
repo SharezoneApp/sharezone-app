@@ -96,13 +96,14 @@ Future<Time> selectTime(BuildContext context,
       await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first ??
           true;
 
+  minutesInterval ??= isFiveMinutesIntervalActive ? 5 : 1;
+
   if (PlatformCheck.isIOS) {
     return showDialog<TimeOfDay>(
       context: context,
       builder: (context) => CupertinoTimerPickerWithTimeOfDay(
         initalTime: initialTime?.toTimeOfDay(),
-        minutesInterval:
-            minutesInterval ?? (isFiveMinutesIntervalActive ? 5 : 1),
+        minutesInterval: minutesInterval,
         title: title,
       ),
     ).then((timeOfDay) {
@@ -114,8 +115,9 @@ Future<Time> selectTime(BuildContext context,
   return showIntervalTimePicker(
     context: context,
     initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
-    interval: 30,
-    visibleStep: VisibleStep.thirtieths,
+    interval: minutesInterval,
+    visibleStep:
+        minutesInterval == 30 ? VisibleStep.thirtieths : VisibleStep.fifths,
     builder: (BuildContext context, Widget child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
