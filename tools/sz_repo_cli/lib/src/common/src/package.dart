@@ -96,6 +96,11 @@ abstract class Package {
   String toString() {
     return '$runtimeType(name: $name)';
   }
+
+  Future<void> formatCode() {
+    return runProcessSucessfullyOrThrow('fvm', ['dart', 'format', '.'],
+        workingDirectory: location.path);
+  }
 }
 
 class DartPackage extends Package {
