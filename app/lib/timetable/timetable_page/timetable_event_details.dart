@@ -187,7 +187,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                 ),
                 if (event.detail != null && event.detail != "")
                   ListTile(
-                    leading: const Icon(Icons.details),
+                    leading: const Icon(Icons.notes),
                     title: MarkdownBody(
                       data:
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
