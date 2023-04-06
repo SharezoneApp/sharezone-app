@@ -41,9 +41,25 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
     if (subscriptionService.hasFeatureUnlocked(paidFeature)) {
       return child;
     } else {
-      onFeatureNotUnlocked != null
-          ? onFeatureNotUnlocked()
-          : popAndNavigateToSubscriptionPage(context);
+      // Otherwise we run into this problem:
+      // ```
+      // setState() or markNeedsBuild() called during build.
+      // This Overlay widget cannot be marked as needing to build because the framework is already in the process of building widgets.
+      // A widget can be marked as needing to be built during the build phase only if one of its ancestors is currently building.
+      // This exception is allowed because the framework builds parent widgets before children, which means a dirty descendant will always be built.
+      // Otherwise, the framework might not visit this widget during this build phase.
+      //
+      // The widget on which setState() or markNeedsBuild() was called was:
+      //  Overlay-[LabeledGlobalKey<OverlayState>#06500]
+      //
+      // The widget which was currently being built when the offending call was made was:
+      //  SharezonePlusFeatureGuard
+      // ```
+      Future.delayed(Duration.zero).then((_) {
+        onFeatureNotUnlocked != null
+            ? onFeatureNotUnlocked()
+            : popAndNavigateToSubscriptionPage(context);
+      });
       return fallback;
     }
   }
