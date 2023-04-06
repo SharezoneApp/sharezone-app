@@ -11,7 +11,20 @@ import 'dart:async';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class TestCommand extends ConcurrentCommand {
-  TestCommand(SharezoneRepo repo) : super(repo);
+  TestCommand(SharezoneRepo repo) : super(repo) {
+    argParser.addFlag(
+      'exclude-goldens',
+      help: 'Run tests without golden tests.',
+      defaultsTo: false,
+      negatable: false,
+    );
+    argParser.addFlag(
+      'only-goldens',
+      help: 'Run only golden tests.',
+      defaultsTo: false,
+      negatable: false,
+    );
+  }
 
   @override
   final String name = 'test';
@@ -27,11 +40,22 @@ class TestCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 10);
 
   @override
-  Stream<Package> get packagesToProcess =>
-      repo.streamPackages().where((package) => package.hasTestDirectory);
+  Stream<Package> get packagesToProcess {
+    if (argResults['only-goldens'] as bool) {
+      return repo.streamPackages().where(
+            (package) =>
+                package is FlutterPackage && package.hasGoldenTestsDirectory,
+          );
+    }
+
+    return repo.streamPackages().where((package) => package.hasTestDirectory);
+  }
 
   @override
   Future<void> runTaskForPackage(Package package) {
-    return package.runTests();
+    return package.runTests(
+      excludeGoldens: argResults['exclude-goldens'] as bool,
+      onlyGoldens: argResults['only-goldens'] as bool,
+    );
   }
 }
