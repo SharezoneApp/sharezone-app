@@ -28,7 +28,8 @@ void main() {
         () {
       expect(const Date(year: 2019, month: 1, day: 1).addDaysWithNoChecking(1),
           const Date(year: 2019, month: 1, day: 2));
-      expect(const Date(year: 2019, month: 1, day: 10).addDaysWithNoChecking(-5),
+      expect(
+          const Date(year: 2019, month: 1, day: 10).addDaysWithNoChecking(-5),
           const Date(year: 2019, month: 1, day: 5));
       // Explicit: DANGER, STUPID ALGORITHM
       expect(const Date(year: 2019, month: 1, day: 30).addDaysWithNoChecking(5),
