@@ -1,0 +1,12 @@
+name: temp-ci
+
+on:
+  pull_request:
+  merge_group:
+
+jobs:
+  temp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 3 minutes
+        run: sleep 180
