@@ -51,11 +51,15 @@ class SubscriptionService {
 }
 
 const _featuresMap = {
-  SubscriptionTier.teacherPlus: {PaidFeature.teacherSubmission},
+  SubscriptionTier.teacherPlus: {
+    PaidFeature.teacherSubmission,
+    PaidFeature.infoSheetReadByUsersList,
+  },
 };
 
 enum PaidFeature {
   teacherSubmission,
+  infoSheetReadByUsersList,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
