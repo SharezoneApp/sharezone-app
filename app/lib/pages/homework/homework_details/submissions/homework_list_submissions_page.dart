@@ -12,7 +12,7 @@ import 'package:files_basics/files_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
-import 'package:sharezone/sharezone_plus/premium_feature_guard_widget.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
