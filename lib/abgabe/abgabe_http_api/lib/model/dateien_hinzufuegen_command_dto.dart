@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto1.dart';
+import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -18,7 +18,7 @@ abstract class DateienHinzufuegenCommandDto
         Built<DateienHinzufuegenCommandDto,
             DateienHinzufuegenCommandDtoBuilder> {
   @BuiltValueField(wireName: r'hinzufuegenCommands')
-  BuiltList<DateiHinzufuegenCommandDto1> get hinzufuegenCommands;
+  BuiltList<DateiHinzufuegenCommandDto> get hinzufuegenCommands;
 
   // Boilerplate code needed to wire-up generated code
   DateienHinzufuegenCommandDto._();
