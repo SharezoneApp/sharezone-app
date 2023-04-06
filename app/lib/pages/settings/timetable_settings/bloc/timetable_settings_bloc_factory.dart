@@ -15,7 +15,8 @@ class TimetableSettingsBlocFactory implements BlocBase {
   final LessonLengthCache lessonLengthCache;
   final TimePickerSettingsCache timetableSettingsCache;
 
-  TimetableSettingsBlocFactory(this.lessonLengthCache, this.timetableSettingsCache);
+  TimetableSettingsBlocFactory(
+      this.lessonLengthCache, this.timetableSettingsCache);
 
   TimetableSettingsBloc create() {
     return TimetableSettingsBloc(lessonLengthCache, timetableSettingsCache);

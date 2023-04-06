@@ -7,4 +7,5 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 enum CommentStatus { liked, notRated, disliked }
+
 enum CommentEvent { liked, disliked }

@@ -36,5 +36,6 @@ class _DownloadAppTipEvent extends AnalyticsEvent {
   final TargetPlatform targetPlatform;
 
   @override
-  Map<String, dynamic> get data => {"targetPlatform": targetPlatform.toString()};
+  Map<String, dynamic> get data =>
+      {"targetPlatform": targetPlatform.toString()};
 }

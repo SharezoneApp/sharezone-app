@@ -27,8 +27,8 @@ class SvgWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformSvg.asset(
       "$assetName.svg",
-      width: size?.width?? _fallbackSize,
-      height: size?.height?? _fallbackSize,
+      width: size?.width ?? _fallbackSize,
+      height: size?.height ?? _fallbackSize,
       color: color,
     );
   }
