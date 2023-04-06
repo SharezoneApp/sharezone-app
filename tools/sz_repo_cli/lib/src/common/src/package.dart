@@ -145,12 +145,7 @@ class DartPackage extends Package {
 }
 
 class FlutterPackage extends Package {
-  /// Whether the package has golden tests.
-  ///
-  /// We assume that a package has golden tests if it has a `test_goldens`
-  /// directory.
-  ///
-  /// This is only relevant for Flutter packages.
+  /// Whether the package has a "test_goldens" directory.
   final bool hasGoldenTestsDirectory;
 
   FlutterPackage({
