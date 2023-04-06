@@ -28,9 +28,11 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
   final Widget fallback;
 
   void popAndNavigateToSubscriptionPage(BuildContext context) {
-    Navigator.of(context).pop();
-    BlocProvider.of<NavigationBloc>(context)
-        .navigateTo(NavigationItem.sharezonePlus);
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+
+    // TODO: Add explanation why we use popUntil here
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    navigationBloc.navigateTo(NavigationItem.sharezonePlus);
   }
 
   @override
