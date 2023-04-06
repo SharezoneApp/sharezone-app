@@ -121,7 +121,7 @@ jobs:
     timeout-minutes: 90
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+        uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
         with:
@@ -216,7 +216,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+        uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
         with:
@@ -281,7 +281,7 @@ jobs:
         working-directory: app
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+        uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
         with:
@@ -358,7 +358,7 @@ jobs:
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/verify-safe-to-test-label@0af9e3bf0c90e54f3e488ea787c092124d697348
+        uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
         with:
