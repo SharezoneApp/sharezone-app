@@ -99,6 +99,12 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     MultiBlocProvider(
                       blocProviders: [
                         BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                        // We need to provide the navigation bloc above the
+                        // [SharezoneApp] widget to prevent disposing the
+                        // navigation bloc when signing out.
+                        //
+                        // See
+                        // https://github.com/SharezoneApp/sharezone-app/issues/117.
                         BlocProvider<NavigationBloc>(bloc: navigationBloc),
                       ],
                       child: (context) => StreamBuilder<AuthUser>(
