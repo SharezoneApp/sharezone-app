@@ -22,7 +22,7 @@ class LinkProviderAnalytics {
   void logGoogleLink() {
     _analytics.log(AuthentifactionEvent(provider: google, name: name));
   }
-  
+
   void logAppleLink() {
     _analytics.log(AuthentifactionEvent(provider: apple, name: name));
   }
@@ -46,6 +46,7 @@ class LinkProviderAnalytics {
   /// wie viel Energie und Zeit in Zukunft in diese und ähnliche Anleitungen gesteckt
   /// werden soll.
   void logShowedUseMultipleDevicesInstruction() {
-    _analytics.log(const AnalyticsEvent("showed_use_multiple_devices_instruction"));
+    _analytics
+        .log(const AnalyticsEvent("showed_use_multiple_devices_instruction"));
   }
 }

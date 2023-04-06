@@ -18,6 +18,7 @@ class ColorParser {
   static Color fromHex(String? hex) {
     if (hex == null) return Colors.blue;
     final rgbColor = colorlib.HexColor(hex).toRgbColor();
-    return Color.fromARGB(255, rgbColor.r as int, rgbColor.g as int, rgbColor.b as int);
+    return Color.fromARGB(
+        255, rgbColor.r as int, rgbColor.g as int, rgbColor.b as int);
   }
 }
