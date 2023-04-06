@@ -12,6 +12,8 @@ import 'package:files_basics/files_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
+import 'package:sharezone/sharezone_plus/premium_feature_guard_widget.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'meme_placeholder.dart';
@@ -44,25 +46,28 @@ class _HomeworkUserSubmissionsPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Abgaben'),
-        centerTitle: true,
-      ),
-      body: StreamBuilder<CreatedSubmissionsPageView>(
-        stream: bloc.pageView,
-        builder: (context, snapshot) {
-          return AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child: snapshot.hasData
-                ? _Abgabenbody(
-                    pageView: snapshot.data,
-                    key: const ValueKey('AnimatedSwitcherKey'),
-                  )
-                : _LoadingPlaceholder(
-                    key: const ValueKey('AnimatedSwitcherKey')),
-          );
-        },
+    return SharezonePlusFeatureGuard(
+      paidFeature: PaidFeature.teacherSubmission,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Abgaben'),
+          centerTitle: true,
+        ),
+        body: StreamBuilder<CreatedSubmissionsPageView>(
+          stream: bloc.pageView,
+          builder: (context, snapshot) {
+            return AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: snapshot.hasData
+                  ? _Abgabenbody(
+                      pageView: snapshot.data,
+                      key: const ValueKey('AnimatedSwitcherKey'),
+                    )
+                  : _LoadingPlaceholder(
+                      key: const ValueKey('AnimatedSwitcherKey')),
+            );
+          },
+        ),
       ),
     );
   }
