@@ -58,7 +58,7 @@ class _BlackboardItemReadByUsersListPageState
   @override
   Widget build(BuildContext context) {
     return SharezonePlusFeatureGuard(
-      paidFeature: PaidFeature.infoSheetReadByUsersList,
+      feature: SharezonePlusFeature.infoSheetReadByUsersList,
       child: BlocProvider(
         bloc: bloc,
         child: Scaffold(

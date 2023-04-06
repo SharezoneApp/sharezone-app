@@ -6,24 +6,24 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 
 import 'subscription_service/subscription_service.dart';
 
-/// A widget that only shows its child if the [paidFeature] is unlocked.
+/// A widget that only shows its child if the [feature] is unlocked.
 ///
 /// By default it reroutes the user to the subscription page if the
-/// [paidFeature] is not unlocked.
+/// [feature] is not unlocked.
 class SharezonePlusFeatureGuard extends StatelessWidget {
   const SharezonePlusFeatureGuard({
     Key key,
     @required this.child,
-    @required this.paidFeature,
+    @required this.feature,
     this.onFeatureNotUnlocked,
     this.fallback = const _DefaultNotSubscribedFallbackPage(),
   }) : super(key: key);
 
   final Widget child;
-  final PaidFeature paidFeature;
+  final SharezonePlusFeature feature;
   final VoidCallback onFeatureNotUnlocked;
 
-  /// Shown if [paidFeature] is not unlocked and [onFeatureNotUnlocked] did not
+  /// Shown if [feature] is not unlocked and [onFeatureNotUnlocked] did not
   /// redirect the user.
   final Widget fallback;
 
@@ -38,7 +38,7 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final subscriptionService = Provider.of<SubscriptionService>(context);
-    if (subscriptionService.hasFeatureUnlocked(paidFeature)) {
+    if (subscriptionService.hasFeatureUnlocked(feature)) {
       return child;
     } else {
       // Otherwise we run into this problem:

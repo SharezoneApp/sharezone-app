@@ -47,7 +47,7 @@ class _HomeworkUserSubmissionsPageState
   @override
   Widget build(BuildContext context) {
     return SharezonePlusFeatureGuard(
-      paidFeature: PaidFeature.teacherSubmission,
+      feature: SharezonePlusFeature.submissionsList,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Abgaben'),

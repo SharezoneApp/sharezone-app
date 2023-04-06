@@ -48,7 +48,7 @@ class _HomeworkCompletionUserListPageState
   @override
   Widget build(BuildContext context) {
     return SharezonePlusFeatureGuard(
-      paidFeature: PaidFeature.homeworkDonyByUsersList,
+      feature: SharezonePlusFeature.homeworkDonyByUsersList,
       child: BlocProvider(
         bloc: bloc,
         child: Scaffold(
