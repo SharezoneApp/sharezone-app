@@ -125,10 +125,10 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
-  # We split out the tests into two jobs, because we want to run the golden
-  # tests on a macOS runner, because the golden tests were generated on macOS.
-  # To reduce the time that macOS runner are used, we run the other tests on a
-  # Linux runner.
+  # We split the tests into two jobs, because we want to run the golden tests on
+  # a macOS runner, because the golden tests were generated on macOS. To reduce
+  # the time that macOS runner are used, we run the other tests on a Linux
+  # runner.
   test-without-goldens:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
@@ -165,10 +165,10 @@ jobs:
           --package-timeout-minutes 15 \
           --exclude-goldens
 
-  # We split out the tests into two jobs, because we want to run the golden
-  # tests on a macOS runner, because the golden tests were generated on macOS.
-  # To reduce the time that macOS runner are used, we run the other tests on a
-  # Linux runner.
+  # We split the tests into two jobs, because we want to run the golden tests on
+  # a macOS runner, because the golden tests were generated on macOS. To reduce
+  # the time that macOS runner are used, we run the other tests on a Linux
+  # runner.
   test-only-goldens:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
