@@ -24,7 +24,22 @@ class FormatCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 3);
 
   @override
-  Future<void> runTaskForPackage(Package package) {
-    return package.formatCode();
-  }
+  Future<void> runTaskForPackage(Package package) => formatCode(package);
+}
+
+Future<void> formatCode(
+  Package package, {
+  /// Throws if code is not already formatted properly.
+  /// Useful for code analysis in CI.
+  bool throwIfCodeChanged = false,
+}) {
+  return runProcessSucessfullyOrThrow(
+      'fvm',
+      [
+        'dart',
+        'format',
+        if (throwIfCodeChanged) '--set-exit-if-changed',
+        '.',
+      ],
+      workingDirectory: package.path);
 }
