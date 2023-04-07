@@ -16,7 +16,8 @@ import 'package:sharezone/account/theme/theme_settings.dart';
 /// Ephemeral theme settings that are scoped only to the privacy policy page.
 ///
 /// Unlike [ThemeSettings] this class doesn't cache the settings.
-/// Additionally all changes are only applied to the privacy policy page.
+/// Additionally all changes (except [themeBrightness]) are only applied to the 
+/// privacy policy page.
 /// If e.g. the the [PrivacyPolicyThemeSettings.textScalingFactor] is changed
 /// [ThemeSettings.textScalingFactor] will stay the same.
 class PrivacyPolicyThemeSettings extends ChangeNotifier {

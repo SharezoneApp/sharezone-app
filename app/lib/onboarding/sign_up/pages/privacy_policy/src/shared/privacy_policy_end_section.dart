@@ -35,7 +35,7 @@ import '../privacy_policy_src.dart';
 /// ```
 /// To implement the scrolling to a specific chapter we had to replace the
 /// [ListView] with a [ScrollablePositionedList] used in the
-/// [RelativeAnchorsMarkdown] widget internally to render the markdown text.
+/// [Markdown] widget internally to render the markdown text.
 /// A [ScrollablePositionedList] internally uses two [ScrollController] that it
 /// doesn't expose to the outside world:
 /// https://github.com/google/flutter.widgets/issues/235

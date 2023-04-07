@@ -12,8 +12,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'privacy_policy_src.dart';
 
-// Since if someday we can access the scrollController of the underlying list
-// I guess we would probably also expose it here?
 /// Used to observe the current [DocumentSectionHeadingPosition] on screen and
 /// jump to a specific [DocumentSectionId].
 ///

@@ -94,6 +94,7 @@ class _TextSize extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.remove),
                   onPressed: () {
+                   // TODO: What does the calculation do
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
                   },
