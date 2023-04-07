@@ -36,4 +36,3 @@ class SignUpBloc extends BlocBase {
     _signedUpSubject.close();
   }
 }
-

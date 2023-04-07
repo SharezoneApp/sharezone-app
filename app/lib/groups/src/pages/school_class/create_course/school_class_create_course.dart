@@ -184,8 +184,7 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.focusNode})
-      : super(key: key);
+  const _CourseName({Key key, this.focusNode}) : super(key: key);
 
   final FocusNode focusNode;
 

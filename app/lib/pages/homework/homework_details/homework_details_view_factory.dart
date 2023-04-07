@@ -101,8 +101,8 @@ class HomeworkDetailsViewFactory implements BlocBase {
           await _permissions.isAllowedToViewSubmittedPermissions(homework),
       hasPermissionsToViewDoneByList:
           typeOfUser == TypeOfUser.teacher && _isAdmin(homework.courseID),
-      hasTeacherSubmissionsUnlocked:
-          subscriptionService.hasFeatureUnlocked(PaidFeature.teacherSubmission),
+      hasTeacherSubmissionsUnlocked: subscriptionService
+          .hasFeatureUnlocked(SharezonePlusFeature.submissionsList),
     );
   }
 
