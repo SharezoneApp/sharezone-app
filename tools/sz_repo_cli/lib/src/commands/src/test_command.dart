@@ -47,8 +47,7 @@ class TestCommand extends ConcurrentCommand {
     if (argResults['only-goldens'] as bool) {
       return repo.streamPackages().where(
             (package) =>
-                package.type == PackageType.flutter &&
-                package.hasGoldenTestsDirectory,
+                package.isFlutterPackage && package.hasGoldenTestsDirectory,
           );
     }
 
@@ -70,7 +69,7 @@ Future<void> runTests(
   @required bool excludeGoldens,
   @required bool onlyGoldens,
 }) {
-  if (package.type == PackageType.flutter) {
+  if (package.isFlutterPackage) {
     return _runTestsFlutter(
       package,
       excludeGoldens: excludeGoldens,

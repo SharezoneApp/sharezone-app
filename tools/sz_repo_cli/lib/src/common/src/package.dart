@@ -19,6 +19,8 @@ class Package {
   String get path => location.path;
   final String name;
   final PackageType type;
+  bool get isFlutterPackage => type == PackageType.flutter;
+  bool get isPureDartPackage => type == PackageType.pureDart;
   final bool hasTestDirectory;
   final bool hasGoldenTestsDirectory;
 

@@ -31,7 +31,7 @@ class PubGetCommand extends ConcurrentCommand {
 }
 
 Future<void> getPackage(Package package) async {
-  if (package.type == PackageType.flutter) {
+  if (package.isFlutterPackage) {
     await getPackagesFlutter(package);
   } else {
     await getPackagesDart(package);
