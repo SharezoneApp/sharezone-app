@@ -81,12 +81,19 @@ abstract class Package {
   Future<void> analyzePackage() async {
     await getPackages();
     await _runDartAnalyze();
+    await _runDartFormat();
     await _checkForCommentsWithBadSpacing();
   }
 
   Future<void> _runDartAnalyze() {
     return runProcessSucessfullyOrThrow(
         'fvm', ['dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
+        workingDirectory: location.path);
+  }
+
+  Future<void> _runDartFormat() {
+    return runProcessSucessfullyOrThrow(
+        'fvm', ['dart', 'format', '--set-exit-if-changed', '.'],
         workingDirectory: location.path);
   }
 
