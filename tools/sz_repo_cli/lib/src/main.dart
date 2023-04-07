@@ -13,6 +13,7 @@ import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as p;
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 
 import 'commands/commands.dart';
@@ -34,6 +35,7 @@ Future<void> main(List<String> args) async {
     ..addCommand(AnalyzeCommand(repo))
     ..addCommand(LocateSharezoneAppFlutterDirectoryCommand())
     ..addCommand(TestCommand(repo))
+    ..addCommand(FormatCommand(repo))
     ..addCommand(DoStuffCommand(repo))
     ..addCommand(FixCommentSpacingCommand(repo))
     ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)))

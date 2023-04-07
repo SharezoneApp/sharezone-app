@@ -59,7 +59,9 @@ class ViewInNewTabPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Text("Das Darstellen von PDF-Dateien wird vorübergehend nicht unterstützt." " Du kannst dir diese PDF aber in einem neuen Tab ansehen."),
+                const Text(
+                    "Das Darstellen von PDF-Dateien wird vorübergehend nicht unterstützt."
+                    " Du kannst dir diese PDF aber in einem neuen Tab ansehen."),
                 MaterialButton(
                   child: Row(
                       mainAxisSize: MainAxisSize.min,

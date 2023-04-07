@@ -107,7 +107,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: left.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult ?? false),
+            onPressed: left.onPressed ??
+                () => Navigator.pop(context, left.popResult ?? false),
             child: Text(left.title.toUpperCase()),
           ),
         if (right != null)
@@ -117,7 +118,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
               foregroundColor:
                   right.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult ?? true),
+            onPressed: right.onPressed ??
+                () => Navigator.pop(context, right.popResult ?? true),
             child: Text(right.title.toUpperCase()),
           )
       ],
@@ -152,7 +154,8 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
             key: left.key,
             isDefaultAction: left.isDefaultAction,
             isDestructiveAction: left.isDestructiveAction,
-            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult),
+            onPressed:
+                left.onPressed ?? () => Navigator.pop(context, left.popResult),
             child: Text(left.title),
           ),
         if (right != null)
@@ -160,7 +163,8 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
             key: right.key,
             isDefaultAction: right.isDefaultAction,
             isDestructiveAction: right.isDestructiveAction,
-            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult),
+            onPressed: right.onPressed ??
+                () => Navigator.pop(context, right.popResult),
             child: Text(right.title),
           ),
         if (ThemePlatform.isCupertino && withCancleButtonOnIOS)

@@ -42,6 +42,7 @@ void main() {
         beitrittsversuche: dependencies.beitrittsversuche,
         blocDependencies: dependencies.blocDependencies,
         dynamicLinkBloc: dependencies.dynamicLinkBloc,
+        flavor: Flavor.dev,
       ),
     );
   }

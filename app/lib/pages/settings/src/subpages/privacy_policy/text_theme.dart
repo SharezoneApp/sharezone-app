@@ -26,6 +26,7 @@ class _Subtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectableText(subtitle, style: TextStyle(fontWeight: FontWeight.w500));
+    return SelectableText(subtitle,
+        style: TextStyle(fontWeight: FontWeight.w500));
   }
 }

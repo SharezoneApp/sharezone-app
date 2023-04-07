@@ -68,7 +68,8 @@ void main() {
 
     test('subject is subject.name', () {
       final hw = createHomework(
-          subject: 'Mathe', todoDate: const Date(year: 2018, month: 12, day: 03));
+          subject: 'Mathe',
+          todoDate: const Date(year: 2018, month: 12, day: 03));
 
       final view = viewFactory.createFrom(hw);
 
@@ -76,7 +77,8 @@ void main() {
     });
 
     test('formates date correct', () {
-      final hw = createHomework(todoDate: const Date(year: 2018, month: 12, day: 03));
+      final hw =
+          createHomework(todoDate: const Date(year: 2018, month: 12, day: 03));
 
       final view = viewFactory.createFrom(hw);
 

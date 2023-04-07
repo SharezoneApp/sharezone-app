@@ -9,7 +9,6 @@
 library serializers;
 
 import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto.dart';
-import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto1.dart';
 import 'package:abgabe_http_api/model/dateien_hinzufuegen_command_dto.dart';
 import 'package:abgabe_http_api/model/dateiname_dto.dart';
 import 'package:abgabe_http_api/model/inline_response400.dart';
@@ -23,7 +22,6 @@ part 'serializers.g.dart';
 
 @SerializersFor(const [
   DateiHinzufuegenCommandDto,
-  DateiHinzufuegenCommandDto1,
   DateienHinzufuegenCommandDto,
   DateinameDto,
   InlineResponse400,
@@ -37,10 +35,6 @@ Serializers serializers = (_$serializers.toBuilder()
           const FullType(
               BuiltList, const [const FullType(DateiHinzufuegenCommandDto)]),
           () => new ListBuilder<DateiHinzufuegenCommandDto>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(DateiHinzufuegenCommandDto1)]),
-          () => new ListBuilder<DateiHinzufuegenCommandDto1>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(DateienHinzufuegenCommandDto)]),

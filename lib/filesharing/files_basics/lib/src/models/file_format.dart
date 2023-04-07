@@ -87,7 +87,8 @@ class FileUtils {
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsPDF)) {
       return FileFormat.pdf;
       // FILEFORMAT.TEXT
-    } else if (_mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsTEXT)) {
+    } else if (_mimeTypeContainsAnyOfTheseExtensions(
+        mimeType, extensionsTEXT)) {
       return FileFormat.text;
     } else if (mimeTypesIMAGE.contains(mimeTypeAsString) ||
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsIMAGE) ||
