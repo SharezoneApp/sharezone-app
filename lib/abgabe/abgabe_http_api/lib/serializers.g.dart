@@ -8,7 +8,6 @@ part of serializers;
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DateiHinzufuegenCommandDto.serializer)
-      ..add(DateiHinzufuegenCommandDto1.serializer)
       ..add(DateienHinzufuegenCommandDto.serializer)
       ..add(DateinameDto.serializer)
       ..add(InlineResponse400.serializer)
@@ -16,8 +15,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SubmissionDto.serializer)
       ..addBuilderFactory(
           const FullType(
-              BuiltList, const [const FullType(DateiHinzufuegenCommandDto1)]),
-          () => new ListBuilder<DateiHinzufuegenCommandDto1>()))
+              BuiltList, const [const FullType(DateiHinzufuegenCommandDto)]),
+          () => new ListBuilder<DateiHinzufuegenCommandDto>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

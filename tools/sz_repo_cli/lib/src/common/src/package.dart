@@ -54,12 +54,15 @@ abstract class Package {
     final name = pubspecYaml['name'] as String;
     final hasTestDirectory =
         Directory(path.join(directory.path, 'test')).existsSync();
+    final hasTestGoldensDirectory =
+        Directory(path.join(directory.path, 'test_goldens')).existsSync();
 
     return containsFlutter
         ? FlutterPackage(
             location: directory,
             name: name,
             hasTestDirectory: hasTestDirectory,
+            hasGoldenTestsDirectory: hasTestGoldensDirectory,
           )
         : DartPackage(
             location: directory,
@@ -70,7 +73,10 @@ abstract class Package {
 
   Future<void> getPackages();
 
-  Future<void> runTests();
+  Future<void> runTests({
+    @required bool excludeGoldens,
+    @required bool onlyGoldens,
+  });
 
   Future<void> analyzePackage() async {
     await getPackages();
@@ -129,7 +135,17 @@ class DartPackage extends Package {
   }
 
   @override
-  Future<void> runTests() async {
+  Future<void> runTests({
+    // We can ignore the "excludeGoldens" parameter here because Dart packages
+    // don't have golden tests.
+    @required bool excludeGoldens,
+    @required bool onlyGoldens,
+  }) async {
+    if (onlyGoldens) {
+      // Golden tests are only run in the flutter package.
+      return;
+    }
+
     await getPackages();
 
     await runProcessSucessfullyOrThrow(
@@ -141,10 +157,14 @@ class DartPackage extends Package {
 }
 
 class FlutterPackage extends Package {
+  /// Whether the package has a "test_goldens" directory.
+  final bool hasGoldenTestsDirectory;
+
   FlutterPackage({
     @required Directory location,
     @required String name,
     @required bool hasTestDirectory,
+    @required this.hasGoldenTestsDirectory,
   }) : super(
           name: name,
           location: location,
@@ -162,13 +182,48 @@ class FlutterPackage extends Package {
   }
 
   @override
-  Future<void> runTests() async {
+  Future<void> runTests({
+    @required bool excludeGoldens,
+    @required bool onlyGoldens,
+  }) async {
+    if (onlyGoldens) {
+      if (!hasGoldenTestsDirectory) {
+        return;
+      }
+
+      await runProcessSucessfullyOrThrow(
+        'fvm',
+        ['flutter', 'test', 'test_goldens'],
+        workingDirectory: location.path,
+      );
+      return;
+    }
+
+    // If the package has no golden tests, we need to use the normal test
+    // command. Otherwise the throws the Flutter tool throws an error that it
+    // couldn't find the "test_goldens" directory.
+    if (excludeGoldens || !hasGoldenTestsDirectory) {
+      await runProcessSucessfullyOrThrow(
+        'fvm',
+        ['flutter', 'test'],
+        workingDirectory: location.path,
+      );
+      return;
+    }
+
     /// Flutter test lässt automatisch flutter pub get laufen.
     /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
     await runProcessSucessfullyOrThrow(
       'fvm',
-      ['flutter', 'test'],
+      [
+        'flutter',
+        'test',
+        // Directory for golden tests.
+        'test_goldens',
+        // Directory for unit and widget tests.
+        'test',
+      ],
       workingDirectory: location.path,
     );
   }
