@@ -258,8 +258,8 @@ class _CurrentlyReadingState {
     // If we see no section headings on screen we save what heading was last
     // seen. Later we can use that so we know what section we're currently in.
     //
-    // Seeing no section heading can happen if we e.g. scroll inside a section
-    // with more text than can be displayed on the screen at once.
+    // Seeing no section heading can happen if we scroll inside a section
+    // with so much text that we scroll all visible headings out of view.
     if (filteredViewport.headingsVisible &&
         filteredUpdatedViewport.noHeadingsVisible) {
       // Realistically there should only ever be a single heading but when
