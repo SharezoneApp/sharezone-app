@@ -117,7 +117,7 @@ jobs:
     #
     # When the Sharezone CLI supports filters for the test command (like
     # `--only="tools/sz_repo_cli"`), we can change this to a Linux runner.
-    runs-on: macos-12
+    runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
@@ -145,5 +145,13 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
+      # Currently, we run the tests for all packages because we don't have a
+      # filter for the test command yet.
+      #
+      # Because of this, we need to exclude the golden tests because they
+      # require a macOS runner.
       - name: Run tests via "sz test"
-        run: sz test -c 4 --package-timeout-minutes 15
+        run: sz test \
+          -c 4 \
+          --package-timeout-minutes 15 \
+          --exclude-goldens
