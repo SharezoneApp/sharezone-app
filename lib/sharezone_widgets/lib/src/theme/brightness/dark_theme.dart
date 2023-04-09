@@ -42,9 +42,8 @@ final darkTheme = ThemeData(
       .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
   pageTransitionsTheme: _pageTransitionsTheme,
   snackBarTheme: _snackBarTheme.copyWith(
-    contentTextStyle: const TextStyle(
-      color: Colors.white,
-    ),
+    contentTextStyle: const TextStyle(color: Colors.white),
+    backgroundColor: Colors.black,
   ),
   bottomSheetTheme: _bottomSheetTheme,
   dialogTheme: _dialogTheme,
