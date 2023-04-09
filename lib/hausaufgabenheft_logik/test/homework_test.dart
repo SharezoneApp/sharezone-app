@@ -17,6 +17,7 @@ import 'package:test/test.dart';
 import 'create_homework_util.dart';
 
 enum HomeworkParameter { id, subject, title, done, date }
+
 void main() {
   group('Homework', () {
     test('cant be created with a null subject', () {
@@ -25,7 +26,8 @@ void main() {
       );
     });
     test('is overdue when the todoDate is before now', () {
-      final h = createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
+      final h =
+          createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
       const today = Date(year: 2019, month: 02, day: 18);
       expect(h.isOverdueRelativeTo(today), true);
     });
@@ -36,7 +38,8 @@ void main() {
     });
 
     test('is not overdue when the todoDate is after the day given', () {
-      final h = createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
+      final h =
+          createHomework(todoDate: const Date(year: 2019, month: 02, day: 03));
       const today = Date(year: 2019, month: 01, day: 02);
       expect(h.isOverdueRelativeTo(today), false);
     });

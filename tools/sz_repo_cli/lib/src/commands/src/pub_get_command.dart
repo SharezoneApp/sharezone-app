@@ -27,7 +27,26 @@ class PubGetCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 5);
 
   @override
-  Future<void> runTaskForPackage(Package package) {
-    return package.getPackages();
+  Future<void> runTaskForPackage(Package package) => getPackage(package);
+}
+
+Future<void> getPackage(Package package) async {
+  if (package.isFlutterPackage) {
+    await getPackagesFlutter(package);
+  } else {
+    await getPackagesDart(package);
   }
+}
+
+Future<void> getPackagesDart(Package package) async {
+  await runProcessSucessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
+      workingDirectory: package.path);
+}
+
+Future<void> getPackagesFlutter(Package package) async {
+  await runProcessSucessfullyOrThrow(
+    'fvm',
+    ['flutter', 'pub', 'get'],
+    workingDirectory: package.path,
+  );
 }

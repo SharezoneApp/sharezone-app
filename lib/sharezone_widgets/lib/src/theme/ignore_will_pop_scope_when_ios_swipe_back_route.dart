@@ -14,6 +14,7 @@ class IgnoreWillPopScopeWhenIosSwipeBackRoute<T> extends MaterialPageRoute<T> {
   bool get hasScopedWillPopCallback {
     return false;
   }
+
   IgnoreWillPopScopeWhenIosSwipeBackRoute({
     @required WidgetBuilder builder,
     RouteSettings settings,

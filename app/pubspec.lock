@@ -1213,6 +1213,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  interval_time_picker:
+    dependency: "direct main"
+    description:
+      name: interval_time_picker
+      sha256: "5088b4d7bea298207cf92302fccf95bbbe0f51a902ac8736646d00da989c53ac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+5"
   intl:
     dependency: "direct main"
     description:

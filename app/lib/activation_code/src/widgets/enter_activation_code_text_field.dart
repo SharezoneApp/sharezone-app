@@ -69,7 +69,7 @@ class EnterActivationCodeTextField extends StatelessWidget
   ) async {
     hideKeyboard(context: context);
     if (bloc.isValidActivationCodeID) {
-      bloc.submit();
+      bloc.submit(context);
       final dialog = EnterActivationCodeResultDialog(bloc);
       dialog.show(context);
     }

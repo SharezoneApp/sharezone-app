@@ -25,10 +25,10 @@ class AuthentificationValidators {
 
   /// Eine valide E-Mail sollte ein "@" und ein "." enthalten,
   /// sowie keine deutschen Umlaute beinhalten.
-  /// 
-  /// Es kam vor, dass Nutzer bei der Verknüpfung versehentlich ö anstatt 
-  /// o in der E-Mail angegeben haben. Da eine E-Mail Adresse sowieso 
-  /// niemals Deutsche Umlaute enthalten darf, können wir diese blocken.  
+  ///
+  /// Es kam vor, dass Nutzer bei der Verknüpfung versehentlich ö anstatt
+  /// o in der E-Mail angegeben haben. Da eine E-Mail Adresse sowieso
+  /// niemals Deutsche Umlaute enthalten darf, können wir diese blocken.
   static bool isEmailValid(String email) {
     if (email != null &&
         email.contains('@') &&

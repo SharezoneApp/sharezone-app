@@ -103,8 +103,7 @@ class AvatarCard extends StatelessWidget {
                                             kuerzel ?? "",
                                             style: TextStyle(
                                               fontSize: 26,
-                                              color:
-                                                  fontColor ?? Colors.white,
+                                              color: fontColor ?? Colors.white,
                                             ),
                                           )
                                         : image()

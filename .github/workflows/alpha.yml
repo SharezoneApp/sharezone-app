@@ -64,7 +64,7 @@ jobs:
   deploy-alpha-web-app:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+    - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
 
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -104,7 +104,7 @@ jobs:
   deploy-alpha-android-app:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+    - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
     
     - name: Set Flutter version from FVM config file to environment variables
       uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
@@ -212,7 +212,7 @@ jobs:
       run:
         working-directory: app
     steps:
-    - uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+    - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
 
     - name: Install Codemagic CLI Tools
       run: pip3 install codemagic-cli-tools==0.39.1
@@ -296,9 +296,14 @@ jobs:
         # because the App Store doesn't allow them.
         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
+        # The App Store Connect API only allows a maximum of 4000 characters for
+        # the release notes. So we need to truncate the commit message if it's
+        # longer than 4000 characters.
+        export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
+
         app-store-connect publish \
           --path build/ios/ipa/*.ipa \
           --beta-group=alpha \
           --testflight \
           --release-type=AFTER_APPROVAL \
-          --whats-new="$LAST_COMMIT_MESSAGE"
+          --whats-new="$SHORT_LAST_COMMIT_MESSAGE"

@@ -64,7 +64,10 @@ class __AccepctButtonState extends State<_AccepctButton> {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor, disabledForegroundColor: Theme.of(context).primaryColor.withOpacity(0.38),
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        disabledForegroundColor:
+            Theme.of(context).primaryColor.withOpacity(0.38),
       ),
       child: Stack(
         key: const ValueKey('SubmitButton'),
@@ -85,7 +88,9 @@ class __AccepctButtonState extends State<_AccepctButton> {
                       height: 20,
                       width: 20,
                       child: Theme(
-                        data: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white)),
+                        data: ThemeData(
+                            colorScheme: ColorScheme.fromSwatch()
+                                .copyWith(secondary: Colors.white)),
                         child: CircularProgressIndicator(),
                       ),
                     ),

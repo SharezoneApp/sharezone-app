@@ -58,7 +58,7 @@ class DownloadAppTipBloc extends BlocBase {
   /// Die Tips werden nur angezeigt, wenn es für die jeweilige Plattform
   /// auch eine App gibt. Diese Plattformen werden in [_platformsWithTips]
   /// aufgelistet
-  /// 
+  ///
   /// Falls der Tip nicht gezeigt werden soll, wird null zurückgegeben.
   Stream<DownloadAppTip> getDownloadTipIfShouldShowTip() {
     if (PlatformCheck.isWeb &&
