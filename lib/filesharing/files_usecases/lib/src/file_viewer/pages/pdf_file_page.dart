@@ -53,7 +53,7 @@ class PdfFilePage extends StatelessWidget {
                   controller:
                       PdfController(document: getPdfDocument(localFile)),
                   scrollDirection: Axis.vertical,
-                  builders: PdfViewBuilders(
+                  builders: PdfViewBuilders<DefaultBuilderOptions>(
                     options: const DefaultBuilderOptions(),
                     errorBuilder: (context, exception) {
                       return const Center(
