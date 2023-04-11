@@ -86,9 +86,11 @@ class MainContentNarrow extends StatelessWidget {
                       PrivacyPolicyText(privacyPolicy: privacyPolicy),
                 ),
               ),
-              Divider(),
+              // If height is not zero this would cause a an uneven vertical
+              // padding for the button below.
+              Divider(height: 0),
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: OpenTocBottomSheetButton(
                       enabled: privacyPolicyLoadingState.isSuccessful)),
             ],
