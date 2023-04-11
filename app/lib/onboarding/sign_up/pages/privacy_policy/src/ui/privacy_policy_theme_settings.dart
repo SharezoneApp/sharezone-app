@@ -6,12 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// @dart=2.14
-
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
+
+import '../privacy_policy_src.dart';
 
 /// Ephemeral theme settings that are scoped only to the privacy policy page.
 ///
@@ -27,35 +26,25 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
   final double textScalingFactorUpperBound;
 
   PrivacyPolicyThemeSettings({
-    required Analytics analytics,
-    required ThemeSettings themeSettings,
-    required double initialTextScalingFactor,
-    required VisualDensitySetting initialVisualDensity,
-    required ThemeBrightness initialThemeBrightness,
+    @required Analytics analytics,
+    @required ThemeSettings themeSettings,
+    @required PrivacyPolicyPageConfig config,
     this.textScalingFactorLowerBound = 0.1,
     this.textScalingFactorUpperBound = 5.0,
-    bool initialShowDebugThresholdIndicator = false,
   })  : _analytics = analytics,
         _themeSettings = themeSettings {
-    // TODO: Write tests for error
-    if (initialTextScalingFactor.clamp(
-            textScalingFactorLowerBound, textScalingFactorUpperBound) !=
-        initialTextScalingFactor) {
-      throw ArgumentError(
-          'initialTextScalingFactor must be inside (inclusive) $textScalingFactorLowerBound - $textScalingFactorUpperBound');
-    }
-    _textScalingFactor = initialTextScalingFactor;
-    _visualDensitySetting = initialVisualDensity;
-    _themeBrightness = initialThemeBrightness;
-    _showDebugThresholdIndicator = initialShowDebugThresholdIndicator;
+    _textScalingFactor = themeSettings.textScalingFactor;
+    _visualDensitySetting = themeSettings.visualDensitySetting;
+    _themeBrightness = themeSettings.themeBrightness;
+    _showDebugThresholdIndicator = config.showDebugThresholdIndicator;
   }
 
-  // TODO: Write tests for clamping
-  late double _textScalingFactor;
+  double _textScalingFactor;
   double get textScalingFactor => _textScalingFactor;
   set textScalingFactor(double textScalingFactor) {
-    textScalingFactor = textScalingFactor.clamp(
-        textScalingFactorLowerBound, textScalingFactorUpperBound);
+    textScalingFactor = textScalingFactor
+        .clamp(textScalingFactorLowerBound, textScalingFactorUpperBound)
+        .toDouble();
     _textScalingFactor = textScalingFactor;
     notifyListeners();
 
@@ -65,7 +54,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     ));
   }
 
-  late VisualDensitySetting _visualDensitySetting;
+  VisualDensitySetting _visualDensitySetting;
   VisualDensitySetting get visualDensitySetting => _visualDensitySetting;
   set visualDensitySetting(VisualDensitySetting value) {
     _visualDensitySetting = value;
@@ -81,7 +70,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     ));
   }
 
-  late ThemeBrightness _themeBrightness;
+  ThemeBrightness _themeBrightness;
   ThemeBrightness get themeBrightness => _themeBrightness;
   set themeBrightness(ThemeBrightness value) {
     _themeBrightness = value;
@@ -92,7 +81,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     notifyListeners();
   }
 
-  late bool _showDebugThresholdIndicator;
+  bool _showDebugThresholdIndicator;
   bool get showDebugThresholdIndicator => _showDebugThresholdIndicator;
   set showDebugThresholdIndicator(bool value) {
     _showDebugThresholdIndicator = value;

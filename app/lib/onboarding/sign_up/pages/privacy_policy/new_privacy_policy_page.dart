@@ -168,12 +168,12 @@ PrivacyPolicyThemeSettings _createPrivacyPolicyThemeSettings(
   PrivacyPolicyPageConfig config,
 ) {
   return PrivacyPolicyThemeSettings(
+    themeSettings: themeSettings,
+    config: config,
+    // Analytics might not always be provided when the privacy policy page needs
+    // to be shown. `AnalyticsProvider.ofOrNullObject(context)` will return a
+    // "null object" in this case which will just do nothing when used.
     analytics: AnalyticsProvider.ofOrNullObject(context),
-    themeSettings: Provider.of(context, listen: false),
-    initialTextScalingFactor: themeSettings.textScalingFactor,
-    initialVisualDensity: themeSettings.visualDensitySetting,
-    initialThemeBrightness: themeSettings.themeBrightness,
-    initialShowDebugThresholdIndicator: config.showDebugThresholdIndicator,
   );
 }
 
