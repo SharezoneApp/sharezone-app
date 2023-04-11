@@ -412,7 +412,8 @@ class LoadingFailureMainAreaContent extends StatelessWidget {
                 icon: Icon(Icons.refresh),
                 label: Text('Erneut versuchen'),
                 onPressed: () {
-                  // TODO: Implement.
+                  throw UnimplementedError(
+                      'Retry loading the privacy policy is not implemented yet.');
                 }),
             SizedBox(height: 7),
             DownloadAsPDFButton(enabled: true)
