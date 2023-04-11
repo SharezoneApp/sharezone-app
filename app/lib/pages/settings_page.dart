@@ -13,7 +13,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';

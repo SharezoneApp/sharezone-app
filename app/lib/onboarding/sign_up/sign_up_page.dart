@@ -18,7 +18,7 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
-import 'pages/privacy_policy/new_privacy_policy_page.dart';
+import 'pages/privacy_policy/privacy_policy_page.dart';
 
 part 'pages/advantages.dart';
 part 'pages/choose_type_of_user.dart';

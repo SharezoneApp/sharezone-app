@@ -14,7 +14,7 @@ import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/new_privacy_policy_page.dart';
+import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/ui/ui.dart';
 
