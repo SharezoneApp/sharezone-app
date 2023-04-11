@@ -45,6 +45,9 @@ export 'src/placeholder.dart';
 // rounded_simple_dialog
 export 'src/rounded_simple_dialog.dart';
 
+// show_rounded_modal_bottom_sheet
+export 'src/show_rounded_modal_bottom_sheet.dart';
+
 // snackbars
 export 'src/snackbars.dart';
 

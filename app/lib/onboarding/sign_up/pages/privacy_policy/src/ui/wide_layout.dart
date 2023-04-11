@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone_widgets/additional.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart' hide VerticalDivider;
 
 import '../privacy_policy_src.dart';
 import 'ui.dart';

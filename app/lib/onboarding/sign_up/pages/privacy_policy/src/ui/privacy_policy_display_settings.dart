@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DisplaySettingsDialog extends StatelessWidget {
   const DisplaySettingsDialog({Key key, @required this.themeSettings})
@@ -94,7 +94,7 @@ class _TextSize extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.remove),
                   onPressed: () {
-                   // TODO: What does the calculation do
+                    // TODO: What does the calculation do
                     themeSettings.textScalingFactor =
                         (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
                   },
@@ -130,7 +130,8 @@ class _LightOrDarkMode extends StatelessWidget {
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text('Dunkel-/Hellmodus', style: Theme.of(context).textTheme.labelLarge),
+          Text('Dunkel-/Hellmodus',
+              style: Theme.of(context).textTheme.labelLarge),
           SizedBox(width: 10),
           Column(
             children: [
@@ -196,7 +197,8 @@ class _VisualDensity extends StatelessWidget {
       alignment: WrapAlignment.spaceAround,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text('Visuelle Kompaktheit', style: Theme.of(context).textTheme.labelLarge),
+        Text('Visuelle Kompaktheit',
+            style: Theme.of(context).textTheme.labelLarge),
         SizedBox(width: 10),
         DropdownButton<VisualDensitySetting>(
           value: themeSettings.visualDensitySetting,

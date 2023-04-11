@@ -12,7 +12,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone_widgets/show_rounded_modal_bottom_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({
