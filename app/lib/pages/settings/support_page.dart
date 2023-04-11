@@ -9,10 +9,7 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
@@ -52,9 +49,10 @@ class _Header extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: SizedBox(
-            width: 70,
-            height: 70,
-            child: PlatformSvg.asset('assets/icons/confused.svg')),
+          width: 70,
+          height: 70,
+          child: PlatformSvg.asset('assets/icons/confused.svg'),
+        ),
       ),
       children: const <Widget>[
         Text(

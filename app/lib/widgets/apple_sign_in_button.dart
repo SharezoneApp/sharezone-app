@@ -72,6 +72,7 @@ class SignInWithAppleButton extends StatelessWidget {
                   child: Icon(
                     FontAwesomeIcons.apple,
                     size: 26,
+                    color: Colors.white,
                   ),
                 ),
                 Padding(

@@ -15,6 +15,7 @@ import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view.dart';
 import 'package:sharezone/pages/homework/homework_details/submissions/submission_permissions.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:user/user.dart';
 
@@ -25,13 +26,16 @@ class HomeworkDetailsViewFactory implements BlocBase {
   final CourseGateway courseGateway;
   final FileSharingGateway fileSharingGateway;
   final Stream<TypeOfUser> typeOfUserStream;
+  final SubscriptionService subscriptionService;
   SubmissionPermissions _permissions;
 
-  HomeworkDetailsViewFactory(
-      {@required this.uid,
-      @required this.courseGateway,
-      @required this.fileSharingGateway,
-      @required this.typeOfUserStream}) {
+  HomeworkDetailsViewFactory({
+    @required this.uid,
+    @required this.courseGateway,
+    @required this.fileSharingGateway,
+    @required this.typeOfUserStream,
+    @required this.subscriptionService,
+  }) {
     _permissions = SubmissionPermissions(typeOfUserStream, courseGateway);
   }
 
@@ -39,27 +43,29 @@ class HomeworkDetailsViewFactory implements BlocBase {
       StudentHomeworkView studentHomeworkView) async {
     final typeOfUser = await typeOfUserStream.first;
     return HomeworkDetailsView(
-        title: studentHomeworkView.title,
-        courseName: studentHomeworkView.subject,
-        todoUntil: studentHomeworkView.todoDate,
-        attachmentStream: Stream.value([]),
-        attachmentIDs: [],
-        authorName: '',
-        hasAttachments: false,
-        hasPermission: false,
-        id: studentHomeworkView.id,
-        isDone: studentHomeworkView.isCompleted,
-        description: '',
-        isPrivate: false,
-        courseID: '',
-        homework: HomeworkDto.create(courseID: ''),
-        withSubmissions: studentHomeworkView.withSubmissions,
-        hasSubmitted: studentHomeworkView.isCompleted,
-        nrOfSubmissions: 0,
-        typeOfUser: typeOfUser,
-        hasPermissionToViewSubmissions: false,
-        nrOfCompletedStudents: 0,
-        hasPermissionsToViewDoneByList: false);
+      title: studentHomeworkView.title,
+      courseName: studentHomeworkView.subject,
+      todoUntil: studentHomeworkView.todoDate,
+      attachmentStream: Stream.value([]),
+      attachmentIDs: [],
+      authorName: '',
+      hasAttachments: false,
+      hasPermission: false,
+      id: studentHomeworkView.id,
+      isDone: studentHomeworkView.isCompleted,
+      description: '',
+      isPrivate: false,
+      courseID: '',
+      homework: HomeworkDto.create(courseID: ''),
+      withSubmissions: studentHomeworkView.withSubmissions,
+      hasSubmitted: studentHomeworkView.isCompleted,
+      nrOfSubmissions: 0,
+      typeOfUser: typeOfUser,
+      hasPermissionToViewSubmissions: false,
+      nrOfCompletedStudents: 0,
+      hasPermissionsToViewDoneByList: false,
+      hasTeacherSubmissionsUnlocked: false,
+    );
   }
 
   Future<HomeworkDetailsView> fromHomeworkDb(HomeworkDto homework) async {
@@ -95,6 +101,8 @@ class HomeworkDetailsViewFactory implements BlocBase {
           await _permissions.isAllowedToViewSubmittedPermissions(homework),
       hasPermissionsToViewDoneByList:
           typeOfUser == TypeOfUser.teacher && _isAdmin(homework.courseID),
+      hasTeacherSubmissionsUnlocked: subscriptionService
+          .hasFeatureUnlocked(SharezonePlusFeature.submissionsList),
     );
   }
 

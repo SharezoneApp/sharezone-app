@@ -14,26 +14,32 @@ class RevenueCatPurchaseService implements PurchaseService {
   @override
   Future<void> purchase(ProductId id) async {
     final offerings = await Purchases.getOfferings();
-    final availablePackages =
-        offerings.getOffering('default-donate').availablePackages;
+    final availablePackages = offerings
+        .getOffering('default-dev-plus-subscription')
+        .availablePackages;
     final packageToPurchase = availablePackages
-        .singleWhere((package) => package.identifier == id.toString());
+        .singleWhere((package) => package.offeringIdentifier == id.toString());
     await Purchases.purchasePackage(packageToPurchase);
+  }
+
+  Future<StoreProduct> getPlusSubscriptionProduct() async {
+    return (await getProducts())[0];
   }
 
   @override
   Future<List<StoreProduct>> getProducts() async {
     final offerings = await Purchases.getOfferings();
 
-    final availablePackages =
-        offerings.getOffering('default-donate').availablePackages;
+    final availablePackages = offerings
+        .getOffering('default-dev-plus-subscription')
+        .availablePackages;
     final identifiers = availablePackages
         .map((package) => package.storeProduct.identifier)
         .toList();
 
     final products = await Purchases.getProducts(
       identifiers,
-      type: PurchaseType.inapp,
+      type: PurchaseType.subs,
     );
 
     return products;

@@ -15,7 +15,7 @@ import 'package:dio/dio.dart';
 
 class AbgabeApi {
   final Dio _dio;
-  Serializers _serializers;
+  Serializers? _serializers;
 
   AbgabeApi(this._dio, this._serializers);
 
@@ -25,22 +25,20 @@ class AbgabeApi {
   Future<Response> publishSubmission(
     String id,
     SubmissionDto submissionDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
     String _path =
         "/v1/submissions/{id}".replaceAll("{" r'id' "}", id.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(submissionDto);
+    var serializedBody = _serializers!.serialize(submissionDto);
     var jsonsubmissionDto = json.encode(serializedBody);
     bodyData = jsonsubmissionDto;
 
@@ -50,7 +48,7 @@ class AbgabeApi {
       data: bodyData,
       options: Options(
         method: 'patch'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),

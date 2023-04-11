@@ -12,9 +12,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/comments/comment_view.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../misc.dart';
 

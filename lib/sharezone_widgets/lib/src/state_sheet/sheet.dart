@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/common_widgets.dart';
-import '../../wrapper.dart';
-import 'state_sheet_content.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateSheet {
   final Stream<StateSheetContent> stateSheetContent;

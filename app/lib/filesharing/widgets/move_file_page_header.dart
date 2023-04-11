@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/logic/move_file_bloc.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MoveFilePageHeader extends StatelessWidget
     implements PreferredSizeWidget {
@@ -60,6 +60,7 @@ class _FileSharingPathRow extends StatelessWidget {
 
   const _FileSharingPathRow({Key key, this.fileSharingData, this.path})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pathHierachy = path.getPathsHierachy();
@@ -96,6 +97,7 @@ class _ClickableElement extends StatelessWidget {
 
   const _ClickableElement({Key key, this.onTap, this.text, this.isLast})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

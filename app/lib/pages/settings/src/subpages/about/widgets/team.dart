@@ -8,8 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'about_section.dart';
 import 'social_media_button.dart';
 

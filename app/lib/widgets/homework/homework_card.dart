@@ -29,10 +29,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 enum _HomeworkTileLongPressModelSheetOption { delete, edit, done, report }

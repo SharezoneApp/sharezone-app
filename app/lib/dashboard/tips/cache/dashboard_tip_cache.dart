@@ -16,8 +16,7 @@ class DashboardTipCache {
   DashboardTipCache(this.streamingCache);
 
   Future<void> increaseDashboardCounter() async {
-    final counter =
-        await getDashboardCounter().first;
+    final counter = await getDashboardCounter().first;
     streamingCache.setInt(dashboardCounterKey, counter + 1);
   }
 
@@ -30,7 +29,6 @@ class DashboardTipCache {
   }
 
   Stream<bool> showedTip(String key) {
-    return streamingCache.getBool(key,
-        defaultValue: false);
+    return streamingCache.getBool(key, defaultValue: false);
   }
 }

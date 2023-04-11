@@ -8,11 +8,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/common_widgets.dart';
-import 'package:sharezone_widgets/src/state_sheet/state_dialog_content.dart';
-import 'package:sharezone_widgets/theme.dart';
-
-import '../dialog_wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateDialog {
   final Stream<StateDialogContent> stateSheetContent;

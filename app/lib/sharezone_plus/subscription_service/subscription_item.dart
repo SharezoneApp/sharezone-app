@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library additional;
+import 'package:common_domain_models/common_domain_models.dart';
 
-export 'src/additional/gray_shimmer.dart';
-export 'src/additional/circular_button.dart';
+class SubscriptionItem extends Id {
+  SubscriptionItem(String id) : super(id, 'SubscriptionItem');
+}

@@ -8,7 +8,11 @@
 
 import 'dart:async';
 
+import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+
+import 'fix_comment_spacing_command.dart';
+import 'pub_get_command.dart';
 
 class AnalyzeCommand extends ConcurrentCommand {
   AnalyzeCommand(SharezoneRepo repo) : super(repo);
@@ -24,15 +28,26 @@ class AnalyzeCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 5);
 
   @override
-  Future<void> runSetup() async {
-    print('Activating tuneup package...');
-    await runProcessSucessfullyOrThrow(
-        'fvm', ['dart', 'pub', 'global', 'activate', 'tuneup'],
-        workingDirectory: repo.sharezoneFlutterApp.location.path);
-  }
+  Future<void> runTaskForPackage(Package package) => analyzePackage(package);
+}
 
-  @override
-  Future<void> runTaskForPackage(Package package) {
-    return package.analyzePackage();
+Future<void> analyzePackage(Package package) async {
+  await getPackage(package);
+  await _runDartAnalyze(package);
+  await formatCode(package, throwIfCodeChanged: true);
+  await _checkForCommentsWithBadSpacing(package);
+}
+
+Future<void> _runDartAnalyze(Package package) {
+  return runProcessSucessfullyOrThrow(
+      'fvm', ['dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
+      workingDirectory: package.path);
+}
+
+Future<void> _checkForCommentsWithBadSpacing(Package package) async {
+  if (doesPackageIncludeFilesWithBadCommentSpacing(package.path)) {
+    throw Exception(
+        'Package ${package.name} has comments with bad spacing. Fix them by running the `sz fix-comment-spacing` command.');
   }
+  return;
 }

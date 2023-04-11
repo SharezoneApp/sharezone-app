@@ -14,7 +14,7 @@ import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseJoinListener extends StatelessWidget {
   final Stream<Beitrittsversuch> beitrittsversuche;
@@ -63,9 +63,10 @@ class CourseJoinListener extends StatelessWidget {
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
           trailing: SizedBox(
-              height: 25,
-              width: 25,
-              child: AccentColorCircularProgressIndicator()),
+            height: 25,
+            width: 25,
+            child: AccentColorCircularProgressIndicator(),
+          ),
           leading: Icon(Icons.link),
         );
         groupJoinFunction

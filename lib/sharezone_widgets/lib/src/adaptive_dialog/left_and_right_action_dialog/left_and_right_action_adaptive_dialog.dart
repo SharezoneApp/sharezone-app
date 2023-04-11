@@ -10,10 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-
-import '../../../theme.dart';
-import '../../dialog_wrapper.dart';
-import '../adapative_dialog_action.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T> showLeftRightAdaptiveDialog<T>({
   @required BuildContext context,
@@ -110,7 +107,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: left.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult ?? false),
+            onPressed: left.onPressed ??
+                () => Navigator.pop(context, left.popResult ?? false),
             child: Text(left.title.toUpperCase()),
           ),
         if (right != null)
@@ -120,7 +118,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
               foregroundColor:
                   right.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult ?? true),
+            onPressed: right.onPressed ??
+                () => Navigator.pop(context, right.popResult ?? true),
             child: Text(right.title.toUpperCase()),
           )
       ],
@@ -155,7 +154,8 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
             key: left.key,
             isDefaultAction: left.isDefaultAction,
             isDestructiveAction: left.isDestructiveAction,
-            onPressed: left.onPressed ?? () => Navigator.pop(context, left.popResult),
+            onPressed:
+                left.onPressed ?? () => Navigator.pop(context, left.popResult),
             child: Text(left.title),
           ),
         if (right != null)
@@ -163,7 +163,8 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
             key: right.key,
             isDefaultAction: right.isDefaultAction,
             isDestructiveAction: right.isDestructiveAction,
-            onPressed: right.onPressed ?? () => Navigator.pop(context, right.popResult),
+            onPressed: right.onPressed ??
+                () => Navigator.pop(context, right.popResult),
             child: Text(right.title),
           ),
         if (ThemePlatform.isCupertino && withCancleButtonOnIOS)

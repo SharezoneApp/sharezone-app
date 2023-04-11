@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone_widgets/alternating_colored_list.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group('AlternatingColoredList', () {

@@ -20,10 +20,10 @@ class _$DateiHinzufuegenCommandDtoSerializer
   final String wireName = 'DateiHinzufuegenCommandDto';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, DateiHinzufuegenCommandDto object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
       'name',
@@ -35,23 +35,23 @@ class _$DateiHinzufuegenCommandDtoSerializer
 
   @override
   DateiHinzufuegenCommandDto deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new DateiHinzufuegenCommandDtoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -67,16 +67,15 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
   final String name;
 
   factory _$DateiHinzufuegenCommandDto(
-          [void Function(DateiHinzufuegenCommandDtoBuilder) updates]) =>
-      (new DateiHinzufuegenCommandDtoBuilder()..update(updates)).build();
+          [void Function(DateiHinzufuegenCommandDtoBuilder)? updates]) =>
+      (new DateiHinzufuegenCommandDtoBuilder()..update(updates))._build();
 
-  _$DateiHinzufuegenCommandDto._({this.id, this.name}) : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('DateiHinzufuegenCommandDto', 'id');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('DateiHinzufuegenCommandDto', 'name');
-    }
+  _$DateiHinzufuegenCommandDto._({required this.id, required this.name})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'DateiHinzufuegenCommandDto', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        name, r'DateiHinzufuegenCommandDto', 'name');
   }
 
   @override
@@ -98,12 +97,16 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, id.hashCode), name.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DateiHinzufuegenCommandDto')
+    return (newBuiltValueToStringHelper(r'DateiHinzufuegenCommandDto')
           ..add('id', id)
           ..add('name', name))
         .toString();
@@ -113,22 +116,23 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
 class DateiHinzufuegenCommandDtoBuilder
     implements
         Builder<DateiHinzufuegenCommandDto, DateiHinzufuegenCommandDtoBuilder> {
-  _$DateiHinzufuegenCommandDto _$v;
+  _$DateiHinzufuegenCommandDto? _$v;
 
-  String _id;
-  String get id => _$this._id;
-  set id(String id) => _$this._id = id;
+  String? _id;
+  String? get id => _$this._id;
+  set id(String? id) => _$this._id = id;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
   DateiHinzufuegenCommandDtoBuilder();
 
   DateiHinzufuegenCommandDtoBuilder get _$this {
-    if (_$v != null) {
-      _id = _$v.id;
-      _name = _$v.name;
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _name = $v.name;
       _$v = null;
     }
     return this;
@@ -136,24 +140,28 @@ class DateiHinzufuegenCommandDtoBuilder
 
   @override
   void replace(DateiHinzufuegenCommandDto other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DateiHinzufuegenCommandDto;
   }
 
   @override
-  void update(void Function(DateiHinzufuegenCommandDtoBuilder) updates) {
+  void update(void Function(DateiHinzufuegenCommandDtoBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$DateiHinzufuegenCommandDto build() {
-    final _$result =
-        _$v ?? new _$DateiHinzufuegenCommandDto._(id: id, name: name);
+  DateiHinzufuegenCommandDto build() => _build();
+
+  _$DateiHinzufuegenCommandDto _build() {
+    final _$result = _$v ??
+        new _$DateiHinzufuegenCommandDto._(
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'DateiHinzufuegenCommandDto', 'id'),
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'DateiHinzufuegenCommandDto', 'name'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

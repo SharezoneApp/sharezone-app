@@ -14,6 +14,7 @@ import 'package:files_usecases/file_compression.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:filesharing_logic/src/models/content_disposition.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fb;
+import 'package:meta/meta.dart';
 import '../file_uploader.dart';
 import '../models/upload_meta_data.dart';
 import '../models/upload_task.dart';
@@ -21,7 +22,33 @@ import '../models/upload_task_event.dart';
 import '../models/upload_task_snapshot.dart';
 import '../models/upload_task_type.dart';
 
-class MobileFirebaseFileUploader extends FileUploader {
+class FirebaseFileUploader extends FileUploader {
+  /// Uploads a [LocalFile] to Firebase Storage.
+  ///
+  /// Tries to use the Dart IO file if possible. If not, the file is uploaded
+  /// via data (Uint8List).
+  fb.UploadTask _uploadToFirebase({
+    @required fb.Reference reference,
+    @required LocalFile file,
+    fb.SettableMetadata metadata,
+  }) {
+    // Defines if the file is available as Dart IO file. Normally this is the
+    // case except for files using the web app.
+    final hasIOFile = file.getFile() != null;
+
+    if (hasIOFile) {
+      // We prefer to upload the file as a Dart IO file if possible.
+      //
+      // Even though the Firebase Storage plugin supports uploading files via
+      // data (Uint8List), we try to avoid this because using the Dart IO is
+      // more stable and and doesn't require to load the whole file into memory
+      // (can easily cause UI freezes).
+      return reference.putFile(file.getFile(), metadata);
+    }
+
+    return reference.putData(file.getData(), metadata);
+  }
+
   @override
   Future<UploadTask> uploadFile({CloudFile cloudFile, LocalFile file}) async {
     final fileType = FileUtils.getFileFormatFromMimeType(file.getType());
@@ -44,13 +71,16 @@ class MobileFirebaseFileUploader extends FileUploader {
       }
     }
 
-    final uploadTask = storageReference.putFile(
-      file.getFile(),
-      fb.SettableMetadata(
-        contentDisposition: getContentDispositionString(cloudFile.name),
-        contentType: file.getType().toData(),
-        customMetadata: cloudFile.toMetaData().toJson(),
-      ),
+    final metadata = fb.SettableMetadata(
+      contentDisposition: getContentDispositionString(cloudFile.name),
+      contentType: file.getType().toData(),
+      customMetadata: cloudFile.toMetaData().toJson(),
+    );
+
+    final uploadTask = _uploadToFirebase(
+      reference: storageReference,
+      file: file,
+      metadata: metadata,
     );
 
     return _uploadTaskFromFirebase(uploadTask);
@@ -133,23 +163,27 @@ class MobileFirebaseFileUploader extends FileUploader {
       }
     }
 
-    final uploadTask = storageReference.putFile(
-      localFile.getFile(),
-      fb.SettableMetadata(
-        contentDisposition: getContentDispositionString(originalerName),
-        contentType: localFile.getType().toData(),
-        cacheControl: cacheControl,
-        customMetadata: {
-          'fileID': fileId,
-          'fileName': originalerName,
-          'creatorID': creatorId
-        },
-      ),
+    final metadata = fb.SettableMetadata(
+      contentDisposition: getContentDispositionString(originalerName),
+      contentType: localFile.getType().toData(),
+      cacheControl: cacheControl,
+      customMetadata: {
+        'fileID': fileId,
+        'fileName': originalerName,
+        'creatorID': creatorId
+      },
     );
+
+    final uploadTask = _uploadToFirebase(
+      reference: storageReference,
+      file: localFile,
+      metadata: metadata,
+    );
+
     return _uploadTaskFromFirebase(uploadTask);
   }
 }
 
 FileUploader getFileUploaderImplementation() {
-  return MobileFirebaseFileUploader();
+  return FirebaseFileUploader();
 }

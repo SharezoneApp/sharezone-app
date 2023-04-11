@@ -14,9 +14,7 @@ import 'package:sharezone/util/platform_information_manager/get_platform_informa
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'widgets/about_section.dart';
 import 'widgets/social_media_button.dart';
@@ -24,10 +22,11 @@ import 'widgets/team.dart';
 
 TextStyle _greyTextStyle(BuildContext context) {
   return TextStyle(
-      color: isDarkThemeEnabled(context) ? null : Colors.black54,
-      fontWeight: FontWeight.normal,
-      height: 1.05,
-      fontSize: 16.0);
+    color: isDarkThemeEnabled(context) ? null : Colors.black54,
+    fontWeight: FontWeight.normal,
+    height: 1.05,
+    fontSize: 16.0,
+  );
 }
 
 class AboutPage extends StatelessWidget {
@@ -62,6 +61,7 @@ class AboutPage extends StatelessWidget {
 
 class _AboutHeader extends StatelessWidget {
   final tapNotifier = ValueNotifier<int>(0);
+
   @override
   Widget build(BuildContext context) {
     return AvatarCard(

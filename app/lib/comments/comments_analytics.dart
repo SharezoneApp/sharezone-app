@@ -21,7 +21,7 @@ class CommentsAnalytics {
     _analytics.log(_CommentsUsedEvent(
         feature: location.baseCollection, action: _CommentAcition.add));
   }
-  
+
   void logCommentDeleted(CommentLocation location) {
     _analytics.log(_CommentsUsedEvent(
         feature: location.baseCollection, action: _CommentAcition.delete));

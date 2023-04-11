@@ -24,9 +24,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_utils/dimensions.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../show_delete_blackboard_item_dialog.dart';
 import 'blackboard_details_bloc.dart';

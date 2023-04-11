@@ -12,14 +12,14 @@ import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
-import 'package:sharezone/donate/page/donate_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings_page.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum NavigationItem {
   overview,
@@ -29,8 +29,8 @@ enum NavigationItem {
   blackboard,
   filesharing,
   events,
+  sharezonePlus,
   feedbackBox,
-  donate,
   settings,
   accountPage,
   more,
@@ -65,14 +65,14 @@ extension NavigationItemExtension on NavigationItem {
         return 'blackboard';
       case NavigationItem.filesharing:
         return 'file_sharing';
+      case NavigationItem.sharezonePlus:
+        return 'sharezone_plus';
       case NavigationItem.settings:
         return 'settings';
       case NavigationItem.feedbackBox:
         return 'feedback';
       case NavigationItem.accountPage:
         return 'profile';
-      case NavigationItem.donate:
-        return 'donate';
       case NavigationItem.more:
         return 'more';
     }
@@ -102,6 +102,9 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.filesharing:
         return Icon(themeIconData(Icons.insert_drive_file,
             cupertinoIcon: SFSymbols.folder_fill));
+      case NavigationItem.sharezonePlus:
+        return Icon(
+            themeIconData(Icons.star, cupertinoIcon: SFSymbols.star_fill));
       case NavigationItem.settings:
         return Icon(themeIconData(Icons.settings,
             cupertinoIcon: SFSymbols.gear_alt_fill));
@@ -111,9 +114,6 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.accountPage:
         return Icon(
             themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
-      case NavigationItem.donate:
-        return Icon(
-            themeIconData(Icons.favorite, cupertinoIcon: SFSymbols.heart_fill));
       case NavigationItem.more:
         return Icon(
             themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
@@ -137,14 +137,14 @@ extension NavigationItemExtension on NavigationItem {
         return 'Infozettel';
       case NavigationItem.filesharing:
         return 'Dateien';
+      case NavigationItem.sharezonePlus:
+        return 'Sharezone Plus';
       case NavigationItem.settings:
         return 'Einstellungen';
       case NavigationItem.feedbackBox:
         return 'Feedback';
       case NavigationItem.accountPage:
         return 'Profil';
-      case NavigationItem.donate:
-        return 'Spenden';
       case NavigationItem.more:
         return 'Mehr';
     }
@@ -167,14 +167,14 @@ extension NavigationItemExtension on NavigationItem {
         return FileSharingPage();
       case NavigationItem.events:
         return CalendricalEventsPage();
+      case NavigationItem.sharezonePlus:
+        return SharezonePlusPage();
       case NavigationItem.settings:
         return SettingsPage();
       case NavigationItem.feedbackBox:
         return FeedbackPage();
       case NavigationItem.accountPage:
         return AccountPage();
-      case NavigationItem.donate:
-        return DonatePage();
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]
@@ -199,14 +199,14 @@ extension NavigationItemExtension on NavigationItem {
         return BlackboardPage.tag;
       case NavigationItem.filesharing:
         return FileSharingPage.tag;
+      case NavigationItem.sharezonePlus:
+        return SharezonePlusPage.tag;
       case NavigationItem.settings:
         return SettingsPage.tag;
       case NavigationItem.feedbackBox:
         return FeedbackPage.tag;
       case NavigationItem.accountPage:
         return AccountPage.tag;
-      case NavigationItem.donate:
-        return DonatePage.tag;
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]
