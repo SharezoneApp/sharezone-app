@@ -19,7 +19,6 @@ import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
 import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/onboarding/welcome_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
@@ -27,6 +26,7 @@ import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 
 class AuthApp extends StatefulWidget {

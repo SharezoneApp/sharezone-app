@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/onboarding/sign_up/pages/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 void main() {
   test('Generates correct anchor hashes', () {
