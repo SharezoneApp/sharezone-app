@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// TODO: Maybe split this file up into seperate smaller files?
-
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
@@ -377,8 +375,6 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   }
 }
 
-// TODO: Doesn't make sense right now, bc we only have the privacy policy
-// locally
 class LoadingFailureMainAreaContent extends StatelessWidget {
   const LoadingFailureMainAreaContent({Key key}) : super(key: key);
 

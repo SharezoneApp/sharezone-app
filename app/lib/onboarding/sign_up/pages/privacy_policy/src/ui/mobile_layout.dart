@@ -74,9 +74,6 @@ class MainContentMobile extends StatelessWidget {
             Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              // TODO: Was `!privacyPolicyLoadingState.isSuccessful` instead of
-              // `privacyPolicyLoadingState.isSuccessful` in mobile layout.
-              // We should have a test for this behavior for every layout.
               child: OpenTocBottomSheetButton(
                   enabled: privacyPolicyLoadingState.isSuccessful),
             ),

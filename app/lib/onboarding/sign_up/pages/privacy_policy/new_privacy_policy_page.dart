@@ -121,8 +121,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                                       listen: false)
                                   : null;
 
-                              // TODO: Test that layouts appear correctly on
-                              // certain window sizes
                               if (constraints.maxWidth > 1100) {
                                 tocControllerOrNull?.changeExpansionBehavior(
                                     ExpansionBehavior

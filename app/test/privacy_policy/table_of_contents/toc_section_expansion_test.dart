@@ -154,7 +154,6 @@ void main() {
 
       // - A section with subsections is not expanded when it is not highlighte
       // * Sections are collapsed by default
-      // TODO: Rename Section to Chapter?
       test('Expandable sections are collapsed by default', () {
         forEveryExpansionBehavior(() {
           final sections = [

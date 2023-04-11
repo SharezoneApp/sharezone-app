@@ -205,7 +205,6 @@ class _TocHeadingState extends State<_TocHeading>
         SectionHighlight(
           shape: ContinuousRectangleBorder(),
           onTap: () async {
-            // TODO: Should probabaly be tested via widget test that it pops?
             await tocController.scrollTo(widget.section.id);
             Navigator.pop(context);
           },
@@ -312,8 +311,6 @@ List<Widget> _buildSubheadings(
       shape: ContinuousRectangleBorder(),
       shouldHighlight: subheading.shouldHighlight,
       onTap: () async {
-        // TODO: Should probabaly be tested via widget test
-        // that it pops?
         await tocController.scrollTo(subheading.id);
         Navigator.pop(context);
       },
