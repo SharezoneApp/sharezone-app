@@ -94,17 +94,23 @@ class _TextSize extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.remove),
                   onPressed: () {
-                    // TODO: What does the calculation do
+                    final scalingFactor = themeSettings.textScalingFactor;
+                    // We use this calulation instead of `textScalingFactor -
+                    // 0.1` so we don't cause floating point errors (e.g. values
+                    // like 1.0999999999999999)
+                    const valueToSubtract = 0.1;
                     themeSettings.textScalingFactor =
-                        (themeSettings.textScalingFactor * 10 - 0.1 * 10) / 10;
+                        (scalingFactor * 10 - valueToSubtract * 10) / 10;
                   },
                 ),
                 Text('${themeSettings.textScalingFactor}'),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
+                    final scalingFactor = themeSettings.textScalingFactor;
+                    const valueToAdd = 0.1;
                     themeSettings.textScalingFactor =
-                        (themeSettings.textScalingFactor * 10 + 0.1 * 10) / 10;
+                        (scalingFactor * 10 + valueToAdd * 10) / 10;
                   },
                 ),
               ],
