@@ -283,68 +283,6 @@ class PrivacyPolicyText extends StatelessWidget {
   }
 }
 
-class PrivacyTextLoadingPlaceholder extends StatelessWidget {
-  const PrivacyTextLoadingPlaceholder({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GrayShimmer(
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _textLine(context, widthFactor: .7, height: 40),
-            ..._textLines(context, 5, widthFactor: 1),
-            SizedBox(height: 20),
-            _textLine(context, widthFactor: .65, height: 30),
-            ..._textLines(context, 1, widthFactor: .5, height: 20),
-            SizedBox(height: 5),
-            ..._textLines(context, 3, widthFactor: 1, height: 20),
-            ..._textLines(context, 1, widthFactor: .7, height: 20),
-            SizedBox(height: 20),
-            _textLine(context, widthFactor: .65, height: 30),
-            ..._textLines(context, 2, widthFactor: 1),
-            SizedBox(height: 10),
-            ..._textLines(context, 5, widthFactor: .8),
-            SizedBox(height: 10),
-            ..._textLines(context, 10, widthFactor: 1),
-            ..._textLines(context, 10, widthFactor: .8),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _textLines(BuildContext context, int n,
-      {double widthFactor = 1, double height = 25}) {
-    final lines = <Widget>[];
-    for (var i = 0; i < n; i++) {
-      lines.addAll([
-        SizedBox(height: 10),
-        _textLine(context, widthFactor: widthFactor, height: height),
-      ]);
-    }
-    return lines;
-  }
-
-  Widget _textLine(
-    BuildContext context, {
-    @required double widthFactor,
-    @required double height,
-  }) {
-    return SizedBox(
-      height: height,
-      child: FractionallySizedBox(
-        widthFactor: widthFactor,
-        child: ColoredBox(color: Theme.of(context).canvasColor),
-      ),
-    );
-  }
-}
-
 class OpenTocBottomSheetButton extends StatelessWidget {
   const OpenTocBottomSheetButton({
     this.enabled = true,
@@ -375,78 +313,7 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   }
 }
 
-class LoadingFailureMainAreaContent extends StatelessWidget {
-  const LoadingFailureMainAreaContent({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Center(
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            Icon(Icons.warning, color: Colors.orange, size: 60),
-            SizedBox(height: 12),
-            Text(
-              'Fehler beim Laden der Datenschutzerklärung',
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5),
-            Text(
-              'Versuche es erneut oder lade dir die PDF-Version der Datenschutzerklärung herunter.',
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              'Stelle sicher, dass du eine funktionierende Internetverbindung hast.',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 15),
-            TextButton.icon(
-                key: ValueKey('retry-loading-button-E2E'),
-                icon: Icon(Icons.refresh),
-                label: Text('Erneut versuchen'),
-                onPressed: () {
-                  throw UnimplementedError(
-                      'Retry loading the privacy policy is not implemented yet.');
-                }),
-            SizedBox(height: 7),
-            DownloadAsPDFButton(enabled: true)
-          ],
-        )),
-      ),
-    );
-  }
-}
-
 extension PrivacyPolicyVisualDensity on BuildContext {
   VisualDensity get ppVisualDensity =>
       watch<PrivacyPolicyThemeSettings>().visualDensitySetting.visualDensity;
-}
-
-class PrivacyPolicyLoadingState {
-  final AsyncSnapshot<PrivacyPolicy> privacyPolicySnapshot;
-
-  PrivacyPolicy get privacyPolicyOrNull => privacyPolicySnapshot.data;
-
-  bool get isSuccessful => privacyPolicySnapshot.hasData;
-  bool get isError => privacyPolicySnapshot.hasError;
-  bool get isLoading => !isSuccessful && !isError;
-
-  PrivacyPolicyLoadingState(this.privacyPolicySnapshot);
-
-  T when<T>(
-      {T Function(dynamic error, StackTrace stackTrace) onError,
-      T Function() onLoading,
-      T Function(PrivacyPolicy) onSuccess}) {
-    if (privacyPolicySnapshot.hasError) {
-      return onError?.call(
-          privacyPolicySnapshot.error, privacyPolicySnapshot.stackTrace);
-    }
-    if (!privacyPolicySnapshot.hasData) {
-      return onLoading?.call();
-    }
-    return onSuccess?.call(privacyPolicySnapshot.data);
-  }
 }

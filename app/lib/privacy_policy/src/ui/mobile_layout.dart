@@ -7,17 +7,18 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 import 'ui.dart';
 
 class MainContentMobile extends StatelessWidget {
   const MainContentMobile({
-    @required this.privacyPolicyLoadingState,
+    @required this.privacyPolicy,
     this.showBackButton = true,
     Key key,
   }) : super(key: key);
 
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
 
   @override
@@ -33,9 +34,7 @@ class MainContentMobile extends StatelessWidget {
               },
               icon: Icon(Icons.display_settings)),
           SizedBox(width: 5),
-          DownloadAsPDFButton.icon(
-            enabled: privacyPolicyLoadingState.isSuccessful,
-          ),
+          DownloadAsPDFButton.icon(),
           SizedBox(width: 10)
         ],
       ),
@@ -45,37 +44,24 @@ class MainContentMobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (privacyPolicyLoadingState
-                    .privacyPolicyOrNull?.hasNotYetEnteredIntoForce ??
-                false)
+            if (privacyPolicy.hasNotYetEnteredIntoForce)
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 20,
                 ),
                 child: PrivacyPolicySubheading(
-                  entersIntoForceOn: privacyPolicyLoadingState
-                      .privacyPolicyOrNull.entersIntoForceOnOrNull,
+                  entersIntoForceOn: privacyPolicy.entersIntoForceOnOrNull,
                 ),
               ),
             Divider(height: 0, thickness: .5),
             Flexible(
-              child: privacyPolicyLoadingState.when(
-                onError: (e, s) =>
-                    SizedBox.expand(child: LoadingFailureMainAreaContent()),
-                onLoading: () => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: PrivacyTextLoadingPlaceholder(),
-                ),
-                onSuccess: (privacyPolicy) =>
-                    PrivacyPolicyText(privacyPolicy: privacyPolicy),
-              ),
+              child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
             ),
             Divider(height: 0, thickness: .5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: OpenTocBottomSheetButton(
-                  enabled: privacyPolicyLoadingState.isSuccessful),
+              child: OpenTocBottomSheetButton(),
             ),
           ],
         ),

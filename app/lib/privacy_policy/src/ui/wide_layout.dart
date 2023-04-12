@@ -8,19 +8,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart' hide VerticalDivider;
 
 import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentWide extends StatelessWidget {
   const MainContentWide({
-    @required this.privacyPolicyLoadingState,
+    @required this.privacyPolicy,
     this.showBackButton = true,
     Key key,
   }) : super(key: key);
 
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
 
   @override
@@ -31,8 +30,7 @@ class MainContentWide extends StatelessWidget {
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 450),
-            child: _TableOfContentsDesktop(
-                privacyPolicyLoadingState: privacyPolicyLoadingState),
+            child: _TableOfContentsDesktop(privacyPolicy: privacyPolicy),
           ),
         ),
         VerticalDivider(),
@@ -66,16 +64,13 @@ class MainContentWide extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const PrivacyPolicyHeading(),
-                          if (privacyPolicyLoadingState.privacyPolicyOrNull
-                                  ?.hasNotYetEnteredIntoForce ??
-                              false)
+                          if (privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8.0),
                               child: PrivacyPolicySubheading(
-                                entersIntoForceOn: privacyPolicyLoadingState
-                                    .privacyPolicyOrNull
-                                    .entersIntoForceOnOrNull,
+                                entersIntoForceOn:
+                                    privacyPolicy.entersIntoForceOnOrNull,
                               ),
                             )
                         ],
@@ -86,17 +81,12 @@ class MainContentWide extends StatelessWidget {
                 Divider(),
                 Expanded(
                   child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 830,
-                        minWidth: 400,
-                      ),
-                      child: privacyPolicyLoadingState.when(
-                        onError: (e, s) => SizedBox.expand(
-                            child: LoadingFailureMainAreaContent()),
-                        onLoading: () => PrivacyTextLoadingPlaceholder(),
-                        onSuccess: (privacyPolicy) =>
-                            PrivacyPolicyText(privacyPolicy: privacyPolicy),
-                      )),
+                    constraints: BoxConstraints(
+                      maxWidth: 830,
+                      minWidth: 400,
+                    ),
+                    child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
+                  ),
                 ),
               ],
             ),
@@ -110,10 +100,10 @@ class MainContentWide extends StatelessWidget {
 class _TableOfContentsDesktop extends StatelessWidget {
   const _TableOfContentsDesktop({
     Key key,
-    @required this.privacyPolicyLoadingState,
+    @required this.privacyPolicy,
   }) : super(key: key);
 
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final PrivacyPolicy privacyPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +118,8 @@ class _TableOfContentsDesktop extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Expanded(
-            child: privacyPolicyLoadingState.when(
-          onError: (e, s) => SizedBox.shrink(),
-          onLoading: () => GrayShimmer(child: _TocLoadingSectionHeadingList()),
-          onSuccess: (privacyPolicy) => _TocSectionHeadingListDesktop(),
-        )),
+          child: _TocSectionHeadingListDesktop(),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
           child: Column(
@@ -153,37 +140,6 @@ class _TableOfContentsDesktop extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _TocLoadingSectionHeadingList extends StatelessWidget {
-  const _TocLoadingSectionHeadingList({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
-      child: Column(
-        children: List.filled(
-          20,
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                color: Colors.blue,
-              ),
-              child: SizedBox(
-                height: 30,
-                width: 350,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

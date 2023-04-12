@@ -49,114 +49,77 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<PrivacyPolicy>(
-        initialData: privacyPolicy,
-        // future: Future.delayed(Duration(seconds: 2), () => privacyPolicy),
-        // future: Future.delayed(
-        //     Duration(seconds: 2), () => throw Exception('Bla bla')),
-        builder: (context, snapshot) {
-          final privacyPolicyLoadingState = PrivacyPolicyLoadingState(snapshot);
-          return Provider(
-            create: (context) => PrivacyPolicyPageDependencyFactory(
-              anchorController: anchorController,
-              config: config,
-              // Because the Provider will only lazily run `create` we will only
-              // access the PrivacyPolicyPageDependencyFactory (which needs the
-              // privacyPolicy) after the privacyPolicy has been sucessfully
-              // loaded.
-              // Otherwise this would lead to an error since `snapshot.data`
-              // would equal `null`.
-              privacyPolicy: snapshot.data,
+    return Provider(
+      create: (context) => PrivacyPolicyPageDependencyFactory(
+        anchorController: anchorController,
+        config: config,
+        privacyPolicy: privacyPolicy,
+      ),
+      builder: (context, _) => MultiProvider(
+          providers: [
+            Provider(create: (context) => anchorController),
+            Provider<PrivacyPolicyPageConfig>(create: (context) => config),
+            ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
+              create: (context) {
+                final themeSettings =
+                    Provider.of<ThemeSettings>(context, listen: false);
+                return _createPrivacyPolicyThemeSettings(
+                    context, themeSettings, config);
+              },
             ),
-            builder: (context, _) => MultiProvider(
-                providers: [
-                  Provider(create: (context) => anchorController),
-                  Provider<PrivacyPolicyPageConfig>(
-                      create: (context) => config),
-                  ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
-                    create: (context) {
-                      final themeSettings =
-                          Provider.of<ThemeSettings>(context, listen: false);
-                      return _createPrivacyPolicyThemeSettings(
-                          context, themeSettings, config);
-                    },
-                  ),
-                  Provider<DocumentController>(
-                      create: (context) =>
-                          _factory(context).documentController),
-                  ChangeNotifierProvider<TableOfContentsController>(
-                    create: (context) =>
-                        _factory(context).tableOfContentsController,
-                  ),
-                ],
-                builder: (context, _) => MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: context
-                            .watch<PrivacyPolicyThemeSettings>()
-                            .textScalingFactor),
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          visualDensity: context.ppVisualDensity,
-                          floatingActionButtonTheme:
-                              FloatingActionButtonThemeData(
-                            backgroundColor: Theme.of(context).primaryColor,
-                          )),
-                      child: Scaffold(
-                        body: Center(
-                          child: Provider<Uri>(
-                            // Since the download button is disabled if the
-                            // privacy policy has not been loaded yet this
-                            // should be save to access.
-                            create: (context) => snapshot.data.downloadUrl,
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
-                              // If the privacy policy hasn't loaded yet we don't
-                              //  use `Provider` to access a controller since this
-                              //  would cause an error by running the
-                              //  Provider.create function which requires a valid
-                              //  privacy policy.
-                              final tocControllerOrNull = snapshot.hasData
-                                  ? Provider.of<TableOfContentsController>(
-                                      context,
-                                      listen: false)
-                                  : null;
+            Provider<DocumentController>(
+                create: (context) => _factory(context).documentController),
+            ChangeNotifierProvider<TableOfContentsController>(
+              create: (context) => _factory(context).tableOfContentsController,
+            ),
+            Provider<Uri>(create: (context) => privacyPolicy.downloadUrl),
+          ],
+          builder: (context, _) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: context
+                      .watch<PrivacyPolicyThemeSettings>()
+                      .textScalingFactor),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                    visualDensity: context.ppVisualDensity,
+                    floatingActionButtonTheme: FloatingActionButtonThemeData(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    )),
+                child: Scaffold(
+                  body: Center(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final tocController =
+                          Provider.of<TableOfContentsController>(context,
+                              listen: false);
 
-                              if (constraints.maxWidth > 1100) {
-                                tocControllerOrNull?.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .leaveManuallyOpenedSectionsOpen);
-                                return MainContentWide(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState,
-                                  showBackButton: showBackButton,
-                                );
-                              } else if (constraints.maxWidth > 500 &&
-                                  constraints.maxHeight > 400) {
-                                tocControllerOrNull?.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .alwaysAutomaticallyCloseSectionsAgain);
-                                return MainContentNarrow(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState,
-                                  showBackButton: showBackButton,
-                                );
-                              } else {
-                                tocControllerOrNull?.changeExpansionBehavior(
-                                    ExpansionBehavior
-                                        .alwaysAutomaticallyCloseSectionsAgain);
-                                return MainContentMobile(
-                                  privacyPolicyLoadingState:
-                                      privacyPolicyLoadingState,
-                                  showBackButton: showBackButton,
-                                );
-                              }
-                            }),
-                          ),
-                        ),
-                      ),
-                    ))),
-          );
-        });
+                      if (constraints.maxWidth > 1100) {
+                        tocController.changeExpansionBehavior(
+                            ExpansionBehavior.leaveManuallyOpenedSectionsOpen);
+                        return MainContentWide(
+                          privacyPolicy: privacyPolicy,
+                          showBackButton: showBackButton,
+                        );
+                      } else if (constraints.maxWidth > 500 &&
+                          constraints.maxHeight > 400) {
+                        tocController.changeExpansionBehavior(ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain);
+                        return MainContentNarrow(
+                          privacyPolicy: privacyPolicy,
+                          showBackButton: showBackButton,
+                        );
+                      } else {
+                        tocController.changeExpansionBehavior(ExpansionBehavior
+                            .alwaysAutomaticallyCloseSectionsAgain);
+                        return MainContentMobile(
+                          privacyPolicy: privacyPolicy,
+                          showBackButton: showBackButton,
+                        );
+                      }
+                    }),
+                  ),
+                ),
+              ))),
+    );
   }
 }
 

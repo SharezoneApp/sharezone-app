@@ -7,16 +7,17 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
   const MainContentNarrow({
-    @required this.privacyPolicyLoadingState,
+    @required this.privacyPolicy,
     this.showBackButton = true,
     Key key,
   }) : super(key: key);
 
-  final PrivacyPolicyLoadingState privacyPolicyLoadingState;
+  final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
 
   @override
@@ -42,15 +43,13 @@ class MainContentNarrow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         PrivacyPolicyHeading(),
-                        if (privacyPolicyLoadingState.privacyPolicyOrNull
-                                ?.hasNotYetEnteredIntoForce ??
-                            false)
+                        if (privacyPolicy.hasNotYetEnteredIntoForce)
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 6),
                             child: PrivacyPolicySubheading(
-                              entersIntoForceOn: privacyPolicyLoadingState
-                                  .privacyPolicyOrNull.entersIntoForceOnOrNull,
+                              entersIntoForceOn:
+                                  privacyPolicy.entersIntoForceOnOrNull,
                             ),
                           ),
                         SizedBox(height: 3),
@@ -78,21 +77,15 @@ class MainContentNarrow extends StatelessWidget {
               ),
               Divider(),
               Flexible(
-                child: privacyPolicyLoadingState.when(
-                  onError: (e, s) =>
-                      SizedBox.expand(child: LoadingFailureMainAreaContent()),
-                  onLoading: () => PrivacyTextLoadingPlaceholder(),
-                  onSuccess: (privacyPolicy) =>
-                      PrivacyPolicyText(privacyPolicy: privacyPolicy),
-                ),
+                child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
               ),
               // If height is not zero this would cause a an uneven vertical
               // padding for the button below.
               Divider(height: 0),
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: OpenTocBottomSheetButton(
-                      enabled: privacyPolicyLoadingState.isSuccessful)),
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                child: OpenTocBottomSheetButton(),
+              ),
             ],
           ),
         ),
