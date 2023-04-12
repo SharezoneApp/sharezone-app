@@ -124,17 +124,11 @@ class DownloadAsPDFButton extends StatelessWidget {
           )
         : TextButton.icon(
             onPressed: enabled ? () => downloadPdf(context) : null,
-            style: _buttonStyle,
             icon: Icon(Icons.download),
             label: Text('Als PDF herunterladen'),
           );
   }
 }
-
-final _buttonStyle = ButtonStyle(
-  foregroundColor: MaterialStateProperty.resolveWith(
-      (states) => states.contains(MaterialState.disabled) ? Colors.grey : null),
-);
 
 class ExpansionArrow extends StatelessWidget {
   const ExpansionArrow({
@@ -294,7 +288,6 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: TextButton(
-        style: _buttonStyle,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
