@@ -71,6 +71,7 @@
   - "**/*_test.dart"
   - "**/test_driver/**"
   - "**/test/**"
+  - "**/test_goldens/**"
   - "**/integration_test/**"
   - "**/dart_test.yaml"
 

@@ -28,7 +28,7 @@ class _$DateienHinzufuegenCommandDtoSerializer
       'hinzufuegenCommands',
       serializers.serialize(object.hinzufuegenCommands,
           specifiedType: const FullType(
-              BuiltList, const [const FullType(DateiHinzufuegenCommandDto1)])),
+              BuiltList, const [const FullType(DateiHinzufuegenCommandDto)])),
     ];
 
     return result;
@@ -49,7 +49,7 @@ class _$DateienHinzufuegenCommandDtoSerializer
         case 'hinzufuegenCommands':
           result.hinzufuegenCommands.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltList, const [
-                const FullType(DateiHinzufuegenCommandDto1)
+                const FullType(DateiHinzufuegenCommandDto)
               ]))! as BuiltList<Object?>);
           break;
       }
@@ -61,7 +61,7 @@ class _$DateienHinzufuegenCommandDtoSerializer
 
 class _$DateienHinzufuegenCommandDto extends DateienHinzufuegenCommandDto {
   @override
-  final BuiltList<DateiHinzufuegenCommandDto1> hinzufuegenCommands;
+  final BuiltList<DateiHinzufuegenCommandDto> hinzufuegenCommands;
 
   factory _$DateienHinzufuegenCommandDto(
           [void Function(DateienHinzufuegenCommandDtoBuilder)? updates]) =>
@@ -111,12 +111,12 @@ class DateienHinzufuegenCommandDtoBuilder
             DateienHinzufuegenCommandDtoBuilder> {
   _$DateienHinzufuegenCommandDto? _$v;
 
-  ListBuilder<DateiHinzufuegenCommandDto1>? _hinzufuegenCommands;
-  ListBuilder<DateiHinzufuegenCommandDto1> get hinzufuegenCommands =>
+  ListBuilder<DateiHinzufuegenCommandDto>? _hinzufuegenCommands;
+  ListBuilder<DateiHinzufuegenCommandDto> get hinzufuegenCommands =>
       _$this._hinzufuegenCommands ??=
-          new ListBuilder<DateiHinzufuegenCommandDto1>();
+          new ListBuilder<DateiHinzufuegenCommandDto>();
   set hinzufuegenCommands(
-          ListBuilder<DateiHinzufuegenCommandDto1>? hinzufuegenCommands) =>
+          ListBuilder<DateiHinzufuegenCommandDto>? hinzufuegenCommands) =>
       _$this._hinzufuegenCommands = hinzufuegenCommands;
 
   DateienHinzufuegenCommandDtoBuilder();

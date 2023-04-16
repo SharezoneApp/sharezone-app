@@ -10,16 +10,19 @@ import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart' hide Provider;
 import 'package:authentification_base/authentification_base.dart' hide Provider;
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
@@ -96,9 +99,18 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     'ALPHA',
                 child: Stack(
                   children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: MultiProvider(
+                    MultiBlocProvider(
+                      blocProviders: [
+                        BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                        // We need to provide the navigation bloc above the
+                        // [SharezoneApp] widget to prevent disposing the
+                        // navigation bloc when signing out.
+                        //
+                        // See
+                        // https://github.com/SharezoneApp/sharezone-app/issues/117.
+                        BlocProvider<NavigationBloc>(bloc: navigationBloc),
+                      ],
+                      child: (context) => MultiProvider(
                         providers: [
                           Provider<Flavor>(create: (context) => widget.flavor)
                         ],
@@ -108,10 +120,9 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             if (snapshot.hasData) {
                               widget.blocDependencies.authUser = snapshot.data;
                               return SharezoneApp(
-                                widget.blocDependencies,
-                                Sharezone.analytics,
-                                widget.beitrittsversuche,
-                              );
+                                  widget.blocDependencies,
+                                  Sharezone.analytics,
+                                  widget.beitrittsversuche);
                             }
                             return AuthApp(
                               blocDependencies: widget.blocDependencies,

@@ -231,7 +231,8 @@ class _PeriodTile extends StatelessWidget {
                       .copyWith(fontSize: 18);
                   if (snapshot.hasData &&
                       snapshot.data.contains(period.number)) {
-                    style = style.copyWith(color: Theme.of(context).colorScheme.error);
+                    style = style.copyWith(
+                        color: Theme.of(context).colorScheme.error);
                   }
                   return Padding(
                     padding: const EdgeInsets.only(left: 26),

@@ -103,7 +103,7 @@ class AppUser {
       name: data['name'],
       abbreviation: generateAbbreviation(data['name']),
       typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']) ??
-          TypeOfUser.unknown,
+          TypeOfUser.student,
       notificationTokens: decodeList(data['notificationTokens'], (it) => it),
       reminderTime: data['reminderTime'],
       referralLink: data['referralLink'],

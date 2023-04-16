@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 // ignore: one_member_abstracts

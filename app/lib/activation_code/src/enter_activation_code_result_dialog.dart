@@ -48,7 +48,7 @@ class EnterActivationCodeResultDialog {
         actions: [
           ActionItem(
             title: "Nochmal versuchen",
-            onSelect: () => enterActivationCodeBloc.retry(),
+            onSelect: () => enterActivationCodeBloc.retry(context),
           ),
         ],
       );
