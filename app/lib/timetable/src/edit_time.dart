@@ -116,8 +116,7 @@ Future<Time> selectTime(BuildContext context,
     context: context,
     initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
     interval: minutesInterval,
-    visibleStep:
-        minutesInterval == 30 ? VisibleStep.thirtieths : VisibleStep.fifths,
+    visibleStep: minutesInterval.toVisibleStep(),
     builder: (BuildContext context, Widget child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -205,5 +204,31 @@ class _CupertinoTimerPickerWithTimeOfDayState
     final hours = dur.inHours % 24;
     final minutes = dur.inMinutes % 60;
     return TimeOfDay(hour: hours, minute: minutes);
+  }
+}
+
+extension on int {
+  VisibleStep toVisibleStep() {
+    switch (this) {
+      case 1:
+      case 5:
+        return VisibleStep.fifths;
+      case 6:
+        return VisibleStep.sixths;
+      case 10:
+        return VisibleStep.tenths;
+      case 20:
+        return VisibleStep.twentieths;
+      case 30:
+        return VisibleStep.thirtieths;
+      case 60:
+        return VisibleStep.sixtieth;
+      default:
+        // At the moment, only these intervals are supported. If you need
+        // another one, please add it and handle it in the switch statement.
+        throw Exception(
+          "Unsupported minutes interval: $this. Please handle the other cases yourself.",
+        );
+    }
   }
 }
