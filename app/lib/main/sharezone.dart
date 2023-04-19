@@ -157,7 +157,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
         analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
-        defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+        defaultVisualDensity: VisualDensitySetting.adaptivePlatformDensity(),
         keyValueStore: blocDependencies.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
@@ -173,8 +173,9 @@ class _ThemeSettingsProvider extends StatelessWidget {
                 textScaleFactor: themeSettings.textScalingFactor,
               ),
               child: Theme(
-                data: Theme.of(context)
-                    .copyWith(visualDensity: themeSettings.visualDensity),
+                data: Theme.of(context).copyWith(
+                    visualDensity:
+                        themeSettings.visualDensitySetting.visualDensity),
                 child: child,
               ),
             );
