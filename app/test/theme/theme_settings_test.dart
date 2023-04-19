@@ -100,11 +100,9 @@ void main() {
           VisualDensity(horizontal: 1.0, vertical: 1.5));
       expect(localAnalyticsBackend.loggedEvents[2], {
         'ui_visual_density_changed': {
-          'visual_density': {
-            'isAdaptivePlatformDensity': false,
-            'horizontal': 1.0,
-            'vertical': 1.5
-          }
+          'isAdaptivePlatformDensity': 'false',
+          'horizontal': 1.0,
+          'vertical': 1.5
         }
       });
     });
