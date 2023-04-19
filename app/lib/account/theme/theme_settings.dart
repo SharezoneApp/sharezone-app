@@ -40,42 +40,6 @@ enum ThemeBrightness {
   system,
 }
 
-/// The current [VisualDensity].
-///
-/// This extra class is necessary to differentiate if a user has chosen
-/// [VisualDensity.adaptivePlatformDensity] or a manual setting which happens to
-/// be the same value (one can't tell by just looking at [VisualDensity]).
-class VisualDensitySetting {
-  final VisualDensity visualDensity;
-  final bool isAdaptivePlatformDensity;
-
-  VisualDensitySetting.adaptivePlatformDensity()
-      : visualDensity = VisualDensity.adaptivePlatformDensity,
-        isAdaptivePlatformDensity = true;
-
-  VisualDensitySetting.manual(this.visualDensity)
-      : isAdaptivePlatformDensity = false;
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is VisualDensitySetting &&
-        other.visualDensity == visualDensity &&
-        other.isAdaptivePlatformDensity == isAdaptivePlatformDensity;
-  }
-
-  @override
-  int get hashCode {
-    return Object.hash(visualDensity, isAdaptivePlatformDensity);
-  }
-
-  @override
-  String toString() {
-    return 'VisualDensitySetting(visualDensity: $visualDensity, isAdaptivePlatformDensity: $isAdaptivePlatformDensity)';
-  }
-}
-
 /// Used to change theme settings dynamically inside the app.
 ///
 /// The changed settings will be automatically persisted.
