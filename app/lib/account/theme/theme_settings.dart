@@ -86,7 +86,7 @@ class ThemeSettings extends ChangeNotifier {
     required double defaultTextScalingFactor,
 
     /// The value assigned to [visualDensity] if no other value is cached.
-    required VisualDensity defaultVisualDensity,
+    required VisualDensitySetting defaultVisualDensity,
 
     /// The value assigned to [themeBrightness] if no other value is cached.
     required ThemeBrightness defaultThemeBrightness,
@@ -96,7 +96,7 @@ class ThemeSettings extends ChangeNotifier {
         keyValueStore.tryGetDouble(currentTextScalingFactorCacheKey) ??
             defaultTextScalingFactor;
 
-    _visualDensity = keyValueStore
+    _visualDensitySetting = keyValueStore
             .tryGetString(currentVisualDensityCacheKey)
             .toVisualDensity() ??
         defaultVisualDensity;
@@ -121,20 +121,20 @@ class ThemeSettings extends ChangeNotifier {
     ));
   }
 
-  late VisualDensity _visualDensity;
-  VisualDensity get visualDensity => _visualDensity;
-  set visualDensity(VisualDensity value) {
-    _visualDensity = value;
+  late VisualDensitySetting _visualDensitySetting;
+  VisualDensitySetting get visualDensitySetting => _visualDensitySetting;
+  set visualDensitySetting(VisualDensitySetting value) {
+    _visualDensitySetting = value;
     notifyListeners();
 
     _keyValueStore.setString(currentVisualDensityCacheKey, value.serialize());
     _analytics.log(NamedAnalyticsEvent(
       name: 'ui_visual_density_changed',
       data: {
-        'visual_density': {
-          'horizontal': value.horizontal,
-          'vertical': value.vertical
-        }
+        // bool is not allowed in firebase_analytics so we use `toString`.
+        'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity.toString(),
+        'horizontal': value.visualDensity.horizontal,
+        'vertical': value.visualDensity.vertical
       },
     ));
   }
@@ -153,24 +153,115 @@ class ThemeSettings extends ChangeNotifier {
   }
 }
 
-extension on VisualDensity {
+extension on VisualDensitySetting {
   String serialize() {
     return jsonEncode({
-      'horizontal': horizontal,
-      'vertical': vertical,
+      'isAdaptivePlatformDensity': isAdaptivePlatformDensity,
+      'horizontal': visualDensity.horizontal,
+      'vertical': visualDensity.vertical,
     });
   }
 }
 
 extension on String? {
-  VisualDensity? toVisualDensity() {
+  VisualDensitySetting? toVisualDensity() {
     if (this == null) return null;
     final _map = jsonDecode(this!) as Map;
 
-    return VisualDensity(
-      horizontal: _map['horizontal'] as double,
-      vertical: _map['vertical'] as double,
+    if (_map['isAdaptivePlatformDensity'] != null &&
+        _map['isAdaptivePlatformDensity'] == true) {
+      // We return [VisualDensitySetting.adaptivePlatformDensity] (which calls
+      // [VisualDensity.adaptivePlatformDensity]) instead of using the cached
+      // values because theoretically Flutter might change the default values of
+      // [VisualDensity.adaptivePlatformDensity] in the future.
+      return VisualDensitySetting.adaptivePlatformDensity();
+    }
+
+    return VisualDensitySetting.manual(
+      VisualDensity(
+        horizontal: _map['horizontal'] as double,
+        vertical: _map['vertical'] as double,
+      ),
     );
+  }
+}
+
+/// The current [VisualDensity].
+///
+/// This extra class is necessary to differentiate if a user has chosen
+/// [VisualDensity.adaptivePlatformDensity] or a manual setting which happens to
+/// be the same value as [VisualDensity.adaptivePlatformDensity] (one can't
+/// tell by just looking at [VisualDensity]).
+///
+/// This allows the user choose between different [VisualDensity] values and the
+/// adaptive platform density.
+///
+/// For example: On desktop the default density is [VisualDensity.compact], i.e.
+/// [VisualDensity.adaptivePlatformDensity] will return [VisualDensity.compact].
+/// Without this class we couldn't easily know if the user just uses the value
+/// returned by [VisualDensity.adaptivePlatformDensity] or if
+/// [VisualDensity.compact] was chosen manually.
+/// This would mean that we couldn't easily highlight the current setting in the
+/// UI (since it could either be "default"
+/// [VisualDensity.adaptivePlatformDensity] or "compact"
+/// [VisualDensity.compact].)
+class VisualDensitySetting {
+  final VisualDensity visualDensity;
+  final bool isAdaptivePlatformDensity;
+
+  /// Corresponds to [VisualDensity.adaptivePlatformDensity].
+  ///
+  /// This will automatically use the platform's default density by setting
+  /// [visualDensity] to [VisualDensity.adaptivePlatformDensity].
+  /// [isAdaptivePlatformDensity] will be true.
+  VisualDensitySetting.adaptivePlatformDensity()
+      : visualDensity = VisualDensity.adaptivePlatformDensity,
+        isAdaptivePlatformDensity = true;
+
+  /// Corresponds to [VisualDensity.standard].
+  ///
+  /// [isAdaptivePlatformDensity] will be false.
+  VisualDensitySetting.standard()
+      : visualDensity = VisualDensity.standard,
+        isAdaptivePlatformDensity = false;
+
+  /// Corresponds to [VisualDensity.compact].
+  ///
+  /// [isAdaptivePlatformDensity] will be false.
+  VisualDensitySetting.compact()
+      : visualDensity = VisualDensity.compact,
+        isAdaptivePlatformDensity = false;
+
+  /// Corresponds to [VisualDensity.comfortable].
+  ///
+  /// [isAdaptivePlatformDensity] will be false.
+  VisualDensitySetting.comfortable()
+      : visualDensity = VisualDensity.comfortable,
+        isAdaptivePlatformDensity = false;
+
+  /// Use a custom [VisualDensity].
+  ///
+  /// [isAdaptivePlatformDensity] will be false.
+  VisualDensitySetting.manual(this.visualDensity)
+      : isAdaptivePlatformDensity = false;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is VisualDensitySetting &&
+        other.visualDensity == visualDensity &&
+        other.isAdaptivePlatformDensity == isAdaptivePlatformDensity;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(visualDensity, isAdaptivePlatformDensity);
+  }
+
+  @override
+  String toString() {
+    return 'VisualDensitySetting(visualDensity: $visualDensity, isAdaptivePlatformDensity: $isAdaptivePlatformDensity)';
   }
 }
 
