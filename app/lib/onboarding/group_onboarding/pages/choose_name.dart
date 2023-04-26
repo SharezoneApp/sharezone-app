@@ -180,8 +180,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   /// angezeigt. Falls nicht, wird das normale GroupOnboarding aufgerufen.
   Future<void> _navigateToNextPage(
       BuildContext context, GroupOnboardingStatus status) async {
-    final notificationsPermission =
-        Provider.of<NotificationsPermission>(context);
+    final notificationsPermission = context.read<NotificationsPermission>();
     final isNeededToRequestNotificationsPermission =
         await notificationsPermission.isRequiredToRequestPermission();
 
