@@ -30,15 +30,17 @@ class FirebaseMessagingCallbackConfigurator {
   final NavigationService navigationService;
   final NavigationBloc navigationBloc;
   final AndroidDeviceInformation androidDeviceInformation;
+  final NotificationsPermission notificationsPermission;
 
   FirebaseMessagingCallbackConfigurator({
     this.navigationService,
     this.navigationBloc,
     this.androidDeviceInformation,
+    @required this.notificationsPermission,
   });
 
   Future<void> configureCallbacks(BuildContext context) async {
-    _requestPermissionIfNeeded(context);
+    await _requestPermissionIfNeeded(context);
 
     final _logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
 
@@ -124,29 +126,28 @@ class FirebaseMessagingCallbackConfigurator {
 
     return handler;
   }
-}
 
-/// Prompts the native iOS permissions dialog to ask the user if we are allowed
-/// to send push notifications.
-///
-/// Does nothing if the platform is not iOS.
-Future<void> _requestPermissionIfNeeded(BuildContext context) async {
-  final notificationsPermission = Provider.of<NotificationsPermission>(context);
-  final isNeeded =
-      await notificationsPermission.isRequiredToRequestPermission();
-  if (!isNeeded) {
-    return;
-  }
+  /// Prompts the native iOS permissions dialog to ask the user if we are allowed
+  /// to send push notifications.
+  ///
+  /// Does nothing if the platform is not iOS.
+  Future<void> _requestPermissionIfNeeded(BuildContext context) async {
+    final isNeeded =
+        await notificationsPermission.isRequiredToRequestPermission();
+    if (!isNeeded) {
+      return;
+    }
 
-  final signUpBloc = BlocProvider.of<SignUpBloc>(context);
-  final signedUp = await signUpBloc.signedUp.first;
+    final signUpBloc = BlocProvider.of<SignUpBloc>(context);
+    final signedUp = await signUpBloc.signedUp.first;
 
-  // Falls der Nutzer sich nicht registriert hat, muss nach der Berechtigung
-  // für die Push-Nachrichten gefragt werden, weil dies normalerweise im
-  // Onboarding passiert. Meldet sich ein Nutzer mit einem Konto auf seinem
-  // iPad an (zweit Gerät), würde dieser nicht die Abfrage für die Push-Nachrichten
-  // erhalten und somit niemals Push-Nachricht zugeschickt bekommen.
-  if (!signedUp) {
-    await notificationsPermission.requestPermission();
+    // Falls der Nutzer sich nicht registriert hat, muss nach der Berechtigung
+    // für die Push-Nachrichten gefragt werden, weil dies normalerweise im
+    // Onboarding passiert. Meldet sich ein Nutzer mit einem Konto auf seinem
+    // iPad an (zweit Gerät), würde dieser nicht die Abfrage für die Push-Nachrichten
+    // erhalten und somit niemals Push-Nachricht zugeschickt bekommen.
+    if (!signedUp) {
+      await notificationsPermission.requestPermission();
+    }
   }
 }
