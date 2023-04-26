@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:build_context/build_context.dart';
 
 class AnnouncementCard extends StatelessWidget {

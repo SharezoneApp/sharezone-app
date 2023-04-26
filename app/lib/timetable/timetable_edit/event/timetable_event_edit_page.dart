@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +21,10 @@ import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
-import 'package:sharezone/util/api/connectionsGateway.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 import 'timetable_event_edit_bloc.dart';
@@ -35,7 +35,8 @@ void _submit(BuildContext context) {
     bloc.submit();
     Navigator.pop(context, true);
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
+
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }

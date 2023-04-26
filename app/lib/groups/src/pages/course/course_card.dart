@@ -17,39 +17,38 @@ import 'package:sharezone/groups/src/pages/course/course_details.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showCourseLeaveDialog(
     BuildContext context, bool isLastMember) async {
   return showLeftRightAdaptiveDialog<bool>(
-      context: context,
-      right: isLastMember
-          ? AdaptiveDialogAction.delete
-          : AdaptiveDialogAction(
-              title: "Verlassen",
-              isDefaultAction: true,
-              isDestructiveAction: true,
-              popResult: true,
-              textColor: Colors.red,
-            ),
-      defaultValue: false,
-      title: "Kurs verlassen${isLastMember ? " und löschen?" : "?"}",
-      content: Text(
-          "Möchtest du den Kurs wirklich verlassen? ${isLastMember ? "Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht." : ""}"));
+    context: context,
+    right: isLastMember
+        ? AdaptiveDialogAction.delete
+        : AdaptiveDialogAction(
+            title: "Verlassen",
+            isDefaultAction: true,
+            isDestructiveAction: true,
+            popResult: true,
+            textColor: Colors.red,
+          ),
+    defaultValue: false,
+    title: "Kurs verlassen${isLastMember ? " und löschen?" : "?"}",
+    content: Text(
+        "Möchtest du den Kurs wirklich verlassen? ${isLastMember ? "Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht." : ""}"),
+  );
 }
 
 Future<bool> showDeleteCourseDialog(
     BuildContext context, String courseName) async {
   return await showLeftRightAdaptiveDialog<bool>(
-      context: context,
-      right: AdaptiveDialogAction.delete,
-      defaultValue: false,
-      title: "Kurs löschen?",
-      content: Text(
-          'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'));
+    context: context,
+    right: AdaptiveDialogAction.delete,
+    defaultValue: false,
+    title: "Kurs löschen?",
+    content: Text(
+        'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'),
+  );
 }
 
 class CourseCardRedesign extends StatelessWidget {
@@ -70,7 +69,8 @@ class CourseCardRedesign extends StatelessWidget {
           popResult: _CourseCardLongPressResult.share,
           title: "Teilen",
           icon: Icon(
-              themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share)),
+            themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share),
+          ),
         ),
         if (isAdmin)
           const LongPress(

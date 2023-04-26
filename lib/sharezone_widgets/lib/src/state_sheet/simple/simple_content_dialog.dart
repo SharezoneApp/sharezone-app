@@ -6,9 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-final stateDialogContentLoading = StateDialogContent(
+const stateDialogContentLoading = StateDialogContent(
   title: 'Bitte warten...',
   body: StateDialogLoadingBody(),
 );

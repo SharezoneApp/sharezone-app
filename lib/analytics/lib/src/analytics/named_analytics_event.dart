@@ -6,14 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import '../../analytics.dart';
 
 class NamedAnalyticsEvent extends AnalyticsEvent {
   NamedAnalyticsEvent({
-    @required String name,
-    Map<String, dynamic> data,
-  })  : assert(isNotEmptyOrNull(name)),
+    required String name,
+    Map<String, dynamic>? data,
+  })  : assert(name.isNotEmpty),
         super(name, data: data);
 }

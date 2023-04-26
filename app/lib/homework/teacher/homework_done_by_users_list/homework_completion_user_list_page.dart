@@ -10,8 +10,9 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'homework_completion_user_list_bloc.dart';
 import 'homework_completion_user_list_bloc_factory.dart';
@@ -46,21 +47,24 @@ class _HomeworkCompletionUserListPageState
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Erledigt von"),
-          centerTitle: true,
-        ),
-        body: StreamBuilder<List<UserHasCompletedHomeworkView>>(
-          stream: bloc.userViews,
-          builder: (context, snapshot) {
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: snapshot.hasData ? _List(snapshot.data) : _Loading(),
-            );
-          },
+    return SharezonePlusFeatureGuard(
+      feature: SharezonePlusFeature.homeworkDonyByUsersList,
+      child: BlocProvider(
+        bloc: bloc,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Erledigt von"),
+            centerTitle: true,
+          ),
+          body: StreamBuilder<List<UserHasCompletedHomeworkView>>(
+            stream: bloc.userViews,
+            builder: (context, snapshot) {
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: snapshot.hasData ? _List(snapshot.data) : _Loading(),
+              );
+            },
+          ),
         ),
       ),
     );

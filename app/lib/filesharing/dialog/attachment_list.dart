@@ -16,7 +16,7 @@ import 'package:sharezone/filesharing/dialog/file_card.dart';
 import 'package:sharezone/filesharing/logic/open_cloud_file.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:sharezone/filesharing/widgets/sheet.dart';
-import 'package:sharezone_widgets/additional.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachmentStreamList extends StatelessWidget {
   const AttachmentStreamList({

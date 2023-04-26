@@ -14,7 +14,7 @@ import 'package:meta/meta.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone/util/api/schoolClassGateway.dart';
+import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone_common/references.dart';
 
 class MockSchoolClassGateway implements SchoolClassGateway {

@@ -12,7 +12,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -23,11 +23,13 @@ dependencies:
     path: ../sharezone_common
   sharezone_utils:
     path: ../sharezone_utils
-  firebase_analytics: ^10.1.4
-  firebase_auth: ^4.2.9
+  firebase_analytics: ^10.2.0
+  firebase_auth: ^4.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
 
 flutter: null

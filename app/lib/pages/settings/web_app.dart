@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -16,13 +18,11 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class WebAppSettingsPage extends StatelessWidget {
   static const tag = 'web-app-settings-page';
+
   @override
   Widget build(BuildContext context) {
     final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
@@ -68,9 +68,10 @@ class _Header extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: SizedBox(
-            width: 65,
-            height: 65,
-            child: PlatformSvg.asset("assets/icons/desktop.svg")),
+          width: 65,
+          height: 65,
+          child: PlatformSvg.asset("assets/icons/desktop.svg"),
+        ),
       ),
       children: <Widget>[
         const Text("Sharezone für's Web!", style: TextStyle(fontSize: 26)),
@@ -114,7 +115,7 @@ class _ScanQrCode extends StatelessWidget {
                   BlocProvider.of<QrSignInAuthentificationDeviceBloc>(context);
               final futureResult = hostBloc.authenticateUserViaQrCodeId(qrCode);
               showSimpleStateDialog(context, futureResult);
-              print("qrcode: $qrCode");
+              log("qrcode: $qrCode");
             }
           },
         ),

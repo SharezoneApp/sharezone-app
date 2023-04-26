@@ -24,4 +24,7 @@ class SubjectSmallestDateAndTitleSort extends Sort<HomeworkReadModel> {
 
   @override
   bool operator ==(dynamic other) => true;
+
+  @override
+  int get hashCode => 1337;
 }

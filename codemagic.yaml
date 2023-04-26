@@ -29,7 +29,7 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
-      xcode: latest
+      xcode: 14.3
       groups:
         - github
         - ios-publishing
@@ -50,7 +50,7 @@ workflows:
         # there is our .fvm folder with all the FVM configurations.
         working_directory: .
         script: |
-          dart pub global activate fvm
+          dart pub global activate fvm 2.4.1
           fvm install
       - name: iOS code signing
         script: |
@@ -87,5 +87,5 @@ workflows:
       scripts:
         - name: Post App Preview
           script: |
-            dart pub global activate codemagic_app_preview
+            dart pub global activate codemagic_app_preview 0.0.3
             app_preview post --gh_token $GITHUB_PAT --message "_Note_: Only Sharezone team members are able to install the iOS app."

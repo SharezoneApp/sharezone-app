@@ -11,10 +11,11 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
-import 'package:sharezone/util/API.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone/util/api.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _DeleteDialogOptions { all, onlyUser }
+
 enum AttachmentOperation { delete, unlink }
 
 Future<void> deleteHomeworkDialogsEntry(

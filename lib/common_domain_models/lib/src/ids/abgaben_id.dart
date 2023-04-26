@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 
-final _seperator = '.';
+const _seperator = '.';
 
 class AbgabeId extends Id {
   final AbgabezielId abgabenzielId;

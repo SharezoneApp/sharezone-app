@@ -44,14 +44,15 @@ class QrSignInDocument {
   }
 
   QrSignInState toSignInState() {
-    if (encryptedCustomToken == null)
+    if (encryptedCustomToken == null) {
       return QrSignInIdle(qrId: qrId);
-    else
+    } else {
       return QrSignInSuccessfull(
         base64encryptedCustomToken: encryptedCustomToken,
         base64encryptedKey: encryptedKey,
         qrId: qrId,
         iv: iv,
       );
+    }
   }
 }

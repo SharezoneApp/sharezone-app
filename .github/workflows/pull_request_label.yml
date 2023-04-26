@@ -35,10 +35,11 @@ jobs:
   # For more information, see: https://github.com/actions/labeler
   label:
     permissions:
+      # Required by the labeler action, see:
+      # https://github.com/actions/labeler#inputs
+      contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-      - uses: actions/labeler@a96e5aec3e3d5caaefde174986c02d40560a0b91
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: actions/labeler@3c1531c7aa689b7c790045223842b0226c8f865b

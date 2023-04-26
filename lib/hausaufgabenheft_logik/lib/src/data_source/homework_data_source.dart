@@ -38,7 +38,7 @@ class LazyLoadingResult {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         other is LazyLoadingResult &&
-            DeepCollectionEquality().equals(other.homeworks, homeworks) &&
+            const DeepCollectionEquality().equals(other.homeworks, homeworks) &&
             other.moreHomeworkAvailable == moreHomeworkAvailable;
   }
 

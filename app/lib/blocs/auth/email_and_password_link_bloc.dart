@@ -18,7 +18,7 @@ import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // * Using a shortcut getter method on the class to create simpler and friendlier API for the class to provide access of a particular function on StreamController
 // * Mixin can only be used on a class that extends from a base class, therefore, we are adding Bloc class that extends from the Object class

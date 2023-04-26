@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
@@ -23,7 +24,7 @@ import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
@@ -41,8 +42,8 @@ BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
       BehaviorSubject<Beitrittsversuch>();
 
   beitrittsversuche.listen(
-    (beitrittsversuch) => print("Neuer beitrittsversuch: $beitrittsversuch"),
-    onError: (e) => print("Error beim Beitreten über Dynamic Link: $e"),
+    (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
+    onError: (e) => log("Error beim Beitreten über Dynamic Link: $e", error: e),
     cancelOnError: false,
   );
   return beitrittsversuche;
@@ -53,8 +54,8 @@ DynamicLinkBloc runDynamicLinkBloc(
   final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
   dynamicLinkBloc.initialisere();
 
-  dynamicLinkBloc.einkommendeLinks.listen((einkommenderLink) =>
-      print("Neuer einkommender Link: $einkommenderLink"));
+  dynamicLinkBloc.einkommendeLinks.listen(
+      (einkommenderLink) => log("Neuer einkommender Link: $einkommenderLink"));
 
   return dynamicLinkBloc;
 }
@@ -67,6 +68,7 @@ Future<void> runFlutterApp({@required Flavor flavor}) async {
       beitrittsversuche: dependencies.beitrittsversuche,
       blocDependencies: dependencies.blocDependencies,
       dynamicLinkBloc: dependencies.dynamicLinkBloc,
+      flavor: flavor,
     )),
     (error, stackTrace) async {
       debugPrint(error.toString());
