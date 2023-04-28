@@ -191,11 +191,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final timePickerSettingsCache =
         TimePickerSettingsCache(streamingKeyValueStore);
 
-    if (PlatformCheck.isMobile) {
-      NotificationTokenAdder(
-              NotificationTokenAdderApi(api.user, FirebaseMessaging.instance))
-          .addTokenToUserIfNotExisting();
-    }
+    NotificationTokenAdder(
+      NotificationTokenAdderApi(
+        api.user,
+        FirebaseMessaging.instance,
+        widget.blocDependencies.remoteConfiguration
+            .getString('firebase_messaging_vapid_key'),
+      ),
+    ).addTokenToUserIfNotExisting();
     final firestore = api.references.firestore;
     final firebaseAuth = api.references.firebaseAuth;
     final homeworkCollection = firestore.collection("Homework");

@@ -32,11 +32,18 @@ class FirebaseMessagingCallbackConfigurator {
   final AndroidDeviceInformation androidDeviceInformation;
   final NotificationsPermission notificationsPermission;
 
+  /// VAPID key is used by Firebase Messaging to send push notifications to the
+  /// web app.
+  ///
+  /// See https://firebase.google.com/docs/cloud-messaging/js/client.
+  final String vapidKey;
+
   FirebaseMessagingCallbackConfigurator({
     this.navigationService,
     this.navigationBloc,
     this.androidDeviceInformation,
     @required this.notificationsPermission,
+    @required this.vapidKey,
   });
 
   Future<void> configureCallbacks(BuildContext context) async {
@@ -45,7 +52,7 @@ class FirebaseMessagingCallbackConfigurator {
     final _logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
 
     _logger.fine(
-        'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken()}');
+        'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken(vapidKey: vapidKey)}');
 
     final handler = _createNotificiationHandler(context);
 

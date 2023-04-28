@@ -85,6 +85,8 @@ class _SharezoneAppState extends State<SharezoneApp>
       navigationBloc: navigationBloc,
       navigationService: navigationService,
       notificationsPermission: context.read<NotificationsPermission>(),
+      vapidKey: widget.blocDependencies.remoteConfiguration
+          .getString('firebase_messaging_vapid_key'),
     );
 
     _sharezoneGateway = SharezoneGateway(
