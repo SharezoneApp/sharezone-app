@@ -104,9 +104,9 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/platform.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
+import '../notifications/is_firebase_messaging_supported.dart';
 import 'dashbord_widgets_blocs/holiday_bloc.dart';
 
 final navigationBloc = NavigationBloc();
@@ -191,14 +191,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final timePickerSettingsCache =
         TimePickerSettingsCache(streamingKeyValueStore);
 
-    NotificationTokenAdder(
-      NotificationTokenAdderApi(
-        api.user,
-        FirebaseMessaging.instance,
-        widget.blocDependencies.remoteConfiguration
-            .getString('firebase_messaging_vapid_key'),
-      ),
-    ).addTokenToUserIfNotExisting();
+    if (isFirebaseMessageSupported()) {
+      NotificationTokenAdder(
+        NotificationTokenAdderApi(
+          api.user,
+          FirebaseMessaging.instance,
+          widget.blocDependencies.remoteConfiguration
+              .getString('firebase_messaging_vapid_key'),
+        ),
+      ).addTokenToUserIfNotExisting();
+    }
     final firestore = api.references.firestore;
     final firebaseAuth = api.references.firebaseAuth;
     final homeworkCollection = firestore.collection("Homework");
