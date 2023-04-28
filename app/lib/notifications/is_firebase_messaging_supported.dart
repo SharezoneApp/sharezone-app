@@ -1,7 +1,7 @@
 import 'package:sharezone_utils/platform.dart';
 
 /// Returns true if the current platform supports Firebase Messaging.
-bool isFirebaseMessageSupported() {
+bool isFirebaseMessagingSupported() {
   if (PlatformCheck.isMobile) return true;
   if (PlatformCheck.isMacOS) return true;
 

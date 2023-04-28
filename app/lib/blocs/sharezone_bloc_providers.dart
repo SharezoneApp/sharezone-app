@@ -191,7 +191,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final timePickerSettingsCache =
         TimePickerSettingsCache(streamingKeyValueStore);
 
-    if (isFirebaseMessageSupported()) {
+    if (isFirebaseMessagingSupported()) {
       NotificationTokenAdder(
         NotificationTokenAdderApi(
           api.user,

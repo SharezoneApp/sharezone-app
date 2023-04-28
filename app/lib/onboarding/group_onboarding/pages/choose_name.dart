@@ -186,7 +186,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
         await notificationsPermission.isRequiredToRequestPermission();
     final showNotificationsRequestPage =
         isNeededToRequestNotificationsPermission &&
-            isFirebaseMessageSupported();
+            isFirebaseMessagingSupported();
 
     if (status == GroupOnboardingStatus.onlyNameAndTurnOfNotifactions ||
         showNotificationsRequestPage) {

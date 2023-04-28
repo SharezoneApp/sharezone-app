@@ -28,7 +28,7 @@ class NavigationController extends StatefulWidget {
 class _NavigationControllerState extends State<NavigationController> {
   @override
   void initState() {
-    if (isFirebaseMessageSupported()) {
+    if (isFirebaseMessagingSupported()) {
       widget.fbMessagingConfigurator.configureCallbacks(context);
     }
     super.initState();
