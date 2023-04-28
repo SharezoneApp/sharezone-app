@@ -75,7 +75,7 @@ jobs:
     # hardware acceleration support provided by HAXM. See more details in the
     # README.md of the Android emulator action:
     # https://github.com/ReactiveCircus/android-emulator-runner#usage
-    runs-on: macos-12
+    runs-on: macos-13
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
     # (~5% of the time) build takes longer and then is a long timeout needed.
@@ -165,7 +165,7 @@ jobs:
 
   ios-integration-test:
     needs: changes
-    runs-on: macos-12
+    runs-on: macos-13
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 45
     steps:
@@ -191,7 +191,7 @@ jobs:
       - uses: futureware-tech/simulator-action@ae8f725abebda0c4c62629c7a2a5b826e161c9f1
         id: simulator
         with:
-          model: "iPhone 13"
+          model: "iPhone 14"
 
       - name: Run integration tests
         working-directory: app
@@ -220,7 +220,7 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-12
+    runs-on: macos-13
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:
