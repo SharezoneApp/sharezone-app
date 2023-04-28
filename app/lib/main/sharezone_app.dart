@@ -14,6 +14,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
@@ -32,6 +33,7 @@ import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/navigation_controller.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/my_profile/change_email.dart';
@@ -82,6 +84,9 @@ class _SharezoneAppState extends State<SharezoneApp>
     fbMessagingConfigurator = FirebaseMessagingCallbackConfigurator(
       navigationBloc: navigationBloc,
       navigationService: navigationService,
+      notificationsPermission: context.read<NotificationsPermission>(),
+      vapidKey: widget.blocDependencies.remoteConfiguration
+          .getString('firebase_messaging_vapid_key'),
     );
 
     _sharezoneGateway = SharezoneGateway(

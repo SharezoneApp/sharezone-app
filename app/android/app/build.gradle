@@ -59,7 +59,7 @@ android {
     defaultConfig {
         applicationId "de.codingbrain.sharezone"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -39,10 +39,20 @@ class NotificationTokenAdderApi {
   final UserGateway _userApi;
   final FirebaseMessaging _firebaseMessaging;
 
-  NotificationTokenAdderApi(this._userApi, this._firebaseMessaging);
+  /// VAPID key is used by Firebase Messaging to send push notifications to the
+  /// web app.
+  ///
+  /// See https://firebase.google.com/docs/cloud-messaging/js/client.
+  final String vapidKey;
+
+  NotificationTokenAdderApi(
+    this._userApi,
+    this._firebaseMessaging,
+    this.vapidKey,
+  );
 
   Future<String> getFCMToken() {
-    return _firebaseMessaging.getToken();
+    return _firebaseMessaging.getToken(vapidKey: vapidKey);
   }
 
   Future<void> tryAddTokenToDatabase(String token) async {
