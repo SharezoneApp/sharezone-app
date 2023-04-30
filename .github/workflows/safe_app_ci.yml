@@ -249,17 +249,14 @@ jobs:
           app-store-connect fetch-signing-files $BUNDLE_ID \
             --platform IOS \
             --type MAC_APP_STORE \
-            --certificate-key=@file:/Users/nils/Downloads/cert_key \
             --create
             
           app-store-connect create-certificate \
             --type MAC_INSTALLER_DISTRIBUTION \
-            --certificate-key=@file:/Users/nils/Downloads/cert_key \
             --save
 
           app-store-connect list-certificates \
             --type MAC_INSTALLER_DISTRIBUTION \
-            --certificate-key=@file:/Users/nils/Downloads/cert_key \
             --save
           
           keychain initialize
