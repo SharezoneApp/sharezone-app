@@ -294,7 +294,7 @@ jobs:
           # of the "app-store-connect get-latest-build-number" command because the
           # second line includes the build number.
           LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $MACOS_APP_ID | head -2 | tail -1)
-          BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+          BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 2)
 
           fvm flutter build macos \
             --release \
