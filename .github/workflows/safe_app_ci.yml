@@ -251,10 +251,6 @@ jobs:
             --type MAC_APP_STORE \
             --create
             
-          app-store-connect create-certificate \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --save
-
           app-store-connect list-certificates \
             --type MAC_INSTALLER_DISTRIBUTION \
             --save
