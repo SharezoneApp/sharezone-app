@@ -188,7 +188,7 @@ jobs:
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
-      - uses: futureware-tech/simulator-action@ae8f725abebda0c4c62629c7a2a5b826e161c9f1
+      - uses: futureware-tech/simulator-action@05d6b5c559c6f77fb7eea24d303e6e3982c5069c
         id: simulator
         with:
           model: "iPhone 14"
