@@ -9,7 +9,7 @@
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
