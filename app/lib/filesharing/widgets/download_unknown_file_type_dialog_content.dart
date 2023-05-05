@@ -116,16 +116,6 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     );
   }
 
-  String _getFilePathWithLowerCaseExtension(String filePath) {
-    final indexOfLastPoint = filePath.lastIndexOf(".");
-    if (indexOfLastPoint > 0) {
-      final lowerCaseExtension = FileUtils.getExtension(filePath);
-      return filePath.replaceRange(
-          indexOfLastPoint + 1, filePath.length, lowerCaseExtension);
-    }
-    return filePath;
-  }
-
   void _closeDialogAfter1500Milliseconds(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 1500)).then((_) {
       Navigator.pop(context);
