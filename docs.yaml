@@ -56,3 +56,6 @@ sidebar:
   - - Weiteres
     - - - Alpha-Programm
         - "/more/alpha-program"
+  - - Account
+    - - - Account löschen
+        - "/account/delete"
