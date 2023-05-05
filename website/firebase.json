@@ -183,6 +183,11 @@
                 "source": "/alpha",
                 "destination": "https://docs.sharezone.net/more/alpha-program",
                 "type": 302
+            },
+            {
+                "source": "/delete-account",
+                "destination": "https://docs.page/sharezoneapp/sharezone-app/account/delete",
+                "type": 302
             }
         ],
         "rewrites": [
