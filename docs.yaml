@@ -53,6 +53,9 @@ anchors:
 sidebar:
   - - Übersicht
     - "/"
+  - - Mein Konto
+    - - - Konto löschen
+        - "/account/delete"
   - - Weiteres
     - - - Alpha-Programm
         - "/more/alpha-program"
