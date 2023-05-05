@@ -37,7 +37,10 @@ jobs:
         channel: ${{ env.FLUTTER_CHANNEL }}
     
     - name: Build
-      run: flutter build web
+      run: |
+        # We disable the PWA because it makes no sense for a landing page.
+        flutter build web \
+          --pwa-strategy=none
     
     - name: Deploy
       env:
