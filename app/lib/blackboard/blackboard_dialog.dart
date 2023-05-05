@@ -187,6 +187,7 @@ class _SaveButton extends StatelessWidget {
             bloc.submit(oldBlackboardItem: oldBlackboardItem);
 
           logBlackboardEditEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           if (popTwice) Navigator.pop(context);
           Navigator.pop(context, BlackboardPopOption.edited);
         } else {
@@ -196,6 +197,7 @@ class _SaveButton extends StatelessWidget {
             bloc.submit();
 
           logBlackboardAddEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, BlackboardPopOption.added);
         }
       }
@@ -206,6 +208,10 @@ class _SaveButton extends StatelessWidget {
         seconds: 5,
       );
     }
+  }
+
+  void hideSendDataToFrankfurtSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
 
   @override
