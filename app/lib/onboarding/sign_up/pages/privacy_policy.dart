@@ -45,19 +45,19 @@ class _PrivacyPolicy extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: OnboardingNavigationBar(action: _AccepctButton()),
+      bottomNavigationBar: OnboardingNavigationBar(action: _ContinueButton()),
     );
   }
 }
 
-class _AccepctButton extends StatefulWidget {
-  const _AccepctButton({Key key}) : super(key: key);
+class _ContinueButton extends StatefulWidget {
+  const _ContinueButton({Key key}) : super(key: key);
 
   @override
-  __AccepctButtonState createState() => __AccepctButtonState();
+  _ContinueButtonState createState() => _ContinueButtonState();
 }
 
-class __AccepctButtonState extends State<_AccepctButton> {
+class _ContinueButtonState extends State<_ContinueButton> {
   bool isLoading = false;
 
   @override
@@ -73,7 +73,7 @@ class __AccepctButtonState extends State<_AccepctButton> {
         key: const ValueKey('SubmitButton'),
         children: [
           Text(
-            "Akzeptieren".toUpperCase(),
+            "Weiter".toUpperCase(),
             style: TextStyle(
               fontSize: 20,
               color: isLoading ? Colors.transparent : Colors.white,
