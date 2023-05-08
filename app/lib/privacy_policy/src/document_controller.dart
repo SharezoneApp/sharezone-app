@@ -70,3 +70,26 @@ class DocumentController {
     );
   }
 }
+
+/// The position of the heading with [documentSectionId] on the screen.
+/// Used to compute which document section is currently read (see
+/// [CurrentlyReadingController]).
+///
+/// This is analogus to the [ItemPosition] of the [ScrollablePositionedList]
+/// used by [RelativeAnchorsMarkdown] to display the markdown.
+class DocumentSectionHeadingPosition {
+  final DocumentSectionId documentSectionId;
+  final double itemLeadingEdge;
+  final double itemTrailingEdge;
+
+  DocumentSectionHeadingPosition(
+    this.documentSectionId, {
+    @required this.itemLeadingEdge,
+    @required this.itemTrailingEdge,
+  });
+
+  @override
+  String toString() {
+    return 'DocumentSectionPosition(itemLeadingEdge: $itemLeadingEdge, itemTrailingEdge: $itemTrailingEdge, documentSectionId: $documentSectionId)';
+  }
+}
