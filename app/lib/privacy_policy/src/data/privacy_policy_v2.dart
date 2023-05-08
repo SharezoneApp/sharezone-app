@@ -10,6 +10,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../privacy_policy_src.dart';
 
+/// This is only a placeholder for the v2 of the privacy policy.
+/// Since this privacy policy has some subchapters/subsections we can use this
+/// to test the rendering of the table of contents.
+/// The real v2 will be added later.
+
 final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: v2MarkdownPrivacyPolicy,
   tableOfContentSections: v2TocDocumentSections.toIList(),
