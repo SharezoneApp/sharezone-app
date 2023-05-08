@@ -11,7 +11,8 @@ import 'package:meta/meta.dart';
 
 import '../privacy_policy_src.dart';
 
-/// This will be added to the end of the privacy policy.
+/// A chunk of text that is added to the end of the privacy policy.
+///
 /// We use this for two purposes:
 /// 1. Show the user the metadata of the privacy policy (version, last changes)
 ///
