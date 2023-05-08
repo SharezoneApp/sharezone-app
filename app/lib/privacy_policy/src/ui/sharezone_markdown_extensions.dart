@@ -79,6 +79,10 @@ String _generateAnchorHashFromElement(Element element) =>
     generateAnchorHash(element.children.first.textContent);
 
 /// Generates a valid HTML anchor from the inner text of [element].
+///
+/// WARNING: Changing this might break stuff. See comment at the top of this
+/// file on [sharezoneMarkdownExtensionSet] for more information.
+/// (As long this is only used locally it should be fine though).
 String generateAnchorHash(String text) => text
     .toLowerCase()
     .trim()

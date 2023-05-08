@@ -10,6 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 void main() {
+  /// We are testing this since changing the anchor hash generation algorithm
+  /// might break stuff. See comments in [generateAnchorHash] file.
   test('Generates correct anchor hashes', () {
     final sections = [
       '1. Einführung',
