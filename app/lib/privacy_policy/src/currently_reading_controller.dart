@@ -72,7 +72,8 @@ class _CurrentlyReadingState {
   ///
   /// From a UX perspective we want to ignore unknown headings since it would be
   /// confusing if a user scrolls past a unknown heading and suddendly no
-  /// section is marked as currently read inside the table of contents anymore.
+  /// section is marked as currently read inside the table of contents anymore
+  /// (since the unknown heading would be marked as currently read).
   final _Viewport filteredViewport;
 
   /// The [DocumentSectionId] that is at the very end of the privacy policy.
@@ -105,6 +106,8 @@ class _CurrentlyReadingState {
     @required _Viewport viewport,
     @required DocumentSectionId endOfDocumentSectionId,
   }) {
+    // See documentation of [filteredViewport] on why we remove unknown
+    // headings.
     final noUnknwonHeadings = viewport.removeUnknownHeadings(
         knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
 
@@ -136,9 +139,6 @@ class _CurrentlyReadingState {
   DocumentSectionId _currentlyReadSectionOrNull;
   bool _isCached = false;
   DocumentSectionId get currentlyReadSectionOrNull {
-    // Can't use this since _computeCurrentlyRead can return null:
-    // `return _currentlyReadSectionOrNull ??= _computeCurrentlyRead();`
-
     if (!_isCached) {
       _currentlyReadSectionOrNull = _computeCurrentlyRead();
       _isCached = true;
@@ -243,7 +243,15 @@ class _CurrentlyReadingState {
 
     // If there are one or multiple headings inside the threshold we mark the
     // one closest to the start of the threshold as currently read.
-    return viewport.closestToThresholdOrNull?.documentSectionId;
+    // E.g.:
+    // <-- Top of page-->
+    // # Foo
+    // # Bar <-- closest past threshold, i.e. currently read
+    // -- threshold --
+    // # Baz
+    // [...]
+    // <-- Bottom of page -->
+    return viewport.closestPastThresholdOrNull?.documentSectionId;
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
@@ -251,6 +259,7 @@ class _CurrentlyReadingState {
         .indexWhere((pos) => pos == headerPosition.documentSectionId);
   }
 
+  /// Update Viewport to compute new [_CurrentlyReadingState].
   _CurrentlyReadingState updateViewport(_Viewport updatedViewport) {
     final filteredUpdatedViewport = updatedViewport.removeUnknownHeadings(
         knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
@@ -308,6 +317,7 @@ class _CurrentlyReadingState {
   }
 }
 
+/// A representation of the currently visible section headings on screen.
 class _Viewport {
   /// Visible headings sorted from top-to-bottom / start-to-finish.
   final IList<DocumentSectionHeadingPosition> sortedHeadingPositions;
@@ -333,7 +343,7 @@ class _Viewport {
   bool get headingsVisible => !noHeadingsVisible;
   bool get noHeadingsVisible => sortedHeadingPositions.isEmpty;
 
-  DocumentSectionHeadingPosition get closestToThresholdOrNull {
+  DocumentSectionHeadingPosition get closestPastThresholdOrNull {
     return sectionsInThreshold.last;
   }
 
