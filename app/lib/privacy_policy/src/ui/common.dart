@@ -157,8 +157,9 @@ class ExpansionArrow extends StatelessWidget {
   }
 }
 
-class SectionHighlight extends StatelessWidget {
-  const SectionHighlight({
+/// Used to highlight a TOC section if it is currently read.
+class TocSectionHighlight extends StatelessWidget {
+  const TocSectionHighlight({
     Key key,
     @required this.child,
     @required this.shouldHighlight,

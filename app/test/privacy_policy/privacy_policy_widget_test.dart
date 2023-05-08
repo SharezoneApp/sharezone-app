@@ -178,7 +178,7 @@ ${generateText(10)}
 
           // tap on section in table of contents
           await tester
-              .tap(find.widgetWithText(SectionHighlight, 'Small section'));
+              .tap(find.widgetWithText(TocSectionHighlight, 'Small section'));
 
           await tester.pumpAndSettle();
 
@@ -221,7 +221,7 @@ ${generateText(10)}
             )),
           );
 
-          expect(find.byType(SectionHighlight), findsWidgets);
+          expect(find.byType(TocSectionHighlight), findsWidgets);
 
           // Change to tablet layout
           await tester.binding.setSurfaceSize(Size(600, 1000));
@@ -335,18 +335,19 @@ ${generateText(200)}
 
 extension on CommonFinders {
   Finder sectionHighlight(String name) {
-    return find.widgetWithText(SectionHighlight, name);
+    return find.widgetWithText(TocSectionHighlight, name);
   }
 
   // ignore: unused_element
   Finder sectionHighlightPredicate(
-      bool Function(SectionHighlight widget) predicate) {
-    return find
-        .byWidgetPredicate((widget) => predicate(widget as SectionHighlight));
+      bool Function(TocSectionHighlight widget) predicate) {
+    return find.byWidgetPredicate(
+        (widget) => predicate(widget as TocSectionHighlight));
   }
 
-  SectionHighlight sectionHighlightWidget(String name) {
-    return sectionHighlight(name).evaluate().first.widget as SectionHighlight;
+  TocSectionHighlight sectionHighlightWidget(String name) {
+    return sectionHighlight(name).evaluate().first.widget
+        as TocSectionHighlight;
   }
 }
 

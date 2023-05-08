@@ -261,7 +261,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHighlight(
+          TocSectionHighlight(
             onTap: () => tocController.scrollTo(widget.section.id),
             shouldHighlight: widget.section.shouldHighlight,
             child: Padding(
@@ -335,7 +335,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                             .effectiveConstraints(BoxConstraints(maxHeight: 20))
                             .constrainHeight(13 + visualDensity.vertical * 2.5),
                       ),
-                      child: SectionHighlight(
+                      child: TocSectionHighlight(
                         onTap: () => tocController.scrollTo(subsection.id),
                         shouldHighlight: subsection.shouldHighlight,
                         child: Padding(

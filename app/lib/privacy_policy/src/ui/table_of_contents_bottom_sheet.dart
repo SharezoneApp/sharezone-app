@@ -202,7 +202,7 @@ class _TocHeadingState extends State<_TocHeading>
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHighlight(
+        TocSectionHighlight(
           shape: ContinuousRectangleBorder(),
           onTap: () async {
             await tocController.scrollTo(widget.section.id);
@@ -304,7 +304,7 @@ List<Widget> _buildSubheadings(
 
     widgets.add(Divider(height: 0, thickness: .5));
 
-    widgets.add(SectionHighlight(
+    widgets.add(TocSectionHighlight(
       backgroundColor: isDarkThemeEnabled(context)
           ? Color(0xff121212)
           : Theme.of(context).scaffoldBackgroundColor,
