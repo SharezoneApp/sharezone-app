@@ -260,10 +260,10 @@ class PrivacyPolicyText extends StatelessWidget {
             child: IgnorePointer(
               child: Align(
                 alignment: Alignment.topCenter
-                    // We have to multiply the [config.threshold] with two so
-                    // that it lines up with the real threshold on screen.
-                    // I have absolutely no clue why though. If you dear reader
-                    // know why then please replace this comment.
+                    // We have to multiply the [config.threshold] position with
+                    // two so that it lines up with the real threshold on
+                    // screen. I have absolutely no clue why though. If you dear
+                    // reader know why then please replace this comment.
                     .add(Alignment(0, config.threshold.position * 2)),
                 child: Divider(
                   color: Colors.red,
