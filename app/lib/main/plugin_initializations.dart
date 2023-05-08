@@ -71,6 +71,8 @@ class PluginInitializations {
       'abgaben_service_base_url': 'https://api.sharezone.net',
       'revenuecat_api_apple_key': 'appl_VOCPKvkVdZsqpVeDkJQVCNemPbF',
       'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
+      'firebase_messaging_vapid_key':
+          'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
     });
     return remoteConfiguration;
   }

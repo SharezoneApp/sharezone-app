@@ -36,7 +36,12 @@ class HolidayBloc extends BlocBase {
       this.getCurrentTime}) {
     getCurrentTime ??= () => DateTime.now();
 
-    final holidaysStream = userState.asyncMap((stateEnum) async {
+    final holidaysStream = userState
+        // StateEnum.notSelected would result into an UnsupportedStateException
+        // while loading the holidays, which would lead to an error in the UI
+        // (see https://github.com/SharezoneApp/sharezone-app/issues/566).
+        .where((state) => state != StateEnum.notSelected)
+        .asyncMap((stateEnum) async {
       final state = toStateOrThrow(stateEnum);
       return await holidayManager.load(state);
     });

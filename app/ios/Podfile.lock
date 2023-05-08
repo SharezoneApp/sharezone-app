@@ -327,7 +327,7 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
-  - open_file (0.0.1):
+  - open_file_plus (1.0.0):
     - Flutter
   - package_info (0.0.1):
     - Flutter
@@ -343,6 +343,12 @@ PODS:
   - PromisesObjC (2.2.0)
   - PromisesSwift (2.2.0):
     - PromisesObjC (= 2.2.0)
+  - purchases_flutter (4.11.1):
+    - Flutter
+    - PurchasesHybridCommon (= 4.14.1)
+  - PurchasesHybridCommon (4.14.1):
+    - RevenueCat (= 4.17.8)
+  - RevenueCat (4.17.8)
   - SDWebImage (5.15.5):
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
@@ -394,12 +400,13 @@ DEPENDENCIES:
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
-  - open_file (from `.symlinks/plugins/open_file/ios`)
+  - open_file_plus (from `.symlinks/plugins/open_file_plus/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - pdfx (from `.symlinks/plugins/pdfx/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
@@ -446,6 +453,8 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PromisesSwift
+    - PurchasesHybridCommon
+    - RevenueCat
     - SDWebImage
     - SDWebImageWebPCoder
     - SwiftProtobuf
@@ -503,8 +512,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
-  open_file:
-    :path: ".symlinks/plugins/open_file/ios"
+  open_file_plus:
+    :path: ".symlinks/plugins/open_file_plus/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   package_info_plus:
@@ -515,6 +524,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/pdfx/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  purchases_flutter:
+    :path: ".symlinks/plugins/purchases_flutter/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences_foundation:
@@ -595,7 +606,7 @@ SPEC CHECKSUMS:
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
-  open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
+  open_file_plus: 05737718530c14cf02868e3b7754d7fe4df76d8b
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
@@ -603,6 +614,9 @@ SPEC CHECKSUMS:
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
+  purchases_flutter: 941e65870ed6f7439122cb4999fb61636dd86ccf
+  PurchasesHybridCommon: fb1a3319024c1aa9f98d40cc5820476b824409fc
+  RevenueCat: f2f96c2cbde5ddab3a86381923c6f023383342e0
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   SDWebImageWebPCoder: 295a6573c512f54ad2dd58098e64e17dcf008499
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410

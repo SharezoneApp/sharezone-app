@@ -10,8 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
-import 'package:sharezone_utils/platform.dart';
 
+import '../notifications/is_firebase_messaging_supported.dart';
 import 'models/navigation_item.dart';
 
 class NavigationController extends StatefulWidget {
@@ -28,8 +28,9 @@ class NavigationController extends StatefulWidget {
 class _NavigationControllerState extends State<NavigationController> {
   @override
   void initState() {
-    if (!PlatformCheck.isWeb && !PlatformCheck.isMacOS)
+    if (isFirebaseMessagingSupported()) {
       widget.fbMessagingConfigurator.configureCallbacks(context);
+    }
     super.initState();
   }
 
