@@ -16,6 +16,11 @@ class DocumentSectionId extends Id {
   DocumentSectionId(String id) : super(id, 'DocumentSectionId');
 }
 
+/// Model for a table of contents with expandable sections and subsections.
+///
+/// By providing the [TableOfContents] with the currently read section
+/// ([changeCurrentlyReadSectionTo]) it is automatically computed which sections
+/// should be expanded (depending on the [expansionBehavior]).
 class TableOfContents {
   final IList<TocSection> sections;
   ExpansionBehavior expansionBehavior;
@@ -31,6 +36,8 @@ class TableOfContents {
           return sectionsHaveCorrectExpansionBehavior;
         }());
 
+  /// Update the [TableOfContents] with the new [currentlyReadSection].
+  /// This might update the [TocSectionExpansionState] of the [sections].
   TableOfContents changeCurrentlyReadSectionTo(
       DocumentSectionId currentlyReadSection) {
     return _copyWith(
@@ -40,6 +47,9 @@ class TableOfContents {
             .toIList());
   }
 
+  /// Manually toggle the expansion state of [sectionId].
+  /// Used for example when the user clicks on the expansion arrow on a toc
+  /// section.
   TableOfContents forceToggleExpansionOf(DocumentSectionId sectionId) {
     return _copyWith(
       sections: sections
@@ -51,16 +61,11 @@ class TableOfContents {
     );
   }
 
-  TableOfContents _copyWith({
-    IList<TocSection> sections,
-    ExpansionBehavior expansionBehavior,
-  }) {
-    return TableOfContents(
-      sections ?? this.sections,
-      expansionBehavior ?? this.expansionBehavior,
-    );
-  }
-
+  /// Change the [expansionBehavior] of the [TableOfContents].
+  ///
+  /// Used when the layout changes (e.g. when resizing the window), as e.g. the
+  /// desktop layout might have different [expansionBehavior] than the mobile
+  /// layout.
   TableOfContents changeExpansionBehaviorTo(
       ExpansionBehavior newExpansionBehavior) {
     // This check is important for performance reasons - when resizing the
@@ -81,6 +86,16 @@ class TableOfContents {
       expansionBehavior: newExpansionBehavior,
     );
   }
+
+  TableOfContents _copyWith({
+    IList<TocSection> sections,
+    ExpansionBehavior expansionBehavior,
+  }) {
+    return TableOfContents(
+      sections ?? this.sections,
+      expansionBehavior ?? this.expansionBehavior,
+    );
+  }
 }
 
 class TocSection {
@@ -88,7 +103,7 @@ class TocSection {
   final String title;
   final IList<TocSection> subsections;
 
-  final ExpansionState expansionStateOrNull;
+  final TocSectionExpansionState expansionStateOrNull;
   bool get isExpanded => expansionStateOrNull?.isExpanded ?? false;
   bool get isCollapsed => !isExpanded;
   bool get isExpandable => subsections.isNotEmpty;
@@ -172,7 +187,7 @@ class TocSection {
     DocumentSectionId id,
     String title,
     IList<TocSection> subsections,
-    ExpansionState expansionStateOrNull,
+    TocSectionExpansionState expansionStateOrNull,
     bool isThisCurrentlyRead,
   }) {
     return TocSection(
@@ -211,34 +226,34 @@ class TocSection {
   }
 }
 
-/// The [ExpansionState] of a [TocSection]. Encapsulates if a [TocSection] is
+/// The [TocSectionExpansionState] of a [TocSection]. Encapsulates if a [TocSection] is
 /// expanded and why (automatically or manually/forced).
 ///
 /// See also [ExpansionMode] and [_computeNewExpansionState] to learn more about
 /// the expansion/collapsing behavior.
-class ExpansionState {
+class TocSectionExpansionState {
   final bool isExpanded;
   final ExpansionMode expansionMode;
   final ExpansionBehavior expansionBehavior;
 
-  ExpansionState({
+  TocSectionExpansionState({
     @required this.isExpanded,
     @required this.expansionMode,
     @required this.expansionBehavior,
   });
 
-  ExpansionState computeNewExpansionState(
+  TocSectionExpansionState computeNewExpansionState(
       {TocSection before, TocSection after}) {
     return expansionBehavior.computeExpansionState(
         before: before, after: after);
   }
 
-  ExpansionState copyWith({
+  TocSectionExpansionState copyWith({
     bool isExpanded,
     ExpansionMode expansionMode,
     ExpansionBehavior expansionBehavior,
   }) {
-    return ExpansionState(
+    return TocSectionExpansionState(
       isExpanded: isExpanded ?? this.isExpanded,
       expansionMode: expansionMode ?? this.expansionMode,
       expansionBehavior: expansionBehavior ?? this.expansionBehavior,
@@ -253,7 +268,7 @@ class ExpansionState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ExpansionState &&
+    return other is TocSectionExpansionState &&
         other.isExpanded == isExpanded &&
         other.expansionMode == expansionMode &&
         other.expansionBehavior == expansionBehavior;

@@ -127,7 +127,7 @@ class TableOfContentsController extends ChangeNotifier {
                   .toIList(),
               isThisCurrentlyRead: false,
               expansionStateOrNull: e.subsections.isNotEmpty
-                  ? ExpansionState(
+                  ? TocSectionExpansionState(
                       expansionBehavior: initialExpansionBehavior,
                       expansionMode: ExpansionMode.automatic,
                       isExpanded: false,

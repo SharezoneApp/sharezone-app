@@ -36,11 +36,11 @@ abstract class ExpansionBehavior {
   static const ExpansionBehavior alwaysAutomaticallyCloseSectionsAgain =
       _AlwaysCloseAgainExpansionBehavior();
 
-  /// Compute the new [ExpansionState] for [after].
+  /// Compute the new [TocSectionExpansionState] for [after].
   ///
   /// Called when [before] was updated to [after] with a new
   /// [TocSection.isThisCurrentlyRead] state.
-  ExpansionState computeExpansionState({
+  TocSectionExpansionState computeExpansionState({
     @required TocSection before,
     @required TocSection after,
   });
@@ -85,7 +85,7 @@ class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
   const _AlwaysCloseAgainExpansionBehavior();
 
   @override
-  ExpansionState computeExpansionState({
+  TocSectionExpansionState computeExpansionState({
     @required TocSection before,
     @required TocSection after,
   }) {
@@ -113,7 +113,7 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
   const _LeaveManuallyOpenedSectionsOpenExpansionBehavior();
 
   @override
-  ExpansionState computeExpansionState({
+  TocSectionExpansionState computeExpansionState({
     @required TocSection before,
     @required TocSection after,
   }) {
