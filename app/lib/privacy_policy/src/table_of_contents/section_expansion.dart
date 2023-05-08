@@ -28,59 +28,6 @@ enum ExpansionMode {
   automatic,
 }
 
-/// The [ExpansionState] of a [TocSection]. Encapsulates if a [TocSection] is
-/// expanded and why (automatically or manually/forced).
-///
-/// See also [ExpansionMode] and [_computeNewExpansionState] to learn more about
-/// the expansion/collapsing behavior.
-class ExpansionState implements ExpansionBehavior {
-  final bool isExpanded;
-  final ExpansionMode expansionMode;
-  final ExpansionBehavior expansionBehavior;
-
-  ExpansionState({
-    @required this.isExpanded,
-    @required this.expansionMode,
-    @required this.expansionBehavior,
-  });
-
-  @override
-  ExpansionState computeExpansionState({TocSection before, TocSection after}) {
-    return expansionBehavior.computeExpansionState(
-        before: before, after: after);
-  }
-
-  ExpansionState copyWith({
-    bool isExpanded,
-    ExpansionMode expansionMode,
-    ExpansionBehavior expansionBehavior,
-  }) {
-    return ExpansionState(
-      isExpanded: isExpanded ?? this.isExpanded,
-      expansionMode: expansionMode ?? this.expansionMode,
-      expansionBehavior: expansionBehavior ?? this.expansionBehavior,
-    );
-  }
-
-  @override
-  String toString() =>
-      'ExpansionState(isExpanded: $isExpanded, expansionMode: $expansionMode, expansionBehavior: $expansionBehavior)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ExpansionState &&
-        other.isExpanded == isExpanded &&
-        other.expansionMode == expansionMode &&
-        other.expansionBehavior == expansionBehavior;
-  }
-
-  @override
-  int get hashCode =>
-      isExpanded.hashCode ^ expansionMode.hashCode ^ expansionBehavior.hashCode;
-}
-
 abstract class ExpansionBehavior {
   const ExpansionBehavior();
 
@@ -89,6 +36,17 @@ abstract class ExpansionBehavior {
   static const ExpansionBehavior alwaysAutomaticallyCloseSectionsAgain =
       _AlwaysCloseAgainExpansionBehavior();
 
+  /// Compute the new [ExpansionState] for [after].
+  ///
+  /// Called when [before] was updated to [after] with a new
+  /// [TocSection.isThisCurrentlyRead] state.
+  ExpansionState computeExpansionState({
+    @required TocSection before,
+    @required TocSection after,
+  });
+
+  /// Common assertions for all [ExpansionBehavior]s.
+  /// Needs to be called by all subclasses manually.
   static void assertValid({
     @required TocSection before,
     @required TocSection after,
@@ -104,38 +62,25 @@ abstract class ExpansionBehavior {
             after.expansionStateOrNull.expansionMode,
         "expansionState hasn't changed already (since this method is responsible for changing it)");
 
-    // We use enums inside if clauses because of readability.
-    // We check here that there weren't any other Enum Values introduced by
-    // accident.
+    // We use if instead of switch to check which [ExpansionMode] we are dealing
+    // with in the ExpansionBehavior subclasses for better readability.
+    // This means that we're not getting a lint if a new [ExpansionMode] is
+    // introduced and not accounted for by the subclasses.
+    //
+    // We check here that no new Enum Values are introduced by accident.
+    // If a new Enum value is introduced it should be checked that all usages
+    // of the enum are accounted for in the subclasses.
     assert(before.expansionStateOrNull.expansionMode == ExpansionMode.forced ||
         before.expansionStateOrNull.expansionMode == ExpansionMode.automatic);
     assert(after.expansionStateOrNull.expansionMode == ExpansionMode.forced ||
         after.expansionStateOrNull.expansionMode == ExpansionMode.automatic);
   }
-
-  /// Compute the new [ExpansionState] for [after].
-  ///
-  /// Called when [before] was updated to [after] with a new
-  /// [TocSection.isThisCurrentlyRead] state.
-  ExpansionState computeExpansionState({
-    @required TocSection before,
-    @required TocSection after,
-  });
 }
 
-/// Used in mobile layouts where expanded sections will take more place and just
-/// don't feel right when they stay open indefinitely (until closing manually
-/// again) if you manually expanded them.
+/// Expand sections automatically if they are currently read and collapse them
+/// if not.
 ///
-/// In a perfect world we would maybe also call a `tableOfContentsWasClosed()`
-/// method on the toc section that will cause manually opened sections to close
-/// because right now the section will stay open if you open, close and then
-/// open again the bottom sheet but will close if you open, close, scroll to a
-/// new section (which will invoke this method) and open the bottom sheet again
-/// which is kinda inconsistent.
-///
-/// But this is also more logic and coupling to the UI for behavior probably no
-/// one will notice so I will just leave it like this right now.
+/// Used in mobile layouts which use the table of contents bottom sheet.
 class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
   const _AlwaysCloseAgainExpansionBehavior();
 
@@ -154,6 +99,15 @@ class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
   }
 }
 
+/// Like [_AlwaysCloseAgainExpansionBehavior] but leaves manually opened
+/// sections open.
+///
+/// Used in desktop layouts which use has the table of contents as a sidebar.
+///
+/// The reason for this behavior is that it might be confusing if a user expands
+/// a section manually and scrolls from this section to another section inside
+/// the text, which would cause the manually opened section to collapse
+/// automatically if we would use [_AlwaysCloseAgainExpansionBehavior].
 class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
     extends ExpansionBehavior {
   const _LeaveManuallyOpenedSectionsOpenExpansionBehavior();
@@ -173,6 +127,7 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
     // Automatic default behavior:
     // - Expand if the section or a subsection is currently read.
     // - Collapse if the section or a subsection is not currently read.
+    // (like [_AlwaysCloseAgainExpansionBehavior])
     if (expansionMode == ExpansionMode.automatic) {
       return oldExpansionState.copyWith(
         isExpanded: after.isThisOrASubsectionCurrentlyRead,

@@ -160,7 +160,7 @@ class TocSection {
 
     if (isExpandable) {
       updated = updated._copyWith(
-        expansionStateOrNull: expansionStateOrNull.computeExpansionState(
+        expansionStateOrNull: expansionStateOrNull.computeNewExpansionState(
             before: this, after: updated),
       );
     }
@@ -209,6 +209,59 @@ class TocSection {
         expansionStateOrNull.hashCode ^
         isThisCurrentlyRead.hashCode;
   }
+}
+
+/// The [ExpansionState] of a [TocSection]. Encapsulates if a [TocSection] is
+/// expanded and why (automatically or manually/forced).
+///
+/// See also [ExpansionMode] and [_computeNewExpansionState] to learn more about
+/// the expansion/collapsing behavior.
+class ExpansionState {
+  final bool isExpanded;
+  final ExpansionMode expansionMode;
+  final ExpansionBehavior expansionBehavior;
+
+  ExpansionState({
+    @required this.isExpanded,
+    @required this.expansionMode,
+    @required this.expansionBehavior,
+  });
+
+  ExpansionState computeNewExpansionState(
+      {TocSection before, TocSection after}) {
+    return expansionBehavior.computeExpansionState(
+        before: before, after: after);
+  }
+
+  ExpansionState copyWith({
+    bool isExpanded,
+    ExpansionMode expansionMode,
+    ExpansionBehavior expansionBehavior,
+  }) {
+    return ExpansionState(
+      isExpanded: isExpanded ?? this.isExpanded,
+      expansionMode: expansionMode ?? this.expansionMode,
+      expansionBehavior: expansionBehavior ?? this.expansionBehavior,
+    );
+  }
+
+  @override
+  String toString() =>
+      'ExpansionState(isExpanded: $isExpanded, expansionMode: $expansionMode, expansionBehavior: $expansionBehavior)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ExpansionState &&
+        other.isExpanded == isExpanded &&
+        other.expansionMode == expansionMode &&
+        other.expansionBehavior == expansionBehavior;
+  }
+
+  @override
+  int get hashCode =>
+      isExpanded.hashCode ^ expansionMode.hashCode ^ expansionBehavior.hashCode;
 }
 
 extension ReplaceWhere<T> on IList<T> {
