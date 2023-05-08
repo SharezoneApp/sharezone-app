@@ -66,7 +66,7 @@ void main() {
     });
 
     test(
-        'Doesnt mark a section as currently read when the top of the section is below the threshold',
+        'Doesnt mark a section as currently read when the top of the section is located before the threshold',
         () {
       final sections = [
         _section('foo'),
@@ -125,7 +125,7 @@ void main() {
       expect(controller.currentlyReadSection, 'foo');
     });
     test(
-        'Marks a section as currently read when the the section is above the threshold',
+        'Marks a section as currently read when the the section is located past the threshold',
         () {
       final sections = [
         _section('foo'),
