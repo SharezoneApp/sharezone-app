@@ -11,6 +11,11 @@ import '../privacy_policy_src.dart';
 /// The threshold at which a [DocumentSection] is marked as "currently read"
 /// when the [DocumentSectionHeadingPosition] intersects with [position].
 ///
+/// E.g. `CurrentlyReadThreshold(0.1)` means that the section heading has to
+/// be inside the top 10% of the screen to be marked as currently read.
+/// `CurrentlyReadThreshold(0.0)` means that the section heading has to be
+/// scrolled out of the top of the screen to be marked as currently read.
+///
 /// For the exact behavior for when a section is marked as active see
 /// [CurrentlyReadingController] (and the tests).
 ///

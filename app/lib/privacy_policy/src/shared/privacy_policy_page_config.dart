@@ -9,10 +9,17 @@
 import '../privacy_policy_src.dart';
 
 class PrivacyPolicyPageConfig {
+  /// Which position a section heading has to pass so that the section is marked
+  /// as currently read.
+  ///
+  /// E.g. `CurrentlyReadThreshold(0.1)` means that the section heading has to
+  /// be inside the top 10% of the screen to be marked as currently read.
   final CurrentlyReadThreshold threshold;
 
   /// Show a marker at [CurrentlyReadThreshold.position].
   final bool showDebugThresholdIndicator;
+
+  /// See documentation of [PrivacyPolicyEndSection].
   final PrivacyPolicyEndSection endSection;
 
   factory PrivacyPolicyPageConfig({
