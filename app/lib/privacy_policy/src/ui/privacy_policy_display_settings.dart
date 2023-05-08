@@ -20,8 +20,10 @@ class DisplaySettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Our Dialog does not use the same context as the privacy policy page so we
-    // must manually apply our theme settings here again.
+    // Because of the way Flutter works our dialog will not use the same context
+    // as the privacy policy page. This means we must manually apply our privacy
+    // policy theme settings here again so that if the user changes these theme
+    // settings this dialog also changes accordingly.
     return AnimatedBuilder(
       animation: themeSettings,
       builder: (context, _) => MediaQuery(
