@@ -10,7 +10,22 @@ import 'package:markdown/markdown.dart';
 
 /// We define our own classes for automatic ID generation as we don't want any
 /// chance of breakage if `package:markdown` changes/updates its algorithm.
+///
 /// It's the exact same algorithm (for now).
+///
+/// It might break if we e.g. would use one updated algorithm in our backend to
+/// generate the anchor ids for the table of contents section list, but our
+/// client uses an old algorithm to generate/search for the anchor ids inside
+/// the markdown text. This might cause a mismatch which would cause a failure
+/// when trying to navigate to a section by pressing an item in the table of
+/// contents. It might fail since the client can't find the anchor id from
+/// the TOC generated with the new algorithm inside the markdown text (as the
+/// client still uses the old algorithm).
+/// This assumes that the table of content sections (including anchor ids) are
+/// dictated by the backend and only displayed on the client (i.e. TOC is not
+/// generated from the markdown text on the client). This might be done to e.g.
+/// better control which headers are actually shown in the TOC which is a
+/// possiblity of how we might want to implement it in the future.
 ///
 /// In this way we can also move the algorithm to a seperate package and access
 /// it for e.g. automatic validation of anchors in our documents at the writing
