@@ -12,6 +12,11 @@ import 'package:meta/meta.dart';
 
 import '../privacy_policy_src.dart';
 
+/// View for a document section inside the table of contents.
+/// A section can have [subsections]. It can be expanded ([isExpanded]) to show
+/// its [subsections] or collapsed to hide them.
+/// A section can be highlighted ([shouldHighlight]) to indicate that it is
+/// currently read.
 class TocDocumentSectionView {
   final DocumentSectionId id;
   final String sectionHeadingText;
