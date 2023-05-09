@@ -23,7 +23,11 @@ class DynamicLinkOverlay extends StatelessWidget {
     return StreamBuilder<EinkommenderLink>(
       stream: einkommendeLinks,
       builder: (context, snapshot) {
-        if (snapshot.hasData && !snapshot.data.empty && activated) {
+        // Note: activated can be null, so need to use `activated == true`
+        // instead of just `activated`. Otherwise, you can easily a "Failed
+        // assertion: boolean expression must not be null", see
+        // https://github.com/SharezoneApp/sharezone-app/issues/659
+        if (snapshot.hasData && !snapshot.data.empty && activated == true) {
           final einkommenderLink = snapshot.data;
           // If Notification is shown directly an Error as thrown, as it can't be displayed while this is still bulding (marked as dirty)
           Future.delayed(Duration(seconds: 1)).then((_) =>
