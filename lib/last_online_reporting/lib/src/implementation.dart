@@ -31,9 +31,10 @@ class FirestoreLastOnlineReporterBackend {
     //
     // Additionally, .update() is here more best practice, set({merge: true})
     // would be executed even when the user document does not exist (like when
-    // deleting the user of something). This can result into hard bug and side
-    // effects, especially because there is no error. The .update() method would
-    // throw an error if the user document does not exist.
+    // deleting the user of something). This can result into hard bug (hard bugs
+    // means bugs that are hard to debug, hard to find, hard to locate, etc.)
+    // and side effects, especially because there is no error. The .update()
+    // method would throw an error if the user document does not exist.
     return _firestore.collection(CollectionNames.user).doc(_userId).update({
       'lastOnline': FieldValue.serverTimestamp(),
     });
