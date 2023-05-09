@@ -11,6 +11,7 @@ import 'dart:developer';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/date_symbol_data_local.dart' as intl;
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,6 +88,10 @@ class PluginInitializations {
     final prefs = await StreamingSharedPreferences.instance;
     return prefs;
   }
+
+  static Future<void> initializeDateFormatting() {
+    return intl.initializeDateFormatting();
+  }
 }
 
 Future<PluginInitializations> runPluginInitializations() async {
@@ -97,6 +102,7 @@ Future<PluginInitializations> runPluginInitializations() async {
       PluginInitializations.initializeStreamingSharedPreferences();
   final futureCrashAnalytics = PluginInitializations.initializeCrashAnalytics();
   final futureDynamicLinks = PluginInitializations.initializeDynamicLinks();
+  final futureDateFormatting = PluginInitializations.initializeDateFormatting();
 
   final result = await Future.wait([
     futureSharedPrefs,
@@ -104,6 +110,7 @@ Future<PluginInitializations> runPluginInitializations() async {
     futureStreamingSharedPrefs,
     futureCrashAnalytics,
     futureDynamicLinks,
+    futureDateFormatting,
   ]);
   return PluginInitializations(
     sharedPreferences: result[0] as SharedPreferences,
