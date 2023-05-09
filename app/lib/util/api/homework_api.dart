@@ -103,8 +103,10 @@ class HomeworkGateway {
                   hw.todoUntil.isAfter(startOfThisDay) ||
                   hw.todoUntil.isAtSameMomentAs(startOfThisDay))
               .toList())
-          .listen(_homeworkNowAndInFutureStream.add,
-              onError: _homeworkSubjectStream.addError);
+          .listen(
+            _homeworkNowAndInFutureStream.add,
+            onError: _homeworkNowAndInFutureStream.addError,
+          );
     });
   }
 
