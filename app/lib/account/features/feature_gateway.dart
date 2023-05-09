@@ -28,7 +28,7 @@ class FeatureGateway {
       final featureSet = <Feature>{};
 
       final features =
-          Features.fromJson(doc?.data()['features'] as Map<String, dynamic>);
+          Features.fromJson(doc?.get('features') as Map<String, dynamic>);
       if (features != null) {
         if (features.allColors) featureSet.add(AllColors());
       }
