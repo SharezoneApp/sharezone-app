@@ -39,6 +39,24 @@
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <!-- Intent for receiving Firebase Dynammic Links
+                 See:
+                     * https://github.com/firebase/flutterfire/blob/6ae57735289cfa82322ee2259816a49cd605b784/packages/firebase_dynamic_links/firebase_dynamic_links/example/android/app/src/main/AndroidManifest.xml#L35
+                     * https://firebase.google.com/docs/dynamic-links/android/receive#add-an-intent-filter-for-deep-links
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="sharez.one" android:scheme="https"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="sharezone.net" android:scheme="https"/>
+            </intent-filter>
         </activity>
 
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileProvider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities">
