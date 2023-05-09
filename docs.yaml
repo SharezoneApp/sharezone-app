@@ -50,25 +50,14 @@ anchors:
 # key is a locale identifier and the value the sidebar links for that locale.
 #
 # The sidebar only supports a single level of nesting.
-# sidebar:
-#   - - Übersicht
-#     - "/"
-#   - - Mein Konto
-#     - - - Konto löschen
-#         - "/account/delete"
-#   - - Weiteres
-#     - - - Alpha-Programm
-#         - "/more/alpha-program"
-#       - - Firewall
-#         - "/more/firewall"
-
 sidebar:
-  - - Getting Started
+  - - Übersicht
     - "/"
-  - - Provider
-    - "/provider"
-  - - Advanced
-    - - - Reference API
-        - "/reference"
-      - - FAQs
-        - "/faqs"
+  - - Mein Konto
+    - - - Konto löschen
+        - "/account/delete"
+  - - Weiteres
+    - - - Alpha-Programm
+        - "/more/alpha-program"
+      - - Firewall
+        - "/more/firewall"
