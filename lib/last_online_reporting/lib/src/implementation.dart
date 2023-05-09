@@ -24,9 +24,8 @@ class FirestoreLastOnlineReporterBackend {
   /// Uses the server timestamp for the current time.
   /// Throws if an error while reporting happens.
   Future<void> reportCurrentlyOnline() {
-    return _firestore.collection(CollectionNames.user).doc(_userId).set(
+    return _firestore.collection(CollectionNames.user).doc(_userId).update(
       {'lastOnline': FieldValue.serverTimestamp()},
-      SetOptions(merge: true),
     );
   }
 }
