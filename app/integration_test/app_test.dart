@@ -84,10 +84,6 @@ void main() {
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
-      // Add a delay to ensure that the groups are displayed properly to
-      // decrease the chance of a flaky test.
-      await tester.pump(const Duration(seconds: 1));
-
       // We assume that the user is in at least 5 groups with the following
       // group names.
       expect(find.text('10A'), findsOneWidget);
