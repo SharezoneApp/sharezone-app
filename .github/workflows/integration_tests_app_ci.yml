@@ -145,10 +145,10 @@ jobs:
         #   environment locally as when using this action. Is needed when
         #   testing things with the camera. It's also possible to inject images
         #   into the virtual scene to test things like qr code scanner.
-        # * "-camera-front": Shows this green monster when opening the front
-        #   camera. Default option for emulators created by Android Studio. We
-        #   use this so we have the same environment locally as when using this
-        #   action. Is needed when testing things with camera.
+        # * "-camera-front emulated": Shows this green monster when opening the
+        #   front camera. Default option for emulators created by Android
+        #   Studio. We use this so we have the same environment locally as when
+        #   using this action. Is needed when testing things with camera.
         run: |
           echo "List installed packages"
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list_installed
@@ -164,7 +164,7 @@ jobs:
           echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test_emulator -k "system-images;android-$API_LEVEL;$TARGET;$ARCH" --force
 
           echo "Starting emulator"
-          $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-snapshot -no-boot-anim -no-window -camera-back virtualscene -camera-front &
+          $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-snapshot -no-boot-anim -no-window -camera-back virtualscene -camera-front emulated &
           adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
 
       - name: Run integration tests
