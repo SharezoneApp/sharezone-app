@@ -79,6 +79,9 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
     # (~5% of the time) build takes longer and then is a long timeout needed.
+    defaults:
+      run:
+        working-directory: app
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
@@ -110,7 +113,6 @@ jobs:
       # flaky in terms of stability. With `flutter drive` ~ 30% the Android
       # Emulator have difficulties to start properly.
       - name: Build Android App
-        working-directory: ./app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
