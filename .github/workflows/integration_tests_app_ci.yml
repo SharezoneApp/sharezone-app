@@ -116,52 +116,67 @@ jobs:
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
         run: flutter build apk --target=integration_test/app_test.dart --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
 
+      - name: Create and start emulator
+        # We use the installed SDK in the macOS image to create and start the
+        # emulator.
+        #
+        # When you are going to change something here (like a different target,
+        # arch, profile, channel, etc.), please check if these configurations
+        # are stable. You can do this by running this workflow multiple times.
+        # Use a matrix to run multiple tests in parallel (matrix needs to be
+        # copied under "android-integration-test"):
+        # strategy:
+        #   fail-fast: false
+        #   matrix:
+        #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        #     test2: [1, 2, 3]
+        #
+        # When starting the emulator, we use some emulator options for the
+        # following reasons:
+        # * "-no-snapshot": Disables the quick boot feature. Therefore, the
+        #   emulator does not load or save the emulator state. We want to have a
+        #   fresh testing environment for every test run.
+        # * "-no-window": Disables the graphical windows, so no display is
+        #   required.
+        # * "-no-boot-anim": Disables the boot animation for faster booting.
+        # * "-camera-back virtualscene": Shows this virtual room when opening
+        #   the back camera where you can walk. Default option for emulators
+        #   created by Android Studio. We use this so we have the same
+        #   environment locally as when using this action. Is needed when
+        #   testing things with the camera. It's also possible to inject images
+        #   into the virtual scene to test things like qr code scanner.
+        # * "-camera-front": Shows this green monster when opening the front
+        #   camera. Default option for emulators created by Android Studio. We
+        #   use this so we have the same environment locally as when using this
+        #   action. Is needed when testing things with camera.
+        run: |
+          echo "List installed packages"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list_installed
+
+          API_LEVEL=33
+          TARGET=google_apis
+          ARCH=x86_64
+
+          echo "Installing system image"
+          echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-$API_LEVEL;$TARGET;$ARCH"
+
+          echo "Creating AVD"
+          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test_emulator -k "system-images;android-$API_LEVEL;$TARGET;$ARCH" --force
+
+          echo "Starting emulator"
+          $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-snapshot -no-boot-anim -no-window -camera-back virtualscene -camera-front &
+          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+
       - name: Run integration tests
-        uses: reactivecircus/android-emulator-runner@d94c3fbe4fe6a29e4a5ba47c12fb47677c73656b
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
-        with:
-          # When you are going to change something here (like a different
-          # target, arch, profile, channel, etc.), please check if these
-          # configurations are stable.
-          #
-          # You can do this by running this workflow multiple times. Use a
-          # matrix to run multiple tests in parallel (matrix needs to be copied
-          # to above the "with"):
-          # strategy:
-          #   fail-fast: false
-          #   matrix:
-          #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-          #     test2: [1, 2, 3]
-          api-level: 30
-          target: google_apis
-          arch: x86_64
-          profile: Nexus 5X
-          channel: canary
-          # We use some emulator options for the following reasons:
-          # * "-no-snapshot": Disables the quick boot feature. Therefore, the
-          #   emulator does not load or save the emulator state. We want to have
-          # * "-no-window": Disables the graphical windows, so no display is
-          #   required.
-          #   a fresh testing environment for every test run.
-          # * "-no-boot-anim": Disables the boot animation for faster booting.
-          # * "-camera-back virtualscene": Shows this virtual room when opening
-          #   the back camera where you can walk. Default option for emulators
-          #   created by Android Studio. We use this so we have the same
-          #   environment locally as when using this action. Is needed when
-          #   testing things with the camera. It's also possible to inject
-          #   images into the virtual scene to test things like qr code scanner.
-          # * "-camera-front": Shows this green monster when opening the front
-          #   camera. Default option for emulators created by Android Studio. We
-          #   use this so we have the same environment locally as when using
-          #   this action. Is needed when testing things with camera.
-          emulator-options: -no-snapshot -no-window -no-boot-anim -camera-back virtualscene -camera-front emulated
-          working-directory: ./app
-          # We can not use a multiline command because the
-          # "android-emulator-runner" action doesn't support it. It just takes every
-          # line as separate command.
-          script: flutter test integration_test --flavor dev --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+        run: |
+          flutter test \
+            integration_test \
+            --flavor dev \
+            --dart-define USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
 
   ios-integration-test:
     needs: changes
