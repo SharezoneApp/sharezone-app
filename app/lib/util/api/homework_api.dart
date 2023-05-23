@@ -48,8 +48,10 @@ class HomeworkGateway {
         // Sometimes, especially in test cases the typeOfUserStream is closed before
         // the first non-null value is emitted. In this case .firstWhere() throws
         // an error.
-        .catchError((e, s) => log('Error setting up homework streams: $e',
-            error: e, stackTrace: s as StackTrace));
+        .catchError((e, StackTrace s) => log(
+            'Error setting up homework streams: $e',
+            error: e,
+            stackTrace: s));
   }
 
   Future<void> _setUpStreams(
