@@ -45,9 +45,9 @@ class HomeworkGateway {
     typeOfUserStream.firstWhere((e) => e != null).then((typeOfUser) {
       _setUpStreams(firestore, typeOfUser);
     })
-        // Sometimes, especially in test cases the typeOfUserStream is closed before
-        // the first non-null value is emitted. In this case .firstWhere() throws
-        // an error.
+        // Sometimes, especially in test cases the typeOfUserStream is closed
+        // before the first non-null value is emitted. In this case
+        // .firstWhere() throws an error.
         .catchError((e, StackTrace s) => log(
             'Error setting up homework streams: $e',
             error: e,
