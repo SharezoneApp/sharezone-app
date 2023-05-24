@@ -45,42 +45,42 @@ void main() {
         flavor: Flavor.dev,
       ),
     );
+    await tester.pumpAndSettle(const Duration(seconds: 1));
   }
 
-  group('Authentication', () {
+  Future<void> _login(WidgetTester tester) async {
+    await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('email-text-field-E2E')),
+      user1.email,
+    );
+    await tester.enterText(
+      find.byKey(const Key('password-text-field-E2E')),
+      user1.password,
+    );
+
+    await tester.tap(find.byKey(const Key('login-button-E2E')));
+    await tester.pumpAndSettle();
+  }
+
+  group('Integration tests', () {
     testWidgets('User should be able to sign in', (tester) async {
       await _pumpSharezoneApp(tester);
-      await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(
-        find.byKey(const Key('email-text-field-E2E')),
-        user1.email,
-      );
-      await tester.enterText(
-        find.byKey(const Key('password-text-field-E2E')),
-        user1.password,
-      );
-
-      await tester.tap(find.byKey(const Key('login-button-E2E')));
-      await tester.pumpAndSettle();
+      await _login(tester);
 
       expect(
         find.byKey(const Key('dashboard-appbar-title-E2E')),
         findsOneWidget,
       );
+    });
 
-      // At the moment, we can't log out properly / use the navigation when
-      // signing in again. This blocks to write more integration tests. As a
-      // workaround, we put all integration test into one test.
-      //
-      // We can remove this workaround, when the following issue are resolved:
-      // * https://github.com/SharezoneApp/sharezone-app/issues/497
-      // * https://github.com/SharezoneApp/sharezone-app/issues/117
+    testWidgets('User should be able to load groups', (tester) async {
+      await _pumpSharezoneApp(tester);
+      await _login(tester);
 
-      print("Test: User should be able to load groups");
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
@@ -92,8 +92,12 @@ void main() {
       expect(find.text('Französisch LK'), findsOneWidget);
       expect(find.text('Latein LK'), findsOneWidget);
       expect(find.text('Spanisch LK'), findsOneWidget);
+    });
 
-      print("Test: User should be able to load timetable");
+    testWidgets('User should be able to load timetable', (tester) async {
+      await _pumpSharezoneApp(tester);
+      await _login(tester);
+
       await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
       await tester.pumpAndSettle();
 
@@ -104,8 +108,13 @@ void main() {
       expect(find.text('Französisch LK'), findsNWidgets(4));
       expect(find.text('Latein LK'), findsNWidgets(4));
       expect(find.text('Spanisch LK'), findsNWidgets(4));
+    });
 
-      print("Test: User should be able to load information sheets");
+    testWidgets('User should be able to load information sheets',
+        (tester) async {
+      await _pumpSharezoneApp(tester);
+      await _login(tester);
+
       await tester.tap(find.byKey(const Key('nav-item-blackboard-E2E')));
       await tester.pumpAndSettle();
 
