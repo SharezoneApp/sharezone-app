@@ -176,7 +176,7 @@ jobs:
         run: |
           flutter test \
             integration_test \
-            --flavor dev \
+            --flavor prod \
             --dart-define USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
 
