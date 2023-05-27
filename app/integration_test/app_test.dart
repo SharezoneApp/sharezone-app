@@ -43,6 +43,7 @@ void main() {
         blocDependencies: dependencies.blocDependencies,
         dynamicLinkBloc: dependencies.dynamicLinkBloc,
         flavor: Flavor.dev,
+        isIntegrationTest: isIntegrationTest,
       ),
     );
   }
