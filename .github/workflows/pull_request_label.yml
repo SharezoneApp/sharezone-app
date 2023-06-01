@@ -42,4 +42,4 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-      - uses: actions/labeler@9471598e3b7ff22b2fa181bd79addf94cb3e0847
+      - uses: actions/labeler@3cbc54c641133d82f4d5f2bc850c8feff279337c
