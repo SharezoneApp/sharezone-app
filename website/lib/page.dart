@@ -49,28 +49,26 @@ class PageTemplate extends StatelessWidget {
                 ),
               )
             : null,
-        body: Scrollbar(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                floating: false,
-                backgroundColor: Colors.white,
-                pinned: true,
-                bottom: _AppBarTitle(),
-              ),
-              SliverToBoxAdapter(
-                child: SafeArea(
-                  child: Column(
-                    crossAxisAlignment: crossAxisAlignment,
-                    children: [
-                      ...children!,
-                      const Footer(),
-                    ],
-                  ),
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              floating: false,
+              backgroundColor: Colors.white,
+              pinned: true,
+              bottom: _AppBarTitle(),
+            ),
+            SliverToBoxAdapter(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: crossAxisAlignment,
+                  children: [
+                    ...children!,
+                    const Footer(),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
