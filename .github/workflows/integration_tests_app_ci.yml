@@ -152,9 +152,6 @@ jobs:
         #   Studio. We use this so we have the same environment locally as when
         #   using this action. Is needed when testing things with camera.
         run: |
-          echo "List installed packages"
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list_installed
-
           API_LEVEL=33
           TARGET=google_apis
           ARCH=x86_64
