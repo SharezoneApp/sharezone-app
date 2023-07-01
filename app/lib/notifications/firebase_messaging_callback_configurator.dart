@@ -13,6 +13,7 @@ import 'package:notifications/notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/notifications/push_notification_action_handler_instrumentation_implementation.dart';
@@ -46,6 +47,11 @@ class FirebaseMessagingCallbackConfigurator {
   });
 
   Future<void> configureCallbacks(BuildContext context) async {
+    if (isIntegrationTest) {
+      // Firebase Messaging is not available in integration tests.
+      return;
+    }
+
     await _requestPermissionIfNeeded(context);
 
     final _logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
