@@ -33,7 +33,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
   if (selectTypePopResult != null) {
     final initalDesign = selectTypePopResult.initialDesign;
 
-    final selectDesignPopResult = await _selectDesign(context, initalDesign,
+    final selectDesignPopResult = await selectDesign(context, initalDesign,
         type: selectTypePopResult.editDesignType);
 
     if (selectDesignPopResult != null) {
