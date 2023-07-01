@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';
@@ -15,6 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/references.dart';
@@ -73,6 +75,11 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   Future<void> logOut() async {
     if (PlatformCheck.isMobile) {
+      if (isIntegrationTest) {
+        // Firebase Messaging is not available in integration tests.
+        log('Skipping to remove Firebase Messaging token because integration test is running.');
+        return;
+      }
       removeNotificationToken(await FirebaseMessaging.instance.getToken());
     }
     authUser.signOut();
