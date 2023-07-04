@@ -83,7 +83,7 @@ jobs:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
+      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
         id: filter
         with:
           filters: |
@@ -167,7 +167,7 @@ jobs:
             --target=lib/main_dev.dart
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
-        uses: FirebaseExtended/action-hosting-deploy@4d0d0023f1d92b9b7d16dda64b3d7abd2c98974b
+        uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
