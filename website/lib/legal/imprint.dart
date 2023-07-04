@@ -18,20 +18,27 @@ class Imprint {
   const Imprint._(this.asMarkdown);
 
   factory Imprint.offline() {
-    return const Imprint._("""### **Angaben gemäß § 5 TMG:**
+    return const Imprint._("""## Information according to § 5 TMG
 
-Sander, Jonas; Reichardt, Nils u. Weuthen, Felix “Sharezone” GbR\n
-Blücherstraße 34\n
-57072 Siegen
-\n
-### **Vertreten durch:**
+Sharezone UG (haftungsbeschränkt)
+Speditionstr. 15A
+40221 Düsseldorf
 
-Nils Reichardt
-\n
-### **Kontakt:**
+### Geschäftsführer and redaktionell Verantwortlicher:
+Nils Reichardt & Jonas Sander
 
-Telefon: +49 15678 612205\n
-E-Mail: support@sharezone.net""");
+### Handelsregister
+Registergericht: Amtsgericht Düsseldorf
+Registernummer: HRB 91086
+
+### Kontakt:
+Mobil: +49 1522 9504121
+E-Mail: support@sharezone.net
+
+### Steuernummer:
+
+Finanzamt Düsseldorf-Mitte
+133/5869/5033""");
   }
 
   @override

@@ -35,6 +35,7 @@ class ImprintPage extends StatelessWidget {
                       data: Imprint.offline().asMarkdown,
                       onTapLink: (link, href, title) => launchUrl(link),
                       selectable: true,
+                      softLineBreak: true,
                     ),
                   ),
                   const SizedBox(height: 36),
