@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -41,50 +42,52 @@ class HomeworkGateway {
     @required FirebaseFirestore firestore,
     @required this.typeOfUserStream,
   }) : homeworkCollection = firestore.collection("Homework") {
+    typeOfUserStream.firstWhere((e) => e != null).then((typeOfUser) {
+      _setUpStreams(firestore, typeOfUser);
+    })
+        // Sometimes, especially in test cases the typeOfUserStream is closed
+        // before the first non-null value is emitted. In this case
+        // .firstWhere() throws an error.
+        .catchError((e, StackTrace s) => log(
+            'Error setting up homework streams: $e',
+            error: e,
+            stackTrace: s));
+  }
+
+  Future<void> _setUpStreams(
+      FirebaseFirestore firestore, TypeOfUser typeOfUser) async {
     final now = DateTime.now();
     final startOfThisDay = DateTime(now.year, now.month, now.day);
 
-    typeOfUserStream.firstWhere((e) => e != null).then((typeOfUser) {
-      if (typeOfUser == TypeOfUser.student) {
-        /// Der Homework-Stream wird hier nicht erstellt, weil dieser nur noch
-        /// bei Eltern & Lehrern genutzt wird.
-        ///
-        /// Bei Schülern wurde die Hausaufgaben-Seite bereits überarbeitet,
-        /// sodass diese nicht mehr auf das [HomeworkGateway] braucht, um
-        /// Lazy-Loading zu ermöglichen, was mit dem Stream nicht möglich ist.
-        ///
-        /// Da [HomeworkGateway] aufgrund schlechten Designs während App-
-        /// Starts immer direkt erstellt wird, benutzten wir erstmal diesen
-        /// Workaround anstatt die Klasse bei Schülern einfach nicht bei
-        /// Schülern nicht zu erstellen.
-        ///
-        /// In Zukunft sollten als richtiger Fix die Hausaufgabenseiten von
-        /// Eltern & Lehrern auch überarbeitet werden, sodass dieser Stream
-        /// nicht mehr benötigt wird.
-        /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1098
-        ///
-        /// Der Stream hier kann geclosed werden, weil bei einem Account-Wechsel
-        /// zu einem anderen Nutzertyp die Klasse (und damit der Stream) ganz
-        /// neu erstellt wird.
-        _homeworkSubjectStream.close();
+    if (typeOfUser == TypeOfUser.student) {
+      /// Der Homework-Stream wird hier nicht erstellt, weil dieser nur noch
+      /// bei Eltern & Lehrern genutzt wird.
+      ///
+      /// Bei Schülern wurde die Hausaufgaben-Seite bereits überarbeitet,
+      /// sodass diese nicht mehr auf das [HomeworkGateway] braucht, um
+      /// Lazy-Loading zu ermöglichen, was mit dem Stream nicht möglich ist.
+      ///
+      /// Da [HomeworkGateway] aufgrund schlechten Designs während App-
+      /// Starts immer direkt erstellt wird, benutzten wir erstmal diesen
+      /// Workaround anstatt die Klasse bei Schülern einfach nicht bei
+      /// Schülern nicht zu erstellen.
+      ///
+      /// In Zukunft sollten als richtiger Fix die Hausaufgabenseiten von
+      /// Eltern & Lehrern auch überarbeitet werden, sodass dieser Stream
+      /// nicht mehr benötigt wird.
+      /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1098
+      ///
+      /// Der Stream hier kann geclosed werden, weil bei einem Account-Wechsel
+      /// zu einem anderen Nutzertyp die Klasse (und damit der Stream) ganz
+      /// neu erstellt wird.
+      _homeworkSubjectStream.close();
 
-        // Falls der Nutzer ein Schüler ist, dann muss der
-        // [_homeworkNowAndInFutureStream] von Firestore geladen werden.
-        // Für Eltern und Lehrer siehe weiter unten.
-        homeworkCollection
-            .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
-            .where('todoUntil', isGreaterThanOrEqualTo: startOfThisDay)
-            .snapshots()
-            .transform(_homeworkTransformer)
-            .asBroadcastStream()
-            .listen(_homeworkNowAndInFutureStream.add,
-                onError: _homeworkNowAndInFutureStream.addError);
-
-        return;
-      }
-      firestore
-          .collection("Homework")
+      // Falls der Nutzer ein Schüler ist, dann muss der
+      // [_homeworkNowAndInFutureStream] von Firestore geladen werden.
+      // Für Eltern und Lehrer siehe weiter unten.
+      homeworkCollection
           .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
+          .where('todoUntil', isGreaterThanOrEqualTo: startOfThisDay)
           .snapshots()
           .transform(_homeworkTransformer)
           .asBroadcastStream()
@@ -107,7 +110,32 @@ class HomeworkGateway {
             _homeworkNowAndInFutureStream.add,
             onError: _homeworkNowAndInFutureStream.addError,
           );
-    });
+
+      return;
+    }
+    firestore
+        .collection("Homework")
+        .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
+        .snapshots()
+        .transform(_homeworkTransformer)
+        .asBroadcastStream()
+        .listen(
+          _homeworkSubjectStream.add,
+          onError: _homeworkSubjectStream.addError,
+        );
+
+    // Falls der aktuelle Nutzer kein Schüler ist, dann laden wir schon alle
+    // Hausaufgaben mit dem [_homeworkSubjectStream]. Hier kann der
+    // [_homeworkNowAndInFutureStream] also einfach mit den gefilterten
+    // Hausaufgaben aus dem [_homeworkSubjectStream] gefüllt werden.
+    _homeworkSubjectStream
+        .map((homeworks) => homeworks
+            .where((hw) =>
+                hw.todoUntil.isAfter(startOfThisDay) ||
+                hw.todoUntil.isAtSameMomentAs(startOfThisDay))
+            .toList())
+        .listen(_homeworkNowAndInFutureStream.add,
+            onError: _homeworkSubjectStream.addError);
   }
 
   Stream<HomeworkDto> singleHomeworkStream(String homeworkId) {

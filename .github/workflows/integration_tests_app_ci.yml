@@ -44,7 +44,7 @@ jobs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-      - uses: AurorNZ/paths-filter@1497c53e78ed46e4d9fcb735b3870e1a504bdb10
+      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
         id: filter
         with:
           filters: |
@@ -206,7 +206,7 @@ jobs:
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
-      - uses: futureware-tech/simulator-action@05d6b5c559c6f77fb7eea24d303e6e3982c5069c
+      - uses: futureware-tech/simulator-action@736249ceb5ed7916224ed6b6d3c3582fd8049deb
         id: simulator
         with:
           model: "iPhone 14"
