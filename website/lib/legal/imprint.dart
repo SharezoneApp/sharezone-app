@@ -18,7 +18,7 @@ class Imprint {
   const Imprint._(this.asMarkdown);
 
   factory Imprint.offline() {
-    return const Imprint._("""## Information according to § 5 TMG
+    return const Imprint._("""## Informationen nach § 5 TMG
 
 Sharezone UG (haftungsbeschränkt)
 Speditionstr. 15A
