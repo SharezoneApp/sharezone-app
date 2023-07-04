@@ -96,21 +96,6 @@ class HomeworkGateway {
             onError: _homeworkSubjectStream.addError,
           );
 
-      // Falls der aktuelle Nutzer kein Schüler ist, dann laden wir schon alle
-      // Hausaufgaben mit dem [_homeworkSubjectStream]. Hier kann der
-      // [_homeworkNowAndInFutureStream] also einfach mit den gefilterten
-      // Hausaufgaben aus dem [_homeworkSubjectStream] gefüllt werden.
-      _homeworkSubjectStream
-          .map((homeworks) => homeworks
-              .where((hw) =>
-                  hw.todoUntil.isAfter(startOfThisDay) ||
-                  hw.todoUntil.isAtSameMomentAs(startOfThisDay))
-              .toList())
-          .listen(
-            _homeworkNowAndInFutureStream.add,
-            onError: _homeworkNowAndInFutureStream.addError,
-          );
-
       return;
     }
     firestore
