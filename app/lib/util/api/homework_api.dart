@@ -91,8 +91,10 @@ class HomeworkGateway {
           .snapshots()
           .transform(_homeworkTransformer)
           .asBroadcastStream()
-          .listen(_homeworkNowAndInFutureStream.add,
-              onError: _homeworkNowAndInFutureStream.addError);
+          .listen(
+            _homeworkNowAndInFutureStream.add,
+            onError: _homeworkNowAndInFutureStream.addError,
+          );
 
       return;
     }
