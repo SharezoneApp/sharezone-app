@@ -92,8 +92,8 @@ class HomeworkGateway {
           .transform(_homeworkTransformer)
           .asBroadcastStream()
           .listen(
-            _homeworkSubjectStream.add,
-            onError: _homeworkSubjectStream.addError,
+            _homeworkNowAndInFutureStream.add,
+            onError: _homeworkNowAndInFutureStream.addError,
           );
 
       return;
