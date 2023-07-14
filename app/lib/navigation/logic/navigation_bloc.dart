@@ -23,7 +23,16 @@ class NavigationBloc extends BlocBase {
 
   NavigationItem get currentItem => _navigationItemsSubject.valueOrNull;
 
-  Function(NavigationItem) get navigateTo => _navigationItemsSubject.sink.add;
+  void navigateTo(NavigationItem item) {
+    // Sometimes in integration tests `navigateTo` is called after the bloc is
+    // already disposed. In this case we want to do nothing.
+    // This should probably be fixed in the integration tests, but for now we
+    // use this workaround.
+    if (_navigationItemsSubject.isClosed) {
+      return;
+    }
+    _navigationItemsSubject.sink.add(item);
+  }
 
   @override
   void dispose() {
