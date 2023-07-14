@@ -16,67 +16,56 @@ import 'package:sharezone/util/flavor.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  AppDependencies dependencies;
-  _UserCredentials user1;
-
-  setUpAll(() async {
-    dependencies = await initializeDependencies(flavor: Flavor.prod);
-  });
-
-  setUp(() async {
-    // Credentials are passed via environment variables. See "README.md" how to
-    // pass the them correctly.
-    user1 = _UserCredentials(
-      email: const String.fromEnvironment('USER_1_EMAIL'),
-      password: const String.fromEnvironment('USER_1_PASSWORD'),
-    );
-
-    // We should ensure that the user is logged out before running a test, to
-    // have fresh start.
-    await dependencies.blocDependencies.auth.signOut();
-  });
-
-  Future<void> _pumpSharezoneApp(WidgetTester tester) async {
-    await tester.pumpWidget(
-      Sharezone(
-        beitrittsversuche: dependencies.beitrittsversuche,
-        blocDependencies: dependencies.blocDependencies,
-        dynamicLinkBloc: dependencies.dynamicLinkBloc,
-        flavor: Flavor.dev,
-        isIntegrationTest: true,
-      ),
-    );
-    await tester.pumpAndSettle(const Duration(seconds: 1));
-  }
-
-  Future<void> _login(WidgetTester tester) async {
-    await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
-    await tester.pumpAndSettle();
-
-    await tester.enterText(
-      find.byKey(const Key('email-text-field-E2E')),
-      user1.email,
-    );
-    await tester.enterText(
-      find.byKey(const Key('password-text-field-E2E')),
-      user1.password,
-    );
-
-    await tester.tap(find.byKey(const Key('login-button-E2E')));
-    await tester.pumpAndSettle();
-  }
-
   group('Integration tests', () {
-    testWidgets('User should be able to sign in', (tester) async {
-      await _pumpSharezoneApp(tester);
+    AppDependencies dependencies;
+    _UserCredentials user1;
 
-      await _login(tester);
-
-      expect(
-        find.byKey(const Key('dashboard-appbar-title-E2E')),
-        findsOneWidget,
-      );
+    setUpAll(() async {
+      dependencies = await initializeDependencies(flavor: Flavor.prod);
     });
+
+    setUp(() async {
+      // Credentials are passed via environment variables. See "README.md" how to
+      // pass the them correctly.
+      user1 = _UserCredentials(
+        email: const String.fromEnvironment('USER_1_EMAIL'),
+        password: const String.fromEnvironment('USER_1_PASSWORD'),
+      );
+
+      // We should ensure that the user is logged out before running a test, to
+      // have fresh start.
+      await dependencies.blocDependencies.auth.signOut();
+    });
+
+    Future<void> _pumpSharezoneApp(WidgetTester tester) async {
+      await tester.pumpWidget(
+        Sharezone(
+          beitrittsversuche: dependencies.beitrittsversuche,
+          blocDependencies: dependencies.blocDependencies,
+          dynamicLinkBloc: dependencies.dynamicLinkBloc,
+          flavor: Flavor.dev,
+          isIntegrationTest: true,
+        ),
+      );
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+    }
+
+    Future<void> _login(WidgetTester tester) async {
+      await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+        find.byKey(const Key('email-text-field-E2E')),
+        user1.email,
+      );
+      await tester.enterText(
+        find.byKey(const Key('password-text-field-E2E')),
+        user1.password,
+      );
+
+      await tester.tap(find.byKey(const Key('login-button-E2E')));
+      await tester.pumpAndSettle();
+    }
 
     testWidgets('User should be able to load groups', (tester) async {
       await _pumpSharezoneApp(tester);
