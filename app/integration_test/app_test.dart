@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -67,6 +68,43 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    /// DOESN'T WORK :(
+    Future<void> _logoutAndIgnoreExceptions(WidgetTester tester) async {
+      final oldOnError = FlutterError.onError;
+      FlutterError.onError = (details) {
+        // We ignore the exceptions, because otherwise this test would be marked
+        // as failed.
+        // We are expecting `FirebaseException` to be thrown, see below.
+        if (details.exception is FirebaseException) {
+          return;
+        }
+
+        oldOnError(details);
+      };
+
+      try {
+        // This will `FirebaseException` to be thrown:
+        // [cloud_firestore/permission-denied] The caller does not have
+        // permission to execute the specified operation.
+        await dependencies.blocDependencies.auth.signOut();
+        // By logging out we are navigated to the login screen.
+        await tester.pumpAndSettle();
+
+        // We ignore the exceptions, because otherwise this test would be marked
+        // as failed.
+        for (dynamic e; e != null; e = tester.takeException()) {
+          // We are expecting `FirebaseException` to be thrown, see above.
+          if (e is FirebaseException) {
+            continue /*ignoring*/;
+          }
+          // We are not expecting any other exceptions.
+          throw Exception('Unexpected exception: $e');
+        }
+      } finally {
+        FlutterError.onError = oldOnError;
+      }
+    }
+
     testWidgets('User should be able to load groups', (tester) async {
       await _pumpSharezoneApp(tester);
       await _login(tester);
@@ -82,6 +120,8 @@ void main() {
       expect(find.text('Französisch LK'), findsOneWidget);
       expect(find.text('Latein LK'), findsOneWidget);
       expect(find.text('Spanisch LK'), findsOneWidget);
+
+      await _logoutAndIgnoreExceptions(tester);
     });
 
     testWidgets('User should be able to load timetable', (tester) async {
@@ -98,6 +138,8 @@ void main() {
       expect(find.text('Französisch LK'), findsNWidgets(4));
       expect(find.text('Latein LK'), findsNWidgets(4));
       expect(find.text('Spanisch LK'), findsNWidgets(4));
+
+      await _logoutAndIgnoreExceptions(tester);
     });
 
     testWidgets('User should be able to load information sheets',
@@ -115,6 +157,7 @@ void main() {
       // We don't check the text of the information sheet for now because the
       // `find.text()` can't find text `MarkdownBody` which it a bit more
       // complex.
+      await _logoutAndIgnoreExceptions(tester);
     });
   });
 }
