@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:io';
-
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
