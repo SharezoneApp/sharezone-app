@@ -75,10 +75,10 @@ When none is specified, the value from pubspec.yaml is used.''',
 
   @override
   Future<void> run() async {
-    // Its less work to just print everything right now instead of selectively
-    // print and add custom print statements for non-verboes output.
-    // One might add non-verbose output in the future but right now this is
-    // easier.
+    // Is used so that runProcess commands print the command that was run. Right
+    // now this can't be done via an argument.
+    //
+    // This workaround should be addressed in the future.
     isVerbose = true;
 
     await _buildApp();
