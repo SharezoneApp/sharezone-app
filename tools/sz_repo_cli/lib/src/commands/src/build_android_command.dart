@@ -82,7 +82,7 @@ When none is specified, the value from pubspec.yaml is used.''',
     isVerbose = true;
 
     await _buildApp();
-    stdout.writeln('Build finished 🎉 ');
+    print('Build finished 🎉 ');
   }
 
   Future<void> _buildApp() async {
