@@ -59,18 +59,12 @@ When none is specified, the value from pubspec.yaml is used.''',
         help:
             'The flavor to build for. At the moment only "prod" is supported.',
         defaultsTo: 'prod',
-      )
-      ..addOption(
-        googleApplicationCredentialsOptionName,
-        help:
-            'Google Cloud service account credentials with `JSON` key type to access Google Play Developer API. If not given, the value will be checked from the environment variable `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS`.',
       );
   }
 
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const buildNumberOptionName = 'build-number';
-  static const googleApplicationCredentialsOptionName = 'credentials';
   static const outputTypeName = 'output-type';
 
   @override
