@@ -56,8 +56,7 @@ When none is specified, the value from pubspec.yaml is used.''',
       ..addOption(
         flavorOptionName,
         allowed: _androidFlavors,
-        help:
-            'The flavor to build for. At the moment only "prod" is supported.',
+        help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
   }
