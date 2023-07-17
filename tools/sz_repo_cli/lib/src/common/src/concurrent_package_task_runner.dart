@@ -142,20 +142,20 @@ class _MaxConcurrentPackageStreamTransformer
 
 class _PackageTaskStatusUpdater {
   final Package package;
-  final DateTime Function()? getCurrentDateTime;
+  final DateTime Function() getCurrentDateTime;
   final _controller = BehaviorSubject<PackageTaskStatus?>();
   Stream<PackageTaskStatus?> get statusStream => _controller;
   Running? _running;
 
   _PackageTaskStatusUpdater({
     required this.package,
-    this.getCurrentDateTime,
+    required this.getCurrentDateTime,
   });
 
   void started() {
     _running = Running.since(
       package: package,
-      startedOn: getCurrentDateTime!(),
+      startedOn: getCurrentDateTime(),
     );
     _controller.add(_running);
   }
@@ -164,7 +164,7 @@ class _PackageTaskStatusUpdater {
     if (_running == null) {
       throw StateError('success can only be called after calling running');
     }
-    _controller.add(_running!.toSuccess(now: getCurrentDateTime!()));
+    _controller.add(_running!.toSuccess(now: getCurrentDateTime()));
     _controller.close();
   }
 
@@ -175,7 +175,7 @@ class _PackageTaskStatusUpdater {
     _controller.add(_running!.toFailure(
       error: error,
       stackTrace: stackTrace,
-      now: getCurrentDateTime!(),
+      now: getCurrentDateTime(),
     ));
     _controller.close();
   }

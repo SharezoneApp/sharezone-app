@@ -185,7 +185,7 @@ class DeployWebAppCommand extends Command {
     return overriddenDeployMessageOrNull;
   }
 
-  Future<String?> _getCurrentCommitHash() async {
+  Future<String> _getCurrentCommitHash() async {
     final res = await runProcess('git', ['rev-parse', 'HEAD']);
     if (res.stdout == null || (res.stdout as String).isEmpty) {
       print(
