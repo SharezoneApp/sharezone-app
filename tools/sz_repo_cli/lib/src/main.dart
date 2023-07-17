@@ -14,6 +14,7 @@ import 'package:path/path.dart' as p;
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
@@ -45,7 +46,9 @@ Future<void> main(List<String> args) async {
       ..addSubcommand(CheckLicenseHeadersCommand(repo))
       ..addSubcommand(AddLicenseHeadersCommand(repo)))
     ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)))
-    ..addCommand(BuildCommand()..addSubcommand(BuildAndroidCommand(repo)));
+    ..addCommand(BuildCommand()
+      ..addSubcommand(BuildAndroidCommand(repo))
+      ..addSubcommand(BuildIosCommand(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
     final toolExit = e as ToolExit;
