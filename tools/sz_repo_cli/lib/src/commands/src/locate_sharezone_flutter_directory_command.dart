@@ -72,7 +72,8 @@ Future<String> findSharezoneFlutterAppRelativeDirectoryPath() async {
   return dir.path;
 }
 
-Future<Directory> findSharezoneFlutterDirectory({required Directory root}) async {
+Future<Directory> findSharezoneFlutterDirectory(
+    {required Directory root}) async {
   await for (FileSystemEntity entity in pubspecGlob.list(root: root.path)) {
     if (entity is File) {
       final pubspecContent = await entity.readAsString();
