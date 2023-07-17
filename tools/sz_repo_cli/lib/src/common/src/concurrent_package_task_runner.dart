@@ -183,7 +183,7 @@ class _PackageTaskStatusUpdater {
 
 class PackageTask {
   final Package package;
-  final Stream<PackageTaskStatus?> status;
+  final Stream<PackageTaskStatus> status;
 
   PackageTask(this.package, this.status);
 }
@@ -292,7 +292,7 @@ class PackageTasksStatusPresenter {
       Stream<PackageTask> tasksStream) {
     tasksStream.listen((task) {
       task.status.listen((event) {
-        final status = event!.when(
+        final status = event.when(
           success: (success) => '✅',
           failure: (failure) => '⛔ Failure\n${failure.error}',
           running: (running) => '⚙ Running',
