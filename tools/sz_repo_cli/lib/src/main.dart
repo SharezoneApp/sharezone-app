@@ -48,7 +48,7 @@ Future<void> main(List<String> args) async {
     ..addCommand(BuildCommand()..addSubcommand(BuildAndroidCommand(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
-    final ToolExit toolExit = e;
+    final toolExit = e as ToolExit;
     exit(toolExit.exitCode);
   }, test: (Object e) => e is ToolExit)
       // Ansonsten wird die StackTrace noch zusätzlich ausgeprintet, was die Benutzung
