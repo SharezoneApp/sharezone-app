@@ -143,8 +143,8 @@ class _MaxConcurrentPackageStreamTransformer
 class _PackageTaskStatusUpdater {
   final Package package;
   final DateTime Function() getCurrentDateTime;
-  final _controller = BehaviorSubject<PackageTaskStatus?>();
-  Stream<PackageTaskStatus?> get statusStream => _controller;
+  final _controller = BehaviorSubject<PackageTaskStatus>();
+  Stream<PackageTaskStatus> get statusStream => _controller;
   Running? _running;
 
   _PackageTaskStatusUpdater({
@@ -157,7 +157,7 @@ class _PackageTaskStatusUpdater {
       package: package,
       startedOn: getCurrentDateTime(),
     );
-    _controller.add(_running);
+    _controller.add(_running!);
   }
 
   void success() {
