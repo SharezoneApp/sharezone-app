@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 import 'pub_get_command.dart';
@@ -44,7 +43,7 @@ class TestCommand extends ConcurrentCommand {
 
   @override
   Stream<Package> get packagesToProcess {
-    if (argResults['only-goldens'] as bool) {
+    if (argResults!['only-goldens'] as bool) {
       return repo.streamPackages().where(
             (package) =>
                 package.isFlutterPackage && package.hasGoldenTestsDirectory,
@@ -58,16 +57,16 @@ class TestCommand extends ConcurrentCommand {
   Future<void> runTaskForPackage(Package package) {
     return runTests(
       package,
-      excludeGoldens: argResults['exclude-goldens'] as bool,
-      onlyGoldens: argResults['only-goldens'] as bool,
+      excludeGoldens: argResults!['exclude-goldens'] as bool,
+      onlyGoldens: argResults!['only-goldens'] as bool,
     );
   }
 }
 
 Future<void> runTests(
   Package package, {
-  @required bool excludeGoldens,
-  @required bool onlyGoldens,
+  required bool excludeGoldens,
+  required bool onlyGoldens,
 }) {
   if (package.isFlutterPackage) {
     return _runTestsFlutter(
@@ -88,8 +87,8 @@ Future<void> _runTestsDart(
   Package package, {
   // We can ignore the "excludeGoldens" parameter here because Dart packages
   // don't have golden tests.
-  @required bool excludeGoldens,
-  @required bool onlyGoldens,
+  required bool excludeGoldens,
+  required bool onlyGoldens,
 }) async {
   if (onlyGoldens) {
     // Golden tests are only run in the flutter package.
@@ -107,8 +106,8 @@ Future<void> _runTestsDart(
 
 Future<void> _runTestsFlutter(
   Package package, {
-  @required bool excludeGoldens,
-  @required bool onlyGoldens,
+  required bool excludeGoldens,
+  required bool onlyGoldens,
 }) async {
   if (onlyGoldens) {
     if (!package.hasGoldenTestsDirectory) {

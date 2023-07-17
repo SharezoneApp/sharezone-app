@@ -23,7 +23,7 @@ extension AddPackageTimeout on ArgParser {
     );
   }
 
-  void addPackageTimeoutOption({@required int defaultInMinutes}) {
+  void addPackageTimeoutOption({required int defaultInMinutes}) {
     addOption(
       _packageTimeoutName,
       help:
@@ -32,7 +32,7 @@ extension AddPackageTimeout on ArgParser {
     );
   }
 
-  void addConcurrencyOption({@required int defaultMaxConcurrency}) {
+  void addConcurrencyOption({required int defaultMaxConcurrency}) {
     addOption(
       maxConcurrentPackagesOptionName,
       abbr: 'c',

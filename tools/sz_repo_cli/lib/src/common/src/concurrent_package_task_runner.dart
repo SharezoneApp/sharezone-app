@@ -9,17 +9,16 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class ConcurrentPackageTaskRunner {
-  DateTime Function() _getCurrentDateTime;
+  late DateTime Function() _getCurrentDateTime;
 
   ConcurrentPackageTaskRunner({
-    DateTime Function() getCurrentDateTime,
+    DateTime Function()? getCurrentDateTime,
   }) {
     _getCurrentDateTime = getCurrentDateTime ?? () => DateTime.now();
   }
@@ -31,17 +30,17 @@ class ConcurrentPackageTaskRunner {
     /// Most often this will be [SharezoneRepo.streamPackages], maybe with a
     /// filter (e.g. `.where((package) => package.hasTestDirectory`) or
     /// something similar.
-    @required Stream<Package> packageStream,
-    @required Future<void> Function(Package package) runTask,
+    required Stream<Package> packageStream,
+    required Future<void> Function(Package package) runTask,
 
     /// If 0, null or negative then every package will be processed at once.
     /// Else [maxNumberOfPackagesBeingProcessedConcurrently] are processed
     /// concurrently,
-    @required int maxNumberOfPackagesBeingProcessedConcurrently,
+    required int? maxNumberOfPackagesBeingProcessedConcurrently,
 
     /// After which [Duration] the task for a package will be marked as a
     /// [Failure].
-    @required Duration perPackageTaskTimeout,
+    required Duration perPackageTaskTimeout,
   }) async* {
     final _concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
         maxConcurrentItems: maxNumberOfPackagesBeingProcessedConcurrently);
@@ -73,18 +72,21 @@ class ConcurrentPackageTaskRunner {
 
   _PackageTaskStatusUpdater _getStatusUpdater(Package package) =>
       _PackageTaskStatusUpdater(
-          package: package, getCurrentDateTime: _getCurrentDateTime);
+        package: package,
+        getCurrentDateTime: _getCurrentDateTime,
+      );
 }
 
 class _MaxConcurrentPackageStreamTransformer
     extends StreamTransformerBase<Package, Package> {
-  final int maxConcurrentItems;
+  final int? maxConcurrentItems;
   int currentConcurrentItems = 0;
   final _waitingPackagesQueue = Queue<Completer>();
   bool noConcurrencyLimit = false;
 
-  _MaxConcurrentPackageStreamTransformer._({@required this.maxConcurrentItems})
-      : noConcurrencyLimit = false,
+  _MaxConcurrentPackageStreamTransformer._({
+    required int this.maxConcurrentItems,
+  })  : noConcurrencyLimit = false,
         assert(maxConcurrentItems != 0),
         assert(maxConcurrentItems > 0);
 
@@ -92,13 +94,15 @@ class _MaxConcurrentPackageStreamTransformer
       : noConcurrencyLimit = true,
         maxConcurrentItems = null;
 
-  factory _MaxConcurrentPackageStreamTransformer(
-      {@required int maxConcurrentItems}) {
+  factory _MaxConcurrentPackageStreamTransformer({
+    required int? maxConcurrentItems,
+  }) {
     if (maxConcurrentItems == null || maxConcurrentItems <= 0) {
       return _MaxConcurrentPackageStreamTransformer.noConcurrencyLimit();
     }
     return _MaxConcurrentPackageStreamTransformer._(
-        maxConcurrentItems: maxConcurrentItems);
+      maxConcurrentItems: maxConcurrentItems,
+    );
   }
 
   /// Notifies that a package that package has been finished being processed.
@@ -122,7 +126,7 @@ class _MaxConcurrentPackageStreamTransformer
     }
 
     await for (final package in stream) {
-      if (currentConcurrentItems < maxConcurrentItems) {
+      if (currentConcurrentItems < maxConcurrentItems!) {
         currentConcurrentItems++;
         yield package;
       } else {
@@ -138,18 +142,21 @@ class _MaxConcurrentPackageStreamTransformer
 
 class _PackageTaskStatusUpdater {
   final Package package;
-  final DateTime Function() getCurrentDateTime;
-  final _controller = BehaviorSubject<PackageTaskStatus>();
-  Stream<PackageTaskStatus> get statusStream => _controller;
-  Running _running;
+  final DateTime Function()? getCurrentDateTime;
+  final _controller = BehaviorSubject<PackageTaskStatus?>();
+  Stream<PackageTaskStatus?> get statusStream => _controller;
+  Running? _running;
 
   _PackageTaskStatusUpdater({
-    @required this.package,
+    required this.package,
     this.getCurrentDateTime,
   });
 
   void started() {
-    _running = Running.since(package: package, startedOn: getCurrentDateTime());
+    _running = Running.since(
+      package: package,
+      startedOn: getCurrentDateTime!(),
+    );
     _controller.add(_running);
   }
 
@@ -157,18 +164,18 @@ class _PackageTaskStatusUpdater {
     if (_running == null) {
       throw StateError('success can only be called after calling running');
     }
-    _controller.add(_running.toSuccess(now: getCurrentDateTime()));
+    _controller.add(_running!.toSuccess(now: getCurrentDateTime!()));
     _controller.close();
   }
 
-  void failure({@required dynamic error, StackTrace stackTrace}) {
+  void failure({required dynamic error, StackTrace? stackTrace}) {
     if (_running == null) {
       throw StateError('failure can only be called after calling running');
     }
-    _controller.add(_running.toFailure(
+    _controller.add(_running!.toFailure(
       error: error,
       stackTrace: stackTrace,
-      now: getCurrentDateTime(),
+      now: getCurrentDateTime!(),
     ));
     _controller.close();
   }
@@ -176,7 +183,7 @@ class _PackageTaskStatusUpdater {
 
 class PackageTask {
   final Package package;
-  final Stream<PackageTaskStatus> status;
+  final Stream<PackageTaskStatus?> status;
 
   PackageTask(this.package, this.status);
 }
@@ -186,14 +193,14 @@ abstract class PackageTaskStatus {
   final DateTime startedOn;
 
   PackageTaskStatus({
-    @required this.package,
-    @required this.startedOn,
+    required this.package,
+    required this.startedOn,
   });
 
   FutureOr<T> when<T>({
-    @required FutureOr<T> Function(Success) success,
-    @required FutureOr<T> Function(Failure) failure,
-    @required FutureOr<T> Function(Running) running,
+    required FutureOr<T> Function(Success) success,
+    required FutureOr<T> Function(Failure) failure,
+    required FutureOr<T> Function(Running) running,
   }) {
     if (this is Success) {
       return success(this as Success);
@@ -216,9 +223,9 @@ class Success extends PackageTaskStatus {
   final Duration timeToFinish;
 
   Success({
-    @required Package package,
-    @required DateTime startedOn,
-    @required this.timeToFinish,
+    required Package package,
+    required DateTime startedOn,
+    required this.timeToFinish,
   }) : super(package: package, startedOn: startedOn);
 }
 
@@ -228,22 +235,22 @@ class Failure extends PackageTaskStatus {
   final Duration timeToFinish;
 
   Failure({
-    @required Package package,
-    @required DateTime startedOn,
-    @required this.timeToFinish,
-    @required this.error,
-    StackTrace stackTrace,
+    required Package package,
+    required DateTime startedOn,
+    required this.timeToFinish,
+    required this.error,
+    StackTrace? stackTrace,
   })  : stackTrace = Optional.ofNullable(stackTrace),
         super(package: package, startedOn: startedOn);
 }
 
 class Running extends PackageTaskStatus {
   Running.since({
-    @required Package package,
-    @required DateTime startedOn,
+    required Package package,
+    required DateTime startedOn,
   }) : super(package: package, startedOn: startedOn);
 
-  Success toSuccess({@required DateTime now}) {
+  Success toSuccess({required DateTime now}) {
     return Success(
       package: package,
       startedOn: startedOn,
@@ -251,10 +258,11 @@ class Running extends PackageTaskStatus {
     );
   }
 
-  Failure toFailure(
-      {@required DateTime now,
-      @required dynamic error,
-      StackTrace stackTrace}) {
+  Failure toFailure({
+    required DateTime now,
+    required dynamic error,
+    StackTrace? stackTrace,
+  }) {
     return Failure(
       package: package,
       startedOn: startedOn,
@@ -284,7 +292,7 @@ class PackageTasksStatusPresenter {
       Stream<PackageTask> tasksStream) {
     tasksStream.listen((task) {
       task.status.listen((event) {
-        final status = event.when(
+        final status = event!.when(
           success: (success) => '✅',
           failure: (failure) => '⛔ Failure\n${failure.error}',
           running: (running) => '⚙ Running',

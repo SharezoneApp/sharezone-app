@@ -85,10 +85,10 @@ When none is specified, the value from pubspec.yaml is used.''',
 
   Future<void> _buildApp() async {
     try {
-      final flavor = argResults[flavorOptionName] as String;
-      final stage = argResults[releaseStageOptionName] as String;
-      final outputType = argResults[outputTypeName] as String;
-      final buildNumber = argResults[buildNumberOptionName] as String;
+      final flavor = argResults![flavorOptionName] as String;
+      final stage = argResults![releaseStageOptionName] as String;
+      final outputType = argResults![outputTypeName] as String;
+      final buildNumber = argResults![buildNumberOptionName] as String?;
       await runProcessSucessfullyOrThrow(
         'fvm',
         [

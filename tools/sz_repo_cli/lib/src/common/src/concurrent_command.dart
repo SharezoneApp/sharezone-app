@@ -62,12 +62,12 @@ abstract class ConcurrentCommand extends Command {
 
   @override
   Future<void> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+    isVerbose = argResults!['verbose'] ?? false;
     await runSetup();
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
+    final _max = argResults![maxConcurrentPackagesOptionName];
     final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
+        ? int.tryParse(argResults![maxConcurrentPackagesOptionName])
         // null as interpreted as "no concurrency limit" (everything at once).
         : null;
 
@@ -81,7 +81,7 @@ abstract class ConcurrentCommand extends Command {
           runTask: (runTaskForPackage),
           maxNumberOfPackagesBeingProcessedConcurrently:
               maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
+          perPackageTaskTimeout: argResults!.packageTimeoutDuration,
         )
         .asBroadcastStream();
 
