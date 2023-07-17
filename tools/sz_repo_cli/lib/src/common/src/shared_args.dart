@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:args/args.dart';
-import 'package:meta/meta.dart';
 
 const _packageTimeoutName = 'package-timeout-minutes';
 const maxConcurrentPackagesOptionName = 'max-concurrent-packages';

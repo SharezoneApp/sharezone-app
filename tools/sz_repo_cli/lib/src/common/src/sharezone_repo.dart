@@ -8,9 +8,8 @@
 
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:path/path.dart' as path;
+import 'package:rxdart/rxdart.dart';
 
 import 'package.dart';
 
