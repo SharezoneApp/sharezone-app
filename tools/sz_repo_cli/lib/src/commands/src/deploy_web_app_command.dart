@@ -86,18 +86,17 @@ class DeployWebAppCommand extends Command {
     await runProcessSucessfullyOrThrow(
       'fvm',
       [
-        'flutter',
+        'dart',
+        'run',
+        'sz_repo_cli',
         'build',
         'web',
-        '--target',
-        'lib/main_${webAppConfig.flavor}.dart',
-        '--release',
-        '--web-renderer',
-        'canvaskit',
-        '--dart-define',
-        'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
+        '--flavor',
+        webAppConfig.flavor,
+        '--stage',
+        releaseStage
       ],
-      workingDirectory: _repo.sharezoneFlutterApp.location.path,
+      workingDirectory: _repo.sharezoneCiCdTool.path,
     );
 
     String? deployMessage;
