@@ -79,7 +79,7 @@ class DeployWebAppCommand extends Command {
 
     final googleApplicationCredentialsFile = _parseCredentialsFile(argResults!);
 
-    final overriddenDeployMessageOrNull = _parseDeployMessage(argResults!);
+    final overriddenDeployMessage = _parseDeployMessage(argResults!);
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
@@ -101,7 +101,7 @@ class DeployWebAppCommand extends Command {
     );
 
     String? deployMessage;
-    if (overriddenDeployMessageOrNull == null) {
+    if (overriddenDeployMessage == null) {
       final currentCommit = await _getCurrentCommitHash();
       deployMessage = 'Commit: $currentCommit';
     }
@@ -115,7 +115,7 @@ class DeployWebAppCommand extends Command {
           '--project',
           webAppConfig.firebaseProjectId,
           '--message',
-          deployMessage ?? overriddenDeployMessageOrNull!,
+          deployMessage ?? overriddenDeployMessage!,
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
 
