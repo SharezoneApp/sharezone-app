@@ -65,8 +65,7 @@ When none is specified, the value from pubspec.yaml is used.''',
   static const outputTypeName = 'output-type';
 
   @override
-  String get description =>
-      'Build the Sharezone Android app in release mode. Codemagic CLI tools must be installed.';
+  String get description => 'Build the Sharezone Android app in release mode.';
 
   @override
   String get name => 'android';
