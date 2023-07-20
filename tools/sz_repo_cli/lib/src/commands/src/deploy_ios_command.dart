@@ -21,6 +21,30 @@ final _iosFlavors = [
   'prod',
 ];
 
+/// [DeployIosCommand] provides functionality for deploying the Sharezone iOS
+/// app to the App Store or TestFlight.
+///
+/// This command automatically increments the build number and builds the app.
+/// The Codemagic CLI tools are required for this process. Note that only the
+/// "prod" flavor of the app is currently supported for iOS deployment.
+///
+/// You can customize deployment using command line arguments. Some of these
+/// include:
+///  - `private-key`: The App Store Connect API private key used for JWT
+///    authentication.
+///  - `key-id`: The App Store Connect API Key ID used to authenticate.
+///  - `issuer-id`: The App Store Connect API Key Issuer ID used to
+///    authenticate.
+///  - `stage`: The stage to deploy to. Supports "stable" for App Store releases
+///    and "alpha" for TestFlight releases.
+///  - `flavor`: The flavor to build for. Currently only "prod" flavor is
+///    supported.
+///  - `whats-new`: Release notes either for TestFlight or App Store review
+///    submission.
+///
+/// These options can either be provided via the command line or set as
+/// environment variables (only applies for some of them). If any required
+/// argument is missing, the deployment will fail.
 class DeployIosCommand extends Command {
   final SharezoneRepo _repo;
 
@@ -72,7 +96,7 @@ class DeployIosCommand extends Command {
 
   @override
   String get description =>
-      'Deploys the Sharezone iOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI Tools are required.';
+      'Deploys the Sharezone iOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
 
   @override
   String get name => 'ios';
