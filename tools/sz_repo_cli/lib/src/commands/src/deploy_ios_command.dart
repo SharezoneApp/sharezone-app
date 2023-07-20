@@ -150,7 +150,9 @@ class DeployIosCommand extends Command {
           '--whats-new',
           whatsNew,
         ],
-        if (!isStable) ...[
+        if (isStable) ...[
+          '--app-store',
+        ] else ...[
           '--beta-group',
           stage,
           '--testflight',
@@ -243,7 +245,7 @@ class DeployIosCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
+        workingDirectory: _repo.sharezoneCiCdTool.path,
       );
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');
