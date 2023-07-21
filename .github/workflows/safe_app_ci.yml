@@ -324,7 +324,6 @@ jobs:
                       | contains("Mac Developer Installer"))
                       | .common_name][0]' \
                     | xargs)
-          codesign --deep --force --verbose --sign "$INSTALLER_CERT_NAME" "$APP_NAME"
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
           rm -f unsigned.pkg
         
