@@ -324,6 +324,7 @@ jobs:
                       | contains("Mac Developer Installer"))
                       | .common_name][0]' \
                     | xargs)
+          find "$APP_NAME" -name '*.dylib' -exec codesign --sign "$INSTALLER_CERT_NAME" --force {} \;
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
           rm -f unsigned.pkg
         
