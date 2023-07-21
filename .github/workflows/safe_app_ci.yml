@@ -314,10 +314,7 @@ jobs:
           #
           # Copied from
           # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
-
           APP_NAME=$(find $(pwd) -name "*.app")
-          echo "APP_NAME is $APP_NAME" # Debugging line
-          
           PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
           xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
           
