@@ -207,10 +207,10 @@ packages:
     dependency: "direct main"
     description:
       name: fast_rsa
-      sha256: "04e712f781e772fd5eff35aa19465ce2577f30203ca9adb9e37d4dd32929ed8f"
+      sha256: "79bc5398e69d226497d926e85fab944e5d07bb8a9dd747129cf7be33009e386d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.6"
+    version: "3.5.7"
   ffi:
     dependency: transitive
     description:
