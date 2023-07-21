@@ -65,7 +65,7 @@ class PluginInitializations {
   static Future<RemoteConfiguration> initializeRemoteConfiguration() async {
     final remoteConfiguration = getRemoteConfiguration();
 
-    await remoteConfiguration.initialize({
+    await remoteConfiguration.initializeAndFetchInBackground({
       'meeting_server_url': 'https://meet.sharezone.net',
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
