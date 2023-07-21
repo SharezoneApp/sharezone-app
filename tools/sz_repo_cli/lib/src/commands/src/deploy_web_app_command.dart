@@ -77,31 +77,30 @@ class DeployWebAppCommand extends Command {
     // easier.
     isVerbose = true;
 
-    final googleApplicationCredentialsFile = _parseCredentialsFile(argResults);
+    final googleApplicationCredentialsFile = _parseCredentialsFile(argResults!);
 
-    final overriddenDeployMessageOrNull = _parseDeployMessage(argResults);
-    final releaseStage = _parseReleaseStage(argResults);
+    final overriddenDeployMessage = _parseDeployMessage(argResults!);
+    final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
     await runProcessSucessfullyOrThrow(
       'fvm',
       [
-        'flutter',
+        'dart',
+        'run',
+        'sz_repo_cli',
         'build',
         'web',
-        '--target',
-        'lib/main_${webAppConfig.flavor}.dart',
-        '--release',
-        '--web-renderer',
-        'canvaskit',
-        '--dart-define',
-        'DEVELOPMENT_STAGE=${releaseStage.toUpperCase()}'
+        '--flavor',
+        webAppConfig.flavor,
+        '--stage',
+        releaseStage
       ],
-      workingDirectory: _repo.sharezoneFlutterApp.location.path,
+      workingDirectory: _repo.sharezoneCiCdTool.path,
     );
 
-    String deployMessage;
-    if (overriddenDeployMessageOrNull == null) {
+    String? deployMessage;
+    if (overriddenDeployMessage == null) {
       final currentCommit = await _getCurrentCommitHash();
       deployMessage = 'Commit: $currentCommit';
     }
@@ -115,7 +114,7 @@ class DeployWebAppCommand extends Command {
           '--project',
           webAppConfig.firebaseProjectId,
           '--message',
-          deployMessage ?? overriddenDeployMessageOrNull,
+          deployMessage ?? overriddenDeployMessage!,
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
 
@@ -139,9 +138,10 @@ class DeployWebAppCommand extends Command {
         });
   }
 
-  File _parseCredentialsFile(ArgResults _argResults) {
-    File googleApplicationCredentialsFile;
-    final _path = _argResults[googleApplicationCredentialsOptionName] as String;
+  File? _parseCredentialsFile(ArgResults _argResults) {
+    File? googleApplicationCredentialsFile;
+    final _path =
+        _argResults[googleApplicationCredentialsOptionName] as String?;
     if (_path != null) {
       googleApplicationCredentialsFile = File(_path);
       final exists = googleApplicationCredentialsFile.existsSync();
@@ -169,7 +169,7 @@ class DeployWebAppCommand extends Command {
   }
 
   String _parseReleaseStage(ArgResults _argResults) {
-    final releaseStage = _argResults[releaseStageOptionName] as String;
+    final releaseStage = _argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
       print(
           'Expected --$releaseStageOptionName option. Possible values: $_webAppStages');
@@ -178,9 +178,9 @@ class DeployWebAppCommand extends Command {
     return releaseStage;
   }
 
-  String _parseDeployMessage(ArgResults _argResults) {
+  String? _parseDeployMessage(ArgResults _argResults) {
     final overriddenDeployMessageOrNull =
-        _argResults[firebaseDeployMessageOptionName] as String;
+        _argResults[firebaseDeployMessageOptionName] as String?;
     return overriddenDeployMessageOrNull;
   }
 

@@ -12,6 +12,11 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as p;
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_macos_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_web_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
@@ -42,10 +47,15 @@ Future<void> main(List<String> args) async {
     ..addCommand(LicenseHeadersCommand()
       ..addSubcommand(CheckLicenseHeadersCommand(repo))
       ..addSubcommand(AddLicenseHeadersCommand(repo)))
-    ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)));
+    ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)))
+    ..addCommand(BuildCommand()
+      ..addSubcommand(BuildAndroidCommand(repo))
+      ..addSubcommand(BuildMacOsCommand(repo))
+      ..addSubcommand(BuildWebCommand(repo))
+      ..addSubcommand(BuildIosCommand(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
-    final ToolExit toolExit = e;
+    final toolExit = e as ToolExit;
     exit(toolExit.exitCode);
   }, test: (Object e) => e is ToolExit)
       // Ansonsten wird die StackTrace noch zusätzlich ausgeprintet, was die Benutzung

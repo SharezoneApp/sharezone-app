@@ -29,8 +29,8 @@ jobs:
   check-files-licence-headers:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
-      - uses: actions/setup-go@8dbf352f069be09d9a0b567cc1a9d16a5663fc3a
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - uses: actions/setup-go@992f0689006f912ae66668969f1fa6618fc53ebd
         with:
           go-version: '^1.13.1'
       - run: go install github.com/google/addlicense@v1.1.1 

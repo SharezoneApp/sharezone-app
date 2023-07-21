@@ -13,7 +13,7 @@ description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS
 # (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
 # "app-store-connect get-latest-build-number 1434868489" to get the latest build
 # number.
-version: 1.6.2+318
+version: 1.7.3+318
 publish_to: none
 
 environment:
@@ -108,10 +108,7 @@ dependencies:
   notifications:
     path: ../lib/notifications
   numberpicker: ^2.1.1
-  # We need to use the reference to git until open_file 3.2.2 is published.
-  open_file:
-    git:
-      url: https://github.com/crazecoder/open_file
+  open_file_plus: ^3.4.1
   optional: ^6.1.0+1
   overlay_support: ^2.1.0
   package_info_plus: ^3.0.3

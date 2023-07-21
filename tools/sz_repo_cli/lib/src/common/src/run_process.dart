@@ -15,11 +15,11 @@ import '../common.dart';
 Future<void> runProcessSucessfullyOrThrow(
   String executable,
   List<String> arguments, {
-  String workingDirectory,
-  Map<String, String> environment,
+  String? workingDirectory,
+  Map<String, String>? environment,
   // ignore: unused_element
-  bool includeParentEnvironment,
-  bool runInShell,
+  bool? includeParentEnvironment,
+  bool? runInShell,
   ProcessStartMode mode = ProcessStartMode.normal,
 }) async {
   final displayableCommand = '$executable ${arguments.join(' ')}';
@@ -41,11 +41,11 @@ Future<void> runProcessSucessfullyOrThrow(
 Future<ProcessResult> runProcess<T>(
   String executable,
   List<String> arguments, {
-  String workingDirectory,
-  Map<String, String> environment,
+  String? workingDirectory,
+  Map<String, String>? environment,
   // ignore: unused_element
-  bool includeParentEnvironment,
-  bool runInShell,
+  bool? includeParentEnvironment,
+  bool? runInShell,
   ProcessStartMode mode = ProcessStartMode.normal,
 }) async {
   final displayableCommand = '$executable ${arguments.join(' ')}';
