@@ -297,7 +297,7 @@ jobs:
           # BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
           # TEMP
-          BUMPED_BUILD_NUMBER=434
+          BUMPED_BUILD_NUMBER=435
 
           fvm flutter build macos \
             --release \
@@ -331,6 +331,7 @@ jobs:
 
           find "$APP_NAME" -name '*.dylib' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;
           find "$APP_NAME" -name '*.framework' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;                    
+          codesign --deep --force --verbose --sign "$APPLE_DIST_CERT_NAME" "$APP_NAME"
 
           INSTALLER_CERT_NAME=$(keychain list-certificates \
                     | jq '[.[]
