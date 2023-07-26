@@ -237,6 +237,8 @@ class DeployIosCommand extends Command {
         '--path',
         'build/ios/ipa/*.ipa',
         '--release-type',
+        // The app version will be automatically released right after it has
+        // been approved by App Review.
         'AFTER_APPROVAL',
         if (whatsNew != null) ...[
           '--whats-new',
