@@ -14,3 +14,9 @@ GeneratedPluginRegistrant.java
 # App signing stuff.
 **/**.jks
 key*.properties
+
+# Fastlane
+#
+# Reports are used for local report generation (like time tracking) when using
+# fastlane.
+fastlane/report.xml
