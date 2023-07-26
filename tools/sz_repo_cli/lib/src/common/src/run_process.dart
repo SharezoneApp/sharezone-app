@@ -12,7 +12,7 @@ import '../common.dart';
 
 /// Helper method that automatically throws if [Process.exitCode] is non-zero
 /// (unsucessfull).
-Future<void> runProcessSucessfullyOrThrow(
+Future<ProcessResult> runProcessSucessfullyOrThrow(
   String executable,
   List<String> arguments, {
   String? workingDirectory,
@@ -34,6 +34,8 @@ Future<void> runProcessSucessfullyOrThrow(
     throw Exception(
         'Process ended with non-zero exit code: $displayableCommand (exit code ${result.exitCode}): ${result.stderr}\n\n stdout:${result.stdout}');
   }
+
+  return ProcessResult(result.pid, exitCode, result.stdout, result.stderr);
 }
 
 /// Helper method with automatic (verbose) logging and workarounds for some
