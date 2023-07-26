@@ -60,9 +60,18 @@ class PageTemplate extends StatelessWidget {
             SliverToBoxAdapter(
               child: SafeArea(
                 child: Column(
-                  crossAxisAlignment: crossAxisAlignment,
                   children: [
-                    ...children!,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height -
+                            _kAppBarHeight -
+                            5,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: crossAxisAlignment,
+                        children: children!,
+                      ),
+                    ),
                     const Footer(),
                   ],
                 ),
@@ -74,6 +83,8 @@ class PageTemplate extends StatelessWidget {
     );
   }
 }
+
+const _kAppBarHeight = 80.0;
 
 class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -87,7 +98,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: SizedBox(
-              height: 80,
+              height: _kAppBarHeight,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

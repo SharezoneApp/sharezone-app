@@ -38,7 +38,6 @@ class ImprintPage extends StatelessWidget {
                       softLineBreak: true,
                     ),
                   ),
-                  const SizedBox(height: 36),
                 ],
               ),
             ),
