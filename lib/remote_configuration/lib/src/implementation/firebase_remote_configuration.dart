@@ -30,16 +30,12 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
     return _remoteConfig.getBool(key);
   }
 
-  /// Initializes the remote configuration with the given default values and
-  /// fetches the remote configuration in the background.
+  /// Initializes the remote configuration with the given default values.
   ///
   /// The default values are used if the remote configuration could not be
   /// fetched.
-  ///
-  /// This method follows the "Load new values for next startup" strategy:
-  /// https://firebase.google.com/docs/remote-config/loading.
   @override
-  Future<void> initializeAndFetchInBackground(
+  Future<void> initialize(
     Map<String, dynamic> defaultValues,
   ) async {
     try {
@@ -51,15 +47,25 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
           minimumFetchInterval: const Duration(hours: 3),
         ),
       );
-      // Activate the fetched remote config from the last fetch.
-      await _remoteConfig.activate();
-
-      // Fetch remote config in the background. They will be available on the
-      // next app start.
-      unawaited(_remoteConfig.fetch());
     } catch (e) {
       log("Error fetch remote config: $e");
     }
+  }
+
+  /// Makes the last fetched config available to getters.
+  ///
+  /// Returns a [bool] that is `true` if the config parameters were activated.
+  /// Otherwise returns `false`ƒ if the config parameters were already
+  /// activated.
+  @override
+  Future<bool> activate() async {
+    return _remoteConfig.activate();
+  }
+
+  /// Fetches and caches configuration from the Remote Config service.
+  @override
+  Future<void> fetch() async {
+    await _remoteConfig.fetch();
   }
 }
 

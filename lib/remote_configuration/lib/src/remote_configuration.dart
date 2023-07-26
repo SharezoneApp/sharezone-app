@@ -7,8 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 abstract class RemoteConfiguration {
-  Future<void> initializeAndFetchInBackground(
-      Map<String, dynamic> defaultValues);
+  Future<void> initialize(Map<String, dynamic> defaultValues);
+
+  Future<bool> activate();
+
+  Future<void> fetch();
+
   String getString(String key);
+
   bool getBool(String key);
 }

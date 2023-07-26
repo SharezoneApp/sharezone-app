@@ -22,11 +22,19 @@ class StubRemoteConfiguration extends RemoteConfiguration {
   }
 
   @override
-  Future<void> initializeAndFetchInBackground(
+  Future<void> initialize(
     Map<String, dynamic> defaultValues,
   ) async {
     _defaultValues = defaultValues;
   }
+
+  @override
+  Future<bool> activate() async {
+    return true;
+  }
+
+  @override
+  Future<void> fetch() async {}
 }
 
 RemoteConfiguration getRemoteConfiguration() {
