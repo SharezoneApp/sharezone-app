@@ -35,10 +35,10 @@ Registernummer: HRB 91086
 Mobil: +49 1522 9504121
 E-Mail: support@sharezone.net
 
-### Steuernummer:
+### Umsatzsteuer-ID:
 
-Finanzamt Düsseldorf-Mitte
-133/5869/5033""");
+Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: DE338063943
+""");
   }
 
   @override
