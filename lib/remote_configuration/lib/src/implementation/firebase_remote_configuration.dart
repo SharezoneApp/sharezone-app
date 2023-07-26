@@ -55,7 +55,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   /// Makes the last fetched config available to getters.
   ///
   /// Returns a [bool] that is `true` if the config parameters were activated.
-  /// Otherwise returns `false`ƒ if the config parameters were already
+  /// Otherwise returns `false` if the config parameters were already
   /// activated.
   @override
   Future<bool> activate() async {
