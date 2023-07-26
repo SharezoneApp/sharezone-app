@@ -22,9 +22,9 @@ class StubRemoteConfiguration extends RemoteConfiguration {
   }
 
   @override
-  Future<void> initialize(
+  void initialize(
     Map<String, dynamic> defaultValues,
-  ) async {
+  ) {
     _defaultValues = defaultValues;
   }
 

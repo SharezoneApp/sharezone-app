@@ -35,9 +35,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   /// The default values are used if the remote configuration could not be
   /// fetched.
   @override
-  Future<void> initialize(
-    Map<String, dynamic> defaultValues,
-  ) async {
+  void initialize(Map<String, dynamic> defaultValues) {
     try {
       _remoteConfig = FirebaseRemoteConfig.instance;
       _remoteConfig.setDefaults(defaultValues);
