@@ -175,14 +175,14 @@ class DeployIosCommand extends Command {
   }
 
   Future<int> _getNextBuildNumber() async {
-    final latestBuildNumber = await _getLatestBuildNumberFromGooglePlay();
+    final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect();
     final nextBuildNumber = latestBuildNumber + 1;
     print('Next build number: $nextBuildNumber');
     return nextBuildNumber;
   }
 
-  /// Returns the latest build number from Google Play across all tracks.
-  Future<int> _getLatestBuildNumberFromGooglePlay() async {
+  /// Returns the latest build number from App Store and TestFligth all tracks.
+  Future<int> _getLatestBuildNumberFromAppStoreConnect() async {
     try {
       // From https://appstoreconnect.apple.com/apps/1434868489/
       const appId = 1434868489;
