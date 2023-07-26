@@ -141,53 +141,6 @@ class DeployIosCommand extends Command {
     }
   }
 
-  Future<void> _publish() async {
-    final whatsNew = argResults![whatsNewOptionName] as String?;
-    final stage = argResults![releaseStageOptionName] as String;
-    final issuerId = argResults![issuerIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-    final keyIdentifier = argResults![keyIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-    final privateKey = argResults![privateKeyOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
-
-    final isStable = stage == 'stable';
-    await runProcess(
-      'app-store-connect',
-      [
-        'publish',
-        '--path',
-        'build/ios/ipa/*.ipa',
-        '--release-type',
-        'AFTER_APPROVAL',
-        if (whatsNew != null) ...[
-          '--whats-new',
-          whatsNew,
-        ],
-        if (isStable) ...[
-          '--app-store',
-        ] else ...[
-          '--beta-group',
-          stage,
-          '--testflight',
-        ],
-        if (issuerId != null) ...[
-          '--issuer-id',
-          issuerId,
-        ],
-        if (keyIdentifier != null) ...[
-          '--key-id',
-          keyIdentifier,
-        ],
-        if (privateKey != null) ...[
-          '--private-key',
-          privateKey,
-        ],
-      ],
-      workingDirectory: _repo.sharezoneFlutterApp.location.path,
-    );
-  }
-
   Future<int> _getNextBuildNumber() async {
     final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect();
     final nextBuildNumber = latestBuildNumber + 1;
@@ -264,5 +217,52 @@ class DeployIosCommand extends Command {
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');
     }
+  }
+
+  Future<void> _publish() async {
+    final whatsNew = argResults![whatsNewOptionName] as String?;
+    final stage = argResults![releaseStageOptionName] as String;
+    final issuerId = argResults![issuerIdOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
+    final keyIdentifier = argResults![keyIdOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
+    final privateKey = argResults![privateKeyOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
+
+    final isStable = stage == 'stable';
+    await runProcess(
+      'app-store-connect',
+      [
+        'publish',
+        '--path',
+        'build/ios/ipa/*.ipa',
+        '--release-type',
+        'AFTER_APPROVAL',
+        if (whatsNew != null) ...[
+          '--whats-new',
+          whatsNew,
+        ],
+        if (isStable) ...[
+          '--app-store',
+        ] else ...[
+          '--beta-group',
+          stage,
+          '--testflight',
+        ],
+        if (issuerId != null) ...[
+          '--issuer-id',
+          issuerId,
+        ],
+        if (keyIdentifier != null) ...[
+          '--key-id',
+          keyIdentifier,
+        ],
+        if (privateKey != null) ...[
+          '--private-key',
+          privateKey,
+        ],
+      ],
+      workingDirectory: _repo.sharezoneFlutterApp.location.path,
+    );
   }
 }
