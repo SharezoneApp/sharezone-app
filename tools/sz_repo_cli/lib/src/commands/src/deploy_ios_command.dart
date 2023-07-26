@@ -161,7 +161,7 @@ class DeployIosCommand extends Command {
       final privateKey = argResults![privateKeyOptionName] as String? ??
           Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
 
-      final result = await runProcess(
+      final result = await runProcessSucessfullyOrThrow(
         'app-store-connect',
         [
           'get-latest-build-number',
@@ -230,7 +230,7 @@ class DeployIosCommand extends Command {
         Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
 
     final isStable = stage == 'stable';
-    await runProcess(
+    await runProcessSucessfullyOrThrow(
       'app-store-connect',
       [
         'publish',
