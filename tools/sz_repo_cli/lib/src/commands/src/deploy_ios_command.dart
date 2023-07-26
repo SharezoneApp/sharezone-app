@@ -103,6 +103,7 @@ class DeployIosCommand extends Command {
   @override
   Future<void> run() async {
     _throwIfFlavorIsNotSupportForDeployment();
+    await _throwIfCodemagiCliToolsAreNotInstalled();
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -122,6 +123,20 @@ class DeployIosCommand extends Command {
     if (flavor != 'prod') {
       throw Exception(
         'Only the "prod" flavor is supported for iOS deployment.',
+      );
+    }
+  }
+
+  Future<void> _throwIfCodemagiCliToolsAreNotInstalled() async {
+    // Check if "which -s app-store-connect" returns 0.
+    // If not, throw an exception.
+    final result = await runProcess(
+      'which',
+      ['-s', 'app-store-connect'],
+    );
+    if (result.exitCode != 0) {
+      throw Exception(
+        'Codemagic CLI tools are not installed. Docs to install them: https://github.com/codemagic-ci-cd/cli-tools#installing',
       );
     }
   }
