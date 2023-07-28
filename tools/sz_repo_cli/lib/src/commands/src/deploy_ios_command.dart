@@ -56,7 +56,7 @@ class DeployIosCommand extends Command {
         abbr: 's',
         allowed: _iosStages,
         help:
-            'The stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases (publishing to a TestFligh group that matches "alpha" as a group name). Additionally, the stage value is passed to the build command.',
+            'The deployment stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases. The value will be forwarded to the "sz build" command.',
         defaultsTo: 'stable',
       )
       ..addOption(
