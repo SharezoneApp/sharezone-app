@@ -11,10 +11,11 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-final _iosStages = [
-  'stable',
-  'alpha',
-];
+/// A map that maps the stage to the corresponding [AppleTrack].
+final _iosStageToTracks = {
+  'stable': const AppStoreTrack(),
+  'alpha': const TestFlightTrack('alpha'),
+};
 
 /// The different flavors of the iOS app that support deployment.
 final _iosFlavors = [
@@ -92,6 +93,8 @@ class DeployIosCommand extends Command {
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const whatsNewOptionName = 'whats-new';
+
+  List<String> get _iosStages => _iosStageToTracks.keys.toList();
 
   @override
   String get description =>
@@ -221,7 +224,6 @@ class DeployIosCommand extends Command {
 
   Future<void> _publish() async {
     final whatsNew = argResults![whatsNewOptionName] as String?;
-    final stage = argResults![releaseStageOptionName] as String;
     final issuerId = argResults![issuerIdOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
     final keyIdentifier = argResults![keyIdOptionName] as String? ??
@@ -229,7 +231,7 @@ class DeployIosCommand extends Command {
     final privateKey = argResults![privateKeyOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
 
-    final isStable = stage == 'stable';
+    final track = _getAppleTrack();
     await runProcessSucessfullyOrThrow(
       'app-store-connect',
       [
@@ -244,11 +246,12 @@ class DeployIosCommand extends Command {
           '--whats-new',
           whatsNew,
         ],
-        if (isStable) ...[
+        if (track is AppStoreTrack) ...[
           '--app-store',
-        ] else ...[
+        ],
+        if (track is TestFlightTrack) ...[
           '--beta-group',
-          stage,
+          track.groupName,
           '--testflight',
         ],
         if (issuerId != null) ...[
@@ -267,4 +270,35 @@ class DeployIosCommand extends Command {
       workingDirectory: _repo.sharezoneFlutterApp.location.path,
     );
   }
+
+  AppleTrack _getAppleTrack() {
+    final stage = argResults![releaseStageOptionName] as String;
+    final track = _iosStageToTracks[stage];
+    if (track == null) {
+      throw Exception('Unknown track for stage: $stage');
+    }
+    return track;
+  }
+}
+
+/// A track to publish the app for Apple.
+abstract class AppleTrack {
+  const AppleTrack();
+}
+
+/// The track for the App Store.
+///
+/// https://appstoreconnect.apple.com/apps/1434868489/appstore
+class AppStoreTrack extends AppleTrack {
+  const AppStoreTrack();
+}
+
+/// The track for TestFlight.
+///
+/// https://appstoreconnect.apple.com/apps/1434868489/testflight
+class TestFlightTrack extends AppleTrack {
+  /// The name of the TestFlight group.
+  final String groupName;
+
+  const TestFlightTrack(this.groupName);
 }
