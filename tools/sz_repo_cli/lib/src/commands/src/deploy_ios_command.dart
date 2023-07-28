@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 
 /// A map that maps the stage to the corresponding [AppleTrack].
 final _iosStageToTracks = {
@@ -279,26 +280,4 @@ class DeployIosCommand extends Command {
     }
     return track;
   }
-}
-
-/// A track to publish the app (iOS or macOS) for Apple.
-abstract class AppleTrack {
-  const AppleTrack();
-}
-
-/// The track for the App Store.
-///
-/// https://appstoreconnect.apple.com/apps/1434868489/appstore
-class AppStoreTrack extends AppleTrack {
-  const AppStoreTrack();
-}
-
-/// The track for TestFlight.
-///
-/// https://appstoreconnect.apple.com/apps/1434868489/testflight
-class TestFlightTrack extends AppleTrack {
-  /// The name of the TestFlight group.
-  final String groupName;
-
-  const TestFlightTrack(this.groupName);
 }
