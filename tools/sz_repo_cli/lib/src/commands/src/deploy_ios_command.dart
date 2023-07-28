@@ -281,7 +281,7 @@ class DeployIosCommand extends Command {
   }
 }
 
-/// A track to publish the app for Apple.
+/// A track to publish the app (iOS or macOS) for Apple.
 abstract class AppleTrack {
   const AppleTrack();
 }
