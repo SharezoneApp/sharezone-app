@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
-      - uses: actions/setup-go@992f0689006f912ae66668969f1fa6618fc53ebd
+      - uses: actions/setup-go@db8764c1e24b94e6bf86c7b9195ce862c97a4090
         with:
           go-version: '^1.13.1'
       - run: go install github.com/google/addlicense@v1.1.1 
