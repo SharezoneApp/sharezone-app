@@ -321,18 +321,6 @@ jobs:
           PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
           xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
 
-          # For signing .dylib, .framework, and .app files
-          APPLE_DIST_CERT_NAME=$(keychain list-certificates \
-            | jq '[.[]
-              | select(.common_name
-              | contains("Apple Distribution: Sharezone UG (haftungsbeschraenkt)"))
-              | .common_name][0]' \
-            | xargs)
-
-          find "$APP_NAME" -name '*.dylib' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;
-          find "$APP_NAME" -name '*.framework' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;                    
-          codesign --deep --force --verbose --sign "$APPLE_DIST_CERT_NAME" "$APP_NAME"
-
           INSTALLER_CERT_NAME=$(keychain list-certificates \
                     | jq '[.[]
                       | select(.common_name

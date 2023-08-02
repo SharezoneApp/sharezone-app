@@ -206,11 +206,12 @@ packages:
   fast_rsa:
     dependency: "direct main"
     description:
-      name: fast_rsa
-      sha256: "79bc5398e69d226497d926e85fab944e5d07bb8a9dd747129cf7be33009e386d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.7"
+      path: "."
+      ref: "025da1e915d3f497a735d815d89577dd258ddb46"
+      resolved-ref: "025da1e915d3f497a735d815d89577dd258ddb46"
+      url: "https://github.com/jerson/flutter-rsa"
+    source: git
+    version: "3.6.0"
   ffi:
     dependency: transitive
     description:
