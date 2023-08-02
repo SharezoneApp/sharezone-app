@@ -297,7 +297,7 @@ jobs:
           # BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
           # TEMP
-          BUMPED_BUILD_NUMBER=435
+          BUMPED_BUILD_NUMBER=436
 
           fvm flutter build macos \
             --release \
