@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'privacy_policy_src.dart';
 
 /// Updates which [DocumentSection] inside the user is currently reading.
+///
 /// Used by the [TableOfContentsController] to highlight the currently read
 /// document section.
 ///
