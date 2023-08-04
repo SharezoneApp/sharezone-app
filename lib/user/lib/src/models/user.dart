@@ -6,14 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:characters/characters.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:user/src/models/subscription.dart';
+
 import 'features.dart';
 import 'state_enum.dart';
 import 'tips/user_tip_data.dart';
 import 'type_of_user.dart';
 import 'user_settings.dart';
-import 'package:characters/characters.dart';
 
 class AppUser {
   final String id;
@@ -103,7 +104,7 @@ class AppUser {
       name: data['name'],
       abbreviation: generateAbbreviation(data['name']),
       typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']) ??
-          TypeOfUser.student,
+          TypeOfUser.unknown,
       notificationTokens: decodeList(data['notificationTokens'], (it) => it),
       reminderTime: data['reminderTime'],
       referralLink: data['referralLink'],

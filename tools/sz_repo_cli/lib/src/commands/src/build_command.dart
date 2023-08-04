@@ -6,14 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-abstract class RemoteConfiguration {
-  void initialize(Map<String, dynamic> defaultValues);
+import 'package:args/command_runner.dart';
 
-  Future<bool> activate();
+class BuildCommand extends Command {
+  @override
+  String get description =>
+      'Build Sharezone app for a specific platform (e.g. web app)';
 
-  Future<void> fetch();
-
-  String getString(String key);
-
-  bool getBool(String key);
+  @override
+  String get name => 'build';
 }

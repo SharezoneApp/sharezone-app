@@ -30,7 +30,7 @@ bool isVerbose = false;
 Future<Directory> getProjectRootDirectory() async {
   final res = await Process.run('git', ['rev-parse', '--show-toplevel'],
       runInShell: false);
-  final String stdout = res.stdout;
+  final stdout = res.stdout;
   if (stdout is! String) {
     print('Error: Could not get project root from git (output: ${res.stdout})');
     exit(1);
