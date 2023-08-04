@@ -302,6 +302,7 @@ void main() {
           );
         });
       });
+
       test(
           'When manually expanding a section it stays open even if it the user finishes reading it',
           () {
@@ -330,6 +331,7 @@ void main() {
           );
         });
       });
+
       test(
         'When manually collapsing a section that is currently read it will stay closed when switching between its subchapters',
         () {
@@ -366,6 +368,7 @@ void main() {
           });
         },
       );
+
       test(
           'When manually collapsing a section that is currently read and scrolling in and out of then it will expand automatically again (default behavior)',
           () {
@@ -405,6 +408,7 @@ void main() {
           );
         });
       });
+
       test(
           'When manually collapsing a section that is not(!) currently read and scrolling in and out of then it will expand automatically again (default behavior)',
           () {
@@ -435,6 +439,7 @@ void main() {
           );
         });
       });
+
       test('Collapsing and Expanding multiple sections works', () {
         forExpansionBehavior(
             [ExpansionBehavior.leaveManuallyOpenedSectionsOpen], () {
@@ -515,6 +520,7 @@ void main() {
           ],
         );
       });
+
       test('Regression test: Changing the expansion behavior works 2', () {
         final sections = [
           _Section(
