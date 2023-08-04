@@ -124,6 +124,7 @@ void main() {
 
       expect(controller.currentlyReadSection, 'foo');
     });
+
     test(
         'Marks a section as currently read when the the section is located past the threshold',
         () {
