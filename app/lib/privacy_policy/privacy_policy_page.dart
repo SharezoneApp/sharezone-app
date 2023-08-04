@@ -132,7 +132,9 @@ PrivacyPolicyThemeSettings _createPrivacyPolicyThemeSettings(
     themeSettings: themeSettings,
     config: config,
     // Analytics might not always be provided when the privacy policy page needs
-    // to be shown. `AnalyticsProvider.ofOrNullObject(context)` will return a
+    // to be shown, for example when looking at the privacy policy in the
+    // registration process.
+    // `AnalyticsProvider.ofOrNullObject(context)` will return a
     // "null object" in this case which will just do nothing when used.
     analytics: AnalyticsProvider.ofOrNullObject(context),
   );
