@@ -124,13 +124,10 @@ class _TableOfContentsDesktop extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment(-.7, 0.0),
-                child: Text(
-                  'Weitere Optionen',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.start,
-                ),
+              Text(
+                'Weitere Optionen',
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.start,
               ),
               SizedBox(height: 13),
               ChangeAppearanceButton(),
