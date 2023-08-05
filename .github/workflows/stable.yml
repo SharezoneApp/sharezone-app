@@ -21,9 +21,8 @@ on:
       ios-changelog:
         type: string
         description: |
-          The changelog for the iOS release. This will be used as the release
-          notes in the App Store release.
-        required: true
+          iOS changelog: Used for the App Store release notes. If the changelog 
+          is not provided, the deployment for iOS will be skipped.
 
 # Set permissions to none.
 #
@@ -33,6 +32,9 @@ permissions: {}
 
 jobs:
   deploy-ios:
+    # We skip the deployment if no changelog is provided because we assume that
+    # nothing has changed in the iOS app and therefore no new version is needed.
+    if: github.event.inputs.ios-changelog != ''
     runs-on: macos-13
     timeout-minutes: 120
     defaults:
