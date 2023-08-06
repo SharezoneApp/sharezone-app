@@ -1,0 +1,7 @@
+# Apple
+**/Pods/**
+**/macos/Runner**
+**/ios/Runner**
+
+# Flutter
+**/build/**
