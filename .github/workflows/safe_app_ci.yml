@@ -297,7 +297,9 @@ jobs:
           # BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
           # TEMP
-          BUMPED_BUILD_NUMBER=439
+          BUMPED_BUILD_NUMBER=440
+
+          find . -name "Podfile" -execdir pod install \;
 
           fvm flutter build macos \
             --release \
