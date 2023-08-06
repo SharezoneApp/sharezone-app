@@ -116,15 +116,16 @@ workflows:
             --type MAC_APP_STORE \
             --create
             
-          app-store-connect list-certificates \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --save
+          app-store-connect list-certificates --type MAC_APP_DISTRIBUTION --save || \
+          app-store-connect create-certificate --type MAC_APP_DISTRIBUTION --save
 
           keychain initialize
           keychain add-certificates
           xcode-project use-profiles
       - name: Install dependencies
-        script: fvm flutter pub get
+        script: |
+          fvm flutter pub get
+          find . -name "Podfile" -execdir pod install \;
       - name: Build macOS
         script: |
           # TEMP
