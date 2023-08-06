@@ -20,15 +20,16 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:util/encryption.dart';
-import 'package:fast_rsa/fast_rsa.dart' as fastrsa;
 
 Future<RSAEncryptable> _getRSAEncryptable(dynamic value) async {
   return RSAEncryptable.generateFromRsaKeyGenerator();
 }
 
 Future<RSAEncryptable> _getRSAEncryptableFromFastRsa() async {
-  final keyPair = await fastrsa.RSA.generate(2048);
-  return RsaKeyHelper().parsePrivateKey(keyPair.privateKey);
+  // TEMP
+  // final keyPair = await fastrsa.RSA.generate(2048);
+  // return RsaKeyHelper().parsePrivateKey(keyPair.privateKey);
+  return null;
 }
 
 Future<RSAEncryptable> _computeRSAEncryptable() {

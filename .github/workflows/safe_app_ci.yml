@@ -297,7 +297,7 @@ jobs:
           # BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
           # TEMP
-          BUMPED_BUILD_NUMBER=437
+          BUMPED_BUILD_NUMBER=438
 
           fvm flutter build macos \
             --release \
@@ -319,18 +319,7 @@ jobs:
           # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
           APP_NAME=$(find $(pwd) -name "*.app")
           PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
-          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
-
-          # For signing .dylib, .framework, and .app files
-          APPLE_DIST_CERT_NAME=$(keychain list-certificates \
-            | jq '[.[]
-              | select(.common_name
-              | contains("Apple Distribution: Sharezone UG (haftungsbeschraenkt)"))
-              | .common_name][0]' \
-            | xargs)
-
-          find "$APP_NAME" -name '*.dylib' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;
-          find "$APP_NAME" -name '*.framework' -exec codesign --sign "$APPLE_DIST_CERT_NAME" --force {} \;                    
+          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg                 
 
           INSTALLER_CERT_NAME=$(keychain list-certificates \
                     | jq '[.[]
