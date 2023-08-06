@@ -3,6 +3,9 @@ name: temp
 on:
   pull_request:
 
+env:
+  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
+
 jobs:
   deploy-alpha-ios-app:
     runs-on: macos-13
