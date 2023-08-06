@@ -8,7 +8,6 @@
 
 import 'dart:io';
 
-import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -25,11 +24,11 @@ class Package {
   final bool hasGoldenTestsDirectory;
 
   Package({
-    @required this.location,
-    @required this.name,
-    @required this.type,
-    @required this.hasTestDirectory,
-    @required this.hasGoldenTestsDirectory,
+    required this.location,
+    required this.name,
+    required this.type,
+    required this.hasTestDirectory,
+    required this.hasGoldenTestsDirectory,
   });
 
   factory Package.fromDirectory(Directory directory) {
@@ -39,9 +38,13 @@ class Package {
     final YamlMap devDependencies =
         pubspecYaml['dev_dependencies'] ?? YamlMap();
     final containsFlutter = dependencies.containsKey('flutter') ||
-            devDependencies.containsKey('flutter') ??
-        false;
-    final name = pubspecYaml['name'] as String;
+        devDependencies.containsKey('flutter');
+    final name = pubspecYaml['name'] as String?;
+    if (name == null) {
+      throw Exception(
+        'Package at "${directory.path}" has no name. Please add a name',
+      );
+    }
     final hasTestDirectory =
         Directory(p.join(directory.path, 'test')).existsSync();
     final hasTestGoldensDirectory =
@@ -70,6 +73,5 @@ extension PackageTypeToReadableString on PackageType {
       case PackageType.pureDart:
         return 'Dart';
     }
-    throw UnimplementedError();
   }
 }

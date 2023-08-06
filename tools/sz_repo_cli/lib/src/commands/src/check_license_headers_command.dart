@@ -10,8 +10,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:meta/meta.dart';
-
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:yaml/yaml.dart';
 
@@ -49,8 +47,8 @@ class CheckLicenseHeadersCommand extends Command {
 ///
 /// The key can be seen in the [repo.commandsSourceOfTruthYamlFile] file.
 Future<ProcessResult> runLicenseHeaderCommand({
-  @required String commandKey,
-  @required SharezoneRepo repo,
+  required String commandKey,
+  required SharezoneRepo repo,
 }) {
   final sot = repo.commandsSourceOfTruthYamlFile;
   final commands = loadYaml(sot.readAsStringSync()) as Map;
@@ -80,7 +78,7 @@ List<String> _convertIntoArgumentsList(String input) {
 
   var current = '';
 
-  String quoteToken;
+  String? quoteToken;
   var wasLastTokenQuoted = false;
 
   for (var index = 0; index < input.length; index++) {

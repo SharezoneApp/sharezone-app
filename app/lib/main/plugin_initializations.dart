@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:crash_analytics/crash_analytics.dart';
@@ -65,7 +66,7 @@ class PluginInitializations {
   static Future<RemoteConfiguration> initializeRemoteConfiguration() async {
     final remoteConfiguration = getRemoteConfiguration();
 
-    await remoteConfiguration.initialize({
+    remoteConfiguration.initialize({
       'meeting_server_url': 'https://meet.sharezone.net',
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
@@ -74,6 +75,17 @@ class PluginInitializations {
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
     });
+
+    // We follow the "Load new values for next startup" strategy (see
+    // https://firebase.google.com/docs/remote-config/loading) to reduce the
+    // startup time of the app.
+    //
+    // First, we activate the fetched remote config from the last fetch. Then we
+    // fetch the remote config in the background. The next time the app starts,
+    // the fetched remote config will be available.
+    await remoteConfiguration.activate();
+    unawaited(remoteConfiguration.fetch());
+
     return remoteConfiguration;
   }
 
