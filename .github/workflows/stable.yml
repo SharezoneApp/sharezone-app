@@ -37,9 +37,6 @@ jobs:
     if: github.event.inputs.ios-changelog != ''
     runs-on: macos-13
     timeout-minutes: 120
-    defaults:
-      run:
-        working-directory: app
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
@@ -47,6 +44,7 @@ jobs:
         run: pip3 install codemagic-cli-tools==0.39.1
 
       - name: Setup signing
+        working-directory: app
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
           # to use the same names as the CLI tool expects.
@@ -80,6 +78,12 @@ jobs:
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
+      - name: Activate sz_repo_cli package
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(pwd)/bin >> $GITHUB_PATH
+
       - name: Deploy
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
@@ -90,4 +94,5 @@ jobs:
         run: |
           sz deploy ios \
             --stage stable \
-            --whats-new "${{ github.event.inputs.ios-changelog }}"
+            --whats-new "${{ github.event.inputs.ios-changelog }}" \
+            --export-options-plist=$HOME/export_options.plist
