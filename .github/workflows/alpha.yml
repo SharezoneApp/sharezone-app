@@ -279,4 +279,5 @@ jobs:
 
         sz deploy ios \
           --stage alpha \
-          --whats-new="$SHORT_LAST_COMMIT_MESSAGE"
+          --whats-new="$SHORT_LAST_COMMIT_MESSAGE" \
+          --export-options-plist=$HOME/export_options.plist
