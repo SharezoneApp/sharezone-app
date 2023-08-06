@@ -143,7 +143,10 @@ workflows:
           # Copied from
           # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
           APP_NAME=$(find $(pwd) -name "*.app")
+          cd $(dirname "$APP_NAME")
           PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
+          
+          # Create an unsigned package
           xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg                 
 
           INSTALLER_CERT_NAME=$(keychain list-certificates \
