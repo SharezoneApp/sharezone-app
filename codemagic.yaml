@@ -89,3 +89,76 @@ workflows:
           script: |
             dart pub global activate codemagic_app_preview 0.0.3
             app_preview post --gh_token $GITHUB_PAT --message "_Note_: Only Sharezone team members are able to install the iOS app."
+
+  macos-alpha:
+    name: macOS Alpha
+    max_build_duration: 100
+    environment:
+      xcode: latest
+      groups:
+        - ios-publishing
+        - certificate_credentials
+      vars:
+        BUNDLE_ID: de.codingbrain.sharezone.app
+    working_directory: app
+    scripts:
+      - name: Install FVM
+        # Settings working directory back to the root of the repository because
+        # there is our .fvm folder with all the FVM configurations.
+        working_directory: .
+        script: |
+          dart pub global activate fvm 2.4.1
+          fvm install
+      - name: macOS code signing
+        script: |
+          app-store-connect fetch-signing-files $BUNDLE_ID \
+            --platform IOS \
+            --type MAC_APP_STORE \
+            --create
+            
+          app-store-connect list-certificates \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --save
+
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Install dependencies
+        script: fvm flutter pub get
+      - name: Build macOS
+        script: |
+          # TEMP
+          BUMPED_BUILD_NUMBER=441
+
+          fvm flutter build macos \
+            --release \
+            --target lib/main_prod.dart \
+            --dart-define DEVELOPMENT_STAGE=ALPHA \
+            --build-number $BUMPED_BUILD_NUMBER
+      - name: Package
+        script: |
+          # Package the app
+          #
+          # Copied from
+          # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
+          APP_NAME=$(find $(pwd) -name "*.app")
+          PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
+          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg                 
+
+          INSTALLER_CERT_NAME=$(keychain list-certificates \
+                    | jq '[.[]
+                      | select(.common_name
+                      | contains("Mac Developer Installer"))
+                      | .common_name][0]' \
+                    | xargs)
+
+          xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
+          rm -f unsigned.pkg
+    artifacts:
+      - build/macos/**/*.pkg
+    publishing:
+      app_store_connect:
+        submit_to_testflight: true
+        submit_to_app_store: false
+        beta_groups:
+          - alpha
