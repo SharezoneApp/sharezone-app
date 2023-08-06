@@ -531,6 +531,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.4.3"
+  fast_rsa:
+    dependency: transitive
+    description:
+      name: fast_rsa
+      sha256: "04e712f781e772fd5eff35aa19465ce2577f30203ca9adb9e37d4dd32929ed8f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.6"
   feature_discovery:
     dependency: "direct main"
     description:
@@ -854,6 +862,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  flat_buffers:
+    dependency: transitive
+    description:
+      name: flat_buffers
+      sha256: "23e2ced0d8e8ecdffbd9f267f49a668c74438393b9acaeac1c724123e3764263"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -897,7 +913,7 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/flutter_markdown"
-      ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
+      ref: HEAD
       resolved-ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
       url: "https://github.com/SharezoneApp/packages"
     source: git
