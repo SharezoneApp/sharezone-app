@@ -207,7 +207,7 @@ jobs:
           -c 4 \
           --package-timeout-minutes 15 \
           --only-goldens
-      
+
       # Uploads the results of failed tests as .zip to GitHub.
       #
       # You can find the file under the "Summary" Tab on GitHub when all jobs of
