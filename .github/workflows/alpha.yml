@@ -245,18 +245,17 @@ jobs:
         # Else this won't be recognized as an installed version when setting
         # '.../flutter' as the FVM Flutter version cache folder.
         cache-path: '${{ runner.tool_cache }}/flutter/:version:'
-
-    - name: Activate sz_repo_cli package
-      run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-    # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-    - run: echo $(pwd)/bin >> $GITHUB_PATH
-
+        
     - name: Install FVM
       run: |
         flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
+        - name: Activate sz_repo_cli package
+          run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+    
+    # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+    - run: echo $(pwd)/bin >> $GITHUB_PATH
+        
     - name: Deploy iOS alpha to TestFlight
       env:
         # The following secrets are used by the Codemagic CLI tool. It's important
