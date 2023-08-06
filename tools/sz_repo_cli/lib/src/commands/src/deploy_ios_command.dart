@@ -81,6 +81,11 @@ class DeployIosCommand extends Command {
             "Release notes either for TestFlight or App Store review submission. Describe what's new in this version of your app, such as new features, improvements, and bug fixes. The string should not exceed 4000 characters. Example usage: --whats-new 'Bug fixes and performance improvements.'",
       )
       ..addOption(
+        exportOptionsPlistName,
+        help:
+            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
+      )
+      ..addOption(
         flavorOptionName,
         allowed: _iosFlavors,
         help: 'The flavor to build for. Only the "prod" flavor is supported.',
@@ -93,6 +98,7 @@ class DeployIosCommand extends Command {
   static const issuerIdOptionName = 'issuer-id';
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
+  static const exportOptionsPlistName = 'export-options-plist';
   static const whatsNewOptionName = 'whats-new';
 
   List<String> get _iosStages => _iosStageToTracks.keys.toList();
@@ -201,6 +207,7 @@ class DeployIosCommand extends Command {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
+      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await runProcessSucessfullyOrThrow(
         'fvm',
         [
@@ -215,6 +222,10 @@ class DeployIosCommand extends Command {
           stage,
           '--build-number',
           '$buildNumber',
+          if (exportOptionsPlist != null) ...[
+            '--export-options-plist',
+            exportOptionsPlist,
+          ],
         ],
         workingDirectory: _repo.sharezoneCiCdTool.path,
       );
