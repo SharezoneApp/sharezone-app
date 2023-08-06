@@ -208,9 +208,6 @@ jobs:
   deploy-alpha-ios-app:
     runs-on: macos-13
     timeout-minutes: 120
-    defaults:
-      run:
-        working-directory: app
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
@@ -218,6 +215,7 @@ jobs:
       run: pip3 install codemagic-cli-tools==0.39.1
 
     - name: Setup signing
+      working-directory: app
       env:
         # The following secrets are used by the Codemagic CLI tool. It's important
         # to use the same names as the CLI tool expects.
