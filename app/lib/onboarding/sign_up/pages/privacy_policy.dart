@@ -17,31 +17,11 @@ class _PrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: SafeArea(
-            child: AnimationLimiter(
-              child: Column(
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 300),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
-                  ),
-                  children: <Widget>[
-                    PlatformSvg.asset(
-                      "assets/icons/paragraph.svg",
-                      height: 120,
-                    ),
-                    const SizedBox(height: 10),
-                    Text("Datenschutzerklärung",
-                        style: TextStyle(fontSize: 26)),
-                    const SizedBox(height: 24),
-                    PrivacyPolicyContent()
-                  ],
-                ),
-              ),
-            ),
+        child: SafeArea(
+          child: PrivacyPolicyPage(
+            // Since we have the navigation bar at the bottom we don't want a
+            // second back button somewhere on the page.
+            showBackButton: false,
           ),
         ),
       ),

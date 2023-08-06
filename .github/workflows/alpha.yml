@@ -13,7 +13,7 @@ concurrency:
   # build a new version while a build is already running. This is why we use the
   # branch name as a concurrency group. This way, we can only build one version
   # per branch at the same time.
-  group: alpha
+  group: app-release
 
 on:
   push:
@@ -64,10 +64,10 @@ jobs:
   deploy-alpha-web-app:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+      uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
     - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
       with:
@@ -104,10 +104,10 @@ jobs:
   deploy-alpha-android-app:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
     
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+      uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
     - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
       with:
@@ -208,16 +208,14 @@ jobs:
   deploy-alpha-ios-app:
     runs-on: macos-13
     timeout-minutes: 120
-    defaults:
-      run:
-        working-directory: app
     steps:
-    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
     - name: Install Codemagic CLI Tools
       run: pip3 install codemagic-cli-tools==0.39.1
 
     - name: Setup signing
+      working-directory: app
       env:
         # The following secrets are used by the Codemagic CLI tool. It's important
         # to use the same names as the CLI tool expects.
@@ -235,7 +233,7 @@ jobs:
         xcode-project use-profiles
 
     - name: Set Flutter version from FVM config file to environment variables
-      uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+      uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
     - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
       with:
@@ -245,41 +243,19 @@ jobs:
         # Else this won't be recognized as an installed version when setting
         # '.../flutter' as the FVM Flutter version cache folder.
         cache-path: '${{ runner.tool_cache }}/flutter/:version:'
-
+        
     - name: Install FVM
       run: |
         flutter pub global activate fvm 2.4.1
         fvm config --cache-path '${{ runner.tool_cache }}/flutter'
     
-    - name: Build iOS app
-      env:
-        # From https://appstoreconnect.apple.com/apps/1434868489/
-        IOS_APP_ID: 1434868489
-        # The following secrets are used by the Codemagic CLI tool. It's important
-        # to use the same names as the CLI tool expects.
-        APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-        APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-      run: |
-        # Because TestFlight requires a build number that is higher than the
-        # latest build number, we need to get the latest build number and
-        # increment it by one.
-        #
-        # The "| head -2 | tail -1" part is to get the second line of the output
-        # of the "app-store-connect get-latest-build-number" command because the
-        # second line includes the build number.
-        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID --platform IOS | head -2 | tail -1)
-        BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
-
-        fvm flutter build ipa \
-          --release \
-          --flavor prod \
-          --target lib/main_prod.dart \
-          --dart-define DEVELOPMENT_STAGE=ALPHA \
-          --export-options-plist=$HOME/export_options.plist \
-          --build-number $BUMPED_BUILD_NUMBER
-
-    - name: Publish to App Store Connect
+    - name: Activate sz_repo_cli package
+      run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+    
+    # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+    - run: echo $(pwd)/bin >> $GITHUB_PATH
+        
+    - name: Deploy iOS alpha to TestFlight
       env:
         # The following secrets are used by the Codemagic CLI tool. It's important
         # to use the same names as the CLI tool expects.
@@ -301,9 +277,6 @@ jobs:
         # longer than 4000 characters.
         export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-        app-store-connect publish \
-          --path build/ios/ipa/*.ipa \
-          --beta-group=alpha \
-          --testflight \
-          --release-type=AFTER_APPROVAL \
+        sz deploy ios \
+          --stage alpha \
           --whats-new="$SHORT_LAST_COMMIT_MESSAGE"
