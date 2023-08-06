@@ -11,11 +11,19 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:sharezone_utils/platform.dart';
 import '../image_compressor.dart';
 
 class FlutterNativeImageCompressor extends ImageCompressor {
   @override
   Future<LocalFile> compressImage(LocalFile file) async {
+    if (PlatformCheck.isMacOS) {
+      // Currently, the image compressor does not work on macOS.
+      //
+      // https://github.com/fluttercandies/flutter_image_compress/issues/255
+      return file;
+    }
+
     final File ioFile = file.getFile();
     final dir = await getTemporaryDirectory();
     final targetPath = "${dir.absolute.path}/compressed-${file.getName()}";
