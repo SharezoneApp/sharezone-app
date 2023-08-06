@@ -246,6 +246,12 @@ jobs:
         # '.../flutter' as the FVM Flutter version cache folder.
         cache-path: '${{ runner.tool_cache }}/flutter/:version:'
 
+    - name: Activate sz_repo_cli package
+      run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+    # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+    - run: echo $(pwd)/bin >> $GITHUB_PATH
+
     - name: Install FVM
       run: |
         flutter pub global activate fvm 2.4.1
