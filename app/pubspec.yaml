@@ -58,7 +58,7 @@ dependencies:
     path: ../lib/date
   design:
     path: ../lib/design
-  dio: ^4.0.0
+  dio: ^5.3.2
   dynamic_links:
     path: ../lib/dynamic_links
   fast_immutable_collections: ^7.4.1
