@@ -480,10 +480,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      sha256: ce75a1b40947fea0a0e16ce73337122a86762e38b982e1ccb909daa3b9bc4197
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.6"
+    version: "5.3.2"
   dynamic_links:
     dependency: "direct main"
     description:
@@ -913,7 +913,7 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/flutter_markdown"
-      ref: HEAD
+      ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
       resolved-ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
       url: "https://github.com/SharezoneApp/packages"
     source: git

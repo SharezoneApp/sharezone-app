@@ -289,7 +289,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       baseUrl: abgabenServiceBaseUrl,
 
       /// Cold-Start kann manchmal dauern
-      connectTimeout: 45000,
+      connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
