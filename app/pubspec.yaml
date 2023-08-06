@@ -199,6 +199,3 @@ flutter:
     - assets/wallpaper/
     - assets/wallpaper/blackboard/
     - assets/images/
-    - packages/fast_rsa/web/assets/worker.js
-    - packages/fast_rsa/web/assets/wasm_exec.js
-    - packages/fast_rsa/web/assets/rsa.wasm

@@ -12,8 +12,6 @@ PODS:
     - FlutterMacOS
   - device_info_plus (0.0.1):
     - FlutterMacOS
-  - fast_rsa (0.6.0):
-    - FlutterMacOS
   - Firebase/Analytics (10.7.0):
     - Firebase/Core
   - Firebase/Auth (10.7.0):
@@ -259,7 +257,6 @@ DEPENDENCIES:
   - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
   - cloud_functions (from `Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos`)
   - device_info_plus (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos`)
-  - fast_rsa (from `Flutter/ephemeral/.symlinks/plugins/fast_rsa/macos`)
   - firebase_analytics (from `Flutter/ephemeral/.symlinks/plugins/firebase_analytics/macos`)
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
@@ -319,8 +316,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_functions/macos
   device_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos
-  fast_rsa:
-    :path: Flutter/ephemeral/.symlinks/plugins/fast_rsa/macos
   firebase_analytics:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_analytics/macos
   firebase_auth:
@@ -372,7 +367,6 @@ SPEC CHECKSUMS:
   cloud_firestore: ada6b6cea885ad634105e3d9af0e327bfafa1a4f
   cloud_functions: a471c0a155e0fb5209ee5fca040673690cea6a97
   device_info_plus: 5401765fde0b8d062a2f8eb65510fb17e77cf07f
-  fast_rsa: 87a964a26439f5b8a603949463525110ab025944
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
   firebase_analytics: 373ad95603c8b86a6ec017f936a79274ece08be9
   firebase_auth: 245a4653f4f49249a5db759970e57ec27cdcd88d
