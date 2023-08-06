@@ -6,11 +6,10 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# This workflow handles the CI for the app.
+# This workflow handles the CI for our GitHub Action files.
 #
-# Therefore, it's only triggered on pull requests that make changes to the app.
-# It only contains jobs that don't require any secrets. The jobs that require
-# secrets are handled in the "unsafe_app_ci.yml" workflow.
+# Therefore, it's only triggered on pull requests that make changes to the
+# GitHub Action files.
 
 name: actions-ci
 
