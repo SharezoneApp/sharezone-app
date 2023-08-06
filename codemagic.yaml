@@ -92,9 +92,10 @@ workflows:
 
   macos-alpha:
     name: macOS Alpha
-    max_build_duration: 100
+    max_build_duration: 60
     environment:
       xcode: latest
+      flutter: 3.7.12
       groups:
         - ios-publishing
         - certificate_credentials
@@ -102,64 +103,64 @@ workflows:
         BUNDLE_ID: de.codingbrain.sharezone.app
     working_directory: app
     scripts:
-      - name: Install FVM
-        # Settings working directory back to the root of the repository because
-        # there is our .fvm folder with all the FVM configurations.
-        working_directory: .
+      - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
         script: |
-          dart pub global activate fvm 2.4.1
-          fvm install
-      - name: macOS code signing
+          keychain initialize
+      - name: Fetch Mac App Distribution certificate and Mac App Store profile
         script: |
-          app-store-connect fetch-signing-files $BUNDLE_ID \
+          app-store-connect fetch-signing-files \
+            $BUNDLE_ID \
             --platform IOS \
             --type MAC_APP_STORE \
             --create
-            
-          app-store-connect list-certificates --type MAC_APP_DISTRIBUTION --save || \
-          app-store-connect create-certificate --type MAC_APP_DISTRIBUTION --save
-
-          keychain initialize
+      - name: Fetch Mac Installer Distribution certificates
+        script: |
+          app-store-connect list-certificates --type MAC_INSTALLER_DISTRIBUTION --save || \
+          app-store-connect create-certificate --type MAC_INSTALLER_DISTRIBUTION --save
+      - name: Set up signing certificate
+        script: |
           keychain add-certificates
+      - name: Set up code signing settings on Xcode project
+        script: |
           xcode-project use-profiles
       - name: Install dependencies
-        script: |
-          fvm flutter pub get
-          find . -name "Podfile" -execdir pod install \;
+        script: flutter pub get
+      - name: Install pods
+        script: find . -name "Podfile" -execdir pod install \;
       - name: Build macOS
         script: |
           # TEMP
-          BUMPED_BUILD_NUMBER=442
+          BUMPED_BUILD_NUMBER=443
 
-          fvm flutter build macos \
+          flutter build macos \
             --release \
             --target lib/main_prod.dart \
             --dart-define DEVELOPMENT_STAGE=ALPHA \
             --build-number $BUMPED_BUILD_NUMBER
-      - name: Package
+      - name: Package macOS application
         script: |
-          # Package the app
-          #
-          # Copied from
-          # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
+          set -x
+
+          # Command to find the path to your generated app
           APP_NAME=$(find $(pwd) -name "*.app")
           cd $(dirname "$APP_NAME")
           PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
-          
+
           # Create an unsigned package
-          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg                 
+          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
 
+          # Find the installer certificate commmon name in keychain
           INSTALLER_CERT_NAME=$(keychain list-certificates \
-                    | jq '[.[]
-                      | select(.common_name
-                      | contains("Mac Developer Installer"))
-                      | .common_name][0]' \
-                    | xargs)
+            | jq '.[]
+            | select(.common_name
+            | contains("Mac Developer Installer"))
+            | .common_name' \
+            | xargs)
 
+          # Sign the package
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
     artifacts:
       - build/macos/**/*.pkg
-      - build/macos/**/*.app
     publishing:
       app_store_connect:
         api_key: $APPLE_STORE_CONNECT_API_KEY
