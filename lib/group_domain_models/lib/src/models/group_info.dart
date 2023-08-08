@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:group_domain_models/group_domain_models.dart';
 import 'package:design/design.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 
 class GroupInfo {
   final String id;

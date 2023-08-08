@@ -55,7 +55,9 @@ void main() {
       isGroupOnboardingFinished.close();
     });
 
-    testWidgets('should not be shown, if as navigation drawer + bnb is selected', (tester) async {
+    testWidgets(
+        'should not be shown, if as navigation drawer + bnb is selected',
+        (tester) async {
       await tester.pumpWidget(
         MultiBlocProvider(
           blocProviders: [

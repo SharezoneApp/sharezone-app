@@ -47,6 +47,9 @@ class HomeworkDetailsView {
   /// Wird benötigt, um die Hausaufgabe zu bearbeiten und zu löschen
   final HomeworkDto homework;
 
+  /// Defines if the user has unlocked the paid feature.
+  final bool hasTeacherSubmissionsUnlocked;
+
   HomeworkDetailsView({
     @required this.id,
     @required this.isDone,
@@ -69,6 +72,7 @@ class HomeworkDetailsView {
     @required this.hasPermissionToViewSubmissions,
     @required this.nrOfCompletedStudents,
     @required this.hasPermissionsToViewDoneByList,
+    @required this.hasTeacherSubmissionsUnlocked,
   });
 
   HomeworkDetailsView copyWith({
@@ -93,6 +97,7 @@ class HomeworkDetailsView {
     bool hasPermissionToViewSubmissions,
     int nrOfCompletedStudents,
     bool hasPermissionsToViewDoneByList,
+    bool hasTeacherSubmissionsUnlocked,
   }) {
     return HomeworkDetailsView(
       id: id ?? this.id,
@@ -119,6 +124,8 @@ class HomeworkDetailsView {
           nrOfCompletedStudents ?? this.nrOfCompletedStudents,
       hasPermissionsToViewDoneByList:
           hasPermissionsToViewDoneByList ?? this.hasPermissionsToViewDoneByList,
+      hasTeacherSubmissionsUnlocked:
+          hasTeacherSubmissionsUnlocked ?? this.hasTeacherSubmissionsUnlocked,
     );
   }
 }

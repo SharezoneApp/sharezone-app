@@ -32,6 +32,9 @@ class RoundedSimpleDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: contentPadding,
+      title: title,
+      titlePadding: titlePadding,
+      semanticLabel: semanticLabel,
       children: [
         Material(
           borderRadius: BorderRadius.circular(sharezoneBorderRadiusValue),
@@ -40,9 +43,6 @@ class RoundedSimpleDialog extends StatelessWidget {
           child: Column(children: children),
         ),
       ],
-      title: title,
-      titlePadding: titlePadding,
-      semanticLabel: semanticLabel,
     );
   }
 }

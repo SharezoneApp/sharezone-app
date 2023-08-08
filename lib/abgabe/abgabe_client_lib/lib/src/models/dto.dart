@@ -163,10 +163,10 @@ class AbgabezielReferenz {
   String toString() => 'AbgabezielReferenz(id: $id, type: $type)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is AbgabezielReferenz && o.id == id && o.type == type;
+    return other is AbgabezielReferenz && other.id == id && other.type == type;
   }
 
   @override
@@ -174,6 +174,7 @@ class AbgabezielReferenz {
 }
 
 enum ReferenceType { homework, blackboard }
+
 ReferenceType referenceTypeEnumFromString(String data) =>
     enumFromString(ReferenceType.values, data);
 String referenceTypeEnumToString(ReferenceType referenceType) =>
@@ -188,7 +189,7 @@ T enumFromString<T>(List<T> values, dynamic json, {T orElse}) => json != null
     : orElse;
 
 String enumToString<T>(T value) =>
-    value != null ? value.toString().split('\.')[1] : null;
+    value != null ? value.toString().split('.')[1] : null;
 
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 

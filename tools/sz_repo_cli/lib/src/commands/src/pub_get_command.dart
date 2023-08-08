@@ -7,21 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
-
-import 'package:args/command_runner.dart';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 
-class PubGetCommand extends Command {
-  PubGetCommand(this.repo) {
-    argParser
-      ..addVerboseFlag()
-      ..addConcurrencyOption(defaultMaxConcurrency: 8)
-      ..addPackageTimeoutOption(defaultInMinutes: 5);
-  }
-
-  final SharezoneRepo repo;
+class PubGetCommand extends ConcurrentCommand {
+  PubGetCommand(SharezoneRepo repo) : super(repo);
 
   @override
   String get description =>
@@ -31,41 +21,32 @@ class PubGetCommand extends Command {
   String get name => 'get';
 
   @override
-  Future<void> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+  int get defaultMaxConcurrency => 8;
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null as interpreted as "no conucrrency limit" (everything at once).
-        : null;
+  @override
+  Duration get defaultPackageTimeout => Duration(minutes: 5);
 
-    final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
-    );
+  @override
+  Future<void> runTaskForPackage(Package package) => getPackage(package);
+}
 
-    final res = taskRunner
-        .runTaskForPackages(
-          packageStream: repo.streamPackages(),
-          runTask: (package) => package.getPackages(),
-          maxNumberOfPackagesBeingProcessedConcurrently:
-              maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
-        )
-        .asBroadcastStream();
-
-    final presenter = PackageTasksStatusPresenter();
-    presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);
-
-    final failures = await res.allFailures;
-
-    if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
-      await presenter.printFailedTasksSummary(failures);
-      exit(1);
-    } else {
-      print('Ran "pub get" for all packages successfully!');
-      exit(0);
-    }
+Future<void> getPackage(Package package) async {
+  if (package.isFlutterPackage) {
+    await getPackagesFlutter(package);
+  } else {
+    await getPackagesDart(package);
   }
+}
+
+Future<void> getPackagesDart(Package package) async {
+  await runProcessSucessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
+      workingDirectory: package.path);
+}
+
+Future<void> getPackagesFlutter(Package package) async {
+  await runProcessSucessfullyOrThrow(
+    'fvm',
+    ['flutter', 'pub', 'get'],
+    workingDirectory: package.path,
+  );
 }

@@ -10,7 +10,7 @@ import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
     BuildContext context,
@@ -25,28 +25,30 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
   );
 
   return appFunctionsResult.then((value) {
-    return Future.delayed(Duration(milliseconds: 350)).then((_) => value);
+    return Future.delayed(const Duration(milliseconds: 350)).then((_) => value);
   });
 }
 
 Stream<StateDialogContent> _mapAppFunctionToStateContent(
     Future<AppFunctionsResult<bool>> appFunctionsResult) {
-  final _stateContent =
+  final stateContent =
       BehaviorSubject<StateDialogContent>.seeded(stateDialogContentLoading);
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;
-      if (boolean == true)
-        _stateContent.add(stateDialogContentSuccessfull);
-      else
-        _stateContent.add(stateDialogContentFailed);
+      if (boolean == true) {
+        stateContent.add(stateDialogContentSuccessfull);
+      } else {
+        stateContent.add(stateDialogContentFailed);
+      }
     } else {
       final exception = result.exception;
-      if (exception is NoInternetAppFunctionsException)
-        _stateContent.add(stateDialogContentNoInternetException);
-      else
-        _stateContent.add(stateDialogContentUnknownException);
+      if (exception is NoInternetAppFunctionsException) {
+        stateContent.add(stateDialogContentNoInternetException);
+      } else {
+        stateContent.add(stateDialogContentUnknownException);
+      }
     }
   });
-  return _stateContent;
+  return stateContent;
 }

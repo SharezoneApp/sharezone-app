@@ -6,28 +6,31 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/theme.dart';
-
-import 'svg.dart';
-//
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// This is the Model of the EmptyList
 /// Hier wird definiert, wie das Widget aufgebaut sein soll
 class PlaceholderModel extends StatefulWidget {
-  const PlaceholderModel(
-      {this.title,
-      this.subtitle,
-      this.svgPath,
-      this.iconSize,
-      @required this.animateSVG});
+  const PlaceholderModel({
+    Key key,
+    this.title,
+    this.subtitle,
+    this.svgPath,
+    this.iconSize,
+    @required this.animateSVG,
+    this.rivePath,
+    this.riveAnimationName,
+  }) : super(key: key);
 
-  final String title, svgPath;
+  final String title, svgPath, rivePath;
   final Widget subtitle;
   final Size iconSize;
   final bool animateSVG;
+  final String riveAnimationName;
 
   @override
   PlaceholderModelState createState() => PlaceholderModelState();
@@ -72,6 +75,8 @@ class PlaceholderModelState extends State<PlaceholderModel>
                 controller: _controllerIcon,
                 size: widget.iconSize,
                 path: widget.svgPath,
+                rivePath: widget.rivePath,
+                riveAnimationName: widget.riveAnimationName,
               ),
             ),
             const SizedBox(height: 7.5),
@@ -81,7 +86,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -89,6 +94,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: DefaultTextStyle(
                 style: TextStyle(
+                    fontFamily: rubik,
                     color: isDarkThemeEnabled(context)
                         ? Colors.white70
                         : Colors.grey[800]),
@@ -138,18 +144,25 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
 }
 
 class _RotateAnimation extends StatelessWidget {
-  _RotateAnimation({Key key, this.controller, this.size, this.path})
-      : rotate = Tween<double>(
+  _RotateAnimation({
+    Key key,
+    this.controller,
+    this.size,
+    this.path,
+    this.rivePath,
+    this.riveAnimationName,
+  })  : rotate = Tween<double>(
           begin: 0,
           end: 1, // Do 1 Roation
         ).animate(
           CurvedAnimation(
-              parent: controller,
-              curve: Interval(
-                0.2, // Starts at 20% of the Animation
-                0.3, // Ends at 30% of the Animation
-                curve: Curves.ease, // Easy Ease Out
-              )),
+            parent: controller,
+            curve: const Interval(
+              0.2, // Starts at 20% of the Animation
+              0.3, // Ends at 30% of the Animation
+              curve: Curves.ease, // Easy Ease Out
+            ),
+          ),
         ),
         super(key: key);
 
@@ -158,21 +171,28 @@ class _RotateAnimation extends StatelessWidget {
 
   final Size size;
   final String path;
+  final String rivePath;
+  final String riveAnimationName;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget child) {
         return Container(
           alignment: Alignment.center,
           child: RotationTransition(
-            // Rotate
             turns: AlwaysStoppedAnimation(rotate.value),
-            child: SVGIcon(
-              path: path,
-              size: size,
-            ),
+            child: isNotEmptyOrNull(rivePath)
+                ? _Rive(
+                    size: size,
+                    path: rivePath,
+                    animationName: riveAnimationName,
+                  )
+                : SVGIcon(
+                    path: path,
+                    size: size,
+                  ),
           ),
         );
       },
@@ -180,12 +200,39 @@ class _RotateAnimation extends StatelessWidget {
   }
 }
 
+class _Rive extends StatelessWidget {
+  const _Rive({
+    Key key,
+    @required this.size,
+    @required this.path,
+    @required this.animationName,
+  }) : super(key: key);
+
+  final Size size;
+  final String path;
+  final String animationName;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: FlareActor(
+        path,
+        animation: animationName,
+        fit: BoxFit.fitHeight,
+      ),
+    );
+  }
+}
+
 /// Ghost SVG
 class SVGIcon extends StatefulWidget {
   const SVGIcon({
+    Key key,
     this.size,
     @required this.path,
-  });
+  }) : super(key: key);
 
   final Size size;
   final String path;

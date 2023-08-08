@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/settings/periods_edit_page.dart';
 import 'package:sharezone/timetable/src/logic/timetable_period_dimensions.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -18,6 +18,7 @@ class TimetablePeriodView extends StatelessWidget {
   final double hourHeight;
   final Time timetableBegin;
   final Periods periods;
+
   const TimetablePeriodView({
     @required this.hourHeight,
     @required this.timetableBegin,
@@ -63,6 +64,7 @@ class _PositionedPeriodTile extends StatelessWidget {
     this.hourHeight,
     this.timetableBegin,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final dimensions =
@@ -88,6 +90,7 @@ class _PositionedHourTile extends StatelessWidget {
     this.hourHeight,
     this.timetableBegin,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final dimensions =
@@ -105,6 +108,7 @@ class _PeriodTile extends StatelessWidget {
   final Period period;
 
   const _PeriodTile({Key key, this.period}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -145,8 +149,9 @@ class _PeriodTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border.all(
-            color: isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
-            width: 0.1),
+          color: isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
+          width: 0.1,
+        ),
       ),
     );
   }
@@ -156,6 +161,7 @@ class _HourTile extends StatelessWidget {
   final Time hour;
 
   const _HourTile({Key key, this.hour}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(

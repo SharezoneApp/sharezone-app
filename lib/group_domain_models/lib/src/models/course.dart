@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 import 'group_info.dart';
@@ -137,7 +137,7 @@ class Course {
       version2: version2 ?? this.version2,
       design: design ?? this.design,
       personalDesign: personalDesign ?? this.personalDesign,
-      groupId: id == null ? this.groupId : GroupId(id),
+      groupId: id == null ? groupId : GroupId(id),
     );
   }
 
@@ -289,8 +289,8 @@ class CourseData {
       subject: subject ?? this.subject,
       description: description ?? this.description,
       abbreviation: abbreviation ?? this.abbreviation,
-      sharecode: publicKey ?? this.sharecode,
-      meetingID: meetingID ?? this.meetingID,
+      sharecode: publicKey ?? sharecode,
+      meetingID: meetingID ?? meetingID,
       joinLink: joinLink ?? this.joinLink,
       referenceSchoolClassIDs:
           referenceSchoolClassIDs ?? this.referenceSchoolClassIDs,
@@ -313,7 +313,7 @@ class CourseSettings {
     required this.writePermission,
   });
 
-  static final CourseSettings standard = CourseSettings._(
+  static const CourseSettings standard = CourseSettings._(
     isPublic: true,
     isMeetingEnabled: true,
     writePermission: WritePermission.everyone,

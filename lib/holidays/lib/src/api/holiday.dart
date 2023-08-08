@@ -21,7 +21,7 @@ part 'holiday.g.dart';
 
 abstract class HolidayCacheData
     implements Built<HolidayCacheData, HolidayCacheDataBuilder> {
-  factory HolidayCacheData([updates(HolidayCacheDataBuilder b)]) =
+  factory HolidayCacheData([Function(HolidayCacheDataBuilder b) updates]) =
       _$HolidayCacheData;
 
   HolidayCacheData._();
@@ -43,7 +43,7 @@ abstract class HolidayCacheData
 }
 
 abstract class Holiday implements Built<Holiday, HolidayBuilder> {
-  factory Holiday([updates(HolidayBuilder b)]) = _$Holiday;
+  factory Holiday([Function(HolidayBuilder b) updates]) = _$Holiday;
   Holiday._();
 
   @BuiltValueField(wireName: 'start')

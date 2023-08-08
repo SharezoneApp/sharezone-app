@@ -7,6 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 
 class MockCourseGateway extends Mock implements CourseGateway {}

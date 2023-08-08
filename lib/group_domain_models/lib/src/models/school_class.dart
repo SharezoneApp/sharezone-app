@@ -126,7 +126,7 @@ class SchoolClassData {
   });
 
   factory SchoolClassData.create() {
-    return SchoolClassData._(
+    return const SchoolClassData._(
       id: null,
       name: "",
       description: "",
@@ -194,7 +194,7 @@ class SchoolClassData {
       abbreviation: abbreviation ?? this.abbreviation,
       sharecode: sharecode ?? this.sharecode,
       joinLink: joinLink ?? this.joinLink,
-      meetingID: meetingID ?? this.meetingID,
+      meetingID: meetingID ?? meetingID,
       referenceSchoolID: referenceSchoolID ?? this.referenceSchoolID,
       settings: settings ?? this.settings,
     );

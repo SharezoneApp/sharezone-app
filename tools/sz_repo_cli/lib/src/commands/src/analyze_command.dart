@@ -7,22 +7,15 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:args/command_runner.dart';
+import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-class AnalyzeCommand extends Command {
-  AnalyzeCommand(this.repo) {
-    argParser
-      ..addVerboseFlag()
-      ..addConcurrencyOption(defaultMaxConcurrency: 5)
-      ..addPackageTimeoutOption(defaultInMinutes: 7);
-  }
+import 'fix_comment_spacing_command.dart';
+import 'pub_get_command.dart';
 
-  static const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
-
-  final SharezoneRepo repo;
+class AnalyzeCommand extends ConcurrentCommand {
+  AnalyzeCommand(SharezoneRepo repo) : super(repo);
 
   @override
   final String name = 'analyze';
@@ -32,46 +25,29 @@ class AnalyzeCommand extends Command {
       'This command requires "pub" and "flutter" to be in your path.';
 
   @override
-  Future<Null> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+  Duration get defaultPackageTimeout => Duration(minutes: 5);
 
-    print('Activating tuneup package...');
-    await runProcessSucessfullyOrThrow(
-        'fvm', ['dart', 'pub', 'global', 'activate', 'tuneup'],
-        workingDirectory: repo.sharezoneFlutterApp.location.path);
+  @override
+  Future<void> runTaskForPackage(Package package) => analyzePackage(package);
+}
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null wird nachher als "keine Begrenzung" gehandhabt.
-        : null;
+Future<void> analyzePackage(Package package) async {
+  await getPackage(package);
+  await _runDartAnalyze(package);
+  await formatCode(package, throwIfCodeChanged: true);
+  await _checkForCommentsWithBadSpacing(package);
+}
 
-    final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
-    );
+Future<void> _runDartAnalyze(Package package) {
+  return runProcessSucessfullyOrThrow(
+      'fvm', ['dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
+      workingDirectory: package.path);
+}
 
-    final res = taskRunner
-        .runTaskForPackages(
-          packageStream: repo.streamPackages(),
-          runTask: ((package) => package.analyzePackage()),
-          maxNumberOfPackagesBeingProcessedConcurrently:
-              maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
-        )
-        .asBroadcastStream();
-
-    final presenter = PackageTasksStatusPresenter();
-    presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);
-
-    final failures = await res.allFailures;
-
-    if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
-      await presenter.printFailedTasksSummary(failures);
-      exit(1);
-    } else {
-      print('All packages analyzed successfully!');
-      exit(0);
-    }
+Future<void> _checkForCommentsWithBadSpacing(Package package) async {
+  if (doesPackageIncludeFilesWithBadCommentSpacing(package.path)) {
+    throw Exception(
+        'Package ${package.name} has comments with bad spacing. Fix them by running the `sz fix-comment-spacing` command.');
   }
+  return;
 }

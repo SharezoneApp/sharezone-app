@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showSimpleStateSheet(
     BuildContext context, Future<bool> future) async {
@@ -17,18 +17,19 @@ Future<bool> showSimpleStateSheet(
   stateDialog.showSheet(context);
 
   return future.then((value) {
-    return Future.delayed(Duration(milliseconds: 350)).then((_) => value);
+    return Future.delayed(const Duration(milliseconds: 350)).then((_) => value);
   });
 }
 
 Stream<StateSheetContent> _mapFutureToStateContent(Future<bool> future) {
-  final _stateContent =
+  final stateContent =
       BehaviorSubject<StateSheetContent>.seeded(stateSheetContentLoading);
   future.then((result) {
-    if (result == true)
-      _stateContent.add(stateSheetContentSuccessfull);
-    else
-      _stateContent.add(stateSheetContentFailed);
+    if (result == true) {
+      stateContent.add(stateSheetContentSuccessfull);
+    } else {
+      stateContent.add(stateSheetContentFailed);
+    }
   });
-  return _stateContent;
+  return stateContent;
 }

@@ -11,8 +11,7 @@ part of '../sign_up_page.dart';
 /// Shows the user the advantages of sharezone. This page is basically
 /// designed for students.
 class _Advantages extends StatelessWidget {
-  const _Advantages({Key key})
-      : super(key: key);
+  const _Advantages({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

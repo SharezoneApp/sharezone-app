@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ErrorJoinResultDialog extends StatelessWidget {
   final ErrorJoinResult errorJoinResult;

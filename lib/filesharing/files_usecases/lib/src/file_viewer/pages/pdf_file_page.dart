@@ -9,10 +9,10 @@
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../widgets/file_page_app_bar.dart';
 
 class PdfFilePage extends StatelessWidget {
@@ -53,18 +53,19 @@ class PdfFilePage extends StatelessWidget {
                   controller:
                       PdfController(document: getPdfDocument(localFile)),
                   scrollDirection: Axis.vertical,
-                  builders: PdfViewBuilders(
-                    options: DefaultBuilderOptions(),
+                  builders: PdfViewBuilders<DefaultBuilderOptions>(
+                    options: const DefaultBuilderOptions(),
                     errorBuilder: (context, exception) {
-                      return Center(
+                      return const Center(
                         child: Text(
                           'PDF Rendering does not '
                           'support on the system of this version',
                         ),
                       );
                     },
-                    documentLoaderBuilder: (context) =>
-                        Center(child: AccentColorCircularProgressIndicator()),
+                    documentLoaderBuilder: (context) => const Center(
+                      child: AccentColorCircularProgressIndicator(),
+                    ),
                   ),
                 );
               } else {
@@ -75,7 +76,7 @@ class PdfFilePage extends StatelessWidget {
 
             if (snapshot.hasError) {
               // Catch
-              return Center(
+              return const Center(
                 child: Text(
                   'PDF Rendering does not '
                   'support on the system of this version',
@@ -83,7 +84,7 @@ class PdfFilePage extends StatelessWidget {
               );
             }
 
-            return Center(child: AccentColorCircularProgressIndicator());
+            return const Center(child: AccentColorCircularProgressIndicator());
           },
         ),
       ),
@@ -106,8 +107,9 @@ class PdfFilePage extends StatelessWidget {
 }
 
 Future<PdfDocument> getPdfDocument(LocalFile localFile) {
-  if (PlatformCheck.isMobile)
+  if (PlatformCheck.isMobile) {
     return PdfDocument.openFile(localFile.getPath());
-  else
+  } else {
     return PdfDocument.openData(localFile.getData());
+  }
 }

@@ -15,9 +15,7 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -233,7 +231,8 @@ class _PeriodTile extends StatelessWidget {
                       .copyWith(fontSize: 18);
                   if (snapshot.hasData &&
                       snapshot.data.contains(period.number)) {
-                    style = style.copyWith(color: Theme.of(context).colorScheme.error);
+                    style = style.copyWith(
+                        color: Theme.of(context).colorScheme.error);
                   }
                   return Padding(
                     padding: const EdgeInsets.only(left: 26),

@@ -58,7 +58,7 @@ class ChooseTypeOfUser extends StatelessWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: SharezoneLogo(
-                logoColor: LogoColor.blue_short,
+                logoColor: LogoColor.blueShort,
                 height: 50,
                 width: 150,
               ),

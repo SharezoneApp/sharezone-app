@@ -13,9 +13,7 @@ import 'package:sharezone/groups/src/pages/course/create/course_create_page.dart
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/models/course_template.dart';
 import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_create_course_bloc.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'school_class_create_course.dart';
 

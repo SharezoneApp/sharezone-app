@@ -17,9 +17,7 @@ import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.da
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/announcement_card.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ChangelogPage extends StatelessWidget {
   static const String tag = "changelog-page";
@@ -110,7 +108,8 @@ class _VersionSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(change.version, style: Theme.of(context).textTheme.headlineSmall),
+          Text(change.version,
+              style: Theme.of(context).textTheme.headlineSmall),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

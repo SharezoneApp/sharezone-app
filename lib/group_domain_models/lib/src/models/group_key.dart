@@ -22,6 +22,7 @@ class GroupKey {
     return other is GroupKey && id == other.id && groupType == other.groupType;
   }
 
+  @override
   int get hashCode {
     return Object.hashAll([id, groupType]);
   }

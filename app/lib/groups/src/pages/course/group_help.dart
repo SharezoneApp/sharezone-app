@@ -9,9 +9,7 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 TextStyle _descriptionStyle(BuildContext context) => TextStyle(
       color: context.isDarkThemeEnabled ? Colors.grey[300] : Colors.grey[700],

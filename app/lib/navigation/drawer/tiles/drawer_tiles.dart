@@ -6,25 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'drawer_tile.dart';
 
 const settingsPageTile = DrawerTile(NavigationItem.settings);
 const feedbackBoxtile = DrawerTile(NavigationItem.feedbackBox);
-final donatePageTile = Builder(
-  builder: (context) => StreamBuilder<bool>(
-    stream: BlocProvider.of<FeatureBloc>(context).hideDonations,
-    builder: (context, snapshot) {
-      final hideDonations = snapshot.data ?? false;
-      if (hideDonations) return Container();
-      return DrawerTile(NavigationItem.donate);
-    },
-  ),
-);
+const sharezonePlusTile = DrawerTile(NavigationItem.sharezonePlus);
 const onlyDesktopTiles = <Widget>[
   DrawerTile(NavigationItem.overview),
   DrawerTile(NavigationItem.group),

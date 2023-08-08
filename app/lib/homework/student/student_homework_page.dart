@@ -17,7 +17,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/completed_homework_list.dart';
 import 'src/empty_homework_list_widgets/get_student_empty_homework_list_widgets.dart';

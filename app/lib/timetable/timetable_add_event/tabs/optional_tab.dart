@@ -94,8 +94,9 @@ class _DescriptionField extends StatelessWidget {
                       : "z.B. Sportsachen mitbringen!",
                 ),
                 onChanged: bloc.changeDetail,
+                maxLines: null,
                 onEditingComplete: () => _submit(context),
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.newline,
               ),
               const SizedBox(height: 10),
               Padding(

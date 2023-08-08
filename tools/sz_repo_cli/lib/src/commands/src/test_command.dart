@@ -7,22 +7,26 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-class TestCommand extends Command {
-  TestCommand(this.repo) {
-    argParser
-      ..addVerboseFlag()
-      ..addConcurrencyOption(defaultMaxConcurrency: 5)
-      ..addPackageTimeoutOption(defaultInMinutes: 10);
+import 'pub_get_command.dart';
+
+class TestCommand extends ConcurrentCommand {
+  TestCommand(SharezoneRepo repo) : super(repo) {
+    argParser.addFlag(
+      'exclude-goldens',
+      help: 'Run tests without golden tests.',
+      defaultsTo: false,
+      negatable: false,
+    );
+    argParser.addFlag(
+      'only-goldens',
+      help: 'Run only golden tests.',
+      defaultsTo: false,
+      negatable: false,
+    );
   }
-
-  static const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
-
-  final SharezoneRepo repo;
 
   @override
   final String name = 'test';
@@ -32,43 +36,117 @@ class TestCommand extends Command {
       'This command requires "flutter" to be in your path.';
 
   @override
-  Future<Null> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+  int get defaultMaxConcurrency => 5;
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
-        // null wird nachher als "keine Begrenzung" gehandhabt.
-        : null;
+  @override
+  Duration get defaultPackageTimeout => Duration(minutes: 10);
 
-    final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
-    );
-
-    final res = taskRunner
-        .runTaskForPackages(
-          packageStream: repo
-              .streamPackages()
-              .where((package) => package.hasTestDirectory),
-          runTask: (package) => package.runTests(),
-          maxNumberOfPackagesBeingProcessedConcurrently:
-              maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
-        )
-        .asBroadcastStream();
-
-    final presenter = PackageTasksStatusPresenter();
-    presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);
-
-    final failures = await res.allFailures;
-
-    if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
-      await presenter.printFailedTasksSummary(failures);
-      exit(1);
-    } else {
-      print('All packages tested successfully!');
-      exit(0);
+  @override
+  Stream<Package> get packagesToProcess {
+    if (argResults!['only-goldens'] as bool) {
+      return repo.streamPackages().where(
+            (package) =>
+                package.isFlutterPackage && package.hasGoldenTestsDirectory,
+          );
     }
+
+    return repo.streamPackages().where((package) => package.hasTestDirectory);
   }
+
+  @override
+  Future<void> runTaskForPackage(Package package) {
+    return runTests(
+      package,
+      excludeGoldens: argResults!['exclude-goldens'] as bool,
+      onlyGoldens: argResults!['only-goldens'] as bool,
+    );
+  }
+}
+
+Future<void> runTests(
+  Package package, {
+  required bool excludeGoldens,
+  required bool onlyGoldens,
+}) {
+  if (package.isFlutterPackage) {
+    return _runTestsFlutter(
+      package,
+      excludeGoldens: excludeGoldens,
+      onlyGoldens: onlyGoldens,
+    );
+  } else {
+    return _runTestsDart(
+      package,
+      excludeGoldens: excludeGoldens,
+      onlyGoldens: onlyGoldens,
+    );
+  }
+}
+
+Future<void> _runTestsDart(
+  Package package, {
+  // We can ignore the "excludeGoldens" parameter here because Dart packages
+  // don't have golden tests.
+  required bool excludeGoldens,
+  required bool onlyGoldens,
+}) async {
+  if (onlyGoldens) {
+    // Golden tests are only run in the flutter package.
+    return;
+  }
+
+  await getPackage(package);
+
+  await runProcessSucessfullyOrThrow(
+    'fvm',
+    ['dart', 'test'],
+    workingDirectory: package.path,
+  );
+}
+
+Future<void> _runTestsFlutter(
+  Package package, {
+  required bool excludeGoldens,
+  required bool onlyGoldens,
+}) async {
+  if (onlyGoldens) {
+    if (!package.hasGoldenTestsDirectory) {
+      return;
+    }
+
+    await runProcessSucessfullyOrThrow(
+      'fvm',
+      ['flutter', 'test', 'test_goldens'],
+      workingDirectory: package.path,
+    );
+    return;
+  }
+
+  // If the package has no golden tests, we need to use the normal test
+  // command. Otherwise the throws the Flutter tool throws an error that it
+  // couldn't find the "test_goldens" directory.
+  if (excludeGoldens || !package.hasGoldenTestsDirectory) {
+    await runProcessSucessfullyOrThrow(
+      'fvm',
+      ['flutter', 'test'],
+      workingDirectory: package.path,
+    );
+    return;
+  }
+
+  /// Flutter test lässt automatisch flutter pub get laufen.
+  /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
+
+  await runProcessSucessfullyOrThrow(
+    'fvm',
+    [
+      'flutter',
+      'test',
+      // Directory for golden tests.
+      'test_goldens',
+      // Directory for unit and widget tests.
+      'test',
+    ],
+    workingDirectory: package.path,
+  );
 }

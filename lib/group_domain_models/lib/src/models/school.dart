@@ -55,7 +55,7 @@ class SchoolData {
   });
 
   factory SchoolData.create() {
-    return SchoolData._(
+    return const SchoolData._(
       id: null,
       name: "",
       title: "",

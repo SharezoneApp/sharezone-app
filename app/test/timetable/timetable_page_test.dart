@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 
 import 'mock/mock_course_gateway.dart';
 import 'mock/mock_school_class_filter_analytics.dart';

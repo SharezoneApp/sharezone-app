@@ -177,7 +177,7 @@
 //     final halfWidth = (fullWidth / 2) - 36;
 //     const breakpoint = 400;
 //     final width = fullWidth < breakpoint ? fullWidth : halfWidth;
-//     print("width $fullWidth");
+//     log("width $fullWidth");
 //     return SizedBox(
 //       width: width,
 //       child: Padding(

@@ -31,6 +31,8 @@ class ModalFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final dimensions = Dimensions.fromMediaQuery(context);
     return Semantics(
+      label: tooltip,
+      button: true,
       child: dimensions.isDesktopModus
           ? FloatingActionButton.extended(
               backgroundColor: backgroundColor,
@@ -42,12 +44,10 @@ class ModalFloatingActionButton extends StatelessWidget {
           : FloatingActionButton(
               onPressed: onPressed,
               backgroundColor: backgroundColor,
-              child: icon,
               heroTag: heroTag,
               tooltip: tooltip,
+              child: icon,
             ),
-      label: tooltip,
-      button: true,
     );
   }
 }

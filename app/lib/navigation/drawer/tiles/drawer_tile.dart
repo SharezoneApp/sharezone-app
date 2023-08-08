@@ -13,7 +13,7 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../drawer_controller.dart';
 
@@ -65,10 +65,9 @@ class DrawerTile extends StatelessWidget {
 
     final title = this.title ?? navigationItem.getName();
     final icon = this.icon ?? navigationItem.getIcon();
-    final tag = this.tag ?? navigationItem.getPageTag();
 
     return StreamBuilder<NavigationItem>(
-        key: ValueKey(tag),
+        key: ValueKey('nav-item-${navigationItem.name}-E2E'),
         stream: navigationBloc.navigationItems,
         builder: (context, snapshot) {
           final currentNavigationItem = snapshot.data;

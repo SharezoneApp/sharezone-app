@@ -26,10 +26,10 @@ class Sharecode {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is Sharecode && o.value == value;
+    return other is Sharecode && other.value == value;
   }
 
   @override
