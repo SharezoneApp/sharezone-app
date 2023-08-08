@@ -71,6 +71,7 @@
   - "**/*_test.dart"
   - "**/test_driver/**"
   - "**/test/**"
+  - "**/test_goldens/**"
   - "**/integration_test/**"
   - "**/dart_test.yaml"
 
@@ -111,7 +112,7 @@
   - "**/**privacy_policy**"
   - "**/**imprint**"
 
-"sharezone: cli":
+"sharezone cli":
   - "tools/sz_repo_cli/**"
   - "bin/sz"
   - "bin/sharezone"
@@ -152,10 +153,6 @@
 "feature: comments":
   - "**/comments/**"
   - "**/**comment**"
-
-"feature: donation":
-  - "**/donate/**"
-  - "**/donate**"
 
 "feature: feedback":
   - "**/feedback/**"
@@ -229,6 +226,11 @@
 "feature: report":
   - "**/report/**"
 
+"feature: sharezone plus":
+  - "**/sharezone_plus/**"
+  - "**/**sharezone_plus**"
+  - "**/**subscription**"
+
 "feature: timetable / calendar":
   - "**/timetable/**"
   - "**/**timetable**"
@@ -238,7 +240,6 @@
 
 "feature: universal file features":
   - "**/filesharing/**"
-  - "**/**file**"
 
 "user: parent":
   - "**/parent/**"

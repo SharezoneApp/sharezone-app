@@ -27,7 +27,8 @@
         <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/colorAccent" />
         <meta-data android:name="flutterEmbedding" android:value="2" />
 
-        <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+        <!-- 'android:exported="true"' is required by Firebase Messaging, see https://github.com/firebase/flutterfire/pull/9348 -->
+        <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:exported="true" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
             <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -36,6 +37,24 @@
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Intent for receiving Firebase Dynammic Links
+                 See:
+                     * https://github.com/firebase/flutterfire/blob/6ae57735289cfa82322ee2259816a49cd605b784/packages/firebase_dynamic_links/firebase_dynamic_links/example/android/app/src/main/AndroidManifest.xml#L35
+                     * https://firebase.google.com/docs/dynamic-links/android/receive#add-an-intent-filter-for-deep-links
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="sharez.one" android:scheme="https"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="sharezone.net" android:scheme="https"/>
             </intent-filter>
         </activity>
 

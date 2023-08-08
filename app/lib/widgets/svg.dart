@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/svg.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Widget to create a Svg
 class SvgWidget extends StatelessWidget {
@@ -27,8 +27,8 @@ class SvgWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformSvg.asset(
       "$assetName.svg",
-      width: size?.width?? _fallbackSize,
-      height: size?.height?? _fallbackSize,
+      width: size?.width ?? _fallbackSize,
+      height: size?.height ?? _fallbackSize,
       color: color,
     );
   }

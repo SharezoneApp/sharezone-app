@@ -9,6 +9,7 @@
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 
@@ -39,13 +40,35 @@ class NotificationTokenAdderApi {
   final UserGateway _userApi;
   final FirebaseMessaging _firebaseMessaging;
 
-  NotificationTokenAdderApi(this._userApi, this._firebaseMessaging);
+  /// VAPID key is used by Firebase Messaging to send push notifications to the
+  /// web app.
+  ///
+  /// See https://firebase.google.com/docs/cloud-messaging/js/client.
+  final String vapidKey;
+
+  NotificationTokenAdderApi(
+    this._userApi,
+    this._firebaseMessaging,
+    this.vapidKey,
+  );
 
   Future<String> getFCMToken() {
-    return _firebaseMessaging.getToken();
+    if (isIntegrationTest) {
+      // Firebase Messaging is not available in integration tests.
+      log('Skipping to get FCM token because integration test is running.');
+      return null;
+    }
+
+    return _firebaseMessaging.getToken(vapidKey: vapidKey);
   }
 
   Future<void> tryAddTokenToDatabase(String token) async {
+    if (isIntegrationTest) {
+      // Firebase Messaging is not available in integration tests.
+      log('Skipping to add token to the database because integration test is running.');
+      return;
+    }
+
     try {
       await _userApi.addNotificationToken(token);
     } on Exception catch (e) {

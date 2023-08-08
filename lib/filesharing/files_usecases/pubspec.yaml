@@ -43,10 +43,7 @@ dependencies:
     git:
       url: https://github.com/kyle-seongwoo-jun/packages.flutter
       path: packages/pdfx
-  # We need to use the reference to git until open_file 3.2.2 is published.
-  open_file:
-    git:
-      url: https://github.com/crazecoder/open_file
+  open_file_plus: ^3.4.1
   path: any
   path_provider: ^2.0.11
   photo_view: any

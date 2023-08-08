@@ -10,9 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/rounded_simple_dialog.dart';
-
-import 'long_press.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T> showLongPressAdaptiveDialog<T>({
   @required BuildContext context,

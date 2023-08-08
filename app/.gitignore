@@ -15,6 +15,12 @@
 *.iws
 .idea/
 
+# Legacy Eclipse project files
+.classpath
+.project
+.cproject
+.settings/
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.

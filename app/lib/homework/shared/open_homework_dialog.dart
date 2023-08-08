@@ -14,9 +14,7 @@ import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   BuildContext context, {

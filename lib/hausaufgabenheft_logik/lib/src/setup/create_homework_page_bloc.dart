@@ -33,8 +33,8 @@ HomeworkPageBloc createHomeworkPageBloc(
   final openHomeworkListViewFactory =
       OpenHomeworkListViewFactory(sortAndSubcategorizer, () => Date.now());
   final openHomeworkListBloc = OpenHomeworkListBloc(dependencies.dataSource);
-  final openHomeworksViewBloc = OpenHomeworksViewBloc(
-      openHomeworkListBloc, openHomeworkListViewFactory);
+  final openHomeworksViewBloc =
+      OpenHomeworksViewBloc(openHomeworkListBloc, openHomeworkListViewFactory);
 
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);

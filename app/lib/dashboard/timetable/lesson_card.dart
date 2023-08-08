@@ -25,7 +25,8 @@ class _LessonCard extends StatelessWidget {
       child: _PassedLessonFade(
         lessonID: view.lesson.lessonID,
         percentTimePassed: view.percentTimePassed,
-        hasAlreadyTakenPlace: view.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace,
+        hasAlreadyTakenPlace:
+            view.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace,
         child: CustomCard.roundVertical(
           onTap: () => showLessonModelSheet(context, view.lesson, view.design),
           onLongPress: () => onLessonLongPress(context, view.lesson),

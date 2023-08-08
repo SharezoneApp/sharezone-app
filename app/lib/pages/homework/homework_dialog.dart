@@ -25,10 +25,7 @@ import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/homework_validators.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 class HomeworkDialog extends StatefulWidget {
@@ -178,10 +175,12 @@ class _SaveButton extends StatelessWidget {
             bloc.submit(oldHomework: oldHomework);
           }
           logHomeworkEditEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         } else {
           hasAttachments ? await bloc.submit() : bloc.submit();
           logHomeworkAddEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         }
       }
@@ -206,6 +205,10 @@ class _SaveButton extends StatelessWidget {
         seconds: 5,
       );
     }
+  }
+
+  void hideSendDataToFrankfurtSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
 
   void logHomeworkEditEvent(BuildContext context) {

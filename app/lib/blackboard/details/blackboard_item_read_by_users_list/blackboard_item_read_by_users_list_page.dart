@@ -11,8 +11,9 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import 'blackboard_item_read_by_users_list_bloc.dart';
@@ -54,21 +55,24 @@ class _BlackboardItemReadByUsersListPageState
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Gelesen von"),
-          centerTitle: true,
-        ),
-        body: StreamBuilder<List<UserView>>(
-          stream: bloc.userViews,
-          builder: (context, snapshot) {
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: snapshot.hasData ? _List(snapshot.data) : _Loading(),
-            );
-          },
+    return SharezonePlusFeatureGuard(
+      feature: SharezonePlusFeature.infoSheetReadByUsersList,
+      child: BlocProvider(
+        bloc: bloc,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Gelesen von"),
+            centerTitle: true,
+          ),
+          body: StreamBuilder<List<UserView>>(
+            stream: bloc.userViews,
+            builder: (context, snapshot) {
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: snapshot.hasData ? _List(snapshot.data) : _Loading(),
+              );
+            },
+          ),
         ),
       ),
     );

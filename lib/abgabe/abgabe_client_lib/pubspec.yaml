@@ -31,7 +31,7 @@ dependencies:
   firebase_hausaufgabenheft_logik:
     path: ../../firebase_hausaufgabenheft_logik
   built_collection: ^5.1.0
-  cloud_firestore: ^4.4.3
+  cloud_firestore: ^4.5.0
   gcloud: any
   googleapis: any
   googleapis_auth: any

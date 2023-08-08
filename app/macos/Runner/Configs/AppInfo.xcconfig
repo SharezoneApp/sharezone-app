@@ -11,4 +11,4 @@ PRODUCT_NAME = sharezone
 PRODUCT_BUNDLE_IDENTIFIER = com.example.sharezone
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2020 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2020 Sharezone UG (haftungsbeschraenkt). All rights reserved.
