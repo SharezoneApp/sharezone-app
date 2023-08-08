@@ -307,7 +307,7 @@ class CourseData {
 class CourseSettings {
   final bool isPublic;
   final bool isMeetingEnabled;
-  final WritePermission? writePermission;
+  final WritePermission writePermission;
 
   const CourseSettings._({
     required this.isPublic,
@@ -335,7 +335,7 @@ class CourseSettings {
     return {
       'isPublic': isPublic,
       'isMeetingEnabled': isMeetingEnabled,
-      'writePermission': writePermission?.name,
+      'writePermission': writePermission.name,
     };
   }
 
