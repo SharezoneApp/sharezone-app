@@ -20,7 +20,7 @@ dependencies:
   built_value: ^8.1.1
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^4.0.11
+  cloud_functions: ^4.1.0
   app_functions:
     path: ../app_functions
 
@@ -38,3 +38,5 @@ dev_dependencies:
   build_runner: ^2.1.4
   built_value_generator: ^8.1.1
   lints: ^2.0.1
+  sharezone_lints:
+    path: ../sharezone_lints

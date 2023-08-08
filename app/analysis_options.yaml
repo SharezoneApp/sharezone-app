@@ -14,8 +14,8 @@ analyzer:
     missing_required_param: warning
     # treat missing returns as a warning (not a hint)
     missing_return: warning
-    # allow having TODOs in the code
-    todo: true
+    # Disallow TODOs
+    todo: warning
     # treat unrealated == as a warning (not a hint)
     unrelated_type_equality_checks: warning
   exclude:

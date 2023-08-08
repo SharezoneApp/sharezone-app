@@ -9,7 +9,7 @@
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/logic/timetable_date_helper.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class TimetableWeekViewDayTile extends StatelessWidget {
   final Date date;

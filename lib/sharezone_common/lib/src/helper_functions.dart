@@ -70,3 +70,14 @@ Timestamp? timestampFromDateTime(DateTime? dateTime) {
   if (dateTime == null) return null;
   return Timestamp.fromDate(dateTime);
 }
+
+extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
+  T tryByName(String name, {T? defaultValue}) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    if (defaultValue != null) return defaultValue;
+    throw ArgumentError.value(name, "name", "No enum value with that name");
+  }
+}

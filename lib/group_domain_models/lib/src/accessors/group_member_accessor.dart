@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone_common/api_errors.dart';
 
 import 'course_member_accessor.dart';

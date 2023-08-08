@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:files_basics/local_file.dart';
-import 'package:file_picker/file_picker.dart' as filePickerWeb;
+import 'package:file_picker/file_picker.dart' as web;
 import 'package:files_basics/local_file_data.dart';
 
 import '../file_picker_implementation.dart';
@@ -35,8 +35,7 @@ class FilePickerHtml extends FilePickerImplementation {
   Future<LocalFile> pickImageGallery() => _pickSingle();
 
   Future<LocalFile> _pickSingle() async {
-    final res =
-        await filePickerWeb.FilePicker.platform.pickFiles(allowMultiple: false);
+    final res = await web.FilePicker.platform.pickFiles(allowMultiple: false);
     if (res.files.isNotEmpty) {
       final file = res.files.single;
 
@@ -47,8 +46,7 @@ class FilePickerHtml extends FilePickerImplementation {
   }
 
   Future<List<LocalFile>> _pickMulti() async {
-    final res =
-        await filePickerWeb.FilePicker.platform.pickFiles(allowMultiple: true);
+    final res = await web.FilePicker.platform.pickFiles(allowMultiple: true);
     if (res.files.isNotEmpty) {
       return res.files
           .map((file) => LocalFileData.fromData(

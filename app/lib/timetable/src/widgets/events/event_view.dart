@@ -29,7 +29,8 @@ class EventView {
     this.event,
   });
 
-  factory EventView.fromEventAndGroupInfo(CalendricalEvent event, GroupInfo info) {
+  factory EventView.fromEventAndGroupInfo(
+      CalendricalEvent event, GroupInfo info) {
     return EventView(
       groupID: event.groupID,
       courseName: info?.name,

@@ -12,7 +12,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MarkOverdueHomeworkPrompt extends StatefulWidget {
   const MarkOverdueHomeworkPrompt({Key key}) : super(key: key);

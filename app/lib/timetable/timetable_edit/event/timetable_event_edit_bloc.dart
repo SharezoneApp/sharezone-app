@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -93,8 +95,7 @@ class TimetableEditEventBloc extends BlocBase {
       final detail = _detailSubject.valueOrNull;
       final sendNotification = _sendNotificationSubject.valueOrNull;
 
-      print(
-          "isValid: true; ${course.toString()}; $startTime; $endTime; $room $title $date $detail");
+      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $title $date $detail");
 
       final event = initialEvent.copyWith(
         groupID: course.id,

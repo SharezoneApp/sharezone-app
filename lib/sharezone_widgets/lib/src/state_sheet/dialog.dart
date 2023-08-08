@@ -8,11 +8,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/common_widgets.dart';
-import 'package:sharezone_widgets/src/state_sheet/state_dialog_content.dart';
-import 'package:sharezone_widgets/theme.dart';
-
-import '../dialog_wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateDialog {
   final Stream<StateDialogContent> stateSheetContent;
@@ -39,6 +35,7 @@ class StateDialog {
       if (result == true) {
         await Future.delayed(delay);
         if (!hasDialogPopped) {
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         }
       }
@@ -78,7 +75,7 @@ class _PlatformAlertDialog extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (ThemePlatform.isCupertino)
+    if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         title: stateDialogContent.title != null
             ? Text(stateDialogContent.title)
@@ -89,6 +86,7 @@ class _PlatformAlertDialog extends StatelessWidget {
             ActionItemButton(item: action),
         ],
       );
+    }
     return AlertDialog(
       title: stateDialogContent.title != null
           ? Text(

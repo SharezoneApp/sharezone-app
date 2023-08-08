@@ -15,7 +15,7 @@ class UserTipData {
   const UserTipData._(this._internalMap);
 
   factory UserTipData.empty() {
-    return UserTipData._({});
+    return const UserTipData._({});
   }
 
   factory UserTipData.fromData(Map<String, dynamic>? data) {

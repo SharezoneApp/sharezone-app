@@ -156,7 +156,8 @@ class _SkipTutorialButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          foregroundColor: context.primaryColor, backgroundColor: Colors.white,
+          foregroundColor: context.primaryColor,
+          backgroundColor: Colors.white,
         ),
         child: Text("Überspringen".toUpperCase()),
       ),

@@ -14,6 +14,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
@@ -32,6 +33,7 @@ import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/navigation_controller.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
 import 'package:sharezone/pages/settings/my_profile/change_email.dart';
@@ -41,12 +43,12 @@ import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
 import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
-import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_policy.dart';
 import 'package:sharezone/pages/settings/src/subpages/theme/theme_page.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
 import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/pages/settings_page.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/navigation_service.dart';
@@ -82,6 +84,9 @@ class _SharezoneAppState extends State<SharezoneApp>
     fbMessagingConfigurator = FirebaseMessagingCallbackConfigurator(
       navigationBloc: navigationBloc,
       navigationService: navigationService,
+      notificationsPermission: context.read<NotificationsPermission>(),
+      vapidKey: widget.blocDependencies.remoteConfiguration
+          .getString('firebase_messaging_vapid_key'),
     );
 
     _sharezoneGateway = SharezoneGateway(
@@ -163,7 +168,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 TimetableSettingsPage.tag: (context) => TimetableSettingsPage(),
                 CourseTemplatePage.tag: (context) => CourseTemplatePage(),
                 CalendricalEventsPage.tag: (context) => CalendricalEventsPage(),
-                PrivacyPolicy.tag: (context) => PrivacyPolicy(),
+                PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
                 UseAccountOnMultipleDevicesIntruction.tag: (context) =>
                     UseAccountOnMultipleDevicesIntruction(),
                 MyProfilePage.tag: (context) => MyProfilePage(),

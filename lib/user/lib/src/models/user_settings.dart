@@ -48,9 +48,9 @@ class UserSettings {
   }
 
   factory UserSettings.fromData(Map<String, dynamic>? data) {
-    if (data == null)
+    if (data == null) {
       return UserSettings.defaultSettings();
-    else {
+    } else {
       return UserSettings._(
           isABWeekEnabled: data['isABWeekEnabled'] ?? defaultIsABWeekEnabled,
           isAWeekEvenWeek: data['isAWeekEvenWeek'] ?? defaultIsAWeekEvenWeek,
@@ -94,8 +94,8 @@ class UserSettings {
 
   WeekType getWeekTypeOfDate(Date date) {
     if (!isABWeekEnabled) return WeekType.always;
-    final _isWeekEven = date.weekNumber.isEven;
-    if (_isWeekEven) {
+    final isWeekEven = date.weekNumber.isEven;
+    if (isWeekEven) {
       return isAWeekEvenWeek ? WeekType.a : WeekType.b;
     } else {
       return isAWeekEvenWeek ? WeekType.b : WeekType.a;

@@ -8,8 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Karte mit CircleAvatar und dahinter eine Karte
 // Wichtig: Es muss entweder ein SvgPath oder ein imagePath angeben werden!
@@ -104,8 +103,7 @@ class AvatarCard extends StatelessWidget {
                                             kuerzel ?? "",
                                             style: TextStyle(
                                               fontSize: 26,
-                                              color:
-                                                  fontColor ?? Colors.white,
+                                              color: fontColor ?? Colors.white,
                                             ),
                                           )
                                         : image()

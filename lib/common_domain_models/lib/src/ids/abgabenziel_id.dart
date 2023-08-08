@@ -63,6 +63,7 @@ class AbgabezielId extends Id {
     final type = abgabenzielFromDtoString(typeString);
 
     final contentIdString = id.substring(seperatorMatch.start + 1);
+    // ignore: no_leading_underscores_for_local_identifiers
     Id _id;
     // Da die einzelnen Ids selbst eigene Regeln haben könnten, muss man diese
     // erst einmal erstellen um sicher zu gehen.

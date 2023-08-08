@@ -20,7 +20,7 @@ void main() {
   _UserCredentials user1;
 
   setUpAll(() async {
-    dependencies = await initializeDependencies(flavor: Flavor.dev);
+    dependencies = await initializeDependencies(flavor: Flavor.prod);
   });
 
   setUp(() async {
@@ -42,6 +42,8 @@ void main() {
         beitrittsversuche: dependencies.beitrittsversuche,
         blocDependencies: dependencies.blocDependencies,
         dynamicLinkBloc: dependencies.dynamicLinkBloc,
+        flavor: Flavor.dev,
+        isIntegrationTest: true,
       ),
     );
   }

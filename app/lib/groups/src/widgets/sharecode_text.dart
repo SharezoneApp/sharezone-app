@@ -9,9 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharecodeText extends StatelessWidget {
   const SharecodeText(this.sharecode, {this.onCopied});

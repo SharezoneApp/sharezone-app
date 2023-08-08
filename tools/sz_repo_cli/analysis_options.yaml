@@ -18,5 +18,5 @@ include: package:pedantic/analysis_options.yaml
 #     - camel_case_types
 
 analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+  errors:
+    todo: warning

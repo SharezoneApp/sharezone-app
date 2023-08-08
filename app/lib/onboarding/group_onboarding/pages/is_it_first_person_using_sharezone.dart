@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/hint_text.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 import '../widgets/text_button.dart';
 import 'create_schoolclass.dart';

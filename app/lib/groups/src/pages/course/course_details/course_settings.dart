@@ -12,8 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/write_permission_options.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void showExplanation(BuildContext context, String text) {
   showDialog(

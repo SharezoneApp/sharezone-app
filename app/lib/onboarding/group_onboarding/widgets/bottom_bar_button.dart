@@ -23,7 +23,8 @@ class BottomBarButton extends StatelessWidget {
       ),
       child: TextButton(
         style: TextButton.styleFrom(
-            foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor),
+            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor),
         child: Text(text.toUpperCase(), style: TextStyle(fontSize: 20)),
         onPressed: onTap,
       ),
