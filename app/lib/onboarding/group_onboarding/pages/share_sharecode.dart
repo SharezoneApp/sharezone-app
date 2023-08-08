@@ -191,8 +191,6 @@ class _SharecodeBox extends StatelessWidget {
         return 'des Kurses';
       case GroupType.schoolclass:
         return 'der Schulklasse';
-      case GroupType.school:
-        return 'der Schule';
       default:
         return '';
     }
