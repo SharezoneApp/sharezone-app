@@ -130,7 +130,7 @@ workflows:
       - name: Build macOS
         script: |
           # TEMP
-          BUMPED_BUILD_NUMBER=443
+          BUMPED_BUILD_NUMBER=447
 
           flutter build macos \
             --release \
