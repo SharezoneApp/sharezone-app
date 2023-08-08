@@ -141,9 +141,9 @@ class SchoolClassData {
     );
   }
 
-  factory SchoolClassData.fromData({
+  factory SchoolClassData.fromData(
+    Map<String, dynamic> data, {
     required String id,
-    required Map<String, dynamic> data,
   }) {
     return SchoolClassData._(
       id: id,
