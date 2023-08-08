@@ -39,7 +39,8 @@ class School {
 }
 
 class SchoolData {
-  final String? id, name, title, description, abbreviation;
+  final String id;
+  final String? name, title, description, abbreviation;
   final String? publicKey, joinLink;
   final CourseSettings settings;
 
@@ -56,7 +57,7 @@ class SchoolData {
 
   factory SchoolData.create() {
     return const SchoolData._(
-      id: null,
+      id: '',
       name: "",
       title: "",
       description: "",
