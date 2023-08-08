@@ -17,7 +17,8 @@ import 'member_role.dart';
 import 'write_permissions.dart';
 
 class Course {
-  final String? id, name, subject, abbreviation, sharecode, joinLink, meetingID;
+  final String id;
+  final String? name, subject, abbreviation, sharecode, joinLink, meetingID;
   final MemberRole? myRole;
   final CourseSettings settings;
   final bool version2;
@@ -45,7 +46,7 @@ class Course {
 
   factory Course.create() {
     return Course._(
-      id: null,
+      id: "",
       name: "",
       subject: "",
       sharecode: null,
@@ -155,7 +156,7 @@ class Course {
 
   GroupInfo toGroupInfo() {
     return GroupInfo(
-      id: id!,
+      id: id,
       name: name!,
       abbreviation: abbreviation,
       design: getDesign(),
@@ -169,7 +170,8 @@ class Course {
 }
 
 class CourseData {
-  final String? id, name, subject, description, abbreviation;
+  final String id;
+  final String? name, subject, description, abbreviation;
   final String? sharecode, joinLink, referenceSchoolID, meetingID;
   final List<String?>? referenceSchoolClassIDs;
   final CourseSettings settings;
@@ -192,7 +194,7 @@ class CourseData {
 
   factory CourseData.create() {
     return CourseData._(
-      id: null,
+      id: '',
       name: "",
       subject: "",
       description: "",
@@ -263,7 +265,7 @@ class CourseData {
       sharecode: sharecode,
       design: design,
       meetingID: meetingID,
-      groupId: GroupId(id!),
+      groupId: GroupId(id),
       joinLink: joinLink,
       personalDesign: null,
       personalSharecode: null,
