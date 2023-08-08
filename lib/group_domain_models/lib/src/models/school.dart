@@ -68,8 +68,8 @@ class SchoolData {
   }
 
   factory SchoolData.fromData({
+    data,
     required String id,
-    required Map<String, dynamic> data,
   }) {
     return SchoolData._(
       id: id,
