@@ -16,8 +16,9 @@ import 'group_type.dart';
 import 'member_role.dart';
 
 class SchoolClass {
-  final String? id, name, sharecode, joinLink, meetingID;
-  GroupId get groupId => GroupId(id!);
+  final String id;
+  final String? name, sharecode, joinLink, meetingID;
+  GroupId get groupId => GroupId(id);
   final MemberRole? myRole;
   final CourseSettings settings;
   final String? personalSharecode, personalJoinLink;
@@ -94,7 +95,7 @@ class SchoolClass {
 
   GroupInfo toGroupInfo() {
     return GroupInfo(
-      id: id!,
+      id: id,
       name: name!,
       abbreviation: generateAbbreviation(name),
       design: getDesign(),
@@ -108,7 +109,8 @@ class SchoolClass {
 }
 
 class SchoolClassData {
-  final String? id, name, description, abbreviation, meetingID;
+  final String id;
+  final String? name, description, abbreviation, meetingID;
   final String? sharecode, joinLink, referenceSchoolID;
 
   final CourseSettings settings;
@@ -127,7 +129,7 @@ class SchoolClassData {
 
   factory SchoolClassData.create() {
     return const SchoolClassData._(
-      id: null,
+      id: '',
       name: "",
       description: "",
       abbreviation: "",
