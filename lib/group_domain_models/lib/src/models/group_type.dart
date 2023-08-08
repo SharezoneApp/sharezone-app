@@ -6,4 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum GroupType { course, schoolclass, school }
+enum GroupType { course, schoolclass }

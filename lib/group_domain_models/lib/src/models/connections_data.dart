@@ -11,26 +11,19 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 
 class ConnectionsData {
-  final School? school;
   final Map<String, SchoolClass> schoolClass;
   final Map<String?, Course> courses;
 
   const ConnectionsData._({
-    required this.school,
     required this.schoolClass,
     required this.courses,
   });
 
   factory ConnectionsData.fromData({required Map<String, dynamic> data}) {
-    Map<String, School> schools = decodeMap(data[CollectionNames.schools],
-        (key, data) => School.fromData(data, id: key));
     Map<String, SchoolClass> schoolClasses = decodeMap(
         data[CollectionNames.schoolClasses],
         (key, data) => SchoolClass.fromData(data, id: key));
-    School? school;
-    if (schools.length == 1) school = schools.values.first;
     return ConnectionsData._(
-      school: school,
       schoolClass: schoolClasses,
       courses: decodeMap(data[CollectionNames.courses],
           (key, data) => Course.fromData(data, id: key)),
@@ -46,7 +39,6 @@ class ConnectionsData {
     }
     return ConnectionsData._(
       schoolClass: schoolClass,
-      school: school,
       courses: courseMap,
     );
   }

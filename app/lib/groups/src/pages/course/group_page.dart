@@ -106,7 +106,6 @@ class GroupPageState extends State<GroupPage> {
           builder: (context, snapshot) {
             final data = snapshot.hasData ? snapshot.data : null;
             final isEmpty = (data?.courses == null || data.courses.isEmpty) &&
-                data?.school == null &&
                 (data?.schoolClass == null || data.schoolClass.isEmpty);
 
             if (isEmpty) return _EmptyGroupList();

@@ -120,8 +120,6 @@ class ConnectionsGateway implements MyConnectionsAccesor {
         return 'Courses';
       case GroupType.schoolclass:
         return 'SchoolClasses';
-      case GroupType.school:
-        return 'School';
     }
     throw UnimplementedError('There is no string for $groupType');
   }
