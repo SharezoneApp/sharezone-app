@@ -534,11 +534,12 @@ packages:
   fast_rsa:
     dependency: transitive
     description:
-      name: fast_rsa
-      sha256: "04e712f781e772fd5eff35aa19465ce2577f30203ca9adb9e37d4dd32929ed8f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.6"
+      path: "."
+      ref: macos-vendor-library
+      resolved-ref: b0983681e40aecb550b1b6ed01d531f2139added
+      url: "https://github.com/jerson/flutter-rsa"
+    source: git
+    version: "3.6.0"
   feature_discovery:
     dependency: "direct main"
     description:

@@ -207,8 +207,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "025da1e915d3f497a735d815d89577dd258ddb46"
-      resolved-ref: "025da1e915d3f497a735d815d89577dd258ddb46"
+      ref: macos-vendor-library
+      resolved-ref: b0983681e40aecb550b1b6ed01d531f2139added
       url: "https://github.com/jerson/flutter-rsa"
     source: git
     version: "3.6.0"

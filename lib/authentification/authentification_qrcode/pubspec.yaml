@@ -35,7 +35,7 @@ dependencies:
   fast_rsa:
     git:
       url: https://github.com/jerson/flutter-rsa
-      ref: 025da1e915d3f497a735d815d89577dd258ddb46
+      ref: macos-vendor-library
   firebase_auth: ^4.4.0
   rxdart: ^0.27.1
 
