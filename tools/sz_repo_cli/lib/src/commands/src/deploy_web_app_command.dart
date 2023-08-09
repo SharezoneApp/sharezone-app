@@ -140,8 +140,7 @@ class DeployWebAppCommand extends Command {
 
   File? _parseCredentialsFile(ArgResults argResults) {
     File? googleApplicationCredentialsFile;
-    final path =
-        argResults[googleApplicationCredentialsOptionName] as String?;
+    final path = argResults[googleApplicationCredentialsOptionName] as String?;
     if (path != null) {
       googleApplicationCredentialsFile = File(path);
       final exists = googleApplicationCredentialsFile.existsSync();
