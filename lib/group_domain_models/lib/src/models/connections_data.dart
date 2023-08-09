@@ -11,7 +11,7 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 
 class ConnectionsData {
-  final Map<String, SchoolClass> schoolClass;
+  final Map<String, SchoolClass>? schoolClass;
   final Map<String?, Course> courses;
 
   const ConnectionsData._({
@@ -19,7 +19,14 @@ class ConnectionsData {
     required this.courses,
   });
 
-  factory ConnectionsData.fromData({required Map<String, dynamic> data}) {
+  static ConnectionsData? fromData({required Map<String, dynamic>? data}) {
+    if (data == null) {
+      return const ConnectionsData._(
+        schoolClass: null,
+        courses: {},
+      );
+    }
+
     Map<String, SchoolClass> schoolClasses = decodeMap(
         data[CollectionNames.schoolClasses],
         (key, data) => SchoolClass.fromData(data, id: key));
@@ -41,25 +48,5 @@ class ConnectionsData {
       schoolClass: schoolClass,
       courses: courseMap,
     );
-  }
-
-  GroupInfo? getGroupInfo(GroupKey groupKey) {
-    if (groupKey.groupType == GroupType.course) {
-      return courses[groupKey.id]!.toGroupInfo();
-    } else if (groupKey.groupType == GroupType.schoolclass) {
-      return schoolClass[groupKey.id]!.toGroupInfo();
-    }
-    return null;
-  }
-
-  List<GroupInfo> getGroups() {
-    final courseList =
-        courses.values.map((courseInfo) => courseInfo.toGroupInfo());
-    final schoolClassList =
-        schoolClass.values.map((schoolClass) => schoolClass.toGroupInfo());
-    final list = <GroupInfo>[];
-    list.addAll(courseList);
-    list.addAll(schoolClassList);
-    return list;
   }
 }
