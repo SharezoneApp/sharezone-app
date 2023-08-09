@@ -89,3 +89,79 @@ workflows:
               --github_token $GITHUB_PAT \
               --codemagic_token $CODEMAGIC_TOKEN \
               --message "_Note_: Only Sharezone team members are able to install the iOS app."
+
+  macos-alpha:
+    name: macOS Alpha
+    max_build_duration: 60
+    environment:
+      xcode: latest
+      flutter: 3.7.12
+      groups:
+        - ios-publishing
+        - certificate_credentials
+      vars:
+        BUNDLE_ID: de.codingbrain.sharezone.app
+    working_directory: app
+    scripts:
+      - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+        script: |
+          keychain initialize
+      - name: Fetch Mac App Distribution certificate and Mac App Store profile
+        script: |
+          app-store-connect fetch-signing-files \
+            $BUNDLE_ID \
+            --platform IOS \
+            --type MAC_APP_STORE \
+            --create
+      - name: Fetch Mac Installer Distribution certificates
+        script: |
+          app-store-connect list-certificates --type MAC_INSTALLER_DISTRIBUTION --save || \
+          app-store-connect create-certificate --type MAC_INSTALLER_DISTRIBUTION --save
+      - name: Set up signing certificate
+        script: |
+          keychain add-certificates
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Install pods
+        script: find . -name "Podfile" -execdir pod install \;
+      - name: Build macOS
+        script: |
+          # TEMP
+          BUMPED_BUILD_NUMBER=451
+          flutter build macos \
+            --release \
+            --target lib/main_prod.dart \
+            --dart-define DEVELOPMENT_STAGE=ALPHA \
+            --build-number $BUMPED_BUILD_NUMBER
+      - name: Package macOS application
+        script: |
+          set -x
+          # Command to find the path to your generated app
+          APP_NAME=$(find $(pwd) -name "*.app")
+          cd $(dirname "$APP_NAME")
+          PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
+          # Create an unsigned package
+          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg
+          # Find the installer certificate commmon name in keychain
+          INSTALLER_CERT_NAME=$(keychain list-certificates \
+            | jq '.[]
+            | select(.common_name
+            | contains("Mac Developer Installer"))
+            | .common_name' \
+            | xargs)
+          # Sign the package
+          xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
+    artifacts:
+      - build/macos/**/*.pkg
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
+        beta_groups:
+          - alpha
