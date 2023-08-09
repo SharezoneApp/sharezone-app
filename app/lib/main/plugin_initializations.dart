@@ -109,8 +109,7 @@ Future<void> _fetchRemoteConfig(RemoteConfiguration remoteConfiguration) async {
     if (isIntegrationTest && PlatformCheck.isAndroid) {
       if ('$e'.contains(
           '[firebase_remote_config/internal] internal remote config fetch error')) {
-        print(
-            "Catched '$e'. Ignoring because we're running an integration test.");
+        log("Catched '$e'. Ignoring because we're running an integration test.");
         // Sometimes the remote config fetch fails on Android integration tests,
         // see https://github.com/SharezoneApp/sharezone-app/issues/725.
         return;
