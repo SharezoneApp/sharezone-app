@@ -29,7 +29,7 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String?>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files"
+    String path = "/v1/submissions/{submissionId}/files"
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
 
     Map<String, dynamic> queryParams = {};
@@ -44,7 +44,7 @@ class AbgabedateiApi {
     bodyData = jsondateiHinzufuegenCommandDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
@@ -66,7 +66,7 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files/{fileId}"
+    String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
@@ -78,7 +78,7 @@ class AbgabedateiApi {
     List<String> contentTypes = [];
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
@@ -101,7 +101,7 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files/{fileId}"
+    String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
@@ -117,7 +117,7 @@ class AbgabedateiApi {
     bodyData = jsondateinameDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
