@@ -9,8 +9,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:args/src/arg_results.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 // All apps are deployed in the production firebase project but under different
@@ -145,7 +145,7 @@ class DeployWebAppCommand extends Command {
       googleApplicationCredentialsFile = File(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
-        print(
+        stdout.writeln(
             "--$googleApplicationCredentialsOptionName passed '$path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
       }
     }
@@ -156,13 +156,13 @@ class DeployWebAppCommand extends Command {
     final app = _webAppConfigs[releaseStage];
 
     if (app == null) {
-      print(
+      stderr.writeln(
           'Given release stage $releaseStage does not match one the expected values: $_webAppStages');
       throw ToolExit(2);
     }
 
     if (isVerbose) {
-      print('Got webApp config: $app');
+      stdout.writeln('Got webApp config: $app');
     }
     return app;
   }
@@ -170,7 +170,7 @@ class DeployWebAppCommand extends Command {
   String _parseReleaseStage(ArgResults argResults) {
     final releaseStage = argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
-      print(
+      stderr.writeln(
           'Expected --$releaseStageOptionName option. Possible values: $_webAppStages');
       throw ToolExit(1);
     }
@@ -186,13 +186,13 @@ class DeployWebAppCommand extends Command {
   Future<String> _getCurrentCommitHash() async {
     final res = await runProcess('git', ['rev-parse', 'HEAD']);
     if (res.stdout == null || (res.stdout as String).isEmpty) {
-      print(
+      stderr.writeln(
           'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
       throw ToolExit(15);
     }
     final currentCommit = res.stdout;
     if (isVerbose) {
-      print('Got current commit hash: $currentCommit');
+      stdout.writeln('Got current commit hash: $currentCommit');
     }
     return currentCommit;
   }

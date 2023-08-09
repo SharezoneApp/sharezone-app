@@ -41,10 +41,10 @@ class LocateSharezoneAppFlutterDirectoryCommand extends Command {
   FutureOr<void> run() async {
     switch (argResults![pathType]) {
       case relative:
-        print(await findSharezoneFlutterAppRelativeDirectoryPath());
+        stdout.writeln(await findSharezoneFlutterAppRelativeDirectoryPath());
         break;
       case absolute:
-        print(await findSharezoneFlutterAppAbsoluteDirectoryPath());
+        stdout.writeln(await findSharezoneFlutterAppAbsoluteDirectoryPath());
         break;
     }
   }

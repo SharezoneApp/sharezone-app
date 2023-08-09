@@ -37,11 +37,11 @@ void main() {};
     });
 
     group('does not match', () {
-      void _expectNoBadCommentsFound(String input) =>
+      void expectNoBadCommentsFound(String input) =>
           expect(findCommentsWithBadSpacingInCode(input).length, 0);
 
       test('simple good comments and doc comments', () {
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 /// This is a good doc-comment
 // This is a good normal comment
 void main() {};
@@ -57,7 +57,7 @@ void main() {};
         ///
         /// Windows uses CRLF (\r\n) as line endings, Linux and macOS use
         /// LF (\n) so we test both here
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 /// This is a good doc-comment...
 /// 
 /// 
@@ -74,7 +74,7 @@ void main() {};
       test(
           'anything if input includes "// ignore_for_file: no_spaces_after_comment_slashes"',
           () {
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 // ignore_for_file: no_spaces_after_comment_slashes
 //Some bad Comment
 final x = 3;
@@ -82,7 +82,7 @@ final x = 3;
         ''');
       });
       test('links inside comments', () {
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 /// Defaults to https://some-url.com
 final Uri url;
 
@@ -91,12 +91,12 @@ final Uri url2;
 ''');
       });
       test('empty comment at end of file (edge case for overflow)', () {
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 final foo = "bar";
 //''');
       });
       test('comment inside string', () {
-        _expectNoBadCommentsFound('''
+        expectNoBadCommentsFound('''
 print('//abc');
 //''');
       },

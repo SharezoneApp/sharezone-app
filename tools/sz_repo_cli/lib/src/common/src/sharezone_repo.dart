@@ -109,7 +109,7 @@ class DartLibraries {
         try {
           yield Package.fromDirectory(entity);
         } catch (e) {
-          print('Could not create package from $entity.');
+          stderr.writeln('Could not create package from $entity.');
         }
       }
     }

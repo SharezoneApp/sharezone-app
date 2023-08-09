@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:optional/optional.dart';
 import 'package:rxdart/subjects.dart';
@@ -298,14 +299,14 @@ class PackageTasksStatusPresenter {
           running: (running) => '⚙ Running',
         );
 
-        print('${task.package.name} $status');
+        stdout.writeln('${task.package.name} $status');
       });
     });
   }
 
   Future<void> printFailedTasksSummary(List<Failure> failures) async {
     for (var failure in failures) {
-      print(
+      stderr.writeln(
           '⛔ [${failure.package.type.toReadableString()}] ${failure.package.name}');
     }
   }

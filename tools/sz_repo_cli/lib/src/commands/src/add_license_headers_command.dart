@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
@@ -39,6 +40,6 @@ class AddLicenseHeadersCommand extends Command {
           'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}');
     }
 
-    print('Added license headers!');
+    stdout.writeln('Added license headers!');
   }
 }

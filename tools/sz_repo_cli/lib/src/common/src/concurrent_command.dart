@@ -91,11 +91,11 @@ abstract class ConcurrentCommand extends Command {
     final failures = await res.allFailures;
 
     if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
+      stderr.writeln('There were failures. See above for more information.');
       await presenter.printFailedTasksSummary(failures);
       exit(1);
     } else {
-      print('Task was successfully executed for all packages!');
+      stdout.writeln('Task was successfully executed for all packages!');
       exit(0);
     }
   }

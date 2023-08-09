@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
@@ -79,7 +81,7 @@ When none is specified, the value from pubspec.yaml is used.''',
     isVerbose = true;
 
     await _buildApp();
-    print('Build finished 🎉 ');
+    stdout.writeln('Build finished 🎉 ');
   }
 
   Future<void> _buildApp() async {
