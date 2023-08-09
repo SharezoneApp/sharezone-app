@@ -8,7 +8,7 @@
 
 import 'package:sharezone_common/helper_functions.dart';
 
-enum GroupType { course, schoolclass, school }
+enum GroupType { course, schoolclass }
 
 GroupType groupTypeFromString(String data) =>
     enumFromString(GroupType.values, data, orElse: GroupType.course);

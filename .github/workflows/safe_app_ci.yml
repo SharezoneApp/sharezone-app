@@ -125,6 +125,12 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
+
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
   # the time that macOS runner are used, we run the other tests on a Linux
