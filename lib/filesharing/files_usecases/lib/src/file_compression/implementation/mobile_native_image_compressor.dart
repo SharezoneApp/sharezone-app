@@ -16,7 +16,7 @@ import '../image_compressor.dart';
 
 class FlutterNativeImageCompressor extends ImageCompressor {
   @override
-  Future<LocalFile> compressImage(LocalFile file) async {
+  Future<LocalFile?> compressImage(LocalFile file) async {
     if (PlatformCheck.isMacOS) {
       // Currently, the image compressor does not work on macOS.
       //

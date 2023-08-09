@@ -14,13 +14,12 @@ class VideoFilePage extends StatelessWidget {
   static const tag = 'video-file-page';
 
   const VideoFilePage({
-    Key key,
-    @required this.actions,
-    @required this.name,
-    @required this.nameStream,
-    @required this.downloadURL,
-  })  : assert(downloadURL != null),
-        super(key: key);
+    Key? key,
+    required this.actions,
+    required this.name,
+    required this.nameStream,
+    required this.downloadURL,
+  })  : super(key: key);
 
   final String name;
   final Stream<String> nameStream;

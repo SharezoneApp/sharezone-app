@@ -14,43 +14,43 @@ import '../file_picker_implementation.dart';
 
 class FilePickerHtml extends FilePickerImplementation {
   @override
-  Future<LocalFile> pickFile() => _pickSingle();
+  Future<LocalFile?> pickFile() => _pickSingle();
 
   @override
-  Future<LocalFile> pickFileImage() => _pickSingle();
+  Future<LocalFile?> pickFileImage() => _pickSingle();
 
   @override
-  Future<LocalFile> pickFileVideo() => _pickSingle();
+  Future<LocalFile?> pickFileVideo() => _pickSingle();
   @override
-  Future<List<LocalFile>> pickMultiFile() => _pickMulti();
+  Future<List<LocalFile>?> pickMultiFile() => _pickMulti();
 
   @override
-  Future<List<LocalFile>> pickMultiFileImage() => _pickMulti();
+  Future<List<LocalFile>?> pickMultiFileImage() => _pickMulti();
   @override
-  Future<List<LocalFile>> pickMultiFileVideo() => _pickMulti();
+  Future<List<LocalFile>?> pickMultiFileVideo() => _pickMulti();
 
   @override
-  Future<LocalFile> pickImageCamera() => _pickSingle();
+  Future<LocalFile?> pickImageCamera() => _pickSingle();
   @override
-  Future<LocalFile> pickImageGallery() => _pickSingle();
+  Future<LocalFile?> pickImageGallery() => _pickSingle();
 
-  Future<LocalFile> _pickSingle() async {
-    final res = await web.FilePicker.platform.pickFiles(allowMultiple: false);
+  Future<LocalFile?> _pickSingle() async {
+    final res = (await web.FilePicker.platform.pickFiles(allowMultiple: false))!;
     if (res.files.isNotEmpty) {
       final file = res.files.single;
 
       return LocalFileData.fromData(
-          file.bytes, file.path, file.name, file.extension);
+          file.bytes!, file.path!, file.name, file.extension!);
     }
     return null;
   }
 
-  Future<List<LocalFile>> _pickMulti() async {
-    final res = await web.FilePicker.platform.pickFiles(allowMultiple: true);
+  Future<List<LocalFile>?> _pickMulti() async {
+    final res = (await web.FilePicker.platform.pickFiles(allowMultiple: true))!;
     if (res.files.isNotEmpty) {
       return res.files
           .map((file) => LocalFileData.fromData(
-              file.bytes, null, file.name, file.extension))
+              file.bytes!, null, file.name, file.extension!))
           .toList();
     }
     return null;

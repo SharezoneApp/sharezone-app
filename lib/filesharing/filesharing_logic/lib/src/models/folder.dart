@@ -9,35 +9,34 @@
 import 'dart:developer';
 
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/random_string.dart';
 
 class Folder {
   final String id;
-  final String name;
+  final String? name;
 
-  final String creatorName;
-  final String creatorID;
+  final String? creatorName;
+  final String? creatorID;
 
   final Map<String, Folder> folders;
-  final FolderType folderType;
+  final FolderType? folderType;
 
   const Folder._({
-    @required this.id,
-    @required this.name,
-    @required this.folders,
-    @required this.creatorID,
-    @required this.creatorName,
-    @required this.folderType,
+    required this.id,
+    required this.name,
+    required this.folders,
+    required this.creatorID,
+    required this.creatorName,
+    required this.folderType,
   });
 
   factory Folder.create({
-    @required String id,
-    @required String name,
-    @required String creatorID,
-    @required String creatorName,
-    @required FolderType folderType,
+    required String id,
+    required String name,
+    required String creatorID,
+    required String creatorName,
+    required FolderType folderType,
   }) {
     return Folder._(
       id: id,
@@ -50,8 +49,8 @@ class Folder {
   }
 
   factory Folder.fromData(
-      {@required String id, @required Map<String, dynamic> data}) {
-    Map<String, Folder> mFolders;
+      {required String id, required Map<String, dynamic> data}) {
+    Map<String, Folder>? mFolders;
     try {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
@@ -84,11 +83,11 @@ class Folder {
   }
 
   Folder copyWith({
-    String name,
-    Map<String, Folder> folders,
-    String creatorID,
-    String creatorName,
-    FolderType folderType,
+    String? name,
+    Map<String, Folder>? folders,
+    String? creatorID,
+    String? creatorName,
+    FolderType? folderType,
   }) {
     return Folder._(
       id: id,
@@ -109,15 +108,15 @@ class Folder {
   }
 
   static String generateFolderID(
-      {FolderPath folderPath,
-      String folderName,
-      FileSharingData fileSharingData,
+      {FolderPath? folderPath,
+      required String folderName,
+      required FileSharingData fileSharingData,
       int attempt = 0}) {
     if (attempt >= 10 || attempt < 0) {
       throw Exception('Too Many Attempts to generate random ID!');
     }
     List<Folder> folders =
-        fileSharingData.getFolders(folderPath).values.toList();
+        fileSharingData.getFolders(folderPath)!.values.toList();
     String nameID = folderName.toLowerCase() +
         (attempt == 0 ? "" : ("(${attempt.toString()})"));
     nameID = nameID.replaceAll(RegExp("[^A-Za-z0-9-_()]"), "");
