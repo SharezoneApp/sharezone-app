@@ -40,6 +40,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// * Firebase Messaging (throws SERVICE_NOT_AVAILABLE or AUTHENTICATION_FAILED
 ///   when running on device farm devices, see
 ///   https://github.com/SharezoneApp/sharezone-app/issues/420)
+/// * Ignore Remote Config fetch failures on Android
 bool isIntegrationTest = false;
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
