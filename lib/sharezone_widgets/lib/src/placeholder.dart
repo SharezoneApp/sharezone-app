@@ -183,7 +183,7 @@ class _RotateAnimation extends StatelessWidget {
           alignment: Alignment.center,
           child: RotationTransition(
             turns: AlwaysStoppedAnimation(rotate.value),
-            child: isNotEmptyOrNull(rivePath!)
+            child: isNotEmptyOrNull(rivePath)
                 ? _Rive(
                     size: size,
                     path: rivePath,
