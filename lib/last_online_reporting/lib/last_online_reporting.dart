@@ -25,7 +25,7 @@ class LastOnlineReporter {
   final CrashAnalytics _crashAnalytics;
   final Stream<AppLifecycleState> _lifecycleChanges;
   final Duration _debounceTime;
-  StreamSubscription _streamSubscription;
+  StreamSubscription? _streamSubscription;
 
   factory LastOnlineReporter.startReporting(
     FirebaseFirestore firestore,
@@ -36,7 +36,7 @@ class LastOnlineReporter {
     /// report being online every ten minutes (instead of reporting more often).
     /// This does not mean that there absolutely will be an update e.g. every 10
     /// minutes only that this is the miniumum allowed duration between reports.
-    @required Duration minimumDurationBetweenReports,
+    required Duration minimumDurationBetweenReports,
   }) {
     final reporter = LastOnlineReporter.internal(
       FirestoreLastOnlineReporterBackend(firestore, userId)
@@ -56,7 +56,7 @@ class LastOnlineReporter {
     this._reportBeingCurrentlyOnlineToBackend,
     this._lifecycleChanges,
     this._crashAnalytics, {
-    @required Duration debounceTime,
+    required Duration debounceTime,
   }) : _debounceTime = debounceTime;
 
   @visibleForTesting
