@@ -32,8 +32,8 @@ class QrCodeUserAuthenticator {
     final query = _qrSignInCollection.doc(qrId).snapshots();
     return query.map((documentSnapshot) {
       if (documentSnapshot.exists) {
-        final qrSignInDocument =
-            QrSignInDocument.fromData(documentSnapshot.data() as Map<String, dynamic>);
+        final qrSignInDocument = QrSignInDocument.fromData(
+            documentSnapshot.data() as Map<String, dynamic>);
         return qrSignInDocument.toSignInState();
       } else {
         return QrCodeIsGenerating();
