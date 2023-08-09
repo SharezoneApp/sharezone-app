@@ -12,12 +12,12 @@ class ExpandedChip extends StatelessWidget {
   final Color color;
   final String text;
   final double fontSize;
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
 
   const ExpandedChip({
-    Key key,
+    Key? key,
     this.color = Colors.orange,
-    @required this.text,
+    required this.text,
     this.fontSize = 18,
     this.textAlign,
   }) : super(key: key);

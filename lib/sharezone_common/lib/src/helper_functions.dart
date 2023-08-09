@@ -51,7 +51,7 @@ T? enumFromString<T>(List<T?> values, dynamic json, {T? orElse}) => json != null
 String? enumToString<T>(T value) =>
     value != null ? value.toString().split('.')[1] : null;
 
-bool isNotEmptyOrNull(String value) => !isEmptyOrNull(value);
+bool isNotEmptyOrNull(String? value) => !isEmptyOrNull(value);
 
 bool isEmptyOrNull(String? value) {
   return value == null || value.isEmpty;

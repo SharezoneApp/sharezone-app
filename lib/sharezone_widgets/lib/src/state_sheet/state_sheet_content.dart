@@ -13,7 +13,7 @@ class StateSheetContent {
   final Widget body;
   final List<ActionItem> actions;
 
-  const StateSheetContent({@required this.body, this.actions = const []});
+  const StateSheetContent({required this.body, this.actions = const []});
 
   factory StateSheetContent.fromSimpleData(SimpleData simpleData) {
     return StateSheetContent(
