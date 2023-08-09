@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -84,7 +85,7 @@ class PluginInitializations {
     // fetch the remote config in the background. The next time the app starts,
     // the fetched remote config will be available.
     await remoteConfiguration.activate();
-    unawaited(remoteConfiguration.fetch());
+    unawaited(_fetchRemoteConfig(remoteConfiguration));
 
     return remoteConfiguration;
   }
@@ -98,6 +99,25 @@ class PluginInitializations {
       initializeStreamingSharedPreferences() async {
     final prefs = await StreamingSharedPreferences.instance;
     return prefs;
+  }
+}
+
+Future<void> _fetchRemoteConfig(RemoteConfiguration remoteConfiguration) async {
+  try {
+    await remoteConfiguration.fetch();
+  } catch (e) {
+    if (isIntegrationTest && PlatformCheck.isAndroid) {
+      if ('$e'.contains(
+          '[firebase_remote_config/internal] internal remote config fetch error')) {
+        print(
+            "Catched '$e'. Ignoring because we're running an integration test.");
+        // Sometimes the remote config fetch fails on Android integration tests,
+        // see https://github.com/SharezoneApp/sharezone-app/issues/725.
+        return;
+      }
+    }
+
+    rethrow;
   }
 }
 
