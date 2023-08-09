@@ -26,7 +26,7 @@ class PrefilledTextField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.autofillHints,
     this.autoSelectAllCharactersOnFirstBuild = false,
-  })  : super(key: key);
+  }) : super(key: key);
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.

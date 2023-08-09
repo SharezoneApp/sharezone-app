@@ -105,7 +105,8 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
           TextButton(
             key: left!.key,
             style: TextButton.styleFrom(
-              foregroundColor: left!.textColor ?? Theme.of(context).primaryColor,
+              foregroundColor:
+                  left!.textColor ?? Theme.of(context).primaryColor,
             ),
             onPressed: left!.onPressed ??
                 (() => Navigator.pop(context, left!.popResult ?? false)),
@@ -154,8 +155,8 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
             key: left!.key,
             isDefaultAction: left!.isDefaultAction,
             isDestructiveAction: left!.isDestructiveAction,
-            onPressed:
-                left!.onPressed ?? (() => Navigator.pop(context, left!.popResult)),
+            onPressed: left!.onPressed ??
+                (() => Navigator.pop(context, left!.popResult)),
             child: Text(left!.title!),
           ),
         if (right != null)

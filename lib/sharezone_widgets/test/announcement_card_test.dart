@@ -14,7 +14,6 @@ void main() {
   group('AnnouncementCard', () {
     Future<void> pumpAnnouncementCard(
         {required WidgetTester tester, required Widget card}) async {
-
       await tester.pumpWidget(
         MaterialApp(
           home: Material(child: card),

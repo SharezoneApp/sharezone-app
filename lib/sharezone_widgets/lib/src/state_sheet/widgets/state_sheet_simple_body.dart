@@ -46,7 +46,8 @@ class StateSheetSimpleBody extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
-        if (description != null) Text(description!, textAlign: TextAlign.center),
+        if (description != null)
+          Text(description!, textAlign: TextAlign.center),
       ],
     );
   }
