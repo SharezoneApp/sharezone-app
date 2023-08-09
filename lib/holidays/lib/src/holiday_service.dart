@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'holiday_api.dart';
 import 'holiday_cache.dart';
 import 'api/holiday.dart';
@@ -17,58 +19,59 @@ class HolidayService {
 
   HolidayService(this.api, this.cache);
 
-  Future<List<Holiday>> load(State state,
+  Future<List<Holiday?>> load(State state,
       {bool ignoreCachedData = false}) async {
-    CacheResponse cached;
+    CacheResponse? cached;
     if (!ignoreCachedData) {
       cached = _tryToloadCachedData(state);
     }
 
-    List<Holiday> apiResponse;
-    if (cached?.payload == null || !cached.inValidTimeframe) {
+    List<Holiday?>? apiResponse;
+    if (cached?.payload == null || !cached!.inValidTimeframe) {
       apiResponse = await _tryCallingApi(apiResponse, state);
       if (apiResponse != null) await _trySavingToCache(apiResponse, state);
     }
 
-    List<Holiday> response = apiResponse ?? cached?.payload;
+    List<Holiday?>? response = apiResponse ?? cached?.payload;
     // Don't retrun null, as in most StreamBuilers there will be just a loading indicator.
-    if (response == null)
+    if (response == null) {
       throw HolidayLoadingException("Loading from Cache and Api both failed");
+    }
 
     return response;
   }
 
-  Future<List<Holiday>> _tryCallingApi(
-      List<Holiday> response, State state) async {
+  Future<List<Holiday?>?> _tryCallingApi(
+      List<Holiday?>? response, State state) async {
     try {
       response = await api.load(1, state);
     } on Exception catch (e) {
-      print("Exception when loading Holidays from API: $e");
+      log("Exception when loading Holidays from API: $e", error: e);
     }
     return response;
   }
 
-  Future<void> _trySavingToCache(List<Holiday> response, State state) async {
+  Future<void> _trySavingToCache(List<Holiday?> response, State state) async {
     try {
       await cache.save(response, state);
     } on Exception catch (e) {
-      print("Could not save in Cache: $e");
+      log("Could not save in Cache: $e", error: e);
     }
     return;
   }
 
-  CacheResponse _tryToloadCachedData(State state) {
+  CacheResponse? _tryToloadCachedData(State state) {
     try {
       return cache.load(state);
     } catch (e) {
-      print("Could not load Cache data: $e");
+      log("Could not load Cache data: $e", error: e);
     }
     return null;
   }
 }
 
 class HolidayLoadingException implements Exception {
-  final String message;
+  final String? message;
 
   HolidayLoadingException([this.message]);
 

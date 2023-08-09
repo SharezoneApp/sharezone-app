@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
   const ModalBottomSheetBigIconButton({
@@ -54,18 +54,23 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey[300], width: 1.25),
                     ),
-                    child: Icon(iconData,
-                        size: 40,
-                        color: isDarkThemeEnabled(context)
-                            ? Colors.white70
-                            : Colors.grey[600]),
+                    child: Icon(
+                      iconData,
+                      size: 40,
+                      color: isDarkThemeEnabled(context)
+                          ? Colors.white70
+                          : Colors.grey[600],
+                    ),
                   ),
                   const SizedBox(height: 8),
-                  Text(title,
-                      style: TextStyle(
-                          color: isDarkThemeEnabled(context)
-                              ? Colors.white70
-                              : Colors.grey[600]))
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: isDarkThemeEnabled(context)
+                          ? Colors.white70
+                          : Colors.grey[600],
+                    ),
+                  ),
                 ],
               ),
             ),

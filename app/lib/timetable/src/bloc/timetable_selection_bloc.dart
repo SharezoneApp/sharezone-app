@@ -13,7 +13,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:quiver/core.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:sharezone/util/api/timetableGateway.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:user/user.dart';
 
 class EmptyPeriodSelection {

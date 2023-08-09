@@ -19,8 +19,7 @@ import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_utils/dimensions.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
 
@@ -63,7 +62,7 @@ class _InnerSignInWithQrCodePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const SharezoneLogo(
-                      logoColor: LogoColor.blue_long,
+                      logoColor: LogoColor.blueLong,
                       height: 60,
                       width: 200,
                     ),

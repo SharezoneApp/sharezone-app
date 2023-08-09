@@ -13,6 +13,7 @@ import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dio/dio.dart';
@@ -24,7 +25,6 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
-import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
@@ -47,9 +47,6 @@ import 'package:sharezone/dashboard/gateway/dashboard_gateway.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/donate/analytics/donation_analytics.dart';
-import 'package:sharezone/donate/bloc/donation_bloc.dart';
-import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
@@ -89,6 +86,8 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
@@ -96,7 +95,7 @@ import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factor
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_dependencies.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_factory.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
@@ -105,9 +104,9 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/platform.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
+import '../notifications/is_firebase_messaging_supported.dart';
 import 'dashbord_widgets_blocs/holiday_bloc.dart';
 
 final navigationBloc = NavigationBloc();
@@ -156,8 +155,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
 
     PluginInitializations.tryInitializeRevenueCat(
-      apiKey: widget.blocDependencies.remoteConfiguration
-          .getString('revenuecat_api_key'),
+      androidApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_android_key'),
+      appleApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_apple_key'),
       uid: widget.blocDependencies.authUser.uid,
     );
 
@@ -190,10 +191,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final timePickerSettingsCache =
         TimePickerSettingsCache(streamingKeyValueStore);
 
-    if (PlatformCheck.isMobile) {
+    if (isFirebaseMessagingSupported()) {
       NotificationTokenAdder(
-              NotificationTokenAdderApi(api.user, FirebaseMessaging.instance))
-          .addTokenToUserIfNotExisting();
+        NotificationTokenAdderApi(
+          api.user,
+          FirebaseMessaging.instance,
+          widget.blocDependencies.remoteConfiguration
+              .getString('firebase_messaging_vapid_key'),
+        ),
+      ).addTokenToUserIfNotExisting();
     }
     final firestore = api.references.firestore;
     final firebaseAuth = api.references.firebaseAuth;
@@ -283,7 +289,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       baseUrl: abgabenServiceBaseUrl,
 
       /// Cold-Start kann manchmal dauern
-      connectTimeout: 45000,
+      connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
@@ -297,18 +303,30 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       widget.beitrittsversuche,
     );
 
-    // HttpHolidayApiClient and "useCfHolidayEndpoint" remote config value
-    // can be removed after 2021-12-01.
-    final useCfEndpoint = remoteConfig.getBool('useCfHolidayEndpoint') ?? false;
-    final holidayApiClient = useCfEndpoint
-        ? CloudFunctionHolidayApiClient()
-        : HttpHolidayApiClient(http.Client());
+    final holidayApiClient =
+        CloudFunctionHolidayApiClient(api.references.functions);
+
+    final clock = Clock();
+    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
+      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+    );
+    final subscriptionService = SubscriptionService(
+      user: api.user.userStream,
+      clock: clock,
+      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
+    );
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     final providers = [
-      Provider<CrashAnalytics>(create: (context) => crashAnalytics)
+      Provider<CrashAnalytics>(create: (context) => crashAnalytics),
+      Provider<SubscriptionService>(
+        create: (context) => subscriptionService,
+      ),
+      ChangeNotifierProvider<SubscriptionEnabledFlag>(
+        create: (context) => subscriptionEnabledFlag,
+      )
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -323,9 +341,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
       BlocProvider<BlackboardPageBloc>(bloc: blackboardPageBloc),
-      BlocProvider<NavigationBloc>(
-        bloc: navigationBloc,
-      ),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
             api.uID,
@@ -396,6 +411,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
+          subscriptionEnabledFlag: subscriptionEnabledFlag,
+          keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
       BlocProvider<DownloadAppTipBloc>(
@@ -448,17 +465,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: ReportGateway(widget.blocDependencies.firestore)),
       BlocProvider<FeedbackBloc>(bloc: feedbackBloc),
       BlocProvider<MarkdownAnalytics>(bloc: markdownAnalytics),
-      BlocProvider<DonationBloc>(
-        bloc: DonationBloc(
-          userId: UserId(api.uID),
-          donationService: DonationService(
-            crashAnalytics: getCrashAnalytics(),
-            analytics: analytics,
-            appFunctions: widget.blocDependencies.appFunctions,
-          ),
-          analytics: DonationAnalytics(analytics),
-        ),
-      ),
       BlocProvider<CommentsBlocFactory>(
         bloc: CommentsBlocFactory(
           CommentsGateway(api.references.firestore),
@@ -473,6 +479,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseGateway: api.course,
           fileSharingGateway: api.fileSharing,
           typeOfUserStream: typeOfUserStream,
+          subscriptionService: subscriptionService,
         ),
       ),
       BlocProvider<ChangeDataBloc>(
@@ -485,9 +492,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
         holidayManager: HolidayService(
-            HolidayApi(holidayApiClient),
-            HolidayCache(FlutterKeyValueStore(
-                widget.blocDependencies.sharedPreferences))),
+          HolidayApi(
+            holidayApiClient,
+            getCurrentTime: () => DateTime.now(),
+          ),
+          HolidayCache(
+            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+          ),
+        ),
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(

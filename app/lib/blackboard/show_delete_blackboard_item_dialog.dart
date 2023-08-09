@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'details/blackboard_details.dart';
 
 Future<void> showDeleteBlackboardItemDialog(

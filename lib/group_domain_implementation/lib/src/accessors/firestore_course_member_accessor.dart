@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -66,7 +67,7 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
           update();
         }
       } catch (e) {
-        print(e);
+        log('$e', error: e);
       }
     });
     final subscription = _memberReference(courseID)
@@ -122,14 +123,13 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
         }
         update();
       } catch (e) {
-        print(e);
+        log('$e', error: e);
       }
     });
     final subscription = _memberReference(courseID)
         .doc(memberID)
         .snapshots()
-        .map((docSnap) =>
-            MemberData.fromData(docSnap.data(), id: docSnap.id))
+        .map((docSnap) => MemberData.fromData(docSnap.data(), id: docSnap.id))
         .listen((newData) {
       membersData = newData;
       update();

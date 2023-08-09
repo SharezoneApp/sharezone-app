@@ -11,7 +11,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/bloc/file_page_bloc.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FilePage extends StatefulWidget {
   static const tag = "file-page";

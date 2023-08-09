@@ -10,10 +10,10 @@ import 'package:sharezone_common/helper_functions.dart';
 
 enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
-WeekDay weekDayEnumFromString(String data) =>
+WeekDay? weekDayEnumFromString(String data) =>
     enumFromString(WeekDay.values, data);
 
-String weekDayEnumToString(WeekDay weekDay) => enumToString(weekDay);
+String? weekDayEnumToString(WeekDay weekDay) => enumToString(weekDay);
 
 String weekDayEnumToGermanString(WeekDay weekDay) {
   switch (weekDay) {
@@ -32,5 +32,4 @@ String weekDayEnumToGermanString(WeekDay weekDay) {
     case WeekDay.sunday:
       return 'Sonntag';
   }
-  return "";
 }

@@ -38,7 +38,7 @@ class LinkProviderAnalytics {
   /// Grund fürs Tracking: Herausfinden, wie viele User den Anmeldebutton
   /// im Onboarding übersehen
   void logCredentialAlreadyInUseError() {
-    _analytics.log(AnalyticsEvent("credential_already_in_use_error"));
+    _analytics.log(const AnalyticsEvent("credential_already_in_use_error"));
   }
 
   /// Wird ausgeführt, wenn der Nutzer sich die Anleitung zur Nutzung von Sharezone
@@ -46,6 +46,7 @@ class LinkProviderAnalytics {
   /// wie viel Energie und Zeit in Zukunft in diese und ähnliche Anleitungen gesteckt
   /// werden soll.
   void logShowedUseMultipleDevicesInstruction() {
-    _analytics.log(AnalyticsEvent("showed_use_multiple_devices_instruction"));
+    _analytics
+        .log(const AnalyticsEvent("showed_use_multiple_devices_instruction"));
   }
 }

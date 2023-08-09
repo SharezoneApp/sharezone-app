@@ -22,9 +22,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone_widgets/placeholder.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum CourseDialogOption {
   groupJoin,
@@ -108,7 +106,6 @@ class GroupPageState extends State<GroupPage> {
           builder: (context, snapshot) {
             final data = snapshot.hasData ? snapshot.data : null;
             final isEmpty = (data?.courses == null || data.courses.isEmpty) &&
-                data?.school == null &&
                 (data?.schoolClass == null || data.schoolClass.isEmpty);
 
             if (isEmpty) return _EmptyGroupList();

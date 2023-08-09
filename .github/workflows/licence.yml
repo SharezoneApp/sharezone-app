@@ -8,8 +8,11 @@
 
 name: licence-ci
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
+  merge_group:
+    types:
+      - checks_requested
   # Triggers the workflow on pull request events
   pull_request:
     types:
@@ -18,17 +21,17 @@ on:
 
 # Set permissions to none.
 #
-# Using the broad default permissions is considered a bad security practice 
+# Using the broad default permissions is considered a bad security practice
 # and would cause alerts from our scanning tools.
 permissions: {}
 
 jobs:
   check-files-licence-headers:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v2
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/setup-go@db8764c1e24b94e6bf86c7b9195ce862c97a4090
         with:
-          go-version: '^1.13.1'
-      - run: go install github.com/google/addlicense@latest 
+          go-version: "^1.13.1"
+      - run: go install github.com/google/addlicense@v1.1.1
       - run: ./bin/check_license_headers.sh

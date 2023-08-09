@@ -29,20 +29,17 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
-      xcode: latest
+      xcode: 14.3
       groups:
         - github
         - ios-publishing
         - android_publishing
         - certificate_credentials
+        - codemagic
       vars:
         BUNDLE_ID: de.codingbrain.sharezone.app.dev
-      # We won't use this Flutter version because we are going to download FVM
-      # later and use the specified Flutter version in our repository.
-      #
-      # As predefined Flutter version we are using here the newest stable
-      # version because this version is preinstalled on Codemagic VMs.
-      flutter: stable
+      # Sets the Flutter version to the version from fvm_config.json.
+      flutter: fvm
     working_directory: app
     scripts:
       - name: Install FVM
@@ -50,7 +47,7 @@ workflows:
         # there is our .fvm folder with all the FVM configurations.
         working_directory: .
         script: |
-          dart pub global activate fvm
+          dart pub global activate fvm 2.4.1
           fvm install
       - name: iOS code signing
         script: |
@@ -87,5 +84,8 @@ workflows:
       scripts:
         - name: Post App Preview
           script: |
-            dart pub global activate codemagic_app_preview
-            app_preview post --gh_token $GITHUB_PAT --message "_Note_: Only Sharezone team members are able to install the iOS app."
+            dart pub global activate codemagic_app_preview 0.1.0
+            app_preview post \
+              --github_token $GITHUB_PAT \
+              --codemagic_token $CODEMAGIC_TOKEN \
+              --message "_Note_: Only Sharezone team members are able to install the iOS app."

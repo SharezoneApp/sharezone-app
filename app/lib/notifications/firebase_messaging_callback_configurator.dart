@@ -13,33 +13,51 @@ import 'package:notifications/notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/notifications/push_notification_action_handler_instrumentation_implementation.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
 import 'package:sharezone/notifications/widgets/error_dialog.dart';
 import 'package:sharezone/notifications/widgets/in_app_notification.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
 
 import 'action_requests/action_requests.dart';
 
 class FirebaseMessagingCallbackConfigurator {
   final NavigationService navigationService;
   final NavigationBloc navigationBloc;
+  final AndroidDeviceInformation androidDeviceInformation;
+  final NotificationsPermission notificationsPermission;
+
+  /// VAPID key is used by Firebase Messaging to send push notifications to the
+  /// web app.
+  ///
+  /// See https://firebase.google.com/docs/cloud-messaging/js/client.
+  final String vapidKey;
 
   FirebaseMessagingCallbackConfigurator({
     this.navigationService,
     this.navigationBloc,
+    this.androidDeviceInformation,
+    @required this.notificationsPermission,
+    @required this.vapidKey,
   });
 
   Future<void> configureCallbacks(BuildContext context) async {
-    _requestIOSPermission(context);
+    if (isIntegrationTest) {
+      // Firebase Messaging is not available in integration tests.
+      return;
+    }
+
+    await _requestPermissionIfNeeded(context);
 
     final _logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
 
     _logger.fine(
-        'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken()}');
+        'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken(vapidKey: vapidKey)}');
 
     final handler = _createNotificiationHandler(context);
 
@@ -120,33 +138,28 @@ class FirebaseMessagingCallbackConfigurator {
 
     return handler;
   }
-}
 
-/// Prompts the native iOS permissions dialog to ask the user if we are allowed
-/// to send push notifications.
-///
-/// Does nothing if the platform is not iOS.
-Future<void> _requestIOSPermission(BuildContext context) async {
-  if (!PlatformCheck.isIOS) {
-    // We are only using push notifications for iOS and Android. Android does
-    // not required to get the permission from the user. Therefore, we can skip
-    // this for Android devices.
-    return;
-  }
+  /// Prompts the native iOS permissions dialog to ask the user if we are allowed
+  /// to send push notifications.
+  ///
+  /// Does nothing if the platform is not iOS.
+  Future<void> _requestPermissionIfNeeded(BuildContext context) async {
+    final isNeeded =
+        await notificationsPermission.isRequiredToRequestPermission();
+    if (!isNeeded) {
+      return;
+    }
 
-  final signUpBloc = BlocProvider.of<SignUpBloc>(context);
-  final signedUp = await signUpBloc.signedUp.first;
+    final signUpBloc = BlocProvider.of<SignUpBloc>(context);
+    final signedUp = await signUpBloc.signedUp.first;
 
-  // Falls der Nutzer sich nicht registriert hat, muss nach der Berechtigung
-  // für die Push-Nachrichten gefragt werden, weil dies normalerweise im
-  // Onboarding passiert. Meldet sich ein Nutzer mit einem Konto auf seinem
-  // iPad an (zweit Gerät), würde dieser nicht die Abfrage für die Push-Nachrichten
-  // erhalten und somit niemals Push-Nachricht zugeschickt bekommen.
-  if (!signedUp) {
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      sound: true,
-      badge: true,
-    );
+    // Falls der Nutzer sich nicht registriert hat, muss nach der Berechtigung
+    // für die Push-Nachrichten gefragt werden, weil dies normalerweise im
+    // Onboarding passiert. Meldet sich ein Nutzer mit einem Konto auf seinem
+    // iPad an (zweit Gerät), würde dieser nicht die Abfrage für die Push-Nachrichten
+    // erhalten und somit niemals Push-Nachricht zugeschickt bekommen.
+    if (!signedUp) {
+      await notificationsPermission.requestPermission();
+    }
   }
 }

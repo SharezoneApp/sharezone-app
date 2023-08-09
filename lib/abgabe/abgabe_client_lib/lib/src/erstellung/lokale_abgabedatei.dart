@@ -29,7 +29,7 @@ class LokaleAbgabedatei extends Abgabedatei {
     @required DateTime erstellungsdatum,
     @required this.localFile,
     String pfad,
-  })  : this.pfad = Optional.ofNullable(pfad),
+  })  : pfad = Optional.ofNullable(pfad),
         super(
             id: id,
             name: name,
@@ -55,10 +55,10 @@ class LokaleAbgabedatei extends Abgabedatei {
   String toString() => 'LokaleAbgabedatei(id: $id, name: $name)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is LokaleAbgabedatei && o.pfad == pfad;
+    return other is LokaleAbgabedatei && other.pfad == pfad;
   }
 
   @override

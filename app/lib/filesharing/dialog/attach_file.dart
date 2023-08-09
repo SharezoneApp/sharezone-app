@@ -16,8 +16,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/file_card.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachFile extends StatelessWidget {
   const AttachFile({

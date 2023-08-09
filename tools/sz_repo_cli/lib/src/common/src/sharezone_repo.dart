@@ -8,9 +8,8 @@
 
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:path/path.dart' as path;
+import 'package:rxdart/rxdart.dart';
 
 import 'package.dart';
 
@@ -24,10 +23,10 @@ class SharezoneRepo {
       'source_of_truth', 'commands_source_of_truth.yaml'));
 
   SharezoneRepo._({
-    @required this.location,
-    @required this.sharezoneFlutterApp,
-    @required this.dartLibraries,
-    @required this.sharezoneCiCdTool,
+    required this.location,
+    required this.sharezoneFlutterApp,
+    required this.dartLibraries,
+    required this.sharezoneCiCdTool,
   });
 
   factory SharezoneRepo(Directory rootDirectory) {
@@ -99,7 +98,7 @@ class DartLibraries {
   final Directory clientLibariesLocation;
 
   DartLibraries({
-    @required this.clientLibariesLocation,
+    required this.clientLibariesLocation,
   });
 
   Stream<Package> streamPackages() async* {

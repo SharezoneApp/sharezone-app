@@ -6,16 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'dart:developer';
 
-void snackbarSoon(
-    {BuildContext context, GlobalKey<ScaffoldMessengerState> key}) {
+import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+void snackbarSoon({
+  BuildContext context,
+  GlobalKey<ScaffoldMessengerState> key,
+}) {
   showSnackSec(
-      text: "Diese Funktion ist bald verfügbar! 😊",
-      seconds: 3,
-      context: context,
-      key: key);
+    text: "Diese Funktion ist bald verfügbar! 😊",
+    seconds: 3,
+    context: context,
+    key: key,
+  );
 }
 
 /// [behavior] ist hier standardmäßig fixed, da die [showDataArrivalConfirmedSnackbar]
@@ -35,8 +40,10 @@ void showDataArrivalConfirmedSnackbar(
   );
 }
 
-void sendDataToFrankfurtSnackBar(BuildContext context,
-    {SnackBarBehavior behavior}) {
+void sendDataToFrankfurtSnackBar(
+  BuildContext context, {
+  SnackBarBehavior behavior,
+}) {
   showSnackSec(
     context: context,
     seconds: 3600,
@@ -133,16 +140,18 @@ void showSnack({
       if (hideCurrentSnackBar) key.currentState.removeCurrentSnackBar();
       key.currentState.showSnackBar(snackBar);
     } catch (e) {
-      print("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
+          error: e);
     }
   } else if (context != null) {
     try {
-      if (hideCurrentSnackBar)
+      if (hideCurrentSnackBar) {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
-      print(
-          "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}",
+          error: e);
     }
   } else {
     debugPrint("Fehler! Die SnackBar hat keinen Key und keinen Context!");

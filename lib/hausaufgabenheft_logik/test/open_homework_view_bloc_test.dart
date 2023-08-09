@@ -38,7 +38,7 @@ void main() {
     });
 
     test('returns correct homework', () async {
-      var sections = [HomeworkSectionView('Some Section', const [])];
+      var sections = [const HomeworkSectionView('Some Section', [])];
       mockOpenHomeworkListViewFactory.sectionsToReturn = sections;
 
       openHomeworksViewBloc

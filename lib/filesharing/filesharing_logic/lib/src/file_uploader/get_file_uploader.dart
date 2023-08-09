@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'implementation/mobile_firebase_file_uploader.dart' as implementation;
+import 'implementation/firebase_file_uploader.dart' as implementation;
 
 import 'file_uploader.dart';
 

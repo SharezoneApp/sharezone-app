@@ -26,13 +26,13 @@
 
 abstract class State {
   const State();
-  
+
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is State && code == other.code;
   }
-  
+
   @override
   int get hashCode {
     return code.hashCode;

@@ -17,6 +17,5 @@ export 'src/models/group_type.dart';
 export 'src/models/member_role.dart';
 export 'src/models/member.dart';
 export 'src/models/school_class.dart';
-export 'src/models/school.dart';
 export 'src/models/sharecode.dart';
 export 'src/models/write_permissions.dart';

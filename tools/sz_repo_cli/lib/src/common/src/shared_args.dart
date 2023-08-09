@@ -7,13 +7,22 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:args/args.dart';
-import 'package:meta/meta.dart';
 
 const _packageTimeoutName = 'package-timeout-minutes';
 const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
 
 extension AddPackageTimeout on ArgParser {
-  void addPackageTimeoutOption({@required int defaultInMinutes}) {
+  void addVerboseFlag() {
+    addFlag(
+      'verbose',
+      abbr: 'v',
+      help: 'if verbose output should be printed (helpful for debugging)',
+      negatable: false,
+      defaultsTo: false,
+    );
+  }
+
+  void addPackageTimeoutOption({required int defaultInMinutes}) {
     addOption(
       _packageTimeoutName,
       help:
@@ -22,7 +31,7 @@ extension AddPackageTimeout on ArgParser {
     );
   }
 
-  void addConcurrencyOption({@required int defaultMaxConcurrency}) {
+  void addConcurrencyOption({required int defaultMaxConcurrency}) {
     addOption(
       maxConcurrentPackagesOptionName,
       abbr: 'c',

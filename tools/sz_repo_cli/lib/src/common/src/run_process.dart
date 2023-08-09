@@ -12,14 +12,14 @@ import '../common.dart';
 
 /// Helper method that automatically throws if [Process.exitCode] is non-zero
 /// (unsucessfull).
-Future<void> runProcessSucessfullyOrThrow(
+Future<ProcessResult> runProcessSucessfullyOrThrow(
   String executable,
   List<String> arguments, {
-  String workingDirectory,
-  Map<String, String> environment,
+  String? workingDirectory,
+  Map<String, String>? environment,
   // ignore: unused_element
-  bool includeParentEnvironment,
-  bool runInShell,
+  bool? includeParentEnvironment,
+  bool? runInShell,
   ProcessStartMode mode = ProcessStartMode.normal,
 }) async {
   final displayableCommand = '$executable ${arguments.join(' ')}';
@@ -34,6 +34,8 @@ Future<void> runProcessSucessfullyOrThrow(
     throw Exception(
         'Process ended with non-zero exit code: $displayableCommand (exit code ${result.exitCode}): ${result.stderr}\n\n stdout:${result.stdout}');
   }
+
+  return ProcessResult(result.pid, exitCode, result.stdout, result.stderr);
 }
 
 /// Helper method with automatic (verbose) logging and workarounds for some
@@ -41,11 +43,11 @@ Future<void> runProcessSucessfullyOrThrow(
 Future<ProcessResult> runProcess<T>(
   String executable,
   List<String> arguments, {
-  String workingDirectory,
-  Map<String, String> environment,
+  String? workingDirectory,
+  Map<String, String>? environment,
   // ignore: unused_element
-  bool includeParentEnvironment,
-  bool runInShell,
+  bool? includeParentEnvironment,
+  bool? runInShell,
   ProcessStartMode mode = ProcessStartMode.normal,
 }) async {
   final displayableCommand = '$executable ${arguments.join(' ')}';

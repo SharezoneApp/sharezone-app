@@ -19,11 +19,15 @@ class LocalFileIo extends LocalFile {
   final MimeType mimeType;
   final int sizeBytes;
 
-  LocalFileIo._(
-      {this.file, this.fileName, this.path, this.sizeBytes, this.mimeType});
+  LocalFileIo._({
+    required this.file,
+    required this.fileName,
+    required this.path,
+    required this.sizeBytes,
+    required this.mimeType,
+  });
 
   factory LocalFileIo.fromFile(File file) {
-    if (file == null) return null;
     final fileName = basename(file.path);
     return LocalFileIo._(
       file: file,

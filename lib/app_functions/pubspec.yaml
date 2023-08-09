@@ -17,8 +17,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_functions: ^4.0.11
+  cloud_functions: ^4.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
