@@ -14,9 +14,9 @@ class WrappableList extends StatelessWidget {
   final int maxElementsPerSection;
 
   const WrappableList({
-    Key key,
-    @required this.children,
-    @required this.minWidth,
+    Key? key,
+    required this.children,
+    required this.minWidth,
     this.maxElementsPerSection = 2,
   }) : super(key: key);
   @override

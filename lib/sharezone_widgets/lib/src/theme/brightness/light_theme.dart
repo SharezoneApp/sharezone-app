@@ -45,7 +45,7 @@ final lightTheme = ThemeData(
   dialogTheme: _dialogTheme,
   checkboxTheme: CheckboxThemeData(
     fillColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -57,7 +57,7 @@ final lightTheme = ThemeData(
   ),
   radioTheme: RadioThemeData(
     fillColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -69,7 +69,7 @@ final lightTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     thumbColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -79,7 +79,7 @@ final lightTheme = ThemeData(
       return null;
     }),
     trackColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }

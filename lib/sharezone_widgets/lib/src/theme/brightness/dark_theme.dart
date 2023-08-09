@@ -54,7 +54,7 @@ final darkTheme = ThemeData(
   tabBarTheme: const TabBarTheme(labelColor: Colors.white),
   checkboxTheme: CheckboxThemeData(
     fillColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -66,7 +66,7 @@ final darkTheme = ThemeData(
   ),
   radioTheme: RadioThemeData(
     fillColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -78,7 +78,7 @@ final darkTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     thumbColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }
@@ -88,7 +88,7 @@ final darkTheme = ThemeData(
       return null;
     }),
     trackColor:
-        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return null;
       }

@@ -10,11 +10,10 @@ import 'package:flutter/material.dart';
 
 class MaxWidthConstraintBox extends StatelessWidget {
   const MaxWidthConstraintBox({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.maxWidth = 1000,
-  })  : assert(child != null && maxWidth != null),
-        super(key: key);
+  })  : super(key: key);
 
   final Widget child;
 

@@ -16,8 +16,8 @@ class IgnoreWillPopScopeWhenIosSwipeBackRoute<T> extends MaterialPageRoute<T> {
   }
 
   IgnoreWillPopScopeWhenIosSwipeBackRoute({
-    @required WidgetBuilder builder,
-    RouteSettings settings,
+    required WidgetBuilder builder,
+    RouteSettings? settings,
     bool maintainState = true,
     bool fullscreenDialog = false,
   }) : super(

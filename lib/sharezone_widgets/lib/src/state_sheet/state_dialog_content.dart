@@ -15,7 +15,7 @@ class StateDialogContent {
   final List<ActionItem> actions;
 
   const StateDialogContent(
-      {@required this.title, @required this.body, this.actions = const []});
+      {required this.title, required this.body, this.actions = const []});
 
   factory StateDialogContent.fromSimpleData(SimpleData simpleData) {
     return StateDialogContent(
