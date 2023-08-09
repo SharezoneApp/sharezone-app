@@ -11,16 +11,16 @@ import 'package:flutter/material.dart';
 /// Ein Datenobjekt für Widgets wie zum Beispiel [StateDialogSimpleBody] oder [StateSheetSimpleBody].
 class SimpleData {
   final String title;
-  final String description;
+  final String? description;
   final IconData iconData;
-  final Color iconColor;
+  final Color? iconColor;
 
   const SimpleData({
-    @required this.title,
+    required this.title,
     this.description,
-    @required this.iconData,
+    required this.iconData,
     this.iconColor,
-  }) : assert(iconData != null);
+  });
 
   factory SimpleData.successful() {
     return const SimpleData(
