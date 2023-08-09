@@ -19,7 +19,7 @@ class VideoFilePage extends StatelessWidget {
     required this.name,
     required this.nameStream,
     required this.downloadURL,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final String name;
   final Stream<String> nameStream;

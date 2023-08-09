@@ -35,7 +35,8 @@ class FilePickerHtml extends FilePickerImplementation {
   Future<LocalFile?> pickImageGallery() => _pickSingle();
 
   Future<LocalFile?> _pickSingle() async {
-    final res = (await web.FilePicker.platform.pickFiles(allowMultiple: false))!;
+    final res =
+        (await web.FilePicker.platform.pickFiles(allowMultiple: false))!;
     if (res.files.isNotEmpty) {
       final file = res.files.single;
 
