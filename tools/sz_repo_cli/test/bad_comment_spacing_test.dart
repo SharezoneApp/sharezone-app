@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 void main() {
   group('bad comment spacing', () {
     test('is found for simple bad comment', () {
-      final input = '''
+      const input = '''
 //This is a bad comment
 final x = 3;
 ''';
@@ -25,7 +25,7 @@ final x = 3;
       expect(results.single.lastCommentSlashIndex, 1);
     });
     test('is found for simple bad doc comment', () {
-      final input = '''
+      const input = '''
 ///This is a bad doc-comment
 void main() {};
 ''';
@@ -105,7 +105,7 @@ print('//abc');
     });
 
     test('is found for multiple bad normal, bad doc comments', () {
-      final input = '''
+      const input = '''
 ///This is a bad doc-comment
 void main() {
   ///Where is the space?!?!
@@ -125,7 +125,7 @@ void main() {
     // Because we know that the method uses the "find bad comments" method we
     // just run one bigger "integration test" instead of testing all cases
     // again as unit tests.
-    final input = '''
+    const input = '''
 //I like comments....
 //   
 //
@@ -146,7 +146,7 @@ void main() {
 //
 ''';
 
-    final expectedOutput = '''
+    const expectedOutput = '''
 // I like comments....
 //   
 //

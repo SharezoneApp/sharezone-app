@@ -42,26 +42,26 @@ class ConcurrentPackageTaskRunner {
     /// [Failure].
     required Duration perPackageTaskTimeout,
   }) async* {
-    final _concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
+    final concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
         maxConcurrentItems: maxNumberOfPackagesBeingProcessedConcurrently);
 
     final futures = <Future>[];
 
     await for (final package
-        in packageStream.transform(_concurrencyTransformer)) {
-      final _statusUpdater = _getStatusUpdater(package);
-      yield PackageTask(package, _statusUpdater.statusStream);
+        in packageStream.transform(concurrencyTransformer)) {
+      final statusUpdater = _getStatusUpdater(package);
+      yield PackageTask(package, statusUpdater.statusStream);
 
-      _statusUpdater.started();
+      statusUpdater.started();
       final future = runTask(package)
           .timeout(
             perPackageTaskTimeout,
             onTimeout: () =>
                 throw PackageTimeoutException(perPackageTaskTimeout, package),
           )
-          .then((_) => _statusUpdater.success())
-          .catchError((e, s) => _statusUpdater.failure(error: e, stackTrace: s))
-          .whenComplete(_concurrencyTransformer.notifyPackageProcessed);
+          .then((_) => statusUpdater.success())
+          .catchError((e, s) => statusUpdater.failure(error: e, stackTrace: s))
+          .whenComplete(concurrencyTransformer.notifyPackageProcessed);
 
       futures.add(future);
     }

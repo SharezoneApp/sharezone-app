@@ -38,7 +38,7 @@ class LocateSharezoneAppFlutterDirectoryCommand extends Command {
   String get name => 'locate-app';
 
   @override
-  FutureOr<Null> run() async {
+  FutureOr<void> run() async {
     switch (argResults![pathType]) {
       case relative:
         print(await findSharezoneFlutterAppRelativeDirectoryPath());

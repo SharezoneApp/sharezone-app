@@ -25,7 +25,7 @@ class AnalyzeCommand extends ConcurrentCommand {
       'This command requires "pub" and "flutter" to be in your path.';
 
   @override
-  Duration get defaultPackageTimeout => Duration(minutes: 5);
+  Duration get defaultPackageTimeout => const Duration(minutes: 5);
 
   @override
   Future<void> runTaskForPackage(Package package) => analyzePackage(package);

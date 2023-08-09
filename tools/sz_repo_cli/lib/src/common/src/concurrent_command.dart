@@ -30,7 +30,7 @@ abstract class ConcurrentCommand extends Command {
   /// task for the package that exceeded the timeout will be marked as failing.
   ///
   /// This can be overridden by the user via command line argument.
-  Duration get defaultPackageTimeout => Duration(minutes: 10);
+  Duration get defaultPackageTimeout => const Duration(minutes: 10);
 
   /// Number of packages that are going to be processed concurrently.
   ///
@@ -65,8 +65,8 @@ abstract class ConcurrentCommand extends Command {
     isVerbose = argResults!['verbose'] ?? false;
     await runSetup();
 
-    final _max = argResults![maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
+    final max = argResults![maxConcurrentPackagesOptionName];
+    final maxNumberOfPackagesBeingProcessedConcurrently = max != null
         ? int.tryParse(argResults![maxConcurrentPackagesOptionName])
         // null as interpreted as "no concurrency limit" (everything at once).
         : null;

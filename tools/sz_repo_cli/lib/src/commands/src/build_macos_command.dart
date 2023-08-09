@@ -58,7 +58,7 @@ When none is specified, the value from pubspec.yaml is used.''',
 
   Future<void> _buildApp() async {
     try {
-      final flavor = 'prod';
+      const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
       await runProcessSucessfullyOrThrow(
@@ -72,7 +72,7 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--release',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', '$buildNumber'],
+          if (buildNumber != null) ...['--build-number', buildNumber],
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );

@@ -18,9 +18,9 @@ import 'package:sz_repo_cli/src/common/common.dart';
 // All apps also have the production config (they use and display the production
 // data).
 final _webAppConfigs = {
-  'alpha': _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
-  'beta': _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
-  'prod': _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
+  'alpha': const _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
+  'beta': const _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
+  'prod': const _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
 };
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
@@ -138,38 +138,38 @@ class DeployWebAppCommand extends Command {
         });
   }
 
-  File? _parseCredentialsFile(ArgResults _argResults) {
+  File? _parseCredentialsFile(ArgResults argResults) {
     File? googleApplicationCredentialsFile;
-    final _path =
-        _argResults[googleApplicationCredentialsOptionName] as String?;
-    if (_path != null) {
-      googleApplicationCredentialsFile = File(_path);
+    final path =
+        argResults[googleApplicationCredentialsOptionName] as String?;
+    if (path != null) {
+      googleApplicationCredentialsFile = File(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
         print(
-            "--$googleApplicationCredentialsOptionName passed '$_path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
+            "--$googleApplicationCredentialsOptionName passed '$path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
       }
     }
     return googleApplicationCredentialsFile;
   }
 
   _WebAppConfig _getMatchingWebAppConfig(String releaseStage) {
-    final _app = _webAppConfigs[releaseStage];
+    final app = _webAppConfigs[releaseStage];
 
-    if (_app == null) {
+    if (app == null) {
       print(
           'Given release stage $releaseStage does not match one the expected values: $_webAppStages');
       throw ToolExit(2);
     }
 
     if (isVerbose) {
-      print('Got webApp config: $_app');
+      print('Got webApp config: $app');
     }
-    return _app;
+    return app;
   }
 
-  String _parseReleaseStage(ArgResults _argResults) {
-    final releaseStage = _argResults[releaseStageOptionName] as String?;
+  String _parseReleaseStage(ArgResults argResults) {
+    final releaseStage = argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
       print(
           'Expected --$releaseStageOptionName option. Possible values: $_webAppStages');
@@ -178,9 +178,9 @@ class DeployWebAppCommand extends Command {
     return releaseStage;
   }
 
-  String? _parseDeployMessage(ArgResults _argResults) {
+  String? _parseDeployMessage(ArgResults argResults) {
     final overriddenDeployMessageOrNull =
-        _argResults[firebaseDeployMessageOptionName] as String?;
+        argResults[firebaseDeployMessageOptionName] as String?;
     return overriddenDeployMessageOrNull;
   }
 

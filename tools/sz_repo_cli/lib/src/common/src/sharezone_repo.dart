@@ -30,18 +30,18 @@ class SharezoneRepo {
   });
 
   factory SharezoneRepo(Directory rootDirectory) {
-    final _root = rootDirectory.path;
+    final root = rootDirectory.path;
 
     return SharezoneRepo._(
       location: rootDirectory,
       dartLibraries: DartLibraries(
-        clientLibariesLocation: Directory(path.join(_root, 'lib')),
+        clientLibariesLocation: Directory(path.join(root, 'lib')),
       ),
       sharezoneFlutterApp: Package.fromDirectory(
-        Directory(path.join(_root, 'app')),
+        Directory(path.join(root, 'app')),
       ),
       sharezoneCiCdTool: Package.fromDirectory(Directory(path.join(
-        _root,
+        root,
         'tools',
         'sz_repo_cli',
       ))),

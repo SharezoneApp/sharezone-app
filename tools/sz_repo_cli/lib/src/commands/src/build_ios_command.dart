@@ -94,7 +94,7 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--release',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', '$buildNumber'],
+          if (buildNumber != null) ...['--build-number', buildNumber],
           if (exportOptionsPlist != null) ...[
             '--export-options-plist',
             exportOptionsPlist
