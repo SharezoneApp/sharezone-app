@@ -9,11 +9,11 @@
 import 'package:flutter/material.dart';
 
 class AdaptiveDialogAction<T> {
-  final Key key;
-  final String title;
-  final Color textColor;
-  final T popResult;
-  final VoidCallback onPressed;
+  final Key? key;
+  final String? title;
+  final Color? textColor;
+  final T? popResult;
+  final VoidCallback? onPressed;
 
   /// Set to true if button is the default choice in the dialog.
   ///

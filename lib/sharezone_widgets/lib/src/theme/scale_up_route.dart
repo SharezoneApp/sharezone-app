@@ -20,7 +20,7 @@ class ScaleUpRoute<T> extends MaterialPageRoute<T> {
   final double begin;
 
   ScaleUpRoute(
-      {@required Widget child, @required this.begin, @required String tag})
+      {required Widget child, required this.begin, required String tag})
       : super(builder: (context) => child, settings: RouteSettings(name: tag));
 
   @override

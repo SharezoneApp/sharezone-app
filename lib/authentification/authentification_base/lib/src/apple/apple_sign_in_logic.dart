@@ -8,32 +8,35 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleSignInLogic {
-  Future<User> signIn() async {
+  /// Signs in with Apple. Returns the user if the sign in was successful.
+  ///
+  /// Returns null if the user cancels the sign in process.
+  /// Throws an exception if the sign in fails.
+  Future<User?> signIn() async {
     if (PlatformCheck.isMacOS || PlatformCheck.isIOS) {
-      final credentials = await SignInWithApple.getAppleIDCredential(
-        scopes: [],
-      );
-      if (credentials is AuthorizationCredentialAppleID) {
-        final oAuthProvider = OAuthProvider('apple.com');
-        final credential = oAuthProvider.credential(
-          idToken: credentials.identityToken,
-          accessToken: credentials.authorizationCode,
+      AuthorizationCredentialAppleID credentials;
+      try {
+        credentials = await SignInWithApple.getAppleIDCredential(
+          scopes: [],
         );
-
-        final result =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        return result.user;
-      } else {
-        throw PlatformException(
-          code: 'ERROR_USERNAME_AND_PASSWORD_APPLE',
-          message: "Username and Password Apple Sign is not implemented",
-        );
+      } on SignInWithAppleAuthorizationException catch (e) {
+        if (e.code == AuthorizationErrorCode.canceled) return null;
+        rethrow;
       }
+
+      final oAuthProvider = OAuthProvider('apple.com');
+      final credential = oAuthProvider.credential(
+        idToken: credentials.identityToken,
+        accessToken: credentials.authorizationCode,
+      );
+
+      final result =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return result.user;
     } else {
       return await FirebaseAuthOAuth()
           .openSignInFlow("apple.com", [], {"locale": "en"});
@@ -48,20 +51,13 @@ class AppleSignInLogic {
       scopes: [],
     );
 
-    if (credentials is AuthorizationCredentialAppleID) {
-      final oAuthProvider = OAuthProvider('apple.com');
-      final credential = oAuthProvider.credential(
-        idToken: credentials.identityToken,
-        accessToken: credentials.authorizationCode,
-      );
+    final oAuthProvider = OAuthProvider('apple.com');
+    final credential = oAuthProvider.credential(
+      idToken: credentials.identityToken,
+      accessToken: credentials.authorizationCode,
+    );
 
-      return credential;
-    } else {
-      throw PlatformException(
-        code: 'ERROR_USERNAME_AND_PASSWORD_APPLE',
-        message: "Username and Password Apple Sign is not implemented",
-      );
-    }
+    return credential;
   }
 
   static Future<bool> isSignInGetCredentailsAvailable() async {

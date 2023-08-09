@@ -17,30 +17,30 @@ typedef FutureBoolCallback = Future<bool> Function();
 typedef FutureBoolValueChanged<T> = Future<bool> Function(T t);
 
 Future<void> showDeleteDialog(
-    {BuildContext context,
-    String title,
-    Widget description,
+    {BuildContext? context,
+    String? title,
+    Widget? description,
     dynamic popTwiceResult,
-    VoidCallback onDelete,
+    VoidCallback? onDelete,
     bool popTwice = true}) async {
-  final result = await showLeftRightAdaptiveDialog<bool>(
+  final result = (await showLeftRightAdaptiveDialog<bool>(
     context: context,
     title: title,
     content: description,
     defaultValue: false,
     left: AdaptiveDialogAction.cancle,
     right: AdaptiveDialogAction.delete,
-  );
+  ))!;
 
   if (result) {
-    onDelete();
+    onDelete!();
     // ignore: use_build_context_synchronously
-    if (popTwice) Navigator.pop(context, popTwiceResult);
+    if (popTwice) Navigator.pop(context!, popTwiceResult);
   }
 }
 
 class LeaveEditedFormAlert extends StatelessWidget {
-  const LeaveEditedFormAlert({Key key}) : super(key: key);
+  const LeaveEditedFormAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,28 +81,28 @@ class LeaveEditedFormAlert extends StatelessWidget {
 
 class OneTextFieldDialog extends StatefulWidget {
   const OneTextFieldDialog({
-    Key key,
-    @required this.onTap,
-    @required this.title,
-    @required this.hint,
-    @required this.actionName,
+    Key? key,
+    required this.onTap,
+    required this.title,
+    required this.hint,
+    required this.actionName,
     this.notAllowedChars,
     this.text,
   }) : super(key: key);
 
-  final ValueChanged<String> onTap;
-  final String title, hint, actionName, notAllowedChars;
+  final ValueChanged<String?> onTap;
+  final String? title, hint, actionName, notAllowedChars;
 
   /// The text, which will be set at the beginning
-  final String text;
+  final String? text;
 
   @override
   State createState() => _OneTextFieldDialogState();
 }
 
 class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
-  String name, errorText;
-  TextEditingController controller;
+  String? name, errorText;
+  TextEditingController? controller;
 
   final FocusNode focusNode = FocusNode();
 
@@ -120,9 +120,9 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
     super.initState();
   }
 
-  bool containsStringNowAllowChars(String inputText) {
-    for (String char in widget.notAllowedChars.split("")) {
-      if (inputText.contains(char)) {
+  bool containsStringNowAllowChars(String? inputText) {
+    for (String char in widget.notAllowedChars!.split("")) {
+      if (inputText!.contains(char)) {
         return true;
       }
     }
@@ -133,7 +133,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
   Widget build(BuildContext context) {
     // delayKeyboard(context);
     return AlertDialog(
-      title: Text(widget.title),
+      title: Text(widget.title!),
       content: TextField(
         controller: controller,
         focusNode: focusNode,
@@ -156,7 +156,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text(widget.actionName),
+          child: Text(widget.actionName!),
           onPressed: () {
             if (widget.notAllowedChars == null) {
               widget.onTap(name);

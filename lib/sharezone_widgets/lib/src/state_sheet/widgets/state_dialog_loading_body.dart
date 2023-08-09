@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateDialogLoadingBody extends StatelessWidget {
-  const StateDialogLoadingBody({Key key}) : super(key: key);
+  const StateDialogLoadingBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

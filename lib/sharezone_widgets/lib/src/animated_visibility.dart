@@ -184,12 +184,12 @@ class AnimatedVisibility extends StatefulWidget {
   ///
   /// This can be useful to trigger additional actions (e.g. another animation)
   /// at the end of the current animation.
-  final VoidCallback onEnd;
+  final VoidCallback? onEnd;
 
   const AnimatedVisibility({
-    Key key,
-    @required this.child,
-    @required this.duration,
+    Key? key,
+    required this.child,
+    required this.duration,
     this.visible = true,
     this.maintainState = false,
     this.maintainAnimation = false,
@@ -213,7 +213,7 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
   ///
   /// To better understand the difference to [isVisible] see the comment
   /// in the [build] method.
-  bool isTransparent;
+  late bool isTransparent;
 
   /// Controls [Visibility.visible].
   /// If [isVisible] is `true` the child will be hidden (not clickable etc.)
@@ -221,7 +221,7 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
   ///
   /// To better understand the difference to [isTransparent] see the comment
   /// in the [build] method.
-  bool isVisible;
+  late bool isVisible;
 
   @override
   void initState() {
@@ -278,7 +278,7 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
           });
         }
         if (widget.onEnd != null) {
-          widget.onEnd();
+          widget.onEnd!();
         }
       },
       child: Visibility(

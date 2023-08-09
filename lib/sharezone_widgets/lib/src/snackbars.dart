@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void snackbarSoon({
-  BuildContext context,
-  GlobalKey<ScaffoldMessengerState> key,
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
 }) {
   showSnackSec(
     text: "Diese Funktion ist bald verfügbar! 😊",
@@ -28,8 +28,8 @@ void snackbarSoon({
 /// Snackbars absolut kacke aus ._. Deswegen wird dann für diesen Fall das
 /// [behavior] auf fixed gewechselt.
 void showDataArrivalConfirmedSnackbar(
-    {GlobalKey<ScaffoldMessengerState> key,
-    BuildContext context,
+    {GlobalKey<ScaffoldMessengerState>? key,
+    BuildContext? context,
     SnackBarBehavior behavior = SnackBarBehavior.fixed}) {
   showSnack(
     context: context,
@@ -42,7 +42,7 @@ void showDataArrivalConfirmedSnackbar(
 
 void sendDataToFrankfurtSnackBar(
   BuildContext context, {
-  SnackBarBehavior behavior,
+  SnackBarBehavior? behavior,
 }) {
   showSnackSec(
     context: context,
@@ -80,14 +80,14 @@ void patienceSnackBar(BuildContext context) {
 }
 
 void showSnackSec({
-  String text,
+  String? text,
   int seconds = 3,
-  BuildContext context,
-  GlobalKey<ScaffoldMessengerState> key,
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
   bool withLoadingCircle = false,
-  SnackBarAction action,
+  SnackBarAction? action,
   bool hideCurrentSnackBar = true,
-  SnackBarBehavior behavior,
+  SnackBarBehavior? behavior,
 }) {
   showSnack(
     key: key,
@@ -102,14 +102,14 @@ void showSnackSec({
 }
 
 void showSnack({
-  String text,
+  String? text,
   Duration duration = const Duration(seconds: 3),
-  BuildContext context,
-  GlobalKey<ScaffoldMessengerState> key,
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
   bool withLoadingCircle = false,
-  SnackBarAction action,
+  SnackBarAction? action,
   bool hideCurrentSnackBar = true,
-  SnackBarBehavior behavior = SnackBarBehavior.floating,
+  SnackBarBehavior? behavior = SnackBarBehavior.floating,
 }) {
   assert(
       context != null || key != null, 'A snackbar needs a context or a key!');
@@ -137,8 +137,8 @@ void showSnack({
 
   if (key != null) {
     try {
-      if (hideCurrentSnackBar) key.currentState.removeCurrentSnackBar();
-      key.currentState.showSnackBar(snackBar);
+      if (hideCurrentSnackBar) key.currentState!.removeCurrentSnackBar();
+      key.currentState!.showSnackBar(snackBar);
     } catch (e) {
       log("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
           error: e);

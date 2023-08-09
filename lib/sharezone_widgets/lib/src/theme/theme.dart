@@ -19,22 +19,22 @@ Size getScreenSize(BuildContext context) {
 }
 
 Future<void> delayKeyboard(
-    {@required BuildContext context,
-    @required FocusNode focusNode,
+    {required BuildContext context,
+    required FocusNode focusNode,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
 Future<void> hideKeyboardWithDelay(
-    {@required BuildContext context,
+    {required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
 void hideKeyboard(
-    {@required BuildContext context,
+    {required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) {
   FocusManager.instance.primaryFocus?.unfocus();
 }
@@ -48,7 +48,7 @@ TextStyle flowingText = const TextStyle(
   fontFamily: rubik,
 );
 
-TextStyle linkStyle(BuildContext context, [double fontSize]) => TextStyle(
+TextStyle linkStyle(BuildContext context, [double? fontSize]) => TextStyle(
       color: Theme.of(context).primaryColor,
       fontWeight: FontWeight.normal,
       decoration: TextDecoration.underline,
@@ -58,10 +58,10 @@ TextStyle linkStyle(BuildContext context, [double fontSize]) => TextStyle(
     );
 
 class Headline extends StatelessWidget {
-  const Headline(this.title, {Key key, this.textAlign}) : super(key: key);
+  const Headline(this.title, {Key? key, this.textAlign}) : super(key: key);
 
   final String title;
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class Headline extends StatelessWidget {
 
 // Blau Titel - Unterteilen die Seite in Kategorien
 class CategoryTitle extends StatelessWidget {
-  const CategoryTitle(this.title, {Key key}) : super(key: key);
+  const CategoryTitle(this.title, {Key? key}) : super(key: key);
 
   final String title;
 
