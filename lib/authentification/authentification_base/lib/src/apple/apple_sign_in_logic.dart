@@ -8,16 +8,26 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
-import 'package:flutter/services.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleSignInLogic {
+  /// Signs in with Apple. Returns the user if the sign in was successful.
+  ///
+  /// Returns null if the user cancels the sign in process.
+  /// Throws an exception if the sign in fails.
   Future<User?> signIn() async {
     if (PlatformCheck.isMacOS || PlatformCheck.isIOS) {
-      final credentials = await SignInWithApple.getAppleIDCredential(
-        scopes: [],
-      );
+      AuthorizationCredentialAppleID credentials;
+      try {
+        credentials = await SignInWithApple.getAppleIDCredential(
+          scopes: [],
+        );
+      } on SignInWithAppleAuthorizationException catch (e) {
+        if (e.code == AuthorizationErrorCode.canceled) return null;
+        rethrow;
+      }
+
       final oAuthProvider = OAuthProvider('apple.com');
       final credential = oAuthProvider.credential(
         idToken: credentials.identityToken,
