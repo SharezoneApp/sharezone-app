@@ -19,6 +19,7 @@ abstract class SubmissionDto
   // Boilerplate code needed to wire-up generated code
   SubmissionDto._();
 
-  factory SubmissionDto([updates(SubmissionDtoBuilder b)]) = _$SubmissionDto;
+  factory SubmissionDto([Function(SubmissionDtoBuilder b) updates]) =
+      _$SubmissionDto;
   static Serializer<SubmissionDto> get serializer => _$submissionDtoSerializer;
 }

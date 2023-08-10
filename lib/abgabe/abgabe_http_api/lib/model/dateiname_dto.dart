@@ -19,6 +19,7 @@ abstract class DateinameDto
   // Boilerplate code needed to wire-up generated code
   DateinameDto._();
 
-  factory DateinameDto([updates(DateinameDtoBuilder b)]) = _$DateinameDto;
+  factory DateinameDto([Function(DateinameDtoBuilder b) updates]) =
+      _$DateinameDto;
   static Serializer<DateinameDto> get serializer => _$dateinameDtoSerializer;
 }

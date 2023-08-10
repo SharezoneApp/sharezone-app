@@ -19,7 +19,7 @@ abstract class InlineResponse400
   // Boilerplate code needed to wire-up generated code
   InlineResponse400._();
 
-  factory InlineResponse400([updates(InlineResponse400Builder b)]) =
+  factory InlineResponse400([Function(InlineResponse400Builder b) updates]) =
       _$InlineResponse400;
   static Serializer<InlineResponse400> get serializer =>
       _$inlineResponse400Serializer;

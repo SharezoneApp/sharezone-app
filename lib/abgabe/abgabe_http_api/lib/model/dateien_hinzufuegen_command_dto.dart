@@ -24,7 +24,7 @@ abstract class DateienHinzufuegenCommandDto
   DateienHinzufuegenCommandDto._();
 
   factory DateienHinzufuegenCommandDto(
-          [updates(DateienHinzufuegenCommandDtoBuilder b)]) =
+          [Function(DateienHinzufuegenCommandDtoBuilder b) updates]) =
       _$DateienHinzufuegenCommandDto;
   static Serializer<DateienHinzufuegenCommandDto> get serializer =>
       _$dateienHinzufuegenCommandDtoSerializer;
