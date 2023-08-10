@@ -147,7 +147,7 @@ jobs:
             --app ../build/app/outputs/apk/dev/debug/app-dev-debug.apk \
             --test ../build/app/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
-            --timeout 3m
+            --timeout 2m
 
   ios-integration-test:
     needs: changes
