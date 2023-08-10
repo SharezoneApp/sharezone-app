@@ -11,7 +11,6 @@ import 'package:authentification_base/authentification_google.dart';
 import 'package:authentification_base/src/apple/apple_sign_in_logic.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 import 'package:analytics/analytics.dart';
 import 'user_gateway_authentifcation.dart';
 
@@ -41,8 +40,10 @@ class LinkProviderGateway extends BlocBase {
     return true;
   }
 
-  Future<bool> linkUserWithEmailAndPassword(
-      {@required String email, @required String password}) async {
+  Future<bool> linkUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     final credential =
         EmailAuthProvider.credential(email: email, password: password);
     await userGateway.linkWithCredential(credential);

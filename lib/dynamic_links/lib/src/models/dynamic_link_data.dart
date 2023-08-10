@@ -23,7 +23,7 @@ class DynamicLinkData {
   final DynamicLinkDataIOS ios;
 
   /// Deep link parameter of the dynamic link.
-  final Uri link;
+  final Uri? link;
 }
 
 /// Provides android specific data from received dynamic link.
@@ -36,7 +36,7 @@ class DynamicLinkDataAndroid {
   /// The time the user clicked on the dynamic link.
   ///
   /// Equals the number of milliseconds that have elapsed since January 1, 1970.
-  final int clickTimestamp;
+  final int? clickTimestamp;
 
   /// The minimum version of your app that can open the link.
   ///
@@ -45,7 +45,7 @@ class DynamicLinkDataAndroid {
   ///
   /// If the installed app is an older version, the user is taken to the Play
   /// Store to upgrade the app.
-  final int minimumVersion;
+  final int? minimumVersion;
 }
 
 /// Provides iOS specific data from received dynamic link.
@@ -56,5 +56,5 @@ class DynamicLinkDataIOS {
   ///
   /// It is app developer's responsibility to open AppStore when received link
   /// declares higher [minimumVersion] than currently installed.
-  final String minimumVersion;
+  final String? minimumVersion;
 }

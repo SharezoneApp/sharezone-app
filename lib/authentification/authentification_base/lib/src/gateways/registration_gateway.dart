@@ -8,18 +8,18 @@
 
 import 'dart:async';
 import 'dart:math';
+
+import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
-import 'package:analytics/analytics.dart';
 import 'package:user/user.dart';
 
 class RegistrationEvent {
   final String newUserId;
 
-  RegistrationEvent({@required this.newUserId});
+  RegistrationEvent({required this.newUserId});
 
   @override
   String toString() {
@@ -46,7 +46,7 @@ class RegistrationGateway extends BlocBase {
   }
 
   Future<AppUser> registerUser(TypeOfUser typeOfUser) async {
-    User fbUser = _auth.currentUser;
+    User? fbUser = _auth.currentUser;
     bool anonymousLogin = false;
 
     if (fbUser == null) {
@@ -54,8 +54,7 @@ class RegistrationGateway extends BlocBase {
       anonymousLogin = true;
     }
 
-    final userID = fbUser.uid;
-    assert(userID != null);
+    final userID = fbUser!.uid;
 
     final user = AppUser.create(id: userID).copyWith(
       name: fbUser.displayName ?? "Anonymer ${_getRandomAnimalName()}",
