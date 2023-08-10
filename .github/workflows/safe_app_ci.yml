@@ -233,12 +233,8 @@ jobs:
           if-no-files-found: ignore
 
   deploy-alpha-macos-app:
-    if: false
     runs-on: macos-13
     timeout-minutes: 120
-    defaults:
-      run:
-        working-directory: app
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
       - name: Install Codemagic CLI Tools
@@ -261,11 +257,11 @@ jobs:
           app-store-connect list-certificates \
             --type MAC_INSTALLER_DISTRIBUTION \
             --save
-          
+
           keychain initialize
           keychain add-certificates
           xcode-project use-profiles
-        
+
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
 
@@ -282,6 +278,12 @@ jobs:
         run: |
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Activate sz_repo_cli package
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Build macOS app
         env:
@@ -304,17 +306,14 @@ jobs:
           # BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
           # TEMP
-          BUMPED_BUILD_NUMBER=450
+          BUMPED_BUILD_NUMBER=454
 
-          find . -name "Podfile" -execdir pod install \;
-
-          fvm flutter build macos \
-            --release \
-            --target lib/main_prod.dart \
-            --dart-define DEVELOPMENT_STAGE=ALPHA \
+          sz build macos \
+            --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER
 
       - name: Publish to App Store Connect
+        working-directory: app
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
           # to use the same names as the CLI tool expects.
@@ -339,7 +338,7 @@ jobs:
 
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
           rm -f unsigned.pkg
-        
+
           # Because we are publishing every commit a new alpha version, we are
           # able to use the last commit message (title and description) as release
           # note for the alpha builds. This is not the most user friendly note but
