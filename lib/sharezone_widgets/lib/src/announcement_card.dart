@@ -44,7 +44,7 @@ class AnnouncementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasTitle = isNotEmptyOrNull(title!);
+    final hasTitle = isNotEmptyOrNull(title);
     final hasContent = content != null;
     final hasActions = actions != null;
 
