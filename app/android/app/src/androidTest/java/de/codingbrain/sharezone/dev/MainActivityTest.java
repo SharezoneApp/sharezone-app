@@ -8,12 +8,16 @@
  * SPDX-License-Identifier: EUPL-1.2
  */
 
-package de.codingbrain.sharezone;
+package de.codingbrain.sharezone.dev;
 
 import androidx.test.rule.ActivityTestRule;
 import dev.flutter.plugins.integration_test.FlutterTestRunner;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
+
+// This import is required because use the dev package name for the test but the
+// MainActivity is in the main package.
+import de.codingbrain.sharezone.MainActivity;
 
 @RunWith(FlutterTestRunner.class)
 public class MainActivityTest {
