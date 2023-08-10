@@ -44,7 +44,7 @@ class GoogleSignInLogic {
     return credential;
   }
 
-  Future<GoogleSignInAccount> signOut() async {
+  Future<GoogleSignInAccount?> signOut() async {
     return _googleSignIn.signOut();
   }
 }
