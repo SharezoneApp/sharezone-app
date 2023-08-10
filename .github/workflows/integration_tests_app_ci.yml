@@ -129,9 +129,14 @@ jobs:
           gcloud auth activate-service-account --key-file=firebase-test-lab.json
           gcloud --quiet config set project sharezone-debug
 
-      # Runs our integration tests with Firebase Test Lab. Advantages of Firebase
-      # Test Lab:
-      #  * Android Emulator in GitHub Actions require macOS runner
+      # Runs our integration tests with Firebase Test Lab.
+      #
+      # Advantages of Firebase Test Lab:
+      #  * We can use a Linux runner instead of a macOS runner (macOS runner is
+      #    for an Android emulator required).
+      #  * We can run the tests on a real device instead of an emulator.
+      #  * We get a screen recording of the test run which we can use to
+      #    investigate test failures.
       #
       # Helpful documentation:
       #  * https://firebase.google.com/docs/test-lab/android/command-line
@@ -142,7 +147,7 @@ jobs:
             --app ../build/app/outputs/apk/dev/debug/app-dev-debug.apk \
             --test ../build/app/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
-            --timeout 5m
+            --timeout 3m
 
   ios-integration-test:
     needs: changes
