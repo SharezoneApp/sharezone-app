@@ -34,13 +34,11 @@ class OpenHomeworksViewBloc
   HomeworkList _latestHomeworks;
   Sort<HomeworkReadModel> _currentSort;
 
-  OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory) {
+  OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory)
+      : super(Uninitialized()) {
     _latestHomeworks = HomeworkList([]);
     _openHomeworks = _openHomeworksBloc.transform(_toHomeworkList);
   }
-
-  @override
-  OpenHomeworksViewBlocState get initialState => Uninitialized();
 
   @override
   void dispose() {

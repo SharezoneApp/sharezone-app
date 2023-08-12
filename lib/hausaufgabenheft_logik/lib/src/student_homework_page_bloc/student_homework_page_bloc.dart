@@ -49,14 +49,12 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         _completedHomeworksViewBloc = completedHomeworksViewBloc,
         _homeworkSortingCache = homeworkSortingCache,
         _homeworkCompletionReceiver = homeworkCompletionReceiver,
-        _getCurrentDateTime = getCurrentDateTime;
+        _getCurrentDateTime = getCurrentDateTime,
+        super(Uninitialized());
 
   Date _getCurrentDate() {
     return Date.fromDateTime(_getCurrentDateTime());
   }
-
-  @override
-  HomeworkPageState get initialState => Uninitialized();
 
   @override
   Stream<HomeworkPageState> mapEventToState(HomeworkPageEvent event) async* {

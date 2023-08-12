@@ -25,10 +25,8 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
   final HomeworkDataSource _homeworkRepository;
   LazyLoadingController _lazyLoadingController;
 
-  LazyLoadingCompletedHomeworksBloc(this._homeworkRepository);
-
-  @override
-  LazyLoadingCompletedHomeworksBlocState get initialState => Loading();
+  LazyLoadingCompletedHomeworksBloc(this._homeworkRepository)
+      : super(Loading());
 
   @override
   Stream<LazyLoadingCompletedHomeworksBlocState> mapEventToState(
