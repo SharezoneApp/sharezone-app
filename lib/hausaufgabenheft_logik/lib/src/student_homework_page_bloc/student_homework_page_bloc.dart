@@ -50,33 +50,33 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         _homeworkSortingCache = homeworkSortingCache,
         _homeworkCompletionReceiver = homeworkCompletionReceiver,
         _getCurrentDateTime = getCurrentDateTime,
-        super(Uninitialized());
+        super(Uninitialized()) {
+    on<LoadHomeworks>((event, emit) {
+      _mapLoadHomeworksToState();
+    });
+    on<AdvanceCompletedHomeworks>((event, emit) {
+      _mapAdvanceCompletedHomeworks(event);
+    });
+    on<OpenHwSortingChanged>((event, emit) {
+      _mapFilterChangedToState(event);
+    });
+    on<CompletionStatusChanged>((event, emit) {
+      _mapHomeworkChangedCompletionStatus(event);
+    });
+    on<CompletedAllOverdue>((event, emit) {
+      _mapHomeworkMarkOverdueToState(event);
+    });
+    on<_Yield>((event, emit) {
+      emit(event.success);
+    });
+  }
 
   Date _getCurrentDate() {
     return Date.fromDateTime(_getCurrentDateTime());
   }
 
-  @override
-  Stream<HomeworkPageState> mapEventToState(HomeworkPageEvent event) async* {
-    if (event is LoadHomeworks) {
-      yield* _mapLoadHomeworksToState();
-    } else if (event is AdvanceCompletedHomeworks) {
-      yield* _mapAdvanceCompletedHomeworks(event);
-    } else if (event is OpenHwSortingChanged) {
-      yield* _mapFilterChangedToState(event);
-    } else if (event is CompletionStatusChanged) {
-      yield* _mapHomeworkChangedCompletionStatus(event);
-    } else if (event is CompletedAllOverdue) {
-      yield* _mapHomeworkMarkOverdueToState(event);
-    } else if (event is _Yield) {
-      yield event.success;
-    } else {
-      throw UnimplementedError('$event is not implemented.');
-    }
-  }
-
   StreamSubscription _combineLatestSubscription;
-  Stream<HomeworkPageState> _mapLoadHomeworksToState() async* {
+  Future<void> _mapLoadHomeworksToState() async {
     _completedHomeworksViewBloc.add(completed.StartTransformingHomeworks());
 
     final sortEnum = await _homeworkSortingCache.getLastSorting(
@@ -85,10 +85,10 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     _openHomeworksViewBloc.add(open.LoadHomeworks(sort));
 
     final completedHomeworksSuccessStates =
-        _completedHomeworksViewBloc.whereType<completed.Success>();
+        _completedHomeworksViewBloc.stream.whereType<completed.Success>();
 
     final openHomeworksSuccessStates =
-        _openHomeworksViewBloc.whereType<open.Success>();
+        _openHomeworksViewBloc.stream.whereType<open.Success>();
 
     _combineLatestSubscription =
         Rx.combineLatest2<completed.Success, open.Success, Success>(
@@ -105,27 +105,24 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   Success _toSuccessState(completed.Success completed, open.Success open) =>
       Success(completed.completedHomeworksView, open.openHomeworkListView);
 
-  Stream<HomeworkPageState> _mapAdvanceCompletedHomeworks(
-      AdvanceCompletedHomeworks event) async* {
+  void _mapAdvanceCompletedHomeworks(AdvanceCompletedHomeworks event) async {
     _completedHomeworksViewBloc
         .add(completed.AdvanceCompletedHomeworks(event.advanceBy));
   }
 
-  Stream<HomeworkPageState> _mapFilterChangedToState(
-      OpenHwSortingChanged event) async* {
+  Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
     await _homeworkSortingCache.setLastSorting(event.sort);
     final newSorting = event.sort.toSortObject(getCurrentDate: _getCurrentDate);
     _openHomeworksViewBloc.add(open.SortingChanged(newSorting));
   }
 
-  Stream<HomeworkPageState> _mapHomeworkChangedCompletionStatus(
-      CompletionStatusChanged event) async* {
+  Future<void> _mapHomeworkChangedCompletionStatus(
+      CompletionStatusChanged event) async {
     await _homeworkCompletionReceiver
         .add(SingleHomeworkCompletionEvent(event.homeworkId, event.newValue));
   }
 
-  Stream<HomeworkPageState> _mapHomeworkMarkOverdueToState(
-      CompletedAllOverdue event) async* {
+  Future<void> _mapHomeworkMarkOverdueToState(CompletedAllOverdue event) async {
     await _homeworkCompletionReceiver.add(AllOverdueHomeworkCompletionEvent());
   }
 
