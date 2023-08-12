@@ -40,7 +40,7 @@ HomeworkPageBloc createHomeworkPageBloc(
       CompletedHomeworkListViewFactory(viewFactory);
   final lazyLoadingCompletedHomeworksBloc =
       LazyLoadingCompletedHomeworksBlocImpl(dependencies.dataSource);
-  final completedHomeworksViewBloc = CompletedHomeworksViewBlocImpl(
+  final completedHomeworksViewBloc = CompletedHomeworksViewBloc(
       lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad:
           config.nrOfInitialCompletedHomeworksToLoad);

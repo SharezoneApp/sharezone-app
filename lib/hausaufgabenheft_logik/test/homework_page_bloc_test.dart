@@ -511,7 +511,7 @@ HomeworkPageBloc createBloc(
   );
 }
 
-completed.CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
+completed.CompletedHomeworksViewBloc createCompletedHomeworksViewBloc(
     StudentHomeworkViewFactory viewFactory,
     InMemoryHomeworkRepository repository,
     {int nrOfInitialCompletedHomeworksToLoad}) {
@@ -519,7 +519,7 @@ completed.CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
       CompletedHomeworkListViewFactory(viewFactory);
   final lazyLoadingCompletedHomeworksBloc =
       lazy_loading.LazyLoadingCompletedHomeworksBlocImpl(repository);
-  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBlocImpl(
+  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBloc(
       lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
   return completedHomeworksViewBloc;
