@@ -37,18 +37,9 @@ class OpenHomeworksViewBloc
   OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory)
       : super(Uninitialized()) {
     _latestHomeworks = HomeworkList([]);
-    _openHomeworks = _openHomeworksBloc.transform(_toHomeworkList);
-  }
+    _openHomeworks = _openHomeworksBloc.stream.transform(_toHomeworkList);
 
-  @override
-  void dispose() {
-    _streamSubscription.cancel();
-  }
-
-  @override
-  Stream<OpenHomeworksViewBlocState> mapEventToState(
-      OpenHomeworkViewEvent event) async* {
-    if (event is LoadHomeworks) {
+    on<LoadHomeworks>((event, emit) {
       _currentSort = event.sort;
       _openHomeworksBloc.add(hws_bloc.LoadHomeworks());
       _streamSubscription = _openHomeworks.listen((hws) {
@@ -56,16 +47,21 @@ class OpenHomeworksViewBloc
         _latestHomeworks = hws;
         add(_CreateListView(hws, _currentSort));
       });
-    } else if (event is SortingChanged) {
+    });
+    on<SortingChanged>((event, emit) {
       _currentSort = event.sort;
       add(_CreateListView(_latestHomeworks, _currentSort));
-    } else if (event is _CreateListView) {
+    });
+    on<_CreateListView>((event, emit) {
       final view = _listViewFactory.create(event.homeworks, event.sort);
       var success = Success(view);
-      yield success;
-    } else {
-      throw UnimplementedError('$event is not implemented');
-    }
+      emit(success);
+    });
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
   }
 }
 
