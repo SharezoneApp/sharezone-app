@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
@@ -25,7 +25,7 @@ export 'states.dart';
 
 class OpenHomeworksViewBloc
     extends Bloc<OpenHomeworkViewEvent, OpenHomeworksViewBlocState>
-    implements BlocBase {
+    implements bloc_base.BlocBase {
   final OpenHomeworkListViewFactory _listViewFactory;
   final hws_bloc.OpenHomeworkListBloc _openHomeworksBloc;
 

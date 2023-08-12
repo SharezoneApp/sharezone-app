@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart'
     as lazy_loading;
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
@@ -22,7 +22,7 @@ export 'events.dart';
 export 'states.dart';
 
 class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
-    CompletedHomeworksViewBlocState> implements BlocBase {
+    CompletedHomeworksViewBlocState> implements bloc_base.BlocBase {
   final lazy_loading.LazyLoadingCompletedHomeworksBloc
       _lazyLoadingCompletedHomeworksBloc;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
