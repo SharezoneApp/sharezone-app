@@ -192,38 +192,31 @@ TeacherHomeworkView randomHomeworkViewWith({
 class TeacherHomeworkPageBloc
     extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
     implements bloc_base.BlocBase {
-  TeacherHomeworkPageBloc() : super(Uninitialized());
-
-  HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
-  _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
-      _ArchivedHwLazyLoadingState.askedForFirstBatch;
-
-  @override
-  Stream<TeacherHomeworkPageState> mapEventToState(
-      TeacherHomeworkPageEvent event) async* {
-    if (event is OpenHwSortingChanged) {
+  TeacherHomeworkPageBloc() : super(Uninitialized()) {
+    on<OpenHwSortingChanged>((event, emit) {
       _currentSort = event.sort;
-    }
-    if (event is AdvanceArchivedHomeworks) {
+    });
+    on<AdvanceArchivedHomeworks>((event, emit) async {
       _advanveArchivedHwLazyLoadingState();
       await Future.delayed(const Duration(milliseconds: 1200));
-    }
-    if (event is LoadHomeworks) {
+    });
+    on<LoadHomeworks>((event, emit) {
       // Reset so that we can inspect the lazy loading again when we change
       // away and back to the homework page again.
       _archivedHwLazyLoadingState =
           _ArchivedHwLazyLoadingState.askedForFirstBatch;
-    }
 
-    // Uncomment to see placeholder (as if the user has no homework)
-    // yield _States._placeholder;
-
-    yield _currentSort == HomeworkSort.smallestDateSubjectAndTitle
-        ? _States._homeworksAllLoadedSortedByTodoDate(
-            _archivedHwLazyLoadingState)
-        : _States._homeworksAllLoadedSortedBySubject(
-            _archivedHwLazyLoadingState);
+      _currentSort == HomeworkSort.smallestDateSubjectAndTitle
+          ? _States._homeworksAllLoadedSortedByTodoDate(
+              _archivedHwLazyLoadingState)
+          : _States._homeworksAllLoadedSortedBySubject(
+              _archivedHwLazyLoadingState);
+    });
   }
+
+  HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
+  _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
+      _ArchivedHwLazyLoadingState.askedForFirstBatch;
 
   void _advanveArchivedHwLazyLoadingState() {
     switch (_archivedHwLazyLoadingState) {
