@@ -20,10 +20,7 @@ class OpenHomeworkListBloc
     extends Bloc<OpenHomeworkListBlocEvent, OpenHomeworkListBlocState> {
   final HomeworkDataSource _repository;
 
-  OpenHomeworkListBloc(this._repository);
-
-  @override
-  OpenHomeworkListBlocState get initialState => Uninitialized();
+  OpenHomeworkListBloc(this._repository) : super(Uninitialized());
 
   @override
   Stream<OpenHomeworkListBlocState> mapEventToState(

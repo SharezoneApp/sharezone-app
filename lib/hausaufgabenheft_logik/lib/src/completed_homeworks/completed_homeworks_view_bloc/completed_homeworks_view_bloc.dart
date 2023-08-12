@@ -32,13 +32,11 @@ class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
 
   CompletedHomeworksViewBloc(this._lazyLoadingCompletedHomeworksBloc,
       this._completedHomeworkListViewFactory,
-      {this.nrOfInitialCompletedHomeworksToLoad = 8}) {
+      {this.nrOfInitialCompletedHomeworksToLoad = 8})
+      : super(Loading()) {
     _lazyLoadingSuccessStates =
         _lazyLoadingCompletedHomeworksBloc.whereType<lazy_loading.Success>();
   }
-
-  @override
-  CompletedHomeworksViewBlocState get initialState => Loading();
 
   @override
   Stream<CompletedHomeworksViewBlocState> mapEventToState(

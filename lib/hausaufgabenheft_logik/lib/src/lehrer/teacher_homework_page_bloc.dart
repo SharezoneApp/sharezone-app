@@ -192,10 +192,7 @@ TeacherHomeworkView randomHomeworkViewWith({
 class TeacherHomeworkPageBloc
     extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
     implements bloc_base.BlocBase {
-  TeacherHomeworkPageBloc();
-
-  @override
-  TeacherHomeworkPageState get initialState => Uninitialized();
+  TeacherHomeworkPageBloc() : super(Uninitialized());
 
   HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
   _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
