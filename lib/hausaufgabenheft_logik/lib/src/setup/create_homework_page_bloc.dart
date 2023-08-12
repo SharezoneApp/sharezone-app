@@ -12,7 +12,7 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_blo
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
 
 import '../completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
-import '../completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc_impl.dart';
+import '../completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart';
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
 import '../student_homework_page_bloc/student_homework_page_bloc.dart';
 import '../models/homework/models_used_by_homework.dart';
