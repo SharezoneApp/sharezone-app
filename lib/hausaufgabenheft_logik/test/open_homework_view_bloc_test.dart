@@ -9,14 +9,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/events.dart'
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
     as list_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/states.dart'
-    as list_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/events.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/states.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/homework_sorts.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
@@ -67,7 +62,8 @@ class MockOpenHomeworkListViewFactory implements OpenHomeworkListViewFactory {
 }
 
 class MockOpenHomeworkListBloc extends Bloc<list_bloc.OpenHomeworkListBlocEvent,
-    list_bloc.OpenHomeworkListBlocState> implements OpenHomeworkListBloc {
+        list_bloc.OpenHomeworkListBlocState>
+    implements list_bloc.OpenHomeworkListBloc {
   var homeworkListToReturn = HomeworkList([]);
 
   @override

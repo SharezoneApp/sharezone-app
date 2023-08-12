@@ -13,21 +13,21 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
+    as hws_bloc;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/events.dart'
-    as hws_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/states.dart'
-    as hws_bloc;
 
 import 'events.dart';
 import 'states.dart';
+
+export 'events.dart';
+export 'states.dart';
 
 class OpenHomeworksViewBloc
     extends Bloc<OpenHomeworkViewEvent, OpenHomeworksViewBlocState>
     implements BlocBase {
   final OpenHomeworkListViewFactory _listViewFactory;
-  final OpenHomeworkListBloc _openHomeworksBloc;
+  final hws_bloc.OpenHomeworkListBloc _openHomeworksBloc;
 
   Stream<HomeworkList> _openHomeworks;
   StreamSubscription _streamSubscription;

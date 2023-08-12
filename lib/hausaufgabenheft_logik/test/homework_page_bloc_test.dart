@@ -13,8 +13,10 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc_impl.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc_impl.dart';
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc_impl.dart'
+    as completed;
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc_impl.dart'
+    as lazy_loading;
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
@@ -509,15 +511,15 @@ HomeworkPageBloc createBloc(
   );
 }
 
-CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
+completed.CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
     StudentHomeworkViewFactory viewFactory,
     InMemoryHomeworkRepository repository,
     {int nrOfInitialCompletedHomeworksToLoad}) {
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
   final lazyLoadingCompletedHomeworksBloc =
-      LazyLoadingCompletedHomeworksBlocImpl(repository);
-  final completedHomeworksViewBloc = CompletedHomeworksViewBlocImpl(
+      lazy_loading.LazyLoadingCompletedHomeworksBlocImpl(repository);
+  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBlocImpl(
       lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
   return completedHomeworksViewBloc;
