@@ -19,19 +19,13 @@ import 'states.dart';
 export 'events.dart';
 export 'states.dart';
 
-abstract class LazyLoadingCompletedHomeworksBloc
-    implements
-        Stream<LazyLoadingCompletedHomeworksBlocState>,
-        Sink<LazyLoadingCompletedHomeworksEvent> {}
-
-class LazyLoadingCompletedHomeworksBlocImpl extends Bloc<
-        LazyLoadingCompletedHomeworksEvent,
-        LazyLoadingCompletedHomeworksBlocState>
-    implements LazyLoadingCompletedHomeworksBloc, BlocBase {
+class LazyLoadingCompletedHomeworksBloc extends Bloc<
+    LazyLoadingCompletedHomeworksEvent,
+    LazyLoadingCompletedHomeworksBlocState> implements BlocBase {
   final HomeworkDataSource _homeworkRepository;
   LazyLoadingController _lazyLoadingController;
 
-  LazyLoadingCompletedHomeworksBlocImpl(this._homeworkRepository);
+  LazyLoadingCompletedHomeworksBloc(this._homeworkRepository);
 
   @override
   LazyLoadingCompletedHomeworksBlocState get initialState => Loading();
