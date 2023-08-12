@@ -21,14 +21,8 @@ import 'states.dart';
 export 'events.dart';
 export 'states.dart';
 
-abstract class CompletedHomeworksViewBloc
-    implements
-        Stream<CompletedHomeworksViewBlocState>,
-        Sink<CompletedHomeworksViewBlocEvent> {}
-
-class CompletedHomeworksViewBlocImpl extends Bloc<
-        CompletedHomeworksViewBlocEvent, CompletedHomeworksViewBlocState>
-    implements CompletedHomeworksViewBloc, BlocBase {
+class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
+    CompletedHomeworksViewBlocState> implements BlocBase {
   final lazy_loading.LazyLoadingCompletedHomeworksBloc
       _lazyLoadingCompletedHomeworksBloc;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
@@ -36,7 +30,7 @@ class CompletedHomeworksViewBlocImpl extends Bloc<
   StreamSubscription _streamSubscription;
   Stream<lazy_loading.Success> _lazyLoadingSuccessStates;
 
-  CompletedHomeworksViewBlocImpl(this._lazyLoadingCompletedHomeworksBloc,
+  CompletedHomeworksViewBloc(this._lazyLoadingCompletedHomeworksBloc,
       this._completedHomeworkListViewFactory,
       {this.nrOfInitialCompletedHomeworksToLoad = 8}) {
     _lazyLoadingSuccessStates =
