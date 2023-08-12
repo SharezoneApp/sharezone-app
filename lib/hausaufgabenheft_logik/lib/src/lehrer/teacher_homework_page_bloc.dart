@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
@@ -191,7 +191,7 @@ TeacherHomeworkView randomHomeworkViewWith({
 /// UI. The real logic will be implemented in the future.
 class TeacherHomeworkPageBloc
     extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
-    implements BlocBase {
+    implements bloc_base.BlocBase {
   TeacherHomeworkPageBloc();
 
   @override

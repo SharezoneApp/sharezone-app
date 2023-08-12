@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 
 import '../../data_source/homework_data_source.dart';
 import '../../models/homework_list.dart';
@@ -21,7 +21,7 @@ export 'states.dart';
 
 class LazyLoadingCompletedHomeworksBloc extends Bloc<
     LazyLoadingCompletedHomeworksEvent,
-    LazyLoadingCompletedHomeworksBlocState> implements BlocBase {
+    LazyLoadingCompletedHomeworksBlocState> implements bloc_base.BlocBase {
   final HomeworkDataSource _homeworkRepository;
   LazyLoadingController _lazyLoadingController;
 

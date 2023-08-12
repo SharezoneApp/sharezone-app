@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:meta/meta.dart';
@@ -29,7 +29,7 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_blo
 /// * It caches the last sorting of Homeworks so that it stays consistent
 ///   between visits of the homework page.
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
-    implements BlocBase {
+    implements bloc_base.BlocBase {
   final open.OpenHomeworksViewBloc _openHomeworksViewBloc;
   final completed.CompletedHomeworksViewBloc _completedHomeworksViewBloc;
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
