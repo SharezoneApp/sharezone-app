@@ -34,14 +34,10 @@ class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
       this._completedHomeworkListViewFactory,
       {this.nrOfInitialCompletedHomeworksToLoad = 8})
       : super(Loading()) {
-    _lazyLoadingSuccessStates =
-        _lazyLoadingCompletedHomeworksBloc.whereType<lazy_loading.Success>();
-  }
+    _lazyLoadingSuccessStates = _lazyLoadingCompletedHomeworksBloc.stream
+        .whereType<lazy_loading.Success>();
 
-  @override
-  Stream<CompletedHomeworksViewBlocState> mapEventToState(
-      CompletedHomeworksViewBlocEvent event) async* {
-    if (event is StartTransformingHomeworks) {
+    on<StartTransformingHomeworks>((event, emit) {
       _lazyLoadingCompletedHomeworksBloc.add(
           lazy_loading.LoadCompletedHomeworks(
               nrOfInitialCompletedHomeworksToLoad));
@@ -49,17 +45,17 @@ class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
       _streamSubscription = _lazyLoadingSuccessStates.listen((state) {
         add(_Transform(state));
       });
-    } else if (event is AdvanceCompletedHomeworks) {
+    });
+    on<AdvanceCompletedHomeworks>((event, emit) {
       _lazyLoadingCompletedHomeworksBloc
           .add(lazy_loading.AdvanceCompletedHomeworks(event.advanceBy));
-    } else if (event is _Transform) {
+    });
+    on<_Transform>((event, emit) {
       final success = event.successState;
       final listView = _completedHomeworkListViewFactory.create(
           success.homeworks, success.loadedAllHomeworks);
-      yield Success(listView);
-    } else {
-      throw UnimplementedError('$event is not implemented');
-    }
+      emit(Success(listView));
+    });
   }
 
   @override
