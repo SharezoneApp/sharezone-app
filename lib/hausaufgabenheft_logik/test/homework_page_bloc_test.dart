@@ -518,7 +518,7 @@ completed.CompletedHomeworksViewBloc createCompletedHomeworksViewBloc(
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
   final lazyLoadingCompletedHomeworksBloc =
-      lazy_loading.LazyLoadingCompletedHomeworksBlocImpl(repository);
+      lazy_loading.LazyLoadingCompletedHomeworksBloc(repository);
   final completedHomeworksViewBloc = completed.CompletedHomeworksViewBloc(
       lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
