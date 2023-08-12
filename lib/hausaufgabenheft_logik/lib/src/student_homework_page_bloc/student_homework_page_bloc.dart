@@ -15,16 +15,10 @@ import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_s
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/events.dart'
-    as completed;
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/states.dart'
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc_impl.dart'
     as completed;
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/events.dart'
-    as open;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/states.dart'
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart'
     as open;
 
 /// This Bloc serves basically only as an interface to the outer world with 2
@@ -36,8 +30,8 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_blo
 ///   between visits of the homework page.
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements BlocBase {
-  final OpenHomeworksViewBloc _openHomeworksViewBloc;
-  final CompletedHomeworksViewBloc _completedHomeworksViewBloc;
+  final open.OpenHomeworksViewBloc _openHomeworksViewBloc;
+  final completed.CompletedHomeworksViewBloc _completedHomeworksViewBloc;
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
@@ -46,8 +40,8 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   bool _isClosed = false;
 
   HomeworkPageBloc({
-    @required OpenHomeworksViewBloc openHomeworksViewBloc,
-    @required CompletedHomeworksViewBloc completedHomeworksViewBloc,
+    @required open.OpenHomeworksViewBloc openHomeworksViewBloc,
+    @required completed.CompletedHomeworksViewBloc completedHomeworksViewBloc,
     @required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     @required HomeworkSortingCache homeworkSortingCache,
     @required DateTime Function() getCurrentDateTime,

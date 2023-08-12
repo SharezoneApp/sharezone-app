@@ -14,8 +14,15 @@ import 'package:bloc_base/bloc_base.dart';
 import '../../data_source/homework_data_source.dart';
 import '../../models/homework_list.dart';
 import 'events.dart';
-import 'lazy_loading_completed_homeworks_bloc.dart';
 import 'states.dart';
+
+export 'events.dart';
+export 'states.dart';
+
+abstract class LazyLoadingCompletedHomeworksBloc
+    implements
+        Stream<LazyLoadingCompletedHomeworksBlocState>,
+        Sink<LazyLoadingCompletedHomeworksEvent> {}
 
 class LazyLoadingCompletedHomeworksBlocImpl extends Bloc<
         LazyLoadingCompletedHomeworksEvent,

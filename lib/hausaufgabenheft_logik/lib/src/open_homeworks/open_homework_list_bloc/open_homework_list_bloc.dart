@@ -13,6 +13,9 @@ import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'events.dart';
 import 'states.dart';
 
+export 'events.dart';
+export 'states.dart';
+
 class OpenHomeworkListBloc
     extends Bloc<OpenHomeworkListBlocEvent, OpenHomeworkListBlocState> {
   final HomeworkDataSource _repository;
