@@ -9,8 +9,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Like the VoidCallback, but as a Future
 typedef FutureVoidCallback = Future<void> Function();
@@ -18,28 +17,31 @@ typedef FutureBoolCallback = Future<bool> Function();
 typedef FutureBoolValueChanged<T> = Future<bool> Function(T t);
 
 Future<void> showDeleteDialog(
-    {BuildContext context,
-    String title,
-    Widget description,
+    {BuildContext? context,
+    String? title,
+    Widget? description,
     dynamic popTwiceResult,
-    VoidCallback onDelete,
+    VoidCallback? onDelete,
     bool popTwice = true}) async {
-  final result = await showLeftRightAdaptiveDialog<bool>(
+  final result = (await showLeftRightAdaptiveDialog<bool>(
     context: context,
     title: title,
     content: description,
     defaultValue: false,
     left: AdaptiveDialogAction.cancle,
     right: AdaptiveDialogAction.delete,
-  );
+  ))!;
 
   if (result) {
-    onDelete();
-    if (popTwice) Navigator.pop(context, popTwiceResult);
+    onDelete!();
+    // ignore: use_build_context_synchronously
+    if (popTwice) Navigator.pop(context!, popTwiceResult);
   }
 }
 
 class LeaveEditedFormAlert extends StatelessWidget {
+  const LeaveEditedFormAlert({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -60,16 +62,16 @@ class LeaveEditedFormAlert extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text('NEIN!'),
+          child: const Text('NEIN!'),
           onPressed: () => Navigator.of(context).pop(false),
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text('JA, VERLASSEN!'),
+          child: const Text('JA, VERLASSEN!'),
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
@@ -79,34 +81,34 @@ class LeaveEditedFormAlert extends StatelessWidget {
 
 class OneTextFieldDialog extends StatefulWidget {
   const OneTextFieldDialog({
-    Key key,
-    @required this.onTap,
-    @required this.title,
-    @required this.hint,
-    @required this.actionName,
+    Key? key,
+    required this.onTap,
+    required this.title,
+    required this.hint,
+    required this.actionName,
     this.notAllowedChars,
     this.text,
   }) : super(key: key);
 
-  final ValueChanged<String> onTap;
-  final String title, hint, actionName, notAllowedChars;
+  final ValueChanged<String?> onTap;
+  final String? title, hint, actionName, notAllowedChars;
 
   /// The text, which will be set at the beginning
-  final String text;
+  final String? text;
 
   @override
-  _OneTextFieldDialogState createState() => _OneTextFieldDialogState();
+  State createState() => _OneTextFieldDialogState();
 }
 
 class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
-  String name, errorText;
-  TextEditingController controller;
+  String? name, errorText;
+  TextEditingController? controller;
 
   final FocusNode focusNode = FocusNode();
 
   Future<void> delayKeyboard(BuildContext context) async {
     Future.delayed(const Duration(milliseconds: 150));
-    FocusScope.of(context).requestFocus(focusNode);
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   @override
@@ -118,9 +120,9 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
     super.initState();
   }
 
-  bool containsStringNowAllowChars(String inputText) {
-    for (String char in widget.notAllowedChars.split("")) {
-      if (inputText.contains(char)) {
+  bool containsStringNowAllowChars(String? inputText) {
+    for (String char in widget.notAllowedChars!.split("")) {
+      if (inputText!.contains(char)) {
         return true;
       }
     }
@@ -131,7 +133,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
   Widget build(BuildContext context) {
     // delayKeyboard(context);
     return AlertDialog(
-      title: Text(widget.title),
+      title: Text(widget.title!),
       content: TextField(
         controller: controller,
         focusNode: focusNode,
@@ -144,17 +146,17 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text("ABBRECHEN"),
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           onPressed: () => Navigator.pop(context),
+          child: const Text("ABBRECHEN"),
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: Text(widget.actionName),
+          child: Text(widget.actionName!),
           onPressed: () {
             if (widget.notAllowedChars == null) {
               widget.onTap(name);

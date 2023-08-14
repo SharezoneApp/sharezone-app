@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:abgabe_client_lib/src/abnahme/abgaben_abnahme_gateway.dart';
 import 'package:abgabe_client_lib/src/abnahme/view_submissions_page_bloc.dart';
 import 'package:abgabe_client_lib/src/erstellung/abnahme_erstellung_gateway.dart';
@@ -144,8 +146,8 @@ class FirestoreAbgabeGateway
             );
             schueler.add(nutzer);
           } catch (e) {
-            print(
-                'Konnte kein Nutzer aus ${membersDoc.reference.path} generieren: $e');
+            log('Konnte kein Nutzer aus ${membersDoc.reference.path} generieren: $e',
+                error: e);
           }
         }
       }

@@ -16,7 +16,7 @@ import 'package:dio/dio.dart';
 
 class AbgabedateiApi {
   final Dio _dio;
-  Serializers _serializers;
+  final Serializers _serializers;
 
   AbgabedateiApi(this._dio, this._serializers);
 
@@ -26,18 +26,16 @@ class AbgabedateiApi {
   Future<Response> addFile(
     String submissionId,
     DateiHinzufuegenCommandDto dateiHinzufuegenCommandDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String?>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files"
+    String path = "/v1/submissions/{submissionId}/files"
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
@@ -46,12 +44,12 @@ class AbgabedateiApi {
     bodyData = jsondateiHinzufuegenCommandDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'post'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),
@@ -65,29 +63,27 @@ class AbgabedateiApi {
   Future<Response> deleteFile(
     String submissionId,
     String fileId, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files/{fileId}"
+    String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = [];
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'delete'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),
@@ -102,19 +98,17 @@ class AbgabedateiApi {
     String submissionId,
     String fileId,
     DateinameDto dateinameDto, {
-    CancelToken cancelToken,
-    Map<String, String> headers,
+    CancelToken? cancelToken,
+    Map<String, String>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files/{fileId}"
+    String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll("{" r'submissionId' "}", submissionId.toString())
         .replaceAll("{" r'fileId' "}", fileId.toString());
 
     Map<String, dynamic> queryParams = {};
-    Map<String, String> headerParams = Map.from(headers ?? {});
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
-    headerParams.removeWhere((key, value) => value == null);
 
     List<String> contentTypes = ["application/json"];
 
@@ -123,12 +117,12 @@ class AbgabedateiApi {
     bodyData = jsondateinameDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(
         method: 'post'.toUpperCase(),
-        headers: headerParams,
+        headers: headers,
         contentType:
             contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
       ),

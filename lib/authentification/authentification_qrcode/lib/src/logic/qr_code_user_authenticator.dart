@@ -8,7 +8,6 @@
 
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import '../models/qr_sign_in_document.dart';
 import '../models/qr_sign_in_state.dart';
 
@@ -33,8 +32,8 @@ class QrCodeUserAuthenticator {
     final query = _qrSignInCollection.doc(qrId).snapshots();
     return query.map((documentSnapshot) {
       if (documentSnapshot.exists) {
-        final qrSignInDocument =
-            QrSignInDocument.fromData(documentSnapshot.data());
+        final qrSignInDocument = QrSignInDocument.fromData(
+            documentSnapshot.data() as Map<String, dynamic>);
         return qrSignInDocument.toSignInState();
       } else {
         return QrCodeIsGenerating();
@@ -44,7 +43,7 @@ class QrCodeUserAuthenticator {
 
   /// erstellt das QR-Dokument in Firestore
   /// Dort sind vor allem die QrID und der PublicKey hinterlegt
-  String generateQrId(String publicKey) {
+  String generateQrId(String? publicKey) {
     final qrId = _qrSignInCollection.doc().id;
     final qrSignInDocument = QrSignInDocument(
       qrId: qrId,
@@ -56,7 +55,7 @@ class QrCodeUserAuthenticator {
   }
 
   Future<bool> authenticateUserViaQrCodeId(
-      {@required String uid, @required String qrId}) async {
+      {required String uid, required String qrId}) async {
     final appFunctionResult =
         await appFunctions.authenticateUserViaQrCodeId(qrId: qrId, uid: uid);
     return appFunctionResult.hasData && appFunctionResult.data == true;

@@ -11,8 +11,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:glob/glob.dart';
+import 'package:glob/list_local_fs.dart';
 import 'package:path/path.dart';
-
 import 'package:sz_repo_cli/src/common/common.dart';
 
 final Glob pubspecGlob = Glob('**pubspec.yaml');
@@ -39,7 +39,7 @@ class LocateSharezoneAppFlutterDirectoryCommand extends Command {
 
   @override
   FutureOr<Null> run() async {
-    switch (argResults[pathType]) {
+    switch (argResults![pathType]) {
       case relative:
         print(await findSharezoneFlutterAppRelativeDirectoryPath());
         break;
@@ -72,7 +72,8 @@ Future<String> findSharezoneFlutterAppRelativeDirectoryPath() async {
   return dir.path;
 }
 
-Future<Directory> findSharezoneFlutterDirectory({Directory root}) async {
+Future<Directory> findSharezoneFlutterDirectory(
+    {required Directory root}) async {
   await for (FileSystemEntity entity in pubspecGlob.list(root: root.path)) {
     if (entity is File) {
       final pubspecContent = await entity.readAsString();
@@ -90,7 +91,7 @@ Future<Directory> findSharezoneFlutterDirectory({Directory root}) async {
 class SharezoneDirectoryNotFoundError extends Error {
   SharezoneDirectoryNotFoundError([this.currentDirPath]);
 
-  final String currentDirPath;
+  final String? currentDirPath;
 
   @override
   String toString() {

@@ -6,27 +6,28 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:url_launcher_extended/mock_url_launcher_extended.dart';
-
-import '../lib/url_launcher_extended.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 void main() {
   group('MockUrlLauncherExtended', () {
-    MockUrlLauncherExtended mockUrlLauncherExtended;
+    late MockUrlLauncherExtended mockUrlLauncherExtended;
 
     setUp(() {
       mockUrlLauncherExtended = MockUrlLauncherExtended();
     });
 
+    final Uri url = Uri.parse('https://example.com');
+
     test('.canLaunch returns true as default.', () async {
-      final canLaunch = await mockUrlLauncherExtended.canLaunch("urlString");
+      final canLaunch = await mockUrlLauncherExtended.canLaunchUrl(url);
       expect(canLaunch, true);
     });
 
     test('.canLaunch returns the set value.', () async {
       mockUrlLauncherExtended.setCanLaunch(false);
-      final canLaunch = await mockUrlLauncherExtended.canLaunch("urlString");
+      final canLaunch = await mockUrlLauncherExtended.canLaunchUrl(url);
       expect(canLaunch, false);
     });
 
@@ -34,7 +35,7 @@ void main() {
       // Before method call the logged attribute should return false.
       expect(mockUrlLauncherExtended.logCalledLaunch, false);
 
-      await mockUrlLauncherExtended.launch("urlString");
+      await mockUrlLauncherExtended.launchUrl(url);
 
       expect(mockUrlLauncherExtended.logCalledLaunch, true);
     });
@@ -50,8 +51,7 @@ void main() {
 
     test('.tryLaunchOrThrow launches link if it can', () async {
       // .canLaunch is already true
-      final result =
-          await mockUrlLauncherExtended.tryLaunchOrThrow("urlString");
+      final result = await mockUrlLauncherExtended.tryLaunchOrThrow(url);
       expect(result, true);
     });
 
@@ -60,9 +60,9 @@ void main() {
       mockUrlLauncherExtended.setCanLaunch(false);
 
       try {
-        await mockUrlLauncherExtended.tryLaunchOrThrow("urlString");
+        await mockUrlLauncherExtended.tryLaunchOrThrow(url);
       } on Exception catch (e) {
-        expect(e, CouldNotLaunchUrlException("urlString"));
+        expect(e, CouldNotLaunchUrlException(url));
       }
     });
   });

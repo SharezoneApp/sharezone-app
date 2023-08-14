@@ -37,7 +37,7 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   CourseCreateBloc(this._gateway, this._analytics, {this.schoolClassId});
 
-  void setInitalCourse(Course course) {
+  void setInitialCourse(Course course) {
     if (course != null) _addInitalValuesToStream(course);
   }
 

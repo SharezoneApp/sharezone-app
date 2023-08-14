@@ -12,7 +12,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MarkOverdueHomeworkPrompt extends StatefulWidget {
   const MarkOverdueHomeworkPrompt({Key key}) : super(key: key);
@@ -60,7 +60,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 "Alle überfälligen Hausaufgaben abhaken?",
-                style: textTheme.headline6.apply(fontSizeFactor: 0.9),
+                style: textTheme.titleLarge.apply(fontSizeFactor: 0.9),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -15,10 +15,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/email_and_password_link_bloc.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone/widgets/auth.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import 'login_page.dart';
@@ -91,7 +88,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                         const SharezoneLogo(
                           height: 60,
                           width: 200,
-                          logoColor: LogoColor.blue_long,
+                          logoColor: LogoColor.blueLong,
                         ),
                         const SizedBox(height: 32),
                         Padding(
@@ -100,8 +97,9 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                             children: <Widget>[
                               NameField(
                                 focusNode: nameFocusNode,
-                                onEditingComplete: () => FocusScope.of(context)
-                                    .requestFocus(emailFocusNode),
+                                onEditingComplete: () => FocusManager
+                                    .instance.primaryFocus
+                                    .unfocus(),
                                 initialName: widget.user.name,
                                 nameStream: bloc.name,
                                 onChanged: bloc.changeName,

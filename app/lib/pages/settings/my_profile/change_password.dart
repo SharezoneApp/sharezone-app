@@ -12,7 +12,7 @@ import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/pages/settings/my_profile/submit_method.dart';
 import 'package:sharezone/widgets/settings/my_profile/change_data.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const snackBarText = "Neues Password wird an die Zentrale geschickt...";
 const changeType = ChangeType.password;
@@ -35,7 +35,7 @@ class ChangePasswordPage extends StatelessWidget {
                   labelText: "Aktuelles Passwort",
                   autofocus: true,
                   onEditComplete: () =>
-                      FocusScope.of(context).requestFocus(newPasswordNode)),
+                      FocusManager.instance.primaryFocus?.unfocus()),
               const SizedBox(height: 16),
               _NewPasswordField(newPasswordNode: newPasswordNode),
               const SizedBox(height: 16),
@@ -117,7 +117,7 @@ class _ResetPassword extends StatelessWidget {
       child: TextButton(
         child: const Text("Aktuelles Passwort vergessen?"),
         style: TextButton.styleFrom(
-          primary: Colors.grey[400],
+          foregroundColor: Colors.grey[400],
         ),
         onPressed: () async {
           bool reset = await showDialog<bool>(
@@ -130,14 +130,14 @@ class _ResetPassword extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: const Text("ABBRECHEN"),
                       onPressed: () => Navigator.pop(context, false),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: const Text("JA"),
                       onPressed: () => Navigator.pop(context, true),

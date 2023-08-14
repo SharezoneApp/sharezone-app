@@ -21,22 +21,21 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../timetable_permissions.dart';
 
 enum _LessonModelSheetAction { edit, delete, design }
+
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
 
 Future<bool> showDeleteLessonConfirmationDialog(BuildContext context) async {
-  if (ThemePlatform.isCupertino)
+  if (ThemePlatform.isCupertino) {
     return showCupertinoDialog<bool>(
       context: context,
       builder: (context) => _DeleteLessonDialog(),
     );
+  }
   return showDialog<bool>(
     context: context,
     builder: (context) => _DeleteLessonDialog(),
@@ -124,12 +123,12 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
       content: content(),
       contentPadding: const EdgeInsets.only(),
       actions: <Widget>[
-        const CancleButton(),
+        const CancelButton(),
         TextButton(
           child: const Text("LÖSCHEN"),
           onPressed: confirm ? () => Navigator.pop(context, true) : null,
           style: TextButton.styleFrom(
-            primary: Theme.of(context).errorColor,
+            foregroundColor: Theme.of(context).colorScheme.error,
           ),
         ),
       ],
@@ -266,7 +265,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Text("Details",
-                      style: Theme.of(context).textTheme.headline6),
+                      style: Theme.of(context).textTheme.titleLarge),
                 ),
               ),
               Row(

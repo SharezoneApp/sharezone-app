@@ -26,6 +26,5 @@ extension TypeOfUserExtension on TypeOfUser {
       case TypeOfUser.unknown:
         return 'Unbekannt';
     }
-    throw UnimplementedError('Unknown TypeOfUser: $this');
   }
 }

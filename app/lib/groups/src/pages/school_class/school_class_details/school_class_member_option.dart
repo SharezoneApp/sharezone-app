@@ -6,16 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showSchoolClassMemberOptionsSheet({
   @required BuildContext context,
@@ -54,11 +56,10 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return StreamBuilder<bool>(
-      initialData: requestPermission(
-          role: membersDataList
-              .singleWhere((member) => member.id == api.userId)
-              .role,
-          permissiontype: PermissionAccessType.admin),
+      initialData: membersDataList
+          .singleWhere((member) => member.id == api.userId)
+          .role
+          .hasPermission(GroupPermission.administration),
       stream: bloc.isAdminStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;
@@ -181,7 +182,7 @@ class _LeaveCourse extends StatelessWidget {
     return TextButton(
       child: Text("SCHULKLASSE VERLASSEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -209,7 +210,7 @@ class _KickUser extends StatelessWidget {
     return TextButton(
       child: const Text("AUS DER SCHULKLASSE KICKEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: isAdmin
           ? () {
@@ -251,7 +252,7 @@ class _RoleTile extends StatelessWidget {
         value: role,
         onChanged: enabled
             ? (newRole) {
-                print("PERMISSION ACCEPTED");
+                log("PERMISSION ACCEPTED");
                 Future<AppFunctionsResult<bool>> updateFuture = bloc
                     .updateMemberRole(schoolClassID, memberData.id, newRole);
                 showAppFunctionStateDialog(context, updateFuture);

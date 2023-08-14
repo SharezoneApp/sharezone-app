@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<dynamic> openMySchoolClassCreateDialog(
     BuildContext context, MySchoolClassBloc schoolClassBloc) {
@@ -77,7 +77,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
               Text(
                 errorTextForUser,
                 style: TextStyle(
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                   fontSize: 14,
                 ),
               ),
@@ -88,10 +88,10 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       actions: isLoading
           ? <Widget>[LoadingCircle()]
           : <Widget>[
-              CancleButton(),
+              CancelButton(),
               TextButton(
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   child: const Text("ERSTELLEN"),
                   onPressed: className.isEmpty

@@ -49,7 +49,7 @@ class _StartTime extends StatelessWidget {
                   navigateToNextTab(context);
                 }
               } on Exception catch (e, s) {
-                print(e);
+                log('$e', error: e, stackTrace: s);
                 showSnackSec(
                   text: handleErrorMessage(e.toString(), s),
                   context: context,
@@ -86,7 +86,7 @@ class _EndTime extends StatelessWidget {
                   navigateToNextTab(context);
                 }
               } on Exception catch (e, s) {
-                print(e);
+                log('$e', error: e, stackTrace: s);
                 showSnackSec(
                   text: handleErrorMessage(e.toString(), s),
                   context: context,

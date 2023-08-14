@@ -8,8 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -76,7 +75,7 @@ class _Steps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Schritte:", style: Theme.of(context).textTheme.headline5),
+        Text("Schritte:", style: Theme.of(context).textTheme.headlineSmall),
         const Text("1. Gehe zurück zu deinem Profil"),
         const Text("2. Melde dich über das Sign-Out-Icon rechts oben ab."),
         const Text("3. Bestätige, dass dabei dein Konto gelöscht wird."),
@@ -114,7 +113,7 @@ class __ExplainingVideoState extends State<_ExplainingVideo> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Video:", style: Theme.of(context).textTheme.headline5),
+        Text("Video:", style: Theme.of(context).textTheme.headlineSmall),
         FutureBuilder(
           future: _initializeVideoPlayerFuture,
           builder: (context, snapshot) {

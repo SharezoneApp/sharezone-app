@@ -16,7 +16,7 @@ import 'package:sharezone/groups/src/pages/school_class/create_course/school_cla
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'share_sharecode.dart';
 
@@ -80,7 +80,7 @@ class _CreateCustomCourse extends StatelessWidget {
           Headline("Dein Kurs ist nicht dabei?"),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.lightBlueAccent,
+              backgroundColor: Colors.lightBlueAccent,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),

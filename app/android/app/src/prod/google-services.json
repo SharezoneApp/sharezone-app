@@ -21,6 +21,14 @@
             "package_name": "de.codingbrain.sharezone",
             "certificate_hash": "26f115c341d0547dd8699b13f9b9e1cae0a236f8"
           }
+        },
+        {
+          "client_id": "730263787697-qesavunds33aem3po0kqunblpn3rgqsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.codingbrain.sharezone",
+            "certificate_hash": "99f0a114f2d2c2ffa81f086e655b03ffdf0d9c79"
+          }
         }
       ],
       "api_key": [
@@ -36,11 +44,10 @@
               "client_type": 3
             },
             {
-              "client_id": "730263787697-nut49i43h71qd45mfulcd335l1p647vd.apps.googleusercontent.com",
+              "client_id": "730263787697-dhnlkjsjg7mmmafvpqu9lqo60rrfl711.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "de.codingbrain.sharezone.macos",
-                "app_store_id": "1503251344"
+                "bundle_id": "de.codingbrain.sharezone.mac"
               }
             }
           ]

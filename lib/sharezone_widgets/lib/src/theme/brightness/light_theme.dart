@@ -18,8 +18,6 @@ final lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   highlightColor: PlatformCheck.isIOS ? const Color(0x66BCBCBC) : null,
   splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
-  toggleableActiveColor: primaryColor,
-  errorColor: Colors.red,
 
   // Font
   fontFamily: rubik,
@@ -29,7 +27,7 @@ final lightTheme = ThemeData(
     labelColor: darkBlueColor,
     unselectedLabelColor: darkBlueColor.withOpacity(0.45),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     color: Colors.white,
     elevation: 1,
     iconTheme: IconThemeData(color: Color(0xFF8da2b6)),
@@ -39,12 +37,59 @@ final lightTheme = ThemeData(
         fontSize: 20,
         fontFamily: rubik),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
   pageTransitionsTheme: _pageTransitionsTheme,
   snackBarTheme: _snackBarTheme,
   bottomSheetTheme: _bottomSheetTheme,
   dialogTheme: _dialogTheme,
+  checkboxTheme: CheckboxThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+    trackColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
   colorScheme: ColorScheme.fromSwatch()
-      .copyWith(secondary: Colors.grey[600], brightness: Brightness.light),
+      .copyWith(secondary: Colors.grey[600], brightness: Brightness.light)
+      .copyWith(error: Colors.red),
 );

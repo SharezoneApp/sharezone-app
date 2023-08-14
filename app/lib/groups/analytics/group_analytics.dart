@@ -17,7 +17,7 @@ class GroupAnalytics extends BlocBase {
   void logEnableMeeting() {
     _analytics.log(GroupSettingsEvent('enable_meeting'));
   }
-  
+
   void logDisbaleMeeting() {
     _analytics.log(GroupSettingsEvent('disable_meeting'));
   }

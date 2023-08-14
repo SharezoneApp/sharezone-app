@@ -6,33 +6,31 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:app_functions/app_functions.dart';
+import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_test/flutter_test.dart';
+import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
-import 'package:test/test.dart';
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';
 
-class HttpMockClient extends Mock implements http.Client {}
+class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
 
 void main() {
   test('Cache loads from API after empty cache and then from Cache', () async {
     StateEnum firstState = StateEnum.nordrheinWestfalen;
     StateEnum secondState = StateEnum.hamburg;
     final stateGateway = InMemoryHolidayStateGateway(initialValue: firstState);
-    HttpMockClient httpClient = HttpMockClient();
+    final szAppFunctions = MockAppSharezoneFunctions();
 
     final current = DateTime(2018, 03, 09);
-    HolidayBloc holidayBloc = setupBloc(httpClient, stateGateway, current);
+    HolidayBloc holidayBloc = setupBloc(szAppFunctions, stateGateway, current);
 
-    sethttpClientAnswers(httpClient);
+    setMockAnswers(szAppFunctions);
 
     StreamQueue<List<Holiday>> queue =
         StreamQueue<List<Holiday>>(holidayBloc.holidays);
@@ -40,7 +38,12 @@ void main() {
 
     areCorrectHolidaysForState(await queue.next, firstState);
     areCorrectHolidaysForState(await queue.next, secondState);
-    verify(httpClient.get(any)).called(4); // For each State 2018 and 2019
+    verify(
+      szAppFunctions.loadHolidays(
+        stateCode: anyNamed('stateCode'),
+        year: anyNamed('year'),
+      ),
+    ).called(4); // For each State 2018 and 2019
 
     /*Testing if Values are Cached.*/
     stateGateway.changeState(firstState);
@@ -49,26 +52,32 @@ void main() {
     areCorrectHolidaysForState(await queue.next, firstState);
     areCorrectHolidaysForState(await queue.next, secondState);
 
-    verifyNever(httpClient.get(any)); // No calls added
+    verifyNever(
+      szAppFunctions.loadHolidays(
+        stateCode: anyNamed('stateCode'),
+        year: anyNamed('year'),
+      ),
+    ); // No calls added
   });
 }
 
-void sethttpClientAnswers(HttpMockClient httpClient) {
-  answerHttpResponseForUrl(httpClient, _nrw2018apiUrl, _jsonNrw2018);
-  answerHttpResponseForUrl(httpClient, _nrw2019apiUrl, _jsonNrw2019);
-  answerHttpResponseForUrl(httpClient, _hamburg2018apiUrl, _jsonHamburg2018);
-  answerHttpResponseForUrl(httpClient, _hamburg2019apiUrl, _jsonHamburg2019);
+void setMockAnswers(MockAppSharezoneFunctions szAppFunctions) {
+  setCfResponse(szAppFunctions, "NW", "2018", _jsonNrw2018);
+  setCfResponse(szAppFunctions, "NW", "2019", _jsonNrw2019);
+  setCfResponse(szAppFunctions, "HH", "2018", _jsonHamburg2018);
+  setCfResponse(szAppFunctions, "HH", "2019", _jsonHamburg2019);
 }
 
-HolidayBloc setupBloc(HttpMockClient httpClient,
+HolidayBloc setupBloc(MockAppSharezoneFunctions szAppFunctions,
     HolidayStateGateway stateGateway, DateTime currentTime) {
-  HolidayApi api = HolidayApi(HttpHolidayApiClient(httpClient),
-      getCurrentTime: () =>
-          currentTime); // Return ended Holidays, as I can't manipulate DateTime.now(). This would lead to flaky tests.
+  HolidayApi api = HolidayApi(
+    CloudFunctionHolidayApiClient(szAppFunctions),
+    getCurrentTime: () => currentTime,
+  ); // Return ended Holidays, as I can't manipulate DateTime.now(). This would lead to flaky tests.
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
   HolidayCache cache =
       HolidayCache(keyValueStore, getCurrentTime: () => currentTime);
-  HolidayManager holidayManager = HolidayManager(api, cache);
+  HolidayService holidayManager = HolidayService(api, cache);
   HolidayBloc holidayBloc = HolidayBloc(
       holidayManager: holidayManager,
       stateGateway: stateGateway,
@@ -100,18 +109,19 @@ bool areCorrectHolidaysForState(List<Holiday> holidays, StateEnum stateEnum) {
   }
 }
 
-void answerHttpResponseForUrl(
-    HttpMockClient httpClient, Uri url, String jsonResponse) {
-  when(httpClient.get(url))
-      .thenAnswer((_) => Future.value(http.Response(jsonResponse, 200)));
+void setCfResponse(MockAppSharezoneFunctions szAppFunctions, String stateCode,
+    String year, String jsonResponse) {
+  when(szAppFunctions.loadHolidays(stateCode: stateCode, year: year))
+      .thenAnswer(
+    (_) => Future.value(
+      AppFunctionsResult<Map<String, dynamic>>.data(
+        {'rawResponseBody': jsonResponse},
+      ),
+    ),
+  );
 }
 
 final now = DateTime(2018, 1, 1);
-final Uri _nrw2018apiUrl = HttpHolidayApiClient.getApiUrl("NW", now.year);
-final Uri _nrw2019apiUrl = HttpHolidayApiClient.getApiUrl("NW", now.year + 1);
-final Uri _hamburg2018apiUrl = HttpHolidayApiClient.getApiUrl("HH", now.year);
-final Uri _hamburg2019apiUrl =
-    HttpHolidayApiClient.getApiUrl("HH", now.year + 1);
 
 // {"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"}
 final Holiday _nrw2018FirstHoliday = Holiday((b) => b

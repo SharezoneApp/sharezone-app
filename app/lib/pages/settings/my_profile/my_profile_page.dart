@@ -11,14 +11,15 @@ import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_apple.dart';
 import 'package:authentification_base/authentification_google.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_page.dart';
@@ -29,11 +30,7 @@ import 'package:sharezone/pages/settings/my_profile/my_profile_bloc.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
@@ -137,7 +134,7 @@ class _EmailTile extends StatelessWidget {
                 TextButton(
                   child: const Text("ALLES KLAR"),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -275,7 +272,7 @@ class _PrivacyOptOut extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     final crashAnalytics =
-        BlocProvider.of<CrashAnalyticsBloc>(context).crashAnalytics;
+        pv.Provider.of<CrashAnalytics>(context, listen: false);
     final preferences =
         BlocProvider.of<SharezoneContext>(context).streamingSharedPreferences;
 
@@ -322,7 +319,7 @@ class SignOutButton extends StatelessWidget {
         key: const ValueKey('sign-out-button-E2E'),
         child: Text("Abmelden".toUpperCase()),
         style: TextButton.styleFrom(
-          primary: Colors.red,
+          foregroundColor: Colors.red,
         ),
         onPressed: () => signOut(context, isAnonymous),
       ),
@@ -365,8 +362,8 @@ class _DangerButton extends StatelessWidget {
           icon: icon,
           label: Text(title.toUpperCase()),
           style: ElevatedButton.styleFrom(
-            primary: Colors.redAccent,
-            onPrimary: Colors.white,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.redAccent,
           ),
           onPressed: onTap,
         ),
@@ -397,11 +394,11 @@ class _DeleteAccountDialogContentState
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final provider = api.user.authUser.provider;
     return [
-      CancleButton(),
+      CancelButton(),
       TextButton(
         child: const Text("LÖSCHEN"),
         style: TextButton.styleFrom(
-          primary: Theme.of(context).errorColor,
+          foregroundColor: Theme.of(context).colorScheme.error,
         ),
         onPressed: provider != Provider.email
             ? signOut

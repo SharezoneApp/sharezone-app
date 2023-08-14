@@ -10,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/account/features/objects/all_colors.dart';
 import 'package:sharezone/account/features/objects/feature.dart';
-import 'package:sharezone/account/features/objects/hide_donations.dart';
 import 'package:user/user.dart';
 
 class FeatureGateway {
@@ -26,13 +25,15 @@ class FeatureGateway {
       CollectionReference<Map<String, dynamic>> users, String uid) {
     final docStream = users.doc(uid).snapshots();
     docStream.listen((doc) {
+      final hasData = doc.exists && doc.data() != null;
+      if (!hasData) return;
+
       final featureSet = <Feature>{};
 
       final features =
-          Features.fromJson(doc?.data()['features'] as Map<String, dynamic>);
+          Features.fromJson(doc.data()['features'] as Map<String, dynamic>);
       if (features != null) {
         if (features.allColors) featureSet.add(AllColors());
-        if (features.hideDonations) featureSet.add(HideDonations());
       }
 
       _unlockedFeaturesSubject.sink.add(featureSet);

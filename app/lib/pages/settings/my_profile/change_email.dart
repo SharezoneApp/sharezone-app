@@ -12,7 +12,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/pages/settings/my_profile/submit_method.dart';
 import 'package:sharezone/widgets/settings/my_profile/change_data.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
 const changeType = ChangeType.email;
@@ -153,7 +153,7 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           autofocus: true,
           autofillHints: const [AutofillHints.email],
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(widget.passwordNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Neu",

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,10 +20,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const double _padding = 12.0;
 
@@ -308,7 +307,7 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
           ],
         ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.lightBlueAccent,
+          backgroundColor: Colors.lightBlueAccent,
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -327,7 +326,8 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
                 context: context,
                 text: "Du musst auch schon was reinschreiben 😉");
           } on Exception catch (e, s) {
-            print("Exception when submitting Feedback: $e, $s");
+            log("Exception when submitting Feedback: $e",
+                error: e, stackTrace: s);
             showSnackSec(
                 context: context,
                 text:

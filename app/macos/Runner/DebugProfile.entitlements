@@ -6,6 +6,8 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.aps-environment</key>
+	<string>development</string>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
 	<key>com.apple.security.cs.allow-jit</key>

@@ -7,20 +7,19 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
 import 'package:bloc_base/bloc_base.dart';
+import 'package:holidays/holidays.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/models/extern_apis/holiday.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/state.dart';
 import 'package:user/user.dart';
 
 class HolidayBloc extends BlocBase {
   // Siehe Kommentar dazu in dispose()
   // ignore: close_sinks
   final _holidays = BehaviorSubject<List<Holiday>>();
-  final HolidayManager holidayManager;
+  final HolidayService holidayManager;
   DateTime Function() getCurrentTime;
   Stream<List<Holiday>> get holidays => _holidays;
 
@@ -37,7 +36,12 @@ class HolidayBloc extends BlocBase {
       this.getCurrentTime}) {
     getCurrentTime ??= () => DateTime.now();
 
-    final holidaysStream = userState.asyncMap((stateEnum) async {
+    final holidaysStream = userState
+        // StateEnum.notSelected would result into an UnsupportedStateException
+        // while loading the holidays, which would lead to an error in the UI
+        // (see https://github.com/SharezoneApp/sharezone-app/issues/566).
+        .where((state) => state != StateEnum.notSelected)
+        .asyncMap((stateEnum) async {
       final state = toStateOrThrow(stateEnum);
       return await holidayManager.load(state);
     });

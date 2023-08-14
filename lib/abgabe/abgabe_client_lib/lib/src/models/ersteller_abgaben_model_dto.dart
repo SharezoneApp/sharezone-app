@@ -59,14 +59,14 @@ class ErstellerAbgabenModelDto {
       'ErstellerAbgabenModelDto(abgabeId: $abgabeId, abgegebenUmIsoString: $abgegebenUmIsoString, dateien: $dateien)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 
-    return o is ErstellerAbgabenModelDto &&
-        o.abgabeId == abgabeId &&
-        o.abgegebenUmIsoString == abgegebenUmIsoString &&
-        listEquals(o.dateien, dateien);
+    return other is ErstellerAbgabenModelDto &&
+        other.abgabeId == abgabeId &&
+        other.abgegebenUmIsoString == abgegebenUmIsoString &&
+        listEquals(other.dateien, dateien);
   }
 
   @override

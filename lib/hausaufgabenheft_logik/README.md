@@ -1,4 +1,5 @@
 # hausaufgabenheft_logik-Package
+
 Die Logik für das Hausaufgabenheft ohne Abhängigkeit von Flutter und Firestore.
 Firestore wird mit firebase_hausaufgabenheft_logik-Package mit Flutter in main.dart eingebunden.
 Die genauen Schnittstellen mit  der Außenwelt werden nachher beschrieben.  
@@ -13,6 +14,7 @@ Die genauen Schnittstellen mit  der Außenwelt werden nachher beschrieben.
  Speichertart/-struktur in der Datenbank.
 
 ## Libraries (`.dart`-Dateien, die von außerhalb des Packages benutzt werden können)
+
 `hausaufgabenheft_logik.dart`  
 Alle Klassen, die bei der normalen Benutzung des Blocs von außen benötigt werden. 
 Dazu zählen z.B. die Views, das Interface vom `HomeworkPageBloc` + die zugehörigen `Events` und `States` (mehr dazu später) und die Klassen `HomeworkDataSource`/`HomeworkCompletionDispatcher`, die den Bloc an die "Außenwelt" (Datenbank, also bei uns Firestore) anschließbar machen.
@@ -34,6 +36,7 @@ Beispielcode:
 ```
 
 ## Implementation via Bloc-Package
+
 Um die Blocs zu implementieren wurde das [`Bloc`-Package](https://pub.dev/packages/bloc) benutzt.  
 Das `Bloc`-Package ermöglicht es sehr einfach Logging einzuführen, was in Zukunft sehr hilfreich ist.  
 Der `Bloc` funktioniert generell nur über `Event` und `State`-Klassen.  
@@ -48,6 +51,7 @@ B -- Events --> A
 ```
 
 ## Anbindung an die Außenwelt
+
 Da die Hausaufgaben-Details momentan noch nicht über das Package bearbeitet werden, ist die einzige Aktion an Firebase das Abhaken einer Hausaufgabe. 
 Eine Hausaufgabe wird über den `HomeworkCompletionDispatcher` abgehakt,
 welcher eine abstrakte Klasse ist, die dadurch an jeden beliebigen Service

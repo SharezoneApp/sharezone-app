@@ -13,6 +13,7 @@ import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dio/dio.dart';
@@ -23,15 +24,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:http/http.dart' as http;
+import 'package:holidays/holidays.dart' hide State;
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/features/feature_gateway.dart';
 import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
+import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
+import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
-import 'package:sharezone/blocs/blackboard/blackboard_page_bloc.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
@@ -39,15 +42,11 @@ import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
-import 'package:sharezone/crash_analytics/crash_analytics_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/gateway/dashboard_gateway.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/donate/analytics/donation_analytics.dart';
-import 'package:sharezone/donate/bloc/donation_bloc.dart';
-import 'package:sharezone/donate/donation_service/donation_service.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
@@ -66,11 +65,6 @@ import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/meeting/analytics/meeting_analytics.dart';
-import 'package:sharezone/meeting/bloc/meeting_bloc_factory.dart';
-import 'package:sharezone/meeting/cache/meeting_cache.dart';
-import 'package:sharezone/meeting/jitsi/jitsi_auth.dart';
-import 'package:sharezone/meeting/jitsi/jitsi_launcher.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
@@ -81,7 +75,6 @@ import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/pages/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
@@ -93,6 +86,8 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
@@ -100,23 +95,18 @@ import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factor
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_dependencies.dart';
 import 'package:sharezone/timetable/timetable_add_event/bloc/timetable_add_event_bloc_factory.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
-import 'package:sharezone/util/holidays/api_cache_manager.dart';
-import 'package:sharezone/util/holidays/holiday_api.dart';
-import 'package:sharezone/util/holidays/holiday_cache.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
-import 'package:sharezone_utils/device_information_manager.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
+import '../notifications/is_firebase_messaging_supported.dart';
 import 'dashbord_widgets_blocs/holiday_bloc.dart';
 
 final navigationBloc = NavigationBloc();
@@ -165,8 +155,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
 
     PluginInitializations.tryInitializeRevenueCat(
-      apiKey: widget.blocDependencies.remoteConfiguration
-          .getString('revenuecat_api_key'),
+      androidApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_android_key'),
+      appleApiKey: widget.blocDependencies.remoteConfiguration
+          .getString('revenuecat_api_apple_key'),
       uid: widget.blocDependencies.authUser.uid,
     );
 
@@ -199,10 +191,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final timePickerSettingsCache =
         TimePickerSettingsCache(streamingKeyValueStore);
 
-    if (PlatformCheck.isMobile) {
+    if (isFirebaseMessagingSupported()) {
       NotificationTokenAdder(
-              NotificationTokenAdderApi(api.user, FirebaseMessaging.instance))
-          .addTokenToUserIfNotExisting();
+        NotificationTokenAdderApi(
+          api.user,
+          FirebaseMessaging.instance,
+          widget.blocDependencies.remoteConfiguration
+              .getString('firebase_messaging_vapid_key'),
+        ),
+      ).addTokenToUserIfNotExisting();
     }
     final firestore = api.references.firestore;
     final firebaseAuth = api.references.firebaseAuth;
@@ -292,18 +289,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       baseUrl: abgabenServiceBaseUrl,
 
       /// Cold-Start kann manchmal dauern
-      connectTimeout: 45000,
+      connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
         widget.blocDependencies.authUser.firebaseUser);
-
-    final meetingServerUrl = remoteConfig.getString('meeting_server_url');
-    // Im Web muss die Server-URL zum lokalen Testen manuell gesetzt werden,
-    // weil Remote Config noch im Web funktioniert.
-    // "https://dev.meet.sharezone.net"
-
-    final urlLauncherExtended = UrlLauncherExtended();
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
 
@@ -313,14 +303,33 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       widget.beitrittsversuche,
     );
 
-    // HttpHolidayApiClient and "useCfHolidayEndpoint" remote config value
-    // can be removed after 2021-12-01.
-    final useCfEndpoint = remoteConfig.getBool('useCfHolidayEndpoint') ?? false;
-    final holidayApiClient = useCfEndpoint
-        ? CloudFunctionHolidayApiClient()
-        : HttpHolidayApiClient(http.Client());
+    final holidayApiClient =
+        CloudFunctionHolidayApiClient(api.references.functions);
 
-    final mainProviders = <BlocProvider>[
+    final clock = Clock();
+    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
+      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+    );
+    final subscriptionService = SubscriptionService(
+      user: api.user.userStream,
+      clock: clock,
+      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
+    );
+
+    // In the past we used BlocProvider for everything (even non-bloc classes).
+    // This forced us to use BlocProvider wrapper classes for non-bloc entities,
+    // Provider allows us to skip using these wrapper classes.
+    final providers = [
+      Provider<CrashAnalytics>(create: (context) => crashAnalytics),
+      Provider<SubscriptionService>(
+        create: (context) => subscriptionService,
+      ),
+      ChangeNotifierProvider<SubscriptionEnabledFlag>(
+        create: (context) => subscriptionEnabledFlag,
+      )
+    ];
+
+    final mainBlocProviders = <BlocProvider>[
       BlocProvider<SharezoneContext>(
         bloc: SharezoneContext(
           api,
@@ -332,9 +341,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
       BlocProvider<BlackboardPageBloc>(bloc: blackboardPageBloc),
-      BlocProvider<NavigationBloc>(
-        bloc: navigationBloc,
-      ),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
             api.uID,
@@ -400,13 +406,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<GroupAnalytics>(bloc: GroupAnalytics(analytics)),
-      BlocProvider<CrashAnalyticsBloc>(
-          bloc: CrashAnalyticsBloc(getCrashAnalytics())),
       BlocProvider<EnterActivationCodeBlocFactory>(
         bloc: EnterActivationCodeBlocFactory(
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
+          subscriptionEnabledFlag: subscriptionEnabledFlag,
+          keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
       BlocProvider<DownloadAppTipBloc>(
@@ -439,17 +445,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<ImprintAnalytics>(bloc: ImprintAnalytics(analytics)),
-      BlocProvider<MeetingBlocFactory>(
-        bloc: MeetingBlocFactory(
-          analytics: MeetingAnalytics(analytics),
-          jitsiAuth: JitsiAuth(widget.blocDependencies.functions),
-          cache: MeetingCache(
-            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
-          ),
-          mobileDeviceInformationRetreiver: MobileDeviceInformationRetreiver(),
-          jitsiLauncher: JitsiLauncher(meetingServerUrl, urlLauncherExtended),
-        ),
-      ),
       BlocProvider<OnboardingNavigator>(bloc: onboardingNavigator),
       BlocProvider<GroupOnboardingBloc>(
         bloc: GroupOnboardingBloc(
@@ -470,17 +465,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           bloc: ReportGateway(widget.blocDependencies.firestore)),
       BlocProvider<FeedbackBloc>(bloc: feedbackBloc),
       BlocProvider<MarkdownAnalytics>(bloc: markdownAnalytics),
-      BlocProvider<DonationBloc>(
-        bloc: DonationBloc(
-          userId: UserId(api.uID),
-          donationService: DonationService(
-            crashAnalytics: getCrashAnalytics(),
-            analytics: analytics,
-            appFunctions: widget.blocDependencies.appFunctions,
-          ),
-          analytics: DonationAnalytics(analytics),
-        ),
-      ),
       BlocProvider<CommentsBlocFactory>(
         bloc: CommentsBlocFactory(
           CommentsGateway(api.references.firestore),
@@ -495,6 +479,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseGateway: api.course,
           fileSharingGateway: api.fileSharing,
           typeOfUserStream: typeOfUserStream,
+          subscriptionService: subscriptionService,
         ),
       ),
       BlocProvider<ChangeDataBloc>(
@@ -506,10 +491,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<HolidayBloc>(
           bloc: HolidayBloc(
         stateGateway: HolidayStateGateway.fromUserGateway(api.user),
-        holidayManager: HolidayManager(
-            HolidayApi(holidayApiClient),
-            HolidayCache(FlutterKeyValueStore(
-                widget.blocDependencies.sharedPreferences))),
+        holidayManager: HolidayService(
+          HolidayApi(
+            holidayApiClient,
+            getCurrentTime: () => DateTime.now(),
+          ),
+          HolidayCache(
+            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+          ),
+        ),
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(
@@ -540,15 +530,18 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
 
-    return MultiBlocProvider(
-      key: const ValueKey("MultiBlocProvider"),
-      blocProviders: [
-        ...mainProviders,
-        ...timetableProviders,
-      ],
-      child: (context) => AnalyticsProvider(
-        analytics: analytics,
-        child: Builder(builder: (context) => widget.child),
+    return MultiProvider(
+      providers: providers,
+      child: MultiBlocProvider(
+        key: const ValueKey("MultiBlocProvider"),
+        blocProviders: [
+          ...mainBlocProviders,
+          ...timetableProviders,
+        ],
+        child: (context) => AnalyticsProvider(
+          analytics: analytics,
+          child: Builder(builder: (context) => widget.child),
+        ),
       ),
     );
   }

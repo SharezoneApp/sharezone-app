@@ -34,8 +34,8 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
   const SpecifiableOverscrollColorScrollBehavior(this._overscrollColor);
 
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     switch (getPlatform(context)) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
@@ -47,7 +47,7 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
       default:
         return GlowingOverscrollIndicator(
           child: child,
-          axisDirection: axisDirection,
+          axisDirection: details.direction,
           color: _overscrollColor,
         );
     }

@@ -6,15 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/dialog_wrapper.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
   if (ThemePlatform.isCupertino) {
@@ -57,14 +57,14 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
       _logAnonymousUserSignedOutEvent(analytics);
       await api.user.deleteUser(api);
     } on NoInternetAccess catch (_) {
-      print("User has no internet access!");
+      log("User has no internet access!");
       setState(() {
         isLoading = false;
         errorTextForUser =
             "Dein Gerät hat leider keinen Zugang zum Internet...";
       });
     } on Exception catch (e, s) {
-      print("$e $s");
+      log("$e $s", error: e, stackTrace: s);
       setState(() {
         isLoading = false;
         errorTextForUser = e.toString();
@@ -149,11 +149,11 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
           else
             Row(
               children: <Widget>[
-                CancleButton(),
+                CancelButton(),
                 TextButton(
                   child: const Text("LÖSCHEN"),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).errorColor,
+                    foregroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: confirmedToDeleteAccount
                       ? () => tryToSignOutAndDeleteUser(context)
@@ -193,7 +193,8 @@ class DeleteAccountDialogErrorText extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(ThemePlatform.isCupertino ? 0 : 24, 16,
           ThemePlatform.isCupertino ? 0 : 24, 0),
       child: Text(text,
-          style: TextStyle(color: Theme.of(context).errorColor, fontSize: 14)),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.error, fontSize: 14)),
     );
   }
 }

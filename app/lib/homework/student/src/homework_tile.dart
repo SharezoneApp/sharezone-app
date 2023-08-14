@@ -20,9 +20,10 @@ import 'package:sharezone/pages/homework/homework_details/submissions/homework_c
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone/widgets/homework/homework_tile_template.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum HomeworkStatus { open, completed }
+
 typedef StatusChangeCallback = void Function(HomeworkStatus newStatus);
 
 class HomeworkTile extends StatefulWidget {
@@ -68,7 +69,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
       todoDate: widget.homework.todoDate,
       todoDateColor: widget.homework.colorDate
           ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyText2.color,
+          : Theme.of(context).textTheme.bodyMedium.color,
       onTap: () => _showHomeworkDetails(context),
       onLongPress: () => _showLongPressDialog(context),
       key: Key(widget.homework.id),
@@ -99,13 +100,14 @@ class _HomeworkTileState extends State<HomeworkTile> {
 
   Future<void> _navigateToSubmissionPage(BuildContext context) {
     return Navigator.push(
-        context,
-        IgnoreWillPopScopeWhenIosSwipeBackRoute(
-          builder: (_) => HomeworkUserCreateSubmissionPage(
-            homeworkId: widget.homework.id,
-          ),
-          fullscreenDialog: true,
-        ));
+      context,
+      IgnoreWillPopScopeWhenIosSwipeBackRoute(
+        builder: (_) => HomeworkUserCreateSubmissionPage(
+          homeworkId: widget.homework.id,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   Future<bool> _showHomeworkDetails(BuildContext context) async {

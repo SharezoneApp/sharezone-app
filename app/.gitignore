@@ -15,6 +15,12 @@
 *.iws
 .idea/
 
+# Legacy Eclipse project files
+.classpath
+.project
+.cproject
+.settings/
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -30,9 +36,6 @@
 .pub-cache/
 .pub/
 /build/
-
-# Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
@@ -50,4 +53,5 @@ ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 builds/
 ios/Flutter/flutter_export_environment.sh
 
-test_driver/chromedriver
+# Default location for App Store Connect API keys
+private_keys/

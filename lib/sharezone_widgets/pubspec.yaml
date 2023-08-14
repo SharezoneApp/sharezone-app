@@ -12,7 +12,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   sharezone_common:
@@ -23,9 +23,11 @@ dependencies:
     path: ../sharezone_utils
   build_context:
     path: ../build_context
-  flutter_svg: ^0.22.0
-  flutter_staggered_animations: ^0.1.2
-  shimmer: ^1.1.1
+  flutter_svg: ^2.0.2
+  flutter_staggered_animations: ^1.1.1
+  flare_flutter: ^3.0.2
+  intl: ^0.17.0
+  shimmer: ^2.0.0
   rxdart: ^0.27.1
   flutter:
     sdk: flutter
@@ -33,5 +35,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
 
 flutter:

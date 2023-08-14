@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'change_activity.dart';
 import 'folder_path.dart';
@@ -201,10 +201,10 @@ class CloudFileMetaData {
 List<CloudFile> matchRemovedCloudFilesFromTwoList(
     List<CloudFile> biggerList, List<CloudFile> smallerList) {
   List<CloudFile> removedCloudFiles = [];
-  biggerList.forEach((biggerListFile) {
+  for (var biggerListFile in biggerList) {
     if (!smallerList.contains(biggerListFile)) {
       removedCloudFiles.add(biggerListFile);
     }
-  });
+  }
   return removedCloudFiles;
 }

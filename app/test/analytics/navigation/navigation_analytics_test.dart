@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/navigation/analytics/events/drawer_event.dart';
 import 'package:sharezone/navigation/analytics/events/nav_bottom_bar_event.dart';
-import 'package:test/test.dart';
 
 import '../analytics_test.dart';
 

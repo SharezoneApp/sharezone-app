@@ -1,0 +1,63 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# This the configuration file for our docs. It's used by docs.page.
+
+# Configuration Options
+#
+# See https://use.docs.page/configuration#configuration-options.
+#
+# The name of your project. This will be displayed in the header of the website.
+# If not provided, the GitHub repository name will be used instead.
+name: "Docs"
+# The description of your project. This will be used for website metadata (e.g.
+# social tags) if provided. If a page frontmatter description is provided, it
+# will be used instead.
+description: "Dokumentation für die Sharezone-App. Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart."
+# The path (either absolute or relative to the /docs directory) to the logo of
+# your project. This will be displayed in the header.
+logo: "assets/logo-blue.png"
+# The path (either absolute or relative to the /docs directory) to the favicon
+# of your project.
+logoDark: "assets/logo-white.png"
+# The Twitter handle of your project. This will be used as a page anchor and
+# social metadata.
+twitter: "SharezoneApp"
+# The theme of your project, applied to active links and other subtle places.
+# This should color be visible on both dark and light modes. Can either be a hex
+# color (e.g. #00bcd4) or a RGB (e.g. rgb(0,188,212)).
+theme: "#68B3E9"
+# When provided, the anchors will be displayed above the sidebar menu. These are
+# useful for important links which persist across your documentation (e.g.
+# homepage, CTA buttons etc).
+#
+# For the icons, you can use the name of any standard Font Awesome Classic Icon
+# or Brand Icons, for example:
+anchors:
+  - title: "Homepage"
+    link: "https://sharezone.net"
+    icon: "house"
+  - title: "Discord"
+    link: "https://sharezone.net/discord"
+    icon: "discord"
+# This property allows you to render sidebar links to navigate around your
+# documentation. It can either be an array/list of links, or an object where the
+# key is a locale identifier and the value the sidebar links for that locale.
+#
+# The sidebar only supports a single level of nesting.
+sidebar:
+  - - Übersicht
+    - "/"
+  - - Mein Konto
+    - - - Konto löschen
+        - "/account/delete"
+  - - Weiteres
+    - - - Alpha-Programm
+        - "/more/alpha-program"
+      - - Firewall
+        - "/more/firewall"

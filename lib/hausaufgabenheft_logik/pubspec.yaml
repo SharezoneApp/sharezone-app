@@ -20,8 +20,9 @@ dependencies:
     path: ../common_domain_models
   bloc: ^4.0.0
   rxdart: ^0.27.1
-  equatable: ^1.2.2
-  optional: ^4.1.0
+  equatable: ^2.0.5
+  optional: ^6.1.0+1
+  collection: ^1.17.0
   meta: any
   key_value_store:
     path: ../key_value_store
@@ -32,5 +33,10 @@ dependencies:
   random_string: ^2.0.1
 
 dev_dependencies:
-  pedantic: ^1.9.0
-  test: ^1.17.11
+  async: ^2.11.0
+  # Is not used, but if I don't explicitly depend on it then
+  # compiling the `test` package will fail.
+  file: ^6.1.4
+  test: ^1.23.1
+  sharezone_lints:
+    path: ../sharezone_lints

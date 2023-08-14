@@ -14,9 +14,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_create_page.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/models/course_template.dart';
-import 'package:sharezone_widgets/announcement_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/bloc/course_create_bloc.dart';
 
@@ -232,7 +230,7 @@ class CreateCustomCourseSection extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightBlueAccent,
+                  backgroundColor: Colors.lightBlueAccent,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),

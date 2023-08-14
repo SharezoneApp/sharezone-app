@@ -15,6 +15,7 @@ enum MemberRole {
   standard,
   none,
 }
+
 MemberRole memberRoleEnumFromString(String data) =>
     enumFromString(MemberRole.values, data);
 String memberRoleEnumToString(MemberRole memberRole) =>

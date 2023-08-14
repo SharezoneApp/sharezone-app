@@ -68,7 +68,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Wird benoetigt, damit Termine und Pruefungen direkt zum Kalender hinzugefügt werden koennen.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Um einen QR-Code scannen zu können oder ein Bild hochzuladen, brauchen die App die Berechtigung für die Kamera.</string>
+	<string>Um einen QR-Code scannen zu können oder ein Bild hochzuladen, braucht die App die Berechtigung für die Kamera.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Wird fuer einige Plugins zwangslaeuufig benoetigt.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -113,5 +113,9 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

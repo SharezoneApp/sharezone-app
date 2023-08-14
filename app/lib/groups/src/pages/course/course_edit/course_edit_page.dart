@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +15,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openCourseEditPage(BuildContext context, Course course) async {
   final successful = await Navigator.push<bool>(
@@ -53,7 +52,7 @@ Future<void> submit(BuildContext context) async {
   try {
     Navigator.pop(context, await bloc.submit());
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }
@@ -145,7 +144,7 @@ class _SubjectField extends StatelessWidget {
         return PrefilledTextField(
           autofocus: true,
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(nextNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Fach",
@@ -176,7 +175,7 @@ class _AbbreviationField extends StatelessWidget {
       prefilledText: initialAbbreviation,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(labelText: "Kürzel des Fachs"),
-      onEditingComplete: () => FocusScope.of(context).requestFocus(nextNode),
+      onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: bloc.changeAbbreviation,
       maxLength: 3,
     );

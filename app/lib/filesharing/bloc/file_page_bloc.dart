@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_downloader.dart';
@@ -23,8 +25,8 @@ class FilePageBloc extends BlocBase {
         .downloadFileFromURL(downloadURL, name, id)
         .then((localFile) {
       _localFileSubject.add(localFile);
-    }).catchError((e) {
-      print(e);
+    }).catchError((e, StackTrace s) {
+      log('$e', error: e, stackTrace: s);
       _localFileSubject.addError(e);
     });
   }

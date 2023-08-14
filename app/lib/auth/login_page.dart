@@ -6,21 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
-import 'package:sharezone/widgets/apple_sign_in_button.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
@@ -32,7 +32,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithGoogle();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Google: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,
@@ -46,7 +46,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
   try {
     await bloc.loginWithApple();
   } on Exception catch (e, s) {
-    print("Fehler: ${e.toString()}");
+    log("Couldn't sign in with Apple: $e", error: e);
     showSnackSec(
       context: context,
       seconds: 4,
@@ -101,6 +101,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final flavor = context.read<Flavor>();
+    final showDebugLogins = kDebugMode && flavor == Flavor.dev;
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               if (widget.withBackIcon) BackIcon(),
-              if (kDebugMode) _DebugLoginButtons(),
+              if (showDebugLogins) _DebugLoginButtons(),
             ],
           ),
         ),
@@ -353,7 +355,7 @@ class _Logo extends StatelessWidget {
     return SharezoneLogo(
       height: 60,
       width: 200,
-      logoColor: LogoColor.blue_short,
+      logoColor: LogoColor.blueShort,
     );
   }
 }
@@ -384,7 +386,7 @@ class EmailLoginField extends StatelessWidget {
           focusNode: emailFocusNode,
           onChanged: (email) => onChanged(email.trim()),
           onEditingComplete: () =>
-              FocusScope.of(context).requestFocus(passwordFocusNode),
+              FocusManager.instance.primaryFocus?.unfocus(),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,
@@ -537,14 +539,15 @@ class _LoginWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(6, 32, 12, 0),
-      child: SignInWithAppleButton(
-        onPressed: onLogin,
-        text: 'Mit Apple anmelden',
-        height: 45,
-        iconAlignment: IconAlignment.left,
+    return _SignWithOAuthButton(
+      icon: PlatformSvg.asset(
+        "assets/logo/apple-logo.svg",
+        width: 24,
+        height: 24,
+        color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
       ),
+      onTap: onLogin,
+      text: 'Über Apple anmelden',
     );
   }
 }

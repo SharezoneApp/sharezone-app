@@ -8,7 +8,12 @@
 
 name: sharezone
 description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
-version: 1.6.2+316
+# Note that this build number is not the latest build number. Please go to App
+# Store Connect
+# (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
+# "app-store-connect get-latest-build-number 1434868489" to get the latest build
+# number.
+version: 1.7.3+318
 publish_to: none
 
 environment:
@@ -24,15 +29,15 @@ dependencies:
     path: ../lib/analytics
   animated_stream_list: ^1.1.0
   animations: ^2.0.1
-  animator: ^3.1.0
+  animator: ^3.2.0
   app_functions:
     path: ../lib/app_functions
-  app_review: ^2.0.1
+  app_review: ^2.1.1
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
-  auto_size_text: ^2.1.0
+  auto_size_text: ^3.0.0
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
@@ -40,8 +45,9 @@ dependencies:
   build_context:
     path: ../lib/build_context
   characters: ^1.0.0
-  cloud_firestore: ^3.1.3
-  cloud_functions: ^3.0.4
+  clock: ^1.1.1
+  cloud_firestore: ^4.5.0
+  cloud_functions: ^4.1.0
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
@@ -51,9 +57,10 @@ dependencies:
     path: ../lib/date
   design:
     path: ../lib/design
-  dio: ^4.0.0
+  dio: ^5.3.2
   dynamic_links:
     path: ../lib/dynamic_links
+  fast_immutable_collections: ^7.4.1
   feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics
@@ -61,50 +68,59 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^3.1.2
-  firebase_core: ^1.3.0
+  firebase_auth: ^4.4.0
+  firebase_core: ^2.9.0
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^10.0.3
-  firebase_performance: ^0.7.0+6
-  firebase_storage: ^10.2.2
+  firebase_messaging: ^14.4.0
+  firebase_performance: ^0.9.1
+  firebase_storage: ^11.1.0
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.2
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
-  flutter_slidable: ^0.6.0
-  flutter_svg: ^0.22.0
-  font_awesome_flutter: ^9.1.0
+  flutter_slidable: ^2.0.0
+  flutter_svg: ^2.0.2
+  font_awesome_flutter: ^10.4.0
   group_domain_implementation:
     path: ../lib/group_domain_implementation
   group_domain_models:
     path: ../lib/group_domain_models
   hausaufgabenheft_logik:
     path: ../lib/hausaufgabenheft_logik
+  holidays:
+    path: ../lib/holidays
+  # Used so that we can select a minute interval (only either XX:00 or XX:30)
+  # for the homework reminder time picker.
+  interval_time_picker: ^2.0.0+5
   intl: ^0.17.0
-  jitsi_meet_wrapper: ^0.0.5
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
+  markdown: ^5.0.0
   meta: ^1.1.8
   notifications:
     path: ../lib/notifications
   numberpicker: ^2.1.1
-  open_file: ^3.0.3
-  optional: ^4.1.0
-  overlay_support: ^1.0.5
-  package_info_plus: ^1.0.4
-  permission_handler: ^8.1.2
-  photo_view: ^0.12.0
-  provider: ^5.0.0
-  purchases_flutter: ^3.4.5
+  open_file_plus: ^3.4.1
+  optional: ^6.1.0+1
+  overlay_support: ^2.1.0
+  package_info_plus: ^3.0.3
+  permission_handler: ^10.2.0
+  photo_view: ^0.14.0
+  provider: ^6.0.3
+  purchases_flutter: ^4.11.1
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0
@@ -112,6 +128,7 @@ dependencies:
   remote_configuration:
     path: ../lib/remote_configuration
   rxdart: ^0.27.1
+  scrollable_positioned_list: ^0.2.3
   share: ^2.0.4
   shared_preferences: ^2.0.5
   sharezone_about_page_addon:
@@ -122,17 +139,17 @@ dependencies:
     path: ../lib/sharezone_utils
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  showcaseview: ^1.1.1
+  showcaseview: ^2.0.1
   sliding_up_panel:
     git:
-      url: https://github.com/AndroidNils/sliding_up_panel
-      ref: animation-listener
+      url: https://github.com/nilsreichardt/sliding_up_panel
+      ref: animation-listener-null-safety
   streaming_shared_preferences: ^2.0.0
   string_similarity: ^2.0.0
   time:
     path: ../lib/time
   timeago: ^3.1.0
-  url_launcher: ^6.0.9
+  url_launcher: ^6.1.10
   url_launcher_extended:
     path: ../lib/url_launcher_extended
   user:
@@ -143,20 +160,17 @@ dependencies:
 # * warum der dependency_override hinzugefügt wird.
 # * ab wann der override entfernt werden kann.
 # dependency_overrides:
-
 dev_dependencies:
   build_runner: ^2.1.4
   built_value_generator: ^8.1.1
-  flutter_driver:
-    sdk: flutter
+  equatable: ^2.0.5
   flutter_test:
     sdk: flutter
-  golden_toolkit: ^0.13.0
+  golden_toolkit: ^0.15.0
   integration_test:
     sdk: flutter
   mockito: ^5.0.7
   random_string: ^2.0.1
-  test: ^1.16.8
 
 flutter:
   uses-material-design: true

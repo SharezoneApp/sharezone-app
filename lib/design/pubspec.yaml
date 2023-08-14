@@ -9,19 +9,20 @@
 name: design
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   sharezone_common:
     path: ../sharezone_common
-  color: ^2.1.1
+  color: ^3.0.0
   flutter:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints

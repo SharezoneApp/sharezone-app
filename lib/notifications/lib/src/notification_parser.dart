@@ -10,7 +10,7 @@ import '../notifications.dart';
 import 'instrumentation.dart';
 
 class PushNotificationParser {
-  final Map<String, PushNotificationParsingFunc> _parsingMap;
+  final Map<String?, PushNotificationParsingFunc> _parsingMap;
   final PushNotificationParserInstrumentationFactory _instrumentationFactory;
 
   const PushNotificationParser._(
@@ -18,9 +18,9 @@ class PushNotificationParser {
 
   factory PushNotificationParser(
     List<ActionRegistration<ActionRequest>> actionRegistrations,
-    PushNotificationActionHandlerInstrumentation _instrumentation,
+    PushNotificationActionHandlerInstrumentation instrumentation,
   ) {
-    final parserMap = <String, PushNotificationParsingFunc>{};
+    final parserMap = <String?, PushNotificationParsingFunc>{};
 
     for (final registration in actionRegistrations) {
       for (final actionTypeString
@@ -39,7 +39,7 @@ class PushNotificationParser {
     }
 
     return PushNotificationParser._(parserMap,
-        PushNotificationParserInstrumentationFactory(_instrumentation));
+        PushNotificationParserInstrumentationFactory(instrumentation));
   }
 
   /// Finds the corresponding parsing function for the [notification] by looking
@@ -53,19 +53,17 @@ class PushNotificationParser {
       throw UnknownActionTypeException(notification.actionType, notification);
     }
 
-    final buildActionRequest = _getParsingFunctionFor(notification.actionType);
-
-    assert(buildActionRequest != null);
+    final buildActionRequest = _getParsingFunctionFor(notification.actionType)!;
 
     return buildActionRequest(
         notification, _instrumentationFactory.forNotification(notification));
   }
 
-  bool _hasActionTypeRegistered(String actionType) {
+  bool _hasActionTypeRegistered(String? actionType) {
     return _parsingMap.containsKey(actionType);
   }
 
-  PushNotificationParsingFunc _getParsingFunctionFor(String actionType) {
+  PushNotificationParsingFunc? _getParsingFunctionFor(String? actionType) {
     return _parsingMap[actionType];
   }
 }
@@ -74,7 +72,7 @@ class PushNotificationParser {
 /// [ActionRegistration.registerForActionTypeStrings] equals the
 /// [actionTypeString] of the [notification].
 class UnknownActionTypeException implements Exception {
-  final String actionTypeString;
+  final String? actionTypeString;
   final PushNotification notification;
 
   UnknownActionTypeException(this.actionTypeString, this.notification);

@@ -13,8 +13,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
-import 'package:sharezone/models/blackboard_item.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 
 class BlackboardGateway {

@@ -19,17 +19,12 @@ import 'package:sharezone/groups/src/pages/course/course_details/course_settings
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button.dart';
-import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button_view.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
-import 'package:sharezone/meeting/models/meeting_id.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'course_edit/course_edit_page.dart';
 import 'course_edit/design/course_edit_design.dart';
@@ -164,13 +159,7 @@ class _CourseDetailsPage extends StatelessWidget {
                     children: <Widget>[
                       _CourseAvatarCard(
                           course: course, memberCount: members.length),
-                      GroupMeetingButton(
-                        view: course.toGroupMeetingView(),
-                        groupId: course.groupId,
-                        groupName: course.name,
-                        groupType: GroupType.course,
-                        meetingId: MeetingId(course.meetingID),
-                      ),
+                      GroupMeetingButton(),
                       _SettingsCard(course: course),
                       MemberSection(
                         splittedMemberList: createSplittedMemberList(members),
@@ -352,7 +341,7 @@ class _CourseAvatarCard extends StatelessWidget {
           children: <Widget>[
             Text(
               course.subject,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),

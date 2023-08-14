@@ -10,10 +10,10 @@ import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class QrSignInDocument {
-  final String qrId;
-  final String publicKey;
-  final String encryptedCustomToken, encryptedKey, iv;
-  final DateTime created;
+  final String? qrId;
+  final String? publicKey;
+  final String? encryptedCustomToken, encryptedKey, iv;
+  final DateTime? created;
 
   const QrSignInDocument({
     this.qrId,
@@ -44,14 +44,15 @@ class QrSignInDocument {
   }
 
   QrSignInState toSignInState() {
-    if (encryptedCustomToken == null)
+    if (encryptedCustomToken == null) {
       return QrSignInIdle(qrId: qrId);
-    else
+    } else {
       return QrSignInSuccessfull(
         base64encryptedCustomToken: encryptedCustomToken,
         base64encryptedKey: encryptedKey,
         qrId: qrId,
         iv: iv,
       );
+    }
   }
 }

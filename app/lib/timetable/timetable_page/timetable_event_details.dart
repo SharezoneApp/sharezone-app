@@ -23,13 +23,8 @@ import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_pa
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
 
@@ -138,12 +133,8 @@ class _TimetableEventDetailsPage extends StatelessWidget {
     final isExam = event.eventType == Exam();
     final theme = Theme.of(context);
 
-    final dimensions = Dimensions.fromMediaQuery(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(event.title),
-        centerTitle: dimensions.isDesktopModus,
         actions: [
           ReportIcon(
             item: ReportItemReference.event(event.eventID),
@@ -162,6 +153,11 @@ class _TimetableEventDetailsPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                const SizedBox(height: 12),
+                _TitleAndDate(
+                  design: design,
+                  event: event,
+                ),
                 ListTile(
                   leading: const Icon(Icons.group),
                   title: Text.rich(
@@ -180,14 +176,6 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.event),
-                  title: Text("Datum: ${event.date.parser.toYMMMMEEEEd}"),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.access_time),
-                  title: Text("${event.startTime} - ${event.endTime}"),
-                ),
                 if (event.eventType is OtherEventType == false)
                   ListTile(
                     leading: Icon(Icons.label),
@@ -199,7 +187,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                 ),
                 if (event.detail != null && event.detail != "")
                   ListTile(
-                    leading: const Icon(Icons.details),
+                    leading: const Icon(Icons.notes),
                     title: MarkdownBody(
                       data:
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
@@ -210,7 +198,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(
-                            bodyText2: TextStyle(
+                            bodyMedium: TextStyle(
                               color: isDarkThemeEnabled(context)
                                   ? Colors.white
                                   : Colors.black,
@@ -224,6 +212,61 @@ class _TimetableEventDetailsPage extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TitleAndDate extends StatelessWidget {
+  const _TitleAndDate({
+    Key key,
+    @required this.design,
+    @required this.event,
+  }) : super(key: key);
+
+  final Design design;
+  final CalendricalEvent event;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: _Square(color: design.color),
+      title: Text(
+        event.title,
+        style: TextStyle(
+          fontSize: 26,
+        ),
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Text(
+          "${event.date.parser.toYMMMMEEEEd} • ${event.startTime} - ${event.endTime}",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
+    );
+  }
+}
+
+class _Square extends StatelessWidget {
+  const _Square({
+    Key key,
+    @required this.color,
+  }) : super(key: key);
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Container(
+        height: 20,
+        width: 20,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
         ),
       ),
     );
@@ -286,8 +329,8 @@ class _AddToMyCalendarButton extends StatelessWidget {
                   icon: const Icon(Icons.add_circle),
                   label: Text("Zu meinem Kalender hinzufügen".toUpperCase()),
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () async {
                     final timezone = await _getTimezoneForMobile();

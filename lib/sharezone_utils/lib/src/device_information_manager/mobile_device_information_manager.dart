@@ -21,7 +21,6 @@ class MobileDeviceInformationRetreiver extends DeviceInformationRetreiver {
   Future<AndroidDeviceInformation> get androidInfo async {
     final android = await _deviceInfoPlugin.androidInfo;
     return AndroidDeviceInformation(
-      androidId: android.androidId,
       board: android.board,
       bootloader: android.bootloader,
       brand: android.board,

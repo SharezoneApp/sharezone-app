@@ -18,11 +18,11 @@ import 'package:sharezone_utils/platform.dart';
 import '../file_picker_implementation.dart';
 
 class MobileFilePicker extends FilePickerImplementation {
-  LocalFile _fileOrNull(PlatformFile _file) {
-    if (_file == null) {
+  LocalFile _fileOrNull(PlatformFile file) {
+    if (file == null) {
       return null;
     }
-    return LocalFileIo.fromFile(File(_file.path));
+    return LocalFileIo.fromFile(File(file.path));
   }
 
   Future<PlatformFile> _pickSinglePlatformFileOrNull(

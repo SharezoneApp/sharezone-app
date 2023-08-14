@@ -6,17 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_downloader.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DownloadUnknownFileFormatPage extends StatelessWidget {
   const DownloadUnknownFileFormatPage({
@@ -75,21 +77,8 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
       builder: (context, future) {
         // Finished Downloading
         if (future.hasData) {
-          // Für Android ist es besser, wenn die Extension der File lowerCase
-          // gemacht wird, damit Android die korrekte App nutzt, um die Datei
-          // zu öffnen. Ist die Endung PNG z. B. großgeschrieben, weiß Android
-          // nicht, wie es geöffnet werden soll.
-          // iOS öffnet jedoch auch die richtige App, wenn die Endung großgeschrieben
-          // ist. Jedoch muss der Path zur File case-sensitive, wodurch die Endung
-          // nicht bearbeitet werden darf. Deswegen gibt es die Unterscheidung
-          // zwischen iOS und Android
-          if (PlatformCheck.isIOS) {
-            OpenFile.open(future.data.getPath());
-          } else {
-            OpenFile.open(
-                    _getFilePathWithLowerCaseExtension(future.data.getPath()))
-                .then((result) => print('open file result: ${result.message}'));
-          }
+          OpenFile.open(future.data.getPath())
+              .then((value) => log(value.message));
 
           _closeDialogAfter1500Milliseconds(context);
           return _FinishDialog();
@@ -127,16 +116,6 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     );
   }
 
-  String _getFilePathWithLowerCaseExtension(String filePath) {
-    final indexOfLastPoint = filePath.lastIndexOf(".");
-    if (indexOfLastPoint > 0) {
-      final lowerCaseExtension = FileUtils.getExtension(filePath);
-      return filePath.replaceRange(
-          indexOfLastPoint + 1, filePath.length, lowerCaseExtension);
-    }
-    return filePath;
-  }
-
   void _closeDialogAfter1500Milliseconds(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 1500)).then((_) {
       Navigator.pop(context);
@@ -162,7 +141,7 @@ class _ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _Dialog(
-      leading: Icon(Icons.error, color: Theme.of(context).errorColor),
+      leading: Icon(Icons.error, color: Theme.of(context).colorScheme.error),
       text: "Fehler: $error",
     );
   }

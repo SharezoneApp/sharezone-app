@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 
 enum Provider { email, google, anonymous, apple }
 
@@ -23,11 +22,11 @@ class AuthUser {
   final User firebaseUser;
 
   const AuthUser({
-    @required this.uid,
-    @required this.firebaseUser,
+    required this.uid,
+    required this.firebaseUser,
   });
 
-  factory AuthUser.fromFirebaseUser(User firebaseUser) {
+  static AuthUser? fromFirebaseUser(User? firebaseUser) {
     if (firebaseUser == null) return null;
     return AuthUser(
       uid: firebaseUser.uid,
@@ -35,18 +34,16 @@ class AuthUser {
     );
   }
 
-  String get email {
+  String? get email {
     return firebaseUser.email;
   }
 
   bool get isAnonymous {
-    return firebaseUser.isAnonymous ?? true;
+    return firebaseUser.isAnonymous;
   }
 
   Provider get provider {
-    if (firebaseUser == null ||
-        firebaseUser.isAnonymous ||
-        firebaseUser.providerData.isEmpty) {
+    if (firebaseUser.isAnonymous || firebaseUser.providerData.isEmpty) {
       return Provider.anonymous;
     } else {
       if (firebaseUser.providerData.last.providerId == "google.com") {
@@ -75,5 +72,4 @@ String providerToUiString(Provider provider) {
     case Provider.email:
       return 'E-Mail und Passwort';
   }
-  return '';
 }

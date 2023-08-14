@@ -8,18 +8,19 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/notifications/is_firebase_messaging_supported.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/turn_on_notifications.dart';
 import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import 'is_it_first_person_using_sharezone.dart';
@@ -178,9 +179,17 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
 
   /// Falls Nutzer noch die Push-Nachrichten aktivieren muss, wird die [TurnOnNotifications]
   /// angezeigt. Falls nicht, wird das normale GroupOnboarding aufgerufen.
-  void _navigateToNextPage(BuildContext context, GroupOnboardingStatus status) {
+  Future<void> _navigateToNextPage(
+      BuildContext context, GroupOnboardingStatus status) async {
+    final notificationsPermission = context.read<NotificationsPermission>();
+    final isNeededToRequestNotificationsPermission =
+        await notificationsPermission.isRequiredToRequestPermission();
+    final showNotificationsRequestPage =
+        isNeededToRequestNotificationsPermission &&
+            isFirebaseMessagingSupported();
+
     if (status == GroupOnboardingStatus.onlyNameAndTurnOfNotifactions ||
-        PlatformCheck.isIOS) {
+        showNotificationsRequestPage) {
       Navigator.push(
         context,
         FadeRoute(

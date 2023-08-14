@@ -9,14 +9,12 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_course_template_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
   const SchoolClassCoursesList({Key key, @required this.schoolClassID})
@@ -67,7 +65,7 @@ class _List extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 16, top: 16),
-          child: Text("Kurse", style: Theme.of(context).textTheme.headline6),
+          child: Text("Kurse", style: Theme.of(context).textTheme.titleLarge),
         ),
         const SizedBox(height: 4),
         for (final course in courses)
@@ -193,10 +191,7 @@ class _CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final schoolClassGatewy =
         BlocProvider.of<SharezoneContext>(context).api.schoolClassGateway;
-    final enabled = requestPermission(
-      role: course.myRole,
-      permissiontype: PermissionAccessType.admin,
-    );
+    final enabled = course.myRole.hasPermission(GroupPermission.administration);
     return DialogTile(
       symbolText: course.abbreviation.toUpperCase(),
       enabled: enabled,

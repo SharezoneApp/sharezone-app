@@ -9,14 +9,13 @@
 name: dynamic_links
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  firebase_dynamic_links: ^0.5.3
+  firebase_dynamic_links: ^5.1.0
   sharezone_utils:
     path: ../sharezone_utils
   flutter:
@@ -25,6 +24,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../sharezone_lints
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

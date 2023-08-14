@@ -29,23 +29,32 @@ dependencies:
     path: ../../sharezone_utils
   sharezone_widgets:
     path: ../../sharezone_widgets
-  chewie: ^1.2.0
-  file_picker: ^4.3.2
+  file_picker: ^5.2.0+1
+  chewie: ^1.3.5
   flutter_cache_manager: any
-  flutter_image_compress: 0.7.0
+  flutter_image_compress: ^1.1.3
   image_picker: ^0.8.1+4
   mime: any
-  native_pdf_view: ^4.1.0
-  open_file: ^3.0.3
+  # We need to use the reference to git because of this issue in pdfx:
+  # https://github.com/ScerIO/packages.flutter/issues/358.
+  # 
+  # Can be removed once the issue is fixed.
+  pdfx:
+    git:
+      url: https://github.com/kyle-seongwoo-jun/packages.flutter
+      path: packages/pdfx
+  open_file_plus: ^3.4.1
   path: any
-  path_provider: ^2.0.2
+  path_provider: ^2.0.11
   photo_view: any
-  url_launcher: any
+  url_launcher: ^6.1.10
   video_player: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../../sharezone_lints
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

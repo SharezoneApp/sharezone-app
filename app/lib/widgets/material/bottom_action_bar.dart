@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Is a bar in the bottom navigation bar slot in the
 /// scaffold. Is used for homework-details, to show a FlatButton
@@ -44,7 +44,7 @@ class BottomActionBar extends StatelessWidget {
                     child: TextButton(
                       onPressed: onTap,
                       style: TextButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColor,
                       ),
                       child: Text(title.toUpperCase()),
                     ),

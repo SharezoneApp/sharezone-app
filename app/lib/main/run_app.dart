@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
@@ -23,13 +24,17 @@ import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
-import 'package:sharezone/util/API.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../firebase_options_dev.g.dart' as fb_dev;
+import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
   // ignore:close_sinks
@@ -37,8 +42,8 @@ BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
       BehaviorSubject<Beitrittsversuch>();
 
   beitrittsversuche.listen(
-    (beitrittsversuch) => print("Neuer beitrittsversuch: $beitrittsversuch"),
-    onError: (e) => print("Error beim Beitreten über Dynamic Link: $e"),
+    (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
+    onError: (e) => log("Error beim Beitreten über Dynamic Link: $e", error: e),
     cancelOnError: false,
   );
   return beitrittsversuche;
@@ -49,20 +54,21 @@ DynamicLinkBloc runDynamicLinkBloc(
   final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
   dynamicLinkBloc.initialisere();
 
-  dynamicLinkBloc.einkommendeLinks.listen((einkommenderLink) =>
-      print("Neuer einkommender Link: $einkommenderLink"));
+  dynamicLinkBloc.einkommendeLinks.listen(
+      (einkommenderLink) => log("Neuer einkommender Link: $einkommenderLink"));
 
   return dynamicLinkBloc;
 }
 
-Future<void> runFlutterApp() async {
-  final dependencies = await initializeDependencies();
+Future<void> runFlutterApp({@required Flavor flavor}) async {
+  final dependencies = await initializeDependencies(flavor: flavor);
 
   runZonedGuarded<Future<void>>(
     () async => runApp(Sharezone(
       beitrittsversuche: dependencies.beitrittsversuche,
       blocDependencies: dependencies.blocDependencies,
       dynamicLinkBloc: dependencies.dynamicLinkBloc,
+      flavor: flavor,
     )),
     (error, stackTrace) async {
       debugPrint(error.toString());
@@ -77,12 +83,15 @@ Future<void> runFlutterApp() async {
   );
 }
 
-Future<AppDependencies> initializeDependencies() async {
+Future<AppDependencies> initializeDependencies({
+  @required Flavor flavor,
+}) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  await _initializeFirebase(flavor);
 
   final pluginInitializations = await runPluginInitializations();
 
@@ -172,6 +181,20 @@ Future<AppDependencies> initializeDependencies() async {
     blocDependencies: blocDependencies,
     pluginInitializations: pluginInitializations,
   );
+}
+
+Future<void> _initializeFirebase(Flavor flavor) async {
+  switch (flavor) {
+    case Flavor.dev:
+      await Firebase.initializeApp(
+        options: fb_dev.DefaultFirebaseOptions.currentPlatform,
+      );
+      break;
+    case Flavor.prod:
+      await Firebase.initializeApp(
+        options: fb_prod.DefaultFirebaseOptions.currentPlatform,
+      );
+  }
 }
 
 /// The dependencies for the [Sharezone] widget and the integration tests.

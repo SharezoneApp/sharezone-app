@@ -9,7 +9,6 @@
 library serializers;
 
 import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto.dart';
-import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto1.dart';
 import 'package:abgabe_http_api/model/dateien_hinzufuegen_command_dto.dart';
 import 'package:abgabe_http_api/model/dateiname_dto.dart';
 import 'package:abgabe_http_api/model/inline_response400.dart';
@@ -21,9 +20,8 @@ import 'package:built_value/standard_json_plugin.dart';
 
 part 'serializers.g.dart';
 
-@SerializersFor(const [
+@SerializersFor([
   DateiHinzufuegenCommandDto,
-  DateiHinzufuegenCommandDto1,
   DateienHinzufuegenCommandDto,
   DateinameDto,
   InlineResponse400,
@@ -34,29 +32,21 @@ part 'serializers.g.dart';
 // allow all models to be serialized within a list
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(DateiHinzufuegenCommandDto)]),
-          () => new ListBuilder<DateiHinzufuegenCommandDto>())
+          const FullType(BuiltList, [FullType(DateiHinzufuegenCommandDto)]),
+          () => ListBuilder<DateiHinzufuegenCommandDto>())
       ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(DateiHinzufuegenCommandDto1)]),
-          () => new ListBuilder<DateiHinzufuegenCommandDto1>())
+          const FullType(BuiltList, [FullType(DateienHinzufuegenCommandDto)]),
+          () => ListBuilder<DateienHinzufuegenCommandDto>())
+      ..addBuilderFactory(const FullType(BuiltList, [FullType(DateinameDto)]),
+          () => ListBuilder<DateinameDto>())
       ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType(DateienHinzufuegenCommandDto)]),
-          () => new ListBuilder<DateienHinzufuegenCommandDto>())
+          const FullType(BuiltList, [FullType(InlineResponse400)]),
+          () => ListBuilder<InlineResponse400>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(DateinameDto)]),
-          () => new ListBuilder<DateinameDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(InlineResponse400)]),
-          () => new ListBuilder<InlineResponse400>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(InlineResponse403)]),
-          () => new ListBuilder<InlineResponse403>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(SubmissionDto)]),
-          () => new ListBuilder<SubmissionDto>()))
+          const FullType(BuiltList, [FullType(InlineResponse403)]),
+          () => ListBuilder<InlineResponse403>())
+      ..addBuilderFactory(const FullType(BuiltList, [FullType(SubmissionDto)]),
+          () => ListBuilder<SubmissionDto>()))
     .build();
 
 Serializers standardSerializers =

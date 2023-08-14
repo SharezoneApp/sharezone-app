@@ -25,16 +25,19 @@ dependencies:
     path: ../../sharezone_common
   sharezone_utils:
     path: ../../sharezone_utils
-  firebase: ^9.0.1
-  firebase_storage: any
+  cloud_firestore: ^4.5.0
+  firebase_storage: ^11.1.0
+  meta: ^1.1.8
   mime: ^1.0.0
-  optional: 4.1.0
+  optional: ^6.1.0+1
   path: any
   permission_handler: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sharezone_lints:
+    path: ../../sharezone_lints
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

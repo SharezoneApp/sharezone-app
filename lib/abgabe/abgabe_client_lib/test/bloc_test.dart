@@ -28,7 +28,7 @@ import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:random_string/random_string.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group(
@@ -61,7 +61,7 @@ void main() {
             () => DateTime(2020, 04, 30, 11, 30),
             generiereAbgabedateiId:
                 abgabedateiIdGenerator.generiereAbgabedateiId,
-            abgabefristUeberwachungsfrequenz: Duration(milliseconds: 10),
+            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
           );
         });
 
@@ -305,7 +305,7 @@ void main() {
             () => kriegeAktuelleZeit(),
             generiereAbgabedateiId:
                 abgabedateiIdGenerator.generiereAbgabedateiId,
-            abgabefristUeberwachungsfrequenz: Duration(milliseconds: 10),
+            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
           );
           kriegeAktuelleZeit = () => DateTime(2020, 04, 30, 11, 30);
           useCases.abgabe.add(ErstellerAbgabeModelSnapshot.nichtExistent());
@@ -742,7 +742,7 @@ void main() {
             useCases,
             abgabezeitpunktStream,
             () => kriegeAktuelleZeit(),
-            abgabefristUeberwachungsfrequenz: Duration(milliseconds: 10),
+            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
           );
 
           useCases.abgabe.add(
@@ -756,18 +756,18 @@ void main() {
 
         test('Die Dateien werden nach hinzufuegedatum sortiert.', () async {
           final now = DateTime.now();
-          abgabezeitpunktStream.add(now.add(Duration(days: 20)));
+          abgabezeitpunktStream.add(now.add(const Duration(days: 20)));
           kriegeAktuelleZeit = () => DateTime.now();
 
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
             hochgeladeneAbgabedatei(
               name: 'first.pdf',
-              erstellungsdatum: now.subtract(Duration(days: 3)),
+              erstellungsdatum: now.subtract(const Duration(days: 3)),
             ),
             hochgeladeneAbgabedatei(
               name: 'fourth.pdf',
-              erstellungsdatum: now.add(Duration(hours: 3)),
+              erstellungsdatum: now.add(const Duration(hours: 3)),
             ),
           ]));
 
@@ -834,9 +834,6 @@ void main() {
         });
       });
     },
-    timeout: Timeout(
-      Duration(seconds: 5),
-    ),
   );
 }
 
@@ -911,7 +908,8 @@ class MockAbgabendateiUseCases
   Stream<DateiUploadProzessFortschritt> ladeAbgabedateiHoch(
       DateiHinzufuegenCommand befehl) {
     _ladeAbgabedateiHochAufrufe.add(befehl.dateiname);
-    return _mockFortschritt[befehl.dateiname.mitExtension] ?? Stream.empty();
+    return _mockFortschritt[befehl.dateiname.mitExtension] ??
+        const Stream.empty();
   }
 
   bool get wurdeLoescheDateiAufgerufen => _aufrufe.isNotEmpty;
@@ -924,6 +922,7 @@ class MockAbgabendateiUseCases
   Future<void> loescheDatei(AbgabedateiId id) async {
     _aufrufe.add(id);
     final snap = abgabe.value;
+    // ignore: no_leading_underscores_for_local_identifiers
     final _abgabe = snap.abgabe.value;
     _abgabe.abgabedateien.removeWhere((datei) => datei.id == id);
     abgabe.add(_abgabe.toSnapshot());

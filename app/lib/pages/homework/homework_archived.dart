@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_page_bloc.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class HomeworkArchivedPage extends StatefulWidget {
@@ -54,8 +55,9 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                   : bloc.homeworkList,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return Container();
-                if (snapshot.hasError)
+                if (snapshot.hasError) {
                   return ShowCenteredError(error: snapshot.error.toString());
+                }
 
                 DateTime today = DateTime(DateTime.now().year,
                     DateTime.now().month, DateTime.now().day);
@@ -65,7 +67,7 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                       homework.todoUntil.month, homework.todoUntil.day);
                   return todoUntil.difference(today).inDays < 0;
                 }).toList();
-                print("length: ${homeworkList.length}");
+                log("length: ${homeworkList.length}");
 
                 if (homeworkList.isEmpty)
                   return const Center(
@@ -134,7 +136,7 @@ class _PopupMenu extends StatelessWidget {
             onPopupSortTap(context: context, sortBy: SortBy.subject);
             break;
           default:
-            print("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
+            log("Fehler! $value wurde beim PopupMenuButton nicht gefunden!");
         }
       },
       itemBuilder: (BuildContext context) => const <PopupMenuItem<String>>[

@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
+
 import 'reference_type.dart';
 
 class ReferenceData {

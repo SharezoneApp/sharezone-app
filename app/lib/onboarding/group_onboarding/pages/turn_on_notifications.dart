@@ -7,15 +7,15 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'is_it_first_person_using_sharezone.dart';
 
@@ -94,7 +94,7 @@ class _NotNowButton extends StatelessWidget {
         }
       },
       style: TextButton.styleFrom(
-        primary: Colors.grey,
+        foregroundColor: Colors.grey,
       ),
       child: const Text("Nicht jetzt"),
     );
@@ -129,7 +129,7 @@ class _TurnOnButton extends StatelessWidget {
               child: BottomBarButton(
                 text: 'Aktivieren',
                 onTap: () async {
-                  await requestIOSPermission();
+                  await requestNotificationsPermission(context);
                   await _continue(context);
                 },
               ),
@@ -140,12 +140,9 @@ class _TurnOnButton extends StatelessWidget {
     );
   }
 
-  Future<void> requestIOSPermission() async {
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      sound: true,
-      badge: true,
-    );
+  Future<void> requestNotificationsPermission(BuildContext context) async {
+    final notificationsPermission = context.read<NotificationsPermission>();
+    await notificationsPermission.requestPermission();
   }
 }
 

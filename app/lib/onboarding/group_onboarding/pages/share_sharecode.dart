@@ -17,8 +17,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
-import 'package:sharezone_widgets/additional.dart';
-import 'package:sharezone_widgets/svg.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class GroupOnboardingShareSharecode extends StatelessWidget {
@@ -143,11 +142,12 @@ class _LoadingSharecodeBox extends StatelessWidget {
 }
 
 class _SharecodeBox extends StatelessWidget {
-  const _SharecodeBox({Key key, @required this.groupInfo, this.enabled})
-      : super(key: key);
+  const _SharecodeBox({
+    Key key,
+    @required this.groupInfo,
+  }) : super(key: key);
 
   final GroupInfo groupInfo;
-  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -191,8 +191,6 @@ class _SharecodeBox extends StatelessWidget {
         return 'des Kurses';
       case GroupType.schoolclass:
         return 'der Schulklasse';
-      case GroupType.school:
-        return 'der Schule';
       default:
         return '';
     }
@@ -215,8 +213,8 @@ class _FinsihButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
-        primary: Colors.white,
       ),
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {

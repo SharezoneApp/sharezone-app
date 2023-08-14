@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/comments/comments_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class UserCommentField extends StatefulWidget {
   final String textFieldMessage;
@@ -53,11 +53,12 @@ class _UserCommentFieldState extends State<UserCommentField> {
                 bloc.addComment(text);
                 text = null;
                 controller.clear();
-                FocusScope.of(context).requestFocus(FocusNode());
+                FocusManager.instance.primaryFocus?.unfocus();
               } else {
                 showSnackSec(
-                    context: context,
-                    text: 'Der Kommentar hat doch gar keinen Text! 🧐');
+                  context: context,
+                  text: 'Der Kommentar hat doch gar keinen Text! 🧐',
+                );
               }
             },
           ),
@@ -65,7 +66,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
         maxLines: null,
         onChanged: (s) => text = s,
         textInputAction: TextInputAction.newline,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

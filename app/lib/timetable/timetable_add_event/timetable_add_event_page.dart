@@ -6,14 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
@@ -26,10 +28,7 @@ import 'package:sharezone/widgets/fade_switch_between_index_with_tab_controller.
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/tabs.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 part 'tabs/course_tab.dart';
@@ -45,7 +44,7 @@ void _submit(BuildContext context) {
     final event = bloc.submit(controller);
     Navigator.pop(context, TimetableEventAdded(event));
   } on Exception catch (e, s) {
-    print(e);
+    log('$e', error: e, stackTrace: s);
     showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }
@@ -325,7 +324,7 @@ class _TimetableAddSection extends StatelessWidget {
               Text(title,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headlineSmall
                       .copyWith(fontSize: 20)),
               const SizedBox(height: 20),
               child

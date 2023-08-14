@@ -14,9 +14,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showThankYouBottomSheet(BuildContext context) async {
   await showModalBottomSheet(
@@ -57,7 +55,7 @@ class ThankYouBottomSheetChild extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 "Vielen Dank für dein Feedback!",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ),

@@ -1,0 +1,56 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# This is a GitHub Actions workflow that triggers a Codemagic build when a PR is
+# labeled with "build-app-preview". It posts a comment to the PR with links and
+# qr codes to the app preview.
+
+name: App Preview
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - synchronize
+
+jobs:
+  label_app_preview:
+    # Only run this job if the PR is labeled with "build-app-preview".
+    #
+    # Keep in mind that a new build will be triggered when the PR is labeled
+    # with any lable as long as the label "build-app-preview" is included in the
+    # list of labels. For example, if the PR is labeled with "build-app-preview"
+    # and "bug", the job will be triggered when the label "bug" is removed.
+    if: contains(github.event.pull_request.labels.*.name, 'build-app-preview')
+    runs-on: ubuntu-22.04
+    env:
+      CODEMAGIC_TOKEN: ${{ secrets.CODEMAGIC_TOKEN }}
+      # From https://codemagic.io/app/62d2f58c726fce097e34c0b4/
+      CODEMAGIC_APP_ID: "629c82ea463af7ff553fc7a5"
+      # From "codemagic.yaml"
+      CODEMAGIC_WORKFLOW_ID: "app-preview"
+    steps:
+      - name: Start Codemagic Build
+        run: |
+          # Get the pull request number from the GITHUB_REF.
+          PULL_REQUEST_NUMBER=$(echo $GITHUB_REF | cut -d / -f 3)
+
+          curl --request POST 'https://api.codemagic.io/builds' \
+            -f \
+            --header 'x-auth-token: '"$CODEMAGIC_TOKEN" \
+            --header 'Content-Type: application/json' \
+            --data-raw "{
+                \"appId\": \"$CODEMAGIC_APP_ID\",
+                \"branch\": \"$GITHUB_HEAD_REF\",
+                \"workflowId\": \"$CODEMAGIC_WORKFLOW_ID\",
+                \"environment\": {
+                    \"variables\": {
+                        \"CM_PULL_REQUEST_NUMBER\": $PULL_REQUEST_NUMBER
+                    }
+                }
+            }"

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -24,10 +25,7 @@ import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/homework_validators.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 class HomeworkDialog extends StatefulWidget {
@@ -177,10 +175,12 @@ class _SaveButton extends StatelessWidget {
             bloc.submit(oldHomework: oldHomework);
           }
           logHomeworkEditEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         } else {
           hasAttachments ? await bloc.submit() : bloc.submit();
           logHomeworkAddEvent(context);
+          hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         }
       }
@@ -197,7 +197,7 @@ class _SaveButton extends StatelessWidget {
         context: context,
       );
     } on Exception catch (e) {
-      print("Exception when submitting: $e");
+      log("Exception when submitting: $e", error: e);
       showSnackSec(
         text:
             "Es gab einen unbekannten Fehler (${e.toString()} 😖 Bitte kontaktiere den Support!",
@@ -205,6 +205,10 @@ class _SaveButton extends StatelessWidget {
         seconds: 5,
       );
     }
+  }
+
+  void hideSendDataToFrankfurtSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
 
   void logHomeworkEditEvent(BuildContext context) {

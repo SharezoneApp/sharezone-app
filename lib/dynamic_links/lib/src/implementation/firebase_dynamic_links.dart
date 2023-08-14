@@ -18,7 +18,7 @@ class FirebaseDynamicLinks extends DynamicLinks {
   FirebaseDynamicLinks(this._firebaseDynamicLinks);
 
   @override
-  Future<DynamicLinkData> getInitialLink() async {
+  Future<DynamicLinkData?> getInitialLink() async {
     try {
       final pending = await _firebaseDynamicLinks.getInitialLink();
       return _getPendingFromFirebase(pending);
@@ -27,14 +27,7 @@ class FirebaseDynamicLinks extends DynamicLinks {
     }
   }
 
-  @override
-  DynamicLinkData getDynamicLinkDataFromMap(Map linkData) {
-    final pending =
-        _firebaseDynamicLinks.getPendingDynamicLinkDataFromMap(linkData);
-    return _getPendingFromFirebase(pending);
-  }
-
-  DynamicLinkData _getPendingFromFirebase(fb.PendingDynamicLinkData pending) {
+  DynamicLinkData _getPendingFromFirebase(fb.PendingDynamicLinkData? pending) {
     return DynamicLinkData(
         pending?.link,
         DynamicLinkDataAndroid(
@@ -44,12 +37,16 @@ class FirebaseDynamicLinks extends DynamicLinks {
 
   @override
   void onLink({onSuccess, onError}) {
-    _firebaseDynamicLinks.onLink(onSuccess: (pending) async {
-      onSuccess(_getPendingFromFirebase(pending));
-    }, onError: (error) async {
-      onError(OnDynamicLinkErrorException(
-          error.code, error.message, error.details));
-    });
+    _firebaseDynamicLinks.onLink.listen(
+      (pending) {
+        onSuccess!(_getPendingFromFirebase(pending));
+      },
+      onError: (error) async {
+        onError!(OnDynamicLinkErrorException(
+            error.code, error.message, error.details));
+      },
+      cancelOnError: false,
+    );
   }
 
   @override

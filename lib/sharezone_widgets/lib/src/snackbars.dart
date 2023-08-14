@@ -6,16 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'dart:developer';
 
-void snackbarSoon(
-    {BuildContext context, GlobalKey<ScaffoldMessengerState> key}) {
+import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+void snackbarSoon({
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
+}) {
   showSnackSec(
-      text: "Diese Funktion ist bald verfügbar! 😊",
-      seconds: 3,
-      context: context,
-      key: key);
+    text: "Diese Funktion ist bald verfügbar! 😊",
+    seconds: 3,
+    context: context,
+    key: key,
+  );
 }
 
 /// [behavior] ist hier standardmäßig fixed, da die [showDataArrivalConfirmedSnackbar]
@@ -23,8 +28,8 @@ void snackbarSoon(
 /// Snackbars absolut kacke aus ._. Deswegen wird dann für diesen Fall das
 /// [behavior] auf fixed gewechselt.
 void showDataArrivalConfirmedSnackbar(
-    {GlobalKey<ScaffoldMessengerState> key,
-    BuildContext context,
+    {GlobalKey<ScaffoldMessengerState>? key,
+    BuildContext? context,
     SnackBarBehavior behavior = SnackBarBehavior.fixed}) {
   showSnack(
     context: context,
@@ -35,8 +40,10 @@ void showDataArrivalConfirmedSnackbar(
   );
 }
 
-void sendDataToFrankfurtSnackBar(BuildContext context,
-    {SnackBarBehavior behavior}) {
+void sendDataToFrankfurtSnackBar(
+  BuildContext context, {
+  SnackBarBehavior? behavior,
+}) {
   showSnackSec(
     context: context,
     seconds: 3600,
@@ -73,14 +80,14 @@ void patienceSnackBar(BuildContext context) {
 }
 
 void showSnackSec({
-  String text,
+  String? text,
   int seconds = 3,
-  BuildContext context,
-  GlobalKey<ScaffoldMessengerState> key,
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
   bool withLoadingCircle = false,
-  SnackBarAction action,
+  SnackBarAction? action,
   bool hideCurrentSnackBar = true,
-  SnackBarBehavior behavior,
+  SnackBarBehavior? behavior,
 }) {
   showSnack(
     key: key,
@@ -95,14 +102,14 @@ void showSnackSec({
 }
 
 void showSnack({
-  String text,
+  String? text,
   Duration duration = const Duration(seconds: 3),
-  BuildContext context,
-  GlobalKey<ScaffoldMessengerState> key,
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
   bool withLoadingCircle = false,
-  SnackBarAction action,
+  SnackBarAction? action,
   bool hideCurrentSnackBar = true,
-  SnackBarBehavior behavior = SnackBarBehavior.floating,
+  SnackBarBehavior? behavior = SnackBarBehavior.floating,
 }) {
   assert(
       context != null || key != null, 'A snackbar needs a context or a key!');
@@ -130,19 +137,21 @@ void showSnack({
 
   if (key != null) {
     try {
-      if (hideCurrentSnackBar) key.currentState.removeCurrentSnackBar();
-      key.currentState.showSnackBar(snackBar);
+      if (hideCurrentSnackBar) key.currentState!.removeCurrentSnackBar();
+      key.currentState!.showSnackBar(snackBar);
     } catch (e) {
-      print("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
+          error: e);
     }
   } else if (context != null) {
     try {
-      if (hideCurrentSnackBar)
+      if (hideCurrentSnackBar) {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
-      print(
-          "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}");
+      log("Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}",
+          error: e);
     }
   } else {
     debugPrint("Fehler! Die SnackBar hat keinen Key und keinen Context!");

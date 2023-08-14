@@ -14,8 +14,8 @@ class FirebaseDependencies {
     this.auth,
     this.firestore,
   });
-  final FirebaseAuth auth;
-  final FirebaseFirestore firestore;
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
 
   factory FirebaseDependencies.get() {
     return FirebaseDependencies._(

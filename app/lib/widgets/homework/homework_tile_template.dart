@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkTileTemplate extends StatelessWidget {
   final String title;
@@ -50,7 +50,7 @@ class HomeworkTileTemplate extends StatelessWidget {
               maxLines: 2,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   .apply(fontSizeFactor: 1.1),
             ),
           ),

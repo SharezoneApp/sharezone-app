@@ -14,19 +14,15 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/pages/settings/changelog_page.dart';
-import 'package:sharezone/pages/settings/license.dart';
 import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
-import 'package:sharezone/pages/settings/src/subpages/privacy_policy/privacy_policy.dart';
 import 'package:sharezone/pages/settings/src/subpages/theme/theme_page.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
 import 'package:sharezone/pages/settings/web_app.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'settings/my_profile/my_profile_page.dart';
 import 'settings/src/subpages/imprint/analytics/imprint_analytics.dart';
@@ -85,7 +81,7 @@ class _LegalSection extends StatelessWidget {
             icon: Icons.security,
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
-              Navigator.pushNamed(context, PrivacyPolicy.tag);
+              Navigator.pushNamed(context, PrivacyPolicyPage.tag);
             },
           ),
           _SettingsOption(
@@ -99,9 +95,19 @@ class _LegalSection extends StatelessWidget {
           _SettingsOption(
             title: "Lizenzen",
             icon: Icons.layers,
-            tag: LicensesPage.tag,
+            onTap: () => _openLicensePage(context),
           ),
         ],
+      ),
+    );
+  }
+
+  void _openLicensePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LicensePage(),
+        settings: RouteSettings(name: 'license-page'),
       ),
     );
   }
@@ -165,11 +171,6 @@ class _MoreSection extends StatelessWidget {
             tag: WebAppSettingsPage.tag,
           ),
         _SettingsOption(
-          title: "Häufige Fragen",
-          icon: Icons.live_help,
-          onTap: () => launchURL("https://sharezone.net/faq"),
-        ),
-        _SettingsOption(
           title: "Support",
           icon: Icons.question_answer,
           tag: SupportPage.tag,
@@ -215,25 +216,19 @@ class _SettingsOption extends StatelessWidget {
     this.icon,
     this.onTap,
     this.tag,
-    this.enabled,
-    this.trailing,
   });
 
   final String title;
   final IconData icon;
-  final bool enabled;
   final GestureTapCallback onTap;
   final String tag;
-  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
       leading: Icon(icon),
-      enabled: enabled ?? true,
       onTap: onTap != null ? onTap : () => Navigator.pushNamed(context, tag),
-      trailing: trailing,
     );
   }
 }

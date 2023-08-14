@@ -11,12 +11,12 @@ import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showRemoveFileFromBlocDialog(
     {@required BuildContext context,
     @required VoidCallback removeFileFromBlocMethod}) async {
-  FocusScope.of(context).requestFocus(FocusNode()); // Closing keyboard
+  FocusManager.instance.primaryFocus?.unfocus(); // Closing keyboard
   await Future.delayed(const Duration(milliseconds: 200));
 
   showDialog(

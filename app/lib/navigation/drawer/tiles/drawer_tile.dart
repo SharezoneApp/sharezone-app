@@ -13,8 +13,7 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_utils/dimensions.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../drawer_controller.dart';
 
@@ -63,14 +62,12 @@ class DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    final dimensions = Dimensions.fromMediaQuery(context);
 
     final title = this.title ?? navigationItem.getName();
     final icon = this.icon ?? navigationItem.getIcon();
-    final tag = this.tag ?? navigationItem.getPageTag();
 
     return StreamBuilder<NavigationItem>(
-        key: ValueKey(tag),
+        key: ValueKey('nav-item-${navigationItem.name}-E2E'),
         stream: navigationBloc.navigationItems,
         builder: (context, snapshot) {
           final currentNavigationItem = snapshot.data;
@@ -99,13 +96,24 @@ class DrawerTile extends StatelessWidget {
             );
           }
 
-          if (!dimensions.isDesktopModus) return child;
+          return child;
 
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            key: ValueKey(tag),
-            child: child,
-          );
+          // A Flutter regression results in the `AnimatedSwitcher` causing
+          // errors in the Flutter rendering code when changing pages in desktop
+          // mode via the permanent drawer.
+          //
+          // The code below can be reintroduced when the following bug is fixed:
+          // https://github.com/flutter/flutter/issues/120874
+
+          // final dimensions = Dimensions.fromMediaQuery(context);
+          // if (!dimensions.isDesktopModus) return child;
+          //
+          //
+          // return AnimatedSwitcher(
+          //   duration: const Duration(milliseconds: 300),
+          //   key: ValueKey(tag),
+          //   child: child,
+          // );
         });
   }
 

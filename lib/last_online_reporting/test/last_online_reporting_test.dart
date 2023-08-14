@@ -8,19 +8,17 @@
 
 import 'dart:async';
 
-import 'package:common_domain_models/src/ids/user_id.dart';
 import 'package:crash_analytics/mock_crash_analytics.dart';
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
 import 'package:last_online_reporting/src/implementation.dart';
-import 'package:quiver/testing/async.dart';
-import 'package:test/test.dart';
 
-class MockLastOnlineReporterBackend extends FirestoreLastOnlineReporterBackend {
+class MockLastOnlineReporterBackend
+    implements FirestoreLastOnlineReporterBackend {
   int reportedOnlineToBackend = 0;
   bool shouldThrow = false;
-
-  MockLastOnlineReporterBackend() : super(null, UserId('userId'));
 
   @override
   Future<void> reportCurrentlyOnline() async {
@@ -33,26 +31,26 @@ class MockLastOnlineReporterBackend extends FirestoreLastOnlineReporterBackend {
 
 void main() {
   group('$LastOnlineReporter', () {
-    MockLastOnlineReporterBackend backend;
-    StreamController<AppLifecycleState> _lifecycleChanges;
-    LastOnlineReporter lastOnlineReporter;
-    MockCrashAnalytics crashAnalytics;
-    final _debounceTime = Duration(minutes: 10);
+    late MockLastOnlineReporterBackend backend;
+    late StreamController<AppLifecycleState> lifecycleChanges;
+    late LastOnlineReporter lastOnlineReporter;
+    late MockCrashAnalytics crashAnalytics;
+    const debounceTime = Duration(minutes: 10);
 
     setUp(() {
       crashAnalytics = MockCrashAnalytics();
-      _lifecycleChanges = StreamController<AppLifecycleState>();
+      lifecycleChanges = StreamController<AppLifecycleState>();
       backend = MockLastOnlineReporterBackend();
       lastOnlineReporter = LastOnlineReporter.internal(
         backend.reportCurrentlyOnline,
-        _lifecycleChanges.stream,
+        lifecycleChanges.stream,
         crashAnalytics,
-        debounceTime: Duration(seconds: 10),
+        debounceTime: const Duration(seconds: 10),
       );
     });
 
     tearDown(() {
-      _lifecycleChanges.close();
+      lifecycleChanges.close();
     });
 
     /// Because [LastOnlineReporter] uses Streams and a Timer for debouncing
@@ -78,17 +76,17 @@ void main() {
         /// These should be debounced (ignored) as when creating the class (or in
         /// the test case calling [lastOnlineReporter.startReporting] it reports
         /// being online - so the last report was too recent to update it again.
-        _lifecycleChanges.add(AppLifecycleState.detached);
-        _lifecycleChanges.add(AppLifecycleState.resumed);
+        lifecycleChanges.add(AppLifecycleState.detached);
+        lifecycleChanges.add(AppLifecycleState.resumed);
 
         await pumpEventQueue();
         expect(backend.reportedOnlineToBackend, 1);
 
         /// We wait for the debounce time to elapse.
-        fakeAsync.elapse(_debounceTime);
+        fakeAsync.elapse(debounceTime);
 
         // This should now be reported as the debounce time elapsed.
-        _lifecycleChanges.add(AppLifecycleState.detached);
+        lifecycleChanges.add(AppLifecycleState.detached);
 
         await pumpEventQueue();
         expect(backend.reportedOnlineToBackend, 2);
@@ -107,7 +105,7 @@ void main() {
         lastOnlineReporter.startReporting();
         await pumpEventQueue();
         lastOnlineReporter.dispose();
-        expect(_lifecycleChanges.isClosed, true);
+        expect(lifecycleChanges.isClosed, true);
       });
     });
   });

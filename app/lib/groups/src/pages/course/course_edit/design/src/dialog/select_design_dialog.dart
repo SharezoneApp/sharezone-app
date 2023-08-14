@@ -21,7 +21,8 @@ class _SelectDesignPopResult {
 }
 
 /// [bottomAction] will be displayed at the bottom of the dialog, e. g. a back button.
-Future<_SelectDesignPopResult> _selectDesign(
+@visibleForTesting
+Future<_SelectDesignPopResult> selectDesign(
     BuildContext context, Design currentDesign,
     {_EditDesignType type}) async {
   return await showDialog<_SelectDesignPopResult>(
@@ -95,7 +96,7 @@ class _RemovePersonalColor extends StatelessWidget {
       onPressed: () => Navigator.pop(
           context, _SelectDesignPopResult(removePersonalColor: true)),
       style: TextButton.styleFrom(
-        primary: Colors.grey[700],
+        foregroundColor: Colors.grey[700],
       ),
     );
   }
@@ -115,26 +116,33 @@ class _Colors extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _BackToSelectTypeButton(),
-        ...Design.designList
-            .sublist(0, 7)
-            .map((design) => _ColorCircleSelectDesign(
-                design: design, isSelected: _isDesignSelected(design)))
-            .toList(),
-        ...Design.designList
-            .sublist(7)
-            .map(
-              (design) => _ColorCircleSelectDesign(
-                design: design,
-                isSelected: _isDesignSelected(design),
-                hasPermission: isFullColorSetUnlocked,
-              ),
-            )
-            .toList()
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            ...Design.designList
+                .sublist(0, 7)
+                .map((design) => _ColorCircleSelectDesign(
+                    design: design, isSelected: _isDesignSelected(design)))
+                .toList(),
+            ...Design.designList
+                .sublist(7)
+                .map(
+                  (design) => _ColorCircleSelectDesign(
+                    design: design,
+                    isSelected: _isDesignSelected(design),
+                    hasPermission: isFullColorSetUnlocked,
+                    size: 50,
+                  ),
+                )
+                .toList()
+          ],
+        ),
       ],
     );
   }
@@ -188,7 +196,9 @@ class _BackToSelectTypeButton extends StatelessWidget {
       icon: Icon(Icons.arrow_back),
       color: Colors.grey,
       onPressed: () => Navigator.pop(
-          context, _SelectDesignPopResult(navigateBackToSelectType: true)),
+        context,
+        _SelectDesignPopResult(navigateBackToSelectType: true),
+      ),
     );
   }
 }

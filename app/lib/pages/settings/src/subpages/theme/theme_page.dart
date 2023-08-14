@@ -18,10 +18,7 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tut
 import 'package:sharezone/pages/settings/src/widgets/settings_subpage_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/announcement_card.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../support_page.dart';
 
@@ -189,13 +186,8 @@ class _NewNavigationExperiment extends StatelessWidget {
 }
 
 class _NavigationRadioGroup extends StatelessWidget {
-  final NavigationExperimentOption option;
-  final int number;
-
   const _NavigationRadioGroup({
     Key key,
-    this.option,
-    this.number,
   }) : super(key: key);
 
   @override
@@ -329,7 +321,8 @@ class _ContactSupportButton extends StatelessWidget {
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
       child: Text("Support kontaktieren".toUpperCase()),
       style: TextButton.styleFrom(
-        primary: isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
+        foregroundColor:
+            isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
       ),
     );
   }

@@ -8,11 +8,12 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TimePickerEntryMode;
+import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 class EditTimeField extends StatelessWidget {
@@ -95,13 +96,14 @@ Future<Time> selectTime(BuildContext context,
       await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first ??
           true;
 
+  minutesInterval ??= isFiveMinutesIntervalActive ? 5 : 1;
+
   if (PlatformCheck.isIOS) {
     return showDialog<TimeOfDay>(
       context: context,
       builder: (context) => CupertinoTimerPickerWithTimeOfDay(
         initalTime: initialTime?.toTimeOfDay(),
-        minutesInterval:
-            minutesInterval ?? (isFiveMinutesIntervalActive ? 5 : 1),
+        minutesInterval: minutesInterval,
         title: title,
       ),
     ).then((timeOfDay) {
@@ -110,10 +112,11 @@ Future<Time> selectTime(BuildContext context,
     });
   }
 
-  return showTimePicker(
+  return showIntervalTimePicker(
     context: context,
     initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
-    cancelText: 'Abbrechen'.toUpperCase(),
+    interval: minutesInterval,
+    visibleStep: minutesInterval.toVisibleStep(),
     builder: (BuildContext context, Widget child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -188,7 +191,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
       actions: <Widget>[
         TextButton(
           style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).primaryColor,
           ),
           child: const Text("OK"),
           onPressed: () => Navigator.pop(context, timeOfDay),
@@ -201,5 +204,31 @@ class _CupertinoTimerPickerWithTimeOfDayState
     final hours = dur.inHours % 24;
     final minutes = dur.inMinutes % 60;
     return TimeOfDay(hour: hours, minute: minutes);
+  }
+}
+
+extension on int {
+  VisibleStep toVisibleStep() {
+    switch (this) {
+      case 1:
+      case 5:
+        return VisibleStep.fifths;
+      case 6:
+        return VisibleStep.sixths;
+      case 10:
+        return VisibleStep.tenths;
+      case 20:
+        return VisibleStep.twentieths;
+      case 30:
+        return VisibleStep.thirtieths;
+      case 60:
+        return VisibleStep.sixtieth;
+      default:
+        // At the moment, only these intervals are supported. If you need
+        // another one, please add it and handle it in the switch statement.
+        throw Exception(
+          "Unsupported minutes interval: $this. Please handle the other cases yourself.",
+        );
+    }
   }
 }

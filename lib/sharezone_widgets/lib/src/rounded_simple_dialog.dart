@@ -12,7 +12,7 @@ import 'theme/brightness/general_theme.dart';
 
 class RoundedSimpleDialog extends StatelessWidget {
   const RoundedSimpleDialog({
-    Key key,
+    Key? key,
     this.title,
     this.children,
     this.contentPadding = const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
@@ -20,29 +20,29 @@ class RoundedSimpleDialog extends StatelessWidget {
     this.semanticLabel,
   }) : super(key: key);
 
-  final List<Widget> children;
+  final List<Widget>? children;
   final EdgeInsetsGeometry contentPadding;
 
   final EdgeInsetsGeometry titlePadding;
-  final Widget title;
+  final Widget? title;
 
-  final String semanticLabel;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: contentPadding,
+      title: title,
+      titlePadding: titlePadding,
+      semanticLabel: semanticLabel,
       children: [
         Material(
           borderRadius: BorderRadius.circular(sharezoneBorderRadiusValue),
           clipBehavior: Clip.antiAlias,
           color: Theme.of(context).dialogTheme.backgroundColor,
-          child: Column(children: children),
+          child: Column(children: children!),
         ),
       ],
-      title: title,
-      titlePadding: titlePadding,
-      semanticLabel: semanticLabel,
     );
   }
 }

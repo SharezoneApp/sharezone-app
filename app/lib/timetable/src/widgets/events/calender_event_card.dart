@@ -17,9 +17,7 @@ import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../timetable_permissions.dart';
 
@@ -51,7 +49,8 @@ class CalenderEventCard extends StatelessWidget {
                 _Title(title: view.title),
                 const SizedBox(height: 6),
                 Text(view.dateText,
-                    style: TextStyle(color: Theme.of(context).errorColor))
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error))
               ],
             ),
           ),
@@ -99,7 +98,8 @@ class _Title extends StatelessWidget {
   }
 }
 
-Future<void> onEventLongPress(BuildContext context, CalendricalEvent event) async {
+Future<void> onEventLongPress(
+    BuildContext context, CalendricalEvent event) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final isAuthor = api.uID == event.authorID;
   final hasPermissionsToManageEvents = hasPermissionToManageEvents(

@@ -11,8 +11,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone_widgets/src/widgets.dart';
 
 void main() {
-  Future<void> _pumpTextField(
-      {@required WidgetTester tester, @required Widget textField}) async {
+  Future<void> pumpTextField(
+      {required WidgetTester tester, required Widget textField}) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
@@ -27,19 +27,19 @@ void main() {
 
     testWidgets('prefills the TextField with the string passed via label',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
           tester: tester,
-          textField: PrefilledTextField(prefilledText: sharezone));
+          textField: const PrefilledTextField(prefilledText: sharezone));
       final TextField textField = tester.firstWidget(find.byType(TextField));
-      expect(textField.controller.text, sharezone);
+      expect(textField.controller!.text, sharezone);
     });
 
     testWidgets(
         'auto select the prefilled text, if autoSelectAllCharactersAtBeginning is true',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
         tester: tester,
-        textField: PrefilledTextField(
+        textField: const PrefilledTextField(
             prefilledText: sharezone,
             autoSelectAllCharactersOnFirstBuild: true),
       );
@@ -48,17 +48,17 @@ void main() {
 
       // Checks if 'sharezone' is selected in 'tf1'
       expect(
-        tf1.controller.selection,
-        TextSelection(baseOffset: 0, extentOffset: sharezone.length),
+        tf1.controller!.selection,
+        const TextSelection(baseOffset: 0, extentOffset: sharezone.length),
       );
     });
 
     testWidgets(
         'doesn\'t auto selected prefilled text, if autoSelectAllCharactersAtBeginning is false',
         (tester) async {
-      await _pumpTextField(
+      await pumpTextField(
         tester: tester,
-        textField: PrefilledTextField(
+        textField: const PrefilledTextField(
             prefilledText: sharezone,
             autoSelectAllCharactersOnFirstBuild: false),
       );
@@ -67,8 +67,8 @@ void main() {
 
       // Checks if 'sharezone' is not selected in 'tf1'
       expect(
-        tf1.controller.selection,
-        TextSelection(baseOffset: -1, extentOffset: -1),
+        tf1.controller!.selection,
+        const TextSelection(baseOffset: -1, extentOffset: -1),
       );
     });
   });

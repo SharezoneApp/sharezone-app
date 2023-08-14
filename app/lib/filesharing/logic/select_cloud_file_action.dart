@@ -19,8 +19,7 @@ import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/form.dart';
-import 'package:sharezone_widgets/snackbars.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> selectCloudFileAction({
   @required BuildContext context,

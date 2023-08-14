@@ -17,7 +17,7 @@ import 'package:sharezone/filesharing/logic/select_folder_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_actions.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'cloud_file_icon.dart';
 

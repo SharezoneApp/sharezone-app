@@ -14,9 +14,7 @@ import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
-import 'package:sharezone_widgets/alternating_colored_list.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 /// Auf dieser Seite wählt der Nutzer nach einem Beitrittsversuch einer Schulklasse
@@ -161,7 +159,7 @@ class _SkipButton extends StatelessWidget {
       },
       child: Text("Überspringen".toUpperCase()),
       style: TextButton.styleFrom(
-        primary: context.primaryColor,
+        foregroundColor: context.primaryColor,
       ),
     );
   }
@@ -177,8 +175,9 @@ class _OptionalCoursesList extends StatelessWidget {
       stream: bloc.coursesList,
       builder: (context, snapshot) {
         final items = snapshot.data;
-        if (items == null)
+        if (items == null) {
           return Center(child: AccentColorCircularProgressIndicator());
+        }
         return AlternatingColoredList(
           itemCount: items.length,
           itemBuilder: (context, i) => _CourseCheckboxTile(groupInfo: items[i]),

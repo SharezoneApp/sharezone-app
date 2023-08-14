@@ -146,7 +146,9 @@ class _DashboardFabSheet extends StatelessWidget {
                       child: Center(
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            primary: Theme.of(context).errorColor, // foreground
+                            foregroundColor: Theme.of(context)
+                                .colorScheme
+                                .error, // foreground
                           ),
                           child: const Text("[DEBUG] Cache löschen"),
                           onPressed: () async {

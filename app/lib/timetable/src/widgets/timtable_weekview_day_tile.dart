@@ -9,7 +9,7 @@
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/timetable/src/logic/timetable_date_helper.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class TimetableWeekViewDayTile extends StatelessWidget {
   final Date date;
@@ -37,7 +37,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     TimetableDateHelper.getDayOfWeek(date.weekDay),
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge.copyWith(
                         color: _getTextColorTitle(context), letterSpacing: 0.8),
                   ),
                 ),
@@ -45,7 +45,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
               ),
               Text(
                 _getDayOfMonthText(),
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.titleSmall.copyWith(
                       color: _getTextColorMonth(context),
                       fontSize: 12.5,
                     ),

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const rubik = 'Rubik';
 
@@ -19,36 +19,36 @@ Size getScreenSize(BuildContext context) {
 }
 
 Future<void> delayKeyboard(
-    {@required BuildContext context,
-    @required FocusNode focusNode,
+    {required BuildContext context,
+    required FocusNode focusNode,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
-  FocusScope.of(context).requestFocus(focusNode);
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 Future<void> hideKeyboardWithDelay(
-    {@required BuildContext context,
+    {required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
-  FocusScope.of(context).requestFocus(FocusNode());
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 void hideKeyboard(
-    {@required BuildContext context,
+    {required BuildContext context,
     Duration duration = const Duration(milliseconds: 250)}) {
-  FocusScope.of(context).requestFocus(FocusNode());
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 const double cardElevation = 1.5; // Elevation of Cards
 
-TextStyle flowingText = TextStyle(
+TextStyle flowingText = const TextStyle(
   textBaseline: TextBaseline.alphabetic,
   fontSize: 15.0,
   height: 24.0 / 15.0,
   fontFamily: rubik,
 );
 
-TextStyle linkStyle(BuildContext context, [double fontSize]) => TextStyle(
+TextStyle linkStyle(BuildContext context, [double? fontSize]) => TextStyle(
       color: Theme.of(context).primaryColor,
       fontWeight: FontWeight.normal,
       decoration: TextDecoration.underline,
@@ -58,10 +58,10 @@ TextStyle linkStyle(BuildContext context, [double fontSize]) => TextStyle(
     );
 
 class Headline extends StatelessWidget {
-  const Headline(this.title, {this.textAlign});
+  const Headline(this.title, {Key? key, this.textAlign}) : super(key: key);
 
   final String title;
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class Headline extends StatelessWidget {
 
 // Blau Titel - Unterteilen die Seite in Kategorien
 class CategoryTitle extends StatelessWidget {
-  const CategoryTitle(this.title);
+  const CategoryTitle(this.title, {Key? key}) : super(key: key);
 
   final String title;
 

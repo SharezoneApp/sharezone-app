@@ -8,11 +8,10 @@
 
 import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:meta/meta.dart';
 
 class PushNotification {
   /// The [actionType] of the notifcation, e.g. "navigate-to-given-location".
-  final String actionType;
+  final String? actionType;
   bool get hasActionType => actionType != null && actionType != '';
 
   /// [actionData] is data for the action that is identified by [actionType].
@@ -36,28 +35,26 @@ class PushNotification {
   /// It is not guranteed which type the [actionData] has. As in the example
   /// above it could be a string but might also be a map with several entries.
   final Map<String, dynamic> actionData;
-  bool get hasactionData => actionData != null;
-
-  final String title;
+  final String? title;
   bool get hasNonEmptyTitle => title != null && title != '';
 
-  final String body;
+  final String? body;
   bool get hasNonEmptyBody => body != null && body != '';
 
   bool get hasDisplaybleText => hasNonEmptyTitle || hasNonEmptyBody;
 
   const PushNotification({
-    @required this.actionType,
-    @required this.title,
-    @required this.body,
-    Map<String, dynamic> actionData,
-  }) : this.actionData = actionData ?? const {};
+    required this.actionType,
+    required this.title,
+    required this.body,
+    Map<String, dynamic>? actionData,
+  }) : actionData = actionData ?? const {};
 
   factory PushNotification.fromFirebase(RemoteMessage message) {
     final actionType = message.data['actionType'];
     final actionData = message.data..remove('actionType');
-    final title = message.notification.title;
-    final body = message.notification.body;
+    final title = message.notification?.title;
+    final body = message.notification?.body;
 
     return PushNotification(
       title: title,
@@ -68,10 +65,10 @@ class PushNotification {
   }
 
   PushNotification copyWith({
-    String actionType,
+    String? actionType,
     dynamic actionData,
-    String title,
-    String body,
+    String? title,
+    String? body,
   }) {
     return PushNotification(
       actionType: actionType ?? this.actionType,

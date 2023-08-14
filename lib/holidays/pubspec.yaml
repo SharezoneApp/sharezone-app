@@ -1,0 +1,42 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: holidays
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+
+publish_to: none
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  built_collection: ^5.1.0
+  built_value: ^8.1.1
+  key_value_store:
+    path: ../key_value_store
+  cloud_functions: ^4.1.0
+  app_functions:
+    path: ../app_functions
+
+dev_dependencies:
+  # We need to add the `flutter` package as dev dependency as workaround for the
+  # following issue: https://github.com/SharezoneApp/sharezone-app/issues/474
+  #
+  # When this issue is resolved, we can remove the `flutter` package from the
+  # dev dependencies.
+  flutter:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.0.7
+  build_runner: ^2.1.4
+  built_value_generator: ^8.1.1
+  lints: ^2.0.1
+  sharezone_lints:
+    path: ../sharezone_lints

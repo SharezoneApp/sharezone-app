@@ -7,24 +7,41 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:authentification_base/authentification.dart';
-import 'package:authentification_base/authentification_base.dart';
+import 'package:authentification_base/authentification.dart' hide Provider;
+import 'package:authentification_base/authentification_base.dart' hide Provider;
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+/// Defines if the app is running in integration test mode.
+///
+/// This is used to disable some features, which are not working for integration
+/// tests. These features are:
+/// * Firebase Messaging (throws SERVICE_NOT_AVAILABLE or AUTHENTICATION_FAILED
+///   when running on device farm devices, see
+///   https://github.com/SharezoneApp/sharezone-app/issues/420)
+/// * Ignore Remote Config fetch failures on Android
+bool isIntegrationTest = false;
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
@@ -33,13 +50,17 @@ class Sharezone extends StatefulWidget {
   final BlocDependencies blocDependencies;
   final DynamicLinkBloc dynamicLinkBloc;
   final Stream<Beitrittsversuch> beitrittsversuche;
+  final Flavor flavor;
+  final bool isIntegrationTest;
 
-  const Sharezone(
-      {Key key,
-      @required this.blocDependencies,
-      @required this.dynamicLinkBloc,
-      @required this.beitrittsversuche})
-      : super(key: key);
+  const Sharezone({
+    Key key,
+    @required this.blocDependencies,
+    @required this.dynamicLinkBloc,
+    @required this.beitrittsversuche,
+    @required this.flavor,
+    this.isIntegrationTest = false,
+  }) : super(key: key);
 
   static Analytics analytics = Analytics(getBackend());
 
@@ -54,6 +75,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
+    isIntegrationTest = widget.isIntegrationTest;
     signUpBloc = SignUpBloc();
 
     // You have to wait a little moment (1000 milliseconds), to
@@ -93,21 +115,49 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     'ALPHA',
                 child: Stack(
                   children: [
-                    BlocProvider(
-                      bloc: signUpBloc,
-                      child: StreamBuilder<AuthUser>(
-                        stream: listenToAuthStateChanged(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            widget.blocDependencies.authUser = snapshot.data;
-                            return SharezoneApp(widget.blocDependencies,
-                                Sharezone.analytics, widget.beitrittsversuche);
-                          }
-                          return AuthApp(
-                            blocDependencies: widget.blocDependencies,
-                            analytics: Sharezone.analytics,
-                          );
-                        },
+                    MultiProvider(
+                      providers: [
+                        Provider<NotificationsPermission>(
+                          create: (_) => NotificationsPermission(
+                            firebaseMessaging: FirebaseMessaging.instance,
+                            mobileDeviceInformationRetreiver:
+                                MobileDeviceInformationRetreiver(),
+                          ),
+                        )
+                      ],
+                      child: MultiBlocProvider(
+                        blocProviders: [
+                          BlocProvider<SignUpBloc>(bloc: signUpBloc),
+                          // We need to provide the navigation bloc above the
+                          // [SharezoneApp] widget to prevent disposing the
+                          // navigation bloc when signing out.
+                          //
+                          // See
+                          // https://github.com/SharezoneApp/sharezone-app/issues/117.
+                          BlocProvider<NavigationBloc>(bloc: navigationBloc),
+                        ],
+                        child: (context) => MultiProvider(
+                          providers: [
+                            Provider<Flavor>(create: (context) => widget.flavor)
+                          ],
+                          child: StreamBuilder<AuthUser>(
+                            stream: listenToAuthStateChanged(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                widget.blocDependencies.authUser =
+                                    snapshot.data;
+                                return SharezoneApp(
+                                    widget.blocDependencies,
+                                    Sharezone.analytics,
+                                    widget.beitrittsversuche);
+                              }
+                              return AuthApp(
+                                blocDependencies: widget.blocDependencies,
+                                analytics: Sharezone.analytics,
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -135,7 +185,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
         analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
-        defaultVisualDensity: VisualDensity.adaptivePlatformDensity,
+        defaultVisualDensity: VisualDensitySetting.adaptivePlatformDensity(),
         keyValueStore: blocDependencies.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
@@ -151,8 +201,9 @@ class _ThemeSettingsProvider extends StatelessWidget {
                 textScaleFactor: themeSettings.textScalingFactor,
               ),
               child: Theme(
-                data: Theme.of(context)
-                    .copyWith(visualDensity: themeSettings.visualDensity),
+                data: Theme.of(context).copyWith(
+                    visualDensity:
+                        themeSettings.visualDensitySetting.visualDensity),
                 child: child,
               ),
             );

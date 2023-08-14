@@ -37,21 +37,11 @@ class _ColorFadeInState extends State<ColorFadeIn> {
 
   Future<void> startFadeInAnimation() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    try {
-      setState(() {
-        opacity = 1;
-      });
-    } catch (e) {
-      // Warum wir dein Try-Catch verwendet? Liefert der
-      // onAuthChanged Stream von FirebaseAuth keinen Wert, wird
-      // die OnboardingPage aufgerufen, weswegen auch dieses Widget
-      // aufgerufen wird. Nach einen kleinen Augenblick hat der
-      // onAuthChanged Stream aber dann die Daten und merkt, dass der
-      // Nutzer evtl. angemeldet ist. Also öffnet dieser dann normal die
-      // Onboarding-Page. Kurs danach möchte aber das ColorFadeIn Widget
-      // ausfaden, was aber nicht mehr geht, weil es das Widget nicht gibt
-      // (die Dashboard-Page wurde ja aufgerufen).
-    }
+
+    if (!mounted) return;
+    setState(() {
+      opacity = 1;
+    });
   }
 
   @override

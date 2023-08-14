@@ -8,11 +8,9 @@
 
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_widgets/snackbars.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/widgets.dart';
-import 'package:sharezone_widgets/wrapper.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
@@ -31,6 +29,7 @@ class SupportPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Header(),
+                _DiscordTile(),
                 _EmailTile(),
               ],
             ),
@@ -52,9 +51,10 @@ class _Header extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: SizedBox(
-            width: 70,
-            height: 70,
-            child: PlatformSvg.asset('assets/icons/confused.svg')),
+          width: 70,
+          height: 70,
+          child: PlatformSvg.asset('assets/icons/confused.svg'),
+        ),
       ),
       children: const <Widget>[
         Text(
@@ -112,13 +112,13 @@ class _EmailTile extends StatelessWidget {
         'assets/icons/email.svg',
         color: context.primaryColor,
       ),
-      title: 'support@sharezone.net',
-      subtitle: 'E-Mail',
+      title: 'E-Mail',
+      subtitle: 'support@sharezone.net',
       onPressed: () async {
-        final url = Uri.encodeFull(
-            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭');
-        if (await canLaunch(url)) {
-          launch(url);
+        final url = Uri.parse(Uri.encodeFull(
+            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭'));
+        if (await canLaunchUrl(url)) {
+          launchUrl(url);
         } else {
           showSnackSec(
             context: context,
@@ -126,6 +126,66 @@ class _EmailTile extends StatelessWidget {
           );
         }
       },
+    );
+  }
+}
+
+class _DiscordTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _SupportCard(
+      icon: PlatformSvg.asset(
+        'assets/icons/discord.svg',
+        color: context.primaryColor,
+      ),
+      title: 'Discord',
+      subtitle: 'Community-Support',
+      onPressed: () async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (_) => _NoteAboutPrivacyPolicy(),
+        );
+
+        if (confirmed == true) {
+          final url =
+              Uri.parse(Uri.encodeFull('https://sharezone.net/discord'));
+          if (await canLaunchUrl(url)) {
+            launchUrl(url);
+          } else {
+            showSnackSec(
+              context: context,
+              text: 'www.sharezone.net/discord',
+            );
+          }
+        }
+      },
+    );
+  }
+}
+
+class _NoteAboutPrivacyPolicy extends StatelessWidget {
+  const _NoteAboutPrivacyPolicy({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Discord Datenschutz"),
+      content: MarkdownBody(
+        data:
+            "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+        styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
+        onTapLink: (_, url, __) => launchUrl(Uri.parse(url)),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text("ABBRECHEN"),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text("WEITER"),
+        ),
+      ],
     );
   }
 }

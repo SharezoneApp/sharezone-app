@@ -8,7 +8,7 @@
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewer extends StatefulWidget {
@@ -19,7 +19,7 @@ class VideoViewer extends StatefulWidget {
   final String downloadURL;
 
   @override
-  __VideoViewerState createState() => __VideoViewerState();
+  State createState() => __VideoViewerState();
 }
 
 class __VideoViewerState extends State<VideoViewer> {
@@ -53,8 +53,11 @@ class __VideoViewerState extends State<VideoViewer> {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null)
-      return Center(child: AccentColorCircularProgressIndicator());
+    if (_controller == null) {
+      return const Center(
+        child: AccentColorCircularProgressIndicator(),
+      );
+    }
     return Chewie(controller: _controller);
   }
 }

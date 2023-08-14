@@ -6,32 +6,37 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// Using a import prefix to avoid conflicts with the analytics and developer
+// `log` method.
+import 'dart:developer' as developer;
+
 import '../analytics.dart';
 
 class LoggingAnalyticsBackend extends AnalyticsBackend {
   @override
-  void log(String name, [Map<String, dynamic> data]) {
-    print("AnalyticsEvent $name received. Data: $data");
+  void log(String name, [Map<String, dynamic>? data]) {
+    developer.log("AnalyticsEvent $name received. Data: $data");
   }
 
   @override
   Future<void> setAnalyticsCollectionEnabled(bool value) async {
-    print("setAnalyticsCollectionEnabled: $setAnalyticsCollectionEnabled");
+    developer
+        .log("setAnalyticsCollectionEnabled: $setAnalyticsCollectionEnabled");
   }
 
   @override
-  Future<void> logSignUp({String signUpMethod}) async {
-    print("logSignUp signUpMethod: $signUpMethod");
+  Future<void> logSignUp({String? signUpMethod}) async {
+    developer.log("logSignUp signUpMethod: $signUpMethod");
   }
 
   @override
-  Future<void> setCurrentScreen({String screenName}) async {
-    print("setCurrentScreen screenName: $screenName");
+  Future<void> setCurrentScreen({String? screenName}) async {
+    developer.log("setCurrentScreen screenName: $screenName");
   }
 
   @override
-  Future<void> setUserProperty({String name, String value}) async {
-    print("setUserProperty $name value $value");
+  Future<void> setUserProperty({String? name, String? value}) async {
+    developer.log("setUserProperty $name value $value");
   }
 }
 

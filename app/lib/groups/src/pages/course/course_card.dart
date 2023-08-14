@@ -11,45 +11,44 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/additional/course_permission.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
-import 'package:sharezone_widgets/adaptive_dialog.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
-import 'package:sharezone_widgets/theme.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showCourseLeaveDialog(
     BuildContext context, bool isLastMember) async {
   return showLeftRightAdaptiveDialog<bool>(
-      context: context,
-      right: isLastMember
-          ? AdaptiveDialogAction.delete
-          : AdaptiveDialogAction(
-              title: "Verlassen",
-              isDefaultAction: true,
-              isDestructiveAction: true,
-              popResult: true,
-              textColor: Colors.red,
-            ),
-      defaultValue: false,
-      title: "Kurs verlassen${isLastMember ? " und löschen?" : "?"}",
-      content: Text(
-          "Möchtest du den Kurs wirklich verlassen? ${isLastMember ? "Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht." : ""}"));
+    context: context,
+    right: isLastMember
+        ? AdaptiveDialogAction.delete
+        : AdaptiveDialogAction(
+            title: "Verlassen",
+            isDefaultAction: true,
+            isDestructiveAction: true,
+            popResult: true,
+            textColor: Colors.red,
+          ),
+    defaultValue: false,
+    title: "Kurs verlassen${isLastMember ? " und löschen?" : "?"}",
+    content: Text(
+        "Möchtest du den Kurs wirklich verlassen? ${isLastMember ? "Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht." : ""}"),
+  );
 }
 
 Future<bool> showDeleteCourseDialog(
     BuildContext context, String courseName) async {
   return await showLeftRightAdaptiveDialog<bool>(
-      context: context,
-      right: AdaptiveDialogAction.delete,
-      defaultValue: false,
-      title: "Kurs löschen?",
-      content: Text(
-          'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'));
+    context: context,
+    right: AdaptiveDialogAction.delete,
+    defaultValue: false,
+    title: "Kurs löschen?",
+    content: Text(
+        'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'),
+  );
 }
 
 class CourseCardRedesign extends StatelessWidget {
@@ -70,7 +69,8 @@ class CourseCardRedesign extends StatelessWidget {
           popResult: _CourseCardLongPressResult.share,
           title: "Teilen",
           icon: Icon(
-              themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share)),
+            themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share),
+          ),
         ),
         if (isAdmin)
           const LongPress(
@@ -149,7 +149,7 @@ class CourseCardRedesign extends StatelessWidget {
         final fullWidth = constrains.maxWidth;
         final width = (fullWidth / (fullWidth > 1200 ? 4 : 3)) - 6;
         final courseColor = course.getDesign().color;
-        final isAdmin = isUserAdminOrOwnerFromCourse(course.myRole);
+        final isAdmin = isUserAdminOrOwnerOfGroup(course.myRole);
         return SizedBox(
           width: width,
           height: 120,
@@ -333,9 +333,8 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
         builder: (context, snapshot) {
           final courseFromOwn = snapshot.data;
           final isMember = courseFromOwn != null;
-          final isAdmin = isMember
-              ? isUserAdminOrOwnerFromCourse(courseFromOwn.myRole)
-              : null;
+          final isAdmin =
+              isMember ? isUserAdminOrOwnerOfGroup(courseFromOwn.myRole) : null;
           return ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 19, vertical: 3),

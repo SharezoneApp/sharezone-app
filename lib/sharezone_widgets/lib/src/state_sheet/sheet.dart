@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/common_widgets.dart';
-import '../../wrapper.dart';
-import 'state_sheet_content.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateSheet {
   final Stream<StateSheetContent> stateSheetContent;
@@ -29,16 +27,17 @@ class StateSheet {
 
   Future<void> showSheetAutoPop(
     BuildContext context, {
-    @required Future<bool> future,
-    Duration delay,
+    required Future<bool> future,
+    Duration? delay,
   }) async {
     final sheetPop = showSheet(context);
     bool hasSheetPopped = false;
     sheetPop.then((_) => hasSheetPopped = true);
     future.then((result) async {
       if (result == true) {
-        await Future.delayed(delay);
+        await Future.delayed(delay!);
         if (!hasSheetPopped) {
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         }
       }
@@ -47,9 +46,9 @@ class StateSheet {
 }
 
 class _DraggableStateSheetWidget extends StatelessWidget {
-  final Stream<StateSheetContent> stateSheetContent;
+  final Stream<StateSheetContent>? stateSheetContent;
 
-  const _DraggableStateSheetWidget({Key key, this.stateSheetContent})
+  const _DraggableStateSheetWidget({Key? key, this.stateSheetContent})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -69,11 +68,11 @@ class _DraggableStateSheetWidget extends StatelessWidget {
 }
 
 class _DraggableStateSheetInner extends StatelessWidget {
-  final Stream<StateSheetContent> stateSheetContent;
-  final ScrollController scrollController;
+  final Stream<StateSheetContent>? stateSheetContent;
+  final ScrollController? scrollController;
 
   const _DraggableStateSheetInner(
-      {Key key, this.stateSheetContent, this.scrollController})
+      {Key? key, this.stateSheetContent, this.scrollController})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -85,7 +84,7 @@ class _DraggableStateSheetInner extends StatelessWidget {
             stream: stateSheetContent,
             builder: (context, snapshot) {
               if (!snapshot.hasData) return Container();
-              final content = snapshot.data;
+              final content = snapshot.data!;
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 275),
                 child: MaxWidthConstraintBox(

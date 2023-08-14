@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone/groups/src/models/splitted_member_list.dart';
-import 'package:sharezone_widgets/widgets.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'member_list.dart';
 

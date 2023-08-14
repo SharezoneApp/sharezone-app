@@ -15,8 +15,7 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
-import 'package:sharezone_widgets/svg.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'bottom_navigation_bar.dart';
@@ -331,15 +330,7 @@ class _Chip extends StatelessWidget {
     @required this.controller,
     @required this.navigationItem,
     @required this.currentNavigationItem,
-    this.title,
-    this.icon,
   }) : super(key: key);
-
-  /// Default is [navigationItem.getName()]
-  final String title;
-
-  /// Default is [navigationItem.getIcon()]
-  final Widget icon;
 
   /// [PanelController] is from the "sliding_up_panel" and is needed to close
   /// the [ExtendableBottomNavigationBar], when the chip is tapped.
@@ -379,7 +370,7 @@ class _Chip extends StatelessWidget {
                 IconTheme(
                   data:
                       context.theme.iconTheme.copyWith(color: color, size: 20),
-                  child: icon ?? navigationItem.getIcon(),
+                  child: navigationItem.getIcon(),
                 ),
                 const SizedBox(width: 6),
                 Expanded(
@@ -387,7 +378,7 @@ class _Chip extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Center(
                       child: AutoSizeText(
-                        title ?? navigationItem.getName(),
+                        navigationItem.getName(),
                         style: TextStyle(color: color),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

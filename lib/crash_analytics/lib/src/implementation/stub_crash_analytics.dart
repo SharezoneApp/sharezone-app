@@ -18,18 +18,18 @@ class StubCrashAnalytics extends CrashAnalytics {
   void log(String msg) {}
 
   @override
-  Future<void> recordError(exception, StackTrace stack) {
-    return null;
+  Future<void> recordError(exception, StackTrace stack) async {
+    return;
   }
 
   @override
-  Future<void> recordFlutterError(FlutterErrorDetails details) {
-    return null;
+  Future<void> recordFlutterError(FlutterErrorDetails details) async {
+    return;
   }
 
   @override
-  Future<void> setUserIdentifier(String identifier) {
-    return null;
+  Future<void> setUserIdentifier(String identifier) async {
+    return;
   }
 
   @override

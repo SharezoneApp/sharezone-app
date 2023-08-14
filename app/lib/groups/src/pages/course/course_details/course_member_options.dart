@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/state_sheet.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showCourseMemberOptionsSheet({
   @required BuildContext context,
@@ -176,7 +178,7 @@ class _LeaveCourse extends StatelessWidget {
     return TextButton(
       child: Text("KURS VERLASSEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -204,7 +206,7 @@ class _KickUser extends StatelessWidget {
     return TextButton(
       child: const Text("AUS DEM KURS KICKEN"),
       style: TextButton.styleFrom(
-        primary: Colors.red,
+        foregroundColor: Colors.red,
       ),
       onPressed: isAdmin
           ? () {
@@ -244,7 +246,7 @@ class _RoleTile extends StatelessWidget {
         value: role,
         onChanged: enabled
             ? (newRole) {
-                print("PERMISSION ACCEPTED");
+                log("PERMISSION ACCEPTED");
                 Future<AppFunctionsResult<bool>> updateFuture =
                     bloc.updateMemberRole(memberData.id, newRole);
                 showAppFunctionStateDialog(context, updateFuture);

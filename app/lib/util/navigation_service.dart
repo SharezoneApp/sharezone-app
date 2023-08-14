@@ -8,7 +8,7 @@
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/theme.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Can be used to navigate without context;
 class NavigationService extends BlocBase {
@@ -49,13 +49,20 @@ class NavigationService extends BlocBase {
 }
 
 @optionalTypeArgs
-Future<T> pushWithDefault<T extends Object>(BuildContext context, Widget widget,
-    {@required T defaultValue, @required String name}) async {
+Future<T> pushWithDefault<T extends Object>(
+  BuildContext context,
+  Widget widget, {
+  @required T defaultValue,
+  @required String name,
+}) async {
   assert(defaultValue != null);
   final result = await Navigator.push<T>(
-      context,
-      IgnoreWillPopScopeWhenIosSwipeBackRoute(
-          builder: (context) => widget, settings: RouteSettings(name: name)));
+    context,
+    IgnoreWillPopScopeWhenIosSwipeBackRoute(
+      builder: (context) => widget,
+      settings: RouteSettings(name: name),
+    ),
+  );
   if (result == null) {
     return defaultValue;
   }

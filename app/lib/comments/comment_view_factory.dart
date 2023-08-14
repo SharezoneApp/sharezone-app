@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:meta/meta.dart';
-import 'package:sharezone/additional/course_permission.dart';
-import 'package:sharezone/util/api/courseGateway.dart';
+import 'package:sharezone/groups/group_permission.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'comment.dart';
@@ -37,8 +37,7 @@ class CommentViewFactory {
 
   bool _hasPermissionsToManageComments(String courseID, String authorID) {
     final myRole = courseGateway.getRoleFromCourseNoSync(courseID);
-    return requestPermission(
-            role: myRole, permissiontype: PermissionAccessType.admin) ||
+    return myRole.hasPermission(GroupPermission.administration) ||
         authorID == uid;
   }
 
