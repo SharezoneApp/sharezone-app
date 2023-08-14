@@ -59,6 +59,8 @@ class _ScannerState extends State<Scanner> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // The scanner that displays that current camera view and calls
+        // `onDetect` when a QR code / barcode is detected
         MobileScanner(
           controller: controller,
           fit: BoxFit.cover,
@@ -68,6 +70,8 @@ class _ScannerState extends State<Scanner> {
             }
           },
         ),
+        // The overlay (including controls like torch and text) that is
+        // displayed above the camera view of the scanner.
         ScanOverlay(
           description: widget.description,
           hasTorch: controller.hasTorch,
