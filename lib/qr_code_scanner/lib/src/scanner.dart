@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_code_scanner/src/overlay/scan_overlay.dart';
@@ -64,9 +65,17 @@ class _ScannerState extends State<Scanner> {
         MobileScanner(
           controller: controller,
           fit: BoxFit.cover,
-          onDetect: (barcode, args) {
-            if (widget.onDetect != null && barcode.rawValue != null) {
-              widget.onDetect!(barcode.rawValue!);
+          onDetect: (capture) {
+            // We just take the first barcode that is detected to keep it
+            // simple. Ideally, we would take the barcode that is closest to the
+            // center of the screen.
+            final firstBarcode = capture.barcodes.firstOrNull;
+            if (firstBarcode == null) {
+              return;
+            }
+
+            if (widget.onDetect != null && firstBarcode.rawValue != null) {
+              widget.onDetect!(firstBarcode.rawValue!);
             }
           },
         ),
