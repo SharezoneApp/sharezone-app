@@ -140,11 +140,10 @@ class _Corners extends StatelessWidget {
   }
 }
 
-/// A painter that draws rounded corners.
+/// A painter that draws a rounded corner.
 class _CornerBorderPainter extends CustomPainter {
   const _CornerBorderPainter({
     this.color = Colors.white,
-    this.strokeWidth = 5,
     this.width = 250,
   });
 
@@ -152,11 +151,6 @@ class _CornerBorderPainter extends CustomPainter {
   ///
   /// Defaults to [Colors.white].
   final Color color;
-
-  /// The stroke of the corner border.
-  ///
-  /// Defaults to 5.
-  final double strokeWidth;
 
   /// The width of the scan selection.
   ///
@@ -167,6 +161,8 @@ class _CornerBorderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    const strokeWidth = 5.0;
+
     final start = Offset(width / -2, width / -2);
     const radius = 20.0;
     const length = 15;
