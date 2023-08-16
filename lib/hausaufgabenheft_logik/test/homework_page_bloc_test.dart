@@ -30,7 +30,7 @@ import 'create_homework_util.dart';
 import 'in_memory_repo/in_memory_homework_repository.dart';
 
 void main() {
-  BlocSupervisor.delegate = VerboseBlocDelegate();
+  Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
     HomeworkPageBloc bloc;
     InMemoryHomeworkRepository repository;
@@ -552,9 +552,9 @@ class RepositoryHomeworkCompletionDispatcher
   }
 }
 
-class VerboseBlocDelegate extends BlocDelegate {
+class VerboseBlocObserver extends BlocObserver {
   @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stacktrace) {
     log('${bloc.runtimeType} error: $error, stacktrace: $stacktrace',
         error: error, stackTrace: stacktrace);
     super.onError(bloc, error, stacktrace);
