@@ -6,15 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
     as list_bloc;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/homework_sorts.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/homework_section_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
@@ -39,8 +37,8 @@ void main() {
       openHomeworksViewBloc
           .add(LoadHomeworks(SmallestDateSubjectAndTitleSort()));
 
-      final Success success =
-          await openHomeworksViewBloc.firstWhere((state) => state is Success);
+      final Success success = await openHomeworksViewBloc.stream
+          .firstWhere((state) => state is Success);
       expect(success.openHomeworkListView.sections, sections);
     });
   });
@@ -66,8 +64,7 @@ class MockOpenHomeworkListBloc extends Bloc<list_bloc.OpenHomeworkListBlocEvent,
     implements list_bloc.OpenHomeworkListBloc {
   var homeworkListToReturn = HomeworkList([]);
 
-  MockOpenHomeworkListBloc(this.homeworkListToReturn)
-      : super(list_bloc.Success(homeworkListToReturn)) {
+  MockOpenHomeworkListBloc() : super(list_bloc.Uninitialized()) {
     on<list_bloc.OpenHomeworkListBlocEvent>((event, emit) {
       emit(list_bloc.Success(homeworkListToReturn));
     });
