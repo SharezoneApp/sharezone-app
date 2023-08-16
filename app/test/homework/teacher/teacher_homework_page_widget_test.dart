@@ -299,6 +299,16 @@ void main() {
           hasLength(1),
           reason:
               "The UI should not ask the bloc for new homework when scrolling to the end of the homework list (as all homeworks have already been loaded).");
+
+      // In the teacher homework page bloc which is just a mock right now we use
+      // `await Future.delayed(const Duration(milliseconds: 1200))` to simulate
+      // the loading of homeworks.
+      // Since testWidgets uses fakeAsync interally and Future.delayed uses a
+      // Timer internally we need to pump (advance the fakeAsync time) so that
+      // this test doesn't fail because of this:
+      //  The following assertion was thrown running a test:
+      //  A Timer is still pending even after the widget tree was disposed.
+      tester.pump(Duration(seconds: 2));
     });
 
     testWidgets(
@@ -416,6 +426,9 @@ void main() {
       await tester.pump();
 
       expect(_finders.archivedHomeworkTab.noHomeworkPlaceholder, findsNothing);
+
+      // See test further above for why we need to pump here.
+      tester.pump(Duration(seconds: 2));
     });
   });
 }
