@@ -197,8 +197,8 @@ class TeacherHomeworkPageBloc
       _currentSort = event.sort;
     });
     on<AdvanceArchivedHomeworks>((event, emit) async {
-      _advanveArchivedHwLazyLoadingState();
       await Future.delayed(const Duration(milliseconds: 1200));
+      _advanveArchivedHwLazyLoadingState();
     });
     on<LoadHomeworks>((event, emit) {
       // Reset so that we can inspect the lazy loading again when we change
