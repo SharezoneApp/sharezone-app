@@ -32,26 +32,20 @@ class AbgabeHttpApi {
     this.serializers = serializers ?? standardSerializers;
   }
 
-  /**
-    * Get AbgabeApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
+  /// Get AbgabeApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
   AbgabeApi getAbgabeApi() {
     return AbgabeApi(dio, serializers);
   }
 
-  /**
-    * Get AbgabedateiApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
+  /// Get AbgabedateiApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
   AbgabedateiApi getAbgabedateiApi() {
     return AbgabedateiApi(dio, serializers);
   }
 
-  /**
-    * Get AbgabedateienApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
+  /// Get AbgabedateienApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
   AbgabedateienApi getAbgabedateienApi() {
     return AbgabedateienApi(dio, serializers);
   }

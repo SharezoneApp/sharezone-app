@@ -23,3 +23,5 @@ dev_dependencies:
   build_runner: ^2.3.3
   built_value_generator: ^8.4.4
   test: ^1.20.2
+  sharezone_lints:
+    path: ../../sharezone_lints
