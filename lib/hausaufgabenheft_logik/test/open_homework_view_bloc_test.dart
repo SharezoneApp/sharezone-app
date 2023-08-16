@@ -67,11 +67,9 @@ class MockOpenHomeworkListBloc extends Bloc<list_bloc.OpenHomeworkListBlocEvent,
   var homeworkListToReturn = HomeworkList([]);
 
   MockOpenHomeworkListBloc(this.homeworkListToReturn)
-      : super(list_bloc.Success(homeworkListToReturn));
-
-  @override
-  Stream<list_bloc.OpenHomeworkListBlocState> mapEventToState(
-      list_bloc.OpenHomeworkListBlocEvent event) {
-    return Stream.value(list_bloc.Success(homeworkListToReturn));
+      : super(list_bloc.Success(homeworkListToReturn)) {
+    on<list_bloc.OpenHomeworkListBlocEvent>((event, emit) {
+      emit(list_bloc.Success(homeworkListToReturn));
+    });
   }
 }
