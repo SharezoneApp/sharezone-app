@@ -103,8 +103,7 @@ void main() {
       bloc.add(LoadHomeworks());
       bloc.add(
           OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
-      // skip loading and first success (before sorting)
-      await bloc.stream.skip(2).firstWhere((element) => element is Success);
+      await bloc.stream.firstWhere((element) => element is Success);
 
       expect(await homeworkSortingCache.getLastSorting(),
           HomeworkSort.subjectSmallestDateAndTitleSort);
@@ -137,7 +136,6 @@ void main() {
       await addToRepository(homeworks);
 
       bloc.add(LoadHomeworks());
-      await bloc.stream.skip(1).first;
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
       final findState = bloc.stream.firstWhere((state) {
@@ -174,14 +172,11 @@ void main() {
 
       await addToRepository(homeworks);
 
-      final queue = StreamQueue(bloc.stream);
       bloc.add(LoadHomeworks());
-
-      await queue.skip(2); // LoadingHomeworks and firstly loaded homeworks
-
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      Success result = await queue.next;
+      Success result =
+          await bloc.stream.where((event) => event is Success).skip(1).first;
 
       final notDone = result.open;
       expect(notDone.sections.length, 5);
@@ -240,9 +235,6 @@ void main() {
       await addToRepository(unsorted);
       bloc.add(LoadHomeworks());
 
-      // Delay so the SortingChanged-Event is not dispatched before anything was loaded (because of async)
-      await bloc.stream.skip(1).first;
-
       bloc.add(
           OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
 
@@ -253,7 +245,6 @@ void main() {
             final orderedIds =
                 sortedOpenHWs.orderedHomeworks.map((hw) => hw.id).toList();
             return equals(orderedIds).matches(['1', '2', '3', '4'], {});
-            // return listsEqual(orderedIds, ["1", "2", "3", "4"]);
           }
         }
         return false;
@@ -268,13 +259,11 @@ void main() {
       var homework =
           createHomework(id: 'homeworkId', done: false, title: 'title');
 
-      final queue = StreamQueue(bloc.stream);
       await addToRepository([homework]);
       bloc.add(LoadHomeworks());
 
-      await queue.skip(1); // LoadingHomeworks
-
-      final Success uncompleted = await queue.next;
+      final Success uncompleted =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(uncompleted.open.numberOfHomeworks, 1);
       expect(uncompleted.completed.numberOfHomeworks, 0);
 
@@ -295,7 +284,8 @@ void main() {
       await addToRepository([tomorrow]);
       bloc.add(LoadHomeworks());
 
-      final Success latest = await bloc.stream.skip(1).first;
+      final Success latest =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(latest.open.sections.length, 1);
     });
 
@@ -317,9 +307,8 @@ void main() {
 
         await addToRepository(openHomeworks);
         bloc.add(LoadHomeworks());
-        await bloc.stream.skip(1).first;
+        await bloc.stream.firstWhere((state) => state is Success);
         bloc.add(CompletedAllOverdue());
-        bloc.stream.listen((e) => log('$e'));
         final Success res = await bloc.stream.firstWhere((state) =>
             state is Success &&
             state.completed.orderedHomeworks.length == 2 &&
@@ -340,7 +329,8 @@ void main() {
       await addToRepository(homeworks);
       bloc.add(LoadHomeworks());
 
-      final Success res = await bloc.stream.skip(1).first;
+      final Success res =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(res.open.showCompleteOverdueHomeworkPrompt, true);
     });
     test(
@@ -387,10 +377,6 @@ void main() {
             (i) => createHomework(id: '$i', done: true, title: title(i)));
       }
 
-      Future<Success> getFirstSuccessfullState(
-              Stream<HomeworkPageState> state) async =>
-          await state.firstWhere((state) => state is Success);
-
       test(
           'The bloc should give the appropiate status that not all completed homeworks were loaded yet if that is the case',
           () async {
@@ -399,7 +385,8 @@ void main() {
         await addToRepository(completedHomeworks, repository);
 
         bloc.add(LoadHomeworks());
-        final state = await getFirstSuccessfullState(bloc.stream);
+        final Success state =
+            await bloc.stream.firstWhere((state) => state is Success);
 
         expect(state.completed.loadedAllCompletedHomeworks, false);
       });
@@ -411,7 +398,8 @@ void main() {
           await addToRepository(completedHomeworks, repository);
 
           bloc.add(LoadHomeworks());
-          final state = await getFirstSuccessfullState(bloc.stream);
+          final Success state =
+              await bloc.stream.firstWhere((state) => state is Success);
 
           expect(state.completed.loadedAllCompletedHomeworks, true);
         },
@@ -563,11 +551,11 @@ class VerboseBlocObserver extends BlocObserver {
     super.onError(bloc, error, stacktrace);
   }
 
-  // @override
-  // void onTransition(Bloc bloc, Transition transition) {
-  //   log("${bloc.runtimeType} transition: $transition");
-  //   super.onTransition(bloc, transition);
-  // }
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    log("${bloc.runtimeType} transition: $transition");
+    super.onTransition(bloc, transition);
+  }
 
   @override
   void onEvent(Bloc bloc, Object event) {
