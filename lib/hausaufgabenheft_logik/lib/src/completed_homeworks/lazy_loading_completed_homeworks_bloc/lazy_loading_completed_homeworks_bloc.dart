@@ -26,26 +26,29 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
   LazyLoadingController _lazyLoadingController;
 
   LazyLoadingCompletedHomeworksBloc(this._homeworkRepository)
-      : super(Loading());
-
-  @override
-  Stream<LazyLoadingCompletedHomeworksBlocState> mapEventToState(
-      LazyLoadingCompletedHomeworksEvent event) async* {
-    if (event is LoadCompletedHomeworks) {
-      _lazyLoadingController =
-          _homeworkRepository.getLazyLoadingCompletedHomeworksController(
-              event.numberOfHomeworksToLoad);
-      _lazyLoadingController.results.listen((res) => add(_Yield(Success(
-          HomeworkList(res.homeworks),
-          loadedAllHomeworks: !res.moreHomeworkAvailable))));
-    } else if (event is AdvanceCompletedHomeworks) {
-      assert(_lazyLoadingController != null);
-      _lazyLoadingController.advanceBy(event.advanceBy);
-    } else if (event is _Yield) {
-      yield event.payload;
-    } else {
-      throw UnimplementedError('$event is not implemented');
-    }
+      : super(Loading()) {
+    on<LoadCompletedHomeworks>(
+      (event, emit) {
+        _lazyLoadingController =
+            _homeworkRepository.getLazyLoadingCompletedHomeworksController(
+                event.numberOfHomeworksToLoad);
+        _lazyLoadingController.results.listen((res) => add(
+              _Yield(Success(
+                HomeworkList(res.homeworks),
+                loadedAllHomeworks: !res.moreHomeworkAvailable,
+              )),
+            ));
+      },
+    );
+    on<AdvanceCompletedHomeworks>(
+      (event, emit) {
+        assert(_lazyLoadingController != null);
+        _lazyLoadingController.advanceBy(event.advanceBy);
+      },
+    );
+    on<_Yield>(
+      (event, emit) => emit(event.payload),
+    );
   }
 
   @override
