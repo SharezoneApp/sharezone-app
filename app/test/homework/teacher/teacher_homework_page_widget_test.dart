@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
 import 'dart:collection';
 
 import 'package:analytics/analytics.dart';
@@ -34,6 +33,14 @@ class MockTeacherHomeworkPageBloc extends TeacherHomeworkPageBloc {
 
   final receivedEvents = <TeacherHomeworkPageEvent>[];
 
+  MockTeacherHomeworkPageBloc() : super() {
+    on<TeacherHomeworkPageEvent>((event, emit) {
+      if (_queuedStates.isNotEmpty) {
+        emit(_queuedStates.removeFirst());
+      }
+    });
+  }
+
   void emitNewState(TeacherHomeworkPageState state) {
     _queuedStates.add(state);
     add(LoadHomeworks());
@@ -44,17 +51,6 @@ class MockTeacherHomeworkPageBloc extends TeacherHomeworkPageBloc {
     receivedEvents.add(event);
     super.onEvent(event);
   }
-
-  @override
-  Stream<TeacherHomeworkPageState> mapEventToState(
-      TeacherHomeworkPageEvent event) async* {
-    if (_queuedStates.isNotEmpty) {
-      yield _queuedStates.removeFirst();
-    }
-  }
-
-  @override
-  TeacherHomeworkPageState initialState = Uninitialized();
 }
 
 enum HomeworkTab { open, archived }
