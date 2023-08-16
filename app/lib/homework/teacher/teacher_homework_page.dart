@@ -90,7 +90,7 @@ class TeacherHomeworkBody extends StatelessWidget {
     final bloc = BlocProvider.of<TeacherHomeworkPageBloc>(context);
     bloc.add(LoadHomeworks());
     return StreamBuilder<TeacherHomeworkPageState>(
-      stream: bloc,
+      stream: bloc.stream,
       initialData: Uninitialized(),
       builder: (context, snapshot) {
         final state = snapshot.hasData ? snapshot.data : Uninitialized();
