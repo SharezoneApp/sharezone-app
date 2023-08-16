@@ -65,6 +65,9 @@ class _ScannerState extends State<Scanner> {
         MobileScanner(
           controller: controller,
           fit: BoxFit.cover,
+          errorBuilder: (context, exception, child) {
+            return _Error(exception: exception);
+          },
           onDetect: (capture) {
             // We just take the first barcode that is detected to keep it
             // simple. Ideally, we would take the barcode that is closest to the
@@ -86,6 +89,40 @@ class _ScannerState extends State<Scanner> {
           hasTorch: controller.hasTorch,
           onTorchToggled: () => controller.toggleTorch(),
         )
+      ],
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error({
+    Key? key,
+    required this.exception,
+  }) : super(key: key);
+
+  final MobileScannerException exception;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const ColoredBox(
+          color: Colors.black,
+          child: Center(child: Icon(Icons.error, color: Colors.white)),
+        ),
+        const SizedBox(height: 12),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 220),
+          child: Text(
+            'QR-Code-Scanner konnte nicht gestartet werden: ${exception.errorDetails?.message} (${exception.errorDetails?.message}, ${exception.errorCode})',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.error,
+              fontSize: 12,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ],
     );
   }
