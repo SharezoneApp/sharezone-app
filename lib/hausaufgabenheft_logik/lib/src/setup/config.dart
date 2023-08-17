@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 class HausaufgabenheftConfig {
   final int defaultCourseColorValue;
   final int nrOfInitialCompletedHomeworksToLoad;

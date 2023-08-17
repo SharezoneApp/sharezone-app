@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 import '../../views/homework_view.dart';
 
 class CompletedHomeworkListView {
