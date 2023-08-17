@@ -9,6 +9,8 @@
 import 'dart:async';
 
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_fvm_is_not_installed.dart';
 
 class FormatCommand extends ConcurrentCommand {
   FormatCommand(SharezoneRepo repo) : super(repo);
@@ -24,7 +26,46 @@ class FormatCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => Duration(minutes: 3);
 
   @override
-  Future<void> runTaskForPackage(Package package) => formatCode(package);
+  Future<void> runSetup() async {
+    await throwIfFvmIsNotInstalled();
+    await _throwIfPrettierIsNotInstalled();
+
+    await _formatActionFiles(repo: repo);
+  }
+
+  @override
+  Future<void> runTaskForPackage(Package package) async =>
+      await formatCode(package);
+
+  Future<void> _throwIfPrettierIsNotInstalled() async {
+    // Check if "which -s app-store-connect" returns 0.
+    // If not, throw an exception.
+    final result = await runProcess(
+      'which',
+      ['-s', 'prettier'],
+    );
+    if (result.exitCode != 0) {
+      throw Exception(
+        'Prettier is not installed. Run `npm install -g prettier` to install it.',
+      );
+    }
+  }
+
+  Future<void> _formatActionFiles({
+    required SharezoneRepo repo,
+  }) async {
+    final results = await runSourceOfTruthCommand(
+      commandKey: 'format_action_files',
+      repo: repo,
+    );
+
+    if (results.exitCode != 0) {
+      throw Exception(
+          'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}');
+    }
+
+    print('✅ Formatted GitHub Action files.');
+  }
 }
 
 Future<void> formatCode(
