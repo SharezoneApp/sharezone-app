@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 class Date implements Comparable<Date> {
   final int day;
   final int month;
