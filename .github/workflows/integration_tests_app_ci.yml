@@ -136,7 +136,7 @@ jobs:
       # Runs our integration tests with Firebase Test Lab.
       #
       # Advantages of Firebase Test Lab:
-      #  * We can use a Linux runner instead of a macOS runner in 
+      #  * We can use a Linux runner instead of a macOS runner in
       #    Github Actions (macOS runner is required for using an Android emulator).
       #  * We can run the tests on a real device instead of an emulator.
       #  * We get a screen recording of the test run which we can use to
