@@ -12,7 +12,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
-import 'package:optional/optional.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'homework_dto.dart';
@@ -24,7 +23,7 @@ class HomeworkTransformer extends StreamTransformerBase<
   final String userId;
   final CourseColorRetreiver getCourseColorHexValue;
 
-  HomeworkTransformer(this.userId, {this.getCourseColorHexValue});
+  HomeworkTransformer(this.userId, {required this.getCourseColorHexValue});
 
   @override
   Stream<List<HomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
@@ -35,25 +34,27 @@ class HomeworkTransformer extends StreamTransformerBase<
       QuerySnapshot querySnapshot) async {
     final homeworks = <HomeworkReadModel>[];
     for (final document in querySnapshot.docs) {
-      final maybeConverted = await tryToConvertToHomework(document, userId,
+      final homework = await tryToConvertToHomework(document, userId,
           getCourseColorHexValue: getCourseColorHexValue);
-      maybeConverted.ifPresent(homeworks.add);
+      if (homework != null) {
+        homeworks.add(homework);
+      }
     }
     return homeworks;
   }
 }
 
-Future<Optional<HomeworkReadModel>> tryToConvertToHomework(
+Future<HomeworkReadModel?> tryToConvertToHomework(
     DocumentSnapshot documentSnapshot, String uid,
-    {CourseColorRetreiver getCourseColorHexValue}) async {
-  HomeworkReadModel converted;
+    {CourseColorRetreiver? getCourseColorHexValue}) async {
+  HomeworkReadModel? converted;
   try {
-    final homework =
-        HomeworkDto.fromData(documentSnapshot.data(), id: documentSnapshot.id);
+    final homework = HomeworkDto.fromData(
+        documentSnapshot.data() as Map<String, dynamic>,
+        id: documentSnapshot.id);
 
-    int courseColorHex;
-    if (getCourseColorHexValue != null &&
-        homework?.courseReference?.id != null) {
+    int? courseColorHex;
+    if (getCourseColorHexValue != null) {
       courseColorHex =
           await getCourseColorHexValue(homework.courseReference.id);
     }
@@ -77,7 +78,7 @@ Future<Optional<HomeworkReadModel>> tryToConvertToHomework(
   } catch (e, s) {
     final errorMessage = """
     Could not convert a document into a homework object.
-    Homework document id: ${documentSnapshot?.id}
+    Homework document id: ${documentSnapshot.id}
     User id: $uid
     Error: $e
     Stacktrace: $s
@@ -85,5 +86,5 @@ Future<Optional<HomeworkReadModel>> tryToConvertToHomework(
     log(errorMessage, error: e, stackTrace: s);
   }
 
-  return Optional.ofNullable(converted);
+  return converted;
 }

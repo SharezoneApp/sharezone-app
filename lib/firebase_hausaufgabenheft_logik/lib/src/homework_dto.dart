@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class HomeworkDto {
@@ -19,24 +18,24 @@ class HomeworkDto {
   final String subjectAbbreviation;
   final String courseName;
 
-  final DocumentReference authorReference;
+  final DocumentReference? authorReference;
   final String authorID;
   final String authorName;
 
   final String title;
   final String description;
   final DateTime todoUntil;
-  final DateTime createdOn;
+  final DateTime? createdOn;
   final List<String> attachments;
   final bool private;
   final bool withSubmissions;
   final List<String> submitters;
-  final Map<String, bool> forUsers;
+  final Map<String, bool?> forUsers;
   final bool sendNotification;
-  final String latestEditor;
+  final String? latestEditor;
   final AssignedUserArrays assignedUserArrays;
 
-  bool get hasAttachments => attachments != null && attachments.isNotEmpty;
+  bool get hasAttachments => attachments.isNotEmpty;
 
   /// Falls ohne Abgaben: Ob die UID in ForUsers mit true oder in
   /// completedStudentArrays ist.
@@ -45,14 +44,14 @@ class HomeworkDto {
   /// eine richtige "Homework"-Klasse haben, ist es halt so.
   bool isDoneBy(String userId) {
     if (withSubmissions) {
-      return submitters?.contains(userId) ?? false;
+      return submitters.contains(userId);
     } else {
-      if (forUsers == null || forUsers.isEmpty) return false;
-      if (forUsers[userId]) {
+      if (forUsers.isEmpty) return false;
+      final id = forUsers[userId];
+      if (id != null && id == true) {
         return true;
       }
-      if (assignedUserArrays == null ||
-          assignedUserArrays.completedStudentUids.isEmpty) return false;
+      if (assignedUserArrays.completedStudentUids.isEmpty) return false;
       return assignedUserArrays.completedStudentUids.contains(userId);
     }
   }
@@ -87,37 +86,37 @@ class HomeworkDto {
   }
 
   HomeworkDto._({
-    @required this.id,
-    @required this.courseReference,
-    @required this.courseID,
-    @required this.subject,
-    @required this.subjectAbbreviation,
-    @required this.courseName,
-    @required this.authorReference,
-    @required this.authorID,
-    @required this.authorName,
-    @required this.title,
-    @required this.description,
-    @required this.todoUntil,
-    @required this.createdOn,
-    @required this.attachments,
-    @required this.private,
-    @required this.withSubmissions,
-    @required this.submitters,
-    @required this.forUsers,
-    @required this.sendNotification,
-    @required this.latestEditor,
-    @required this.assignedUserArrays,
+    required this.id,
+    required this.courseReference,
+    required this.courseID,
+    required this.subject,
+    required this.subjectAbbreviation,
+    required this.courseName,
+    required this.authorReference,
+    required this.authorID,
+    required this.authorName,
+    required this.title,
+    required this.description,
+    required this.todoUntil,
+    required this.createdOn,
+    required this.attachments,
+    required this.private,
+    required this.withSubmissions,
+    required this.submitters,
+    required this.forUsers,
+    required this.sendNotification,
+    required this.latestEditor,
+    required this.assignedUserArrays,
   });
 
   factory HomeworkDto.create({
-    DocumentReference courseReference,
-    String courseID,
+    required DocumentReference courseReference,
+    String? courseID,
   }) {
     return HomeworkDto._(
       id: "",
       courseReference: courseReference,
-      courseID: courseID ?? courseReference?.id,
+      courseID: courseID ?? courseReference.id,
       subject: "",
       subjectAbbreviation: "",
       courseName: "",
@@ -140,7 +139,7 @@ class HomeworkDto {
   }
 
   factory HomeworkDto.fromData(Map<String, dynamic> data,
-      {@required String id}) {
+      {required String id}) {
     return HomeworkDto._(
       id: id,
       courseReference: data['courseReference'],
@@ -191,27 +190,27 @@ class HomeworkDto {
   }
 
   HomeworkDto copyWith(
-      {String id,
-      DocumentReference courseReference,
-      String courseID,
-      String subject,
-      String subjectAbbreviation,
-      String courseName,
-      DocumentReference authorReference,
-      String authorID,
-      String authorName,
-      String title,
-      String description,
-      DateTime todoUntil,
-      DateTime createdOn,
-      List<String> attachments,
-      List<String> submitters,
-      bool withSubmissions,
-      bool private,
-      Map<String, bool> forUsers,
-      bool sendNotification,
-      String latestEditor,
-      AssignedUserArrays assignedUserArrays}) {
+      {String? id,
+      DocumentReference? courseReference,
+      String? courseID,
+      String? subject,
+      String? subjectAbbreviation,
+      String? courseName,
+      DocumentReference? authorReference,
+      String? authorID,
+      String? authorName,
+      String? title,
+      String? description,
+      DateTime? todoUntil,
+      DateTime? createdOn,
+      List<String>? attachments,
+      List<String>? submitters,
+      bool? withSubmissions,
+      bool? private,
+      Map<String, bool>? forUsers,
+      bool? sendNotification,
+      String? latestEditor,
+      AssignedUserArrays? assignedUserArrays}) {
     return HomeworkDto._(
       id: id ?? this.id,
       courseReference: courseReference ?? this.courseReference,
@@ -244,19 +243,18 @@ class AssignedUserArrays {
   final List<String> openStudentUids;
 
   AssignedUserArrays({
-    @required this.allAssignedUids,
-    @required this.openStudentUids,
-    @required this.completedStudentUids,
+    required this.allAssignedUids,
+    required this.openStudentUids,
+    required this.completedStudentUids,
   });
 
   factory AssignedUserArrays.fromData(Map<String, dynamic> data) {
     if (data['assignedUserArrays'] == null) return AssignedUserArrays.empty();
     final map = decodeMap(data['assignedUserArrays'], (key, value) => value);
     return AssignedUserArrays(
-      allAssignedUids: decodeList(map['allAssignedUids'], (it) => it) ?? [],
-      openStudentUids: decodeList(map['openStudentUids'], (it) => it) ?? [],
-      completedStudentUids:
-          decodeList(map['completedStudentUids'], (it) => it) ?? [],
+      allAssignedUids: decodeList(map['allAssignedUids'], (it) => it),
+      openStudentUids: decodeList(map['openStudentUids'], (it) => it),
+      completedStudentUids: decodeList(map['completedStudentUids'], (it) => it),
     );
   }
 
