@@ -350,6 +350,8 @@ jobs:
           # longer than 4000 characters.
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
+          echo "Package name: $PACKAGE_NAME"
+
           app-store-connect publish \
             --path $PACKAGE_NAME \
             --beta-group=alpha \
