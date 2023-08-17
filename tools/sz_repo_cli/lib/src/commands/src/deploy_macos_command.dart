@@ -51,6 +51,7 @@ class DeployMacOsCommand extends Command {
           'The deployment stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases. The value will be forwarded to the "sz build" command.',
       defaultsTo: 'stable',
     );
+
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
     addAppStoreConnectPrivateKey(argParser);
