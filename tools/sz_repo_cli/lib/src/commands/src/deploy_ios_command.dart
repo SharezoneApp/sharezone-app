@@ -60,26 +60,6 @@ class DeployIosCommand extends Command {
         defaultsTo: 'stable',
       )
       ..addOption(
-        keyIdOptionName,
-        help:
-            'The App Store Connect API Key ID used to authenticate. This can be found in the App Store Connect Developer Portal. Learn more at https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api. If the parameter is not provided, the value of the APP_STORE_CONNECT_KEY_IDENTIFIER environment variable will be used. If no value is set, the deployment will fail. Example value: 1234567890',
-      )
-      ..addOption(
-        issuerIdOptionName,
-        help:
-            'The App Store Connect API Key Issuer ID used to authenticate. This can be found in the App Store Connect Developer Portal. Learn more at https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api. If the parameter is not provided, the value of the APP_STORE_CONNECT_ISSUER_ID environment variable will be used. If no value is set, the deployment will fail. Example value: 00000000-0000-0000-0000-000000000000',
-      )
-      ..addOption(
-        privateKeyOptionName,
-        help:
-            'The App Store Connect API private key used for JWT authentication to communicate with Apple services. This can be found in the App Store Connect Developer Portal. Learn more at https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api. If not provided, the value will be checked from the environment variable APP_STORE_CONNECT_PRIVATE_KEY. If not given, the key will be searched from the following directories in sequence for a private key file with the name AuthKey_<key_identifier>.p8: private_keys, ~/private_keys, ~/.private_keys, ~/.appstoreconnect/private_keys, where <key_identifier> is the value of --key-id. If no value is set, the deployment will fail.',
-      )
-      ..addOption(
-        whatsNewOptionName,
-        help:
-            "Release notes either for TestFlight or App Store review submission. Describe what's new in this version of your app, such as new features, improvements, and bug fixes. The string should not exceed 4000 characters. Example usage: --whats-new 'Bug fixes and performance improvements.'",
-      )
-      ..addOption(
         exportOptionsPlistName,
         help:
             'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
@@ -90,6 +70,11 @@ class DeployIosCommand extends Command {
         help: 'The flavor to build for. Only the "prod" flavor is supported.',
         defaultsTo: 'prod',
       );
+
+    addAppStoreConnectKeyIdOption(argParser);
+    addAppStoreConnectIssuerIdOption(argParser);
+    addAppStoreConnectPrivateKey(argParser);
+    addWhatsNewOption(argParser);
   }
 
   static const flavorOptionName = 'flavor';
