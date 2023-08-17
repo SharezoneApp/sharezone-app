@@ -12,7 +12,7 @@ import 'package:sharezone_common/helper_functions.dart';
 class HomeworkDto {
   final String id;
 
-  final DocumentReference courseReference;
+  final DocumentReference? courseReference;
   final String courseID;
   final String subject;
   final String subjectAbbreviation;
@@ -110,13 +110,13 @@ class HomeworkDto {
   });
 
   factory HomeworkDto.create({
-    required DocumentReference courseReference,
-    String? courseID,
+    DocumentReference? courseReference,
+    required String courseID,
   }) {
     return HomeworkDto._(
       id: "",
       courseReference: courseReference,
-      courseID: courseID ?? courseReference.id,
+      courseID: courseID,
       subject: "",
       subjectAbbreviation: "",
       courseName: "",
