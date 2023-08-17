@@ -105,7 +105,7 @@ class _Corners extends StatelessWidget {
         CustomPaint(
           painter: _CornerBorderPainter(
             color: color,
-            width: width,
+            size: width,
           ),
         ),
         Transform.rotate(
@@ -113,7 +113,7 @@ class _Corners extends StatelessWidget {
           child: CustomPaint(
             painter: _CornerBorderPainter(
               color: color,
-              width: width,
+              size: width,
             ),
           ),
         ),
@@ -122,7 +122,7 @@ class _Corners extends StatelessWidget {
           child: CustomPaint(
             painter: _CornerBorderPainter(
               color: color,
-              width: width,
+              size: width,
             ),
           ),
         ),
@@ -131,7 +131,7 @@ class _Corners extends StatelessWidget {
           child: CustomPaint(
             painter: _CornerBorderPainter(
               color: color,
-              width: width,
+              size: width,
             ),
           ),
         ),
@@ -144,7 +144,7 @@ class _Corners extends StatelessWidget {
 class _CornerBorderPainter extends CustomPainter {
   const _CornerBorderPainter({
     this.color = Colors.white,
-    this.width = 250,
+    this.size = 250,
   });
 
   /// The color of the scan selection corners.
@@ -157,13 +157,13 @@ class _CornerBorderPainter extends CustomPainter {
   /// Is used to calculate the position of the corner border.
   ///
   /// Defaults to 250.
-  final double width;
+  final double size;
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(Canvas canvas, Size s) {
     const strokeWidth = 5.0;
 
-    final start = Offset(width / -2, width / -2);
+    final start = Offset(size / -2, size / -2);
     const radius = 20.0;
     const length = 15;
 
@@ -186,7 +186,7 @@ class _CornerBorderPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromCircle(
         center: start + const Offset(radius, radius),
-        radius: width / (width / 20),
+        radius: size / (size / 20),
       ),
       pi,
       pi / 2,
