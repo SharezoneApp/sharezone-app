@@ -58,12 +58,12 @@
     <!-- Required for QR Login -->
     <script src="assets/packages/fast_rsa/web/assets/wasm_exec.js" type="application/javascript"></script>
 
-    <!-- Package "mobile_scanner" depends on "jsQR", see
+    <!-- Required for the "mobile_scanner" package, see
     https://pub.dev/packages/mobile_scanner#web. Copied the file from
-    https://unpkg.com/@zxing/library@0.19.1. We copied the files into the source
+    https://unpkg.com/@zxing/library@0.19.1. We copied the file into the source
     code to be more GDPR friendly (client avoid making a request to a third
     party service) -->
-    <script src="js/zwing_library.js" type="application/javascript"></script>
+    <script src="https://unpkg.com/@zxing/library@0.19.1" type="application/javascript"></script>
     
     <!-- Required for Google Sign In -->
     <meta name="google-signin-client_id"
