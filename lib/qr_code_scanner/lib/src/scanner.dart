@@ -58,38 +58,32 @@ class _ScannerState extends State<Scanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // The scanner that displays that current camera view and calls
-        // `onDetect` when a QR code / barcode is detected
-        MobileScanner(
-          controller: controller,
-          fit: BoxFit.cover,
-          errorBuilder: (context, exception, child) {
-            return _Error(exception: exception);
-          },
-          onDetect: (capture) {
-            // We just take the first barcode that is detected to keep it
-            // simple. Ideally, we would take the barcode that is closest to the
-            // center of the screen.
-            final firstBarcode = capture.barcodes.firstOrNull;
-            if (firstBarcode == null) {
-              return;
-            }
+    return MobileScanner(
+      controller: controller,
+      fit: BoxFit.cover,
+      errorBuilder: (context, exception, child) {
+        return _Error(exception: exception);
+      },
+      // The overlay (including controls like torch and text) that is
+      // displayed above the camera view of the scanner.
+      overlay: ScanOverlay(
+        description: widget.description,
+        hasTorch: controller.hasTorch,
+        onTorchToggled: () => controller.toggleTorch(),
+      ),
+      onDetect: (capture) {
+        // We just take the first barcode that is detected to keep it
+        // simple. Ideally, we would take the barcode that is closest to the
+        // center of the screen.
+        final firstBarcode = capture.barcodes.firstOrNull;
+        if (firstBarcode == null) {
+          return;
+        }
 
-            if (widget.onDetect != null && firstBarcode.rawValue != null) {
-              widget.onDetect!(firstBarcode.rawValue!);
-            }
-          },
-        ),
-        // The overlay (including controls like torch and text) that is
-        // displayed above the camera view of the scanner.
-        ScanOverlay(
-          description: widget.description,
-          hasTorch: controller.hasTorch,
-          onTorchToggled: () => controller.toggleTorch(),
-        )
-      ],
+        if (widget.onDetect != null && firstBarcode.rawValue != null) {
+          widget.onDetect!(firstBarcode.rawValue!);
+        }
+      },
     );
   }
 }
