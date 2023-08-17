@@ -55,8 +55,7 @@ Future<HomeworkReadModel?> tryToConvertToHomework(
 
     int? courseColorHex;
     if (getCourseColorHexValue != null) {
-      courseColorHex =
-          await getCourseColorHexValue(homework.courseReference.id);
+      courseColorHex = await getCourseColorHexValue(homework.courseID);
     }
     Subject subject;
     if (courseColorHex != null) {
