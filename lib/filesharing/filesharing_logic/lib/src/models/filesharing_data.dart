@@ -8,32 +8,30 @@
 
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:sharezone_common/helper_functions.dart';
-
 import 'filesharing_type.dart';
 import 'folder.dart';
 import 'folder_path.dart';
 
 class FileSharingData {
   final String courseID;
-  final String courseName;
+  final String? courseName;
   final FileSharingType type;
   final Map<String, Folder> folders;
-  final List<String> users;
+  final List<String?> users;
 
   const FileSharingData._({
-    @required this.courseID,
-    @required this.courseName,
-    @required this.folders,
-    @required this.users,
-    @required this.type,
+    required this.courseID,
+    required this.courseName,
+    required this.folders,
+    required this.users,
+    required this.type,
   });
 
   factory FileSharingData.create(
-      {@required String courseID,
-      @required String courseName,
-      @required List<String> users}) {
+      {required String courseID,
+      required String courseName,
+      required List<String> users}) {
     return FileSharingData._(
       courseID: courseID,
       courseName: courseName,
@@ -44,8 +42,8 @@ class FileSharingData {
   }
 
   factory FileSharingData.fromData(
-      {@required String id, @required Map<String, dynamic> data}) {
-    Map<String, Folder> mFolders;
+      {required String id, required Map<String, dynamic> data}) {
+    Map<String, Folder>? mFolders;
     try {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
@@ -61,11 +59,11 @@ class FileSharingData {
   }
 
   FileSharingData copyWith({
-    String courseID,
-    String courseName,
-    Map<String, Folder> folders,
-    List<String> users,
-    FileSharingType type,
+    String? courseID,
+    String? courseName,
+    Map<String, Folder>? folders,
+    List<String>? users,
+    FileSharingType? type,
   }) {
     return FileSharingData._(
       courseID: courseID ?? this.courseID,
@@ -76,11 +74,11 @@ class FileSharingData {
     );
   }
 
-  Folder getFolder(FolderPath folderPath) {
+  Folder? getFolder(FolderPath folderPath) {
     if (folderPath == FolderPath.root) return null;
     final folderIDList = folderPath.getFolderIDs();
     if (folderIDList.length > 1) {
-      Folder lastFolder;
+      Folder? lastFolder;
       for (String mFolderID in folderIDList) {
         if (mFolderID == "") {
           lastFolder = null;
@@ -98,11 +96,11 @@ class FileSharingData {
     }
   }
 
-  Map<String, Folder> getFolders(FolderPath folderPath) {
+  Map<String, Folder>? getFolders(FolderPath? folderPath) {
     if (folderPath == FolderPath.root) return folders;
-    final folderIDList = folderPath.getFolderIDs();
+    final folderIDList = folderPath!.getFolderIDs();
     if (folderIDList.length > 1) {
-      Folder lastFolder;
+      Folder? lastFolder;
       for (String mFolderID in folderIDList) {
         if (mFolderID == "") {
           lastFolder = null;

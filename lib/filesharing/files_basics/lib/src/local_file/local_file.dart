@@ -19,7 +19,7 @@ abstract class LocalFile {
   dynamic getFile();
   dynamic getData();
 
-  String getPath();
+  String? getPath();
 
   String getName();
 

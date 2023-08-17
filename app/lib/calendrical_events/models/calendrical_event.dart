@@ -51,7 +51,7 @@ class CalendricalEvent {
       startTime: Time.parse(data['startTime'] as String),
       endTime: Time.parse(data['endTime'] as String),
       title: data['title'] as String,
-      groupType: groupTypeFromString(data['groupType'] as String),
+      groupType: GroupType.values.byName(data['groupType'] as String),
       eventType: getEventTypeFromString(data['eventType'] as String),
       detail: data['detail'] as String,
       place: data['place'] as String,
@@ -63,7 +63,7 @@ class CalendricalEvent {
   Map<String, dynamic> toJson() {
     return {
       'groupID': groupID,
-      'groupType': groupTypeToString(groupType),
+      'groupType': groupType?.name,
       'eventType': getEventTypeToString(eventType),
       'authorID': authorID,
       'date': date.toDateString,

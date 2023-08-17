@@ -8,31 +8,30 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'change_activity.dart';
 import 'folder_path.dart';
 import 'reference_data.dart';
 
 class CloudFile {
-  final String id;
+  final String? id;
 
   final List<ChangeActivity> changes;
 
-  final List<String> references;
+  final List<String?> references;
   final Map<String, ReferenceData> referenceData;
 
-  final String creatorID;
-  final String creatorName;
-  final String courseID;
+  final String? creatorID;
+  final String? creatorName;
+  final String? courseID;
 
   final FolderPath path;
 
-  final String name;
-  final String downloadURL;
-  final String thumbnailURL;
+  final String? name;
+  final String? downloadURL;
+  final String? thumbnailURL;
   final DateTime createdOn;
-  final int sizeBytes;
+  final int? sizeBytes;
   final FileFormat fileFormat;
 
   /// Aufgrund der Security-Rules müssen die UIs in dem CloudFile-Dokument
@@ -43,28 +42,28 @@ class CloudFile {
   final Map<String, bool> forUsers;
 
   const CloudFile._({
-    @required this.id,
-    @required this.changes,
-    @required this.references,
-    @required this.referenceData,
-    @required this.creatorID,
-    @required this.creatorName,
-    @required this.courseID,
-    @required this.path,
-    @required this.name,
-    @required this.downloadURL,
-    @required this.thumbnailURL,
-    @required this.createdOn,
-    @required this.sizeBytes,
-    @required this.fileFormat,
-    @required this.forUsers,
+    required this.id,
+    required this.changes,
+    required this.references,
+    required this.referenceData,
+    required this.creatorID,
+    required this.creatorName,
+    required this.courseID,
+    required this.path,
+    required this.name,
+    required this.downloadURL,
+    required this.thumbnailURL,
+    required this.createdOn,
+    required this.sizeBytes,
+    required this.fileFormat,
+    required this.forUsers,
   });
 
   factory CloudFile.create({
-    @required String id,
-    @required String creatorID,
-    @required String creatorName,
-    @required String courseID,
+    required String id,
+    required String creatorID,
+    required String creatorName,
+    required String courseID,
     FolderPath path = FolderPath.root,
   }) {
     return CloudFile._(
@@ -122,7 +121,7 @@ class CloudFile {
       'creatorID': creatorID,
       'creatorName': creatorName,
       'courseID': courseID,
-      'path': path?.toPathString() ?? '/',
+      'path': path.toPathString() ?? '/',
       'name': name,
       'downloadURL': downloadURL,
       'thumbnailURL': thumbnailURL,
@@ -134,21 +133,21 @@ class CloudFile {
   }
 
   CloudFile copyWith({
-    String id,
-    List<ChangeActivity> changes,
-    List<String> references,
-    Map<String, ReferenceData> referenceData,
-    String creatorID,
-    String creatorName,
-    String courseID,
-    FolderPath path,
-    String name,
-    String downloadURL,
-    String thumbnailURL,
-    DateTime createdOn,
-    int sizeBytes,
-    FileFormat fileFormat,
-    Map<String, bool> forUsers,
+    String? id,
+    List<ChangeActivity>? changes,
+    List<String>? references,
+    Map<String, ReferenceData>? referenceData,
+    String? creatorID,
+    String? creatorName,
+    String? courseID,
+    FolderPath? path,
+    String? name,
+    String? downloadURL,
+    String? thumbnailURL,
+    DateTime? createdOn,
+    int? sizeBytes,
+    FileFormat? fileFormat,
+    Map<String, bool>? forUsers,
   }) {
     return CloudFile._(
       id: id ?? this.id,
@@ -180,15 +179,15 @@ class CloudFile {
 }
 
 class CloudFileMetaData {
-  String fileID, fileName, path, creatorID;
+  String? fileID, fileName, path, creatorID;
 
   CloudFileMetaData(
-      {@required this.fileID,
-      @required this.fileName,
-      @required this.path,
-      @required this.creatorID});
+      {required this.fileID,
+      required this.fileName,
+      required this.path,
+      required this.creatorID});
 
-  Map<String, String> toJson() {
+  Map<String, String?> toJson() {
     return {
       'fileID': fileID,
       'fileName': fileName,

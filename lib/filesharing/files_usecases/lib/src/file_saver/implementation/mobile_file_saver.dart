@@ -19,12 +19,12 @@ class MobileFileSaver extends FileSaver {
   }
 
   @override
-  Future<String> downloadAndReturnObjectUrl(String url) {
+  Future<String>? downloadAndReturnObjectUrl(String? url) {
     return null;
   }
 
   @override
-  Future<Uint8List> downloadAndReturnBytes(String url) {
+  Future<Uint8List>? downloadAndReturnBytes(String url) {
     return null;
   }
 }

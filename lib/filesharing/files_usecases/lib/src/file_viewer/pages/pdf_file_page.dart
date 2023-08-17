@@ -17,17 +17,16 @@ import '../widgets/file_page_app_bar.dart';
 
 class PdfFilePage extends StatelessWidget {
   const PdfFilePage({
-    Key key,
-    @required this.localFile,
+    Key? key,
+    required this.localFile,
     this.actions,
-    @required this.name,
+    required this.name,
     this.nameStream,
-  })  : assert(name != null || localFile != null),
-        super(key: key);
+  }) : super(key: key);
 
   final String name;
-  final Stream<String> nameStream;
-  final List<Widget> actions;
+  final Stream<String>? nameStream;
+  final List<Widget>? actions;
   final LocalFile localFile;
 
   @override
@@ -47,7 +46,7 @@ class PdfFilePage extends StatelessWidget {
           future: isDeviceSupportedByPdfPlguin(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data) {
+              if (snapshot.data!) {
                 return PdfView(
                   pageSnapping: false,
                   controller:
@@ -96,10 +95,10 @@ class PdfFilePage extends StatelessWidget {
   Future<bool> isDeviceSupportedByPdfPlguin() async {
     if (PlatformCheck.isAndroid) {
       final android = await MobileDeviceInformationRetreiver().androidInfo;
-      return android.version.sdkInt >= 21;
+      return android.version.sdkInt! >= 21;
     } else if (PlatformCheck.isIOS) {
       final ios = await MobileDeviceInformationRetreiver().iosInfo;
-      final result = ios.systemVersion.compareTo('11.0.0');
+      final result = ios.systemVersion!.compareTo('11.0.0');
       return result != -1;
     }
     return true;
@@ -108,7 +107,7 @@ class PdfFilePage extends StatelessWidget {
 
 Future<PdfDocument> getPdfDocument(LocalFile localFile) {
   if (PlatformCheck.isMobile) {
-    return PdfDocument.openFile(localFile.getPath());
+    return PdfDocument.openFile(localFile.getPath()!);
   } else {
     return PdfDocument.openData(localFile.getData());
   }

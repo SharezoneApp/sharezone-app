@@ -14,7 +14,6 @@ import 'package:files_usecases/file_compression.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:filesharing_logic/src/models/content_disposition.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fb;
-import 'package:meta/meta.dart';
 import '../file_uploader.dart';
 import '../models/upload_meta_data.dart';
 import '../models/upload_task.dart';
@@ -28,9 +27,9 @@ class FirebaseFileUploader extends FileUploader {
   /// Tries to use the Dart IO file if possible. If not, the file is uploaded
   /// via data (Uint8List).
   fb.UploadTask _uploadToFirebase({
-    @required fb.Reference reference,
-    @required LocalFile file,
-    fb.SettableMetadata metadata,
+    required fb.Reference reference,
+    required LocalFile file,
+    fb.SettableMetadata? metadata,
   }) {
     // Defines if the file is available as Dart IO file. Normally this is the
     // case except for files using the web app.
@@ -50,22 +49,22 @@ class FirebaseFileUploader extends FileUploader {
   }
 
   @override
-  Future<UploadTask> uploadFile({CloudFile cloudFile, LocalFile file}) async {
-    final fileType = FileUtils.getFileFormatFromMimeType(file.getType());
+  Future<UploadTask> uploadFile(
+      {required CloudFile cloudFile, required LocalFile file}) async {
+    final fileType = FileUtils.getFileFormatFromMimeType(file.getType()!);
     final storageReference = fb.FirebaseStorage.instance
         .ref()
         .child("files")
-        .child(cloudFile.courseID)
-        .child(cloudFile.id);
+        .child(cloudFile.courseID!)
+        .child(cloudFile.id!);
 
     if (fileType == FileFormat.image) {
       try {
-        // final hasStoragePermissions = await _checkStoragePermission();
-        // if (hasStoragePermissions) {
         final imageCompressor = getImageCompressor();
         final compressedFile = await imageCompressor.compressImage(file);
-        if (compressedFile != null) file = compressedFile;
-        // }
+        if (compressedFile != null) {
+          file = compressedFile;
+        }
       } catch (e) {
         log("Couldn't compress image: $e", error: e);
       }
@@ -73,8 +72,8 @@ class FirebaseFileUploader extends FileUploader {
 
     final metadata = fb.SettableMetadata(
       contentDisposition: getContentDispositionString(cloudFile.name),
-      contentType: file.getType().toData(),
-      customMetadata: cloudFile.toMetaData().toJson(),
+      contentType: file.getType()!.toData(),
+      customMetadata: cloudFile.toMetaData().toJson() as Map<String, String>?,
     );
 
     final uploadTask = _uploadToFirebase(
@@ -99,8 +98,8 @@ class FirebaseFileUploader extends FileUploader {
       fb.TaskSnapshot taskSnpashot) {
     return UploadTaskSnapshot(
       storageMetaData: UploadMetadata(
-        customMetadata: taskSnpashot.metadata.customMetadata,
-        sizeBytes: taskSnpashot.metadata.size,
+        customMetadata: taskSnpashot.metadata!.customMetadata,
+        sizeBytes: taskSnpashot.metadata!.size,
       ),
       totalByteCount: taskSnpashot.totalBytes,
       bytesTransferred: taskSnpashot.bytesTransferred,
@@ -128,20 +127,18 @@ class FirebaseFileUploader extends FileUploader {
       case fb.TaskState.success:
         return UploadTaskEventType.success;
     }
-    throw UnimplementedError(
-        'Could not find a UploadTaskEventType for $taskState');
   }
 
   @override
   Future<UploadTask> uploadFileToStorage(
       CloudStoragePfad cloudStoragePfad, String creatorId, LocalFile localFile,
-      {String cacheControl}) async {
+      {String? cacheControl}) async {
     if (!cloudStoragePfad.istDateiPfad) {
       throw ArgumentError.value(
           cloudStoragePfad, 'cloudStoragePfad', 'muss ein Dateipfad sein.');
     }
     final fileId = cloudStoragePfad.uri.pathSegments.last;
-    final fileType = FileUtils.getFileFormatFromMimeType(localFile.getType());
+    final fileType = FileUtils.getFileFormatFromMimeType(localFile.getType()!);
     final storage =
         fb.FirebaseStorage.instanceFor(bucket: cloudStoragePfad.bucket.name);
     final storageReference = storage.ref().child(cloudStoragePfad.lokalerPfad);
@@ -152,12 +149,11 @@ class FirebaseFileUploader extends FileUploader {
 
     if (fileType == FileFormat.image) {
       try {
-        // final hasStoragePermissions = await _checkStoragePermission();
-        // if (hasStoragePermissions) {
         final imageCompressor = getImageCompressor();
         final compressedFile = await imageCompressor.compressImage(localFile);
-        if (compressedFile != null) localFile = compressedFile;
-        // }
+        if (compressedFile != null) {
+          localFile = compressedFile;
+        }
       } catch (e) {
         log("Couldn't compress image: $e", error: e);
       }
@@ -165,7 +161,7 @@ class FirebaseFileUploader extends FileUploader {
 
     final metadata = fb.SettableMetadata(
       contentDisposition: getContentDispositionString(originalerName),
-      contentType: localFile.getType().toData(),
+      contentType: localFile.getType()!.toData(),
       cacheControl: cacheControl,
       customMetadata: {
         'fileID': fileId,
