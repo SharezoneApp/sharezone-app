@@ -137,6 +137,8 @@ jobs:
       #  * We can run the tests on a real device instead of an emulator.
       #  * We get a screen recording of the test run which we can use to
       #    investigate test failures.
+      #  * Increases the speed of the CI by 10 - 15 minutes (compared to running the
+      #    tests on a macOS runner).
       #
       # Helpful documentation:
       #  * https://firebase.google.com/docs/test-lab/android/command-line
