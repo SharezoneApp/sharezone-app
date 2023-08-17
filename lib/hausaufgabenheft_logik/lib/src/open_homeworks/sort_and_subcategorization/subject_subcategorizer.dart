@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/views/homework_section_view.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 import 'subcategorizer.dart';
@@ -22,7 +22,7 @@ class SubjectSubcategeorizer extends Subcategorizer {
     final subjects = homeworks.getDistinctOrderedSubjects();
     final homeworkSections = <HomeworkSectionView>[];
     for (final subject in subjects) {
-      final homeworksWithSubject =
+      final List<HomeworkReadModel> homeworksWithSubject =
           homeworks.where((h) => h.subject == subject).toList();
 
       final homeworkViewsWithSubject =

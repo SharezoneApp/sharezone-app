@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 
 class Date implements Comparable<Date> {
   final int day;
@@ -14,9 +13,9 @@ class Date implements Comparable<Date> {
   final int year;
 
   const Date({
-    @required this.day,
-    @required this.month,
-    @required this.year,
+    required this.day,
+    required this.month,
+    required this.year,
   });
 
   factory Date.now() {
@@ -45,7 +44,6 @@ class Date implements Comparable<Date> {
 
   @override
   int compareTo(Date other) {
-    assert(other != null);
     if (year > other.year) {
       return 1;
     } else if (year < other.year) {

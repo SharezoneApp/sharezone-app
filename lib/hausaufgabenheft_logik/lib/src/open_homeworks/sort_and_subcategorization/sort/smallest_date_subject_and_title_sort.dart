@@ -16,10 +16,10 @@ import 'src/homework_attribute_sorts.dart';
 /// If they have the same date, they will be sorted alphabetically by subject.
 /// If they have the same date and subject, they will be sorted alphabetically by title.
 class SmallestDateSubjectAndTitleSort extends Sort<HomeworkReadModel> {
-  Date Function() getCurrentDate;
+  late Date Function() getCurrentDate;
 
-  SmallestDateSubjectAndTitleSort({this.getCurrentDate}) {
-    getCurrentDate ??= () => Date.now();
+  SmallestDateSubjectAndTitleSort({Date Function()? getCurrentDate}) {
+    this.getCurrentDate = getCurrentDate ?? () => Date.now();
   }
 
   @override

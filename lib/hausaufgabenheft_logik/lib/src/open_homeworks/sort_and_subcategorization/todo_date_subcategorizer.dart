@@ -6,9 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/date.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/views/homework_section_view.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 import 'subcategorizer.dart';
@@ -26,19 +25,19 @@ class TodoDateSubcategorizer extends Subcategorizer {
     final tomorrow = now.addDaysWithNoChecking(1);
     final in2Days = tomorrow.addDaysWithNoChecking(1);
 
-    final overdueHomework = latestHomeworkList
+    final List<HomeworkReadModel> overdueHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) < now)
         .toList();
-    final todayHomework = latestHomeworkList
+    final List<HomeworkReadModel> todayHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == now)
         .toList();
-    final tomorrowHomework = latestHomeworkList
+    final List<HomeworkReadModel> tomorrowHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
         .toList();
-    final in2DaysHomework = latestHomeworkList
+    final List<HomeworkReadModel> in2DaysHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
         .toList();
-    final futureHomework = latestHomeworkList
+    final List<HomeworkReadModel> futureHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
         .toList();
 

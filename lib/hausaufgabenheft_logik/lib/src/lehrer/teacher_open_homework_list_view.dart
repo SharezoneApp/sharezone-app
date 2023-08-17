@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 import 'teacher_homework_section_view.dart';
 
@@ -18,7 +17,7 @@ class TeacherOpenHomeworkListView {
 
   TeacherOpenHomeworkListView(
     this.sections, {
-    @required this.sorting,
+    required this.sorting,
   }) : super();
 
   int get numberOfHomeworks {
@@ -36,7 +35,8 @@ class TeacherOpenHomeworkListView {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
+    final bool Function(Object, Object) listEquals =
+        const DeepCollectionEquality().equals;
 
     return other is TeacherOpenHomeworkListView &&
         listEquals(other.sections, sections) &&
@@ -81,5 +81,4 @@ String homeworkSortToString(HomeworkSort s) {
     case HomeworkSort.subjectSmallestDateAndTitleSort:
       return _subjectSmallestDateAndTitleSort;
   }
-  throw UnimplementedError();
 }
