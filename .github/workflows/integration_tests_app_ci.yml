@@ -116,8 +116,8 @@ jobs:
             --target=lib/main_prod.dart \
             --flavor prod
           
-          ./gradlew app:assembleAndroidTest
-          ./gradlew app:assembleDebug \
+          ./gradlew app:assembleProdDebugAndroidTest
+          ./gradlew app:assembleProdDebug \
             -Ptarget=integration_test/app_test.dart \
             -Pdart-defines="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
 
