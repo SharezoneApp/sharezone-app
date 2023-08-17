@@ -9,12 +9,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc_impl.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc_impl.dart';
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
+    as completed;
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart'
+    as lazy_loading;
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
@@ -28,7 +29,7 @@ import 'create_homework_util.dart';
 import 'in_memory_repo/in_memory_homework_repository.dart';
 
 void main() {
-  BlocSupervisor.delegate = VerboseBlocDelegate();
+  Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
     HomeworkPageBloc bloc;
     InMemoryHomeworkRepository repository;
@@ -62,7 +63,8 @@ void main() {
       await pumpEventQueue();
       bloc.add(CompletionStatusChanged('hw', true));
 
-      Success success = await bloc.firstWhere((element) => element is Success);
+      Success success =
+          await bloc.stream.firstWhere((element) => element is Success);
 
       expect(
           success.open.sorting, HomeworkSort.subjectSmallestDateAndTitleSort);
@@ -76,7 +78,8 @@ void main() {
           .setLastSorting(HomeworkSort.subjectSmallestDateAndTitleSort);
 
       bloc.add(LoadHomeworks());
-      Success success = await bloc.firstWhere((element) => element is Success);
+      Success success =
+          await bloc.stream.firstWhere((element) => element is Success);
 
       expect(
           success.open.sorting, HomeworkSort.subjectSmallestDateAndTitleSort);
@@ -87,7 +90,8 @@ void main() {
         () async {
       await addToRepository([createHomework(title: 'Hallo')]);
       bloc.add(LoadHomeworks());
-      Success success = await bloc.firstWhere((element) => element is Success);
+      Success success =
+          await bloc.stream.firstWhere((element) => element is Success);
 
       expect(success.open.sorting, HomeworkSort.smallestDateSubjectAndTitle);
     });
@@ -98,8 +102,7 @@ void main() {
       bloc.add(LoadHomeworks());
       bloc.add(
           OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
-      // skip loading and first success (before sorting)
-      await bloc.skip(2).firstWhere((element) => element is Success);
+      await bloc.stream.firstWhere((element) => element is Success);
 
       expect(await homeworkSortingCache.getLastSorting(),
           HomeworkSort.subjectSmallestDateAndTitleSort);
@@ -132,10 +135,9 @@ void main() {
       await addToRepository(homeworks);
 
       bloc.add(LoadHomeworks());
-      await bloc.skip(1).first;
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      final findState = bloc.firstWhere((state) {
+      final findState = bloc.stream.firstWhere((state) {
         if (state is Success) {
           final hws = state.open.orderedHomeworks;
 
@@ -169,14 +171,11 @@ void main() {
 
       await addToRepository(homeworks);
 
-      final queue = StreamQueue(bloc);
       bloc.add(LoadHomeworks());
-
-      await queue.skip(2); // LoadingHomeworks and firstly loaded homeworks
-
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      Success result = await queue.next;
+      Success result =
+          await bloc.stream.where((event) => event is Success).skip(1).first;
 
       final notDone = result.open;
       expect(notDone.sections.length, 5);
@@ -235,20 +234,16 @@ void main() {
       await addToRepository(unsorted);
       bloc.add(LoadHomeworks());
 
-      // Delay so the SortingChanged-Event is not dispatched before anything was loaded (because of async)
-      await bloc.skip(1).first;
-
       bloc.add(
           OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
 
-      final findMatchingState = bloc.firstWhere((state) {
+      final findMatchingState = bloc.stream.firstWhere((state) {
         if (state is Success) {
           final sortedOpenHWs = state.open;
           if (sortedOpenHWs.numberOfHomeworks == unsorted.length) {
             final orderedIds =
                 sortedOpenHWs.orderedHomeworks.map((hw) => hw.id).toList();
             return equals(orderedIds).matches(['1', '2', '3', '4'], {});
-            // return listsEqual(orderedIds, ["1", "2", "3", "4"]);
           }
         }
         return false;
@@ -263,19 +258,17 @@ void main() {
       var homework =
           createHomework(id: 'homeworkId', done: false, title: 'title');
 
-      final queue = StreamQueue(bloc);
       await addToRepository([homework]);
       bloc.add(LoadHomeworks());
 
-      await queue.skip(1); // LoadingHomeworks
-
-      final Success uncompleted = await queue.next;
+      final Success uncompleted =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(uncompleted.open.numberOfHomeworks, 1);
       expect(uncompleted.completed.numberOfHomeworks, 0);
 
       bloc.add(CompletionStatusChanged('homeworkId', true));
 
-      final Success completed = await bloc.firstWhere((state) =>
+      final Success completed = await bloc.stream.firstWhere((state) =>
           state is Success &&
           state.open.numberOfHomeworks == 0 &&
           state.completed.numberOfHomeworks == 1);
@@ -290,7 +283,8 @@ void main() {
       await addToRepository([tomorrow]);
       bloc.add(LoadHomeworks());
 
-      final Success latest = await bloc.skip(1).first;
+      final Success latest =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(latest.open.sections.length, 1);
     });
 
@@ -312,10 +306,9 @@ void main() {
 
         await addToRepository(openHomeworks);
         bloc.add(LoadHomeworks());
-        await bloc.skip(1).first;
+        await bloc.stream.firstWhere((state) => state is Success);
         bloc.add(CompletedAllOverdue());
-        bloc.listen((e) => log('$e'));
-        final Success res = await bloc.firstWhere((state) =>
+        final Success res = await bloc.stream.firstWhere((state) =>
             state is Success &&
             state.completed.orderedHomeworks.length == 2 &&
             state.open.orderedHomeworks.length == 1);
@@ -335,7 +328,8 @@ void main() {
       await addToRepository(homeworks);
       bloc.add(LoadHomeworks());
 
-      final Success res = await bloc.skip(1).first;
+      final Success res =
+          await bloc.stream.firstWhere((state) => state is Success);
       expect(res.open.showCompleteOverdueHomeworkPrompt, true);
     });
     test(
@@ -356,7 +350,7 @@ void main() {
       await addToRepository(homeworks);
       bloc.add(LoadHomeworks());
 
-      final invalidStates = bloc.where((state) =>
+      final invalidStates = bloc.stream.where((state) =>
           state is Success &&
           state.open.showCompleteOverdueHomeworkPrompt == true);
 
@@ -382,10 +376,6 @@ void main() {
             (i) => createHomework(id: '$i', done: true, title: title(i)));
       }
 
-      Future<Success> getFirstSuccessfullState(
-              Stream<HomeworkPageState> state) async =>
-          await state.firstWhere((state) => state is Success);
-
       test(
           'The bloc should give the appropiate status that not all completed homeworks were loaded yet if that is the case',
           () async {
@@ -394,7 +384,8 @@ void main() {
         await addToRepository(completedHomeworks, repository);
 
         bloc.add(LoadHomeworks());
-        final state = await getFirstSuccessfullState(bloc);
+        final Success state =
+            await bloc.stream.firstWhere((state) => state is Success);
 
         expect(state.completed.loadedAllCompletedHomeworks, false);
       });
@@ -406,7 +397,8 @@ void main() {
           await addToRepository(completedHomeworks, repository);
 
           bloc.add(LoadHomeworks());
-          final state = await getFirstSuccessfullState(bloc);
+          final Success state =
+              await bloc.stream.firstWhere((state) => state is Success);
 
           expect(state.completed.loadedAllCompletedHomeworks, true);
         },
@@ -420,7 +412,7 @@ void main() {
 
         bloc.add(LoadHomeworks());
 
-        final expectedPromise = bloc.firstWhere((state) =>
+        final expectedPromise = bloc.stream.firstWhere((state) =>
             state is Success && state.completed.numberOfHomeworks == 10);
         expect(expectedPromise, completes);
       });
@@ -435,7 +427,7 @@ void main() {
 
           bloc.add(LoadHomeworks());
           bloc.add(AdvanceCompletedHomeworks(10));
-          final findExpectedState = bloc.firstWhere((state) =>
+          final findExpectedState = bloc.stream.firstWhere((state) =>
               state is Success &&
               state.completed.numberOfHomeworks ==
                   20); // Skips loading and first Successful state, where the first 10 homeworks were loaded, to get the second successful state.
@@ -460,7 +452,7 @@ void main() {
         bloc.add(AdvanceCompletedHomeworks(5));
         bloc.add(AdvanceCompletedHomeworks(5));
 
-        final Success state = await bloc.firstWhere((state) =>
+        final Success state = await bloc.stream.firstWhere((state) =>
             state is Success && state.completed.numberOfHomeworks == 20);
 
         final orderedHomeworks = state.completed.orderedHomeworks;
@@ -509,15 +501,15 @@ HomeworkPageBloc createBloc(
   );
 }
 
-CompletedHomeworksViewBlocImpl createCompletedHomeworksViewBloc(
+completed.CompletedHomeworksViewBloc createCompletedHomeworksViewBloc(
     StudentHomeworkViewFactory viewFactory,
     InMemoryHomeworkRepository repository,
     {int nrOfInitialCompletedHomeworksToLoad}) {
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
   final lazyLoadingCompletedHomeworksBloc =
-      LazyLoadingCompletedHomeworksBlocImpl(repository);
-  final completedHomeworksViewBloc = CompletedHomeworksViewBlocImpl(
+      lazy_loading.LazyLoadingCompletedHomeworksBloc(repository);
+  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBloc(
       lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
   return completedHomeworksViewBloc;
@@ -550,19 +542,19 @@ class RepositoryHomeworkCompletionDispatcher
   }
 }
 
-class VerboseBlocDelegate extends BlocDelegate {
+class VerboseBlocObserver extends BlocObserver {
   @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stacktrace) {
     log('${bloc.runtimeType} error: $error, stacktrace: $stacktrace',
         error: error, stackTrace: stacktrace);
     super.onError(bloc, error, stacktrace);
   }
 
-  // @override
-  // void onTransition(Bloc bloc, Transition transition) {
-  //   log("${bloc.runtimeType} transition: $transition");
-  //   super.onTransition(bloc, transition);
-  // }
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    log("${bloc.runtimeType} transition: $transition");
+    super.onTransition(bloc, transition);
+  }
 
   @override
   void onEvent(Bloc bloc, Object event) {
