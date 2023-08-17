@@ -143,7 +143,7 @@ AppleTrack _getAppleTrack({
   required ArgResults argResults,
   required Map<String, AppleTrack> stageToTracks,
 }) {
-  final stage = argResults![releaseStageOptionName] as String;
+  final stage = argResults[releaseStageOptionName] as String;
   final track = stageToTracks[stage];
   if (track == null) {
     throw Exception('Unknown track for stage: $stage');
