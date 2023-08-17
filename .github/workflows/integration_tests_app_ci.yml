@@ -141,7 +141,7 @@ jobs:
       #  * We can run the tests on a real device instead of an emulator.
       #  * We get a screen recording of the test run which we can use to
       #    investigate test failures.
-      #  * Increases the speed of the CI by 10 - 15 minutes (compared to running the
+      #  * Increases the speed of the CI by 10 minutes (compared to running the
       #    tests on a macOS runner).
       #
       # Helpful documentation:
@@ -150,8 +150,8 @@ jobs:
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --app ../build/app/outputs/apk/dev/debug/app-dev-debug.apk \
-            --test ../build/app/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
+            --app ../build/app/outputs/apk/prod/debug/app-prod-debug.apk \
+            --test ../build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
             --timeout 2m
 
