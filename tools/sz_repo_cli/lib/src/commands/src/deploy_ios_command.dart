@@ -6,10 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:io';
-
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 
 /// A map that maps the stage to the corresponding [AppleTrack].
@@ -93,13 +92,8 @@ class DeployIosCommand extends Command {
       );
   }
 
-  static const privateKeyOptionName = 'private-key';
-  static const keyIdOptionName = 'key-id';
-  static const issuerIdOptionName = 'issuer-id';
-  static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const exportOptionsPlistName = 'export-options-plist';
-  static const whatsNewOptionName = 'whats-new';
 
   List<String> get _iosStages => _iosStageToTracks.keys.toList();
 
@@ -113,7 +107,7 @@ class DeployIosCommand extends Command {
   @override
   Future<void> run() async {
     _throwIfFlavorIsNotSupportForDeployment();
-    await _throwIfCodemagiCliToolsAreNotInstalled();
+    await throwIfCodemagiCliToolsAreNotInstalled();
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -121,9 +115,20 @@ class DeployIosCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    final buildNumber = await _getNextBuildNumber();
+    const platform = 'IOS';
+    final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+      argResults: argResults!,
+      platform: platform,
+      repo: _repo,
+    );
     await _buildApp(buildNumber: buildNumber);
-    await _publish();
+    await publishToAppStoreConnect(
+      argResults: argResults!,
+      platform: platform,
+      path: 'build/ios/ipa/*.ipa',
+      repo: _repo,
+      stageToTracks: _iosStageToTracks,
+    );
 
     print('Deployment finished 🎉 ');
   }
@@ -134,72 +139,6 @@ class DeployIosCommand extends Command {
       throw Exception(
         'Only the "prod" flavor is supported for iOS deployment.',
       );
-    }
-  }
-
-  Future<void> _throwIfCodemagiCliToolsAreNotInstalled() async {
-    // Check if "which -s app-store-connect" returns 0.
-    // If not, throw an exception.
-    final result = await runProcess(
-      'which',
-      ['-s', 'app-store-connect'],
-    );
-    if (result.exitCode != 0) {
-      throw Exception(
-        'Codemagic CLI tools are not installed. Docs to install them: https://github.com/codemagic-ci-cd/cli-tools#installing',
-      );
-    }
-  }
-
-  Future<int> _getNextBuildNumber() async {
-    final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect();
-    final nextBuildNumber = latestBuildNumber + 1;
-    print('Next build number: $nextBuildNumber');
-    return nextBuildNumber;
-  }
-
-  /// Returns the latest build number from App Store and TestFligth all tracks.
-  Future<int> _getLatestBuildNumberFromAppStoreConnect() async {
-    try {
-      // From https://appstoreconnect.apple.com/apps/1434868489/
-      const appId = 1434868489;
-
-      final issuerId = argResults![issuerIdOptionName] as String? ??
-          Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-      final keyIdentifier = argResults![keyIdOptionName] as String? ??
-          Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-      final privateKey = argResults![privateKeyOptionName] as String? ??
-          Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
-
-      final result = await runProcessSucessfullyOrThrow(
-        'app-store-connect',
-        [
-          'get-latest-build-number',
-          '$appId',
-          '--platform',
-          'IOS',
-          if (issuerId != null) ...[
-            '--issuer-id',
-            issuerId,
-          ],
-          if (keyIdentifier != null) ...[
-            '--key-id',
-            keyIdentifier,
-          ],
-          if (privateKey != null) ...[
-            '--private-key',
-            privateKey,
-          ],
-        ],
-        // Using the app location as working direcorty because the default
-        // location for the App Store Connect private key is
-        // app/private_keys/AuthKey_{keyIdentifier}.p8.
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
-      );
-      return int.parse(result.stdout);
-    } catch (e) {
-      throw Exception(
-          'Failed to get latest build number from App Store Connect: $e');
     }
   }
 
@@ -232,63 +171,5 @@ class DeployIosCommand extends Command {
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');
     }
-  }
-
-  Future<void> _publish() async {
-    final whatsNew = argResults![whatsNewOptionName] as String?;
-    final issuerId = argResults![issuerIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-    final keyIdentifier = argResults![keyIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-    final privateKey = argResults![privateKeyOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
-
-    final track = _getAppleTrack();
-    await runProcessSucessfullyOrThrow(
-      'app-store-connect',
-      [
-        'publish',
-        '--path',
-        'build/ios/ipa/*.ipa',
-        '--release-type',
-        // The app version will be automatically released right after it has
-        // been approved by App Review.
-        'AFTER_APPROVAL',
-        if (whatsNew != null) ...[
-          '--whats-new',
-          whatsNew,
-        ],
-        if (track is AppStoreTrack) ...[
-          '--app-store',
-        ],
-        if (track is TestFlightTrack) ...[
-          '--beta-group',
-          track.groupName,
-          '--testflight',
-        ],
-        if (issuerId != null) ...[
-          '--issuer-id',
-          issuerId,
-        ],
-        if (keyIdentifier != null) ...[
-          '--key-id',
-          keyIdentifier,
-        ],
-        if (privateKey != null) ...[
-          '--private-key',
-          privateKey,
-        ],
-      ],
-      workingDirectory: _repo.sharezoneFlutterApp.location.path,
-    );
-  }
-
-  AppleTrack _getAppleTrack() {
-    final stage = argResults![releaseStageOptionName] as String;
-    final track = _iosStageToTracks[stage];
-    if (track == null) {
-      throw Exception('Unknown track for stage: $stage');
-    }
-    return track;
   }
 }
