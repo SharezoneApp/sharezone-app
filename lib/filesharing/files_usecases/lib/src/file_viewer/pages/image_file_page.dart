@@ -19,16 +19,16 @@ import '../widgets/file_page_app_bar.dart';
 
 class ImageFilePage extends StatefulWidget {
   const ImageFilePage({
-    Key key,
+    Key? key,
     this.actions,
-    @required this.downloadURL,
-    @required this.name,
-    @required this.nameStream,
-    @required this.id,
+    required this.downloadURL,
+    required this.name,
+    required this.nameStream,
+    required this.id,
   }) : super(key: key);
 
   static const tag = "image-page";
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   final String downloadURL;
   final String name;
@@ -80,7 +80,7 @@ class _ImageFilePageState extends State<ImageFilePage> {
 
   Widget _buildPhotoView() {
     return FutureBuilder<LocalFile>(
-      future: getFileDownloader()
+      future: getFileDownloader()!
           .downloadFileFromURL(widget.downloadURL, widget.name, widget.id),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -91,7 +91,7 @@ class _ImageFilePageState extends State<ImageFilePage> {
           maxScale: 10.0,
           loadingBuilder: (context, event) =>
               const AccentColorCircularProgressIndicator(),
-          imageProvider: FileImage(snapshot.data.getFile()),
+          imageProvider: FileImage(snapshot.data!.getFile()),
         );
       },
     );
@@ -99,7 +99,7 @@ class _ImageFilePageState extends State<ImageFilePage> {
 
   Widget _buildPhotoViewWeb() {
     return FutureBuilder<Uint8List>(
-        future: getFileSaver().downloadAndReturnBytes(widget.downloadURL),
+        future: getFileSaver()!.downloadAndReturnBytes(widget.downloadURL),
         builder: (context, resultSnapshot) {
           if (resultSnapshot.hasError) {
             return const Center(
@@ -114,7 +114,7 @@ class _ImageFilePageState extends State<ImageFilePage> {
               child: CircularProgressIndicator(),
             );
           }
-          final result = resultSnapshot.data;
+          final result = resultSnapshot.data!;
 
           return PhotoView(
             minScale: PhotoViewComputedScale.contained,

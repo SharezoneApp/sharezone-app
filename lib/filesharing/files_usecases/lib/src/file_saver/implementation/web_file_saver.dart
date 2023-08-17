@@ -24,8 +24,8 @@ class WebFileSaver extends FileSaver {
   }
 
   @override
-  Future<String> downloadAndReturnObjectUrl(String url) async {
-    final request = await HttpRequest.request(url, responseType: 'blob');
+  Future<String> downloadAndReturnObjectUrl(String? url) async {
+    final request = await HttpRequest.request(url!, responseType: 'blob');
     final data = request.response;
     final newUrl = Url.createObjectUrlFromBlob(data);
     return newUrl;

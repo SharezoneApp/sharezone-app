@@ -54,8 +54,8 @@ class SchoolClassGateway {
     return references.functions.memberUpdateRole(
       id: schoolClassID,
       memberID: memberID,
-      role: memberRoleEnumToString(newRole),
-      type: groupTypeToString(GroupType.schoolclass),
+      role: newRole.name,
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -65,14 +65,14 @@ class SchoolClassGateway {
       memberID: memberID,
       id: schoolClass.id,
       data: schoolClass.toCreateJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassID) {
     return references.functions.generateNewMeetingID(
       id: schoolClassID,
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -85,7 +85,7 @@ class SchoolClassGateway {
       data: courseData.copyWith(
           id: courseID,
           referenceSchoolClassIDs: [schoolClassID]).toCreateJson(memberID),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
@@ -93,7 +93,7 @@ class SchoolClassGateway {
     return references.functions.groupEdit(
       id: schoolClass.id,
       data: schoolClass.toJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -118,7 +118,7 @@ class SchoolClassGateway {
     return references.functions.groupEditSettings(
       id: schoolClassID,
       settings: schoolClassSettings.toJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -126,7 +126,7 @@ class SchoolClassGateway {
       String schoolClassID, String kickedMemberID) async {
     return references.functions.leave(
       id: schoolClassID,
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
       memberID: kickedMemberID,
     );
   }
