@@ -113,13 +113,13 @@ jobs:
           # Flutter build is required to generate files in android/ to build the
           # gradle project.
           flutter build apk \
-            --target=integration_test/app_test.dart \
-            --flavor dev
+            --target=lib/main_prod.dart \
+            --flavor prod
           
           ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug \
             -Ptarget=integration_test/app_test.dart \
-            -Pdart-define="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
+            -Pdart-defines="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
 
       - name: Setup credentials
         env:
