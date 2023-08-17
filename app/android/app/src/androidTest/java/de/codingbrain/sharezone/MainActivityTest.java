@@ -15,10 +15,6 @@ import dev.flutter.plugins.integration_test.FlutterTestRunner;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
-// This import is required because use the dev package name for the test but the
-// MainActivity is in the main package.
-// import de.codingbrain.sharezone.MainActivity;
-
 @RunWith(FlutterTestRunner.class)
 public class MainActivityTest {
   @Rule
