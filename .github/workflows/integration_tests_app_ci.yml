@@ -119,7 +119,7 @@ jobs:
           flutter build apk \
             --target=lib/main_prod.dart \
             --flavor prod
-          
+
           ./gradlew app:assembleProdDebugAndroidTest
           ./gradlew app:assembleProdDebug \
             -Ptarget=integration_test/app_test.dart \
