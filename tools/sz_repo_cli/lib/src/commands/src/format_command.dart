@@ -21,7 +21,7 @@ class FormatCommand extends ConcurrentCommand {
       'Does not fail if packages are not formatted properly.';
 
   @override
-  Duration get defaultPackageTimeout => Duration(minutes: 3);
+  Duration get defaultPackageTimeout => const Duration(minutes: 3);
 
   @override
   Future<void> runTaskForPackage(Package package) => formatCode(package);

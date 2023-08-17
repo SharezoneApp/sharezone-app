@@ -34,12 +34,13 @@ class CheckLicenseHeadersCommand extends Command {
     );
 
     if (results.exitCode != 0) {
-      print("The following files don't have a correct license header:");
-      print(results.stdout);
+      stdout
+          .writeln("The following files don't have a correct license header:");
+      stdout.writeln(results.stdout);
       return;
     }
 
-    print('All files have correct license headers.');
+    stdout.writeln('All files have correct license headers.');
   }
 }
 
