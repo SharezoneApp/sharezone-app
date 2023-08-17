@@ -112,6 +112,10 @@ jobs:
         run: |
           # Flutter build is required to generate files in android/ to build the
           # gradle project.
+          #
+          # We are using the prod flavor because we were not able to set up
+          # Firebase Test Lab with the dev flavor. We always got "No tests
+          # found.".
           flutter build apk \
             --target=lib/main_prod.dart \
             --flavor prod
