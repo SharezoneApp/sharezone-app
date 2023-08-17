@@ -8,6 +8,6 @@
 
 import '../file_picker_implementation.dart';
 
-FilePickerImplementation getFilePickerImplementation() {
+FilePickerImplementation? getFilePickerImplementation() {
   return null;
 }

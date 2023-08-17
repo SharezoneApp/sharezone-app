@@ -13,6 +13,6 @@ import 'implementation/stub_file_downloader.dart'
     if (dart.library.js) 'implementation/web_file_downloader.dart'
     as implementation;
 
-FileDownloader getFileDownloader() {
+FileDownloader? getFileDownloader() {
   return implementation.getFileDownloader();
 }

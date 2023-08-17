@@ -8,6 +8,6 @@
 
 import '../file_downloader.dart';
 
-FileDownloader getFileDownloader() {
+FileDownloader? getFileDownloader() {
   return null;
 }
