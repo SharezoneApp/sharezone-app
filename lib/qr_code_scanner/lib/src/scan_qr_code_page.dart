@@ -18,7 +18,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 /// The [title] will be display at the top.
 ///
 /// The [description] will be displayed above the scanning area. A [description]
-/// can an assistance for the user, like "Go to web.sharezone.net to get a QR
+/// can be an assistance for the user, like "Go to web.sharezone.net to get a QR
 /// code".
 ///
 /// For testing purposes, you can pass a [mockController] to mock the scanner.
