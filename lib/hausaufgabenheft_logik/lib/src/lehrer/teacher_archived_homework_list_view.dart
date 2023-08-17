@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 
 import 'teacher_homework_view.dart';
 
@@ -15,7 +14,7 @@ class TeacherArchivedHomeworkListView {
   final List<TeacherHomeworkView> orderedHomeworks;
 
   TeacherArchivedHomeworkListView(this.orderedHomeworks,
-      {@required this.loadedAllArchivedHomeworks});
+      {required this.loadedAllArchivedHomeworks});
 
   int get numberOfHomeworks => orderedHomeworks.length;
 

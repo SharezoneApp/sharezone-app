@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../models/homework_list.dart';
 
@@ -17,7 +16,7 @@ class Success extends LazyLoadingCompletedHomeworksBlocState {
   final HomeworkList homeworks;
   final bool loadedAllHomeworks;
 
-  Success(this.homeworks, {@required this.loadedAllHomeworks});
+  Success(this.homeworks, {required this.loadedAllHomeworks});
 
   @override
   List<Object> get props => [homeworks, loadedAllHomeworks];

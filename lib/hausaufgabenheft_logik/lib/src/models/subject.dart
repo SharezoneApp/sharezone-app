@@ -7,16 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:optional/optional.dart';
 
 class Subject {
   final String name;
-  final Color _color;
+  final Color? color;
 
-  Subject(this.name, {Color color}) : _color = color {
-    if (name == null) {
-      throw ArgumentError.notNull(name);
-    }
+  Subject(this.name, {this.color}) {
     if (name.isEmpty) {
       throw ArgumentError.value(
           name, 'name', "The subject name can't be empty");
@@ -24,12 +20,11 @@ class Subject {
   }
 
   String get abbreviation => name.length >= 2 ? name.substring(0, 2) : name;
-  Optional<Color> get color => Optional.ofNullable(_color);
 
   @override
   int get hashCode => name.hashCode;
 
-  bool get isValid => name != null && name.isNotEmpty;
+  bool get isValid => name.isNotEmpty;
 
   @override
   bool operator ==(other) {
