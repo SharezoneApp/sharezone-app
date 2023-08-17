@@ -12,7 +12,7 @@ import 'package:sz_repo_cli/src/common/src/run_process.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:yaml/yaml.dart';
 
-/// Run a license header command via a key.
+/// Run a source of truth command via a key.
 ///
 /// The key can be seen in the [repo.commandsSourceOfTruthYamlFile] file.
 Future<ProcessResult> runSourceOfTruthCommand({
