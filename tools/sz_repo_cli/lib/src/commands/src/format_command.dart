@@ -68,7 +68,7 @@ class FormatCommand extends ConcurrentCommand {
           'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}');
     }
 
-    print('✅ Formatted GitHub Action files.');
+    stdout.writeln('✅ Formatted GitHub Action files.');
   }
 }
 
