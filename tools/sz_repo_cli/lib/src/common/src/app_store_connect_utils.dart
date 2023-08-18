@@ -32,7 +32,7 @@ Future<int> getNextBuildNumberFromAppStoreConnect({
     appStoreConnectConfig: appStoreConnectConfig,
   );
   final nextBuildNumber = latestBuildNumber + 1;
-  print('Next build number: $nextBuildNumber');
+  stdout.writeln('Next build number: $nextBuildNumber');
   return nextBuildNumber;
 }
 
