@@ -112,7 +112,7 @@ class FirestoreAbgabeGateway
       author: Author(UserId(dto.author.uid), authorName),
       abgegebeneDateien: dateien,
       abgabezeitpunkt: DateTime.parse(dto.submittedOnIsoString),
-      zuletztBearbeitet: dto.lastEditedIsoString.toDateTime(),
+      zuletztBearbeitet: dto.lastEditedIsoString?.toDateTime(),
     );
   }
 

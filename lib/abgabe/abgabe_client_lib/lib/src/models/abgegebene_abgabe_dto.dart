@@ -6,14 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 import 'models.dart';
 
 class AbgegebeneAbgabeDto {
   final String id;
   final AbgabezielReferenz submittedForShortReference;
   final AuthorDto author;
-  final String lastEditedIsoString;
+  final String? lastEditedIsoString;
   final String submittedOnIsoString;
   final List<HochgeladeneAbgabedateiDto> submittedFiles;
 
