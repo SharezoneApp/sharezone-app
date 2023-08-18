@@ -168,12 +168,3 @@ class FirestoreAbgabeGateway
     return allStudentUids;
   }
 }
-
-// TODO: Use enum methods
-T? enumFromString<T>(List<T?> values, dynamic json, {T? orElse}) => json != null
-    ? values.firstWhere(
-        (it) =>
-            '$it'.split('.')[1].toString().toLowerCase() ==
-            json.toString().toLowerCase(),
-        orElse: () => orElse)
-    : orElse;

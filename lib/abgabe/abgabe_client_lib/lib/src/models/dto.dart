@@ -173,23 +173,6 @@ class AbgabezielReferenz {
 
 enum ReferenceType { homework, blackboard }
 
-ReferenceType? referenceTypeEnumFromString(String data) =>
-    enumFromString(ReferenceType.values, data);
-String? referenceTypeEnumToString(ReferenceType referenceType) =>
-    enumToString(referenceType);
-
-// TODO: Enum-Extension für alle Enums
-T? enumFromString<T>(List<T?> values, dynamic json, {T? orElse}) => json != null
-    ? values.firstWhere(
-        (it) =>
-            '$it'.split('.')[1].toString().toLowerCase() ==
-            json.toString().toLowerCase(),
-        orElse: () => orElse)
-    : orElse;
-
-String? enumToString<T>(T value) =>
-    value != null ? value.toString().split('.')[1] : null;
-
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 
 List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
