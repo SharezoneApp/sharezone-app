@@ -24,9 +24,9 @@ class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
   /// If a [TabController] is not provided, then there must be a [DefaultTabController]
   /// ancestor.
   final TabController controller;
-  final Widget startWidget;
-  final Widget endWidget;
-  final BetweenIndex transitionPoint;
+  final Widget/*!*/ startWidget;
+  final Widget/*!*/ endWidget;
+  final BetweenIndex/*!*/ transitionPoint;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +72,9 @@ class _FadeBetween extends StatelessWidget {
     @required this.from,
   }) : super(key: key);
 
-  final double value;
-  final Widget from;
-  final Widget to;
+  final double/*!*/ value;
+  final Widget/*!*/ from;
+  final Widget/*!*/ to;
 
   @override
   Widget build(BuildContext context) {

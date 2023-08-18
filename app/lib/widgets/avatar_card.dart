@@ -30,20 +30,20 @@ class AvatarCard extends StatelessWidget {
     this.withShadow = true,
   });
 
-  final List<Widget> children;
-  final CrossAxisAlignment crossAxisAlignment;
-  final String svgPath;
-  final Size svgSize;
-  final String imagePath;
-  final Size imageSize;
-  final double radius;
-  final String kuerzel;
-  final Color avatarBackgroundColor;
-  final double paddingBottom;
-  final Widget icon;
-  final VoidCallback onTapImage;
-  final Color fontColor;
-  final bool withShadow;
+  final List<Widget> /*!*/ children;
+  final CrossAxisAlignment /*?*/ crossAxisAlignment;
+  final String /*?*/ svgPath;
+  final Size /*?*/ svgSize;
+  final String /*?*/ imagePath;
+  final Size /*?*/ imageSize;
+  final double /*?*/ radius;
+  final String /*?*/ kuerzel;
+  final Color /*?*/ avatarBackgroundColor;
+  final double /*?*/ paddingBottom;
+  final Widget /*?*/ icon;
+  final VoidCallback /*?*/ onTapImage;
+  final Color /*?*/ fontColor;
+  final bool /*?*/ withShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,8 @@ class AvatarCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             boxShadow: [
-                              if (withShadow && !isDarkThemeEnabled(context))
+                              if (withShadow == true &&
+                                  !isDarkThemeEnabled(context))
                                 BoxShadow(
                                   color: Colors.grey[300],
                                   blurRadius: 12.5,

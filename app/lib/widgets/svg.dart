@@ -17,7 +17,7 @@ class SvgWidget extends StatelessWidget {
     this.color,
   });
 
-  final String assetName;
+  final String/*!*/ assetName;
   final Size size;
   final Color color;
 
