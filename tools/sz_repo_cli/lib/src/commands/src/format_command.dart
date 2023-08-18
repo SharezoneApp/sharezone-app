@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
@@ -36,6 +37,11 @@ class FormatCommand extends ConcurrentCommand {
       await formatCode(package);
 
   Future<void> _throwIfPrettierIsNotInstalled() async {
+    if (Platform.isWindows) {
+      // We skip this check on Windows because "which -s" is not available.
+      return;
+    }
+
     // Check if "which -s prettier" returns 0.
     // If not, throw an exception.
     final result = await runProcess(
