@@ -10,7 +10,6 @@ import 'dart:async';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
-import 'package:sz_repo_cli/src/common/src/throw_if_fvm_is_not_installed.dart';
 
 class FormatCommand extends ConcurrentCommand {
   FormatCommand(SharezoneRepo repo) : super(repo);
@@ -19,7 +18,7 @@ class FormatCommand extends ConcurrentCommand {
   final String name = 'format';
 
   @override
-  final String description = 'Formats packages via "dart format".\n'
+  final String description = 'Formats our source code.\n'
       'Does not fail if packages are not formatted properly.';
 
   @override
@@ -27,7 +26,6 @@ class FormatCommand extends ConcurrentCommand {
 
   @override
   Future<void> runSetup() async {
-    await throwIfFvmIsNotInstalled();
     await _throwIfPrettierIsNotInstalled();
 
     await _formatActionFiles(repo: repo);
@@ -38,7 +36,7 @@ class FormatCommand extends ConcurrentCommand {
       await formatCode(package);
 
   Future<void> _throwIfPrettierIsNotInstalled() async {
-    // Check if "which -s app-store-connect" returns 0.
+    // Check if "which -s prettier" returns 0.
     // If not, throw an exception.
     final result = await runProcess(
       'which',
