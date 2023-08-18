@@ -36,7 +36,7 @@ Future<int> getNextBuildNumberFromAppStoreConnect({
   return nextBuildNumber;
 }
 
-/// Returns the latest build number from App Store and TestFligth all tracks.
+/// Returns the latest build number from App Store and all TestFlight tracks.
 Future<int> _getLatestBuildNumberFromAppStoreConnect({
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
