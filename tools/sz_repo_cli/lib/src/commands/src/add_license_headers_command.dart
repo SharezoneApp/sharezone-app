@@ -10,10 +10,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-
+import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
-
-import 'check_license_headers_command.dart';
 
 /// Add license headers to all files without one.
 class AddLicenseHeadersCommand extends Command {
