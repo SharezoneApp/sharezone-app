@@ -21,7 +21,7 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
     LazyLoadingCompletedHomeworksEvent,
     LazyLoadingCompletedHomeworksBlocState> implements bloc_base.BlocBase {
   final HomeworkDataSource _homeworkRepository;
-  LazyLoadingController _lazyLoadingController;
+  LazyLoadingController? _lazyLoadingController;
 
   LazyLoadingCompletedHomeworksBloc(this._homeworkRepository)
       : super(Loading()) {
@@ -30,7 +30,7 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
         _lazyLoadingController =
             _homeworkRepository.getLazyLoadingCompletedHomeworksController(
                 event.numberOfHomeworksToLoad);
-        _lazyLoadingController.results.listen((res) => add(
+        _lazyLoadingController!.results.listen((res) => add(
               _Yield(Success(
                 HomeworkList(res.homeworks),
                 loadedAllHomeworks: !res.moreHomeworkAvailable,
@@ -41,7 +41,7 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
     on<AdvanceCompletedHomeworks>(
       (event, emit) {
         assert(_lazyLoadingController != null);
-        _lazyLoadingController.advanceBy(event.advanceBy);
+        _lazyLoadingController!.advanceBy(event.advanceBy);
       },
     );
     on<_Yield>(

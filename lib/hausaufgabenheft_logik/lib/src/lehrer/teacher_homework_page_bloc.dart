@@ -102,7 +102,6 @@ class _States {
       case _ArchivedHwLazyLoadingState.askedForAll:
         return __archivedHomeworksLoadedAllState;
     }
-    throw UnimplementedError();
   }
 
   static Success _homeworksAllLoadedSortedBySubject(
@@ -133,20 +132,20 @@ class _States {
   }
 }
 
-List<TeacherHomeworkView> _generateRandomHomeworks({@required int count}) {
+List<TeacherHomeworkView> _generateRandomHomeworks({required int count}) {
   return List.generate(
       count, (index) => randomHomeworkViewWith(/*Random content*/));
 }
 
 @visibleForTesting
 TeacherHomeworkView randomHomeworkViewWith({
-  String title,
-  int nrOfStudentsCompletedOrSubmitted,
-  bool withSubmissions,
-  bool colorDate,
-  bool canViewCompletionOrSubmissionList,
-  bool canDeleteForEveryone,
-  bool canEditForEveryone,
+  String? title,
+  int? nrOfStudentsCompletedOrSubmitted,
+  bool? withSubmissions,
+  bool? colorDate,
+  bool? canViewCompletionOrSubmissionList,
+  bool? canDeleteForEveryone,
+  bool? canEditForEveryone,
 }) {
   bool randomBool() {
     // 👈😎👉 SO SMART 👈😎👉

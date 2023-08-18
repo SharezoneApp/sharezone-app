@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 
@@ -25,7 +24,7 @@ class LazyLoadingResult {
   final List<HomeworkReadModel> homeworks;
   final bool moreHomeworkAvailable;
 
-  LazyLoadingResult(this.homeworks, {@required this.moreHomeworkAvailable});
+  LazyLoadingResult(this.homeworks, {required this.moreHomeworkAvailable});
 
   LazyLoadingResult.empty({this.moreHomeworkAvailable = true}) : homeworks = [];
 
