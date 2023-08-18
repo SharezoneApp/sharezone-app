@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
@@ -77,15 +79,25 @@ class DeployMacOsCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
+    final appStoreConnectConfig = AppStoreConnectConfig.create(
+      argResults!,
+      Platform.environment,
+    );
+
     const platform = 'MAC_OS';
     final buildNumber = await getNextBuildNumberFromAppStoreConnect(
-      argResults: argResults!,
+      appStoreConnectConfig: appStoreConnectConfig,
       platform: platform,
-      repo: _repo,
+      // Using the app location as working direcorty because the default
+      // location for the App Store Connect private key is
+      // app/private_keys/AuthKey_{keyIdentifier}.p8.
+      workingDirectory: _repo.sharezoneFlutterApp.path,
     );
     await _buildApp(buildNumber: buildNumber);
     await publishToAppStoreConnect(
-      argResults: argResults!,
+      appStoreConnectConfig: appStoreConnectConfig,
+      stage: argResults![releaseStageOptionName] as String,
+      whatsNew: argResults![whatsNewOptionName] as String?,
       path: 'build/macos/Build/Products/Release/*.pkg',
       platform: platform,
       repo: _repo,

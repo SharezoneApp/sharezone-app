@@ -20,16 +20,16 @@ const whatsNewOptionName = 'whats-new';
 const releaseStageOptionName = 'stage';
 
 Future<int> getNextBuildNumberFromAppStoreConnect({
-  required ArgResults argResults,
-  required SharezoneRepo repo,
+  required String workingDirectory,
+  required AppStoreConnectConfig appStoreConnectConfig,
 
   /// Should be either "IOS" or "MAC_OS".
   required String platform,
 }) async {
   final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect(
-    argResults: argResults,
     platform: platform,
-    repo: repo,
+    workingDirectory: workingDirectory,
+    appStoreConnectConfig: appStoreConnectConfig,
   );
   final nextBuildNumber = latestBuildNumber + 1;
   print('Next build number: $nextBuildNumber');
@@ -38,8 +38,8 @@ Future<int> getNextBuildNumberFromAppStoreConnect({
 
 /// Returns the latest build number from App Store and TestFligth all tracks.
 Future<int> _getLatestBuildNumberFromAppStoreConnect({
-  required ArgResults argResults,
-  required SharezoneRepo repo,
+  required String workingDirectory,
+  required AppStoreConnectConfig appStoreConnectConfig,
 
   /// Should be either "IOS" or "MAC_OS".
   required String platform,
@@ -48,13 +48,6 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
     // From https://appstoreconnect.apple.com/apps/1434868489/
     const appId = 1434868489;
 
-    final issuerId = argResults[issuerIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-    final keyIdentifier = argResults[keyIdOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-    final privateKey = argResults[privateKeyOptionName] as String? ??
-        Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
-
     final result = await runProcessSucessfullyOrThrow(
       'app-store-connect',
       [
@@ -62,23 +55,14 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
         '$appId',
         '--platform',
         platform,
-        if (issuerId != null) ...[
-          '--issuer-id',
-          issuerId,
-        ],
-        if (keyIdentifier != null) ...[
-          '--key-id',
-          keyIdentifier,
-        ],
-        if (privateKey != null) ...[
-          '--private-key',
-          privateKey,
-        ],
+        '--issuer-id',
+        appStoreConnectConfig.issuerId,
+        '--key-id',
+        appStoreConnectConfig.keyId,
+        '--private-key',
+        appStoreConnectConfig.privateKey,
       ],
-      // Using the app location as working direcorty because the default
-      // location for the App Store Connect private key is
-      // app/private_keys/AuthKey_{keyIdentifier}.p8.
-      workingDirectory: repo.sharezoneFlutterApp.location.path,
+      workingDirectory: workingDirectory,
     );
     return int.parse(result.stdout);
   } catch (e) {
@@ -88,24 +72,18 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
 }
 
 Future<void> publishToAppStoreConnect({
-  required ArgResults argResults,
   required SharezoneRepo repo,
   required String path,
   required Map<String, AppleTrack> stageToTracks,
+  required String stage,
+  required AppStoreConnectConfig appStoreConnectConfig,
+  String? whatsNew,
 
   /// Should be either "IOS" or "MAC_OS".
   required String platform,
 }) async {
-  final whatsNew = argResults[whatsNewOptionName] as String?;
-  final issuerId = argResults[issuerIdOptionName] as String? ??
-      Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-  final keyIdentifier = argResults[keyIdOptionName] as String? ??
-      Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-  final privateKey = argResults[privateKeyOptionName] as String? ??
-      Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
-
   final track = _getAppleTrack(
-    argResults: argResults,
+    stage: stage,
     stageToTracks: stageToTracks,
   );
   await runProcessSucessfullyOrThrow(
@@ -130,28 +108,21 @@ Future<void> publishToAppStoreConnect({
         track.groupName,
         '--testflight',
       ],
-      if (issuerId != null) ...[
-        '--issuer-id',
-        issuerId,
-      ],
-      if (keyIdentifier != null) ...[
-        '--key-id',
-        keyIdentifier,
-      ],
-      if (privateKey != null) ...[
-        '--private-key',
-        privateKey,
-      ],
+      '--issuer-id',
+      appStoreConnectConfig.issuerId,
+      '--key-id',
+      appStoreConnectConfig.keyId,
+      '--private-key',
+      appStoreConnectConfig.privateKey,
     ],
     workingDirectory: repo.sharezoneFlutterApp.location.path,
   );
 }
 
 AppleTrack _getAppleTrack({
-  required ArgResults argResults,
+  required String stage,
   required Map<String, AppleTrack> stageToTracks,
 }) {
-  final stage = argResults[releaseStageOptionName] as String;
   final track = stageToTracks[stage];
   if (track == null) {
     throw Exception('Unknown track for stage: $stage');
@@ -203,4 +174,49 @@ void addAppStoreConnectPrivateKey(ArgParser argParser) {
     help:
         'The App Store Connect API private key used for JWT authentication to communicate with Apple services. This can be found in the App Store Connect Developer Portal. Learn more at https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api. If not provided, the value will be checked from the environment variable APP_STORE_CONNECT_PRIVATE_KEY. If not given, the key will be searched from the following directories in sequence for a private key file with the name AuthKey_<key_identifier>.p8: private_keys, ~/private_keys, ~/.private_keys, ~/.appstoreconnect/private_keys, where <key_identifier> is the value of --key-id. If no value is set, the deployment will fail.',
   );
+}
+
+class AppStoreConnectConfig {
+  final String privateKey;
+  final String keyId;
+  final String issuerId;
+
+  const AppStoreConnectConfig({
+    required this.privateKey,
+    required this.keyId,
+    required this.issuerId,
+  });
+
+  factory AppStoreConnectConfig.create(
+    ArgResults argResults,
+    Map<String, String> environment,
+  ) {
+    final issuerId = argResults[issuerIdOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
+    final keyIdentifier = argResults[keyIdOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
+    final privateKey = argResults[privateKeyOptionName] as String? ??
+        Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
+
+    if (issuerId == null) {
+      throw Exception(
+          'No issuer ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_ISSUER_ID environment variable.');
+    }
+
+    if (keyIdentifier == null) {
+      throw Exception(
+          'No key ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_KEY_IDENTIFIER environment variable.');
+    }
+
+    if (privateKey == null) {
+      throw Exception(
+          'No private key provided. Either provide it via the command line or set the APP_STORE_CONNECT_PRIVATE_KEY environment variable.');
+    }
+
+    return AppStoreConnectConfig(
+      privateKey: privateKey,
+      keyId: keyIdentifier,
+      issuerId: issuerId,
+    );
+  }
 }
