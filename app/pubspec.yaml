@@ -29,7 +29,7 @@ dependencies:
   add_2_calendar: ^2.1.1
   analytics:
     path: ../lib/analytics
-  animated_stream_list: ^1.1.0
+  animated_stream_list_nullsafety: ^2.0.3
   animations: ^2.0.1
   animator: ^3.2.0
   app_functions:
