@@ -32,7 +32,8 @@ Future<Directory> getProjectRootDirectory() async {
       runInShell: false);
   final stdout = res.stdout;
   if (stdout is! String) {
-    print('Error: Could not get project root from git (output: ${res.stdout})');
+    stderr.writeln(
+        'Error: Could not get project root from git (output: ${res.stdout})');
     exit(1);
   }
   // Without [path.canonicalize] the path won't work on Windows as git returns

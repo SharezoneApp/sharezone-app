@@ -24,7 +24,7 @@ class PubGetCommand extends ConcurrentCommand {
   int get defaultMaxConcurrency => 8;
 
   @override
-  Duration get defaultPackageTimeout => Duration(minutes: 5);
+  Duration get defaultPackageTimeout => const Duration(minutes: 5);
 
   @override
   Future<void> runTaskForPackage(Package package) => getPackage(package);
