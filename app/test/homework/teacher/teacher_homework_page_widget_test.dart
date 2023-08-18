@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
 import 'dart:collection';
 
 import 'package:analytics/analytics.dart';
@@ -34,6 +33,14 @@ class MockTeacherHomeworkPageBloc extends TeacherHomeworkPageBloc {
 
   final receivedEvents = <TeacherHomeworkPageEvent>[];
 
+  MockTeacherHomeworkPageBloc() : super() {
+    on<TeacherHomeworkPageEvent>((event, emit) {
+      if (_queuedStates.isNotEmpty) {
+        emit(_queuedStates.removeFirst());
+      }
+    });
+  }
+
   void emitNewState(TeacherHomeworkPageState state) {
     _queuedStates.add(state);
     add(LoadHomeworks());
@@ -44,17 +51,6 @@ class MockTeacherHomeworkPageBloc extends TeacherHomeworkPageBloc {
     receivedEvents.add(event);
     super.onEvent(event);
   }
-
-  @override
-  Stream<TeacherHomeworkPageState> mapEventToState(
-      TeacherHomeworkPageEvent event) async* {
-    if (_queuedStates.isNotEmpty) {
-      yield _queuedStates.removeFirst();
-    }
-  }
-
-  @override
-  TeacherHomeworkPageState initialState = Uninitialized();
 }
 
 enum HomeworkTab { open, archived }
@@ -303,6 +299,16 @@ void main() {
           hasLength(1),
           reason:
               "The UI should not ask the bloc for new homework when scrolling to the end of the homework list (as all homeworks have already been loaded).");
+
+      // In the teacher homework page bloc which is just a mock right now we use
+      // `await Future.delayed(const Duration(milliseconds: 1200))` to simulate
+      // the loading of homeworks.
+      // Since testWidgets uses fakeAsync interally and Future.delayed uses a
+      // Timer internally we need to pump (advance the fakeAsync time) so that
+      // this test doesn't fail because of this:
+      //  The following assertion was thrown running a test:
+      //  A Timer is still pending even after the widget tree was disposed.
+      tester.pump(Duration(seconds: 2));
     });
 
     testWidgets(
@@ -420,6 +426,9 @@ void main() {
       await tester.pump();
 
       expect(_finders.archivedHomeworkTab.noHomeworkPlaceholder, findsNothing);
+
+      // See test further above for why we need to pump here.
+      tester.pump(Duration(seconds: 2));
     });
   });
 }

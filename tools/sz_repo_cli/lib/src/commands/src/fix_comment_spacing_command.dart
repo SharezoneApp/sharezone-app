@@ -46,10 +46,11 @@ class FixCommentSpacingCommand extends Command {
   @override
   Future<void> run() async {
     await _fixCommentSpacing(rootPath: repo.location.path);
-    print('Warning: Some results may be false-positives');
-    print(
+    stdout.writeln('Warning: Some results may be false-positives');
+    stdout.writeln(
         'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file');
-    print('(This warning will be printed regardless if anything was found)');
+    stdout.writeln(
+        '(This warning will be printed regardless if anything was found)');
   }
 }
 
@@ -78,9 +79,9 @@ bool doesPackageIncludeFilesWithBadCommentSpacing(String packageRootPath) {
   for (final dartFile in dartFiles) {
     final content = dartFile.readAsStringSync();
     if (containsCommentsWithBadComments(content)) {
-      print('Found comment with bad spacing in ${dartFile.path}.');
-      print('This *may* be a false-positive.');
-      print(
+      stdout.writeln('Found comment with bad spacing in ${dartFile.path}.');
+      stdout.writeln('This *may* be a false-positive.');
+      stdout.writeln(
           'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file.');
       return true;
     }
@@ -100,7 +101,7 @@ String fixCodeWithCommentsWithBadSpacing(String sourceCode,
   for (var i = 0; i < badComments.length; i++) {
     final badComment = badComments[i];
     if (filePath != null) {
-      print('Found bad comment in $filePath');
+      stdout.writeln('Found bad comment in $filePath');
     }
     sourceCode = _addCharAtPosition(
       sourceCode,

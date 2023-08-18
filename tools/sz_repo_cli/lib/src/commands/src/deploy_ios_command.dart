@@ -125,7 +125,7 @@ class DeployIosCommand extends Command {
     await _buildApp(buildNumber: buildNumber);
     await _publish();
 
-    print('Deployment finished 🎉 ');
+    stdout.writeln('Deployment finished 🎉 ');
   }
 
   void _throwIfFlavorIsNotSupportForDeployment() {
@@ -154,7 +154,7 @@ class DeployIosCommand extends Command {
   Future<int> _getNextBuildNumber() async {
     final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect();
     final nextBuildNumber = latestBuildNumber + 1;
-    print('Next build number: $nextBuildNumber');
+    stdout.writeln('Next build number: $nextBuildNumber');
     return nextBuildNumber;
   }
 
