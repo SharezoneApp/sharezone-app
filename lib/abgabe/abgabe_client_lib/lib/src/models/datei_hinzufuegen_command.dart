@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 
 import 'abgaben_commands.dart';
 import 'dateiname.dart';
@@ -17,9 +16,9 @@ class DateiHinzufuegenCommand extends AbgabeCommand {
   final Dateiname dateiname;
 
   DateiHinzufuegenCommand({
-    @required AbgabeId abgabeId,
-    @required this.dateiId,
-    @required this.dateiname,
+    required AbgabeId abgabeId,
+    required this.dateiId,
+    required this.dateiname,
   }) : super.randomId(abgabeId) {
     ArgumentError.checkNotNull(dateiId, 'dateiId');
     ArgumentError.checkNotNull(dateiname, 'dateiname');

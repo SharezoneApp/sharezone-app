@@ -8,8 +8,8 @@
 
 import 'dart:convert';
 
+import 'package:abgabe_client_lib/src/erstellung/string_to_datetime_extension.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 
 import 'models.dart';
 
@@ -44,14 +44,14 @@ class HochgeladeneAbgabedateiDto {
   final String downloadUrl;
   final int sizeInBytes;
   final String createdOnIsoString;
-  final String lastEditedIsoString;
+  final String? lastEditedIsoString;
 
   HochgeladeneAbgabedateiDto({
-    this.id,
-    this.fileNameWithExtension,
-    this.downloadUrl,
-    this.sizeInBytes,
-    this.createdOnIsoString,
+    required this.id,
+    required this.fileNameWithExtension,
+    required this.downloadUrl,
+    required this.sizeInBytes,
+    required this.createdOnIsoString,
     this.lastEditedIsoString,
   });
 
@@ -78,7 +78,7 @@ class HochgeladeneAbgabedateiDto {
       sizeInBytes: datei.dateigroesse.inBytes,
       lastEditedIsoString: datei.zuletztBearbeitet
           .map((zB) => zB.toUtcIso8601String())
-          .orElse(null),
+          .orElseNull,
     );
   }
 
@@ -89,7 +89,7 @@ class HochgeladeneAbgabedateiDto {
       groesse: Dateigroesse(sizeInBytes),
       downloadUrl: DateiDownloadUrl(downloadUrl),
       erstellungsdatum: createdOnIsoString.toDateTime(),
-      zuletztBearbeitet: lastEditedIsoString.toDateTime(),
+      zuletztBearbeitet: lastEditedIsoString?.toDateTime(),
     );
   }
 
@@ -105,9 +105,9 @@ class AuthorDto {
   final String uid;
 
   const AuthorDto({
-    @required this.abbreviation,
-    @required this.name,
-    @required this.uid,
+    required this.abbreviation,
+    required this.name,
+    required this.uid,
   });
 
   factory AuthorDto.fromData(Map<String, dynamic> data) {
@@ -124,13 +124,13 @@ class AbgabezielReferenz {
   String type;
 
   AbgabezielReferenz({
-    this.id,
-    this.type,
+    required this.id,
+    required this.type,
   });
 
   AbgabezielReferenz copyWith({
-    String id,
-    String type,
+    String? id,
+    String? type,
   }) {
     return AbgabezielReferenz(
       id: id ?? this.id,
@@ -145,9 +145,7 @@ class AbgabezielReferenz {
     };
   }
 
-  static AbgabezielReferenz fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
+  factory AbgabezielReferenz.fromMap(Map<String, dynamic> map) {
     return AbgabezielReferenz(
       id: map['id'],
       type: map['type'],
@@ -156,8 +154,8 @@ class AbgabezielReferenz {
 
   String toJson() => json.encode(toMap());
 
-  static AbgabezielReferenz fromJson(String source) =>
-      fromMap(json.decode(source));
+  factory AbgabezielReferenz.fromJson(String source) =>
+      AbgabezielReferenz.fromMap(json.decode(source));
 
   @override
   String toString() => 'AbgabezielReferenz(id: $id, type: $type)';
@@ -175,12 +173,13 @@ class AbgabezielReferenz {
 
 enum ReferenceType { homework, blackboard }
 
-ReferenceType referenceTypeEnumFromString(String data) =>
+ReferenceType? referenceTypeEnumFromString(String data) =>
     enumFromString(ReferenceType.values, data);
-String referenceTypeEnumToString(ReferenceType referenceType) =>
+String? referenceTypeEnumToString(ReferenceType referenceType) =>
     enumToString(referenceType);
 
-T enumFromString<T>(List<T> values, dynamic json, {T orElse}) => json != null
+// TODO: Enum-Extension für alle Enums
+T? enumFromString<T>(List<T?> values, dynamic json, {T? orElse}) => json != null
     ? values.firstWhere(
         (it) =>
             '$it'.split('.')[1].toString().toLowerCase() ==
@@ -188,13 +187,13 @@ T enumFromString<T>(List<T> values, dynamic json, {T orElse}) => json != null
         orElse: () => orElse)
     : orElse;
 
-String enumToString<T>(T value) =>
+String? enumToString<T>(T value) =>
     value != null ? value.toString().split('.')[1] : null;
 
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 
 List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
-  List<dynamic> originaldata = data;
+  List<dynamic>? originaldata = data;
   if (originaldata == null) return [];
   return originaldata.map((dynamic value) => builder(value)).toList();
 }
