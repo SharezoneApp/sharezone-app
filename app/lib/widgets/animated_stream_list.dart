@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:animated_stream_list/animated_stream_list.dart';
+import 'package:animated_stream_list_nullsafety/animated_stream_list.dart';
 import 'package:flutter/material.dart';
 
 typedef SharezoneAnimatedStreamListItemBuilder<T> = Widget Function(
