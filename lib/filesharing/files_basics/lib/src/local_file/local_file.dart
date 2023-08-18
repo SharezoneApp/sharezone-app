@@ -30,7 +30,7 @@ abstract class LocalFile {
   /// getFile() und getData() können aktuell nicht verglichen werden,
   /// weil die je nach Plattform einen Error werfen können.
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is LocalFile &&
             other.getName() == getName() &&

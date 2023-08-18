@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 import '../../views/homework_view.dart';
 
 class CompletedHomeworkListView {
@@ -15,7 +13,7 @@ class CompletedHomeworkListView {
   final List<StudentHomeworkView> orderedHomeworks;
 
   CompletedHomeworkListView(this.orderedHomeworks,
-      {@required this.loadedAllCompletedHomeworks});
+      {required this.loadedAllCompletedHomeworks});
 
   int get numberOfHomeworks => orderedHomeworks.length;
 

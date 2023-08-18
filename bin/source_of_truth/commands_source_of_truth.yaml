@@ -25,3 +25,4 @@
 # The programs using these commands need to add it themselves.
 check_license_headers: addlicense -check -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" -ignore "**/**.g.dart" -ignore "**/**.mocks.dart"
 add_license_headers: addlicense -c "Sharezone UG (haftungsbeschränkt)" -f header_template.txt -ignore "**/GeneratedPluginRegistrant.swift" -ignore "**/**.g.dart" -ignore "**/**.mocks.dart"
+format_action_files: prettier ".github/workflows/" --write

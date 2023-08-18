@@ -16,13 +16,14 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategoriza
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/homework_section_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('OpenHomeworksViewBloc', () {
-    OpenHomeworksViewBloc openHomeworksViewBloc;
+    late OpenHomeworksViewBloc openHomeworksViewBloc;
     MockOpenHomeworkListBloc mockOpenHomeworkListBloc;
-    MockOpenHomeworkListViewFactory mockOpenHomeworkListViewFactory;
+    late MockOpenHomeworkListViewFactory mockOpenHomeworkListViewFactory;
     setUp(() {
       mockOpenHomeworkListBloc = MockOpenHomeworkListBloc();
       mockOpenHomeworkListViewFactory = MockOpenHomeworkListViewFactory();
@@ -37,8 +38,8 @@ void main() {
       openHomeworksViewBloc
           .add(LoadHomeworks(SmallestDateSubjectAndTitleSort()));
 
-      final Success success = await openHomeworksViewBloc.stream
-          .firstWhere((state) => state is Success);
+      final success =
+          await openHomeworksViewBloc.stream.whereType<Success>().first;
       expect(success.openHomeworkListView.sections, sections);
     });
   });

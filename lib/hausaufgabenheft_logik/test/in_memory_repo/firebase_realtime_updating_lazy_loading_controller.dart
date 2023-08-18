@@ -9,7 +9,6 @@
 import 'dart:async';
 
 import 'package:hausaufgabenheft_logik/src/data_source/homework_data_source.dart';
-import 'package:meta/meta.dart';
 import 'realtime_completed_homework_loader.dart';
 
 class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
@@ -28,10 +27,10 @@ class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
   /// [RealtimeUpdatingLazyLoadingController] are considered and that
   /// there are no duplicate homeworks from the results of
   /// [RealtimeUpdatingLazyLoadingController] from before.
-  StreamSubscription _currentLazyLoadingStreamSubscription;
+  StreamSubscription? _currentLazyLoadingStreamSubscription;
 
   RealtimeUpdatingLazyLoadingController(this._homeworkLoader,
-      {@required this.initialNumberOfHomeworksToLoad}) {
+      {required this.initialNumberOfHomeworksToLoad}) {
     _validateArguments();
 
     if (initialNumberOfHomeworksToLoad > 0) {

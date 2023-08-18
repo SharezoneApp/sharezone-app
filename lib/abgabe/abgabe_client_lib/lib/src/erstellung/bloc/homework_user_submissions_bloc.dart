@@ -21,9 +21,9 @@ import 'package:abgabe_client_lib/src/models/models.dart';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:rxdart/rxdart.dart' as rx;
 import 'package:rxdart/subjects.dart';
@@ -53,18 +53,18 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   final rx.ValueStream<ErstellerAbgabeModelSnapshot> _aktuelleAbgabe;
   final AbgabedateiIdGenerator _generiereAbgabedateiId;
   final AbgabeVeroeffentlicher _abgabenVeroeffentlicher;
-  LocalFileAbgabedateiKonvertierer _localFileKonvertierer;
-  LokaleAbgabedateiFactory _lokaleAbgabedateiFactory;
+  late LocalFileAbgabedateiKonvertierer _localFileKonvertierer;
+  late LokaleAbgabedateiFactory _lokaleAbgabedateiFactory;
 
   Stream<SubmissionPageView> get pageView => _pageViewSubject;
   final _pageViewSubject = BehaviorSubject<SubmissionPageView>();
 
-  Stream<SubmissionDeadlineState> _currentDeadlineState;
+  late Stream<SubmissionDeadlineState> _currentDeadlineState;
   final _hochladeneDateien =
       BehaviorSubject<BuiltList<HochladeneLokaleAbgabedatei>>.seeded(
           BuiltList<HochladeneLokaleAbgabedatei>());
 
-  StreamSubscription _viewsSubscription;
+  late StreamSubscription _viewsSubscription;
 
   HomeworkUserCreateSubmissionsBloc(
     this._abgabeId,
@@ -80,12 +80,12 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     /// Wird über Parameter gemacht, damit Tests das hier mocken können
     /// Das generien einer ID ist dafür da, dass eine Datei lokal und auf dem
     /// Server als eine erkenntlich ist, unabhängig von dem Pfad oder Namen.
-    AbgabedateiIdGenerator generiereAbgabedateiId,
+    AbgabedateiIdGenerator? generiereAbgabedateiId,
 
     /// Wie oft geguckt werden soll, wie der aktuelle [SubmissionDeadlineState]
     /// ist. Wird beim testen hoch gestellt, damit die Tests schneller
     /// durchlaufen.
-    Duration abgabefristUeberwachungsfrequenz,
+    Duration abgabefristUeberwachungsfrequenz = const Duration(seconds: 1),
   })  : _generiereAbgabedateiId = generiereAbgabedateiId ?? randomAbgabedateiId,
         _aktuelleAbgabe = aktuelleAbgabe.shareValue(),
         _dateiUploader = AbgabedateiHochlader(dateiUploader, _abgabeId) {
@@ -98,9 +98,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     _currentDeadlineState = rx.CombineLatestStream.combine2<DateTime, void,
         SubmissionDeadlineState>(
       _abgabezeitpunkt,
-      Stream.periodic(
-              abgabefristUeberwachungsfrequenz ?? const Duration(seconds: 1))
-          .startWith(null),
+      Stream.periodic(abgabefristUeberwachungsfrequenz).startWith(null),
       (abgabezeitpunkt, _) =>
           _getDeadlineState(abgabezeitpunkt, _getCurrentDateTime()),
     ).distinct();
@@ -118,9 +116,8 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
           submitted: false,
           deadlineState: state,
           files: [
-            if (hochladeneDateien != null)
-              for (final hochladeneDatei in hochladeneDateien)
-                hochladeneDatei.toView()
+            for (final hochladeneDatei in hochladeneDateien)
+              hochladeneDatei.toView()
           ],
         );
 
@@ -198,13 +195,12 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
       (localFiles) async {
         final res = _localFileKonvertierer.konvertiereLocalFiles(localFiles);
 
-        final aktuelleAbgabe =
-            _aktuelleAbgabe?.valueOrNull?.abgabe?.orElse(null);
+        final aktuelleAbgabe = _aktuelleAbgabe.valueOrNull?.abgabe.orElseNull;
         final hochgeladeneNamen =
-            aktuelleAbgabe?.abgabedateien?.map((e) => e.name)?.toSet() ?? {};
+            aktuelleAbgabe?.abgabedateien.map((e) => e.name).toSet() ?? {};
 
         final hochladeneNamen =
-            _hochladeneDateien.valueOrNull.map((datei) => datei.name).toSet();
+            _hochladeneDateien.value.map((datei) => datei.name).toSet();
         final bereitsVorhandeneNamen = hochgeladeneNamen.union(hochladeneNamen);
 
         final einzigartigBenannteDateien = benenneEinzigartig(
@@ -219,12 +215,11 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
         for (var abgabedatei in einzigartigBenannteDateien) {
           var hochladeneDatei = HochladeneLokaleAbgabedatei(
               abgabedatei, Fortschritt.nichtGestartet());
-          final aktuelleDateien =
-              _hochladeneDateien.valueOrNull.add(hochladeneDatei);
+          final aktuelleDateien = _hochladeneDateien.value.add(hochladeneDatei);
           _hochladeneDateien.add(aktuelleDateien);
 
           _dateiUploader.ladeDateiHoch(abgabedatei).listen((datei) {
-            final neu = _hochladeneDateien.valueOrNull.replace(datei);
+            final neu = _hochladeneDateien.value.replace(datei);
             _hochladeneDateien.add(neu);
           });
         }
@@ -248,16 +243,15 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   ///
   /// Die [fileId] kann von der [FileView] gelesen werden.
   Function(String fileId) get removeSubmissionFile => (fileId) async {
-        final file = _hochladeneDateien.valueOrNull.firstWhere(
+        final file = _hochladeneDateien.value.firstWhereOrNull(
           (datei) => '${datei.id}' == fileId,
-          orElse: () => null,
         );
         if (file != null) {
-          final neu = _hochladeneDateien.valueOrNull.rebuild(
+          final neu = _hochladeneDateien.value.rebuild(
               (files) => files.removeWhere((datei) => '${datei.id}' == fileId));
           _hochladeneDateien.add(neu);
         }
-        final abgabeSnapshot = _aktuelleAbgabe.valueOrNull;
+        final abgabeSnapshot = _aktuelleAbgabe.value;
         if (abgabeSnapshot.existiertAbgabe) {
           final abgabe = abgabeSnapshot.abgabe.value;
           final hatDateiMitId = abgabe.abgabedateien
@@ -284,12 +278,11 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   /// hochgeladenen Dateien aufgerufen werden.
   /// Ansonsten ist das Verhalten undefiniert.
   Future<void> renameFile(String fileId, String newBasename) async {
-    final abgabeSnapshot = _aktuelleAbgabe.valueOrNull;
+    final abgabeSnapshot = _aktuelleAbgabe.value;
     if (abgabeSnapshot.existiertAbgabe) {
       final abgabe = abgabeSnapshot.abgabe.value;
-      final datei = abgabe.abgabedateien.firstWhere(
-          (element) => element.id == AbgabedateiId(fileId),
-          orElse: () => null);
+      final datei = abgabe.abgabedateien
+          .firstWhereOrNull((element) => element.id == AbgabedateiId(fileId));
       if (datei != null) {
         final neuerName = datei.name.neuerBasename(newBasename);
         await _dateiUmbenenner.nenneDateiUm(datei.id, neuerName);
@@ -332,7 +325,7 @@ class AbgabedateiHochlader {
         )
         .asBroadcastStream()
         .map((event) => HochladeneLokaleAbgabedatei(
-              datei,
+              datei as LokaleAbgabedatei,
               Fortschritt.fromDateiUploadProzessFortschritt(event),
             ));
   }
@@ -346,7 +339,7 @@ class AbgabedateiHochlader {
 class FileConversionException implements Exception {
   final List<LocalFile> files;
 
-  FileConversionException(this.files);
+  const FileConversionException(this.files);
 }
 
 extension on BuiltList<HochladeneLokaleAbgabedatei> {
@@ -367,21 +360,21 @@ class Fortschritt {
   final Optional<double> inProzent;
   final FileViewStatus status;
 
-  Fortschritt({
-    @required this.inProzent,
-    @required this.status,
+  const Fortschritt({
+    required this.inProzent,
+    required this.status,
   });
 
   factory Fortschritt.nichtGestartet() {
-    return Fortschritt(
-      inProzent: const Optional.empty(),
+    return const Fortschritt(
+      inProzent: Optional.empty(),
       status: FileViewStatus.unitiated,
     );
   }
 
   factory Fortschritt.fromDateiUploadProzessFortschritt(
       DateiUploadProzessFortschritt fortschritt) {
-    FileViewStatus status;
+    late FileViewStatus status;
     switch (fortschritt.status) {
       case UploadStatusEnum.imGange:
         status = FileViewStatus.uploading;
@@ -425,7 +418,7 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
           name: datei.name,
           dateigroesse: datei.dateigroesse,
           erstellungsdatum: datei.erstellungsdatum,
-          pfad: datei.pfad.orElse(null),
+          pfad: datei.pfad.orElseNull,
           localFile: datei.localFile,
         );
 
@@ -434,7 +427,7 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
       'HochladeneDatei(datei: ${super.toString()}, fortschritt: $fortschritt)';
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(Object? other) {
     if (identical(this, other)) return true;
 
     return other is HochladeneLokaleAbgabedatei &&

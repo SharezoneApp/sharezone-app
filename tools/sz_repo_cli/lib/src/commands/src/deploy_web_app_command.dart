@@ -9,8 +9,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:args/src/arg_results.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 // All apps are deployed in the production firebase project but under different
@@ -18,9 +18,9 @@ import 'package:sz_repo_cli/src/common/common.dart';
 // All apps also have the production config (they use and display the production
 // data).
 final _webAppConfigs = {
-  'alpha': _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
-  'beta': _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
-  'prod': _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
+  'alpha': const _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
+  'beta': const _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
+  'prod': const _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
 };
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
@@ -138,62 +138,61 @@ class DeployWebAppCommand extends Command {
         });
   }
 
-  File? _parseCredentialsFile(ArgResults _argResults) {
+  File? _parseCredentialsFile(ArgResults argResults) {
     File? googleApplicationCredentialsFile;
-    final _path =
-        _argResults[googleApplicationCredentialsOptionName] as String?;
-    if (_path != null) {
-      googleApplicationCredentialsFile = File(_path);
+    final path = argResults[googleApplicationCredentialsOptionName] as String?;
+    if (path != null) {
+      googleApplicationCredentialsFile = File(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
-        print(
-            "--$googleApplicationCredentialsOptionName passed '$_path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
+        stdout.writeln(
+            "--$googleApplicationCredentialsOptionName passed '$path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
       }
     }
     return googleApplicationCredentialsFile;
   }
 
   _WebAppConfig _getMatchingWebAppConfig(String releaseStage) {
-    final _app = _webAppConfigs[releaseStage];
+    final app = _webAppConfigs[releaseStage];
 
-    if (_app == null) {
-      print(
+    if (app == null) {
+      stderr.writeln(
           'Given release stage $releaseStage does not match one the expected values: $_webAppStages');
       throw ToolExit(2);
     }
 
     if (isVerbose) {
-      print('Got webApp config: $_app');
+      stdout.writeln('Got webApp config: $app');
     }
-    return _app;
+    return app;
   }
 
-  String _parseReleaseStage(ArgResults _argResults) {
-    final releaseStage = _argResults[releaseStageOptionName] as String?;
+  String _parseReleaseStage(ArgResults argResults) {
+    final releaseStage = argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
-      print(
+      stderr.writeln(
           'Expected --$releaseStageOptionName option. Possible values: $_webAppStages');
       throw ToolExit(1);
     }
     return releaseStage;
   }
 
-  String? _parseDeployMessage(ArgResults _argResults) {
+  String? _parseDeployMessage(ArgResults argResults) {
     final overriddenDeployMessageOrNull =
-        _argResults[firebaseDeployMessageOptionName] as String?;
+        argResults[firebaseDeployMessageOptionName] as String?;
     return overriddenDeployMessageOrNull;
   }
 
   Future<String> _getCurrentCommitHash() async {
     final res = await runProcess('git', ['rev-parse', 'HEAD']);
     if (res.stdout == null || (res.stdout as String).isEmpty) {
-      print(
+      stderr.writeln(
           'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
       throw ToolExit(15);
     }
     final currentCommit = res.stdout;
     if (isVerbose) {
-      print('Got current commit hash: $currentCommit');
+      stdout.writeln('Got current commit hash: $currentCommit');
     }
     return currentCommit;
   }

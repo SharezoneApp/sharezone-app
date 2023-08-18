@@ -98,8 +98,8 @@ class FirebaseFileUploader extends FileUploader {
       fb.TaskSnapshot taskSnpashot) {
     return UploadTaskSnapshot(
       storageMetaData: UploadMetadata(
-        customMetadata: taskSnpashot.metadata!.customMetadata,
-        sizeBytes: taskSnpashot.metadata!.size,
+        customMetadata: taskSnpashot.metadata?.customMetadata,
+        sizeBytes: taskSnpashot.metadata?.size,
       ),
       totalByteCount: taskSnpashot.totalBytes,
       bytesTransferred: taskSnpashot.bytesTransferred,

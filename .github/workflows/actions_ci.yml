@@ -72,9 +72,6 @@ jobs:
     needs: changes
     runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    defaults:
-      run:
-        working-directory: .github/workflows
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
@@ -82,4 +79,4 @@ jobs:
         run: npm install --global prettier@3.0.1
 
       - name: Format
-        run: npx prettier . --check
+        run: ./bin/format_action_files.sh

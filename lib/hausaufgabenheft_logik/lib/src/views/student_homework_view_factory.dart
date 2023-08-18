@@ -6,14 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:meta/meta.dart';
 import 'package:hausaufgabenheft_logik/src/views/homework_view.dart';
 
 class StudentHomeworkViewFactory {
-  Date Function() _getCurrentDate;
+  late Date Function() _getCurrentDate;
 
   /// The color value from `color.value`.
   /// E.g. "0xFF03A9F4" for light blue.
@@ -21,7 +20,7 @@ class StudentHomeworkViewFactory {
   final Color defaultColor;
 
   StudentHomeworkViewFactory(
-      {Date Function() getCurrentDate, @required this.defaultColorValue})
+      {Date Function()? getCurrentDate, required this.defaultColorValue})
       : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
@@ -42,11 +41,11 @@ class StudentHomeworkViewFactory {
       withSubmissions: homework.withSubmissions,
       isCompleted: homework.status == CompletionStatus.completed,
       colorDate: homework.isOverdueRelativeTo(twoDaysInFuture),
-      subjectColor: homework.subject.color.orElse(defaultColor),
+      subjectColor: homework.subject.color ?? defaultColor,
     );
   }
 
-  String _getLocaleDateString(Date date, {String time}) {
+  String _getLocaleDateString(Date date, {String? time}) {
     final months = {
       1: 'Januar',
       2: 'Februar',
@@ -72,7 +71,7 @@ class StudentHomeworkViewFactory {
     return '$dateString - $time Uhr';
   }
 
-  String _getTime(bool withSubmissions, DateTime dateTime) {
+  String? _getTime(bool withSubmissions, DateTime dateTime) {
     if (!withSubmissions) return null;
     return '${dateTime.hour}:${_getMinute(dateTime.minute)}';
   }

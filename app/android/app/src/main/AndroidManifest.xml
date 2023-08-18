@@ -29,7 +29,6 @@
 
         <!-- 'android:exported="true"' is required by Firebase Messaging, see https://github.com/firebase/flutterfire/pull/9348 -->
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:exported="true" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
-            <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
             <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -127,7 +127,7 @@ class DeployIosCommand extends Command {
       stageToTracks: _iosStageToTracks,
     );
 
-    print('Deployment finished 🎉 ');
+    stdout.writeln('Deployment finished 🎉 ');
   }
 
   void _throwIfFlavorIsNotSupportForDeployment() {

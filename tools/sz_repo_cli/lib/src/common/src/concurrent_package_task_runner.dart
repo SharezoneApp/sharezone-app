@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:optional/optional.dart';
 import 'package:rxdart/subjects.dart';
@@ -42,26 +43,26 @@ class ConcurrentPackageTaskRunner {
     /// [Failure].
     required Duration perPackageTaskTimeout,
   }) async* {
-    final _concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
+    final concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
         maxConcurrentItems: maxNumberOfPackagesBeingProcessedConcurrently);
 
     final futures = <Future>[];
 
     await for (final package
-        in packageStream.transform(_concurrencyTransformer)) {
-      final _statusUpdater = _getStatusUpdater(package);
-      yield PackageTask(package, _statusUpdater.statusStream);
+        in packageStream.transform(concurrencyTransformer)) {
+      final statusUpdater = _getStatusUpdater(package);
+      yield PackageTask(package, statusUpdater.statusStream);
 
-      _statusUpdater.started();
+      statusUpdater.started();
       final future = runTask(package)
           .timeout(
             perPackageTaskTimeout,
             onTimeout: () =>
                 throw PackageTimeoutException(perPackageTaskTimeout, package),
           )
-          .then((_) => _statusUpdater.success())
-          .catchError((e, s) => _statusUpdater.failure(error: e, stackTrace: s))
-          .whenComplete(_concurrencyTransformer.notifyPackageProcessed);
+          .then((_) => statusUpdater.success())
+          .catchError((e, s) => statusUpdater.failure(error: e, stackTrace: s))
+          .whenComplete(concurrencyTransformer.notifyPackageProcessed);
 
       futures.add(future);
     }
@@ -298,14 +299,14 @@ class PackageTasksStatusPresenter {
           running: (running) => '⚙ Running',
         );
 
-        print('${task.package.name} $status');
+        stdout.writeln('${task.package.name} $status');
       });
     });
   }
 
   Future<void> printFailedTasksSummary(List<Failure> failures) async {
     for (var failure in failures) {
-      print(
+      stderr.writeln(
           '⛔ [${failure.package.type.toReadableString()}] ${failure.package.name}');
     }
   }
