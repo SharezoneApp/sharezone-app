@@ -104,7 +104,7 @@ class DeployMacOsCommand extends Command {
       stageToTracks: _macOsStageToTracks,
     );
 
-    print('Deployment finished 🎉 ');
+    stdout.writeln('Deployment finished 🎉 ');
   }
 
   Future<void> _buildApp({required int buildNumber}) async {
