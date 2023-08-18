@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:meta/meta.dart';
 
 class TeacherHomeworkView {
   final HomeworkId id;
@@ -43,18 +42,18 @@ class TeacherHomeworkView {
   final bool canEditForEveryone;
 
   TeacherHomeworkView({
-    @required this.id,
-    @required this.abbreviation,
-    @required this.colorDate,
-    @required this.nrOfStudentsCompletedOrSubmitted,
-    @required this.subject,
-    @required this.todoDate,
-    @required this.title,
-    @required this.withSubmissions,
-    @required this.subjectColor,
-    @required this.canViewCompletionOrSubmissionList,
-    @required this.canDeleteForEveryone,
-    @required this.canEditForEveryone,
+    required this.id,
+    required this.abbreviation,
+    required this.colorDate,
+    required this.nrOfStudentsCompletedOrSubmitted,
+    required this.subject,
+    required this.todoDate,
+    required this.title,
+    required this.withSubmissions,
+    required this.subjectColor,
+    required this.canViewCompletionOrSubmissionList,
+    required this.canDeleteForEveryone,
+    required this.canEditForEveryone,
   });
 
   @override

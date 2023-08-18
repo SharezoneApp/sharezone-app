@@ -10,7 +10,6 @@ import 'package:abgabe_client_lib/src/models/abgabedatei.dart';
 import 'package:abgabe_client_lib/src/models/dateiname.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 
 class LokaleAbgabedatei extends Abgabedatei {
@@ -23,12 +22,12 @@ class LokaleAbgabedatei extends Abgabedatei {
   final LocalFile localFile;
 
   LokaleAbgabedatei({
-    @required AbgabedateiId id,
-    @required Dateiname name,
-    @required Dateigroesse dateigroesse,
-    @required DateTime erstellungsdatum,
-    @required this.localFile,
-    String pfad,
+    required AbgabedateiId id,
+    required Dateiname name,
+    required Dateigroesse dateigroesse,
+    required DateTime erstellungsdatum,
+    required this.localFile,
+    String? pfad,
   })  : pfad = Optional.ofNullable(pfad),
         super(
             id: id,
@@ -45,7 +44,7 @@ class LokaleAbgabedatei extends Abgabedatei {
       id: id,
       name: neuerDateiname,
       dateigroesse: dateigroesse,
-      pfad: pfad.orElse(null),
+      pfad: pfad.orElseNull,
       erstellungsdatum: erstellungsdatum,
       localFile: localFile,
     );
@@ -55,12 +54,14 @@ class LokaleAbgabedatei extends Abgabedatei {
   String toString() => 'LokaleAbgabedatei(id: $id, name: $name)';
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is LokaleAbgabedatei && other.pfad == pfad;
-  }
+  int get hashCode => pfad.hashCode ^ localFile.hashCode;
 
   @override
-  int get hashCode => pfad.hashCode;
+  bool operator ==(Object? other) {
+    if (identical(this, other)) return true;
+
+    return other is LokaleAbgabedatei &&
+        other.pfad == pfad &&
+        other.localFile == localFile;
+  }
 }

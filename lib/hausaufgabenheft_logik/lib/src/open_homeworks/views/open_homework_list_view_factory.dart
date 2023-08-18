@@ -24,8 +24,8 @@ class OpenHomeworkListViewFactory {
 
   OpenHomeworkListView create(
       List<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
-    final homeworkSectionViews =
-        _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
+    final homeworkSectionViews = _sortAndSubcategorizer.sortAndSubcategorize(
+        openHomeworks as HomeworkList, sort);
 
     final showCompleteOverdueHomeworkPrompt =
         _shouldShowCompleteOverdueHomeworkPrompt(openHomeworks);

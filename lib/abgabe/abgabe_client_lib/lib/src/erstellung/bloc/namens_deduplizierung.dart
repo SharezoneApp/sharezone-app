@@ -9,13 +9,13 @@
 import 'package:abgabe_client_lib/src/erstellung/lokale_abgabedatei.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
 
-import 'package:meta/meta.dart';
-
 /// Nennt alle Dateien in [dateien] mit einem einzigartigen Namen um, deren Name
 /// doppelt in [dateien] oder bereits in [bereitsVorhandeneDateinamen] vorkommt.
 /// Der Rückgabewert sind alle [dateien] (inklusive den umbenannten Dateien).
-List<LokaleAbgabedatei> benenneEinzigartig(List<LokaleAbgabedatei> dateien,
-    {@required Set<Dateiname> bereitsVorhandeneDateinamen}) {
+List<LokaleAbgabedatei> benenneEinzigartig(
+  List<LokaleAbgabedatei> dateien, {
+  required Set<Dateiname> bereitsVorhandeneDateinamen,
+}) {
   final uniquelyNamed = <LokaleAbgabedatei>[];
   for (final file in dateien) {
     if (bereitsVorhandeneDateinamen.contains(file.name)) {

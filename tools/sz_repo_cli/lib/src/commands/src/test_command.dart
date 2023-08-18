@@ -39,7 +39,7 @@ class TestCommand extends ConcurrentCommand {
   int get defaultMaxConcurrency => 5;
 
   @override
-  Duration get defaultPackageTimeout => Duration(minutes: 10);
+  Duration get defaultPackageTimeout => const Duration(minutes: 10);
 
   @override
   Stream<Package> get packagesToProcess {

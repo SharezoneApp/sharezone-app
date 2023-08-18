@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:files_basics/files_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 
@@ -26,11 +25,11 @@ class AbgegebeneAbgabe {
       zuletztBearbeitet.isPresent ? zuletztBearbeitet.value : abgabezeitpunkt;
 
   AbgegebeneAbgabe({
-    @required this.id,
-    @required this.author,
-    @required this.abgegebeneDateien,
-    @required this.abgabezeitpunkt,
-    DateTime zuletztBearbeitet,
+    required this.id,
+    required this.author,
+    required this.abgegebeneDateien,
+    required this.abgabezeitpunkt,
+    DateTime? zuletztBearbeitet,
   }) : zuletztBearbeitet = Optional.ofNullable(zuletztBearbeitet) {
     ArgumentError.checkNotNull(author, 'author');
     ArgumentError.checkNotNull(abgegebeneDateien, 'abgegebeneDateien');
@@ -56,10 +55,10 @@ class AbgegebeneDatei {
   final DateiDownloadUrl downloadUrl;
 
   AbgegebeneDatei({
-    @required this.id,
-    @required this.einreichDatum,
-    @required this.name,
-    @required this.downloadUrl,
+    required this.id,
+    required this.einreichDatum,
+    required this.name,
+    required this.downloadUrl,
   }) {
     ArgumentError.checkNotNull(id, 'fileId');
     ArgumentError.checkNotNull(einreichDatum, 'einreichDatum');

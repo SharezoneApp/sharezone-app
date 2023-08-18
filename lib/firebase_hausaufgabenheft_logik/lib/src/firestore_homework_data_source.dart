@@ -31,10 +31,10 @@ class FirestoreHomeworkDataSource extends HomeworkDataSource {
         .transform(_homeworkTransformer);
   }
 
-  Future<HomeworkReadModel> findById(HomeworkId id) async {
+  Future<HomeworkReadModel?> findById(HomeworkId id) async {
     final document = await _homeworkCollection.doc(id.toString()).get();
-    final maybeHomework = await tryToConvertToHomework(document, uid);
-    return maybeHomework.value;
+    final homework = await tryToConvertToHomework(document, uid);
+    return homework;
   }
 
   Future<List<HomeworkId>> getCurrentOpenOverdueHomeworkIds() async {

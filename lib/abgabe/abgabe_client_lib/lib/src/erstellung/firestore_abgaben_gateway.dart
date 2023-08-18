@@ -11,12 +11,13 @@ import 'dart:developer';
 import 'package:abgabe_client_lib/src/abnahme/abgaben_abnahme_gateway.dart';
 import 'package:abgabe_client_lib/src/abnahme/view_submissions_page_bloc.dart';
 import 'package:abgabe_client_lib/src/erstellung/abnahme_erstellung_gateway.dart';
+import 'package:abgabe_client_lib/src/erstellung/string_to_datetime_extension.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FirestoreAbgabeGateway
     implements AbgabenAbnahmeGateway, AbnahmeErstellungGateway {
@@ -28,12 +29,12 @@ class FirestoreAbgabeGateway
   final UserId userId;
 
   FirestoreAbgabeGateway({
-    @required this.firestore,
-    @required this.submissionReviewCollection,
-    @required this.submissionCreationCollection,
-    @required this.homeworkCollection,
-    @required this.userId,
-    @required this.courseCollection,
+    required this.firestore,
+    required this.submissionReviewCollection,
+    required this.submissionCreationCollection,
+    required this.homeworkCollection,
+    required this.userId,
+    required this.courseCollection,
   });
 
   @override
@@ -55,8 +56,8 @@ class FirestoreAbgabeGateway
         .doc('$homeworkId')
         .snapshots()
         .asyncMap((event) => tryToConvertToHomework(event, '$userId'))
-        .where((event) => event.isPresent)
-        .map((event) => event.value.todoDate);
+        .whereNotNull()
+        .map((event) => event.todoDate);
   }
 
   @override
@@ -72,7 +73,9 @@ class FirestoreAbgabeGateway
 
   ErstellerAbgabeModelSnapshot _toAbgabe(DocumentSnapshot snapshot) {
     if (snapshot.exists) {
-      final dto = ErstellerAbgabenModelDto.fromMap(snapshot.data() ?? {});
+      final dto = ErstellerAbgabenModelDto.fromMap(
+        snapshot.data() as Map<String, dynamic>,
+      );
       var abgabe = dto.toAbgabe();
       return ErstellerAbgabeModelSnapshot(abgabe);
     } else {
@@ -85,7 +88,8 @@ class FirestoreAbgabeGateway
   }
 
   AbgegebeneAbgabeDto _toDto(DocumentSnapshot snapshot) {
-    return AbgegebeneAbgabeDto.fromData(snapshot.id, snapshot.data());
+    return AbgegebeneAbgabeDto.fromData(
+        snapshot.id, snapshot.data() as Map<String, dynamic>);
   }
 
   AbgegebeneAbgabe _toAbgegebeneAbgabe(AbgegebeneAbgabeDto dto) {
@@ -97,9 +101,7 @@ class FirestoreAbgabeGateway
             name: Dateiname(f.fileNameWithExtension),
             downloadUrl: DateiDownloadUrl(f.downloadUrl),
             groesse: Dateigroesse(f.sizeInBytes),
-            zuletztBearbeitet: f.lastEditedIsoString != null
-                ? DateTime.parse(f.lastEditedIsoString)
-                : null,
+            zuletztBearbeitet: f.lastEditedIsoString?.toDateTime(),
           ),
         )
         .toList();
@@ -110,9 +112,7 @@ class FirestoreAbgabeGateway
       author: Author(UserId(dto.author.uid), authorName),
       abgegebeneDateien: dateien,
       abgabezeitpunkt: DateTime.parse(dto.submittedOnIsoString),
-      zuletztBearbeitet: dto.lastEditedIsoString != null
-          ? DateTime.parse(dto.lastEditedIsoString)
-          : null,
+      zuletztBearbeitet: dto.lastEditedIsoString?.toDateTime(),
     );
   }
 
@@ -126,7 +126,9 @@ class FirestoreAbgabeGateway
     final docSnaps = homeworkCollection.doc(homeworkId).snapshots();
 
     await for (final snapshot in docSnaps) {
-      final homework = HomeworkDto.fromData(snapshot.data(), id: snapshot.id);
+      final homework = HomeworkDto.fromData(
+          snapshot.data() as Map<String, dynamic>,
+          id: snapshot.id);
       final allStudentUids = _getAllNonEmptyStudentIds(homework);
 
       final schueler = <Nutzer>[];
@@ -162,15 +164,7 @@ class FirestoreAbgabeGateway
     Iterable<String> allStudentUids = studentsCompleted
       ..addAll(studentsOpen)
       ..toSet();
-    allStudentUids = allStudentUids.where((id) => id != null && id.isNotEmpty);
+    allStudentUids = allStudentUids.where((id) => id.isNotEmpty);
     return allStudentUids;
   }
 }
-
-T enumFromString<T>(List<T> values, dynamic json, {T orElse}) => json != null
-    ? values.firstWhere(
-        (it) =>
-            '$it'.split('.')[1].toString().toLowerCase() ==
-            json.toString().toLowerCase(),
-        orElse: () => orElse)
-    : orElse;

@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
 # Licensed under the EUPL-1.2-or-later.
 #
 # You may obtain a copy of the Licence at:
@@ -6,17 +6,4 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# Defines a default set of lint rules enforced for
-# projects at Google. For details and rationale,
-# see https://github.com/dart-lang/pedantic#enabled-lints.
-include: package:pedantic/analysis_options.yaml
-
-# For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
-# Uncomment to specify additional rules.
-# linter:
-#   rules:
-#     - camel_case_types
-
-analyzer:
-  errors:
-    todo: warning
+include: package:sharezone_lints/analysis_options.yaml

@@ -143,8 +143,6 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
           throw UnimplementedError(
               'Cancel an upload has not been implemented yet.');
       }
-
-      throw UnimplementedError('Type: ${uploadEvent.type} unimplementiert.');
     }
   }
 }
@@ -171,7 +169,7 @@ class NameChangingLocalFileWrapper extends LocalFile {
   }
 
   @override
-  String getPath() {
+  String? getPath() {
     return _localFile.getPath();
   }
 
@@ -181,7 +179,7 @@ class NameChangingLocalFileWrapper extends LocalFile {
   }
 
   @override
-  MimeType getType() {
+  MimeType? getType() {
     return _localFile.getType();
   }
 }

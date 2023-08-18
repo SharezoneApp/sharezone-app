@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 
 class SubmissionPageView {
@@ -17,11 +16,11 @@ class SubmissionPageView {
   final List<FileView> files;
   final bool submittable;
 
-  SubmissionPageView({
-    @required this.deadlineState,
-    @required this.files,
-    @required this.submittable,
-    @required this.submitted,
+  const SubmissionPageView({
+    required this.deadlineState,
+    required this.files,
+    required this.submittable,
+    required this.submitted,
   });
 
   @override
@@ -64,14 +63,14 @@ class FileView {
   final Optional<String> downloadUrl;
 
   FileView({
-    @required this.id,
-    @required this.extentionName,
-    @required this.basename,
-    @required this.status,
-    @required this.fileFormat,
-    String path,
-    double uploadProgess,
-    String downloadUrl,
+    required this.id,
+    required this.extentionName,
+    required this.basename,
+    required this.status,
+    required this.fileFormat,
+    String? path,
+    double? uploadProgess,
+    String? downloadUrl,
   })  : uploadProgess = Optional.ofNullable(uploadProgess),
         path = Optional.ofNullable(path),
         downloadUrl = Optional.ofNullable(downloadUrl);

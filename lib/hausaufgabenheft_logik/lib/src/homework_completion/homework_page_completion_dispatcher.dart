@@ -9,7 +9,6 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:meta/meta.dart';
 
 /// The [HomeworkPageCompletionDispatcher] is a homework page sepecific input for
 /// [HomeworkCompletionEvent]s.
@@ -25,7 +24,7 @@ class HomeworkPageCompletionDispatcher {
   final HomeworkCompletionDispatcher _homeworkCompletionDispatcher;
 
   HomeworkPageCompletionDispatcher(this._homeworkCompletionDispatcher,
-      {@required this.getCurrentOverdueHomeworkIds});
+      {required this.getCurrentOverdueHomeworkIds});
 
   Future<void> add(HomeworkCompletionEvent event) async {
     if (event is SingleHomeworkCompletionEvent) {

@@ -30,7 +30,7 @@ Future<void> main(List<String> args) async {
   final packagesDir = Directory(p.join(projectRoot.path, 'lib'));
 
   if (!packagesDir.existsSync()) {
-    print('Error: Cannot find a "lib" sub-directory');
+    stderr.writeln('Error: Cannot find a "lib" sub-directory');
     exit(1);
   }
 
@@ -64,6 +64,6 @@ Future<void> main(List<String> args) async {
       // Ansonsten wird die StackTrace noch zusätzlich ausgeprintet, was die Benutzung
       // unschön macht.
       .catchError((Object e) {
-    print(e);
+    stdout.writeln(e);
   }, test: (e) => e is UsageException);
 }
