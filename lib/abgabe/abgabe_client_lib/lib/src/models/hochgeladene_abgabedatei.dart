@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 
 import 'abgabedatei.dart';
@@ -19,12 +18,12 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
   final Optional<DateTime> zuletztBearbeitet;
 
   HochgeladeneAbgabedatei({
-    @required AbgabedateiId id,
-    @required Dateiname name,
-    @required Dateigroesse groesse,
-    @required this.downloadUrl,
-    @required DateTime erstellungsdatum,
-    DateTime zuletztBearbeitet,
+    required AbgabedateiId id,
+    required Dateiname name,
+    required Dateigroesse groesse,
+    required this.downloadUrl,
+    required DateTime erstellungsdatum,
+    DateTime? zuletztBearbeitet,
   })  : zuletztBearbeitet = Optional.ofNullable(zuletztBearbeitet),
         super(
           id: id,
@@ -44,12 +43,12 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
       groesse: dateigroesse,
       downloadUrl: downloadUrl,
       erstellungsdatum: erstellungsdatum,
-      zuletztBearbeitet: zuletztBearbeitet.orElse(null),
+      zuletztBearbeitet: zuletztBearbeitet.orElseNull,
     );
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(Object? other) {
     if (identical(this, other)) return true;
 
     return other is HochgeladeneAbgabedatei &&
