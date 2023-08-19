@@ -12,7 +12,6 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
@@ -40,11 +39,11 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   bool _isClosed = false;
 
   HomeworkPageBloc({
-    @required open.OpenHomeworksViewBloc openHomeworksViewBloc,
-    @required completed.CompletedHomeworksViewBloc completedHomeworksViewBloc,
-    @required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
-    @required HomeworkSortingCache homeworkSortingCache,
-    @required DateTime Function() getCurrentDateTime,
+    required open.OpenHomeworksViewBloc openHomeworksViewBloc,
+    required completed.CompletedHomeworksViewBloc completedHomeworksViewBloc,
+    required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
+    required HomeworkSortingCache homeworkSortingCache,
+    required DateTime Function() getCurrentDateTime,
   })  : _openHomeworksViewBloc = openHomeworksViewBloc,
         _completedHomeworksViewBloc = completedHomeworksViewBloc,
         _homeworkSortingCache = homeworkSortingCache,
@@ -75,13 +74,13 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     return Date.fromDateTime(_getCurrentDateTime());
   }
 
-  StreamSubscription _combineLatestSubscription;
+  StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
     _completedHomeworksViewBloc.add(completed.StartTransformingHomeworks());
 
-    final sortEnum = await _homeworkSortingCache.getLastSorting(
-        orElse: HomeworkSort.smallestDateSubjectAndTitle);
-    final sort = sortEnum.toSortObject();
+    final sortEnum = (await _homeworkSortingCache.getLastSorting(
+        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
+    final sort = sortEnum.toSortObject(getCurrentDate: _getCurrentDate);
     _openHomeworksViewBloc.add(open.LoadHomeworks(sort));
 
     final completedHomeworksSuccessStates =

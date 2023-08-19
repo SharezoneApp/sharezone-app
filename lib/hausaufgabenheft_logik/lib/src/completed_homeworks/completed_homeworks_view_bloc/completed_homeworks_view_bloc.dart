@@ -27,8 +27,8 @@ class CompletedHomeworksViewBloc extends Bloc<CompletedHomeworksViewBlocEvent,
       _lazyLoadingCompletedHomeworksBloc;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
   final int nrOfInitialCompletedHomeworksToLoad;
-  StreamSubscription _streamSubscription;
-  Stream<lazy_loading.Success> _lazyLoadingSuccessStates;
+  late StreamSubscription _streamSubscription;
+  late Stream<lazy_loading.Success> _lazyLoadingSuccessStates;
 
   CompletedHomeworksViewBloc(this._lazyLoadingCompletedHomeworksBloc,
       this._completedHomeworkListViewFactory,

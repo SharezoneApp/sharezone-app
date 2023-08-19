@@ -20,7 +20,7 @@ HomeworkReadModel createHomework(
     String id = 'willBeRandom',
     bool done = false,
     bool withSubmissions = false,
-    Color subjectColor}) {
+    Color? subjectColor}) {
   id = id == 'willBeRandom' ? randomString(5) : id;
   return HomeworkReadModel(
     id: HomeworkId(id),

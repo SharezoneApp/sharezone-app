@@ -6,27 +6,27 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:abgabe_client_lib/src/erstellung/string_to_datetime_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 
 import 'models.dart';
 
 class ErstellerAbgabenModelDto {
   final String abgabeId;
-  final String abgegebenUmIsoString;
+  final String? abgegebenUmIsoString;
   final List<HochgeladeneAbgabedateiDto> dateien;
 
   ErstellerAbgabenModelDto({
-    @required this.abgabeId,
-    @required this.abgegebenUmIsoString,
-    @required this.dateien,
+    required this.abgabeId,
+    required this.abgegebenUmIsoString,
+    required this.dateien,
   });
 
   ErstellerAbgabenModelDto copyWith({
-    String abgabeId,
-    String abgegebenUmIsoString,
-    List<HochgeladeneAbgabedateiDto> dateien,
+    String? abgabeId,
+    String? abgegebenUmIsoString,
+    List<HochgeladeneAbgabedateiDto>? dateien,
   }) {
     return ErstellerAbgabenModelDto(
       abgabeId: abgabeId ?? this.abgabeId,
@@ -35,8 +35,7 @@ class ErstellerAbgabenModelDto {
     );
   }
 
-  static ErstellerAbgabenModelDto fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
+  factory ErstellerAbgabenModelDto.fromMap(Map<String, dynamic> map) {
     return ErstellerAbgabenModelDto(
       abgabeId: map['submissionId'],
       abgegebenUmIsoString: map['submittedOn'],
@@ -49,7 +48,7 @@ class ErstellerAbgabenModelDto {
   ErstellerAbgabeModel toAbgabe() {
     return ErstellerAbgabeModel(
       abgabeId: AbgabeId.fromOrThrow(abgabeId),
-      abgegebenUm: abgegebenUmIsoString.toDateTime(),
+      abgegebenUm: abgegebenUmIsoString?.toDateTime(),
       abgabedateien: dateien.map((e) => e.toHochgeladeneAbgabedatei()).toList(),
     );
   }
@@ -79,13 +78,8 @@ extension ErstellerAbgabeToDto on ErstellerAbgabeModel {
     return ErstellerAbgabenModelDto(
       abgabeId: '$abgabeId',
       abgegebenUmIsoString:
-          abgegebenUm.map((val) => val.toUtc().toIso8601String()).orElse(null),
+          abgegebenUm.map((val) => val.toUtc().toIso8601String()).orElseNull,
       dateien: abgabedateien.map((e) => e.toDto()).toList(),
     );
   }
-}
-
-extension StringToDateTimeExtension on String {
-  /// Ruft DateTime.parse für diesen String auf.
-  DateTime toDateTime() => this != null ? DateTime.parse(this) : null;
 }

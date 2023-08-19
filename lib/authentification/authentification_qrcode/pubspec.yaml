@@ -44,5 +44,3 @@ dev_dependencies:
     sdk: flutter
   sharezone_lints:
     path: ../../sharezone_lints
-
-flutter: null

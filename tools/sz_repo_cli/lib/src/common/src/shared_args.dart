@@ -45,7 +45,7 @@ Limiting concurrency is helpful for not as powerful machines like e.g. CI-runner
 
 extension PackageTimeoutArgResult on ArgResults {
   Duration get packageTimeoutDuration {
-    final _packageTimeout = this[_packageTimeoutName];
-    return Duration(minutes: int.parse(_packageTimeout));
+    final packageTimeout = this[_packageTimeoutName];
+    return Duration(minutes: int.parse(packageTimeout));
   }
 }
