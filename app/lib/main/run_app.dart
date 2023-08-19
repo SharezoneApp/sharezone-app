@@ -93,7 +93,7 @@ Future<AppDependencies> initializeDependencies({
 
   await _initializeFirebase(flavor);
 
-  final pluginInitializations = await runPluginInitializations();
+  final pluginInitializations = await runPluginInitializations(flavor: flavor);
 
   final firebaseDependencies = FirebaseDependencies.get();
   final firebaseFunctions =
