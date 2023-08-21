@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:meta/meta.dart';
 import '../data_source/homework_data_source.dart';
 import '../homework_completion/homework_completion_dispatcher.dart';
 
@@ -25,13 +24,13 @@ class HausaufgabenheftDependencies {
 
   final KeyValueStore keyValueStore;
 
-  final DateTime Function() getCurrentDateTime;
+  final DateTime Function()? getCurrentDateTime;
 
   HausaufgabenheftDependencies({
-    @required this.dataSource,
-    @required this.completionDispatcher,
-    @required this.getOpenOverdueHomeworkIds,
-    @required this.keyValueStore,
+    required this.dataSource,
+    required this.completionDispatcher,
+    required this.getOpenOverdueHomeworkIds,
+    required this.keyValueStore,
     this.getCurrentDateTime,
   });
 }

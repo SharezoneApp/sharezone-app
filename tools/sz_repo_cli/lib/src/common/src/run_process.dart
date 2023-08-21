@@ -51,7 +51,7 @@ Future<ProcessResult> runProcess<T>(
   ProcessStartMode mode = ProcessStartMode.normal,
 }) async {
   final displayableCommand = '$executable ${arguments.join(' ')}';
-  if (isVerbose) print('Starting $displayableCommand...');
+  if (isVerbose) stdout.writeln('Starting $displayableCommand...');
 
   final process = await Process.start(executable, arguments,
       workingDirectory: workingDirectory,
@@ -82,9 +82,9 @@ Future<ProcessResult> runProcess<T>(
   final stderrBuffer = StringBuffer();
   broadcastStderr.toUtf8().listen(stderrBuffer.write);
 
-  if (isVerbose) print('Waiting for exit code...');
+  if (isVerbose) stdout.writeln('Waiting for exit code...');
   final exitCode = await process.exitCode;
-  if (isVerbose) print('Got exit code $exitCode...');
+  if (isVerbose) stdout.writeln('Got exit code $exitCode...');
 
   final stdoutOutput = stdoutBuffer.toString();
   final stderrOutput = stderrBuffer.toString();

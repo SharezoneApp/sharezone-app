@@ -13,26 +13,19 @@ import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'events.dart';
 import 'states.dart';
 
+export 'events.dart';
+export 'states.dart';
+
 class OpenHomeworkListBloc
     extends Bloc<OpenHomeworkListBlocEvent, OpenHomeworkListBlocState> {
   final HomeworkDataSource _repository;
 
-  OpenHomeworkListBloc(this._repository);
-
-  @override
-  OpenHomeworkListBlocState get initialState => Uninitialized();
-
-  @override
-  Stream<OpenHomeworkListBlocState> mapEventToState(
-      OpenHomeworkListBlocEvent event) async* {
-    if (event is LoadHomeworks) {
+  OpenHomeworkListBloc(this._repository) : super(Uninitialized()) {
+    on<LoadHomeworks>((event, emit) {
       _repository.openHomeworks
           .listen((hws) => add(_Yield(Success(HomeworkList(hws)))));
-    } else if (event is _Yield) {
-      yield event.payload;
-    } else {
-      throw UnimplementedError('$event is not implemented');
-    }
+    });
+    on<_Yield>((event, emit) => emit(event.payload));
   }
 }
 

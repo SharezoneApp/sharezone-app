@@ -44,7 +44,7 @@ class Lesson {
     return Lesson(
       lessonID: id,
       groupID: data['groupID'] as String,
-      groupType: groupTypeFromString(data['groupType'] as String),
+      groupType: GroupType.values.byName(data['groupType'] as String),
       startDate: Date.parseOrNull(data['startDate'] as String),
       endDate: Date.parseOrNull(data['endDate'] as String),
       startTime: Time.parse(data['startTime'] as String),
@@ -60,7 +60,7 @@ class Lesson {
   Map<String, dynamic> toJson() {
     return {
       'groupID': groupID,
-      'groupType': groupTypeToString(groupType),
+      'groupType': groupType?.name,
       'startDate': startDate?.toDateString,
       'endDate': endDate?.toDateString,
       'startTime': startTime?.time,

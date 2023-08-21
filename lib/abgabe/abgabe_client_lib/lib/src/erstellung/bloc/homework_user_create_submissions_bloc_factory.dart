@@ -17,7 +17,6 @@ import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_umbenenner.dart
 import 'package:abgabe_http_api/api.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 
 class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   final String userId;
@@ -29,13 +28,13 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   final FirebaseAuthTokenRetreiver authTokenRetreiver;
 
   HomeworkUserCreateSubmissionsBlocFactory({
-    @required this.uploader,
-    @required this.saver,
-    @required this.recordError,
-    @required this.userId,
-    @required this.gateway,
-    @required this.abgabeHttpApi,
-    @required this.authTokenRetreiver,
+    required this.uploader,
+    required this.saver,
+    required this.recordError,
+    required this.userId,
+    required this.gateway,
+    required this.abgabeHttpApi,
+    required this.authTokenRetreiver,
   });
 
   HomeworkUserCreateSubmissionsBloc create(String homeworkId) {

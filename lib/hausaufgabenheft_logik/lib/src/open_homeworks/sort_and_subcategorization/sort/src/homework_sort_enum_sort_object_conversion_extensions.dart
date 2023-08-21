@@ -21,13 +21,13 @@ extension HomeworkSortToEnumExtension on Sort<HomeworkReadModel> {
 }
 
 extension HomeworkSortEnumToSortExtension on HomeworkSort {
-  Sort<HomeworkReadModel> toSortObject({Date Function() getCurrentDate}) {
+  Sort<HomeworkReadModel> toSortObject(
+      {required Date Function()? getCurrentDate}) {
     switch (this) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return SmallestDateSubjectAndTitleSort(getCurrentDate: getCurrentDate);
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return SubjectSmallestDateAndTitleSort();
     }
-    throw UnimplementedError();
   }
 }

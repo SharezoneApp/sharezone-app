@@ -23,18 +23,18 @@ class InMemoryKeyValueStore extends KeyValueStore {
   }
 
   @override
-  bool getBool(String key) {
-    return storedValues[key] as bool;
+  bool? getBool(String key) {
+    return storedValues[key] as bool?;
   }
 
   @override
-  double getDouble(String key) {
-    return storedValues[key] as double;
+  double? getDouble(String key) {
+    return storedValues[key] as double?;
   }
 
   @override
-  int getInt(String key) {
-    return storedValues[key] as int;
+  int? getInt(String key) {
+    return storedValues[key] as int?;
   }
 
   @override
@@ -43,13 +43,13 @@ class InMemoryKeyValueStore extends KeyValueStore {
   }
 
   @override
-  String getString(String key) {
-    return storedValues[key] as String;
+  String? getString(String key) {
+    return storedValues[key] as String?;
   }
 
   @override
-  List<String> getStringList(String key) {
-    return storedValues[key] as List<String>;
+  List<String>? getStringList(String key) {
+    return storedValues[key] as List<String>?;
   }
 
   @override

@@ -16,17 +16,17 @@ import '../file_picker_implementation.dart';
 
 class FilePickerDesktop extends FilePickerImplementation {
   @override
-  Future<LocalFile> pickFile() async {
+  Future<LocalFile?> pickFile() async {
     return selectSingleFile();
   }
 
   @override
-  Future<LocalFile> pickFileImage() async {
+  Future<LocalFile?> pickFileImage() async {
     return selectSingleFile();
   }
 
   @override
-  Future<LocalFile> pickFileVideo() async {
+  Future<LocalFile?> pickFileVideo() async {
     return selectSingleFile();
   }
 
@@ -46,32 +46,32 @@ class FilePickerDesktop extends FilePickerImplementation {
   }
 
   @override
-  Future<LocalFile> pickImageCamera() async {
+  Future<LocalFile?> pickImageCamera() async {
     return selectSingleFile();
   }
 
   @override
-  Future<LocalFile> pickImageGallery() async {
+  Future<LocalFile?> pickImageGallery() async {
     return selectSingleFile();
   }
 }
 
 Future<List<LocalFile>> selectMultipleFiles() async {
   final fileChooserResult =
-      await file_picker.FilePicker.platform.pickFiles(allowMultiple: true);
+      (await file_picker.FilePicker.platform.pickFiles(allowMultiple: true))!;
   if (fileChooserResult.count == 0) return [];
   log('fileChooserResult.paths: ${fileChooserResult.paths}');
   final files =
-      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
+      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path!)));
   return files.toList();
 }
 
-Future<LocalFile> selectSingleFile() async {
+Future<LocalFile?> selectSingleFile() async {
   final fileChooserResult =
-      await file_picker.FilePicker.platform.pickFiles(allowMultiple: false);
+      (await file_picker.FilePicker.platform.pickFiles(allowMultiple: false))!;
   if (fileChooserResult.count == 0) return null;
   final files =
-      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path)));
+      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path!)));
   return files.toList()[0];
 }
 

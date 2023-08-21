@@ -9,7 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
@@ -102,7 +102,6 @@ class _States {
       case _ArchivedHwLazyLoadingState.askedForAll:
         return __archivedHomeworksLoadedAllState;
     }
-    throw UnimplementedError();
   }
 
   static Success _homeworksAllLoadedSortedBySubject(
@@ -133,20 +132,20 @@ class _States {
   }
 }
 
-List<TeacherHomeworkView> _generateRandomHomeworks({@required int count}) {
+List<TeacherHomeworkView> _generateRandomHomeworks({required int count}) {
   return List.generate(
       count, (index) => randomHomeworkViewWith(/*Random content*/));
 }
 
 @visibleForTesting
 TeacherHomeworkView randomHomeworkViewWith({
-  String title,
-  int nrOfStudentsCompletedOrSubmitted,
-  bool withSubmissions,
-  bool colorDate,
-  bool canViewCompletionOrSubmissionList,
-  bool canDeleteForEveryone,
-  bool canEditForEveryone,
+  String? title,
+  int? nrOfStudentsCompletedOrSubmitted,
+  bool? withSubmissions,
+  bool? colorDate,
+  bool? canViewCompletionOrSubmissionList,
+  bool? canDeleteForEveryone,
+  bool? canEditForEveryone,
 }) {
   bool randomBool() {
     // 👈😎👉 SO SMART 👈😎👉
@@ -191,42 +190,32 @@ TeacherHomeworkView randomHomeworkViewWith({
 /// UI. The real logic will be implemented in the future.
 class TeacherHomeworkPageBloc
     extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
-    implements BlocBase {
-  TeacherHomeworkPageBloc();
-
-  @override
-  TeacherHomeworkPageState get initialState => Uninitialized();
-
-  HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
-  _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
-      _ArchivedHwLazyLoadingState.askedForFirstBatch;
-
-  @override
-  Stream<TeacherHomeworkPageState> mapEventToState(
-      TeacherHomeworkPageEvent event) async* {
-    if (event is OpenHwSortingChanged) {
+    implements bloc_base.BlocBase {
+  TeacherHomeworkPageBloc() : super(Uninitialized()) {
+    on<OpenHwSortingChanged>((event, emit) {
       _currentSort = event.sort;
-    }
-    if (event is AdvanceArchivedHomeworks) {
-      _advanveArchivedHwLazyLoadingState();
+    });
+    on<AdvanceArchivedHomeworks>((event, emit) async {
       await Future.delayed(const Duration(milliseconds: 1200));
-    }
-    if (event is LoadHomeworks) {
+      _advanveArchivedHwLazyLoadingState();
+    });
+    on<LoadHomeworks>((event, emit) {
       // Reset so that we can inspect the lazy loading again when we change
       // away and back to the homework page again.
       _archivedHwLazyLoadingState =
           _ArchivedHwLazyLoadingState.askedForFirstBatch;
-    }
 
-    // Uncomment to see placeholder (as if the user has no homework)
-    // yield _States._placeholder;
-
-    yield _currentSort == HomeworkSort.smallestDateSubjectAndTitle
-        ? _States._homeworksAllLoadedSortedByTodoDate(
-            _archivedHwLazyLoadingState)
-        : _States._homeworksAllLoadedSortedBySubject(
-            _archivedHwLazyLoadingState);
+      _currentSort == HomeworkSort.smallestDateSubjectAndTitle
+          ? _States._homeworksAllLoadedSortedByTodoDate(
+              _archivedHwLazyLoadingState)
+          : _States._homeworksAllLoadedSortedBySubject(
+              _archivedHwLazyLoadingState);
+    });
   }
+
+  HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
+  _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
+      _ArchivedHwLazyLoadingState.askedForFirstBatch;
 
   void _advanveArchivedHwLazyLoadingState() {
     switch (_archivedHwLazyLoadingState) {

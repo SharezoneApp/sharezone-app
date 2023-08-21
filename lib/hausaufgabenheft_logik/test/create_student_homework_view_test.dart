@@ -18,7 +18,7 @@ import 'create_homework_util.dart';
 
 void main() {
   group('StudentViewFactory', () {
-    StudentHomeworkViewFactory viewFactory;
+    late StudentHomeworkViewFactory viewFactory;
     const defaultColor = Color.fromRGBO(255, 255, 255, 1);
     const currentDate = Date(year: 2018, month: 12, day: 03);
 

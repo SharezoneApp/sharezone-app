@@ -71,17 +71,13 @@ jobs:
 
   android-integration-test:
     needs: changes
-    # Is recommended to run the job with a macOS machine to take advantage of
-    # hardware acceleration support provided by HAXM. See more details in the
-    # README.md of the Android emulator action:
-    # https://github.com/ReactiveCircus/android-emulator-runner#usage
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
     # (~5% of the time) build takes longer and then is a long timeout needed.
     defaults:
       run:
-        working-directory: app
+        working-directory: app/android
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
@@ -101,85 +97,63 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
-      # Building the Android app as workaround for the timeout problem with
-      # integration tests.
-      #
-      # We need to build the Android app first to hope that the build for the
-      # integration test needs less than 12 minutes. Currently, it's not
-      # possible to increase the timeout for integration tests:
-      # https://github.com/flutter/flutter/issues/105913.
-      #
-      # Using `flutter drive` as workaround is not an option because it's super
-      # flaky in terms of stability. With `flutter drive` ~ 30% the Android
-      # Emulator have difficulties to start properly.
-      - name: Build Android App
+      - name: Build Instrumentation Test
         env:
-          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
-          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
-        run: flutter build apk --target=integration_test/app_test.dart --flavor prod --dart-define USER_1_EMAIL=$USER_1_EMAIL --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
-
-      - name: Create and start emulator
-        # We use the installed SDK in the macOS image to create and start the
-        # emulator.
-        #
-        # When you are going to change something here (like a different target,
-        # arch, profile, channel, etc.), please check if these configurations
-        # are stable. You can do this by running this workflow multiple times.
-        # Use a matrix to run multiple tests in parallel (matrix needs to be
-        # copied under "android-integration-test"):
-        # strategy:
-        #   fail-fast: false
-        #   matrix:
-        #     test1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        #     test2: [1, 2, 3]
-        #
-        # When starting the emulator, we use some emulator options for the
-        # following reasons:
-        # * "-no-snapshot": Disables the quick boot feature. Therefore, the
-        #   emulator does not load or save the emulator state. We want to have a
-        #   fresh testing environment for every test run.
-        # * "-no-window": Disables the graphical windows, so no display is
-        #   required.
-        # * "-no-boot-anim": Disables the boot animation for faster booting.
-        # * "-camera-back virtualscene": Shows this virtual room when opening
-        #   the back camera where you can walk. Default option for emulators
-        #   created by Android Studio. We use this so we have the same
-        #   environment locally as when using this action. Is needed when
-        #   testing things with the camera. It's also possible to inject images
-        #   into the virtual scene to test things like qr code scanner.
-        # * "-camera-front emulated": Shows this green monster when opening the
-        #   front camera. Default option for emulators created by Android
-        #   Studio. We use this so we have the same environment locally as when
-        #   using this action. Is needed when testing things with camera.
+          # In gradlew, we can't just pass --dart-define as we do with "flutter
+          # test". We need to convert the key and the value into base64, like
+          # "USER_1_EMAIL=user@example.com" becomes to
+          # "VVNFUl8xX0VNQUlMPXVzZXJAZXhhbXBsZS5jb20=".
+          #
+          # The secrets already contain the base64 encoded values. We don't
+          # encode them in the workflow file, because we could easily leak the
+          # base64 encoded version in logs.
+          USER_1_EMAIL_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL_DART_DEFINE_BASE64 }}
+          USER_1_PASSWORD_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD_DART_DEFINE_BASE64 }}
         run: |
-          API_LEVEL=33
-          TARGET=google_apis
-          ARCH=x86_64
+          # Flutter build is required to generate files in android/ to build the
+          # gradle project.
+          #
+          # We are using the prod flavor because we were not able to set up
+          # Firebase Test Lab with the dev flavor. We always got "No tests
+          # found.".
+          flutter build apk \
+            --target=lib/main_prod.dart \
+            --flavor prod
 
-          echo "Installing system image"
-          echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-$API_LEVEL;$TARGET;$ARCH"
+          ./gradlew app:assembleProdDebugAndroidTest
+          ./gradlew app:assembleProdDebug \
+            -Ptarget=integration_test/app_test.dart \
+            -Pdart-defines="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
 
-          echo "Creating AVD"
-          echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test_emulator -k "system-images;android-$API_LEVEL;$TARGET;$ARCH" --force
-
-          echo "Starting emulator"
-          $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-snapshot -no-boot-anim -no-window -camera-back virtualscene -camera-front emulated &
-          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-
-      - name: Run integration tests
+      - name: Setup credentials
         env:
-          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
-          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+          TEST_LAB_CREDENTIALS: ${{ secrets.FIREBASE_TEST_LAB_DEV_KEY }}
         run: |
-          # We need to run the integration tests with the prod flavor because
-          # using not the default flavor will cause an exception when
-          # uninstalling the app, see:
-          # https://github.com/flutter/flutter/issues/88690
-          flutter test \
-            integration_test \
-            --flavor prod \
-            --dart-define USER_1_EMAIL=$USER_1_EMAIL \
-            --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+          echo $TEST_LAB_CREDENTIALS > firebase-test-lab.json
+          gcloud auth activate-service-account --key-file=firebase-test-lab.json
+          gcloud --quiet config set project sharezone-debug
+
+      # Runs our integration tests with Firebase Test Lab.
+      #
+      # Advantages of Firebase Test Lab:
+      #  * We can use a Linux runner instead of a macOS runner in
+      #    Github Actions (macOS runner is required for using an Android emulator).
+      #  * We can run the tests on a real device instead of an emulator.
+      #  * We get a screen recording of the test run which we can use to
+      #    investigate test failures.
+      #  * Increases the speed of the CI by 10 minutes (compared to running the
+      #    tests on a macOS runner).
+      #
+      # Helpful documentation:
+      #  * https://firebase.google.com/docs/test-lab/android/command-line
+      - name: Run Integration tests
+        run: |
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app ../build/app/outputs/apk/prod/debug/app-prod-debug.apk \
+            --test ../build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
+            --device model=Pixel2,version=30,locale=en,orientation=portrait \
+            --timeout 3m
 
   ios-integration-test:
     needs: changes

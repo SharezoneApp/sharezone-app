@@ -166,7 +166,7 @@ class _SortButton extends StatelessWidget {
     final bloc = BlocProvider.of<HomeworkPageBloc>(context);
 
     return StreamBuilder<Success>(
-      stream: bloc.whereType<Success>(),
+      stream: bloc.stream.whereType<Success>(),
       builder: (context, snapshot) {
         final currentSort = snapshot?.data?.open?.sorting;
         return Padding(

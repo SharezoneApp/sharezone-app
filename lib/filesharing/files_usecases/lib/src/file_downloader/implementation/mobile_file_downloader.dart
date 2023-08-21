@@ -22,38 +22,34 @@ class MobileFileDownloader extends FileDownloader {
   Future<LocalFile> downloadFileFromURL(
       String url, String filename, String id) async {
     File fileWithID = await DefaultCacheManager().getSingleFile(url);
-    if (fileWithID != null) {
-      final filePath =
-          '${path.dirname(fileWithID.path)}/$id.${FileUtils.getExtension(filename)}';
+    final filePath =
+        '${path.dirname(fileWithID.path)}/$id.${FileUtils.getExtension(filename)}';
 
-      // Da unsere Dateien die ID als Namen haben, müssen diese umbenannt werden.
-      // Deswegen muss erst geprüft werden, ob der Pfad, welcher vom [DefaulCacheManger]
-      // zurückgegeben wurde, existiert. Existiert dieser Pfad, wurde die Datei gerade
-      // heruntergeladen und muss noch umbenannt werden. Die ID wird dann durch den
-      // richtigen Namen ersetzt. Wird dann beim nächsten Mal die Datei aufgerufen,
-      // befindet sich bei dem Path, welchen der [DefaultCacheManger] zurückgegeben hat,
-      // keine Datei. Das liegt daran, weil wir vorher die Datei mit dem richtigen Namen
-      // benannt haben. Wir müssen dann auch an diesem Ort suchen, also nach dem [filePath].
-      fileWithID = await fileWithID.exists()
-          ? await fileWithID.rename(filePath)
-          : File(filePath);
+    // Da unsere Dateien die ID als Namen haben, müssen diese umbenannt werden.
+    // Deswegen muss erst geprüft werden, ob der Pfad, welcher vom [DefaulCacheManger]
+    // zurückgegeben wurde, existiert. Existiert dieser Pfad, wurde die Datei gerade
+    // heruntergeladen und muss noch umbenannt werden. Die ID wird dann durch den
+    // richtigen Namen ersetzt. Wird dann beim nächsten Mal die Datei aufgerufen,
+    // befindet sich bei dem Path, welchen der [DefaultCacheManger] zurückgegeben hat,
+    // keine Datei. Das liegt daran, weil wir vorher die Datei mit dem richtigen Namen
+    // benannt haben. Wir müssen dann auch an diesem Ort suchen, also nach dem [filePath].
+    fileWithID = await fileWithID.exists()
+        ? await fileWithID.rename(filePath)
+        : File(filePath);
 
-      if (PlatformCheck.isMacOS) {
-        filename = filename.replaceAll(RegExp(r"""[();:"` <>&']"""), '');
+    if (PlatformCheck.isMacOS) {
+      filename = filename.replaceAll(RegExp(r"""[();:"` <>&']"""), '');
 
-        // Falls der Dateiname vor der Extention leer ist, soll ein _ hinzufügen werden.
-        if (filename.lastIndexOf('.') == 0) {
-          filename = '_$filename';
-        }
+      // Falls der Dateiname vor der Extention leer ist, soll ein _ hinzufügen werden.
+      if (filename.lastIndexOf('.') == 0) {
+        filename = '_$filename';
       }
-
-      final fileWithNamePath = '${path.dirname(fileWithID.path)}/$filename';
-      final fileWithName = await fileWithID.copy(fileWithNamePath);
-
-      return LocalFileIo.fromFile(fileWithName);
-    } else {
-      return null;
     }
+
+    final fileWithNamePath = '${path.dirname(fileWithID.path)}/$filename';
+    final fileWithName = await fileWithID.copy(fileWithNamePath);
+
+    return LocalFileIo.fromFile(fileWithName);
   }
 }
 

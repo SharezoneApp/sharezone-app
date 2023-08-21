@@ -67,7 +67,7 @@ class TeacherSortButton extends StatelessWidget {
     final bloc = BlocProvider.of<TeacherHomeworkPageBloc>(context);
 
     return StreamBuilder<Success>(
-      stream: bloc.whereType<Success>(),
+      stream: bloc.stream.whereType<Success>(),
       builder: (context, snapshot) {
         final currentSort = snapshot?.data?.open?.sorting;
         return Padding(

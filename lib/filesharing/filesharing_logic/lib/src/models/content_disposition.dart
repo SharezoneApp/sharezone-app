@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-String getContentDispositionString(String fileName) {
+String getContentDispositionString(String? fileName) {
   return 'attachment; filename="$fileName"';
 }

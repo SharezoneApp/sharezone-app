@@ -109,9 +109,9 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     }, SetOptions(merge: true));
   }
 
-  /// Warum wird nicht einfach [groupTypeToString(type)] verwendet? Für
+  /// Warum wird nicht einfach [type.name] verwendet? Für
   /// [addConnectionCreate] ist es notwenig, dass der Wert für z.B. Kurse
-  /// "Courses" ist. Mit [groupTypeToString(type)] ist der Wert jedoch
+  /// "Courses" ist. Mit [type.name] ist der Wert jedoch
   /// "courses", wodurch der Client diesen Kurs ignoriert (es entsteht dieser
   /// Bug: https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/984)
   String _getCamelCaseGroupType(GroupType groupType) {
@@ -167,7 +167,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
   }) async {
     return references.functions.joinWithGroupId(
       id: id,
-      type: groupTypeToString(type),
+      type: type.name,
       uId: memberID,
     );
   }
@@ -176,7 +176,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
       {@required String id, @required GroupType type}) {
     return references.functions.leave(
       id: id,
-      type: groupTypeToString(type),
+      type: type.name,
       memberID: memberID,
     );
   }
@@ -187,7 +187,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
       SchoolClassDeleteType schoolClassDeleteType}) {
     return references.functions.groupDelete(
       groupID: id,
-      type: groupTypeToString(type),
+      type: type.name,
       schoolClassDeleteType: schoolClassTypeToString(schoolClassDeleteType),
     );
   }
