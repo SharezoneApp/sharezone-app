@@ -13,7 +13,8 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/intl_standalone.dart';
+import 'package:intl/intl_standalone.dart'
+    if (dart.library.html) 'package:intl/intl_browser.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
