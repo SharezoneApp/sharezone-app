@@ -575,6 +575,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -667,6 +668,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -756,6 +758,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -843,6 +846,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -989,6 +993,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1024,6 +1029,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
