@@ -51,6 +51,7 @@ class _ContinueButtonState extends State<_ContinueButton> {
       ),
       child: Stack(
         key: const ValueKey('SubmitButton'),
+        alignment: Alignment.center,
         children: [
           Text(
             "Weiter".toUpperCase(),
@@ -62,18 +63,10 @@ class _ContinueButtonState extends State<_ContinueButton> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 275),
             child: isLoading
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 2, left: 58),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: Theme(
-                        data: ThemeData(
-                            colorScheme: ColorScheme.fromSwatch()
-                                .copyWith(secondary: Colors.white)),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(color: Colors.white),
                   )
                 : Container(),
           )
