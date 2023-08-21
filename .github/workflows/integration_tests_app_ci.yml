@@ -154,6 +154,12 @@ jobs:
             --test ../build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
             --timeout 3m
+    
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
 
   ios-integration-test:
     needs: changes
@@ -208,6 +214,12 @@ jobs:
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -d $SIMULATOR_UDID
+
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
@@ -267,3 +279,9 @@ jobs:
         run: |
           flutter build macos \
             -t lib/main_prod.dart
+
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code
