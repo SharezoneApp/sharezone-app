@@ -9,11 +9,10 @@
 import 'dart:developer';
 
 import 'package:authentification_qrcode/authentification_qrcode.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -96,6 +95,17 @@ class _Header extends StatelessWidget {
 }
 
 class _ScanQrCode extends StatelessWidget {
+  Future<String> _scanQRCode(BuildContext context) async {
+    return showQrCodeScanner(
+      context,
+      title: const Text('QR-Code scannen'),
+      description: const Text(
+        'Geh auf web.sharezone.net und scanne den QR-Code.',
+      ),
+      settings: const RouteSettings(name: 'scan-web-login-qr-code-page'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -109,7 +119,7 @@ class _ScanQrCode extends StatelessWidget {
           ),
           title: "QR-Code scannen",
           onTap: () async {
-            final qrCode = await _scanQRCode();
+            final qrCode = await _scanQRCode(context);
             if (qrCode != null) {
               final hostBloc =
                   BlocProvider.of<QrSignInAuthentificationDeviceBloc>(context);
@@ -130,15 +140,5 @@ class _ScanQrCode extends StatelessWidget {
         )
       ],
     );
-  }
-
-  Future<String> _scanQRCode() async {
-    try {
-      final scanResult = await BarcodeScanner.scan();
-      return scanResult.rawContent;
-    } catch (e) {
-      getCrashAnalytics().recordError(e, null);
-      return null;
-    }
   }
 }
