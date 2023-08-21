@@ -15,7 +15,6 @@ import 'package:flutter/foundation.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
