@@ -12,6 +12,8 @@ import 'dart:developer';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl_standalone.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -111,6 +113,15 @@ class PluginInitializations {
     final prefs = await StreamingSharedPreferences.instance;
     return prefs;
   }
+
+  static Future<void> initializeDateFormatting() async {
+    // We need to initialize the date formatting to get the correct locale
+    // for the date formatting. Otherwise, the date formatting will be
+    // in English.
+    //
+    // Copied from https://stackoverflow.com/a/69889853/8358501.
+    Intl.systemLocale = await findSystemLocale();
+  }
 }
 
 Future<PluginInitializations> runPluginInitializations({
@@ -123,6 +134,7 @@ Future<PluginInitializations> runPluginInitializations({
       PluginInitializations.initializeStreamingSharedPreferences();
   final futureCrashAnalytics = PluginInitializations.initializeCrashAnalytics();
   final futureDynamicLinks = PluginInitializations.initializeDynamicLinks();
+  final futureDateFormatting = PluginInitializations.initializeDateFormatting();
 
   final result = await Future.wait([
     futureSharedPrefs,
@@ -130,6 +142,7 @@ Future<PluginInitializations> runPluginInitializations({
     futureStreamingSharedPrefs,
     futureCrashAnalytics,
     futureDynamicLinks,
+    futureDateFormatting,
   ]);
   return PluginInitializations(
     sharedPreferences: result[0] as SharedPreferences,
