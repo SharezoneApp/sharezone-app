@@ -92,9 +92,9 @@ class PluginInitializations {
       // https://firebase.google.com/docs/remote-config/loading) to reduce the
       // startup time of the app.
       //
-      // First, we activate the fetched remote config from the last fetch. Then we
-      // fetch the remote config in the background. The next time the app starts,
-      // the fetched remote config will be available.
+      // First, we activate the fetched remote config from the last fetch. Then
+      // we fetch the remote config in the background. The next time the app
+      // starts, the fetched remote config will be available.
       unawaited(remoteConfiguration.fetch());
     }
 
