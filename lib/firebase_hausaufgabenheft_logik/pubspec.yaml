@@ -23,7 +23,7 @@ dependencies:
     path: ../common_domain_models
   time:
     path: ../time
-  cloud_firestore: ^4.5.0
+  cloud_firestore: ^4.8.5
   flutter:
     sdk: flutter
 
