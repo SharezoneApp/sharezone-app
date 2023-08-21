@@ -9,7 +9,6 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
-import 'package:meta/meta.dart';
 
 /// Ein ReadModel für die Lehrer-Hausaufgaben-Seite.
 /// Siehe [HomeworkReadModel].
@@ -32,16 +31,16 @@ class TeacherHomeworkReadModel {
   final bool canEditForEveryone;
 
   TeacherHomeworkReadModel({
-    @required this.id,
-    @required this.todoDate,
-    @required this.subject,
-    @required this.title,
-    @required this.withSubmissions,
-    @required this.nrOfStudentsCompleted,
-    @required this.canViewCompletions,
-    @required this.canViewSubmissions,
-    @required this.canDeleteForEveryone,
-    @required this.canEditForEveryone,
+    required this.id,
+    required this.todoDate,
+    required this.subject,
+    required this.title,
+    required this.withSubmissions,
+    required this.nrOfStudentsCompleted,
+    required this.canViewCompletions,
+    required this.canViewSubmissions,
+    required this.canDeleteForEveryone,
+    required this.canEditForEveryone,
   });
 
   /// Die Methode ist aus [HomeworkReadModel] kopiert - zusammenführen?

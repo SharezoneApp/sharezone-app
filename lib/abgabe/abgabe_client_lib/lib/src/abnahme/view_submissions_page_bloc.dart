@@ -13,7 +13,6 @@ import 'package:abgabe_client_lib/src/models/nutzername.dart';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart' as rx;
 
 class ViewSubmissionsPageBloc extends BlocBase {
@@ -26,10 +25,10 @@ class ViewSubmissionsPageBloc extends BlocBase {
   final Stream<List<AbgegebeneAbgabe>> abgegebeneAbgaben;
 
   ViewSubmissionsPageBloc({
-    @required final HomeworkId homeworkId,
-    @required this.abgabedatumStream,
-    @required this.abgegebeneAbgaben,
-    @required this.vonAbgabeBetroffendeNutzer,
+    required final HomeworkId homeworkId,
+    required this.abgabedatumStream,
+    required this.abgegebeneAbgaben,
+    required this.vonAbgabeBetroffendeNutzer,
   }) {
     // Muss der Stream geschlossen werden?
     rx.CombineLatestStream.combine3<List<AbgegebeneAbgabe>, DateTime,
@@ -79,9 +78,9 @@ class Nutzer {
   final UserId id;
   final Nutzername name;
 
-  Nutzer({
-    @required this.id,
-    @required this.name,
+  const Nutzer({
+    required this.id,
+    required this.name,
   });
 }
 

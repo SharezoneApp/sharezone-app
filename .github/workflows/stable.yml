@@ -1,0 +1,146 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: stable
+
+concurrency:
+  # Our iOS builds require unique build numbers. Therefore, we should never
+  # build a new version while a build is already running. This is why we use the
+  # branch name as a concurrency group. This way, we can only build one version
+  # per branch at the same time.
+  group: app-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      ios-changelog:
+        type: string
+        description: |
+          iOS changelog: Used for the App Store release notes. If the changelog 
+          is not provided, the deployment for iOS will be skipped.
+      # For web deployments, we don't have a changelog.
+      deploy-web-app:
+        type: boolean
+        description: |
+          Whether to deploy the web app. If this is set to false, the web
+          deployment will be skipped.
+
+# Set permissions to none.
+#
+# Using the broad default permissions is considered a bad security practice
+# and would cause alerts from our scanning tools.
+permissions: {}
+
+jobs:
+  deploy-ios:
+    # We skip the deployment if no changelog is provided because we assume that
+    # nothing has changed in the iOS app and therefore no new version is needed.
+    if: github.event.inputs.ios-changelog != ''
+    runs-on: macos-13
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.39.1
+
+      - name: Setup signing
+        working-directory: app
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          keychain initialize
+          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Activate sz_repo_cli package
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Deploy
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          sz deploy ios \
+            --stage stable \
+            --whats-new "${{ github.event.inputs.ios-changelog }}" \
+            --export-options-plist=$HOME/export_options.plist
+
+  deploy-web-app:
+    if: github.event.inputs.deploy-web-app == 'true'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Activate sz_repo_cli package
+        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+
+      - name: Install Firebase CLI
+        run: sudo npm i -g firebase-tools@11.24.1
+
+      - name: Build and deploy web-app
+        env:
+          SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+        run: |
+          echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
+          sz deploy web-app \
+            --stage prod \
+            --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
+            --credentials sharezone-prod-key.json

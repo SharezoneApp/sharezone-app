@@ -44,10 +44,10 @@ packages:
     dependency: transitive
     description:
       name: bloc
-      sha256: bc0e8756ffa2ba174a6094b2bd4527af8176dc0deb19addb538ad079a2bac75a
+      sha256: "3820f15f502372d979121de1f6b97bfcf1630ebff8fe1d52fb2b0bfa49be5b49"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "8.1.2"
   bloc_base:
     dependency: transitive
     description:
@@ -394,14 +394,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
-  optional:
-    dependency: "direct main"
-    description:
-      name: optional
-      sha256: f80327d7a3335a0be68418072668043c7ab291df575c21aa42e0c5633641da39
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.0+1"
   path:
     dependency: transitive
     description:

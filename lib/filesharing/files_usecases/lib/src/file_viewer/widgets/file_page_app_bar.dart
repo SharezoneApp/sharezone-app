@@ -11,15 +11,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const FilePageAppBar({
-    Key key,
+    Key? key,
     this.actions,
-    @required this.name,
+    required this.name,
     this.nameStream,
   }) : super(key: key);
 
-  final String name;
-  final Stream<String> nameStream;
-  final List<Widget> actions;
+  final String? name;
+  final Stream<String>? nameStream;
+  final List<Widget>? actions;
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
@@ -46,14 +46,14 @@ class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key key, @required this.name}) : super(key: key);
+  const _Title({Key? key, required this.name}) : super(key: key);
 
-  final String name;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      name,
+      name!,
       style: const TextStyle(
         color: Colors.white,
         fontFamily: rubik,

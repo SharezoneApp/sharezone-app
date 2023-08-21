@@ -33,6 +33,16 @@ import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+/// Defines if the app is running in integration test mode.
+///
+/// This is used to disable some features, which are not working for integration
+/// tests. These features are:
+/// * Firebase Messaging (throws SERVICE_NOT_AVAILABLE or AUTHENTICATION_FAILED
+///   when running on device farm devices, see
+///   https://github.com/SharezoneApp/sharezone-app/issues/420)
+/// * Ignore Remote Config fetch failures on Android
+bool isIntegrationTest = false;
+
 /// StreamBuilder "above" the Auth and SharezoneApp.
 /// Reasoning is that if the user logged out,
 /// he will always be in the log in screen.
@@ -41,6 +51,7 @@ class Sharezone extends StatefulWidget {
   final DynamicLinkBloc dynamicLinkBloc;
   final Stream<Beitrittsversuch> beitrittsversuche;
   final Flavor flavor;
+  final bool isIntegrationTest;
 
   const Sharezone({
     Key key,
@@ -48,6 +59,7 @@ class Sharezone extends StatefulWidget {
     @required this.dynamicLinkBloc,
     @required this.beitrittsversuche,
     @required this.flavor,
+    this.isIntegrationTest = false,
   }) : super(key: key);
 
   static Analytics analytics = Analytics(getBackend());
@@ -63,6 +75,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
+    isIntegrationTest = widget.isIntegrationTest;
     signUpBloc = SignUpBloc();
 
     // You have to wait a little moment (1000 milliseconds), to

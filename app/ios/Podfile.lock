@@ -105,7 +105,7 @@ PODS:
   - firebase_auth_oauth (0.0.1):
     - firebase_auth
     - Flutter
-  - firebase_core (2.9.0):
+  - firebase_core (2.10.0):
     - Firebase/CoreOnly (= 10.7.0)
     - Flutter
   - firebase_crashlytics (3.0.15):
@@ -443,13 +443,19 @@ SPEC REPOS:
     - FMDB
     - GoogleAppMeasurement
     - GoogleDataTransport
+    - GoogleMLKit
     - GoogleSignIn
+    - GoogleToolboxForMac
     - GoogleUtilities
+    - GoogleUtilitiesComponents
     - GTMAppAuth
     - GTMSessionFetcher
     - libwebp
     - Mantle
-    - MTBBarcodeScanner
+    - MLImage
+    - MLKitBarcodeScanning
+    - MLKitCommon
+    - MLKitVision
     - nanopb
     - PromisesObjC
     - PromisesSwift
@@ -562,7 +568,7 @@ SPEC CHECKSUMS:
   firebase_analytics: 8954db5c9b63075214fa1b3ad2cdced9646f45a0
   firebase_auth: 5984ebaf5463319e304ab1c0966b06994bd1c69a
   firebase_auth_oauth: 2b6873838f5712f414740e98679481bbea640bd3
-  firebase_core: d85432877e814811e040e7659f9c82faeab66e04
+  firebase_core: 18d44f087248303a4a8f05d0099a000c46e3c77a
   firebase_crashlytics: 46286934ecaae89435b555f382c423fd059e5377
   firebase_dynamic_links: eb6716a5419a7b1ad5ef4860c84290c48a30be91
   firebase_messaging: 45c0514ca78426630338a42fb7b55af962c7ccd2
@@ -629,6 +635,6 @@ SPEC CHECKSUMS:
   video_player_avfoundation: 6d971a232d72e6ee25368378d48a079dea01f1cf
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: 4d0e4485cd6cc7e776b41535000018c2d5cd2edb
+PODFILE CHECKSUM: 44a0abc48ba671315fe0d0998ac41c468465c422
 
 COCOAPODS: 1.11.2

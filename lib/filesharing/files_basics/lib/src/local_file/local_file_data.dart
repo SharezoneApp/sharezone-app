@@ -15,8 +15,8 @@ class LocalFileData extends LocalFile {
   final Uint8List fileData;
   final String fileName;
   final int sizeBytes;
-  final MimeType mimeType;
-  final String path;
+  final MimeType? mimeType;
+  final String? path;
 
   LocalFileData._({
     required this.fileData,
@@ -27,12 +27,12 @@ class LocalFileData extends LocalFile {
   });
 
   factory LocalFileData.fromData(
-      Uint8List data, String path, String name, String type) {
+      Uint8List data, String? path, String name, String? type) {
     return LocalFileData._(
       fileData: data,
       sizeBytes: data.lengthInBytes,
       path: path,
-      mimeType: MimeType(type),
+      mimeType: type == null ? null : MimeType(type),
       fileName: name,
     );
   }
@@ -48,12 +48,12 @@ class LocalFileData extends LocalFile {
   }
 
   @override
-  String getPath() {
+  String? getPath() {
     return path;
   }
 
   @override
-  MimeType getType() {
+  MimeType? getType() {
     return mimeType;
   }
 

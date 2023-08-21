@@ -30,7 +30,7 @@ abstract class ConcurrentCommand extends Command {
   /// task for the package that exceeded the timeout will be marked as failing.
   ///
   /// This can be overridden by the user via command line argument.
-  Duration get defaultPackageTimeout => Duration(minutes: 10);
+  Duration get defaultPackageTimeout => const Duration(minutes: 10);
 
   /// Number of packages that are going to be processed concurrently.
   ///
@@ -62,12 +62,12 @@ abstract class ConcurrentCommand extends Command {
 
   @override
   Future<void> run() async {
-    isVerbose = argResults['verbose'] ?? false;
+    isVerbose = argResults!['verbose'] ?? false;
     await runSetup();
 
-    final _max = argResults[maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = _max != null
-        ? int.tryParse(argResults[maxConcurrentPackagesOptionName])
+    final max = argResults![maxConcurrentPackagesOptionName];
+    final maxNumberOfPackagesBeingProcessedConcurrently = max != null
+        ? int.tryParse(argResults![maxConcurrentPackagesOptionName])
         // null as interpreted as "no concurrency limit" (everything at once).
         : null;
 
@@ -81,7 +81,7 @@ abstract class ConcurrentCommand extends Command {
           runTask: (runTaskForPackage),
           maxNumberOfPackagesBeingProcessedConcurrently:
               maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults.packageTimeoutDuration,
+          perPackageTaskTimeout: argResults!.packageTimeoutDuration,
         )
         .asBroadcastStream();
 
@@ -91,11 +91,11 @@ abstract class ConcurrentCommand extends Command {
     final failures = await res.allFailures;
 
     if (failures.isNotEmpty) {
-      print('There were failures. See above for more information.');
+      stderr.writeln('There were failures. See above for more information.');
       await presenter.printFailedTasksSummary(failures);
       exit(1);
     } else {
-      print('Task was successfully executed for all packages!');
+      stdout.writeln('Task was successfully executed for all packages!');
       exit(0);
     }
   }

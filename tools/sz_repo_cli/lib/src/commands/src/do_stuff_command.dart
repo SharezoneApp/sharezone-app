@@ -33,13 +33,13 @@ class DoStuffCommand extends Command {
 
   @override
   Future<void> run() async {
-    print('');
-    print(
+    stdout.writeln('');
+    stdout.writeln(
         'This is used for local development/scripting and does not do anything.');
-    print(
+    stdout.writeln(
         'To find this file look for "do_stuff_command.dart" near ${Platform.script.path}');
-    print('<3');
-    print('');
+    stdout.writeln('<3');
+    stdout.writeln('');
     // Example usage:
     // final pubspecs = Glob('**/pubspec.yaml')
     //     .listSync(root: repo.location.path)

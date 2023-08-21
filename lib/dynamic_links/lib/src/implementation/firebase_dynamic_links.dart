@@ -18,7 +18,7 @@ class FirebaseDynamicLinks extends DynamicLinks {
   FirebaseDynamicLinks(this._firebaseDynamicLinks);
 
   @override
-  Future<DynamicLinkData> getInitialLink() async {
+  Future<DynamicLinkData?> getInitialLink() async {
     try {
       final pending = await _firebaseDynamicLinks.getInitialLink();
       return _getPendingFromFirebase(pending);
@@ -27,7 +27,7 @@ class FirebaseDynamicLinks extends DynamicLinks {
     }
   }
 
-  DynamicLinkData _getPendingFromFirebase(fb.PendingDynamicLinkData pending) {
+  DynamicLinkData _getPendingFromFirebase(fb.PendingDynamicLinkData? pending) {
     return DynamicLinkData(
         pending?.link,
         DynamicLinkDataAndroid(
@@ -39,10 +39,10 @@ class FirebaseDynamicLinks extends DynamicLinks {
   void onLink({onSuccess, onError}) {
     _firebaseDynamicLinks.onLink.listen(
       (pending) {
-        onSuccess(_getPendingFromFirebase(pending));
+        onSuccess!(_getPendingFromFirebase(pending));
       },
       onError: (error) async {
-        onError(OnDynamicLinkErrorException(
+        onError!(OnDynamicLinkErrorException(
             error.code, error.message, error.details));
       },
       cancelOnError: false,

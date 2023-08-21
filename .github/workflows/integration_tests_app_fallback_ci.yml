@@ -13,7 +13,7 @@
 # when the action does not match the paths. Therefore, merging will be
 # blocked.
 #
-# A workaround is to have a job which the same name. 
+# A workaround is to have a job which the same name.
 #
 # https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
 

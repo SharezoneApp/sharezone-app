@@ -21,7 +21,8 @@ class _SelectDesignPopResult {
 }
 
 /// [bottomAction] will be displayed at the bottom of the dialog, e. g. a back button.
-Future<_SelectDesignPopResult> _selectDesign(
+@visibleForTesting
+Future<_SelectDesignPopResult> selectDesign(
     BuildContext context, Design currentDesign,
     {_EditDesignType type}) async {
   return await showDialog<_SelectDesignPopResult>(
@@ -42,48 +43,24 @@ class _SelectDesignAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUserPersonalColor =
         type == _EditDesignType.personal && currentDesign != null;
-    final featureBloc = BlocProvider.of<FeatureBloc>(context);
-    return StreamBuilder<bool>(
-      stream: featureBloc.isAllColorsUnlocked,
-      initialData: true,
-      builder: (context, snapshot) {
-        final isFullColorSetUnlocked = snapshot.data;
-        return AlertDialog(
-          contentPadding: EdgeInsets.fromLTRB(24, 24, 24,
-              hasUserPersonalColor || !isFullColorSetUnlocked ? 12 : 24),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                _Colors(
-                    selectedDesign: currentDesign,
-                    type: type,
-                    isFullColorSetUnlocked: isFullColorSetUnlocked),
-                if (hasUserPersonalColor) _RemovePersonalColor(),
-                if (hasUserPersonalColor && !isFullColorSetUnlocked)
-                  const SizedBox(height: 4),
-                if (!hasUserPersonalColor && !isFullColorSetUnlocked)
-                  const SizedBox(height: 16),
-                if (!isFullColorSetUnlocked)
-                  _ReferralNote(isFullColorSetUnlocked: isFullColorSetUnlocked),
-              ],
+    return AlertDialog(
+      contentPadding:
+          EdgeInsets.fromLTRB(24, 24, 24, hasUserPersonalColor ? 12 : 24),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _Colors(
+              selectedDesign: currentDesign,
+              type: type,
             ),
-          ),
-        );
-      },
+            if (hasUserPersonalColor) _RemovePersonalColor(),
+            if (hasUserPersonalColor) const SizedBox(height: 4),
+            if (!hasUserPersonalColor) const SizedBox(height: 16),
+          ],
+        ),
+      ),
     );
-  }
-}
-
-class _ReferralNote extends StatelessWidget {
-  const _ReferralNote({Key key, @required this.isFullColorSetUnlocked})
-      : super(key: key);
-
-  final bool isFullColorSetUnlocked;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text("Die Nutzung aller Farben wurde geblockt.");
   }
 }
 
@@ -102,40 +79,36 @@ class _RemovePersonalColor extends StatelessWidget {
 }
 
 class _Colors extends StatelessWidget {
-  const _Colors(
-      {Key key,
-      this.selectedDesign,
-      this.type,
-      @required this.isFullColorSetUnlocked})
-      : super(key: key);
+  const _Colors({
+    Key key,
+    this.selectedDesign,
+    this.type,
+  }) : super(key: key);
 
   final Design selectedDesign;
   final _EditDesignType type;
-  final bool isFullColorSetUnlocked;
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _BackToSelectTypeButton(),
-        ...Design.designList
-            .sublist(0, 7)
-            .map((design) => _ColorCircleSelectDesign(
-                design: design, isSelected: _isDesignSelected(design)))
-            .toList(),
-        ...Design.designList
-            .sublist(7)
-            .map(
-              (design) => _ColorCircleSelectDesign(
-                design: design,
-                isSelected: _isDesignSelected(design),
-                hasPermission: isFullColorSetUnlocked,
-                size: 50,
-              ),
-            )
-            .toList()
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            ...Design.designList
+                .map(
+                  (design) => _ColorCircleSelectDesign(
+                    design: design,
+                    isSelected: _isDesignSelected(design),
+                  ),
+                )
+                .toList(),
+          ],
+        ),
       ],
     );
   }
@@ -148,30 +121,23 @@ class _ColorCircleSelectDesign extends StatelessWidget {
     Key key,
     @required this.design,
     this.isSelected = false,
-    this.hasPermission = true,
-    this.size,
   }) : super(key: key);
 
   final Design design;
-  final bool isSelected, hasPermission;
-  final double size;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    Widget child;
-    if (!hasPermission)
-      child = Icon(Icons.lock, color: Colors.white);
-    else if (isSelected) child = Icon(Icons.check, color: Colors.white);
+    const size = 50.0;
+    Widget child = isSelected ? Icon(Icons.check, color: Colors.white) : null;
 
     return Material(
       color: design?.color,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size)),
       child: InkWell(
         borderRadius: BorderRadius.circular(size),
-        onTap: hasPermission
-            ? () =>
-                Navigator.pop(context, _SelectDesignPopResult(design: design))
-            : null,
+        onTap: () =>
+            Navigator.pop(context, _SelectDesignPopResult(design: design)),
         child: Container(
           width: size,
           height: size,

@@ -30,8 +30,7 @@ class AuthentificationValidators {
   /// o in der E-Mail angegeben haben. Da eine E-Mail Adresse sowieso
   /// niemals Deutsche Umlaute enthalten darf, können wir diese blocken.
   static bool isEmailValid(String email) {
-    if (email != null &&
-        email.contains('@') &&
+    if (email.contains('@') &&
         email.contains('.') &&
         !email.contains(RegExp(r"[ä,ö,ü,ß]"))) {
       return true;
@@ -40,7 +39,7 @@ class AuthentificationValidators {
   }
 
   static bool isPasswordValid(String password) {
-    if (password != null && password.length >= 8) {
+    if (password.length >= 8) {
       return true;
     }
     return false;
@@ -53,12 +52,10 @@ class AuthentificationValidators {
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    if (password != null) {
-      if (isPasswordValid(password)) {
-        sink.add(password);
-      } else {
-        sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
-      }
+    if (isPasswordValid(password)) {
+      sink.add(password);
+    } else {
+      sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
     }
   });
 

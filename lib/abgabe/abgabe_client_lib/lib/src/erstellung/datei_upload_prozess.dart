@@ -38,7 +38,7 @@ class DateiUploadProzessFortschritt {
   final AbgabedateiId dateiId;
   Optional<double> get fortschrittInProzent =>
       Optional.ofNullable(_fortschrittInProzent);
-  double _fortschrittInProzent;
+  double? _fortschrittInProzent;
   final UploadStatusEnum status;
 
   DateiUploadProzessFortschritt.fehlgeschlagen(this.dateiId)

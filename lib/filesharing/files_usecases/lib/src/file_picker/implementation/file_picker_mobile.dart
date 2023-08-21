@@ -8,6 +8,7 @@
 
 import 'dart:io';
 
+import 'package:collection/collection.dart' show IterableNullableExtension;
 import 'package:file_picker/file_picker.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
@@ -18,22 +19,22 @@ import 'package:sharezone_utils/platform.dart';
 import '../file_picker_implementation.dart';
 
 class MobileFilePicker extends FilePickerImplementation {
-  LocalFile _fileOrNull(PlatformFile file) {
+  LocalFile? _fileOrNull(PlatformFile? file) {
     if (file == null) {
       return null;
     }
-    return LocalFileIo.fromFile(File(file.path));
+    return LocalFileIo.fromFile(File(file.path!));
   }
 
   Future<PlatformFile> _pickSinglePlatformFileOrNull(
       [mobile_file_picker.FileType type =
           mobile_file_picker.FileType.any]) async {
-    final files = await mobile_file_picker.FilePicker.platform
-        .pickFiles(type: type, allowMultiple: false);
+    final files = (await mobile_file_picker.FilePicker.platform
+        .pickFiles(type: type, allowMultiple: false))!;
     return files.files.first;
   }
 
-  Future<LocalFile> _pickSingleFileOrNull(
+  Future<LocalFile?> _pickSingleFileOrNull(
       [mobile_file_picker.FileType type =
           mobile_file_picker.FileType.any]) async {
     return _fileOrNull(await _pickSinglePlatformFileOrNull(type));
@@ -42,8 +43,8 @@ class MobileFilePicker extends FilePickerImplementation {
   Future<List<PlatformFile>> _pickMultiPlatformFilesOrNull(
       [mobile_file_picker.FileType type =
           mobile_file_picker.FileType.any]) async {
-    final files = await mobile_file_picker.FilePicker.platform
-        .pickFiles(type: type, allowMultiple: true);
+    final files = (await mobile_file_picker.FilePicker.platform
+        .pickFiles(type: type, allowMultiple: true))!;
     return files.files;
   }
 
@@ -51,27 +52,21 @@ class MobileFilePicker extends FilePickerImplementation {
       [mobile_file_picker.FileType type =
           mobile_file_picker.FileType.any]) async {
     final platformFiles = await _pickMultiPlatformFilesOrNull(type);
-    if (platformFiles == null) {
-      return null;
-    }
-    return platformFiles
-        .map(_fileOrNull)
-        .where((file) => file != null)
-        .toList();
+    return platformFiles.map(_fileOrNull).whereNotNull().toList();
   }
 
   @override
-  Future<LocalFile> pickFile() async {
+  Future<LocalFile?> pickFile() async {
     return _pickSingleFileOrNull(mobile_file_picker.FileType.any);
   }
 
   @override
-  Future<LocalFile> pickFileImage() async {
+  Future<LocalFile?> pickFileImage() async {
     return _pickSingleFileOrNull(mobile_file_picker.FileType.image);
   }
 
   @override
-  Future<LocalFile> pickFileVideo() async {
+  Future<LocalFile?> pickFileVideo() async {
     return _pickSingleFileOrNull(mobile_file_picker.FileType.video);
   }
 
@@ -91,7 +86,7 @@ class MobileFilePicker extends FilePickerImplementation {
   }
 
   @override
-  Future<LocalFile> pickImageCamera() async {
+  Future<LocalFile?> pickImageCamera() async {
     final pickedFile = await mobile_image_picker.ImagePicker()
         .pickImage(source: mobile_image_picker.ImageSource.camera);
     if (pickedFile != null) return LocalFileIo.fromFile(File(pickedFile.path));
@@ -99,7 +94,7 @@ class MobileFilePicker extends FilePickerImplementation {
   }
 
   @override
-  Future<LocalFile> pickImageGallery() async {
+  Future<LocalFile?> pickImageGallery() async {
     final pickedFile = await mobile_image_picker.ImagePicker()
         .pickImage(source: mobile_image_picker.ImageSource.camera);
     if (pickedFile != null) return LocalFileIo.fromFile(File(pickedFile.path));

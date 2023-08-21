@@ -28,7 +28,7 @@ class AbgabedateienApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String _path = "/v1/submissions/{submissionId}/files/addList"
+    String path = "/v1/submissions/{submissionId}/files/addList"
         .replaceAll("{" r'submissionId' "}", submissionId.toString());
 
     Map<String, dynamic> queryParams = {};
@@ -43,7 +43,7 @@ class AbgabedateienApi {
     bodyData = jsondateienHinzufuegenCommandDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(

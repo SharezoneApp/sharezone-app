@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:args/args.dart';
-import 'package:meta/meta.dart';
 
 const _packageTimeoutName = 'package-timeout-minutes';
 const maxConcurrentPackagesOptionName = 'max-concurrent-packages';
@@ -23,7 +22,7 @@ extension AddPackageTimeout on ArgParser {
     );
   }
 
-  void addPackageTimeoutOption({@required int defaultInMinutes}) {
+  void addPackageTimeoutOption({required int defaultInMinutes}) {
     addOption(
       _packageTimeoutName,
       help:
@@ -32,7 +31,7 @@ extension AddPackageTimeout on ArgParser {
     );
   }
 
-  void addConcurrencyOption({@required int defaultMaxConcurrency}) {
+  void addConcurrencyOption({required int defaultMaxConcurrency}) {
     addOption(
       maxConcurrentPackagesOptionName,
       abbr: 'c',
@@ -46,7 +45,7 @@ Limiting concurrency is helpful for not as powerful machines like e.g. CI-runner
 
 extension PackageTimeoutArgResult on ArgResults {
   Duration get packageTimeoutDuration {
-    final _packageTimeout = this[_packageTimeoutName];
-    return Duration(minutes: int.parse(_packageTimeout));
+    final packageTimeout = this[_packageTimeoutName];
+    return Duration(minutes: int.parse(packageTimeout));
   }
 }

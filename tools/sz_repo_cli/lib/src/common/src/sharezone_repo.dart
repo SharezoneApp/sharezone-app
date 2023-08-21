@@ -8,9 +8,8 @@
 
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:path/path.dart' as path;
+import 'package:rxdart/rxdart.dart';
 
 import 'package.dart';
 
@@ -24,25 +23,25 @@ class SharezoneRepo {
       'source_of_truth', 'commands_source_of_truth.yaml'));
 
   SharezoneRepo._({
-    @required this.location,
-    @required this.sharezoneFlutterApp,
-    @required this.dartLibraries,
-    @required this.sharezoneCiCdTool,
+    required this.location,
+    required this.sharezoneFlutterApp,
+    required this.dartLibraries,
+    required this.sharezoneCiCdTool,
   });
 
   factory SharezoneRepo(Directory rootDirectory) {
-    final _root = rootDirectory.path;
+    final root = rootDirectory.path;
 
     return SharezoneRepo._(
       location: rootDirectory,
       dartLibraries: DartLibraries(
-        clientLibariesLocation: Directory(path.join(_root, 'lib')),
+        clientLibariesLocation: Directory(path.join(root, 'lib')),
       ),
       sharezoneFlutterApp: Package.fromDirectory(
-        Directory(path.join(_root, 'app')),
+        Directory(path.join(root, 'app')),
       ),
       sharezoneCiCdTool: Package.fromDirectory(Directory(path.join(
-        _root,
+        root,
         'tools',
         'sz_repo_cli',
       ))),
@@ -99,7 +98,7 @@ class DartLibraries {
   final Directory clientLibariesLocation;
 
   DartLibraries({
-    @required this.clientLibariesLocation,
+    required this.clientLibariesLocation,
   });
 
   Stream<Package> streamPackages() async* {
@@ -110,7 +109,7 @@ class DartLibraries {
         try {
           yield Package.fromDirectory(entity);
         } catch (e) {
-          print('Could not create package from $entity.');
+          stderr.writeln('Could not create package from $entity.');
         }
       }
     }

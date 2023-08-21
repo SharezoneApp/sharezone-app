@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -29,18 +30,40 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
     return _remoteConfig.getBool(key);
   }
 
+  /// Initializes the remote configuration with the given default values.
+  ///
+  /// The default values are used if the remote configuration could not be
+  /// fetched.
   @override
-  Future<void> initialize(Map<String, dynamic> defaultValues) async {
+  void initialize(Map<String, dynamic> defaultValues) {
     try {
       _remoteConfig = FirebaseRemoteConfig.instance;
       _remoteConfig.setDefaults(defaultValues);
-      _remoteConfig.setConfigSettings(RemoteConfigSettings(
+      _remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
           fetchTimeout: const Duration(minutes: 1),
-          minimumFetchInterval: const Duration(hours: 3)));
-      await _remoteConfig.fetchAndActivate();
+          minimumFetchInterval: const Duration(hours: 3),
+        ),
+      );
     } catch (e) {
       log("Error fetch remote config: $e");
     }
+  }
+
+  /// Makes the last fetched config available to getters.
+  ///
+  /// Returns a [bool] that is `true` if the config parameters were activated.
+  /// Otherwise returns `false` if the config parameters were already
+  /// activated.
+  @override
+  Future<bool> activate() async {
+    return _remoteConfig.activate();
+  }
+
+  /// Fetches and caches configuration from the Remote Config service.
+  @override
+  Future<void> fetch() async {
+    await _remoteConfig.fetch();
   }
 }
 

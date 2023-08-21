@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:meta/meta.dart';
 
 import 'dateiname.dart';
 
@@ -22,10 +21,10 @@ abstract class Abgabedatei {
       fileFormatEnumFromFilenameWithExtension(name.mitExtension);
 
   Abgabedatei({
-    @required this.id,
-    @required this.name,
-    @required this.dateigroesse,
-    @required this.erstellungsdatum,
+    required this.id,
+    required this.name,
+    required this.dateigroesse,
+    required this.erstellungsdatum,
   }) {
     ArgumentError.checkNotNull(id, 'AbgabedateiId');
     ArgumentError.checkNotNull(name, 'name');

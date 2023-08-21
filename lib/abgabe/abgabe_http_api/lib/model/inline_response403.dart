@@ -22,7 +22,7 @@ abstract class InlineResponse403
   // Boilerplate code needed to wire-up generated code
   InlineResponse403._();
 
-  factory InlineResponse403([updates(InlineResponse403Builder b)]) =
+  factory InlineResponse403([Function(InlineResponse403Builder b) updates]) =
       _$InlineResponse403;
   static Serializer<InlineResponse403> get serializer =>
       _$inlineResponse403Serializer;

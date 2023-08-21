@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:crash_analytics/crash_analytics.dart';
@@ -15,16 +16,18 @@ import 'package:intl/date_symbol_data_local.dart' as intl;
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class PluginInitializations {
-  const PluginInitializations(
-      {this.remoteConfiguration,
-      this.crashAnalytics,
-      this.dynamicLinks,
-      this.sharedPreferences,
-      this.streamingSharedPreferences});
+  const PluginInitializations({
+    this.remoteConfiguration,
+    this.crashAnalytics,
+    this.dynamicLinks,
+    this.sharedPreferences,
+    this.streamingSharedPreferences,
+  });
 
   final RemoteConfiguration remoteConfiguration;
   final CrashAnalytics crashAnalytics;
@@ -63,10 +66,12 @@ class PluginInitializations {
     return dynamicLinks;
   }
 
-  static Future<RemoteConfiguration> initializeRemoteConfiguration() async {
+  static Future<RemoteConfiguration> initializeRemoteConfiguration({
+    @required Flavor flavor,
+  }) async {
     final remoteConfiguration = getRemoteConfiguration();
 
-    await remoteConfiguration.initialize({
+    remoteConfiguration.initialize({
       'meeting_server_url': 'https://meet.sharezone.net',
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
@@ -75,6 +80,25 @@ class PluginInitializations {
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
     });
+
+    if (flavor == Flavor.dev) {
+      // Since we depend on some values from our Remote Config in the dev
+      // environment, we can't use the "Load new values for next startup"
+      // strategy.
+      await remoteConfiguration.fetch();
+      await remoteConfiguration.activate();
+    } else {
+      await remoteConfiguration.activate();
+      // We follow the "Load new values for next startup" strategy (see
+      // https://firebase.google.com/docs/remote-config/loading) to reduce the
+      // startup time of the app.
+      //
+      // First, we activate the fetched remote config from the last fetch. Then
+      // we fetch the remote config in the background. The next time the app
+      // starts, the fetched remote config will be available.
+      unawaited(remoteConfiguration.fetch());
+    }
+
     return remoteConfiguration;
   }
 
@@ -94,9 +118,11 @@ class PluginInitializations {
   }
 }
 
-Future<PluginInitializations> runPluginInitializations() async {
+Future<PluginInitializations> runPluginInitializations({
+  @required Flavor flavor,
+}) async {
   final futureRemoteConfiguration =
-      PluginInitializations.initializeRemoteConfiguration();
+      PluginInitializations.initializeRemoteConfiguration(flavor: flavor);
   final futureSharedPrefs = PluginInitializations.initializeSharedPreferences();
   final futureStreamingSharedPrefs =
       PluginInitializations.initializeStreamingSharedPreferences();

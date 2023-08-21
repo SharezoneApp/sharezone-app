@@ -38,13 +38,13 @@ class LocateSharezoneAppFlutterDirectoryCommand extends Command {
   String get name => 'locate-app';
 
   @override
-  FutureOr<Null> run() async {
-    switch (argResults[pathType]) {
+  FutureOr<void> run() async {
+    switch (argResults![pathType]) {
       case relative:
-        print(await findSharezoneFlutterAppRelativeDirectoryPath());
+        stdout.writeln(await findSharezoneFlutterAppRelativeDirectoryPath());
         break;
       case absolute:
-        print(await findSharezoneFlutterAppAbsoluteDirectoryPath());
+        stdout.writeln(await findSharezoneFlutterAppAbsoluteDirectoryPath());
         break;
     }
   }
@@ -72,7 +72,8 @@ Future<String> findSharezoneFlutterAppRelativeDirectoryPath() async {
   return dir.path;
 }
 
-Future<Directory> findSharezoneFlutterDirectory({Directory root}) async {
+Future<Directory> findSharezoneFlutterDirectory(
+    {required Directory root}) async {
   await for (FileSystemEntity entity in pubspecGlob.list(root: root.path)) {
     if (entity is File) {
       final pubspecContent = await entity.readAsString();
@@ -90,7 +91,7 @@ Future<Directory> findSharezoneFlutterDirectory({Directory root}) async {
 class SharezoneDirectoryNotFoundError extends Error {
   SharezoneDirectoryNotFoundError([this.currentDirPath]);
 
-  final String currentDirPath;
+  final String? currentDirPath;
 
   @override
   String toString() {

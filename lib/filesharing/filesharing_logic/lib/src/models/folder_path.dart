@@ -27,7 +27,7 @@ class FolderPath {
   }
 
   FolderPath getChildPath(String folderID) {
-    if (folderID == null || folderID == '') {
+    if (folderID == '') {
       throw ArgumentError("FolderID is not allowed to be null!");
     }
     if (_pathString == "/") {
@@ -38,7 +38,7 @@ class FolderPath {
 
   List<FolderPath> getPathsHierachy() {
     final pathsHierachy = [this];
-    var topPath = this;
+    FolderPath topPath = this;
     while (topPath != FolderPath.root) {
       topPath = topPath.getParentPath();
       pathsHierachy.insert(0, topPath);
@@ -52,7 +52,7 @@ class FolderPath {
   }
 
   /// Der PathString, welcher so gespeichert wird, zum Beispiel '/' oder '/aufgaben/efunktionen'
-  String toPathString() {
+  String? toPathString() {
     return _pathString;
   }
 
@@ -75,10 +75,10 @@ class FolderPath {
     return fullPosition;
   }
 
-  Map<String, dynamic> getPathDocumentMap(Map<String, dynamic> value) {
+  Map<String, dynamic>? getPathDocumentMap(Map<String, dynamic> value) {
     if (this == FolderPath.root) return {'folders': value};
     final folderIDs = getFolderIDs();
-    Map<String, dynamic> reversedMap;
+    Map<String, dynamic>? reversedMap;
     for (String mFolderID in folderIDs.reversed) {
       if (mFolderID == "") {
         reversedMap = {'folders': reversedMap ?? value};
@@ -91,13 +91,13 @@ class FolderPath {
     return reversedMap;
   }
 
-  Map<String, dynamic> getFolderDocumentMap(String folderID, dynamic value) {
+  Map<String, dynamic>? getFolderDocumentMap(String folderID, dynamic value) {
     return getPathDocumentMap({folderID: value});
   }
 
   @override
   String toString() {
-    return toPathString();
+    return toPathString()!;
   }
 
   @override
