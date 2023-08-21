@@ -159,7 +159,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        run: git diff --exit-code
+        run: git diff --exit-code --name-status
 
   ios-integration-test:
     needs: changes
@@ -219,7 +219,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        run: git diff --exit-code
+        run: git diff --exit-code --name-status
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
@@ -284,4 +284,4 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        run: git diff --exit-code
+        run: git diff --exit-code --name-status
