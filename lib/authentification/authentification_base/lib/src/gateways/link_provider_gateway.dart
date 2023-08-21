@@ -23,13 +23,17 @@ class LinkProviderGateway extends BlocBase {
   LinkProviderGateway(this.userGateway);
 
   Future<bool> linkUserWithGoogle() async {
-    await GoogleSignInLogic().linkWithGoogle();
+    final userCredential = await GoogleSignInLogic().linkWithGoogle();
+    if (userCredential == null) return false;
+
     _analytics.logGoogleLink();
     return true;
   }
 
   Future<bool> linkUserWithApple() async {
-    await AppleSignInLogic().linkWithApple();
+    final userCredential = await AppleSignInLogic().linkWithApple();
+    if (userCredential == null) return false;
+
     _analytics.logAppleLink();
     return true;
   }

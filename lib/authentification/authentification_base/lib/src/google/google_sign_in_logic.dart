@@ -27,10 +27,6 @@ class GoogleSignInLogic {
     return GoogleSignInLogic._(signIn);
   }
 
-  Future<bool> isSignedIn() async {
-    return _googleSignIn.isSignedIn();
-  }
-
   Future<AuthCredential> _getCredentials() async {
     if (PlatformCheck.isDesktop) {
       await GoogleSignInDart.register(clientId: _desktopGoogleSignInClientID);
@@ -49,39 +45,58 @@ class GoogleSignInLogic {
   }
 
   Future<void> signIn() async {
-    if (kIsWeb) {
-      final googleProvider = GoogleAuthProvider();
-      await FirebaseAuth.instance.signInWithPopup(googleProvider);
-      return;
-    }
+    await _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        return FirebaseAuth.instance.signInWithPopup(googleProvider);
+      }
 
-    final googleCredential = await _getCredentials();
-    await FirebaseAuth.instance.signInWithCredential(googleCredential);
+      final googleCredential = await _getCredentials();
+      return FirebaseAuth.instance.signInWithCredential(googleCredential);
+    });
   }
 
-  Future<void> linkWithGoogle() async {
-    if (kIsWeb) {
-      final googleProvider = GoogleAuthProvider();
-      await auth.currentUser!.linkWithPopup(googleProvider);
-      return;
-    }
+  Future<UserCredential?> linkWithGoogle() async {
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        return auth.currentUser!.linkWithPopup(googleProvider);
+      }
 
-    final googleCredential = await _getCredentials();
-    await auth.currentUser!.linkWithCredential(googleCredential);
+      final googleCredential = await _getCredentials();
+      return auth.currentUser!.linkWithCredential(googleCredential);
+    });
   }
 
   Future<void> reauthenticateWithGoogle() async {
-    if (kIsWeb) {
-      final googleProvider = GoogleAuthProvider();
-      await auth.currentUser!.reauthenticateWithPopup(googleProvider);
-      return;
-    }
+    await _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        return auth.currentUser!.reauthenticateWithPopup(googleProvider);
+      }
 
-    final googleCredential = await _getCredentials();
-    await auth.currentUser!.reauthenticateWithCredential(googleCredential);
+      final googleCredential = await _getCredentials();
+      return auth.currentUser!.reauthenticateWithCredential(googleCredential);
+    });
   }
 
   Future<GoogleSignInAccount?> signOut() async {
     return _googleSignIn.signOut();
+  }
+
+  /// Ignores the [FirebaseAuthException] when the user cancels the sign in
+  /// process.
+  Future<UserCredential?> _ignoreCanceledException(
+    Future<UserCredential> Function() function,
+  ) async {
+    try {
+      return await function();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'popup-closed-by-user') {
+        return null;
+      }
+
+      rethrow;
+    }
   }
 }

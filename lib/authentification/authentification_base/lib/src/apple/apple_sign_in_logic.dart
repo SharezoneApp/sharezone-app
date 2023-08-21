@@ -21,30 +21,52 @@ class AppleSignInLogic {
   Future<UserCredential?> signIn() async {
     final appleProvider = AppleAuthProvider();
 
-    if (kIsWeb) {
-      return auth.signInWithPopup(appleProvider);
-    } else {
-      return auth.signInWithProvider(appleProvider);
-    }
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.signInWithPopup(appleProvider);
+      } else {
+        return auth.signInWithProvider(appleProvider);
+      }
+    });
   }
 
-  Future<void> linkWithApple() async {
+  Future<UserCredential?> linkWithApple() async {
     final appleProvider = AppleAuthProvider();
 
-    if (kIsWeb) {
-      await auth.currentUser!.linkWithPopup(appleProvider);
-    } else {
-      await auth.currentUser!.linkWithProvider(appleProvider);
-    }
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.linkWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.linkWithProvider(appleProvider);
+      }
+    });
   }
 
   Future<void> reauthenticateWithApple() async {
     final appleProvider = AppleAuthProvider();
 
-    if (kIsWeb) {
-      await auth.currentUser!.reauthenticateWithPopup(appleProvider);
-    } else {
-      await auth.currentUser!.reauthenticateWithProvider(appleProvider);
+    await _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.reauthenticateWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.reauthenticateWithProvider(appleProvider);
+      }
+    });
+  }
+
+  /// Ignores the [FirebaseAuthException] when the user cancels the sign in
+  /// process.
+  Future<UserCredential?> _ignoreCanceledException(
+    Future<UserCredential> Function() function,
+  ) async {
+    try {
+      return await function();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'popup-closed-by-user') {
+        return null;
+      }
+
+      rethrow;
     }
   }
 }
