@@ -17,10 +17,10 @@ class VideoViewer extends StatefulWidget {
   final String downloadURL;
 
   @override
-  State createState() => __VideoViewerState();
+  State createState() => _VideoViewerState();
 }
 
-class __VideoViewerState extends State<VideoViewer> {
+class _VideoViewerState extends State<VideoViewer> {
   ChewieController? _controller;
   late VideoPlayerController _videoPlayerController;
 
@@ -45,7 +45,7 @@ class __VideoViewerState extends State<VideoViewer> {
   @override
   void dispose() {
     super.dispose();
-    _controller!.dispose();
+    _controller?.dispose();
     _videoPlayerController.dispose();
   }
 
