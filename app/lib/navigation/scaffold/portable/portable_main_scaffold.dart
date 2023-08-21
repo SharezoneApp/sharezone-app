@@ -66,22 +66,24 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
             currentNavigationItem: widget.navigationItem,
             colorBehindBNB: widget.colorBehindBNB,
             option: option,
-            page: Scaffold(
+            page: ScaffoldMessenger(
               key: widget.scaffoldKey,
-              drawer: isOldNav ? SharezoneDrawer() : null,
-              appBar: AppBar(
-                title: Text(widget.appBarConfiguration?.title ??
-                    widget.navigationItem.getName()),
-                centerTitle: isOldNav,
-                elevation: widget.appBarConfiguration?.elevation,
-                leading: isOldNav ? DrawerIcon() : null,
-                automaticallyImplyLeading: isOldNav,
-                bottom: widget.appBarConfiguration?.bottom,
-                actions: widget.appBarConfiguration?.actions,
+              child: Scaffold(
+                drawer: isOldNav ? SharezoneDrawer() : null,
+                appBar: AppBar(
+                  title: Text(widget.appBarConfiguration?.title ??
+                      widget.navigationItem.getName()),
+                  centerTitle: isOldNav,
+                  elevation: widget.appBarConfiguration?.elevation,
+                  leading: isOldNav ? DrawerIcon() : null,
+                  automaticallyImplyLeading: isOldNav,
+                  bottom: widget.appBarConfiguration?.bottom,
+                  actions: widget.appBarConfiguration?.actions,
+                ),
+                bottomNavigationBar: bottomBar(option),
+                body: widget.body,
+                floatingActionButton: widget.floatingActionButton,
               ),
-              bottomNavigationBar: bottomBar(option),
-              body: widget.body,
-              floatingActionButton: widget.floatingActionButton,
             ),
           ),
         );
