@@ -35,18 +35,10 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   AppUser get data => _userSubject.valueOrNull;
 
-  // Auf Grund eines Fehlers im FirebaseAuth Plugin, wird bei der
-  // reload() Methode nicht der firebaseUser sofort neu geladen.
-  // So muss man diesen mit reload() neuladen und danach wieder
-  // neu mit FirebaseAuth.instance.currentUser den neuen User ziehen.
-  // Dieser neue Nutzer muss dann mit alten User überschrieben werden.
-  // Damit dies möglich ist, darf der User nicht final sein.
-  // Ticket: https://github.com/flutter/flutter/issues/20390
-  AuthUser authUser;
-
   // Firebase User Stream
   final _authUserSubject = BehaviorSubject<AuthUser>();
   Stream<AuthUser> get authUserStream => _authUserSubject;
+  AuthUser get authUser => _authUserSubject.value;
 
   Future<AppUser> get() {
     return references.users
@@ -63,14 +55,18 @@ class UserGateway implements UserGatewayAuthentifcation {
   Stream<Provider> get providerStream =>
       _authUserSubject.map((user) => _getProvider(user.firebaseUser));
 
-  UserGateway(this.references, this.authUser) : uID = authUser.uid {
+  UserGateway(this.references, AuthUser authUser) : uID = authUser.uid {
     _appUserSubscription =
         references.users.doc(uID).snapshots().map((documentSnapshot) {
       return AppUser.fromData(documentSnapshot.data(), id: uID);
     }).listen((newUser) {
       _userSubject.sink.add(newUser);
     });
+
     _authUserSubject.sink.add(authUser);
+    _authUserSubject.sink.addStream(
+      FirebaseAuth.instance.userChanges().map(AuthUser.fromFirebaseUser),
+    );
   }
 
   Future<void> logOut() async {
@@ -87,21 +83,9 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   String getEmail() => authUser.email;
   bool isAnonymous() => authUser.isAnonymous;
+
   Stream<bool> isAnonymousStream() =>
       _authUserSubject.map((authUser) => authUser.isAnonymous);
-
-  /// Manually refreshes the data of the current user (for example,
-  /// attached providers, display name, and so on).
-  @override
-  Future<void> reloadFirebaseUser() async {
-    authUser.firebaseUser.reload();
-
-    // Auf Grund Nutzer eines Fehlers im FirebaseAuth Plugin muss
-    // nochmal neu geladen und gesetzt werden.
-    // Ticket: https://github.com/flutter/flutter/issues/20390
-    authUser = AuthUser.fromFirebaseUser(FirebaseAuth.instance.currentUser);
-    _authUserSubject.sink.add(authUser);
-  }
 
   Provider _getProvider(User fbUser) {
     if (fbUser == null || fbUser.isAnonymous) {
@@ -127,40 +111,40 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   Future<void> changeState(StateEnum state) async {
-    await references.users.doc(authUser.uid).update({"state": state.index});
+    await references.users.doc(uID).update({"state": state.index});
   }
 
   Future<void> addNotificationToken(String token) async {
-    await references.users.doc(authUser.uid).update({
+    await references.users.doc(uID).update({
       "notificationTokens": FieldValue.arrayUnion([token])
     });
   }
 
   void removeNotificationToken(String token) {
-    references.users.doc(authUser.uid).update({
+    references.users.doc(uID).update({
       "notificationTokens": FieldValue.arrayRemove([token])
     });
   }
 
   Future<void> setHomeworkReminderTime(TimeOfDay timeOfDay) async {
-    await references.users.doc(authUser.uid).update(
+    await references.users.doc(uID).update(
         {"reminderTime": timeOfDay?.toApiString() ?? FieldValue.delete()});
   }
 
   Future<void> updateSettings(UserSettings userSettings) async {
     await references.users
-        .doc(authUser.uid)
+        .doc(uID)
         .set({"settings": userSettings.toJson()}, SetOptions(merge: true));
   }
 
   Future<void> updateSettingsSingleFiled(String fieldName, dynamic data) async {
-    await references.users.doc(authUser.uid).set({
+    await references.users.doc(uID).set({
       "settings": {fieldName: data},
     }, SetOptions(merge: true));
   }
 
   Future<void> updateUserTip(UserTipKey userTipKey, bool value) async {
-    await references.users.doc(authUser.uid).set({
+    await references.users.doc(uID).set({
       "tips": {
         userTipKey.key: value,
       },
@@ -168,15 +152,11 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   void setBlackboardNotifications(bool enabled) {
-    references.users
-        .doc(authUser.uid)
-        .update({"blackboardNotifications": enabled});
+    references.users.doc(uID).update({"blackboardNotifications": enabled});
   }
 
   void setCommentsNotifications(bool enabled) {
-    references.users
-        .doc(authUser.uid)
-        .update({"commentsNotifications": enabled});
+    references.users.doc(uID).update({"commentsNotifications": enabled});
   }
 
   Future<void> changeEmail(String email) async {
@@ -187,7 +167,7 @@ class UserGateway implements UserGatewayAuthentifcation {
   Future<void> addUser({@required AppUser user, bool merge = false}) async {
     assert(user != null);
     await references.users
-        .doc(authUser.uid)
+        .doc(uID)
         .set(user.toCreateJson(), SetOptions(merge: true));
 
     return;

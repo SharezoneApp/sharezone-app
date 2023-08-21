@@ -7,62 +7,44 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/foundation.dart';
 
 class AppleSignInLogic {
-  /// Signs in with Apple. Returns the user if the sign in was successful.
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  /// Signs in the user with Apple.
   ///
-  /// Returns null if the user cancels the sign in process.
-  /// Throws an exception if the sign in fails.
-  Future<User?> signIn() async {
-    if (PlatformCheck.isMacOS || PlatformCheck.isIOS) {
-      AuthorizationCredentialAppleID credentials;
-      try {
-        credentials = await SignInWithApple.getAppleIDCredential(
-          scopes: [],
-        );
-      } on SignInWithAppleAuthorizationException catch (e) {
-        if (e.code == AuthorizationErrorCode.canceled) return null;
-        rethrow;
-      }
+  /// Returns the user if the sign in was successful.
+  ///
+  /// Returns null if the user cancels the sign in process. Throws an exception
+  /// if the sign in fails.
+  Future<UserCredential?> signIn() async {
+    final appleProvider = AppleAuthProvider();
 
-      final oAuthProvider = OAuthProvider('apple.com');
-      final credential = oAuthProvider.credential(
-        idToken: credentials.identityToken,
-        accessToken: credentials.authorizationCode,
-      );
-
-      final result =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      return result.user;
+    if (kIsWeb) {
+      return auth.signInWithPopup(appleProvider);
     } else {
-      return await FirebaseAuthOAuth()
-          .openSignInFlow("apple.com", [], {"locale": "en"});
+      return auth.signInWithProvider(appleProvider);
     }
   }
 
-  Future<AuthCredential> getCredentials() async {
-    assert(PlatformCheck.isMacOS ||
-        PlatformCheck.isIOS ||
-        PlatformCheck.isAndroid);
-    final credentials = await SignInWithApple.getAppleIDCredential(
-      scopes: [],
-    );
+  Future<void> linkWithApple() async {
+    final appleProvider = AppleAuthProvider();
 
-    final oAuthProvider = OAuthProvider('apple.com');
-    final credential = oAuthProvider.credential(
-      idToken: credentials.identityToken,
-      accessToken: credentials.authorizationCode,
-    );
-
-    return credential;
+    if (kIsWeb) {
+      await auth.currentUser!.linkWithPopup(appleProvider);
+    } else {
+      await auth.currentUser!.linkWithProvider(appleProvider);
+    }
   }
 
-  static Future<bool> isSignInGetCredentailsAvailable() async {
-    if ((PlatformCheck.isIOS || PlatformCheck.isMacOS) &&
-        await SignInWithApple.isAvailable()) return true;
-    return false;
+  Future<void> reauthenticateWithApple() async {
+    final appleProvider = AppleAuthProvider();
+
+    if (kIsWeb) {
+      await auth.currentUser!.reauthenticateWithPopup(appleProvider);
+    } else {
+      await auth.currentUser!.reauthenticateWithProvider(appleProvider);
+    }
   }
 }
