@@ -94,7 +94,7 @@ workflows:
   # Codemagic for running our golden tests. We use M1/M2 Macs to generate and
   # run our golden tests.
   test-only-goldens:
-    name: test
+    name: test-only-goldens
     max_build_duration: 15
     instance_type: mac_mini_m1
     environment:
