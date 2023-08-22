@@ -52,19 +52,12 @@ class LineStringList with IterableMixin<String> {
 /// An Object which lets one compare different App-Versions.
 ///
 /// The Version must be three version number separated by docs (e.g. "1.3.1").
-class Version {
+class Version implements Comparable<Version> {
   final String name;
   static final _versionRegEx = RegExp(r'^(\d+\.)(\d+\.)(\d+)');
 
-  /// The major number of the version, incremented when making breaking changes.
   final int major;
-
-  /// The minor number of the version, incremented when adding new functionality
-  /// in a backwards-compatible manner.
   final int minor;
-
-  /// The patch number of the version, incremented when making
-  /// backwards-compatible bug fixes.
   final int patch;
 
   factory Version.parse({@required String name}) {
@@ -93,11 +86,11 @@ class Version {
   });
 
   bool operator >(Version other) {
-    return _compare(this, other) > 0;
+    return compareTo(other) > 0;
   }
 
   bool operator <(Version other) {
-    return _compare(this, other) < 0;
+    return compareTo(other) < 0;
   }
 
   bool operator >=(Version other) {
@@ -118,21 +111,14 @@ class Version {
     return name.hashCode;
   }
 
-  /// Returns the difference between two versions.
+  /// Compares this version to another [Version].
   ///
-  /// If the first version is newer than the second one, the result is positive.
-  /// If the first version is older than the second one, the result is negative.
-  /// If the versions are equal, the result is 0.
-  int _compare(Version a, Version b) {
-    if (a.major > b.major) return 1;
-    if (a.major < b.major) return -1;
-
-    if (a.minor > b.minor) return 1;
-    if (a.minor < b.minor) return -1;
-
-    if (a.patch > b.patch) return 1;
-    if (a.patch < b.patch) return -1;
-
-    return 0;
+  /// Returns a negative value if this version is older than [other], a positive
+  /// value if it's newer, and 0 if they're identical.
+  @override
+  int compareTo(Version other) {
+    if (major != other.major) return major.compareTo(other.major);
+    if (minor != other.minor) return minor.compareTo(other.minor);
+    return patch.compareTo(other.patch);
   }
 }
