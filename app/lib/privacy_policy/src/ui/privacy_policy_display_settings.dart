@@ -211,15 +211,19 @@ class _VisualDensity extends StatelessWidget {
         DropdownButton<VisualDensitySetting>(
           value: themeSettings.visualDensitySetting,
           items: [
-            DropdownMenuItem(
+            DropdownMenuItem<VisualDensitySetting>(
+              child: Text('Standard'),
+              value: VisualDensitySetting.standard(),
+            ),
+            DropdownMenuItem<VisualDensitySetting>(
               child: Text('Kompakt'),
-              value: VisualDensitySetting.manual(VisualDensity.compact),
+              value: VisualDensitySetting.compact(),
             ),
-            DropdownMenuItem(
+            DropdownMenuItem<VisualDensitySetting>(
               child: Text('Komfortabel'),
-              value: VisualDensitySetting.manual(VisualDensity.comfortable),
+              value: VisualDensitySetting.comfortable(),
             ),
-            DropdownMenuItem(
+            DropdownMenuItem<VisualDensitySetting>(
               child: Text('Automatisch'),
               value: VisualDensitySetting.adaptivePlatformDensity(),
             ),
