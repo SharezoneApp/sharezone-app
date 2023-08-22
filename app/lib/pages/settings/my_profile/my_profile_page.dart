@@ -433,19 +433,15 @@ class _DeleteAccountDialogContentState
 
     try {
       if (provider != Provider.anonymous) {
-        AuthCredential credential;
         if (provider == Provider.google) {
           final googleSignInLogic = GoogleSignInLogic();
-          final googleSignInCredential = await googleSignInLogic.signIn();
-          credential = googleSignInCredential;
+          await googleSignInLogic.reauthenticateWithGoogle();
         } else if (provider == Provider.apple) {
           final appleSignInLogic = AppleSignInLogic();
-          await appleSignInLogic.signIn();
+          await appleSignInLogic.reauthenticateWithApple();
         } else {
-          credential = EmailAuthProvider.credential(
+          final credential = EmailAuthProvider.credential(
               email: fbUser.email, password: password);
-        }
-        if (credential != null) {
           await fbUser.reauthenticateWithCredential(credential);
         }
       }
