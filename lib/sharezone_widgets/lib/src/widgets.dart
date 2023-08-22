@@ -916,7 +916,7 @@ class CustomCardListTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
-                  if (isNotEmptyOrNull(subtitle!)) ...[
+                  if (isNotEmptyOrNull(subtitle)) ...[
                     const SizedBox(height: 2),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
