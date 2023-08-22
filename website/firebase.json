@@ -175,6 +175,11 @@
                 "type": 302
             },
             {
+                "source": "/apple-alpha",
+                "destination": "https://testflight.apple.com/join/10tIrtLw",
+                "type": 302
+            },
+            {
                 "source": "/github",
                 "destination": "https://github.com/SharezoneApp/sharezone-app",
                 "type": 302
