@@ -89,3 +89,64 @@ workflows:
               --github_token $GITHUB_PAT \
               --codemagic_token $CODEMAGIC_TOKEN \
               --message "_Note_: Only Sharezone team members are able to install the iOS app."
+
+  test-only-goldens:
+    name: test
+    max_build_duration: 15
+    environment:
+      # Sets the Flutter version to the version from fvm_config.json.
+      flutter: fvm
+    when:
+      # To save Codemagic usage we only run the tests for non draft PRs
+      condition: not event.pull_request.draft
+      changeset:
+        includes:
+          - ".fvm/fvm_config.json"
+          - "app/**"
+          - "lib/**"
+          # We trigger also this workflow, if this workflow is changed, so that
+          # new changes will be applied.
+          - "codemagic.yaml"
+        excludes:
+          - "*.md"
+          - "*.mdx"
+          - "*.gitignore"
+          - "**/firebase.json"
+          - "**/.firebaserc"
+    triggering:
+      events:
+        - pull_request
+      cancel_previous_builds: true
+    scripts:
+      - name: Install FVM
+        # Settings working directory back to the root of the repository because
+        # there is our .fvm folder with all the FVM configurations.
+        working_directory: .
+        script: |
+          dart pub global activate fvm 2.4.1
+          fvm install
+      - name: Activate sz_repo_cli package
+        script: |
+          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $CM_ENV
+      - name: Run Tests
+        script: |
+          sz test \
+            -c 4 \
+            --package-timeout-minutes 15 \
+            --only-goldens
+
+          # Upload results of failed golden tests if test command failed.
+          if [ $? -ne 0 ]; then
+            # Finds all "failures" folders and copies them to the export
+            # directory. Therefore, we are able to view the results of the
+            # failed golden tests.
+            #
+            # The command will use the exit code 0 (success) even when there are
+            # no failures folders.
+            find * -path '**/failures' -execdir bash -c "cp -r failures $FCI_EXPORT_DIR" \;
+            
+            # Because we caught the exit code of the test command, we need to
+            # set manually again.
+            exit 1
+          fi
