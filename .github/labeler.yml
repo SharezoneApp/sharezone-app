@@ -258,3 +258,4 @@
 "w: dashboard-page":
   - "**/dashboard/**"
   - "**/**dashboard**"
+  
