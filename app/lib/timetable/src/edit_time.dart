@@ -96,7 +96,11 @@ Future<Time> selectTime(BuildContext context,
       await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first ??
           true;
 
-  minutesInterval ??= isFiveMinutesIntervalActive ? 5 : 1;
+  // We only use the five minutes interval on iOS, because only iOS we have a
+  // CupertinoTimePicker. On other platforms, we use the interval time picker
+  // which has a visible steps option.
+  minutesInterval ??=
+      (PlatformCheck.isIOS && isFiveMinutesIntervalActive) ? 5 : 1;
 
   if (PlatformCheck.isIOS) {
     return showDialog<TimeOfDay>(
