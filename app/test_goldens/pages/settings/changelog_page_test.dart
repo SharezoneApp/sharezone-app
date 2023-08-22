@@ -42,7 +42,7 @@ void main() {
 
         await screenMatchesGolden(
           tester,
-          'update_prompt_card_${platform.name}',
+          'update_prompt_card_${platform.name.toLowerCase()}',
         );
       });
     }
