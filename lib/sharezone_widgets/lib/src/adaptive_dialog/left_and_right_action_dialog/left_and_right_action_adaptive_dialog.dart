@@ -98,7 +98,7 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: isNotEmptyOrNull(title!) ? Text(title!) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
       content: DialogWrapper(child: content),
       actions: <Widget>[
         if (left != null)
@@ -147,7 +147,7 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      title: isNotEmptyOrNull(title!) ? Text(title!) : const Text(""),
+      title: isNotEmptyOrNull(title) ? Text(title!) : const Text(""),
       content: content,
       actions: <Widget>[
         if (left != null)
