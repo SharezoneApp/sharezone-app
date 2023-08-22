@@ -36,8 +36,8 @@ class PageTemplate extends StatelessWidget {
                     ),
                     ListTile(
                       leading: const Icon(Icons.question_answer),
-                      title: const Text("FAQ"),
-                      onTap: () => launchUrl("https://sharezone.net/faq"),
+                      title: const Text("Docs"),
+                      onTap: () => launchUrl("https://docs.sharezone.net"),
                     ),
                     ListTile(
                       leading: const Icon(Icons.help),
@@ -129,8 +129,8 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                           ),
                           const SizedBox(width: 30),
                           TransparentButton.openLink(
-                            link: "https://sharezone.net/faq",
-                            child: const Text("FAQ"),
+                            link: "https://docs.sharezone.net",
+                            child: const Text("Docs"),
                           ),
                           const SizedBox(width: 30),
                         ],

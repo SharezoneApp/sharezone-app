@@ -210,7 +210,7 @@ class _FooterNavLinks extends StatelessWidget {
     return _FooterSection(
       title: "Links",
       links: [
-        _FooterAction("FAQ", link: "https://sharezone.net/faq"),
+        _FooterAction("Dokumentation", link: "https://docs.sharezone.net"),
       ],
     );
   }
