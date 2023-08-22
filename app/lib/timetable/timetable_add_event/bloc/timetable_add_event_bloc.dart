@@ -149,7 +149,8 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
         _isDateValid(controller) &&
         _isStartTimeValid(controller) &&
         _isEndTimeValid(controller) &&
-        isStartBeforeEnd()) {
+        isStartBeforeEnd() &&
+        _isStartAndEndTimeNotEqual(controller)) {
       return true;
     }
     return false;
@@ -267,6 +268,18 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
       return startTime.isBefore(endTime);
     }
     return false;
+  }
+
+  bool _isStartAndEndTimeNotEqual([TabController controller]) {
+    final startTime = _startTimeSubject.valueOrNull;
+    final endTime = _endTimeSubject.valueOrNull;
+    if (startTime == endTime) {
+      if (controller != null) {
+        _animateBackToStartAndEndTime(controller);
+      }
+      throw StartTimeEndTimeIsEqualException();
+    }
+    return true;
   }
 
   @override
