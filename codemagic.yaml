@@ -132,7 +132,7 @@ workflows:
       - name: Activate sz_repo_cli package
         script: |
           fvm flutter pub global activate --source path "$(pwd)/tools/sz_repo_cli/"
-          echo PATH="$(pwd)/bin:$PATH >> $CM_ENV
+          echo PATH="$(pwd)/bin:$PATH" >> $CM_ENV
       - name: Run Tests
         script: |
           sz test \
