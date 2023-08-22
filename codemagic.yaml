@@ -90,9 +90,13 @@ workflows:
               --codemagic_token $CODEMAGIC_TOKEN \
               --message "_Note_: Only Sharezone team members are able to install the iOS app."
 
+  # Due to https://github.com/flutter/flutter/issues/111739 we need to use
+  # Codemagic for running our golden tests. We use M1/M2 Macs to generate and
+  # run our golden tests.
   test-only-goldens:
     name: test
     max_build_duration: 15
+    instance_type: mac_mini_m1
     environment:
       # Sets the Flutter version to the version from fvm_config.json.
       flutter: fvm
