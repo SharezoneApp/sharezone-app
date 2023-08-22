@@ -22,12 +22,14 @@ class EditTimeField extends StatelessWidget {
   final IconData iconData;
   final String label;
   final ValueNotifier<bool> isSelected = ValueNotifier(false);
+  final int minutesInterval;
 
   EditTimeField({
     @required this.time,
     @required this.onChanged,
     this.iconData,
     this.label,
+    this.minutesInterval = 1,
   });
 
   @override
@@ -74,7 +76,11 @@ class EditTimeField extends StatelessWidget {
               ),
               onTap: () {
                 isSelected.value = true;
-                selectTime(context, initialTime: time).then((newTime) {
+                selectTime(
+                  context,
+                  initialTime: time,
+                  minutesInterval: minutesInterval,
+                ).then((newTime) {
                   if (newTime != null) onChanged(newTime);
                   isSelected.value = false;
                 });
