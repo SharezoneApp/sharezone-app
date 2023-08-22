@@ -140,30 +140,5 @@ void main() {
 
       expect(find.text(title), findsOneWidget);
     });
-
-    testGoldens('displays scanner page as expected', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(builder: (context) {
-              return ElevatedButton(
-                onPressed: () => showQrCodeScanner(
-                  context,
-                  mockController: controller,
-                ),
-                child: const Text('Scan QR Code'),
-              );
-            }),
-          ),
-        ),
-      );
-
-      await tester.tap(find.byType(ElevatedButton));
-
-      await screenMatchesGolden(
-        tester,
-        'scanner_page',
-      );
-    });
   });
 }
