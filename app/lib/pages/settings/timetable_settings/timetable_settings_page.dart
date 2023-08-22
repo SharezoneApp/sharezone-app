@@ -20,6 +20,7 @@ import 'package:sharezone/settings/weekdays_edit_page.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
@@ -53,8 +54,13 @@ class TimetableSettingsPage extends StatelessWidget {
                   _TimetableEnabledWeekDaysField(),
                   Divider(),
                   _TimetablePeriodsField(),
-                  Divider(),
-                  _IsTimePickerFifeMinutesIntervalActive(),
+                  // We only show the time picker settings on iOS because on
+                  // other platforms we use the different time picker where we
+                  // have a visible steps option.
+                  if (PlatformCheck.isIOS) ...[
+                    Divider(),
+                    _IsTimePickerFifeMinutesIntervalActive(),
+                  ]
                 ],
               ),
             ),
