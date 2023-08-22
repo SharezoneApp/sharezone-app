@@ -193,6 +193,11 @@
                 "source": "/delete-account",
                 "destination": "https://docs.page/sharezoneapp/sharezone-app/account/delete",
                 "type": 302
+            },
+            {
+                "source": "/mobile-store",
+                "destination": "http://onelink.to/eqkmz5",
+                "type": 302
             }
         ],
         "rewrites": [
