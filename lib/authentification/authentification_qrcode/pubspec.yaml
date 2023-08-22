@@ -31,12 +31,12 @@ dependencies:
     path: ../../sharezone_utils
   util:
     path: ../../util
-  cloud_firestore: ^4.5.0
+  cloud_firestore: ^4.8.5
   fast_rsa:
     git:
       url: https://github.com/jerson/flutter-rsa
       ref: macos-vendor-library
-  firebase_auth: ^4.4.0
+  firebase_auth: ^4.7.3
   rxdart: ^0.27.1
 
 dev_dependencies:

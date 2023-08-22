@@ -7,62 +7,66 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/foundation.dart';
 
 class AppleSignInLogic {
-  /// Signs in with Apple. Returns the user if the sign in was successful.
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  /// Signs in the user with Apple.
   ///
-  /// Returns null if the user cancels the sign in process.
-  /// Throws an exception if the sign in fails.
-  Future<User?> signIn() async {
-    if (PlatformCheck.isMacOS || PlatformCheck.isIOS) {
-      AuthorizationCredentialAppleID credentials;
-      try {
-        credentials = await SignInWithApple.getAppleIDCredential(
-          scopes: [],
-        );
-      } on SignInWithAppleAuthorizationException catch (e) {
-        if (e.code == AuthorizationErrorCode.canceled) return null;
-        rethrow;
+  /// Returns the user if the sign in was successful.
+  ///
+  /// Returns null if the user cancels the sign in process. Throws an exception
+  /// if the sign in fails.
+  Future<UserCredential?> signIn() async {
+    final appleProvider = AppleAuthProvider();
+
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.signInWithPopup(appleProvider);
+      } else {
+        return auth.signInWithProvider(appleProvider);
+      }
+    });
+  }
+
+  Future<UserCredential?> linkWithApple() async {
+    final appleProvider = AppleAuthProvider();
+
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.linkWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.linkWithProvider(appleProvider);
+      }
+    });
+  }
+
+  Future<void> reauthenticateWithApple() async {
+    final appleProvider = AppleAuthProvider();
+
+    await _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.reauthenticateWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.reauthenticateWithProvider(appleProvider);
+      }
+    });
+  }
+
+  /// Ignores the [FirebaseAuthException] when the user cancels the sign in
+  /// process.
+  Future<UserCredential?> _ignoreCanceledException(
+    Future<UserCredential> Function() function,
+  ) async {
+    try {
+      return await function();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'popup-closed-by-user') {
+        return null;
       }
 
-      final oAuthProvider = OAuthProvider('apple.com');
-      final credential = oAuthProvider.credential(
-        idToken: credentials.identityToken,
-        accessToken: credentials.authorizationCode,
-      );
-
-      final result =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      return result.user;
-    } else {
-      return await FirebaseAuthOAuth()
-          .openSignInFlow("apple.com", [], {"locale": "en"});
+      rethrow;
     }
-  }
-
-  Future<AuthCredential> getCredentials() async {
-    assert(PlatformCheck.isMacOS ||
-        PlatformCheck.isIOS ||
-        PlatformCheck.isAndroid);
-    final credentials = await SignInWithApple.getAppleIDCredential(
-      scopes: [],
-    );
-
-    final oAuthProvider = OAuthProvider('apple.com');
-    final credential = oAuthProvider.credential(
-      idToken: credentials.identityToken,
-      accessToken: credentials.authorizationCode,
-    );
-
-    return credential;
-  }
-
-  static Future<bool> isSignInGetCredentailsAvailable() async {
-    if ((PlatformCheck.isIOS || PlatformCheck.isMacOS) &&
-        await SignInWithApple.isAvailable()) return true;
-    return false;
   }
 }

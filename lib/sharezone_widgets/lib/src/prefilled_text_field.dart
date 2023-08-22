@@ -116,12 +116,12 @@ class PrefilledTextField extends StatefulWidget {
   /// value: when they have inserted or deleted text.
   ///
   /// This callback doesn't run when the TextField's text is changed
-  /// programmatically, via the TextField's [controller]. Typically it
+  /// programmatically, via the TextField's [mockController]. Typically it
   /// isn't necessary to be notified of such changes, since they're
   /// initiated by the app itself.
   ///
   /// To be notified of all changes to the TextField's text, cursor,
-  /// and selection, one can add a listener to its [controller] with
+  /// and selection, one can add a listener to its [mockController] with
   /// [TextEditingController.addListener].
   ///
   /// {@tool dartpad --template=stateful_widget_material}

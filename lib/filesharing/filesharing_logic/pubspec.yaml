@@ -25,8 +25,8 @@ dependencies:
     path: ../../sharezone_common
   sharezone_utils:
     path: ../../sharezone_utils
-  cloud_firestore: ^4.5.0
-  firebase_storage: ^11.1.0
+  cloud_firestore: ^4.8.5
+  firebase_storage: ^11.2.6
   meta: ^1.1.8
   mime: ^1.0.0
   optional: ^6.1.0+1

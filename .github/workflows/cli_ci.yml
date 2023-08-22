@@ -113,7 +113,7 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        run: git diff --exit-code
+        run: git diff --exit-code --name-status
 
   test:
     needs: changes
