@@ -57,7 +57,7 @@ class ChangeDatabaseModel {
         releaseDate: releaseDate,
         newFeatures: newFeatures,
         improvements: improvements,
-        version: Version(name: version),
+        version: Version.parse(name: version),
       );
 
   ChangeDatabaseModel copyWith({

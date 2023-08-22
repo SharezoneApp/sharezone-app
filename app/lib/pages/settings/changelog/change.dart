@@ -50,21 +50,54 @@ class LineStringList with IterableMixin<String> {
 }
 
 /// An Object which lets one compare different App-Versions.
-/// The Version must be three version number seperated by docs (e.g. "1.3.1").
+///
+/// The Version must be three version number separated by docs (e.g. "1.3.1").
 class Version {
   final String name;
-  final versionRegEx = RegExp(r'^(\d+\.)(\d+\.)(\d+)$');
+  static final _versionRegEx = RegExp(r'^(\d+\.)(\d+\.)(\d+)');
 
-  Version({@required String name})
-      : name = name.replaceAll(
-            RegExp(r'\W*(-dev)\W*'), ""); // Removing -dev of version
+  /// The major number of the version, incremented when making breaking changes.
+  final int major;
+
+  /// The minor number of the version, incremented when adding new functionality
+  /// in a backwards-compatible manner.
+  final int minor;
+
+  /// The patch number of the version, incremented when making
+  /// backwards-compatible bug fixes.
+  final int patch;
+
+  factory Version.parse({@required String name}) {
+    final match = _versionRegEx.firstMatch(name);
+    if (match == null) {
+      throw ArgumentError.value(name, "name", "Invalid version format");
+    }
+
+    final major = int.parse(match.group(1).replaceAll(".", ""));
+    final minor = int.parse(match.group(2).replaceAll(".", ""));
+    final patch = int.parse(match.group(3).replaceAll(".", ""));
+
+    return Version._(
+      name: name,
+      major: major,
+      minor: minor,
+      patch: patch,
+    );
+  }
+
+  Version._({
+    @required this.name,
+    @required this.major,
+    @required this.minor,
+    @required this.patch,
+  });
 
   bool operator >(Version other) {
-    return _versionNameToInt(name) > _versionNameToInt(other.name);
+    return _compare(this, other) > 0;
   }
 
   bool operator <(Version other) {
-    return _versionNameToInt(name) < _versionNameToInt(other.name);
+    return _compare(this, other) < 0;
   }
 
   bool operator >=(Version other) {
@@ -85,14 +118,21 @@ class Version {
     return name.hashCode;
   }
 
-  int _versionNameToInt(String version) {
-    if (version == null) return -1;
-    assert(versionRegEx.allMatches(version).length == 1,
-        "The version string should be in a valid format");
-    final List<String> splittedVersion = version.split('.');
-    final String versionWithoutPoints =
-        '${splittedVersion[0]}${splittedVersion[1]}${splittedVersion[2]}';
-    final int versionAsInt = int.parse(versionWithoutPoints);
-    return versionAsInt;
+  /// Returns the difference between two versions.
+  ///
+  /// If the first version is newer than the second one, the result is positive.
+  /// If the first version is older than the second one, the result is negative.
+  /// If the versions are equal, the result is 0.
+  int _compare(Version a, Version b) {
+    if (a.major > b.major) return 1;
+    if (a.major < b.major) return -1;
+
+    if (a.minor > b.minor) return 1;
+    if (a.minor < b.minor) return -1;
+
+    if (a.patch > b.patch) return 1;
+    if (a.patch < b.patch) return -1;
+
+    return 0;
   }
 }

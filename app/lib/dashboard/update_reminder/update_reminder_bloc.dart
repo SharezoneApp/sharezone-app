@@ -38,9 +38,8 @@ class UpdateReminderBloc extends BlocBase {
       getLatestRelease: () => changelogGateway
           .loadChange(to: 1)
           .then((change) => change.first.toChange()),
-      getCurrentVersion: () => platformInformationRetreiver
-          .init()
-          .then((_) => Version(name: platformInformationRetreiver.version)),
+      getCurrentVersion: () => platformInformationRetreiver.init().then(
+          (_) => Version.parse(name: platformInformationRetreiver.version)),
       updateGracePeriod: updateGracePeriod,
       getCurrentDateTime: () => DateTime.now(),
       crashAnalytics: crashAnalytics,
