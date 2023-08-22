@@ -21,6 +21,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+concurrency:
+  # We only want to run one deploy job at a time.
+  group: main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
