@@ -14,9 +14,9 @@ class DataProtection extends StatelessWidget {
       key: const ValueKey('privacy'),
       child: ImageText(
         desktopSpacing: 32,
-        body: Column(
+        body: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Headline(
               "Sicher & DSGVO-konform",
             ),

@@ -35,9 +35,9 @@ class Traction extends StatelessWidget {
                         spacing: 24,
                         children: [
                           _UserCounter(),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               _AppStoreRating(),
                               SizedBox(width: 48),
                               _PlayStoreRating(),

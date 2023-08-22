@@ -294,20 +294,20 @@ class _FooterSocialMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SharezoneLogo(
+        SharezoneLogo(
           logoColor: LogoColor.white,
           height: 50,
           width: 200,
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             _SocialMediaButton("Twitter"),
             _SocialMediaButton("Instagram"),
             _SocialMediaButton("Discord"),
