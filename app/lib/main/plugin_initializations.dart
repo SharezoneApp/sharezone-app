@@ -83,22 +83,26 @@ class PluginInitializations {
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
     });
 
-    if (flavor == Flavor.dev) {
-      // Since we depend on some values from our Remote Config in the dev
-      // environment, we can't use the "Load new values for next startup"
-      // strategy.
-      await remoteConfiguration.fetch();
-      await remoteConfiguration.activate();
-    } else {
-      await remoteConfiguration.activate();
-      // We follow the "Load new values for next startup" strategy (see
-      // https://firebase.google.com/docs/remote-config/loading) to reduce the
-      // startup time of the app.
-      //
-      // First, we activate the fetched remote config from the last fetch. Then
-      // we fetch the remote config in the background. The next time the app
-      // starts, the fetched remote config will be available.
-      unawaited(remoteConfiguration.fetch());
+    try {
+      if (flavor == Flavor.dev) {
+        // Since we depend on some values from our Remote Config in the dev
+        // environment, we can't use the "Load new values for next startup"
+        // strategy.
+        await remoteConfiguration.fetch();
+        await remoteConfiguration.activate();
+      } else {
+        await remoteConfiguration.activate();
+        // We follow the "Load new values for next startup" strategy (see
+        // https://firebase.google.com/docs/remote-config/loading) to reduce the
+        // startup time of the app.
+        //
+        // First, we activate the fetched remote config from the last fetch. Then
+        // we fetch the remote config in the background. The next time the app
+        // starts, the fetched remote config will be available.
+        unawaited(remoteConfiguration.fetch());
+      }
+    } catch (e) {
+      log('Remote configuration could not be initialized: $e');
     }
 
     return remoteConfiguration;
