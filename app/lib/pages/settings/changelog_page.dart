@@ -180,11 +180,13 @@ class UpdatePromptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnouncementCard(
       key: ValueKey('UpdatePromptCard'),
-      onTap: PlatformCheck.isWeb ? null : () => launchURL(getStoreLink()),
+      onTap: PlatformCheck.isWeb
+          ? null
+          : () => launchURL(getStoreLink(), context: context),
       title: "Neues Update verfügbar!",
       padding: const EdgeInsets.all(0),
       titleColor: Colors.white,
-      color: const Color(0xFFF44336),
+      color: Colors.orange,
       content: Text(
         _getText(),
         style: const TextStyle(color: Colors.white),
@@ -196,10 +198,9 @@ class UpdatePromptCard extends StatelessWidget {
     // Opens the Mac AppStore directly (only works on macOS devices)
     if (PlatformCheck.isMacOS) return 'https://sharezone.net/macos-direct';
 
-    // It should NOT be used for iOS & Android https://sharezone.net/ios or
-    // https://sharezone.net/android because the user will be taken straight
-    // back to the app once it is installed. The user is only redirected to the
-    // store if the app is not installed. has.
-    return "http://sharezone.net/mobile-store";
+    if (PlatformCheck.isAndroid) return 'https://sharezone.net/android';
+    if (PlatformCheck.isIOS) return 'https://sharezone.net/ios';
+
+    throw Exception('Unsupported platform');
   }
 }
