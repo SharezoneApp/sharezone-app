@@ -55,7 +55,7 @@ class InfoMessage extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).primaryColor),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launchURL("https://www.codingbrain.de/imprint#privacy-app");
+                launchURL("https://sharezone.net/datenschutzerklaerung");
               }),
         TextSpan(
           style: TextStyle(color: Colors.grey),
