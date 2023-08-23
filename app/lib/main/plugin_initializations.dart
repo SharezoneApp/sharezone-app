@@ -116,12 +116,16 @@ class PluginInitializations {
   }
 
   static Future<void> initializeDateFormatting() async {
-    // We need to initialize the date formatting to get the correct locale
-    // for the date formatting. Otherwise, the date formatting will be
-    // in English.
-    //
-    // Copied from https://stackoverflow.com/a/69889853/8358501.
-    Intl.systemLocale = await findSystemLocale();
+    try {
+      // We need to initialize the date formatting to get the correct locale
+      // for the date formatting. Otherwise, the date formatting will be
+      // in English.
+      //
+      // Copied from https://stackoverflow.com/a/69889853/8358501.
+      Intl.systemLocale = await findSystemLocale();
+    } catch (e) {
+      log('Could not initialize date formatting: $e');
+    }
   }
 }
 
