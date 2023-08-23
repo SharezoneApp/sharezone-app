@@ -74,13 +74,11 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
             showSnackSec(
               context: context,
               text: "Farbe konnte nicht geändert werden.",
-              seconds: 2,
             );
           } catch (e, s) {
             showSnackSec(
               context: context,
               text: handleErrorMessage('$e', s),
-              seconds: 2,
             );
           }
         }
