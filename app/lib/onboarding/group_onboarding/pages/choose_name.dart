@@ -184,9 +184,14 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final notificationsPermission = context.read<NotificationsPermission>();
     final isNeededToRequestNotificationsPermission =
         await notificationsPermission.isRequiredToRequestPermission();
-    final showNotificationsRequestPage =
+    // Currently, we skip the notifications request page on macOS because it is
+    // not possible to request the permission on macOS with firebase_messaging
+    // package. In the future, we need to show a tutorial how the user can
+    // enable the notifications. See:
+    // https://github.com/SharezoneApp/sharezone-app/issues/807
+    final showNotificationsRequestPage = !PlatformCheck.isMacOS &&
         isNeededToRequestNotificationsPermission &&
-            isFirebaseMessagingSupported();
+        isFirebaseMessagingSupported();
 
     if (status == GroupOnboardingStatus.onlyNameAndTurnOfNotifactions ||
         showNotificationsRequestPage) {
