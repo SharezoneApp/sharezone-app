@@ -150,13 +150,17 @@ class CourseGateway {
     );
   }
 
-  /// CHANGES THE GENERAL COLOR OF THE COURSE
-  Future<bool> editCourseGeneralDesign(
-      {@required String courseID, Design design}) async {
+  /// Changes the general color of the course.
+  ///
+  /// Returns `true` if the color was changed successfully, `false` otherwise.
+  Future<bool> editCourseGeneralDesign({
+    @required String courseID,
+    Design design,
+  }) async {
     final course = _connectionsGateway.current().courses[courseID];
     if (course != null) {
-      return editCourse(course.copyWith(design: design))
-          .then((result) => result.hasData && result.data == true);
+      final result = await editCourse(course.copyWith(design: design));
+      return result.hasData && result.data == true;
     }
     return false;
   }
