@@ -12,6 +12,6 @@ import 'implementation/stub_file_saver.dart'
     if (dart.library.io) 'implementation/mobile_file_saver.dart'
     if (dart.library.js) 'implementation/web_file_saver.dart' as implementation;
 
-FileSaver getFileSaver() {
+FileSaver? getFileSaver() {
   return implementation.getFileSaver();
 }

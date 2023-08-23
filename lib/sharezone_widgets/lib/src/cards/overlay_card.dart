@@ -10,16 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class OverlayCard extends StatelessWidget {
-  final Widget title;
-  final Widget content;
+  final Widget? title;
+  final Widget? content;
 
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
-  final String actionText;
-  final VoidCallback onAction;
+  final String? actionText;
+  final VoidCallback? onAction;
 
   const OverlayCard({
-    Key key,
+    Key? key,
     this.title,
     this.content,
     this.onClose,
@@ -76,13 +76,13 @@ class OverlayCard extends StatelessWidget {
 
 class _Action extends StatelessWidget {
   const _Action({
-    Key key,
-    @required this.onAction,
-    @required this.actionText,
+    Key? key,
+    required this.onAction,
+    required this.actionText,
   }) : super(key: key);
 
-  final VoidCallback onAction;
-  final String actionText;
+  final VoidCallback? onAction;
+  final String? actionText;
 
   @override
   Widget build(BuildContext context) {
@@ -97,16 +97,16 @@ class _Action extends StatelessWidget {
           foregroundColor: Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
         ),
-        child: Text(actionText),
+        child: Text(actionText!),
       ),
     );
   }
 }
 
 class _Close extends StatelessWidget {
-  const _Close({Key key, @required this.onClose}) : super(key: key);
+  const _Close({Key? key, required this.onClose}) : super(key: key);
 
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +127,9 @@ class _Close extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key key, @required this.content}) : super(key: key);
+  const _Content({Key? key, required this.content}) : super(key: key);
 
-  final Widget content;
+  final Widget? content;
 
   @override
   Widget build(BuildContext context) {
@@ -138,15 +138,15 @@ class _Content extends StatelessWidget {
         color: Colors.grey,
         fontFamily: rubik,
       ),
-      child: content,
+      child: content!,
     );
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key key, @required this.title}) : super(key: key);
+  const _Title({Key? key, required this.title}) : super(key: key);
 
-  final Widget title;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class _Title extends StatelessWidget {
         color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
         fontWeight: FontWeight.w600,
       ),
-      child: title,
+      child: title!,
     );
   }
 }

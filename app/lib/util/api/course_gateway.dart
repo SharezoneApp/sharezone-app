@@ -105,7 +105,7 @@ class CourseGateway {
       String courseID, String kickedMemberID) async {
     return references.functions.leave(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
       memberID: kickedMemberID,
     );
   }
@@ -114,7 +114,7 @@ class CourseGateway {
     return references.functions.groupEdit(
       id: course.id,
       data: course.toEditJson(),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
@@ -132,31 +132,35 @@ class CourseGateway {
     return references.functions.groupEditSettings(
       id: courseID,
       settings: courseSettings.toJson(),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> generateNewMeetingID(String courseID) async {
     return references.functions.generateNewMeetingID(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> deleteCourse(String courseID) async {
     return references.functions.groupDelete(
       groupID: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
-  /// CHANGES THE GENERAL COLOR OF THE COURSE
-  Future<bool> editCourseGeneralDesign(
-      {@required String courseID, Design design}) async {
+  /// Changes the general color of the course.
+  ///
+  /// Returns `true` if the color was changed successfully, `false` otherwise.
+  Future<bool> editCourseGeneralDesign({
+    @required String courseID,
+    Design design,
+  }) async {
     final course = _connectionsGateway.current().courses[courseID];
     if (course != null) {
-      return editCourse(course.copyWith(design: design))
-          .then((result) => result.hasData && result.data == true);
+      final result = await editCourse(course.copyWith(design: design));
+      return result.hasData && result.data == true;
     }
     return false;
   }
@@ -194,8 +198,8 @@ class CourseGateway {
       @required MemberRole newRole}) {
     return references.functions.memberUpdateRole(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
-      role: memberRoleEnumToString(newRole),
+      type: GroupType.course.name,
+      role: newRole.name,
       memberID: newMemberID,
     );
   }

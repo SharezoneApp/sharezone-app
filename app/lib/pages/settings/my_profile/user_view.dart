@@ -50,7 +50,7 @@ class UserView {
       name: "",
       typeOfUser: "",
       isAnonymous: true,
-      provider: null,
+      provider: Provider.anonymous,
       state: "",
     );
   }

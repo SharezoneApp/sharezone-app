@@ -14,10 +14,12 @@ import 'package:path/path.dart' as p;
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_macos_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_web_command.dart';
-import 'package:sz_repo_cli/src/commands/src/build_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/deploy_ios_command.dart';
+import 'package:sz_repo_cli/src/commands/src/deploy_macos_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 
@@ -29,7 +31,7 @@ Future<void> main(List<String> args) async {
   final packagesDir = Directory(p.join(projectRoot.path, 'lib'));
 
   if (!packagesDir.existsSync()) {
-    print('Error: Cannot find a "lib" sub-directory');
+    stderr.writeln('Error: Cannot find a "lib" sub-directory');
     exit(1);
   }
 
@@ -47,7 +49,10 @@ Future<void> main(List<String> args) async {
     ..addCommand(LicenseHeadersCommand()
       ..addSubcommand(CheckLicenseHeadersCommand(repo))
       ..addSubcommand(AddLicenseHeadersCommand(repo)))
-    ..addCommand(DeployCommand()..addSubcommand(DeployWebAppCommand(repo)))
+    ..addCommand(DeployCommand()
+      ..addSubcommand(DeployWebAppCommand(repo))
+      ..addSubcommand(DeployIosCommand(repo))
+      ..addSubcommand(DeployMacOsCommand(repo)))
     ..addCommand(BuildCommand()
       ..addSubcommand(BuildAndroidCommand(repo))
       ..addSubcommand(BuildMacOsCommand(repo))
@@ -61,6 +66,6 @@ Future<void> main(List<String> args) async {
       // Ansonsten wird die StackTrace noch zusätzlich ausgeprintet, was die Benutzung
       // unschön macht.
       .catchError((Object e) {
-    print(e);
+    stdout.writeln(e);
   }, test: (e) => e is UsageException);
 }

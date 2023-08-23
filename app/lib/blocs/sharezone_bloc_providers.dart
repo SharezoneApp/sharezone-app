@@ -28,8 +28,6 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
-import 'package:sharezone/account/features/feature_gateway.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
@@ -214,11 +212,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final _homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
 
-    final featureGateway = FeatureGateway(
-        widget.blocDependencies.references.users,
-        widget.blocDependencies.authUser.uid);
-    final featureBloc = FeatureBloc(featureGateway);
-
     final config = HausaufgabenheftConfig(
       defaultCourseColorValue: Colors.lightBlue.value,
       nrOfInitialCompletedHomeworksToLoad:
@@ -289,7 +282,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       baseUrl: abgabenServiceBaseUrl,
 
       /// Cold-Start kann manchmal dauern
-      connectTimeout: 45000,
+      connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
@@ -367,7 +360,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<AccountPageBlocFactory>(
           bloc: AccountPageBlocFactory(api.user)),
-      BlocProvider<FeatureBloc>(bloc: featureBloc),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
           bloc: NavigationExperimentCache(FlutterStreamingKeyValueStore(

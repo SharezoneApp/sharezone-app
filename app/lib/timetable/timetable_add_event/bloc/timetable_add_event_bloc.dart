@@ -111,22 +111,28 @@ class TimetableAddEventBloc extends BlocBase {
   }
   */
 
-  bool isStartTimeValid() {
-    if (!isStartTimeEmpty()) {
-      if (isStartBeforeEnd()) {
-        return true;
-      }
+  void throwIfEndTimeHasIncorrectValues() {
+    if (isEndTimeEmpty()) {
+      throw InvalidEndTimeException();
     }
-    return false;
+
+    _throwIfStartAndEndTimeIsEqual();
+
+    if (!isStartTimeEmpty() && !_isStartBeforeEnd()) {
+      throw EndTimeIsBeforeStartTimeException();
+    }
   }
 
-  bool isEndTimeValid() {
-    if (!isEndTimeEmpty()) {
-      if (isStartBeforeEnd()) {
-        return true;
-      }
+  void throwIfStartTimeHasIncorrectValues() {
+    if (isStartTimeEmpty()) {
+      throw InvalidStartTimeException();
     }
-    return false;
+
+    _throwIfStartAndEndTimeIsEqual();
+
+    if (!isEndTimeEmpty() && !_isStartBeforeEnd()) {
+      throw EndTimeIsBeforeStartTimeException();
+    }
   }
 
   /*
@@ -148,8 +154,9 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
         _isCourseValid(controller) &&
         _isDateValid(controller) &&
         _isStartTimeValid(controller) &&
-        _isEndTimeValid(controller) &&
-        isStartBeforeEnd()) {
+        _isEndTimeValid(controller)) {
+      _throwIfStartAndEndTimeIsEqual(controller);
+      _throwIfStartIsBeforeEnd(controller);
       return true;
     }
     return false;
@@ -260,13 +267,37 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return true;
   }
 
-  bool isStartBeforeEnd() {
+  bool _isStartBeforeEnd() {
     final startTime = _startTimeSubject.valueOrNull;
     final endTime = _endTimeSubject.valueOrNull;
     if (startTime != null && endTime != null) {
       return startTime.isBefore(endTime);
     }
     return false;
+  }
+
+  void _throwIfStartIsBeforeEnd([TabController controller]) {
+    if (!_isStartBeforeEnd()) {
+      if (controller != null) {
+        _animateBackToStartAndEndTime(controller);
+      }
+      throw EndTimeIsBeforeStartTimeException();
+    }
+  }
+
+  bool _isStartAndEndTimeEqual() {
+    final startTime = _startTimeSubject.valueOrNull;
+    final endTime = _endTimeSubject.valueOrNull;
+    return startTime == endTime;
+  }
+
+  void _throwIfStartAndEndTimeIsEqual([TabController controller]) {
+    if (_isStartAndEndTimeEqual()) {
+      if (controller != null) {
+        _animateBackToStartAndEndTime(controller);
+      }
+      throw StartTimeEndTimeIsEqualException();
+    }
   }
 
   @override

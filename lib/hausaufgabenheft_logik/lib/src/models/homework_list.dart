@@ -18,8 +18,7 @@ class HomeworkList extends ListBase<HomeworkReadModel> {
   final List<HomeworkReadModel> _homeworks;
 
   HomeworkList(List<HomeworkReadModel> homeworks)
-      : assert(homeworks != null),
-        _homeworks = List.from(homeworks);
+      : _homeworks = List.from(homeworks);
   @override
   int get length => _homeworks.length;
 
@@ -59,10 +58,10 @@ class HomeworkList extends ListBase<HomeworkReadModel> {
     return subjects.toList();
   }
 
-  HomeworkList getOverdue([Date now]) {
+  HomeworkList getOverdue([Date? now]) {
     now = now ?? Date.now();
     return HomeworkList(_homeworks
-        .where((homeworks) => homeworks.isOverdueRelativeTo(now))
+        .where((homeworks) => homeworks.isOverdueRelativeTo(now!))
         .toList());
   }
 

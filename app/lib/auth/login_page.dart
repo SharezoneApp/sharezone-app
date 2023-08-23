@@ -19,7 +19,6 @@ import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/util/flavor.dart';
-import 'package:sharezone/widgets/apple_sign_in_button.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -366,7 +365,7 @@ class EmailLoginField extends StatelessWidget {
     Key key,
     @required this.emailStream,
     @required this.onChanged,
-    this.passwordFocusNode,
+    @required this.passwordFocusNode,
     this.autofocus,
     this.emailFocusNode,
   }) : super(key: key);
@@ -387,7 +386,7 @@ class EmailLoginField extends StatelessWidget {
           focusNode: emailFocusNode,
           onChanged: (email) => onChanged(email.trim()),
           onEditingComplete: () =>
-              FocusManager.instance.primaryFocus?.unfocus(),
+              FocusScope.of(context).requestFocus(passwordFocusNode),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,
@@ -540,14 +539,15 @@ class _LoginWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(6, 32, 12, 0),
-      child: SignInWithAppleButton(
-        onPressed: onLogin,
-        text: 'Mit Apple anmelden',
-        height: 45,
-        iconAlignment: IconAlignment.left,
+    return _SignWithOAuthButton(
+      icon: PlatformSvg.asset(
+        "assets/logo/apple-logo.svg",
+        width: 24,
+        height: 24,
+        color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
       ),
+      onTap: onLogin,
+      text: 'Über Apple anmelden',
     );
   }
 }

@@ -14,10 +14,10 @@ extension AbgabedateiToView on Abgabedatei {
   FileView toView() {
     if (this is HochladeneLokaleAbgabedatei) {
       // Sodass Dart die Extension-Methoden unten benutzt.
-      HochladeneLokaleAbgabedatei d = this;
+      HochladeneLokaleAbgabedatei d = this as HochladeneLokaleAbgabedatei;
       return d.toView();
     } else if (this is HochgeladeneAbgabedatei) {
-      HochgeladeneAbgabedatei d = this;
+      HochgeladeneAbgabedatei d = this as HochgeladeneAbgabedatei;
       return d.toView();
     }
     throw UnimplementedError('$runtimeType to $FileView is not implemented');
@@ -27,12 +27,12 @@ extension AbgabedateiToView on Abgabedatei {
 extension HochladeneDateiToView on HochladeneLokaleAbgabedatei {
   FileView toView() => FileView(
         id: '$id',
-        path: pfad.orElse(null),
+        path: pfad.orElseNull,
         basename: name.ohneExtension,
         extentionName: name.nurExtension,
         fileFormat: format,
         status: fortschritt.status,
-        uploadProgess: fortschritt.inProzent.orElse(null),
+        uploadProgess: fortschritt.inProzent.orElseNull,
       );
 }
 

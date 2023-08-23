@@ -15,7 +15,7 @@ import 'package:dio/dio.dart';
 
 class AbgabeApi {
   final Dio _dio;
-  Serializers? _serializers;
+  final Serializers? _serializers;
 
   AbgabeApi(this._dio, this._serializers);
 
@@ -28,7 +28,7 @@ class AbgabeApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String _path =
+    String path =
         "/v1/submissions/{id}".replaceAll("{" r'id' "}", id.toString());
 
     Map<String, dynamic> queryParams = {};
@@ -43,7 +43,7 @@ class AbgabeApi {
     bodyData = jsonsubmissionDto;
 
     return _dio.request(
-      _path,
+      path,
       queryParameters: queryParams,
       data: bodyData,
       options: Options(

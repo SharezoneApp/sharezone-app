@@ -12,19 +12,17 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewer extends StatefulWidget {
-  const VideoViewer({Key key, @required this.downloadURL})
-      : assert(downloadURL != null),
-        super(key: key);
+  const VideoViewer({Key? key, required this.downloadURL}) : super(key: key);
 
   final String downloadURL;
 
   @override
-  State createState() => __VideoViewerState();
+  State createState() => _VideoViewerState();
 }
 
-class __VideoViewerState extends State<VideoViewer> {
-  ChewieController _controller;
-  VideoPlayerController _videoPlayerController;
+class _VideoViewerState extends State<VideoViewer> {
+  ChewieController? _controller;
+  late VideoPlayerController _videoPlayerController;
 
   @override
   void initState() {
@@ -47,7 +45,7 @@ class __VideoViewerState extends State<VideoViewer> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller?.dispose();
     _videoPlayerController.dispose();
   }
 
@@ -58,6 +56,6 @@ class __VideoViewerState extends State<VideoViewer> {
         child: AccentColorCircularProgressIndicator(),
       );
     }
-    return Chewie(controller: _controller);
+    return Chewie(controller: _controller!);
   }
 }

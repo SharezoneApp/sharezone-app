@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:common_domain_models/src/ids/user_id.dart';
 import 'package:crash_analytics/mock_crash_analytics.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:last_online_reporting/last_online_reporting.dart';
 import 'package:last_online_reporting/src/implementation.dart';
 
-class MockLastOnlineReporterBackend extends FirestoreLastOnlineReporterBackend {
+class MockLastOnlineReporterBackend
+    implements FirestoreLastOnlineReporterBackend {
   int reportedOnlineToBackend = 0;
   bool shouldThrow = false;
-
-  MockLastOnlineReporterBackend() : super(null, UserId('userId'));
 
   @override
   Future<void> reportCurrentlyOnline() async {
@@ -33,10 +31,10 @@ class MockLastOnlineReporterBackend extends FirestoreLastOnlineReporterBackend {
 
 void main() {
   group('$LastOnlineReporter', () {
-    MockLastOnlineReporterBackend backend;
-    StreamController<AppLifecycleState> lifecycleChanges;
-    LastOnlineReporter lastOnlineReporter;
-    MockCrashAnalytics crashAnalytics;
+    late MockLastOnlineReporterBackend backend;
+    late StreamController<AppLifecycleState> lifecycleChanges;
+    late LastOnlineReporter lastOnlineReporter;
+    late MockCrashAnalytics crashAnalytics;
     const debounceTime = Duration(minutes: 10);
 
     setUp(() {

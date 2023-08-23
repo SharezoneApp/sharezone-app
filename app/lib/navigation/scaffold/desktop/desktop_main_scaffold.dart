@@ -35,18 +35,20 @@ class DesktopMainScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return DesktopAlignment(
       drawer: SharezoneDrawer(isDesktopModus: true),
-      scaffold: Scaffold(
+      scaffold: ScaffoldMessenger(
         key: scaffoldKey,
-        appBar: AppBar(
-          title: Text(appBarConfiguration?.title ?? navigationItem.getName()),
-          centerTitle: true,
-          actions: appBarConfiguration?.actions,
-          bottom: appBarConfiguration?.bottom,
-          elevation: appBarConfiguration?.elevation,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(appBarConfiguration?.title ?? navigationItem.getName()),
+            centerTitle: true,
+            actions: appBarConfiguration?.actions,
+            bottom: appBarConfiguration?.bottom,
+            elevation: appBarConfiguration?.elevation,
+          ),
+          body: body,
+          floatingActionButton: floatingActionButton,
+          bottomNavigationBar: bottomBarConfiguration?.bottomBar,
         ),
-        body: body,
-        floatingActionButton: floatingActionButton,
-        bottomNavigationBar: bottomBarConfiguration?.bottomBar,
       ),
     );
   }

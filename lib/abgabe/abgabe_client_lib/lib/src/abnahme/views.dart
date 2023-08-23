@@ -8,17 +8,16 @@
 
 import 'package:collection/collection.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:meta/meta.dart';
 
 class CreatedSubmissionsPageView {
   final List<CreatedSubmissionView> submissions;
   final List<CreatedSubmissionView> afterDeadlineSubmissions;
   final List<NotSubmittedView> missingSubmissions;
 
-  CreatedSubmissionsPageView({
-    @required this.submissions,
-    @required this.missingSubmissions,
-    @required this.afterDeadlineSubmissions,
+  const CreatedSubmissionsPageView({
+    required this.submissions,
+    required this.missingSubmissions,
+    required this.afterDeadlineSubmissions,
   });
 
   @override
@@ -57,12 +56,12 @@ class CreatedSubmissionView {
   /// hinzugefügt oder gelöscht) wurden.
   final bool wasEditedAfterwards;
 
-  CreatedSubmissionView({
-    @required this.abbreviation,
-    @required this.username,
-    @required this.submittedFiles,
-    @required this.lastActionDateTime,
-    @required this.wasEditedAfterwards,
+  const CreatedSubmissionView({
+    required this.abbreviation,
+    required this.username,
+    required this.submittedFiles,
+    required this.lastActionDateTime,
+    required this.wasEditedAfterwards,
   });
 }
 
@@ -70,9 +69,9 @@ class NotSubmittedView {
   final String abbreviation;
   final String username;
 
-  NotSubmittedView({
-    @required this.abbreviation,
-    @required this.username,
+  const NotSubmittedView({
+    required this.abbreviation,
+    required this.username,
   });
 }
 
@@ -82,10 +81,10 @@ class CreatedFileView {
   final String title;
   final String downloadUrl;
 
-  CreatedFileView({
-    @required this.id,
-    @required this.format,
-    @required this.title,
-    @required this.downloadUrl,
+  const CreatedFileView({
+    required this.id,
+    required this.format,
+    required this.title,
+    required this.downloadUrl,
   });
 }

@@ -254,3 +254,7 @@
   - "**/**teacher**"
   # We still have some old code that uses the term "lehrer" instead of "teacher"
   - "**/lehrer/**"
+
+"w: dashboard-page":
+  - "**/dashboard/**"
+  - "**/**dashboard**"

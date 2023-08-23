@@ -29,7 +29,6 @@
 
         <!-- 'android:exported="true"' is required by Firebase Messaging, see https://github.com/firebase/flutterfire/pull/9348 -->
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:exported="true" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
-            <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
             <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -62,8 +61,6 @@
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileProvider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/filepaths" tools:replace="android:resource" />
         </provider>
-
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
 
         <!-- Set up the Sign in with Apple activity, such that it's callable from the browser-redirect -->
         <activity android:name="de.codingbrain.sharezone.SignInWithAppleCallback" android:exported="true">

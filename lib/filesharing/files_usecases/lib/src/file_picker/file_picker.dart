@@ -15,7 +15,7 @@ import 'implementation/stub_file_picker.dart'
     as implementation;
 
 class FilePicker {
-  final FilePickerImplementation _implementation;
+  final FilePickerImplementation? _implementation;
 
   FilePicker._(this._implementation);
 
@@ -23,14 +23,14 @@ class FilePicker {
     return FilePicker._(implementation.getFilePickerImplementation());
   }
 
-  Future<LocalFile> pickFile() => _implementation.pickFile();
-  Future<LocalFile> pickFileImage() => _implementation.pickFileImage();
-  Future<LocalFile> pickFileVideo() => _implementation.pickFileVideo();
-  Future<List<LocalFile>> pickMultiFile() => _implementation.pickMultiFile();
-  Future<List<LocalFile>> pickMultiFileImage() =>
-      _implementation.pickMultiFileImage();
-  Future<List<LocalFile>> pickMultiFileVideo() =>
-      _implementation.pickMultiFileVideo();
-  Future<LocalFile> pickImageGallery() => _implementation.pickImageGallery();
-  Future<LocalFile> pickImageCamera() => _implementation.pickImageCamera();
+  Future<LocalFile?> pickFile() => _implementation!.pickFile();
+  Future<LocalFile?> pickFileImage() => _implementation!.pickFileImage();
+  Future<LocalFile?> pickFileVideo() => _implementation!.pickFileVideo();
+  Future<List<LocalFile>?> pickMultiFile() => _implementation!.pickMultiFile();
+  Future<List<LocalFile>?> pickMultiFileImage() =>
+      _implementation!.pickMultiFileImage();
+  Future<List<LocalFile>?> pickMultiFileVideo() =>
+      _implementation!.pickMultiFileVideo();
+  Future<LocalFile?> pickImageGallery() => _implementation!.pickImageGallery();
+  Future<LocalFile?> pickImageCamera() => _implementation!.pickImageCamera();
 }

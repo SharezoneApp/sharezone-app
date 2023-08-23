@@ -11,7 +11,7 @@ description: A starting point for Dart libraries or applications.
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -31,7 +31,7 @@ dependencies:
   firebase_hausaufgabenheft_logik:
     path: ../../firebase_hausaufgabenheft_logik
   built_collection: ^5.1.0
-  cloud_firestore: ^4.5.0
+  cloud_firestore: ^4.8.5
   gcloud: any
   googleapis: any
   googleapis_auth: any

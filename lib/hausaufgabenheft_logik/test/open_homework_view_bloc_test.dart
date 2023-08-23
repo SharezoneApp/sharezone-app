@@ -6,30 +6,24 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/events.dart'
-    as list_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/states.dart'
-    as list_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/events.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/states.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/homework_sorts.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
+    as list_bloc;
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/homework_sorts.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/homework_section_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('OpenHomeworksViewBloc', () {
-    OpenHomeworksViewBloc openHomeworksViewBloc;
+    late OpenHomeworksViewBloc openHomeworksViewBloc;
     MockOpenHomeworkListBloc mockOpenHomeworkListBloc;
-    MockOpenHomeworkListViewFactory mockOpenHomeworkListViewFactory;
+    late MockOpenHomeworkListViewFactory mockOpenHomeworkListViewFactory;
     setUp(() {
       mockOpenHomeworkListBloc = MockOpenHomeworkListBloc();
       mockOpenHomeworkListViewFactory = MockOpenHomeworkListViewFactory();
@@ -44,8 +38,8 @@ void main() {
       openHomeworksViewBloc
           .add(LoadHomeworks(SmallestDateSubjectAndTitleSort()));
 
-      final Success success =
-          await openHomeworksViewBloc.firstWhere((state) => state is Success);
+      final success =
+          await openHomeworksViewBloc.stream.whereType<Success>().first;
       expect(success.openHomeworkListView.sections, sections);
     });
   });
@@ -67,16 +61,13 @@ class MockOpenHomeworkListViewFactory implements OpenHomeworkListViewFactory {
 }
 
 class MockOpenHomeworkListBloc extends Bloc<list_bloc.OpenHomeworkListBlocEvent,
-    list_bloc.OpenHomeworkListBlocState> implements OpenHomeworkListBloc {
+        list_bloc.OpenHomeworkListBlocState>
+    implements list_bloc.OpenHomeworkListBloc {
   var homeworkListToReturn = HomeworkList([]);
 
-  @override
-  list_bloc.OpenHomeworkListBlocState get initialState =>
-      list_bloc.Success(homeworkListToReturn);
-
-  @override
-  Stream<list_bloc.OpenHomeworkListBlocState> mapEventToState(
-      list_bloc.OpenHomeworkListBlocEvent event) {
-    return Stream.value(list_bloc.Success(homeworkListToReturn));
+  MockOpenHomeworkListBloc() : super(list_bloc.Uninitialized()) {
+    on<list_bloc.OpenHomeworkListBlocEvent>((event, emit) {
+      emit(list_bloc.Success(homeworkListToReturn));
+    });
   }
 }

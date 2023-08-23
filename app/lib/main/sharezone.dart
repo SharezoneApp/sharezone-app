@@ -40,6 +40,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// * Firebase Messaging (throws SERVICE_NOT_AVAILABLE or AUTHENTICATION_FAILED
 ///   when running on device farm devices, see
 ///   https://github.com/SharezoneApp/sharezone-app/issues/420)
+/// * Ignore Remote Config fetch failures on Android
 bool isIntegrationTest = false;
 
 /// StreamBuilder "above" the Auth and SharezoneApp.
@@ -184,7 +185,9 @@ class _ThemeSettingsProvider extends StatelessWidget {
         analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
-        defaultVisualDensity: VisualDensitySetting.adaptivePlatformDensity(),
+        // We don't use VisualDensitySetting.adaptivePlatformDensity() because
+        // we don't like the button densities on the desktop.
+        defaultVisualDensity: VisualDensitySetting.standard(),
         keyValueStore: blocDependencies.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {

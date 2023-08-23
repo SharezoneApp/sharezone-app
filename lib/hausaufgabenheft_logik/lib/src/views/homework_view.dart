@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:meta/meta.dart';
 
 class StudentHomeworkView {
   final String id;
@@ -26,15 +25,15 @@ class StudentHomeworkView {
   final Color subjectColor;
 
   StudentHomeworkView({
-    @required this.id,
-    @required this.abbreviation,
-    @required this.isCompleted,
-    @required this.title,
-    @required this.subject,
-    @required this.todoDate,
-    @required this.colorDate,
-    @required this.withSubmissions,
-    @required this.subjectColor,
+    required this.id,
+    required this.abbreviation,
+    required this.isCompleted,
+    required this.title,
+    required this.subject,
+    required this.todoDate,
+    required this.colorDate,
+    required this.withSubmissions,
+    required this.subjectColor,
   });
 
   @override

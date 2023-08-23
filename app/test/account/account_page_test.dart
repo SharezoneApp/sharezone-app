@@ -163,11 +163,6 @@ class MockUserGateway implements UserGateway {
   References get references => throw UnimplementedError();
 
   @override
-  Future<void> reloadFirebaseUser() {
-    throw UnimplementedError();
-  }
-
-  @override
   void removeNotificationToken(String token) {}
 
   @override

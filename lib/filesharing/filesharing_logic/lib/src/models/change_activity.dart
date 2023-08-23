@@ -6,18 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class ChangeActivity {
-  final String authorID;
-  final String authorName;
+  final String? authorID;
+  final String? authorName;
   final DateTime changedOn;
 
   ChangeActivity({
-    @required this.authorID,
-    @required this.authorName,
-    @required this.changedOn,
+    required this.authorID,
+    required this.authorName,
+    required this.changedOn,
   });
 
   factory ChangeActivity.fromData(Map<String, dynamic> data) {
@@ -36,9 +35,9 @@ class ChangeActivity {
   }
 
   ChangeActivity copyWith({
-    String authorID,
-    String authorName,
-    DateTime changedOn,
+    String? authorID,
+    String? authorName,
+    DateTime? changedOn,
   }) {
     return ChangeActivity(
       authorID: authorID ?? this.authorID,

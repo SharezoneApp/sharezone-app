@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
-import 'package:meta/meta.dart';
 
 import '../date.dart';
 import '../subject.dart';
@@ -30,12 +29,12 @@ class HomeworkReadModel {
   final CompletionStatus status;
 
   HomeworkReadModel({
-    @required this.id,
-    @required this.title,
-    @required this.subject,
-    @required this.status,
-    @required this.withSubmissions,
-    @required this.todoDate,
+    required this.id,
+    required this.title,
+    required this.subject,
+    required this.status,
+    required this.withSubmissions,
+    required this.todoDate,
   }) {
     ArgumentError.checkNotNull(id);
     ArgumentError.checkNotNull(todoDate);

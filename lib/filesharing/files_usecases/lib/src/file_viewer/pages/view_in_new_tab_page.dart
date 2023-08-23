@@ -18,27 +18,26 @@ import '../widgets/file_page_app_bar.dart';
 class ViewInNewTabPage extends StatelessWidget {
   static const String tag = 'ViewInNewTabPage';
   const ViewInNewTabPage(
-      {Key key,
-      @required this.attachment,
-      @required this.cloudFileAccessor,
+      {Key? key,
+      required this.attachment,
+      required this.cloudFileAccessor,
       this.actions})
-      : assert(attachment != null),
-        super(key: key);
+      : super(key: key);
 
   final CloudFile attachment;
   final CloudFileAccessor cloudFileAccessor;
-  final List<Widget> actions;
+  final List<Widget>? actions;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: FilePageAppBar(
         name: attachment.name,
-        nameStream: cloudFileAccessor.nameStream(attachment.id),
+        nameStream: cloudFileAccessor.nameStream(attachment.id!),
         actions: actions,
       ),
       body: FutureBuilder<String>(
         future:
-            getFileSaver().downloadAndReturnObjectUrl(attachment.downloadURL),
+            getFileSaver()!.downloadAndReturnObjectUrl(attachment.downloadURL),
         builder: (context, resultSnapshot) {
           if (resultSnapshot.hasError) {
             return const Center(
@@ -72,7 +71,7 @@ class ViewInNewTabPage extends StatelessWidget {
                         Text("In neuem Tab öffnen"),
                       ]),
                   onPressed: () {
-                    openWebFile(src, attachment.name);
+                    openWebFile(src!, attachment.name!);
                   },
                 ),
               ],

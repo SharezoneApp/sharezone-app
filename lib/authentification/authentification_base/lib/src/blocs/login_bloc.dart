@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:authentification_base/authentification_google.dart';
 import 'package:authentification_base/src/apple/apple_sign_in_logic.dart';
@@ -34,7 +35,7 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
   Function(String) get changePassword => _passwordSubject.sink.add;
 
   Stream<bool> get submitValid =>
-      Rx.combineLatest2(email, password, (e, p) => true);
+      Rx.combineLatest2(email, password, (dynamic e, dynamic p) => true);
 
   Future<void> submit() async {
     if (!isEmptyOrNull(_emailSubject.valueOrNull)) {
@@ -44,8 +45,8 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
         } catch (e) {
           throw IncorrectDataException();
         }
-        final validEmail = _emailSubject.valueOrNull;
-        final validPassword = _passwordSubject.valueOrNull;
+        final validEmail = _emailSubject.valueOrNull!;
+        final validPassword = _passwordSubject.valueOrNull!;
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: validEmail, password: validPassword);
         _analytics.logEmailAndPasswordLogin();
@@ -62,11 +63,8 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> loginWithGoogle() async {
     final googleSignInLogic = GoogleSignInLogic();
-    final credential = await googleSignInLogic.signIn();
-
-    _analytics.logGoolgeLogin();
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await googleSignInLogic.signIn();
+    _analytics.logGoogleLogin();
   }
 
   Future<void> loginWithApple() async {

@@ -9,10 +9,10 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/src/bloc/course_edit_design_bloc.dart';
+import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 part 'src/dialog/select_design_dialog.dart';
@@ -31,9 +31,9 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
       context: context, builder: (context) => _SelectTypeDialog(bloc: bloc));
 
   if (selectTypePopResult != null) {
-    final initalDesign = selectTypePopResult.initialDesign;
+    final initialDesign = selectTypePopResult.initialDesign;
 
-    final selectDesignPopResult = await selectDesign(context, initalDesign,
+    final selectDesignPopResult = await selectDesign(context, initialDesign,
         type: selectTypePopResult.editDesignType);
 
     if (selectDesignPopResult != null) {
@@ -49,8 +49,9 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
       } else if (selectDesignPopResult.design != null) {
         if (selectTypePopResult.editDesignType == _EditDesignType.personal) {
           bloc.submitPersonalDesign(
-              selectedDesign: selectDesignPopResult.design,
-              initalDesign: initalDesign);
+            selectedDesign: selectDesignPopResult.design,
+            initialDesign: initialDesign,
+          );
           showSnackSec(
             context: context,
             text: "Persönliche Farbe wurde gesetzt.",
@@ -59,14 +60,27 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
         } else if (selectTypePopResult.editDesignType ==
             _EditDesignType.course) {
           sendDataToFrankfurtSnackBar(context);
-          await bloc.submitCourseDesign(
+          try {
+            await bloc.submitCourseDesign(
               selectedDesign: selectDesignPopResult.design,
-              initalDesign: initalDesign);
-          showSnackSec(
-            context: context,
-            text: "Farbe wurde erfolgreich für den gesamten Kurs geändert.",
-            seconds: 2,
-          );
+              initialDesign: initialDesign,
+            );
+            showSnackSec(
+              context: context,
+              text: "Farbe wurde erfolgreich für den gesamten Kurs geändert.",
+              seconds: 2,
+            );
+          } on ChangingDesignFailedException catch (_) {
+            showSnackSec(
+              context: context,
+              text: "Farbe konnte nicht geändert werden.",
+            );
+          } catch (e, s) {
+            showSnackSec(
+              context: context,
+              text: handleErrorMessage('$e', s),
+            );
+          }
         }
       }
     }

@@ -12,15 +12,12 @@ import 'package:test/test.dart';
 
 void main() {
   group('Subject', () {
-    Subject createValidSubjectWith({Color color}) {
+    Subject createValidSubjectWith({Color? color}) {
       return Subject('SomeSubjectName', color: color);
     }
 
     test('A Subject cant be constructed with an empty subject name', () {
       expect(() => Subject(''), throwsArgumentError);
-    });
-    test('A Subject cant be constructed with an null subject name', () {
-      expect(() => Subject(null), throwsArgumentError);
     });
     test(
         'generates an own subject abreviation from the given subject if no abbreviation is specified',
@@ -34,12 +31,11 @@ void main() {
     });
     test('has no color of not given', () {
       final subject = createValidSubjectWith(color: null);
-      expect(subject.color.isPresent, false);
+      expect(subject.color, isNull);
     });
     test('sets the optional color to the given color', () {
       final subject = createValidSubjectWith(color: const Color(1337));
-      expect(subject.color.isPresent, true);
-      expect(subject.color.value, const Color(1337));
+      expect(subject.color, const Color(1337));
     });
   });
 }

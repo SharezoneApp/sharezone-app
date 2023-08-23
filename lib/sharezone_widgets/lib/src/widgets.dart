@@ -10,12 +10,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-export 'widgets/modal_floating_action_button.dart';
 export 'prefilled_text_field.dart';
+export 'widgets/modal_floating_action_button.dart';
 
 Future<void> waitingForPopAnimation() async =>
     await Future.delayed(const Duration(milliseconds: 270));
@@ -29,7 +29,7 @@ Future<void> closeKeyboardAndWait(BuildContext context) async {
 
 class LoadingCircle extends StatelessWidget {
   const LoadingCircle({
-    Key key,
+    Key? key,
     this.size = 25,
   }) : super(key: key);
 
@@ -47,30 +47,30 @@ class LoadingCircle extends StatelessWidget {
 
 class DatePicker extends StatelessWidget {
   const DatePicker(
-      {Key key,
+      {Key? key,
       this.labelText,
       this.selectedDate,
       this.selectDate,
       this.padding})
       : super(key: key);
 
-  final String labelText;
-  final DateTime selectedDate;
-  final ValueChanged<DateTime> selectDate;
-  final EdgeInsets padding;
+  final String? labelText;
+  final DateTime? selectedDate;
+  final ValueChanged<DateTime>? selectDate;
+  final EdgeInsets? padding;
 
   Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final DateTime tomorrow =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
             .add(const Duration(days: 1));
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? tomorrow,
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate) selectDate(picked);
+    if (picked != null && picked != selectedDate) selectDate!(picked);
   }
 
   @override
@@ -93,7 +93,7 @@ class DatePicker extends StatelessWidget {
                 iconData: Icons.today,
                 labelText: labelText,
                 valueText: selectedDate != null
-                    ? DateFormat.yMMMd().format(selectedDate)
+                    ? DateFormat.yMMMd().format(selectedDate!)
                     : "Datum auswählen",
                 padding: padding,
                 onPressed: () async {
@@ -115,10 +115,10 @@ class DatePicker extends StatelessWidget {
 
 class AccentColorCircularProgressIndicator extends StatelessWidget {
   const AccentColorCircularProgressIndicator(
-      {Key key, this.value, this.strokeWidth = 4.0})
+      {Key? key, this.value, this.strokeWidth = 4.0})
       : super(key: key);
 
-  final double value, strokeWidth;
+  final double? value, strokeWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,7 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
 }
 
 class CancelButton extends StatelessWidget {
-  const CancelButton({Key key}) : super(key: key);
+  const CancelButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,10 +150,10 @@ class CancelButton extends StatelessWidget {
 }
 
 class DeleteButtonWithPoppingTrue extends StatelessWidget {
-  const DeleteButtonWithPoppingTrue({Key key, this.textColor})
+  const DeleteButtonWithPoppingTrue({Key? key, this.textColor})
       : super(key: key);
 
-  final Color textColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -175,17 +175,17 @@ enum LogoColor {
 
 class SharezoneLogo extends StatelessWidget {
   const SharezoneLogo({
-    Key key,
-    @required this.logoColor,
-    @required this.height,
-    @required this.width,
+    Key? key,
+    required this.logoColor,
+    required this.height,
+    required this.width,
   }) : super(key: key);
 
   final double height;
   final double width;
   final LogoColor logoColor;
 
-  String getLogoPath() {
+  String? getLogoPath() {
     switch (logoColor) {
       case LogoColor.blueLong:
         return "assets/logo/sharezone-logo-blue-long.svg";
@@ -194,7 +194,6 @@ class SharezoneLogo extends StatelessWidget {
       case LogoColor.white:
         return "assets/logo/sharezone-logo-white-long.svg";
     }
-    return null;
   }
 
   @override
@@ -202,9 +201,11 @@ class SharezoneLogo extends StatelessWidget {
     return Hero(
       tag: 'sharezone-logo',
       child: PlatformSvg.asset(
-        getLogoPath(),
+        getLogoPath()!,
         height: height,
         width: width,
+        semanticsLabel:
+            'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.',
       ),
     );
   }
@@ -213,7 +214,7 @@ class SharezoneLogo extends StatelessWidget {
 // Es darf entweder nur symbolText oder symbolIconData übergeben werden
 class DialogTile extends StatelessWidget {
   const DialogTile({
-    Key key,
+    Key? key,
     this.text,
     this.onPressed,
     this.symbolText,
@@ -222,14 +223,14 @@ class DialogTile extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
-  final String symbolText;
-  final IconData symbolIconData;
+  final String? symbolText;
+  final IconData? symbolIconData;
   final bool enabled;
-  final Widget trailing;
+  final Widget? trailing;
 
 //  final Color symbolIconColor;
-  final String text;
-  final VoidCallback onPressed;
+  final String? text;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +244,7 @@ class DialogTile extends StatelessWidget {
               ? CircleAvatar(
                   backgroundColor:
                       enabled ? Theme.of(context).primaryColor : Colors.grey,
-                  child: Text(symbolText,
+                  child: Text(symbolText!,
                       style: const TextStyle(color: Colors.white)),
                 )
               : CircleAvatar(
@@ -255,7 +256,7 @@ class DialogTile extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                text,
+                text!,
                 style: enabled ? null : TextStyle(color: Colors.grey[600]),
               ),
             ),
@@ -273,7 +274,7 @@ class DialogTile extends StatelessWidget {
 
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
-    Key key,
+    Key? key,
     this.iconData,
     this.labelText,
     this.valueText,
@@ -281,12 +282,12 @@ class _InputDropdown extends StatelessWidget {
     this.padding,
   }) : super(key: key);
 
-  final String labelText;
-  final String valueText;
+  final String? labelText;
+  final String? valueText;
 
-  final VoidCallback onPressed;
-  final IconData iconData;
-  final EdgeInsets padding;
+  final VoidCallback? onPressed;
+  final IconData? iconData;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -316,14 +317,14 @@ class _InputDropdown extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              labelText,
+                              labelText!,
                               style: const TextStyle(fontSize: 16.0),
                             ),
-                            Text(valueText),
+                            Text(valueText!),
                           ],
                         )
                       : Text(
-                          valueText,
+                          valueText!,
                           style: const TextStyle(fontSize: 16.0),
                         ),
                 ],
@@ -341,7 +342,7 @@ class _InputDropdown extends StatelessWidget {
 }
 
 class MyCustomRoute<T> extends MaterialPageRoute<T> {
-  MyCustomRoute({WidgetBuilder builder, RouteSettings settings})
+  MyCustomRoute({required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 
   @override
@@ -357,13 +358,13 @@ class MyCustomRoute<T> extends MaterialPageRoute<T> {
 // Zeigt einen AlterDialog an, der ein oder zwei Actions haben kann
 // Vorteil ist, dass diese Variate Platz spart und übersichtlicher ist
 void showAlert(
-    {BuildContext context,
-    String title,
-    Widget content,
-    String flatButton1Text,
-    VoidCallback flatButton1OnPressed,
-    String flatButton2Text,
-    VoidCallback flatButton2OnPressed}) {
+    {required BuildContext context,
+    String? title,
+    Widget? content,
+    required String flatButton1Text,
+    VoidCallback? flatButton1OnPressed,
+    String? flatButton2Text,
+    VoidCallback? flatButton2OnPressed}) {
   AlertDialog alert = AlertDialog(
     title: title != null ? Text(title) : null,
     content: content,
@@ -392,7 +393,7 @@ void showAlert(
 // Eigene Karte, mit besserem Schatten und Ecken
 class CustomCard extends StatelessWidget {
   const CustomCard({
-    @required this.child,
+    required this.child,
     this.size,
     this.onTap,
     this.margin,
@@ -406,11 +407,11 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = true,
     this.borderWidth = 1,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   const CustomCard.roundVertical({
-    @required this.child,
+    required this.child,
     this.onTap,
     this.size,
     this.margin,
@@ -425,22 +426,22 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = false,
     this.borderWidth = 1,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final Widget child;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final Size size;
-  final Padding margin;
-  final double opacity;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final Size? size;
+  final Padding? margin;
+  final double? opacity;
   final EdgeInsetsGeometry padding;
   final double blurRadius;
   final BorderRadius borderRadius;
   final double borderWidth;
   final Color shadowColor;
   final Offset offset;
-  final Color color;
+  final Color? color;
   final bool withBorder;
 
   @override
@@ -454,7 +455,7 @@ class CustomCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius,
         child: Padding(
-          padding: margin as EdgeInsetsGeometry ?? const EdgeInsets.all(0.0),
+          padding: margin as EdgeInsetsGeometry? ?? const EdgeInsets.all(0.0),
           child: Opacity(
             opacity: opacity ?? 1,
             child: Container(
@@ -466,8 +467,8 @@ class CustomCard extends StatelessWidget {
                 border: withBorder
                     ? Border.all(
                         color: isDarkThemeEnabled(context)
-                            ? Colors.grey[800]
-                            : Colors.grey[300],
+                            ? Colors.grey[800]!
+                            : Colors.grey[300]!,
                         width: borderWidth)
                     : null,
               ),
@@ -493,7 +494,7 @@ class CustomCard extends StatelessWidget {
 
 class CardListTile extends StatelessWidget {
   const CardListTile({
-    Key key,
+    Key? key,
     this.leading,
     this.title,
     this.subtitle,
@@ -501,8 +502,8 @@ class CardListTile extends StatelessWidget {
     this.centerTitle = false,
   }) : super(key: key);
 
-  final Widget leading, title, subtitle;
-  final VoidCallback onTap;
+  final Widget? leading, title, subtitle;
+  final VoidCallback? onTap;
   final bool centerTitle;
 
   @override
@@ -520,7 +521,7 @@ class CardListTile extends StatelessWidget {
                 data: Theme.of(context)
                     .iconTheme
                     .copyWith(color: Colors.grey[600]),
-                child: leading,
+                child: leading!,
               ),
               const SizedBox(width: 16)
             ],
@@ -542,7 +543,7 @@ class CardListTile extends StatelessWidget {
                                 EdgeInsets.only(right: hasLeading ? 30 : 0),
                             child: Center(child: title),
                           )
-                        : title,
+                        : title!,
                   ),
                   if (subtitle != null)
                     DefaultTextStyle(
@@ -551,7 +552,7 @@ class CardListTile extends StatelessWidget {
                         fontSize: 12,
                         fontFamily: rubik,
                       ),
-                      child: subtitle,
+                      child: subtitle!,
                     )
                 ],
               ),
@@ -565,13 +566,13 @@ class CardListTile extends StatelessWidget {
 
 class ExpansionTileTitle extends StatelessWidget {
   const ExpansionTileTitle({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.icon,
   }) : super(key: key);
 
   final String title;
-  final Widget icon;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -580,7 +581,7 @@ class ExpansionTileTitle extends StatelessWidget {
         icon != null
             ? Row(
                 children: <Widget>[
-                  icon,
+                  icon!,
                   const SizedBox(width: 16),
                 ],
               )
@@ -597,13 +598,13 @@ class ExpansionTileTitle extends StatelessWidget {
 }
 
 class ShowCenteredError extends StatelessWidget {
-  const ShowCenteredError({Key key, this.error}) : super(key: key);
+  const ShowCenteredError({Key? key, this.error}) : super(key: key);
 
-  final String error;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
-    log(error);
+    log(error!);
     return const Center(
         child: Text(
             "Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal."));
@@ -611,35 +612,35 @@ class ShowCenteredError extends StatelessWidget {
 }
 
 class LongPressDialogTile extends StatelessWidget {
-  const LongPressDialogTile({Key key, this.title, this.iconData, this.onTap})
+  const LongPressDialogTile({Key? key, this.title, this.iconData, this.onTap})
       : super(key: key);
 
-  final String title;
-  final IconData iconData;
-  final VoidCallback onTap;
+  final String? title;
+  final IconData? iconData;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       leading: Icon(iconData),
-      title: Text(title),
+      title: Text(title!),
       onTap: onTap,
     );
   }
 }
 
 class CloseIconButton extends StatelessWidget {
-  const CloseIconButton({Key key, this.color}) : super(key: key);
+  const CloseIconButton({Key? key, this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Schließen',
       icon: const Icon(Icons.close),
-      color: color ?? Theme.of(context).appBarTheme.iconTheme.color,
+      color: color ?? Theme.of(context).appBarTheme.iconTheme!.color,
       onPressed: () => Navigator.pop(context),
     );
   }
@@ -647,14 +648,14 @@ class CloseIconButton extends StatelessWidget {
 
 class InformationDialog extends StatelessWidget {
   const InformationDialog({
-    Key key,
+    Key? key,
     this.title,
-    @required this.text,
+    required this.text,
     this.actionText,
     this.closeOnTap = true,
   }) : super(key: key);
 
-  final String title, text, actionText;
+  final String? title, text, actionText;
   final bool closeOnTap;
 
   @override
@@ -668,8 +669,8 @@ class InformationDialog extends StatelessWidget {
         },
         child: AlertDialog(
           contentPadding: const EdgeInsets.all(20),
-          title: !isEmptyOrNull(title) ? Text(title) : null,
-          content: Text(text),
+          title: !isEmptyOrNull(title) ? Text(title!) : null,
+          content: Text(text!),
           actions: !isEmptyOrNull(actionText)
               ? <Widget>[
                   TextButton(
@@ -677,7 +678,7 @@ class InformationDialog extends StatelessWidget {
                       foregroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: Text(actionText),
+                    child: Text(actionText!),
                   )
                 ]
               : null,
@@ -689,7 +690,7 @@ class InformationDialog extends StatelessWidget {
 
 class BottomSheetSlider extends StatelessWidget {
   const BottomSheetSlider(
-      {Key key, this.padding = const EdgeInsets.only(top: 8), this.width = 55})
+      {Key? key, this.padding = const EdgeInsets.only(top: 8), this.width = 55})
       : super(key: key);
 
   final EdgeInsets padding;
@@ -705,7 +706,7 @@ class BottomSheetSlider extends StatelessWidget {
           width: width,
           height: 5,
           decoration: BoxDecoration(
-            color: Colors.grey[400].withOpacity(0.7),
+            color: Colors.grey[400]!.withOpacity(0.7),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
         ),
@@ -715,19 +716,19 @@ class BottomSheetSlider extends StatelessWidget {
 }
 
 class TextFieldWithDescription extends StatelessWidget {
-  const TextFieldWithDescription({Key key, this.textField, this.description})
+  const TextFieldWithDescription({Key? key, this.textField, this.description})
       : super(key: key);
 
-  final Widget textField;
-  final String description;
+  final Widget? textField;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        textField,
+        textField!,
         const SizedBox(height: 8),
-        Text(description,
+        Text(description!,
             style: const TextStyle(color: Colors.grey, fontSize: 12)),
       ],
     );
@@ -748,7 +749,7 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
           isDefaultAction: true,
           popResult: true,
         ),
-      ) ??
+      ) as FutureOr<bool>? ??
       false;
 }
 
@@ -784,22 +785,21 @@ Future<bool> warnUserAboutLeavingOrSavingForm(
 
 class CircleCheckbox extends StatelessWidget {
   final bool value;
-  final ValueChanged<bool> onChanged;
-  final Color activeColor;
-  final Color checkColor;
+  final ValueChanged<bool?> onChanged;
+  final Color? activeColor;
+  final Color? checkColor;
   final bool tristate;
-  final MaterialTapTargetSize materialTapTargetSize;
+  final MaterialTapTargetSize? materialTapTargetSize;
 
   const CircleCheckbox({
-    Key key,
-    @required this.value,
+    Key? key,
+    required this.value,
     this.tristate = false,
-    @required this.onChanged,
+    required this.onChanged,
     this.activeColor,
     this.checkColor,
     this.materialTapTargetSize,
-  })  : assert(tristate != null),
-        assert(tristate || value != null),
+  })  : assert(tristate),
         super(key: key);
 
   @override
@@ -814,9 +814,9 @@ class CircleCheckbox extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                  width: 2.225,
-                  color: const Color(0xFF757575).withOpacity(1) ??
-                      Theme.of(context).disabledColor),
+                width: 2.225,
+                color: const Color(0xFF757575).withOpacity(1),
+              ),
               borderRadius: BorderRadius.circular(100),
             ),
             child: Checkbox(
@@ -837,13 +837,13 @@ class CircleCheckbox extends StatelessWidget {
 class DestroyButton extends StatelessWidget {
   final Color color;
   final Text title;
-  final VoidCallback onTap;
-  final Widget icon;
+  final VoidCallback? onTap;
+  final Widget? icon;
 
   const DestroyButton({
-    Key key,
+    Key? key,
     this.color = Colors.redAccent,
-    @required this.title,
+    required this.title,
     this.onTap,
     this.icon,
   }) : super(key: key);
@@ -860,7 +860,7 @@ class DestroyButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (icon != null) icon,
+            if (icon != null) icon!,
             Padding(
               padding: const EdgeInsets.all(10),
               child: DefaultTextStyle(
@@ -878,7 +878,7 @@ class DestroyButton extends StatelessWidget {
 }
 
 class VerticalDivider extends StatelessWidget {
-  const VerticalDivider({Key key}) : super(key: key);
+  const VerticalDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -892,12 +892,12 @@ class VerticalDivider extends StatelessWidget {
 
 class CustomCardListTile extends StatelessWidget {
   const CustomCardListTile(
-      {Key key, this.onTap, this.icon, @required this.title, this.subtitle})
+      {Key? key, this.onTap, this.icon, required this.title, this.subtitle})
       : super(key: key);
 
-  final VoidCallback onTap;
-  final Widget icon;
-  final String title, subtitle;
+  final VoidCallback? onTap;
+  final Widget? icon;
+  final String? title, subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -908,13 +908,13 @@ class CustomCardListTile extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: <Widget>[
-            icon,
+            icon!,
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 children: <Widget>[
                   Text(
-                    title,
+                    title!,
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
@@ -923,7 +923,7 @@ class CustomCardListTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        subtitle,
+                        subtitle!,
                         style: const TextStyle(color: Colors.grey),
                         textAlign: TextAlign.center,
                       ),
@@ -941,12 +941,12 @@ class CustomCardListTile extends StatelessWidget {
 
 class DividerWithText extends StatelessWidget {
   const DividerWithText(
-      {Key key, @required this.text, this.fontSize = 14, this.textStyle})
+      {Key? key, required this.text, this.fontSize = 14, this.textStyle})
       : super(key: key);
 
   final String text;
   final double fontSize;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {

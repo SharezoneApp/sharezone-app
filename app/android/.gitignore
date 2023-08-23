@@ -11,6 +11,10 @@
 /captures
 GeneratedPluginRegistrant.java
 
+# Eclipse-specific files and directories
+app/.project
+app/.classpath
+
 # App signing stuff.
 **/**.jks
 key*.properties

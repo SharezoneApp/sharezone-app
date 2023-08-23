@@ -10,7 +10,8 @@ import 'upload_task_event.dart';
 import 'upload_task_snapshot.dart';
 
 class UploadTask {
-  /// Returns [UploadTaskSnapshot] if this [UploadTask] is finished wiht uploading.
+  /// Returns [UploadTaskSnapshot] if this [UploadTask] is finished with
+  /// uploading.
   final Future<UploadTaskSnapshot> onComplete;
 
   /// Returns a [Stream] of [UploadTaskEvent] events.
@@ -23,7 +24,7 @@ class UploadTask {
   final Stream<UploadTaskEvent> events;
 
   const UploadTask({
-    this.onComplete,
-    this.events,
+    required this.events,
+    required this.onComplete,
   });
 }

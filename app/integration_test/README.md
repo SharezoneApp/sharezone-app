@@ -14,6 +14,7 @@ integration tests, so that we can provide you with the credentials.
 
 Alternatively, you can also create your own Sharezone account and add the
 following data:
+
 1. Create a school class called "10 A"
 2. Create a course with the subject "Deutsch" and the name "Deutsch LK"
 3. Create a course with the subject "Englisch" and the name "Englisch LK"
@@ -31,6 +32,7 @@ following data:
 ### Mobile
 
 You can run the integration tests using the `flutter test` command:
+
 ```sh
 fvm flutter test \
   integration_test \
@@ -41,9 +43,64 @@ fvm flutter test \
   USER_1_PASSWORD="YOUR_PASSWORD"
 ```
 
+### Android Device Testing
+
+Our integration tests are designed to work with Firebase Test Lab and use Android instrumentation tests. You can run these tests locally using the following steps:
+
+1. **Navigate to the Android directory:** First, make sure you are in the `android` folder in your project directory:
+
+   ```sh
+   cd android
+   ```
+
+2. **Prepare the test command:** The command to run the tests locally is as follows:
+
+   ```sh
+   ./gradlew app:connectedProdDebugAndroidTest -Ptarget=`pwd`/../integration_test/app_test.dart -Pdart-defines=EMAIL_VAR_BASE64,PASSWORD_VAR_BASE64
+   ```
+
+   In this command:
+
+   - `./gradlew app:connectedProdDebugAndroidTest` runs the Android instrumentation tests.
+   - `-Ptarget` specifies the path to the Dart file containing the integration tests.
+   - `-Pdart-defines` allows you to pass in variables to the tests.
+
+3. **Encode the email and password:** Before running the test, you need to base64 encode the email and password you'll be using in the tests.
+
+   For example, let's say we have the following credentials:
+
+   ```
+   USER_1_EMAIL=user@example.com
+   USER_1_PASSWORD=123
+   ```
+
+   You can base64 encode these using a command-line tool like `echo` and `base64`. For instance:
+
+   ```sh
+   echo -n "USER_1_EMAIL=user@example.com" | base64
+   # Output: VVNFUl8xX0VNQUlMPXVzZXJAZXhhbXBsZS5jb20=
+
+   echo -n "USER_1_PASSWORD=123" | base64
+   # Output: VVNFUl8xX1BBU1NXT1JEPTEyMw==
+   ```
+
+4. **Run the tests:** Finally, you can run the tests with the following command, replacing `EMAIL_VAR_BASE64` and `PASSWORD_VAR_BASE64` with the base64 encoded values from the previous step:
+
+   ```sh
+   ./gradlew app:connectedProdDebugAndroidTest -Ptarget=`pwd`/../integration_test/app_test.dart -Pdart-defines=VVNFUl8xX0VNQUlMPXVzZXJAZXhhbXBsZS5jb20=,VVNFUl8xX1BBU1NXT1JEPTEyMw==
+   ```
+
+   _Note:_ If you're a member of the Sharezone team, you can find the already base64 encoded variables in our password manager.
+
+5. **Analyze the test results:** After running the tests, you can view the test results and logs in the command-line output.
+
+For more information about running Android Device Testing for Flutter integration tests, check out the official Flutter documentation:
+[Flutter Integration Tests on Android](https://github.com/flutter/flutter/tree/main/packages/integration_test#android-device-testing)
+
 ### Web
 
 _Note: The integration tests are not working for the web at the moment because we need to migrate our app to null safety. Otherwise, the build will fail because of this message:_
+
 ```
 org-dartlang-app:/app_test.dart:27:11: Error: Non-nullable variable 'dependencies' must be assigned before it can be used.
     await dependencies.blocDependencies.auth.signOut();
@@ -62,16 +119,16 @@ org-dartlang-app:/app_test.dart:36:28: Error: Non-nullable variable 'dependencie
 To get started testing in a web browser, download [ChromeDriver](https://chromedriver.chromium.org/downloads).
 
 Launch WebDriver, for example:
+
 ```sh
 chromedriver --port=4444
 ```
 
 And then run the following command in a different process:
+
 ```sh
 fvm flutter test \
   integration_test
   --flavor dev
   -d web-server
 ```
-
-

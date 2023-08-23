@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 
 import 'models.dart';
@@ -44,9 +43,9 @@ class ErstellerAbgabeModel {
   final List<HochgeladeneAbgabedatei> abgabedateien;
 
   ErstellerAbgabeModel({
-    @required this.abgabeId,
-    @required DateTime abgegebenUm,
-    @required this.abgabedateien,
+    required this.abgabeId,
+    required DateTime? abgegebenUm,
+    required this.abgabedateien,
   }) : abgegebenUm = Optional.ofNullable(abgegebenUm);
 
   ErstellerAbgabeModelSnapshot toSnapshot() =>

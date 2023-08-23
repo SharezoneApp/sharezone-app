@@ -64,7 +64,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
         id: filter
         with:
@@ -97,10 +97,10 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
       - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
         with:
@@ -125,6 +125,12 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
+      # It can easily happen that a dependency changed but the .lock file is not
+      # updated. Or other cases where files are changed during a build.
+      # Therefore, fails this check if there are Git changes.
+      - name: Fail if there are Git diffs
+        run: git diff --exit-code --name-status
+
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
   # the time that macOS runner are used, we run the other tests on a Linux
@@ -134,10 +140,10 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
       - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
       - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
         with:
@@ -162,66 +168,6 @@ jobs:
       - name: Run tests via "sz test"
         run: |
           sz test \
-          -c 4 \
-          --package-timeout-minutes 15 \
-          --exclude-goldens
-
-  # We split the tests into two jobs, because we want to run the golden tests on
-  # a macOS runner, because the golden tests were generated on macOS. To reduce
-  # the time that macOS runner are used, we run the other tests on a Linux
-  # runner.
-  test-only-goldens:
-    needs: changes
-    if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: macos-13
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Set Flutter version from FVM config file to environment variables
-        uses: kuhnroyal/flutter-fvm-config-action@e91317131a2da710b9cd9b7a24f2c0ade9eeb61d
-
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
-
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(pwd)/bin >> $GITHUB_PATH
-
-      - name: Run tests via "sz test"
-        run: |
-          sz test \
-          -c 4 \
-          --package-timeout-minutes 15 \
-          --only-goldens
-      
-      # Uploads the results of failed tests as .zip to GitHub.
-      #
-      # You can find the file under the "Summary" Tab on GitHub when all jobs of
-      # this workflows finished.
-      - name: Upload failed golden tests
-        if: failure()
-        uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
-        with:
-          name: failed-golden-tests
-          # When a golden test failed, are the results stored in the "failures"
-          # folder. The failures can be at several places, like in the app
-          # folder and in different packages.
-          path: "**/failures/*.png"
-          # We ignore it when no files could be found because the test command
-          # could also be failed because of an unit test. In this case there
-          # would be no failed golden test to upload.
-          if-no-files-found: ignore
+            -c 4 \
+            --package-timeout-minutes 15 \
+            --exclude-goldens

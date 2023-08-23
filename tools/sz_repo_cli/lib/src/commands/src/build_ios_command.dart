@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
@@ -40,6 +42,11 @@ another, with higher numbers indicating more recent build.
 When none is specified, the value from pubspec.yaml is used.''',
       )
       ..addOption(
+        exportOptionsPlistName,
+        help:
+            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
+      )
+      ..addOption(
         flavorOptionName,
         allowed: _iosFlavors,
         help: 'The flavor to build for.',
@@ -50,6 +57,7 @@ When none is specified, the value from pubspec.yaml is used.''',
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const buildNumberOptionName = 'build-number';
+  static const exportOptionsPlistName = 'export-options-plist';
 
   @override
   String get description => 'Build the Sharezone iOS app in release mode.';
@@ -66,7 +74,7 @@ When none is specified, the value from pubspec.yaml is used.''',
     isVerbose = true;
 
     await _buildApp();
-    print('Build finished 🎉 ');
+    stdout.writeln('Build finished 🎉 ');
   }
 
   Future<void> _buildApp() async {
@@ -74,6 +82,7 @@ When none is specified, the value from pubspec.yaml is used.''',
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
+      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await runProcessSucessfullyOrThrow(
         'fvm',
         [
@@ -87,7 +96,11 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--release',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', '$buildNumber'],
+          if (buildNumber != null) ...['--build-number', buildNumber],
+          if (exportOptionsPlist != null) ...[
+            '--export-options-plist',
+            exportOptionsPlist
+          ],
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );

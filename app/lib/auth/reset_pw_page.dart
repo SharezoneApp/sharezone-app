@@ -14,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
@@ -60,7 +61,9 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
   void initState() {
     super.initState();
     bloc = _ResetPasswordBloc();
-    bloc.changeEmail(widget.loginMail);
+    if (isNotEmptyOrNull(widget.loginMail)) {
+      bloc.changeEmail(widget.loginMail);
+    }
 
     delayKeyboard(
       context: context,
@@ -75,19 +78,22 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                const _Logo(),
-                const SizedBox(height: 48),
-                _EmailField(
-                  bloc: bloc,
-                  focusNode: emailFocusNode,
-                  label: widget.loginMail,
-                ),
-                const SizedBox(height: 12),
-                _SubmitButton(bloc: bloc),
-              ],
+          child: MaxWidthConstraintBox(
+            maxWidth: 700,
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  const _Logo(),
+                  const SizedBox(height: 48),
+                  _EmailField(
+                    bloc: bloc,
+                    focusNode: emailFocusNode,
+                    label: widget.loginMail,
+                  ),
+                  const SizedBox(height: 12),
+                  _SubmitButton(bloc: bloc),
+                ],
+              ),
             ),
           ),
         ),

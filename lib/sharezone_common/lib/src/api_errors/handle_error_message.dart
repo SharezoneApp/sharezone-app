@@ -57,6 +57,8 @@ String? handleErrorMessage(String? error, StackTrace s) {
     } else if (error ==
         StartTimeIsBeforeStartTimeOfNextLessonException().toString()) {
       return "Die Startzeit ist vor der Startzeit der nächsten Stunde!";
+    } else if (error == StartTimeEndTimeIsEqualException().toString()) {
+      return "Die Startzeit und die Endzeit darf nicht gleich sein!";
     } else if (error ==
         StartTimeIsBeforeEndTimeOfPreviousLessonException().toString()) {
       return "Die Startzeit ist vor der Endzeit der vorherigen Stunde!";

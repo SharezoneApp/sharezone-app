@@ -41,8 +41,8 @@ class _AccountPageState extends State<AccountPage> {
   @override
   void initState() {
     super.initState();
-    final blocFatory = BlocProvider.of<AccountPageBlocFactory>(context);
-    bloc = blocFatory.create(scaffoldKey);
+    final blocFactory = BlocProvider.of<AccountPageBlocFactory>(context);
+    bloc = blocFactory.create(scaffoldKey);
   }
 
   @override

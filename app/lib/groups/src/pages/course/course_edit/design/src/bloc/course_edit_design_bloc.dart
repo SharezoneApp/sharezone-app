@@ -25,22 +25,27 @@ class CourseEditDesignBloc extends BlocBase {
             .streamCourse(courseId)
             .map((course) => course.personalDesign);
 
-  Future<void> submitCourseDesign(
-      {@required Design initalDesign, @required Design selectedDesign}) async {
-    assert(initalDesign != null && selectedDesign != null,
-        "initalDesign and selectedDesign shouldn't be null");
+  Future<void> submitCourseDesign({
+    @required Design initialDesign,
+    @required Design selectedDesign,
+  }) async {
+    assert(initialDesign != null && selectedDesign != null,
+        "initialDesign and selectedDesign shouldn't be null");
 
-    if (_hasUserChangedDesign(initalDesign, selectedDesign)) {
-      await _editCourseDesign(selectedDesign);
+    if (_hasUserChangedDesign(initialDesign, selectedDesign)) {
+      final result = await _editCourseDesign(selectedDesign);
+      if (result == false) {
+        throw ChangingDesignFailedException();
+      }
     }
   }
 
   void submitPersonalDesign(
-      {Design initalDesign, @required Design selectedDesign}) {
+      {Design initialDesign, @required Design selectedDesign}) {
     assert(selectedDesign != null, "selectedDesign shouldn't be null");
 
-    if (_hasUserChangedDesign(initalDesign, selectedDesign)) {
-      _editPersonalDeisgn(selectedDesign);
+    if (_hasUserChangedDesign(initialDesign, selectedDesign)) {
+      _editPersonalDesign(selectedDesign);
     }
   }
 
@@ -48,23 +53,28 @@ class CourseEditDesignBloc extends BlocBase {
     courseGateway.removeCoursePersonalDesign(courseId);
   }
 
-  void _editPersonalDeisgn(Design selectedDesign) {
+  void _editPersonalDesign(Design selectedDesign) {
     courseGateway.editCoursePersonalDesign(
         personalDesign: selectedDesign, courseID: courseId);
   }
 
   Future<bool> _editCourseDesign(Design selectedDesign) async {
     try {
-      return await courseGateway.editCourseGeneralDesign(
-          courseID: courseId, design: selectedDesign);
+      return courseGateway.editCourseGeneralDesign(
+        courseID: courseId,
+        design: selectedDesign,
+      );
     } catch (e) {
       return false;
     }
   }
 
-  bool _hasUserChangedDesign(Design initalDesign, Design selectedDesign) =>
-      initalDesign != selectedDesign;
+  bool _hasUserChangedDesign(Design initialDesign, Design selectedDesign) =>
+      initialDesign != selectedDesign;
 
   @override
   void dispose() {}
 }
+
+/// Thrown when the design couldn't be changed.
+class ChangingDesignFailedException implements Exception {}

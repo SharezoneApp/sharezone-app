@@ -15,7 +15,6 @@ import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
-import 'package:sharezone/util/api/school_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/references.dart';
@@ -35,7 +34,6 @@ class SharezoneGateway {
   final ConnectionsGateway connectionsGateway;
   final CourseGateway course;
   final SchoolClassGateway schoolClassGateway;
-  final SchoolGateway schoolGateway;
   final TimetableGateway timetable;
 
   factory SharezoneGateway({
@@ -51,7 +49,6 @@ class SharezoneGateway {
       course: CourseGateway(references, memberID, connectionsGateway),
       schoolClassGateway:
           SchoolClassGateway(references, memberID, connectionsGateway),
-      schoolGateway: SchoolGateway(references, memberID, connectionsGateway),
       authUser: authUser,
       timetable: TimetableGateway(references, memberID),
       user: UserGateway(references, authUser),
@@ -65,7 +62,6 @@ class SharezoneGateway {
     @required this.references,
     @required this.course,
     @required this.schoolClassGateway,
-    @required this.schoolGateway,
     @required this.timetable,
     @required this.user,
   })  : _authUser = authUser,

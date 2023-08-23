@@ -25,7 +25,7 @@ class StateDialog {
 
   Future<void> showDialogAutoPop(
     BuildContext context, {
-    @required Future<bool> future,
+    required Future<bool> future,
     Duration delay = const Duration(milliseconds: 250),
   }) async {
     final dialogPop = show(context);
@@ -44,9 +44,9 @@ class StateDialog {
 }
 
 class _StateDialogWidget extends StatelessWidget {
-  final Stream<StateDialogContent> stateDialogContent;
+  final Stream<StateDialogContent>? stateDialogContent;
 
-  const _StateDialogWidget({Key key, this.stateDialogContent})
+  const _StateDialogWidget({Key? key, this.stateDialogContent})
       : super(key: key);
 
   @override
@@ -69,34 +69,30 @@ class _StateDialogWidget extends StatelessWidget {
 }
 
 class _PlatformAlertDialog extends StatelessWidget {
-  final StateDialogContent stateDialogContent;
+  final StateDialogContent? stateDialogContent;
 
-  const _PlatformAlertDialog({Key key, this.stateDialogContent})
+  const _PlatformAlertDialog({Key? key, this.stateDialogContent})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
-        title: stateDialogContent.title != null
-            ? Text(stateDialogContent.title)
-            : null,
-        content: DialogWrapper(child: stateDialogContent.body),
+        title: Text(stateDialogContent!.title),
+        content: DialogWrapper(child: stateDialogContent!.body),
         actions: <Widget>[
-          for (final action in stateDialogContent.actions)
+          for (final action in stateDialogContent!.actions)
             ActionItemButton(item: action),
         ],
       );
     }
     return AlertDialog(
-      title: stateDialogContent.title != null
-          ? Text(
-              stateDialogContent.title,
-              textAlign: TextAlign.center,
-            )
-          : null,
-      content: DialogWrapper(child: stateDialogContent.body),
+      title: Text(
+        stateDialogContent!.title,
+        textAlign: TextAlign.center,
+      ),
+      content: DialogWrapper(child: stateDialogContent!.body),
       actions: <Widget>[
-        for (final action in stateDialogContent.actions)
+        for (final action in stateDialogContent!.actions)
           ActionItemButton(item: action),
       ],
     );

@@ -98,9 +98,9 @@ void testDateSort(String title, ListCallback sort) => testSort(
     );
 
 void testSort(String title,
-    {HomeworkList unsorted,
-    List<HomeworkReadModel> sorted,
-    ListCallback sort,
+    {required HomeworkList unsorted,
+    required List<HomeworkReadModel> sorted,
+    required ListCallback sort,
     bool skip = false}) {
   test(title, () {
     sort(unsorted);
