@@ -168,33 +168,39 @@ class _ChangeParagraph extends StatelessWidget {
 }
 
 class UpdatePromptCard extends StatelessWidget {
+  String _getText() {
+    if (PlatformCheck.isWeb) {
+      return "Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍";
+    }
+
+    return "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen jetzt die Version im ${PlatformCheck.isMacOsOrIOS ? "App Store" : "Play Store"} herunter! 👍";
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnouncementCard(
       key: ValueKey('UpdatePromptCard'),
-      onTap: () => launchURL(getStoreLink()),
+      onTap: PlatformCheck.isWeb
+          ? null
+          : () => launchURL(getStoreLink(), context: context),
       title: "Neues Update verfügbar!",
       padding: const EdgeInsets.all(0),
       titleColor: Colors.white,
-      color: const Color(0xFFF44336),
+      color: Colors.orange,
       content: Text(
-        "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen unbedingt jetzt die Version im ${ThemePlatform.isCupertino ? "AppStore" : "PlayStore"} herunter! 👍",
+        _getText(),
         style: const TextStyle(color: Colors.white),
       ),
     );
   }
 
   String getStoreLink() {
-    // Öffnet direkt den Mac AppStore (funktioniert nur auf macOS-Geräten)
+    // Opens the Mac AppStore directly (only works on macOS devices)
     if (PlatformCheck.isMacOS) return 'https://sharezone.net/macos-direct';
 
-    // Es sollte für iOS & Android NICHT https://sharezone.net/ios oder
-    // https://sharezone.net/android verwendet werden, weil der Nutzer direkt
-    // wieder in die App geleitet wird, wenn diese installiert ist. Der Nutzer
-    // wird nur in den Store geleitet, wenn dieser die App nicht installiert hat.
-    //
-    // Der "onelink.to" leitet immer in den Store - egal, ob die App installiert
-    // ist oder nicht.
-    return "http://onelink.to/eqkmz5";
+    if (PlatformCheck.isAndroid) return 'https://sharezone.net/android';
+    if (PlatformCheck.isIOS) return 'https://sharezone.net/ios';
+
+    throw Exception('Unsupported platform');
   }
 }
