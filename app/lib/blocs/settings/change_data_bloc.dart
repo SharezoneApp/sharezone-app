@@ -35,10 +35,12 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   }
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
-  Stream<String> get password =>
-      _passwordSubject.stream.transform(validatePassword);
-  Stream<String> get newPassword =>
-      _newPasswordSubject.stream.transform(validatePassword);
+  Stream<String> get password => _passwordSubject.stream
+      .where((value) => value != null)
+      .transform(validatePassword);
+  Stream<String> get newPassword => _newPasswordSubject.stream
+      .where((value) => value != null)
+      .transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
   Function(String) get changePassword => _passwordSubject.sink.add;
