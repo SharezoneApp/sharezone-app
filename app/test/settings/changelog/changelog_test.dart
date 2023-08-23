@@ -39,16 +39,17 @@ void main() {
   });
 
   test('version', () {
-    expect(Version(name: "3.0.0") > Version(name: "1.0.0"), true);
-    expect(Version(name: "3.0.0") < Version(name: "1.0.0"), false);
-    expect(Version(name: "3.0.0") == Version(name: "1.0.0"), false);
-    expect(Version(name: "3.0.0") == Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.1") >= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.0") >= Version(name: "3.0.0"), true);
-    expect(Version(name: "2.9.9") >= Version(name: "3.0.0"), false);
-    expect(Version(name: "2.9.9") <= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.0") <= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.1") <= Version(name: "3.0.0"), false);
+    expect(Version.parse(name: "3.0.0") > Version.parse(name: "1.0.0"), true);
+    expect(Version.parse(name: "3.0.0") < Version.parse(name: "1.0.0"), false);
+    expect(Version.parse(name: "3.0.0") == Version.parse(name: "1.0.0"), false);
+    expect(Version.parse(name: "3.0.0") == Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.1") >= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.0") >= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "2.9.9") >= Version.parse(name: "3.0.0"), false);
+    expect(Version.parse(name: "2.9.9") <= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.0") <= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.1") <= Version.parse(name: "3.0.0"), false);
+    expect(Version.parse(name: "1.7.3") > Version.parse(name: "1.5.81"), true);
   });
 }
 

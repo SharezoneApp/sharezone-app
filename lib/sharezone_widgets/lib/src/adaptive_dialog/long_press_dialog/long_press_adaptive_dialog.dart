@@ -69,8 +69,8 @@ class _LongPressDialogCupertino<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: isNotEmptyOrNull(title!) ? Text(title!) : null,
-      message: isNotEmptyOrNull(subtitle!) ? Text(subtitle!) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
+      message: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
       actions: longPressList
           .map((longPress) => CupertinoActionSheetAction(
               child: Text(longPress.title),

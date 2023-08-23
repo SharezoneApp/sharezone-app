@@ -89,8 +89,8 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      title: isNotEmptyOrNull(title!) ? Text(title!) : null,
-      content: isNotEmptyOrNull(message!) ? Text(message!) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
+      content: isNotEmptyOrNull(message) ? Text(message!) : null,
       actions: <Widget>[
         ...actions!
             .map((action) => CupertinoDialogAction(
