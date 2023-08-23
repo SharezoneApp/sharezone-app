@@ -78,19 +78,22 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                const _Logo(),
-                const SizedBox(height: 48),
-                _EmailField(
-                  bloc: bloc,
-                  focusNode: emailFocusNode,
-                  label: widget.loginMail,
-                ),
-                const SizedBox(height: 12),
-                _SubmitButton(bloc: bloc),
-              ],
+          child: MaxWidthConstraintBox(
+            maxWidth: 700,
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  const _Logo(),
+                  const SizedBox(height: 48),
+                  _EmailField(
+                    bloc: bloc,
+                    focusNode: emailFocusNode,
+                    label: widget.loginMail,
+                  ),
+                  const SizedBox(height: 12),
+                  _SubmitButton(bloc: bloc),
+                ],
+              ),
             ),
           ),
         ),
