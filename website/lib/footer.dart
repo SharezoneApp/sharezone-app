@@ -12,8 +12,6 @@ import 'widgets/section.dart';
 import 'widgets/section_action_button.dart';
 import 'widgets/sharezone_logo.dart';
 
-import "package:build_context/build_context.dart";
-
 class Footer extends StatelessWidget {
   const Footer({super.key});
 
@@ -22,7 +20,7 @@ class Footer extends StatelessWidget {
     return RepaintBoundary(
       key: const ValueKey('footer'),
       child: Container(
-        color: context.primaryColor,
+        color: Theme.of(context).primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 48),
           child: Section(
@@ -341,7 +339,7 @@ class _SocialMediaButton extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: SvgPicture.asset(
               "assets/icons/$lowerCasePlatform.svg",
-              color: context.primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ),

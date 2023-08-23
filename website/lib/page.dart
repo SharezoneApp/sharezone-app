@@ -4,7 +4,6 @@ import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 
 import 'footer.dart';
-import "package:build_context/build_context.dart";
 import 'home/home_page.dart';
 import 'widgets/max_width_constraint_box.dart';
 import 'widgets/sharezone_logo.dart';
@@ -105,7 +104,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                   if (isPhone(context))
                     IconButton(
                       icon: const Icon(Icons.menu),
-                      onPressed: () => context.openDrawer(),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
                     )
                   else
                     TransparentButton(
@@ -164,7 +163,7 @@ class _GoWebAppButton extends StatelessWidget {
           borderRadius: borderRaius,
           child: Material(
             borderRadius: borderRaius,
-            color: context.primaryColor,
+            color: Theme.of(context).primaryColor,
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
               child: Align(

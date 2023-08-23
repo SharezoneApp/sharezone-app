@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import "package:build_context/build_context.dart";
 
-import '../utils.dart';
 import '../extensions/hover_extensions.dart';
+import '../utils.dart';
 import 'transparent_button.dart';
 
 class SectionActionButton extends StatelessWidget {
@@ -36,7 +35,7 @@ class SectionActionButton extends StatelessWidget {
       child: TransparentButton(
         onTap: onTap,
         fontSize: fontSize ?? 22,
-        color: color ?? context.primaryColor,
+        color: color ?? Theme.of(context).primaryColor,
         child: Text("—> $text"),
       ).moveLeftOnHover,
     );

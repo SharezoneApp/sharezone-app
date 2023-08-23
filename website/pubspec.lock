@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  build_context:
-    dependency: "direct main"
-    description:
-      name: build_context
-      sha256: "28c6580a91572f89cd9c8c80ac37102b71a4196b62759df934f1dd6ee427a377"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   characters:
     dependency: transitive
     description:

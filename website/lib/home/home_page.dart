@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import "package:build_context/build_context.dart";
 
 import '../page.dart';
 import 'src/all_in_one_platform.dart';
@@ -14,11 +13,11 @@ const tabHeight = 57;
 const maxWidthConstraint = 1200.0;
 
 bool isTablet(BuildContext context) {
-  return context.mediaQuerySize.width < 950;
+  return MediaQuery.of(context).size.width < 950;
 }
 
 bool isPhone(BuildContext context) {
-  return context.mediaQuerySize.width < 650;
+  return MediaQuery.of(context).size.width < 650;
 }
 
 class HomePage extends StatelessWidget {

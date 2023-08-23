@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/section.dart';
-import "package:build_context/build_context.dart";
 
 import '../../main.dart';
 import '../home_page.dart';
@@ -13,7 +12,7 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height =
-        context.mediaQuerySize.height * (isTablet(context) ? 0.05 : 0.1);
+        MediaQuery.of(context).size.height * (isTablet(context) ? 0.05 : 0.1);
     return Section(
       child: Column(
         children: <Widget>[

@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   url_launcher: ^6.0.9
-  build_context: ^3.0.0
   flutter_svg: ^0.22.0
   flutter_markdown: ^0.6.2
   flutter_staggered_animations: ^1.0.0
