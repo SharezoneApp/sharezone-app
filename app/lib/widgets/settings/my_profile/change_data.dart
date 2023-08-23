@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann
 /// Informatiert den Nutzer, wie wir mit seinen Daten umgehen.
@@ -55,7 +55,7 @@ class InfoMessage extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).primaryColor),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launchURL("https://sharezone.net/datenschutzerklaerung");
+                Navigator.pushNamed(context, PrivacyPolicyPage.tag);
               }),
         TextSpan(
           style: TextStyle(color: Colors.grey),
