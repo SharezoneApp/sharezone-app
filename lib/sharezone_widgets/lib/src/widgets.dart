@@ -10,12 +10,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-export 'widgets/modal_floating_action_button.dart';
 export 'prefilled_text_field.dart';
+export 'widgets/modal_floating_action_button.dart';
 
 Future<void> waitingForPopAnimation() async =>
     await Future.delayed(const Duration(milliseconds: 270));
@@ -204,6 +204,8 @@ class SharezoneLogo extends StatelessWidget {
         getLogoPath()!,
         height: height,
         width: width,
+        semanticsLabel:
+            'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.',
       ),
     );
   }
