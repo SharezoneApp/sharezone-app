@@ -170,11 +170,13 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Discord Datenschutz"),
-      content: MarkdownBody(
-        data:
-            "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
-        styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-        onTapLink: (_, url, __) => launchUrl(Uri.parse(url)),
+      content: SingleChildScrollView(
+        child: MarkdownBody(
+          data:
+              "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+          styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
+          onTapLink: (_, url, __) => launchUrl(Uri.parse(url)),
+        ),
       ),
       actions: [
         TextButton(
