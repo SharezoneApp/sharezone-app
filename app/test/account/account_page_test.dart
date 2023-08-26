@@ -204,4 +204,9 @@ class MockUserGateway implements UserGateway {
 
   @override
   Stream<AppUser> get userStream => Stream.value(AppUser.create(id: ""));
+
+  @override
+  Future<void> reloadUser() {
+    throw UnimplementedError();
+  }
 }

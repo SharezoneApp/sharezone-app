@@ -194,6 +194,11 @@ class UserGateway implements UserGatewayAuthentifcation {
       _userSubject.close(),
     ]);
   }
+
+  @override
+  Future<void> reloadUser() async {
+    await references.firebaseAuth.currentUser.reload();
+  }
 }
 
 extension TimeOfDayToApiString on TimeOfDay {
