@@ -59,12 +59,6 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="sharez.one" android:scheme="https"/>
             </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="sharezone.net" android:scheme="https"/>
-            </intent-filter>
         </activity>
 
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileProvider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities">
