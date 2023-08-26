@@ -178,7 +178,7 @@ jobs:
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
       - name: Install Codemagic CLI Tools
-        run: pip3 install git+https://github.com/nilsreichardt/cli-tools
+        run: pip3 install git+https://github.com/nilsreichardt/cli-tools@0265e5ff70bfda34f43c56ba89e5a9fe689a88f6
       - name: Print version
         run: app-store-connect --version
       - name: Setup signing
