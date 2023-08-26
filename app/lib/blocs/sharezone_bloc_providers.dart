@@ -11,6 +11,7 @@ import 'package:abgabe_http_api/api.dart';
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
+import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -319,6 +320,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider<SubscriptionEnabledFlag>(
         create: (context) => subscriptionEnabledFlag,
+      ),
+      StreamProvider<auth.AuthUser>(
+        create: (context) => api.user.authUserStream,
+        initialData: null,
       )
     ];
 
