@@ -217,12 +217,27 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
-    return IconButton(
-      icon: const Text("SPEICHERN",
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
-      tooltip: "Eintrag speichern",
-      iconSize: 90,
-      onPressed: () => onPressed(context, bloc),
+    return Tooltip(
+      message: "Eintrag speichern",
+      child: ElevatedButton(
+        child: Text('Speichern'),
+        onPressed: () => onPressed(context, bloc),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          foregroundColor: isDarkThemeEnabled(context)
+              ? null
+              : Theme.of(context).primaryColor,
+          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          shadowColor: Colors.transparent,
+        ),
+      ),
     );
   }
 }
@@ -252,7 +267,7 @@ class _AppBar extends StatelessWidget {
           : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
-        top: false,
+        top: true,
         bottom: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
