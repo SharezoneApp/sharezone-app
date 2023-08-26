@@ -9,6 +9,7 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -117,9 +118,9 @@ class _EmailTile extends StatelessWidget {
       onPressed: () async {
         final url = Uri.parse(Uri.encodeFull(
             'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭'));
-        if (await canLaunchUrl(url)) {
-          launchUrl(url);
-        } else {
+        try {
+          await launchUrl(url);
+        } on Exception catch (_) {
           showSnackSec(
             context: context,
             text: 'E-Mail: support@sharezone.net',
@@ -147,16 +148,7 @@ class _DiscordTile extends StatelessWidget {
         );
 
         if (confirmed == true) {
-          final url =
-              Uri.parse(Uri.encodeFull('https://sharezone.net/discord'));
-          if (await canLaunchUrl(url)) {
-            launchUrl(url);
-          } else {
-            showSnackSec(
-              context: context,
-              text: 'www.sharezone.net/discord',
-            );
-          }
+          launchURL('https://sharezone.net/discord', context: context);
         }
       },
     );
@@ -170,11 +162,13 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Discord Datenschutz"),
-      content: MarkdownBody(
-        data:
-            "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
-        styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-        onTapLink: (_, url, __) => launchUrl(Uri.parse(url)),
+      content: SingleChildScrollView(
+        child: MarkdownBody(
+          data:
+              "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+          styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
+          onTapLink: (_, url, __) => launchURL(url, context: context),
+        ),
       ),
       actions: [
         TextButton(

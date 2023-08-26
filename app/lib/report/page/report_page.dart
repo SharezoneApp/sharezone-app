@@ -206,6 +206,7 @@ class _DescriptionField extends StatelessWidget {
             textInputAction: TextInputAction.newline,
             maxLines: null,
             onChanged: bloc.changeDescription,
+            textCapitalization: TextCapitalization.sentences,
           ),
         ],
       ),

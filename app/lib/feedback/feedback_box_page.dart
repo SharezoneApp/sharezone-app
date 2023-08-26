@@ -56,7 +56,7 @@ class FeedbackPageBody extends StatelessWidget {
             children: <Widget>[
               _Description(),
               Divider(),
-              if (!PlatformCheck.isWeb) _GenerelRating(),
+              if (!PlatformCheck.isWeb) _GeneralRating(),
               SizedBox(height: 12),
               _LikeField(),
               _DislikeField(),
@@ -137,7 +137,7 @@ class _AnonymousCheckbox extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: isAnonymous
                   ? Text(
-                      "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anoynm abschickst.",
+                      "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     )
                   : Padding(
@@ -203,8 +203,8 @@ class _DislikeField extends StatelessWidget {
   }
 }
 
-class _GenerelRating extends StatelessWidget {
-  const _GenerelRating({Key key}) : super(key: key);
+class _GeneralRating extends StatelessWidget {
+  const _GeneralRating({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -219,11 +219,11 @@ class _GenerelRating extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
           FutureBuilder<double>(
-            future: bloc.raiting.first,
+            future: bloc.rating.first,
             builder: (context, snapshot) {
-              final initalRaiting = snapshot.data ?? 0;
+              final initialRating = snapshot.data ?? 0;
               return RatingBar(
-                initialRating: initalRaiting,
+                initialRating: initialRating,
                 itemCount: 5,
                 allowHalfRating: true,
                 glow: false,
@@ -316,11 +316,11 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
           try {
             await bloc.submit();
             showThankYouBottomSheet(context);
-          } on CooldownException catch (e) {
+          } on CoolDownException catch (e) {
             showSnackSec(
                 context: context,
                 text:
-                    "Error! Dein Cooldown(${e.cooldown}) ist noch nicht abgelaufen.");
+                    "Error! Dein Cool Down (${e.coolDown}) ist noch nicht abgelaufen.");
           } on EmptyFeedbackException {
             showSnackSec(
                 context: context,
@@ -369,6 +369,7 @@ class _FeedbackTextField extends StatelessWidget {
             textInputAction: TextInputAction.newline,
             maxLines: null,
             onChanged: onChanged,
+            textCapitalization: TextCapitalization.sentences,
           ),
         )
       ],

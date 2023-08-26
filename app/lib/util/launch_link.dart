@@ -12,10 +12,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Hpyerlink fürs Web
 Future<void> launchURL(String url, {BuildContext context}) async {
-  final _url = Uri.parse(url);
-  if (await canLaunchUrl(_url)) {
-    await launchUrl(_url);
-  } else {
+  try {
+    await launchUrl(
+      Uri.parse(url),
+      // We are not using [LaunchMode.platformDefault] because this opens by
+      // default the link in an in-app webview on iOS and Android, which is not
+      // what we want. This prevents opening the apps of the links, e.g.
+      // Discord, Twitter, etc. are opened in the in-app webview instead of the
+      // app.
+      mode: LaunchMode.externalApplication,
+    );
+  } catch (e) {
     if (context != null) {
       showSnackSec(
         context: context,

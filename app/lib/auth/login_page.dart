@@ -365,7 +365,7 @@ class EmailLoginField extends StatelessWidget {
     Key key,
     @required this.emailStream,
     @required this.onChanged,
-    this.passwordFocusNode,
+    @required this.passwordFocusNode,
     this.autofocus,
     this.emailFocusNode,
   }) : super(key: key);
@@ -386,7 +386,7 @@ class EmailLoginField extends StatelessWidget {
           focusNode: emailFocusNode,
           onChanged: (email) => onChanged(email.trim()),
           onEditingComplete: () =>
-              FocusManager.instance.primaryFocus?.unfocus(),
+              FocusScope.of(context).requestFocus(passwordFocusNode),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           autofocus: autofocus ?? false,

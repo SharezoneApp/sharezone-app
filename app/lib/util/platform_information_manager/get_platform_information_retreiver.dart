@@ -9,13 +9,13 @@
 import 'flutter_platform_information_retreiver.dart';
 import 'platform_information_retreiver.dart';
 
-PlatformInformationRetreiver getPlatformInformationRetreiver() {
-  return FlutterPlatformInformationRetreiver();
+PlatformInformationRetriever getPlatformInformationRetriever() {
+  return FlutterPlatformInformationRetriever();
 }
 
-Future<PlatformInformationRetreiver>
-    getPlatformInformationRetreiverWithInit() async {
-  final retriever = FlutterPlatformInformationRetreiver();
+Future<PlatformInformationRetriever>
+    getPlatformInformationRetrieverWithInit() async {
+  final retriever = FlutterPlatformInformationRetriever();
   await retriever.init();
   return retriever;
 }

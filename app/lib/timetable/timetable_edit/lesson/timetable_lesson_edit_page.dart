@@ -89,9 +89,9 @@ class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
 }
 
 class _TimetableEditPage extends StatelessWidget {
-  final Lesson initalLesson;
+  final Lesson initialLesson;
 
-  const _TimetableEditPage(this.initalLesson, {Key key}) : super(key: key);
+  const _TimetableEditPage(this.initialLesson, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _TimetableEditPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 6),
-              _CourseField(initalLesson),
+              _CourseField(initialLesson),
               const Divider(),
               _WeekDayField(),
               if (timetableBloc.current.isABWeekEnabled()) ...[
@@ -120,7 +120,7 @@ class _TimetableEditPage extends StatelessWidget {
               const Divider(),
               _EndTimeField(),
               const Divider(height: 8),
-              _RoomField(initalLesson),
+              _RoomField(initialLesson),
             ],
           ),
         ),
@@ -143,9 +143,9 @@ class _TimetableEditFAB extends StatelessWidget {
 }
 
 class _CourseField extends StatelessWidget {
-  const _CourseField(this.initalLesson, {Key key}) : super(key: key);
+  const _CourseField(this.initialLesson, {Key key}) : super(key: key);
 
-  final Lesson initalLesson;
+  final Lesson initialLesson;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +154,7 @@ class _CourseField extends StatelessWidget {
         BlocProvider.of<SharezoneContext>(context).api.timetable;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(initalLesson.groupID));
+        api.course.getRoleFromCourseNoSync(initialLesson.groupID));
     return StreamBuilder<Course>(
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -179,7 +179,7 @@ class _CourseField extends StatelessWidget {
                         final confirmed =
                             await showDeleteLessonConfirmationDialog(context);
                         if (confirmed != null && confirmed) {
-                          timetableGateway.deleteLesson(initalLesson);
+                          timetableGateway.deleteLesson(initialLesson);
                           Navigator.pop(context);
                         }
                       },
@@ -318,9 +318,9 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class _RoomField extends StatelessWidget {
-  const _RoomField(this.initalLesson, {Key key}) : super(key: key);
+  const _RoomField(this.initialLesson, {Key key}) : super(key: key);
 
-  final Lesson initalLesson;
+  final Lesson initialLesson;
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +330,7 @@ class _RoomField extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
-          prefilledText: initalLesson.place,
+          prefilledText: initialLesson.place,
           decoration: InputDecoration(
             icon: Padding(
               padding: const EdgeInsets.only(left: 6),
@@ -339,6 +339,7 @@ class _RoomField extends StatelessWidget {
             border: const OutlineInputBorder(),
             labelText: "Raum",
           ),
+          textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
           onChanged: bloc.changeRoom,
         ),

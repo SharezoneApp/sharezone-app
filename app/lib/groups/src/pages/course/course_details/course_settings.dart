@@ -36,7 +36,7 @@ class CourseSettingsCard extends StatelessWidget {
         children: <Widget>[
           _IsPublic(isPublic: courseSettings.isPublic),
           WritePermissions(
-            initalWritePermission: course.settings.writePermission,
+            initialWritePermission: course.settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
             writePermissionStream: bloc.writePermissionStream,
           ),

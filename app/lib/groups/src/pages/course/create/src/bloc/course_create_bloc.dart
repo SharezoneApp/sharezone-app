@@ -33,7 +33,7 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
   final _subjectSubject = BehaviorSubject<String>();
   final _abbreviationSubject = BehaviorSubject<String>();
 
-  Course initalCourse;
+  Course initialCourse;
 
   CourseCreateBloc(this._gateway, this._analytics, {this.schoolClassId});
 
@@ -52,14 +52,14 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
     final subject = _subjectSubject.valueOrNull;
     final abbreviation = _abbreviationSubject.valueOrNull;
 
-    if (initalCourse == null) {
+    if (initialCourse == null) {
       return isNotEmptyOrNull(name) ||
           isNotEmptyOrNull(subject) ||
           isNotEmptyOrNull(abbreviation);
     } else {
-      return !(name == initalCourse.name ||
-          subject == initalCourse.subject ||
-          abbreviation == initalCourse.abbreviation);
+      return !(name == initialCourse.name ||
+          subject == initialCourse.subject ||
+          abbreviation == initialCourse.abbreviation);
     }
   }
 

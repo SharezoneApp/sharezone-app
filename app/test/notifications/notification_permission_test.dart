@@ -18,17 +18,17 @@ class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 void main() {
   group('NotificationPermission', () {
     MockFirebaseMessaging firebaseMessaging;
-    MockMobileDeviceInformationRetreiver mobileDeviceInformationRetreiver;
+    MockMobileDeviceInformationRetriever mobileDeviceInformationRetriever;
 
     NotificationsPermission notificationsPermission;
 
     setUp(() {
       firebaseMessaging = MockFirebaseMessaging();
-      mobileDeviceInformationRetreiver = MockMobileDeviceInformationRetreiver();
+      mobileDeviceInformationRetriever = MockMobileDeviceInformationRetriever();
 
       notificationsPermission = NotificationsPermission(
         firebaseMessaging: firebaseMessaging,
-        mobileDeviceInformationRetreiver: mobileDeviceInformationRetreiver,
+        mobileDeviceInformationRetriever: mobileDeviceInformationRetriever,
       );
     });
 
@@ -36,7 +36,7 @@ void main() {
       'returns false when checking if Android 12 requires to request permission',
       () async {
         PlatformCheck.setCurrentPlatformForTesting(Platform.android);
-        mobileDeviceInformationRetreiver.setAndroidSdkInt(32);
+        mobileDeviceInformationRetriever.setAndroidSdkInt(32);
 
         final isRequired =
             await notificationsPermission.isRequiredToRequestPermission();
@@ -49,7 +49,7 @@ void main() {
       'returns true when checking if Android 13 requires to request permission',
       () async {
         PlatformCheck.setCurrentPlatformForTesting(Platform.android);
-        mobileDeviceInformationRetreiver.setAndroidSdkInt(33);
+        mobileDeviceInformationRetriever.setAndroidSdkInt(33);
 
         final isRequired =
             await notificationsPermission.isRequiredToRequestPermission();

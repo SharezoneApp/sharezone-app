@@ -143,9 +143,9 @@ class _SortButton extends StatelessWidget {
     if (sort == null) return '';
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
-        return 'Sortiere nach Datum';
+        return 'Sortiert nach Datum';
       case HomeworkSort.subjectSmallestDateAndTitleSort:
-        return 'Sortiere nach Fach';
+        return 'Sortiert nach Fach';
     }
     throw UnimplementedError('HomeworkSort $sort not implemented');
   }

@@ -11,6 +11,7 @@ import 'package:abgabe_http_api/api.dart';
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
+import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -28,8 +29,6 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
-import 'package:sharezone/account/features/feature_gateway.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
@@ -149,7 +148,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       FirebaseFeedbackApi(widget.blocDependencies.firestore),
       FeedbackCache(
           FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
-      getPlatformInformationRetreiver(),
+      getPlatformInformationRetriever(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
     );
@@ -213,11 +212,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     final _homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
-
-    final featureGateway = FeatureGateway(
-        widget.blocDependencies.references.users,
-        widget.blocDependencies.authUser.uid);
-    final featureBloc = FeatureBloc(featureGateway);
 
     final config = HausaufgabenheftConfig(
       defaultCourseColorValue: Colors.lightBlue.value,
@@ -292,7 +286,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
-    var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
+    var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
         widget.blocDependencies.authUser.firebaseUser);
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
@@ -326,6 +320,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider<SubscriptionEnabledFlag>(
         create: (context) => subscriptionEnabledFlag,
+      ),
+      StreamProvider<auth.AuthUser>(
+        create: (context) => api.user.authUserStream,
+        initialData: null,
       )
     ];
 
@@ -350,7 +348,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<UpdateReminderBloc>(
         bloc: UpdateReminderBloc(
-            platformInformationRetreiver: FlutterPlatformInformationRetreiver(),
+            platformInformationRetriever: FlutterPlatformInformationRetriever(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
             updateGracePeriod: Duration(days: 3)),
@@ -367,7 +365,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<AccountPageBlocFactory>(
           bloc: AccountPageBlocFactory(api.user)),
-      BlocProvider<FeatureBloc>(bloc: featureBloc),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
           bloc: NavigationExperimentCache(FlutterStreamingKeyValueStore(
@@ -396,8 +393,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               crashAnalytics,
               CloudStorageBucket(abgabenBucketName),
               HttpAbgabedateiHinzufueger(abgabeHttpApi.getAbgabedateiApi(),
-                  FirebaseAuthHeaderRetreiver(firebaseAuthTokenRetreiver))),
-          authTokenRetreiver: firebaseAuthTokenRetreiver,
+                  FirebaseAuthHeaderRetriever(firebaseAuthTokenRetriever))),
+          authTokenRetriever: firebaseAuthTokenRetriever,
           saver: SingletonLocalFileSaver(),
           recordError: crashAnalytics.recordError,
           userId: api.uID,

@@ -80,7 +80,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
               ),
             ),
             const SizedBox(height: 7.5),
-            if (isNotEmptyOrNull(widget.title!))
+            if (isNotEmptyOrNull(widget.title))
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

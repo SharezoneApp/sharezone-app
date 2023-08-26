@@ -24,7 +24,7 @@ dependencies:
     path: ../lib/abgabe/abgabe_client_lib
   abgabe_http_api:
     path: ../lib/abgabe/abgabe_http_api
-  add_2_calendar: ^2.1.1
+  add_2_calendar: ^2.2.4
   analytics:
     path: ../lib/analytics
   animated_stream_list_nullsafety: ^2.0.3
@@ -38,7 +38,6 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^3.0.0
-  barcode_scan2: ^4.2.3
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
@@ -47,8 +46,8 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   clock: ^1.1.1
-  cloud_firestore: ^4.5.0
-  cloud_functions: ^4.1.0
+  cloud_firestore: ^4.8.5
+  cloud_functions: ^4.4.0
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
@@ -69,13 +68,13 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^4.4.0
-  firebase_core: ^2.9.0
+  firebase_auth: ^4.7.3
+  firebase_core: ^2.15.1
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^14.4.0
-  firebase_performance: ^0.9.1
-  firebase_storage: ^11.1.0
+  firebase_messaging: ^14.6.6
+  firebase_performance: ^0.9.2+5
+  firebase_storage: ^11.2.6
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
@@ -122,6 +121,8 @@ dependencies:
   photo_view: ^0.14.0
   provider: ^6.0.3
   purchases_flutter: ^4.11.1
+  qr_code_scanner:
+    path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0
   quiver: ^3.0.1
   remote_configuration:

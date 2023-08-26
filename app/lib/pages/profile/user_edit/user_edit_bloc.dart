@@ -19,17 +19,17 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
   final _nameSubject = BehaviorSubject<String>();
 
   final UserEditBlocGateway _gateway;
-  final String initalName;
+  final String initialName;
 
   UserEditPageBloc({
     @required UserEditBlocGateway gateway,
     @required String name,
   })  : _gateway = gateway,
-        initalName = name {
+        initialName = name {
     _nameSubject.sink.add(name);
   }
 
-  bool get hasInputChanged => initalName != _nameSubject.valueOrNull;
+  bool get hasInputChanged => initialName != _nameSubject.valueOrNull;
 
   Function(String) get changeName => _nameSubject.sink.add;
   Stream<String> get name => _nameSubject.stream.transform(validateName);

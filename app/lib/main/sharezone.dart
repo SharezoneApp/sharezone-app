@@ -120,8 +120,8 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                         Provider<NotificationsPermission>(
                           create: (_) => NotificationsPermission(
                             firebaseMessaging: FirebaseMessaging.instance,
-                            mobileDeviceInformationRetreiver:
-                                MobileDeviceInformationRetreiver(),
+                            mobileDeviceInformationRetriever:
+                                MobileDeviceInformationRetriever(),
                           ),
                         )
                       ],
@@ -185,7 +185,9 @@ class _ThemeSettingsProvider extends StatelessWidget {
         analytics: blocDependencies.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
-        defaultVisualDensity: VisualDensitySetting.adaptivePlatformDensity(),
+        // We don't use VisualDensitySetting.adaptivePlatformDensity() because
+        // we don't like the button densities on the desktop.
+        defaultVisualDensity: VisualDensitySetting.standard(),
         keyValueStore: blocDependencies.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {

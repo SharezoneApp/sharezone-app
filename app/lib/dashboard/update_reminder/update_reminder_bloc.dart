@@ -24,7 +24,7 @@ class UpdateReminderBloc extends BlocBase {
 
   factory UpdateReminderBloc({
     @required ChangelogGateway changelogGateway,
-    @required PlatformInformationRetreiver platformInformationRetreiver,
+    @required PlatformInformationRetriever platformInformationRetriever,
     @required CrashAnalytics crashAnalytics,
 
     /// Die Zeitspanne nach einem neuen Release, wo noch keine Update-Karte
@@ -38,9 +38,8 @@ class UpdateReminderBloc extends BlocBase {
       getLatestRelease: () => changelogGateway
           .loadChange(to: 1)
           .then((change) => change.first.toChange()),
-      getCurrentVersion: () => platformInformationRetreiver
-          .init()
-          .then((_) => Version(name: platformInformationRetreiver.version)),
+      getCurrentVersion: () => platformInformationRetriever.init().then(
+          (_) => Version.parse(name: platformInformationRetriever.version)),
       updateGracePeriod: updateGracePeriod,
       getCurrentDateTime: () => DateTime.now(),
       crashAnalytics: crashAnalytics,

@@ -17,7 +17,7 @@ import 'package:sharezone/util/platform_information_manager/platform_information
 
 class ChangelogBloc extends BlocBase {
   final ChangelogGateway _gateway;
-  final PlatformInformationRetreiver _platformInformationManager;
+  final PlatformInformationRetriever _platformInformationManager;
   final _changesSubject = BehaviorSubject<ChangelogPageView>();
   final int numberOfInitialChanges;
 
@@ -47,7 +47,8 @@ class ChangelogBloc extends BlocBase {
   Future<ChangelogPageView> _loadChangelogData(
       {int from = 0, @required int to}) async {
     assert(from <= to);
-    final currentVersion = Version(name: _platformInformationManager.version);
+    final currentVersion =
+        Version.parse(name: _platformInformationManager.version);
 
     final dbModels = await _gateway.loadChange(from: from, to: to);
     final changes = dbModels.map((model) => model.toChange()).toList();

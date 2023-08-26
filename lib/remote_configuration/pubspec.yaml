@@ -19,7 +19,7 @@ dependencies:
     sdk: flutter
   sharezone_utils:
     path: ../sharezone_utils
-  firebase_remote_config: ^3.0.13
+  firebase_remote_config: ^4.2.5
 
 dev_dependencies:
   flutter_test:

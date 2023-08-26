@@ -22,7 +22,7 @@ void main() {
 
     test("Returns no Cooldown if no last submit was saved", () async {
       final onCooldown =
-          await cache.hasFeedbackSubmissionCooldown(Duration(minutes: 1));
+          await cache.hasFeedbackSubmissionCoolDown(Duration(minutes: 1));
       expect(onCooldown, false);
     });
     test(
@@ -36,7 +36,7 @@ void main() {
           FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
 
       final onCooldown =
-          await cache.hasFeedbackSubmissionCooldown(cooldownDuration);
+          await cache.hasFeedbackSubmissionCoolDown(cooldownDuration);
       expect(onCooldown, false);
     });
 
@@ -51,7 +51,7 @@ void main() {
           FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
 
       final onCooldown =
-          await cache.hasFeedbackSubmissionCooldown(cooldownDuration);
+          await cache.hasFeedbackSubmissionCoolDown(cooldownDuration);
       expect(onCooldown, true);
     });
   });

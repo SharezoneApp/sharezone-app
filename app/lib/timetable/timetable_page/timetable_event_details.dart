@@ -338,25 +338,8 @@ class _AddToMyCalendarButton extends StatelessWidget {
                       startDate: event.startDateTime,
                       endDate: event.endDateTime,
                       title: event.title,
-                      // Wenn description oder location null ist, crasht die App
-                      // bei iOS-Geräten. Dieser Fehler liegt an dem Package
-                      // add_2_calendar. Ticket:
-                      // https://github.com/ja2375/add_2_calendar/issues/37
-                      //
-                      // Für Android ist dieser Workaround mit dem leeren String
-                      // nicht notwenidg, da es dort die beiden Werte auch null
-                      // sein können.
-                      //
-                      // Der Workaround mit dem leeren String den Nachteil mit
-                      // sich, dass auch bei dem Termin in der jeweiligen
-                      // Kalender-App ein leerer String eingetragen wird.
-                      // Deswegen sollte der Workaround nur auf den Plattformen
-                      // angewendet, wo dieser auch benötigt wird (in diesem
-                      // Fall iOS).
-                      description:
-                          event.detail ?? (PlatformCheck.isIOS ? '' : null),
-                      location:
-                          event.place ?? (PlatformCheck.isIOS ? '' : null),
+                      description: event.detail,
+                      location: event.place,
                       timeZone: timezone,
                     );
 

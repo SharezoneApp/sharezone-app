@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
@@ -20,7 +21,6 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
-import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -62,25 +62,12 @@ DynamicLinkBloc runDynamicLinkBloc(
 
 Future<void> runFlutterApp({@required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
-
-  runZonedGuarded<Future<void>>(
-    () async => runApp(Sharezone(
-      beitrittsversuche: dependencies.beitrittsversuche,
-      blocDependencies: dependencies.blocDependencies,
-      dynamicLinkBloc: dependencies.dynamicLinkBloc,
-      flavor: flavor,
-    )),
-    (error, stackTrace) async {
-      debugPrint(error.toString());
-
-      // Whenever an error occurs, call the `reportCrash`
-      // to send Dart errors to Crashlytics
-      await dependencies.pluginInitializations.crashAnalytics.recordError(
-        error,
-        stackTrace,
-      );
-    },
-  );
+  runApp(Sharezone(
+    beitrittsversuche: dependencies.beitrittsversuche,
+    blocDependencies: dependencies.blocDependencies,
+    dynamicLinkBloc: dependencies.dynamicLinkBloc,
+    flavor: flavor,
+  ));
 }
 
 Future<AppDependencies> initializeDependencies({
@@ -93,7 +80,7 @@ Future<AppDependencies> initializeDependencies({
 
   await _initializeFirebase(flavor);
 
-  final pluginInitializations = await runPluginInitializations();
+  final pluginInitializations = await runPluginInitializations(flavor: flavor);
 
   final firebaseDependencies = FirebaseDependencies.get();
   final firebaseFunctions =
@@ -123,7 +110,18 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
-  FlutterError.onError = (error) => flutterErrorHandler(error);
+  // From:
+  // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
+  FlutterError.onError =
+      pluginInitializations.crashAnalytics.recordFlutterError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    pluginInitializations.crashAnalytics.recordError(
+      error,
+      stack,
+      fatal: true,
+    );
+    return true;
+  };
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 

@@ -17,16 +17,16 @@ abstract class AbgabendateiLoescher {
 class HttpAbgabendateiLoescher extends AbgabendateiLoescher {
   final AbgabedateiApi api;
   final AbgabeId abgabeId;
-  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+  final FirebaseAuthHeaderRetriever _authHeaderRetriever;
 
-  HttpAbgabendateiLoescher(this.api, this.abgabeId, this._authHeaderRetreiver);
+  HttpAbgabendateiLoescher(this.api, this.abgabeId, this._authHeaderRetriever);
 
   @override
   Future<void> loescheDatei(AbgabedateiId dateiId) async {
     await api.deleteFile(
       '$abgabeId',
       '$dateiId',
-      headers: await _authHeaderRetreiver.getAuthHeader(),
+      headers: await _authHeaderRetriever.getAuthHeader(),
     );
   }
 }

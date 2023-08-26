@@ -8,7 +8,6 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
-import 'package:authentification_base/authentification_apple.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -82,41 +81,25 @@ class _SignInMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return FutureBuilder<bool>(
-      future: AppleSignInLogic.isSignInGetCredentailsAvailable(),
-      builder: (context, snapshot) {
-        final isAppleSignInAvailable = snapshot.data ?? false;
-        if (isAppleSignInAvailable) {
-          if (width < 550)
-            return Column(
-              children: <Widget>[
-                _AppleButton.long(),
-                const SizedBox(height: 8),
-                _GoogleButton.long(),
-                const SizedBox(height: 8),
-                _EmailButton.long(),
-              ],
-            );
+    if (width < 550)
+      return Column(
+        children: <Widget>[
+          _AppleButton.long(),
+          const SizedBox(height: 8),
+          _GoogleButton.long(),
+          const SizedBox(height: 8),
+          _EmailButton.long(),
+        ],
+      );
 
-          return Row(
-            children: <Widget>[
-              Expanded(child: _EmailButton.short()),
-              const SizedBox(width: 8),
-              Expanded(child: _AppleButton.short()),
-              const SizedBox(width: 8),
-              Expanded(child: _GoogleButton.short()),
-            ],
-          );
-        }
-
-        return Row(
-          children: <Widget>[
-            Expanded(child: _EmailButton.short()),
-            const SizedBox(width: 8),
-            Expanded(child: _GoogleButton.short()),
-          ],
-        );
-      },
+    return Row(
+      children: <Widget>[
+        Expanded(child: _EmailButton.short()),
+        const SizedBox(width: 8),
+        Expanded(child: _AppleButton.short()),
+        const SizedBox(width: 8),
+        Expanded(child: _GoogleButton.short()),
+      ],
     );
   }
 }

@@ -380,7 +380,7 @@ class Fortschritt {
         status = FileViewStatus.uploading;
         break;
       case UploadStatusEnum.erfolgreich:
-        status = FileViewStatus.succesfullyUploaded;
+        status = FileViewStatus.successfullyUploaded;
         break;
       case UploadStatusEnum.fehlgeschlagen:
         status = FileViewStatus.failed;

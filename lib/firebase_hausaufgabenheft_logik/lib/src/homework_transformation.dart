@@ -16,12 +16,12 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'homework_dto.dart';
 
-typedef CourseColorRetreiver = FutureOr<int> Function(String courseId);
+typedef CourseColorRetriever = FutureOr<int> Function(String courseId);
 
 class HomeworkTransformer extends StreamTransformerBase<
     QuerySnapshot<Map<String, dynamic>>, List<HomeworkReadModel>> {
   final String userId;
-  final CourseColorRetreiver getCourseColorHexValue;
+  final CourseColorRetriever getCourseColorHexValue;
 
   HomeworkTransformer(this.userId, {required this.getCourseColorHexValue});
 
@@ -46,7 +46,7 @@ class HomeworkTransformer extends StreamTransformerBase<
 
 Future<HomeworkReadModel?> tryToConvertToHomework(
     DocumentSnapshot documentSnapshot, String uid,
-    {CourseColorRetreiver? getCourseColorHexValue}) async {
+    {CourseColorRetriever? getCourseColorHexValue}) async {
   HomeworkReadModel? converted;
   try {
     final homework = HomeworkDto.fromData(

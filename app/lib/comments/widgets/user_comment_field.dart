@@ -67,6 +67,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
         onChanged: (s) => text = s,
         textInputAction: TextInputAction.newline,
         style: Theme.of(context).textTheme.titleMedium,
+        textCapitalization: TextCapitalization.sentences,
       ),
     );
   }
