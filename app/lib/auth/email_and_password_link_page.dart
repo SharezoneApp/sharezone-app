@@ -25,10 +25,14 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 
   final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
   final result = await bloc.linkWithEmailAndPasswordAndHandleExceptions();
-  if (result == LinkAction.finished)
+  if (result == LinkAction.finished) {
+    // Hides the loading snackbar, see
+    // https://github.com/SharezoneApp/sharezone-app/issues/814.
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     Navigator.pop(context, true);
-  else if (result == LinkAction.credentialAlreadyInUse)
+  } else if (result == LinkAction.credentialAlreadyInUse) {
     showCredentialAlreadyInUseDialog(context);
+  }
 }
 
 TextStyle _hintTextSyle(BuildContext context) => TextStyle(
