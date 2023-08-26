@@ -18,7 +18,11 @@ class StubCrashAnalytics extends CrashAnalytics {
   void log(String msg) {}
 
   @override
-  Future<void> recordError(exception, StackTrace stack) async {
+  Future<void> recordError(
+    exception,
+    StackTrace stack, {
+    bool fatal = false,
+  }) async {
     return;
   }
 
