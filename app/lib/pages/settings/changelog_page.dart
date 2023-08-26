@@ -27,7 +27,7 @@ class ChangelogPage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<ChangelogBloc>(
       bloc: ChangelogBloc(ChangelogGateway(firestore: api.references.firestore),
-          getPlatformInformationRetreiver()),
+          getPlatformInformationRetriever()),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(title: const Text("Was ist neu?"), centerTitle: true),

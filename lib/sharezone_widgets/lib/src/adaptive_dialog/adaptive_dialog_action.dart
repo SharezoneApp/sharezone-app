@@ -50,7 +50,7 @@ class AdaptiveDialogAction<T> {
     textColor: Colors.red,
   );
 
-  static const AdaptiveDialogAction<bool> cancle = AdaptiveDialogAction(
+  static const AdaptiveDialogAction<bool> cancel = AdaptiveDialogAction(
     title: "Abbrechen",
     popResult: false,
   );

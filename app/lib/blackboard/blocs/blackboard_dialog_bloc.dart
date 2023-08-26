@@ -30,13 +30,13 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   final _sendNotificationSubject = BehaviorSubject<bool>();
 
   final BlackboardDialogApi api;
-  final BlackboardItem initalBlackboardItem;
+  final BlackboardItem initialBlackboardItem;
 
   final MarkdownAnalytics _markdownAnalytics;
 
   BlackboardDialogBloc(this.api, this._markdownAnalytics,
       {BlackboardItem blackboardItem})
-      : initalBlackboardItem = blackboardItem {
+      : initialBlackboardItem = blackboardItem {
     if (blackboardItem != null) {
       loadInitialCloudFiles(
           blackboardItem.courseReference.id, blackboardItem.id);
@@ -138,17 +138,17 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
         _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
-    if (initalBlackboardItem == null) {
+    if (initialBlackboardItem == null) {
       return isNotEmptyOrNull(title) ||
           isNotEmptyOrNull(text) ||
           hasAttachments ||
           course != null;
     } else {
-      return title != initalBlackboardItem.title ||
-          text != initalBlackboardItem.text ||
-          course.id != initalBlackboardItem.courseReference.id ||
+      return title != initialBlackboardItem.title ||
+          text != initialBlackboardItem.text ||
+          course.id != initialBlackboardItem.courseReference.id ||
           hasAttachments ||
-          initalBlackboardItem.attachments.length != cloudFiles.length;
+          initialBlackboardItem.attachments.length != cloudFiles.length;
     }
   }
 

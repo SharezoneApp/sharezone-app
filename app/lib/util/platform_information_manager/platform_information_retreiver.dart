@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-abstract class PlatformInformationRetreiver {
+abstract class PlatformInformationRetriever {
   String get appName;
   String get packageName;
   String get version;

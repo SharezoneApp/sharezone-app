@@ -17,9 +17,9 @@ abstract class AbgabeVeroeffentlicher {
 
 class HttpAbgabeVeroeffentlicher implements AbgabeVeroeffentlicher {
   final AbgabeApi _api;
-  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+  final FirebaseAuthHeaderRetriever _authHeaderRetriever;
 
-  HttpAbgabeVeroeffentlicher(this._api, this._authHeaderRetreiver);
+  HttpAbgabeVeroeffentlicher(this._api, this._authHeaderRetriever);
 
   @override
   Future<void> veroeffentlicheAbgabe(AbgabeId abgabeId) async {
@@ -28,7 +28,7 @@ class HttpAbgabeVeroeffentlicher implements AbgabeVeroeffentlicher {
       SubmissionDto(
         (dto) => dto.published = true,
       ),
-      headers: await _authHeaderRetreiver.getAuthHeader(),
+      headers: await _authHeaderRetriever.getAuthHeader(),
     );
   }
 }

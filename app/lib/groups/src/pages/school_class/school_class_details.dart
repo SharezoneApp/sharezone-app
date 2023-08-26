@@ -284,7 +284,7 @@ class SchoolClassSettingsCard extends StatelessWidget {
         children: <Widget>[
           _IsPublic(isPublic: settings.isPublic),
           WritePermissions(
-            initalWritePermission: settings.writePermission,
+            initialWritePermission: settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
             writePermissionStream: bloc.writePermissionStream(),
             annotation:

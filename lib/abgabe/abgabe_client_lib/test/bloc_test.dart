@@ -176,7 +176,7 @@ void main() {
 
           await bloc.pageView.firstWhere((view) => view.files
               .where(
-                  (file) => file.status == FileViewStatus.succesfullyUploaded)
+                  (file) => file.status == FileViewStatus.successfullyUploaded)
               .isNotEmpty);
 
           /// Wir wollen sichergehen, dass die Abgabe vom Server wieder ankommt
@@ -265,7 +265,7 @@ void main() {
           bloc.files.where((event) =>
               event.length == 2 &&
               event.every((element) =>
-                  element.status == FileViewStatus.succesfullyUploaded));
+                  element.status == FileViewStatus.successfullyUploaded));
 
           final abgabeMitEntfernterDatei =
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
@@ -347,7 +347,7 @@ void main() {
           expect(fileView.fileFormat, FileFormat.pdf);
           expect(fileView.path.value, '/eine/datei.pdf');
           expect(fileView.status, FileViewStatus.unitiated);
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.uploadProgress.isPresent, false);
           expect(fileView.downloadUrl.isPresent, false);
         });
 
@@ -370,8 +370,8 @@ void main() {
           expect(fileView.extentionName, 'pdf');
           expect(fileView.fileFormat, FileFormat.pdf);
           expect(fileView.path.isPresent, false);
-          expect(fileView.status, FileViewStatus.succesfullyUploaded);
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.status, FileViewStatus.successfullyUploaded);
+          expect(fileView.uploadProgress.isPresent, false);
           expect(fileView.downloadUrl.value, 'https://some-url.com');
         });
 
@@ -434,18 +434,18 @@ void main() {
 
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.uploading);
-          expect(fileView.uploadProgess.value, 0.2);
+          expect(fileView.uploadProgress.value, 0.2);
 
           uploadProzess.add(
               DateiUploadProzessFortschritt.erfolgreich(AbgabedateiId('dad')));
           fileView = (await queue.next)!;
-          expect(fileView.status, FileViewStatus.succesfullyUploaded);
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.status, FileViewStatus.successfullyUploaded);
+          expect(fileView.uploadProgress.isPresent, false);
 
           uploadProzess.add(DateiUploadProzessFortschritt.fehlgeschlagen(
               AbgabedateiId('dad')));
           fileView = (await queue.next)!;
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.uploadProgress.isPresent, false);
         });
 
         test(
@@ -595,7 +595,7 @@ void main() {
               .firstWhere((file) => file.downloadUrl.isPresent);
 
           expect(view.downloadUrl.value, 'https://some-url.com');
-          expect(view.status, FileViewStatus.succesfullyUploaded);
+          expect(view.status, FileViewStatus.successfullyUploaded);
 
           expect(
             bloc.files.map((event) => event.length),
@@ -705,7 +705,7 @@ void main() {
           await bloc.pageView.firstWhere((pageView) =>
               pageView.files.isNotEmpty &&
               pageView.files.first.status ==
-                  FileViewStatus.succesfullyUploaded);
+                  FileViewStatus.successfullyUploaded);
 
           bloc.removeSubmissionFile('$abgabedateiId');
 

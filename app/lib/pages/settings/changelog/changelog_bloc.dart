@@ -17,7 +17,7 @@ import 'package:sharezone/util/platform_information_manager/platform_information
 
 class ChangelogBloc extends BlocBase {
   final ChangelogGateway _gateway;
-  final PlatformInformationRetreiver _platformInformationManager;
+  final PlatformInformationRetriever _platformInformationManager;
   final _changesSubject = BehaviorSubject<ChangelogPageView>();
   final int numberOfInitialChanges;
 

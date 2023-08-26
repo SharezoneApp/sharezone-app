@@ -35,7 +35,7 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
   }
 }
 
-TextStyle _hintTextSyle(BuildContext context) => TextStyle(
+TextStyle _hintTextStyle(BuildContext context) => TextStyle(
     color: isDarkThemeEnabled(context)
         ? Colors.grey
         : Colors.grey[600].withOpacity(0.75),
@@ -233,7 +233,7 @@ class NameField extends StatelessWidget {
               padding: EdgeInsets.only(left: withIcon ? 38 : 0),
               child: Text(
                 "Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.",
-                style: _hintTextSyle(context),
+                style: _hintTextStyle(context),
               ),
             ),
           ],
@@ -268,7 +268,7 @@ class _EmailField extends StatelessWidget {
           padding: const EdgeInsets.only(left: 38),
           child: Text(
               "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
-              style: _hintTextSyle(context)),
+              style: _hintTextStyle(context)),
         ),
       ],
     );

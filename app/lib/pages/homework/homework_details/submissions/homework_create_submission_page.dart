@@ -253,7 +253,7 @@ class _AddFileFab extends StatelessWidget {
                   'Die gewählte Datei "${e.files.first.getName()}" scheint invalide zu sein.';
             } else {
               final names = e.files.map((e) => e.getName()).join(', ');
-              msg = 'Die gewählte Datein "$names" scheinen invalide zu sein.';
+              msg = 'Die gewählte Dateien "$names" scheinen invalide zu sein.';
             }
             showLeftRightAdaptiveDialog(
               context: context,
@@ -315,9 +315,10 @@ class _FileCard extends StatelessWidget {
                     children: <Widget>[
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 250),
-                        child: view.status == FileViewStatus.succesfullyUploaded
-                            ? _RenameFile(view: view)
-                            : Container(),
+                        child:
+                            view.status == FileViewStatus.successfullyUploaded
+                                ? _RenameFile(view: view)
+                                : Container(),
                       ),
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 250),
@@ -334,14 +335,14 @@ class _FileCard extends StatelessWidget {
                 LinearProgressIndicator(
                   backgroundColor: Colors.grey[400],
                   valueColor: const AlwaysStoppedAnimation(Colors.lightBlue),
-                  value: view.uploadProgess.orElse(0),
+                  value: view.uploadProgress.orElse(0),
                 ),
               if (view.status == FileViewStatus.failed)
                 LinearProgressIndicator(
                   valueColor: const AlwaysStoppedAnimation(Colors.red),
                   value: 1,
                 ),
-              if (view.status == FileViewStatus.succesfullyUploaded)
+              if (view.status == FileViewStatus.successfullyUploaded)
                 LinearProgressIndicator(
                   valueColor: const AlwaysStoppedAnimation(Colors.green),
                   value: 1,
@@ -416,7 +417,7 @@ class __RenameDialogState extends State<_RenameDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Datei umbennen'),
+      title: const Text('Datei umbenennen'),
       content: PrefilledTextField(
         prefilledText: widget.view.basename,
         decoration: InputDecoration(

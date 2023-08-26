@@ -31,13 +31,13 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
   final String schoolClassID;
   final SharezoneGateway gateway;
 
-  final Course initalCourse;
+  final Course initialCourse;
 
   SchoolClassCourseCreateBloc(
       {@required this.gateway,
       @required this.schoolClassID,
-      this.initalCourse}) {
-    if (initalCourse != null) _addInitalValuesToStream(initalCourse);
+      this.initialCourse}) {
+    if (initialCourse != null) _addInitalValuesToStream(initialCourse);
   }
 
   void _addInitalValuesToStream(Course course) {
@@ -59,14 +59,14 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
     final subject = _subjectSubject.valueOrNull;
     final abbreviation = _abbreviationSubject.valueOrNull;
 
-    if (initalCourse == null) {
+    if (initialCourse == null) {
       return isNotEmptyOrNull(name) ||
           isNotEmptyOrNull(subject) ||
           isNotEmptyOrNull(abbreviation);
     } else {
-      return !(name == initalCourse.name ||
-          subject == initalCourse.subject ||
-          abbreviation == initalCourse.abbreviation);
+      return !(name == initialCourse.name ||
+          subject == initialCourse.subject ||
+          abbreviation == initialCourse.abbreviation);
     }
   }
 

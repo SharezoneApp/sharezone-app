@@ -529,12 +529,12 @@ class _SubmissionsSwitch extends StatelessWidget {
                                 title: const Text("Abgabe-Uhrzeit"),
                                 onTap: () async {
                                   await hideKeyboardWithDelay(context: context);
-                                  final initalTime =
+                                  final initialTime =
                                       time == Time(hour: 23, minute: 59)
                                           ? Time(hour: 18, minute: 0)
                                           : time;
                                   final newTime = await selectTime(context,
-                                      initialTime: initalTime);
+                                      initialTime: initialTime);
                                   if (newTime != null) {
                                     bloc.changeSubmissionTime(newTime);
                                   }

@@ -11,7 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// List which calls [onThresholdExceeded] when the [thresholdHeight] is
-/// exeeded.
+/// exceeded.
 /// Is for example used for lazy loading lists.
 class ListWithBottomThreshold extends StatefulWidget {
   /// Height in pixels marking an area that will call `onThresholdExceeded` when

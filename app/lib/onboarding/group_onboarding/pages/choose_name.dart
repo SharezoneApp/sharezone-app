@@ -73,7 +73,7 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
         title:
             'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?',
         children: [
-          _TextFieldSubmitButton(initalName: widget.user.name),
+          _TextFieldSubmitButton(initialName: widget.user.name),
         ],
       ),
     );
@@ -81,9 +81,9 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
 }
 
 class _TextFieldSubmitButton extends StatefulWidget {
-  const _TextFieldSubmitButton({Key key, this.initalName}) : super(key: key);
+  const _TextFieldSubmitButton({Key key, this.initialName}) : super(key: key);
 
-  final String initalName;
+  final String initialName;
 
   @override
   __TextFieldSubmitButtonState createState() => __TextFieldSubmitButtonState();
@@ -105,7 +105,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: NameField(
-                  initialName: widget.initalName,
+                  initialName: widget.initialName,
                   onChanged: bloc.changeName,
                   nameStream: bloc.name,
                   onEditingComplete: () => _submit(context),
