@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -271,6 +272,7 @@ class _AppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewPadding = MediaQuery.of(context).viewPadding;
     return Material(
       color: isDarkThemeEnabled(context)
           ? Theme.of(context).appBarTheme.backgroundColor
@@ -279,11 +281,14 @@ class _AppBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
+        minimum: EdgeInsets.only(
+          top: math.max(24.0, viewPadding.top - 26.0),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(4, 6, 6, 0),
+              padding: EdgeInsets.fromLTRB(4, 6, 6, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
