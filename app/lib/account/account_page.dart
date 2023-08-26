@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -36,7 +38,7 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-  AccountPageBloc bloc;
+  late AccountPageBloc bloc;
 
   @override
   void initState() {
@@ -75,7 +77,10 @@ class _AccountPageState extends State<AccountPage> {
 
 @visibleForTesting
 class AccountPageBody extends StatelessWidget {
-  const AccountPageBody({Key key, @required this.user}) : super(key: key);
+  const AccountPageBody({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   final UserView user;
 
@@ -110,8 +115,10 @@ class _WebIcon extends StatelessWidget {
 }
 
 class _SecondaryInformationCard extends StatelessWidget {
-  const _SecondaryInformationCard({Key key, @required this.user})
-      : super(key: key);
+  const _SecondaryInformationCard({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   final UserView user;
 
@@ -124,7 +131,7 @@ class _SecondaryInformationCard extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text("Bundesland"),
-              subtitle: Text(user.state),
+              subtitle: Text(user.state!),
               onTap: () => Navigator.pushNamed(context, ChangeStatePage.tag),
             ),
           ],
@@ -135,8 +142,10 @@ class _SecondaryInformationCard extends StatelessWidget {
 }
 
 class _MainAccountInformationCard extends StatelessWidget {
-  const _MainAccountInformationCard({Key key, @required this.user})
-      : super(key: key);
+  const _MainAccountInformationCard({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   final UserView user;
 
@@ -151,7 +160,7 @@ class _MainAccountInformationCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _Name(userView: user),
-              if (user.provider.hasEmailAddress) _EmailText(user),
+              if (user.provider?.hasEmailAddress == true) _EmailText(user),
               _TypeOfUserText(userType: user.userType, uid: user.id),
               if (isAnonymous) RegistierAccountSection(),
               if (kDebugMode) _UserId(user: user),
@@ -166,7 +175,7 @@ class _MainAccountInformationCard extends StatelessWidget {
 }
 
 class _EditProfilButton extends StatelessWidget {
-  const _EditProfilButton({Key key}) : super(key: key);
+  const _EditProfilButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +199,7 @@ class _EditProfilButton extends StatelessWidget {
 }
 
 class _UserId extends StatelessWidget {
-  const _UserId({Key key, @required this.user}) : super(key: key);
+  const _UserId({Key? key, required this.user}) : super(key: key);
 
   final UserView user;
 
@@ -221,7 +230,7 @@ class _UserId extends StatelessWidget {
 }
 
 class _Name extends StatelessWidget {
-  const _Name({Key key, @required this.userView}) : super(key: key);
+  const _Name({Key? key, required this.userView}) : super(key: key);
 
   final UserView userView;
 
@@ -238,7 +247,7 @@ class _Name extends StatelessWidget {
 }
 
 class _EmailText extends StatelessWidget {
-  const _EmailText(this.user, {Key key}) : super(key: key);
+  const _EmailText(this.user, {Key? key}) : super(key: key);
 
   final UserView user;
 
@@ -258,8 +267,11 @@ class _EmailText extends StatelessWidget {
 }
 
 class _TypeOfUserText extends StatelessWidget {
-  const _TypeOfUserText({Key key, @required this.uid, @required this.userType})
-      : super(key: key);
+  const _TypeOfUserText({
+    Key? key,
+    required this.uid,
+    required this.userType,
+  }) : super(key: key);
 
   final String userType;
   final String uid;
