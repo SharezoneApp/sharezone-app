@@ -120,7 +120,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     // Currently, the homework reminder only supports 30 minute intervals.
     const interval = 30;
 
-    if (!PlatformCheck.isDesktopOrWeb) {
+    if (PlatformCheck.isDesktopOrWeb) {
       return showIntervalTimePicker(
         context: context,
         initialTime: initialTime?.toTimeOfDay(),
