@@ -24,7 +24,7 @@ dependencies:
     path: ../lib/abgabe/abgabe_client_lib
   abgabe_http_api:
     path: ../lib/abgabe/abgabe_http_api
-  add_2_calendar: ^2.1.1
+  add_2_calendar: ^2.2.4
   analytics:
     path: ../lib/analytics
   animated_stream_list: ^1.1.0
