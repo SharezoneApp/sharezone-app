@@ -369,6 +369,7 @@ class _FeedbackTextField extends StatelessWidget {
             textInputAction: TextInputAction.newline,
             maxLines: null,
             onChanged: onChanged,
+            textCapitalization: TextCapitalization.sentences,
           ),
         )
       ],

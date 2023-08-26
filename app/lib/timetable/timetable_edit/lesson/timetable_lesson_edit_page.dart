@@ -339,6 +339,7 @@ class _RoomField extends StatelessWidget {
             border: const OutlineInputBorder(),
             labelText: "Raum",
           ),
+          textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
           onChanged: bloc.changeRoom,
         ),

@@ -216,6 +216,7 @@ class _TitleField extends StatelessWidget {
           ),
           onChanged: bloc.changeTitle,
           maxLength: 36,
+          textCapitalization: TextCapitalization.sentences,
         ),
       ),
     );

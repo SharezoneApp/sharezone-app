@@ -346,6 +346,7 @@ class _TitleField extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   onChanged: (String title) => bloc.changeTitle(title),
+                  textCapitalization: TextCapitalization.sentences,
                 ),
                 Text(
                   snapshot.error?.toString() ?? "",
@@ -449,6 +450,7 @@ class _DescriptionField extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   onChanged: bloc.changeDescription,
+                  textCapitalization: TextCapitalization.sentences,
                 ),
               ),
               Padding(
