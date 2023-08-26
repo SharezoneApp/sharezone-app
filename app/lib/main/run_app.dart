@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
@@ -20,7 +21,6 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
-import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -123,7 +123,17 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
-  FlutterError.onError = (error) => flutterErrorHandler(error);
+  FlutterError.onError =
+      pluginInitializations.crashAnalytics.recordFlutterError;
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    pluginInitializations.crashAnalytics.recordError(
+      error,
+      stack,
+      fatal: true,
+    );
+    return true;
+  };
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 

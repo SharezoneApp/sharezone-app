@@ -34,7 +34,11 @@ class MockCrashAnalytics implements CrashAnalytics {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace stack) async {
+  Future<void> recordError(
+    exception,
+    StackTrace stack, {
+    bool fatal = false,
+  }) async {
     logCalledRecordError = true;
   }
 
