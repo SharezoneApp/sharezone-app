@@ -62,25 +62,12 @@ DynamicLinkBloc runDynamicLinkBloc(
 
 Future<void> runFlutterApp({@required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
-
-  runZonedGuarded<Future<void>>(
-    () async => runApp(Sharezone(
-      beitrittsversuche: dependencies.beitrittsversuche,
-      blocDependencies: dependencies.blocDependencies,
-      dynamicLinkBloc: dependencies.dynamicLinkBloc,
-      flavor: flavor,
-    )),
-    (error, stackTrace) async {
-      debugPrint(error.toString());
-
-      // Whenever an error occurs, call the `reportCrash`
-      // to send Dart errors to Crashlytics
-      await dependencies.pluginInitializations.crashAnalytics.recordError(
-        error,
-        stackTrace,
-      );
-    },
-  );
+  runApp(Sharezone(
+    beitrittsversuche: dependencies.beitrittsversuche,
+    blocDependencies: dependencies.blocDependencies,
+    dynamicLinkBloc: dependencies.dynamicLinkBloc,
+    flavor: flavor,
+  ));
 }
 
 Future<AppDependencies> initializeDependencies({
@@ -123,9 +110,10 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
+  // From:
+  // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
   FlutterError.onError =
       pluginInitializations.crashAnalytics.recordFlutterError;
-
   PlatformDispatcher.instance.onError = (error, stack) {
     pluginInitializations.crashAnalytics.recordError(
       error,
