@@ -126,8 +126,8 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
         initialTime: initialTime?.toTimeOfDay(),
         interval: interval,
         visibleStep: VisibleStep.thirtieths,
-        errorInvalidText: 'Nur volle und halbe Stunden sind erlaubt, '
-            'z.B. 18:00 oder 18:30.',
+        errorInvalidText:
+            'Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.',
         builder: (BuildContext context, Widget child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
