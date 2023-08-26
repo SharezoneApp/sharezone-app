@@ -36,6 +36,7 @@ class _TitleTab extends StatelessWidget {
               maxLength: 36,
               textInputAction: TextInputAction.next,
               onEditingComplete: () => navigateToNextTab(context),
+              textCapitalization: TextCapitalization.sentences,
             ),
           );
         },

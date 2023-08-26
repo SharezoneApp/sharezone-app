@@ -322,6 +322,7 @@ class _TitleField extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   onChanged: (String title) => bloc.changeTitle(title),
+                  textCapitalization: TextCapitalization.sentences,
                 ),
                 Text(
                   snapshot.error?.toString() ?? "",

@@ -156,6 +156,7 @@ class _Subject extends StatelessWidget {
             onChanged: bloc.changeSubject,
             onEditingComplete: () =>
                 FocusManager.instance.primaryFocus?.unfocus(),
+            textCapitalization: TextCapitalization.sentences,
           ),
         );
       },
@@ -186,6 +187,7 @@ class _Abbreviation extends StatelessWidget {
         hintText: "z.B. M",
       ),
       maxLength: 3,
+      textCapitalization: TextCapitalization.characters,
     );
   }
 }
@@ -207,6 +209,7 @@ class _CourseName extends StatelessWidget {
           labelText: "Name des Kurses",
           hintText: "z.B. Mathematik GK Q2",
         ),
+        textCapitalization: TextCapitalization.sentences,
       ),
       description:
           "Der Kursname dient hauptsächlich für die Lehrkraft zur Unterscheidung der einzelnen Kurse. Denn würden bei der Lehrkraft alle Kurse Mathematik heißen, könnte diese nicht mehr Kurse unterscheiden.",

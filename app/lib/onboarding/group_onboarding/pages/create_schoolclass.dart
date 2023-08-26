@@ -122,6 +122,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                           hintText: 'z.B. 10A',
                           border: OutlineInputBorder(),
                         ),
+                        textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
                   ),

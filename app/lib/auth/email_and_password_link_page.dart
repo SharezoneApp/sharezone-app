@@ -223,6 +223,7 @@ class NameField extends StatelessWidget {
                 errorText: snapshot.error?.toString(),
                 border: const OutlineInputBorder(),
               ),
+              textCapitalization: TextCapitalization.sentences,
             ),
             const SizedBox(height: 8),
             Padding(
