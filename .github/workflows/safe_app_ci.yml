@@ -245,7 +245,7 @@ jobs:
           # of the "app-store-connect get-latest-build-number" command because the
           # second line includes the build number.
           LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $MACOS_APP_ID --platform MAC_OS | head -2 | tail -1)
-          BUMPED_BUILD_NUMBER=469
+          BUMPED_BUILD_NUMBER=470
 
           sz build macos \
             --stage alpha \
