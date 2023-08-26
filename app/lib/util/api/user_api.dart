@@ -107,6 +107,14 @@ class UserGateway implements UserGatewayAuthentifcation {
   Future<User> linkWithCredential(AuthCredential credential) async {
     final authResult =
         await authUser.firebaseUser.linkWithCredential(credential);
+
+    // Even when we are using the `userChanges()` stream, we still need to call
+    // `reload()` because the `isAnonymous` property is not updated on iOS (and
+    // macOS). When the bug is fixed, we can remove this call.
+    //
+    // Bug report: https://github.com/firebase/flutterfire/issues/11520
+    await authUser.firebaseUser.reload();
+
     return authResult.user;
   }
 
@@ -193,11 +201,6 @@ class UserGateway implements UserGatewayAuthentifcation {
       _authUserSubject.close(),
       _userSubject.close(),
     ]);
-  }
-
-  @override
-  Future<void> reloadUser() async {
-    await references.firebaseAuth.currentUser.reload();
   }
 }
 

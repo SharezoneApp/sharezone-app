@@ -46,13 +46,6 @@ class LinkProviderGateway extends BlocBase {
         EmailAuthProvider.credential(email: email, password: password);
     await userGateway.linkWithCredential(credential);
 
-    // Even when we are using the `userChanges()` stream, we still need to call
-    // `reload()` because the `isAnonymous` property is not updated on iOS (and
-    // macOS). When the bug is fixed, we can remove this call.
-    //
-    // Bug report: https://github.com/firebase/flutterfire/issues/11520
-    await userGateway.reloadUser();
-
     _analytics.logEmailAndPasswordLink();
 
     return true;
