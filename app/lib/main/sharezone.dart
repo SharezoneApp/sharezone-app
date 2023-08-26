@@ -120,8 +120,8 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                         Provider<NotificationsPermission>(
                           create: (_) => NotificationsPermission(
                             firebaseMessaging: FirebaseMessaging.instance,
-                            mobileDeviceInformationRetreiver:
-                                MobileDeviceInformationRetreiver(),
+                            mobileDeviceInformationRetriever:
+                                MobileDeviceInformationRetriever(),
                           ),
                         )
                       ],

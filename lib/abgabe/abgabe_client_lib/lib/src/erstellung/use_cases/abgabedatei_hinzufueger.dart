@@ -18,11 +18,11 @@ abstract class AbgabedateiHinzufueger {
 class HttpAbgabedateiHinzufueger extends AbgabedateiHinzufueger {
   HttpAbgabedateiHinzufueger(
     this.api,
-    this._authHeaderRetreiver,
+    this._authHeaderRetriever,
   );
 
   final AbgabedateiApi api;
-  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+  final FirebaseAuthHeaderRetriever _authHeaderRetriever;
 
   @override
   Future<void> fuegeAbgabedateiHinzu(DateiHinzufuegenCommand befehl) async {
@@ -32,7 +32,7 @@ class HttpAbgabedateiHinzufueger extends AbgabedateiHinzufueger {
         dto.id = '${befehl.dateiId}';
         dto.name = '${befehl.dateiname}';
       }),
-      headers: await _authHeaderRetreiver.getAuthHeader(),
+      headers: await _authHeaderRetriever.getAuthHeader(),
     );
   }
 }

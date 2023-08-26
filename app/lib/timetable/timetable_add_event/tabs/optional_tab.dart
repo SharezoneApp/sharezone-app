@@ -97,6 +97,7 @@ class _DescriptionField extends StatelessWidget {
                 maxLines: null,
                 onEditingComplete: () => _submit(context),
                 textInputAction: TextInputAction.newline,
+                textCapitalization: TextCapitalization.sentences,
               ),
               const SizedBox(height: 10),
               Padding(

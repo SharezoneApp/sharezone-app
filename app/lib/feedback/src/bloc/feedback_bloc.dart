@@ -16,14 +16,14 @@ import 'package:sharezone/feedback/src/models/user_feedback.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
 class FeedbackBloc extends BlocBase {
-  /// The time between successful feedback submissions that has to been exeeded,
+  /// The time between successful feedback submissions that has to been exceeded,
   /// before another feedback can be submitted.
-  static const Duration feedbackCooldown = Duration(seconds: 30);
+  static const Duration feedbackCoolDown = Duration(seconds: 30);
 
   final FeedbackApi _api;
   final FeedbackCache _cache;
   final FeedbackAnalytics feedbackAnalytics;
-  final PlatformInformationRetreiver _platformInformationRetreiver;
+  final PlatformInformationRetriever _platformInformationRetriever;
   final String uid;
 
   final _ratingSubject = BehaviorSubject<double>();
@@ -34,7 +34,7 @@ class FeedbackBloc extends BlocBase {
   final _isAnonymousSubject = BehaviorSubject.seeded(false);
   final _contactOptions = BehaviorSubject<String>();
 
-  FeedbackBloc(this._api, this._cache, this._platformInformationRetreiver,
+  FeedbackBloc(this._api, this._cache, this._platformInformationRetriever,
       this.uid, this.feedbackAnalytics) {
     isAnonymous = _isAnonymousSubject.stream;
   }
@@ -47,7 +47,7 @@ class FeedbackBloc extends BlocBase {
   Function(bool) get changeIsAnonymous => _isAnonymousSubject.sink.add;
   Function(String) get changeContactOptions => _contactOptions.sink.add;
 
-  ValueStream<double> get raiting => _ratingSubject;
+  ValueStream<double> get rating => _ratingSubject;
   ValueStream<String> get like => _likeSubject;
   ValueStream<String> get dislike => _dislikeSubject;
   ValueStream<String> get missing => _missingSubject;
@@ -63,21 +63,21 @@ class FeedbackBloc extends BlocBase {
   /// Will add uid, contact information and platform information to the
   /// [UserFeedback] as long as [changeIsAnonymous] was not passed true as the
   /// latest value.
-  /// platform information will be read from the [PlatformInformationRetreiver].
+  /// platform information will be read from the [PlatformInformationRetriever].
   ///
-  /// Throws a [CooldownException] if
-  /// [FeedbackCache.hasFeedbackSubmissionCooldown] returns true.
+  /// Throws a [CoolDownException] if
+  /// [FeedbackCache.hasFeedbackSubmissionCoolDown] returns true.
   ///
   /// Throws an [EmptyFeedbackException] if no values (or only whitespace) have
   /// been given per [changeLike], [changeDislike], [changeMissing],
   /// [changeHeardFrom] - this is done by checking
   /// [UserFeedback.requiredUserInputIsEmpty].
   Future<void> submit() async {
-    final isOnCooldown =
-        await _cache.hasFeedbackSubmissionCooldown(feedbackCooldown);
-    if (isOnCooldown)
-      throw CooldownException(
-          "User has not yet exeeded the cooldown.", feedbackCooldown);
+    final isOnCoolDown =
+        await _cache.hasFeedbackSubmissionCoolDown(feedbackCoolDown);
+    if (isOnCoolDown)
+      throw CoolDownException(
+          "User has not yet exceeded the cool down.", feedbackCoolDown);
 
     final isAnonymous = _isAnonymousSubject.valueOrNull;
 
@@ -90,13 +90,13 @@ class FeedbackBloc extends BlocBase {
     final userContactInformation =
         isAnonymous ? "" : _contactOptions.valueOrNull;
 
-    await _platformInformationRetreiver.init();
+    await _platformInformationRetriever.init();
 
     final deviceInfo = FeedbackDeviceInformation.create().copyWith(
-      appName: _platformInformationRetreiver.appName,
-      packageName: _platformInformationRetreiver.packageName,
-      versionName: _platformInformationRetreiver.version,
-      versionNumber: _platformInformationRetreiver.versionNumber,
+      appName: _platformInformationRetriever.appName,
+      packageName: _platformInformationRetriever.packageName,
+      versionName: _platformInformationRetriever.version,
+      versionNumber: _platformInformationRetriever.versionNumber,
     );
 
     final feedback = UserFeedback.create().copyWith(

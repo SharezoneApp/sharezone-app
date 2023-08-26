@@ -27,11 +27,11 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
     this.itemBuilder,
     this.itemRemovedBuilder,
     this.padding,
-    this.initalList,
+    this.initialList,
   }) : super(key: key);
 
   final Stream<List<E>> listStream;
-  final List<E> initalList;
+  final List<E> initialList;
   final Stream<bool> isListEmptyStream;
 
   final Widget emptyListWidget;

@@ -107,7 +107,7 @@ Future<Time> selectTime(BuildContext context,
     return showDialog<TimeOfDay>(
       context: context,
       builder: (context) => CupertinoTimerPickerWithTimeOfDay(
-        initalTime: initialTime?.toTimeOfDay(),
+        initialTime: initialTime?.toTimeOfDay(),
         minutesInterval: minutesInterval,
         title: title,
       ),
@@ -139,10 +139,10 @@ Future<Time> selectTime(BuildContext context,
 
 class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
   const CupertinoTimerPickerWithTimeOfDay(
-      {Key key, this.initalTime, this.minutesInterval, this.title})
+      {Key key, this.initialTime, this.minutesInterval, this.title})
       : super(key: key);
 
-  final TimeOfDay initalTime;
+  final TimeOfDay initialTime;
   final int minutesInterval;
   final String title;
 
@@ -158,12 +158,12 @@ class _CupertinoTimerPickerWithTimeOfDayState
   @override
   void initState() {
     super.initState();
-    timeOfDay = widget.initalTime ?? TimeOfDay(hour: 9, minute: 0);
+    timeOfDay = widget.initialTime ?? TimeOfDay(hour: 9, minute: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final initalTime = widget.initalTime ?? TimeOfDay(hour: 9, minute: 0);
+    final initialTime = widget.initialTime ?? TimeOfDay(hour: 9, minute: 0);
     return AlertDialog(
       title: isNotEmptyOrNull(widget.title) ? Text(widget.title) : null,
       content: SizedBox(
@@ -181,8 +181,8 @@ class _CupertinoTimerPickerWithTimeOfDayState
           ),
           child: CupertinoTimerPicker(
             initialTimerDuration: Duration(
-              hours: initalTime.hour,
-              minutes: initalTime.minute,
+              hours: initialTime.hour,
+              minutes: initialTime.minute,
             ),
             minuteInterval: widget.minutesInterval,
             onTimerDurationChanged: (dur) =>

@@ -6,11 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-class CooldownException implements Exception {
+class CoolDownException implements Exception {
   final String message;
-  final Duration cooldown;
+  final Duration coolDown;
 
-  CooldownException([this.message, this.cooldown]);
+  CoolDownException([this.message, this.coolDown]);
 
   @override
   String toString() {
@@ -18,8 +18,8 @@ class CooldownException implements Exception {
     if (message != null && "" != message) {
       report = "$report: $message";
     }
-    if (cooldown != null) {
-      report += " Cooldown: $cooldown";
+    if (coolDown != null) {
+      report += " Cooldown: $coolDown";
     }
     return report;
   }

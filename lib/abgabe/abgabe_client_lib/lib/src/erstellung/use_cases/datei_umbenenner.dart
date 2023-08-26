@@ -20,10 +20,10 @@ abstract class AbgabendateiUmbenenner {
 class HttpAbgabendateiUmbenenner extends AbgabendateiUmbenenner {
   final AbgabedateiApi api;
   final AbgabeId abgabeId;
-  final FirebaseAuthHeaderRetreiver _authHeaderRetreiver;
+  final FirebaseAuthHeaderRetriever _authHeaderRetriever;
 
   HttpAbgabendateiUmbenenner(
-      this.api, this.abgabeId, this._authHeaderRetreiver);
+      this.api, this.abgabeId, this._authHeaderRetriever);
 
   @override
   Future<void> nenneDateiUm(AbgabedateiId dateiId, Dateiname neuerName) async {
@@ -33,6 +33,6 @@ class HttpAbgabendateiUmbenenner extends AbgabendateiUmbenenner {
         DateinameDto(
           (dto) => dto.name = neuerName.mitExtension,
         ),
-        headers: await _authHeaderRetreiver.getAuthHeader());
+        headers: await _authHeaderRetriever.getAuthHeader());
   }
 }

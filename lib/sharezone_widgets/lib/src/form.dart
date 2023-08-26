@@ -28,7 +28,7 @@ Future<void> showDeleteDialog(
     title: title,
     content: description,
     defaultValue: false,
-    left: AdaptiveDialogAction.cancle,
+    left: AdaptiveDialogAction.cancel,
     right: AdaptiveDialogAction.delete,
   ))!;
 

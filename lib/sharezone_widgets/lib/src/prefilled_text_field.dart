@@ -26,6 +26,7 @@ class PrefilledTextField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.autofillHints,
     this.autoSelectAllCharactersOnFirstBuild = false,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   /// The text that will be already filled into the underlying [TextField] on
@@ -419,6 +420,9 @@ class PrefilledTextField extends StatefulWidget {
   /// (Copied from [TextField.autofillHints])
   final Iterable<String>? autofillHints;
 
+  /// See [TextField.textCapitalization].
+  final TextCapitalization textCapitalization;
+
   @override
   State createState() => _PrefilledTextFieldState();
 }
@@ -453,6 +457,7 @@ class _PrefilledTextFieldState extends State<PrefilledTextField> {
       keyboardType: widget.keyboardType,
       cursorColor: widget.cursorColor,
       scrollPadding: widget.scrollPadding,
+      textCapitalization: widget.textCapitalization,
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:abgabe_http_api/api.dart';
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
+import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -147,7 +148,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       FirebaseFeedbackApi(widget.blocDependencies.firestore),
       FeedbackCache(
           FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
-      getPlatformInformationRetreiver(),
+      getPlatformInformationRetriever(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
     );
@@ -285,7 +286,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
-    var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
+    var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
         widget.blocDependencies.authUser.firebaseUser);
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
@@ -319,6 +320,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider<SubscriptionEnabledFlag>(
         create: (context) => subscriptionEnabledFlag,
+      ),
+      StreamProvider<auth.AuthUser>(
+        create: (context) => api.user.authUserStream,
+        initialData: null,
       )
     ];
 
@@ -343,7 +348,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<UpdateReminderBloc>(
         bloc: UpdateReminderBloc(
-            platformInformationRetreiver: FlutterPlatformInformationRetreiver(),
+            platformInformationRetriever: FlutterPlatformInformationRetriever(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
             updateGracePeriod: Duration(days: 3)),
@@ -388,8 +393,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               crashAnalytics,
               CloudStorageBucket(abgabenBucketName),
               HttpAbgabedateiHinzufueger(abgabeHttpApi.getAbgabedateiApi(),
-                  FirebaseAuthHeaderRetreiver(firebaseAuthTokenRetreiver))),
-          authTokenRetreiver: firebaseAuthTokenRetreiver,
+                  FirebaseAuthHeaderRetriever(firebaseAuthTokenRetriever))),
+          authTokenRetriever: firebaseAuthTokenRetriever,
           saver: SingletonLocalFileSaver(),
           recordError: crashAnalytics.recordError,
           userId: api.uID,

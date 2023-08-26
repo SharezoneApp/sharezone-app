@@ -9,7 +9,7 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
-class FlutterPlatformInformationRetreiver extends PlatformInformationRetreiver {
+class FlutterPlatformInformationRetriever extends PlatformInformationRetriever {
   PackageInfo _packageInfo;
 
   @override

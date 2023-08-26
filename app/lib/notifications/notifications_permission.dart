@@ -15,11 +15,11 @@ import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 
 class NotificationsPermission {
-  final MobileDeviceInformationRetreiver mobileDeviceInformationRetreiver;
+  final MobileDeviceInformationRetriever mobileDeviceInformationRetriever;
   final FirebaseMessaging firebaseMessaging;
 
   const NotificationsPermission({
-    @required this.mobileDeviceInformationRetreiver,
+    @required this.mobileDeviceInformationRetriever,
     @required this.firebaseMessaging,
   });
 
@@ -28,7 +28,7 @@ class NotificationsPermission {
   Future<bool> isRequiredToRequestPermission() async {
     if (PlatformCheck.isAndroid) {
       final currentAndroidSdk =
-          await mobileDeviceInformationRetreiver.androidSdkInt();
+          await mobileDeviceInformationRetriever.androidSdkInt();
 
       // Android SDK 33 equals Android 13.
       //

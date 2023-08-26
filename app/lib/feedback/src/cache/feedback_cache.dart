@@ -19,7 +19,7 @@ class FeedbackCache {
 
   FeedbackCache(this._cache);
 
-  Future<bool> hasFeedbackSubmissionCooldown(Duration feedbackCooldown) async {
+  Future<bool> hasFeedbackSubmissionCoolDown(Duration feedbackCooldown) async {
     DateTime lastSubmit;
     try {
       lastSubmit = await _getLastSubmitTime();

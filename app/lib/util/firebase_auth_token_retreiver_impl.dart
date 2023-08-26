@@ -9,8 +9,8 @@
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthTokenRetreiverImpl extends FirebaseAuthTokenRetreiver {
-  FirebaseAuthTokenRetreiverImpl(this._user);
+class FirebaseAuthTokenRetrieverImpl extends FirebaseAuthTokenRetriever {
+  FirebaseAuthTokenRetrieverImpl(this._user);
   final User _user;
 
   @override

@@ -126,6 +126,7 @@ class _NameField extends StatelessWidget {
       maxLength: 32,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
+      textCapitalization: TextCapitalization.sentences,
     );
   }
 }

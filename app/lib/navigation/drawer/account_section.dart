@@ -118,13 +118,18 @@ class _Email extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
-    if (userGateway.authUser.provider == Provider.apple) return Container();
-    final email = userGateway.authUser.isAnonymous
-        ? "Anonym angemeldet"
-        : userGateway.authUser.email;
-    return Text(email ?? "",
-        style: TextStyle(color: Colors.grey, fontSize: 12));
+    final user = Provider.of<auth.AuthUser>(context);
+    if (user == null) return Container();
+
+    final email = user.email;
+    // We also count "-" as empty because this is used by Firebase Auth when the
+    // user signed in with Google or Apple but has no email address.
+    final isEmailEmpty = user.email == null || email.isEmpty || email == "-";
+    if (isEmailEmpty) return Container();
+    return Text(
+      email,
+      style: TextStyle(color: Colors.grey, fontSize: 12),
+    );
   }
 }
 

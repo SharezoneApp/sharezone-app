@@ -62,7 +62,7 @@ class AppleSignInLogic {
     try {
       return await function();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'popup-closed-by-user') {
+      if (e.code == 'popup-closed-by-user' || e.code == 'canceled') {
         return null;
       }
 

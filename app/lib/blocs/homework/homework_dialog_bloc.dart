@@ -40,12 +40,12 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       BehaviorSubject<Time>.seeded(Time(hour: 23, minute: 59));
 
   final HomeworkDialogApi api;
-  final HomeworkDto initalHomework;
+  final HomeworkDto initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
 
   HomeworkDialogBloc(this.api, this._markdownAnalytics, {HomeworkDto homework})
-      : initalHomework = homework {
+      : initialHomework = homework {
     if (homework != null) {
       _loadInitialCloudFiles(homework.courseReference.id, homework.id);
 
@@ -150,19 +150,19 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
-    if (initalHomework == null) {
+    if (initialHomework == null) {
       return isNotEmptyOrNull(title) ||
           isNotEmptyOrNull(description) ||
           hasAttachments ||
           course != null ||
           todoUntil != null;
     } else {
-      return title != initalHomework.title ||
-          description != initalHomework.description ||
-          course.id != initalHomework.courseID ||
-          todoUntil != initalHomework.todoUntil ||
+      return title != initialHomework.title ||
+          description != initialHomework.description ||
+          course.id != initialHomework.courseID ||
+          todoUntil != initialHomework.todoUntil ||
           hasAttachments ||
-          initalHomework.attachments.length != cloudFiles.length;
+          initialHomework.attachments.length != cloudFiles.length;
     }
   }
 

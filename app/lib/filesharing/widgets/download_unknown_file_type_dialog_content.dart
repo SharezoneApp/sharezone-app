@@ -98,7 +98,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     if (!PlatformCheck.isAndroid) return child;
 
     return FutureBuilder<AndroidDeviceInformation>(
-      future: MobileDeviceInformationRetreiver().androidInfo,
+      future: MobileDeviceInformationRetriever().androidInfo,
       builder: (context, versionFuture) {
         if (!versionFuture.hasData) return _LoadingDialog();
 

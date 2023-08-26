@@ -28,7 +28,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
   final LinkProviderGateway linkProviderGateway;
   final UserEditBlocGateway userEditBlocGateway;
-  final String initalName;
+  final String initialName;
 
   final LinkProviderAnalytics _analytics =
       LinkProviderAnalytics(Analytics(getBackend()));
@@ -46,8 +46,8 @@ class EmailAndPasswordLinkBloc extends BlocBase
   Stream<bool> get obscureText => _obscureTextSubject;
 
   EmailAndPasswordLinkBloc(this.linkProviderGateway, this.userEditBlocGateway,
-      this.initalName, this.scaffoldMessengerKey) {
-    _nameController.sink.add(initalName);
+      this.initialName, this.scaffoldMessengerKey) {
+    _nameController.sink.add(initialName);
   }
 
   // change data
@@ -122,7 +122,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   }
 
   /// Checks, if the user has changed his name
-  bool _hasUserChangedName() => _nameController.valueOrNull != initalName;
+  bool _hasUserChangedName() => _nameController.valueOrNull != initialName;
 
   @override
   void dispose() {

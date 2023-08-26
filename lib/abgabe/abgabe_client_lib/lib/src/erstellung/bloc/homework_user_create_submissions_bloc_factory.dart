@@ -25,7 +25,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   final AbnahmeErstellungGateway gateway;
   final AbgabeHttpApi abgabeHttpApi;
   final Future<void> Function(dynamic exception, StackTrace stack) recordError;
-  final FirebaseAuthTokenRetreiver authTokenRetreiver;
+  final FirebaseAuthTokenRetriever authTokenRetriever;
 
   HomeworkUserCreateSubmissionsBlocFactory({
     required this.uploader,
@@ -34,20 +34,20 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
     required this.userId,
     required this.gateway,
     required this.abgabeHttpApi,
-    required this.authTokenRetreiver,
+    required this.authTokenRetriever,
   });
 
   HomeworkUserCreateSubmissionsBloc create(String homeworkId) {
     var id = HomeworkId(homeworkId);
     final abgabeId = AbgabeId(AbgabezielId.homework(id), UserId(userId));
     final abgabedateiApi = abgabeHttpApi.getAbgabedateiApi();
-    final headerRetreiver = FirebaseAuthHeaderRetreiver(authTokenRetreiver);
+    final headerRetriever = FirebaseAuthHeaderRetriever(authTokenRetriever);
     final umbenenner =
-        HttpAbgabendateiUmbenenner(abgabedateiApi, abgabeId, headerRetreiver);
+        HttpAbgabendateiUmbenenner(abgabedateiApi, abgabeId, headerRetriever);
     final loescher =
-        HttpAbgabendateiLoescher(abgabedateiApi, abgabeId, headerRetreiver);
+        HttpAbgabendateiLoescher(abgabedateiApi, abgabeId, headerRetriever);
     final veroeffentlicher = HttpAbgabeVeroeffentlicher(
-        abgabeHttpApi.getAbgabeApi(), headerRetreiver);
+        abgabeHttpApi.getAbgabeApi(), headerRetriever);
 
     return HomeworkUserCreateSubmissionsBloc(
       AbgabeId(AbgabezielId.homework(id), UserId(userId)),

@@ -134,6 +134,7 @@ class _NameField extends StatelessWidget {
           ),
           maxLength: 32,
           textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.sentences,
         );
       },
     );

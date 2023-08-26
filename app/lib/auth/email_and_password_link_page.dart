@@ -25,13 +25,17 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 
   final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
   final result = await bloc.linkWithEmailAndPasswordAndHandleExceptions();
-  if (result == LinkAction.finished)
+  if (result == LinkAction.finished) {
+    // Hides the loading snackbar, see
+    // https://github.com/SharezoneApp/sharezone-app/issues/814.
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     Navigator.pop(context, true);
-  else if (result == LinkAction.credentialAlreadyInUse)
+  } else if (result == LinkAction.credentialAlreadyInUse) {
     showCredentialAlreadyInUseDialog(context);
+  }
 }
 
-TextStyle _hintTextSyle(BuildContext context) => TextStyle(
+TextStyle _hintTextStyle(BuildContext context) => TextStyle(
     color: isDarkThemeEnabled(context)
         ? Colors.grey
         : Colors.grey[600].withOpacity(0.75),
@@ -223,13 +227,14 @@ class NameField extends StatelessWidget {
                 errorText: snapshot.error?.toString(),
                 border: const OutlineInputBorder(),
               ),
+              textCapitalization: TextCapitalization.sentences,
             ),
             const SizedBox(height: 8),
             Padding(
               padding: EdgeInsets.only(left: withIcon ? 38 : 0),
               child: Text(
                 "Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.",
-                style: _hintTextSyle(context),
+                style: _hintTextStyle(context),
               ),
             ),
           ],
@@ -264,7 +269,7 @@ class _EmailField extends StatelessWidget {
           padding: const EdgeInsets.only(left: 38),
           child: Text(
               "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
-              style: _hintTextSyle(context)),
+              style: _hintTextStyle(context)),
         ),
       ],
     );

@@ -32,7 +32,7 @@ void main() {
   group("Feedback tests", () {
     MockFeedbackApi api;
     ClearableFeedbackCache cache;
-    MockPlatformInformationRetreiver platformInformationRetreiver;
+    MockPlatformInformationRetriever platformInformationRetriever;
     FeedbackBloc bloc;
     UserFeedback expectedResponseWithIdentifiableInfo;
     UserFeedback expectedAnonymousResponse;
@@ -41,12 +41,12 @@ void main() {
     setUp(() {
       api = MockFeedbackApi();
       cache = ClearableFeedbackCache(InMemoryKeyValueStore());
-      platformInformationRetreiver = MockPlatformInformationRetreiver();
+      platformInformationRetriever = MockPlatformInformationRetriever();
       analytics = MockFeedbackAnalytics();
       bloc = FeedbackBloc(
-          api, cache, platformInformationRetreiver, uid, analytics);
-      platformInformationRetreiver.appName = "appName";
-      platformInformationRetreiver.packageName = "packageName";
+          api, cache, platformInformationRetriever, uid, analytics);
+      platformInformationRetriever.appName = "appName";
+      platformInformationRetriever.packageName = "packageName";
 
       expectedResponseWithIdentifiableInfo = UserFeedback.create().copyWith(
           rating: rating,
@@ -100,7 +100,7 @@ void main() {
 
       writeRdmValues(bloc);
 
-      expect(bloc.submit(), throwsA(isInstanceOf<CooldownException>()));
+      expect(bloc.submit(), throwsA(isInstanceOf<CoolDownException>()));
       expect(api.wasInvoked, false);
     });
 

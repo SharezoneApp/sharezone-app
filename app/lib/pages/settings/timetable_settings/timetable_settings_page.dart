@@ -254,15 +254,15 @@ class LessonsLengthField extends StatelessWidget {
   }
 
   Future<LessonLength> showNumberPickerDialog(
-      BuildContext context, int initalLengthInMinutes) async {
+      BuildContext context, int initialLengthInMinutes) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
       builder: (context) => _NumberPicker(
-        initalLength: initalLengthInMinutes,
+        initialLength: initialLengthInMinutes,
       ),
     );
 
-    return LessonLength(selectedLengthInMinutes ?? initalLengthInMinutes);
+    return LessonLength(selectedLengthInMinutes ?? initialLengthInMinutes);
   }
 
   void _showConfirmationSnackBar(BuildContext context) {
@@ -275,9 +275,9 @@ class LessonsLengthField extends StatelessWidget {
 }
 
 class _NumberPicker extends StatefulWidget {
-  const _NumberPicker({Key key, this.initalLength}) : super(key: key);
+  const _NumberPicker({Key key, this.initialLength}) : super(key: key);
 
-  final int initalLength;
+  final int initialLength;
 
   @override
   __NumberPickerState createState() => __NumberPickerState();
@@ -288,7 +288,7 @@ class __NumberPickerState extends State<_NumberPicker> {
 
   @override
   void initState() {
-    value = widget.initalLength;
+    value = widget.initialLength;
     super.initState();
   }
 
