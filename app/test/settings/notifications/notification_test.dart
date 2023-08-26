@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,10 +24,10 @@ class MockUser extends Mock implements AppUser {}
 void main() {
   group("NotificationBloc", () {
     NotificationsBloc bloc;
-    MockUserApi api;
-    MockUserApi apiWithUserWithReminder;
-    NotificationsBloc blocWithUserWithReminder;
-    MockUser user;
+    late MockUserApi api;
+    late MockUserApi apiWithUserWithReminder;
+    late NotificationsBloc blocWithUserWithReminder;
+    late MockUser user;
     setUp(() {
       api = MockUserApi();
       user = MockUser();
