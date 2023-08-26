@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -16,8 +18,8 @@ import 'package:sharezone/util/flavor.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  AppDependencies dependencies;
-  _UserCredentials user1;
+  late AppDependencies dependencies;
+  late _UserCredentials user1;
 
   setUpAll(() async {
     dependencies = await initializeDependencies(flavor: Flavor.prod);
@@ -124,8 +126,8 @@ void main() {
 /// The credentials for user used in the integration tests.
 class _UserCredentials {
   const _UserCredentials({
-    @required this.email,
-    @required this.password,
+    required this.email,
+    required this.password,
   });
 
   /// The email address of the user.
