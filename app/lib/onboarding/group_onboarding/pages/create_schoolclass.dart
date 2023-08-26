@@ -114,7 +114,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                       child: TextField(
                         autofocus: true,
                         maxLength: 32,
-                        onChanged: (newtext) => bloc.name.value = newtext,
+                        onChanged: (newText) => bloc.name.value = newText,
                         onEditingComplete: () {
                           if (isValid) onSubmit(context, name);
                         },

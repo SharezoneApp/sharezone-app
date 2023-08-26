@@ -66,7 +66,7 @@ class LocalChangeGateway implements ChangelogGateway {
       throw UnimplementedError();
 }
 
-class MockInformationManager extends PlatformInformationRetreiver {
+class MockInformationManager extends PlatformInformationRetriever {
   @override
   String get appName => "Sharezone";
 

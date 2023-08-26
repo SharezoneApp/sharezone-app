@@ -148,7 +148,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       FirebaseFeedbackApi(widget.blocDependencies.firestore),
       FeedbackCache(
           FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
-      getPlatformInformationRetreiver(),
+      getPlatformInformationRetriever(),
       widget.blocDependencies.authUser.uid,
       FeedbackAnalytics(analytics),
     );
@@ -286,7 +286,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
-    var firebaseAuthTokenRetreiver = FirebaseAuthTokenRetreiverImpl(
+    var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
         widget.blocDependencies.authUser.firebaseUser);
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
@@ -348,7 +348,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<UpdateReminderBloc>(
         bloc: UpdateReminderBloc(
-            platformInformationRetreiver: FlutterPlatformInformationRetreiver(),
+            platformInformationRetriever: FlutterPlatformInformationRetriever(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
             updateGracePeriod: Duration(days: 3)),
@@ -393,8 +393,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               crashAnalytics,
               CloudStorageBucket(abgabenBucketName),
               HttpAbgabedateiHinzufueger(abgabeHttpApi.getAbgabedateiApi(),
-                  FirebaseAuthHeaderRetreiver(firebaseAuthTokenRetreiver))),
-          authTokenRetreiver: firebaseAuthTokenRetreiver,
+                  FirebaseAuthHeaderRetriever(firebaseAuthTokenRetriever))),
+          authTokenRetriever: firebaseAuthTokenRetriever,
           saver: SingletonLocalFileSaver(),
           recordError: crashAnalytics.recordError,
           userId: api.uID,

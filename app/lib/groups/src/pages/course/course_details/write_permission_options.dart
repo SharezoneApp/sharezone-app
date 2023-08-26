@@ -17,13 +17,13 @@ import 'course_settings.dart';
 class WritePermissions extends StatelessWidget {
   const WritePermissions({
     Key key,
-    @required this.initalWritePermission,
+    @required this.initialWritePermission,
     @required this.writePermissionStream,
     @required this.onChange,
     this.annotation,
   }) : super(key: key);
 
-  final WritePermission initalWritePermission;
+  final WritePermission initialWritePermission;
   final Stream<WritePermission> writePermissionStream;
   final FutureBoolValueChanged<WritePermission> onChange;
   final String annotation;
@@ -32,10 +32,10 @@ class WritePermissions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text("Schreibrechte"),
-      subtitle: Text(writePermissionAsUiString(initalWritePermission)),
+      subtitle: Text(writePermissionAsUiString(initialWritePermission)),
       onTap: () => showWritePermissionOptionsSheet(
         context: context,
-        currentPermission: initalWritePermission,
+        currentPermission: initialWritePermission,
         permissionsStream: writePermissionStream,
         onChange: onChange,
         annotation: annotation,

@@ -141,7 +141,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
                         _AttachFile(),
                         getDividerOnMobile(context),
                         _TextField(
-                            initalText: widget?.oldBlackboardItem?.text ?? ""),
+                            initialText: widget?.oldBlackboardItem?.text ?? ""),
                         getDividerOnMobile(context),
                         _SendNotification(editMode: editMode),
                         getDividerOnMobile(context),
@@ -277,7 +277,7 @@ class _AppBar extends StatelessWidget {
             ),
             MaxWidthConstraintBox(
               child: _TitleField(
-                initalTitle: oldBlackboardItem?.title ?? "",
+                initialTitle: oldBlackboardItem?.title ?? "",
                 focusNode: focusNodeTitle,
               ),
             ),
@@ -289,11 +289,11 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({Key key, this.initalTitle, this.focusNode})
+  const _TitleField({Key key, this.initialTitle, this.focusNode})
       : super(key: key);
 
   final FocusNode focusNode;
-  final String initalTitle;
+  final String initialTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +311,7 @@ class _TitleField extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 PrefilledTextField(
-                  prefilledText: initalTitle,
+                  prefilledText: initialTitle,
                   focusNode: focusNode,
                   cursorColor: Colors.white,
                   maxLines: null,
@@ -407,9 +407,9 @@ class _PictureTile extends StatelessWidget {
 }
 
 class _TextField extends StatelessWidget {
-  const _TextField({@required this.initalText});
+  const _TextField({@required this.initialText});
 
-  final String initalText;
+  final String initialText;
 
   @override
   Widget build(BuildContext context) {
@@ -422,7 +422,7 @@ class _TextField extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.subject),
             title: PrefilledTextField(
-              prefilledText: initalText,
+              prefilledText: initialText,
               maxLines: null,
               scrollPadding: const EdgeInsets.all(16.0),
               keyboardType: TextInputType.multiline,

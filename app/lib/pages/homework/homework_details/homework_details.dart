@@ -591,7 +591,7 @@ class _AttachmentList extends StatelessWidget {
           AttachmentStreamList(
             cloudFileStream: view.attachmentStream,
             courseID: view.courseID,
-            initalAttachmentIDs: view.attachmentIDs,
+            initialAttachmentIDs: view.attachmentIDs,
           ),
           const SizedBox(height: 8),
         ],
