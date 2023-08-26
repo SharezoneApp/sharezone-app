@@ -29,11 +29,7 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
     // Hides the loading snackbar, see
     // https://github.com/SharezoneApp/sharezone-app/issues/814.
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-    Navigator.pop(
-      context,
-      true,
-    );
+    Navigator.pop(context, true);
   } else if (result == LinkAction.credentialAlreadyInUse) {
     showCredentialAlreadyInUseDialog(context);
   }
