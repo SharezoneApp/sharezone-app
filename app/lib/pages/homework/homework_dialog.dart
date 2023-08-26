@@ -8,7 +8,6 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -224,12 +223,27 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Text("SPEICHERN",
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
-      tooltip: "Hausaufgabe speichern",
-      iconSize: 90,
-      onPressed: () => onPressed(context),
+    return Tooltip(
+      message: "Hausaufgabe speichern",
+      child: ElevatedButton(
+        child: Text('Speichern'),
+        onPressed: () => onPressed(context),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          foregroundColor: isDarkThemeEnabled(context)
+              ? null
+              : Theme.of(context).primaryColor,
+          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          shadowColor: Colors.transparent,
+        ),
+      ),
     );
   }
 }
@@ -272,18 +286,14 @@ class _AppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewPadding = MediaQuery.of(context).viewPadding;
     return Material(
       color: isDarkThemeEnabled(context)
           ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
-        top: false,
+        top: true,
         bottom: false,
-        minimum: EdgeInsets.only(
-          top: math.max(24.0, viewPadding.top - 26.0),
-        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
