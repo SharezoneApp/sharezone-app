@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -17,8 +19,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'school_class_create_course_bloc.dart';
 
 Future<void> openSchoolClassCourseCreatePage(
-    BuildContext context, String schoolClassID,
-    {Course course}) async {
+  BuildContext context,
+  String schoolClassID, {
+  Course? course,
+}) async {
   final createdCourse = await pushWithDefault(
     context,
     _CourseCreatePage(course: course, schoolClassId: schoolClassID),
@@ -53,12 +57,15 @@ Future<void> submit(BuildContext context) async {
 }
 
 class _CourseCreatePage extends StatefulWidget {
-  const _CourseCreatePage({Key key, this.course, this.schoolClassId})
-      : super(key: key);
+  const _CourseCreatePage({
+    Key? key,
+    this.course,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = "school-class-course-create-page";
 
-  final Course course;
+  final Course? course;
   final String schoolClassId;
 
   @override
@@ -66,7 +73,7 @@ class _CourseCreatePage extends StatefulWidget {
 }
 
 class _CourseCreatePageState extends State<_CourseCreatePage> {
-  SchoolClassCourseCreateBloc bloc;
+  late SchoolClassCourseCreateBloc bloc;
 
   final abbreviationNode = FocusNode();
   final nameNode = FocusNode();
@@ -75,7 +82,9 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
   void initState() {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     bloc = SchoolClassCourseCreateBloc(
-        schoolClassID: widget.schoolClassId, gateway: api);
+      schoolClassID: widget.schoolClassId,
+      gateway: api,
+    );
     super.initState();
   }
 
@@ -124,10 +133,14 @@ class _CreateCourseFAB extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({Key key, this.subject, this.nextFocusNode}) : super(key: key);
+  const _Subject({
+    Key? key,
+    this.subject,
+    this.nextFocusNode,
+  }) : super(key: key);
 
-  final String subject;
-  final FocusNode nextFocusNode;
+  final String? subject;
+  final FocusNode? nextFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -158,13 +171,16 @@ class _Subject extends StatelessWidget {
 }
 
 class _Abbreviation extends StatelessWidget {
-  const _Abbreviation(
-      {Key key, this.abbreviation, this.focusNode, this.nextFocusNode})
-      : super(key: key);
+  const _Abbreviation({
+    Key? key,
+    this.abbreviation,
+    this.focusNode,
+    this.nextFocusNode,
+  }) : super(key: key);
 
-  final String abbreviation;
-  final FocusNode focusNode;
-  final FocusNode nextFocusNode;
+  final String? abbreviation;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -186,9 +202,12 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.focusNode}) : super(key: key);
+  const _CourseName({
+    Key? key,
+    this.focusNode,
+  }) : super(key: key);
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
