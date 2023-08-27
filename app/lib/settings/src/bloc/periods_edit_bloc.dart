@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
@@ -28,11 +30,11 @@ class PeriodsEditBloc extends BlocBase {
 
   PeriodsEditBloc(this._userSettingsBloc, this._lengthCache)
       : lessonLengthStream = _lengthCache.streamLessonLength() {
-    _changePeriods(_userSettingsBloc.current().periods);
-    changeTimetableStart(_userSettingsBloc.current().timetableStartTime);
+    _changePeriods(_userSettingsBloc.current()!.periods);
+    changeTimetableStart(_userSettingsBloc.current()!.timetableStartTime);
   }
 
-  void saveLessonLengthInCache(int lengthInMinutes) {
+  void saveLessonLengthInCache(int? lengthInMinutes) {
     if (lengthInMinutes != null) {
       final lessonLength = LessonLength(lengthInMinutes);
       _lengthCache.setLessonLength(lessonLength);
@@ -64,7 +66,7 @@ class PeriodsEditBloc extends BlocBase {
   Future<void> submit() async {
     checkForErrors();
     if (isSubmitValid()) {
-      final settings = _userSettingsBloc.current().copyWith(
+      final settings = _userSettingsBloc.current()!.copyWith(
           periods: _periodsDataSubject.valueOrNull,
           timetableStartTime: _timetableStartSubject.valueOrNull);
       _userSettingsBloc.updateSettings(settings);
@@ -81,7 +83,7 @@ class PeriodsEditBloc extends BlocBase {
   }
 
   void isPeriodStartTimeValid(Periods periods, int number, Time startTime) {
-    final period = periods.getPeriod(number).copyWith(startTime: startTime);
+    final period = periods.getPeriod(number)!.copyWith(startTime: startTime);
     final prevPeriod = periods.getPeriod(number - 1);
     final nextPeriod = periods.getPeriod(number + 1);
 
@@ -99,7 +101,7 @@ class PeriodsEditBloc extends BlocBase {
   Future<void> editPeriodStartTime(int number, Time startTime) async {
     final lessonLength = await lessonLengthStream.first;
     final periods = await _periodsDataSubject.first;
-    final period = periods.getPeriod(number).copyWith(
+    final period = periods.getPeriod(number)!.copyWith(
         startTime: startTime, endTime: startTime.add(lessonLength.duration));
     _changePeriods(periods.copyWithEditPeriod(period));
 
@@ -108,12 +110,12 @@ class PeriodsEditBloc extends BlocBase {
 
   Future<void> editPeriodEndTime(int number, Time endTime) async {
     final periods = await _periodsDataSubject.first;
-    final period = periods.getPeriod(number).copyWith(endTime: endTime);
+    final period = periods.getPeriod(number)!.copyWith(endTime: endTime);
     _changePeriods(periods.copyWithEditPeriod(period));
   }
 
   void isPeriodEndTimeValid(Periods periods, int number, Time endTime) {
-    final period = periods.getPeriod(number).copyWith(endTime: endTime);
+    final period = periods.getPeriod(number)!.copyWith(endTime: endTime);
     final nextPeriod = periods.getPeriod(number + 1);
     final prevPeriod = periods.getPeriod(number - 1);
 
@@ -133,7 +135,7 @@ class PeriodsEditBloc extends BlocBase {
   void removePeriodFromErrorSubject(int number) {
     if (_errorPeriodSubject.valueOrNull != null) {
       final value = _errorPeriodSubject.valueOrNull;
-      value.remove(number);
+      value!.remove(number);
       _errorPeriodSubject.sink.add(value);
     }
   }
@@ -141,7 +143,7 @@ class PeriodsEditBloc extends BlocBase {
   void addPeriodToErrorSubject(int number) {
     if (_errorPeriodSubject.valueOrNull != null) {
       final value = _errorPeriodSubject.valueOrNull;
-      value.add(number);
+      value!.add(number);
       _errorPeriodSubject.sink.add(value);
     } else {
       _errorPeriodSubject.sink.add(<int>{number});
