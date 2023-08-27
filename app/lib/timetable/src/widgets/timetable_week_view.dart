@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:date/date.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +25,10 @@ class TimetableWeekView extends StatelessWidget {
   final TimetableConfig config;
 
   const TimetableWeekView({
-    @required this.dates,
-    @required this.elements,
-    @required this.config,
-    @required this.periods,
+    required this.dates,
+    required this.elements,
+    required this.config,
+    required this.periods,
   });
 
   @override
