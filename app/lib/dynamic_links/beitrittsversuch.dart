@@ -6,13 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 
 class Beitrittsversuch {
   final Sharecode sharecode;
 
-  Beitrittsversuch({@required this.sharecode});
+  Beitrittsversuch({required this.sharecode});
 
   @override
   bool operator ==(dynamic other) {
