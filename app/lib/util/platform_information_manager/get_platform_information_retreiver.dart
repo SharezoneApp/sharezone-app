@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'flutter_platform_information_retreiver.dart';
 import 'platform_information_retreiver.dart';
 
