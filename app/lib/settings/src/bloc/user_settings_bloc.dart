@@ -32,9 +32,9 @@ class UserSettingsBloc extends BlocBase {
     _userGateway.updateSettingsSingleFiled('periods', periods.toJson());
   }
 
-  void updateEnabledWeekDays(EnabledWeekDays enabledWeekDays) {
+  void updateEnabledWeekDays(EnabledWeekDays? enabledWeekDays) {
     _userGateway.updateSettingsSingleFiled(
-        'enabledWeekDays', enabledWeekDays.toJson());
+        'enabledWeekDays', enabledWeekDays?.toJson());
   }
 
   void updateTimetableStartTime(Time time) {
