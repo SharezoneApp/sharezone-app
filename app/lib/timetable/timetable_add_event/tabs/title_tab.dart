@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../timetable_add_event_page.dart';
 
 class _TitleTab extends StatelessWidget {
-  _TitleTab({Key key, @required this.isExam}) : super(key: key);
+  _TitleTab({Key? key, required this.isExam}) : super(key: key);
 
   final roomFocusNode = FocusNode();
   final bool isExam;
