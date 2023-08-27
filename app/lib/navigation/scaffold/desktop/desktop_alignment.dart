@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -15,8 +17,12 @@ class DesktopAlignment extends StatelessWidget {
   final Widget drawer;
   final Widget scaffold;
 
-  const DesktopAlignment({Key key, this.drawer, this.scaffold})
-      : super(key: key);
+  const DesktopAlignment({
+    Key? key,
+    required this.drawer,
+    required this.scaffold,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Material(
