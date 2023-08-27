@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:date/weektype.dart';
@@ -38,8 +40,10 @@ String getWeekTypeTextShort(WeekType weekDay) {
   }
 }
 
-Future<WeekType> selectWeekType(BuildContext context,
-    {WeekType selected}) async {
+Future<WeekType?> selectWeekType(
+  BuildContext context, {
+  WeekType? selected,
+}) async {
   return await selectItem<WeekType>(
     context: context,
     items: WeekType.values.toList(),
