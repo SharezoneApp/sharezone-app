@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +21,7 @@ import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_page.d
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<bool> showCourseLeaveDialog(
+Future<bool?> showCourseLeaveDialog(
     BuildContext context, bool isLastMember) async {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
@@ -39,7 +41,7 @@ Future<bool> showCourseLeaveDialog(
   );
 }
 
-Future<bool> showDeleteCourseDialog(
+Future<bool?> showDeleteCourseDialog(
     BuildContext context, String courseName) async {
   return await showLeftRightAdaptiveDialog<bool>(
     context: context,
@@ -52,7 +54,7 @@ Future<bool> showDeleteCourseDialog(
 }
 
 class CourseCardRedesign extends StatelessWidget {
-  const CourseCardRedesign(this.course, {Key key}) : super(key: key);
+  const CourseCardRedesign(this.course, {Key? key}) : super(key: key);
 
   final Course course;
 
@@ -110,7 +112,7 @@ class CourseCardRedesign extends StatelessWidget {
             CourseDetailsBlocGateway(api.course, course), api.userId);
         final isLastMember = await bloc.isLastMember.first;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
-        if (confirmed) {
+        if (confirmed == true) {
           final leaveCourseFuture = api.course.leaveCourse(course.id);
           showAppFunctionStateDialog(context, leaveCourseFuture);
         }
@@ -118,7 +120,7 @@ class CourseCardRedesign extends StatelessWidget {
       case _CourseCardLongPressResult.delete:
         _logCourseDeleteViaCourseCardLongPress(analytics);
         final confirmed = await showDeleteCourseDialog(context, course.name);
-        if (confirmed) {
+        if (confirmed == true) {
           final deleteCourseFunction = api.course.deleteCourse(course.id);
           showAppFunctionStateDialog(context, deleteCourseFunction);
         }
@@ -213,13 +215,16 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
   final String schoolClassId;
 
   const SchoolClassVariantCourseTile({
-    @required this.course,
-    @required this.schoolClassId,
-    Key key,
+    required this.course,
+    required this.schoolClassId,
+    Key? key,
   }) : super(key: key);
 
   Future<void> onLongPress(
-      BuildContext context, bool isMember, bool isAdmin) async {
+    BuildContext context,
+    bool isMember,
+    bool isAdmin,
+  ) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
@@ -279,7 +284,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
             CourseDetailsBlocGateway(api.course, course), api.userId);
         final isLastMember = (await bloc.members.first).length <= 1;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
-        if (confirmed) {
+        if (confirmed == true) {
           final leaveCourseFuture = api.course.leaveCourse(course.id);
           showAppFunctionStateDialog(context, leaveCourseFuture);
         }
@@ -287,7 +292,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
       case _CourseCardLongPressResult.delete:
         _logCourseDeleteViaCourseCardLongPress(analytics);
         final confirmed = await showDeleteCourseDialog(context, course.name);
-        if (confirmed) {
+        if (confirmed == true) {
           final deleteCourseFunction = api.course.deleteCourse(course.id);
           showAppFunctionStateDialog(context, deleteCourseFunction);
         }
@@ -328,13 +333,14 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gateway = BlocProvider.of<SharezoneContext>(context).api.course;
-    return StreamBuilder<Course>(
+    return StreamBuilder<Course?>(
         stream: gateway.streamCourse(course.id),
         builder: (context, snapshot) {
           final courseFromOwn = snapshot.data;
           final isMember = courseFromOwn != null;
-          final isAdmin =
-              isMember ? isUserAdminOrOwnerOfGroup(courseFromOwn.myRole) : null;
+          final isAdmin = isMember
+              ? isUserAdminOrOwnerOfGroup(courseFromOwn!.myRole)
+              : null;
           return ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 19, vertical: 3),
@@ -358,7 +364,11 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
                     },
                   )
                 : null,
-            onLongPress: () => onLongPress(context, isMember, isAdmin),
+            onLongPress: () => onLongPress(
+              context,
+              isMember,
+              isAdmin ?? false,
+            ),
           );
         });
   }
@@ -367,13 +377,16 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
 enum _CourseCardLongPressResult { share, leave, edit, delete, join }
 
 class CourseCircleAvatar extends StatelessWidget {
-  const CourseCircleAvatar(
-      {Key key, this.abbreviation, this.courseId, this.heroTag})
-      : super(key: key);
+  const CourseCircleAvatar({
+    Key? key,
+    this.abbreviation,
+    required this.courseId,
+    this.heroTag,
+  }) : super(key: key);
 
   final String courseId;
-  final String heroTag;
-  final String abbreviation;
+  final String? heroTag;
+  final String? abbreviation;
 
   @override
   Widget build(BuildContext context) {
