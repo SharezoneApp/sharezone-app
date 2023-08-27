@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:rxdart/subjects.dart';
@@ -17,7 +19,7 @@ class EnabledWeekDaysEditBloc extends BlocBase {
   final _weekDaysSubject = BehaviorSubject<EnabledWeekDays>();
 
   EnabledWeekDaysEditBloc(this._userSettingsBloc) {
-    _changeEnabledWeekDays(_userSettingsBloc.current().enabledWeekDays);
+    _changeEnabledWeekDays(_userSettingsBloc.current()!.enabledWeekDays);
   }
 
   Stream<EnabledWeekDays> get weekDays => _weekDaysSubject;
@@ -32,7 +34,7 @@ class EnabledWeekDaysEditBloc extends BlocBase {
 
   Future<void> changeWeekDay(WeekDay weekDay, bool newValue) async {
     final weekDays = _weekDaysSubject.valueOrNull;
-    await _changeEnabledWeekDays(weekDays.copyWith(weekDay, newValue));
+    await _changeEnabledWeekDays(weekDays!.copyWith(weekDay, newValue));
   }
 
   @override
