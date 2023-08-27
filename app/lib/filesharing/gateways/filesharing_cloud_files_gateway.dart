@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_gateways.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
 
 class FilesharingCloudFilesGateway
     implements CloudFileAccessor, CloudFileOperator {
@@ -20,9 +21,10 @@ class FilesharingCloudFilesGateway
       _fStore.collection("Files");
   final FirebaseFirestore _fStore;
 
-  FilesharingCloudFilesGateway(
-      {@required this.user, @required FirebaseFirestore firestore})
-      : uID = user.uid,
+  FilesharingCloudFilesGateway({
+    required this.user,
+    required FirebaseFirestore firestore,
+  })  : uID = user.uid,
         _fStore = firestore;
 
   @override
@@ -89,10 +91,10 @@ class FilesharingCloudFilesGateway
     return filesCollection
         .doc(cloudFileID)
         .snapshots()
-        .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()));
+        .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()!));
   }
 
   @override
   Stream<String> nameStream(String cloudFileID) =>
-      cloudFileStream(cloudFileID).map((file) => file.name);
+      cloudFileStream(cloudFileID).map((file) => file.name!);
 }
