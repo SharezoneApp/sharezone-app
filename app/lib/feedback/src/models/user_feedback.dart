@@ -6,19 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class UserFeedback {
-  final double rating;
+  final double? rating;
   final String likes;
   final String dislikes;
   final String missing;
   final String heardFrom;
   final String uid;
   final String userContactInformation;
-  final FeedbackDeviceInformation deviceInformation;
+  final FeedbackDeviceInformation? deviceInformation;
 
   bool get requiredUserInputIsEmpty =>
       _isWhitespaceOrNull(likes) &&
@@ -29,14 +30,14 @@ class UserFeedback {
   bool _isWhitespaceOrNull(String s) => isEmptyOrNull(s.trim());
 
   const UserFeedback._({
-    @required this.rating,
-    @required this.likes,
-    @required this.dislikes,
-    @required this.missing,
-    @required this.heardFrom,
-    @required this.uid,
-    @required this.userContactInformation,
-    @required this.deviceInformation,
+    required this.rating,
+    required this.likes,
+    required this.dislikes,
+    required this.missing,
+    required this.heardFrom,
+    required this.uid,
+    required this.userContactInformation,
+    required this.deviceInformation,
   });
 
   factory UserFeedback.create() {
@@ -67,22 +68,20 @@ class UserFeedback {
         object == null || (object is String && object.isEmpty));
   }
 
-  // Rating muss zum String umgewandelt werden, damit das Feedback
-  // korrekt an Slack geschickt werden kann.
-  String _ratingToString() {
+  String? _ratingToString() {
     if (rating != null) return rating.toString();
     return null;
   }
 
   UserFeedback copyWith({
-    double rating,
-    String likes,
-    String dislikes,
-    String missing,
-    String heardFrom,
-    String uid,
-    String userContactInformation,
-    FeedbackDeviceInformation deviceInformation,
+    double? rating,
+    String? likes,
+    String? dislikes,
+    String? missing,
+    String? heardFrom,
+    String? uid,
+    String? userContactInformation,
+    FeedbackDeviceInformation? deviceInformation,
   }) {
     return UserFeedback._(
       rating: rating ?? this.rating,
@@ -135,17 +134,17 @@ class FeedbackDeviceInformation {
   final String versionNumber;
 
   const FeedbackDeviceInformation._({
-    @required this.appName,
-    @required this.packageName,
-    @required this.versionName,
-    @required this.versionNumber,
+    required this.appName,
+    required this.packageName,
+    required this.versionName,
+    required this.versionNumber,
   });
 
   FeedbackDeviceInformation copyWith({
-    String appName,
-    String packageName,
-    String versionName,
-    String versionNumber,
+    String? appName,
+    String? packageName,
+    String? versionName,
+    String? versionNumber,
   }) {
     return FeedbackDeviceInformation._(
       appName: appName ?? this.appName,
