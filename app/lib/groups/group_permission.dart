@@ -45,5 +45,5 @@ bool _hasPermission(
   }
 }
 
-bool isUserAdminOrOwnerOfGroup(MemberRole role) =>
+bool isUserAdminOrOwnerOfGroup(MemberRole? role) =>
     role == MemberRole.admin || role == MemberRole.owner;
