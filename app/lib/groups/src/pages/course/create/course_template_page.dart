@@ -43,7 +43,12 @@ class CourseTemplatePage extends StatelessWidget {
 }
 
 class CourseTemplatePageBody extends StatefulWidget {
-  const CourseTemplatePageBody({Key? key}) : super(key: key);
+  const CourseTemplatePageBody({
+    Key? key,
+    this.bottom,
+  }) : super(key: key);
+
+  final Widget? bottom;
 
   @override
   _CourseTemplatePageBodyState createState() => _CourseTemplatePageBodyState();
@@ -74,6 +79,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
               _Naturwissenschaften(),
               _Gesellschaftwissenschaften(),
               _Nebenfaecher(),
+              if (widget.bottom != null) widget.bottom!,
             ],
           ),
         ),
