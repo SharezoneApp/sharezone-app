@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/services.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
@@ -21,7 +22,7 @@ class GroupJoinBloc extends BlocBase {
   final CrashAnalytics _crashAnalytics;
 
   final _joinResultSubject = BehaviorSubject<GroupJoinResult>();
-  String _lastEnteredValue;
+  String? _lastEnteredValue;
 
   GroupJoinFunction get groupJoinFunction =>
       GroupJoinFunction(_connectionsGateway, _crashAnalytics);
@@ -37,7 +38,7 @@ class GroupJoinBloc extends BlocBase {
 
   /// Hier wird ein Join Versuch ohne zusätzliche Angaben gemacht.
   /// Dies erfolgt von der GroupJoinPage
-  Future<void> enterValue(String enteredValue) async {
+  Future<void> enterValue(String? enteredValue) async {
     if (enteredValue == null) return;
     if (enteredValue == "") return;
     _lastEnteredValue = enteredValue;
@@ -45,7 +46,7 @@ class GroupJoinBloc extends BlocBase {
 
     final groupJoinResult = await _join(
       joinValue: enteredValue,
-      courseList: null,
+      courseList: [],
     );
     _changeJoinResult(groupJoinResult);
   }
@@ -56,7 +57,7 @@ class GroupJoinBloc extends BlocBase {
   Future<void> enterValueWithCourseList(List<GroupKey> courseList) async {
     _changeJoinResult(LoadingJoinResult());
     final groupJoinResult = await _join(
-      joinValue: _lastEnteredValue,
+      joinValue: _lastEnteredValue!,
       courseList: courseList,
     );
     _changeJoinResult(groupJoinResult);
@@ -64,10 +65,14 @@ class GroupJoinBloc extends BlocBase {
 
   /// Checks if the user has a sharecode in the clipboard and returns
   /// the sharecode.
-  Future<Sharecode> getSharecodeFromClipboard() async {
+  Future<Sharecode?> getSharecodeFromClipboard() async {
     final clipboardData = await Clipboard.getData("text/plain");
-    if (Sharecode.isValid(clipboardData?.text))
-      return Sharecode(clipboardData.text);
+    if (clipboardData == null) return null;
+
+    if (Sharecode.isValid(clipboardData.text)) {
+      return Sharecode(clipboardData.text!);
+    }
+
     return null;
   }
 
@@ -83,13 +88,12 @@ class GroupJoinBloc extends BlocBase {
   }
 
   Future<GroupJoinResult> _join({
-    @required String joinValue,
-    List<GroupKey> courseList,
+    required String joinValue,
+    required List<GroupKey> courseList,
   }) {
     return groupJoinFunction.runGroupJoinFunction(
       enteredValue: joinValue,
-      coursesForSchoolClass:
-          courseList?.map((groupKey) => groupKey.id)?.toList(),
+      coursesForSchoolClass: courseList.map((groupKey) => groupKey.id).toList(),
     );
   }
 
