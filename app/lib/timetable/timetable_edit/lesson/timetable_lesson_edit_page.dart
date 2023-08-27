@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
@@ -63,10 +65,14 @@ class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
   final ConnectionsGateway connectionsGateway;
   final TimetableBloc timetableBloc;
   final Lesson initialLesson;
-  TimetableEditBloc bloc;
+  late TimetableEditBloc bloc;
 
-  _TimetableEditLessonPageState(this.initialLesson, this.timetableGateway,
-      this.connectionsGateway, this.timetableBloc);
+  _TimetableEditLessonPageState(
+    this.initialLesson,
+    this.timetableGateway,
+    this.connectionsGateway,
+    this.timetableBloc,
+  );
 
   @override
   void initState() {
@@ -91,7 +97,7 @@ class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
 class _TimetableEditPage extends StatelessWidget {
   final Lesson initialLesson;
 
-  const _TimetableEditPage(this.initialLesson, {Key key}) : super(key: key);
+  const _TimetableEditPage(this.initialLesson, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +149,7 @@ class _TimetableEditFAB extends StatelessWidget {
 }
 
 class _CourseField extends StatelessWidget {
-  const _CourseField(this.initialLesson, {Key key}) : super(key: key);
+  const _CourseField(this.initialLesson, {Key? key}) : super(key: key);
 
   final Lesson initialLesson;
 
@@ -154,7 +160,7 @@ class _CourseField extends StatelessWidget {
         BlocProvider.of<SharezoneContext>(context).api.timetable;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(initialLesson.groupID));
+        api.course.getRoleFromCourseNoSync(initialLesson.groupID)!);
     return StreamBuilder<Course>(
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -206,7 +212,7 @@ class _WeekDayField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 6),
             child: const Icon(Icons.today),
           ),
-          title: Text(getWeekDayText(weekDay)),
+          title: weekDay == null ? null : Text(getWeekDayText(weekDay)),
           onTap: () async {
             final newWeekDay = await selectWeekDay(context, selected: weekDay);
             if (newWeekDay != null) {
@@ -233,7 +239,7 @@ class _PeriodField extends StatelessWidget {
             child: const Icon(Icons.timeline),
           ),
           title: Text(period != null
-              ? "${period?.number}. Stunde"
+              ? "${period.number}. Stunde"
               : "Keine Stunde ausgewählt"),
           onTap: () async {
             final newPeriod = await selectPeriod(context, selected: period);
@@ -260,12 +266,12 @@ class _WeekTypeField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 6),
             child: const Icon(Icons.swap_horiz),
           ),
-          title: Text(getWeekTypeText(weekType)),
+          title: weekType == null ? null : Text(getWeekTypeText(weekType)),
           onTap: () async {
             final newWeekType =
                 await selectWeekType(context, selected: weekType);
             if (newWeekType != null) {
-              log("WeekType beim Change: ${getWeekTypeText(weekType)}");
+              log("WeekType beim Change: ${getWeekTypeText(weekType!)}");
               bloc.changeWeekType(newWeekType);
             }
           },
@@ -318,7 +324,7 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialLesson, {Key key}) : super(key: key);
+  const _RoomField(this.initialLesson, {Key? key}) : super(key: key);
 
   final Lesson initialLesson;
 
