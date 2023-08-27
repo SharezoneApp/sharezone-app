@@ -17,7 +17,7 @@ import 'member_role.dart';
 class MemberData {
   final UserId id;
   final String name, abbreviation;
-  final MemberRole? role;
+  final MemberRole role;
   final TypeOfUser? typeOfUser;
   final DateTime joinedOn;
 
@@ -30,8 +30,11 @@ class MemberData {
     required this.joinedOn,
   });
 
-  factory MemberData.create(
-      {required String id, required MemberRole role, required AppUser user}) {
+  factory MemberData.create({
+    required String id,
+    required MemberRole role,
+    required AppUser user,
+  }) {
     return MemberData(
       id: UserId(id),
       name: user.name,
@@ -62,7 +65,7 @@ class MemberData {
       'name': name,
       'abbreviation': abbreviation,
       'typeOfUser': enumToString(typeOfUser),
-      'role': role?.name,
+      'role': role.name,
       'joinedOn': timestampFromDateTime(joinedOn),
     };
   }
