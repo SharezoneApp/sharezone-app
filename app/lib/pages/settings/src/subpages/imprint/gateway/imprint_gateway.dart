@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/models/imprint.dart';
 
