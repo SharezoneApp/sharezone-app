@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+//@dart=2.12
+
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 
@@ -15,7 +16,7 @@ class TimetableAddBlocDependencies {
   final LessonLengthCache lessonLengthCache;
 
   TimetableAddBlocDependencies({
-    @required this.gateway,
-    @required this.lessonLengthCache,
+    required this.gateway,
+    required this.lessonLengthCache,
   });
 }
