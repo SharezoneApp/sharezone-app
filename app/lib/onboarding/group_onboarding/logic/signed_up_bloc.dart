@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:user/user.dart';
@@ -22,7 +24,7 @@ class SignUpBloc extends BlocBase {
   /// [typeOfUser] wird in dem [SignUpBloc] gespeichert, damit im GroupOnboarding
   /// dieser Wert synchron geladen werden kann. Ansonsten müsste dieser über den
   /// TypeOfUser-Stream aus dem User-Gateway asynchron geladen werden.
-  TypeOfUser typeOfUser;
+  TypeOfUser? typeOfUser;
 
   SignUpBloc();
 
