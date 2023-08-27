@@ -50,7 +50,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
         else
           _CoursesSharecodeBox(),
       ],
-      bottomNavigationBar: OnboardingNavigationBar(action: _FinsihButton()),
+      bottomNavigationBar: OnboardingNavigationBar(action: _FinishButton()),
     );
   }
 }
@@ -213,7 +213,7 @@ class _JoinHint extends StatelessWidget {
   }
 }
 
-class _FinsihButton extends StatelessWidget {
+class _FinishButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
