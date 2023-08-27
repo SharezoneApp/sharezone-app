@@ -6,10 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of 'drawer.dart';
 
 class _AccountSection extends StatelessWidget {
-  const _AccountSection({@required this.isDesktopModus});
+  const _AccountSection({
+    required this.isDesktopModus,
+  });
 
   final bool isDesktopModus;
 
@@ -49,9 +53,10 @@ class _AccountSection extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 _ProfileAvatar(
-                                    abbrevation: user.abbreviation ?? ''),
+                                  abbreviation: user.abbreviation,
+                                ),
                                 const SizedBox(width: 16),
-                                _NameAndEMailColumn(name: user.name ?? ''),
+                                _NameAndEMailColumn(name: user.name),
                               ],
                             ),
                           ),
@@ -59,12 +64,12 @@ class _AccountSection extends StatelessWidget {
                       ],
                     )
                   ] else ...[
-                    _ProfileAvatar(abbrevation: user.abbreviation ?? ''),
+                    _ProfileAvatar(abbreviation: user.abbreviation),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        _NameAndEMailColumn(name: user.name ?? ''),
+                        _NameAndEMailColumn(name: user.name),
                         const _ProfileArrow(),
                       ],
                     )
@@ -87,7 +92,10 @@ class _AccountSection extends StatelessWidget {
 class _NameAndEMailColumn extends StatelessWidget {
   final String name;
 
-  const _NameAndEMailColumn({Key key, this.name}) : super(key: key);
+  const _NameAndEMailColumn({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,14 +110,16 @@ class _NameAndEMailColumn extends StatelessWidget {
 }
 
 class _Name extends StatelessWidget {
-  const _Name({Key key, @required this.name}) : super(key: key);
+  const _Name({Key? key, required this.name}) : super(key: key);
 
   final String name;
 
   @override
   Widget build(BuildContext context) {
-    return Text(name,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400));
+    return Text(
+      name,
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+    );
   }
 }
 
@@ -118,16 +128,16 @@ class _Email extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<auth.AuthUser>(context);
+    final user = Provider.of<auth.AuthUser?>(context);
     if (user == null) return Container();
 
     final email = user.email;
     // We also count "-" as empty because this is used by Firebase Auth when the
     // user signed in with Google or Apple but has no email address.
-    final isEmailEmpty = user.email == null || email.isEmpty || email == "-";
+    final isEmailEmpty = email == null || email.isEmpty || email == "-";
     if (isEmailEmpty) return Container();
     return Text(
-      email,
+      email!,
       style: TextStyle(color: Colors.grey, fontSize: 12),
     );
   }
@@ -149,16 +159,19 @@ class _ProfileArrow extends StatelessWidget {
 }
 
 class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({Key key, @required this.abbrevation}) : super(key: key);
+  const _ProfileAvatar({
+    Key? key,
+    required this.abbreviation,
+  }) : super(key: key);
 
-  final String abbrevation;
+  final String abbreviation;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Theme.of(context).primaryColor,
       foregroundColor: Colors.white,
-      child: Text(abbrevation, style: const TextStyle(fontSize: 18)),
+      child: Text(abbreviation, style: const TextStyle(fontSize: 18)),
       radius: 27.5,
     );
   }
