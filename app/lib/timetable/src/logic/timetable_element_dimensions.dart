@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
 import 'package:time/time.dart';
