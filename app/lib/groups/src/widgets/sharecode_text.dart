@@ -6,19 +6,24 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharecodeText extends StatelessWidget {
-  const SharecodeText(this.sharecode, {this.onCopied});
+  const SharecodeText(
+    this.sharecode, {
+    this.onCopied,
+  });
 
   final String sharecode;
 
   /// Wird nach dem Kopieren des Sharecodes in die Zwischenablage aufgerufen.
   /// Darf null sein.
-  final VoidCallback onCopied;
+  final VoidCallback? onCopied;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +79,7 @@ class SharecodeText extends StatelessWidget {
       text: 'Sharecode wurde in die Zwischenablage kopiert.',
     );
     if (onCopied != null) {
-      onCopied();
+      onCopied!();
     }
   }
 
