@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 
@@ -17,7 +19,7 @@ class TimePickerSettingsCache extends BlocBase {
 
   TimePickerSettingsCache(this.streamingCache);
 
-  void setTimePickerWithFifeMinutesInterval(bool newValue) {
+  void setTimePickerWithFifeMinutesInterval(bool? newValue) {
     if (newValue != null) {
       streamingCache.setBool(_timePickerWithFifeMinutesIntervalKey, newValue);
     }
