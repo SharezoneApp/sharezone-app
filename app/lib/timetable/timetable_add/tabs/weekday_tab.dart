@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../timetable_add_page.dart';
 
 class _WeekDayTab extends StatelessWidget {
@@ -18,7 +20,7 @@ class _WeekDayTab extends StatelessWidget {
       child: StreamBuilder<WeekDay>(
         stream: bloc.weekDay,
         builder: (context, snapshot) {
-          final selectedWeekDay = snapshot.hasData ? snapshot.data : null;
+          final selectedWeekDay = snapshot.data;
           return _WeekDayList(selectedWeekDay);
         },
       ),
@@ -27,13 +29,15 @@ class _WeekDayTab extends StatelessWidget {
 }
 
 class _WeekDayList extends StatelessWidget {
-  final WeekDay selectedWeekDay;
   const _WeekDayList(this.selectedWeekDay);
+
+  final WeekDay? selectedWeekDay;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     final userSettings =
-        BlocProvider.of<SharezoneContext>(context).api.user.data.userSettings;
+        BlocProvider.of<SharezoneContext>(context).api.user.data!.userSettings;
     final enabledWeekDays =
         userSettings.enabledWeekDays.getEnabledWeekDaysList();
     return SingleChildScrollView(
@@ -61,12 +65,16 @@ class _WeekDayList extends StatelessWidget {
 }
 
 class _WeekDayTile extends StatelessWidget {
-  final WeekDay weekDay;
-  final VoidCallback onTap;
-  final WeekDay selectedWeekDay;
+  const _WeekDayTile({
+    Key? key,
+    required this.weekDay,
+    this.onTap,
+    this.selectedWeekDay,
+  }) : super(key: key);
 
-  const _WeekDayTile({Key key, this.weekDay, this.onTap, this.selectedWeekDay})
-      : super(key: key);
+  final WeekDay weekDay;
+  final VoidCallback? onTap;
+  final WeekDay? selectedWeekDay;
 
   @override
   Widget build(BuildContext context) {
