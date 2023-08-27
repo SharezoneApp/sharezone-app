@@ -6,7 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
+
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -35,7 +38,7 @@ class CourseDetailsBloc extends BlocBase {
   Stream<bool> get isLastMember =>
       _memberSubject.map((list) => list.length <= 1);
 
-  Stream<Course> get course => _gateway.course;
+  Stream<Course?> get course => _gateway.course;
 
   Stream<MemberData> streamMemberData(UserId memberID) {
     return _gateway.streamMemberData(memberID.toString());
@@ -46,7 +49,7 @@ class CourseDetailsBloc extends BlocBase {
   }
 
   Stream<WritePermission> get writePermissionStream => course
-      .map((course) => course.settings.writePermission)
+      .map((course) => course!.settings.writePermission)
       .asBroadcastStream();
 
   Future<AppFunctionsResult<bool>> leaveCourse() async {
@@ -82,7 +85,7 @@ class CourseDetailsBloc extends BlocBase {
       initialData.myRole.hasPermission(GroupPermission.administration);
 
   Stream<bool> requestAdminPermissionStream() => course.map(
-      (course) => course.myRole.hasPermission(GroupPermission.administration));
+      (course) => course!.myRole.hasPermission(GroupPermission.administration));
 
   bool isAdmin(MemberRole myRole) => _isAdmin(myRole);
 
@@ -125,7 +128,7 @@ class CourseDetailsBlocGateway {
     return _gateway.memberAccessor.streamSingleMember(_course.id, memberID);
   }
 
-  Stream<Course> get course => _gateway.streamCourse(_course.id);
+  Stream<Course?> get course => _gateway.streamCourse(_course.id);
 
   Future<AppFunctionsResult<bool>> deleteCourse() async {
     return _gateway.deleteCourse(_course.id);
@@ -159,10 +162,15 @@ class CourseDetailsBlocGateway {
         courseID, _course.settings.copyWith(writePermission: writePermission));
   }
 
-  Future<AppFunctionsResult<bool>> updateMemberRole(
-      {String newMemberID, MemberRole newRole}) {
+  Future<AppFunctionsResult<bool>> updateMemberRole({
+    required String newMemberID,
+    required MemberRole newRole,
+  }) {
     return _gateway.memberUpdateRole(
-        courseID: courseID, newMemberID: newMemberID, newRole: newRole);
+      courseID: courseID,
+      newMemberID: newMemberID,
+      newRole: newRole,
+    );
   }
 }
 
