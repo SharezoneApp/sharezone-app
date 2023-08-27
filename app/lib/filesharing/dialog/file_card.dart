@@ -42,7 +42,7 @@ Future<void> showRemoveFileFromBlocDialog({
 
 class FileCard extends StatelessWidget {
   final LocalFile? localFile;
-  final CloudFile cloudFile;
+  final CloudFile? cloudFile;
 
   final Widget? trailing;
   final VoidCallback? onTap, onLongPress;
@@ -50,7 +50,7 @@ class FileCard extends StatelessWidget {
   const FileCard({
     Key? key,
     this.localFile,
-    required this.cloudFile,
+    this.cloudFile,
     this.trailing,
     this.onTap,
     this.onLongPress,
@@ -68,7 +68,7 @@ class FileCard extends StatelessWidget {
 
 class FileTile extends StatelessWidget {
   final LocalFile? localFile;
-  final CloudFile cloudFile;
+  final CloudFile? cloudFile;
 
   final Widget? trailing;
   final VoidCallback? onTap, onLongPress;
@@ -86,8 +86,8 @@ class FileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final FileFormat fileType = localFile != null
         ? FileUtils.getFileFormatFromMimeType(localFile!.getType())
-        : cloudFile.fileFormat;
-    final name = localFile != null ? localFile!.getName() : cloudFile.name;
+        : cloudFile!.fileFormat;
+    final name = localFile != null ? localFile!.getName() : cloudFile!.name;
 
     return ListTile(
       leading: FileIcon(fileFormat: fileType),
