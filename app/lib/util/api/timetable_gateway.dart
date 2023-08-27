@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
-import 'package:date/weekday.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone_common/references.dart';
@@ -75,7 +76,7 @@ class TimetableGateway {
 
   Future<CalendricalEvent> getEvent(String eventID) {
     return references.events.doc(eventID).get().then((document) {
-      return CalendricalEvent.fromData(document.data(), id: document.id);
+      return CalendricalEvent.fromData(document.data()!, id: document.id);
     });
   }
 
@@ -91,7 +92,7 @@ class TimetableGateway {
     });
   }
 
-  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date endDate]) {
+  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date? endDate]) {
     // Stream everyting after the start date
     if (endDate == null) {
       return references.events
@@ -131,20 +132,20 @@ class TimetableGateway {
 
   Stream<Lesson> streamSingleLesson(String lessonID) {
     return references.lessons.doc(lessonID).snapshots().map((snapshot) {
-      return Lesson.fromData(snapshot.data(), id: snapshot.id);
+      return Lesson.fromData(snapshot.data()!, id: snapshot.id);
     });
   }
 
   Stream<CalendricalEvent> streamSingleEvent(String eventID) {
     return references.events.doc(eventID).snapshots().map((snapshot) {
-      return CalendricalEvent.fromData(snapshot.data(), id: snapshot.id);
+      return CalendricalEvent.fromData(snapshot.data()!, id: snapshot.id);
     });
   }
 
   Stream<List<Lesson>> streamLessonsUnfilteredForDate(Date date) {
     return references.lessons
         .where('users', arrayContains: memberID)
-        .where('weekday', isEqualTo: weekDayEnumToString(date.weekDayEnum))
+        .where('weekday', isEqualTo: date.weekDayEnum.name)
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs
