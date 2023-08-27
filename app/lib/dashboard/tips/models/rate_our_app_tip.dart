@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/models/action.dart';
@@ -45,8 +47,8 @@ class RateOurAppTip implements DashboardTip {
       cache.showedTip(_showedDashboardRatingCardKey),
       cache.getDashboardCounter()
     ], (streamValues) {
-      final showedDashboardCounterCard = streamValues[0] as bool ?? false;
-      final dashboardCounter = streamValues[1] as int ?? 0;
+      final showedDashboardCounterCard = streamValues[0] as bool? ?? false;
+      final dashboardCounter = streamValues[1] as int? ?? 0;
 
       return !showedDashboardCounterCard && dashboardCounter >= 65;
     });
