@@ -6,12 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/exceptions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:sharezone/activation_code/src/models/activation_code_events.dart';
+
 import '../models/enter_activation_code_result.dart';
 
 class EnterActivationCodeActivator {
@@ -41,7 +44,10 @@ class EnterActivationCodeActivator {
             is UnknownEnterActivationCodeException) {
       final unknownException = result.enterActivationCodeException
           as UnknownEnterActivationCodeException;
-      _crashAnalytics.recordError(unknownException.exception, null);
+      _crashAnalytics.recordError(
+        unknownException.exception,
+        StackTrace.current,
+      );
     }
     if (result is SuccessfullEnterActivationCodeResult) {
       _analytics.log(SuccessfullEnterActivationCodeEvent(activationCode));
