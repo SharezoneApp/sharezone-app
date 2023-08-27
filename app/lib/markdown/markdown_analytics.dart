@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class MarkdownAnalytics extends BlocBase {
@@ -30,7 +31,7 @@ class MarkdownAnalytics extends BlocBase {
 
   /// Prüft, die meistgenutzten Elemente von Markdown im [text]
   /// enthalten.
-  bool containsMarkdown(String text) {
+  bool containsMarkdown(String? text) {
     if (text != null) {
       return text.contains(RegExp(r'[*\_]{2,}|\`|\#'));
     }
@@ -42,7 +43,7 @@ class MarkdownAnalytics extends BlocBase {
 }
 
 class MarkdownUsedEvent extends AnalyticsEvent {
-  MarkdownUsedEvent({@required this.feature})
+  MarkdownUsedEvent({required this.feature})
       : assert(isNotEmptyOrNull(feature)),
         super('markdown_used');
 
