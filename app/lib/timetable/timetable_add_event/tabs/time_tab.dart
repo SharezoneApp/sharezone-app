@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../timetable_add_event_page.dart';
 
 class _TimeTab extends StatelessWidget {
-  const _TimeTab({Key key}) : super(key: key);
+  const _TimeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
