@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:sharezone/timetable/src/models/timetable_element_properties.dart';
 import 'package:sharezone/timetable/src/models/timetable_element_time_properties.dart';
 import 'package:time/time.dart';
@@ -29,12 +31,16 @@ Set<String> _getAllDeepConflicts(
   String elementID,
 ) {
   restValues.remove(elementID);
-  final element = elementTimeValues[elementID];
+  final element = elementTimeValues[elementID]!;
   final Set<String> results = {};
   final conflictsWith = restValues.where((otherElementID) {
-    final otherLesson = elementTimeValues[otherElementID];
+    final otherLesson = elementTimeValues[otherElementID]!;
     return _areTimesConflicting(
-        element.start, element.end, otherLesson.start, otherLesson.end);
+      element.start,
+      element.end,
+      otherLesson.start,
+      otherLesson.end,
+    );
   }).toList();
   results.addAll(conflictsWith);
   restValues.removeAll(conflictsWith);
@@ -105,11 +111,11 @@ class TimetablePositionBuilder {
     return newMap;
   }
 
-  Map<String, TimetableElementProperties> optionB() {
+  Map<String, TimetableElementProperties>? optionB() {
     final List<String> sortedTimes = conflictingElements.toList();
     sortedTimes.sort((e1, e2) {
-      final timeData1 = elementTimeValues[e1];
-      final timeData2 = elementTimeValues[e2];
+      final timeData1 = elementTimeValues[e1]!;
+      final timeData2 = elementTimeValues[e2]!;
       final compare1 = timeData1.start.compareTo(timeData2.start);
       if (compare1 != 0)
         return compare1;
@@ -120,7 +126,7 @@ class TimetablePositionBuilder {
     final elementID = sortedTimes.first;
     sortedTimes.removeAt(0);
     final timeProperties = elementTimeValues[elementID];
-    final directConflicts = _getDirectConflicts(timeProperties, sortedTimes);
+    final directConflicts = _getDirectConflicts(timeProperties!, sortedTimes);
 
     // THIS METHOD CANT YET HANDLE INDIRECT CONFLICTS => TO COMPLEX
     if ((directConflicts.length + 1) < conflictingElements.length) return null;
@@ -133,8 +139,12 @@ class TimetablePositionBuilder {
         if (it == otherElementID) return false;
 
         final itTime = elementTimeValues[it];
-        return _areTimesConflicting(otherElementTime.start,
-            otherElementTime.end, itTime.start, itTime.end);
+        return _areTimesConflicting(
+          otherElementTime!.start,
+          otherElementTime.end,
+          itTime!.start,
+          itTime.end,
+        );
       }).isNotEmpty) return null;
       newMap[otherElementID] = TimetableElementProperties(2, 1);
     }
@@ -144,7 +154,7 @@ class TimetablePositionBuilder {
   Set<String> _getDirectConflicts(
       TimetableElementTimeProperties time, List<String> restValues) {
     return restValues.where((it) {
-      final itTime = elementTimeValues[it];
+      final itTime = elementTimeValues[it]!;
       return _areTimesConflicting(
           time.start, time.end, itTime.start, itTime.end);
     }).toSet();
