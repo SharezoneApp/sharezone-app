@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/gateways/filesharing_cloud_files_gateway.dart';
 import 'package:sharezone/filesharing/gateways/filesharing_folder_gateway.dart';
 import 'package:sharezone/filesharing/logic/firebase_file_uploader/firebase_file_uploader.dart';
@@ -28,8 +29,8 @@ class FileSharingGateway {
   final FirebaseFileUploader fileUploader;
 
   FileSharingGateway({
-    @required this.user,
-    @required References references,
+    required this.user,
+    required References references,
   })  : uID = user.uid,
         _fStore = references.firestore,
         fileUploader = FirebaseFileUploader(firestore: references.firestore),
@@ -51,12 +52,16 @@ class FileSharingGateway {
             .toList());
   }
 
-  Future<List<String>> uploadAttachments(List<LocalFile> localFiles,
-      String courseID, String authorID, String authorName) async {
+  Future<List<String>> uploadAttachments(
+    List<LocalFile>? localFiles,
+    String courseID,
+    String authorID,
+    String authorName,
+  ) async {
     final attachments = <String>[];
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
     if (hasAttachments) {
-      for (final localFile in localFiles) {
+      for (final localFile in localFiles!) {
         final uploadTask = await fileUploader.uploadFile(
           courseID: courseID,
           creatorID: authorID,
@@ -67,7 +72,7 @@ class FileSharingGateway {
 
         final snapshot = await uploadTask.onComplete;
         final fileID =
-            snapshot.storageMetaData.customMetadata['fileID'] as String;
+            snapshot.storageMetaData.customMetadata!['fileID'] as String;
         attachments.add(fileID);
       }
     }
