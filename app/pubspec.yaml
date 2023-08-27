@@ -48,6 +48,7 @@ dependencies:
   clock: ^1.1.1
   cloud_firestore: ^4.8.5
   cloud_functions: ^4.4.0
+  collection: ^1.17.0
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
