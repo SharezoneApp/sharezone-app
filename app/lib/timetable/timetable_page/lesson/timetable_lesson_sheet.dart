@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:design/design.dart';
@@ -29,7 +31,7 @@ enum _LessonModelSheetAction { edit, delete, design }
 
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
 
-Future<bool> showDeleteLessonConfirmationDialog(BuildContext context) async {
+Future<bool?> showDeleteLessonConfirmationDialog(BuildContext context) async {
   if (ThemePlatform.isCupertino) {
     return showCupertinoDialog<bool>(
       context: context,
@@ -45,7 +47,7 @@ Future<bool> showDeleteLessonConfirmationDialog(BuildContext context) async {
 Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-      api.course.getRoleFromCourseNoSync(lesson.groupID));
+      api.course.getRoleFromCourseNoSync(lesson.groupID)!);
   final result = await showLongPressAdaptiveDialog<_LessonLongPressResult>(
     context: context,
     longPressList: [
@@ -86,6 +88,8 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
       break;
     case _LessonLongPressResult.report:
       openReportPage(context, ReportItemReference.lesson(lesson.lessonID));
+      break;
+    case null:
       break;
   }
 }
@@ -149,7 +153,10 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
           text:
               "Mir ist bewusst, dass die Stunde für alle Teilnehmer aus dem Kurs gelöscht wird.",
           confirm: confirm,
-          onChanged: (value) => setState(() => confirm = value),
+          onChanged: (value) {
+            if (value == null) return;
+            setState(() => confirm = value);
+          },
         ),
       ],
     );
@@ -225,16 +232,18 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
   }
 }
 
-Color getIconGrey(BuildContext context) =>
+Color? getIconGrey(BuildContext context) =>
     isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
 
 class _TimetableLessonBottomModelSheet extends StatelessWidget {
   final Lesson lesson;
-  final Design design;
+  final Design? design;
 
-  const _TimetableLessonBottomModelSheet(
-      {Key key, @required this.lesson, this.design})
-      : super(key: key);
+  const _TimetableLessonBottomModelSheet({
+    Key? key,
+    required this.lesson,
+    this.design,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +258,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
 
     final isABWeekEnabled = timetableBloc.current.isABWeekEnabled();
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(lesson.groupID));
+        api.course.getRoleFromCourseNoSync(lesson.groupID)!);
     return SafeArea(
       left: true,
       bottom: true,
@@ -296,7 +305,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(text: "Kursname: "),
                   TextSpan(
-                      text: courseName, style: TextStyle(color: design.color))
+                      text: courseName, style: TextStyle(color: design?.color))
                 ],
               ),
             ),
@@ -327,7 +336,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
 
 class DeleteIcon extends StatelessWidget {
   const DeleteIcon({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -343,7 +352,7 @@ class DeleteIcon extends StatelessWidget {
 
 class _EditIcon extends StatelessWidget {
   const _EditIcon({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -358,7 +367,7 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _ChangeColorIcon extends StatelessWidget {
-  const _ChangeColorIcon({Key key}) : super(key: key);
+  const _ChangeColorIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
