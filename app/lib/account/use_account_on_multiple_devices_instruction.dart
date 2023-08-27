@@ -6,10 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-
 import 'package:video_player/video_player.dart';
 
 class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
@@ -93,8 +94,8 @@ class _ExplainingVideo extends StatefulWidget {
 }
 
 class __ExplainingVideoState extends State<_ExplainingVideo> {
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
+  late VideoPlayerController _controller;
+  Future<void>? _initializeVideoPlayerFuture;
 
   @override
   void initState() {
