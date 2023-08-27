@@ -87,7 +87,7 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
       _deleteLesson(context, lesson);
       break;
     case _LessonLongPressResult.report:
-      openReportPage(context, ReportItemReference.lesson(lesson.lessonID));
+      openReportPage(context, ReportItemReference.lesson(lesson.lessonID!));
       break;
     case null:
       break;
@@ -281,7 +281,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
                 children: <Widget>[
                   const _ChangeColorIcon(),
                   ReportIcon(
-                      item: ReportItemReference.lesson(lesson.lessonID),
+                      item: ReportItemReference.lesson(lesson.lessonID!),
                       color: getIconGrey(context)),
                   if (hasPermissionsToManageLessons) ...const [
                     _EditIcon(),
