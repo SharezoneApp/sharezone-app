@@ -26,7 +26,7 @@ class _SelectDesignPopResult {
 Future<_SelectDesignPopResult?> selectDesign(
   BuildContext context,
   Design? currentDesign, {
-  required _EditDesignType type,
+  _EditDesignType type = _EditDesignType.personal,
 }) async {
   return await showDialog<_SelectDesignPopResult>(
     context: context,
