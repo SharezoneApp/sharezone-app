@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -18,14 +20,14 @@ import 'package:user/user.dart';
 import 'group_share.dart';
 
 class AddMember extends StatelessWidget {
-  const AddMember({@required this.groupInfo});
+  const AddMember({required this.groupInfo});
 
   final GroupInfo groupInfo;
 
   @override
   Widget build(BuildContext context) {
     return GrayShimmer(
-      enabled: groupInfo.sharecode == null || groupInfo.sharecode.isEmpty,
+      enabled: groupInfo.sharecode == null || groupInfo.sharecode!.isEmpty,
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         title: const Text("Teilnehmer einladen"),
@@ -45,10 +47,10 @@ class AddMember extends StatelessWidget {
 
 class MemberList extends StatelessWidget {
   const MemberList({
-    @required this.members,
-    @required this.allMembers,
-    @required this.title,
-    @required this.onTap,
+    required this.members,
+    required this.allMembers,
+    required this.title,
+    required this.onTap,
   });
 
   final List<MemberData> members;
@@ -58,7 +60,7 @@ class MemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (members == null || members.isEmpty) return Container();
+    if (members.isEmpty) return Container();
     return Column(
       children: <Widget>[
         _DividerWithText(text: "$title (${members.length})"),
@@ -107,15 +109,15 @@ class LoadingMemberList extends StatelessWidget {
 
 class MemberTile extends StatelessWidget {
   const MemberTile({
-    Key key,
-    @required this.memberData,
+    Key? key,
+    required this.memberData,
     this.onTap,
     this.onLongPress,
     this.withReportOption = false,
   }) : super(key: key);
 
   final MemberData memberData;
-  final VoidCallback onTap, onLongPress;
+  final VoidCallback? onTap, onLongPress;
   final bool withReportOption;
 
   @override
@@ -124,7 +126,7 @@ class MemberTile extends StatelessWidget {
     return ListTile(
       onLongPress: onLongPress,
       title: Text(memberData.name),
-      subtitle: Text(memberData.typeOfUser.toReadableString()),
+      subtitle: Text(memberData.typeOfUser!.toReadableString()),
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
         child: Text(generateAbbreviation(memberData.name),
@@ -146,7 +148,7 @@ class MemberTile extends StatelessWidget {
 }
 
 class _DividerWithText extends StatelessWidget {
-  const _DividerWithText({Key key, @required this.text}) : super(key: key);
+  const _DividerWithText({Key? key, required this.text}) : super(key: key);
 
   final String text;
 
