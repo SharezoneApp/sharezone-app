@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
@@ -26,8 +27,8 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
       BehaviorSubject<List<GroupInfoWithSelectionState>>();
 
   GroupJoinSelectCoursesBloc({
-    @required this.joinResult,
-    @required this.groupJoinBloc,
+    required this.joinResult,
+    required this.groupJoinBloc,
   }) {
     _initializeCoursesSelectionMap();
   }
@@ -38,13 +39,13 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
     _coursesListSubject.add(list);
   }
 
-  String get groupName => joinResult.groupInfo.name;
+  String get groupName => joinResult.groupInfo.name!;
 
   Stream<List<GroupInfoWithSelectionState>> get coursesList =>
       _coursesListSubject;
 
   void setSelectionState(GroupKey groupKey, bool isSelected) {
-    final list = _coursesListSubject.valueOrNull.toList();
+    final list = _coursesListSubject.valueOrNull!.toList();
     list.updateSelectionStateOf(groupKey, isSelected);
     _coursesListSubject.add(list);
   }
@@ -59,7 +60,7 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
   }
 
   Future<void> submit() async {
-    final coursesList = _coursesListSubject.valueOrNull
+    final coursesList = _coursesListSubject.valueOrNull!
         .where((groupInfo) => groupInfo.isSelected)
         .map((groupInfo) => groupInfo.groupKey)
         .toList();
