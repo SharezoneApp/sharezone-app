@@ -6,13 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
-Future<T> selectItem<T>(
-    {@required BuildContext context,
-    @required List<T> items,
-    @required Widget Function(BuildContext context, T item) builder,
-    List<Widget> Function(BuildContext context) actions}) async {
+Future<T?> selectItem<T>({
+  required BuildContext context,
+  required List<T> items,
+  required Widget Function(BuildContext context, T item) builder,
+  List<Widget> Function(BuildContext context)? actions,
+}) async {
   return await showSheetBuilder<T>(
     context: context,
     child: (context) => Flexible(
@@ -28,7 +31,10 @@ Future<T> selectItem<T>(
   );
 }
 
-Theme clearAppTheme({@required BuildContext context, @required Widget child}) {
+Theme clearAppTheme({
+  required BuildContext context,
+  required Widget child,
+}) {
   ThemeData parentTheme = Theme.of(context);
   return Theme(
       data: ThemeData(
@@ -42,11 +48,11 @@ Theme clearAppTheme({@required BuildContext context, @required Widget child}) {
       child: child);
 }
 
-Future<T> showSheetBuilder<T>({
-  @required BuildContext context,
-  @required WidgetBuilder child,
-  @required String title,
-  List<Widget> Function(BuildContext context) actions,
+Future<T?> showSheetBuilder<T>({
+  required BuildContext context,
+  required WidgetBuilder child,
+  String? title,
+  List<Widget> Function(BuildContext context)? actions,
 }) async {
   return await showModalBottomSheet<T>(
     context: context,
