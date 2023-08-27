@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
@@ -15,16 +17,16 @@ class RegistrationBloc extends BlocBase {
   final RegistrationGateway _gateway;
   final SignUpBloc _signUpBloc;
 
-  TypeOfUser typeOfUser;
+  TypeOfUser? typeOfUser;
 
   RegistrationBloc(this._gateway, this._signUpBloc);
 
   Function(TypeOfUser) get setTypeOfUser => (userType) => typeOfUser = userType;
 
   Future<void> signUp() async {
-    _signUpBloc.setTypeOfUser(typeOfUser);
+    _signUpBloc.setTypeOfUser(typeOfUser!);
     _signUpBloc.setSignedUp(true);
-    await _gateway.registerUser(typeOfUser);
+    await _gateway.registerUser(typeOfUser!);
   }
 
   @override
