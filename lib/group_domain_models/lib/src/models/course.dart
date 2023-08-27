@@ -18,8 +18,8 @@ import 'write_permissions.dart';
 
 class Course {
   final String id;
-  final String name;
-  final String? subject, abbreviation, sharecode, joinLink, meetingID;
+  final String name, subject, abbreviation;
+  final String? sharecode, joinLink, meetingID;
   final MemberRole? myRole;
   final CourseSettings settings;
   final bool version2;
@@ -55,7 +55,7 @@ class Course {
       personalSharecode: null,
       personalJoinLink: null,
       meetingID: null,
-      abbreviation: null,
+      abbreviation: "",
       groupId: null,
       myRole: null,
       design: Design
@@ -172,8 +172,8 @@ class Course {
 
 class CourseData {
   final String id;
-  final String name;
-  final String? subject, description, abbreviation;
+  final String name, subject, abbreviation;
+  final String? description;
   final String? sharecode, joinLink, referenceSchoolID, meetingID;
   final List<String?>? referenceSchoolClassIDs;
   final CourseSettings settings;
