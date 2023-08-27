@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -16,7 +18,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingPageTemplate extends StatelessWidget {
   const GroupOnboardingPageTemplate({
-    Key key,
+    Key? key,
     this.title,
     this.children = const [],
     this.bottomNavigationBar,
@@ -25,11 +27,11 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
     this.topPadding = 60,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final List<Widget> children;
-  final Widget bottomNavigationBar;
+  final Widget? bottomNavigationBar;
   final EdgeInsets padding;
-  final Widget top;
+  final Widget? top;
   final double topPadding;
 
   @override
@@ -55,7 +57,7 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
                           ),
                           children: [
                             if (isNotEmptyOrNull(title))
-                              GroupOnboardingTitle(title),
+                              GroupOnboardingTitle(title!),
                             SizedBox(height: 12),
                             ...children
                           ],
