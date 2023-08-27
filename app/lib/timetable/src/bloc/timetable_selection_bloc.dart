@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/date.dart';
 import 'package:date/weektype.dart';
@@ -21,7 +23,11 @@ class EmptyPeriodSelection {
   final Period period;
   final WeekType weekType;
 
-  EmptyPeriodSelection({this.date, this.period, this.weekType});
+  EmptyPeriodSelection({
+    required this.date,
+    required this.period,
+    required this.weekType,
+  });
 
   @override
   bool operator ==(other) {
@@ -37,9 +43,9 @@ class EmptyPeriodSelection {
 
 class TimetableSelectionBloc extends BlocBase {
   final _emptyPeriodSelectionSubject =
-      BehaviorSubject<EmptyPeriodSelection>.seeded(null);
+      BehaviorSubject<EmptyPeriodSelection?>.seeded(null);
 
-  Stream<EmptyPeriodSelection> get emptyPeriodSelections =>
+  Stream<EmptyPeriodSelection?> get emptyPeriodSelections =>
       _emptyPeriodSelectionSubject;
 
   void onTapSelection(EmptyPeriodSelection selection) {
