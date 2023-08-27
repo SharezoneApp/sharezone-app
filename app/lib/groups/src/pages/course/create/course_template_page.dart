@@ -434,7 +434,7 @@ void _confirmCourseCreated(
     context: context,
     seconds: 4,
     action: SnackBarAction(
-      label: "RÜCKGÄNG MACHEN",
+      label: "RÜCKGÄNGIG MACHEN",
       onPressed: () => onDelete(course.id),
       textColor: Colors.lightBlueAccent,
     ),
