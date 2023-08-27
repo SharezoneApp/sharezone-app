@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
@@ -37,9 +39,11 @@ Future<void> openPeriodsEditPage(BuildContext context) async {
   if (result) _showConfirmSnackBarOfSavingPeriods(context);
 }
 
-Future<void> _submit(BuildContext context,
-    {PeriodsEditBloc bloc,
-    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
+Future<void> _submit(
+  BuildContext context, {
+  PeriodsEditBloc? bloc,
+  GlobalKey<ScaffoldMessengerState>? scaffoldKey,
+}) async {
   bloc ??= BlocProvider.of<PeriodsEditBloc>(context);
   try {
     await bloc.submit();
@@ -56,7 +60,7 @@ Future<void> _submit(BuildContext context,
 }
 
 class _PeriodsEditPage extends StatefulWidget {
-  const _PeriodsEditPage({Key key}) : super(key: key);
+  const _PeriodsEditPage({Key? key}) : super(key: key);
 
   static const tag = "periods-edit-page";
 
@@ -65,7 +69,7 @@ class _PeriodsEditPage extends StatefulWidget {
 }
 
 class __PeriodsEditPageState extends State<_PeriodsEditPage> {
-  PeriodsEditBloc bloc;
+  late PeriodsEditBloc bloc;
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
@@ -105,7 +109,7 @@ class __PeriodsEditPageState extends State<_PeriodsEditPage> {
                       Divider(),
                       _TimetableStart(),
                       Divider(),
-                      for (final period in periods.getPeriods())
+                      for (final period in periods!.getPeriods())
                         _PeriodTile(
                           period: period,
                           isLastPeriod: periods.getPeriods().last == period,
@@ -197,8 +201,11 @@ class _TimetableStart extends StatelessWidget {
 }
 
 class _PeriodTile extends StatelessWidget {
-  const _PeriodTile({Key key, this.period, this.isLastPeriod})
-      : super(key: key);
+  const _PeriodTile({
+    Key? key,
+    required this.period,
+    required this.isLastPeriod,
+  }) : super(key: key);
 
   final bool isLastPeriod;
   final Period period;
@@ -227,10 +234,10 @@ class _PeriodTile extends StatelessWidget {
                 builder: (context, snapshot) {
                   var style = Theme.of(context)
                       .textTheme
-                      .headlineSmall
+                      .headlineSmall!
                       .copyWith(fontSize: 18);
                   if (snapshot.hasData &&
-                      snapshot.data.contains(period.number)) {
+                      snapshot.data!.contains(period.number)) {
                     style = style.copyWith(
                         color: Theme.of(context).colorScheme.error);
                   }
