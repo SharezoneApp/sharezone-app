@@ -95,7 +95,7 @@ class _NotFound extends StatelessWidget {
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten den eigegeben Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
+          "Wir konnten den eingegeben Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
     );
   }
 }
