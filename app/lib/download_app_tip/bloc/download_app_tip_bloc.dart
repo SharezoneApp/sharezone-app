@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -60,7 +62,7 @@ class DownloadAppTipBloc extends BlocBase {
   /// aufgelistet
   ///
   /// Falls der Tip nicht gezeigt werden soll, wird null zurückgegeben.
-  Stream<DownloadAppTip> getDownloadTipIfShouldShowTip() {
+  Stream<DownloadAppTip?> getDownloadTipIfShouldShowTip() {
     if (PlatformCheck.isWeb &&
         _platformsWithTips.contains(defaultTargetPlatform)) {
       return _cache.alreadyShowedTip(defaultTargetPlatform).map(
