@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -21,7 +23,10 @@ import 'email_and_password_link_page.dart';
 import 'login_button.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({Key key, this.loginMail}) : super(key: key);
+  const ResetPasswordPage({
+    Key? key,
+    required this.loginMail,
+  }) : super(key: key);
 
   static const String tag = "reset-password-page";
   final String loginMail;
@@ -40,7 +45,10 @@ class ResetPasswordPage extends StatelessWidget {
 }
 
 class _ResetPasswordPage extends StatefulWidget {
-  const _ResetPasswordPage({Key key, this.loginMail}) : super(key: key);
+  const _ResetPasswordPage({
+    Key? key,
+    required this.loginMail,
+  }) : super(key: key);
 
   static const String erfolg =
       "E-Mail zum Passwort zurücksetzen wurde gesendet. Wehe du vergisst dein Passwort nochmal ;)";
@@ -54,7 +62,7 @@ class _ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<_ResetPasswordPage> {
-  _ResetPasswordBloc bloc;
+  late _ResetPasswordBloc bloc;
   final FocusNode emailFocusNode = FocusNode();
 
   @override
@@ -103,7 +111,7 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({Key key}) : super(key: key);
+  const _Logo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,10 +125,10 @@ class _Logo extends StatelessWidget {
 
 class _EmailField extends StatelessWidget {
   const _EmailField({
-    Key key,
-    this.bloc,
-    this.focusNode,
-    this.label,
+    Key? key,
+    required this.bloc,
+    required this.focusNode,
+    required this.label,
   }) : super(key: key);
 
   final _ResetPasswordBloc bloc;
@@ -174,7 +182,10 @@ class _EmailField extends StatelessWidget {
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({Key key, @required this.bloc}) : super(key: key);
+  const _SubmitButton({
+    Key? key,
+    required this.bloc,
+  }) : super(key: key);
 
   final _ResetPasswordBloc bloc;
 
@@ -226,16 +237,15 @@ class _ResetPasswordBloc extends Object with AuthentificationValidators {
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
 
-  Stream<bool> get submitValid =>
-      email != null && _emailSubject.valueOrNull != ""
-          ? Stream.value(true)
-          : Stream.value(false);
+  Stream<bool> get submitValid => _emailSubject.valueOrNull != ""
+      ? Stream.value(true)
+      : Stream.value(false);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
 
   Future<void> submit() async {
     await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: _emailSubject.valueOrNull);
+        .sendPasswordResetEmail(email: _emailSubject.valueOrNull!);
     return;
   }
 
