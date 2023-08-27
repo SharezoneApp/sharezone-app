@@ -6,19 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 
 class EditDateField extends StatelessWidget {
-  final Date date;
+  final Date? date;
   final void Function(Date newDate) onChanged;
-  final IconData iconData;
-  final String label;
+  final IconData? iconData;
+  final String? label;
   final ValueNotifier<bool> isSelected = ValueNotifier(false);
 
   EditDateField({
-    @required this.date,
-    @required this.onChanged,
+    required this.date,
+    required this.onChanged,
     this.iconData,
     this.label,
   });
@@ -50,7 +52,7 @@ class EditDateField extends StatelessWidget {
                   height: 18,
                   child: date == null
                       ? Container()
-                      : Text(date.parser.toYMMMMEEEEd,
+                      : Text(date!.parser.toYMMMMEEEEd,
                           style: TextStyle(fontSize: 16.0)),
                 ),
               ),
@@ -69,9 +71,9 @@ class EditDateField extends StatelessWidget {
   }
 }
 
-Future<Date> selectDate(
+Future<Date?> selectDate(
   BuildContext context, {
-  Date initialDate,
+  Date? initialDate,
 }) async {
   return showDatePicker(
     context: context,
