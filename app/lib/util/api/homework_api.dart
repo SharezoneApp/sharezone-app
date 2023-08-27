@@ -6,13 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -21,7 +22,7 @@ import 'package:user/user.dart';
 class HomeworkGateway {
   final String userId;
   final CollectionReference<Map<String, dynamic>> homeworkCollection;
-  final Stream<TypeOfUser> typeOfUserStream;
+  final Stream<TypeOfUser?> typeOfUserStream;
 
   /// Stream that returns all homework which due date is today or in the future.
   /// For students this includes homeworks marked as completed.
@@ -38,20 +39,19 @@ class HomeworkGateway {
   final _homeworkSubjectStream = BehaviorSubject<List<HomeworkDto>>();
 
   HomeworkGateway({
-    @required this.userId,
-    @required FirebaseFirestore firestore,
-    @required this.typeOfUserStream,
+    required this.userId,
+    required FirebaseFirestore firestore,
+    required this.typeOfUserStream,
   }) : homeworkCollection = firestore.collection("Homework") {
     typeOfUserStream.firstWhere((e) => e != null).then((typeOfUser) {
-      _setUpStreams(firestore, typeOfUser);
+      _setUpStreams(firestore, typeOfUser!);
     })
         // Sometimes, especially in test cases the typeOfUserStream is closed
         // before the first non-null value is emitted. In this case
         // .firstWhere() throws an error.
-        .catchError((e, StackTrace s) => log(
-            'Error setting up homework streams: $e',
-            error: e,
-            stackTrace: s));
+        .catchError((e, StackTrace s) {
+      log('Error setting up homework streams: $e', error: e, stackTrace: s);
+    });
   }
 
   Future<void> _setUpStreams(
@@ -124,24 +124,25 @@ class HomeworkGateway {
   }
 
   Stream<HomeworkDto> singleHomeworkStream(String homeworkId) {
-    return homeworkCollection
-        .doc(homeworkId)
-        .snapshots()
-        .map((docSnap) => HomeworkDto.fromData(docSnap.data(), id: docSnap.id));
+    return homeworkCollection.doc(homeworkId).snapshots().map(
+        (docSnap) => HomeworkDto.fromData(docSnap.data()!, id: docSnap.id));
   }
 
-  Future<HomeworkDto> singleHomework(String homeworkId, {Source source}) async {
+  Future<HomeworkDto> singleHomework(
+    String homeworkId, {
+    Source source = Source.serverAndCache,
+  }) async {
     final doc = await homeworkCollection
         .doc(homeworkId)
-        .get(GetOptions(source: source ?? Source.serverAndCache));
-    return HomeworkDto.fromData(doc.data(), id: doc.id);
+        .get(GetOptions(source: source));
+    return HomeworkDto.fromData(doc.data()!, id: doc.id);
   }
 
-  Future<void> deleteHomework(HomeworkDto homework,
-      {FileSharingGateway fileSharingGateway}) async {
-    if (homework.attachments != null &&
-        homework.attachments.isNotEmpty &&
-        fileSharingGateway != null) {
+  Future<void> deleteHomework(
+    HomeworkDto homework, {
+    FileSharingGateway? fileSharingGateway,
+  }) async {
+    if (homework.attachments.isNotEmpty && fileSharingGateway != null) {
       for (final fileID in homework.attachments) {
         fileSharingGateway.removeReferenceData(fileID,
             ReferenceData(type: ReferenceType.blackboard, id: homework.id));
@@ -172,14 +173,17 @@ class HomeworkGateway {
   /// and writes the userIDs to a Map, which is then inserted into the given
   /// [HomeworkDto].
   /// The [HomeworkDto] gets then added to the [homeworkCollection].
-  Future<DocumentReference> addHomeworkToCourse(HomeworkDto homework,
-      {List<String> attachments, FileSharingGateway fileSharingGateway}) async {
+  Future<DocumentReference> addHomeworkToCourse(
+    HomeworkDto homework, {
+    List<String>? attachments,
+    required FileSharingGateway fileSharingGateway,
+  }) async {
     final reference = homeworkCollection.doc();
     await reference.set(homework.toJson());
 
     final hasAttachments = attachments != null && attachments.isNotEmpty;
     if (hasAttachments) {
-      for (int i = 0; i < attachments.length; i++) {
+      for (int i = 0; i < attachments!.length; i++) {
         await fileSharingGateway.addReferenceData(attachments[i],
             ReferenceData(type: ReferenceType.homework, id: reference.id));
       }
@@ -189,8 +193,12 @@ class HomeworkGateway {
   }
 
   /// Adds a Homework to the [homeworkCollection] or if [merge] is true updates the [HomeworkDto] at [homework.reference].
-  Future<void> addPrivateHomework(HomeworkDto homework, bool merge,
-      {List<String> attachments, FileSharingGateway fileSharingGateway}) async {
+  Future<void> addPrivateHomework(
+    HomeworkDto homework,
+    bool merge, {
+    List<String>? attachments,
+    FileSharingGateway? fileSharingGateway,
+  }) async {
     final hasAttachments = attachments != null &&
         attachments.isNotEmpty &&
         fileSharingGateway != null;
@@ -217,8 +225,8 @@ class HomeworkGateway {
     }
 
     if (hasAttachments) {
-      for (int i = 0; i < attachments.length; i++) {
-        await fileSharingGateway.addReferenceData(
+      for (int i = 0; i < attachments!.length; i++) {
+        await fileSharingGateway!.addReferenceData(
           attachments[i],
           ReferenceData(
             type: ReferenceType.homework,
