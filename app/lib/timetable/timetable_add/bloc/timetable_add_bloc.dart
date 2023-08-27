@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:bloc_base/bloc_base.dart';
@@ -31,7 +33,7 @@ class TimetableAddBloc extends BlocBase {
   final _roomSubject = BehaviorSubject<String>();
   final _weekDaySubject = BehaviorSubject<WeekDay>();
   final _weekTypeSubject = BehaviorSubject<WeekType>();
-  final _periodSubject = BehaviorSubject<Period>();
+  final _periodSubject = BehaviorSubject<Period?>();
   final _timeTypeSubject = BehaviorSubject.seeded(TimeType.period);
 
   final TimetableGateway gateway;
@@ -49,7 +51,7 @@ class TimetableAddBloc extends BlocBase {
   Stream<String> get room => _roomSubject;
   Stream<WeekDay> get weekDay => _weekDaySubject;
   Stream<WeekType> get weekType => _weekTypeSubject;
-  Stream<Period> get period => _periodSubject;
+  Stream<Period?> get period => _periodSubject;
   Stream<TimeType> get timeType => _timeTypeSubject;
 
   Function(Course) get changeCourse => _courseSegmentSubject.sink.add;
@@ -76,7 +78,7 @@ class TimetableAddBloc extends BlocBase {
   Function(Period) get changePeriod => _periodSubject.sink.add;
   Function(TimeType) get changeTimeType => _timeTypeSubject.sink.add;
 
-  Future<Time> _calculateEndTime(Time startTime) async {
+  Future<Time?> _calculateEndTime(Time startTime) async {
     final lessonsLength = await cache.streamLessonLength().first;
     if (lessonsLength.isValid) {
       return startTime.add(lessonsLength.duration);
@@ -101,30 +103,29 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool isPeriodValid() {
-    if (!isPeriodEmpty()) return _periodSubject.valueOrNull.validate();
+    if (!isPeriodEmpty()) return _periodSubject.valueOrNull!.validate();
     return false;
   }
 
   bool _isValid(TabController controller) {
     if (_isCourseValid(controller) &&
         _isWeekDayValid(controller) &&
-        _isTimeValid(controller) &&
-        _isWeekDayValid(controller)) {
+        _isTimeValid(controller)) {
       return true;
     }
     return false;
   }
 
-  Lesson submit(TabController controller) {
+  Lesson? submit(TabController controller) {
     if (_isValid(controller)) {
-      final course = _courseSegmentSubject.valueOrNull;
+      final course = _courseSegmentSubject.value;
       final startTime = _startTimeSubject.valueOrNull;
       final endTime = _endTimeSubject.valueOrNull;
       final room = _roomSubject.valueOrNull;
-      final weekDay = _weekDaySubject.valueOrNull;
+      final weekDay = _weekDaySubject.value;
       final weekType = _weekTypeSubject.valueOrNull ?? WeekType.always;
       final period = _periodSubject.valueOrNull;
-      final timeType = _timeTypeSubject.valueOrNull;
+      final timeType = _timeTypeSubject.valueOrNull!;
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
 
       final lesson = Lesson(
@@ -136,8 +137,8 @@ class TimetableAddBloc extends BlocBase {
         place: room,
         weekday: weekDay,
         weektype: weekType,
-        startTime: timeType == TimeType.period ? period.startTime : startTime,
-        endTime: timeType == TimeType.period ? period.endTime : endTime,
+        startTime: timeType == TimeType.period ? period!.startTime : startTime!,
+        endTime: timeType == TimeType.period ? period!.endTime : endTime!,
         periodNumber: timeType == TimeType.period ? period?.number : null,
         lessonID: null, // WILL BE ADDED IN THE GATEWAY!
       );
@@ -173,7 +174,7 @@ class TimetableAddBloc extends BlocBase {
     return true;
   }
 
-  bool _isTimeValid([TabController controller]) {
+  bool _isTimeValid([TabController? controller]) {
     if (_isIndividualType()) {
       return _isStartTimeValid(controller) &&
           _isEndTimeValid(controller) &&
@@ -188,7 +189,7 @@ class TimetableAddBloc extends BlocBase {
     return _timeType == TimeType.individual;
   }
 
-  bool _isPeriodValid([TabController controller]) {
+  bool _isPeriodValid([TabController? controller]) {
     final validatorPeriod = NotNullValidator(_periodSubject.valueOrNull);
     if (!validatorPeriod.isValid()) {
       if (controller != null) {
@@ -199,7 +200,7 @@ class TimetableAddBloc extends BlocBase {
     return true;
   }
 
-  bool _isStartTimeValid([TabController controller]) {
+  bool _isStartTimeValid([TabController? controller]) {
     final validatorStartTime = NotNullValidator(_startTimeSubject.valueOrNull);
     if (!validatorStartTime.isValid()) {
       if (controller != null) {
@@ -210,7 +211,7 @@ class TimetableAddBloc extends BlocBase {
     return true;
   }
 
-  bool _isEndTimeValid([TabController controller]) {
+  bool _isEndTimeValid([TabController? controller]) {
     final validatorEndTime = NotNullValidator(_endTimeSubject.valueOrNull);
     if (!validatorEndTime.isValid()) {
       if (controller != null) {
