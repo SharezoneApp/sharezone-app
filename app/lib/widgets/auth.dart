@@ -6,15 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
 // Button zum Abschicken der Login-Daten, Registierungs-Daten
 // und der E-Mail bei Passwort vergessen
 class SubmitButton extends StatelessWidget {
   const SubmitButton({
-    @required this.titel,
-    @required this.onPressed,
-    this.padding,
+    required this.titel,
+    required this.onPressed,
+    this.padding = const EdgeInsets.all(0),
     this.color = Colors.white,
     this.textColor = Colors.lightBlueAccent,
   });
@@ -28,8 +30,7 @@ class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          padding == null ? const EdgeInsets.symmetric(vertical: 0.0) : padding,
+      padding: padding,
       child: SizedBox(
         height: 45,
         width: MediaQuery.of(context).size.width,
