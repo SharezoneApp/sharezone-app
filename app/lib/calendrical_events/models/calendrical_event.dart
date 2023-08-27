@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:time/time.dart';
@@ -21,28 +22,31 @@ class CalendricalEvent {
   final CalendricalEventType eventType;
   final Date date;
   final Time startTime, endTime;
-  final String title, detail, place;
+  final String title;
+  final String? detail, place;
   final bool sendNotification;
   final String latestEditor;
 
   CalendricalEvent({
-    @required this.eventID,
-    @required this.groupID,
-    @required this.groupType,
-    @required this.eventType,
-    @required this.authorID,
-    @required this.date,
-    @required this.startTime,
-    @required this.endTime,
-    @required this.title,
-    @required this.detail,
-    @required this.place,
-    @required this.sendNotification,
-    @required this.latestEditor,
+    required this.eventID,
+    required this.groupID,
+    required this.groupType,
+    required this.eventType,
+    required this.authorID,
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+    required this.title,
+    required this.detail,
+    required this.place,
+    required this.sendNotification,
+    required this.latestEditor,
   });
 
-  factory CalendricalEvent.fromData(Map<String, dynamic> data,
-      {@required String id}) {
+  factory CalendricalEvent.fromData(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return CalendricalEvent(
       eventID: id,
       groupID: data['groupID'] as String,
@@ -53,9 +57,9 @@ class CalendricalEvent {
       title: data['title'] as String,
       groupType: GroupType.values.byName(data['groupType'] as String),
       eventType: getEventTypeFromString(data['eventType'] as String),
-      detail: data['detail'] as String,
-      place: data['place'] as String,
-      sendNotification: data['sendNotification'] as bool ?? false,
+      detail: data['detail'] as String?,
+      place: data['place'] as String?,
+      sendNotification: (data['sendNotification'] as bool?) ?? false,
       latestEditor: data['latestEditor'] as String,
     );
   }
@@ -63,7 +67,7 @@ class CalendricalEvent {
   Map<String, dynamic> toJson() {
     return {
       'groupID': groupID,
-      'groupType': groupType?.name,
+      'groupType': groupType.name,
       'eventType': getEventTypeToString(eventType),
       'authorID': authorID,
       'date': date.toDateString,
@@ -78,19 +82,19 @@ class CalendricalEvent {
   }
 
   CalendricalEvent copyWith({
-    String eventID,
-    String groupID,
-    String authorID,
-    GroupType groupType,
-    CalendricalEventType eventType,
-    Date date,
-    Time startTime,
-    Time endTime,
-    String title,
-    String detail,
-    String place,
-    bool sendNotification,
-    String latestEditor,
+    String? eventID,
+    String? groupID,
+    String? authorID,
+    GroupType? groupType,
+    CalendricalEventType? eventType,
+    Date? date,
+    Time? startTime,
+    Time? endTime,
+    String? title,
+    String? detail,
+    String? place,
+    bool? sendNotification,
+    String? latestEditor,
   }) {
     return CalendricalEvent(
       authorID: authorID ?? this.authorID,
