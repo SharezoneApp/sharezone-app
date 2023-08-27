@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report.dart';
@@ -16,12 +18,16 @@ import 'package:sharezone/report/report_item.dart';
 const reportIcon = Icon(Icons.flag);
 
 class ReportIcon extends StatelessWidget {
-  const ReportIcon({Key key, @required this.item, this.color, this.tooltip})
-      : super(key: key);
+  const ReportIcon({
+    Key? key,
+    required this.item,
+    this.color,
+    this.tooltip,
+  }) : super(key: key);
 
   final ReportItemReference item;
-  final Color color;
-  final String tooltip;
+  final Color? color;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
