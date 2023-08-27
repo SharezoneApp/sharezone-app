@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../sign_up_page.dart';
 
 class _PrivacyPolicy extends StatelessWidget {
-  const _PrivacyPolicy({Key key}) : super(key: key);
+  const _PrivacyPolicy({Key? key}) : super(key: key);
 
   static const tag = 'onboarding-privacy-policy';
 
@@ -31,7 +33,7 @@ class _PrivacyPolicy extends StatelessWidget {
 }
 
 class _ContinueButton extends StatefulWidget {
-  const _ContinueButton({Key key}) : super(key: key);
+  const _ContinueButton({Key? key}) : super(key: key);
 
   @override
   _ContinueButtonState createState() => _ContinueButtonState();
