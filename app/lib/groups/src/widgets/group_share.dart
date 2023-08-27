@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +24,7 @@ import 'group_qr_code.dart';
 /// Sharecode because it could happend, that the joinLink is null, if the
 /// course has a old structure
 class LinkSharingButton extends StatelessWidget {
-  const LinkSharingButton({@required this.groupInfo});
+  const LinkSharingButton({required this.groupInfo});
 
   final GroupInfo groupInfo;
   static const color = Color(0xFF976aff);
@@ -73,8 +75,11 @@ class LinkSharingButton extends StatelessWidget {
         isEmptyOrNull(groupInfo.sharecode));
   }
 
-  Future<void> _showShareJoinLinkBox(
-      {BuildContext context, GroupInfo groupInfo, bool hasJoinLink}) async {
+  Future<void> _showShareJoinLinkBox({
+    required BuildContext context,
+    required GroupInfo groupInfo,
+    required bool hasJoinLink,
+  }) async {
     // On the web/macOS there are no share options like on Android & iOS, so
     // the link can only be copied.
     if (PlatformCheck.isMobile) {
@@ -83,9 +88,9 @@ class LinkSharingButton extends StatelessWidget {
       // Courses with an old course structure do not have a JoinLink,
       // which is why the sharecode should be used there.
       if (hasJoinLink) {
-        _copyLink(context, groupInfo.joinLink);
+        _copyLink(context, groupInfo.joinLink!);
       } else {
-        _copySharecode(context, groupInfo.sharecode);
+        _copySharecode(context, groupInfo.sharecode!);
       }
     }
   }
@@ -98,7 +103,8 @@ class LinkSharingButton extends StatelessWidget {
   /// Opens native share dialog on Android or iOS.
   void _openShareOptions(BuildContext context, GroupInfo groupInfo) {
     final box = context.findRenderObject() as RenderBox;
-    Share.share(groupInfo.joinLink ?? groupInfo.sharecode,
+    final sharecode = groupInfo.joinLink ?? groupInfo.sharecode!;
+    Share.share(sharecode,
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 
@@ -143,7 +149,7 @@ class LinkSharingButton extends StatelessWidget {
 
 class ShareThisGroupDialogContent extends StatelessWidget {
   const ShareThisGroupDialogContent({
-    @required this.groupInfo,
+    required this.groupInfo,
   });
 
   final GroupInfo groupInfo;
@@ -168,7 +174,7 @@ class ShareThisGroupDialogContent extends StatelessWidget {
 
 class ShareGroupSection extends StatelessWidget {
   const ShareGroupSection({
-    @required this.groupInfo,
+    required this.groupInfo,
     this.closeDialog = false,
   });
 
