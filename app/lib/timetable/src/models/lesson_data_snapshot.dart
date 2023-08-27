@@ -6,9 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:group_domain_models/group_domain_models.dart';
+//@dart=2.12
 
-import 'package:meta/meta.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 
 import 'lesson.dart';
 
@@ -17,7 +17,7 @@ class LessonDataSnapshot {
   final Map<String, GroupInfo> groupInfos;
 
   const LessonDataSnapshot({
-    @required this.lessons,
-    @required this.groupInfos,
+    required this.lessons,
+    required this.groupInfos,
   });
 }
