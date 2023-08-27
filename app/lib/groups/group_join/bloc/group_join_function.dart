@@ -6,10 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/exceptions.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result_type.dart';
@@ -22,8 +23,8 @@ class GroupJoinFunction {
   GroupJoinFunction(this._connectionsGateway, this._crashAnalytics);
 
   Future<GroupJoinResult> runGroupJoinFunction({
-    @required String enteredValue,
-    List<String> coursesForSchoolClass,
+    required String enteredValue,
+    required List<String> coursesForSchoolClass,
     int version = 2,
   }) async {
     final appFunctionsResult = await _connectionsGateway.joinByKey(
@@ -38,7 +39,8 @@ class GroupJoinFunction {
         groupJoinResult.groupJoinException is UnknownGroupJoinException) {
       final unknownGroupJoinException =
           groupJoinResult.groupJoinException as UnknownGroupJoinException;
-      _crashAnalytics.recordError(unknownGroupJoinException.exception, null);
+      _crashAnalytics.recordError(
+          unknownGroupJoinException.exception, StackTrace.current);
     }
     return groupJoinResult;
   }
