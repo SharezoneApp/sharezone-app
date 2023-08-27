@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -16,11 +18,13 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'timetable_lesson_sheet.dart';
 
 class TimetableEntryLesson extends StatelessWidget {
-  final String date;
   final Lesson lesson;
-  final GroupInfo groupInfo;
+  final GroupInfo? groupInfo;
 
-  const TimetableEntryLesson({this.date, this.lesson, this.groupInfo});
+  const TimetableEntryLesson({
+    required this.lesson,
+    this.groupInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +41,18 @@ class TimetableEntryLesson extends StatelessWidget {
               children: <Widget>[
                 GroupName(
                     abbreviation: groupInfo?.abbreviation,
-                    groupName: groupInfo?.name,
-                    color: groupInfo?.design?.color),
+                    groupName: groupInfo!.name!,
+                    color: groupInfo?.design.color),
                 if (lesson.place != null)
                   Room(
-                    room: lesson.place,
-                    color: groupInfo?.design?.color,
+                    room: lesson.place!,
+                    color: groupInfo?.design.color,
                   ),
               ],
             ),
           ),
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          onTap: () => showLessonModelSheet(context, lesson, groupInfo.design),
+          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
           onLongPress: () => onLessonLongPress(context, lesson),
         ),
       ),
@@ -57,29 +61,28 @@ class TimetableEntryLesson extends StatelessWidget {
 }
 
 class GroupName extends StatelessWidget {
-  const GroupName(
-      {Key key,
-      @required this.groupName,
-      @required this.abbreviation,
-      @required this.color})
-      : super(key: key);
+  const GroupName({
+    Key? key,
+    required this.groupName,
+    required this.abbreviation,
+    required this.color,
+  }) : super(key: key);
 
   final String groupName;
-  final String abbreviation;
-  final Color color;
+  final String? abbreviation;
+  final Color? color;
 
   String getAbbreviationOrGroupName() {
     if (abbreviation == "") return groupName;
     if (abbreviation == null) return groupName;
-    return abbreviation;
+    return abbreviation!;
   }
 
   @override
   Widget build(BuildContext context) {
     final showAbbreviation =
         BlocProvider.of<TimetableBloc>(context).current.showAbbreviation();
-    final text =
-        (showAbbreviation ? getAbbreviationOrGroupName() : groupName) ?? '';
+    final text = showAbbreviation ? getAbbreviationOrGroupName() : groupName;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 350),
       child: Text(
@@ -98,13 +101,13 @@ class GroupName extends StatelessWidget {
 
 class Room extends StatelessWidget {
   const Room({
-    Key key,
-    @required this.room,
-    @required this.color,
+    Key? key,
+    required this.room,
+    this.color,
   }) : super(key: key);
 
   final String room;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
