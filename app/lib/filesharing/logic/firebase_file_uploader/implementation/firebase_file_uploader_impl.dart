@@ -6,27 +6,29 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
 
 class FirebaseFileUploaderImplementation {
   CollectionReference get filesCollection => _fStore.collection("Files");
   final FirebaseFirestore _fStore;
 
-  const FirebaseFileUploaderImplementation(
-      {@required FirebaseFirestore firestore})
-      : _fStore = firestore;
+  const FirebaseFileUploaderImplementation({
+    required FirebaseFirestore firestore,
+  }) : _fStore = firestore;
 
-  Future<UploadTask> uploadFile(
-      {String courseID,
-      FolderPath path,
-      LocalFile localFile,
-      String creatorID,
-      String creatorName}) async {
+  Future<UploadTask> uploadFile({
+    required String courseID,
+    required LocalFile localFile,
+    required String creatorID,
+    required String creatorName,
+    FolderPath path = FolderPath.root,
+  }) async {
     final ref = filesCollection.doc();
     final fileID = ref.id;
     final fileFormat = FileUtils.getFileFormatFromMimeType(localFile.getType());
@@ -35,7 +37,7 @@ class FirebaseFileUploaderImplementation {
       creatorID: creatorID,
       creatorName: creatorName,
       courseID: courseID,
-      path: path ?? FolderPath.root,
+      path: path,
     ).copyWith(
       fileFormat: fileFormat,
       forUsers: {creatorID: true},
@@ -49,8 +51,8 @@ class FirebaseFileUploaderImplementation {
       name: localFile.getName(),
     );
 
-    final fileUploder = getFileUploader();
-    final uploadTask = await fileUploder.uploadFile(
+    final fileUploader = getFileUploader();
+    final uploadTask = await fileUploader.uploadFile(
       cloudFile: cloudFile,
       file: localFile,
     );
