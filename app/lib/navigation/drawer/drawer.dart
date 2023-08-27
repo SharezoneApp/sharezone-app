@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ part 'account_section.dart';
 
 class SharezoneDrawer extends StatelessWidget {
   const SharezoneDrawer({
-    Key key,
+    Key? key,
     this.isDesktopModus = false,
   }) : super(key: key);
 
@@ -61,7 +63,10 @@ class SharezoneDrawer extends StatelessWidget {
 class _DrawerItems extends StatelessWidget {
   final bool isDesktopModus;
 
-  const _DrawerItems({Key key, this.isDesktopModus}) : super(key: key);
+  const _DrawerItems({
+    Key? key,
+    required this.isDesktopModus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +93,7 @@ class _DrawerItems extends StatelessWidget {
                     ...functionTiles,
                     const Divider(),
                     if (isSubscriptionEnabled) sharezonePlusTile,
-                    feedbackBoxtile,
+                    feedbackBoxTile,
                     settingsPageTile,
                   ],
                 ),
@@ -101,7 +106,7 @@ class _DrawerItems extends StatelessWidget {
     );
   }
 
-  Color getDrawerBackgroundColor(BuildContext context) {
+  Color? getDrawerBackgroundColor(BuildContext context) {
     if (!isDesktopModus || isDarkThemeEnabled(context)) return null;
     return Color(0xFFF4F5F7);
   }
@@ -109,7 +114,7 @@ class _DrawerItems extends StatelessWidget {
 
 /// Displays the sharezone logo and navigate to the about page, if use taps on it
 class _SharezoneLogo extends StatelessWidget {
-  const _SharezoneLogo({Key key}) : super(key: key);
+  const _SharezoneLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -153,9 +158,9 @@ class _SharezoneLogo extends StatelessWidget {
 }
 
 class DrawerIcon extends StatelessWidget {
-  const DrawerIcon({Key key, this.color}) : super(key: key);
+  const DrawerIcon({Key? key, this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
