@@ -25,7 +25,7 @@ class _SelectDesignPopResult {
 @visibleForTesting
 Future<_SelectDesignPopResult?> selectDesign(
   BuildContext context,
-  Design currentDesign, {
+  Design? currentDesign, {
   required _EditDesignType type,
 }) async {
   return await showDialog<_SelectDesignPopResult>(
