@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/svg.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -14,36 +16,36 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 // Wichtig: Es muss entweder ein SvgPath oder ein imagePath angeben werden!
 class AvatarCard extends StatelessWidget {
   const AvatarCard({
-    this.children,
-    this.crossAxisAlignment,
-    this.radius,
+    required this.children,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.radius = 55.0,
     this.svgPath,
     this.svgSize,
     this.imagePath,
-    this.imageSize,
-    this.kuerzel,
+    this.imageSize = const Size.square(111.0),
+    this.kuerzel = "",
     this.avatarBackgroundColor,
-    this.paddingBottom,
+    this.paddingBottom = 22.0,
     this.icon,
     this.onTapImage,
-    this.fontColor,
+    this.fontColor = Colors.white,
     this.withShadow = true,
   });
 
-  final List<Widget> /*!*/ children;
-  final CrossAxisAlignment /*?*/ crossAxisAlignment;
-  final String /*?*/ svgPath;
-  final Size /*?*/ svgSize;
-  final String /*?*/ imagePath;
-  final Size /*?*/ imageSize;
-  final double /*?*/ radius;
-  final String /*?*/ kuerzel;
-  final Color /*?*/ avatarBackgroundColor;
-  final double /*?*/ paddingBottom;
-  final Widget /*?*/ icon;
-  final VoidCallback /*?*/ onTapImage;
-  final Color /*?*/ fontColor;
-  final bool /*?*/ withShadow;
+  final List<Widget> children;
+  final CrossAxisAlignment crossAxisAlignment;
+  final String? svgPath;
+  final Size? svgSize;
+  final String? imagePath;
+  final Size imageSize;
+  final double radius;
+  final String kuerzel;
+  final Color? avatarBackgroundColor;
+  final double paddingBottom;
+  final Widget? icon;
+  final VoidCallback? onTapImage;
+  final Color fontColor;
+  final bool withShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +58,9 @@ class AvatarCard extends StatelessWidget {
               child: Container(
                 width: getScreenSize(context).width,
                 child: Padding(
-                  padding:
-                      EdgeInsets.only(top: 87.0, bottom: paddingBottom ?? 22),
+                  padding: EdgeInsets.only(top: 87.0, bottom: paddingBottom),
                   child: Column(
-                    crossAxisAlignment: crossAxisAlignment == null
-                        ? CrossAxisAlignment.start
-                        : crossAxisAlignment,
+                    crossAxisAlignment: crossAxisAlignment,
                     children: children,
                   ),
                 ),
@@ -74,7 +73,7 @@ class AvatarCard extends StatelessWidget {
                   child: Stack(
                     children: <Widget>[
                       CircleAvatar(
-                        radius: (radius == null ? 55.0 : radius) + 10,
+                        radius: radius + 10,
                         backgroundColor:
                             Theme.of(context).scaffoldBackgroundColor,
                       ),
@@ -87,24 +86,24 @@ class AvatarCard extends StatelessWidget {
                               if (withShadow == true &&
                                   !isDarkThemeEnabled(context))
                                 BoxShadow(
-                                  color: Colors.grey[300],
+                                  color: Colors.grey[300]!,
                                   blurRadius: 12.5,
                                   offset: Offset(0.0, 5.0),
                                 ),
                             ],
                           ),
                           child: CircleAvatar(
-                            radius: radius == null ? 55.0 : radius,
+                            radius: radius,
                             backgroundColor: avatarBackgroundColor ??
                                 Theme.of(context).primaryColor,
                             child: icon == null
                                 ? svgPath == null
                                     ? imagePath == null
                                         ? Text(
-                                            kuerzel ?? "",
+                                            kuerzel,
                                             style: TextStyle(
                                               fontSize: 26,
-                                              color: fontColor ?? Colors.white,
+                                              color: fontColor,
                                             ),
                                           )
                                         : image()
@@ -140,13 +139,13 @@ class AvatarCard extends StatelessWidget {
     return InkWell(
       onTap: onTapImage,
       child: Container(
-        width: imageSize == null ? 110.0 : imageSize.width,
-        height: imageSize == null ? 110.0 : imageSize.height,
+        width: imageSize.width,
+        height: imageSize.height,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(imagePath),
+            image: NetworkImage(imagePath!),
           ),
         ),
       ),
