@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
@@ -29,7 +31,7 @@ class CalendricalEventsPage extends StatefulWidget {
 }
 
 class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
-  CalendricalEventsPageBloc bloc;
+  late CalendricalEventsPageBloc bloc;
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
 }
 
 class _CalendricalEventsPageBody extends StatelessWidget {
-  const _CalendricalEventsPageBody({Key key}) : super(key: key);
+  const _CalendricalEventsPageBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +65,10 @@ class _CalendricalEventsPageBody extends StatelessWidget {
       initialData: bloc.allUpcomingEvents.valueOrNull,
       stream: bloc.allUpcomingEvents,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
-
         final events = snapshot.data;
-        if (events.isEmpty) return _EmptyEventList();
 
+        if (events == null) return Container();
+        if (events.isEmpty) return _EmptyEventList();
         return _EventList(events: events);
       },
     );
@@ -75,7 +76,7 @@ class _CalendricalEventsPageBody extends StatelessWidget {
 }
 
 class _EventList extends StatelessWidget {
-  const _EventList({Key key, @required this.events}) : super(key: key);
+  const _EventList({Key? key, required this.events}) : super(key: key);
 
   final List<EventView> events;
 
@@ -110,7 +111,7 @@ class _EventListFAB extends StatelessWidget {
     );
   }
 
-  Future<TimetableResult> openEventListFABSheet(BuildContext context) async {
+  Future<TimetableResult?> openEventListFABSheet(BuildContext context) async {
     final result = await showModalBottomSheet(
       context: context,
       builder: (context) => _EventListFABSheet(),
@@ -182,7 +183,7 @@ class _EventListFABSheet extends StatelessWidget {
 
 class _EmptyEventList extends StatelessWidget {
   const _EmptyEventList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -207,7 +208,7 @@ class _EmptyEventList extends StatelessWidget {
 }
 
 class _AddEventTile extends StatelessWidget {
-  const _AddEventTile({Key key}) : super(key: key);
+  const _AddEventTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +221,7 @@ class _AddEventTile extends StatelessWidget {
 }
 
 class _AddExamTile extends StatelessWidget {
-  const _AddExamTile({Key key}) : super(key: key);
+  const _AddExamTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
