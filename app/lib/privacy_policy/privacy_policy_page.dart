@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -19,9 +21,9 @@ class PrivacyPolicyPage extends StatelessWidget {
   static const tag = "privacy-policy-page";
 
   PrivacyPolicyPage({
-    Key key,
-    PrivacyPolicy privacyPolicy,
-    PrivacyPolicyPageConfig config,
+    Key? key,
+    PrivacyPolicy? privacyPolicy,
+    PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
   })  : privacyPolicy = privacyPolicy ?? v1PrivacyPolicy,
         config = config ??
