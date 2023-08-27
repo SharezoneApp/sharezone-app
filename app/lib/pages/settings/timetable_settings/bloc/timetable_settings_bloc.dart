@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
@@ -26,7 +28,7 @@ class TimetableSettingsBloc extends BlocBase {
   Function(LessonLength) get changeLessonLength =>
       lessonLengthCache.setLessonLength;
 
-  void saveLessonLengthInCache(int lengthInMinutes) {
+  void saveLessonLengthInCache(int? lengthInMinutes) {
     if (lengthInMinutes != null) {
       final lessonLength = LessonLength(lengthInMinutes);
       lessonLengthCache.setLessonLength(lessonLength);
