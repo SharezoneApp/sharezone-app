@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 abstract class PlatformInformationRetriever {
   String get appName;
   String get packageName;
@@ -24,6 +26,10 @@ class PlatformInfo {
   final String version;
   final String versionNumber;
 
-  PlatformInfo(
-      this.appName, this.packageName, this.version, this.versionNumber);
+  const PlatformInfo(
+    this.appName,
+    this.packageName,
+    this.version,
+    this.versionNumber,
+  );
 }
