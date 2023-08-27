@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+//@dart=2.12
+
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/report/report_reason.dart';
 import 'package:sharezone_common/references.dart';
@@ -20,11 +21,11 @@ class Report {
   final String description;
 
   Report({
-    @required this.creatorID,
-    @required this.createdOn,
-    @required this.item,
-    @required this.reason,
-    @required this.description,
+    required this.creatorID,
+    required this.createdOn,
+    required this.item,
+    required this.reason,
+    required this.description,
   });
 }
 
