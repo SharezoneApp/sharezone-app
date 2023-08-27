@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,7 @@ Future<dynamic> openGroupJoinPage(BuildContext context) {
 }
 
 class _GroupJoinPage extends StatelessWidget {
-  const _GroupJoinPage({Key key}) : super(key: key);
+  const _GroupJoinPage({Key? key}) : super(key: key);
 
   static const tag = "group-join-page";
 
@@ -50,7 +52,7 @@ class _GroupJoinPage extends StatelessWidget {
 }
 
 class GroupJoinAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const GroupJoinAppBar({Key key, this.withBackIcon = true}) : super(key: key);
+  const GroupJoinAppBar({Key? key, this.withBackIcon = true}) : super(key: key);
 
   final bool withBackIcon;
 
@@ -73,7 +75,7 @@ class GroupJoinAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _SupportIcon extends StatelessWidget {
-  const _SupportIcon({Key key}) : super(key: key);
+  const _SupportIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
