@@ -68,7 +68,8 @@ class AuthentificationValidators {
     }
   });
 
-  static bool isNameValid(String name) {
+  static bool isNameValid(String? name) {
+    if (name == null) return false;
     return name.length >= minNameSize &&
         name.length <= maxNameSize &&
         name != "" &&
