@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -77,13 +79,18 @@ class _Header extends StatelessWidget {
 }
 
 class _SupportCard extends StatelessWidget {
-  final Widget icon;
-  final String title, subtitle;
-  final VoidCallback onPressed;
+  const _SupportCard({
+    Key? key,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.onPressed,
+  }) : super(key: key);
 
-  const _SupportCard(
-      {Key key, this.icon, this.title, this.subtitle, this.onPressed})
-      : super(key: key);
+  final Widget icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +104,7 @@ class _SupportCard extends StatelessWidget {
             child: icon,
           ),
           title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
         ),
       ),
@@ -156,7 +163,7 @@ class _DiscordTile extends StatelessWidget {
 }
 
 class _NoteAboutPrivacyPolicy extends StatelessWidget {
-  const _NoteAboutPrivacyPolicy({Key key}) : super(key: key);
+  const _NoteAboutPrivacyPolicy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
