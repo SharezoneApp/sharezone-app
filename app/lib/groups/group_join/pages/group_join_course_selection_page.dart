@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +68,7 @@ class _GroupJoinCourseSelectionPage extends StatelessWidget {
 }
 
 class _BottomSheet extends StatelessWidget {
-  const _BottomSheet({Key key}) : super(key: key);
+  const _BottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class _BottomSheet extends StatelessWidget {
 }
 
 class _CallToAction extends StatelessWidget {
-  const _CallToAction({Key key}) : super(key: key);
+  const _CallToAction({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,7 @@ class _CallToAction extends StatelessWidget {
 }
 
 class _FinishButton extends StatelessWidget {
-  const _FinishButton({Key key}) : super(key: key);
+  const _FinishButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +149,7 @@ class _FinishButton extends StatelessWidget {
 }
 
 class _SkipButton extends StatelessWidget {
-  const _SkipButton({Key key}) : super(key: key);
+  const _SkipButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +168,7 @@ class _SkipButton extends StatelessWidget {
 }
 
 class _OptionalCoursesList extends StatelessWidget {
-  const _OptionalCoursesList({Key key}) : super(key: key);
+  const _OptionalCoursesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -190,10 +192,9 @@ class _OptionalCoursesList extends StatelessWidget {
 /// Das Item, bei welcher der Nutzer dann die Auswahl macht, ob dieser Kurs hinzugefügt werden soll.
 class _CourseCheckboxTile extends StatelessWidget {
   const _CourseCheckboxTile({
-    Key key,
-    @required this.groupInfo,
-  })  : assert(groupInfo != null),
-        super(key: key);
+    Key? key,
+    required this.groupInfo,
+  }) : super(key: key);
 
   final GroupInfoWithSelectionState groupInfo;
 
@@ -205,6 +206,7 @@ class _CourseCheckboxTile extends StatelessWidget {
         title: Text(groupInfo.name),
         value: groupInfo.isSelected,
         onChanged: (newSelectionValue) {
+          if (newSelectionValue == null) return;
           final bloc = BlocProvider.of<GroupJoinSelectCoursesBloc>(context);
           bloc.setSelectionState(groupInfo.groupKey, newSelectionValue);
         },
