@@ -101,7 +101,7 @@ class AppUser {
     }
     return AppUser._(
       id: id,
-      name: data['name'],
+      name: data['name'] ?? '',
       abbreviation: generateAbbreviation(data['name']),
       typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']) ??
           TypeOfUser.unknown,
