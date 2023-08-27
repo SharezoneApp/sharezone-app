@@ -6,8 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-import 'package:sharezone_common/helper_functions.dart';
+//@dart=2.12
 
 import 'report.dart';
 import 'report_reason.dart';
@@ -21,11 +20,11 @@ class ReportDto {
   final String description;
 
   const ReportDto._({
-    @required this.creatorID,
-    @required this.createdOn,
-    @required this.path,
-    @required this.reason,
-    @required this.description,
+    required this.creatorID,
+    required this.createdOn,
+    required this.path,
+    required this.reason,
+    required this.description,
   });
 
   factory ReportDto.fromReport(Report report) {
@@ -43,18 +42,18 @@ class ReportDto {
       'creatorID': creatorID,
       'createdOn': createdOn.toIso8601String(),
       'path': path,
-      'reason': enumToString(reason),
+      'reason': reason.name,
       'description': description,
     }..removeWhere((string, object) =>
         object == null || (object is String && object.isEmpty));
   }
 
   ReportDto copyWith({
-    String creatorID,
-    DateTime createdOn,
-    String path,
-    ReportReason reason,
-    String description,
+    String? creatorID,
+    DateTime? createdOn,
+    String? path,
+    ReportReason? reason,
+    String? description,
   }) {
     return ReportDto._(
       creatorID: creatorID ?? this.creatorID,
