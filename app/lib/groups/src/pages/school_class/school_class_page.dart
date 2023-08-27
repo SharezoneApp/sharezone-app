@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,7 @@ class MySchoolClassPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    return StreamBuilder<SchoolClass>(
+    return StreamBuilder<SchoolClass?>(
       stream: bloc.streamSchoolClass(),
       builder: (context, snapshot) {
         final schoolClass = snapshot.data;
