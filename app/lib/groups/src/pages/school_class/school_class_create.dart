@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
@@ -25,7 +27,7 @@ Future<dynamic> openMySchoolClassCreateDialog(
 }
 
 class SchoolClassCreateDialog extends StatefulWidget {
-  const SchoolClassCreateDialog({Key key}) : super(key: key);
+  const SchoolClassCreateDialog({Key? key}) : super(key: key);
 
   @override
   _SchoolClassCreateDialogState createState() =>
@@ -35,10 +37,10 @@ class SchoolClassCreateDialog extends StatefulWidget {
 class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
   String className = '';
   bool isLoading = false;
-  String errorTextForUser;
+  String? errorTextForUser;
 
   Future<void> _createClass(BuildContext context, String className) async {
-    if (className == null || className.isEmpty) {
+    if (className.isEmpty) {
       return;
     }
 
@@ -48,7 +50,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       final bloc = BlocProvider.of<MySchoolClassBloc>(context);
 
       final result = await bloc.createSchoolClass(className);
-      if (result != null && result.hasData && result.data == true) {
+      if (result.hasData && result.data == true) {
         Navigator.pop(context, true);
       }
     } catch (e, s) {
@@ -75,7 +77,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
             ),
             if (errorTextForUser != null)
               Text(
-                errorTextForUser,
+                errorTextForUser!,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.error,
                   fontSize: 14,
@@ -104,10 +106,10 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
 
 class _NameField extends StatelessWidget {
   const _NameField({
-    Key key,
-    @required this.value,
-    @required this.onChanged,
-    @required this.onSubmitted,
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    required this.onSubmitted,
   }) : super(key: key);
 
   final String value;
