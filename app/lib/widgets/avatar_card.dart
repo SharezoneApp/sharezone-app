@@ -20,7 +20,7 @@ class AvatarCard extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.radius = 55.0,
     this.svgPath,
-    this.svgSize,
+    this.svgSize = const Size.square(60.0),
     this.imagePath,
     this.imageSize = const Size.square(111.0),
     this.kuerzel = "",
@@ -35,7 +35,7 @@ class AvatarCard extends StatelessWidget {
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;
   final String? svgPath;
-  final Size? svgSize;
+  final Size svgSize;
   final String? imagePath;
   final Size imageSize;
   final double radius;
@@ -128,9 +128,8 @@ class AvatarCard extends StatelessWidget {
     return InkWell(
       onTap: onTapImage,
       child: SvgWidget(
-        assetName: svgPath,
-        size: svgSize == null ? Size(60.0, 60.0) : svgSize,
-        // allowDrawingOutsideViewBox: false,
+        assetName: svgPath!,
+        size: svgSize,
       ),
     );
   }
