@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,8 @@ Future<void> deleteHomeworkDialogsEntry(
     case _DeleteDialogOptions.onlyUser:
       _deleteOnlyForCurrentUser(context, homework);
       break;
+    case null:
+      break;
   }
 }
 
@@ -62,7 +66,7 @@ void _deleteHomeworkForAllAndShowDialogIfAttachementsExist(
     _showAttachmentsDeleteOrRemainDialog(context, homework, popTwice);
   else {
     api.homework.deleteHomework(homework);
-    if (popTwice != null && popTwice) Navigator.pop(context);
+    if (popTwice) Navigator.pop(context);
   }
 }
 
