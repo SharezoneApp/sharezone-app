@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -19,16 +21,16 @@ class SharezoneMainScaffold extends StatelessWidget {
   final AppBarConfiguration appBarConfiguration;
   final NavigationItem navigationItem;
   final Widget body;
-  final Widget floatingActionButton;
-  final BottomBarConfiguration bottomBarConfiguration;
-  final Key scaffoldKey;
-  final Color colorBehindBNB;
+  final Widget? floatingActionButton;
+  final BottomBarConfiguration? bottomBarConfiguration;
+  final Key? scaffoldKey;
+  final Color? colorBehindBNB;
 
   const SharezoneMainScaffold({
-    @required this.navigationItem,
-    @required this.body,
+    required this.navigationItem,
+    required this.body,
+    required this.appBarConfiguration,
     this.floatingActionButton,
-    this.appBarConfiguration,
     this.bottomBarConfiguration,
     this.scaffoldKey,
     this.colorBehindBNB,
