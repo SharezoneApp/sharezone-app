@@ -20,7 +20,7 @@ class DesktopMainScaffold extends StatelessWidget {
   final AppBarConfiguration appBarConfiguration;
   final NavigationItem navigationItem;
   final Widget body;
-  final Widget floatingActionButton;
+  final Widget? floatingActionButton;
   final BottomBarConfiguration? bottomBarConfiguration;
   final Key? scaffoldKey;
 
