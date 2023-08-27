@@ -16,9 +16,9 @@ import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<Course> openCourseCreatePage(
+Future<Course?> openCourseCreatePage(
   BuildContext context, {
-  required Course course,
+  Course? course,
   String? schoolClassId,
 }) async {
   final createdCourse = await Navigator.push<dynamic>(
@@ -67,12 +67,12 @@ Future<void> submit(BuildContext context) async {
 class _CourseCreatePage extends StatefulWidget {
   const _CourseCreatePage({
     Key? key,
-    required this.course,
+    this.course,
     this.schoolClassId,
   }) : super(key: key);
 
   static const tag = "course-create-page";
-  final Course course;
+  final Course? course;
   final String? schoolClassId;
 
   @override
@@ -90,7 +90,9 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
     bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
       schoolClassId: widget.schoolClassId,
     );
-    bloc.setInitialCourse(widget.course);
+    if (widget.course != null) {
+      bloc.setInitialCourse(widget.course!);
+    }
     super.initState();
   }
 
@@ -110,10 +112,10 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
             child: Column(
               children: <Widget>[
                 _Subject(
-                    subject: widget.course.subject,
+                    subject: widget.course?.subject,
                     nextFocusNode: abbreviationNode),
                 _Abbreviation(
-                    abbreviation: widget.course.abbreviation,
+                    abbreviation: widget.course?.abbreviation,
                     focusNode: abbreviationNode,
                     nextFocusNode: nameNode),
                 _CourseName(focusNode: nameNode),
