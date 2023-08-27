@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:date/date.dart';
 import 'package:time/time.dart';
 
@@ -18,5 +20,9 @@ class TimetableElementTimeProperties {
   final Time start, end;
 
   const TimetableElementTimeProperties(
-      this.id, this.date, this.start, this.end);
+    this.id,
+    this.date,
+    this.start,
+    this.end,
+  );
 }
