@@ -6,13 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
-import 'package:sharezone_common/helper_functions.dart';
 
 class GroupOnboardingTitle extends StatelessWidget {
-  GroupOnboardingTitle(this.title, {Key key})
-      : assert(isNotEmptyOrNull(title)),
-        super(key: key);
+  const GroupOnboardingTitle(this.title, {Key? key}) : super(key: key);
 
   final String title;
 
