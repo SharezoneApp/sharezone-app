@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:design/design.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -26,11 +27,11 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
   final CourseEditBlocGateway _gateway;
 
   CourseEditPageBloc({
-    @required CourseEditBlocGateway gateway,
-    @required String subject,
-    @required String abbreviation,
-    @required String courseName,
-    @required Design design,
+    required CourseEditBlocGateway gateway,
+    required String subject,
+    required String abbreviation,
+    required String courseName,
+    required Design design,
   }) : _gateway = gateway {
     _subjectSubject.sink.add(subject);
     _abbreviationSubject.sink.add(abbreviation);
@@ -76,16 +77,16 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
   }
 
   String _getSubject() {
-    return _subjectSubject.valueOrNull;
+    return _subjectSubject.value;
   }
 
   Design _getDesign() {
-    return _designSubject.valueOrNull;
+    return _designSubject.value;
   }
 
   String _getAbbreviation() {
     final String subject = _getSubject();
-    String abbreviation = _abbreviationSubject.valueOrNull;
+    String abbreviation = _abbreviationSubject.value;
     if (isEmptyOrNull(abbreviation)) {
       if (subject.length <= 1) {
         abbreviation = subject;
@@ -97,7 +98,7 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
   }
 
   String _getCourseName() {
-    String courseName = _courseNameSubject.valueOrNull;
+    String courseName = _courseNameSubject.value;
     if (isEmptyOrNull(courseName)) {
       courseName = _getSubject();
     }
@@ -116,11 +117,12 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
 class UserInput {
   final String subject, abbreviation, courseName;
   final Design design;
-  UserInput({
-    @required this.subject,
-    @required this.abbreviation,
-    @required this.courseName,
-    @required this.design,
+
+  const UserInput({
+    required this.subject,
+    required this.abbreviation,
+    required this.courseName,
+    required this.design,
   });
 }
 
