@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
@@ -82,8 +84,8 @@ class _HowToJoinAGroup extends StatefulWidget {
 }
 
 class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
-  Color _svgColor = Colors.grey[600];
-  Color _typeInPublicKeyIconColor = Colors.grey[600];
+  Color? _svgColor = Colors.grey[600];
+  Color? _typeInPublicKeyIconColor = Colors.grey[600];
 
   @override
   Widget build(BuildContext context) {
