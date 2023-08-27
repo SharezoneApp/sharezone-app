@@ -6,8 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 
 enum GroupPermission {
   /// Permission to perform administrative tasks for the group and its content.
@@ -30,21 +31,18 @@ extension HasRolePermission on MemberRole {
   }
 }
 
-bool _hasPermission(GroupPermission permissionType,
-    {@required MemberRole currentRole}) {
+bool _hasPermission(
+  GroupPermission permissionType, {
+  required MemberRole? currentRole,
+}) {
   if (currentRole == null) return true;
   switch (permissionType) {
     case GroupPermission.administration:
-      {
-        return [MemberRole.owner, MemberRole.admin].contains(currentRole);
-      }
+      return [MemberRole.owner, MemberRole.admin].contains(currentRole);
     case GroupPermission.contentCreation:
-      {
-        return [MemberRole.owner, MemberRole.admin, MemberRole.creator]
-            .contains(currentRole);
-      }
+      return [MemberRole.owner, MemberRole.admin, MemberRole.creator]
+          .contains(currentRole);
   }
-  return false;
 }
 
 bool isUserAdminOrOwnerOfGroup(MemberRole role) =>
