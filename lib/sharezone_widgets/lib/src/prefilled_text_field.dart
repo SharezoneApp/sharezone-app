@@ -308,7 +308,7 @@ class PrefilledTextField extends StatefulWidget {
   /// ```
   ///
   /// (Copied from [TextField.maxLines])
-  final int maxLines;
+  final int? maxLines;
 
   /// The style to use for the text being edited.
   ///
