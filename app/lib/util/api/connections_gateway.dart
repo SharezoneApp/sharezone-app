@@ -6,26 +6,27 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 
 import 'package:app_functions/app_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone_common/database_foundation.dart';
 import 'package:sharezone_common/references.dart';
 
 class ConnectionsGateway implements MyConnectionsAccesor {
-  DataCollectionPackage<Course> joinedCoursesPackage;
-  DataDocumentPackage<ConnectionsData> _connectionDataPackage;
-  List<Course> newJoinedCourses = [];
+  late DataCollectionPackage<Course> joinedCoursesPackage;
+  late DataDocumentPackage<ConnectionsData> _connectionDataPackage;
+  late List<Course> newJoinedCourses = [];
 
   ConnectionsGateway(this.references, this.memberID) {
     _connectionDataPackage = DataDocumentPackage(
         reference: references.getConnectionsReference(memberID),
-        objectBuilder: (data) => ConnectionsData.fromData(data: data),
+        objectBuilder: (data) => ConnectionsData.fromData(data: data)!,
         directlyLoad: true,
         loadNullData: true);
     joinedCoursesPackage = DataCollectionPackage(
@@ -62,17 +63,17 @@ class ConnectionsGateway implements MyConnectionsAccesor {
 
   /// Kombiniert aktuell noch ConnectionsData mit der alten joinedCourses Struktur
   @override
-  Stream<ConnectionsData> streamConnectionsData() {
+  Stream<ConnectionsData?> streamConnectionsData() {
     return _connectionDataPackage.stream.map((connectionsData) {
       final newdata = (connectionsData ?? ConnectionsData.fromData(data: null))
-          .copyWithJoinedCourses(newJoinedCourses);
+          ?.copyWithJoinedCourses(newJoinedCourses);
       return newdata;
     });
   }
 
-  ConnectionsData current() {
+  ConnectionsData? current() {
     if (_connectionDataPackage.data == null) return null;
-    return _connectionDataPackage.data.copyWithJoinedCourses(newJoinedCourses);
+    return _connectionDataPackage.data?.copyWithJoinedCourses(newJoinedCourses);
   }
 
   Future<ConnectionsData> get() async {
@@ -81,8 +82,8 @@ class ConnectionsGateway implements MyConnectionsAccesor {
   }
 
   Future<AppFunctionsResult> joinByKey({
-    @required String publicKey,
-    @required List<String> coursesForSchoolClass,
+    required String publicKey,
+    required List<String> coursesForSchoolClass,
     int version = 2,
   }) {
     return references.functions.joinGroupByValue(
@@ -93,17 +94,18 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     );
   }
 
-  Future<AppFunctionsResult> joinByJoinLink({String joinLink}) {
+  Future<AppFunctionsResult> joinByJoinLink({required String joinLink}) {
     return references.functions.joinGroupByValue(
       enteredValue: joinLink,
       memberID: memberID,
     );
   }
 
-  Future<void> addConnectionCreate(
-      {@required String id,
-      @required GroupType type,
-      Map<String, dynamic> data}) {
+  Future<void> addConnectionCreate({
+    required String id,
+    required GroupType type,
+    Map<String, dynamic>? data,
+  }) {
     return references.getConnectionsReference(memberID).set({
       _getCamelCaseGroupType(type): {id: data},
     }, SetOptions(merge: true));
@@ -121,13 +123,12 @@ class ConnectionsGateway implements MyConnectionsAccesor {
       case GroupType.schoolclass:
         return 'SchoolClasses';
     }
-    throw UnimplementedError('There is no string for $groupType');
   }
 
   Future<void> addCoursePersonalDesign({
-    @required String id,
-    @required dynamic personalDesignData,
-    @required Course course,
+    required String id,
+    required dynamic personalDesignData,
+    required Course course,
   }) {
     if (course.version2) {
       return references.getConnectionsReference(memberID).set({
@@ -144,7 +145,10 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     }
   }
 
-  Future<void> removeCoursePersonalDesign({String courseID, Course course}) {
+  Future<void> removeCoursePersonalDesign({
+    required String courseID,
+    required Course course,
+  }) {
     if (course.version2) {
       return references.getConnectionsReference(memberID).set({
         CollectionNames.courses: {
@@ -162,8 +166,8 @@ class ConnectionsGateway implements MyConnectionsAccesor {
   }
 
   Future<AppFunctionsResult<bool>> joinWithId({
-    @required String id,
-    @required GroupType type,
+    required String id,
+    required GroupType type,
   }) async {
     return references.functions.joinWithGroupId(
       id: id,
@@ -172,8 +176,10 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     );
   }
 
-  Future<AppFunctionsResult<bool>> leave(
-      {@required String id, @required GroupType type}) {
+  Future<AppFunctionsResult<bool>> leave({
+    required String id,
+    required GroupType type,
+  }) {
     return references.functions.leave(
       id: id,
       type: type.name,
@@ -181,14 +187,15 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     );
   }
 
-  Future<AppFunctionsResult<bool>> delete(
-      {@required String id,
-      @required GroupType type,
-      SchoolClassDeleteType schoolClassDeleteType}) {
+  Future<AppFunctionsResult<bool>> delete({
+    required String id,
+    required GroupType type,
+    SchoolClassDeleteType? schoolClassDeleteType,
+  }) {
     return references.functions.groupDelete(
       groupID: id,
       type: type.name,
-      schoolClassDeleteType: schoolClassTypeToString(schoolClassDeleteType),
+      schoolClassDeleteType: schoolClassDeleteType?.name,
     );
   }
 
