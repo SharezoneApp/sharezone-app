@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:optional/optional.dart';
@@ -21,9 +23,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'share_sharecode.dart';
 
 class GroupOnboardingCreateCourse extends StatelessWidget {
-  const GroupOnboardingCreateCourse({Key key, @required this.schoolClassId})
-      : assert(schoolClassId != null),
-        super(key: key);
+  const GroupOnboardingCreateCourse({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = 'onboarding-course-page';
   final Optional<String> schoolClassId;
@@ -67,7 +70,10 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
 }
 
 class _CreateCustomCourse extends StatelessWidget {
-  const _CreateCustomCourse({Key key, this.schoolClassId}) : super(key: key);
+  const _CreateCustomCourse({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   final Optional<String> schoolClassId;
 
