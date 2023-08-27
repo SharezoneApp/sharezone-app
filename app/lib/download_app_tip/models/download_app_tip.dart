@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/foundation.dart';
 
 const baseUrl = "https://sharezone.net";
@@ -22,7 +24,7 @@ abstract class DownloadAppTip {
 
   final TargetPlatform platform;
 
-  DownloadAppTip(this.platform) : assert(platform != null);
+  DownloadAppTip(this.platform);
 
   @override
   bool operator ==(Object other) {
@@ -72,6 +74,5 @@ extension on TargetPlatform {
       case TargetPlatform.fuchsia:
         return 'Fuchsia';
     }
-    throw UnimplementedError('There is no platform name for $this');
   }
 }
