@@ -9,7 +9,6 @@
 //@dart=2.12
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/models/rate_our_app_tip.dart';
@@ -21,7 +20,7 @@ import 'models/dashboard_tip.dart';
 class DashboardTipSystem extends BlocBase {
   final DashboardTipCache cache;
   final NavigationBloc navigationBloc;
-  final Stream<DashboardTip> dashboardTip;
+  final Stream<DashboardTip?> dashboardTip;
 
   DashboardTipSystem({
     required this.cache,
@@ -33,7 +32,7 @@ class DashboardTipSystem extends BlocBase {
     cache.increaseDashboardCounter();
   }
 
-  static Stream<DashboardTip> initialiseDashboardTipStream(
+  static Stream<DashboardTip?> initialiseDashboardTipStream(
     DashboardTipCache cache,
     NavigationBloc navigationBloc,
     UserTipsBloc userTipsBloc,
@@ -44,7 +43,7 @@ class DashboardTipSystem extends BlocBase {
 
     return CombineLatestStream(tips.map((tip) => tip.shouldShown()).toList(),
         (streamValues) {
-      final showRateOurAppCard = streamValues[0] as bool ?? false;
+      final showRateOurAppCard = streamValues[0] as bool? ?? false;
 
       if (showRateOurAppCard) return rateOurAppTip;
       return null;
