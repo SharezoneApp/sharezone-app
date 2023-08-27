@@ -244,18 +244,18 @@ class _ExtendableBottomNavigationBarContentState
 class _SwipeUpLine extends StatelessWidget {
   const _SwipeUpLine({
     Key? key,
-    required this.controller,
+    this.controller,
   }) : super(key: key);
 
-  /// [controller] is needed to open the ExentableBottonNavigationBar, if the
+  /// [controller] is needed to open the [ExtendableBottomNavigationBar], if the
   /// user taps on this widget.
   ///
   /// If [controller] is null, this function will be disabled.
-  final PanelController controller;
+  final PanelController? controller;
 
   @override
   Widget build(BuildContext context) {
-    final isBnbExpanded = controller.isPanelOpen;
+    final isBnbExpanded = controller?.isPanelOpen ?? false;
     return Semantics(
       label:
           '${isBnbExpanded ? 'Schließt' : 'Öffnet'} die erweiterte Navigationsleiste',
@@ -279,7 +279,9 @@ class _SwipeUpLine extends StatelessWidget {
   }
 
   Future<void> onTap(BuildContext context) async {
-    controller.isPanelOpen ? controller.close() : controller.open();
+    if (controller == null) return;
+
+    controller!.isPanelOpen ? controller!.close() : controller!.open();
     _logAnalytics(context);
   }
 
