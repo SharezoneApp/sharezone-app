@@ -6,25 +6,26 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:collection';
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/dashboard/update_reminder/release.dart';
 
 class Change extends Release {
-  Version currentUserVersion;
+  Version? currentUserVersion;
   bool get isNewerThanCurrentVersion =>
-      currentUserVersion != null && version > currentUserVersion;
-  List<String> newFeatures;
-  List<String> improvements;
-  List<String> fixes;
+      currentUserVersion != null && version > currentUserVersion!;
+  late List<String> newFeatures;
+  late List<String> improvements;
+  late List<String> fixes;
 
   Change({
-    @required Version version,
-    @required DateTime releaseDate,
-    @required List<String> newFeatures,
-    @required List<String> improvements,
-    @required List<String> fixes,
+    required Version version,
+    required DateTime releaseDate,
+    required List<String> newFeatures,
+    required List<String> improvements,
+    required List<String> fixes,
   }) : super(version: version, releaseDate: releaseDate) {
     this.newFeatures = LineStringList(newFeatures).toList();
     this.improvements = LineStringList(improvements).toList();
@@ -39,10 +40,7 @@ class LineStringList with IterableMixin<String> {
       : _list = items.map(_addIndentationMark).toList();
 
   static String _addIndentationMark(String s) {
-    if (s != null && s.isNotEmpty) {
-      return '- $s';
-    }
-    return s;
+    return '- $s';
   }
 
   @override
@@ -60,15 +58,15 @@ class Version implements Comparable<Version> {
   final int minor;
   final int patch;
 
-  factory Version.parse({@required String name}) {
+  factory Version.parse({required String name}) {
     final match = _versionRegEx.firstMatch(name);
     if (match == null) {
       throw ArgumentError.value(name, "name", "Invalid version format");
     }
 
-    final major = int.parse(match.group(1).replaceAll(".", ""));
-    final minor = int.parse(match.group(2).replaceAll(".", ""));
-    final patch = int.parse(match.group(3).replaceAll(".", ""));
+    final major = int.parse(match.group(1)!.replaceAll(".", ""));
+    final minor = int.parse(match.group(2)!.replaceAll(".", ""));
+    final patch = int.parse(match.group(3)!.replaceAll(".", ""));
 
     return Version._(
       name: name,
@@ -79,10 +77,10 @@ class Version implements Comparable<Version> {
   }
 
   Version._({
-    @required this.name,
-    @required this.major,
-    @required this.minor,
-    @required this.patch,
+    required this.name,
+    required this.major,
+    required this.minor,
+    required this.patch,
   });
 
   bool operator >(Version other) {
