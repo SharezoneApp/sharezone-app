@@ -6,14 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
+//@dart=2.12
 
-enum WeekType { always, a, b }
-
-WeekType? weekTypeEnumFromString(String data) =>
-    enumFromString(WeekType.values, data, orElse: WeekType.always);
-
-String? weekTypeEnumToString(WeekType weekType) => enumToString(weekType);
+enum WeekType {
+  always,
+  a,
+  b,
+}
 
 String weekTypeEnumToGermanString(WeekType weekType) {
   switch (weekType) {
