@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -18,10 +20,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseTile extends StatelessWidget {
   const CourseTile({
-    Key key,
-    @required this.editMode,
-    @required this.onChanged,
-    @required this.courseStream,
+    Key? key,
+    required this.editMode,
+    required this.onChanged,
+    required this.courseStream,
   }) : super(key: key);
 
   final bool editMode;
@@ -44,7 +46,7 @@ class CourseTile extends StatelessWidget {
           stream: api.course.streamCourses(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return Container();
-            final courseList = snapshot.data;
+            final courseList = snapshot.data ?? [];
             _sortCourseListByAlphabet(courseList);
             return SimpleDialog(
               title: const Text('Wähle einen Kurs aus'),
@@ -83,9 +85,9 @@ class CourseTile extends StatelessWidget {
 
 class _CourseList extends StatelessWidget {
   const _CourseList({
-    Key key,
-    @required this.courseList,
-    @required this.onChanged,
+    Key? key,
+    required this.courseList,
+    required this.onChanged,
   }) : super(key: key);
 
   final List<Course> courseList;
@@ -93,7 +95,7 @@ class _CourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (courseList == null || courseList.isEmpty) return _EmptyCourseList();
+    if (courseList.isEmpty) return _EmptyCourseList();
     _sortCourseListByAlphabet(courseList);
     return Column(
       children: courseList.map((course) {
@@ -143,7 +145,7 @@ class _EmptyCourseList extends StatelessWidget {
 }
 
 class _JoinCreateCourseFooter extends StatelessWidget {
-  const _JoinCreateCourseFooter({Key key}) : super(key: key);
+  const _JoinCreateCourseFooter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
