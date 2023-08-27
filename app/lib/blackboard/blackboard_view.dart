@@ -6,22 +6,23 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'blackboard_item.dart';
 
 class BlackboardView {
   final String title;
-  final String text;
+  final String? text;
   final String previewText;
   final String id;
-  final String pictureURL;
+  final String? pictureURL;
   final String courseName;
   final String courseID;
   final String createdOnText;
@@ -33,28 +34,28 @@ class BlackboardView {
   final List<String> attachmentIDs;
 
   BlackboardView({
-    @required this.item,
-    @required this.title,
-    @required this.text,
-    @required this.previewText,
-    @required this.authorName,
-    @required this.courseName,
-    @required this.courseNameColor,
-    @required this.courseID,
-    @required this.readPercent,
-    @required this.createdOnText,
-    @required this.readPerecentColor,
-    @required this.isAuthor,
-    @required this.hasPhoto,
-    @required this.hasAttachments,
-    @required this.hasPermissionToEdit,
-    @required this.pictureURL,
-    @required this.id,
-    @required this.attachmentIDs,
-    @required this.isRead,
+    required this.item,
+    required this.title,
+    required this.text,
+    required this.previewText,
+    required this.authorName,
+    required this.courseName,
+    required this.courseNameColor,
+    required this.courseID,
+    required this.readPercent,
+    required this.createdOnText,
+    required this.readPerecentColor,
+    required this.isAuthor,
+    required this.hasPhoto,
+    required this.hasAttachments,
+    required this.hasPermissionToEdit,
+    required this.pictureURL,
+    required this.id,
+    required this.attachmentIDs,
+    required this.isRead,
   });
 
-  factory BlackboardView.empty({String id}) {
+  factory BlackboardView.empty({required String id}) {
     return BlackboardView(
       attachmentIDs: [],
       authorName: '',
@@ -66,10 +67,13 @@ class BlackboardView {
       hasPermissionToEdit: false,
       previewText: '',
       hasPhoto: false,
-      id: id ?? 'PlaceholderId',
+      id: id,
       isAuthor: false,
       isRead: false,
-      item: BlackboardItem.create(courseReference: null, authorReference: null),
+      item: BlackboardItem.create(
+        courseReference: null,
+        authorID: '',
+      ),
       pictureURL: '',
       readPercent: 0,
       readPerecentColor: Colors.green,
@@ -82,7 +86,7 @@ class BlackboardView {
       BlackboardItem item, String uid, CourseGateway courseGateway) {
     final readPercent = _calculateReadPercent(item);
     final isAuthor = _isAuthor(item, uid);
-    final courseID = item.courseReference.id;
+    final courseID = item.courseReference?.id ?? 'placeholder';
     return BlackboardView(
       id: item.id,
       item: item,
@@ -107,15 +111,16 @@ class BlackboardView {
     );
   }
 
-  /// Shorts [fullText] to 140 characters and adds "..." to the end, if [fullText]
-  /// is longer than 140 characters.
-  static String _getTextPreview(String fullText) {
-    if (isEmptyOrNull(fullText)) return '';
+  /// Shorts [fullText] to 140 characters and adds "..." to the end, if
+  /// [fullText] is longer than 140 characters.
+  static String _getTextPreview(String? fullText) {
+    if (fullText == null) return '';
     if (fullText.characters.length <= 140) return fullText;
     return '${fullText.characters.take(140)}...';
   }
 
-  static bool _isRead(BlackboardItem item, String uid) => item.forUsers[uid];
+  static bool _isRead(BlackboardItem item, String uid) =>
+      item.forUsers[uid] ?? false;
 
   static Color _getCourseColor(String courseID, CourseGateway courseGateway) {
     final course = courseGateway.getCourse(courseID) ?? Course.create();
@@ -136,7 +141,7 @@ class BlackboardView {
     return false;
   }
 
-  static bool _hasPhoto(String pictureURL) =>
+  static bool _hasPhoto(String? pictureURL) =>
       !(pictureURL == null || pictureURL == "null");
 
   static int _calculateReadPercent(BlackboardItem item) {
@@ -146,7 +151,7 @@ class BlackboardView {
     if (userSize == 0) return 100;
 
     item.forUsers.forEach((k, v) {
-      if (k != item.authorReference.id && v == true) {
+      if (k != item.authorID && v == true) {
         numberOfReads++;
       }
     });
@@ -167,6 +172,6 @@ class BlackboardView {
       item.authorID == uid;
 
   static bool _hasAttachments(BlackboardItem item) {
-    return item.attachments != null && item.attachments.isNotEmpty;
+    return item.attachments.isNotEmpty;
   }
 }
