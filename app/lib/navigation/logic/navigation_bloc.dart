@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ class NavigationBloc extends BlocBase {
       BehaviorSubject<NavigationItem>.seeded(NavigationItem.overview);
   Stream<NavigationItem> get navigationItems => _navigationItemsSubject;
 
-  NavigationItem get currentItem => _navigationItemsSubject.valueOrNull;
+  NavigationItem get currentItem => _navigationItemsSubject.valueOrNull!;
 
   Function(NavigationItem) get navigateTo => _navigationItemsSubject.sink.add;
 
