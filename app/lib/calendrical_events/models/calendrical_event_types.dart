@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
 abstract class CalendricalEventType {
@@ -15,8 +17,9 @@ abstract class CalendricalEventType {
   Color get color;
 
   @override
-  bool operator ==(other) {
-    return other.runtimeType == runtimeType && other.key == key;
+  bool operator ==(Object? other) {
+    if (identical(this, other)) return true;
+    return other is CalendricalEventType && other.key == key;
   }
 
   @override
@@ -40,7 +43,7 @@ CalendricalEventType getEventTypeFromString(String data) {
   }
 }
 
-String getEventTypeToString(CalendricalEventType eventType) {
+String getEventTypeToString(CalendricalEventType? eventType) {
   return (eventType ?? OtherEventType()).key;
 }
 
