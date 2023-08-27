@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -81,7 +83,7 @@ void _showCourseLeaveConformationSnackbar(BuildContext context) {
 }
 
 class CourseDetailsPage extends StatelessWidget {
-  const CourseDetailsPage({Key key, @required this.course}) : super(key: key);
+  const CourseDetailsPage({Key? key, required this.course}) : super(key: key);
 
   static const tag = "course-details-page";
   final Course course;
@@ -98,12 +100,12 @@ class CourseDetailsPage extends StatelessWidget {
 }
 
 class _CourseDetailsPage extends StatelessWidget {
-  const _CourseDetailsPage({Key key}) : super(key: key);
+  const _CourseDetailsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    return StreamBuilder<Course>(
+    return StreamBuilder<Course?>(
       initialData: bloc.initialData,
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -137,8 +139,8 @@ class _CourseDetailsPage extends StatelessWidget {
           );
         }
         final course = snapshot
-            .data; // So that attributes are null, but the courseDetailsView is not. null attributes are handeld individually in the widgets.
-        final isAdmin = bloc.isAdmin(course.myRole) ?? false;
+            .data!; // So that attributes are null, but the courseDetailsView is not. null attributes are handeld individually in the widgets.
+        final isAdmin = bloc.isAdmin(course.myRole);
         return Scaffold(
           appBar: AppBar(
             title: Text(course.name),
@@ -202,7 +204,7 @@ class _CourseDetailsPage extends StatelessWidget {
 }
 
 class _ChangeColorIcon extends StatelessWidget {
-  const _ChangeColorIcon({Key key, @required this.courseID}) : super(key: key);
+  const _ChangeColorIcon({Key? key, required this.courseID}) : super(key: key);
 
   final String courseID;
 
@@ -217,7 +219,7 @@ class _ChangeColorIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key key, @required this.course}) : super(key: key);
+  const _EditIcon({Key? key, required this.course}) : super(key: key);
 
   final Course course;
 
@@ -240,7 +242,10 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _LeaveCourseButton extends StatelessWidget {
-  const _LeaveCourseButton({Key key, this.onDialogClose}) : super(key: key);
+  const _LeaveCourseButton({
+    Key? key,
+    required this.onDialogClose,
+  }) : super(key: key);
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -272,8 +277,11 @@ class _LeaveCourseButton extends StatelessWidget {
 }
 
 class _DeleteCourseButton extends StatelessWidget {
-  const _DeleteCourseButton({Key key, this.onDialogClose, this.courseName})
-      : super(key: key);
+  const _DeleteCourseButton({
+    Key? key,
+    required this.onDialogClose,
+    required this.courseName,
+  }) : super(key: key);
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
   final String courseName;
@@ -321,7 +329,7 @@ class HelpCoursePageIconButton extends StatelessWidget {
 }
 
 class _CourseAvatarCard extends StatelessWidget {
-  const _CourseAvatarCard({@required this.course, this.memberCount = 0});
+  const _CourseAvatarCard({required this.course, this.memberCount = 0});
 
   final Course course;
   final int memberCount;
@@ -347,7 +355,7 @@ class _CourseAvatarCard extends StatelessWidget {
             const SizedBox(height: 4),
             MemberCountText(memberCount: memberCount),
             const SizedBox(height: 16),
-            SharecodeText(course.toGroupInfo().sharecode),
+            SharecodeText(course.toGroupInfo().sharecode!),
             const Divider(height: 40),
             ShareGroupSection(groupInfo: course.toGroupInfo()),
           ],
@@ -359,7 +367,7 @@ class _CourseAvatarCard extends StatelessWidget {
 }
 
 class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({Key key, @required this.course}) : super(key: key);
+  const _SettingsCard({Key? key, required this.course}) : super(key: key);
 
   final Course course;
 
