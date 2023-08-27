@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
@@ -16,7 +18,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<bool> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
+Future<bool?> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
   if (ThemePlatform.isCupertino) {
     return showCupertinoDialog(
         context: context,
@@ -43,7 +45,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
   """;
   bool confirmedToDeleteAccount = false;
   bool isLoading = false;
-  String errorTextForUser;
+  String? errorTextForUser;
 
   Future<void> tryToSignOutAndDeleteUser(BuildContext context) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
@@ -84,13 +86,15 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
             children: <Widget>[
               Text(userDeletionNotice),
               DeleteConfirmationCheckbox(
-                onChanged: (value) =>
-                    setState(() => confirmedToDeleteAccount = value),
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() => confirmedToDeleteAccount = value);
+                },
                 confirm: confirmedToDeleteAccount,
                 text: text,
               ),
               if (isValidError(errorTextForUser))
-                DeleteAccountDialogErrorText(text: errorTextForUser)
+                DeleteAccountDialogErrorText(text: errorTextForUser!)
             ],
           ),
         ),
@@ -132,13 +136,15 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
                   child: Text(userDeletionNotice),
                 ),
                 DeleteConfirmationCheckbox(
-                  onChanged: (bool value) =>
-                      setState(() => confirmedToDeleteAccount = value),
+                  onChanged: (bool? value) {
+                    if (value == null) return;
+                    setState(() => confirmedToDeleteAccount = value);
+                  },
                   confirm: confirmedToDeleteAccount,
                   text: text,
                 ),
                 if (isValidError(errorTextForUser))
-                  DeleteAccountDialogErrorText(text: errorTextForUser)
+                  DeleteAccountDialogErrorText(text: errorTextForUser!)
               ],
             ),
           ),
@@ -164,7 +170,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
         ]);
   }
 
-  bool isValidError(String error) => error != null && error.isNotEmpty;
+  bool isValidError(String? error) => error != null && error.isNotEmpty;
 
   void _logAnonymousUserSignedOutEvent(Analytics analytics) {
     analytics.log(NamedAnalyticsEvent(name: "anonymous_user_signed_out"));
@@ -172,7 +178,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
 }
 
 class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
-  const _SignOutAndDeleteAnonymousDialogTitle({Key key}) : super(key: key);
+  const _SignOutAndDeleteAnonymousDialogTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) =>
@@ -181,8 +187,8 @@ class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
 
 class DeleteAccountDialogErrorText extends StatelessWidget {
   const DeleteAccountDialogErrorText({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
   }) : super(key: key);
 
   final String text;
@@ -200,12 +206,15 @@ class DeleteAccountDialogErrorText extends StatelessWidget {
 }
 
 class DeleteConfirmationCheckbox extends StatelessWidget {
-  const DeleteConfirmationCheckbox(
-      {Key key, this.confirm, this.onChanged, @required this.text})
-      : super(key: key);
+  const DeleteConfirmationCheckbox({
+    Key? key,
+    required this.confirm,
+    required this.onChanged,
+    required this.text,
+  }) : super(key: key);
 
   final bool confirm;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool?> onChanged;
   final String text;
 
   @override
