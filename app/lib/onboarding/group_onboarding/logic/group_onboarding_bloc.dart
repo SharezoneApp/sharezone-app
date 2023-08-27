@@ -29,6 +29,8 @@ class GroupOnboardingBloc extends BlocBase {
   final Stream<bool> signedUp;
   final TypeOfUser? typeOfUser;
 
+  TeacherType? teacherType;
+
   GroupOnboardingBloc(
     this._courseGateway,
     this._schoolClassGateway,
@@ -43,6 +45,8 @@ class GroupOnboardingBloc extends BlocBase {
     _closeOnboarding();
     _analytics.logSkippedGroupOnboarding();
   }
+
+  Function(TeacherType) get setTeacherType => (tt) => teacherType = tt;
 
   Future<bool> get isGroupOnboardingActive => signedUp.first;
 
@@ -115,6 +119,8 @@ class GroupOnboardingBloc extends BlocBase {
   @override
   void dispose() {}
 }
+
+enum TeacherType { classTeacher, courseTeacher }
 
 enum GroupOnboardingStatus {
   /// Kein Group-Onboarding anzeigen
