@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
@@ -37,9 +38,9 @@ class SharezoneGateway {
   final TimetableGateway timetable;
 
   factory SharezoneGateway({
-    @required String memberID,
-    @required References references,
-    @required AuthUser authUser,
+    required String memberID,
+    required References references,
+    required AuthUser authUser,
   }) {
     final connectionsGateway = ConnectionsGateway(references, memberID);
     return SharezoneGateway._(
@@ -56,21 +57,22 @@ class SharezoneGateway {
   }
 
   SharezoneGateway._({
-    @required AuthUser authUser,
-    @required this.connectionsGateway,
-    @required this.memberID,
-    @required this.references,
-    @required this.course,
-    @required this.schoolClassGateway,
-    @required this.timetable,
-    @required this.user,
+    required AuthUser authUser,
+    required this.connectionsGateway,
+    required this.memberID,
+    required this.references,
+    required this.course,
+    required this.schoolClassGateway,
+    required this.timetable,
+    required this.user,
   })  : _authUser = authUser,
         uID = authUser.uid,
         userId = UserId(authUser.uid),
         homework = HomeworkGateway(
-            userId: authUser.uid,
-            firestore: references.firestore,
-            typeOfUserStream: user.userStream.map((user) => user?.typeOfUser)),
+          userId: authUser.uid,
+          firestore: references.firestore,
+          typeOfUserStream: user.userStream.map((user) => user.typeOfUser),
+        ),
         blackboard = BlackboardGateway(
             authUser: authUser, firestore: references.firestore),
         fileSharing =
