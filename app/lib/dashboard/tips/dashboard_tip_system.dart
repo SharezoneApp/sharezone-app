@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -22,9 +24,9 @@ class DashboardTipSystem extends BlocBase {
   final Stream<DashboardTip> dashboardTip;
 
   DashboardTipSystem({
-    @required this.cache,
-    @required this.navigationBloc,
-    @required UserTipsBloc userTipsBloc,
+    required this.cache,
+    required this.navigationBloc,
+    required UserTipsBloc userTipsBloc,
   }) : dashboardTip =
             initialiseDashboardTipStream(cache, navigationBloc, userTipsBloc)
                 .asBroadcastStream() {
