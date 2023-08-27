@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../../course_edit_design.dart';
 
 class _SelectDesignPopResult {
-  final Design design;
+  final Design? design;
   final bool removePersonalColor;
   final bool navigateBackToSelectType;
 
@@ -20,11 +22,12 @@ class _SelectDesignPopResult {
   });
 }
 
-/// [bottomAction] will be displayed at the bottom of the dialog, e. g. a back button.
 @visibleForTesting
-Future<_SelectDesignPopResult> selectDesign(
-    BuildContext context, Design currentDesign,
-    {_EditDesignType type}) async {
+Future<_SelectDesignPopResult?> selectDesign(
+  BuildContext context,
+  Design currentDesign, {
+  required _EditDesignType type,
+}) async {
   return await showDialog<_SelectDesignPopResult>(
     context: context,
     builder: (context) =>
@@ -33,10 +36,13 @@ Future<_SelectDesignPopResult> selectDesign(
 }
 
 class _SelectDesignAlert extends StatelessWidget {
-  const _SelectDesignAlert({Key key, this.currentDesign, this.type})
-      : super(key: key);
+  const _SelectDesignAlert({
+    Key? key,
+    this.currentDesign,
+    required this.type,
+  }) : super(key: key);
 
-  final Design currentDesign;
+  final Design? currentDesign;
   final _EditDesignType type;
 
   @override
@@ -80,12 +86,12 @@ class _RemovePersonalColor extends StatelessWidget {
 
 class _Colors extends StatelessWidget {
   const _Colors({
-    Key key,
+    Key? key,
     this.selectedDesign,
-    this.type,
+    required this.type,
   }) : super(key: key);
 
-  final Design selectedDesign;
+  final Design? selectedDesign;
   final _EditDesignType type;
 
   @override
@@ -118,18 +124,18 @@ class _Colors extends StatelessWidget {
 
 class _ColorCircleSelectDesign extends StatelessWidget {
   const _ColorCircleSelectDesign({
-    Key key,
-    @required this.design,
+    Key? key,
+    required this.design,
     this.isSelected = false,
   }) : super(key: key);
 
-  final Design design;
+  final Design? design;
   final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     const size = 50.0;
-    Widget child = isSelected ? Icon(Icons.check, color: Colors.white) : null;
+    Widget? child = isSelected ? Icon(Icons.check, color: Colors.white) : null;
 
     return Material(
       color: design?.color,
