@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -34,7 +36,7 @@ class _TipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DownloadAppTipBloc>(context);
-    return StreamBuilder<DownloadAppTip>(
+    return StreamBuilder<DownloadAppTip?>(
       stream: bloc.getDownloadTipIfShouldShowTip(),
       builder: (context, snapshot) {
         final tip = snapshot.data;
