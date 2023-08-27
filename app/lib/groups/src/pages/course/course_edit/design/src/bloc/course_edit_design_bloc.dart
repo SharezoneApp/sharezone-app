@@ -28,7 +28,7 @@ class CourseEditDesignBloc extends BlocBase {
             .map((course) => course?.personalDesign);
 
   Future<void> submitCourseDesign({
-    required Design initialDesign,
+    Design? initialDesign,
     required Design selectedDesign,
   }) async {
     if (_hasUserChangedDesign(initialDesign, selectedDesign)) {
