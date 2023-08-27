@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:design/design.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 
 class GroupInfoWithSelectionState {
   final String id;
@@ -19,12 +20,12 @@ class GroupInfoWithSelectionState {
   final bool isSelected;
 
   const GroupInfoWithSelectionState({
-    @required this.id,
-    @required this.groupType,
-    @required this.name,
-    @required this.abbreviation,
-    @required this.design,
-    @required this.isSelected,
+    required this.id,
+    required this.groupType,
+    required this.name,
+    required this.abbreviation,
+    required this.design,
+    required this.isSelected,
   });
 
   factory GroupInfoWithSelectionState.fromData(Map<String, dynamic> data) {
