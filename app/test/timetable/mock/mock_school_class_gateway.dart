@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:app_functions/app_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional_internal.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
@@ -28,7 +29,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
       courseId: GroupId(courseID),
       schoolClassId: GroupId(schoolClassID),
     );
-    _courses.sink.add(_courses.valueOrNull..add(mockCourse));
+    _courses.sink.add(_courses.valueOrNull!..add(mockCourse));
     return AppFunctionsResult.data(true);
   }
 
@@ -75,7 +76,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   @override
   Future<AppFunctionsResult<bool>> leaveSchoolClass(
       String schoolClassID) async {
-    _schoolClassListSubject.sink.add(_schoolClassListSubject.valueOrNull
+    _schoolClassListSubject.sink.add(_schoolClassListSubject.valueOrNull!
       ..removeWhere((schoolClass) => schoolClass.id == schoolClassID));
     return AppFunctionsResult.data(true);
   }
@@ -105,7 +106,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
-    return Stream.value(_courses.valueOrNull
+    return Stream.value(_courses.valueOrNull!
         .where((course) => course.schoolClassId.value.id == schoolClassID)
         .map((course) => course.courseId.id)
         .toList());
@@ -124,7 +125,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   void addSchoolClass(SchoolClass schoolClass) {
     _schoolClassListSubject.sink
-        .add(_schoolClassListSubject.valueOrNull..add(schoolClass));
+        .add(_schoolClassListSubject.valueOrNull!..add(schoolClass));
   }
 
   void addSchoolClasses(List<SchoolClass> schoolClasses) {
@@ -141,6 +142,6 @@ class MockCourse {
   final GroupId courseId;
   final Optional<GroupId> schoolClassId;
 
-  MockCourse({GroupId schoolClassId, @required this.courseId})
+  MockCourse({GroupId? schoolClassId, required this.courseId})
       : schoolClassId = Optional.ofNullable(schoolClassId);
 }
