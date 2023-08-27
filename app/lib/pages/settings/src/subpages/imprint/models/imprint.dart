@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Imprint {
@@ -29,7 +31,7 @@ class Imprint {
 
   factory Imprint.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final markdownData = snapshot.data()['markdownData'] as String;
+    final markdownData = snapshot.data()?['markdownData'] as String;
     return Imprint._(markdownData);
   }
 
