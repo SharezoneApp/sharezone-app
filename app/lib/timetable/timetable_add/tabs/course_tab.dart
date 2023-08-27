@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../timetable_add_page.dart';
 
 class _CourseTab extends StatelessWidget {
@@ -24,9 +26,9 @@ class _CourseTab extends StatelessWidget {
 }
 
 class _CourseList extends StatelessWidget {
-  const _CourseList(this.courseList, {Key key}) : super(key: key);
+  const _CourseList(this.courseList, {Key? key}) : super(key: key);
 
-  final List<Course> courseList;
+  final List<Course>? courseList;
 
   List<Widget> getLines(List<Course> courseList, Course selectedCourse) {
     final list = <Widget>[];
@@ -58,7 +60,7 @@ class _CourseList extends StatelessWidget {
       stream: bloc.course,
       builder: (context, courseSnapshot) {
         final selectedCourse = courseSnapshot.data;
-        if (courseList.isEmpty) return _EmptyCourseList();
+        if (courseList!.isEmpty) return _EmptyCourseList();
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -69,7 +71,7 @@ class _CourseList extends StatelessWidget {
                     first: _JoinCourse(),
                     second: _CreateCourse(),
                   ),
-                  ...getLines(courseList, selectedCourse),
+                  ...getLines(courseList!, selectedCourse!),
                 ],
               ),
             ),
@@ -81,8 +83,11 @@ class _CourseList extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key key, @required this.course, this.color})
-      : super(key: key);
+  const _CourseTile({
+    Key? key,
+    required this.course,
+    required this.color,
+  }) : super(key: key);
 
   final Course course;
   final Color color;
@@ -130,8 +135,11 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _LineWithTwoWidgets extends StatelessWidget {
-  const _LineWithTwoWidgets({Key key, this.first, this.second})
-      : super(key: key);
+  const _LineWithTwoWidgets({
+    Key? key,
+    required this.first,
+    required this.second,
+  }) : super(key: key);
 
   final Widget first;
   final Widget second;
@@ -185,12 +193,16 @@ class _CreateCourse extends StatelessWidget {
 }
 
 class CourseManagementButton extends StatelessWidget {
-  const CourseManagementButton({Key key, this.iconData, this.title, this.onTap})
-      : super(key: key);
+  const CourseManagementButton({
+    Key? key,
+    required this.title,
+    this.iconData,
+    this.onTap,
+  }) : super(key: key);
 
-  final IconData iconData;
+  final IconData? iconData;
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
