@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:key_value_store/key_value_store.dart';
 
 class BnbTutorialCache {
@@ -16,7 +18,7 @@ class BnbTutorialCache {
   BnbTutorialCache(this._cache);
 
   bool wasTutorialCompleted() =>
-      _cache.containsKey(_tutorialKey) && _cache.getBool(_tutorialKey);
+      _cache.containsKey(_tutorialKey) && _cache.getBool(_tutorialKey) == true;
 
   void setTutorialAsCompleted() => _cache.setBool(_tutorialKey, true);
 }
