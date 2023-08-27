@@ -13,7 +13,7 @@ abstract class QrSignInState {
 class QrCodeIsGenerating extends QrSignInState {}
 
 class QrSignInIdle extends QrSignInState {
-  final String? qrId;
+  final String qrId;
 
   const QrSignInIdle({required this.qrId});
 }
