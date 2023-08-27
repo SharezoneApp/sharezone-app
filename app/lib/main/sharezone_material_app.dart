@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:analytics/observer.dart';
 import 'package:feature_discovery/feature_discovery.dart';
@@ -19,15 +21,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezoneMaterialApp extends StatelessWidget {
   const SharezoneMaterialApp({
-    @required this.home,
-    @required this.blocDependencies,
-    @required this.onUnknownRouteWidget,
+    required this.home,
+    required this.blocDependencies,
+    required this.onUnknownRouteWidget,
+    required this.analytics,
     this.routes = const {},
     this.navigatorKey,
-    this.analytics,
   });
 
-  final GlobalKey<NavigatorState> navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
   final Widget home, onUnknownRouteWidget;
   final Map<String, WidgetBuilder> routes;
   final Analytics analytics;
@@ -83,5 +85,4 @@ ThemeMode _getThemeMode(ThemeBrightness themeBrightness) {
     case ThemeBrightness.system:
       return ThemeMode.system;
   }
-  throw UnimplementedError();
 }
