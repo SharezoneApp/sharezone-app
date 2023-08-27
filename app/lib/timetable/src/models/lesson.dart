@@ -16,7 +16,8 @@ import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart'
 import 'package:time/time.dart';
 
 class Lesson {
-  final String lessonID, groupID;
+  final String? lessonID;
+  final String groupID;
   final GroupType groupType;
   final Date? startDate, endDate;
   final Time startTime, endTime;
