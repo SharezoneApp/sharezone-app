@@ -6,16 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
 /// Animation starts with [color] and fades with an [duration]
 /// to the [child].
 class ColorFadeIn extends StatefulWidget {
   const ColorFadeIn({
-    Key key,
+    Key? key,
     this.color = Colors.white,
     this.duration = const Duration(milliseconds: 500),
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   final Color color;
