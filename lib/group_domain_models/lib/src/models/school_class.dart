@@ -20,7 +20,7 @@ class SchoolClass {
   final String name;
   final String? sharecode, joinLink, meetingID;
   GroupId get groupId => GroupId(id);
-  final MemberRole? myRole;
+  final MemberRole myRole;
   final CourseSettings settings;
   final String? personalSharecode, personalJoinLink;
 
