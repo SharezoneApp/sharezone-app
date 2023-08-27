@@ -66,17 +66,17 @@ class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
 class FirstNavigationRow extends StatelessWidget {
   const FirstNavigationRow({
     Key? key,
-    required this.navigationItem,
+    this.navigationItem,
     this.backgroundColor,
-    required this.controller,
+    this.controller,
   }) : super(key: key);
 
-  final NavigationItem navigationItem;
+  final NavigationItem? navigationItem;
   final Color? backgroundColor;
 
   /// [controller] is from "sliding_up_panel" package and is needed to open and
   /// close the [ExtendableBottomNavigationBar].
-  final PanelController controller;
+  final PanelController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +92,15 @@ class FirstNavigationRow extends StatelessWidget {
         return _BottomNavBarWithNonSelectionAllowed(
           currentItem: navigationItem,
           backgroundColor: backgroundColor,
-          onMoreButtonTapped: () =>
-              controller.isPanelOpen ? controller.close() : controller.open(),
+          onMoreButtonTapped: () => controller!.isPanelOpen
+              ? controller!.close()
+              : controller!.open(),
           items: option == NavigationExperimentOption.extendableBnb
               ? getExtendableBnbItems()
               : getExtendableWithMoreButtonBnbItems(),
           onNavigationItemSelected: (item) async {
-            if (controller.isPanelOpen) {
-              controller.close();
+            if (controller!.isPanelOpen) {
+              controller!.close();
               await waitForClosingPanel();
             }
             bloc.navigateTo(item);
@@ -217,7 +218,7 @@ class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
   }) : super(key: key);
 
   final List<NavigationItem> items;
-  final NavigationItem currentItem;
+  final NavigationItem? currentItem;
   final Color? backgroundColor;
 
   final ValueChanged<NavigationItem> onNavigationItemSelected;
