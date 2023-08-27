@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/widgets/common/picker.dart';
@@ -13,7 +15,7 @@ import 'package:user/user.dart';
 
 import 'bloc/timetable_bloc.dart';
 
-Future<Period> selectPeriod(BuildContext context, {Period selected}) {
+Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
   final bloc = BlocProvider.of<TimetableBloc>(context);
   final periods = bloc.current.getPeriods();
   return selectItem<Period>(
