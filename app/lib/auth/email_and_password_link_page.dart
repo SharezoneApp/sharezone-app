@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -38,11 +40,14 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 TextStyle _hintTextStyle(BuildContext context) => TextStyle(
     color: isDarkThemeEnabled(context)
         ? Colors.grey
-        : Colors.grey[600].withOpacity(0.75),
+        : Colors.grey[600]!.withOpacity(0.75),
     fontSize: 11.5);
 
 class EmailAndPasswordLinkPage extends StatefulWidget {
-  const EmailAndPasswordLinkPage({Key key, this.user}) : super(key: key);
+  const EmailAndPasswordLinkPage({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   static const tag = "email-and-password-link-page";
   final AppUser user;
@@ -53,7 +58,7 @@ class EmailAndPasswordLinkPage extends StatefulWidget {
 }
 
 class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
-  EmailAndPasswordLinkBloc bloc;
+  late EmailAndPasswordLinkBloc bloc;
 
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -103,7 +108,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                                 focusNode: nameFocusNode,
                                 onEditingComplete: () => FocusManager
                                     .instance.primaryFocus
-                                    .unfocus(),
+                                    ?.unfocus(),
                                 initialName: widget.user.name,
                                 nameStream: bloc.name,
                                 onChanged: bloc.changeName,
@@ -136,7 +141,10 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
 }
 
 class _PasswordField extends StatelessWidget {
-  const _PasswordField({Key key, this.passwordFocusNode}) : super(key: key);
+  const _PasswordField({
+    Key? key,
+    required this.passwordFocusNode,
+  }) : super(key: key);
 
   final FocusNode passwordFocusNode;
 
@@ -178,22 +186,21 @@ class BackIcon extends StatelessWidget {
 
 class NameField extends StatelessWidget {
   const NameField({
-    Key key,
-    @required this.onEditingComplete,
-    this.focusNode,
+    Key? key,
+    required this.onEditingComplete,
+    required this.focusNode,
     this.initialName,
-    @required this.nameStream,
-    @required this.onChanged,
+    required this.nameStream,
+    required this.onChanged,
     this.withIcon = true,
     this.textInputAction = TextInputAction.next,
     this.autofocus = false,
     this.selectText = false,
-  })  : assert(selectText != null),
-        super(key: key);
+  }) : super(key: key);
 
   final FocusNode focusNode;
   final VoidCallback onEditingComplete;
-  final String initialName;
+  final String? initialName;
   final bool withIcon;
   final TextInputAction textInputAction;
   final bool autofocus;
@@ -245,9 +252,11 @@ class NameField extends StatelessWidget {
 }
 
 class _EmailField extends StatelessWidget {
-  const _EmailField(
-      {Key key, @required this.focusNode, @required this.nextFocusNode})
-      : super(key: key);
+  const _EmailField({
+    Key? key,
+    required this.focusNode,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
