@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 
@@ -18,7 +20,7 @@ class CourseCreateBlocFactory implements BlocBase {
 
   CourseCreateBlocFactory(this._api, this._analytics);
 
-  CourseCreateBloc create({String schoolClassId}) {
+  CourseCreateBloc create({String? schoolClassId}) {
     return CourseCreateBloc(_api, _analytics, schoolClassId: schoolClassId);
   }
 
