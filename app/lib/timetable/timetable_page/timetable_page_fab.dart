@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of 'timetable_page.dart';
 
 class _TimetablePageFAB extends StatelessWidget {
@@ -39,8 +41,10 @@ void _showLessonAddConfirmation(BuildContext context) {
   );
 }
 
-Future<TimetableResult> showTimetableAddEventPage(BuildContext context,
-    {@required bool isExam}) async {
+Future<TimetableResult?> showTimetableAddEventPage(
+  BuildContext context, {
+  required bool isExam,
+}) async {
   final result = await Navigator.push<TimetableResult>(
       context,
       IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -66,6 +70,8 @@ Future<void> openTimetableAddSheet(BuildContext context) async {
       break;
     case _FABAddTimetableOption.exam:
       showTimetableAddEventPage(context, isExam: true);
+      break;
+    case null:
       break;
   }
 }
