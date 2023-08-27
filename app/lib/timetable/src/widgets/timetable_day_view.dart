@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:date/weektype.dart';
@@ -30,10 +32,20 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
-Color _getIconColor(BuildContext context) =>
+Color? _getIconColor(BuildContext context) =>
     isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
 
 class TimetableDayView extends StatefulWidget {
+  const TimetableDayView({
+    required this.date,
+    required this.weekType,
+    required this.elements,
+    required this.hourHeight,
+    required this.width,
+    required this.timetableBegin,
+    required this.periods,
+  });
+
   final double hourHeight;
   final Time timetableBegin;
   final List<TimetableElement> elements;
@@ -41,15 +53,6 @@ class TimetableDayView extends StatefulWidget {
   final double width;
   final Date date;
   final WeekType weekType;
-  const TimetableDayView({
-    @required this.date,
-    @required this.weekType,
-    @required this.elements,
-    @required this.hourHeight,
-    @required this.width,
-    @required this.timetableBegin,
-    @required this.periods,
-  });
 
   @override
   _TimetableDayViewState createState() => _TimetableDayViewState();
@@ -74,12 +77,12 @@ class _TimetableDayViewState extends State<TimetableDayView> {
       );
 
   List<Widget> getPositionedPeriodElementTiles({
-    BuildContext context,
-    List<Period> periodList,
-    EmptyPeriodSelection selection,
-    TimetableSelectionBloc selectionBloc,
-    Time timetableBegin,
-    double hourHeight,
+    required BuildContext context,
+    List<Period> periodList = const [],
+    EmptyPeriodSelection? selection,
+    required TimetableSelectionBloc selectionBloc,
+    required Time timetableBegin,
+    required double hourHeight,
   }) {
     final list = <Widget>[];
     for (int i = 0; i < periodList.length; i++) {
@@ -123,10 +126,10 @@ class _TimetableDayViewState extends State<TimetableDayView> {
     final periodList = widget.periods.getPeriods();
     return Expanded(
       flex: 3,
-      child: StreamBuilder<EmptyPeriodSelection>(
+      child: StreamBuilder<EmptyPeriodSelection?>(
           stream: selectionBloc.emptyPeriodSelections,
           builder: (context, snapshot) {
-            final selection = snapshot.hasData ? snapshot.data : null;
+            final selection = snapshot.data;
             return Stack(
               children: [
                 ...getPositionedPeriodElementTiles(
@@ -167,9 +170,9 @@ class TimetableQuickCreateDialog extends StatelessWidget {
   final TimetableSelectionBloc selectionBloc;
 
   const TimetableQuickCreateDialog({
-    Key key,
-    this.periodSelection,
-    this.selectionBloc,
+    Key? key,
+    required this.periodSelection,
+    required this.selectionBloc,
   }) : super(key: key);
 
   @override
@@ -288,7 +291,7 @@ class _EmptyCourseList extends StatelessWidget {
 
 class _JoinGroupIconButton extends StatelessWidget {
   const _JoinGroupIconButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -303,7 +306,7 @@ class _JoinGroupIconButton extends StatelessWidget {
 }
 
 class _CreateCourseIconButton extends StatelessWidget {
-  const _CreateCourseIconButton({Key key}) : super(key: key);
+  const _CreateCourseIconButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -317,9 +320,12 @@ class _CreateCourseIconButton extends StatelessWidget {
 }
 
 class _QuickCreateCourseTile extends StatelessWidget {
-  const _QuickCreateCourseTile(
-      {Key key, this.course, this.selectionBloc, this.periodSelection})
-      : super(key: key);
+  const _QuickCreateCourseTile({
+    Key? key,
+    required this.course,
+    required this.selectionBloc,
+    required this.periodSelection,
+  }) : super(key: key);
 
   final Course course;
   final TimetableSelectionBloc selectionBloc;
@@ -353,18 +359,18 @@ class _PositionedPeriodElementTile extends StatelessWidget {
   final Period period;
   final double hourHeight;
   final Time timetableBegin;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isSelected;
   final ValueChanged<bool> onHighlightChanged;
 
   _PositionedPeriodElementTile({
-    Key key,
-    this.period,
-    this.hourHeight,
-    this.timetableBegin,
+    Key? key,
+    required this.period,
+    required this.hourHeight,
+    required this.timetableBegin,
     this.onTap,
-    this.isSelected,
-    this.onHighlightChanged,
+    required this.isSelected,
+    required this.onHighlightChanged,
   }) : super(key: key);
 
   final borderRadius = BorderRadius.all(Radius.circular(5));
@@ -438,7 +444,6 @@ class TimetableElementTile extends StatelessWidget {
   Widget _getChildLesson(BuildContext context) {
     return TimetableEntryLesson(
       lesson: timetableElement.data as Lesson,
-      date: timetableElement.date.toDateString,
       groupInfo: timetableElement.groupInfo,
     );
   }
