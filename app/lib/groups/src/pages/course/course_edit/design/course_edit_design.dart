@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +51,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
       } else if (selectDesignPopResult.design != null) {
         if (selectTypePopResult.editDesignType == _EditDesignType.personal) {
           bloc.submitPersonalDesign(
-            selectedDesign: selectDesignPopResult.design,
+            selectedDesign: selectDesignPopResult.design!,
             initialDesign: initialDesign,
           );
           showSnackSec(
@@ -62,7 +64,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
           sendDataToFrankfurtSnackBar(context);
           try {
             await bloc.submitCourseDesign(
-              selectedDesign: selectDesignPopResult.design,
+              selectedDesign: selectDesignPopResult.design!,
               initialDesign: initialDesign,
             );
             showSnackSec(
