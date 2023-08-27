@@ -6,12 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
@@ -37,19 +38,24 @@ class TimetableEditEventBloc extends BlocBase {
   final MarkdownAnalytics markdownAnalytics;
 
   TimetableEditEventBloc({
-    this.gateway,
-    this.initialEvent,
-    this.connectionsGateway,
-    @required this.markdownAnalytics,
+    required this.gateway,
+    required this.initialEvent,
+    required this.connectionsGateway,
+    required this.markdownAnalytics,
   }) {
-    Course course = connectionsGateway.current().courses[initialEvent.groupID];
+    Course course =
+        connectionsGateway.current()!.courses[initialEvent.groupID]!;
     _changeCourse(course);
     changeStartTime(initialEvent.startTime);
     changeEndTime(initialEvent.endTime);
-    changeRoom(initialEvent.place);
+    if (initialEvent.place != null) {
+      changeRoom(initialEvent.place!);
+    }
     changeDate(initialEvent.date);
     changeTitle(initialEvent.title);
-    changeDetail(initialEvent.detail);
+    if (initialEvent.detail != null) {
+      changeDetail(initialEvent.detail!);
+    }
     changeSendNotification(initialEvent.sendNotification);
   }
 
@@ -98,7 +104,7 @@ class TimetableEditEventBloc extends BlocBase {
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $title $date $detail");
 
       final event = initialEvent.copyWith(
-        groupID: course.id,
+        groupID: course?.id,
         place: room,
         startTime: startTime,
         endTime: endTime,
