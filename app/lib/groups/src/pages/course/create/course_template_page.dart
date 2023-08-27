@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -41,20 +43,18 @@ class CourseTemplatePage extends StatelessWidget {
 }
 
 class CourseTemplatePageBody extends StatefulWidget {
-  const CourseTemplatePageBody({Key key, this.bottom}) : super(key: key);
-
-  final Widget bottom;
+  const CourseTemplatePageBody({Key? key}) : super(key: key);
 
   @override
   _CourseTemplatePageBodyState createState() => _CourseTemplatePageBodyState();
 }
 
 class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
-  CourseCreateBloc bloc;
+  late CourseCreateBloc bloc;
 
   @override
   void initState() {
-    bloc ??= BlocProvider.of<CourseCreateBlocFactory>(context).create();
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create();
     super.initState();
   }
 
@@ -83,7 +83,8 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
 }
 
 class _CoursesAreNotLinkedWithSchoolClassWarning extends StatelessWidget {
-  const _CoursesAreNotLinkedWithSchoolClassWarning({Key key}) : super(key: key);
+  const _CoursesAreNotLinkedWithSchoolClassWarning({Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,7 @@ class _CoursesAreNotLinkedWithSchoolClassWarning extends StatelessWidget {
 
 class CourseTemplatePageFinishButton extends StatelessWidget {
   const CourseTemplatePageFinishButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -113,7 +114,7 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
       icon: Text("FERTIG",
           style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).appBarTheme.iconTheme.color)),
+              color: Theme.of(context).appBarTheme.iconTheme?.color)),
       onPressed: () => Navigator.pop(context),
       iconSize: 60,
       tooltip: 'Seite schließen',
@@ -210,8 +211,10 @@ class _Nebenfaecher extends StatelessWidget {
 }
 
 class CreateCustomCourseSection extends StatelessWidget {
-  const CreateCustomCourseSection({Key key, @required this.onTap})
-      : super(key: key);
+  const CreateCustomCourseSection({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
 
   final VoidCallback onTap;
 
@@ -255,9 +258,12 @@ class CreateCustomCourseSection extends StatelessWidget {
 }
 
 class _CourseTemplateCategorySection extends StatelessWidget {
-  const _CourseTemplateCategorySection(
-      {Key key, this.title, this.courseTemplates, this.showLastDivider = true})
-      : super(key: key);
+  const _CourseTemplateCategorySection({
+    Key? key,
+    required this.title,
+    required this.courseTemplates,
+    this.showLastDivider = true,
+  }) : super(key: key);
 
   final String title;
   final List<CourseTemplate> courseTemplates;
@@ -286,9 +292,12 @@ class _CourseTemplateCategorySection extends StatelessWidget {
 }
 
 class _CourseTemplateTile extends StatefulWidget {
-  const _CourseTemplateTile(this.courseTemplate,
-      {Key key, this.showDivider = true, this.isAlreadyAdded = false})
-      : super(key: key);
+  const _CourseTemplateTile(
+    this.courseTemplate, {
+    Key? key,
+    this.showDivider = true,
+    this.isAlreadyAdded = false,
+  }) : super(key: key);
 
   final CourseTemplate courseTemplate;
   final bool showDivider;
@@ -299,7 +308,7 @@ class _CourseTemplateTile extends StatefulWidget {
 }
 
 class __CourseTemplateTileState extends State<_CourseTemplateTile> {
-  Widget add;
+  Widget? add;
 
   @override
   Widget build(BuildContext context) {
@@ -391,9 +400,12 @@ class _CourseIsCreatedIcon extends StatelessWidget {
 }
 
 class _CreateCourseButton extends StatelessWidget {
-  const _CreateCourseButton(
-      {Key key, this.onCreate, this.courseTemplate, this.onDelete})
-      : super(key: key);
+  const _CreateCourseButton({
+    Key? key,
+    required this.onCreate,
+    required this.courseTemplate,
+    required this.onDelete,
+  }) : super(key: key);
 
   final VoidCallback onCreate;
   final ValueChanged<String> onDelete;
