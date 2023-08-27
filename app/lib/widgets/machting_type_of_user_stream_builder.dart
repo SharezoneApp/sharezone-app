@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -16,13 +18,13 @@ import 'package:user/user.dart';
 class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
   final TypeOfUser expectedTypeOfUser;
   final Widget matchesTypeOfUserWidget;
-  final Widget notMatchtingWidget;
+  final Widget notMatchingWidget;
 
   const MatchingTypeOfUserStreamBuilder({
-    Key key,
-    @required this.expectedTypeOfUser,
-    @required this.matchesTypeOfUserWidget,
-    @required this.notMatchtingWidget,
+    Key? key,
+    required this.expectedTypeOfUser,
+    required this.matchesTypeOfUserWidget,
+    required this.notMatchingWidget,
   }) : super(key: key);
 
   @override
@@ -31,9 +33,9 @@ class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
     return StreamBuilder<AppUser>(
       stream: api.user.userStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.typeOfUser == expectedTypeOfUser)
+        if (snapshot.hasData && snapshot.data?.typeOfUser == expectedTypeOfUser)
           return matchesTypeOfUserWidget;
-        return notMatchtingWidget;
+        return notMatchingWidget;
       },
     );
   }
