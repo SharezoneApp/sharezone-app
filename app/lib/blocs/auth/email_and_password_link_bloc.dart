@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async' show Stream;
 
 import 'package:analytics/analytics.dart';
@@ -56,7 +58,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   Function(String) get changeName => _nameController.sink.add;
   Function(bool) get changeObscureText => _obscureTextSubject.sink.add;
 
-  Future<LinkAction> linkWithEmailAndPasswordAndHandleExceptions() async {
+  Future<LinkAction?> linkWithEmailAndPasswordAndHandleExceptions() async {
     if (await _isSubmitValid()) {
       try {
         await _submit();
@@ -80,14 +82,14 @@ class EmailAndPasswordLinkBloc extends BlocBase
     final validPassword = _passwordController.valueOrNull;
     final validName = _nameController.valueOrNull;
 
-    await _linkEmailandPasswordProviderToUser(validEmail, validPassword);
+    await _linkEmailAndPasswordProviderToUser(validEmail!, validPassword!);
     if (_hasUserChangedName()) {
-      _updateUserName(validName);
+      _updateUserName(validName!);
     }
   }
 
   void _hideCurrentSnackBar() =>
-      scaffoldMessengerKey.currentState.hideCurrentSnackBar();
+      scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
 
   void _showErrorSnackBar(Exception e, StackTrace s) {
     showSnackSec(
@@ -111,8 +113,10 @@ class EmailAndPasswordLinkBloc extends BlocBase
     return isNotEmptyOrNull(e) && isNotEmptyOrNull(p) && isNotEmptyOrNull(n);
   }
 
-  Future<void> _linkEmailandPasswordProviderToUser(
-      String validEmail, String validPassword) async {
+  Future<void> _linkEmailAndPasswordProviderToUser(
+    String validEmail,
+    String validPassword,
+  ) async {
     await linkProviderGateway.linkUserWithEmailAndPassword(
         email: validEmail, password: validPassword);
   }
