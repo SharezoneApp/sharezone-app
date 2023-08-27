@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -14,8 +16,11 @@ import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<Course> openCourseCreatePage(BuildContext context,
-    {Course course, String schoolClassId}) async {
+Future<Course> openCourseCreatePage(
+  BuildContext context, {
+  required Course course,
+  String? schoolClassId,
+}) async {
   final createdCourse = await Navigator.push<dynamic>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -60,26 +65,29 @@ Future<void> submit(BuildContext context) async {
 }
 
 class _CourseCreatePage extends StatefulWidget {
-  const _CourseCreatePage({Key key, this.course, this.schoolClassId})
-      : super(key: key);
+  const _CourseCreatePage({
+    Key? key,
+    required this.course,
+    this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = "course-create-page";
   final Course course;
-  final String schoolClassId;
+  final String? schoolClassId;
 
   @override
   _CourseCreatePageState createState() => _CourseCreatePageState();
 }
 
 class _CourseCreatePageState extends State<_CourseCreatePage> {
-  CourseCreateBloc bloc;
+  late CourseCreateBloc bloc;
 
   final abbreviationNode = FocusNode();
   final nameNode = FocusNode();
 
   @override
   void initState() {
-    bloc ??= BlocProvider.of<CourseCreateBlocFactory>(context).create(
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
       schoolClassId: widget.schoolClassId,
     );
     bloc.setInitialCourse(widget.course);
@@ -102,10 +110,10 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
             child: Column(
               children: <Widget>[
                 _Subject(
-                    subject: widget.course?.subject,
+                    subject: widget.course.subject,
                     nextFocusNode: abbreviationNode),
                 _Abbreviation(
-                    abbreviation: widget.course?.abbreviation,
+                    abbreviation: widget.course.abbreviation,
                     focusNode: abbreviationNode,
                     nextFocusNode: nameNode),
                 _CourseName(focusNode: nameNode),
@@ -131,9 +139,13 @@ class _CreateCourseFAB extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({Key key, this.subject, this.nextFocusNode}) : super(key: key);
+  const _Subject({
+    Key? key,
+    this.subject,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
-  final String subject;
+  final String? subject;
   final FocusNode nextFocusNode;
 
   @override
@@ -165,11 +177,14 @@ class _Subject extends StatelessWidget {
 }
 
 class _Abbreviation extends StatelessWidget {
-  const _Abbreviation(
-      {Key key, this.abbreviation, this.focusNode, this.nextFocusNode})
-      : super(key: key);
+  const _Abbreviation({
+    Key? key,
+    this.abbreviation,
+    required this.focusNode,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
-  final String abbreviation;
+  final String? abbreviation;
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
 
@@ -193,7 +208,10 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.focusNode}) : super(key: key);
+  const _CourseName({
+    Key? key,
+    required this.focusNode,
+  }) : super(key: key);
 
   final FocusNode focusNode;
 
