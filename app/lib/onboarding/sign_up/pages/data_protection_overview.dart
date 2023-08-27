@@ -6,12 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of '../sign_up_page.dart';
 
 /// Shows the user a quick overview of the privacy policy. This page is
 /// basically designed for teacher and parents.
 class _DataProtectionOverview extends StatelessWidget {
-  const _DataProtectionOverview({Key key}) : super(key: key);
+  const _DataProtectionOverview({Key? key}) : super(key: key);
 
   static const tag = 'onboarding-data-protection-overivew';
 
@@ -59,7 +61,7 @@ class _DataProtectionOverview extends StatelessWidget {
 }
 
 class _DataProtectionLockAnimation extends StatelessWidget {
-  const _DataProtectionLockAnimation({Key key}) : super(key: key);
+  const _DataProtectionLockAnimation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class _DataProtectionLockAnimation extends StatelessWidget {
 }
 
 class _DataProtectionServerLocation extends StatelessWidget {
-  const _DataProtectionServerLocation({Key key}) : super(key: key);
+  const _DataProtectionServerLocation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class _DataProtectionServerLocation extends StatelessWidget {
 }
 
 class _DataProtectionTLS extends StatelessWidget {
-  const _DataProtectionTLS({Key key}) : super(key: key);
+  const _DataProtectionTLS({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class _DataProtectionTLS extends StatelessWidget {
 }
 
 class _DataProtectionAES extends StatelessWidget {
-  const _DataProtectionAES({Key key}) : super(key: key);
+  const _DataProtectionAES({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +111,7 @@ class _DataProtectionAES extends StatelessWidget {
 }
 
 class _DataProtectionAnonymousSignIn extends StatelessWidget {
-  const _DataProtectionAnonymousSignIn({Key key}) : super(key: key);
+  const _DataProtectionAnonymousSignIn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +123,7 @@ class _DataProtectionAnonymousSignIn extends StatelessWidget {
 }
 
 class _DataProtectionISO extends StatelessWidget {
-  const _DataProtectionISO({Key key}) : super(key: key);
+  const _DataProtectionISO({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,7 @@ class _DataProtectionISO extends StatelessWidget {
 }
 
 class _DataProtectionSOC extends StatelessWidget {
-  const _DataProtectionSOC({Key key}) : super(key: key);
+  const _DataProtectionSOC({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +146,7 @@ class _DataProtectionSOC extends StatelessWidget {
 }
 
 class _DataProtectionDeleteData extends StatelessWidget {
-  const _DataProtectionDeleteData({Key key}) : super(key: key);
+  const _DataProtectionDeleteData({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
