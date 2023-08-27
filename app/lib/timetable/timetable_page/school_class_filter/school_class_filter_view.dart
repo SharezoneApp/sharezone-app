@@ -6,15 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional_internal.dart';
 
 class SchoolClassFilterView {
   final List<SchoolClassView> schoolClassList;
 
-  SchoolClassFilterView({@required this.schoolClassList}) {
+  SchoolClassFilterView({required this.schoolClassList}) {
     ArgumentError.checkNotNull(schoolClassList, 'schoolClassList');
     if (_moreThanOneSchoolClassSelected()) {
       throw ArgumentError(
@@ -31,7 +32,7 @@ class SchoolClassFilterView {
 
   /// Gibt den Namen der ausgewählten Schulklasse zurück.
   /// Falls keine Schulklasse ausgewählt ist, wird null zurückgegeben.
-  String get currentSchoolClassName =>
+  String? get currentSchoolClassName =>
       hasSchoolClassSelected ? selectedSchoolClass.value.name : null;
 
   bool get hasMoreThanOneSchoolClass => schoolClassList.length > 1;
@@ -73,9 +74,9 @@ class SchoolClassView {
   final bool isSelected;
 
   const SchoolClassView({
-    @required this.id,
-    @required this.name,
-    @required this.isSelected,
+    required this.id,
+    required this.name,
+    required this.isSelected,
   });
 
   @override
