@@ -164,12 +164,14 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
 }
 
 Future<void> showLessonModelSheet(
-    BuildContext context, Lesson lesson, Design design) async {
+    BuildContext context, Lesson lesson, Design? design) async {
   final popOption = await showModalBottomSheet<_LessonModelSheetAction>(
     isScrollControlled: true,
     context: context,
-    builder: (context) =>
-        _TimetableLessonBottomModelSheet(lesson: lesson, design: design),
+    builder: (context) => _TimetableLessonBottomModelSheet(
+      lesson: lesson,
+      design: design,
+    ),
   );
   switch (popOption) {
     case _LessonModelSheetAction.delete:
