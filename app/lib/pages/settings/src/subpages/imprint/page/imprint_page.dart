@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -23,7 +25,7 @@ class ImprintPage extends StatefulWidget {
 }
 
 class _ImprintPageState extends State<ImprintPage> {
-  ImprintBloc bloc;
+  late ImprintBloc bloc;
 
   @override
   void initState() {
