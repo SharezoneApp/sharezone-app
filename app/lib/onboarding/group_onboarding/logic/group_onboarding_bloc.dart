@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
@@ -26,9 +27,7 @@ class GroupOnboardingBloc extends BlocBase {
   final GroupOnboardingAnalytics _analytics;
   final Stream<Beitrittsversuch> beitrittsversucheStream;
   final Stream<bool> signedUp;
-  final TypeOfUser typeOfUser;
-
-  TeacherType teacherType;
+  final TypeOfUser? typeOfUser;
 
   GroupOnboardingBloc(
     this._courseGateway,
@@ -36,10 +35,8 @@ class GroupOnboardingBloc extends BlocBase {
     this._signedUpBloc,
     this._analytics,
     this.beitrittsversucheStream,
-  )   : typeOfUser = _signedUpBloc?.typeOfUser,
-        signedUp = _signedUpBloc?.signedUp;
-
-  Function(TeacherType) get setTeacherType => (tt) => teacherType = tt;
+  )   : typeOfUser = _signedUpBloc.typeOfUser,
+        signedUp = _signedUpBloc.signedUp;
 
   /// Nutzer überspringt das Group-Onboarding
   void skipOnboarding() {
@@ -58,10 +55,10 @@ class GroupOnboardingBloc extends BlocBase {
   bool get isStudent => typeOfUser == TypeOfUser.student;
   bool get isTeacher => typeOfUser == TypeOfUser.teacher;
 
-  Stream<GroupInfo> schoolClassGroupInfo(String schoolClassId) =>
+  Stream<GroupInfo?> schoolClassGroupInfo(String schoolClassId) =>
       _schoolClassGateway
           .streamSingleSchoolClass(schoolClassId)
-          .map((schoolClass) => schoolClass.toGroupInfo());
+          .map((schoolClass) => schoolClass?.toGroupInfo());
 
   Stream<List<GroupInfo>> courseGroupInfos() => _courseGateway
       .streamCourses()
@@ -118,8 +115,6 @@ class GroupOnboardingBloc extends BlocBase {
   @override
   void dispose() {}
 }
-
-enum TeacherType { classTeacher, courseTeacher }
 
 enum GroupOnboardingStatus {
   /// Kein Group-Onboarding anzeigen
