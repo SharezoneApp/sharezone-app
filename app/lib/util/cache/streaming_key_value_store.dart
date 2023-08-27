@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -28,7 +30,7 @@ abstract class StreamingKeyValueStore {
   /// If the value is null, starts with the value provided in [defaultValue]. When
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
-  Stream<bool> getBool(String key, {@required bool defaultValue});
+  Stream<bool> getBool(String key, {required bool defaultValue});
 
   /// Starts with the current int value for the given [key], then emits a new
   /// value every time there are changes to the value associated with [key].
@@ -36,7 +38,7 @@ abstract class StreamingKeyValueStore {
   /// If the value is null, starts with the value provided in [defaultValue]. When
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
-  Stream<int> getInt(String key, {@required int defaultValue});
+  Stream<int> getInt(String key, {required int defaultValue});
 
   /// Starts with the current double value for the given [key], then emits a new
   /// value every time there are changes to the value associated with [key].
@@ -44,7 +46,7 @@ abstract class StreamingKeyValueStore {
   /// If the value is null, starts with the value provided in [defaultValue]. When
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
-  Stream<double> getDouble(String key, {@required double defaultValue});
+  Stream<double> getDouble(String key, {required double defaultValue});
 
   /// Starts with the current String value for the given [key], then emits a new
   /// value every time there are changes to the value associated with [key].
@@ -52,7 +54,7 @@ abstract class StreamingKeyValueStore {
   /// If the value is null, starts with the value provided in [defaultValue]. When
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
-  Stream<String> getString(String key, {@required String defaultValue});
+  Stream<String> getString(String key, {required String defaultValue});
 
   /// Starts with the current String list value for the given [key], then emits
   /// a new value every time there are changes to the value associated with [key].
@@ -61,7 +63,7 @@ abstract class StreamingKeyValueStore {
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
   Stream<List<String>> getStringList(String key,
-      {@required List<String> defaultValue});
+      {required List<String> defaultValue});
 
   /// Sets a bool value and notifies all active listeners that there's a new
   /// value for the [key].
@@ -126,30 +128,30 @@ class FlutterStreamingKeyValueStore extends StreamingKeyValueStore {
   }
 
   @override
-  Stream<bool> getBool(String key, {@required bool defaultValue}) {
+  Stream<bool> getBool(String key, {required bool defaultValue}) {
     return streamingSharedPreferences.getBool(key, defaultValue: defaultValue);
   }
 
   @override
-  Stream<int> getInt(String key, {@required int defaultValue}) {
+  Stream<int> getInt(String key, {required int defaultValue}) {
     return streamingSharedPreferences.getInt(key, defaultValue: defaultValue);
   }
 
   @override
-  Stream<double> getDouble(String key, {@required double defaultValue}) {
+  Stream<double> getDouble(String key, {required double defaultValue}) {
     return streamingSharedPreferences.getDouble(key,
         defaultValue: defaultValue);
   }
 
   @override
-  Stream<String> getString(String key, {@required String defaultValue}) {
+  Stream<String> getString(String key, {required String defaultValue}) {
     return streamingSharedPreferences.getString(key,
         defaultValue: defaultValue);
   }
 
   @override
   Stream<List<String>> getStringList(String key,
-      {@required List<String> defaultValue}) {
+      {required List<String> defaultValue}) {
     return streamingSharedPreferences.getStringList(key,
         defaultValue: defaultValue);
   }
@@ -197,10 +199,11 @@ class FlutterStreamingKeyValueStore extends StreamingKeyValueStore {
 }
 
 class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
-  BehaviorSubject<Map<String, dynamic>> storedValues;
+  late BehaviorSubject<Map<String, dynamic>> storedValues;
 
-  InMemoryStreamingKeyValueStore([Map<String, dynamic> storedValues]) {
-    this.storedValues = BehaviorSubject.seeded(storedValues ?? {});
+  InMemoryStreamingKeyValueStore(
+      [Map<String, dynamic> storedValues = const {}]) {
+    this.storedValues = BehaviorSubject.seeded(storedValues);
   }
 
   @override
@@ -209,83 +212,83 @@ class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
   }
 
   @override
-  Stream<bool> getBool(String key, {@required bool defaultValue}) {
-    return storedValues.map((value) => (value[key] as bool) ?? defaultValue);
+  Stream<bool> getBool(String key, {required bool defaultValue}) {
+    return storedValues.map((value) => (value[key] as bool?) ?? defaultValue);
   }
 
   @override
-  Stream<int> getInt(String key, {@required int defaultValue}) {
-    return storedValues.map((value) => (value[key] as int) ?? defaultValue);
+  Stream<int> getInt(String key, {required int defaultValue}) {
+    return storedValues.map((value) => (value[key] as int?) ?? defaultValue);
   }
 
   @override
-  Stream<double> getDouble(String key, {@required double defaultValue}) {
-    return storedValues.map((value) => (value[key] as double) ?? defaultValue);
+  Stream<double> getDouble(String key, {required double defaultValue}) {
+    return storedValues.map((value) => (value[key] as double?) ?? defaultValue);
   }
 
   @override
-  Stream<String> getString(String key, {@required String defaultValue}) {
-    return storedValues.map((value) => (value[key] as String) ?? defaultValue);
+  Stream<String> getString(String key, {required String defaultValue}) {
+    return storedValues.map((value) => (value[key] as String?) ?? defaultValue);
   }
 
   @override
   Stream<List<String>> getStringList(String key,
-      {@required List<String> defaultValue}) {
+      {required List<String> defaultValue}) {
     return storedValues
-        .map((value) => (value[key] as List<String>) ?? defaultValue);
+        .map((value) => (value[key] as List<String>?) ?? defaultValue);
   }
 
   @override
   Future<bool> setBool(String key, bool value) {
-    storedValues.valueOrNull[key] = value;
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull![key] = value;
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> setInt(String key, int value) {
-    storedValues.valueOrNull[key] = value;
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull![key] = value;
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> setDouble(String key, double value) {
-    storedValues.valueOrNull[key] = value;
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull![key] = value;
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> setString(String key, String value) {
-    storedValues.valueOrNull[key] = value;
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull![key] = value;
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> setStringList(String key, List<String> values) {
-    storedValues.valueOrNull[key] = values;
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull![key] = values;
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> clear(String key) {
-    storedValues.valueOrNull.clear();
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull!.clear();
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> remove(String key) {
-    storedValues.valueOrNull.remove(key);
-    storedValues.add(storedValues.valueOrNull);
+    storedValues.valueOrNull!.remove(key);
+    storedValues.add(storedValues.valueOrNull!);
     return Future.value(true);
   }
 
   @override
   Future<bool> containsKey(String key) async {
-    return storedValues.valueOrNull.containsKey(key);
+    return storedValues.valueOrNull!.containsKey(key);
   }
 }
