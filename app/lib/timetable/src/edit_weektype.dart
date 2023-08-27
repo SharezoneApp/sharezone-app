@@ -22,8 +22,6 @@ String getWeekTypeText(WeekType weekDay) {
       return "A-Woche";
     case WeekType.b:
       return "B-Woche";
-    default:
-      return "???";
   }
 }
 
