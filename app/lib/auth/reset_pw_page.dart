@@ -29,7 +29,7 @@ class ResetPasswordPage extends StatelessWidget {
   }) : super(key: key);
 
   static const String tag = "reset-password-page";
-  final String loginMail;
+  final String? loginMail;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _ResetPasswordPage extends StatefulWidget {
   static const String error =
       "E-Mail konnte nicht gesendet werden. Überprüfe deine eingegebene E-Mail-Adresse!";
 
-  final String loginMail;
+  final String? loginMail;
 
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
@@ -70,7 +70,7 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
     super.initState();
     bloc = _ResetPasswordBloc();
     if (isNotEmptyOrNull(widget.loginMail)) {
-      bloc.changeEmail(widget.loginMail);
+      bloc.changeEmail(widget.loginMail!);
     }
 
     delayKeyboard(
@@ -133,7 +133,7 @@ class _EmailField extends StatelessWidget {
 
   final _ResetPasswordBloc bloc;
   final FocusNode focusNode;
-  final String label;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
