@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
@@ -25,7 +27,7 @@ import 'email_and_password_link_page.dart';
 
 class SignInWithQrCodePage extends StatelessWidget {
   static const tag = 'sign-in-with-qr-code-page';
-  const SignInWithQrCodePage({Key key}) : super(key: key);
+  const SignInWithQrCodePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +191,11 @@ class _QrCodeSteps extends StatelessWidget {
 }
 
 class _Step extends StatelessWidget {
-  const _Step({Key key, this.step, this.text}) : super(key: key);
+  const _Step({
+    Key? key,
+    required this.step,
+    required this.text,
+  }) : super(key: key);
 
   final int step;
   final String text;
