@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -91,7 +93,7 @@ class _AboutHeader extends StatelessWidget {
             if (snapshot.hasError)
               return Text("Fehler: ${snapshot.error.toString()}");
             return Text(
-              "Version: ${snapshot.data.version} (${snapshot.data.versionNumber})",
+              "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
               style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 14,
