@@ -6,14 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 
 class EventView {
-  final String groupID, courseName, dateText, title;
-  final Design design;
+  final String? courseName;
+  final String groupID, dateText, title;
+  final Design? design;
 
   // Wird nur für die Weitergabe an die Event-Edit
   // und das Event-Sheet verwendet, weil diese noch
@@ -21,16 +24,18 @@ class EventView {
   final CalendricalEvent event;
 
   EventView({
-    this.groupID,
+    required this.groupID,
     this.courseName,
-    this.dateText,
-    this.title,
+    required this.dateText,
+    required this.title,
+    required this.event,
     this.design,
-    this.event,
   });
 
   factory EventView.fromEventAndGroupInfo(
-      CalendricalEvent event, GroupInfo info) {
+    CalendricalEvent event,
+    GroupInfo? info,
+  ) {
     return EventView(
       groupID: event.groupID,
       courseName: info?.name,
