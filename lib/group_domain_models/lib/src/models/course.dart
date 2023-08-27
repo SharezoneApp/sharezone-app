@@ -20,7 +20,7 @@ class Course {
   final String id;
   final String name, subject, abbreviation;
   final String? sharecode, joinLink, meetingID;
-  final MemberRole? myRole;
+  final MemberRole myRole;
   final CourseSettings settings;
   final bool version2;
   final GroupId? groupId;
@@ -57,7 +57,7 @@ class Course {
       meetingID: null,
       abbreviation: "",
       groupId: null,
-      myRole: null,
+      myRole: MemberRole.standard,
       design: Design
           .standard(), // MIGHT WANT TO CHANGE IT TO RANDOM OR SO, TO GENERATE A RANDOM COLOR
       settings: CourseSettings.standard,
@@ -95,7 +95,7 @@ class Course {
       'publicKey': sharecode,
       'joinLink': joinLink,
       'meetingID': meetingID,
-      'myRole': myRole?.name,
+      'myRole': myRole.name,
       'settings': settings.toJson(),
       'design': design?.toJson(),
     };
