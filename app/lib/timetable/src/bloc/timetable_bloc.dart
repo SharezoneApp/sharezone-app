@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
@@ -36,7 +38,7 @@ class SchoolClassFilter {
     ArgumentError.notNull('SchoolClassId');
   }
 
-  final GroupId classIdToFilterBy;
+  final GroupId? classIdToFilterBy;
   bool get shouldFilterForClass => classIdToFilterBy != null;
 }
 
@@ -90,7 +92,7 @@ class TimetableBloc extends BlocBase {
         .add(viewStream.listen(_schoolClassFilterViewSubject.sink.add));
   }
 
-  bool _hasSchoolClasses(List<SchoolClass> schoolClasses) {
+  bool _hasSchoolClasses(List<SchoolClass>? schoolClasses) {
     return schoolClasses != null;
   }
 
@@ -137,10 +139,10 @@ class TimetableBloc extends BlocBase {
   }
 
   TimetableConfig get current =>
-      TimetableConfig(userGateway.data?.userSettings);
+      TimetableConfig(userGateway.data!.userSettings);
 
   Stream<TimetableConfig> get stream =>
-      userGateway.userStream.map((user) => TimetableConfig(user?.userSettings));
+      userGateway.userStream.map((user) => TimetableConfig(user.userSettings));
 
   ValueStream<SchoolClassFilterView> get schoolClassFilterView =>
       _schoolClassFilterViewSubject;
@@ -150,7 +152,7 @@ class TimetableBloc extends BlocBase {
   /// Gibt die Termine zurück, die dem Nutzer angezeigt werden. Falls der
   /// Nutzer eine Schulklasse ausgewählt hat, werden nur die Termine der Kurse
   /// der Schulklasse geladen.
-  Stream<List<CalendricalEvent>> events(Date startDate, {Date endDate}) {
+  Stream<List<CalendricalEvent>> events(Date startDate, {Date? endDate}) {
     /// Der Stream kann hier nicht direkt zurückgegeben werden, falls keine
     /// Klasse ausgewählt wurde (also alle Stunden angezeigt werden sollen),
     /// da nachträglich der Filter geändert werden kann (dass nur die Stunden
@@ -198,10 +200,10 @@ class TimetableBloc extends BlocBase {
 
     final streamGroup = CombineLatestStream(
         [stream, unFilteredLessonsStream, groupInfoStream], (streamValues) {
-      TimetableConfig config = streamValues[0] as TimetableConfig ?? current;
-      List<Lesson> lessons = streamValues[1] as List<Lesson> ?? [];
+      TimetableConfig config = streamValues[0] as TimetableConfig? ?? current;
+      List<Lesson> lessons = streamValues[1] as List<Lesson>? ?? [];
       Map<String, GroupInfo> groupInfos =
-          streamValues[2] as Map<String, GroupInfo> ?? {};
+          streamValues[2] as Map<String, GroupInfo>? ?? {};
       final weekType = config.getWeekType(date);
       return LessonDataSnapshot(
         lessons: getFilteredLessonList(lessons, weekType),
@@ -230,7 +232,7 @@ List<Lesson> getFilteredLessonList(List<Lesson> lessons, WeekType weekType) {
 }
 
 class TimetableConfig {
-  final UserSettings _userSettings;
+  final UserSettings? _userSettings;
   TimetableConfig(this._userSettings);
 
   UserSettings _getUserSettings() {
@@ -294,8 +296,10 @@ class TimetableConfigBloc extends BlocBase {
 class TimetableConfigBuilder extends StatelessWidget {
   final Widget Function(BuildContext context, TimetableConfig config) builder;
 
-  const TimetableConfigBuilder({Key key, @required this.builder})
-      : super(key: key);
+  const TimetableConfigBuilder({
+    Key? key,
+    required this.builder,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -305,8 +309,8 @@ class TimetableConfigBuilder extends StatelessWidget {
       stream: timetableBloc.stream,
       builder: (context, snapshot) {
         return BlocProvider<TimetableConfigBloc>(
-          bloc: TimetableConfigBloc(snapshot.data),
-          child: builder(context, snapshot.data),
+          bloc: TimetableConfigBloc(snapshot.data!),
+          child: builder(context, snapshot.data!),
         );
       },
     );
