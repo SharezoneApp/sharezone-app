@@ -6,12 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 enum ReportReason {
   spam,
   bullying,
   pornographicContent,
   violentContent,
-  illegalContnet,
+  illegalContent,
   other
 }
 
@@ -23,12 +25,11 @@ String getReportReasonUiText(ReportReason reason) {
       return 'Sonstiges';
     case ReportReason.pornographicContent:
       return 'Pornografische Inhalte';
-    case ReportReason.illegalContnet:
+    case ReportReason.illegalContent:
       return 'Rechtswidrige Inhalte';
     case ReportReason.violentContent:
       return 'Gewaltsame oder abstoßende Inhalte';
     case ReportReason.spam:
       return 'Spam';
   }
-  return null;
 }
