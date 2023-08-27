@@ -174,7 +174,10 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
           data:
               "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
           styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-          onTapLink: (_, url, __) => launchURL(url, context: context),
+          onTapLink: (_, url, __) {
+            if (url == null) return;
+            launchURL(url, context: context);
+          },
         ),
       ),
       actions: [
