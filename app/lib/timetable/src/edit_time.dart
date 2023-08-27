@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
@@ -17,15 +19,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 class EditTimeField extends StatelessWidget {
-  final Time time;
+  final Time? time;
   final void Function(Time newTime) onChanged;
-  final IconData iconData;
-  final String label;
+  final IconData? iconData;
+  final String? label;
   final ValueNotifier<bool> isSelected = ValueNotifier(false);
 
   EditTimeField({
-    @required this.time,
-    @required this.onChanged,
+    required this.time,
+    required this.onChanged,
     this.iconData,
     this.label,
   });
@@ -67,7 +69,7 @@ class EditTimeField extends StatelessWidget {
                     height: 18,
                     child: time == null
                         ? Container()
-                        : Text(time.toTimeOfDay().format(context),
+                        : Text(time!.toTimeOfDay().format(context),
                             style: TextStyle(fontSize: 16.0)),
                   ),
                 ),
@@ -87,14 +89,15 @@ class EditTimeField extends StatelessWidget {
   }
 }
 
-Future<Time> selectTime(BuildContext context,
-    {Time initialTime,
-    int minutesInterval,
-    String title = "Wähle eine Uhrzeit"}) async {
+Future<Time?> selectTime(
+  BuildContext context, {
+  Time? initialTime,
+  int? minutesInterval,
+  String title = "Wähle eine Uhrzeit",
+}) async {
   final cache = BlocProvider.of<TimePickerSettingsCache>(context);
   final isFiveMinutesIntervalActive =
-      await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first ??
-          true;
+      await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first;
 
   // We only use the five minutes interval on iOS, because only on iOS we have a
   // CupertinoTimePicker where 1 minute steps would slow users down
@@ -108,7 +111,7 @@ Future<Time> selectTime(BuildContext context,
       context: context,
       builder: (context) => CupertinoTimerPickerWithTimeOfDay(
         initialTime: initialTime?.toTimeOfDay(),
-        minutesInterval: minutesInterval,
+        minutesInterval: minutesInterval!,
         title: title,
       ),
     ).then((timeOfDay) {
@@ -122,10 +125,10 @@ Future<Time> selectTime(BuildContext context,
     initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
     interval: minutesInterval,
     visibleStep: minutesInterval.toVisibleStep(),
-    builder: (BuildContext context, Widget child) {
+    builder: (BuildContext context, Widget? child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-        child: child,
+        child: child!,
       );
     },
     initialEntryMode: PlatformCheck.isDesktopOrWeb
@@ -138,13 +141,16 @@ Future<Time> selectTime(BuildContext context,
 }
 
 class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
-  const CupertinoTimerPickerWithTimeOfDay(
-      {Key key, this.initialTime, this.minutesInterval, this.title})
-      : super(key: key);
+  const CupertinoTimerPickerWithTimeOfDay({
+    Key? key,
+    this.initialTime,
+    required this.minutesInterval,
+    this.title,
+  }) : super(key: key);
 
-  final TimeOfDay initialTime;
+  final TimeOfDay? initialTime;
   final int minutesInterval;
-  final String title;
+  final String? title;
 
   @override
   _CupertinoTimerPickerWithTimeOfDayState createState() =>
@@ -153,7 +159,7 @@ class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
 
 class _CupertinoTimerPickerWithTimeOfDayState
     extends State<CupertinoTimerPickerWithTimeOfDay> {
-  TimeOfDay timeOfDay;
+  late TimeOfDay timeOfDay;
 
   @override
   void initState() {
@@ -165,7 +171,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
   Widget build(BuildContext context) {
     final initialTime = widget.initialTime ?? TimeOfDay(hour: 9, minute: 0);
     return AlertDialog(
-      title: isNotEmptyOrNull(widget.title) ? Text(widget.title) : null,
+      title: isNotEmptyOrNull(widget.title) ? Text(widget.title!) : null,
       content: SizedBox(
         height: 250,
         width: 350,
