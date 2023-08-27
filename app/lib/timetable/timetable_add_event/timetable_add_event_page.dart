@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
@@ -42,6 +44,11 @@ void _submit(BuildContext context) {
   final controller = DefaultTabController.of(context);
   try {
     final event = bloc.submit(controller);
+    if (event == null) {
+      showSnackSec(text: 'Bitte fülle alle Felder aus', context: context);
+      return;
+    }
+
     Navigator.pop(context, TimetableEventAdded(event));
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
@@ -67,7 +74,7 @@ class TimetableAddEventPage extends StatefulWidget {
   static const tag = 'timetable-add-event-page';
   final bool isExam;
 
-  const TimetableAddEventPage({Key key, @required this.isExam})
+  const TimetableAddEventPage({Key? key, required this.isExam})
       : super(key: key);
 
   @override
@@ -75,12 +82,12 @@ class TimetableAddEventPage extends StatefulWidget {
 }
 
 class _TimetableAddEventPageState extends State<TimetableAddEventPage> {
-  TimetableAddEventBloc bloc;
+  late TimetableAddEventBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    bloc ??= BlocProvider.of<TimetableAddEventBlocFactory>(context).create();
+    bloc = BlocProvider.of<TimetableAddEventBlocFactory>(context).create();
     bloc.changeEventType(widget.isExam ? Exam() : Meeting());
   }
 
@@ -100,7 +107,7 @@ class _TimetableAddEventPage extends StatelessWidget {
   final List<Widget> tabs;
   final bool isExam;
 
-  factory _TimetableAddEventPage({bool isExam}) {
+  factory _TimetableAddEventPage({required bool isExam}) {
     return _TimetableAddEventPage._(
       isExam: isExam,
       tabs: [
@@ -113,7 +120,10 @@ class _TimetableAddEventPage extends StatelessWidget {
     );
   }
 
-  const _TimetableAddEventPage._({@required this.tabs, this.isExam});
+  const _TimetableAddEventPage._({
+    required this.tabs,
+    required this.isExam,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +141,7 @@ class _TimetableAddEventPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Expanded(child: TabBarView(children: tabs)),
-                  _BottomNaviagtionBar(),
+                  _BottomNavigationBar(),
                 ],
               ),
             ),
@@ -142,7 +152,7 @@ class _TimetableAddEventPage extends StatelessWidget {
   }
 }
 
-class _BottomNaviagtionBar extends StatelessWidget {
+class _BottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -160,7 +170,7 @@ class _BottomNaviagtionBar extends StatelessWidget {
 }
 
 class _TabPageSelector extends StatelessWidget {
-  const _TabPageSelector({Key key}) : super(key: key);
+  const _TabPageSelector({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +183,7 @@ class _TabPageSelector extends StatelessWidget {
 }
 
 class _NavigateNextButton extends StatelessWidget {
-  const _NavigateNextButton({Key key}) : super(key: key);
+  const _NavigateNextButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +219,7 @@ class _FinishButton extends StatelessWidget {
 }
 
 class _NavigateBackButton extends StatelessWidget {
-  const _NavigateBackButton({Key key}) : super(key: key);
+  const _NavigateBackButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final controller = DefaultTabController.of(context);
@@ -234,14 +244,18 @@ class _NavigateBackButton extends StatelessWidget {
 }
 
 class _RectangleButton extends StatelessWidget {
-  const _RectangleButton(
-      {Key key, this.onTap, this.leading, this.title, this.backgroundColor})
-      : super(key: key);
+  const _RectangleButton({
+    Key? key,
+    this.onTap,
+    required this.leading,
+    required this.title,
+    this.backgroundColor,
+  }) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget leading;
   final String title;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +285,7 @@ class _RectangleButton extends StatelessWidget {
 
 class _EmptyCourseList extends StatelessWidget {
   const _EmptyCourseList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -287,7 +301,7 @@ class _EmptyCourseList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              "Du bist noch in keinem Kurs Mitglied ����\nErstelle einen neuen Kurs oder tritt einem bei 😃",
+              "Du bist noch in keinem Kurs Mitglied.\nErstelle einen neuen Kurs oder tritt einem bei 😃",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey[700]),
             ),
@@ -300,10 +314,10 @@ class _EmptyCourseList extends StatelessWidget {
 
 class _TimetableAddSection extends StatelessWidget {
   const _TimetableAddSection({
-    Key key,
-    @required this.title,
-    @required this.index,
-    @required this.child,
+    Key? key,
+    required this.title,
+    required this.index,
+    required this.child,
   }) : super(key: key);
 
   final String title;
@@ -325,7 +339,7 @@ class _TimetableAddSection extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall
-                      .copyWith(fontSize: 20)),
+                      ?.copyWith(fontSize: 20)),
               const SizedBox(height: 20),
               child
             ],
