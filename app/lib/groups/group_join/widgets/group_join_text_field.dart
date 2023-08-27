@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../group_join_result_dialog.dart';
 
 class GroupJoinTextField extends StatefulWidget implements PreferredSizeWidget {
-  const GroupJoinTextField({Key key}) : super(key: key);
+  const GroupJoinTextField({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(140);
@@ -105,13 +107,13 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     );
   }
 
-  bool _isValidQrCode(String qrCodeText) => isNotEmptyOrNull(qrCodeText);
+  bool _isValidQrCode(String? qrCodeText) => isNotEmptyOrNull(qrCodeText);
 
   bool _isValidText(String newText) {
     return isNotEmptyOrNull(newText) && newText.length == 6;
   }
 
-  Future<String> _scanQRCode() async {
+  Future<String?> _scanQRCode() async {
     return showQrCodeScanner(
       context,
       title: const Text('QR-Code scannen'),
@@ -156,7 +158,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       ),
     );
 
-    if (result) {
+    if (result == true) {
       bloc.enterValue(sharecode.value);
       sharecodeFieldTextController.text = sharecode.value;
       _logPastingSharecodeFromClipboard(context);
