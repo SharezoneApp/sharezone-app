@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -31,7 +33,9 @@ enum CourseDialogOption {
 }
 
 Future<dynamic> handleCourseDialogOption(
-    BuildContext context, CourseDialogOption dialogOptions) async {
+  BuildContext context,
+  CourseDialogOption? dialogOptions,
+) async {
   if (dialogOptions != null) {
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
     switch (dialogOptions) {
@@ -39,20 +43,17 @@ Future<dynamic> handleCourseDialogOption(
         openMySchoolClassCreateDialog(
             context, MySchoolClassBloc(gateway: gateway));
         break;
-        break;
       case CourseDialogOption.courseCreate:
         return Navigator.pushNamed(context, CourseTemplatePage.tag);
-        break;
       case CourseDialogOption.groupJoin:
         return await openGroupJoinPage(context);
-        break;
     }
   }
   return null;
 }
 
 class GroupPage extends StatefulWidget {
-  const GroupPage({Key key}) : super(key: key);
+  const GroupPage({Key? key}) : super(key: key);
 
   static const String tag = "course-page";
 
@@ -61,7 +62,7 @@ class GroupPage extends StatefulWidget {
 }
 
 class GroupPageState extends State<GroupPage> {
-  ScrollController _hideButtonController;
+  late ScrollController _hideButtonController;
   bool _isVisible = true;
   bool _isAtEdge = false;
 
@@ -100,13 +101,13 @@ class GroupPageState extends State<GroupPage> {
       child: SharezoneMainScaffold(
         scaffoldKey: globalKey,
         // backgroundColor: Color(0xFFF6F7FB),
-        body: StreamBuilder<ConnectionsData>(
+        body: StreamBuilder<ConnectionsData?>(
           initialData: gateway.current(),
           stream: gateway.streamConnectionsData(),
           builder: (context, snapshot) {
             final data = snapshot.hasData ? snapshot.data : null;
-            final isEmpty = (data?.courses == null || data.courses.isEmpty) &&
-                (data?.schoolClass == null || data.schoolClass.isEmpty);
+            final isEmpty = (data?.courses == null || data!.courses.isEmpty) &&
+                (data?.schoolClass == null || data!.schoolClass!.isEmpty);
 
             if (isEmpty) return _EmptyGroupList();
             return SingleChildScrollView(
@@ -116,9 +117,9 @@ class GroupPageState extends State<GroupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (data.schoolClass != null)
+                    if (data!.schoolClass != null)
                       _SchoolClassList(
-                          schoolClasses: data.schoolClass.values.toList()),
+                          schoolClasses: data.schoolClass!.values.toList()),
                     _CourseList(data.courses.values.toList()),
                   ],
                 ),
@@ -143,14 +144,17 @@ class GroupPageState extends State<GroupPage> {
 }
 
 class _SchoolClassList extends StatelessWidget {
-  const _SchoolClassList({Key key, this.schoolClasses}) : super(key: key);
+  const _SchoolClassList({
+    Key? key,
+    required this.schoolClasses,
+  }) : super(key: key);
 
   final List<SchoolClass> schoolClasses;
 
   @override
   Widget build(BuildContext context) {
     if (schoolClasses.isEmpty) return Container();
-    schoolClasses.sort((a, b) => a?.name?.compareTo(b?.name));
+    schoolClasses.sort((a, b) => a.name.compareTo(b.name));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -189,7 +193,7 @@ class _CourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (courseList == null || courseList.isEmpty) return Container();
+    if (courseList.isEmpty) return Container();
     courseList.sort((a, b) => a.name.compareTo(b.name));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +232,10 @@ class _CourseList extends StatelessWidget {
 }
 
 class _CoursePageFAB extends StatelessWidget {
-  const _CoursePageFAB({Key key, this.visible}) : super(key: key);
+  const _CoursePageFAB({
+    Key? key,
+    required this.visible,
+  }) : super(key: key);
 
   final bool visible;
 
@@ -316,13 +323,17 @@ class _CreateCourse extends StatelessWidget {
 }
 
 class _JoinGroupTile extends StatelessWidget {
-  const _JoinGroupTile(
-      {Key key, this.description, this.title, this.iconData, this.onTap})
-      : super(key: key);
+  const _JoinGroupTile({
+    Key? key,
+    required this.description,
+    required this.title,
+    this.iconData,
+    this.onTap,
+  }) : super(key: key);
 
   final String description, title;
-  final IconData iconData;
-  final VoidCallback onTap;
+  final IconData? iconData;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -401,13 +412,17 @@ class _EmptyGroupList extends StatelessWidget {
 }
 
 class _EmptyGroupListAction extends StatelessWidget {
-  const _EmptyGroupListAction(
-      {Key key, this.icon, this.title, this.subtitle, this.onTap})
-      : super(key: key);
+  const _EmptyGroupListAction({
+    Key? key,
+    this.icon,
+    required this.title,
+    required this.subtitle,
+    this.onTap,
+  }) : super(key: key);
 
-  final Widget icon;
+  final Widget? icon;
   final String title, subtitle;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
