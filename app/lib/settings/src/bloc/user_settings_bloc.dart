@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:time/time.dart';
@@ -17,10 +19,10 @@ class UserSettingsBloc extends BlocBase {
   UserSettingsBloc(this._userGateway);
 
   Stream<UserSettings> streamUserSettings() {
-    return _userGateway.userStream.map((user) => user?.userSettings);
+    return _userGateway.userStream.map((user) => user.userSettings);
   }
 
-  UserSettings current() => _userGateway.data.userSettings;
+  UserSettings? current() => _userGateway.data?.userSettings;
 
   void updateSettings(UserSettings newUserSettings) {
     _userGateway.updateSettings(newUserSettings);
