@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class GroupOnboardingGroupJoinPage extends StatefulWidget {
 
 class _GroupOnboardingGroupJoinPageState
     extends State<GroupOnboardingGroupJoinPage> {
-  GroupJoinBloc bloc;
+  late GroupJoinBloc bloc;
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _GroupOnboardingGroupJoinPageState
 }
 
 class _FinishButton extends StatelessWidget {
-  const _FinishButton({Key key}) : super(key: key);
+  const _FinishButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class _FinishButton extends StatelessWidget {
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-        bloc.finsihOnboarding();
+        bloc.finishOnboarding();
         Navigator.pop(context);
         Navigator.pop(context);
       },
