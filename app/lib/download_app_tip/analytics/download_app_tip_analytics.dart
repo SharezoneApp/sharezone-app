@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 
@@ -30,8 +32,10 @@ class DownloadAppTipAnalytics {
 }
 
 class _DownloadAppTipEvent extends AnalyticsEvent {
-  _DownloadAppTipEvent({@required String status, @required this.targetPlatform})
-      : super('download_app_tip_$status');
+  _DownloadAppTipEvent({
+    required String status,
+    required this.targetPlatform,
+  }) : super('download_app_tip_$status');
 
   final TargetPlatform targetPlatform;
 
