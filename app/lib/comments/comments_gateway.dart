@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/comments/comment_data_models.dart';
 import 'package:sharezone/comments/misc.dart';
 
@@ -29,7 +30,7 @@ class CommentsGateway extends BlocBase {
     // ignore: close_sinks
     var commentsController = _commentsControllers[commentLocation];
 
-    StreamSubscription firestoreSubscripton;
+    late StreamSubscription firestoreSubscription;
     commentsController ??= StreamController.broadcast(onListen: () {
       final snapshotStream = _getCommentCollection(commentLocation).snapshots();
 
@@ -37,18 +38,20 @@ class CommentsGateway extends BlocBase {
           .map((doc) => _commentToDatamodel(doc.data(), id: doc.id))
           .toList());
 
-      firestoreSubscripton = commentModelDataStream.listen(
-          commentsController.add,
+      firestoreSubscription = commentModelDataStream.listen(
+          commentsController!.add,
           onError: commentsController.addError,
           cancelOnError: false);
     }, onCancel: () {
-      firestoreSubscripton.cancel();
+      firestoreSubscription.cancel();
     });
     return commentsController.stream;
   }
 
-  CommentDataModel _commentToDatamodel(Map<String, dynamic> firestoreComment,
-          {@required String id}) =>
+  CommentDataModel _commentToDatamodel(
+    Map<String, dynamic> firestoreComment, {
+    required String id,
+  }) =>
       CommentDataModel.fromFirestore(firestoreComment, id: id);
 
   CollectionReference<Map<String, dynamic>> _getCommentCollection(
@@ -97,8 +100,10 @@ class CommentsLocation {
 
   String get path => "$baseCollection/$parentDocumentId/comments";
 
-  CommentsLocation({this.commentOnType, this.parentDocumentId})
-      : baseCollection = _commentOnTypeToString[commentOnType] {
+  CommentsLocation({
+    required this.commentOnType,
+    required this.parentDocumentId,
+  }) : baseCollection = _commentOnTypeToString[commentOnType]! {
     ArgumentError.checkNotNull(parentDocumentId, 'parentDocumentId');
     if (parentDocumentId.isEmpty) {
       throw ArgumentError('parentDocumentId cant be an empty string');
@@ -114,14 +119,14 @@ class CommentLocation extends CommentsLocation {
   String get path => "${super.path}/$commentId";
 
   CommentLocation({
-    @required this.commentId,
-    @required CommentOnType commentOnType,
-    @required String parentDocumentId,
+    required this.commentId,
+    required CommentOnType commentOnType,
+    required String parentDocumentId,
   }) : super(commentOnType: commentOnType, parentDocumentId: parentDocumentId);
 
   CommentLocation.fromCommentsLocation({
-    @required CommentsLocation commentsLocation,
-    @required this.commentId,
+    required CommentsLocation commentsLocation,
+    required this.commentId,
   }) : super(
           commentOnType: commentsLocation.commentOnType,
           parentDocumentId: commentsLocation.parentDocumentId,
@@ -203,7 +208,7 @@ class SingularRatingAction extends RatingAction {
 
   @override
   Future<void> execute(DocumentReference commentLocation, String uid,
-      [Transaction transaction]) async {
+      [Transaction? transaction]) async {
     final arrayField = _getCorrespondingArrayName(_field);
     final arrayOperation = _operation == RatingOperation.add
         ? FieldValue.arrayUnion([uid])
