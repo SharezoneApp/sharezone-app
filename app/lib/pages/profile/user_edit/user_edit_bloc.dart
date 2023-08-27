@@ -6,10 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -22,8 +23,8 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
   final String initialName;
 
   UserEditPageBloc({
-    @required UserEditBlocGateway gateway,
-    @required String name,
+    required UserEditBlocGateway gateway,
+    required String name,
   })  : _gateway = gateway,
         initialName = name {
     _nameSubject.sink.add(name);
@@ -39,7 +40,7 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
 
     if (hasInputChanged) {
       if (_isSubmitValid(name)) {
-        final userInput = UserInput(name: name);
+        final userInput = UserInput(name: name!);
         final result = await _gateway.edit(userInput);
         return result.hasData && result.data == true;
       }
@@ -49,7 +50,7 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
     return false;
   }
 
-  bool _isSubmitValid(String name) {
+  bool _isSubmitValid(String? name) {
     if (AuthentificationValidators.isNameValid(name)) {
       return true;
     } else {
@@ -65,8 +66,9 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
 
 class UserInput {
   final String name;
-  UserInput({
-    @required this.name,
+
+  const UserInput({
+    required this.name,
   });
 }
 
@@ -85,6 +87,5 @@ class UserEditBlocGateway {
 }
 
 String _generateAbbreviation(String name) {
-  assert(name != null);
   return name.substring(0, 1).toUpperCase();
 }
