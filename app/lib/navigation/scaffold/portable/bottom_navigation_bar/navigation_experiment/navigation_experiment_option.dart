@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 enum NavigationExperimentOption {
   /// Current Navigation (Drawer + BNB)
   drawerAndBnb,
@@ -28,6 +30,5 @@ extension ToReadableString on NavigationExperimentOption {
       case NavigationExperimentOption.extendableBnbWithMoreButton:
         return 'Neue Navigation - Mit Mehr-Button';
     }
-    throw UnimplementedError('No readable string for $this found');
   }
 }
