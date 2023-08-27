@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/foundation.dart';
 
 class Action {
@@ -13,7 +15,7 @@ class Action {
   final VoidCallback onTap;
 
   const Action({
-    @required this.title,
-    @required this.onTap,
+    required this.title,
+    required this.onTap,
   });
 }
