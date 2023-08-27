@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -22,7 +24,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../../../timetable_permissions.dart';
 
 class CalenderEventCard extends StatelessWidget {
-  const CalenderEventCard(this.view, {Key key}) : super(key: key);
+  const CalenderEventCard(
+    this.view, {
+    Key? key,
+  }) : super(key: key);
 
   final EventView view;
 
@@ -43,7 +48,7 @@ class CalenderEventCard extends StatelessWidget {
               children: <Widget>[
                 _CourseName(
                   color: view.design?.color,
-                  courseName: view.courseName,
+                  courseName: view.courseName ?? "",
                 ),
                 const SizedBox(height: 6),
                 _Title(title: view.title),
@@ -61,15 +66,19 @@ class CalenderEventCard extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.courseName, this.color}) : super(key: key);
+  const _CourseName({
+    Key? key,
+    required this.courseName,
+    this.color,
+  }) : super(key: key);
 
   final String courseName;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      courseName ?? "",
+      courseName,
       style: TextStyle(color: color),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -78,7 +87,10 @@ class _CourseName extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key key, this.title}) : super(key: key);
+  const _Title({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   final String title;
 
@@ -103,7 +115,7 @@ Future<void> onEventLongPress(
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final isAuthor = api.uID == event.authorID;
   final hasPermissionsToManageEvents = hasPermissionToManageEvents(
-      api.course.getRoleFromCourseNoSync(event.groupID), isAuthor);
+      api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
   final isExam = event.eventType == Exam();
   final result = await showLongPressAdaptiveDialog<_EventLongPressResult>(
     context: context,
@@ -146,6 +158,8 @@ Future<void> onEventLongPress(
       break;
     case _EventLongPressResult.report:
       openReportPage(context, ReportItemReference.event(event.eventID));
+      break;
+    case null:
       break;
   }
 }
