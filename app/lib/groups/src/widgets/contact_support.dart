@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/pages/settings/support_page.dart';
