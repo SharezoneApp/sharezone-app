@@ -18,7 +18,8 @@ import 'member_role.dart';
 class SchoolClass {
   final String id;
   final String name;
-  final String? sharecode, joinLink, meetingID;
+  final String sharecode;
+  final String? joinLink, meetingID;
   GroupId get groupId => GroupId(id);
   final MemberRole myRole;
   final CourseSettings settings;
