@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +56,10 @@ class _PictureGrid extends StatelessWidget {
 }
 
 class _PictureBox extends StatelessWidget {
-  const _PictureBox({Key key, this.path}) : super(key: key);
+  const _PictureBox({
+    Key? key,
+    required this.path,
+  }) : super(key: key);
 
   final String path;
 
