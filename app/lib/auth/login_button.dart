@@ -6,14 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
 class ContinueRoundButton extends StatelessWidget {
-  const ContinueRoundButton({Key key, @required this.onTap, this.tooltip})
-      : super(key: key);
+  const ContinueRoundButton({
+    Key? key,
+    required this.onTap,
+    this.tooltip,
+  }) : super(key: key);
 
-  final VoidCallback onTap;
-  final String tooltip;
+  final VoidCallback? onTap;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
