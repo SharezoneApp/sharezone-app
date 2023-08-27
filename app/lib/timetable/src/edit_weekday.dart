@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +35,9 @@ String getWeekDayText(WeekDay weekDay) {
   }
 }
 
-Future<WeekDay> selectWeekDay(BuildContext context, {WeekDay selected}) {
+Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
   final userSettings =
-      BlocProvider.of<SharezoneContext>(context).api.user.data.userSettings;
+      BlocProvider.of<SharezoneContext>(context).api.user.data!.userSettings;
   final enabledWeekDays = userSettings.enabledWeekDays.getEnabledWeekDaysList();
   return selectItem<WeekDay>(
     context: context,
