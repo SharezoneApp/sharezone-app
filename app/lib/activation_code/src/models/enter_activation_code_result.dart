@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part 'enter_activation_code_exception.dart';
 
 class _EnterActivationCodeResultType {
