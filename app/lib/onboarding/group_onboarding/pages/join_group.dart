@@ -70,7 +70,7 @@ class _FinishButton extends StatelessWidget {
       child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-        bloc.finishOnboarding();
+        bloc.finsihOnboarding();
         Navigator.pop(context);
         Navigator.pop(context);
       },
