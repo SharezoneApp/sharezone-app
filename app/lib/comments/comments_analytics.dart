@@ -18,7 +18,7 @@ class CommentsAnalytics {
 
   CommentsAnalytics(this._analytics);
 
-  void logCommentAdded(CommentLocation location) {
+  void logCommentAdded(CommentsLocation location) {
     _analytics.log(_CommentsUsedEvent(
         feature: location.baseCollection, action: _CommentAction.add));
   }

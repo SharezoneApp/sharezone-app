@@ -76,7 +76,7 @@ class CommentsBloc extends BlocBase {
 
     _gateway.add(CommentDataModel.fromComment(comment), _commentsLocation);
 
-    _analytics.logCommentAdded(getCommentLocation(comment.id!));
+    _analytics.logCommentAdded(_commentsLocation);
   }
 
   Future<void> _changeRating(RateCommentEvent event) async {
