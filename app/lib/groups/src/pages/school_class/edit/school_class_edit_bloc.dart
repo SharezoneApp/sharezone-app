@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_gateway.dart';

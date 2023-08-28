@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';

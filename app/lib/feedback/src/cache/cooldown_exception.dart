@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 class CoolDownException implements Exception {
   final String? message;
   final Duration? coolDown;

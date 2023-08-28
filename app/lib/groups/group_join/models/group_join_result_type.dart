@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 const _successfull = 'successfull';
 const _notPublic = 'notpublic';
 const _notFound = 'notfound';

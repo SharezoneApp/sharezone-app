@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'dart:collection';
 
 import 'package:sharezone/dashboard/update_reminder/release.dart';

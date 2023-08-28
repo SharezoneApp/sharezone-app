@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/exceptions.dart';
 import 'package:crash_analytics/crash_analytics.dart';

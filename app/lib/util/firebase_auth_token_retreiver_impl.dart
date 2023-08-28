@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

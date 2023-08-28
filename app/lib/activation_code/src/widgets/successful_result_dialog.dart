@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/models/enter_activation_code_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

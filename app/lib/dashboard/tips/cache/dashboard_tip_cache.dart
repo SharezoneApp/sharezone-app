@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 
 const dashboardCounterKey = "dashboard-counter";

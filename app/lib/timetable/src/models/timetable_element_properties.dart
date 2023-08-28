@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:quiver/core.dart';
 
 /// Gibt Positionen für Elemente, welche in einem gemeinsamen Konflikt stehen, weil sie direkt

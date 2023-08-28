@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:add_2_calendar/add_2_calendar.dart' as add_2_calendar;
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';

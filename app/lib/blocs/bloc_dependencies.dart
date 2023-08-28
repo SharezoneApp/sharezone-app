@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';

@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of 'timetable_page.dart';
 
 class TimetableEntryEvent extends StatelessWidget {

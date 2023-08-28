@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 class LessonLength {
   final int minutes;
   bool get isValid => minutes > 0;

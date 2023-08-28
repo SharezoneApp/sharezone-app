@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';

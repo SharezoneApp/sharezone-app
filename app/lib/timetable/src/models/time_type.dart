@@ -6,6 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 enum TimeType { period, individual }

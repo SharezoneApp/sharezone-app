@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of '../../course_edit_design.dart';
 
 class _SelectDesignPopResult {

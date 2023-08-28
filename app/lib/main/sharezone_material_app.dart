@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:analytics/analytics.dart';
 import 'package:analytics/observer.dart';
 import 'package:feature_discovery/feature_discovery.dart';

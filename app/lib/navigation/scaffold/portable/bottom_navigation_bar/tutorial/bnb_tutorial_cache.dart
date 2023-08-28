@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:key_value_store/key_value_store.dart';
 
 class BnbTutorialCache {

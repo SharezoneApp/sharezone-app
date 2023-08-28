@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';

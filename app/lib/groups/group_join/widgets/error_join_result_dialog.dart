@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';

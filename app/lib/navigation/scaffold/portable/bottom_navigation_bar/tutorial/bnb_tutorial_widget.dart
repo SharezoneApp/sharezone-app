@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of '../extendable_bottom_navigation_bar.dart';
 
 /// A tutorial to show how the [ExtendableBottomNavigationBar] works. To display

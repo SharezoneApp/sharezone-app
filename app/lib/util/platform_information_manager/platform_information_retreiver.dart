@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 abstract class PlatformInformationRetriever {
   String get appName;
   String get packageName;

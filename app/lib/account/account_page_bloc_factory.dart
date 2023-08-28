@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:authentification_base/authentification_gateways.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';

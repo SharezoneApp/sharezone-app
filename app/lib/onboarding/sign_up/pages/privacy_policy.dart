@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of '../sign_up_page.dart';
 
 class _PrivacyPolicy extends StatelessWidget {

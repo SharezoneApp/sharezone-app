@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';

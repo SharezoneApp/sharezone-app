@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:timeago/timeago.dart' as timeago;

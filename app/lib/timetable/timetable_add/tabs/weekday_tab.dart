@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of '../timetable_add_page.dart';
 
 class _WeekDayTab extends StatelessWidget {

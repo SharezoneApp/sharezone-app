@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:string_similarity/string_similarity.dart';
 
 class StringUtils {

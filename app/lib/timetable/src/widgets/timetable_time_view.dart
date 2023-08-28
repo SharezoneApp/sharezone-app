@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:flutter/material.dart';
 import 'package:sharezone/settings/periods_edit_page.dart';
 import 'package:sharezone/timetable/src/logic/timetable_period_dimensions.dart';

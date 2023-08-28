@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:common_domain_models/common_domain_models.dart';
 
 class Beitrittsversuch {

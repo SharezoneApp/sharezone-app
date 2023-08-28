@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 import 'package:sharezone/navigation/analytics/events/navigation_event.dart';
 
 class NavBottomBar extends NavigationEvent {

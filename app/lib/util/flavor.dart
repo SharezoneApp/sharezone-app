@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 /// The flavor of the application.
 ///
 /// The flavor is used to determine which environment the application is running
