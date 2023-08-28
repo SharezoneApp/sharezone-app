@@ -6,8 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 import 'comments_gateway.dart';
@@ -31,7 +32,7 @@ class CommentsAnalytics {
 enum _CommentAcition { add, delete }
 
 class _CommentsUsedEvent extends AnalyticsEvent {
-  _CommentsUsedEvent({@required this.feature, @required _CommentAcition action})
+  _CommentsUsedEvent({required this.feature, required _CommentAcition action})
       : assert(isNotEmptyOrNull(feature)),
         super('comment_${enumToString(action)}_');
 
