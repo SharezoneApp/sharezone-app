@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -81,7 +83,6 @@ class HomeworkPageBloc extends BlocBase {
     final List<HomeworkDto> doneHomework = [];
     final List<HomeworkDto> notDoneHomework = [];
 
-    assert(homeworkList != null);
     for (final homework in homeworkList) {
       try {
         _checkIfUserHasDoneHomework(homework)
@@ -102,17 +103,17 @@ class HomeworkPageBloc extends BlocBase {
     final uID = api.uID;
     final userMap = homework.forUsers;
     assert(userMap.containsKey(uID), "User should be in the Map");
-    return userMap[uID];
+    return userMap[uID]!;
   }
 
   /// Expects a [List] of [DeserializeFirestoreDocException], but tries to handle other cases, and adds it to [_errorsSubject].
-  void _handleAPIError(error, [StackTrace s]) {
+  void _handleAPIError(error, [StackTrace? s]) {
     log("Error während dem Konvertieren der Firestore Dokumente in Hausaufgaben: $error",
         error: error, stackTrace: s);
   }
 
   Future<void> checkAllOverdueHomeworks() async {
-    List<HomeworkDto> homeworkNotDone = _homeworkNotDoneSubject.valueOrNull;
+    List<HomeworkDto>? homeworkNotDone = _homeworkNotDoneSubject.valueOrNull;
     if (homeworkNotDone != null && homeworkNotDone.isNotEmpty) {
       for (HomeworkDto homework in homeworkNotDone) {
         final DateTime homeworkDateTime = DateTime(homework.todoUntil.year,
