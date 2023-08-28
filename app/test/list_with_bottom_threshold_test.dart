@@ -78,10 +78,6 @@ void main() {
         final distanceFromViewToThreshold =
             getDistanceFromBottomOfViewToBottomOfList(tester) - listThreshold;
 
-        // final config = TestViewConfiguration(size: viewSize);
-        // final binding = TestWidgetsFlutterBinding.ensureInitialized();
-        // binding.renderView.configuration = config;
-
         return distanceFromViewToThreshold;
       }
 
