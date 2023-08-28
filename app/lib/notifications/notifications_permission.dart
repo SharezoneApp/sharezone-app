@@ -6,10 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -19,8 +20,8 @@ class NotificationsPermission {
   final FirebaseMessaging firebaseMessaging;
 
   const NotificationsPermission({
-    @required this.mobileDeviceInformationRetriever,
-    @required this.firebaseMessaging,
+    required this.mobileDeviceInformationRetriever,
+    required this.firebaseMessaging,
   });
 
   /// Returns `true` if this device is required to request permission for
