@@ -28,7 +28,7 @@ void main() {
         final data = {
           'name': id,
           'myRole': 'standard',
-          'sharecode': '123456',
+          'publicKey': '123456',
           'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
           'meetingID': 'l7hj-y1hw-s2we',
           'personalSharecode': '654321',
@@ -124,7 +124,8 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(
-            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass.value.id,
+            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass.value
+                .id,
             klasse10a.groupId);
       });
 
