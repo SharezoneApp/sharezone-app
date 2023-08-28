@@ -29,7 +29,6 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -160,7 +159,9 @@ Future<AppDependencies> initializeDependencies({
       userGateway!.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
-              name: 'typeOfUser', value: enumToString(user!.typeOfUser)!);
+            name: 'typeOfUser',
+            value: user!.typeOfUser.name,
+          );
         }
       });
     } else {

@@ -18,7 +18,7 @@ class MemberData {
   final UserId id;
   final String name, abbreviation;
   final MemberRole role;
-  final TypeOfUser? typeOfUser;
+  final TypeOfUser typeOfUser;
   final DateTime joinedOn;
 
   const MemberData({
@@ -64,7 +64,7 @@ class MemberData {
       'id': id.toString(),
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
+      'typeOfUser': typeOfUser.name,
       'role': role.name,
       'joinedOn': timestampFromDateTime(joinedOn),
     };

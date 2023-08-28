@@ -125,7 +125,7 @@ class AppUser {
     return {
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
+      'typeOfUser': typeOfUser.name,
       'notificationTokens': notificationTokens,
       'reminderTime': reminderTime,
       'state': state.index,
@@ -144,7 +144,7 @@ class AppUser {
     return {
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
+      'typeOfUser': typeOfUser.name,
       'reminderTime': reminderTime,
       'state': state.index,
       'referralScore': referralScore,

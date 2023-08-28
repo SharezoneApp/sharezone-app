@@ -126,7 +126,7 @@ class MemberTile extends StatelessWidget {
     return ListTile(
       onLongPress: onLongPress,
       title: Text(memberData.name),
-      subtitle: Text(memberData.typeOfUser!.toReadableString()),
+      subtitle: Text(memberData.typeOfUser.toReadableString()),
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
         child: Text(generateAbbreviation(memberData.name),

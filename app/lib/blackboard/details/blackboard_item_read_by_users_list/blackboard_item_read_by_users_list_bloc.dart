@@ -68,7 +68,7 @@ extension on MemberData {
       uid: '$id',
       name: name,
       hasRead: hasRead,
-      typeOfUser: typeOfUser!.toReadableString(),
+      typeOfUser: typeOfUser.toReadableString(),
     );
   }
 }
