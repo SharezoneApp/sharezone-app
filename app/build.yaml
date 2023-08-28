@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      # To speed up the code generation, only watch the test files.
+      mockito|mockBuilder:
+        generate_for:
+          include:
+            - test/**
+            - test_goldens/**
