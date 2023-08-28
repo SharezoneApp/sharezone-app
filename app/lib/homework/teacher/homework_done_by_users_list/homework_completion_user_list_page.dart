@@ -146,7 +146,7 @@ class _UserTile extends StatelessWidget {
         title: Text(view.name),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbrevation, style: TextStyle(color: Colors.white)),
+          child: Text(view.abbreviation, style: TextStyle(color: Colors.white)),
         ),
         trailing: _hasDoneIcon(),
       ),
