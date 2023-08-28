@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
@@ -29,7 +31,7 @@ Future<dynamic> openEnterActivationCodePage(BuildContext context) {
 }
 
 class _EnterActivationCodePage extends StatelessWidget {
-  const _EnterActivationCodePage({Key key}) : super(key: key);
+  const _EnterActivationCodePage({Key? key}) : super(key: key);
 
   static const tag = "enter-activation-code-page";
 
@@ -49,7 +51,7 @@ class _EnterActivationCodePage extends StatelessWidget {
 
 class _EnterActivationCodeAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const _EnterActivationCodeAppBar({Key key}) : super(key: key);
+  const _EnterActivationCodeAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
