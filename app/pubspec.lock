@@ -822,14 +822,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  flame:
-    dependency: transitive
-    description:
-      name: flame
-      sha256: bd2b45f9fc0ec4939031b85c0b0a97cf09357c12ecd072d44389a4c577a2c0f0
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.2"
   flare_flutter:
     dependency: "direct main"
     description:
@@ -1403,14 +1395,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0+1"
-  ordered_set:
-    dependency: transitive
-    description:
-      name: ordered_set
-      sha256: "3fedcc9121b3ba24c0a84f32da2989c42e36c159b73feadbc2f402dc55966b81"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.1"
   overlay_support:
     dependency: "direct main"
     description:
@@ -1794,13 +1778,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
-  sharezone_about_page_addon:
-    dependency: "direct main"
-    description:
-      path: "../lib/sharezone_about_page_addon"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   sharezone_common:
     dependency: "direct main"
     description:

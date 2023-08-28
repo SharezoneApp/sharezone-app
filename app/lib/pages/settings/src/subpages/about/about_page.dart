@@ -9,11 +9,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'widgets/about_section.dart';
@@ -137,25 +138,44 @@ class _AboutHeader extends StatelessWidget {
         {
           showSimpleNotification(
               Text(
-                  "Auf gehts, renne und rette dich vor der bösen Hausaufgabenflut."),
+                  "Oh nein, Sharezone ist zu klein geworden. Wir müssen es wieder vergrößern!"),
               autoDismiss: true,
               slideDismissDirection: DismissDirection.horizontal,
               leading: Icon(Icons.directions_run));
           tapNotifier.value = 0;
-          _openTrexGame(context);
+          _executeEasterEgg(context);
 
           break;
         }
       default:
         {
-          tapNotifier.value = 0;
           break;
         }
     }
   }
 
-  Future<void> _openTrexGame(BuildContext context) async {
-    startTrexGame(context);
+  Future<void> _executeEasterEgg(BuildContext context) async {
+    final currentTextScalingFactor =
+        context.read<ThemeSettings>().textScalingFactor;
+
+    // Set the text scaling factor to 0.1 as an Easter egg
+    context.read<ThemeSettings>().textScalingFactor = 0.1;
+
+    // Just wait to show the new text scaling factor
+    await Future.delayed(const Duration(seconds: 5));
+
+    // Reset the text scaling factor
+    context.read<ThemeSettings>().textScalingFactor = currentTextScalingFactor;
+
+    showSimpleNotification(
+      Text("Super! Du hast es geschafft, Sharezone ist wieder groß!"),
+      autoDismiss: true,
+      slideDismissDirection: DismissDirection.horizontal,
+      leading: Icon(Icons.directions_run),
+    );
+
+    // Set the tap counter back to 0 to be able to trigger the Easter egg again.
+    tapNotifier.value = 0;
   }
 }
 
