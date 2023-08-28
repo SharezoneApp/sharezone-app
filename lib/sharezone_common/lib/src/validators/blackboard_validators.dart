@@ -10,14 +10,12 @@ import 'dart:async';
 import '../validator.dart';
 
 class BlackboardValidators {
-  final validateTitle = StreamTransformer<String?, String>.fromHandlers(
-      handleData: (title, sink) {
-    if (title != null) {
-      if (NotEmptyOrNullValidator(title).isValid()) {
-        sink.add(title);
-      } else {
-        sink.addError(TextValidationException(emptyTitleUserMessage));
-      }
+  final validateTitle =
+      StreamTransformer<String, String>.fromHandlers(handleData: (title, sink) {
+    if (NotEmptyOrNullValidator(title).isValid()) {
+      sink.add(title);
+    } else {
+      sink.addError(TextValidationException(emptyTitleUserMessage));
     }
   });
 
