@@ -111,7 +111,7 @@ class _QrCode extends StatelessWidget {
         builder: (context, snapshot) {
           final state = snapshot.data;
           if (state is QrSignInIdle)
-            return QrImage(
+            return QrImageView(
               backgroundColor: Colors.white,
               data: state.qrId,
               version: 3,

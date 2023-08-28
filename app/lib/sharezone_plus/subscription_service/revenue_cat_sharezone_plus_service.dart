@@ -39,7 +39,6 @@ class RevenueCatPurchaseService implements PurchaseService {
 
     final products = await Purchases.getProducts(
       identifiers,
-      type: PurchaseType.subs,
     );
 
     return products;
