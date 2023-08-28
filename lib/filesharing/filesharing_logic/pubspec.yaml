@@ -30,8 +30,8 @@ dependencies:
   meta: ^1.1.8
   mime: ^1.0.0
   optional: ^6.1.0+1
-  path: any
-  permission_handler: any
+  path: ^1.8.3
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
