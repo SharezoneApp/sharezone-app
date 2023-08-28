@@ -73,50 +73,45 @@ class _AboutHeaderState extends State<_AboutHeader> {
   void _handleSharezoneLogoTap() {
     switch (tapNotifier.value) {
       case 0:
-        {
-          tapNotifier.value++;
-          showSimpleNotification(
-              Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_zero));
-          break;
-        }
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_zero),
+        );
+        break;
       case 1:
-        {
-          tapNotifier.value++;
-          showSimpleNotification(Text("Sharezone wächst, halte durch"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_plus_1));
-          break;
-        }
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Sharezone wächst, halte durch"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_plus_1),
+        );
+        break;
       case 2:
-        {
-          tapNotifier.value++;
-          showSimpleNotification(
-              Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_plus_2));
-          break;
-        }
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_plus_2),
+        );
+        break;
       case 3:
-        {
-          tapNotifier.value++;
-          showSimpleNotification(
-              Text(
-                  "Oh nein, Sharezone ist zu klein geworden 😧 Wir müssen es wieder vergrößern!"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.thumb_down));
-          _executeEasterEgg();
-          break;
-        }
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text(
+              "Oh nein, Sharezone ist zu klein geworden 😧 Wir müssen es wieder vergrößern!"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.thumb_down),
+        );
+        _executeEasterEgg();
+        break;
       default:
-        {
-          break;
-        }
+        break;
     }
   }
 
