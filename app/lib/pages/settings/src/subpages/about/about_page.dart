@@ -122,7 +122,7 @@ class _AboutHeaderState extends State<_AboutHeader> {
     // Set the text scaling factor to 0.1 as an Easter egg
     context.read<ThemeSettings>().textScalingFactor = 0.1;
 
-    // As a Easter egg, the text scaling factor will be changed 10 times
+    // As an Easter egg, the text scaling factor will be changed 10 times
     // with a random value between 0 and 2.
     for (int i = 0; i < 10; i++) {
       final random = Random().nextDouble() * 2.0;
