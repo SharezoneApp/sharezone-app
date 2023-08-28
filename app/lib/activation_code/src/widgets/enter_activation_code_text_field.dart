@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc.dart';
@@ -15,7 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class EnterActivationCodeTextField extends StatelessWidget
     implements PreferredSizeWidget {
-  const EnterActivationCodeTextField({Key key}) : super(key: key);
+  const EnterActivationCodeTextField({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(140);
