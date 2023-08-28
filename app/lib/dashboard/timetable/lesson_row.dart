@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//@dart=2.12
-
 part of '../dashboard_page.dart';
 
 class _LessonRow extends StatelessWidget {
@@ -18,7 +16,7 @@ class _LessonRow extends StatelessWidget {
       stream: bloc.lessonViews,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
-        if (snapshot.data!.isEmpty) return _NoLessonsToday();
+        if (snapshot.data.isEmpty) return _NoLessonsToday();
         final views = snapshot.data;
 
         int currentIndex;
@@ -52,7 +50,7 @@ class _LessonRow extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
-                        views!.length,
+                        views.length,
                         (index) => AnimationConfiguration.staggeredList(
                           position: index,
                           child: SlideAnimation(
@@ -90,7 +88,7 @@ class _SchoolIsOver extends StatelessWidget {
 }
 
 class _EmptyStateMsg extends StatelessWidget {
-  const _EmptyStateMsg(this.text, {Key? key}) : super(key: key);
+  const _EmptyStateMsg(this.text, {Key key}) : super(key: key);
 
   final String text;
 
