@@ -6,9 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/weekday.dart';
+import 'package:date/weektype.dart';
+import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
+import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:time/time.dart';
 
 void main() {
   LessonView getLessonViewWithTimeStatus(LessonTimeStatus timeline) {
@@ -17,10 +23,23 @@ void main() {
       end: "9:00",
       room: "100",
       abbreviation: "D",
-      design: null,
-      lesson: null,
+      design: Design.standard(),
+      lesson: Lesson(
+        lessonID: "1",
+        groupID: "1",
+        groupType: GroupType.course,
+        startDate: null,
+        endDate: null,
+        startTime: Time.parse("8:00"),
+        endTime: Time.parse("9:00"),
+        periodNumber: 1,
+        weekday: WeekDay.monday,
+        weektype: WeekType.always,
+        teacher: "teacher",
+        place: "100",
+      ),
       timeStatus: timeline,
-      percentTimePassed: null,
+      percentTimePassed: 0,
       periodNumber: null,
     );
   }
