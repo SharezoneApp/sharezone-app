@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,7 +16,7 @@ class FirebaseAuthTokenRetrieverImpl extends FirebaseAuthTokenRetriever {
   final User _user;
 
   @override
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     return await _user.getIdToken();
   }
 }
