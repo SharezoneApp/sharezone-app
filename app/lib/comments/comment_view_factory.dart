@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+//@dart=2.12
+
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -19,7 +20,10 @@ class CommentViewFactory {
   final CourseGateway courseGateway;
   final String uid;
 
-  const CommentViewFactory({@required this.courseGateway, @required this.uid});
+  const CommentViewFactory({
+    required this.courseGateway,
+    required this.uid,
+  });
 
   CommentView fromModel(Comment comment, String courseID) {
     return CommentView(
@@ -29,7 +33,7 @@ class CommentViewFactory {
       likes: comment.score.toString(),
       status: _matchCommentStatus(comment.getCommentStatusOfUser(uid)),
       userName: comment.author.name,
-      id: comment.id,
+      id: comment.id!,
       hasPermissionsToManageComments:
           _hasPermissionsToManageComments(courseID, comment.author.uid),
     );
@@ -37,7 +41,7 @@ class CommentViewFactory {
 
   bool _hasPermissionsToManageComments(String courseID, String authorID) {
     final myRole = courseGateway.getRoleFromCourseNoSync(courseID);
-    return myRole.hasPermission(GroupPermission.administration) ||
+    return myRole!.hasPermission(GroupPermission.administration) ||
         authorID == uid;
   }
 
@@ -45,13 +49,10 @@ class CommentViewFactory {
     switch (status) {
       case CommentStatus.liked:
         return CommentStatus.liked;
-        break;
       case CommentStatus.disliked:
         return CommentStatus.disliked;
-        break;
       case CommentStatus.notRated:
         return CommentStatus.notRated;
-        break;
       default:
         return CommentStatus.notRated;
     }
