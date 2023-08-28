@@ -31,7 +31,7 @@ class TableOfContentsController extends ChangeNotifier {
       final currentlyReadSection =
           currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
       _tableOfContents =
-          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection!);
+          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
       _updateViews();
     });
   }
