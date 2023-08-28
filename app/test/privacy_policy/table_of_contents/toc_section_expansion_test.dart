@@ -48,7 +48,7 @@ class _TableOfContentsTestController {
 
     _tocController ??= TableOfContentsController(
       currentlyReadingController:
-          MockCurrentlyReadingController(_currentlyReadingNotifier),
+          MockCurrentlyReadingController(_currentlyReadingNotifier!),
       privacyPolicy: privacyPolicyWith(tableOfContentSections: _sections),
       documentController: MockDocumentController(),
       initialExpansionBehavior: _expansionBehavior ??
@@ -85,7 +85,7 @@ class _TableOfContentsTestController {
 
 class MockCurrentlyReadingController implements CurrentlyReadingController {
   @override
-  final ValueNotifier<DocumentSectionId?>? currentlyReadDocumentSectionOrNull;
+  final ValueNotifier<DocumentSectionId?> currentlyReadDocumentSectionOrNull;
 
   MockCurrentlyReadingController(this.currentlyReadDocumentSectionOrNull);
 }

@@ -26,12 +26,12 @@ class TableOfContentsController extends ChangeNotifier {
 
     _updateViews();
 
-    currentlyReadingController.currentlyReadDocumentSectionOrNull!
+    currentlyReadingController.currentlyReadDocumentSectionOrNull
         .addListener(() {
       final currentlyReadSection =
-          currentlyReadingController.currentlyReadDocumentSectionOrNull!.value;
+          currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
       _tableOfContents =
-          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
+          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection!);
       _updateViews();
     });
   }

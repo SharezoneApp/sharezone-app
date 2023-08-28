@@ -38,7 +38,7 @@ class TableOfContents {
   /// Update the [TableOfContents] with the new [currentlyReadSection].
   /// This might update the [TocSectionExpansionState] of the [sections].
   TableOfContents changeCurrentlyReadSectionTo(
-      DocumentSectionId? currentlyReadSection) {
+      DocumentSectionId currentlyReadSection) {
     return _copyWith(
         sections: sections
             .map((section) =>
@@ -161,7 +161,7 @@ class TocSection {
   /// [notifyOfNewCurrentlyRead] would return an updated version of `this` with
   /// [isThisCurrentlyRead] == `true` and [isExpanded] == `true`.
   TocSection notifyOfNewCurrentlyRead(
-      DocumentSectionId? newCurrentlyReadSection) {
+      DocumentSectionId newCurrentlyReadSection) {
     final IList<TocSection> newSubsections = subsections
         .map((subsection) =>
             subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection))
@@ -242,7 +242,7 @@ class TocSectionExpansionState {
   });
 
   TocSectionExpansionState computeNewExpansionState(
-      {TocSection? before, TocSection? after}) {
+      {required TocSection before, required TocSection after}) {
     return expansionBehavior.computeExpansionState(
         before: before, after: after);
   }

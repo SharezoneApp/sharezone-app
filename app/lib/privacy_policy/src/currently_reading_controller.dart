@@ -23,7 +23,7 @@ import 'privacy_policy_src.dart';
 class CurrentlyReadingController {
   final _currentlyReadingHeadingNotifier =
       ValueNotifier<DocumentSectionId?>(null);
-  ValueListenable<DocumentSectionId?>? get currentlyReadDocumentSectionOrNull =>
+  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSectionOrNull =>
       _currentlyReadingHeadingNotifier;
 
   late _CurrentlyReadingState _currentState;
@@ -37,7 +37,8 @@ class CurrentlyReadingController {
     final endSectionId = config.endSection.sectionId;
     final sortedSectionHeadings = documentController.sortedSectionHeadings;
 
-    final IList<DocumentSectionId> sectionAndSubsectionIds = privacyPolicy.tableOfContentSections
+    final IList<DocumentSectionId> sectionAndSubsectionIds = privacyPolicy
+        .tableOfContentSections
         .expand((element) => [element, ...element.subsections])
         .map((e) => e.id)
         .toIList();

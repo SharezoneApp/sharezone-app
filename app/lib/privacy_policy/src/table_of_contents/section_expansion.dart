@@ -41,8 +41,8 @@ abstract class ExpansionBehavior {
   /// Called when [before] was updated to [after] with a new
   /// [TocSection.isThisCurrentlyRead] state.
   TocSectionExpansionState computeExpansionState({
-    required TocSection? before,
-    required TocSection? after,
+    required TocSection before,
+    required TocSection after,
   });
 
   /// Common assertions for all [ExpansionBehavior]s.
@@ -86,10 +86,10 @@ class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
 
   @override
   TocSectionExpansionState computeExpansionState({
-    required TocSection? before,
-    required TocSection? after,
+    required TocSection before,
+    required TocSection after,
   }) {
-    ExpansionBehavior.assertValid(before: before!, after: after!);
+    ExpansionBehavior.assertValid(before: before, after: after);
     // Automatic default behavior:
     // - Expand if the section or a subsection is currently read.
     // - Collapse if the section or a subsection is not currently read.
@@ -114,10 +114,10 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
 
   @override
   TocSectionExpansionState computeExpansionState({
-    required TocSection? before,
-    required TocSection? after,
+    required TocSection before,
+    required TocSection after,
   }) {
-    ExpansionBehavior.assertValid(before: before!, after: after!);
+    ExpansionBehavior.assertValid(before: before, after: after);
 
     final oldExpansionState = before.expansionStateOrNull!;
     final expansionMode = oldExpansionState.expansionMode;
