@@ -8,25 +8,25 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:random_string/random_string.dart' as rdm;
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:user/user.dart';
 
-class MockAPI extends Mock implements HolidayApi {}
+import 'holiday_bloc_unit_test.mocks.dart';
 
-class MockCache extends Mock implements HolidayCache {}
-
+@GenerateNiceMocks([MockSpec<HolidayApi>(), MockSpec<HolidayCache>()])
 void main() {
   const nrwState = NordrheinWestfalen();
   const nrwStateEnum = StateEnum.nordrheinWestfalen;
-  late MockCache mockCache;
-  late MockAPI mockAPI;
+  late MockHolidayCache mockCache;
+  late MockHolidayApi mockAPI;
 
   setUp(() {
-    mockCache = MockCache();
-    mockAPI = MockAPI();
+    mockCache = MockHolidayCache();
+    mockAPI = MockHolidayApi();
   });
 
   HolidayService getMockManager() => HolidayService(mockAPI, mockCache);
@@ -35,7 +35,7 @@ void main() {
       stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum));
 
   void cacheReturnsInvalidHolidays(List<Holiday> expectedHolidays,
-      [MockCache? mockCachePassed]) {
+      [MockHolidayCache? mockCachePassed]) {
     when(mockCachePassed?.load(any) ?? mockCache.load(any))
         .thenReturn(CacheResponse.invalid(expectedHolidays));
   }

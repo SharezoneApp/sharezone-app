@@ -12,20 +12,21 @@ import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';
+import 'integration_test.mocks.dart';
 
-class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
-
+@GenerateNiceMocks([MockSpec<SharezoneAppFunctions>()])
 void main() {
   test('Cache loads from API after empty cache and then from Cache', () async {
     StateEnum firstState = StateEnum.nordrheinWestfalen;
     StateEnum secondState = StateEnum.hamburg;
     final stateGateway = InMemoryHolidayStateGateway(initialValue: firstState);
-    final szAppFunctions = MockAppSharezoneFunctions();
+    final szAppFunctions = MockSharezoneAppFunctions();
 
     final current = DateTime(2018, 03, 09);
     HolidayBloc holidayBloc = setupBloc(szAppFunctions, stateGateway, current);
@@ -61,14 +62,14 @@ void main() {
   });
 }
 
-void setMockAnswers(MockAppSharezoneFunctions szAppFunctions) {
+void setMockAnswers(MockSharezoneAppFunctions szAppFunctions) {
   setCfResponse(szAppFunctions, "NW", "2018", _jsonNrw2018);
   setCfResponse(szAppFunctions, "NW", "2019", _jsonNrw2019);
   setCfResponse(szAppFunctions, "HH", "2018", _jsonHamburg2018);
   setCfResponse(szAppFunctions, "HH", "2019", _jsonHamburg2019);
 }
 
-HolidayBloc setupBloc(MockAppSharezoneFunctions szAppFunctions,
+HolidayBloc setupBloc(MockSharezoneAppFunctions szAppFunctions,
     HolidayStateGateway stateGateway, DateTime currentTime) {
   HolidayApi api = HolidayApi(
     CloudFunctionHolidayApiClient(szAppFunctions),
@@ -109,7 +110,7 @@ bool areCorrectHolidaysForState(List<Holiday?> holidays, StateEnum stateEnum) {
   }
 }
 
-void setCfResponse(MockAppSharezoneFunctions szAppFunctions, String stateCode,
+void setCfResponse(MockSharezoneAppFunctions szAppFunctions, String stateCode,
     String year, String jsonResponse) {
   when(szAppFunctions.loadHolidays(stateCode: stateCode, year: year))
       .thenAnswer(
