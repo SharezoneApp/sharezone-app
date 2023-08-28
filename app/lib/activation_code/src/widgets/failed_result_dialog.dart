@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/models/enter_activation_code_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -13,9 +15,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class FailedEnterActivationCodeResultDialog extends StatelessWidget {
   final FailedEnterActivationCodeResult failedEnterActivationCodeResult;
 
-  const FailedEnterActivationCodeResultDialog(
-      {Key key, this.failedEnterActivationCodeResult})
-      : super(key: key);
+  const FailedEnterActivationCodeResultDialog({
+    Key? key,
+    required this.failedEnterActivationCodeResult,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (failedEnterActivationCodeResult.enterActivationCodeException
