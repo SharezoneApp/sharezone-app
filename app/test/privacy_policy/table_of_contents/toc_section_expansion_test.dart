@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 import '../helper.dart';
-import 'toc_currently_reading_test.dart';
+import 'toc_currently_reading_test.mocks.dart';
 
 class _TableOfContentsTestController {
   TableOfContentsController? _tocController;
@@ -63,7 +63,8 @@ class _TableOfContentsTestController {
   }
 
   void toggleExpansionOfSection(String sectionId) {
-    _tocController!.toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
+    _tocController!
+        .toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
   }
 
   void changeExpansionBehaviorTo(ExpansionBehavior expansionBehavior) {
