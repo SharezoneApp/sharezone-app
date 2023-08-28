@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -39,13 +41,13 @@ Future<bool> openBlackboardDialogAndShowConfirmationIfSuccessful(
 }
 
 Future<void> _showUserConfirmationOfBlackboardArrival(
-    {@required BuildContext context}) async {
+    {required BuildContext context}) async {
   await waitingForPopAnimation();
   showDataArrivalConfirmedSnackbar(context: context);
 }
 
 class BlackboardPage extends StatelessWidget {
-  const BlackboardPage({Key key}) : super(key: key);
+  const BlackboardPage({Key? key}) : super(key: key);
 
   static const tag = "blackboard-page";
 
@@ -63,7 +65,7 @@ class BlackboardPage extends StatelessWidget {
 }
 
 class _BlackboardPageFAB extends StatelessWidget {
-  const _BlackboardPageFAB({Key key}) : super(key: key);
+  const _BlackboardPageFAB({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +88,8 @@ class _BlackboardList extends StatelessWidget {
     return StreamBuilder<List<BlackboardView>>(
       stream: bloc.views,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
         final list = snapshot.data;
-
+        if (list == null) return Container();
         if (list.isEmpty) return _NoItemsFound();
         return SingleChildScrollView(
           padding: const EdgeInsets.all(12),
@@ -116,7 +117,7 @@ class _BlackboardList extends StatelessWidget {
 }
 
 class _NoItemsFound extends StatelessWidget {
-  const _NoItemsFound({Key key}) : super(key: key);
+  const _NoItemsFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
