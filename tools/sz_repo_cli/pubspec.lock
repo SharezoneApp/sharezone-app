@@ -444,10 +444,10 @@ packages:
     dependency: "direct main"
     description:
       name: union
-      sha256: "817d5c6f3c5d93936af26caa6173ad5a6101a65f9357fb351390da98aaecc467"
+      sha256: "04c664b426bc67954ac6f14693206125968f9ee41448bb6cc73ce2d2928c41f5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3+1"
+    version: "0.0.4-nullsafety.1"
   vector_math:
     dependency: transitive
     description:
@@ -497,4 +497,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.6 <3.0.0"
+  dart: ">=2.19.6 <4.0.0"

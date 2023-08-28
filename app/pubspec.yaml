@@ -104,7 +104,7 @@ dependencies:
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker: ^2.0.0+5
-  intl: ^0.17.0
+  intl: ^0.18.1
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
