@@ -18,7 +18,7 @@ import 'comments_analytics.dart';
 
 class CommentsBlocFactory extends BlocBase {
   final CommentsGateway _gateway;
-  final Stream<AppUser> _userStream;
+  final Stream<AppUser?> _userStream;
   final CommentViewFactory commentViewFactory;
   final CommentsAnalytics _analytics;
 
