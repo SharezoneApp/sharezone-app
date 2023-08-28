@@ -139,25 +139,22 @@ class _MoreIdeas extends StatelessWidget {
 }
 
 class _SortButton extends StatelessWidget {
-  String _sortString(HomeworkSort? sort) {
-    if (sort == null) return '';
+  String _sortString(HomeworkSort sort) {
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return 'Sortiert nach Datum';
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return 'Sortiert nach Fach';
     }
-    throw UnimplementedError('HomeworkSort $sort not implemented');
   }
 
-  HomeworkSort _getNextSort(HomeworkSort? current) {
+  HomeworkSort _getNextSort(HomeworkSort current) {
     switch (current) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return HomeworkSort.subjectSmallestDateAndTitleSort;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return HomeworkSort.smallestDateSubjectAndTitle;
     }
-    throw UnimplementedError();
   }
 
   @override
@@ -168,7 +165,8 @@ class _SortButton extends StatelessWidget {
     return StreamBuilder<Success>(
       stream: bloc.stream.whereType<Success>(),
       builder: (context, snapshot) {
-        final currentSort = snapshot.data?.open.sorting;
+        final currentSort = snapshot.data?.open.sorting ??
+            HomeworkSort.smallestDateSubjectAndTitle;
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(

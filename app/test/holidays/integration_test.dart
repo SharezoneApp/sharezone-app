@@ -97,14 +97,12 @@ bool areCorrectHolidaysForState(List<Holiday?> holidays, StateEnum stateEnum) {
           hContains(_nrw2019FirstHoliday) &&
           hContains(_nrw2019LastHoliday) &&
           holidays.length == nrw2018itemCount + nrw2019itemCount;
-      break;
     case StateEnum.hamburg:
       return hContains(_hamburg2018FirstHoliday) &&
           hContains(_hamburg2018LastHoliday) &&
           hContains(_hamburg2019FirstHoliday) &&
           hContains(_hamburg2019LastHoliday) &&
           holidays.length == hamburg2018itemCount + hamburg2019itemCount;
-      break;
     default:
       throw Exception("Wrong State: $stateEnum");
   }

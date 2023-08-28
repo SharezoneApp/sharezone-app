@@ -68,7 +68,7 @@ class HomeworkTileTemplate extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: courseColor.withOpacity(0.2),
             child: Text(
-              courseAbbreviation ?? "-",
+              courseAbbreviation,
               style: TextStyle(color: courseColor),
             ),
           ),

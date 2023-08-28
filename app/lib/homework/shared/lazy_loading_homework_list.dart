@@ -58,7 +58,7 @@ class LazyLoadingHomeworkList extends StatelessWidget {
         loadingIndicator: loadedAllHomeworks
             ? Container()
             : _LazyLoadingHomeworkListLoadingIndicator(),
-        onThresholdExceeded: loadMoreHomeworksCallback ?? () {},
+        onThresholdExceeded: loadMoreHomeworksCallback,
         thresholdHeight: threshold,
         children: children,
       ),

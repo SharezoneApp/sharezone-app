@@ -19,8 +19,7 @@ class FileSharingPermissions {
   const FileSharingPermissions(this.api);
 
   Future<MemberRole> _getMemberRole(String courseID) async {
-    return (await api.connectionsGateway.get()).courses[courseID]!.myRole ??
-        MemberRole.none;
+    return (await api.connectionsGateway.get()).courses[courseID]!.myRole;
   }
 
   factory FileSharingPermissions.fromContext(BuildContext context) {

@@ -204,7 +204,8 @@ class _FolderCard extends StatelessWidget {
                 hasPermissions:
                     FileSharingPermissionsNoSync.fromContext(context)
                         .canManageFolder(
-                            courseID: fileSharingData!.courseID, folder: folder),
+                            courseID: fileSharingData!.courseID,
+                            folder: folder),
               ),
             )
           : null,
@@ -226,7 +227,7 @@ class _FileCard extends StatelessWidget {
     final bloc = BlocProvider.of<FileSharingPageBloc>(context);
     return CardWithIconAndText(
       icon: FileIcon(fileFormat: cloudFile.fileFormat),
-      text: cloudFile.name ?? "Kein Name",
+      text: cloudFile.name,
       onTap: () => openCloudFilePage(context, cloudFile, courseId),
       trailing: IconButton(
         icon: const Icon(Icons.more_vert),

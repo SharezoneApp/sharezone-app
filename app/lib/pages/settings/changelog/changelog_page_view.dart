@@ -12,7 +12,7 @@ class ChangelogPageView {
   final List<ChangeView> changes;
   final bool userHasNewestVersion;
   final bool allChangesLoaded;
-  bool get hasChanges => changes.isNotEmpty ?? false;
+  bool get hasChanges => changes.isNotEmpty;
 
   const ChangelogPageView({
     required this.changes,

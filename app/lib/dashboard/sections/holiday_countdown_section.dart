@@ -100,7 +100,7 @@ class _HolidayText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: _buildHolidayWidgets(holidayList, maxItems ?? 3),
+      children: _buildHolidayWidgets(holidayList, maxItems),
     );
   }
 

@@ -239,7 +239,7 @@ class _Name extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: SelectableText(
-        userView.name ?? "",
+        userView.name,
         style: const TextStyle(fontSize: 26),
       ),
     );

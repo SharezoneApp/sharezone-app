@@ -375,7 +375,7 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
-    List<String> attachments = oldHomework.attachments.toList() ?? [];
+    List<String> attachments = oldHomework.attachments.toList();
     final editorName = (await api.user.userStream.first)!.name;
     final editorID = api.user.authUser!.uid;
 

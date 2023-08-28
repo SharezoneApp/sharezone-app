@@ -113,6 +113,8 @@ class _HomeworkUserCreateSubmissionPageState
                                     break;
                                   case SubmitDialogOption.cancel:
                                     break;
+                                  case null:
+                                    break;
                                 }
                               }
                             : null,
@@ -129,8 +131,7 @@ class _HomeworkUserCreateSubmissionPageState
                             : Column(
                                 children: <Widget>[
                                   /// Falls submitted & editierbar
-                                  if (view.submitted)
-                                    _SubmissionReceivedInfo(),
+                                  if (view.submitted) _SubmissionReceivedInfo(),
                                   if (afterDeadline && !hasSubmitted)
                                     _AfterDeadlineCanStillBeSubmitted(),
                                   _FileList(),
@@ -477,8 +478,9 @@ class __RenameDialogState extends State<_RenameDialog> {
         return 'Dieser Dateiname existiert bereits!';
       case _RenameError.isEmpty:
         return 'Der Name darf nicht leer sein!';
+      case null:
+        return null;
     }
-    return null;
   }
 }
 
@@ -551,7 +553,7 @@ class _NoFilesUploaded extends StatelessWidget {
 
 Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
-  return showLeftRightAdaptiveDialog<bool>(
+  return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Dateien am hochladen!',
         content: Text(
@@ -564,12 +566,12 @@ Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      Future.value(false);
+      false;
 }
 
 Future<bool?> warnUserAboutNotSubmittedForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
-  return showLeftRightAdaptiveDialog<bool>(
+  return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Abgabe nicht abgegeben!',
         content: Text(
@@ -583,5 +585,5 @@ Future<bool?> warnUserAboutNotSubmittedForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      Future.value(false);
+      false;
 }

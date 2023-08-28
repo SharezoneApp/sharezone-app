@@ -103,7 +103,7 @@ class _UploadingDialog extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
             child: Text(
-          "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0) ?? "0"}/100",
+          "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
           style: TextStyle(fontSize: 16),
         )),
         const SizedBox(width: 12),

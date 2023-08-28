@@ -60,7 +60,7 @@ class _LessonCard extends StatelessWidget {
                           : color.withOpacity(0.2),
                       foregroundColor: color,
                       child: Text(
-                        view.abbreviation ?? "",
+                        view.abbreviation,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),

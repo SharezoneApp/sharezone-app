@@ -62,7 +62,8 @@ class HomeworkCard extends StatelessWidget {
         onTap: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView = await detailsViewFactory.fromHomeworkDb(homework!);
+          final detailsView =
+              await detailsViewFactory.fromHomeworkDb(homework!);
 
           return pushWithDefault<bool>(
             context,
@@ -76,7 +77,8 @@ class HomeworkCard extends StatelessWidget {
         onLongPress: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView = await detailsViewFactory.fromHomeworkDb(homework!);
+          final detailsView =
+              await detailsViewFactory.fromHomeworkDb(homework!);
 
           _logHomeworkCardLongPress(analytics);
 
@@ -135,6 +137,8 @@ class HomeworkCard extends StatelessWidget {
               _logHomeworkReportViaCardLongPress(analytics);
               final reportItem = ReportItemReference.homework(homework!.id);
               openReportPage(context, reportItem);
+              break;
+            case null:
               break;
           }
         },
@@ -211,7 +215,7 @@ class HomeworkCard extends StatelessWidget {
         iconSize: 50,
         icon: Chip(
           label: Text(
-            '${homework!.withSubmissions ? homework?.submitters.length ?? 0 : homework!.assignedUserArrays.completedStudentUids.length ?? 0}',
+            '${homework!.withSubmissions ? homework?.submitters.length ?? 0 : homework!.assignedUserArrays.completedStudentUids.length}',
           ),
         ),
         onPressed: () {
@@ -430,6 +434,8 @@ Future showLongPressIfUserHasPermissions(
       final reportItem = ReportItemReference.homework(homeworkView.homework.id);
       await openReportPage(context, reportItem);
       break;
+    case null:
+      break;
   }
 }
 
@@ -480,7 +486,7 @@ class _CourseName extends StatelessWidget {
             right: 6,
             left: typeOfUser == TypeOfUser.student ? 0 : 11.5),
         child: Text(
-          courseName ?? "",
+          courseName,
           style: TextStyle(color: color),
           overflow: TextOverflow.ellipsis,
         ),
