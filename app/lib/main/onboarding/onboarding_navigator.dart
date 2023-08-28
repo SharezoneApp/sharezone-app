@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
@@ -14,7 +16,7 @@ import 'package:sharezone_utils/platform.dart';
 
 class OnboardingNavigator extends BlocBase {
   final SignUpBloc _signedUpBloc;
-  final Stream<Beitrittsversuch> _beitrittsversucheStream;
+  final Stream<Beitrittsversuch?> _beitrittsversucheStream;
 
   OnboardingNavigator(this._signedUpBloc, this._beitrittsversucheStream);
 
@@ -34,7 +36,7 @@ class OnboardingNavigator extends BlocBase {
   /// Hat der Nutzer sich gerade nicht registriert ([signedUp == false]), so soll kein
   /// GroupOnboarding angezeigt werden.
   Stream<OnboardingStatus> get status =>
-      CombineLatestStream.combine2<bool, Beitrittsversuch, OnboardingStatus>(
+      CombineLatestStream.combine2<bool, Beitrittsversuch?, OnboardingStatus>(
         _signedUpBloc.signedUp,
         // CombineLatestStream: Beide Streams müssen jemals einen Wert ausgegeben
         // haben, damit der Code ausgeführt wird. Aus diesem Grund wird startWith verwendet.
