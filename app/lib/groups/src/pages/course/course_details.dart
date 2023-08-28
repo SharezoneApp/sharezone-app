@@ -262,7 +262,7 @@ class _LeaveCourseButton extends StatelessWidget {
           _logCourseLeaveButtonViaCourseDetailsPage(analytics);
           final isLastMember = (await bloc.members.first).length <= 1;
           final result = await showCourseLeaveDialog(context, isLastMember);
-          if (result) {
+          if (result == true) {
             onDialogClose(bloc.leaveCourse());
           }
         },
