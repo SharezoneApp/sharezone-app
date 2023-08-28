@@ -17,7 +17,7 @@ import '../app_bar_configuration.dart';
 import '../bottom_bar_configuration.dart';
 
 class DesktopMainScaffold extends StatelessWidget {
-  final AppBarConfiguration appBarConfiguration;
+  final AppBarConfiguration? appBarConfiguration;
   final NavigationItem navigationItem;
   final Widget body;
   final Widget? floatingActionButton;
@@ -41,11 +41,11 @@ class DesktopMainScaffold extends StatelessWidget {
         key: scaffoldKey,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appBarConfiguration.title ?? navigationItem.getName()),
+            title: Text(appBarConfiguration?.title ?? navigationItem.getName()),
             centerTitle: true,
-            actions: appBarConfiguration.actions,
-            bottom: appBarConfiguration.bottom,
-            elevation: appBarConfiguration.elevation,
+            actions: appBarConfiguration?.actions,
+            bottom: appBarConfiguration?.bottom,
+            elevation: appBarConfiguration?.elevation,
           ),
           body: body,
           floatingActionButton: floatingActionButton,
