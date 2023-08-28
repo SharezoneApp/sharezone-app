@@ -172,7 +172,7 @@ class _SharecodeBox extends StatelessWidget {
                 "Zum Beitreten ${getGroupType()} (${groupInfo.name}):",
                 style: TextStyle(color: Colors.grey),
               ),
-              SharecodeText(groupInfo.sharecode!, onCopied: () {
+              SharecodeText(groupInfo.sharecode, onCopied: () {
                 BlocProvider.of<GroupOnboardingBloc>(context).logShareQrcode();
               }),
               const SizedBox(height: 12),

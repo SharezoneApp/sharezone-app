@@ -23,17 +23,22 @@ enum SchoolClassDeleteType {
 class MySchoolClassBloc extends BlocBase {
   final SharezoneGateway gateway;
   final SchoolClass? schoolClass;
+  String? schoolClassId;
 
   MySchoolClassBloc({
     required this.gateway,
     this.schoolClass,
-  });
+  }) {
+    schoolClassId = schoolClass?.id;
+  }
 
   Future<AppFunctionsResult<bool>> createSchoolClass(String name) {
+    final id = gateway.references.schoolClasses.doc().id;
     final schoolClassData = SchoolClassData.create().copyWith(
-      id: gateway.references.schoolClasses.doc().id,
+      id: id,
       name: name,
     );
+    schoolClassId = id;
     return gateway.schoolClassGateway.createSchoolClass(schoolClassData);
   }
 
@@ -48,7 +53,10 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Stream<SchoolClass?> streamSchoolClass() {
-    return gateway.schoolClassGateway.streamSingleSchoolClass(schoolClass!.id);
+    if (schoolClassId == null) {
+      return Stream.empty();
+    }
+    return gateway.schoolClassGateway.streamSingleSchoolClass(schoolClassId!);
   }
 
   Stream<List<MemberData>> streamMembers(String schoolClassID) {
@@ -88,28 +96,28 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Future<AppFunctionsResult<bool>> leaveSchoolClass() async {
-    return gateway.schoolClassGateway.leaveSchoolClass(schoolClass!.id);
+    return gateway.schoolClassGateway.leaveSchoolClass(schoolClassId!);
   }
 
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
       SchoolClassDeleteType schoolClassDeleteType) async {
     return gateway.schoolClassGateway
-        .deleteSchoolClass(schoolClass!.id, schoolClassDeleteType);
+        .deleteSchoolClass(schoolClassId!, schoolClassDeleteType);
   }
 
   Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
     return gateway.schoolClassGateway
-        .kickMember(schoolClass!.id, kickedMemberID);
+        .kickMember(schoolClassId!, kickedMemberID);
   }
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
     return gateway.schoolClassGateway.editSchoolClassSettings(
-        schoolClass!.id, schoolClass!.settings.copyWith(isPublic: isPublic));
+        schoolClassId!, schoolClass!.settings.copyWith(isPublic: isPublic));
   }
 
   Future<bool> setWritePermission(WritePermission writePermission) {
     return gateway.schoolClassGateway
-        .editSchoolClassSettings(schoolClass!.id,
+        .editSchoolClassSettings(schoolClassId!,
             schoolClass!.settings.copyWith(writePermission: writePermission))
         .then((result) => result.hasData && result.data == true);
   }

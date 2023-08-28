@@ -160,12 +160,13 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     schoolClassBloc.createSchoolClass(name).then((result) async {
       if (result.hasData && result.data == true) {
         isLoading = false;
-        final schoolClassID = schoolClassBloc.schoolClass!.id;
+        final schoolClassID = schoolClassBloc.schoolClassId;
         Navigator.push(
           context,
           FadeRoute(
             child: GroupOnboardingCreateCourse(
-                schoolClassId: Optional.ofNullable(schoolClassID)),
+              schoolClassId: Optional.ofNullable(schoolClassID),
+            ),
             tag: GroupOnboardingCreateCourse.tag,
           ),
         );
