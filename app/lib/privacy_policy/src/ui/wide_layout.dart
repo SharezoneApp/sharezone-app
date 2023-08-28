@@ -346,17 +346,19 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                           ),
                           child: Text(
                             '${subsection.sectionHeadingText}',
-                            style:
-                                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      fontSize: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .fontSize! -
-                                          .5,
-                                      fontWeight: subsection.shouldHighlight
-                                          ? FontWeight.w400
-                                          : FontWeight.normal,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .fontSize! -
+                                      .5,
+                                  fontWeight: subsection.shouldHighlight
+                                      ? FontWeight.w400
+                                      : FontWeight.normal,
+                                ),
                             textAlign: TextAlign.start,
                           ),
                         ),

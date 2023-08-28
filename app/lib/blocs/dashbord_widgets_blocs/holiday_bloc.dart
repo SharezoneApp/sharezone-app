@@ -17,7 +17,8 @@ import 'package:user/user.dart';
 class HolidayBloc extends BlocBase {
   // Siehe Kommentar dazu in dispose()
   // ignore: close_sinks
-  final BehaviorSubject<List<Holiday?>> _holidays = BehaviorSubject<List<Holiday>>();
+  final BehaviorSubject<List<Holiday?>> _holidays =
+      BehaviorSubject<List<Holiday>>();
   final HolidayService holidayManager;
   DateTime Function()? getCurrentTime;
   Stream<List<Holiday?>> get holidays => _holidays;

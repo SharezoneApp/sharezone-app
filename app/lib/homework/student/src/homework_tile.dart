@@ -34,7 +34,7 @@ class HomeworkTile extends StatefulWidget {
     Key? key,
     required this.homework,
     required this.onChanged,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   _HomeworkTileState createState() => _HomeworkTileState();

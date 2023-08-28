@@ -110,7 +110,8 @@ class FirebaseMessagingCallbackConfigurator {
 
   PushNotificationActionHandler _createNotificiationHandler(
       BuildContext context) {
-    BuildContext? getContext() => navigationService!.navigatorKey.currentContext;
+    BuildContext? getContext() =>
+        navigationService!.navigatorKey.currentContext;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final timetableGateway = api.timetable;
     final courseGateway = api.course;

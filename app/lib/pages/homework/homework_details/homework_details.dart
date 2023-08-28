@@ -80,7 +80,8 @@ class HomeworkDetails extends StatelessWidget {
 
   /// Loads the [HomeworkDetails] with [initialHomework] being prefilled into
   /// the page (no loading animation is shown).
-  HomeworkDetails(HomeworkDetailsView this.initialHomework) : id = initialHomework.id;
+  HomeworkDetails(HomeworkDetailsView this.initialHomework)
+      : id = initialHomework.id;
 
   /// Loads the [HomeworkDetails] for the homework with the given [id].
   /// This means that there may be a loading animation shown until all
@@ -453,7 +454,8 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
           } else {
             if (view.withSubmissions) {
               final result =
-                  (await confirmToMarkHomeworkAsDoneWithoutSubmission(context))!;
+                  (await confirmToMarkHomeworkAsDoneWithoutSubmission(
+                      context))!;
               if (result) {
                 bloc.changeIsHomeworkDoneTo(true);
                 Navigator.pop(context);
@@ -464,9 +466,8 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
             }
           }
         },
-        title: view.isDone
-            ? "Als unerledigt markieren"
-            : "Als erledigt markieren",
+        title:
+            view.isDone ? "Als unerledigt markieren" : "Als erledigt markieren",
       ),
     );
   }

@@ -47,8 +47,8 @@ Future<void> selectFolderAction({
         description: Text(
             "Möchtest du wirklich den Ordner mit dem Namen \"${folder.name}\" löschen?"),
         title: "Ordner löschen?",
-        onDelete: () =>
-            api.fileSharing.folderGateway.deleteFolder(courseID!, path!, folder),
+        onDelete: () => api.fileSharing.folderGateway
+            .deleteFolder(courseID!, path!, folder),
       );
       break;
     default:

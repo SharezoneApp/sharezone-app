@@ -89,8 +89,8 @@ class _FileSharingPathRow extends StatelessWidget {
     );
   }
 
-  String? _getTextSubPath(BuildContext context, FileSharingData? fileSharingData,
-      FolderPath subPath) {
+  String? _getTextSubPath(BuildContext context,
+      FileSharingData? fileSharingData, FolderPath subPath) {
     if (subPath == FolderPath.root) return fileSharingData!.courseName;
     return fileSharingData!.getFolder(subPath)!.name;
   }

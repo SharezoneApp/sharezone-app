@@ -90,7 +90,8 @@ class _Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Title(view!.title, hasText: hasText),
-                _CourseName(name: view!.courseName, color: view!.courseNameColor),
+                _CourseName(
+                    name: view!.courseName, color: view!.courseNameColor),
               ],
             ),
           ),

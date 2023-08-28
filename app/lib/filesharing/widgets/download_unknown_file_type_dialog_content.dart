@@ -28,7 +28,7 @@ class DownloadUnknownFileFormatPage extends StatelessWidget {
     required this.id,
     required this.downloadURL,
     required this.nameStream,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final List<Widget>? actions;
   final String? name;
@@ -72,7 +72,8 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget child = FutureBuilder<LocalFile>(
-      future: getFileDownloader()!.downloadFileFromURL(downloadURL!, name!, id!),
+      future:
+          getFileDownloader()!.downloadFileFromURL(downloadURL!, name!, id!),
       builder: (context, future) {
         // Finished Downloading
         if (future.hasData) {

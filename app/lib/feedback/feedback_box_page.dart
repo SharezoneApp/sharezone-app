@@ -127,7 +127,8 @@ class _AnonymousCheckbox extends StatelessWidget {
                     ),
                     Checkbox(
                       value: isAnonymous,
-                      onChanged: bloc.changeIsAnonymous as void Function(bool?)?,
+                      onChanged:
+                          bloc.changeIsAnonymous as void Function(bool?)?,
                     ),
                   ],
                 ),

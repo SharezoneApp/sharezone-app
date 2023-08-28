@@ -22,7 +22,7 @@ class TeacherHomeworkTile extends StatelessWidget {
   const TeacherHomeworkTile({
     Key? key,
     required this.homework,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
