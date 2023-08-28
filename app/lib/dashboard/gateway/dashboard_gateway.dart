@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
@@ -22,10 +24,11 @@ class DashboardGateway {
   final UserGateway userGateway;
 
   DashboardGateway(
-      this.homeworkGateway,
-      this.blackboardGateway,
-      this.timetableGateway,
-      this.courseGateway,
-      this.schoolClassGateway,
-      this.userGateway);
+    this.homeworkGateway,
+    this.blackboardGateway,
+    this.timetableGateway,
+    this.courseGateway,
+    this.schoolClassGateway,
+    this.userGateway,
+  );
 }
