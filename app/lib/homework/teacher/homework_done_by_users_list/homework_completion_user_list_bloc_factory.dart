@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -66,6 +68,7 @@ class HomeworkCompletionUserListBlocFactory extends BlocBase {
     // Gets removed if we're not in debug.
     assert(() {
       isDebug = true;
+      return true;
     }());
     return isDebug;
   }
