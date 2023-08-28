@@ -25,7 +25,7 @@ import 'comments_gateway.dart';
 class CommentsBloc extends BlocBase {
   final CommentsGateway _gateway;
   final CommentsLocation _commentsLocation;
-  final Stream<AppUser> _userStream;
+  final Stream<AppUser?> _userStream;
   final CommentViewFactory _commentViewFactory;
   final String courseID;
   final CommentsAnalytics _analytics;
@@ -42,6 +42,7 @@ class CommentsBloc extends BlocBase {
   CommentsBloc(this._gateway, this._commentsLocation, this._userStream,
       this._commentViewFactory, this.courseID, this._analytics) {
     _userStream.listen((user) {
+      if (user == null) return;
       _currentAuthorInformation = CommentAuthor(
         abbreviation: user.abbreviation,
         name: user.name,
