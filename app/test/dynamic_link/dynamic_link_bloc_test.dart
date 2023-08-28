@@ -38,7 +38,9 @@ void main() {
     test(
         'gibt einen EinkommendenLink mit typ = "" und keinen Zusatzattributen aus, linkData.link null ist.',
         () async {
-      dynamicLinks.getInitialDataReturn = DynamicLinkData(null, null, null);
+      final android = DynamicLinkDataAndroid(null, null);
+      final ios = DynamicLinkDataIOS(null);
+      dynamicLinks.getInitialDataReturn = DynamicLinkData(null, android, ios);
 
       await expectBlocEmitsEmptyLink(bloc);
     });
