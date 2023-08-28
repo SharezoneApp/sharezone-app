@@ -6,12 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone_common/references.dart';
@@ -35,7 +36,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
   // workaround.
   final Future<CourseId> _courseIdFuture;
   bool _loadedCourseId = false;
-  CourseId _courseId;
+  CourseId? _courseId;
 
   HomeworkCompletionUserListBloc(
     this._id,
@@ -65,7 +66,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
       // ebenfalls in das openStudentUids-Array hinzugefügt. Deswegen sollte zusätzlich
       // überprüft werden, ob der User wirklich ein Schüler ist.
       // Ticket zum Bug: https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/963
-      if (user.isStudent) {
+      if (user != null && user.isStudent) {
         views.add(user.toView(hasDone: false));
       }
     }
@@ -77,7 +78,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
       // ebenfalls in das openStudentUids-Array hinzugefügt. Deswegen sollte zusätzlich
       // überprüft werden, ob der User wirklich ein Schüler ist.
       // Ticket zum Bug: https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/963
-      if (user.isStudent) {
+      if (user != null && user.isStudent) {
         views.add(user.toView(hasDone: true));
       }
     }
@@ -85,7 +86,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
     return views.sortAlphabetically();
   }
 
-  Future<MemberData> _getUser(String userId) async {
+  Future<MemberData?> _getUser(String userId) async {
     if (!_loadedCourseId) {
       await _loadCourseId();
     }
@@ -94,7 +95,9 @@ class HomeworkCompletionUserListBloc extends BlocBase {
         .collection(CollectionNames.members)
         .doc(userId)
         .get();
-    return MemberData.fromData(doc.data(), id: userId);
+    final data = doc.data();
+    if (data == null) return null;
+    return MemberData.fromData(data, id: userId);
   }
 
   void logOpenHomeworkDoneByUsersList() {
@@ -106,7 +109,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
 }
 
 extension on MemberData {
-  UserHasCompletedHomeworkView toView({@required bool hasDone}) {
+  UserHasCompletedHomeworkView toView({required bool hasDone}) {
     return UserHasCompletedHomeworkView(
       uid: '$id',
       name: name,
