@@ -20,7 +20,7 @@ dependencies:
   bloc: ^8.1.2
   rxdart: ^0.27.1
   equatable: ^2.0.5
-  collection: ^1.17.0
+  collection: ^1.17.2
   meta: any
   key_value_store:
     path: ../key_value_store

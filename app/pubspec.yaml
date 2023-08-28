@@ -48,7 +48,7 @@ dependencies:
   clock: ^1.1.1
   cloud_firestore: ^4.8.5
   cloud_functions: ^4.4.0
-  collection: ^1.17.0
+  collection: ^1.17.2
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
@@ -61,7 +61,7 @@ dependencies:
   dio: ^5.3.2
   dynamic_links:
     path: ../lib/dynamic_links
-  fast_immutable_collections: ^7.4.1
+  fast_immutable_collections: ^9.1.5
   feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics
@@ -86,11 +86,11 @@ dependencies:
     git:
       url: https://github.com/SharezoneApp/packages
       path: packages/flutter_markdown
-      ref: a12da208dff84bc9c77453a1e8a392bb7f40fc4a
+      ref: 188d5a6e59b2baa9d694f15624f4a253b4ffecb3
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
-  flutter_slidable: ^2.0.0
+  flutter_slidable: ^3.0.0
   flutter_svg: ^2.0.2
   font_awesome_flutter: ^10.4.0
   group_domain_implementation:
@@ -109,7 +109,7 @@ dependencies:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
-  markdown: ^5.0.0
+  markdown: ^7.1.1
   meta: ^1.1.8
   notifications:
     path: ../lib/notifications
@@ -117,11 +117,11 @@ dependencies:
   open_file_plus: ^3.4.1
   optional: ^6.1.0+1
   overlay_support: ^2.1.0
-  package_info_plus: ^3.0.3
+  package_info_plus: ^4.1.0
   permission_handler: ^10.2.0
   photo_view: ^0.14.0
   provider: ^6.0.3
-  purchases_flutter: ^4.11.1
+  purchases_flutter: ^5.6.2
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0
@@ -129,7 +129,7 @@ dependencies:
   remote_configuration:
     path: ../lib/remote_configuration
   rxdart: ^0.27.1
-  scrollable_positioned_list: ^0.2.3
+  scrollable_positioned_list: ^0.3.8
   share: ^2.0.4
   shared_preferences: ^2.0.5
   sharezone_about_page_addon:

@@ -16,7 +16,7 @@ environment:
   sdk: ">=2.16.1 <3.0.0"
 
 dependencies:
-  collection: ^1.17.0
+  collection: ^1.17.2
   flutter:
     sdk: flutter
   mobile_scanner: ^3.4.1

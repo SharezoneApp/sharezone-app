@@ -39,7 +39,7 @@ dependencies:
   meta: ^1.1.8
   optional: ^6.1.0+1
   rxdart: ^0.27.1
-  collection: ^1.17.0
+  collection: ^1.17.2
 
 dev_dependencies:
   flutter_test:

@@ -16,7 +16,7 @@ environment:
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
-  collection: ^1.17.0
+  collection: ^1.17.2
   equatable: ^2.0.5
   firebase_messaging: ^14.6.6
   flutter:
