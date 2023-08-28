@@ -188,7 +188,7 @@ class NameField extends StatelessWidget {
   const NameField({
     Key? key,
     required this.onEditingComplete,
-    required this.focusNode,
+    this.focusNode,
     this.initialName,
     required this.nameStream,
     required this.onChanged,
@@ -198,7 +198,7 @@ class NameField extends StatelessWidget {
     this.selectText = false,
   }) : super(key: key);
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final VoidCallback onEditingComplete;
   final String? initialName;
   final bool withIcon;

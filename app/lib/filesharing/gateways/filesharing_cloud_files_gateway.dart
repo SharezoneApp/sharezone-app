@@ -96,5 +96,5 @@ class FilesharingCloudFilesGateway
 
   @override
   Stream<String> nameStream(String cloudFileID) =>
-      cloudFileStream(cloudFileID).map((file) => file.name!);
+      cloudFileStream(cloudFileID).map((file) => file.name);
 }

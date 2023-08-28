@@ -24,7 +24,7 @@ class GroupJoinFunction {
 
   Future<GroupJoinResult> runGroupJoinFunction({
     required String enteredValue,
-    required List<String> coursesForSchoolClass,
+    List<String>? coursesForSchoolClass,
     int version = 2,
   }) async {
     final appFunctionsResult = await _connectionsGateway.joinByKey(

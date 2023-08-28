@@ -33,7 +33,7 @@ class UserGateway implements UserGatewayAuthentifcation {
   late StreamSubscription<AppUser> _appUserSubscription;
   final _userSubject = BehaviorSubject<AppUser>();
 
-  Stream<AppUser> get userStream => _userSubject;
+  Stream<AppUser?> get userStream => _userSubject;
 
   AppUser? get data => _userSubject.valueOrNull;
 

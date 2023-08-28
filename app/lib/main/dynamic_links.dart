@@ -14,14 +14,14 @@ import 'package:sharezone/dynamic_links/einkommender_link.dart';
 
 class DynamicLinkOverlay extends StatelessWidget {
   final Stream<EinkommenderLink> einkommendeLinks;
-  final bool activated;
+  final bool? activated;
   final Widget child;
 
   const DynamicLinkOverlay({
     Key? key,
     required this.einkommendeLinks,
-    required this.activated,
     required this.child,
+    this.activated,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -30,7 +30,7 @@ class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       stream: api.user.userStream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data?.typeOfUser == expectedTypeOfUser)

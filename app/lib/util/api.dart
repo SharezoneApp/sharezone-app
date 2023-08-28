@@ -71,7 +71,7 @@ class SharezoneGateway {
         homework = HomeworkGateway(
           userId: authUser.uid,
           firestore: references.firestore,
-          typeOfUserStream: user.userStream.map((user) => user.typeOfUser),
+          typeOfUserStream: user.userStream.map((user) => user?.typeOfUser),
         ),
         blackboard = BlackboardGateway(
             authUser: authUser, firestore: references.firestore),

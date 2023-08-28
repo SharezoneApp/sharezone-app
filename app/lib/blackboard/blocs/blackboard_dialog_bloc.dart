@@ -243,11 +243,15 @@ class BlackboardDialogApi {
     final localFiles = userInput.localFiles;
     final sendNotification = userInput.sendNotification;
 
-    final authorName = (await api.user.userStream.first).name;
+    final authorName = (await api.user.userStream.first)?.name ?? "-";
     final authorID = api.user.authUser!.uid;
 
     final attachments = await api.fileSharing.uploadAttachments(
-        localFiles, courseReference.id, authorID, authorName);
+      localFiles,
+      courseReference.id,
+      authorID,
+      authorName,
+    );
 
     final blackboardItem = BlackboardItem.create(
             authorID: authorID, courseReference: courseReference)
@@ -273,9 +277,9 @@ class BlackboardDialogApi {
 
   Future<BlackboardItem> edit(BlackboardItem oldBlackboardItem,
       UserInput userInput, List<CloudFile> removedCloudFiles) async {
-    final attachments = oldBlackboardItem.attachments.toList() ?? [];
+    final attachments = oldBlackboardItem.attachments.toList();
 
-    final editorName = (await api.user.userStream.first).name;
+    final editorName = (await api.user.userStream.first)?.name ?? "-";
     final editorID = api.user.authUser!.uid;
 
     for (int i = 0; i < removedCloudFiles.length; i++) {

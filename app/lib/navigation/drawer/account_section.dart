@@ -20,7 +20,7 @@ class _AccountSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       key: ValueKey('account-drawer-tile-E2E'),
       initialData: api.user.data,
       stream: api.user.userStream,

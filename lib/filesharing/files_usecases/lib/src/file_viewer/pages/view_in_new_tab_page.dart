@@ -71,7 +71,7 @@ class ViewInNewTabPage extends StatelessWidget {
                         Text("In neuem Tab öffnen"),
                       ]),
                   onPressed: () {
-                    openWebFile(src!, attachment.name!);
+                    openWebFile(src!, attachment.name);
                   },
                 ),
               ],

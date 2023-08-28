@@ -142,7 +142,7 @@ class TimetableBloc extends BlocBase {
       TimetableConfig(userGateway.data!.userSettings);
 
   Stream<TimetableConfig> get stream =>
-      userGateway.userStream.map((user) => TimetableConfig(user.userSettings));
+      userGateway.userStream.map((user) => TimetableConfig(user?.userSettings));
 
   ValueStream<SchoolClassFilterView> get schoolClassFilterView =>
       _schoolClassFilterViewSubject;

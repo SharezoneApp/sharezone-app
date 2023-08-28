@@ -32,7 +32,7 @@ class SharecodeText extends StatelessWidget {
       fontSize: 22,
       fontWeight: FontWeight.w500,
     );
-    if (sharecode == null || sharecode.isEmpty) {
+    if (sharecode.isEmpty) {
       return GrayShimmer(
         child: Text("Sharecode wird geladen...", style: style),
       );

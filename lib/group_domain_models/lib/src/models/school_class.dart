@@ -98,7 +98,7 @@ class SchoolClass {
   GroupInfo toGroupInfo() {
     return GroupInfo(
       id: id,
-      name: name!,
+      name: name,
       abbreviation: generateAbbreviation(name),
       design: getDesign(),
       meetingID: meetingID,

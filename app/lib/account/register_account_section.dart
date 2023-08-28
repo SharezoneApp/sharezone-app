@@ -165,7 +165,7 @@ class _EmailButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       stream: userGateway.userStream,
       builder: (context, snapshot) {
         final user = snapshot.data;

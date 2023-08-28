@@ -83,7 +83,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
 
   Future<AppFunctionsResult> joinByKey({
     required String publicKey,
-    required List<String> coursesForSchoolClass,
+    List<String>? coursesForSchoolClass,
     int version = 2,
   }) {
     return references.functions.joinGroupByValue(

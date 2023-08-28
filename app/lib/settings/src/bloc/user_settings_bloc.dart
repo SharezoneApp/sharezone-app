@@ -19,7 +19,8 @@ class UserSettingsBloc extends BlocBase {
   UserSettingsBloc(this._userGateway);
 
   Stream<UserSettings> streamUserSettings() {
-    return _userGateway.userStream.map((user) => user.userSettings);
+    return _userGateway.userStream
+        .map((user) => user?.userSettings ?? UserSettings.defaultSettings());
   }
 
   UserSettings? current() => _userGateway.data?.userSettings;

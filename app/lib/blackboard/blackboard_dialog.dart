@@ -146,7 +146,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
                         _AttachFile(),
                         getDividerOnMobile(context),
                         _TextField(
-                            initialText: widget?.oldBlackboardItem?.text ?? ""),
+                            initialText: widget.oldBlackboardItem?.text ?? ""),
                         getDividerOnMobile(context),
                         _SendNotification(editMode: editMode),
                         getDividerOnMobile(context),

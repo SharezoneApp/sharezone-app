@@ -98,7 +98,7 @@ class GroupOnboardingBloc extends BlocBase {
       usedJoinLink = false;
     } else {
       final beitrittsversuch = await beitrittsversucheStream.first;
-      usedJoinLink = beitrittsversuch?.sharecode != null;
+      usedJoinLink = beitrittsversuch.sharecode != null;
     }
 
     final hasSignedUp = await signedUp.first;
