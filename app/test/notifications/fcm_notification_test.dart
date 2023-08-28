@@ -7,12 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/util/notification_token_adder.dart';
 
-class MockNotificationTokenAdderApi extends Mock
-    implements NotificationTokenAdderApi {}
+import 'fcm_notification_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<NotificationTokenAdderApi>()])
 void main() {
   late NotificationTokenAdder notificationService;
   late MockNotificationTokenAdderApi api;

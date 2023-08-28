@@ -545,15 +545,7 @@ void main() {
       expect(instrumentation.hasNonFatalParsingExceptions, false);
       expect(instrumentation.hasFatalParsingError, false);
     });
-    test('throws ArgumentError when given null', () {
-      final handler = PushNotificationActionHandler(
-          instrumentation: TestInstrumentation(),
-          actionRegistrations: [],
-          onUnhandledActionType: (_) {},
-          onFatalParsingError: (_, __) {});
 
-      expect(() => handler.handlePushNotification(null), throwsArgumentError);
-    });
     test(
         'throws error if several registrations have registered for the same action type',
         () {

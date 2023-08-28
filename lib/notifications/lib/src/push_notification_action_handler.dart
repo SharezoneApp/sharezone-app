@@ -174,7 +174,6 @@ class PushNotificationActionHandler {
   /// Parsing failures or execution failures of an [ActionRequest] are
   /// automatically logged via the [instrumentation] and do not throw an error.
   Future<void> handlePushNotification(PushNotification pushNotification) async {
-    ArgumentError.checkNotNull(pushNotification, 'pushNotification');
     instrumentation.startHandlingPushNotification(pushNotification);
     late ActionRequest actionRequest;
 
