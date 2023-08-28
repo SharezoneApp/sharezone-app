@@ -6,20 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
+//@dart=2.12
+
 import 'package:user/user.dart';
 
 class UserView {
   final String uid;
   final String name;
-  final String abbrevation;
+  final String abbreviation;
   final String typeOfUser;
   final bool hasRead;
 
   UserView({
-    @required this.uid,
-    @required this.name,
-    @required this.hasRead,
-    @required this.typeOfUser,
-  }) : abbrevation = generateAbbreviation(name);
+    required this.uid,
+    required this.name,
+    required this.hasRead,
+    required this.typeOfUser,
+  }) : abbreviation = generateAbbreviation(name);
 }
