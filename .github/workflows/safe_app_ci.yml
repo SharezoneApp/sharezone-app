@@ -129,7 +129,13 @@ jobs:
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
       - name: Fail if there are Git diffs
-        run: git diff --exit-code
+        run: |
+          # Print the Git diff with the file names and their status as a
+          # summary. 
+          git diff --name-status
+
+          # Fail if there are Git diffs and print the diff.
+          git diff --exit-code
 
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
