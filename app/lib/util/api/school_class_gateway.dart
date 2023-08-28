@@ -155,12 +155,12 @@ class SchoolClassGateway {
   Stream<List<SchoolClass>> stream() {
     return _connectionsGateway
         .streamConnectionsData()
-        .map((connections) => connections.schoolClass?.values.toList() ?? []);
+        .map((connections) => connections?.schoolClass?.values.toList() ?? []);
   }
 
   Stream<SchoolClass?> streamSingleSchoolClass(String id) {
     return _connectionsGateway.streamConnectionsData().map((connections) =>
-        connections.schoolClass?.values
+        connections?.schoolClass?.values
             .firstWhereOrNull((schoolClass) => schoolClass.id == id));
   }
 }
