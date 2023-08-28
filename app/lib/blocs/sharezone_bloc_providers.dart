@@ -483,7 +483,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<ChangeDataBloc>(
           bloc: ChangeDataBloc(
         userAPI: api.user,
-        currentEmail: api.user.authUser!.email!,
+        currentEmail: api.user.authUser!.email,
         firebaseAuth: firebaseAuth,
       )),
       BlocProvider<HolidayBloc>(
