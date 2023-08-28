@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 name: sharezone
-description: Der digitale Schulplaner &quot;Sharezone&quot; für Android und iOS.
+description: A collaborative school planner for students, teachers and parents.
 # Note that this build number is not the latest build number. Please go to App
 # Store Connect
 # (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
