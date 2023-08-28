@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +22,16 @@ import 'subscription_service/subscription_service.dart';
 /// [feature] is not unlocked.
 class SharezonePlusFeatureGuard extends StatelessWidget {
   const SharezonePlusFeatureGuard({
-    Key key,
-    @required this.child,
-    @required this.feature,
+    Key? key,
+    required this.child,
+    required this.feature,
     this.onFeatureNotUnlocked,
     this.fallback = const _DefaultNotSubscribedFallbackPage(),
   }) : super(key: key);
 
   final Widget child;
   final SharezonePlusFeature feature;
-  final VoidCallback onFeatureNotUnlocked;
+  final VoidCallback? onFeatureNotUnlocked;
 
   /// Shown if [feature] is not unlocked and [onFeatureNotUnlocked] did not
   /// redirect the user.
@@ -67,7 +69,7 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
       // ```
       Future.delayed(Duration.zero).then((_) {
         onFeatureNotUnlocked != null
-            ? onFeatureNotUnlocked()
+            ? onFeatureNotUnlocked!()
             : popAndNavigateToSubscriptionPage(context);
       });
       return fallback;
@@ -76,7 +78,7 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
 }
 
 class _DefaultNotSubscribedFallbackPage extends StatelessWidget {
-  const _DefaultNotSubscribedFallbackPage({Key key}) : super(key: key);
+  const _DefaultNotSubscribedFallbackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
