@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -24,11 +26,11 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class PluginInitializations {
   const PluginInitializations({
-    this.remoteConfiguration,
-    this.crashAnalytics,
-    this.dynamicLinks,
-    this.sharedPreferences,
-    this.streamingSharedPreferences,
+    required this.remoteConfiguration,
+    required this.crashAnalytics,
+    required this.dynamicLinks,
+    required this.sharedPreferences,
+    required this.streamingSharedPreferences,
   });
 
   final RemoteConfiguration remoteConfiguration;
@@ -44,9 +46,9 @@ class PluginInitializations {
   }
 
   static Future<void> tryInitializeRevenueCat({
-    @required String appleApiKey,
-    @required String androidApiKey,
-    @required String uid,
+    required String appleApiKey,
+    required String androidApiKey,
+    required String uid,
   }) async {
     // RevenueCat package is not supported on web.
     if (!PlatformCheck.isWeb) {
@@ -69,7 +71,7 @@ class PluginInitializations {
   }
 
   static Future<RemoteConfiguration> initializeRemoteConfiguration({
-    @required Flavor flavor,
+    required Flavor flavor,
   }) async {
     final remoteConfiguration = getRemoteConfiguration();
 
@@ -134,7 +136,7 @@ class PluginInitializations {
 }
 
 Future<PluginInitializations> runPluginInitializations({
-  @required Flavor flavor,
+  required Flavor flavor,
 }) async {
   final futureRemoteConfiguration =
       PluginInitializations.initializeRemoteConfiguration(flavor: flavor);
