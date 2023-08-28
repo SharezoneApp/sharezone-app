@@ -14,7 +14,8 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 enum LessonTimeStatus { hasAlreadyTakenPlace, isNow, isYetToCome }
 
 class LessonView {
-  final String start, end, abbreviation, room, periodNumber;
+  final String start, end, abbreviation;
+  final String? room, periodNumber;
   final Design design;
   final Lesson lesson;
 
