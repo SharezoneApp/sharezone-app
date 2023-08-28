@@ -36,13 +36,13 @@ class EmailAndPasswordLinkBloc extends BlocBase
       LinkProviderAnalytics(Analytics(getBackend()));
 
   final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String?>();
   final _nameController = BehaviorSubject<String>();
   final _obscureTextSubject = BehaviorSubject.seeded(true);
 
   // Add data to stream
   Stream<String> get email => _emailController.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordController.stream.transform(validatePassword);
   Stream<String> get name => _nameController.stream.transform(validateName);
   Stream<bool> get obscureText => _obscureTextSubject;

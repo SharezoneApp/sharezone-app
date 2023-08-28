@@ -30,15 +30,17 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   ChangeDataBloc({
     required this.userAPI,
     required this.firebaseAuth,
-    required String currentEmail,
+    required String? currentEmail,
   }) {
-    _emailSubject.sink.add(currentEmail);
+    if (currentEmail != null) {
+      _emailSubject.sink.add(currentEmail);
+    }
   }
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordSubject.stream.transform(validatePassword);
-  Stream<String> get newPassword =>
+  Stream<String?> get newPassword =>
       _newPasswordSubject.stream.transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
