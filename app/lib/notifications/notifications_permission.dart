@@ -31,6 +31,11 @@ class NotificationsPermission {
       final currentAndroidSdk =
           await mobileDeviceInformationRetriever.androidSdkInt();
 
+      if (currentAndroidSdk == null) {
+        log('Could not retrieve Android SDK version. Skipping to request Firebase Messaging access.');
+        return false;
+      }
+
       // Android SDK 33 equals Android 13.
       //
       // See: https://developer.android.com/studio/releases/platforms#13
