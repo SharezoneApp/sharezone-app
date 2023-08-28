@@ -19,8 +19,7 @@ class MockFeedbackApi extends FeedbackApi {
   }
 
   @override
-  Future<void> sendFeedback(UserFeedback feedback) {
+  Future<void> sendFeedback(UserFeedback feedback) async {
     invocations.add(feedback);
-    return null;
   }
 }

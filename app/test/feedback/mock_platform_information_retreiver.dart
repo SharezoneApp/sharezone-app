@@ -22,7 +22,5 @@ class MockPlatformInformationRetriever extends PlatformInformationRetriever {
   String versionNumber = "";
 
   @override
-  Future<void> init() {
-    return null;
-  }
+  Future<void> init() async {}
 }
