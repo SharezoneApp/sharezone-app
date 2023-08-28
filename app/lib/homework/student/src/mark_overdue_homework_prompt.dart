@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -15,7 +17,7 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MarkOverdueHomeworkPrompt extends StatefulWidget {
-  const MarkOverdueHomeworkPrompt({Key key}) : super(key: key);
+  const MarkOverdueHomeworkPrompt({Key? key}) : super(key: key);
 
   @override
   _MarkOverdueHomeworkPromptState createState() =>
@@ -23,8 +25,8 @@ class MarkOverdueHomeworkPrompt extends StatefulWidget {
 }
 
 class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
-  bool visible;
-  OverdueHomeworkDialogDismissedCache cache;
+  late bool visible;
+  late OverdueHomeworkDialogDismissedCache cache;
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 "Alle überfälligen Hausaufgaben abhaken?",
-                style: textTheme.titleLarge.apply(fontSizeFactor: 0.9),
+                style: textTheme.titleLarge?.apply(fontSizeFactor: 0.9),
                 textAlign: TextAlign.center,
               ),
             ),
