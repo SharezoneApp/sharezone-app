@@ -66,10 +66,10 @@ List<PushNotification> generateNotificationMutations({
   required dynamic title,
   required dynamic body,
 }) {
-  assert(actionType is String || actionType is Iterable<String>);
-  assert(actionData is Map<String, dynamic> || actionData is Iterable<Map>);
-  assert(title is String || title is Iterable<String>);
-  assert(body is String || body is Iterable<String>);
+  assert((actionType is String?) || actionType is Iterable<String?>);
+  assert((actionData is Map<String, dynamic>?) || actionData is Iterable<Map?>);
+  assert((title is String?) || title is Iterable<String?>);
+  assert((body is String?) || body is Iterable<String?>);
 
   final actionTypeMutations = asList(actionType);
   final actionDataMutations = asList(actionData);
@@ -101,10 +101,10 @@ List<PushNotification> generateNotificationMutations({
     final _body = _getElement(bodyMutations);
 
     notifications.add(PushNotification(
-      actionType: _actionType as String,
-      title: _title as String,
-      body: _body as String,
-      actionData: _actionData as Map<String, dynamic>,
+      actionType: _actionType as String?,
+      title: _title as String?,
+      body: _body as String?,
+      actionData: _actionData as Map<String, dynamic>?,
     ));
   }
 

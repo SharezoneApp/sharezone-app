@@ -100,7 +100,7 @@ class Version implements Comparable<Version> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) || (other is Version && name == other.name);
   }
 

@@ -8,6 +8,7 @@
 
 //@dart=2.12
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -199,11 +200,12 @@ class FlutterStreamingKeyValueStore extends StreamingKeyValueStore {
 }
 
 class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
-  late BehaviorSubject<Map<String, dynamic>> storedValues;
+  late BehaviorSubject<ModifiableMapFromIMap<String, dynamic>> storedValues;
 
   InMemoryStreamingKeyValueStore(
-      [Map<String, dynamic> storedValues = const {}]) {
-    this.storedValues = BehaviorSubject.seeded(storedValues);
+      [ModifiableMapFromIMap<String, dynamic>? storedValues]) {
+    this.storedValues =
+        BehaviorSubject.seeded(storedValues ?? ModifiableMapFromIMap(IMap()));
   }
 
   @override
