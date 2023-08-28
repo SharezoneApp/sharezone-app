@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -19,10 +21,10 @@ import 'package:user/user.dart';
 
 class CommentSectionBuilder extends StatefulWidget {
   const CommentSectionBuilder({
-    Key key,
-    @required this.itemId,
-    @required this.commentOnType,
-    @required this.courseID,
+    Key? key,
+    required this.itemId,
+    required this.commentOnType,
+    required this.courseID,
   }) : super(key: key);
 
   final String itemId;
@@ -34,7 +36,7 @@ class CommentSectionBuilder extends StatefulWidget {
 }
 
 class _CommentSectionBuilderState extends State<CommentSectionBuilder> {
-  CommentsBloc bloc;
+  late CommentsBloc bloc;
 
   @override
   void initState() {
@@ -64,10 +66,10 @@ class _CommentSectionBuilderState extends State<CommentSectionBuilder> {
 
 class _CommentSectionStreamBuilder extends StatelessWidget {
   const _CommentSectionStreamBuilder({
-    Key key,
-    @required this.widget,
-    @required this.api,
-    @required this.courseID,
+    Key? key,
+    required this.widget,
+    required this.api,
+    required this.courseID,
   }) : super(key: key);
 
   final CommentSectionBuilder widget;
@@ -82,11 +84,11 @@ class _CommentSectionStreamBuilder extends StatelessWidget {
       child: StreamBuilder<List<CommentView>>(
         stream: bloc.comments,
         builder: (context, commentsSnap) {
-          return StreamBuilder<AppUser>(
+          return StreamBuilder<AppUser?>(
             stream: api.user.userStream,
             builder: (context, userSnap) {
-              final abbr = userSnap?.data?.abbreviation ?? "?";
-              final name = userSnap?.data?.name ?? "";
+              final abbr = userSnap.data?.abbreviation ?? "?";
+              final name = userSnap.data?.name ?? "";
               return commentsSnap.hasData
                   ? CommentSection(
                       comments: commentsSnap.data,
