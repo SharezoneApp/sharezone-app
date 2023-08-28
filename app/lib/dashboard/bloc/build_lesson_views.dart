@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 part of 'dashboard_bloc.dart';
 
 List<LessonView> _buildSortedViews(LessonDataSnapshot lessonsSnapshot) {
-  GroupInfo groupInfoOf(Lesson lesson) =>
+  GroupInfo? groupInfoOf(Lesson lesson) =>
       lessonsSnapshot.groupInfos[lesson.groupID];
 
   final lessons = lessonsSnapshot.lessons;
@@ -23,7 +25,7 @@ List<LessonView> _buildSortedViews(LessonDataSnapshot lessonsSnapshot) {
   return views;
 }
 
-LessonView _buildLessonView(Lesson lesson, {GroupInfo groupInfo}) {
+LessonView _buildLessonView(Lesson lesson, {GroupInfo? groupInfo}) {
   final timeline = _getTimeStatus(lesson.startTime, lesson.endTime);
   return LessonView(
     start: lesson.startTime.toString(),
