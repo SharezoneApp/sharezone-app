@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -44,8 +46,11 @@ class BlackboardItemReadByUsersListBloc extends BlocBase {
             .collection(CollectionNames.members)
             .doc(userId)
             .get();
-        final user = MemberData.fromData(membersDoc.data(), id: userId);
-        final hasRead = item.forUsers[userId];
+        final data = membersDoc.data();
+        if (data == null) continue;
+
+        final user = MemberData.fromData(data, id: userId);
+        final hasRead = item.forUsers[userId]!;
         views.add(user.toView(hasRead));
       }
     }
@@ -63,7 +68,7 @@ extension on MemberData {
       uid: '$id',
       name: name,
       hasRead: hasRead,
-      typeOfUser: typeOfUser.toReadableString(),
+      typeOfUser: typeOfUser!.toReadableString(),
     );
   }
 }
