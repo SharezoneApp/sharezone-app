@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
@@ -19,22 +21,20 @@ class EinkommenderLink {
       isEmptyOrNull(typ) && zusatzinformationen == null ||
       zusatzinformationen.isEmpty;
 
-  EinkommenderLink(
-      {this.typ = "",
-      this.zusatzinformationen = const {},
-      this.einkommensZeitpunkt = EinkommensZeitpunkt.unbekannt})
-      : assert(typ != null),
-        assert(zusatzinformationen != null),
-        assert(einkommensZeitpunkt != null);
+  EinkommenderLink({
+    this.typ = "",
+    this.zusatzinformationen = const {},
+    this.einkommensZeitpunkt = EinkommensZeitpunkt.unbekannt,
+  });
 
   factory EinkommenderLink.fromDynamicLink(
-      DynamicLinkData pendingDynamicLinkData,
+      DynamicLinkData? pendingDynamicLinkData,
       EinkommensZeitpunkt einkommensZeitpunkt) {
     if (pendingDynamicLinkData == null) {
       return EinkommenderLink();
     }
     final copiedQueryParameters = Map<String, String>.from(
-        pendingDynamicLinkData?.link?.queryParameters ?? {});
+        pendingDynamicLinkData.link?.queryParameters ?? {});
     final type = copiedQueryParameters.remove("type") ?? "";
 
     return EinkommenderLink(
