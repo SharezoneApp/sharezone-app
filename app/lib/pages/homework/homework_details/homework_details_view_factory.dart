@@ -6,12 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view.dart';
 import 'package:sharezone/pages/homework/homework_details/submissions/submission_permissions.dart';
@@ -27,14 +28,14 @@ class HomeworkDetailsViewFactory implements BlocBase {
   final FileSharingGateway fileSharingGateway;
   final Stream<TypeOfUser> typeOfUserStream;
   final SubscriptionService subscriptionService;
-  SubmissionPermissions _permissions;
+  late SubmissionPermissions _permissions;
 
   HomeworkDetailsViewFactory({
-    @required this.uid,
-    @required this.courseGateway,
-    @required this.fileSharingGateway,
-    @required this.typeOfUserStream,
-    @required this.subscriptionService,
+    required this.uid,
+    required this.courseGateway,
+    required this.fileSharingGateway,
+    required this.typeOfUserStream,
+    required this.subscriptionService,
   }) {
     _permissions = SubmissionPermissions(typeOfUserStream, courseGateway);
   }
@@ -72,20 +73,19 @@ class HomeworkDetailsViewFactory implements BlocBase {
     final hasSubmitted = homework.submitters.contains(uid);
     final typeOfUser = await typeOfUserStream.first;
     return HomeworkDetailsView(
-      isDone: homework.forUsers[uid] || hasSubmitted,
+      isDone: homework.forUsers[uid]! || hasSubmitted,
       authorName: homework.authorName ?? "-",
       courseName: homework.courseName,
       todoUntil: _formatTodoUntil(homework.todoUntil, homework.withSubmissions),
       id: homework.id,
       title: homework.title,
       description: homework.description,
-      hasAttachments: homework.attachments != null &&
-          homework.attachments.toList().isNotEmpty,
+      hasAttachments: homework.attachments.toList().isNotEmpty,
       attachmentIDs: homework.attachments.toList(),
       attachmentStream: fileSharingGateway.cloudFilesGateway
           .filesStreamAttachment(homework.courseID, homework.id),
       hasPermission: hasPermissionToManageHomeworks(
-        courseGateway.getRoleFromCourseNoSync(homework.courseID),
+        courseGateway.getRoleFromCourseNoSync(homework.courseID)!,
         _isAuthor(homework.authorID),
       ),
       homework: homework,
