@@ -114,7 +114,11 @@ Future<AppDependencies> initializeDependencies({
   FlutterError.onError =
       pluginInitializations.crashAnalytics.recordFlutterError;
   PlatformDispatcher.instance.onError = (error, stack) {
-    pluginInitializations.crashAnalytics.recordError(error, stack);
+    pluginInitializations.crashAnalytics.recordError(
+      error,
+      stack,
+      fatal: true,
+    );
     return true;
   };
 
