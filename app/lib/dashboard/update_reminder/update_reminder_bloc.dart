@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:meta/meta.dart';
@@ -20,19 +22,19 @@ class UpdateReminderBloc extends BlocBase {
   final Future<Version> Function() getCurrentVersion;
   final Duration updateGracePeriod;
   final DateTime Function() getCurrentDateTime;
-  final CrashAnalytics crashAnalytics;
+  final CrashAnalytics? crashAnalytics;
 
   factory UpdateReminderBloc({
-    @required ChangelogGateway changelogGateway,
-    @required PlatformInformationRetriever platformInformationRetriever,
-    @required CrashAnalytics crashAnalytics,
+    required ChangelogGateway changelogGateway,
+    required PlatformInformationRetriever platformInformationRetriever,
+    required CrashAnalytics crashAnalytics,
 
     /// Die Zeitspanne nach einem neuen Release, wo noch keine Update-Karte
     /// angezeigt werden soll.
     /// Falls beispielsweise ein Release am 02.02.2020 veröffentlich wird und
     /// die Grace-Periode 2 Tage beträgt, wird bis zum 04.02.2020 noch keine
     /// Update-Karte angezeigt, danach schon.
-    @required Duration updateGracePeriod,
+    required Duration updateGracePeriod,
   }) {
     return UpdateReminderBloc.internal(
       getLatestRelease: () => changelogGateway
@@ -48,10 +50,10 @@ class UpdateReminderBloc extends BlocBase {
 
   @visibleForTesting
   UpdateReminderBloc.internal({
-    @required this.getLatestRelease,
-    @required this.getCurrentVersion,
-    @required this.updateGracePeriod,
-    @required this.getCurrentDateTime,
+    required this.getLatestRelease,
+    required this.getCurrentVersion,
+    required this.updateGracePeriod,
+    required this.getCurrentDateTime,
     this.crashAnalytics,
   });
 
