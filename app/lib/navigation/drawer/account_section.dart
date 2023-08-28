@@ -135,7 +135,7 @@ class _Email extends StatelessWidget {
     final isEmailEmpty = email == null || email.isEmpty || email == "-";
     if (isEmailEmpty) return Container();
     return Text(
-      email!,
+      email,
       style: TextStyle(color: Colors.grey, fontSize: 12),
     );
   }

@@ -11,10 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.dart';
 
 void main() {
-  const viewSize = Size(800, 600);
-  final config = TestViewConfiguration(size: viewSize);
-  final binding = TestWidgetsFlutterBinding.ensureInitialized();
-  binding.renderView.configuration = config;
   group('ListWithBottomThreshold', () {
     group("given no children", () {
       testWidgets("shows LoadingWidget", (WidgetTester tester) async {
@@ -66,14 +62,28 @@ void main() {
       );
 
       const completeListHeight = childHeight * nrOfChildren;
-      final viewHeight = viewSize.height;
 
+      const viewSize = Size(800, 600);
       const listThreshold = 200.0;
 
-      final distanceFromBottomOfViewToBottomOfList =
-          completeListHeight - viewHeight;
-      final distanceFromViewToThreshold =
-          distanceFromBottomOfViewToBottomOfList - listThreshold;
+      double getDistanceFromBottomOfViewToBottomOfList(WidgetTester tester) {
+        final viewHeight = viewSize.height;
+        final distanceFromBottomOfViewToBottomOfList =
+            completeListHeight - viewHeight;
+
+        return distanceFromBottomOfViewToBottomOfList;
+      }
+
+      double getDistanceFromViewToThreshold(WidgetTester tester) {
+        final distanceFromViewToThreshold =
+            getDistanceFromBottomOfViewToBottomOfList(tester) - listThreshold;
+
+        // final config = TestViewConfiguration(size: viewSize);
+        // final binding = TestWidgetsFlutterBinding.ensureInitialized();
+        // binding.renderView.configuration = config;
+
+        return distanceFromViewToThreshold;
+      }
 
       const loadingWidgetHeight = 20.0;
       Widget loadingWidget = SizedBox(height: loadingWidgetHeight);
@@ -89,7 +99,8 @@ void main() {
 
       Future<void> scrollListPastThreshold(WidgetTester tester,
           [Widget? list]) async {
-        await scrollList(tester, distanceFromViewToThreshold + 1000, list);
+        await scrollList(
+            tester, getDistanceFromViewToThreshold(tester) + 1000, list);
       }
 
       void testAndPumpList(String description,
@@ -116,7 +127,7 @@ void main() {
       testAndPumpList(
           "should not fire when being before and scrolling on threshold",
           (tester) async {
-        await scrollList(tester, distanceFromViewToThreshold);
+        await scrollList(tester, getDistanceFromViewToThreshold(tester));
         expect(fired, false);
       });
 
@@ -160,6 +171,8 @@ void main() {
 
         fired = false;
 
+        final distanceFromViewToThreshold =
+            getDistanceFromViewToThreshold(tester);
         await scrollList(tester, -distanceFromViewToThreshold);
         await scrollList(tester, distanceFromViewToThreshold);
         await scrollList(tester, 200);
@@ -171,8 +184,10 @@ void main() {
           (tester) async {
         expect(find.byWidget(loadingWidget), findsNothing);
 
-        await scrollList(tester,
-            distanceFromBottomOfViewToBottomOfList + loadingWidgetHeight);
+        await scrollList(
+            tester,
+            getDistanceFromBottomOfViewToBottomOfList(tester) +
+                loadingWidgetHeight);
 
         expect(find.byWidget(loadingWidget), findsOneWidget);
       });

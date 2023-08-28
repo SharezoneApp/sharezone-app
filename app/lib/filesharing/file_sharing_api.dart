@@ -59,7 +59,7 @@ class FileSharingGateway {
     final attachments = <String>[];
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
     if (hasAttachments) {
-      for (final localFile in localFiles!) {
+      for (final localFile in localFiles) {
         final uploadTask = await fileUploader.uploadFile(
           courseID: courseID,
           creatorID: authorID,

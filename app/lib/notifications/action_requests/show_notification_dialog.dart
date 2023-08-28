@@ -102,7 +102,7 @@ class ShowNotificationDialogRequest extends ActionRequest {
 
 class ShowNotificationDialogExecutor
     extends ActionRequestExecutor<ShowNotificationDialogRequest> {
-  final BuildContext? Function() getCurrentContext;
+  final BuildContext Function() getCurrentContext;
 
   ShowNotificationDialogExecutor(this.getCurrentContext);
 
@@ -115,7 +115,7 @@ class ShowNotificationDialogExecutor
 
   void _showSupportDialog(ShowNotificationDialogRequest actionRequest) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final confiremd = (await showLeftRightAdaptiveDialog<bool>(
+      final confirmed = (await showLeftRightAdaptiveDialog<bool>(
         context: getCurrentContext(),
         title: actionRequest.title,
         content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
@@ -126,12 +126,12 @@ class ShowNotificationDialogExecutor
           title: "Antworten",
         ),
       ))!;
-      if (confiremd) {
+      if (confirmed) {
         UrlLauncherExtended().tryLaunchMailOrThrow(
           "support@sharezone.net",
-          subject: 'Rückmeldung zur Support-Notifaction',
+          subject: 'Rückmeldung zur Support-Notification',
           body:
-              'Liebes Sharezone-Team,\n\nihr habt folgende Nachricht geschreiben:\n${actionRequest.title}; ${actionRequest.body}\n\nMein Anliegen:\n_',
+              'Liebes Sharezone-Team,\n\nihr habt folgende Nachricht geschrieben:\n${actionRequest.title}; ${actionRequest.body}\n\nMein Anliegen:\n_',
         );
       }
     });

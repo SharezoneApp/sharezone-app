@@ -74,13 +74,13 @@ class _BottomSheet extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: [
-            const _CallToAction(),
-            const SizedBox(height: 12),
+          children: const [
+            _CallToAction(),
+            SizedBox(height: 12),
             SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   _SkipButton(),
                   SizedBox(width: 12),
                   _FinishButton(),

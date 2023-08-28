@@ -108,6 +108,11 @@ void showStartedDownloadSnackBar(BuildContext context, String? downloadURL) {
     action: SnackBarAction(
       label: 'Link kopieren'.toUpperCase(),
       onPressed: () {
+        if (downloadURL == null) {
+          _showNoDownloadUrlSnackBar(context);
+          return;
+        }
+
         _copyDownloadUrlToClipboard(downloadURL);
         _confirmCopiedDownloadUrlSnackBar(context);
       },
@@ -115,7 +120,15 @@ void showStartedDownloadSnackBar(BuildContext context, String? downloadURL) {
   );
 }
 
-void _copyDownloadUrlToClipboard(String? downloadURL) {
+void _showNoDownloadUrlSnackBar(BuildContext context) {
+  showSnackSec(
+    context: context,
+    behavior: SnackBarBehavior.fixed,
+    text: 'Der Download-Link konnte nicht gefunden werden.',
+  );
+}
+
+void _copyDownloadUrlToClipboard(String downloadURL) {
   Clipboard.setData(ClipboardData(text: downloadURL));
 }
 

@@ -230,7 +230,7 @@ class _SubmitButton extends StatelessWidget {
   }
 }
 
-class _ResetPasswordBloc extends Object with AuthentificationValidators {
+class _ResetPasswordBloc with AuthentificationValidators {
   final _emailSubject = BehaviorSubject<String>();
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);

@@ -98,7 +98,7 @@ class BlackboardGateway {
 
     final hasAttachments = attachments != null && attachments.isNotEmpty;
     if (hasAttachments) {
-      for (int i = 0; i < attachments!.length; i++) {
+      for (int i = 0; i < attachments.length; i++) {
         await fileSharingGateway.addReferenceData(attachments[i],
             ReferenceData(type: ReferenceType.blackboard, id: reference.id));
       }

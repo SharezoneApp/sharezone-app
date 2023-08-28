@@ -9,7 +9,7 @@
 import 'dart:async';
 import '../validator.dart';
 
-class BlackboardValidators {
+mixin BlackboardValidators {
   final validateTitle =
       StreamTransformer<String, String>.fromHandlers(handleData: (title, sink) {
     if (NotEmptyOrNullValidator(title).isValid()) {
