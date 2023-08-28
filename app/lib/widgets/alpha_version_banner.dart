@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +22,9 @@ import 'package:flutter/material.dart';
 class AlphaVersionBanner extends StatelessWidget {
   /// Creates a const alpha version banner.
   const AlphaVersionBanner({
-    Key key,
-    @required this.child,
-    @required this.enabled,
+    Key? key,
+    required this.child,
+    required this.enabled,
   }) : super(key: key);
 
   /// The widget to show behind the banner.
