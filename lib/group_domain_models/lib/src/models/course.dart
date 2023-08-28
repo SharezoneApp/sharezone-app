@@ -58,8 +58,7 @@ class Course {
       abbreviation: "",
       groupId: null,
       myRole: MemberRole.standard,
-      design: Design
-          .standard(), // MIGHT WANT TO CHANGE IT TO RANDOM OR SO, TO GENERATE A RANDOM COLOR
+      design: Design.random(),
       settings: CourseSettings.standard,
       personalDesign: null,
     );

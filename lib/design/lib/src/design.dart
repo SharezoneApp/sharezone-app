@@ -7,20 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'color_parser.dart';
-import 'package:sharezone_common/helper_functions.dart';
 
 enum DesignType {
   color,
 }
-
-DesignType? designTypeFromJson(dynamic data) =>
-    enumFromString<DesignType>(DesignType.values, data,
-        orElse: DesignType.color);
-
-String? designTypeToJson(DesignType? designType) => enumToString(designType);
 
 class Design {
   final String hex;
@@ -48,9 +42,9 @@ class Design {
       if (data is String) {
         return Design._(hex: data, type: DesignType.color);
       }
-      DesignType? type = designTypeFromJson(data['type']);
+      final type = DesignType.values.byName(data['type']);
       if (type == DesignType.color) {
-        return Design._(hex: data['color'], type: type!);
+        return Design._(hex: data['color'], type: type);
       }
       return Design.standard();
     } catch (_) {
@@ -63,7 +57,7 @@ class Design {
   dynamic toJson() {
     return {
       'color': hex,
-      'type': designTypeToJson(type),
+      'type': type.name,
     };
   }
 
