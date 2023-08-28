@@ -23,6 +23,7 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
+import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -223,27 +224,9 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
-    return Tooltip(
-      message: "Eintrag speichern",
-      child: ElevatedButton(
-        child: Text('Speichern'),
-        onPressed: () => onPressed(context, bloc),
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-          foregroundColor: isDarkThemeEnabled(context)
-              ? null
-              : Theme.of(context).primaryColor,
-          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          shadowColor: Colors.transparent,
-        ),
-      ),
+    return SaveButton(
+      tooltip: "Eintrag speichern",
+      onPressed: () => onPressed(context, bloc),
     );
   }
 }
