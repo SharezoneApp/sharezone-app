@@ -16,11 +16,11 @@ import 'mock_bnb_tutorial_analytics.dart';
 
 void main() {
   group('BnB tutorial bloc', () {
-    BnbTutorialBloc bloc;
+    late BnbTutorialBloc bloc;
     BnbTutorialCache cache;
-    MockBnbTutorialAnalytics analytics;
+    late MockBnbTutorialAnalytics analytics;
 
-    BehaviorSubject<bool> isGroupOnboardingFinished;
+    late BehaviorSubject<bool> isGroupOnboardingFinished;
 
     setUp(() {
       cache = BnbTutorialCache(InMemoryKeyValueStore());

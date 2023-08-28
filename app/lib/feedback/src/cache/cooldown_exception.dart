@@ -7,8 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 class CoolDownException implements Exception {
-  final String message;
-  final Duration coolDown;
+  final String? message;
+  final Duration? coolDown;
 
   CoolDownException([this.message, this.coolDown]);
 

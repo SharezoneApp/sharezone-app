@@ -16,7 +16,7 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
   required BuildContext? context,
   String? title,
   Widget? content,
-  AdaptiveDialogAction left = AdaptiveDialogAction.cancel,
+  AdaptiveDialogAction? left = AdaptiveDialogAction.cancel,
   AdaptiveDialogAction? right,
   bool withCancleButtonOnIOS = false,
   T? defaultValue,
@@ -46,7 +46,7 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
 }
 
 class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
-  final AdaptiveDialogAction left;
+  final AdaptiveDialogAction? left;
   final AdaptiveDialogAction? right;
   final String? title;
   final Widget? content;

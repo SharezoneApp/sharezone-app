@@ -50,8 +50,12 @@ class AuthentificationValidators {
   // Advice: Check in the end, when submitting a form if the passwords are REALLY
   // the same!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  final validatePassword = StreamTransformer<String, String>.fromHandlers(
+  final validatePassword = StreamTransformer<String?, String?>.fromHandlers(
       handleData: (password, sink) {
+    if (password == null) {
+      return;
+    }
+
     if (isPasswordValid(password)) {
       sink.add(password);
     } else {
@@ -68,7 +72,8 @@ class AuthentificationValidators {
     }
   });
 
-  static bool isNameValid(String name) {
+  static bool isNameValid(String? name) {
+    if (name == null) return false;
     return name.length >= minNameSize &&
         name.length <= maxNameSize &&
         name != "" &&

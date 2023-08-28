@@ -27,11 +27,11 @@ class FileSharingViewHome extends StatelessWidget {
       stream: bloc.courseFolders,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
-        if (snapshot.data.isEmpty) return _NoCourseFolderFound();
+        if (snapshot.data!.isEmpty) return _NoCourseFolderFound();
 
-        final fileSharingDataList = snapshot.data;
+        final fileSharingDataList = snapshot.data!;
         fileSharingDataList
-            .sort((a, b) => a.courseName.compareTo(b.courseName));
+            .sort((a, b) => a.courseName!.compareTo(b.courseName!));
 
         return SingleChildScrollView(
           padding: const EdgeInsets.only(left: 8, top: 8),
@@ -65,7 +65,7 @@ class FileSharingViewHome extends StatelessWidget {
 class _CourseFolderCard extends StatelessWidget {
   const _CourseFolderCard(
     this.fileSharingData, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final FileSharingData fileSharingData;

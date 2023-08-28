@@ -8,25 +8,25 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:random_string/random_string.dart' as rdm;
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:user/user.dart';
 
-class MockAPI extends Mock implements HolidayApi {}
+import 'holiday_bloc_unit_test.mocks.dart';
 
-class MockCache extends Mock implements HolidayCache {}
-
+@GenerateNiceMocks([MockSpec<HolidayApi>(), MockSpec<HolidayCache>()])
 void main() {
   const nrwState = NordrheinWestfalen();
   const nrwStateEnum = StateEnum.nordrheinWestfalen;
-  MockCache mockCache;
-  MockAPI mockAPI;
+  late MockHolidayCache mockCache;
+  late MockHolidayApi mockAPI;
 
   setUp(() {
-    mockCache = MockCache();
-    mockAPI = MockAPI();
+    mockCache = MockHolidayCache();
+    mockAPI = MockHolidayApi();
   });
 
   HolidayService getMockManager() => HolidayService(mockAPI, mockCache);
@@ -35,7 +35,7 @@ void main() {
       stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum));
 
   void cacheReturnsInvalidHolidays(List<Holiday> expectedHolidays,
-      [MockCache mockCachePassed]) {
+      [MockHolidayCache? mockCachePassed]) {
     when(mockCachePassed?.load(any) ?? mockCache.load(any))
         .thenReturn(CacheResponse.invalid(expectedHolidays));
   }
@@ -44,7 +44,7 @@ void main() {
     when(mockCache.load(any)).thenThrow(Exception("Cache Exception"));
   }
 
-  void apiAnswersWith(List<Holiday> expectedHolidays, {State forState}) {
+  void apiAnswersWith(List<Holiday> expectedHolidays, {State? forState}) {
     when(mockAPI.load(any, forState ?? any))
         .thenAnswer((_) => Future.value(expectedHolidays));
   }
@@ -152,22 +152,22 @@ void main() {
 }
 
 class InMemoryHolidayStateGateway extends HolidayStateGateway {
-  InMemoryHolidayStateGateway({StateEnum initialValue}) {
+  InMemoryHolidayStateGateway({StateEnum? initialValue}) {
     if (initialValue != null) {
       _userState.add(initialValue);
     }
   }
 
   // ignore: close_sinks
-  final _userState = BehaviorSubject<StateEnum>();
+  final _userState = BehaviorSubject<StateEnum?>();
 
   @override
-  Future<void> changeState(StateEnum state) async {
+  Future<void> changeState(StateEnum? state) async {
     _userState.add(state);
   }
 
   @override
-  Stream<StateEnum> get userState => _userState;
+  Stream<StateEnum?> get userState => _userState;
 }
 
 List<Holiday> generateHolidayList(int length) {
@@ -180,7 +180,7 @@ List<Holiday> generateHolidayList(int length) {
   return holidays;
 }
 
-Holiday generateHoliday([DateTime start, DateTime end]) {
+Holiday generateHoliday([DateTime? start, DateTime? end]) {
   if (start != null && end != null) {
     return Holiday((b) => b
       ..start = start

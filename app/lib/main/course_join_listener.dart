@@ -17,20 +17,20 @@ import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseJoinListener extends StatelessWidget {
-  final Stream<Beitrittsversuch> beitrittsversuche;
-  final Widget child;
+  final Stream<Beitrittsversuch?> beitrittsversuche;
+  final Widget? child;
   final GroupJoinFunction groupJoinFunction;
 
   const CourseJoinListener({
-    Key key,
-    @required this.beitrittsversuche,
-    @required this.groupJoinFunction,
+    Key? key,
+    required this.beitrittsversuche,
+    required this.groupJoinFunction,
     this.child,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Beitrittsversuch>(
+    return StreamBuilder<Beitrittsversuch?>(
       stream: beitrittsversuche,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -47,10 +47,10 @@ class CourseJoinListener extends StatelessWidget {
           }
         }
         if (snapshot.hasData) {
-          final sharecode = snapshot.data.sharecode;
+          final sharecode = snapshot.data!.sharecode;
           _joinGroup(sharecode);
         }
-        return child;
+        return child!;
       },
     );
   }

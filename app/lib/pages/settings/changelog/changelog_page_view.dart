@@ -6,17 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/pages/settings/changelog/change_view.dart';
 
 class ChangelogPageView {
   final List<ChangeView> changes;
   final bool userHasNewestVersion;
   final bool allChangesLoaded;
-  bool get hasChanges => changes?.isNotEmpty ?? false;
+  bool get hasChanges => changes.isNotEmpty;
 
   const ChangelogPageView({
-    @required this.changes,
+    required this.changes,
     this.userHasNewestVersion = true,
     this.allChangesLoaded = false,
   });

@@ -29,17 +29,16 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
-BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
+BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
   // ignore:close_sinks
-  BehaviorSubject<Beitrittsversuch> beitrittsversuche =
-      BehaviorSubject<Beitrittsversuch>();
+  BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
+      BehaviorSubject<Beitrittsversuch?>();
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
@@ -60,7 +59,7 @@ DynamicLinkBloc runDynamicLinkBloc(
   return dynamicLinkBloc;
 }
 
-Future<void> runFlutterApp({@required Flavor flavor}) async {
+Future<void> runFlutterApp({required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
   runApp(Sharezone(
     beitrittsversuche: dependencies.beitrittsversuche,
@@ -71,7 +70,7 @@ Future<void> runFlutterApp({@required Flavor flavor}) async {
 }
 
 Future<AppDependencies> initializeDependencies({
-  @required Flavor flavor,
+  required Flavor flavor,
 }) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
@@ -94,14 +93,14 @@ Future<AppDependencies> initializeDependencies({
   final keyValueStore =
       FlutterKeyValueStore(pluginInitializations.sharedPreferences);
   final registrationGateway =
-      RegistrationGateway(references.users, firebaseDependencies.auth);
+      RegistrationGateway(references.users, firebaseDependencies.auth!);
   final blocDependencies = BlocDependencies(
     analytics: Analytics(getBackend()),
-    firestore: firebaseDependencies.firestore,
+    firestore: firebaseDependencies.firestore!,
     keyValueStore: keyValueStore,
     sharedPreferences: pluginInitializations.sharedPreferences,
     references: references,
-    auth: firebaseDependencies.auth,
+    auth: firebaseDependencies.auth!,
     streamingSharedPreferences:
         pluginInitializations.streamingSharedPreferences,
     registrationGateway: registrationGateway,
@@ -130,13 +129,14 @@ Future<AppDependencies> initializeDependencies({
 
   final analytics = Analytics(getBackend());
 
-  UserGateway userGateway;
-  SharezoneGateway sharezoneGateway;
+  UserGateway? userGateway;
+  SharezoneGateway? sharezoneGateway;
+
   listenToAuthStateChanged().listen((currentUser) async {
     final isAuthenticated = currentUser?.uid != null;
     if (isAuthenticated) {
       sharezoneGateway = SharezoneGateway(
-          authUser: currentUser,
+          authUser: currentUser!,
           memberID: currentUser.uid,
           references: references);
 
@@ -144,7 +144,7 @@ Future<AppDependencies> initializeDependencies({
         einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
         istGruppeBereitsBeigetreten: (publicKey) async =>
             await istSchonGruppeMitSharecodeBeigetreten(
-          sharezoneGateway,
+          sharezoneGateway!,
           publicKey,
         ),
       );
@@ -156,10 +156,12 @@ Future<AppDependencies> initializeDependencies({
       );
 
       userGateway = UserGateway(references, currentUser);
-      userGateway.userStream.listen((user) {
+      userGateway!.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
-              name: 'typeOfUser', value: enumToString(user.typeOfUser));
+            name: 'typeOfUser',
+            value: user!.typeOfUser.name,
+          );
         }
       });
     } else {
@@ -198,14 +200,14 @@ Future<void> _initializeFirebase(Flavor flavor) async {
 /// The dependencies for the [Sharezone] widget and the integration tests.
 class AppDependencies {
   const AppDependencies({
-    @required this.dynamicLinkBloc,
-    @required this.beitrittsversuche,
-    @required this.blocDependencies,
-    @required this.pluginInitializations,
+    required this.dynamicLinkBloc,
+    required this.beitrittsversuche,
+    required this.blocDependencies,
+    required this.pluginInitializations,
   });
 
   final DynamicLinkBloc dynamicLinkBloc;
-  final Stream<Beitrittsversuch> beitrittsversuche;
+  final Stream<Beitrittsversuch?> beitrittsversuche;
   final BlocDependencies blocDependencies;
   final PluginInitializations pluginInitializations;
 }

@@ -19,15 +19,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezoneMaterialApp extends StatelessWidget {
   const SharezoneMaterialApp({
-    @required this.home,
-    @required this.blocDependencies,
-    @required this.onUnknownRouteWidget,
+    required this.home,
+    required this.blocDependencies,
+    required this.onUnknownRouteWidget,
+    required this.analytics,
     this.routes = const {},
     this.navigatorKey,
-    this.analytics,
   });
 
-  final GlobalKey<NavigatorState> navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
   final Widget home, onUnknownRouteWidget;
   final Map<String, WidgetBuilder> routes;
   final Analytics analytics;
@@ -83,5 +83,4 @@ ThemeMode _getThemeMode(ThemeBrightness themeBrightness) {
     case ThemeBrightness.system:
       return ThemeMode.system;
   }
-  throw UnimplementedError();
 }

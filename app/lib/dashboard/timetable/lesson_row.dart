@@ -16,8 +16,8 @@ class _LessonRow extends StatelessWidget {
       stream: bloc.lessonViews,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
-        if (snapshot.data.isEmpty) return _NoLessonsToday();
-        final views = snapshot.data;
+        if (snapshot.data!.isEmpty) return _NoLessonsToday();
+        final views = snapshot.data!;
 
         int currentIndex;
         try {
@@ -88,7 +88,7 @@ class _SchoolIsOver extends StatelessWidget {
 }
 
 class _EmptyStateMsg extends StatelessWidget {
-  const _EmptyStateMsg(this.text, {Key key}) : super(key: key);
+  const _EmptyStateMsg(this.text, {Key? key}) : super(key: key);
 
   final String text;
 

@@ -14,7 +14,7 @@ class FirebaseAuthTokenRetrieverImpl extends FirebaseAuthTokenRetriever {
   final User _user;
 
   @override
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     return await _user.getIdToken();
   }
 }

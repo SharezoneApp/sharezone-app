@@ -9,20 +9,22 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 import '../helper.dart';
+import 'toc_currently_reading_test.mocks.dart';
 
-DocumentSection _section(String id, {List<DocumentSection> subsections}) {
-  return DocumentSection(
-      DocumentSectionId(id), id, subsections.toIList() ?? const IListConst([]));
+DocumentSection _section(String id, {List<DocumentSection>? subsections}) {
+  return DocumentSection(DocumentSectionId(id), id,
+      subsections?.toIList() ?? const IListConst([]));
 }
 
 DocumentSectionHeadingPosition _headingPosition(
   String sectionId, {
-  @required double itemLeadingEdge,
-  @required double itemTrailingEdge,
+  required double itemLeadingEdge,
+  required double itemTrailingEdge,
 }) {
   return DocumentSectionHeadingPosition(
     DocumentSectionId(sectionId),
@@ -31,9 +33,10 @@ DocumentSectionHeadingPosition _headingPosition(
   );
 }
 
+@GenerateNiceMocks([MockSpec<DocumentController>()])
 void main() {
   group('the table of contents', () {
-    ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections;
+    late ValueNotifier<List<DocumentSectionHeadingPosition>> visibleSections;
 
     setUp(() {
       visibleSections = ValueNotifier<List<DocumentSectionHeadingPosition>>([]);
@@ -43,7 +46,7 @@ void main() {
     TestCurrentlyReadingController _createController(
       List<DocumentSection> sections, {
       double threshold = 0.1,
-      String endSection,
+      String? endSection,
     }) {
       return TestCurrentlyReadingController(
         sections,
@@ -752,19 +755,19 @@ class TestCurrentlyReadingController {
   final ValueListenable<List<DocumentSectionHeadingPosition>>
       _visibleSectionHeadings;
 
-  final ValueNotifier<DocumentSectionId> _currentlyRead =
-      ValueNotifier<DocumentSectionId>(null);
+  final ValueNotifier<DocumentSectionId?> _currentlyRead =
+      ValueNotifier<DocumentSectionId?>(null);
 
-  TableOfContentsController _tableOfContentsController;
+  late TableOfContentsController _tableOfContentsController;
 
-  String get currentlyReadSection =>
+  String? get currentlyReadSection =>
       currentlyReadDocumentSectionOrNull.value?.toString();
 
-  ValueListenable<DocumentSectionId> get currentlyReadDocumentSectionOrNull =>
+  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSectionOrNull =>
       _currentlyRead;
 
-  DocumentSectionId _getCurrentlyHighlighted() {
-    final highlightedRes = _tableOfContentsController.documentSections
+  DocumentSectionId? _getCurrentlyHighlighted() {
+    final highlightedRes = _tableOfContentsController.documentSections!
         .where((element) => element.shouldHighlight);
     if (highlightedRes.isEmpty) {
       return null;
@@ -781,8 +784,8 @@ class TestCurrentlyReadingController {
   TestCurrentlyReadingController(
     this._tocSectionHeadings,
     this._visibleSectionHeadings, {
-    @required CurrentlyReadThreshold threshold,
-    DocumentSectionId endSection,
+    required CurrentlyReadThreshold threshold,
+    DocumentSectionId? endSection,
   }) {
     final listenable =
         ValueNotifier<IList<DocumentSectionHeadingPosition>>(IList());
@@ -824,9 +827,7 @@ class TestCurrentlyReadingController {
   }
 }
 
-class MockDocumentController extends Mock implements DocumentController {}
-
-String _generateEndSectionMarkdown(DocumentSectionId endSectionId) {
+String _generateEndSectionMarkdown(DocumentSectionId? endSectionId) {
   return '''
 
 #### ${endSectionId ?? 'metadaten'}

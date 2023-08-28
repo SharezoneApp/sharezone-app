@@ -31,7 +31,7 @@ class PrefilledTextField extends StatefulWidget {
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.
-  final String prefilledText;
+  final String? prefilledText;
 
   /// Will autoselect the [prefilledText] on the first build if true.
   /// This helps the user to quickly delete the default [prefilledText] and
@@ -308,7 +308,7 @@ class PrefilledTextField extends StatefulWidget {
   /// ```
   ///
   /// (Copied from [TextField.maxLines])
-  final int maxLines;
+  final int? maxLines;
 
   /// The style to use for the text being edited.
   ///

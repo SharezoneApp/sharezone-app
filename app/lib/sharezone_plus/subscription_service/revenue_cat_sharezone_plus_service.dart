@@ -15,7 +15,7 @@ class RevenueCatPurchaseService implements PurchaseService {
   Future<void> purchase(ProductId id) async {
     final offerings = await Purchases.getOfferings();
     final availablePackages = offerings
-        .getOffering('default-dev-plus-subscription')
+        .getOffering('default-dev-plus-subscription')!
         .availablePackages;
     final packageToPurchase = availablePackages
         .singleWhere((package) => package.offeringIdentifier == id.toString());
@@ -31,7 +31,7 @@ class RevenueCatPurchaseService implements PurchaseService {
     final offerings = await Purchases.getOfferings();
 
     final availablePackages = offerings
-        .getOffering('default-dev-plus-subscription')
+        .getOffering('default-dev-plus-subscription')!
         .availablePackages;
     final identifiers = availablePackages
         .map((package) => package.storeProduct.identifier)

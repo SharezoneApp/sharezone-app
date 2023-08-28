@@ -70,8 +70,8 @@ void _throwIfNullOrEmptyString(String value, String name) {
 
 class NavigateToLocationExecutor
     extends ActionRequestExecutor<NavigateToLocationRequest> {
-  final NavigationBloc _navigationBloc;
-  final NavigationService _navigationService;
+  final NavigationBloc? _navigationBloc;
+  final NavigationService? _navigationService;
 
   NavigateToLocationExecutor(this._navigationBloc, this._navigationService);
 
@@ -80,34 +80,34 @@ class NavigateToLocationExecutor
     final tag = actionRequest.navigationTag;
     switch (tag) {
       case DashboardPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.overview);
+        _navigationBloc!.navigateTo(NavigationItem.overview);
         break;
       case GroupPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.group);
+        _navigationBloc!.navigateTo(NavigationItem.group);
         break;
       case HomeworkPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.homework);
+        _navigationBloc!.navigateTo(NavigationItem.homework);
         break;
       case TimetablePage.tag:
-        _navigationBloc.navigateTo(NavigationItem.timetable);
+        _navigationBloc!.navigateTo(NavigationItem.timetable);
         break;
       case BlackboardPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.blackboard);
+        _navigationBloc!.navigateTo(NavigationItem.blackboard);
         break;
       case FileSharingPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.filesharing);
+        _navigationBloc!.navigateTo(NavigationItem.filesharing);
         break;
       case CalendricalEventsPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.events);
+        _navigationBloc!.navigateTo(NavigationItem.events);
         break;
       case SettingsPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.settings);
+        _navigationBloc!.navigateTo(NavigationItem.settings);
         break;
       case FeedbackPage.tag:
-        _navigationBloc.navigateTo(NavigationItem.feedbackBox);
+        _navigationBloc!.navigateTo(NavigationItem.feedbackBox);
         break;
       default:
-        _navigationService.pushNamed(tag);
+        _navigationService!.pushNamed(tag);
     }
   }
 }

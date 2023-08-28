@@ -28,6 +28,5 @@ extension ToReadableString on NavigationExperimentOption {
       case NavigationExperimentOption.extendableBnbWithMoreButton:
         return 'Neue Navigation - Mit Mehr-Button';
     }
-    throw UnimplementedError('No readable string for $this found');
   }
 }

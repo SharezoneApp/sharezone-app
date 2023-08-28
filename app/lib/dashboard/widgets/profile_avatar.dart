@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({Key key}) : super(key: key);
+  const _ProfileAvatar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _ProfileAvatar extends StatelessWidget {
           navigation.navigateTo(NavigationItem.accountPage);
         },
         icon: StreamBuilder<String>(
-          stream: api.user.userStream.map((user) => user.abbreviation),
+          stream: api.user.userStream.map((user) => user!.abbreviation),
           builder: (context, snapshot) {
             final abbreviation = snapshot.data ?? "";
             return Stack(
@@ -51,7 +51,7 @@ class _ProfileAvatar extends StatelessWidget {
 }
 
 class _AnonymousUserNote extends StatelessWidget {
-  const _AnonymousUserNote({Key key, @required this.cache}) : super(key: key);
+  const _AnonymousUserNote({Key? key, required this.cache}) : super(key: key);
 
   final ProfilePageHintCache cache;
 

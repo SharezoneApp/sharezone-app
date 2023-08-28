@@ -91,7 +91,7 @@ class _AboutHeader extends StatelessWidget {
             if (snapshot.hasError)
               return Text("Fehler: ${snapshot.error.toString()}");
             return Text(
-              "Version: ${snapshot.data.version} (${snapshot.data.versionNumber})",
+              "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
               style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 14,

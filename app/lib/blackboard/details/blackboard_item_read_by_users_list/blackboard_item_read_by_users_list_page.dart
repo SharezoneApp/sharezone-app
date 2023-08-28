@@ -21,9 +21,9 @@ import 'user_view.dart';
 
 class BlackboardItemReadByUsersListPage extends StatefulWidget {
   const BlackboardItemReadByUsersListPage({
-    Key key,
-    @required this.itemId,
-    @required this.courseId,
+    Key? key,
+    required this.itemId,
+    required this.courseId,
   }) : super(key: key);
 
   final String itemId;
@@ -38,7 +38,7 @@ class BlackboardItemReadByUsersListPage extends StatefulWidget {
 
 class _BlackboardItemReadByUsersListPageState
     extends State<BlackboardItemReadByUsersListPage> {
-  BlackboardItemReadByUsersListBloc bloc;
+  late BlackboardItemReadByUsersListBloc bloc;
 
   @override
   void initState() {
@@ -69,7 +69,7 @@ class _BlackboardItemReadByUsersListPageState
             builder: (context, snapshot) {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: snapshot.hasData ? _List(snapshot.data) : _Loading(),
+                child: snapshot.hasData ? _List(snapshot.data!) : _Loading(),
               );
             },
           ),
@@ -110,7 +110,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
-  const _List(this.views, {Key key}) : super(key: key);
+  const _List(this.views, {Key? key}) : super(key: key);
 
   final List<UserView> views;
 
@@ -142,7 +142,7 @@ class _EmptyList extends StatelessWidget {
 }
 
 class _UserTile extends StatelessWidget {
-  const _UserTile(this.view, {Key key}) : super(key: key);
+  const _UserTile(this.view, {Key? key}) : super(key: key);
 
   final UserView view;
 
@@ -156,7 +156,7 @@ class _UserTile extends StatelessWidget {
         subtitle: Text(view.typeOfUser),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbrevation, style: TextStyle(color: Colors.white)),
+          child: Text(view.abbreviation, style: TextStyle(color: Colors.white)),
         ),
         trailing: hasReadIcon(),
       ),

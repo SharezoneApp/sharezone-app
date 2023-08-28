@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_gateway.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_validators.dart';
@@ -15,7 +14,10 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
 
 class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
-  SchoolClassEditBloc({@required this.gateway, @required this.currentName}) {
+  SchoolClassEditBloc({
+    required this.gateway,
+    required this.currentName,
+  }) {
     _nameSubject.sink.add(currentName);
   }
 
@@ -29,7 +31,7 @@ class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
   Future<bool> submit() async {
     if (_isSubmitValid()) {
       final name = _nameSubject.valueOrNull;
-      final result = await gateway.edit(name);
+      final result = await gateway.edit(name!);
       return result.hasData && result.data == true;
     }
     return false;

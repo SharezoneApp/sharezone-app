@@ -17,7 +17,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class GroupQrCode extends StatelessWidget {
   final GroupInfo groupInfo;
 
-  const GroupQrCode({Key key, this.groupInfo}) : super(key: key);
+  const GroupQrCode({
+    Key? key,
+    required this.groupInfo,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return QrImage(
@@ -29,7 +32,10 @@ class GroupQrCode extends StatelessWidget {
 }
 
 class QRCodeButton extends StatelessWidget {
-  QRCodeButton(this.groupInfo, {this.closeDialog});
+  QRCodeButton(
+    this.groupInfo, {
+    required this.closeDialog,
+  });
 
   final bool closeDialog;
   final GroupInfo groupInfo;
@@ -61,9 +67,9 @@ class QRCodeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final joinLinkIsEmptyOrNull =
-        groupInfo.joinLink == null || groupInfo.joinLink.isEmpty;
+        groupInfo.joinLink == null || groupInfo.joinLink!.isEmpty;
     final publicKeyIsEmptyOrNull =
-        groupInfo.sharecode == null || groupInfo.sharecode.isEmpty;
+        groupInfo.sharecode == null || groupInfo.sharecode!.isEmpty;
     final isEnabled = !(joinLinkIsEmptyOrNull && publicKeyIsEmptyOrNull);
     return Expanded(
       child: GrayShimmer(

@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone/pages/settings/changelog/change_view.dart';
@@ -45,7 +44,7 @@ class ChangelogBloc extends BlocBase {
   }
 
   Future<ChangelogPageView> _loadChangelogData(
-      {int from = 0, @required int to}) async {
+      {int from = 0, required int to}) async {
     assert(from <= to);
     final currentVersion =
         Version.parse(name: _platformInformationManager.version);

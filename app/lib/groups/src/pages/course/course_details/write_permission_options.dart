@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -16,17 +15,17 @@ import 'course_settings.dart';
 
 class WritePermissions extends StatelessWidget {
   const WritePermissions({
-    Key key,
-    @required this.initialWritePermission,
-    @required this.writePermissionStream,
-    @required this.onChange,
+    Key? key,
+    required this.initialWritePermission,
+    required this.writePermissionStream,
+    required this.onChange,
     this.annotation,
   }) : super(key: key);
 
   final WritePermission initialWritePermission;
   final Stream<WritePermission> writePermissionStream;
   final FutureBoolValueChanged<WritePermission> onChange;
-  final String annotation;
+  final String? annotation;
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +47,11 @@ class WritePermissions extends StatelessWidget {
 }
 
 void showWritePermissionOptionsSheet({
-  @required BuildContext context,
-  @required WritePermission currentPermission,
-  @required Stream<WritePermission> permissionsStream,
-  @required FutureBoolValueChanged<WritePermission> onChange,
-  String annotation,
+  required BuildContext context,
+  required WritePermission currentPermission,
+  required Stream<WritePermission> permissionsStream,
+  required FutureBoolValueChanged<WritePermission> onChange,
+  String? annotation,
 }) {
   showModalBottomSheet(
     context: context,
@@ -67,26 +66,26 @@ void showWritePermissionOptionsSheet({
 
 class _WritePermissionSheet extends StatelessWidget {
   const _WritePermissionSheet({
-    Key key,
-    @required this.initialData,
-    @required this.permissionsStream,
-    @required this.onChange,
+    Key? key,
+    required this.initialData,
+    required this.permissionsStream,
+    required this.onChange,
     this.annotation,
   }) : super(key: key);
 
   final WritePermission initialData;
   final Stream<WritePermission> permissionsStream;
   final FutureBoolValueChanged<WritePermission> onChange;
-  final String annotation;
+  final String? annotation;
 
   @override
   Widget build(BuildContext context) {
-    const textStlye = TextStyle(color: Colors.grey, fontSize: 11);
+    const textStyle = TextStyle(color: Colors.grey, fontSize: 11);
     return StreamBuilder<WritePermission>(
       initialData: initialData,
       stream: permissionsStream,
       builder: (context, snapshot) {
-        final currentPermission = snapshot.data;
+        final currentPermission = snapshot.data!;
         return SingleChildScrollView(
           child: SafeArea(
             child: Column(
@@ -98,16 +97,16 @@ class _WritePermissionSheet extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         "Wer ist dazu berechtigt, neue Einträge, neue Hausaufgaben, neue Dateien, etc. zu erstellen, bzw. hochzuladen?",
-                        style: textStlye,
+                        style: textStyle,
                         textAlign: TextAlign.center,
                       ),
                       if (isNotEmptyOrNull(annotation))
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
-                            annotation,
+                            annotation!,
                             textAlign: TextAlign.center,
-                            style: textStlye,
+                            style: textStyle,
                           ),
                         ),
                     ],
@@ -141,15 +140,16 @@ class _WritePermissionSheet extends StatelessWidget {
 
 class _WritePermissionTile extends StatelessWidget {
   const _WritePermissionTile({
-    Key key,
-    @required this.writePermission,
-    @required this.currentPermission,
-    @required this.title,
+    Key? key,
+    required this.writePermission,
+    required this.currentPermission,
+    required this.title,
     this.subtitle,
-    @required this.onChange,
+    required this.onChange,
   }) : super(key: key);
 
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   final WritePermission currentPermission, writePermission;
   final FutureBoolValueChanged<WritePermission> onChange;
 
@@ -159,7 +159,7 @@ class _WritePermissionTile extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: RadioListTile<WritePermission>(
         title: Text(title),
-        subtitle: !isEmptyOrNull(subtitle) ? Text(subtitle) : null,
+        subtitle: !isEmptyOrNull(subtitle) ? Text(subtitle!) : null,
         groupValue: currentPermission,
         value: writePermission,
         onChanged: (newPermission) {

@@ -61,7 +61,7 @@ class MySchoolClassPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    return StreamBuilder<SchoolClass>(
+    return StreamBuilder<SchoolClass?>(
       stream: bloc.streamSchoolClass(),
       builder: (context, snapshot) {
         final schoolClass = snapshot.data;

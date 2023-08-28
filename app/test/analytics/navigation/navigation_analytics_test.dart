@@ -15,8 +15,8 @@ import '../analytics_test.dart';
 
 void main() {
   group('navigation analytics', () {
-    LocalAnalyticsBackend backend;
-    Analytics analytics;
+    late LocalAnalyticsBackend backend;
+    late Analytics analytics;
 
     setUp(() {
       backend = LocalAnalyticsBackend();

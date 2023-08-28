@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 class QuickCreateCourseView {
-  final String name, abbreviation;
-  final Color abbreviationColor;
-  final Design design;
-  final Course course;
+  final String? name, abbreviation;
+  final Color? abbreviationColor;
+  final Design? design;
+  final Course? course;
 
   const QuickCreateCourseView(
       {this.name,

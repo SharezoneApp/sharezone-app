@@ -13,8 +13,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class RequireCourseSelectionsJoinResultDialog extends StatelessWidget {
   final RequireCourseSelectionsJoinResult result;
 
-  const RequireCourseSelectionsJoinResultDialog({Key key, this.result})
-      : super(key: key);
+  const RequireCourseSelectionsJoinResultDialog({
+    Key? key,
+    required this.result,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

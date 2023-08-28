@@ -14,34 +14,36 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class NavigationService extends BlocBase {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  Future<T> pushNamed<T>(String routeName) async {
-    return navigatorKey.currentState.pushNamed<T>(routeName);
+  Future<T?> pushNamed<T>(String routeName) async {
+    return navigatorKey.currentState?.pushNamed<T>(routeName);
   }
 
-  Future<T> pushNamedWithDefault<T>(String routeName,
-      {@required T defaultValue}) async {
+  Future<T> pushNamedWithDefault<T>(
+    String routeName, {
+    required T defaultValue,
+  }) async {
     assert(defaultValue != null);
-    final result = await navigatorKey.currentState.pushNamed<T>(routeName);
+    final result = await navigatorKey.currentState?.pushNamed<T>(routeName);
     if (result == null) return defaultValue;
     return result;
   }
 
-  Future<T> pushWidget<T>(Widget widget, {@required String name}) async {
-    return navigatorKey.currentState.push<T>(MaterialPageRoute(
+  Future<T?> pushWidget<T>(Widget widget, {required String name}) async {
+    return navigatorKey.currentState?.push<T>(MaterialPageRoute(
         builder: (context) => widget, settings: RouteSettings(name: name)));
   }
 
-  Future<T> pushWidgetWithDefault<T>(Widget widget,
-      {@required T defaultValue}) async {
+  Future<T?> pushWidgetWithDefault<T>(Widget widget,
+      {required T defaultValue}) async {
     assert(defaultValue != null);
     final result = await navigatorKey.currentState
-        .push<T>(MaterialPageRoute(builder: (context) => widget));
+        ?.push<T>(MaterialPageRoute(builder: (context) => widget));
     if (result == null) return defaultValue;
     return result;
   }
 
   void pop<T>(T result) {
-    navigatorKey.currentState.pop(result);
+    navigatorKey.currentState?.pop<T>(result);
   }
 
   @override
@@ -52,10 +54,9 @@ class NavigationService extends BlocBase {
 Future<T> pushWithDefault<T extends Object>(
   BuildContext context,
   Widget widget, {
-  @required T defaultValue,
-  @required String name,
+  required T defaultValue,
+  required String name,
 }) async {
-  assert(defaultValue != null);
   final result = await Navigator.push<T>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(

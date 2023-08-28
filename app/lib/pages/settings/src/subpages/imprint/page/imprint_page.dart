@@ -23,7 +23,7 @@ class ImprintPage extends StatefulWidget {
 }
 
 class _ImprintPageState extends State<ImprintPage> {
-  ImprintBloc bloc;
+  late ImprintBloc bloc;
 
   @override
   void initState() {

@@ -83,7 +83,7 @@ class MyProfilePage extends StatelessWidget {
 }
 
 class _NameTile extends StatelessWidget {
-  const _NameTile({Key key, @required this.user}) : super(key: key);
+  const _NameTile({Key? key, required this.user}) : super(key: key);
 
   final UserView user;
 
@@ -112,7 +112,7 @@ class _EnterActivationTile extends StatelessWidget {
 }
 
 class _EmailTile extends StatelessWidget {
-  const _EmailTile({Key key, @required this.user}) : super(key: key);
+  const _EmailTile({Key? key, required this.user}) : super(key: key);
 
   final UserView user;
 
@@ -142,7 +142,7 @@ class _EmailTile extends StatelessWidget {
             ),
           );
         } else {
-          openChangeEmailPage(context, user.email);
+          openChangeEmailPage(context, user.email!);
         }
       },
     );
@@ -150,18 +150,18 @@ class _EmailTile extends StatelessWidget {
 }
 
 class _TypeOfUserTile extends StatelessWidget {
-  const _TypeOfUserTile({Key key, this.user}) : super(key: key);
+  const _TypeOfUserTile({Key? key, this.user}) : super(key: key);
 
-  final UserView user;
+  final UserView? user;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text("Account-Typ"),
-      subtitle: Text(user.typeOfUser),
+      subtitle: Text(user!.typeOfUser),
       leading: const Icon(Icons.accessibility),
       onTap: () async {
-        final confirmed = await showLeftRightAdaptiveDialog<bool>(
+        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
           context: context,
           defaultValue: false,
           title: 'Account-Typ',
@@ -172,11 +172,11 @@ class _TypeOfUserTile extends StatelessWidget {
             popResult: true,
             title: "Support kontaktieren",
           ),
-        );
+        ))!;
 
         if (confirmed) {
           UrlLauncherExtended().tryLaunchMailOrThrow("support@sharezone.net",
-              subject: "Typ des Accounts ändern [${user.id}]");
+              subject: "Typ des Accounts ändern [${user!.id}]");
         }
       },
     );
@@ -184,7 +184,7 @@ class _TypeOfUserTile extends StatelessWidget {
 }
 
 class _PasswordTile extends StatelessWidget {
-  const _PasswordTile({Key key, @required this.provider}) : super(key: key);
+  const _PasswordTile({Key? key, required this.provider}) : super(key: key);
 
   final Provider provider;
 
@@ -199,7 +199,7 @@ class _PasswordTile extends StatelessWidget {
         bloc.changePassword(null);
         bloc.changeNewPassword(null);
         final successful =
-            await Navigator.pushNamed(context, ChangePasswordPage.tag) as bool;
+            await Navigator.pushNamed(context, ChangePasswordPage.tag) as bool?;
         if (successful != null && successful) {
           await waitingForPopAnimation();
           showSnackSec(
@@ -213,16 +213,16 @@ class _PasswordTile extends StatelessWidget {
 }
 
 class _StateTile extends StatelessWidget {
-  const _StateTile({Key key, @required this.state}) : super(key: key);
+  const _StateTile({Key? key, required this.state}) : super(key: key);
 
-  final String state;
+  final String? state;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.language),
       title: const Text("Bundesland"),
-      subtitle: Text(state),
+      subtitle: Text(state!),
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
@@ -235,7 +235,7 @@ class _StateTile extends StatelessWidget {
 }
 
 class _ProviderTile extends StatelessWidget {
-  const _ProviderTile({Key key, @required this.provider}) : super(key: key);
+  const _ProviderTile({Key? key, required this.provider}) : super(key: key);
 
   final Provider provider;
 
@@ -308,7 +308,7 @@ class _PrivacyOptOut extends StatelessWidget {
 }
 
 class SignOutButton extends StatelessWidget {
-  const SignOutButton({Key key, @required this.isAnonymous}) : super(key: key);
+  const SignOutButton({Key? key, required this.isAnonymous}) : super(key: key);
 
   final bool isAnonymous;
 
@@ -345,12 +345,12 @@ class _DeleteAccountButton extends StatelessWidget {
 }
 
 class _DangerButton extends StatelessWidget {
-  const _DangerButton({Key key, this.onTap, this.title, this.icon})
+  const _DangerButton({Key? key, this.onTap, this.title, this.icon})
       : super(key: key);
 
-  final VoidCallback onTap;
-  final String title;
-  final Icon icon;
+  final VoidCallback? onTap;
+  final String? title;
+  final Icon? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -359,8 +359,8 @@ class _DangerButton extends StatelessWidget {
       child: ButtonTheme(
         minWidth: getScreenSize(context).width,
         child: ElevatedButton.icon(
-          icon: icon,
-          label: Text(title.toUpperCase()),
+          icon: icon!,
+          label: Text(title!.toUpperCase()),
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: Colors.redAccent,
@@ -380,19 +380,19 @@ class _DeleteAccountDialogContent extends StatefulWidget {
 
 class _DeleteAccountDialogContentState
     extends State<_DeleteAccountDialogContent> {
-  bool signOut = false;
+  bool? signOut = false;
   bool isLoading = false;
-  String error;
-  String password;
+  String? error;
+  String? password;
   bool _obscureText = true;
 
-  bool isStringNullOrEmpty(String string) {
+  bool isStringNullOrEmpty(String? string) {
     return string == null || string.isEmpty;
   }
 
   List<Widget> actions(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final provider = api.user.authUser.provider;
+    final provider = api.user.authUser!.provider;
     return [
       CancelButton(),
       TextButton(
@@ -401,7 +401,7 @@ class _DeleteAccountDialogContentState
           foregroundColor: Theme.of(context).colorScheme.error,
         ),
         onPressed: provider != Provider.email
-            ? signOut
+            ? signOut!
                 ? () => tryToDeleteUser(context)
                 : null
             : !isStringNullOrEmpty(password)
@@ -422,7 +422,7 @@ class _DeleteAccountDialogContentState
   Future<void> tryToDeleteUser(BuildContext context) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    final authUser = api.user.authUser;
+    final authUser = api.user.authUser!;
     final fbUser = authUser.firebaseUser;
     final provider = authUser.provider;
 
@@ -441,12 +441,12 @@ class _DeleteAccountDialogContentState
           await appleSignInLogic.reauthenticateWithApple();
         } else {
           final credential = EmailAuthProvider.credential(
-              email: fbUser.email, password: password);
+              email: fbUser.email!, password: password!);
           await fbUser.reauthenticateWithCredential(credential);
         }
       }
       await api.user.deleteUser(api);
-      api.references.firebaseAuth.signOut();
+      api.references.firebaseAuth!.signOut();
       analytics.log(NamedAnalyticsEvent(name: "user_deleted"));
     } on Exception catch (e, s) {
       setState(() {
@@ -459,7 +459,7 @@ class _DeleteAccountDialogContentState
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final provider = api.user.authUser.provider;
+    final provider = api.user.authUser!.provider;
     const text = "Ja, ich möchte mein Konto löschen.";
 
     if (ThemePlatform.isCupertino) {
@@ -510,11 +510,11 @@ class _DeleteAccountDialogContentState
               else
                 DeleteConfirmationCheckbox(
                   onChanged: (value) => setState(() => signOut = value),
-                  confirm: signOut,
+                  confirm: signOut!,
                   text: text,
                 ),
               if (isNotEmptyOrNull(error))
-                DeleteAccountDialogErrorText(text: error)
+                DeleteAccountDialogErrorText(text: error!)
             ],
           ),
         ),
@@ -534,7 +534,7 @@ class _DeleteAccountDialogContentState
             ),
           if ((provider == Provider.email
                   ? isNotEmptyOrNull(password)
-                  : signOut) &&
+                  : signOut!) &&
               !isLoading)
             CupertinoActionSheetAction(
               child: const Text("Löschen"),
@@ -592,12 +592,12 @@ class _DeleteAccountDialogContentState
                     ),
                   )
                 : DeleteConfirmationCheckbox(
-                    confirm: signOut,
+                    confirm: signOut!,
                     onChanged: (value) => setState(() => signOut = value),
                     text: text,
                   ),
             if (isNotEmptyOrNull(error))
-              DeleteAccountDialogErrorText(text: error)
+              DeleteAccountDialogErrorText(text: error!)
           ],
         ),
       ),
@@ -608,7 +608,7 @@ class _DeleteAccountDialogContentState
 
 class _DeleteAccountDialogText extends StatelessWidget {
   const _DeleteAccountDialogText({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -619,7 +619,7 @@ class _DeleteAccountDialogText extends StatelessWidget {
 }
 
 class _DeleteAccountDialogTitle extends StatelessWidget {
-  const _DeleteAccountDialogTitle({Key key}) : super(key: key);
+  const _DeleteAccountDialogTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) =>

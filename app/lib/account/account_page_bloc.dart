@@ -28,24 +28,26 @@ class AccountPageBloc extends BlocBase {
 
   final _analytics = LinkProviderAnalytics(Analytics(getBackend()));
 
-  Stream<UserView> userViewStream;
+  late Stream<UserView> userViewStream;
 
   AccountPageBloc({
-    @required this.userGateway,
-    @required this.linkProviderGateway,
-    @required this.globalKey,
+    required this.userGateway,
+    required this.linkProviderGateway,
+    required this.globalKey,
   }) {
     final userStream = userGateway.userStream;
     final authUserStream = userGateway.authUserStream;
 
     userViewStream = TwoStreams(userStream, authUserStream).stream.map(
-          (result) =>
-              UserView.fromUserAndFirebaseUser(result.data0, result.data1),
+          (result) => UserView.fromUserAndFirebaseUser(
+            result.data0!,
+            result.data1,
+          ),
         );
   }
 
-  Future<LinkAction> linkWithGoogleAndHandleExceptions() async {
-    bool confirmed;
+  Future<LinkAction?> linkWithGoogleAndHandleExceptions() async {
+    bool? confirmed;
     try {
       confirmed = await linkProviderGateway.linkUserWithGoogle();
     } on Exception catch (e, s) {
@@ -61,8 +63,8 @@ class AccountPageBloc extends BlocBase {
     return null;
   }
 
-  Future<LinkAction> linkWithAppleAndHandleExceptions() async {
-    bool confirmed;
+  Future<LinkAction?> linkWithAppleAndHandleExceptions() async {
+    bool? confirmed;
     try {
       confirmed = await linkProviderGateway.linkUserWithApple();
     } on Exception catch (e, s) {

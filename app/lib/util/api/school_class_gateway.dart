@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:app_functions/app_functions.dart';
+import 'package:collection/collection.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -152,13 +153,12 @@ class SchoolClassGateway {
   Stream<List<SchoolClass>> stream() {
     return _connectionsGateway
         .streamConnectionsData()
-        .map((connections) => connections?.schoolClass?.values?.toList());
+        .map((connections) => connections?.schoolClass?.values.toList() ?? []);
   }
 
-  Stream<SchoolClass> streamSingleSchoolClass(String id) {
+  Stream<SchoolClass?> streamSingleSchoolClass(String id) {
     return _connectionsGateway.streamConnectionsData().map((connections) =>
-        connections.schoolClass.values
-            .where((schoolClass) => schoolClass.id == id)
-            .first);
+        connections?.schoolClass?.values
+            .firstWhereOrNull((schoolClass) => schoolClass.id == id));
   }
 }

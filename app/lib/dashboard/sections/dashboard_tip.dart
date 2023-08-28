@@ -13,7 +13,7 @@ class _DashboardTipSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final system = BlocProvider.of<DashboardTipSystem>(context);
 
-    return StreamBuilder<DashboardTip>(
+    return StreamBuilder<DashboardTip?>(
       stream: system.dashboardTip,
       builder: (context, snapshot) {
         final dashboardTip = snapshot.data;
@@ -26,7 +26,7 @@ class _DashboardTipSection extends StatelessWidget {
 }
 
 class _DashboardTipCard extends StatelessWidget {
-  const _DashboardTipCard(this.dashboardTip, {Key key}) : super(key: key);
+  const _DashboardTipCard(this.dashboardTip, {Key? key}) : super(key: key);
 
   final DashboardTip dashboardTip;
 
@@ -40,7 +40,7 @@ class _DashboardTipCard extends StatelessWidget {
           key: ValueKey(dashboardTip),
           padding: const EdgeInsets.all(0),
           color: isDarkThemeEnabled(context)
-              ? Colors.deepOrange[700]
+              ? Colors.deepOrange[700]!
               : Colors.amberAccent,
           title: dashboardTip.title,
           content: Text(dashboardTip.text),

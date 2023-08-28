@@ -26,37 +26,37 @@ class FeedbackBloc extends BlocBase {
   final PlatformInformationRetriever _platformInformationRetriever;
   final String uid;
 
-  final _ratingSubject = BehaviorSubject<double>();
-  final _likeSubject = BehaviorSubject<String>();
-  final _dislikeSubject = BehaviorSubject<String>();
-  final _missingSubject = BehaviorSubject<String>();
-  final _heardFromSubject = BehaviorSubject<String>();
+  final _ratingSubject = BehaviorSubject<double?>();
+  final _likeSubject = BehaviorSubject<String?>();
+  final _dislikeSubject = BehaviorSubject<String?>();
+  final _missingSubject = BehaviorSubject<String?>();
+  final _heardFromSubject = BehaviorSubject<String?>();
   final _isAnonymousSubject = BehaviorSubject.seeded(false);
-  final _contactOptions = BehaviorSubject<String>();
+  final _contactOptions = BehaviorSubject<String?>();
 
   FeedbackBloc(this._api, this._cache, this._platformInformationRetriever,
       this.uid, this.feedbackAnalytics) {
     isAnonymous = _isAnonymousSubject.stream;
   }
 
-  Function(double) get changeRating => _ratingSubject.sink.add;
-  Function(String) get changeLike => _likeSubject.sink.add;
-  Function(String) get changeDislike => _dislikeSubject.sink.add;
-  Function(String) get changeMissing => _missingSubject.sink.add;
-  Function(String) get changeHeardFrom => _heardFromSubject.sink.add;
+  Function(double?) get changeRating => _ratingSubject.sink.add;
+  Function(String?) get changeLike => _likeSubject.sink.add;
+  Function(String?) get changeDislike => _dislikeSubject.sink.add;
+  Function(String?) get changeMissing => _missingSubject.sink.add;
+  Function(String?) get changeHeardFrom => _heardFromSubject.sink.add;
   Function(bool) get changeIsAnonymous => _isAnonymousSubject.sink.add;
-  Function(String) get changeContactOptions => _contactOptions.sink.add;
+  Function(String?) get changeContactOptions => _contactOptions.sink.add;
 
-  ValueStream<double> get rating => _ratingSubject;
-  ValueStream<String> get like => _likeSubject;
-  ValueStream<String> get dislike => _dislikeSubject;
-  ValueStream<String> get missing => _missingSubject;
-  ValueStream<String> get heardFrom => _heardFromSubject;
-  ValueStream<String> get contactOptions => _contactOptions;
+  ValueStream<double?> get rating => _ratingSubject;
+  ValueStream<String?> get like => _likeSubject;
+  ValueStream<String?> get dislike => _dislikeSubject;
+  ValueStream<String?> get missing => _missingSubject;
+  ValueStream<String?> get heardFrom => _heardFromSubject;
+  ValueStream<String?> get contactOptions => _contactOptions;
 
   /// Whether the user wants to remain anonymous.
   /// Defaults to false.
-  Stream<bool> isAnonymous;
+  late Stream<bool> isAnonymous;
 
   /// Submits the feedback given to the [FeedbackApi].
   ///
@@ -79,7 +79,7 @@ class FeedbackBloc extends BlocBase {
       throw CoolDownException(
           "User has not yet exceeded the cool down.", feedbackCoolDown);
 
-    final isAnonymous = _isAnonymousSubject.valueOrNull;
+    final isAnonymous = _isAnonymousSubject.valueOrNull!;
 
     final rating = _ratingSubject.valueOrNull;
     final likes = _likeSubject.valueOrNull;

@@ -17,7 +17,7 @@ version: 1.7.3+318
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   abgabe_client_lib:
@@ -27,7 +27,7 @@ dependencies:
   add_2_calendar: ^2.2.4
   analytics:
     path: ../lib/analytics
-  animated_stream_list: ^1.1.0
+  animated_stream_list_nullsafety: ^2.0.3
   animations: ^2.0.1
   animator: ^3.2.0
   app_functions:
@@ -48,6 +48,7 @@ dependencies:
   clock: ^1.1.1
   cloud_firestore: ^4.8.5
   cloud_functions: ^4.4.0
+  collection: ^1.17.0
   common_domain_models:
     path: ../lib/common_domain_models
   crash_analytics:
@@ -161,15 +162,14 @@ dependencies:
 # * ab wann der override entfernt werden kann.
 # dependency_overrides:
 dev_dependencies:
-  build_runner: ^2.1.4
-  built_value_generator: ^8.1.1
+  build_runner: ^2.3.3
   equatable: ^2.0.5
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
   integration_test:
     sdk: flutter
-  mockito: ^5.0.7
+  mockito: ^5.3.2
   random_string: ^2.0.1
 
 flutter:

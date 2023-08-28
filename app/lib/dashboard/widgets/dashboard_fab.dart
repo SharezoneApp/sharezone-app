@@ -23,7 +23,7 @@ class _DashboardPageFABState extends State<_DashboardPageFAB> {
     return MatchingTypeOfUserStreamBuilder(
       expectedTypeOfUser: TypeOfUser.parent,
       matchesTypeOfUserWidget: Container(),
-      notMatchtingWidget: ModalFloatingActionButton(
+      notMatchingWidget: ModalFloatingActionButton(
         heroTag: 'sharezone-fab',
         tooltip: 'Neue Elemente hinzufügen',
         label: 'Hinzufügen',

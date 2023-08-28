@@ -12,9 +12,9 @@ import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
   const MainContentNarrow({
-    @required this.privacyPolicy,
+    required this.privacyPolicy,
     this.showBackButton = true,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final PrivacyPolicy privacyPolicy;

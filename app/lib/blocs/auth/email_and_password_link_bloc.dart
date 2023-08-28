@@ -34,13 +34,13 @@ class EmailAndPasswordLinkBloc extends BlocBase
       LinkProviderAnalytics(Analytics(getBackend()));
 
   final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String?>();
   final _nameController = BehaviorSubject<String>();
   final _obscureTextSubject = BehaviorSubject.seeded(true);
 
   // Add data to stream
   Stream<String> get email => _emailController.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordController.stream.transform(validatePassword);
   Stream<String> get name => _nameController.stream.transform(validateName);
   Stream<bool> get obscureText => _obscureTextSubject;
@@ -56,7 +56,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   Function(String) get changeName => _nameController.sink.add;
   Function(bool) get changeObscureText => _obscureTextSubject.sink.add;
 
-  Future<LinkAction> linkWithEmailAndPasswordAndHandleExceptions() async {
+  Future<LinkAction?> linkWithEmailAndPasswordAndHandleExceptions() async {
     if (await _isSubmitValid()) {
       try {
         await _submit();
@@ -80,14 +80,14 @@ class EmailAndPasswordLinkBloc extends BlocBase
     final validPassword = _passwordController.valueOrNull;
     final validName = _nameController.valueOrNull;
 
-    await _linkEmailandPasswordProviderToUser(validEmail, validPassword);
+    await _linkEmailAndPasswordProviderToUser(validEmail!, validPassword!);
     if (_hasUserChangedName()) {
-      _updateUserName(validName);
+      _updateUserName(validName!);
     }
   }
 
   void _hideCurrentSnackBar() =>
-      scaffoldMessengerKey.currentState.hideCurrentSnackBar();
+      scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
 
   void _showErrorSnackBar(Exception e, StackTrace s) {
     showSnackSec(
@@ -111,8 +111,10 @@ class EmailAndPasswordLinkBloc extends BlocBase
     return isNotEmptyOrNull(e) && isNotEmptyOrNull(p) && isNotEmptyOrNull(n);
   }
 
-  Future<void> _linkEmailandPasswordProviderToUser(
-      String validEmail, String validPassword) async {
+  Future<void> _linkEmailAndPasswordProviderToUser(
+    String validEmail,
+    String validPassword,
+  ) async {
     await linkProviderGateway.linkUserWithEmailAndPassword(
         email: validEmail, password: validPassword);
   }

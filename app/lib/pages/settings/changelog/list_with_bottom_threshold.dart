@@ -37,7 +37,7 @@ class ListWithBottomThreshold extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   const ListWithBottomThreshold(
-      {Key key,
+      {Key? key,
       this.thresholdHeight = 200.0,
       this.onThresholdExceeded = _doNothing,
       this.loadingIndicator = const _DefaultCircularLoadingIndicator(),
@@ -96,7 +96,7 @@ class _ListWithBottomThresholdState extends State<ListWithBottomThreshold> {
 
     return Directionality(
       // Needed for ListView if no Ancestor with Directionality is given (mostly tests).
-      textDirection: Directionality.of(context) ?? TextDirection.ltr,
+      textDirection: Directionality.of(context),
       child: ListView(
         children: [...widget.children, if (loading) widget.loadingIndicator],
         controller: _controller,

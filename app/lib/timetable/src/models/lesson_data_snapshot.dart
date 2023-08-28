@@ -8,8 +8,6 @@
 
 import 'package:group_domain_models/group_domain_models.dart';
 
-import 'package:meta/meta.dart';
-
 import 'lesson.dart';
 
 class LessonDataSnapshot {
@@ -17,7 +15,7 @@ class LessonDataSnapshot {
   final Map<String, GroupInfo> groupInfos;
 
   const LessonDataSnapshot({
-    @required this.lessons,
-    @required this.groupInfos,
+    required this.lessons,
+    required this.groupInfos,
   });
 }

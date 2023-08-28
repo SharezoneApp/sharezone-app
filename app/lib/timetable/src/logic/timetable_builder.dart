@@ -10,7 +10,6 @@ import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-
 import 'package:sharezone/timetable/src/logic/timetable_position_logic.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/timetable_element.dart';
@@ -38,9 +37,13 @@ class TimetableBuilder {
       final propertiesMap = calculatePropertiesForElements(Map.fromEntries([
         for (final lesson in filteredLessons)
           MapEntry(
-            lesson.lessonID,
+            lesson.lessonID!,
             TimetableElementTimeProperties(
-                lesson.lessonID, date, lesson.startTime, lesson.endTime),
+              lesson.lessonID!,
+              date,
+              lesson.startTime,
+              lesson.endTime,
+            ),
           ),
         for (final event in filteredEvents)
           MapEntry(
@@ -53,7 +56,7 @@ class TimetableBuilder {
       entries.addAll(filteredLessons.map((lesson) => _buildElementForLesson(
             date,
             lesson,
-            propertiesMap[lesson.lessonID],
+            propertiesMap[lesson.lessonID]!,
           )));
       entries.addAll(filteredEvents.map((event) => _buildElementForEvent(
             event,
@@ -70,7 +73,7 @@ class TimetableBuilder {
       start: event.startTime,
       end: event.endTime,
       data: event,
-      groupInfo: groupInfo[event.groupID],
+      groupInfo: groupInfo[event.groupID]!,
       priority: 1,
       properties: properties,
     );
@@ -92,9 +95,9 @@ class TimetableBuilder {
   Iterable<Lesson> _getFilteredLessonsForDate(Date date) {
     WeekDay weekday = date.weekDayEnum;
     return lessons.where((lesson) {
-      if (lesson.startDate != null && lesson.startDate.isBefore(date))
+      if (lesson.startDate != null && lesson.startDate!.isBefore(date))
         return false;
-      if (lesson.endDate != null && lesson.endDate.isAfter(date)) return false;
+      if (lesson.endDate != null && lesson.endDate!.isAfter(date)) return false;
       return lesson.weekday == weekday;
     });
   }

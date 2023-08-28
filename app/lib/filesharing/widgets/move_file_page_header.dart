@@ -14,10 +14,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MoveFilePageHeader extends StatelessWidget
     implements PreferredSizeWidget {
-  final FolderPath currentPath;
-  final FileSharingData fileSharingData;
+  final FolderPath? currentPath;
+  final FileSharingData? fileSharingData;
 
-  const MoveFilePageHeader({Key key, this.currentPath, this.fileSharingData})
+  const MoveFilePageHeader({Key? key, this.currentPath, this.fileSharingData})
       : super(key: key);
 
   @override
@@ -55,15 +55,15 @@ class MoveFilePageHeader extends StatelessWidget
 }
 
 class _FileSharingPathRow extends StatelessWidget {
-  final FileSharingData fileSharingData;
-  final FolderPath path;
+  final FileSharingData? fileSharingData;
+  final FolderPath? path;
 
-  const _FileSharingPathRow({Key key, this.fileSharingData, this.path})
+  const _FileSharingPathRow({Key? key, this.fileSharingData, this.path})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final pathHierachy = path.getPathsHierachy();
+    final pathHierachy = path!.getPathsHierachy();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -83,19 +83,19 @@ class _FileSharingPathRow extends StatelessWidget {
     );
   }
 
-  String _getTextSubPath(BuildContext context, FileSharingData fileSharingData,
-      FolderPath subPath) {
-    if (subPath == FolderPath.root) return fileSharingData.courseName;
-    return fileSharingData.getFolder(subPath)?.name;
+  String? _getTextSubPath(BuildContext context,
+      FileSharingData? fileSharingData, FolderPath subPath) {
+    if (subPath == FolderPath.root) return fileSharingData!.courseName;
+    return fileSharingData!.getFolder(subPath)?.name;
   }
 }
 
 class _ClickableElement extends StatelessWidget {
-  final VoidCallback onTap;
-  final String text;
-  final bool isLast;
+  final VoidCallback? onTap;
+  final String? text;
+  final bool? isLast;
 
-  const _ClickableElement({Key key, this.onTap, this.text, this.isLast})
+  const _ClickableElement({Key? key, this.onTap, this.text, this.isLast})
       : super(key: key);
 
   @override
@@ -108,18 +108,18 @@ class _ClickableElement extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.chevron_right,
-            color: isLast ? Theme.of(context).primaryColor : null,
+            color: isLast! ? Theme.of(context).primaryColor : null,
             size: 28,
           ),
           Text(
-            text,
+            text!,
             style: TextStyle(
-                color: isLast ? Theme.of(context).primaryColor : null),
+                color: isLast! ? Theme.of(context).primaryColor : null),
           ),
         ],
       ),
       borderRadius: BorderRadius.circular(8),
-      onTap: isLast ? null : onTap,
+      onTap: isLast! ? null : onTap,
     );
   }
 }

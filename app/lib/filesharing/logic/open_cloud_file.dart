@@ -34,7 +34,7 @@ void openCloudFilePage(
         return cloudFileActions(hasPermissionToEdit).map((cloudFileAction) {
           return PopupMenuItem(
             value: cloudFileAction.sheetOption,
-            child: Text(cloudFileAction.name),
+            child: Text(cloudFileAction.name!),
           );
         }).toList();
       },
@@ -57,18 +57,18 @@ void openCloudFilePage(
     downloadURL: cloudFile.downloadURL,
     id: id,
     name: cloudFile.name,
-    nameStream: api.fileSharing.cloudFilesGateway.nameStream(cloudFile.id),
+    nameStream: api.fileSharing.cloudFilesGateway.nameStream(cloudFile.id!),
   );
 }
 
 void openFirestoreFilePage({
-  @required BuildContext context,
-  @required FileFormat fileFormat,
-  List<Widget> actions,
-  String downloadURL,
-  String name,
-  Stream<String> nameStream,
-  String id,
+  required BuildContext context,
+  required FileFormat fileFormat,
+  List<Widget>? actions,
+  String? downloadURL,
+  String? name,
+  Stream<String>? nameStream,
+  String? id,
 }) {
   if (!PlatformCheck.isWeb &&
       (fileFormat == FileFormat.unknown ||
@@ -92,7 +92,7 @@ void openFirestoreFilePage({
           fileFormat == FileFormat.image ||
           fileFormat == FileFormat.pdf)) {
     showStartedDownloadSnackBar(context, downloadURL);
-    getFileSaver().saveFromUrl(downloadURL, name, fileFormat);
+    getFileSaver()!.saveFromUrl(downloadURL!, name!, fileFormat);
   } else {
     Navigator.push(
       context,
@@ -115,20 +115,20 @@ class FirestoreFilePage extends StatelessWidget {
   static const String tag = "remote-file-page";
 
   const FirestoreFilePage({
-    Key key,
-    @required this.actions,
-    @required this.fileFormat,
+    Key? key,
+    required this.actions,
+    required this.fileFormat,
     this.name,
     this.downloadURL,
     this.nameStream,
     this.id,
   }) : super(key: key);
 
-  final String id;
-  final String name;
-  final String downloadURL;
-  final Stream<String> nameStream;
-  final List<Widget> actions;
+  final String? id;
+  final String? name;
+  final String? downloadURL;
+  final Stream<String>? nameStream;
+  final List<Widget>? actions;
   final FileFormat fileFormat;
 
   @override
@@ -136,11 +136,11 @@ class FirestoreFilePage extends StatelessWidget {
     // IMAGE-FILEPAGE FOR ALL PLATFORMS
     if (fileFormat == FileFormat.image) {
       return ImageFilePage(
-        name: name,
+        name: name!,
         actions: actions,
-        nameStream: nameStream,
-        downloadURL: downloadURL,
-        id: id,
+        nameStream: nameStream!,
+        downloadURL: downloadURL!,
+        id: id!,
       );
     }
 
@@ -151,10 +151,10 @@ class FirestoreFilePage extends StatelessWidget {
     // https://github.com/flutter/flutter/issues/41688
     if (fileFormat == FileFormat.video && !PlatformCheck.isMacOS) {
       return VideoFilePage(
-        name: name,
-        nameStream: nameStream,
-        actions: actions,
-        downloadURL: downloadURL,
+        name: name!,
+        nameStream: nameStream!,
+        actions: actions!,
+        downloadURL: downloadURL!,
       );
     }
 
@@ -162,17 +162,17 @@ class FirestoreFilePage extends StatelessWidget {
     if ((PlatformCheck.isAndroid || PlatformCheck.isWeb) &&
         fileFormat == FileFormat.pdf) {
       return FilePage(
-        downloadURL: downloadURL,
-        id: id,
-        name: name,
-        nameStream: nameStream,
+        downloadURL: downloadURL!,
+        id: id!,
+        name: name!,
+        nameStream: nameStream!,
         actions: actions,
         fileType: fileFormat,
       );
     }
 
     return DownloadUnknownFileFormatPage(
-      downloadURL: downloadURL,
+      downloadURL: downloadURL!,
       id: id,
       name: name,
       nameStream: nameStream,

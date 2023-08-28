@@ -13,23 +13,23 @@ import 'package:flutter/material.dart';
 /// For example it is used in the HomeworkPage, where it overrides the overscroll
 /// color of the ListViews holding the homeworks.
 class GlowingOverscrollColorChanger extends StatelessWidget {
-  final Widget child;
-  final Color color;
+  final Widget? child;
+  final Color? color;
 
-  const GlowingOverscrollColorChanger({Key key, this.child, this.color})
+  const GlowingOverscrollColorChanger({Key? key, this.child, this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: SpecifiableOverscrollColorScrollBehavior(color),
-      child: child,
+      child: child!,
     );
   }
 }
 
 class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
-  final Color _overscrollColor;
+  final Color? _overscrollColor;
 
   const SpecifiableOverscrollColorScrollBehavior(this._overscrollColor);
 
@@ -48,7 +48,7 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
         return GlowingOverscrollIndicator(
           child: child,
           axisDirection: details.direction,
-          color: _overscrollColor,
+          color: _overscrollColor!,
         );
     }
   }

@@ -60,10 +60,13 @@ class _TimetableEditEventPageState extends State<TimetableEditEventPage> {
   final TimetableGateway timetableGateway;
   final ConnectionsGateway connectionsGateway;
   final CalendricalEvent initialEvent;
-  TimetableEditEventBloc bloc;
+  late TimetableEditEventBloc bloc;
 
   _TimetableEditEventPageState(
-      this.initialEvent, this.timetableGateway, this.connectionsGateway);
+    this.initialEvent,
+    this.timetableGateway,
+    this.connectionsGateway,
+  );
 
   @override
   void initState() {
@@ -89,7 +92,8 @@ class _TimetableEditEventPageState extends State<TimetableEditEventPage> {
 class _TimetableEditEventPage extends StatelessWidget {
   final CalendricalEvent initialEvent;
 
-  const _TimetableEditEventPage(this.initialEvent, {Key key}) : super(key: key);
+  const _TimetableEditEventPage(this.initialEvent, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +149,7 @@ class _TimetableEditFAB extends StatelessWidget {
 }
 
 class _CourseField extends StatelessWidget {
-  const _CourseField(this.initialEvent, {Key key}) : super(key: key);
+  const _CourseField(this.initialEvent, {Key? key}) : super(key: key);
 
   final CalendricalEvent initialEvent;
 
@@ -157,7 +161,7 @@ class _CourseField extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final isAuthor = api.uID == initialEvent.authorID;
     final hasPermissionsToManageLessons = hasPermissionToManageEvents(
-        api.course.getRoleFromCourseNoSync(initialEvent.groupID), isAuthor);
+        api.course.getRoleFromCourseNoSync(initialEvent.groupID)!, isAuthor);
     return StreamBuilder<Course>(
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -197,7 +201,7 @@ class _CourseField extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField(this.initialEvent, {Key key}) : super(key: key);
+  const _TitleField(this.initialEvent, {Key? key}) : super(key: key);
 
   final CalendricalEvent initialEvent;
 
@@ -287,7 +291,7 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialEvent, {Key key}) : super(key: key);
+  const _RoomField(this.initialEvent, {Key? key}) : super(key: key);
 
   final CalendricalEvent initialEvent;
 
@@ -339,7 +343,7 @@ class _SendNotificationField extends StatelessWidget {
 }
 
 class _DetailField extends StatelessWidget {
-  const _DetailField(this.initialEvent, {Key key}) : super(key: key);
+  const _DetailField(this.initialEvent, {Key? key}) : super(key: key);
 
   final CalendricalEvent initialEvent;
 

@@ -17,7 +17,7 @@ import '../analytics/analytics_test.dart';
 class MockHomeworkDialogApi extends Mock implements HomeworkDialogApi {}
 
 void main() {
-  HomeworkDialogBloc bloc;
+  late HomeworkDialogBloc bloc;
   setUp(() {
     bloc = HomeworkDialogBloc(MockHomeworkDialogApi(),
         MarkdownAnalytics(Analytics(LocalAnalyticsBackend())));

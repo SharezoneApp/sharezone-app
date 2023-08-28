@@ -49,16 +49,16 @@ bool isIntegrationTest = false;
 class Sharezone extends StatefulWidget {
   final BlocDependencies blocDependencies;
   final DynamicLinkBloc dynamicLinkBloc;
-  final Stream<Beitrittsversuch> beitrittsversuche;
+  final Stream<Beitrittsversuch?> beitrittsversuche;
   final Flavor flavor;
   final bool isIntegrationTest;
 
   const Sharezone({
-    Key key,
-    @required this.blocDependencies,
-    @required this.dynamicLinkBloc,
-    @required this.beitrittsversuche,
-    @required this.flavor,
+    Key? key,
+    required this.blocDependencies,
+    required this.dynamicLinkBloc,
+    required this.beitrittsversuche,
+    required this.flavor,
     this.isIntegrationTest = false,
   }) : super(key: key);
 
@@ -69,7 +69,7 @@ class Sharezone extends StatefulWidget {
 }
 
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
-  SignUpBloc signUpBloc;
+  late SignUpBloc signUpBloc;
 
   @override
   void initState() {
@@ -140,7 +140,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                           providers: [
                             Provider<Flavor>(create: (context) => widget.flavor)
                           ],
-                          child: StreamBuilder<AuthUser>(
+                          child: StreamBuilder<AuthUser?>(
                             stream: listenToAuthStateChanged(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
@@ -172,23 +172,23 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 }
 
 class _ThemeSettingsProvider extends StatelessWidget {
-  const _ThemeSettingsProvider({this.child, this.blocDependencies, Key key})
+  const _ThemeSettingsProvider({this.child, this.blocDependencies, Key? key})
       : super(key: key);
 
-  final Widget child;
-  final BlocDependencies blocDependencies;
+  final Widget? child;
+  final BlocDependencies? blocDependencies;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ThemeSettings(
-        analytics: blocDependencies.analytics,
+        analytics: blocDependencies!.analytics,
         defaultTextScalingFactor: 1.0,
         defaultThemeBrightness: ThemeBrightness.system,
         // We don't use VisualDensitySetting.adaptivePlatformDensity() because
         // we don't like the button densities on the desktop.
         defaultVisualDensity: VisualDensitySetting.standard(),
-        keyValueStore: blocDependencies.keyValueStore,
+        keyValueStore: blocDependencies!.keyValueStore,
       ),
       child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
         /// If we didn't use MediaQuery.fromWindow and just provide a new
@@ -206,7 +206,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
                 data: Theme.of(context).copyWith(
                     visualDensity:
                         themeSettings.visualDensitySetting.visualDensity),
-                child: child,
+                child: child!,
               ),
             );
           }),

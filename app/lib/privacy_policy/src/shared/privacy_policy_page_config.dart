@@ -23,9 +23,9 @@ class PrivacyPolicyPageConfig {
   final PrivacyPolicyEndSection endSection;
 
   factory PrivacyPolicyPageConfig({
-    CurrentlyReadThreshold threshold,
-    bool showDebugThresholdMarker,
-    PrivacyPolicyEndSection endSection,
+    CurrentlyReadThreshold? threshold,
+    bool? showDebugThresholdMarker,
+    PrivacyPolicyEndSection? endSection,
   }) {
     return PrivacyPolicyPageConfig._(
       threshold ?? CurrentlyReadThreshold(0.1),

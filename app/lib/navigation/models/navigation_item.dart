@@ -76,7 +76,6 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.more:
         return 'more';
     }
-    throw UnimplementedError('There is no icon for $this');
   }
 
   Widget getIcon() {
@@ -118,7 +117,6 @@ extension NavigationItemExtension on NavigationItem {
         return Icon(
             themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
     }
-    throw UnimplementedError('There is no icon for $this');
   }
 
   String getName() {
@@ -148,7 +146,6 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.more:
         return 'Mehr';
     }
-    throw UnimplementedError('There is no name for $this');
   }
 
   Widget getPageWidget() {
@@ -180,7 +177,6 @@ extension NavigationItemExtension on NavigationItem {
         // in the [ExtendableBottomNavigationBar]
         throw UnimplementedError('There is no widget for $this');
     }
-    throw UnimplementedError('There is no widget for $this');
   }
 
   String getPageTag() {
@@ -212,6 +208,5 @@ extension NavigationItemExtension on NavigationItem {
         // in the [ExtendableBottomNavigationBar]
         throw UnimplementedError('There is no page tag for $this');
     }
-    throw UnimplementedError('There is no page tag for $this');
   }
 }

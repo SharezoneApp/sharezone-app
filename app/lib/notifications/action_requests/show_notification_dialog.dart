@@ -27,8 +27,8 @@ ActionRegistration<ShowNotificationDialogRequest>
 
 ShowNotificationDialogRequest _toShowNotificationDialogActionRequest(
     PushNotification notification,
-    [PushNotificationParserInstrumentation instrumentation]) {
-  final showSupportOption = instrumentation.parseAttributeOrLogFailure(
+    [PushNotificationParserInstrumentation? instrumentation]) {
+  final showSupportOption = instrumentation?.parseAttributeOrLogFailure(
     'showSupportOption',
     fallbackValue: false,
     parse: () {
@@ -48,7 +48,7 @@ ShowNotificationDialogRequest _toShowNotificationDialogActionRequest(
   return ShowNotificationDialogRequest(
     notification.title,
     notification.body,
-    shouldShowAnswerToSupportOption: showSupportOption,
+    shouldShowAnswerToSupportOption: showSupportOption ?? false,
   );
 }
 
@@ -60,10 +60,10 @@ ShowNotificationDialogRequest _toShowNotificationDialogActionRequest(
 class ShowNotificationDialogRequest extends ActionRequest {
   static const Set<String> actionTypes = {''};
 
-  final String title;
+  final String? title;
 
   bool get hasTitle => title != null && title != '';
-  final String body;
+  final String? body;
 
   bool get hasBody => body != null && body != '';
 
@@ -86,10 +86,10 @@ class ShowNotificationDialogRequest extends ActionRequest {
   final bool shouldShowAnswerToSupportOption;
 
   @override
-  List<Object> get props => [title, body, shouldShowAnswerToSupportOption];
+  List<Object?> get props => [title, body, shouldShowAnswerToSupportOption];
 
   ShowNotificationDialogRequest(this.title, this.body,
-      {@required this.shouldShowAnswerToSupportOption}) {
+      {required this.shouldShowAnswerToSupportOption}) {
     final isTitleEmpty = _isEmptyString(title);
     final isBodyEmpty = _isEmptyString(body);
     if (isTitleEmpty && isBodyEmpty) {
@@ -97,12 +97,12 @@ class ShowNotificationDialogRequest extends ActionRequest {
     }
   }
 
-  bool _isEmptyString(String s) => s == null || s.trim() == '';
+  bool _isEmptyString(String? s) => s == null || s.trim() == '';
 }
 
 class ShowNotificationDialogExecutor
     extends ActionRequestExecutor<ShowNotificationDialogRequest> {
-  final BuildContext Function() getCurrentContext;
+  final BuildContext? Function() getCurrentContext;
 
   ShowNotificationDialogExecutor(this.getCurrentContext);
 
@@ -115,17 +115,17 @@ class ShowNotificationDialogExecutor
 
   void _showSupportDialog(ShowNotificationDialogRequest actionRequest) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final confiremd = await showLeftRightAdaptiveDialog<bool>(
+      final confiremd = (await showLeftRightAdaptiveDialog<bool>(
         context: getCurrentContext(),
         title: actionRequest.title,
-        content: actionRequest.hasBody ? Text(actionRequest.body) : null,
+        content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
         defaultValue: false,
         right: AdaptiveDialogAction<bool>(
           isDefaultAction: true,
           popResult: true,
           title: "Antworten",
         ),
-      );
+      ))!;
       if (confiremd) {
         UrlLauncherExtended().tryLaunchMailOrThrow(
           "support@sharezone.net",
@@ -142,7 +142,7 @@ class ShowNotificationDialogExecutor
       showLeftRightAdaptiveDialog<bool>(
         context: getCurrentContext(),
         title: actionRequest.title,
-        content: actionRequest.hasBody ? Text(actionRequest.body) : null,
+        content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
         defaultValue: false,
         left: AdaptiveDialogAction<bool>(
           isDefaultAction: true,

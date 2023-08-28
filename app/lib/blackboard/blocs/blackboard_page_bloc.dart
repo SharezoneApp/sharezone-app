@@ -18,8 +18,11 @@ import 'package:sharezone/util/api/course_gateway.dart';
 class BlackboardPageBloc extends BlocBase {
   final _viewsSubject = BehaviorSubject<List<BlackboardView>>();
 
-  BlackboardPageBloc(
-      {BlackboardGateway gateway, CourseGateway courseGateway, String uid}) {
+  BlackboardPageBloc({
+    required BlackboardGateway gateway,
+    required CourseGateway courseGateway,
+    required String uid,
+  }) {
     final views = gateway.blackboardItemStream.map((items) =>
         _mapBlackboardItemsIntoBlackboardView(items, courseGateway, uid)
             .toList());

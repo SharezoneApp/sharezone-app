@@ -13,17 +13,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 
 import '../helper.dart';
-import 'toc_currently_reading_test.dart';
+import 'toc_currently_reading_test.mocks.dart';
 
 class _TableOfContentsTestController {
-  TableOfContentsController _tocController;
-  ValueNotifier<DocumentSectionId> _currentlyReadingNotifier;
+  TableOfContentsController? _tocController;
+  ValueNotifier<DocumentSectionId?>? _currentlyReadingNotifier;
   // [TableOfContentsController] might not be initialized yet, so we save it
   // here to use when it gets initialized.
-  ExpansionBehavior _expansionBehavior;
+  ExpansionBehavior? _expansionBehavior;
 
   _TocState get currentState {
-    final results = _tocController.documentSections
+    final results = _tocController!.documentSections!
         .map((e) => _SectionResult('${e.id}', isExpanded: e.isExpanded))
         .toList();
 
@@ -44,18 +44,18 @@ class _TableOfContentsTestController {
         )
         .toList();
 
-    _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId>(null);
+    _currentlyReadingNotifier ??= ValueNotifier<DocumentSectionId?>(null);
 
     _tocController ??= TableOfContentsController(
       currentlyReadingController:
-          MockCurrentlyReadingController(_currentlyReadingNotifier),
+          MockCurrentlyReadingController(_currentlyReadingNotifier!),
       privacyPolicy: privacyPolicyWith(tableOfContentSections: _sections),
       documentController: MockDocumentController(),
       initialExpansionBehavior: _expansionBehavior ??
           ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
     );
 
-    final results = _tocController.documentSections
+    final results = _tocController!.documentSections!
         .map((e) => _SectionResult('${e.id}', isExpanded: e.isExpanded))
         .toList();
 
@@ -63,28 +63,29 @@ class _TableOfContentsTestController {
   }
 
   void toggleExpansionOfSection(String sectionId) {
-    _tocController.toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
+    _tocController!
+        .toggleDocumentSectionExpansion(DocumentSectionId(sectionId));
   }
 
   void changeExpansionBehaviorTo(ExpansionBehavior expansionBehavior) {
     if (_tocController != null) {
-      _tocController.changeExpansionBehavior(expansionBehavior);
+      _tocController!.changeExpansionBehavior(expansionBehavior);
     }
     _expansionBehavior = expansionBehavior;
   }
 
-  void markAsCurrentlyRead(String sectionId) {
+  void markAsCurrentlyRead(String? sectionId) {
     if (sectionId == null) {
-      _currentlyReadingNotifier.value = null;
+      _currentlyReadingNotifier!.value = null;
     } else {
-      _currentlyReadingNotifier.value = DocumentSectionId(sectionId);
+      _currentlyReadingNotifier!.value = DocumentSectionId(sectionId);
     }
   }
 }
 
 class MockCurrentlyReadingController implements CurrentlyReadingController {
   @override
-  final ValueNotifier<DocumentSectionId> currentlyReadDocumentSectionOrNull;
+  final ValueNotifier<DocumentSectionId?> currentlyReadDocumentSectionOrNull;
 
   MockCurrentlyReadingController(this.currentlyReadDocumentSectionOrNull);
 }
@@ -107,7 +108,7 @@ class _SectionResult extends Equatable {
 
   const _SectionResult(
     this.id, {
-    @required this.isExpanded,
+    required this.isExpanded,
   });
 }
 
@@ -133,7 +134,7 @@ void main() {
   EquatableConfig.stringify = true;
   group('Table of Contents', () {
     group('section expansion', () {
-      _TableOfContentsTestController tocController;
+      late _TableOfContentsTestController tocController;
 
       setUp(() {
         tocController = _TableOfContentsTestController();
