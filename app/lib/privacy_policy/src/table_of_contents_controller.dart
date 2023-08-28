@@ -13,23 +13,23 @@ import 'privacy_policy_src.dart';
 
 class TableOfContentsController extends ChangeNotifier {
   final DocumentController _documentController;
-  TableOfContents _tableOfContents;
+  late TableOfContents _tableOfContents;
 
   TableOfContentsController({
-    @required CurrentlyReadingController currentlyReadingController,
-    @required PrivacyPolicy privacyPolicy,
-    @required DocumentController documentController,
-    @required ExpansionBehavior initialExpansionBehavior,
+    required CurrentlyReadingController currentlyReadingController,
+    required PrivacyPolicy privacyPolicy,
+    required DocumentController documentController,
+    required ExpansionBehavior initialExpansionBehavior,
   }) : _documentController = documentController {
     _tableOfContents =
         _createTableOfContents(privacyPolicy, initialExpansionBehavior);
 
     _updateViews();
 
-    currentlyReadingController.currentlyReadDocumentSectionOrNull
+    currentlyReadingController.currentlyReadDocumentSectionOrNull!
         .addListener(() {
       final currentlyReadSection =
-          currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
+          currentlyReadingController.currentlyReadDocumentSectionOrNull!.value;
       _tableOfContents =
           _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
       _updateViews();
@@ -38,7 +38,7 @@ class TableOfContentsController extends ChangeNotifier {
 
   TableOfContents _createTableOfContents(
       PrivacyPolicy privacyPolicy, ExpansionBehavior initialExpansionBehavior) {
-    final sections = privacyPolicy.tableOfContentSections
+    final IList<TocSection> sections = privacyPolicy.tableOfContentSections
         .map((e) => TocSection(
               id: e.id,
               title: e.sectionName,
@@ -83,8 +83,8 @@ class TableOfContentsController extends ChangeNotifier {
     _updateViews();
   }
 
-  IList<TocDocumentSectionView> _documentSections;
-  IList<TocDocumentSectionView> get documentSections => _documentSections;
+  IList<TocDocumentSectionView>? _documentSections;
+  IList<TocDocumentSectionView>? get documentSections => _documentSections;
 
   void _updateViews() {
     _documentSections =

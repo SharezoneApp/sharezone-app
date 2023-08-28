@@ -139,7 +139,7 @@ class TimetableBloc extends BlocBase {
   }
 
   TimetableConfig get current =>
-      TimetableConfig(userGateway.data!.userSettings);
+      TimetableConfig(userGateway.data?.userSettings);
 
   Stream<TimetableConfig> get stream =>
       userGateway.userStream.map((user) => TimetableConfig(user?.userSettings));

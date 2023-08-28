@@ -47,15 +47,15 @@ class Lesson {
       lessonID: id,
       groupID: data['groupID'] as String,
       groupType: GroupType.values.byName(data['groupType'] as String),
-      startDate: Date.parseOrNull(data['startDate'] as String),
-      endDate: Date.parseOrNull(data['endDate'] as String),
+      startDate: Date.parseOrNull(data['startDate'] as String?),
+      endDate: Date.parseOrNull(data['endDate'] as String?),
       startTime: Time.parse(data['startTime'] as String),
       endTime: Time.parse(data['endTime'] as String),
       periodNumber: data['periodNumber'] as int,
       weekday: WeekDay.values.byName(data['weekday'] as String),
       weektype: WeekType.values.byName(data['weektype'] as String),
-      teacher: data['teacher'] as String,
-      place: data['place'] as String,
+      teacher: data['teacher'] as String?,
+      place: data['place'] as String?,
     );
   }
 

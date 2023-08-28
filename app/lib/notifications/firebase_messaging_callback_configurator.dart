@@ -27,9 +27,9 @@ import 'package:sharezone_utils/device_information_manager.dart';
 import 'action_requests/action_requests.dart';
 
 class FirebaseMessagingCallbackConfigurator {
-  final NavigationService navigationService;
-  final NavigationBloc navigationBloc;
-  final AndroidDeviceInformation androidDeviceInformation;
+  final NavigationService? navigationService;
+  final NavigationBloc? navigationBloc;
+  final AndroidDeviceInformation? androidDeviceInformation;
   final NotificationsPermission notificationsPermission;
 
   /// VAPID key is used by Firebase Messaging to send push notifications to the
@@ -42,8 +42,8 @@ class FirebaseMessagingCallbackConfigurator {
     this.navigationService,
     this.navigationBloc,
     this.androidDeviceInformation,
-    @required this.notificationsPermission,
-    @required this.vapidKey,
+    required this.notificationsPermission,
+    required this.vapidKey,
   });
 
   Future<void> configureCallbacks(BuildContext context) async {
@@ -110,7 +110,7 @@ class FirebaseMessagingCallbackConfigurator {
 
   PushNotificationActionHandler _createNotificiationHandler(
       BuildContext context) {
-    BuildContext getContext() => navigationService.navigatorKey.currentContext;
+    BuildContext? getContext() => navigationService!.navigatorKey.currentContext;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final timetableGateway = api.timetable;
     final courseGateway = api.course;

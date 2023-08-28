@@ -22,20 +22,19 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DownloadUnknownFileFormatPage extends StatelessWidget {
   const DownloadUnknownFileFormatPage({
-    Key key,
-    @required this.actions,
-    @required this.name,
-    @required this.id,
-    @required this.downloadURL,
-    @required this.nameStream,
-  })  : assert(downloadURL != null),
-        super(key: key);
+    Key? key,
+    required this.actions,
+    required this.name,
+    required this.id,
+    required this.downloadURL,
+    required this.nameStream,
+  })  : super(key: key);
 
-  final List<Widget> actions;
-  final String name;
-  final String id;
+  final List<Widget>? actions;
+  final String? name;
+  final String? id;
   final String downloadURL;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
 
   @override
   Widget build(BuildContext context) {
@@ -58,26 +57,26 @@ class DownloadUnknownFileFormatPage extends StatelessWidget {
 
 class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   const DownloadUnknownFileTypeDialogContent({
-    Key key,
-    @required this.name,
-    @required this.nameStream,
-    @required this.downloadURL,
-    @required this.id,
+    Key? key,
+    required this.name,
+    required this.nameStream,
+    required this.downloadURL,
+    required this.id,
   }) : super(key: key);
 
-  final String name;
-  final String downloadURL;
-  final Stream<String> nameStream;
-  final String id;
+  final String? name;
+  final String? downloadURL;
+  final Stream<String>? nameStream;
+  final String? id;
 
   @override
   Widget build(BuildContext context) {
     final Widget child = FutureBuilder<LocalFile>(
-      future: getFileDownloader().downloadFileFromURL(downloadURL, name, id),
+      future: getFileDownloader()!.downloadFileFromURL(downloadURL!, name!, id!),
       builder: (context, future) {
         // Finished Downloading
         if (future.hasData) {
-          OpenFile.open(future.data.getPath())
+          OpenFile.open(future.data!.getPath())
               .then((value) => log(value.message));
 
           _closeDialogAfter1500Milliseconds(context);
@@ -104,9 +103,9 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
 
         const brokenFileTypes = ['docx', 'xlsx', 'pptx'];
         if (PlatformCheck.isAndroid &&
-            versionFuture.data.version.sdkInt >= 29 &&
-            brokenFileTypes.contains(FileUtils.getExtension(name))) {
-          launchURL(downloadURL, context: context);
+            versionFuture.data!.version.sdkInt! >= 29 &&
+            brokenFileTypes.contains(FileUtils.getExtension(name!))) {
+          launchURL(downloadURL!, context: context);
           _closeDialogAfter1500Milliseconds(context);
           return _FinishDialog();
         }
@@ -134,7 +133,7 @@ class _FinishDialog extends StatelessWidget {
 }
 
 class _ErrorDialog extends StatelessWidget {
-  const _ErrorDialog({Key key, @required this.error}) : super(key: key);
+  const _ErrorDialog({Key? key, required this.error}) : super(key: key);
 
   final String error;
 
@@ -148,7 +147,7 @@ class _ErrorDialog extends StatelessWidget {
 }
 
 class _LoadingDialog extends StatelessWidget {
-  const _LoadingDialog({Key key}) : super(key: key);
+  const _LoadingDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +159,10 @@ class _LoadingDialog extends StatelessWidget {
 }
 
 class _Dialog extends StatelessWidget {
-  const _Dialog({Key key, this.leading, this.text}) : super(key: key);
+  const _Dialog({Key? key, this.leading, this.text}) : super(key: key);
 
-  final Widget leading;
-  final String text;
+  final Widget? leading;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +178,7 @@ class _Dialog extends StatelessWidget {
             ],
             Flexible(
                 child: Text(
-              text,
+              text!,
               style: TextStyle(fontSize: 16),
             )),
             const SizedBox(width: 12),

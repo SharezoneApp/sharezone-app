@@ -15,11 +15,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'details/blackboard_details.dart';
 
 Future<void> showDeleteBlackboardItemDialog(
-    BuildContext context, BlackboardView view,
+    BuildContext context, BlackboardView? view,
     {bool popTwice = true}) async {
-  final confirmed = await _showConfirmDeletingDialog(context);
+  final confirmed = (await _showConfirmDeletingDialog(context))!;
   if (confirmed) {
-    if (view.hasAttachments) {
+    if (view!.hasAttachments) {
       _showAttachmentsDeleteOrRemainDialog(context, view, popTwice: popTwice);
     } else {
       final blackboardAPI =
@@ -30,7 +30,7 @@ Future<void> showDeleteBlackboardItemDialog(
   }
 }
 
-Future<bool> _showConfirmDeletingDialog(BuildContext context) async {
+Future<bool?> _showConfirmDeletingDialog(BuildContext context) async {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
     title: "Eintrag löschen?",
@@ -43,7 +43,7 @@ Future<bool> _showConfirmDeletingDialog(BuildContext context) async {
 }
 
 Future<void> _showAttachmentsDeleteOrRemainDialog(
-    BuildContext context, BlackboardView view,
+    BuildContext context, BlackboardView? view,
     {bool popTwice = true}) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
 
@@ -70,7 +70,7 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
 
   if (attachmentsRemainOrDelete != null) {
     api.blackboard.deleteBlackboardItemWithAttachments(
-      id: view.id,
+      id: view!.id,
       courseID: view.courseID,
       attachmentIDs: view.attachmentIDs,
       fileSharingGateway: api.fileSharing,

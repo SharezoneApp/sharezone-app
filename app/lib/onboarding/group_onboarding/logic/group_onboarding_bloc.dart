@@ -25,7 +25,7 @@ class GroupOnboardingBloc extends BlocBase {
   final SchoolClassGateway _schoolClassGateway;
   final SignUpBloc _signedUpBloc;
   final GroupOnboardingAnalytics _analytics;
-  final Stream<Beitrittsversuch> beitrittsversucheStream;
+  final Stream<Beitrittsversuch?> beitrittsversucheStream;
   final Stream<bool> signedUp;
   final TypeOfUser? typeOfUser;
 
@@ -98,7 +98,7 @@ class GroupOnboardingBloc extends BlocBase {
       usedJoinLink = false;
     } else {
       final beitrittsversuch = await beitrittsversucheStream.first;
-      usedJoinLink = beitrittsversuch.sharecode != null;
+      usedJoinLink = beitrittsversuch?.sharecode != null;
     }
 
     final hasSignedUp = await signedUp.first;

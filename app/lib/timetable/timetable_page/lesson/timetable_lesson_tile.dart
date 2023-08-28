@@ -41,7 +41,7 @@ class TimetableEntryLesson extends StatelessWidget {
               children: <Widget>[
                 GroupName(
                     abbreviation: groupInfo?.abbreviation,
-                    groupName: groupInfo!.name!,
+                    groupName: groupInfo?.name ?? "",
                     color: groupInfo?.design.color),
                 if (lesson.place != null)
                   Room(

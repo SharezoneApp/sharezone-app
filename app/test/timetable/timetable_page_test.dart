@@ -42,7 +42,7 @@ void main() {
       final klasse10a = _createSchoolClass('10a');
       final klasse5b = _createSchoolClass('5b');
 
-      TimetableBloc bloc;
+      late TimetableBloc bloc;
       MockSchoolClassGateway schoolClassGateway;
       TimetableGateway timetableGateway;
       MockSchoolClassFilterAnalytics schoolClassFilterAnalytics;
@@ -124,7 +124,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(
-            bloc.schoolClassFilterView.valueOrNull.selectedSchoolClass.value.id,
+            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass.value.id,
             klasse10a.groupId);
       });
 

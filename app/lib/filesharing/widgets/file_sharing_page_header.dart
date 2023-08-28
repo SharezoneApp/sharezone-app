@@ -14,9 +14,9 @@ import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 
 class FileSharingPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
-  final FileSharingPageState pageState;
+  final FileSharingPageState? pageState;
 
-  const FileSharingPageHeader({Key key, this.pageState}) : super(key: key);
+  const FileSharingPageHeader({Key? key, this.pageState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +58,14 @@ class FileSharingPageHeader extends StatelessWidget
 }
 
 class _FileSharingPathRow extends StatelessWidget {
-  final FileSharingData fileSharingData;
-  final FolderPath path;
+  final FileSharingData? fileSharingData;
+  final FolderPath? path;
 
-  const _FileSharingPathRow({Key key, this.fileSharingData, this.path})
+  const _FileSharingPathRow({Key? key, this.fileSharingData, this.path})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final pathHierachy = path.getPathsHierachy();
+    final pathHierachy = path!.getPathsHierachy();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -77,7 +77,7 @@ class _FileSharingPathRow extends StatelessWidget {
               final stateBloc =
                   BlocProvider.of<FileSharingPageStateBloc>(context);
               final newState = FileSharingPageStateGroup(
-                groupID: fileSharingData.courseID,
+                groupID: fileSharingData!.courseID,
                 initialFileSharingData: fileSharingData,
                 path: subPath,
               );
@@ -89,19 +89,19 @@ class _FileSharingPathRow extends StatelessWidget {
     );
   }
 
-  String _getTextSubPath(BuildContext context, FileSharingData fileSharingData,
+  String? _getTextSubPath(BuildContext context, FileSharingData? fileSharingData,
       FolderPath subPath) {
-    if (subPath == FolderPath.root) return fileSharingData.courseName;
-    return fileSharingData.getFolder(subPath).name;
+    if (subPath == FolderPath.root) return fileSharingData!.courseName;
+    return fileSharingData!.getFolder(subPath)!.name;
   }
 }
 
 class _ClickableElement extends StatelessWidget {
-  final VoidCallback onTap;
-  final String text;
-  final bool isLast;
+  final VoidCallback? onTap;
+  final String? text;
+  final bool? isLast;
 
-  const _ClickableElement({Key key, this.onTap, this.text, this.isLast})
+  const _ClickableElement({Key? key, this.onTap, this.text, this.isLast})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -113,18 +113,18 @@ class _ClickableElement extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.chevron_right,
-            color: isLast ? Theme.of(context).primaryColor : null,
+            color: isLast! ? Theme.of(context).primaryColor : null,
             size: 28,
           ),
           Text(
-            text,
+            text!,
             style: TextStyle(
-                color: isLast ? Theme.of(context).primaryColor : null),
+                color: isLast! ? Theme.of(context).primaryColor : null),
           ),
         ],
       ),
       borderRadius: BorderRadius.circular(8),
-      onTap: isLast ? null : onTap,
+      onTap: isLast! ? null : onTap,
     );
   }
 }

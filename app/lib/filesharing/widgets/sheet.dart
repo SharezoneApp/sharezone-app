@@ -22,11 +22,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'cloud_file_icon.dart';
 
 Future<void> showFolderSheet(
-    {@required Folder folder,
-    @required BuildContext context,
-    @required bool hasPermissions,
-    @required FolderPath path,
-    String courseID}) async {
+    {required Folder folder,
+    required BuildContext context,
+    required bool hasPermissions,
+    required FolderPath? path,
+    String? courseID}) async {
   final option = await showModalBottomSheet<SheetOption>(
     context: context,
     builder: (context) => FileSheet(
@@ -35,7 +35,7 @@ Future<void> showFolderSheet(
       icon: Icon(Icons.folder, color: Colors.grey[600]),
       items: FolderActionsColumn(
         hasPermissionsToEdit: hasPermissions,
-        isFolderDeletable: folder.isDeletable(path),
+        isFolderDeletable: folder.isDeletable(path!),
         onSelectFolderAction: (context, sheetOption) {
           Navigator.pop(context, sheetOption);
         },
@@ -52,9 +52,9 @@ Future<void> showFolderSheet(
 }
 
 Future<void> showCloudFileSheet({
-  @required CloudFile cloudFile,
-  @required BuildContext context,
-  @required FileSharingPageBloc bloc,
+  required CloudFile cloudFile,
+  required BuildContext context,
+  required FileSharingPageBloc bloc,
 }) async {
   final hasPermissionToEdit =
       FileSharingPermissionsNoSync.fromContext(context).canManageCloudFile(
@@ -80,21 +80,21 @@ Future<void> showCloudFileSheet({
 
 class FileSheet extends StatelessWidget {
   const FileSheet({
-    Key key,
+    Key? key,
     this.items,
-    @required this.name,
-    @required this.creatorName,
+    required this.name,
+    required this.creatorName,
     this.fileType,
     this.icon,
     this.sizeBytes,
   }) : super(key: key);
 
-  final String name;
-  final String creatorName;
-  final Widget items;
-  final FileFormat fileType;
-  final Widget icon;
-  final int sizeBytes;
+  final String? name;
+  final String? creatorName;
+  final Widget? items;
+  final FileFormat? fileType;
+  final Widget? icon;
+  final int? sizeBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +119,10 @@ class FileSheet extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 16, 8, 2),
                       child: Row(
                         children: <Widget>[
-                          icon,
+                          icon!,
                           const SizedBox(width: 32),
                           Flexible(
-                            child: Text(name,
+                            child: Text(name!,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 16)),
                           ),
@@ -140,7 +140,7 @@ class FileSheet extends StatelessWidget {
                           ),
                           sizeBytes != null
                               ? Text(
-                                  "Größe: ${KiloByteSize(bytes: sizeBytes).inMegabytes.toStringAsFixed(2)} MB",
+                                  "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
                                   style: _greyTextStyle,
                                 )
                               : Container(),
@@ -148,7 +148,7 @@ class FileSheet extends StatelessWidget {
                       ),
                     ),
                     const Divider(height: 0),
-                    items,
+                    items!,
                   ],
                 ),
               );

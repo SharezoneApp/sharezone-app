@@ -30,13 +30,13 @@ const contactInfo = "Instagram: @jsan_l";
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group("Feedback tests", () {
-    MockFeedbackApi api;
-    ClearableFeedbackCache cache;
+    late MockFeedbackApi api;
+    late ClearableFeedbackCache cache;
     MockPlatformInformationRetriever platformInformationRetriever;
-    FeedbackBloc bloc;
-    UserFeedback expectedResponseWithIdentifiableInfo;
-    UserFeedback expectedAnonymousResponse;
-    MockFeedbackAnalytics analytics;
+    late FeedbackBloc bloc;
+    UserFeedback? expectedResponseWithIdentifiableInfo;
+    UserFeedback? expectedAnonymousResponse;
+    late MockFeedbackAnalytics analytics;
 
     setUp(() {
       api = MockFeedbackApi();

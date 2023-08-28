@@ -37,7 +37,7 @@ class ListWithBottomThreshold extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   const ListWithBottomThreshold(
-      {Key key,
+      {Key? key,
       this.thresholdHeight = 200.0,
       this.onThresholdExceeded = _doNothing,
       this.loadingIndicator = const _DefaultCircularLoadingIndicator(),

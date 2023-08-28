@@ -19,9 +19,9 @@ class CompletedHomeworkList extends StatelessWidget {
   final HomeworkPageBloc bloc;
 
   const CompletedHomeworkList({
-    Key key,
-    @required this.view,
-    @required this.bloc,
+    Key? key,
+    required this.view,
+    required this.bloc,
   }) : super(key: key);
 
   @override

@@ -17,9 +17,7 @@ class EinkommenderLink {
   final String typ;
   final Map<String, String> zusatzinformationen;
   final EinkommensZeitpunkt einkommensZeitpunkt;
-  bool get empty =>
-      isEmptyOrNull(typ) && zusatzinformationen == null ||
-      zusatzinformationen.isEmpty;
+  bool get empty => isEmptyOrNull(typ) && zusatzinformationen.isEmpty;
 
   EinkommenderLink({
     this.typ = "",

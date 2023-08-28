@@ -14,8 +14,8 @@ class MockNotificationTokenAdderApi extends Mock
     implements NotificationTokenAdderApi {}
 
 void main() {
-  NotificationTokenAdder notificationService;
-  MockNotificationTokenAdderApi api;
+  late NotificationTokenAdder notificationService;
+  late MockNotificationTokenAdderApi api;
   String testToken = "TOKEN";
 
   setUp(() {

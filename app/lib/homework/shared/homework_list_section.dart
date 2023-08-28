@@ -21,9 +21,9 @@ class HomeworkListSection extends StatelessWidget {
   final List<Widget> children;
 
   const HomeworkListSection({
-    Key key,
-    @required this.title,
-    @required this.children,
+    Key? key,
+    required this.title,
+    required this.children,
   }) : super(key: key);
 
   @override

@@ -13,9 +13,9 @@ import 'package:video_player/video_player.dart';
 
 class MemePlaceholder extends StatefulWidget {
   final String url;
-  final String text;
+  final String? text;
 
-  const MemePlaceholder({Key key, @required this.url, this.text})
+  const MemePlaceholder({Key? key, required this.url, this.text})
       : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class MemePlaceholder extends StatefulWidget {
 }
 
 class _MemePlaceholderState extends State<MemePlaceholder> {
-  VideoPlayerController _controller;
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
               Padding(
                 padding: const EdgeInsets.all(12),
                 child: Text(
-                  widget.text,
+                  widget.text!,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
                 ),

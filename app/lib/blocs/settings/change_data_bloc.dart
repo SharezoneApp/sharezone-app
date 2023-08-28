@@ -24,8 +24,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   final FirebaseAuth firebaseAuth;
 
   final _emailSubject = BehaviorSubject<String>();
-  final _passwordSubject = BehaviorSubject<String>();
-  final _newPasswordSubject = BehaviorSubject<String>();
+  final _passwordSubject = BehaviorSubject<String?>();
+  final _newPasswordSubject = BehaviorSubject<String?>();
 
   ChangeDataBloc({
     required this.userAPI,
@@ -42,8 +42,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
       _newPasswordSubject.stream.transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
-  Function(String) get changePassword => _passwordSubject.sink.add;
-  Function(String) get changeNewPassword => _newPasswordSubject.sink.add;
+  Function(String?) get changePassword => _passwordSubject.sink.add;
+  Function(String?) get changeNewPassword => _newPasswordSubject.sink.add;
 
   Stream<bool> get submitChangeEmailValid =>
       Rx.combineLatest2(email, password, (e, p) => true);

@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/notifications/action_requests/action_requests.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
@@ -140,7 +139,7 @@ void main() {
               expect(actionRequest.shouldShowAnswerToSupportOption, false);
             });
       });
-      List<PushNotification> _with({@required dynamic actionData}) {
+      List<PushNotification> _with({required dynamic actionData}) {
         return generateNotificationMutations(
           actionType: {null, ''},
           actionData: actionData,
@@ -217,7 +216,7 @@ void main() {
                   title: {null, ''},
                 ),
             resultsInFatalParsingError: (error) {
-              expect(error.error, isNotNull);
+              expect(error!.error, isNotNull);
             });
       });
       test(
@@ -292,7 +291,7 @@ void main() {
             body: {null, '', 'foo'},
           ),
           resultsInFatalParsingError: (error) {
-            expect(error.error, isNotNull);
+            expect(error!.error, isNotNull);
           },
         );
       });
@@ -328,7 +327,7 @@ void main() {
             body: {null, '', 'foo'},
           ),
           resultsInFatalParsingError: (error) {
-            expect(error.error, isNotNull);
+            expect(error!.error, isNotNull);
           },
         );
       });
@@ -366,7 +365,7 @@ void main() {
             body: {null, '', 'foo'},
           ),
           resultsInFatalParsingError: (error) {
-            expect(error.error, isNotNull);
+            expect(error!.error, isNotNull);
           },
         );
       });
@@ -403,7 +402,7 @@ void main() {
             ),
           ],
           resultsInFatalParsingError: (error) {
-            expect(error.error, isNotNull);
+            expect(error!.error, isNotNull);
           },
         );
       });
@@ -440,7 +439,7 @@ void main() {
             body: {null, '', 'foo'},
           ),
           resultsInFatalParsingError: (error) {
-            expect(error.error, isNotNull);
+            expect(error!.error, isNotNull);
           },
         );
       });
@@ -451,7 +450,7 @@ void main() {
       final notification = PushNotification(
           actionType: 'some-unknown-action-type', title: 'foo', body: 'bar');
       final result = handlePushNotification(notification);
-      expect(result.instrumentation.hasFailedOnUnknownActionType, true);
+      expect(result.instrumentation!.hasFailedOnUnknownActionType, true);
     });
     group('shows error dialog with reason: ', () {
       /// These tests are kind of an integration test between the generic
@@ -490,7 +489,7 @@ void main() {
             title: {null, '', 'This is some title'},
           ),
           shouldShowErrorDialog: (errorDialogInvocation) {
-            expect(errorDialogInvocation.errorReason,
+            expect(errorDialogInvocation!.errorReason,
                 NotificationHandlerErrorReason.fatalParsingError);
             expect(errorDialogInvocation.errorOrNull, isNotNull);
             expect(errorDialogInvocation.notification, isNotNull);
@@ -509,7 +508,7 @@ void main() {
             title: {null, '', 'This is some title'},
           ),
           shouldShowErrorDialog: (errorDialogInvocation) {
-            expect(errorDialogInvocation.errorReason,
+            expect(errorDialogInvocation!.errorReason,
                 NotificationHandlerErrorReason.unknownActionType);
             // If we know that its an unknown type it isn't an unexpected case.
             // We don't need an error.
@@ -536,7 +535,7 @@ void main() {
 
       final result = handlePushNotification(notification,
           testRegistrations: [testActionRegistration]);
-      final instrumentation = result.instrumentation;
+      final instrumentation = result.instrumentation!;
 
       expect(instrumentation.calledHandlingPushNotification, true);
       expect(instrumentation.calledParsingSucceeded, true);
@@ -623,7 +622,7 @@ class HasNonEmptyMessage extends Matcher {
     return isTitleNonEmpty || isBodyNonEmpty;
   }
 
-  bool _isNonEmptyString(String s) => s != null && s.trim() != '';
+  bool _isNonEmptyString(String? s) => s != null && s.trim() != '';
 }
 
 final hasNonEmptyMessage = HasNonEmptyMessage();

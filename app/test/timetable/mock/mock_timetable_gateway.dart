@@ -79,16 +79,16 @@ class MockTimetableGateway implements TimetableGateway {
   References get references => throw UnimplementedError();
 
   @override
-  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date endDate]) {
+  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date? endDate]) {
     if (endDate == null) {
-      return Stream.value(_eventsSubject.valueOrNull
+      return Stream.value(_eventsSubject.valueOrNull!
           .where((event) =>
               event.date.toDateTime.millisecond >=
               startDate.toDateTime.millisecond)
           .toList());
     }
 
-    return Stream.value(_eventsSubject.valueOrNull
+    return Stream.value(_eventsSubject.valueOrNull!
         .where((event) =>
             (event.date.toDateTime.millisecond >=
                 startDate.toDateTime.millisecond) &&
@@ -98,7 +98,7 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  Stream<List<Lesson>> streamLessons() => _lessonsSubject;
+  Stream<List<Lesson>?> streamLessons() => _lessonsSubject;
 
   @override
   Stream<List<Lesson>> streamLessonsUnfilteredForDate(Date date) {

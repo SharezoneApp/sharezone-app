@@ -44,8 +44,8 @@ class GroupOnboardingCreateSchoolClass extends StatefulWidget {
 
 class _GroupOnboardingCreateSchoolClassState
     extends State<GroupOnboardingCreateSchoolClass> {
-  MySchoolClassBloc schoolClassBloc;
-  SchoolClassCreateBloc schoolClassCreateBloc;
+  late MySchoolClassBloc schoolClassBloc;
+  late SchoolClassCreateBloc schoolClassCreateBloc;
 
   @override
   void initState() {
@@ -85,7 +85,7 @@ class _GroupOnboardingCreateSchoolClassState
 }
 
 class _TextFieldSubmitButton extends StatefulWidget {
-  const _TextFieldSubmitButton({Key key}) : super(key: key);
+  const _TextFieldSubmitButton({Key? key}) : super(key: key);
 
   @override
   __TextFieldSubmitButtonState createState() => __TextFieldSubmitButtonState();
@@ -93,7 +93,7 @@ class _TextFieldSubmitButton extends StatefulWidget {
 
 class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   bool isLoading = false;
-  String errorTextForUser;
+  String? errorTextForUser;
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +158,9 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final schoolClassBloc = BlocProvider.of<MySchoolClassBloc>(context);
     setState(() => isLoading = true);
     schoolClassBloc.createSchoolClass(name).then((result) async {
-      if (result != null && result.hasData && result.data == true) {
+      if (result.hasData && result.data == true) {
         isLoading = false;
-        final schoolClassID = schoolClassBloc.schoolClass.id;
+        final schoolClassID = schoolClassBloc.schoolClass!.id;
         Navigator.push(
           context,
           FadeRoute(
@@ -181,14 +181,14 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({Key key, @required this.errorTextForUser})
+  const _ErrorText({Key? key, required this.errorTextForUser})
       : super(key: key);
 
-  final String errorTextForUser;
+  final String? errorTextForUser;
 
   @override
   Widget build(BuildContext context) {
-    return Text(errorTextForUser,
+    return Text(errorTextForUser!,
         style: TextStyle(
             color: Theme.of(context).colorScheme.error, fontSize: 14));
   }

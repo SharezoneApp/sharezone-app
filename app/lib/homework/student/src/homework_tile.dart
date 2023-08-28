@@ -31,19 +31,17 @@ class HomeworkTile extends StatefulWidget {
   final StatusChangeCallback onChanged;
 
   const HomeworkTile({
-    Key key,
-    @required this.homework,
-    @required this.onChanged,
-  })  : assert(homework != null),
-        assert(onChanged != null),
-        super(key: key);
+    Key? key,
+    required this.homework,
+    required this.onChanged,
+  })  : super(key: key);
 
   @override
   _HomeworkTileState createState() => _HomeworkTileState();
 }
 
 class _HomeworkTileState extends State<HomeworkTile> {
-  bool isCompleted;
+  late bool isCompleted;
 
   @override
   void initState() {
@@ -69,14 +67,16 @@ class _HomeworkTileState extends State<HomeworkTile> {
       todoDate: widget.homework.todoDate,
       todoDateColor: widget.homework.colorDate
           ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyMedium.color,
+          : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
       onLongPress: () => _showLongPressDialog(context),
       key: Key(widget.homework.id),
     );
   }
 
-  void _changeCompletionState(bool newCompletionState) {
+  void _changeCompletionState(bool? newCompletionState) {
+    if (newCompletionState == null) return;
+
     /// [mounted] prüft, dass das Widget noch im Widget-Tree ist. Es ist ein Fehler
     /// [setState] aufzurufen, falls [mounted] `false` ist.
     ///
@@ -143,7 +143,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
     final homeworkId = homeworkView.id;
     final homeworkDocument = await _homeworkCollection.doc(homeworkId).get();
     final homework =
-        HomeworkDto.fromData(homeworkDocument.data(), id: homeworkDocument.id);
+        HomeworkDto.fromData(homeworkDocument.data()!, id: homeworkDocument.id);
     return homework;
   }
 }
@@ -152,8 +152,8 @@ class _SubmissionUploadButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _SubmissionUploadButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -167,12 +167,12 @@ class _SubmissionUploadButton extends StatelessWidget {
 
 class _Checkbox extends StatelessWidget {
   final bool isHomeworkCompleted;
-  final void Function(bool isCompleted) onCompletionChange;
+  final void Function(bool? isCompleted) onCompletionChange;
 
   const _Checkbox({
-    Key key,
-    @required this.isHomeworkCompleted,
-    @required this.onCompletionChange,
+    Key? key,
+    required this.isHomeworkCompleted,
+    required this.onCompletionChange,
   }) : super(key: key);
 
   @override
@@ -181,7 +181,7 @@ class _Checkbox extends StatelessWidget {
     return Checkbox(
       value: isHomeworkCompleted,
       onChanged: (isCompleted) async {
-        if (isCompleted) {
+        if (isCompleted!) {
           analytics.log(const AnalyticsEvent("homework_done"));
         } else {
           analytics.log(const AnalyticsEvent("homework_undone"));

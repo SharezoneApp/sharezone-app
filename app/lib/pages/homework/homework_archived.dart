@@ -39,12 +39,14 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
           centerTitle: true,
           actions: <Widget>[
             _PopupMenu(
-              onChangedSortBy: (SortBy changedSortBy) =>
-                  setState(() => sortBy = changedSortBy),
+              onChangedSortBy: (SortBy? changedSortBy) {
+                if (changedSortBy == null) return;
+                setState(() => sortBy = changedSortBy);
+              },
             )
           ],
         ),
-        body: StreamBuilder<AppUser>(
+        body: StreamBuilder<AppUser?>(
           stream: api.user.userStream,
           builder: (context, userSnapshot) {
             final typeOfUser =
@@ -62,7 +64,7 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                 DateTime today = DateTime(DateTime.now().year,
                     DateTime.now().month, DateTime.now().day);
                 List<HomeworkDto> homeworkList =
-                    snapshot.data.where((HomeworkDto homework) {
+                    snapshot.data!.where((HomeworkDto homework) {
                   DateTime todoUntil = DateTime(homework.todoUntil.year,
                       homework.todoUntil.month, homework.todoUntil.day);
                   return todoUntil.difference(today).inDays < 0;
@@ -112,12 +114,12 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
 }
 
 class _PopupMenu extends StatelessWidget {
-  const _PopupMenu({Key key, this.onChangedSortBy}) : super(key: key);
+  const _PopupMenu({Key? key, this.onChangedSortBy}) : super(key: key);
 
-  final ValueChanged<SortBy> onChangedSortBy;
+  final ValueChanged<SortBy?>? onChangedSortBy;
 
-  void onPopupSortTap({BuildContext context, SortBy sortBy}) {
-    onChangedSortBy(sortBy);
+  void onPopupSortTap({BuildContext? context, SortBy? sortBy}) {
+    onChangedSortBy!(sortBy);
     showSnackSec(
       text: "Hausaufgaben werden nach dem ${sortByAsString[sortBy]} sortiert.",
       context: context,

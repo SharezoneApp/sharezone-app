@@ -44,8 +44,8 @@ void _testWidgets(
 void testWidgetsWithDimensions(
   String description,
   WidgetTesterCallback callback, {
-  @required Size physicalSize,
-  @required double devicePixelRatio,
+  required Size physicalSize,
+  required double devicePixelRatio,
 }) {
   testWidgets(description, (tester) {
     tester.binding.window.physicalSizeTestValue = physicalSize;

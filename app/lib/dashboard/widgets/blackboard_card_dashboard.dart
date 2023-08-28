@@ -19,7 +19,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// und ist für diese Seite extra angepasst (Größte, etc.)
 class BlackboardCardDashboard extends StatelessWidget {
   const BlackboardCardDashboard({
-    Key key,
+    Key? key,
     this.view,
     this.width,
     this.height,
@@ -29,17 +29,17 @@ class BlackboardCardDashboard extends StatelessWidget {
     this.padding,
   }) : super(key: key);
 
-  final BlackboardView view;
-  final double width, height;
+  final BlackboardView? view;
+  final double? width, height;
   final int maxLines;
-  final bool withDetailsButton, forceIsRead;
-  final EdgeInsets padding;
+  final bool? withDetailsButton, forceIsRead;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     final width = this.width ?? MediaQuery.of(context).size.width;
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final bloc = BlackboardCardBloc(gateway: api.blackboard, itemID: view.id);
+    final bloc = BlackboardCardBloc(gateway: api.blackboard, itemID: view!.id);
     return BlocProvider(
       bloc: bloc,
       child: Padding(
@@ -48,17 +48,17 @@ class BlackboardCardDashboard extends StatelessWidget {
           width: width,
           height: height,
           child: CustomCard(
-            onTap: () => openDetails(context, view, bloc),
+            onTap: () => openDetails(context, view!, bloc),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Header(
                     width: width,
                     view: view,
-                    hasText: isNotEmptyOrNull(view.text)),
-                _Text(text: view.text, maxLines: maxLines),
+                    hasText: isNotEmptyOrNull(view!.text)),
+                _Text(text: view!.text, maxLines: maxLines),
                 BottomActionBar(
-                    view: view, withDetailsButton: withDetailsButton)
+                    view: view!, withDetailsButton: withDetailsButton!)
               ],
             ),
           ),
@@ -69,11 +69,11 @@ class BlackboardCardDashboard extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key key, this.view, this.width, this.hasText = true})
+  const _Header({Key? key, this.view, this.width, this.hasText = true})
       : super(key: key);
 
-  final BlackboardView view;
-  final double width;
+  final BlackboardView? view;
+  final double? width;
   final bool hasText;
 
   @override
@@ -85,16 +85,16 @@ class _Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           SizedBox(
-            width: width - (view.hasAttachments ? 90 : 56),
+            width: width! - (view!.hasAttachments ? 90 : 56),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _Title(view.title, hasText: hasText),
-                _CourseName(name: view.courseName, color: view.courseNameColor),
+                _Title(view!.title, hasText: hasText),
+                _CourseName(name: view!.courseName, color: view!.courseNameColor),
               ],
             ),
           ),
-          if (view.hasAttachments)
+          if (view!.hasAttachments)
             Icon(Icons.attach_file, color: Colors.grey[700], size: 20),
         ],
       ),
@@ -103,15 +103,15 @@ class _Header extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.name, this.color}) : super(key: key);
+  const _CourseName({Key? key, this.name, this.color}) : super(key: key);
 
-  final String name;
-  final Color color;
+  final String? name;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      name,
+      name!,
       style: TextStyle(color: color),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -121,9 +121,9 @@ class _CourseName extends StatelessWidget {
 
 class _Title extends StatelessWidget {
   final String title;
-  final bool hasText;
+  final bool? hasText;
 
-  const _Title(this.title, {Key key, this.hasText}) : super(key: key);
+  const _Title(this.title, {Key? key, this.hasText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,17 +135,17 @@ class _Title extends StatelessWidget {
               : darkBlueColor,
           fontWeight: FontWeight.w500,
           fontSize: 16),
-      maxLines: hasText ? 1 : 3,
+      maxLines: hasText! ? 1 : 3,
       overflow: TextOverflow.ellipsis,
     );
   }
 }
 
 class _Text extends StatelessWidget {
-  const _Text({Key key, this.text, this.maxLines}) : super(key: key);
+  const _Text({Key? key, this.text, this.maxLines}) : super(key: key);
 
-  final String text;
-  final int maxLines;
+  final String? text;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class _Text extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Text(
-        text,
+        text!,
         style: TextStyle(color: Colors.grey[700]),
         maxLines: maxLines,
         overflow: TextOverflow.ellipsis,

@@ -9,7 +9,6 @@
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
 
@@ -62,10 +61,10 @@ import 'package:sharezone/notifications/setup_push_notification_action_handler.d
 /// ]);
 /// ```
 List<PushNotification> generateNotificationMutations({
-  @required dynamic actionType,
-  @required dynamic actionData,
-  @required dynamic title,
-  @required dynamic body,
+  required dynamic actionType,
+  required dynamic actionData,
+  required dynamic title,
+  required dynamic body,
 }) {
   assert(actionType is String || actionType is Iterable<String>);
   assert(actionData is Map<String, dynamic> || actionData is Iterable<Map>);
@@ -124,11 +123,10 @@ List asList(dynamic value) {
 
 class TestHandlerFor {
   static void nonFatalParsingExceptions<T extends ActionRequest>({
-    @required List<PushNotification> Function() generateNotifications,
-    @required
-        void Function(
-                List<NonFatalParsingException> parsingExceptionsPerNotification)
-            expectParsingErrors,
+    required List<PushNotification> Function() generateNotifications,
+    required void Function(
+            List<NonFatalParsingException> parsingExceptionsPerNotification)
+        expectParsingErrors,
   }) {
     assert(T != dynamic, "ActionRequest type must be specified");
 
@@ -143,7 +141,7 @@ class TestHandlerFor {
       expect(actionRequest, isA<T>(),
           reason: '$notification should get matched to a $T.');
 
-      final parsingExceptions = result.nonFatalParsingExceptions;
+      final parsingExceptions = result.nonFatalParsingExceptions!;
 
       if (parsingExceptions.isEmpty) {
         throw StateError(
@@ -155,8 +153,8 @@ class TestHandlerFor {
   }
 
   static void success<T extends ActionRequest>({
-    @required List<PushNotification> Function() generateNotifications,
-    @required void Function(T intent) expectActionToExecute,
+    required List<PushNotification> Function() generateNotifications,
+    required void Function(T intent) expectActionToExecute,
     bool failOnNonFatalParsingErrors = false,
     List<ActionRegistration> addRegistrations = const [],
   }) {
@@ -167,7 +165,7 @@ class TestHandlerFor {
           testRegistrations: addRegistrations);
 
       if (failOnNonFatalParsingErrors &&
-          result.nonFatalParsingExceptions.isNotEmpty) {
+          result.nonFatalParsingExceptions!.isNotEmpty) {
         throw StateError(
             "Result had non-fatal parsing errors (`failOnNonFatalParsingErrors` options was true). The handler result was: $result.");
       }
@@ -186,8 +184,8 @@ class TestHandlerFor {
   }
 
   static void fatalParsingFailure({
-    @required List<PushNotification> Function() generateNotifications,
-    @required void Function(FatalParsingError error) resultsInFatalParsingError,
+    required List<PushNotification> Function() generateNotifications,
+    required void Function(FatalParsingError? error) resultsInFatalParsingError,
     List<ActionRegistration> addRegistrations = const [],
   }) {
     for (final notification in generateNotifications()) {
@@ -204,10 +202,9 @@ class TestHandlerFor {
   }
 
   static void errorDialog({
-    @required List<PushNotification> Function() generateNotifications,
-    @required
-        void Function(ShowErrorDialogInvocation showErrorDialogException)
-            shouldShowErrorDialog,
+    required List<PushNotification> Function() generateNotifications,
+    required void Function(ShowErrorDialogInvocation? showErrorDialogException)
+        shouldShowErrorDialog,
     List<ActionRegistration> addRegistrations = const [],
   }) {
     for (final notification in generateNotifications()) {
@@ -228,11 +225,11 @@ class TestHandlerFor {
 /// In this way all side-effects are contained in this class which makes it more
 /// accessible.
 class PushHandlerInvocationResult {
-  final ActionRequest actionRequestOrNull;
-  final PushNotification notification;
-  final List<NonFatalParsingException> nonFatalParsingExceptions;
-  final FatalParsingError fatalParsingExceptionOrNull;
-  final TestInstrumentation instrumentation;
+  final ActionRequest? actionRequestOrNull;
+  final PushNotification? notification;
+  final List<NonFatalParsingException>? nonFatalParsingExceptions;
+  final FatalParsingError? fatalParsingExceptionOrNull;
+  final TestInstrumentation? instrumentation;
 
   /// This should only be used for [TestHandlerFor.errorDialog].
   ///
@@ -242,7 +239,7 @@ class PushHandlerInvocationResult {
   ///
   /// As all other test scaffolds in [TestHandlerFor] are concerned with the
   /// generic logic ("inner layer") they shouldn't use this.
-  final ShowErrorDialogInvocation showErrorDialogExceptionOrNull;
+  final ShowErrorDialogInvocation? showErrorDialogExceptionOrNull;
 
   PushHandlerInvocationResult({
     this.actionRequestOrNull,
@@ -265,12 +262,12 @@ PushHandlerInvocationResult handlePushNotification(
 }) {
   final instrumentation = TestInstrumentation();
 
-  ActionRequest actionRequest;
+  ActionRequest? actionRequest;
   void handle(ActionRequest request) {
     actionRequest = request;
   }
 
-  ShowErrorDialogInvocation showErrorDialogException;
+  ShowErrorDialogInvocation? showErrorDialogException;
 
   final handler = setupPushNotificationActionHandler(
     navigateToLocation: handle,
@@ -313,9 +310,9 @@ class FatalParsingError {
   final StackTrace stackTrace;
 
   FatalParsingError({
-    @required this.notification,
-    @required this.error,
-    @required this.stackTrace,
+    required this.notification,
+    required this.error,
+    required this.stackTrace,
   }) {
     ArgumentError.checkNotNull(notification, 'notification');
     ArgumentError.checkNotNull(error, 'error');
@@ -325,14 +322,14 @@ class FatalParsingError {
 class NonFatalParsingException implements Exception {
   final String attributeName;
   final dynamic fallbackValueChosen;
-  final PushNotification notification;
+  final PushNotification? notification;
   final dynamic error;
 
   NonFatalParsingException({
-    @required this.attributeName,
-    @required this.fallbackValueChosen,
-    @required this.notification,
-    @required this.error,
+    required this.attributeName,
+    required this.fallbackValueChosen,
+    required this.notification,
+    required this.error,
   });
 }
 
@@ -341,7 +338,7 @@ class TestInstrumentation
   List<NonFatalParsingException> nonFatalParsingExceptions = [];
   bool get hasNonFatalParsingExceptions => nonFatalParsingExceptions.isNotEmpty;
 
-  FatalParsingError fatalParsingError;
+  FatalParsingError? fatalParsingError;
   bool get hasFatalParsingError => fatalParsingError != null;
 
   dynamic fatalConversionException;
@@ -395,7 +392,7 @@ class TestInstrumentation
   @override
   void parsingFailedNonFatalyOnAttribute(String attributeName,
       {dynamic fallbackValueChosenInstead,
-      PushNotification notification,
+      PushNotification? notification,
       dynamic error}) {
     nonFatalParsingExceptions.add(
       NonFatalParsingException(

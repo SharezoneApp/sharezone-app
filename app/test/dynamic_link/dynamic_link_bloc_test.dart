@@ -13,8 +13,8 @@ import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 
 void main() {
   group('DynamicLinkBloc', () {
-    DynamicLinkBloc bloc;
-    LocalDynamicLinks dynamicLinks;
+    late DynamicLinkBloc bloc;
+    late LocalDynamicLinks dynamicLinks;
     setUp(() {
       dynamicLinks = LocalDynamicLinks();
       bloc = DynamicLinkBloc(dynamicLinks);

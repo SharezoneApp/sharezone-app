@@ -19,7 +19,7 @@ class FileSharingPermissions {
   const FileSharingPermissions(this.api);
 
   Future<MemberRole> _getMemberRole(String courseID) async {
-    return (await api.connectionsGateway.get()).courses[courseID].myRole ??
+    return (await api.connectionsGateway.get()).courses[courseID]!.myRole ??
         MemberRole.none;
   }
 
@@ -29,7 +29,7 @@ class FileSharingPermissions {
   }
 
   Future<bool> canUploadFiles(
-      {@required String courseID, @required FolderPath folderPath}) async {
+      {required String courseID, required FolderPath folderPath}) async {
     final myRole = await _getMemberRole(courseID);
     final bool isCreator =
         myRole.hasPermission(GroupPermission.contentCreation);
@@ -45,13 +45,11 @@ class FileSharingPermissionsNoSync {
 
   String get _userID => api.uID;
 
-  MemberRole _getMemberRole(String courseID) {
+  MemberRole? _getMemberRole(String? courseID) {
     final connectionsData = api.connectionsGateway.current();
     if (connectionsData != null) {
       final courses = connectionsData.courses;
-      if (courses != null) {
-        return courses[courseID]?.myRole;
-      }
+      return courses[courseID]?.myRole;
     }
     return MemberRole.none;
   }
@@ -62,11 +60,11 @@ class FileSharingPermissionsNoSync {
   }
 
   bool canUploadFiles({
-    @required String courseID,
-    @required FolderPath folderPath,
-    @required FileSharingData fileSharingData,
+    required String courseID,
+    required FolderPath folderPath,
+    required FileSharingData? fileSharingData,
   }) {
-    final myRole = _getMemberRole(courseID);
+    final myRole = _getMemberRole(courseID)!;
 
     final isCreator = myRole.hasPermission(GroupPermission.contentCreation);
 
@@ -76,25 +74,25 @@ class FileSharingPermissionsNoSync {
   }
 
   /// Ob ein Nutzer eine Datei Löschen, Umbenennen und Verschieben darf.
-  bool canManageCloudFile({@required CloudFile cloudFile}) {
+  bool canManageCloudFile({required CloudFile cloudFile}) {
     final isAuthor = cloudFile.creatorID == _userID;
     if (isAuthor) return true;
-    final myRole = _getMemberRole(cloudFile.courseID);
+    final myRole = _getMemberRole(cloudFile.courseID)!;
     final isAdmin = myRole.hasPermission(GroupPermission.administration);
     return isAdmin;
   }
 
-  bool canCreateDefaultFolder({@required String courseID}) {
-    final role = _getMemberRole(courseID);
+  bool canCreateDefaultFolder({required String courseID}) {
+    final role = _getMemberRole(courseID)!;
     return role.hasPermission(GroupPermission.contentCreation);
   }
 
   /// Ob ein Nutzer einen Ordner Löschen oder Umbenennen darf.
   bool canManageFolder({
-    @required String courseID,
-    @required Folder folder,
+    required String courseID,
+    required Folder folder,
   }) {
-    final role = _getMemberRole(courseID);
+    final role = _getMemberRole(courseID)!;
     final isAdmin = role.hasPermission(GroupPermission.administration);
     if (isAdmin) return true;
     return folder.creatorID == _userID;

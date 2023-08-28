@@ -14,11 +14,11 @@ import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> selectFolderAction({
-  @required BuildContext context,
-  @required SheetOption sheetOption,
-  @required Folder folder,
-  @required String courseID,
-  @required FolderPath path,
+  required BuildContext context,
+  required SheetOption? sheetOption,
+  required Folder folder,
+  required String? courseID,
+  required FolderPath? path,
 }) async {
   if (sheetOption == null) return;
   final api = BlocProvider.of<SharezoneContext>(context).api;
@@ -34,7 +34,7 @@ Future<void> selectFolderAction({
           onTap: (name) {
             final renamedFolder = folder.copyWith(name: name);
             api.fileSharing.folderGateway
-                .renameFolder(courseID, path, renamedFolder);
+                .renameFolder(courseID!, path!, renamedFolder);
             Navigator.pop(context);
           },
         ),
@@ -48,7 +48,7 @@ Future<void> selectFolderAction({
             "Möchtest du wirklich den Ordner mit dem Namen \"${folder.name}\" löschen?"),
         title: "Ordner löschen?",
         onDelete: () =>
-            api.fileSharing.folderGateway.deleteFolder(courseID, path, folder),
+            api.fileSharing.folderGateway.deleteFolder(courseID!, path!, folder),
       );
       break;
     default:

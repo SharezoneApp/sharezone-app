@@ -16,11 +16,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({
-    Key key,
-    @required this.backgroundColor,
+    Key? key,
+    required this.backgroundColor,
   }) : super(key: key);
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ enum _BottomSheetAction { completeOverdue, abort }
 
 class _MoreActionsBottomSheet extends StatelessWidget {
   const _MoreActionsBottomSheet({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -92,7 +92,7 @@ class _MoreActionsBottomSheet extends StatelessWidget {
 
 class _CompleteOverdue extends StatelessWidget {
   const _CompleteOverdue({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -107,7 +107,7 @@ class _CompleteOverdue extends StatelessWidget {
 
 class _MoreIdeas extends StatelessWidget {
   const _MoreIdeas({
-    Key key,
+    Key? key,
     this.opacity = 1,
   }) : super(key: key);
 
@@ -118,15 +118,15 @@ class _MoreIdeas extends StatelessWidget {
     return ListTile(
       leading: Icon(
         Icons.feedback,
-        color: Theme.of(context).iconTheme.color.withOpacity(opacity),
+        color: Theme.of(context).iconTheme.color!.withOpacity(opacity),
       ),
       title: Text(
         "Noch Ideen?",
         style: TextStyle(
             color: Theme.of(context)
                 .textTheme
-                .bodyMedium
-                .color
+                .bodyMedium!
+                .color!
                 .withOpacity(opacity)),
       ),
       onTap: () {
@@ -139,7 +139,7 @@ class _MoreIdeas extends StatelessWidget {
 }
 
 class _SortButton extends StatelessWidget {
-  String _sortString(HomeworkSort sort) {
+  String _sortString(HomeworkSort? sort) {
     if (sort == null) return '';
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
@@ -150,7 +150,7 @@ class _SortButton extends StatelessWidget {
     throw UnimplementedError('HomeworkSort $sort not implemented');
   }
 
-  HomeworkSort _getNextSort(HomeworkSort current) {
+  HomeworkSort _getNextSort(HomeworkSort? current) {
     switch (current) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return HomeworkSort.subjectSmallestDateAndTitleSort;
@@ -168,7 +168,7 @@ class _SortButton extends StatelessWidget {
     return StreamBuilder<Success>(
       stream: bloc.stream.whereType<Success>(),
       builder: (context, snapshot) {
-        final currentSort = snapshot?.data?.open?.sorting;
+        final currentSort = snapshot.data?.open.sorting;
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(

@@ -45,24 +45,24 @@ enum NotificationHandlerErrorReason {
 /// between tests and real usage is greatest. This is why we don't just pass a
 /// list of [ActionRegistration].
 PushNotificationActionHandler setupPushNotificationActionHandler({
-  @required
+  required
       ActionRequestExecutorFunc<NavigateToLocationRequest> navigateToLocation,
-  @required ActionRequestExecutorFunc<OpenLinkRequest> openLink,
-  @required
+  required ActionRequestExecutorFunc<OpenLinkRequest> openLink,
+  required
       ActionRequestExecutorFunc<ShowBlackboardItemRequest> showBlackboardItem,
-  @required ActionRequestExecutorFunc<ShowHomeworkRequest> showHomework,
-  @required
+  required ActionRequestExecutorFunc<ShowHomeworkRequest> showHomework,
+  required
       ActionRequestExecutorFunc<ShowNotificationDialogRequest>
           showNotificationDialog,
-  @required
+  required
       ActionRequestExecutorFunc<ShowTimetableEventRequest> showTimetableEvent,
 
   /// [errorOrNull] is non-null if [NotificationHandlerErrorReason] == [NotificationHandlerErrorReason.fatalParsingError]
-  @required
+  required
       void Function(PushNotification, NotificationHandlerErrorReason,
               dynamic errorOrNull)
           showErrorNotificationDialog,
-  @required PushNotificationActionHandlerInstrumentation instrumentation,
+  required PushNotificationActionHandlerInstrumentation instrumentation,
   @visibleForTesting List<ActionRegistration> testRegistrations = const [],
 }) {
   final showNotificationDialogRegistration =

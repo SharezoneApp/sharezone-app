@@ -32,8 +32,8 @@ void main() {
 
     setMockAnswers(szAppFunctions);
 
-    StreamQueue<List<Holiday>> queue =
-        StreamQueue<List<Holiday>>(holidayBloc.holidays);
+    StreamQueue<List<Holiday?>> queue =
+        StreamQueue<List<Holiday?>>(holidayBloc.holidays);
     stateGateway.changeState(secondState);
 
     areCorrectHolidaysForState(await queue.next, firstState);
@@ -86,7 +86,7 @@ HolidayBloc setupBloc(MockAppSharezoneFunctions szAppFunctions,
 }
 
 /// Checking if last and first Holiday are the same
-bool areCorrectHolidaysForState(List<Holiday> holidays, StateEnum stateEnum) {
+bool areCorrectHolidaysForState(List<Holiday?> holidays, StateEnum stateEnum) {
   bool hContains(Holiday holiday) => holidays.contains(holiday);
 
   switch (stateEnum) {

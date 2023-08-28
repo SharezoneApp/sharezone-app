@@ -22,9 +22,9 @@ import '../analytics/analytics_test.dart';
 class MockCourseCreateApi extends Mock implements CourseCreateGateway {}
 
 void main() {
-  CourseCreateBloc bloc;
-  CourseCreateAnalytics analytics;
-  CourseCreateGateway gateway;
+  late CourseCreateBloc bloc;
+  late CourseCreateAnalytics analytics;
+  late CourseCreateGateway gateway;
 
   setUp(() {
     analytics = CourseCreateAnalytics(Analytics(LocalAnalyticsBackend()));
@@ -60,7 +60,7 @@ void main() {
     bloc.changeSubject("Some value");
     bloc.changeSubject("");
     final queue = StreamQueue<String>(bloc.subject);
-    TextValidationException validationException;
+    late TextValidationException validationException;
     try {
       await queue.next;
     } on TextValidationException catch (e) {

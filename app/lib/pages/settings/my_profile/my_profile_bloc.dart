@@ -20,7 +20,7 @@ class MyProfileBloc extends BlocBase {
                 userGateway.userStream, userGateway.authUserStream)
             .stream
             .map((result) =>
-                UserView.fromUserAndFirebaseUser(result.data0, result.data1));
+                UserView.fromUserAndFirebaseUser(result.data0!, result.data1!));
 
   @override
   void dispose() {}

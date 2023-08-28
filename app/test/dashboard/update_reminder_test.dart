@@ -27,7 +27,7 @@ import 'package:user/user.dart';
 
 void main() {
   group('Update-Reminder Card', () {
-    MockUpdateReminderBloc mockUpdateReminderBloc;
+    late MockUpdateReminderBloc mockUpdateReminderBloc;
     final updateCardFinder = find.byKey(ValueKey('UpdatePromptCard'));
 
     setUp(() {

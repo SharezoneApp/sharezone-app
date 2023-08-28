@@ -37,10 +37,10 @@ class LazyLoadingHomeworkList extends StatelessWidget {
   static const double threshold = 200.0;
 
   const LazyLoadingHomeworkList({
-    Key key,
-    @required this.children,
-    @required this.loadedAllHomeworks,
-    @required this.loadMoreHomeworksCallback,
+    Key? key,
+    required this.children,
+    required this.loadedAllHomeworks,
+    required this.loadMoreHomeworksCallback,
     // Same as Colors.grey[600] which can't be used because it's not const.
     this.overscrollColor = const Color(0xFF757575),
     this.infiniteScrollLoadingIndicator =

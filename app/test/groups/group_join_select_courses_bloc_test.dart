@@ -11,7 +11,6 @@ import 'dart:async';
 import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:random_string/random_string.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
@@ -22,7 +21,7 @@ class MockGroupJoinBloc extends GroupJoinBloc {
   // Resent, da der JoinVersuch hier ja ein zweites Mal erfolgt, aber diesmal mit einer
   // zusätzlichen Kursliste.
   bool hasResentJoinRequest = false;
-  List<String> sentCourseIds;
+  List<String>? sentCourseIds;
 
   MockGroupJoinBloc() : super(null, null);
 
@@ -48,8 +47,8 @@ GroupInfo _mockSchoolClass() {
 }
 
 GroupInfoWithSelectionState _courseWith({
-  String id,
-  String name,
+  String? id,
+  String? name,
   bool isSelected = true,
 }) {
   return GroupInfoWithSelectionState(
@@ -68,13 +67,13 @@ GroupKey _groupKeyOfCourse(String groupId) {
 
 void main() {
   group('GroupJoinSelectCoursesBlocTest', () {
-    MockGroupJoinBloc mockGroupJoinBloc;
+    late MockGroupJoinBloc mockGroupJoinBloc;
     setUp(() {
       mockGroupJoinBloc = MockGroupJoinBloc();
     });
 
     GroupJoinSelectCoursesBloc _blocWith({
-      @required List<GroupInfoWithSelectionState> courses,
+      required List<GroupInfoWithSelectionState> courses,
     }) {
       return GroupJoinSelectCoursesBloc(
         joinResult: RequireCourseSelectionsJoinResult(
@@ -182,7 +181,7 @@ void main() {
 }
 
 extension on Stream<List<GroupInfoWithSelectionState>> {
-  Future<GroupInfoWithSelectionState> withCourse({@required String id}) async {
+  Future<GroupInfoWithSelectionState> withCourse({required String id}) async {
     return (await first).firstWhere((groupInfo) => groupInfo.id == id);
   }
 }

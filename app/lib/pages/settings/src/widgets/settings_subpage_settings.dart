@@ -11,13 +11,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SettingsSubpageSection extends StatelessWidget {
   const SettingsSubpageSection({
-    Key key,
+    Key? key,
     this.title,
     this.children,
   }) : super(key: key);
 
-  final String title;
-  final List<Widget> children;
+  final String? title;
+  final List<Widget>? children;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,11 @@ class SettingsSubpageSection extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 16),
-            child: Headline(title),
+            child: Headline(title!),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: children,
+            children: children!,
           )
         ],
       ),

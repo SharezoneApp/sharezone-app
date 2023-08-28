@@ -25,27 +25,27 @@ import 'widgets/sheet.dart';
 
 class FileSharingViewGroup extends StatelessWidget {
   const FileSharingViewGroup({
-    @required this.groupState,
+    required this.groupState,
   });
 
-  final FileSharingPageStateGroup groupState;
+  final FileSharingPageStateGroup? groupState;
 
-  FileSharingData get initialData => groupState.initialFileSharingData;
+  FileSharingData? get initialData => groupState!.initialFileSharingData;
 
-  FolderPath get path => groupState.path;
+  FolderPath get path => groupState!.path;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<FileSharingPageBloc>(context);
     return StreamBuilder<FileSharingData>(
       initialData: initialData,
-      stream: bloc.courseFolder(initialData.courseID),
+      stream: bloc.courseFolder(initialData!.courseID),
       builder: (context, snapshot) {
         final fileSharingData = snapshot.data;
         if (fileSharingData == null) {
           return Center(child: AccentColorCircularProgressIndicator());
         }
-        final folders = fileSharingData.getFolders(path).values.toList();
+        final folders = fileSharingData.getFolders(path)!.values.toList();
 
         return SingleChildScrollView(
           padding: const EdgeInsets.only(left: 8, top: 8),
@@ -65,7 +65,7 @@ class FileSharingViewGroup extends StatelessWidget {
                       path: path,
                     ),
                     _FileGrid(
-                      courseID: initialData.courseID,
+                      courseID: initialData!.courseID,
                       path: path,
                       folderNumber: folders.length,
                     ),
@@ -88,15 +88,15 @@ class _FolderGrid extends StatelessWidget {
     this.path,
   });
 
-  final List<Folder> folders;
-  final FileSharingData fileSharingData;
-  final String courseID;
-  final FolderPath path;
+  final List<Folder>? folders;
+  final FileSharingData? fileSharingData;
+  final String? courseID;
+  final FolderPath? path;
 
   @override
   Widget build(BuildContext context) {
-    if (folders != null && folders.isEmpty) return Container();
-    folders.sort((a, b) => a.name.compareTo(b.name));
+    if (folders != null && folders!.isEmpty) return Container();
+    folders!.sort((a, b) => a.name!.compareTo(b.name!));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -105,7 +105,7 @@ class _FolderGrid extends StatelessWidget {
           minWidth: 150.0,
           maxElementsPerSection: 3,
           children: [
-            for (final folder in folders)
+            for (final folder in folders!)
               _FolderCard(
                 folder: folder,
                 fileSharingData: fileSharingData,
@@ -120,9 +120,9 @@ class _FolderGrid extends StatelessWidget {
 
 class _FileGrid extends StatelessWidget {
   const _FileGrid({
-    Key key,
-    @required this.courseID,
-    @required this.path,
+    Key? key,
+    required this.courseID,
+    required this.path,
     this.folderNumber = 0,
   }) : super(key: key);
 
@@ -137,9 +137,9 @@ class _FileGrid extends StatelessWidget {
       stream: bloc.fileQuery(courseID, path),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
-        if (snapshot.data.isEmpty && folderNumber == 0) return _NoFilesFound();
-        if (snapshot.data.isEmpty) return Container();
-        final files = snapshot.data;
+        if (snapshot.data!.isEmpty && folderNumber == 0) return _NoFilesFound();
+        if (snapshot.data!.isEmpty) return Container();
+        final files = snapshot.data!;
         files.sort((a, b) => a.name.compareTo(b.name));
         return ColorFadeIn(
           color: Colors.transparent,
@@ -169,14 +169,14 @@ class _FileGrid extends StatelessWidget {
 
 class _FolderCard extends StatelessWidget {
   const _FolderCard({
-    @required this.folder,
-    @required this.path,
+    required this.folder,
+    required this.path,
     this.fileSharingData,
   });
 
   final Folder folder;
-  final FolderPath path;
-  final FileSharingData fileSharingData;
+  final FolderPath? path;
+  final FileSharingData? fileSharingData;
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +185,8 @@ class _FolderCard extends StatelessWidget {
         final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
 
         final newState = FileSharingPageStateGroup(
-          groupID: fileSharingData.courseID,
-          path: path.getChildPath(folder.id),
+          groupID: fileSharingData!.courseID,
+          path: path!.getChildPath(folder.id),
           initialFileSharingData: fileSharingData,
         );
         stateBloc.changeStateTo(newState);
@@ -197,14 +197,14 @@ class _FolderCard extends StatelessWidget {
           ? IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () => showFolderSheet(
-                courseID: fileSharingData.courseID,
+                courseID: fileSharingData!.courseID,
                 path: path,
                 folder: folder,
                 context: context,
                 hasPermissions:
                     FileSharingPermissionsNoSync.fromContext(context)
                         .canManageFolder(
-                            courseID: fileSharingData.courseID, folder: folder),
+                            courseID: fileSharingData!.courseID, folder: folder),
               ),
             )
           : null,
@@ -214,8 +214,8 @@ class _FolderCard extends StatelessWidget {
 
 class _FileCard extends StatelessWidget {
   const _FileCard({
-    @required this.cloudFile,
-    @required this.courseId,
+    required this.cloudFile,
+    required this.courseId,
   });
 
   final CloudFile cloudFile;

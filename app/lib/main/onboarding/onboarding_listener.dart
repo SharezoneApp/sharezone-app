@@ -13,9 +13,9 @@ import 'package:sharezone/onboarding/group_onboarding/pages/choose_name.dart';
 import 'onboarding_navigator.dart';
 
 class OnboardingListener extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
 
-  const OnboardingListener({Key key, this.child}) : super(key: key);
+  const OnboardingListener({Key? key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class OnboardingListener extends StatelessWidget {
       stream: onboardingNavigator.showOnboarding,
       builder: (context, snapshot) {
         if (snapshot.data ?? false) return OnboardingChangeName();
-        return child;
+        return child!;
       },
     );
   }

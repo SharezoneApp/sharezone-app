@@ -15,7 +15,7 @@ import 'package:time/time.dart';
 
 class TimetableElement {
   final Date date;
-  final GroupInfo groupInfo;
+  final GroupInfo? groupInfo;
   final Time start;
   final Time end;
   final dynamic data;

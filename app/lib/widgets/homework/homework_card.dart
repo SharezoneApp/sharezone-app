@@ -41,20 +41,20 @@ class HomeworkCard extends StatelessWidget {
     this.markedDate = true,
   });
 
-  final HomeworkDto homework;
-  final TypeOfUser typeOfUser;
+  final HomeworkDto? homework;
+  final TypeOfUser? typeOfUser;
   final bool markedDate;
 
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final bloc = HomeworkCardBloc(api, homework);
+    final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
     DateTime tomorrowWithoutTime = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
-    DateTime todoUntilWithoutTime = DateTime(homework.todoUntil.year,
-        homework.todoUntil.month, homework.todoUntil.day);
+    DateTime todoUntilWithoutTime = DateTime(homework!.todoUntil.year,
+        homework!.todoUntil.month, homework!.todoUntil.day);
 
     return BlocProvider(
       bloc: bloc,
@@ -62,7 +62,7 @@ class HomeworkCard extends StatelessWidget {
         onTap: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView = await detailsViewFactory.fromHomeworkDb(homework);
+          final detailsView = await detailsViewFactory.fromHomeworkDb(homework!);
 
           return pushWithDefault<bool>(
             context,
@@ -76,7 +76,7 @@ class HomeworkCard extends StatelessWidget {
         onLongPress: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView = await detailsViewFactory.fromHomeworkDb(homework);
+          final detailsView = await detailsViewFactory.fromHomeworkDb(homework!);
 
           _logHomeworkCardLongPress(analytics);
 
@@ -111,7 +111,7 @@ class HomeworkCard extends StatelessWidget {
               _HomeworkTileLongPressModelSheetOption>(
             context: context,
             longPressList: longPressList,
-            title: "Hausaufgabe: ${homework.title}",
+            title: "Hausaufgabe: ${homework!.title}",
           );
 
           switch (result) {
@@ -128,29 +128,29 @@ class HomeworkCard extends StatelessWidget {
               break;
             case _HomeworkTileLongPressModelSheetOption.delete:
               _logHomeworkDeleteViaCardLongPress(analytics);
-              await deleteHomeworkDialogsEntry(context, homework,
+              await deleteHomeworkDialogsEntry(context, homework!,
                   popTwice: false);
               break;
             case _HomeworkTileLongPressModelSheetOption.report:
               _logHomeworkReportViaCardLongPress(analytics);
-              final reportItem = ReportItemReference.homework(homework.id);
+              final reportItem = ReportItemReference.homework(homework!.id);
               openReportPage(context, reportItem);
               break;
           }
         },
         child: ListTile(
           title: Text(
-            homework.title,
+            homework!.title,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
           ),
           isThreeLine: true,
           subtitle: Text.rich(
             TextSpan(children: <TextSpan>[
-              TextSpan(text: "${homework.courseName}\n"),
+              TextSpan(text: "${homework!.courseName}\n"),
               TextSpan(
                   text:
-                      "${_formatTodoUntil(homework.todoUntil, homework.withSubmissions)}",
+                      "${_formatTodoUntil(homework!.todoUntil, homework!.withSubmissions)}",
                   style: markedDate
                       ? tomorrowWithoutTime
                                   .isAtSameMomentAs(todoUntilWithoutTime) ||
@@ -161,9 +161,9 @@ class HomeworkCard extends StatelessWidget {
             ], style: TextStyle(color: Colors.grey[600])),
           ),
           leading: CourseCircleAvatar(
-            courseId: homework.courseID,
-            heroTag: homework.id,
-            abbreviation: homework.subjectAbbreviation,
+            courseId: homework!.courseID,
+            heroTag: homework!.id,
+            abbreviation: homework!.subjectAbbreviation,
           ),
           trailing: _getTrailingWidget(context),
         ),
@@ -182,21 +182,21 @@ class HomeworkCard extends StatelessWidget {
     return '0$minute';
   }
 
-  Widget _getTrailingWidget(BuildContext context) {
+  Widget? _getTrailingWidget(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final bloc = HomeworkCardBloc(api, homework);
+    final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
     if (typeOfUser == TypeOfUser.parent) return null;
     if (typeOfUser == TypeOfUser.student) {
-      return StreamBuilder<bool>(
+      return StreamBuilder<bool?>(
         stream: bloc.isDone,
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Text("");
           return Checkbox(
             value: snapshot.data,
             onChanged: (value) {
-              if (value)
+              if (value!)
                 analytics.log(AnalyticsEvent("homework_done"));
               else
                 analytics.log(AnalyticsEvent("homework_undone"));
@@ -211,23 +211,23 @@ class HomeworkCard extends StatelessWidget {
         iconSize: 50,
         icon: Chip(
           label: Text(
-            '${homework.withSubmissions ? homework?.submitters?.length ?? 0 : homework.assignedUserArrays.completedStudentUids.length ?? 0}',
+            '${homework!.withSubmissions ? homework?.submitters.length ?? 0 : homework!.assignedUserArrays.completedStudentUids.length ?? 0}',
           ),
         ),
         onPressed: () {
-          if (_isAdmin(context, homework.courseID)) {
+          if (_isAdmin(context, homework!.courseID)) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => homework.withSubmissions
-                    ? HomeworkUserSubmissionsPage(homeworkId: homework.id)
+                builder: (_) => homework!.withSubmissions
+                    ? HomeworkUserSubmissionsPage(homeworkId: homework!.id)
                     : HomeworkCompletionUserListPage(
-                        homeworkId: HomeworkId(homework.id),
+                        homeworkId: HomeworkId(homework!.id),
                       ),
               ),
             );
           } else {
-            if (homework.withSubmissions) {
+            if (homework!.withSubmissions) {
               showTeacherMustBeAdminDialogToViewSubmissions(context);
             } else {
               showTeacherMustBeAdminDialogToViewCompletionList(context);
@@ -238,13 +238,11 @@ class HomeworkCard extends StatelessWidget {
     }
   }
 
-  MemberRole _getMemberRole(ConnectionsGateway gateway, String courseID) {
+  MemberRole? _getMemberRole(ConnectionsGateway gateway, String courseID) {
     final connectionsData = gateway.current();
     if (connectionsData != null) {
       final courses = connectionsData.courses;
-      if (courses != null) {
-        return courses[courseID]?.myRole;
-      }
+      return courses[courseID]?.myRole;
     }
     return MemberRole.none;
   }
@@ -259,7 +257,7 @@ class HomeworkCard extends StatelessWidget {
 
 class HomeworkCardRedesigned extends StatelessWidget {
   const HomeworkCardRedesigned({
-    Key key,
+    Key? key,
     this.homeworkView,
     this.withUrgentText = true,
     this.width,
@@ -267,23 +265,23 @@ class HomeworkCardRedesigned extends StatelessWidget {
     this.padding,
   }) : super(key: key);
 
-  final HomeworkView homeworkView;
+  final HomeworkView? homeworkView;
   final bool withUrgentText;
-  final double width;
-  final EdgeInsets padding;
+  final double? width;
+  final EdgeInsets? padding;
 
   /// This bool is to forcing the homework to be marked as done
   /// in the ui.
-  final bool forceIsDone;
+  final bool? forceIsDone;
 
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final bloc = HomeworkCardBloc(api, homeworkView.homework);
+    final bloc = HomeworkCardBloc(api, homeworkView!.homework);
     return BlocProvider<HomeworkCardBloc>(
       bloc: bloc,
       child: StreamBuilder<TypeOfUser>(
-        stream: api.user.userStream.map((user) => user.typeOfUser),
+        stream: api.user.userStream.map((user) => user!.typeOfUser),
         builder: (context, snapshot) {
           final typeOfUser = snapshot.data ?? TypeOfUser.student;
           return Padding(
@@ -300,16 +298,16 @@ class HomeworkCardRedesigned extends StatelessWidget {
                     children: <Widget>[
                       _Checkbox(isDone: forceIsDone, typeOfUser: typeOfUser),
                       _CourseName(
-                        courseName: homeworkView.courseName,
-                        color: homeworkView.courseNameColor,
+                        courseName: homeworkView!.courseName,
+                        color: homeworkView!.courseNameColor,
                         typeOfUser: typeOfUser,
                       )
                     ],
                   ),
-                  _Title(homeworkView.title, isDone: forceIsDone),
+                  _Title(homeworkView!.title, isDone: forceIsDone),
                   _TodoUntil(
-                    date: homeworkView.todoUntilText,
-                    color: homeworkView.todoUntilColor,
+                    date: homeworkView!.todoUntilText,
+                    color: homeworkView!.todoUntilColor,
                   )
                 ],
               ),
@@ -317,7 +315,7 @@ class HomeworkCardRedesigned extends StatelessWidget {
                 final detailsViewFactory =
                     BlocProvider.of<HomeworkDetailsViewFactory>(context);
                 final homeworkDetailsView = await detailsViewFactory
-                    .fromHomeworkDb(homeworkView.homework);
+                    .fromHomeworkDb(homeworkView!.homework);
                 pushWithDefault<bool>(
                   context,
                   HomeworkDetails(homeworkDetailsView),
@@ -328,7 +326,7 @@ class HomeworkCardRedesigned extends StatelessWidget {
                 });
               },
               onLongPress: () => showLongPressIfUserHasPermissions(
-                  context, bloc.toggleIsDone.add, homeworkView),
+                  context, bloc.toggleIsDone.add, homeworkView!),
             ),
           );
         },
@@ -364,14 +362,14 @@ Future showLongPressIfUserHasPermissions(
   final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
   final api = sharezoneContext.api;
   final analytics = sharezoneContext.analytics;
-  final typeOfUser = api.user.data.typeOfUser;
+  final typeOfUser = api.user.data!.typeOfUser;
 
   _logHomeworkCardLongPress(analytics);
 
   final isAuthor = api.uID == homeworkView.homework.authorID;
   final hasPermission = hasPermissionToManageHomeworks(
     api.course
-        .getRoleFromCourseNoSync(homeworkView.homework.courseReference.id),
+        .getRoleFromCourseNoSync(homeworkView.homework.courseReference!.id)!,
     isAuthor,
   );
   final isStudent = typeOfUser == TypeOfUser.student;
@@ -412,7 +410,7 @@ Future showLongPressIfUserHasPermissions(
     case _HomeworkTileLongPressModelSheetOption.done:
       _logHomeworkDoneViaCardLongPress(analytics);
       final result =
-          await confirmToMarkHomeworkAsDoneWithoutSubmission(context);
+          (await confirmToMarkHomeworkAsDoneWithoutSubmission(context))!;
       if (result) setHomeworkStatus(true);
       break;
     case _HomeworkTileLongPressModelSheetOption.edit:
@@ -436,16 +434,16 @@ Future showLongPressIfUserHasPermissions(
 }
 
 class _Checkbox extends StatelessWidget {
-  const _Checkbox({Key key, this.isDone, this.typeOfUser}) : super(key: key);
+  const _Checkbox({Key? key, this.isDone, this.typeOfUser}) : super(key: key);
 
-  final bool isDone;
-  final TypeOfUser typeOfUser;
+  final bool? isDone;
+  final TypeOfUser? typeOfUser;
 
   @override
   Widget build(BuildContext context) {
     if (typeOfUser != TypeOfUser.student) return Container();
     final bloc = BlocProvider.of<HomeworkCardBloc>(context);
-    return StreamBuilder<bool>(
+    return StreamBuilder<bool?>(
       stream: bloc.isDone,
       builder: (context, snapshot) {
         final isDone = this.isDone ?? snapshot.data;
@@ -463,10 +461,10 @@ class _Checkbox extends StatelessWidget {
 
 class _CourseName extends StatelessWidget {
   const _CourseName({
-    Key key,
-    @required this.courseName,
-    @required this.color,
-    @required this.typeOfUser,
+    Key? key,
+    required this.courseName,
+    required this.color,
+    required this.typeOfUser,
   }) : super(key: key);
 
   final String courseName;
@@ -493,9 +491,9 @@ class _CourseName extends StatelessWidget {
 
 class _TodoUntil extends StatelessWidget {
   const _TodoUntil({
-    Key key,
-    @required this.date,
-    @required this.color,
+    Key? key,
+    required this.date,
+    required this.color,
   }) : super(key: key);
 
   final String date;
@@ -519,15 +517,15 @@ class _TodoUntil extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key key, this.isDone}) : super(key: key);
+  const _Title(this.title, {Key? key, this.isDone}) : super(key: key);
 
   final String title;
-  final bool isDone;
+  final bool? isDone;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkCardBloc>(context);
-    return StreamBuilder<bool>(
+    return StreamBuilder<bool?>(
       stream: bloc.isDone,
       builder: (context, snapshot) {
         final isDone = this.isDone ?? snapshot.data ?? false;

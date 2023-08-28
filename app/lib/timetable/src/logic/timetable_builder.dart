@@ -88,7 +88,7 @@ class TimetableBuilder {
       start: lesson.startTime,
       end: lesson.endTime,
       data: lesson,
-      groupInfo: groupInfo[lesson.groupID]!,
+      groupInfo: groupInfo[lesson.groupID],
       priority: 0,
       properties: properties,
     );

@@ -48,10 +48,10 @@ class _ChangeList extends StatelessWidget {
       initialData: const ChangelogPageView.placeholder(),
       stream: bloc.changes,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || !snapshot.data.hasChanges)
+        if (!snapshot.hasData || !snapshot.data!.hasChanges)
           return const Center(child: AccentColorCircularProgressIndicator());
 
-        final changeData = snapshot.data;
+        final changeData = snapshot.data!;
         final children = _convertViewsToVersionSectionsWithNoDeviderAtTheBottom(
             changeData.changes);
 
@@ -86,7 +86,7 @@ class _ChangeList extends StatelessWidget {
       versionSections.add(_VersionSection(
         change: change,
         showBottomDivider: change != lastChange,
-        key: Key(change.version),
+        key: Key(change.version!),
       ));
     }
     return versionSections;
@@ -95,7 +95,7 @@ class _ChangeList extends StatelessWidget {
 
 class _VersionSection extends StatelessWidget {
   const _VersionSection(
-      {Key key, @required this.change, this.showBottomDivider = true})
+      {Key? key, required this.change, this.showBottomDivider = true})
       : super(key: key);
 
   final bool showBottomDivider;
@@ -104,11 +104,11 @@ class _VersionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: change.isNewerThanCurrentVersion ? 0.3 : 1,
+      opacity: change.isNewerThanCurrentVersion! ? 0.3 : 1,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(change.version,
+          Text(change.version!,
               style: Theme.of(context).textTheme.headlineSmall),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,25 +129,25 @@ class _VersionSection extends StatelessWidget {
 }
 
 class _ChangeParagraph extends StatelessWidget {
-  const _ChangeParagraph({Key key, this.list, this.title}) : super(key: key);
+  const _ChangeParagraph({Key? key, this.list, this.title}) : super(key: key);
 
-  final String title;
-  final List<String> list;
+  final String? title;
+  final List<String>? list;
 
   @override
   Widget build(BuildContext context) {
-    if (list == null || list.isEmpty) return Container();
+    if (list == null || list!.isEmpty) return Container();
     return Padding(
       padding: EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title,
+          Text(title!,
               style:
                   const TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: list
+            children: list!
                 .map(
                   (text) => Padding(
                     padding: const EdgeInsets.only(bottom: 2.5),

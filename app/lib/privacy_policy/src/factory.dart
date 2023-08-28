@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:meta/meta.dart';
 
 import 'privacy_policy_src.dart';
 
@@ -17,9 +16,9 @@ class PrivacyPolicyPageDependencyFactory {
   final DocumentController documentController;
 
   factory PrivacyPolicyPageDependencyFactory({
-    @required AnchorController anchorController,
-    @required PrivacyPolicy privacyPolicy,
-    @required PrivacyPolicyPageConfig config,
+    required AnchorController anchorController,
+    required PrivacyPolicy privacyPolicy,
+    required PrivacyPolicyPageConfig config,
   }) {
     final documentController = DocumentController(
       anchorController: anchorController,

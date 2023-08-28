@@ -14,7 +14,7 @@ class MockFeedbackApi extends FeedbackApi {
 
   List<UserFeedback> invocations = [];
 
-  bool wasOnlyInvokedWith(UserFeedback feedback) {
+  bool wasOnlyInvokedWith(UserFeedback? feedback) {
     return invocations.single == feedback;
   }
 

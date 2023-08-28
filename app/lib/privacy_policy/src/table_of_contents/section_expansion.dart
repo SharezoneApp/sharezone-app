@@ -41,25 +41,25 @@ abstract class ExpansionBehavior {
   /// Called when [before] was updated to [after] with a new
   /// [TocSection.isThisCurrentlyRead] state.
   TocSectionExpansionState computeExpansionState({
-    @required TocSection before,
-    @required TocSection after,
+    required TocSection? before,
+    required TocSection? after,
   });
 
   /// Common assertions for all [ExpansionBehavior]s.
   /// Needs to be called by all subclasses manually.
   static void assertValid({
-    @required TocSection before,
-    @required TocSection after,
+    required TocSection before,
+    required TocSection after,
   }) {
     assert(before.isExpandable);
     assert(after.isExpandable);
     assert(
-        before.expansionStateOrNull.isExpanded ==
-            after.expansionStateOrNull.isExpanded,
+        before.expansionStateOrNull!.isExpanded ==
+            after.expansionStateOrNull!.isExpanded,
         "expansionState hasn't changed already (since this method is responsible for changing it)");
     assert(
-        before.expansionStateOrNull.expansionMode ==
-            after.expansionStateOrNull.expansionMode,
+        before.expansionStateOrNull!.expansionMode ==
+            after.expansionStateOrNull!.expansionMode,
         "expansionState hasn't changed already (since this method is responsible for changing it)");
 
     // We use if instead of switch to check which [ExpansionMode] we are dealing
@@ -70,10 +70,10 @@ abstract class ExpansionBehavior {
     // We check here that no new Enum Values are introduced by accident.
     // If a new Enum value is introduced it should be checked that all usages
     // of the enum are accounted for in the subclasses.
-    assert(before.expansionStateOrNull.expansionMode == ExpansionMode.forced ||
-        before.expansionStateOrNull.expansionMode == ExpansionMode.automatic);
-    assert(after.expansionStateOrNull.expansionMode == ExpansionMode.forced ||
-        after.expansionStateOrNull.expansionMode == ExpansionMode.automatic);
+    assert(before.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
+        before.expansionStateOrNull!.expansionMode == ExpansionMode.automatic);
+    assert(after.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
+        after.expansionStateOrNull!.expansionMode == ExpansionMode.automatic);
   }
 }
 
@@ -86,14 +86,14 @@ class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
 
   @override
   TocSectionExpansionState computeExpansionState({
-    @required TocSection before,
-    @required TocSection after,
+    required TocSection? before,
+    required TocSection? after,
   }) {
-    ExpansionBehavior.assertValid(before: before, after: after);
+    ExpansionBehavior.assertValid(before: before!, after: after!);
     // Automatic default behavior:
     // - Expand if the section or a subsection is currently read.
     // - Collapse if the section or a subsection is not currently read.
-    return before.expansionStateOrNull.copyWith(
+    return before.expansionStateOrNull!.copyWith(
       isExpanded: after.isThisOrASubsectionCurrentlyRead,
     );
   }
@@ -114,12 +114,12 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
 
   @override
   TocSectionExpansionState computeExpansionState({
-    @required TocSection before,
-    @required TocSection after,
+    required TocSection? before,
+    required TocSection? after,
   }) {
-    ExpansionBehavior.assertValid(before: before, after: after);
+    ExpansionBehavior.assertValid(before: before!, after: after!);
 
-    final oldExpansionState = before.expansionStateOrNull;
+    final oldExpansionState = before.expansionStateOrNull!;
     final expansionMode = oldExpansionState.expansionMode;
     final wasExpanded = oldExpansionState.isExpanded;
     final wasCollapsed = !wasExpanded;

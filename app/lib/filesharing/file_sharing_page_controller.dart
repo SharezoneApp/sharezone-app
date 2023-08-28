@@ -68,9 +68,9 @@ class FileSharingPageController extends StatelessWidget {
 }
 
 class FileSharingPageBody extends StatelessWidget {
-  final FileSharingPageState pageState;
+  final FileSharingPageState? pageState;
 
-  const FileSharingPageBody({Key key, this.pageState}) : super(key: key);
+  const FileSharingPageBody({Key? key, this.pageState}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
@@ -80,7 +80,7 @@ class FileSharingPageBody extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: pageState is FileSharingPageStateGroup
             ? FileSharingViewGroup(
-                groupState: pageState as FileSharingPageStateGroup)
+                groupState: pageState as FileSharingPageStateGroup?)
             : FileSharingViewHome(),
       ),
     );

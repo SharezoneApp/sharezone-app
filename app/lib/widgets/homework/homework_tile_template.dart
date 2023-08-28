@@ -13,25 +13,25 @@ class HomeworkTileTemplate extends StatelessWidget {
   final String title;
   final String courseName;
   final String todoDate;
-  final Color todoDateColor;
+  final Color? todoDateColor;
   final Color courseColor;
   final String courseAbbreviation;
   final Widget trailing;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
-  final String heroTag;
+  final String? heroTag;
 
   const HomeworkTileTemplate({
-    Key key,
-    @required this.title,
-    @required this.courseName,
-    @required this.todoDate,
-    @required this.todoDateColor,
-    @required this.courseColor,
-    @required this.courseAbbreviation,
-    @required this.trailing,
-    @required this.onTap,
-    @required this.onLongPress,
+    Key? key,
+    required this.title,
+    required this.courseName,
+    required this.todoDate,
+    required this.todoDateColor,
+    required this.courseColor,
+    required this.courseAbbreviation,
+    required this.trailing,
+    required this.onTap,
+    required this.onLongPress,
     this.heroTag,
   }) : super(key: key);
 
@@ -50,7 +50,7 @@ class HomeworkTileTemplate extends StatelessWidget {
               maxLines: 2,
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge
+                  .bodyLarge!
                   .apply(fontSizeFactor: 1.1),
             ),
           ),

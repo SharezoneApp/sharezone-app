@@ -21,8 +21,8 @@ class MockCache extends Mock implements HolidayCache {}
 void main() {
   const nrwState = NordrheinWestfalen();
   const nrwStateEnum = StateEnum.nordrheinWestfalen;
-  MockCache mockCache;
-  MockAPI mockAPI;
+  late MockCache mockCache;
+  late MockAPI mockAPI;
 
   setUp(() {
     mockCache = MockCache();
@@ -35,7 +35,7 @@ void main() {
       stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum));
 
   void cacheReturnsInvalidHolidays(List<Holiday> expectedHolidays,
-      [MockCache mockCachePassed]) {
+      [MockCache? mockCachePassed]) {
     when(mockCachePassed?.load(any) ?? mockCache.load(any))
         .thenReturn(CacheResponse.invalid(expectedHolidays));
   }
@@ -44,7 +44,7 @@ void main() {
     when(mockCache.load(any)).thenThrow(Exception("Cache Exception"));
   }
 
-  void apiAnswersWith(List<Holiday> expectedHolidays, {State forState}) {
+  void apiAnswersWith(List<Holiday> expectedHolidays, {State? forState}) {
     when(mockAPI.load(any, forState ?? any))
         .thenAnswer((_) => Future.value(expectedHolidays));
   }
@@ -152,22 +152,22 @@ void main() {
 }
 
 class InMemoryHolidayStateGateway extends HolidayStateGateway {
-  InMemoryHolidayStateGateway({StateEnum initialValue}) {
+  InMemoryHolidayStateGateway({StateEnum? initialValue}) {
     if (initialValue != null) {
       _userState.add(initialValue);
     }
   }
 
   // ignore: close_sinks
-  final _userState = BehaviorSubject<StateEnum>();
+  final _userState = BehaviorSubject<StateEnum?>();
 
   @override
-  Future<void> changeState(StateEnum state) async {
+  Future<void> changeState(StateEnum? state) async {
     _userState.add(state);
   }
 
   @override
-  Stream<StateEnum> get userState => _userState;
+  Stream<StateEnum?> get userState => _userState;
 }
 
 List<Holiday> generateHolidayList(int length) {
@@ -180,7 +180,7 @@ List<Holiday> generateHolidayList(int length) {
   return holidays;
 }
 
-Holiday generateHoliday([DateTime start, DateTime end]) {
+Holiday generateHoliday([DateTime? start, DateTime? end]) {
   if (start != null && end != null) {
     return Holiday((b) => b
       ..start = start

@@ -59,7 +59,7 @@ void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   );
 }
 
-Future<bool> confirmToMarkHomeworkAsDoneWithoutSubmission(
+Future<bool?> confirmToMarkHomeworkAsDoneWithoutSubmission(
     BuildContext context) {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
@@ -80,7 +80,7 @@ class HomeworkDetails extends StatelessWidget {
 
   /// Loads the [HomeworkDetails] with [initialHomework] being prefilled into
   /// the page (no loading animation is shown).
-  HomeworkDetails(this.initialHomework) : id = initialHomework.id;
+  HomeworkDetails(HomeworkDetailsView this.initialHomework) : id = initialHomework.id;
 
   /// Loads the [HomeworkDetails] for the homework with the given [id].
   /// This means that there may be a loading animation shown until all
@@ -88,7 +88,7 @@ class HomeworkDetails extends StatelessWidget {
   const HomeworkDetails.loadId(this.id) : initialHomework = null;
 
   final String id;
-  final HomeworkDetailsView initialHomework;
+  final HomeworkDetailsView? initialHomework;
 
   @override
   Widget build(BuildContext context) {
@@ -127,8 +127,8 @@ class HomeworkDetails extends StatelessWidget {
 
 class _HomeworkDetailsBody extends StatelessWidget {
   const _HomeworkDetailsBody({
-    Key key,
-    @required this.view,
+    Key? key,
+    required this.view,
   }) : super(key: key);
 
   final HomeworkDetailsView view;
@@ -147,7 +147,7 @@ class _HomeworkDetailsBody extends StatelessWidget {
           _UserSubmissionsTile(view: view),
           _DoneByTile(view: view),
           _AttachmentList(view: view),
-          if (view.homework.id != null && view.homework.id.isNotEmpty)
+          if (view.homework.id.isNotEmpty)
             CommentSectionBuilder(
               itemId: view.homework.id,
               commentOnType: CommentOnType.homework,
@@ -160,9 +160,9 @@ class _HomeworkDetailsBody extends StatelessWidget {
 }
 
 class HomeworkTitleAppBar extends StatelessWidget {
-  final HomeworkDetailsView view;
+  final HomeworkDetailsView? view;
 
-  const HomeworkTitleAppBar({Key key, this.view}) : super(key: key);
+  const HomeworkTitleAppBar({Key? key, this.view}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,15 +176,15 @@ class HomeworkTitleAppBar extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 1,
         actions: <Widget>[
-          ReportIcon(item: ReportItemReference.homework(view.id)),
-          if (view.hasPermission) ...[
-            _EditIcon(homework: view.homework),
-            _DeleteIcon(homework: view.homework),
+          ReportIcon(item: ReportItemReference.homework(view!.id)),
+          if (view!.hasPermission) ...[
+            _EditIcon(homework: view!.homework),
+            _DeleteIcon(homework: view!.homework),
           ]
         ],
         expandedHeight: 155,
         flexibleSpace: FlexibleSpaceBar(
-            background: HomeworkDetailsHomeworkTitle(title: view.title)),
+            background: HomeworkDetailsHomeworkTitle(title: view!.title)),
         pinned: true,
         floating: true,
       ),
@@ -193,19 +193,19 @@ class HomeworkTitleAppBar extends StatelessWidget {
 }
 
 class _DoneByTile extends StatelessWidget {
-  const _DoneByTile({Key key, this.view}) : super(key: key);
+  const _DoneByTile({Key? key, this.view}) : super(key: key);
 
-  final HomeworkDetailsView view;
+  final HomeworkDetailsView? view;
 
   @override
   Widget build(BuildContext context) {
-    if (view.withSubmissions) return Container();
-    if (view.typeOfUser != TypeOfUser.teacher) return Container();
+    if (view!.withSubmissions) return Container();
+    if (view!.typeOfUser != TypeOfUser.teacher) return Container();
     return ListTile(
       leading: const Icon(Icons.check),
-      title: Text("Von ${view.nrOfCompletedStudents} SuS erledigt"),
+      title: Text("Von ${view!.nrOfCompletedStudents} SuS erledigt"),
       onTap: () {
-        if (view.hasPermissionsToViewDoneByList) {
+        if (view!.hasPermissionsToViewDoneByList) {
           _openDoneByList(context);
         } else {
           showTeacherMustBeAdminDialogToViewCompletionList(context);
@@ -220,7 +220,7 @@ class _DoneByTile extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => HomeworkCompletionUserListPage(
-          homeworkId: HomeworkId(view.id),
+          homeworkId: HomeworkId(view!.id),
         ),
         settings: RouteSettings(name: HomeworkCompletionUserListPage.tag),
       ),
@@ -230,8 +230,8 @@ class _DoneByTile extends StatelessWidget {
 
 class _UserSubmissionsTile extends StatelessWidget {
   const _UserSubmissionsTile({
-    @required this.view,
-    Key key,
+    required this.view,
+    Key? key,
   }) : super(key: key);
 
   final HomeworkDetailsView view;
@@ -250,7 +250,7 @@ class _UserSubmissionsTile extends StatelessWidget {
 }
 
 class _UserSubmissionsTeacherTile extends StatelessWidget {
-  const _UserSubmissionsTeacherTile({Key key, @required this.view})
+  const _UserSubmissionsTeacherTile({Key? key, required this.view})
       : super(key: key);
 
   final HomeworkDetailsView view;
@@ -295,7 +295,7 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
 }
 
 class _UserSubmissionsStudentTile extends StatelessWidget {
-  const _UserSubmissionsStudentTile({Key key, @required this.view})
+  const _UserSubmissionsStudentTile({Key? key, required this.view})
       : super(key: key);
 
   final HomeworkDetailsView view;
@@ -332,7 +332,7 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
       leading: const Icon(Icons.folder_shared),
       title: Text("Eltern dürfen keine Hausaufgaben abgeben"),
       onTap: () async {
-        final confirmed = await showLeftRightAdaptiveDialog<bool>(
+        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
           context: context,
           defaultValue: false,
           title: 'Account-Typ ändern?',
@@ -343,7 +343,7 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
             popResult: true,
             title: "Support kontaktieren",
           ),
-        );
+        ))!;
 
         if (confirmed) {
           final uid = BlocProvider.of<SharezoneContext>(context).api.uID;
@@ -360,7 +360,7 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key key, @required this.homework}) : super(key: key);
+  const _DeleteIcon({Key? key, required this.homework}) : super(key: key);
 
   final HomeworkDto homework;
 
@@ -376,9 +376,9 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key key, this.homework}) : super(key: key);
+  const _EditIcon({Key? key, this.homework}) : super(key: key);
 
-  final HomeworkDto homework;
+  final HomeworkDto? homework;
 
   @override
   Widget build(BuildContext context) {
@@ -431,7 +431,7 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
-  const _BottomHomeworkIsDoneActionButton({Key key, @required this.view})
+  const _BottomHomeworkIsDoneActionButton({Key? key, required this.view})
       : super(key: key);
 
   final HomeworkDetailsView view;
@@ -453,7 +453,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
           } else {
             if (view.withSubmissions) {
               final result =
-                  await confirmToMarkHomeworkAsDoneWithoutSubmission(context);
+                  (await confirmToMarkHomeworkAsDoneWithoutSubmission(context))!;
               if (result) {
                 bloc.changeIsHomeworkDoneTo(true);
                 Navigator.pop(context);
@@ -464,7 +464,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
             }
           }
         },
-        title: (view.isDone ?? false)
+        title: view.isDone
             ? "Als unerledigt markieren"
             : "Als erledigt markieren",
       ),
@@ -473,9 +473,9 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
 }
 
 class _HomeworkAuthorTile extends StatelessWidget {
-  const _HomeworkAuthorTile({Key key, this.authorName}) : super(key: key);
+  const _HomeworkAuthorTile({Key? key, this.authorName}) : super(key: key);
 
-  final String authorName;
+  final String? authorName;
 
   @override
   Widget build(BuildContext context) {
@@ -488,13 +488,13 @@ class _HomeworkAuthorTile extends StatelessWidget {
 }
 
 class _HomeworkPrivateTile extends StatelessWidget {
-  const _HomeworkPrivateTile({Key key, this.isPrivate}) : super(key: key);
+  const _HomeworkPrivateTile({Key? key, this.isPrivate}) : super(key: key);
 
-  final bool isPrivate;
+  final bool? isPrivate;
 
   @override
   Widget build(BuildContext context) {
-    return isPrivate != null && isPrivate
+    return isPrivate != null && isPrivate!
         ? const ListTile(
             leading: Icon(Icons.security),
             title: Text("Privat"),
@@ -506,19 +506,19 @@ class _HomeworkPrivateTile extends StatelessWidget {
 }
 
 class _HomeworkDescription extends StatelessWidget {
-  const _HomeworkDescription({Key key, this.description}) : super(key: key);
+  const _HomeworkDescription({Key? key, this.description}) : super(key: key);
 
-  final String description;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return description != null && description.isNotEmpty
+    return description != null && description!.isNotEmpty
         ? ListTile(
             leading: const Icon(Icons.subject),
             title: const Text("Zusatzinformationen"),
             subtitle: MarkdownBody(
-              data: description,
+              data: description!,
               selectable: true,
               softLineBreak: true,
               styleSheet: MarkdownStyleSheet.fromTheme(
@@ -542,23 +542,23 @@ class _HomeworkDescription extends StatelessWidget {
 }
 
 class _TodoUntil extends StatelessWidget {
-  const _TodoUntil({Key key, this.todoUntil}) : super(key: key);
+  const _TodoUntil({Key? key, this.todoUntil}) : super(key: key);
 
-  final String todoUntil;
+  final String? todoUntil;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.today),
-      title: Text(todoUntil),
+      title: Text(todoUntil!),
     );
   }
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key key, this.courseName}) : super(key: key);
+  const _CourseTile({Key? key, this.courseName}) : super(key: key);
 
-  final String courseName;
+  final String? courseName;
 
   @override
   Widget build(BuildContext context) {
@@ -571,7 +571,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _AttachmentList extends StatelessWidget {
-  const _AttachmentList({Key key, @required this.view}) : super(key: key);
+  const _AttachmentList({Key? key, required this.view}) : super(key: key);
 
   final HomeworkDetailsView view;
 
@@ -601,9 +601,9 @@ class _AttachmentList extends StatelessWidget {
 }
 
 class HomeworkDetailsHomeworkTitle extends StatelessWidget {
-  const HomeworkDetailsHomeworkTitle({Key key, this.title}) : super(key: key);
+  const HomeworkDetailsHomeworkTitle({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -620,10 +620,10 @@ class HomeworkDetailsHomeworkTitle extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 16, bottom: 11, right: 24),
                   child: Text(
-                    title,
+                    title!,
                     style: Theme.of(context)
                         .textTheme
-                        .headlineSmall
+                        .headlineSmall!
                         .copyWith(color: Colors.white),
                     textAlign: TextAlign.left,
                     // overflow: TextOverflow.ellipsis,

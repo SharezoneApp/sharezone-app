@@ -14,9 +14,9 @@ import 'ui.dart';
 
 class MainContentWide extends StatelessWidget {
   const MainContentWide({
-    @required this.privacyPolicy,
+    required this.privacyPolicy,
     this.showBackButton = true,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final PrivacyPolicy privacyPolicy;
@@ -99,8 +99,8 @@ class MainContentWide extends StatelessWidget {
 
 class _TableOfContentsDesktop extends StatelessWidget {
   const _TableOfContentsDesktop({
-    Key key,
-    @required this.privacyPolicy,
+    Key? key,
+    required this.privacyPolicy,
   }) : super(key: key);
 
   final PrivacyPolicy privacyPolicy;
@@ -143,7 +143,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
 
 class _TocSectionHeadingListDesktop extends StatelessWidget {
   _TocSectionHeadingListDesktop({
-    Key key,
+    Key? key,
   }) : super(key: key);
   final scrollController = ScrollController();
 
@@ -164,7 +164,7 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // To test scroll behavior / layout
-            ...tocController.documentSections.map(
+            ...tocController.documentSections!.map(
               (section) {
                 return Padding(
                   padding: EdgeInsets.only(
@@ -188,8 +188,8 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
 
 class _TocHeadingDesktop extends StatefulWidget {
   const _TocHeadingDesktop({
-    Key key,
-    @required this.section,
+    Key? key,
+    required this.section,
   }) : super(key: key);
 
   final TocDocumentSectionView section;
@@ -200,10 +200,10 @@ class _TocHeadingDesktop extends StatefulWidget {
 
 class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  bool isExpanded;
-  Animation<double> _heightFactor;
-  Animation<double> expansionArrowTurns;
+  late AnimationController _controller;
+  late bool isExpanded;
+  late Animation<double> _heightFactor;
+  Animation<double>? expansionArrowTurns;
   final expansionDuration = Duration(milliseconds: 300);
   final collapseDuration = Duration(milliseconds: 200);
 
@@ -275,7 +275,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                   Expanded(
                     child: Text(
                       '${widget.section.sectionHeadingText}',
-                      style: Theme.of(context).textTheme.bodyMedium.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: widget.section.shouldHighlight
                                 ? FontWeight.w500
                                 : FontWeight.normal,
@@ -347,11 +347,11 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                           child: Text(
                             '${subsection.sectionHeadingText}',
                             style:
-                                Theme.of(context).textTheme.bodyMedium.copyWith(
+                                Theme.of(context).textTheme.bodyMedium!.copyWith(
                                       fontSize: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium
-                                              .fontSize -
+                                              .bodyMedium!
+                                              .fontSize! -
                                           .5,
                                       fontWeight: subsection.shouldHighlight
                                           ? FontWeight.w400
@@ -372,9 +372,9 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
 
 class _BottomFade extends StatelessWidget {
   const _BottomFade({
-    Key key,
-    @required this.child,
-    @required this.scrollController,
+    Key? key,
+    required this.child,
+    required this.scrollController,
   }) : super(key: key);
 
   final Widget child;

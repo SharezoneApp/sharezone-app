@@ -17,10 +17,10 @@ class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
 void main() {
   group('NotificationPermission', () {
-    MockFirebaseMessaging firebaseMessaging;
-    MockMobileDeviceInformationRetriever mobileDeviceInformationRetriever;
+    late MockFirebaseMessaging firebaseMessaging;
+    late MockMobileDeviceInformationRetriever mobileDeviceInformationRetriever;
 
-    NotificationsPermission notificationsPermission;
+    late NotificationsPermission notificationsPermission;
 
     setUp(() {
       firebaseMessaging = MockFirebaseMessaging();

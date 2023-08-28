@@ -10,7 +10,6 @@ import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:holidays/holidays.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
@@ -18,21 +17,21 @@ import 'package:user/user.dart';
 class HolidayBloc extends BlocBase {
   // Siehe Kommentar dazu in dispose()
   // ignore: close_sinks
-  final _holidays = BehaviorSubject<List<Holiday>>();
+  final BehaviorSubject<List<Holiday?>> _holidays = BehaviorSubject<List<Holiday>>();
   final HolidayService holidayManager;
-  DateTime Function() getCurrentTime;
-  Stream<List<Holiday>> get holidays => _holidays;
+  DateTime Function()? getCurrentTime;
+  Stream<List<Holiday?>> get holidays => _holidays;
 
   final HolidayStateGateway stateGateway;
-  Stream<StateEnum> get userState => stateGateway.userState;
+  Stream<StateEnum?> get userState => stateGateway.userState;
   Stream<bool> get hasStateSelected =>
       userState.map((state) => state != null && state != StateEnum.notSelected);
-  Future<void> Function(StateEnum state) get changeState =>
+  Future<void> Function(StateEnum? state) get changeState =>
       stateGateway.changeState;
 
   HolidayBloc(
-      {@required this.holidayManager,
-      @required this.stateGateway,
+      {required this.holidayManager,
+      required this.stateGateway,
       this.getCurrentTime}) {
     getCurrentTime ??= () => DateTime.now();
 
@@ -73,8 +72,8 @@ class HolidayBloc extends BlocBase {
 // Abstrakte Klasse, damit einfacher eine Test-Implementation erstellt werden
 // kann.
 abstract class HolidayStateGateway {
-  Stream<StateEnum> get userState;
-  Future<void> changeState(StateEnum state);
+  Stream<StateEnum?> get userState;
+  Future<void> changeState(StateEnum? state);
 
   const HolidayStateGateway();
 
@@ -88,16 +87,16 @@ class _HolidayStateGatewayUserGatewayAdapter extends HolidayStateGateway {
   _HolidayStateGatewayUserGatewayAdapter(this.userGateway);
 
   @override
-  Future<void> changeState(StateEnum state) => userGateway.changeState(state);
+  Future<void> changeState(StateEnum? state) => userGateway.changeState(state!);
 
   @override
   Stream<StateEnum> get userState =>
-      userGateway.userStream.map((user) => user.state);
+      userGateway.userStream.map((user) => user!.state);
 }
 
 class UnsupportedStateException implements Exception {
-  final String message;
-  final StateEnum state;
+  final String? message;
+  final StateEnum? state;
 
   UnsupportedStateException([this.message, this.state]);
 
@@ -113,7 +112,7 @@ class UnsupportedStateException implements Exception {
   }
 }
 
-State toStateOrThrow(StateEnum stateEnum) {
+State toStateOrThrow(StateEnum? stateEnum) {
   switch (stateEnum) {
     case StateEnum.badenWuerttemberg:
       return BadenWuerttemberg();
