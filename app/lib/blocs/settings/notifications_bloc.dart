@@ -20,15 +20,15 @@ class NotificationsBloc extends BlocBase {
   static const seedValue = TimeOfDay(hour: 18, minute: 0);
   final _notificationsForHomeworksSubject = BehaviorSubject<bool>();
   final _notificationsTimeForHomeworksSubject =
-      BehaviorSubject<TimeOfDay>.seeded(seedValue);
+      BehaviorSubject<TimeOfDay?>.seeded(seedValue);
   final _notificationsForBlackboardItemsSubject = BehaviorSubject.seeded(true);
   final _notificationsForCommentsSubject = BehaviorSubject.seeded(true);
 
-  StreamSubscription subscription;
+  late StreamSubscription subscription;
 
   NotificationsBloc(this._userGateway) {
     subscription = _userGateway.userStream.listen((user) {
-      _notificationsForHomeworksSubject.sink.add(user.reminderTime != null);
+      _notificationsForHomeworksSubject.sink.add(user!.reminderTime != null);
 
       _notificationsTimeForHomeworksSubject.sink
           .add(convertReminderTimeToTimeOfDay(user.reminderTime));
@@ -43,7 +43,7 @@ class NotificationsBloc extends BlocBase {
     });
   }
 
-  TimeOfDay convertReminderTimeToTimeOfDay(String reminderTime) {
+  TimeOfDay? convertReminderTimeToTimeOfDay(String? reminderTime) {
     if (reminderTime == null) return null;
     final parts = reminderTime.split(":");
     final hour = int.parse(parts[0]);
@@ -84,7 +84,7 @@ class NotificationsBloc extends BlocBase {
     return;
   }
 
-  Stream<TimeOfDay> get notificationsTimeForHomeworks =>
+  Stream<TimeOfDay?> get notificationsTimeForHomeworks =>
       _notificationsTimeForHomeworksSubject.stream;
   Function(TimeOfDay) get changeNotificationsTimeForHomeworks =>
       _changeNotificationTime;

@@ -63,7 +63,7 @@ class _ChangePasswordFAB extends StatelessWidget {
 }
 
 class _NewPasswordField extends StatefulWidget {
-  const _NewPasswordField({@required this.newPasswordNode});
+  const _NewPasswordField({required this.newPasswordNode});
 
   final FocusNode newPasswordNode;
 
@@ -120,7 +120,7 @@ class _ResetPassword extends StatelessWidget {
           foregroundColor: Colors.grey[400],
         ),
         onPressed: () async {
-          bool reset = await showDialog<bool>(
+          bool? reset = await showDialog<bool>(
               context: context,
               builder: (context) {
                 return AlertDialog(
@@ -153,7 +153,7 @@ class _ResetPassword extends StatelessWidget {
               duration: Duration(minutes: 5),
             );
 
-            String message;
+            String? message;
             try {
               bloc.sendResetPasswordMail();
               message =

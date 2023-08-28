@@ -14,8 +14,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class ErrorJoinResultDialog extends StatelessWidget {
   final ErrorJoinResult errorJoinResult;
 
-  const ErrorJoinResultDialog({Key key, this.errorJoinResult})
-      : super(key: key);
+  const ErrorJoinResultDialog({
+    Key? key,
+    required this.errorJoinResult,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (errorJoinResult.groupJoinException is NoInternetGroupJoinException)
@@ -91,7 +93,7 @@ class _NotFound extends StatelessWidget {
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten den eigegeben Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
+          "Wir konnten den eingegeben Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
     );
   }
 }

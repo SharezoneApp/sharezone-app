@@ -9,7 +9,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_common/helper_functions.dart';
@@ -34,40 +33,39 @@ TextStyle getTextStyle(BuildContext context, bool isSelected) {
 
 class DrawerTile extends StatelessWidget {
   /// Default is [navigationItem.getIcon()]
-  final Widget icon;
+  final Widget? icon;
 
   /// Default is [navigationItem.getName()]
-  final String title;
+  final String? title;
 
-  final String subtitle;
+  final String? subtitle;
 
   /// Default is [navigationItem.getPageTag()]
-  final String tag;
+  final String? tag;
 
-  final Widget trailing;
+  final Widget? trailing;
 
-  final NavigationItem navigationItem;
+  final NavigationItem? navigationItem;
 
   const DrawerTile(
     this.navigationItem, {
-    Key key,
+    Key? key,
     this.title,
     this.icon,
     this.trailing,
     this.tag,
     this.subtitle,
-  })  : assert(navigationItem != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
-    final title = this.title ?? navigationItem.getName();
-    final icon = this.icon ?? navigationItem.getIcon();
+    final title = this.title ?? navigationItem!.getName();
+    final icon = this.icon ?? navigationItem!.getIcon();
 
     return StreamBuilder<NavigationItem>(
-        key: ValueKey('nav-item-${navigationItem.name}-E2E'),
+        key: ValueKey('nav-item-${navigationItem?.name}-E2E'),
         stream: navigationBloc.navigationItems,
         builder: (context, snapshot) {
           final currentNavigationItem = snapshot.data;
@@ -118,40 +116,35 @@ class DrawerTile extends StatelessWidget {
   }
 
   void _onTap(BuildContext context) {
-    final tag = this.tag ?? navigationItem.getPageTag();
     if (navigationItem != null) {
       final navigationController = BlocProvider.of<NavigationBloc>(context);
-      navigationController.navigateTo(navigationItem);
+      navigationController.navigateTo(navigationItem!);
     } else {
+      final tag = this.tag ?? navigationItem!.getPageTag();
       final drawerController =
           BlocProvider.of<SharezoneDrawerController>(context);
       if (!drawerController.isDesktopModus) Navigator.pop(context);
       Navigator.pushNamed(context, tag);
-      _logDrawerTileClick(context);
     }
-  }
-
-  void _logDrawerTileClick(BuildContext context) {
-    final analytics = BlocProvider.of<NavigationAnalytics>(context);
-    analytics.logDrawerEvent(navigationItem);
   }
 }
 
 class _SelectedDrawerTile extends StatelessWidget {
-  final Widget icon;
-  final String title;
-  final String subtitle;
-  final Widget trailing;
-  final VoidCallback onTap;
-
   const _SelectedDrawerTile({
-    Key key,
-    this.icon,
-    this.title,
+    Key? key,
+    required this.icon,
+    required this.title,
     this.subtitle,
     this.onTap,
     this.trailing,
   }) : super(key: key);
+
+  final Widget icon;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -169,7 +162,7 @@ class _SelectedDrawerTile extends StatelessWidget {
             child: icon,
           ),
           title: Text(title, style: getTextStyle(context, true)),
-          subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle) : null,
+          subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
           enabled: false,
           onTap: onTap,
           trailing: trailing,
@@ -180,20 +173,21 @@ class _SelectedDrawerTile extends StatelessWidget {
 }
 
 class _DefaultDrawerTile extends StatelessWidget {
-  final Widget icon;
-  final String title;
-  final String subtitle;
-  final Widget trailing;
-  final VoidCallback onTap;
-
   const _DefaultDrawerTile({
-    Key key,
+    Key? key,
+    required this.title,
     this.icon,
-    this.title,
     this.subtitle,
     this.onTap,
     this.trailing,
   }) : super(key: key);
+
+  final Widget? icon;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -205,7 +199,7 @@ class _DefaultDrawerTile extends StatelessWidget {
         child: ListTile(
           leading: icon,
           title: Text(title, style: getTextStyle(context, false)),
-          subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle) : null,
+          subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
           enabled: true,
           onTap: onTap,
           trailing: trailing,

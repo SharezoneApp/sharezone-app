@@ -77,30 +77,30 @@ void main() {
 
       const loadingWidgetHeight = 20.0;
       Widget loadingWidget = SizedBox(height: loadingWidgetHeight);
-      Widget infiniteScrollingList;
+      Widget? infiniteScrollingList;
 
       Future<void> scrollList(
           WidgetTester tester, double distanceFromViewToThreshold,
-          [Widget list]) async {
-        await tester.drag(find.byWidget(list ?? infiniteScrollingList),
+          [Widget? list]) async {
+        await tester.drag(find.byWidget(list ?? infiniteScrollingList!),
             Offset(0, -distanceFromViewToThreshold));
         await tester.pumpAndSettle();
       }
 
       Future<void> scrollListPastThreshold(WidgetTester tester,
-          [Widget list]) async {
+          [Widget? list]) async {
         await scrollList(tester, distanceFromViewToThreshold + 1000, list);
       }
 
       void testAndPumpList(String description,
           Future<void> callback(WidgetTester widgetTester)) {
         testWidgets(description, (WidgetTester tester) async {
-          await tester.pumpWidget(infiniteScrollingList);
+          await tester.pumpWidget(infiniteScrollingList!);
           await callback(tester);
         });
       }
 
-      bool fired;
+      bool? fired;
       setUp(() {
         fired = false;
         infiniteScrollingList = Directionality(

@@ -84,14 +84,14 @@ class _AboutHeader extends StatelessWidget {
             fontSize: 15,
           ),
         ),
-        FutureBuilder<PlatformInformationRetreiver>(
-          future: getPlatformInformationRetreiverWithInit(),
+        FutureBuilder<PlatformInformationRetriever>(
+          future: getPlatformInformationRetrieverWithInit(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text("Version wird geladen...");
             if (snapshot.hasError)
               return Text("Fehler: ${snapshot.error.toString()}");
             return Text(
-              "Version: ${snapshot.data.version} (${snapshot.data.versionNumber})",
+              "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
               style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 14,

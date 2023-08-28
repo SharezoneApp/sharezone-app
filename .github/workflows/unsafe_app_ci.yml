@@ -173,5 +173,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
           projectId: sharezone-debug
           entryPoint: "./app"
-          expires: "7d"
+          # The expiration date shouldn't be too high, because if we open a lot
+          # of pull requests, we will run out of quota (we get 429 errors).
+          expires: "3d"
           target: "test-web-app"

@@ -30,14 +30,14 @@ import 'package:time/time.dart';
 
 class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
-    Key key,
+    Key? key,
     this.homework,
-    @required this.homeworkDialogApi,
+    required this.homeworkDialogApi,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
 
-  final HomeworkDto homework;
+  final HomeworkDto? homework;
   final HomeworkDialogApi homeworkDialogApi;
 
   @override
@@ -45,7 +45,7 @@ class HomeworkDialog extends StatefulWidget {
 }
 
 class _HomeworkDialogState extends State<HomeworkDialog> {
-  HomeworkDialogBloc bloc;
+  late HomeworkDialogBloc bloc;
 
   @override
   void initState() {
@@ -68,10 +68,11 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
 }
 
 class __HomeworkDialog extends StatefulWidget {
-  const __HomeworkDialog({Key key, this.homework, this.bloc}) : super(key: key);
+  const __HomeworkDialog({Key? key, this.homework, this.bloc})
+      : super(key: key);
 
-  final HomeworkDto homework;
-  final HomeworkDialogBloc bloc;
+  final HomeworkDto? homework;
+  final HomeworkDialogBloc? bloc;
 
   @override
   __HomeworkDialogState createState() => __HomeworkDialogState();
@@ -89,7 +90,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
   }
 
   Future<void> leaveDialog() async {
-    if (widget.bloc.hasInputChanged()) {
+    if (widget.bloc!.hasInputChanged()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
       if (confirmedLeave) Navigator.pop(context);
     } else
@@ -99,7 +100,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => widget.bloc.hasInputChanged()
+      onWillPop: () async => widget.bloc!.hasInputChanged()
           ? warnUserAboutLeavingForm(context)
           : Future.value(true),
       child: Scaffold(
@@ -145,7 +146,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
 }
 
 class _MobileDivider extends StatelessWidget {
-  const _MobileDivider({Key key}) : super(key: key);
+  const _MobileDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +156,10 @@ class _MobileDivider extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key key, this.oldHomework, this.editMode = false})
+  const _SaveButton({Key? key, this.oldHomework, this.editMode = false})
       : super(key: key);
 
-  final HomeworkDto oldHomework;
+  final HomeworkDto? oldHomework;
   final bool editMode;
 
   Future<void> onPressed(BuildContext context) async {
@@ -271,14 +272,14 @@ class _TodoUntilPicker extends StatelessWidget {
 
 class _AppBar extends StatelessWidget {
   const _AppBar({
-    Key key,
-    @required this.oldHomework,
-    @required this.editMode,
-    @required this.focusNodeTitle,
-    @required this.onCloseTap,
+    Key? key,
+    required this.oldHomework,
+    required this.editMode,
+    required this.focusNodeTitle,
+    required this.onCloseTap,
   }) : super(key: key);
 
-  final HomeworkDto oldHomework;
+  final HomeworkDto? oldHomework;
   final bool editMode;
   final VoidCallback onCloseTap;
 
@@ -328,10 +329,10 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({Key key, this.title, this.focusNode}) : super(key: key);
+  const _TitleField({Key? key, this.title, this.focusNode}) : super(key: key);
 
-  final String title;
-  final FocusNode focusNode;
+  final String? title;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -361,6 +362,7 @@ class _TitleField extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   onChanged: (String title) => bloc.changeTitle(title),
+                  textCapitalization: TextCapitalization.sentences,
                 ),
                 Text(
                   snapshot.error?.toString() ?? "",
@@ -377,7 +379,7 @@ class _TitleField extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key key, @required this.editMode}) : super(key: key);
+  const _CourseTile({Key? key, required this.editMode}) : super(key: key);
 
   final bool editMode;
 
@@ -399,7 +401,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification({Key key, this.editMode = true}) : super(key: key);
+  const _SendNotification({Key? key, this.editMode = true}) : super(key: key);
 
   final bool editMode;
 
@@ -436,7 +438,7 @@ class _SendNotification extends StatelessWidget {
 }
 
 class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({@required this.oldDescription});
+  const _DescriptionField({required this.oldDescription});
 
   final String oldDescription;
 
@@ -464,6 +466,7 @@ class _DescriptionField extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   onChanged: bloc.changeDescription,
+                  textCapitalization: TextCapitalization.sentences,
                 ),
               ),
               Padding(
@@ -514,7 +517,7 @@ class _SubmissionsSwitch extends StatelessWidget {
             stream: bloc.withSubmissions,
             initialData: false,
             builder: (context, snapshot) {
-              final withSubmissions = snapshot.data;
+              final withSubmissions = snapshot.data!;
               return Column(
                 children: <Widget>[
                   ListTile(
@@ -526,7 +529,7 @@ class _SubmissionsSwitch extends StatelessWidget {
                     },
                     trailing: Switch.adaptive(
                         value: withSubmissions,
-                        onChanged: isSubmissionEnableable
+                        onChanged: isSubmissionEnableable!
                             ? (newValue) {
                                 bloc.changeWithSubmissions(newValue);
                                 FeatureDiscovery.completeCurrentStep(context);
@@ -544,12 +547,12 @@ class _SubmissionsSwitch extends StatelessWidget {
                                 title: const Text("Abgabe-Uhrzeit"),
                                 onTap: () async {
                                   await hideKeyboardWithDelay(context: context);
-                                  final initalTime =
+                                  final initialTime =
                                       time == Time(hour: 23, minute: 59)
                                           ? Time(hour: 18, minute: 0)
                                           : time;
                                   final newTime = await selectTime(context,
-                                      initialTime: initalTime);
+                                      initialTime: initialTime);
                                   if (newTime != null) {
                                     bloc.changeSubmissionTime(newTime);
                                   }
@@ -574,9 +577,9 @@ class _SubmissionsSwitch extends StatelessWidget {
 }
 
 class _PrivateHomeworkSwitch extends StatelessWidget {
-  const _PrivateHomeworkSwitch({Key key, this.editMode}) : super(key: key);
+  const _PrivateHomeworkSwitch({Key? key, this.editMode}) : super(key: key);
 
-  final bool editMode;
+  final bool? editMode;
 
   @override
   Widget build(BuildContext context) {
@@ -594,12 +597,12 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
               leading: const Icon(Icons.security),
               title: const Text("Privat"),
               subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
-              enabled: !editMode,
+              enabled: !editMode!,
               trailing: Switch.adaptive(
                 value: snapshot.data ?? false,
-                onChanged: !editMode ? bloc.changePrivate : null,
+                onChanged: !editMode! ? bloc.changePrivate : null,
               ),
-              onTap: () => bloc.changePrivate(!snapshot.data),
+              onTap: () => bloc.changePrivate(!snapshot.data!),
             );
           },
         ),

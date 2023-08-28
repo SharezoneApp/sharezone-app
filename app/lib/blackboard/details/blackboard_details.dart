@@ -34,7 +34,7 @@ const blackboardItemReadByUsersListFeatureDiscoveryStepId =
 
 enum BlackboardPopOption { deleted, edited, added }
 
-Color getAppBarIconColor(bool hasPhoto) => hasPhoto ? Colors.white : null;
+Color? getAppBarIconColor(bool hasPhoto) => hasPhoto ? Colors.white : null;
 
 void onEdit(BuildContext context, BlackboardItem blackboardItem) {
   Navigator.push<bool>(
@@ -59,7 +59,7 @@ List<Widget> _actions(BlackboardView view) => [
 const _kFabHalfSize = 28.0;
 
 class BlackboardDetails extends StatefulWidget {
-  BlackboardDetails({this.view}) : id = view.id;
+  BlackboardDetails({required this.view}) : id = view.id;
   BlackboardDetails.loadId(this.id) : view = BlackboardView.empty(id: id);
 
   static const tag = "blackboard-details-page";
@@ -71,7 +71,7 @@ class BlackboardDetails extends StatefulWidget {
 }
 
 class _BlackboardDetailsState extends State<BlackboardDetails> {
-  BlackboardDetailsBloc bloc;
+  late BlackboardDetailsBloc bloc;
 
   @override
   void initState() {
@@ -129,7 +129,7 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
 
 class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
   const _BottomBlackboardDetailsIsReadActionButton(
-      {Key key, @required this.hasUserReadItem})
+      {Key? key, required this.hasUserReadItem})
       : super(key: key);
 
   final bool hasUserReadItem;
@@ -151,7 +151,7 @@ class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
 class _PageWithPicture extends StatelessWidget {
   const _PageWithPicture(
     this.view, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const double _appBarHeight = 250;
@@ -173,7 +173,7 @@ class _PageWithPicture extends StatelessWidget {
             background: Hero(
               tag: view.id,
               child: Image.asset(
-                view.pictureURL,
+                view.pictureURL!,
                 fit: BoxFit.cover,
                 height: _appBarHeight,
               ),
@@ -187,15 +187,15 @@ class _PageWithPicture extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key key, this.view}) : super(key: key);
+  const _DeleteIcon({Key? key, this.view}) : super(key: key);
 
-  final BlackboardView view;
+  final BlackboardView? view;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Eintrag löschen',
-      icon: Icon(Icons.delete, color: getAppBarIconColor(view.hasPhoto)),
+      icon: Icon(Icons.delete, color: getAppBarIconColor(view!.hasPhoto)),
       onPressed: () =>
           showDeleteBlackboardItemDialog(context, view, popTwice: true),
     );
@@ -203,22 +203,22 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key key, this.view}) : super(key: key);
+  const _EditIcon({Key? key, this.view}) : super(key: key);
 
-  final BlackboardView view;
+  final BlackboardView? view;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: "Bearbeiten",
-      icon: Icon(Icons.edit, color: getAppBarIconColor(view.hasPhoto)),
-      onPressed: () => onEdit(context, view.item),
+      icon: Icon(Icons.edit, color: getAppBarIconColor(view!.hasPhoto)),
+      onPressed: () => onEdit(context, view!.item),
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body(this.view, {Key key}) : super(key: key);
+  const _Body(this.view, {Key? key}) : super(key: key);
 
   final BlackboardView view;
 
@@ -261,30 +261,30 @@ class _Body extends StatelessWidget {
 }
 
 class _CourseChip extends StatelessWidget {
-  const _CourseChip({Key key, this.courseName}) : super(key: key);
+  const _CourseChip({Key? key, this.courseName}) : super(key: key);
 
-  final String courseName;
+  final String? courseName;
 
   @override
   Widget build(BuildContext context) {
-    return Chip(label: Text(courseName));
+    return Chip(label: Text(courseName!));
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key key, this.title}) : super(key: key);
+  const _Title({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: SelectableText(
-        title,
+        title!,
         style: Theme.of(context)
             .textTheme
-            .headlineMedium
+            .headlineMedium!
             .copyWith(color: isDarkThemeEnabled(context) ? null : Colors.black),
       ),
     );
@@ -292,14 +292,14 @@ class _Title extends StatelessWidget {
 }
 
 class _InformationHeader extends StatelessWidget {
-  const _InformationHeader(this.view, {Key key}) : super(key: key);
+  const _InformationHeader(this.view, {Key? key}) : super(key: key);
 
   final BlackboardView view;
 
   @override
   Widget build(BuildContext context) {
     final _greyTextStyle =
-        Theme.of(context).textTheme.bodySmall.copyWith(fontSize: 14);
+        Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -317,7 +317,7 @@ class _InformationHeader extends StatelessWidget {
 }
 
 class _UserReadTile extends StatefulWidget {
-  const _UserReadTile({Key key, @required this.view}) : super(key: key);
+  const _UserReadTile({Key? key, required this.view}) : super(key: key);
 
   final BlackboardView view;
 
@@ -419,16 +419,16 @@ class __UserReadTileState extends State<_UserReadTile> {
 }
 
 class _Text extends StatelessWidget {
-  const _Text({Key key, this.text}) : super(key: key);
+  const _Text({Key? key, this.text}) : super(key: key);
 
-  final String text;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
     if (text == null) return Container();
     final theme = Theme.of(context);
     return MarkdownBody(
-      data: text,
+      data: text!,
       selectable: true,
       softLineBreak: true,
       styleSheet: MarkdownStyleSheet.fromTheme(
@@ -454,7 +454,7 @@ class _Text extends StatelessWidget {
 }
 
 class _AttachmentList extends StatelessWidget {
-  const _AttachmentList({Key key, @required this.view}) : super(key: key);
+  const _AttachmentList({Key? key, required this.view}) : super(key: key);
 
   final BlackboardView view;
 

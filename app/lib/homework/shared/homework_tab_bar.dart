@@ -13,11 +13,11 @@ class HomeworkTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Tab> tabs;
 
   const HomeworkTabBar({
-    Key key,
-    @required this.tabs,
+    Key? key,
+    required this.tabs,
   }) : super(key: key);
 
-  TabBar getTabBar([BuildContext context]) {
+  TabBar getTabBar([BuildContext? context]) {
     Color indicatorColor;
     if (context != null) {
       indicatorColor =

@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 import 'comments_gateway.dart';
@@ -17,23 +16,23 @@ class CommentsAnalytics {
 
   CommentsAnalytics(this._analytics);
 
-  void logCommentAdded(CommentLocation location) {
+  void logCommentAdded(CommentsLocation location) {
     _analytics.log(_CommentsUsedEvent(
-        feature: location.baseCollection, action: _CommentAcition.add));
+        feature: location.baseCollection, action: _CommentAction.add));
   }
 
   void logCommentDeleted(CommentLocation location) {
     _analytics.log(_CommentsUsedEvent(
-        feature: location.baseCollection, action: _CommentAcition.delete));
+        feature: location.baseCollection, action: _CommentAction.delete));
   }
 }
 
-enum _CommentAcition { add, delete }
+enum _CommentAction { add, delete }
 
 class _CommentsUsedEvent extends AnalyticsEvent {
-  _CommentsUsedEvent({@required this.feature, @required _CommentAcition action})
+  _CommentsUsedEvent({required this.feature, required _CommentAction action})
       : assert(isNotEmptyOrNull(feature)),
-        super('comment_${enumToString(action)}_');
+        super('comment_${action.name}_');
 
   final String feature;
 

@@ -16,8 +16,8 @@ import 'package:sharezone/util/flavor.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  AppDependencies dependencies;
-  _UserCredentials user1;
+  late AppDependencies dependencies;
+  late _UserCredentials user1;
 
   setUpAll(() async {
     dependencies = await initializeDependencies(flavor: Flavor.prod);
@@ -124,8 +124,8 @@ void main() {
 /// The credentials for user used in the integration tests.
 class _UserCredentials {
   const _UserCredentials({
-    @required this.email,
-    @required this.password,
+    required this.email,
+    required this.password,
   });
 
   /// The email address of the user.

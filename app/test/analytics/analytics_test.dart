@@ -11,20 +11,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('analytics', () {
-    LocalAnalyticsBackend backend;
-    Analytics analytics;
+    late LocalAnalyticsBackend backend;
+    late Analytics analytics;
 
     setUp(() {
       backend = LocalAnalyticsBackend();
       analytics = Analytics(backend);
-    });
-
-    test('An Event with a null name will be ignored', () {
-      final event = AnalyticsEvent(null);
-
-      analytics.log(event);
-
-      expect(backend.hasloggedEvents, false);
     });
 
     test('An Event with an empty name will be ignored', () {
@@ -79,7 +71,7 @@ class LocalAnalyticsBackend extends AnalyticsBackend {
   }
 
   @override
-  void log(String name, [Map<String, dynamic> data = const {}]) {
+  void log(String name, [Map<String, dynamic>? data = const {}]) {
     loggedEvents.add({name: data});
   }
 
@@ -87,20 +79,20 @@ class LocalAnalyticsBackend extends AnalyticsBackend {
     return loggedEvents.where((map) => map.containsKey(s)).toList();
   }
 
-  Map<String, dynamic> getSingleEventData(String s) {
+  Map<String, dynamic>? getSingleEventData(String s) {
     final event = getEvent(s).single;
-    return event.values.first as Map<String, dynamic>;
+    return event.values.first as Map<String, dynamic>?;
   }
 
   @override
   Future<void> setAnalyticsCollectionEnabled(bool value) async {}
 
   @override
-  Future<void> logSignUp({String signUpMethod}) async {}
+  Future<void> logSignUp({String? signUpMethod}) async {}
 
   @override
-  Future<void> setCurrentScreen({String screenName}) async {}
+  Future<void> setCurrentScreen({String? screenName}) async {}
 
   @override
-  Future<void> setUserProperty({String name, String value}) async {}
+  Future<void> setUserProperty({String? name, String? value}) async {}
 }

@@ -9,30 +9,30 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 
-class MockUserApi extends Mock implements UserGateway {}
+import 'notification_test.mocks.dart';
 
-class MockUser extends Mock implements AppUser {}
-
+@GenerateNiceMocks([MockSpec<UserGateway>(), MockSpec<AppUser>()])
 void main() {
   group("NotificationBloc", () {
     NotificationsBloc bloc;
-    MockUserApi api;
-    MockUserApi apiWithUserWithReminder;
-    NotificationsBloc blocWithUserWithReminder;
-    MockUser user;
+    late MockUserGateway api;
+    late MockUserGateway apiWithUserWithReminder;
+    late NotificationsBloc blocWithUserWithReminder;
+    late MockAppUser user;
     setUp(() {
-      api = MockUserApi();
-      user = MockUser();
+      api = MockUserGateway();
+      user = MockAppUser();
 
-      final userWithReminder = MockUser();
+      final userWithReminder = MockAppUser();
       when(userWithReminder.reminderTime).thenAnswer((_) => "15:30");
-      apiWithUserWithReminder = MockUserApi();
+      apiWithUserWithReminder = MockUserGateway();
       when(apiWithUserWithReminder.userStream)
           .thenAnswer((_) => Stream.fromIterable([userWithReminder]));
       when(apiWithUserWithReminder.setHomeworkReminderTime(null))

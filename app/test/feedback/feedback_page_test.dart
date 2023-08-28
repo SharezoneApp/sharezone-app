@@ -31,21 +31,21 @@ const contactInfo = "Instagram: @jsan_l";
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group("Feedback tests", () {
-    MockFeedbackApi api;
-    FeedbackCache cache;
-    MockPlatformInformationRetreiver platformInformationRetreiver;
-    FeedbackBloc bloc;
-    UserFeedback expectedResponseWithIdentifiableInfo;
-    UserFeedback expectedAnonymousResponse;
+    late MockFeedbackApi api;
+    late FeedbackCache cache;
+    MockPlatformInformationRetriever platformInformationRetriever;
+    late FeedbackBloc bloc;
+    UserFeedback? expectedResponseWithIdentifiableInfo;
+    UserFeedback? expectedAnonymousResponse;
 
     setUp(() {
       api = MockFeedbackApi();
       cache = FeedbackCache(InMemoryKeyValueStore());
-      platformInformationRetreiver = MockPlatformInformationRetreiver();
-      bloc = FeedbackBloc(api, cache, platformInformationRetreiver, uid,
+      platformInformationRetriever = MockPlatformInformationRetriever();
+      bloc = FeedbackBloc(api, cache, platformInformationRetriever, uid,
           MockFeedbackAnalytics());
-      platformInformationRetreiver.appName = "appName";
-      platformInformationRetreiver.packageName = "packageName";
+      platformInformationRetriever.appName = "appName";
+      platformInformationRetriever.packageName = "packageName";
 
       expectedResponseWithIdentifiableInfo = UserFeedback.create().copyWith(
           likes: likes,
@@ -114,7 +114,7 @@ void main() {
 
       writeRdmValues(bloc);
 
-      expect(bloc.submit(), throwsA(isA<CooldownException>()));
+      expect(bloc.submit(), throwsA(isA<CoolDownException>()));
       expect(api.wasInvoked, false);
     });
 

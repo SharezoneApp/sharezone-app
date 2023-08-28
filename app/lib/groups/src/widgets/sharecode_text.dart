@@ -8,17 +8,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharecodeText extends StatelessWidget {
-  const SharecodeText(this.sharecode, {this.onCopied});
+  const SharecodeText(
+    this.sharecode, {
+    this.onCopied,
+  });
 
-  final String sharecode;
+  final String? sharecode;
 
   /// Wird nach dem Kopieren des Sharecodes in die Zwischenablage aufgerufen.
   /// Darf null sein.
-  final VoidCallback onCopied;
+  final VoidCallback? onCopied;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class SharecodeText extends StatelessWidget {
       fontSize: 22,
       fontWeight: FontWeight.w500,
     );
-    if (sharecode == null || sharecode.isEmpty) {
+    if (isEmptyOrNull(sharecode)) {
       return GrayShimmer(
         child: Text("Sharecode wird geladen...", style: style),
       );
@@ -74,7 +78,7 @@ class SharecodeText extends StatelessWidget {
       text: 'Sharecode wurde in die Zwischenablage kopiert.',
     );
     if (onCopied != null) {
-      onCopied();
+      onCopied!();
     }
   }
 
@@ -85,7 +89,7 @@ class SharecodeText extends StatelessWidget {
   ///
   /// Example: "X6wK" --> "großes X, 6, kleines w, großes K"
   String get _screenReadableSharecode {
-    return sharecode.characters
+    return sharecode!.characters
         .map(_spellOutCharacter)
         .reduce((a, b) => '$a, $b');
   }

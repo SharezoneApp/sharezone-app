@@ -23,12 +23,12 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
   final LoginAnalytics _analytics;
 
   final _emailSubject = BehaviorSubject<String>();
-  final _passwordSubject = BehaviorSubject<String>();
+  final _passwordSubject = BehaviorSubject<String?>();
 
   LoginBloc(this._analytics);
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordSubject.stream.transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;

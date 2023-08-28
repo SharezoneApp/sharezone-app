@@ -11,13 +11,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.child,
   }) : super(key: key);
 
   final String title;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AboutSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Headline(title),
-        child,
+        if (child != null) child!,
       ],
     );
   }

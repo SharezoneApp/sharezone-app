@@ -30,7 +30,7 @@ class EnterActivationCodeBloc extends BlocBase {
   final SubscriptionEnabledFlag subscriptionEnabledFlag;
   final KeyValueStore keyValueStore;
 
-  String _lastEnteredValue;
+  String? _lastEnteredValue;
 
   EnterActivationCodeBloc(
     this.analytics,
@@ -53,7 +53,7 @@ class EnterActivationCodeBloc extends BlocBase {
 
   Future<void> retry(BuildContext context) async {
     if (_lastEnteredValue != null) {
-      return _enterValue(_lastEnteredValue, context);
+      return _enterValue(_lastEnteredValue!, context);
     }
   }
 
@@ -68,18 +68,18 @@ class EnterActivationCodeBloc extends BlocBase {
   }
 
   Future<void> submit(BuildContext context) async {
-    _enterValue(_lastEnteredValue, context);
+    _enterValue(_lastEnteredValue!, context);
   }
 
   bool get isValidActivationCodeID {
-    return _lastEnteredValue != null && _lastEnteredValue.trim().isNotEmpty;
+    return _lastEnteredValue != null && _lastEnteredValue!.trim().isNotEmpty;
   }
 
   Future<void> _enterValue(String enteredValue, BuildContext context) async {
     if (isEmptyOrNull(enteredValue)) return;
     _lastEnteredValue = enteredValue;
 
-    if (_lastEnteredValue.trim() == 'SharezonePlus') {
+    if (_lastEnteredValue?.trim() == 'SharezonePlus') {
       subscriptionEnabledFlag.toggle();
       _changeEnterActivationCodeResult(
         SuccessfullEnterActivationCodeResult(
@@ -90,7 +90,7 @@ class EnterActivationCodeBloc extends BlocBase {
       return;
     }
 
-    if (_lastEnteredValue.trim().toLowerCase() == 'clearcache') {
+    if (_lastEnteredValue?.trim().toLowerCase() == 'clearcache') {
       await _clearCache(context);
       return;
     }

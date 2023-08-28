@@ -8,22 +8,22 @@
 
 import 'package:flutter/material.dart';
 
-/// Zeigt bis zum [transiationPoint] das [startWidget] an
-/// und sobald der Nutzer beim swipen der Tabs den [TranssiationPoint] überschreitet,
+/// Zeigt bis zum [transitionPoint] das [startWidget] an
+/// und sobald der Nutzer beim swipen der Tabs den [TransaitionPoint] überschreitet,
 /// gibt es eine Fade-Animation zwischen [startWidget] & [endWidget]. Danach wird
 /// bis [controller.length] das [endWidget] angezeigt.
 class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
   const FadeSwitchBetweenIndexWithTabController({
-    Key key,
+    Key? key,
     this.controller,
-    this.startWidget,
-    this.endWidget,
-    this.transitionPoint,
+    required this.startWidget,
+    required this.endWidget,
+    required this.transitionPoint,
   }) : super(key: key);
 
   /// If a [TabController] is not provided, then there must be a [DefaultTabController]
   /// ancestor.
-  final TabController controller;
+  final TabController? controller;
   final Widget startWidget;
   final Widget endWidget;
   final BetweenIndex transitionPoint;
@@ -31,10 +31,8 @@ class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = this.controller ?? DefaultTabController.of(context);
-    assert(controller != null, "Controller must be not null!");
-
     final Animation<double> animation = CurvedAnimation(
-      parent: controller.animation,
+      parent: controller.animation!,
       curve: Curves.fastOutSlowIn,
     );
     return AnimatedBuilder(
@@ -66,10 +64,10 @@ class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
 
 class _FadeBetween extends StatelessWidget {
   const _FadeBetween({
-    Key key,
-    @required this.value,
-    @required this.to,
-    @required this.from,
+    Key? key,
+    required this.value,
+    required this.to,
+    required this.from,
   }) : super(key: key);
 
   final double value;

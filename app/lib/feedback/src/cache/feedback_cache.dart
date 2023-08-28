@@ -19,8 +19,8 @@ class FeedbackCache {
 
   FeedbackCache(this._cache);
 
-  Future<bool> hasFeedbackSubmissionCooldown(Duration feedbackCooldown) async {
-    DateTime lastSubmit;
+  Future<bool> hasFeedbackSubmissionCoolDown(Duration feedbackCooldown) async {
+    DateTime? lastSubmit;
     try {
       lastSubmit = await _getLastSubmitTime();
       // ignore: avoid_catching_errors
@@ -32,7 +32,9 @@ class FeedbackCache {
       return false;
     }
 
-    assert(lastSubmit != null);
+    if (lastSubmit == null) {
+      return false;
+    }
 
     final durationPassedFromLastSubmit =
         lastSubmit.difference(DateTime.now()).abs();
@@ -44,8 +46,10 @@ class FeedbackCache {
     _cache.setString(lastSubmitCacheKey, DateTime.now().toIso8601String());
   }
 
-  Future<DateTime> _getLastSubmitTime() async {
-    String lastSubmitString = _cache.getString(lastSubmitCacheKey);
+  Future<DateTime?> _getLastSubmitTime() async {
+    String? lastSubmitString = _cache.getString(lastSubmitCacheKey);
+    if (lastSubmitString == null) return null;
+
     DateTime lastSubmit = DateTime.parse(lastSubmitString);
     return lastSubmit;
   }

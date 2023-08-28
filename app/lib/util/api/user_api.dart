@@ -28,17 +28,17 @@ class UserGateway implements UserGatewayAuthentifcation {
   final References references;
   final String uID;
 
-  StreamSubscription<AppUser> _appUserSubscription;
+  late StreamSubscription<AppUser> _appUserSubscription;
   final _userSubject = BehaviorSubject<AppUser>();
 
-  Stream<AppUser> get userStream => _userSubject;
+  Stream<AppUser?> get userStream => _userSubject;
 
-  AppUser get data => _userSubject.valueOrNull;
+  AppUser? get data => _userSubject.valueOrNull;
 
   // Firebase User Stream
-  final _authUserSubject = BehaviorSubject<AuthUser>();
-  Stream<AuthUser> get authUserStream => _authUserSubject;
-  AuthUser get authUser => _authUserSubject.value;
+  final _authUserSubject = BehaviorSubject<AuthUser?>();
+  Stream<AuthUser?> get authUserStream => _authUserSubject;
+  AuthUser? get authUser => _authUserSubject.value;
 
   Future<AppUser> get() {
     return references.users
@@ -47,13 +47,13 @@ class UserGateway implements UserGatewayAuthentifcation {
         .then((snapshot) => AppUser.fromData(snapshot.data(), id: snapshot.id));
   }
 
-  String getName() => _userSubject.valueOrNull.name;
+  String? getName() => _userSubject.valueOrNull?.name;
 
   Stream<DocumentSnapshot> get userDocument =>
       references.users.doc(uID).snapshots();
 
-  Stream<Provider> get providerStream =>
-      _authUserSubject.map((user) => _getProvider(user.firebaseUser));
+  Stream<Provider?> get providerStream =>
+      _authUserSubject.map((user) => _getProvider(user?.firebaseUser));
 
   UserGateway(this.references, AuthUser authUser) : uID = authUser.uid {
     _appUserSubscription =
@@ -78,16 +78,16 @@ class UserGateway implements UserGatewayAuthentifcation {
       }
       removeNotificationToken(await FirebaseMessaging.instance.getToken());
     }
-    authUser.signOut();
+    authUser!.signOut();
   }
 
-  String getEmail() => authUser.email;
-  bool isAnonymous() => authUser.isAnonymous;
+  String? getEmail() => authUser?.email;
+  bool isAnonymous() => authUser!.isAnonymous;
 
-  Stream<bool> isAnonymousStream() =>
-      _authUserSubject.map((authUser) => authUser.isAnonymous);
+  Stream<bool?> isAnonymousStream() =>
+      _authUserSubject.map((authUser) => authUser?.isAnonymous);
 
-  Provider _getProvider(User fbUser) {
+  Provider _getProvider(User? fbUser) {
     if (fbUser == null || fbUser.isAnonymous) {
       return Provider.anonymous;
     } else {
@@ -104,18 +104,15 @@ class UserGateway implements UserGatewayAuthentifcation {
   /// This allows the user to sign in to this account in the future with
   /// the given account.
   @override
-  Future<User> linkWithCredential(AuthCredential credential) async {
-    final authResult =
-        await authUser.firebaseUser.linkWithCredential(credential);
+  Future<void> linkWithCredential(AuthCredential credential) async {
+    await authUser!.firebaseUser.linkWithCredential(credential);
 
     // Even when we are using the `userChanges()` stream, we still need to call
     // `reload()` because the `isAnonymous` property is not updated on iOS (and
     // macOS). When the bug is fixed, we can remove this call.
     //
     // Bug report: https://github.com/firebase/flutterfire/issues/11520
-    await authUser.firebaseUser.reload();
-
-    return authResult.user;
+    await authUser!.firebaseUser.reload();
   }
 
   Future<void> changeState(StateEnum state) async {
@@ -128,13 +125,14 @@ class UserGateway implements UserGatewayAuthentifcation {
     });
   }
 
-  void removeNotificationToken(String token) {
+  void removeNotificationToken(String? token) {
+    if (token == null) return;
     references.users.doc(uID).update({
       "notificationTokens": FieldValue.arrayRemove([token])
     });
   }
 
-  Future<void> setHomeworkReminderTime(TimeOfDay timeOfDay) async {
+  Future<void> setHomeworkReminderTime(TimeOfDay? timeOfDay) async {
     await references.users.doc(uID).update(
         {"reminderTime": timeOfDay?.toApiString() ?? FieldValue.delete()});
   }
@@ -168,12 +166,11 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   Future<void> changeEmail(String email) async {
-    await authUser.firebaseUser.updateEmail(email);
+    await authUser!.firebaseUser.updateEmail(email);
     return;
   }
 
-  Future<void> addUser({@required AppUser user, bool merge = false}) async {
-    assert(user != null);
+  Future<void> addUser({required AppUser user, bool merge = false}) async {
     await references.users
         .doc(uID)
         .set(user.toCreateJson(), SetOptions(merge: true));
@@ -183,7 +180,7 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   Future<bool> deleteUser(SharezoneGateway gateway) async {
     if (await hasInternetAccess()) {
-      final currentUser = references.firebaseAuth.currentUser;
+      final currentUser = references.firebaseAuth!.currentUser!;
       return currentUser.delete().then((_) => true);
     } else {
       return Future.error(NoInternetAccess());

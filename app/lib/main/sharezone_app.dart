@@ -64,7 +64,7 @@ class SharezoneApp extends StatefulWidget {
 
   final BlocDependencies blocDependencies;
   final Analytics analytics;
-  final Stream<Beitrittsversuch> beitrittsversuche;
+  final Stream<Beitrittsversuch?> beitrittsversuche;
 
   @override
   _SharezoneAppState createState() => _SharezoneAppState();
@@ -73,8 +73,8 @@ class SharezoneApp extends StatefulWidget {
 class _SharezoneAppState extends State<SharezoneApp>
     with WidgetsBindingObserver {
   final navigationService = NavigationService();
-  SharezoneGateway _sharezoneGateway;
-  FirebaseMessagingCallbackConfigurator fbMessagingConfigurator;
+  late SharezoneGateway _sharezoneGateway;
+  FirebaseMessagingCallbackConfigurator? fbMessagingConfigurator;
   final disposeCallbacks = <VoidCallback>[];
 
   @override
@@ -90,9 +90,9 @@ class _SharezoneAppState extends State<SharezoneApp>
     );
 
     _sharezoneGateway = SharezoneGateway(
-      authUser: widget.blocDependencies.authUser,
+      authUser: widget.blocDependencies.authUser!,
       memberID:
-          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser.uid),
+          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
 
@@ -103,7 +103,7 @@ class _SharezoneAppState extends State<SharezoneApp>
   }
 
   void _startLastOnlineReporting() {
-    final userId = UserId(widget.blocDependencies.authUser.uid);
+    final userId = UserId(widget.blocDependencies.authUser!.uid);
     final reporter = LastOnlineReporter.startReporting(
       widget.blocDependencies.firestore,
       userId,

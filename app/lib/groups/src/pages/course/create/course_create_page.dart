@@ -14,8 +14,11 @@ import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<Course> openCourseCreatePage(BuildContext context,
-    {Course course, String schoolClassId}) async {
+Future<Course?> openCourseCreatePage(
+  BuildContext context, {
+  Course? course,
+  String? schoolClassId,
+}) async {
   final createdCourse = await Navigator.push<dynamic>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -60,29 +63,34 @@ Future<void> submit(BuildContext context) async {
 }
 
 class _CourseCreatePage extends StatefulWidget {
-  const _CourseCreatePage({Key key, this.course, this.schoolClassId})
-      : super(key: key);
+  const _CourseCreatePage({
+    Key? key,
+    this.course,
+    this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = "course-create-page";
-  final Course course;
-  final String schoolClassId;
+  final Course? course;
+  final String? schoolClassId;
 
   @override
   _CourseCreatePageState createState() => _CourseCreatePageState();
 }
 
 class _CourseCreatePageState extends State<_CourseCreatePage> {
-  CourseCreateBloc bloc;
+  late CourseCreateBloc bloc;
 
   final abbreviationNode = FocusNode();
   final nameNode = FocusNode();
 
   @override
   void initState() {
-    bloc ??= BlocProvider.of<CourseCreateBlocFactory>(context).create(
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
       schoolClassId: widget.schoolClassId,
     );
-    bloc.setInitialCourse(widget.course);
+    if (widget.course != null) {
+      bloc.setInitialCourse(widget.course!);
+    }
     super.initState();
   }
 
@@ -131,9 +139,13 @@ class _CreateCourseFAB extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({Key key, this.subject, this.nextFocusNode}) : super(key: key);
+  const _Subject({
+    Key? key,
+    this.subject,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
-  final String subject;
+  final String? subject;
   final FocusNode nextFocusNode;
 
   @override
@@ -156,6 +168,7 @@ class _Subject extends StatelessWidget {
             onChanged: bloc.changeSubject,
             onEditingComplete: () =>
                 FocusManager.instance.primaryFocus?.unfocus(),
+            textCapitalization: TextCapitalization.sentences,
           ),
         );
       },
@@ -164,11 +177,14 @@ class _Subject extends StatelessWidget {
 }
 
 class _Abbreviation extends StatelessWidget {
-  const _Abbreviation(
-      {Key key, this.abbreviation, this.focusNode, this.nextFocusNode})
-      : super(key: key);
+  const _Abbreviation({
+    Key? key,
+    this.abbreviation,
+    required this.focusNode,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
-  final String abbreviation;
+  final String? abbreviation;
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
 
@@ -186,12 +202,16 @@ class _Abbreviation extends StatelessWidget {
         hintText: "z.B. M",
       ),
       maxLength: 3,
+      textCapitalization: TextCapitalization.characters,
     );
   }
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key key, this.focusNode}) : super(key: key);
+  const _CourseName({
+    Key? key,
+    required this.focusNode,
+  }) : super(key: key);
 
   final FocusNode focusNode;
 
@@ -207,6 +227,7 @@ class _CourseName extends StatelessWidget {
           labelText: "Name des Kurses",
           hintText: "z.B. Mathematik GK Q2",
         ),
+        textCapitalization: TextCapitalization.sentences,
       ),
       description:
           "Der Kursname dient hauptsächlich für die Lehrkraft zur Unterscheidung der einzelnen Kurse. Denn würden bei der Lehrkraft alle Kurse Mathematik heißen, könnte diese nicht mehr Kurse unterscheiden.",

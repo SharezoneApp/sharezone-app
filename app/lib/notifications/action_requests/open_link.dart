@@ -46,7 +46,7 @@ class OpenLinkRequest extends ActionRequest {
 }
 
 class OpenLinkExecutor extends ActionRequestExecutor<OpenLinkRequest> {
-  final BuildContext Function() _getCurrentContext;
+  final BuildContext? Function() _getCurrentContext;
 
   OpenLinkExecutor(this._getCurrentContext);
 

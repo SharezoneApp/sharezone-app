@@ -12,7 +12,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:user/user.dart';
 
@@ -58,15 +57,16 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
       try {
         if (querySnapshot.docs.isNotEmpty) {
           joinedUsersData = querySnapshot.docs.map((docSnapshot) {
+            final data = docSnapshot.data();
             return MemberData.create(
               id: docSnapshot.id,
-              role: docSnapshot.data()['powerLevel'] == 'owner'
+              role: data['powerLevel'] == 'owner'
                   ? MemberRole.owner
                   : MemberRole.creator,
               user: AppUser.create(id: docSnapshot.id).copyWith(
-                  name: docSnapshot.data()['name'],
-                  typeOfUser: enumFromString(
-                      TypeOfUser.values, docSnapshot.data()['typeOfUser'])),
+                name: data['name'],
+                typeOfUser: TypeOfUser.values.byName(data['typeOfUser']),
+              ),
             );
           }).toList();
           update();
@@ -121,15 +121,16 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
         .listen((docSnapshot) {
       try {
         if (docSnapshot.exists) {
+          final data = docSnapshot.data()!;
           joinedUsersData = MemberData.create(
             id: docSnapshot.id,
-            role: docSnapshot.data()!['powerLevel'] == 'owner'
+            role: data['powerLevel'] == 'owner'
                 ? MemberRole.owner
                 : MemberRole.creator,
             user: AppUser.create(id: docSnapshot.id).copyWith(
-                name: docSnapshot.data()!['name'],
-                typeOfUser: enumFromString(
-                    TypeOfUser.values, docSnapshot.data()!['typeOfUser'])),
+              name: data['name'],
+              typeOfUser: TypeOfUser.values.byName(data['typeOfUser']),
+            ),
           );
         } else {
           joinedUsersData = null;

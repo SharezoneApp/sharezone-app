@@ -16,24 +16,24 @@ import 'package:user/user.dart';
 class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
   final TypeOfUser expectedTypeOfUser;
   final Widget matchesTypeOfUserWidget;
-  final Widget notMatchtingWidget;
+  final Widget notMatchingWidget;
 
   const MatchingTypeOfUserStreamBuilder({
-    Key key,
-    @required this.expectedTypeOfUser,
-    @required this.matchesTypeOfUserWidget,
-    @required this.notMatchtingWidget,
+    Key? key,
+    required this.expectedTypeOfUser,
+    required this.matchesTypeOfUserWidget,
+    required this.notMatchingWidget,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       stream: api.user.userStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.typeOfUser == expectedTypeOfUser)
+        if (snapshot.hasData && snapshot.data?.typeOfUser == expectedTypeOfUser)
           return matchesTypeOfUserWidget;
-        return notMatchtingWidget;
+        return notMatchingWidget;
       },
     );
   }

@@ -20,8 +20,6 @@ String getWeekTypeText(WeekType weekDay) {
       return "A-Woche";
     case WeekType.b:
       return "B-Woche";
-    default:
-      return "???";
   }
 }
 
@@ -38,8 +36,10 @@ String getWeekTypeTextShort(WeekType weekDay) {
   }
 }
 
-Future<WeekType> selectWeekType(BuildContext context,
-    {WeekType selected}) async {
+Future<WeekType?> selectWeekType(
+  BuildContext context, {
+  WeekType? selected,
+}) async {
   return await selectItem<WeekType>(
     context: context,
     items: WeekType.values.toList(),

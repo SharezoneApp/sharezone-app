@@ -35,14 +35,17 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
   }
 }
 
-TextStyle _hintTextSyle(BuildContext context) => TextStyle(
+TextStyle _hintTextStyle(BuildContext context) => TextStyle(
     color: isDarkThemeEnabled(context)
         ? Colors.grey
-        : Colors.grey[600].withOpacity(0.75),
+        : Colors.grey[600]!.withOpacity(0.75),
     fontSize: 11.5);
 
 class EmailAndPasswordLinkPage extends StatefulWidget {
-  const EmailAndPasswordLinkPage({Key key, this.user}) : super(key: key);
+  const EmailAndPasswordLinkPage({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   static const tag = "email-and-password-link-page";
   final AppUser user;
@@ -53,7 +56,7 @@ class EmailAndPasswordLinkPage extends StatefulWidget {
 }
 
 class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
-  EmailAndPasswordLinkBloc bloc;
+  late EmailAndPasswordLinkBloc bloc;
 
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -103,7 +106,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                                 focusNode: nameFocusNode,
                                 onEditingComplete: () => FocusManager
                                     .instance.primaryFocus
-                                    .unfocus(),
+                                    ?.unfocus(),
                                 initialName: widget.user.name,
                                 nameStream: bloc.name,
                                 onChanged: bloc.changeName,
@@ -136,7 +139,10 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
 }
 
 class _PasswordField extends StatelessWidget {
-  const _PasswordField({Key key, this.passwordFocusNode}) : super(key: key);
+  const _PasswordField({
+    Key? key,
+    required this.passwordFocusNode,
+  }) : super(key: key);
 
   final FocusNode passwordFocusNode;
 
@@ -178,22 +184,21 @@ class BackIcon extends StatelessWidget {
 
 class NameField extends StatelessWidget {
   const NameField({
-    Key key,
-    @required this.onEditingComplete,
+    Key? key,
+    required this.onEditingComplete,
     this.focusNode,
     this.initialName,
-    @required this.nameStream,
-    @required this.onChanged,
+    required this.nameStream,
+    required this.onChanged,
     this.withIcon = true,
     this.textInputAction = TextInputAction.next,
     this.autofocus = false,
     this.selectText = false,
-  })  : assert(selectText != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final VoidCallback onEditingComplete;
-  final String initialName;
+  final String? initialName;
   final bool withIcon;
   final TextInputAction textInputAction;
   final bool autofocus;
@@ -227,13 +232,14 @@ class NameField extends StatelessWidget {
                 errorText: snapshot.error?.toString(),
                 border: const OutlineInputBorder(),
               ),
+              textCapitalization: TextCapitalization.sentences,
             ),
             const SizedBox(height: 8),
             Padding(
               padding: EdgeInsets.only(left: withIcon ? 38 : 0),
               child: Text(
                 "Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.",
-                style: _hintTextSyle(context),
+                style: _hintTextStyle(context),
               ),
             ),
           ],
@@ -244,9 +250,11 @@ class NameField extends StatelessWidget {
 }
 
 class _EmailField extends StatelessWidget {
-  const _EmailField(
-      {Key key, @required this.focusNode, @required this.nextFocusNode})
-      : super(key: key);
+  const _EmailField({
+    Key? key,
+    required this.focusNode,
+    required this.nextFocusNode,
+  }) : super(key: key);
 
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
@@ -268,7 +276,7 @@ class _EmailField extends StatelessWidget {
           padding: const EdgeInsets.only(left: 38),
           child: Text(
               "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
-              style: _hintTextSyle(context)),
+              style: _hintTextStyle(context)),
         ),
       ],
     );

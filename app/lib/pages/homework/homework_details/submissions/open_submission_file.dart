@@ -62,18 +62,18 @@ void openAbgegebeneAbgabedatei(BuildContext context, CreatedFileView view) {
 }
 
 void _downloadFile({
-  @required BuildContext context,
-  @required String downloadUrl,
-  @required String fileName,
-  @required FileFormat format,
-  @required String fileId,
+  required BuildContext context,
+  required String downloadUrl,
+  required String fileName,
+  required FileFormat format,
+  required String fileId,
 }) {
   // Bei der Web-App wird die Datei direkt über den Browser heruntergeladen,
   // weswegen kein Lade-Dialog notwendig ist (Lade-Dialog wird vom Browser
   // übernommen).
   if (PlatformCheck.isWeb) {
     showStartedDownloadSnackBar(context, downloadUrl);
-    getFileSaver().saveFromUrl(downloadUrl, fileName, format);
+    getFileSaver()!.saveFromUrl(downloadUrl, fileName, format);
   } else {
     showDialog(
       context: context,

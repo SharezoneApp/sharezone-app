@@ -22,10 +22,11 @@ class DashboardGateway {
   final UserGateway userGateway;
 
   DashboardGateway(
-      this.homeworkGateway,
-      this.blackboardGateway,
-      this.timetableGateway,
-      this.courseGateway,
-      this.schoolClassGateway,
-      this.userGateway);
+    this.homeworkGateway,
+    this.blackboardGateway,
+    this.timetableGateway,
+    this.courseGateway,
+    this.schoolClassGateway,
+    this.userGateway,
+  );
 }

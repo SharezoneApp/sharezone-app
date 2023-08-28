@@ -57,7 +57,7 @@ class LocalChangeGateway implements ChangelogGateway {
   List<ChangeDatabaseModel> changes = mockData;
 
   @override
-  Future<List<ChangeDatabaseModel>> loadChange({int from = 0, int to}) async {
+  Future<List<ChangeDatabaseModel>> loadChange({int from = 0, int? to}) async {
     return changes.sublist(from, to);
   }
 
@@ -66,13 +66,13 @@ class LocalChangeGateway implements ChangelogGateway {
       throw UnimplementedError();
 }
 
-class MockInformationManager extends PlatformInformationRetreiver {
+class MockInformationManager extends PlatformInformationRetriever {
   @override
   String get appName => "Sharezone";
 
   @override
-  Future<void> init() {
-    return null;
+  Future<void> init() async {
+    return;
   }
 
   @override

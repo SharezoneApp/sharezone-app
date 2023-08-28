@@ -9,10 +9,13 @@
 import 'package:flutter/material.dart';
 
 class BottomBarButton extends StatelessWidget {
-  const BottomBarButton({Key key, this.onTap, @required this.text})
-      : super(key: key);
+  const BottomBarButton({
+    Key? key,
+    required this.text,
+    this.onTap,
+  }) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String text;
 
   @override

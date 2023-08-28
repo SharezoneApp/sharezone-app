@@ -17,8 +17,8 @@ class TimetableWeekViewDayTile extends StatelessWidget {
   final bool showMonthName;
 
   const TimetableWeekViewDayTile({
-    Key key,
-    this.date,
+    Key? key,
+    required this.date,
     this.showMonthName = false,
     this.isToday = false,
   }) : super(key: key);
@@ -37,7 +37,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     TimetableDateHelper.getDayOfWeek(date.weekDay),
-                    style: Theme.of(context).textTheme.titleLarge.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: _getTextColorTitle(context), letterSpacing: 0.8),
                   ),
                 ),
@@ -45,7 +45,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
               ),
               Text(
                 _getDayOfMonthText(),
-                style: Theme.of(context).textTheme.titleSmall.copyWith(
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: _getTextColorMonth(context),
                       fontSize: 12.5,
                     ),
@@ -62,7 +62,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
         (showMonthName ? ". ${date.parser.toMMM}" : "");
   }
 
-  Decoration _getDecoration(BuildContext context) {
+  Decoration? _getDecoration(BuildContext context) {
     return isToday
         ? ShapeDecoration(
             shape:
@@ -71,7 +71,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
         : null;
   }
 
-  Color _getTextColorTitle(BuildContext context) {
+  Color? _getTextColorTitle(BuildContext context) {
     return isToday
         ? isDarkThemeEnabled(context)
             ? Theme.of(context).appBarTheme.backgroundColor

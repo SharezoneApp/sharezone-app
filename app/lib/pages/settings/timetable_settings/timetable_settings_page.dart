@@ -86,7 +86,7 @@ class _ABWeekField extends StatelessWidget {
           children: <Widget>[
             SwitchListTile.adaptive(
               title: const Text("A/B Wochen"),
-              value: userSettings.isABWeekEnabled,
+              value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
                     userSettings.copyWith(isABWeekEnabled: newValue));
@@ -173,7 +173,7 @@ class _TimetablePreferencesField extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
         final userSettings = snapshot.data;
-        final tbStart = userSettings.timetableStartTime;
+        final tbStart = userSettings!.timetableStartTime;
         return Column(
           children: <Widget>[
             ListTile(
@@ -205,9 +205,9 @@ class _TimetablePreferencesField extends StatelessWidget {
 
 class LessonsLengthField extends StatelessWidget {
   const LessonsLengthField({
-    Key key,
-    @required this.streamLessonLength,
-    @required this.onChanged,
+    Key? key,
+    required this.streamLessonLength,
+    required this.onChanged,
   }) : super(key: key);
 
   final Stream<LessonLength> streamLessonLength;
@@ -254,15 +254,15 @@ class LessonsLengthField extends StatelessWidget {
   }
 
   Future<LessonLength> showNumberPickerDialog(
-      BuildContext context, int initalLengthInMinutes) async {
+      BuildContext context, int initialLengthInMinutes) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
       builder: (context) => _NumberPicker(
-        initalLength: initalLengthInMinutes,
+        initialLength: initialLengthInMinutes,
       ),
     );
 
-    return LessonLength(selectedLengthInMinutes ?? initalLengthInMinutes);
+    return LessonLength(selectedLengthInMinutes ?? initialLengthInMinutes);
   }
 
   void _showConfirmationSnackBar(BuildContext context) {
@@ -275,20 +275,23 @@ class LessonsLengthField extends StatelessWidget {
 }
 
 class _NumberPicker extends StatefulWidget {
-  const _NumberPicker({Key key, this.initalLength}) : super(key: key);
+  const _NumberPicker({
+    Key? key,
+    required this.initialLength,
+  }) : super(key: key);
 
-  final int initalLength;
+  final int initialLength;
 
   @override
   __NumberPickerState createState() => __NumberPickerState();
 }
 
 class __NumberPickerState extends State<_NumberPicker> {
-  int value;
+  late int value;
 
   @override
   void initState() {
-    value = widget.initalLength;
+    value = widget.initialLength;
     super.initState();
   }
 

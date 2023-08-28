@@ -20,26 +20,26 @@ class UpdateReminderBloc extends BlocBase {
   final Future<Version> Function() getCurrentVersion;
   final Duration updateGracePeriod;
   final DateTime Function() getCurrentDateTime;
-  final CrashAnalytics crashAnalytics;
+  final CrashAnalytics? crashAnalytics;
 
   factory UpdateReminderBloc({
-    @required ChangelogGateway changelogGateway,
-    @required PlatformInformationRetreiver platformInformationRetreiver,
-    @required CrashAnalytics crashAnalytics,
+    required ChangelogGateway changelogGateway,
+    required PlatformInformationRetriever platformInformationRetriever,
+    required CrashAnalytics crashAnalytics,
 
     /// Die Zeitspanne nach einem neuen Release, wo noch keine Update-Karte
     /// angezeigt werden soll.
     /// Falls beispielsweise ein Release am 02.02.2020 veröffentlich wird und
     /// die Grace-Periode 2 Tage beträgt, wird bis zum 04.02.2020 noch keine
     /// Update-Karte angezeigt, danach schon.
-    @required Duration updateGracePeriod,
+    required Duration updateGracePeriod,
   }) {
     return UpdateReminderBloc.internal(
       getLatestRelease: () => changelogGateway
           .loadChange(to: 1)
           .then((change) => change.first.toChange()),
-      getCurrentVersion: () => platformInformationRetreiver.init().then(
-          (_) => Version.parse(name: platformInformationRetreiver.version)),
+      getCurrentVersion: () => platformInformationRetriever.init().then(
+          (_) => Version.parse(name: platformInformationRetriever.version)),
       updateGracePeriod: updateGracePeriod,
       getCurrentDateTime: () => DateTime.now(),
       crashAnalytics: crashAnalytics,
@@ -48,10 +48,10 @@ class UpdateReminderBloc extends BlocBase {
 
   @visibleForTesting
   UpdateReminderBloc.internal({
-    @required this.getLatestRelease,
-    @required this.getCurrentVersion,
-    @required this.updateGracePeriod,
-    @required this.getCurrentDateTime,
+    required this.getLatestRelease,
+    required this.getCurrentVersion,
+    required this.updateGracePeriod,
+    required this.getCurrentDateTime,
     this.crashAnalytics,
   });
 

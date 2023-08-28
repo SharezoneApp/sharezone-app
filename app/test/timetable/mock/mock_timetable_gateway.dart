@@ -19,13 +19,13 @@ class MockTimetableGateway implements TimetableGateway {
 
   @override
   Future<bool> createEvent(CalendricalEvent event) async {
-    _eventsSubject.sink.add(_eventsSubject.valueOrNull..add(event));
+    _eventsSubject.sink.add(_eventsSubject.value..add(event));
     return true;
   }
 
   @override
   Future<bool> createLesson(Lesson lesson) async {
-    _lessonsSubject.sink.add(_lessonsSubject.valueOrNull..add(lesson));
+    _lessonsSubject.sink.add(_lessonsSubject.value..add(lesson));
     return true;
   }
 
@@ -79,16 +79,16 @@ class MockTimetableGateway implements TimetableGateway {
   References get references => throw UnimplementedError();
 
   @override
-  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date endDate]) {
+  Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date? endDate]) {
     if (endDate == null) {
-      return Stream.value(_eventsSubject.valueOrNull
+      return Stream.value(_eventsSubject.valueOrNull!
           .where((event) =>
               event.date.toDateTime.millisecond >=
               startDate.toDateTime.millisecond)
           .toList());
     }
 
-    return Stream.value(_eventsSubject.valueOrNull
+    return Stream.value(_eventsSubject.valueOrNull!
         .where((event) =>
             (event.date.toDateTime.millisecond >=
                 startDate.toDateTime.millisecond) &&

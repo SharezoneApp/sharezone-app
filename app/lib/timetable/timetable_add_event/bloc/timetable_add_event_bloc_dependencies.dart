@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
@@ -17,8 +16,8 @@ class TimetableAddEventBlocDependencies {
   final MarkdownAnalytics markdownAnalytics;
 
   TimetableAddEventBlocDependencies({
-    @required this.gateway,
-    @required this.lessonLengthCache,
-    @required this.markdownAnalytics,
+    required this.gateway,
+    required this.lessonLengthCache,
+    required this.markdownAnalytics,
   });
 }

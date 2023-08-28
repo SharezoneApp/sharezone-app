@@ -19,14 +19,14 @@ import 'ui.dart';
 
 class PrivacyPolicyHeading extends StatelessWidget {
   const PrivacyPolicyHeading({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       'Datenschutzerklärung',
-      style: Theme.of(context).textTheme.headlineSmall.copyWith(
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontSize: 24,
             color:
                 isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
@@ -38,11 +38,11 @@ class PrivacyPolicyHeading extends StatelessWidget {
 
 class PrivacyPolicySubheading extends StatelessWidget {
   const PrivacyPolicySubheading({
-    Key key,
-    @required this.entersIntoForceOn,
+    Key? key,
+    required this.entersIntoForceOn,
   }) : super(key: key);
 
-  final DateTime entersIntoForceOn;
+  final DateTime? entersIntoForceOn;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class PrivacyPolicySubheading extends StatelessWidget {
         text: 'Diese aktualisierte Datenschutzerklärung tritt am',
         children: [
           TextSpan(
-            text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn)} ',
+            text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn!)} ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
@@ -66,7 +66,7 @@ class PrivacyPolicySubheading extends StatelessWidget {
 
 class ChangeAppearanceButton extends StatelessWidget {
   const ChangeAppearanceButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -94,13 +94,13 @@ void showDisplaySettingsDialog(BuildContext context) {
 
 class DownloadAsPDFButton extends StatelessWidget {
   const DownloadAsPDFButton({
-    Key key,
+    Key? key,
     this.enabled = true,
   })  : _isIconButton = false,
         super(key: key);
 
   const DownloadAsPDFButton.icon({
-    Key key,
+    Key? key,
     this.enabled = true,
   })  : _isIconButton = true,
         super(key: key);
@@ -132,18 +132,18 @@ class DownloadAsPDFButton extends StatelessWidget {
 
 class ExpansionArrow extends StatelessWidget {
   const ExpansionArrow({
-    Key key,
-    @required this.expansionArrowTurns,
-    @required this.onPressed,
+    Key? key,
+    required this.expansionArrowTurns,
+    required this.onPressed,
   }) : super(key: key);
 
-  final Animation<double> expansionArrowTurns;
+  final Animation<double>? expansionArrowTurns;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
-      turns: expansionArrowTurns,
+      turns: expansionArrowTurns!,
       child: IconButton(
         // Without constraints the TOC section containing the button would grow
         // too large vertically.
@@ -160,10 +160,10 @@ class ExpansionArrow extends StatelessWidget {
 /// Used to highlight a TOC section if it is currently read.
 class TocSectionHighlight extends StatelessWidget {
   const TocSectionHighlight({
-    Key key,
-    @required this.child,
-    @required this.shouldHighlight,
-    @required this.onTap,
+    Key? key,
+    required this.child,
+    required this.shouldHighlight,
+    required this.onTap,
     this.backgroundColor,
     this.shape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -173,7 +173,7 @@ class TocSectionHighlight extends StatelessWidget {
   final Widget child;
   final bool shouldHighlight;
   final VoidCallback onTap;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final ShapeBorder shape;
 
   @override
@@ -203,8 +203,8 @@ class PrivacyPolicyText extends StatelessWidget {
   final PrivacyPolicy privacyPolicy;
 
   const PrivacyPolicyText({
-    @required this.privacyPolicy,
-    Key key,
+    required this.privacyPolicy,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -229,7 +229,7 @@ class PrivacyPolicyText extends StatelessWidget {
                       : Colors.blue.shade600),
               h3: Theme.of(context)
                   .textTheme
-                  .titleMedium
+                  .titleMedium!
                   .copyWith(fontWeight: FontWeight.w500),
               blockquoteDecoration: BoxDecoration(
                 color: isDarkThemeEnabled(context)
@@ -255,7 +255,7 @@ class PrivacyPolicyText extends StatelessWidget {
             launchURL(href, context: context);
           },
         ),
-        if (theme.showDebugThresholdIndicator)
+        if (theme.showDebugThresholdIndicator!)
           Positioned.fill(
             child: IgnorePointer(
               child: Align(

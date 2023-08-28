@@ -41,7 +41,7 @@ extension HochgeladeneAbgabedateiToView on HochgeladeneAbgabedatei {
         id: '$id',
         extentionName: name.nurExtension,
         basename: name.ohneExtension,
-        status: FileViewStatus.succesfullyUploaded,
+        status: FileViewStatus.successfullyUploaded,
         fileFormat: format,
         downloadUrl: downloadUrl.toString(),
       );

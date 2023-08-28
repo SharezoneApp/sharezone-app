@@ -77,13 +77,18 @@ class _Header extends StatelessWidget {
 }
 
 class _SupportCard extends StatelessWidget {
-  final Widget icon;
-  final String title, subtitle;
-  final VoidCallback onPressed;
+  const _SupportCard({
+    Key? key,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.onPressed,
+  }) : super(key: key);
 
-  const _SupportCard(
-      {Key key, this.icon, this.title, this.subtitle, this.onPressed})
-      : super(key: key);
+  final Widget icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +102,7 @@ class _SupportCard extends StatelessWidget {
             child: icon,
           ),
           title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
         ),
       ),
@@ -156,7 +161,7 @@ class _DiscordTile extends StatelessWidget {
 }
 
 class _NoteAboutPrivacyPolicy extends StatelessWidget {
-  const _NoteAboutPrivacyPolicy({Key key}) : super(key: key);
+  const _NoteAboutPrivacyPolicy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +172,10 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
           data:
               "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
           styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-          onTapLink: (_, url, __) => launchURL(url, context: context),
+          onTapLink: (_, url, __) {
+            if (url == null) return;
+            launchURL(url, context: context);
+          },
         ),
       ),
       actions: [

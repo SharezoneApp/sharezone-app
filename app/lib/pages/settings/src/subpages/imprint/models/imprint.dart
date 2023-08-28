@@ -29,7 +29,7 @@ class Imprint {
 
   factory Imprint.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final markdownData = snapshot.data()['markdownData'] as String;
+    final markdownData = snapshot.data()?['markdownData'] as String;
     return Imprint._(markdownData);
   }
 

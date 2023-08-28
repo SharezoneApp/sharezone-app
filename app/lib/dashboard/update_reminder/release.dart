@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 
 class Release {
@@ -14,8 +13,8 @@ class Release {
   final DateTime releaseDate;
 
   Release({
-    @required this.version,
-    @required this.releaseDate,
+    required this.version,
+    required this.releaseDate,
   });
 
   @override

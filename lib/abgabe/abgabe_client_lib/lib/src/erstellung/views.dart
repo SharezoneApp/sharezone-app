@@ -59,7 +59,7 @@ class FileView {
   final String extentionName;
   final FileFormat fileFormat;
   final FileViewStatus status;
-  final Optional<double> uploadProgess;
+  final Optional<double> uploadProgress;
   final Optional<String> downloadUrl;
 
   FileView({
@@ -71,13 +71,13 @@ class FileView {
     String? path,
     double? uploadProgess,
     String? downloadUrl,
-  })  : uploadProgess = Optional.ofNullable(uploadProgess),
+  })  : uploadProgress = Optional.ofNullable(uploadProgess),
         path = Optional.ofNullable(path),
         downloadUrl = Optional.ofNullable(downloadUrl);
 
   @override
   String toString() {
-    return '$runtimeType($name status: $status, path: $path, uploadProgess: $uploadProgess)';
+    return '$runtimeType($name status: $status, path: $path, uploadProgess: $uploadProgress)';
   }
 
   @override
@@ -90,7 +90,7 @@ class FileView {
         other.extentionName == extentionName &&
         other.fileFormat == fileFormat &&
         other.status == status &&
-        other.uploadProgess == uploadProgess &&
+        other.uploadProgress == uploadProgress &&
         other.downloadUrl == downloadUrl;
   }
 
@@ -101,7 +101,7 @@ class FileView {
         extentionName.hashCode ^
         fileFormat.hashCode ^
         status.hashCode ^
-        uploadProgess.hashCode ^
+        uploadProgress.hashCode ^
         downloadUrl.hashCode;
   }
 }
@@ -110,6 +110,6 @@ enum FileViewStatus {
   /// Die Abgabe wurde noch nicht gestartet
   unitiated,
   uploading,
-  succesfullyUploaded,
+  successfullyUploaded,
   failed,
 }

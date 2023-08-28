@@ -13,7 +13,7 @@ class Action {
   final VoidCallback onTap;
 
   const Action({
-    @required this.title,
-    @required this.onTap,
+    required this.title,
+    required this.onTap,
   });
 }

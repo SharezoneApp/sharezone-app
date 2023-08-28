@@ -12,28 +12,29 @@ import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';
+import 'integration_test.mocks.dart';
 
-class MockAppSharezoneFunctions extends Mock implements SharezoneAppFunctions {}
-
+@GenerateNiceMocks([MockSpec<SharezoneAppFunctions>()])
 void main() {
   test('Cache loads from API after empty cache and then from Cache', () async {
     StateEnum firstState = StateEnum.nordrheinWestfalen;
     StateEnum secondState = StateEnum.hamburg;
     final stateGateway = InMemoryHolidayStateGateway(initialValue: firstState);
-    final szAppFunctions = MockAppSharezoneFunctions();
+    final szAppFunctions = MockSharezoneAppFunctions();
 
     final current = DateTime(2018, 03, 09);
     HolidayBloc holidayBloc = setupBloc(szAppFunctions, stateGateway, current);
 
     setMockAnswers(szAppFunctions);
 
-    StreamQueue<List<Holiday>> queue =
-        StreamQueue<List<Holiday>>(holidayBloc.holidays);
+    StreamQueue<List<Holiday?>> queue =
+        StreamQueue<List<Holiday?>>(holidayBloc.holidays);
     stateGateway.changeState(secondState);
 
     areCorrectHolidaysForState(await queue.next, firstState);
@@ -61,14 +62,14 @@ void main() {
   });
 }
 
-void setMockAnswers(MockAppSharezoneFunctions szAppFunctions) {
+void setMockAnswers(MockSharezoneAppFunctions szAppFunctions) {
   setCfResponse(szAppFunctions, "NW", "2018", _jsonNrw2018);
   setCfResponse(szAppFunctions, "NW", "2019", _jsonNrw2019);
   setCfResponse(szAppFunctions, "HH", "2018", _jsonHamburg2018);
   setCfResponse(szAppFunctions, "HH", "2019", _jsonHamburg2019);
 }
 
-HolidayBloc setupBloc(MockAppSharezoneFunctions szAppFunctions,
+HolidayBloc setupBloc(MockSharezoneAppFunctions szAppFunctions,
     HolidayStateGateway stateGateway, DateTime currentTime) {
   HolidayApi api = HolidayApi(
     CloudFunctionHolidayApiClient(szAppFunctions),
@@ -86,7 +87,7 @@ HolidayBloc setupBloc(MockAppSharezoneFunctions szAppFunctions,
 }
 
 /// Checking if last and first Holiday are the same
-bool areCorrectHolidaysForState(List<Holiday> holidays, StateEnum stateEnum) {
+bool areCorrectHolidaysForState(List<Holiday?> holidays, StateEnum stateEnum) {
   bool hContains(Holiday holiday) => holidays.contains(holiday);
 
   switch (stateEnum) {
@@ -96,20 +97,18 @@ bool areCorrectHolidaysForState(List<Holiday> holidays, StateEnum stateEnum) {
           hContains(_nrw2019FirstHoliday) &&
           hContains(_nrw2019LastHoliday) &&
           holidays.length == nrw2018itemCount + nrw2019itemCount;
-      break;
     case StateEnum.hamburg:
       return hContains(_hamburg2018FirstHoliday) &&
           hContains(_hamburg2018LastHoliday) &&
           hContains(_hamburg2019FirstHoliday) &&
           hContains(_hamburg2019LastHoliday) &&
           holidays.length == hamburg2018itemCount + hamburg2019itemCount;
-      break;
     default:
       throw Exception("Wrong State: $stateEnum");
   }
 }
 
-void setCfResponse(MockAppSharezoneFunctions szAppFunctions, String stateCode,
+void setCfResponse(MockSharezoneAppFunctions szAppFunctions, String stateCode,
     String year, String jsonResponse) {
   when(szAppFunctions.loadHolidays(stateCode: stateCode, year: year))
       .thenAnswer(

@@ -25,8 +25,10 @@ void _logNavBottomBarEvent(NavigationItem item, NavigationAnalytics analytics) {
 
 /// This is the Bnb for [NavigationExperimentOption.drawerAndBnB].
 class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
-  const BnbAndDrawerBottomNavigationBar({Key key, this.navigationItem})
-      : super(key: key);
+  const BnbAndDrawerBottomNavigationBar({
+    Key? key,
+    required this.navigationItem,
+  }) : super(key: key);
 
   final NavigationItem navigationItem;
 
@@ -61,18 +63,18 @@ class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
 /// First row of [ExtendableBottomNavigationBar]. This row is always visibile.
 class FirstNavigationRow extends StatelessWidget {
   const FirstNavigationRow({
-    Key key,
+    Key? key,
     this.navigationItem,
     this.backgroundColor,
     this.controller,
   }) : super(key: key);
 
-  final NavigationItem navigationItem;
-  final Color backgroundColor;
+  final NavigationItem? navigationItem;
+  final Color? backgroundColor;
 
   /// [controller] is from "sliding_up_panel" package and is needed to open and
   /// close the [ExtendableBottomNavigationBar].
-  final PanelController controller;
+  final PanelController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +90,15 @@ class FirstNavigationRow extends StatelessWidget {
         return _BottomNavBarWithNonSelectionAllowed(
           currentItem: navigationItem,
           backgroundColor: backgroundColor,
-          onMoreButtonTapped: () =>
-              controller.isPanelOpen ? controller.close() : controller.open(),
+          onMoreButtonTapped: () => controller!.isPanelOpen
+              ? controller!.close()
+              : controller!.open(),
           items: option == NavigationExperimentOption.extendableBnb
               ? getExtendableBnbItems()
               : getExtendableWithMoreButtonBnbItems(),
           onNavigationItemSelected: (item) async {
-            if (controller.isPanelOpen) {
-              controller.close();
+            if (controller!.isPanelOpen) {
+              controller!.close();
               await waitForClosingPanel();
             }
             bloc.navigateTo(item);
@@ -131,14 +134,14 @@ class FirstNavigationRow extends StatelessWidget {
 /// the user expands the navigation bar.
 class SecondNavigationRow extends StatelessWidget {
   const SecondNavigationRow({
-    Key key,
-    @required this.navigationItem,
-    @required this.controller,
+    Key? key,
+    required this.navigationItem,
+    required this.controller,
     this.backgroundColor,
   }) : super(key: key);
 
   final NavigationItem navigationItem;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// [controller] is from "sliding_up_panel" package and is needed to open and
   /// close the [ExtendableBottomNavigationBar].
@@ -203,21 +206,21 @@ class SecondNavigationRow extends StatelessWidget {
 /// happens, a error will occure.
 class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
   const _BottomNavBarWithNonSelectionAllowed({
-    Key key,
-    @required this.items,
-    @required this.currentItem,
-    @required this.onNavigationItemSelected,
+    Key? key,
+    required this.items,
+    required this.currentItem,
+    required this.onNavigationItemSelected,
     this.backgroundColor,
     this.onMoreButtonTapped,
     this.safeArea = false,
   }) : super(key: key);
 
   final List<NavigationItem> items;
-  final NavigationItem currentItem;
-  final Color backgroundColor;
+  final NavigationItem? currentItem;
+  final Color? backgroundColor;
 
   final ValueChanged<NavigationItem> onNavigationItemSelected;
-  final VoidCallback onMoreButtonTapped;
+  final VoidCallback? onMoreButtonTapped;
 
   /// [safeArea] is needed fo the [BnbAndDrawerBottomNavigationBar].
   ///
@@ -252,18 +255,18 @@ class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
 
 class _BottomNavItem extends StatelessWidget {
   const _BottomNavItem({
-    Key key,
-    @required this.item,
-    @required this.onMoreButtonTapped,
-    @required this.isSelected,
-    @required this.onNavigationItemSelected,
+    Key? key,
+    required this.item,
+    required this.onMoreButtonTapped,
+    required this.isSelected,
+    required this.onNavigationItemSelected,
   }) : super(key: key);
 
   final NavigationItem item;
   final bool isSelected;
 
   final ValueChanged<NavigationItem> onNavigationItemSelected;
-  final VoidCallback onMoreButtonTapped;
+  final VoidCallback? onMoreButtonTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +305,9 @@ class _BottomNavItem extends StatelessWidget {
             ? null
             : () {
                 if (item == NavigationItem.more) {
-                  onMoreButtonTapped();
+                  if (onMoreButtonTapped != null) {
+                    onMoreButtonTapped!();
+                  }
                 } else {
                   onNavigationItemSelected(item);
                 }
@@ -311,7 +316,7 @@ class _BottomNavItem extends StatelessWidget {
     );
   }
 
-  Color _getColor(BuildContext context) {
+  Color? _getColor(BuildContext context) {
     if (isDarkThemeEnabled(context)) {
       return isSelected ? Colors.white : Colors.grey[500];
     }

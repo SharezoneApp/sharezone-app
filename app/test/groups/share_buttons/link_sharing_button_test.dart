@@ -15,7 +15,7 @@ import 'package:sharezone_utils/platform.dart';
 
 void main() {
   group('LinkSharingButton', () {
-    GroupInfo _createGroupInfoWith({String joinLink, String sharecode}) {
+    GroupInfo _createGroupInfoWith({String? joinLink, String? sharecode}) {
       assert(joinLink != null || sharecode != null,
           'group info needs a joinLink or a sharecode');
 
@@ -31,11 +31,10 @@ void main() {
       );
     }
 
-    Future<void> _pumpLinkSharingButton(
-        {@required WidgetTester tester, @required GroupInfo groupInfo}) async {
-      assert(groupInfo != null);
-      assert(tester != null);
-
+    Future<void> _pumpLinkSharingButton({
+      required WidgetTester tester,
+      required GroupInfo groupInfo,
+    }) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(

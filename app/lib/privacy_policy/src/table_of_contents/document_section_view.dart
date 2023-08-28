@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:meta/meta.dart';
 
 import '../privacy_policy_src.dart';
 
@@ -27,11 +26,11 @@ class TocDocumentSectionView {
   bool get isExpandable => subsections.isNotEmpty;
 
   TocDocumentSectionView({
-    @required this.id,
-    @required this.sectionHeadingText,
-    @required this.subsections,
-    @required this.shouldHighlight,
-    @required this.isExpanded,
+    required this.id,
+    required this.sectionHeadingText,
+    required this.subsections,
+    required this.shouldHighlight,
+    required this.isExpanded,
   }) : assert(() {
           // If there are no subsections there cant be a way
           // for the section to be expanded.
