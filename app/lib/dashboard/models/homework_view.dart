@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -23,13 +25,14 @@ class HomeworkView {
   /// and to create the homework card bloc.
   final HomeworkDto homework;
 
-  HomeworkView(
-      {@required this.courseName,
-      @required this.courseNameColor,
-      @required this.title,
-      @required this.todoUntilColor,
-      @required this.homework,
-      @required this.todoUntilText});
+  HomeworkView({
+    required this.courseName,
+    required this.courseNameColor,
+    required this.title,
+    required this.todoUntilColor,
+    required this.homework,
+    required this.todoUntilText,
+  });
 
   static String _getTodoUntilText(
       DateTime dateTime, bool withTodoUntilTextUrgentColor) {
@@ -56,7 +59,7 @@ class HomeworkView {
       DateFormat.yMMMd().format(dateTime);
 
   static Color _getTodoUntilColor(DateTime dateTime, bool withUrgentColor) {
-    final defaultColor = Colors.grey[400];
+    final defaultColor = Colors.grey[400]!;
     if (!withUrgentColor) return defaultColor;
 
     final dayAfterTomorrow = DateTime(
