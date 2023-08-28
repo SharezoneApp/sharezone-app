@@ -56,7 +56,7 @@ class _NotificationPage extends StatelessWidget {
                       const Divider(),
                     ],
                   ),
-                  notMatchtingWidget: Container(),
+                  notMatchingWidget: Container(),
                 ),
                 _BlackboardNotificationsCard(),
                 const Divider(),

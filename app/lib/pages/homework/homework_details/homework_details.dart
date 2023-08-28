@@ -444,7 +444,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
       // Hier wird ein leeres Text-Widget anstatt einem Container verwendet,
       // da bei einem Container einfach nur eine weiße Seite angezeigt
       // wird und der restliche Content nicht geladen wird.
-      notMatchtingWidget: Text(""),
+      notMatchingWidget: Text(""),
       matchesTypeOfUserWidget: BottomActionBar(
         onTap: () async {
           if (view.isDone) {
