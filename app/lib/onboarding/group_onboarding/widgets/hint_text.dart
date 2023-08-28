@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//@dart=2.12
+
 import 'package:flutter/material.dart';
 
 class GroupOnboardingHintText extends StatelessWidget {
-  const GroupOnboardingHintText(this.text, {Key key}) : super(key: key);
+  const GroupOnboardingHintText(this.text, {Key? key}) : super(key: key);
 
   final String text;
 
