@@ -23,7 +23,7 @@ class GroupQrCode extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return QrImage(
+    return QrImageView(
       backgroundColor: Colors.white,
       data: groupInfo.joinLink ?? groupInfo.sharecode ?? "",
       version: 3,

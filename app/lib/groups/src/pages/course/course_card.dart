@@ -336,9 +336,8 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
         builder: (context, snapshot) {
           final courseFromOwn = snapshot.data;
           final isMember = courseFromOwn != null;
-          final isAdmin = isMember
-              ? isUserAdminOrOwnerOfGroup(courseFromOwn!.myRole)
-              : null;
+          final isAdmin =
+              isMember ? isUserAdminOrOwnerOfGroup(courseFromOwn.myRole) : null;
           return ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 19, vertical: 3),

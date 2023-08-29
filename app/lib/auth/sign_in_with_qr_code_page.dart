@@ -111,7 +111,7 @@ class _QrCode extends StatelessWidget {
         builder: (context, snapshot) {
           final state = snapshot.data;
           if (state is QrSignInIdle)
-            return QrImage(
+            return QrImageView(
               backgroundColor: Colors.white,
               data: state.qrId,
               version: 3,
@@ -148,16 +148,16 @@ class _QrCodeSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: const <Widget>[
         Text(
           "So meldest du dich über einen QR-Code an:",
           style: TextStyle(fontSize: 30),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 16),
+          padding: EdgeInsets.only(left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
+            children: <Widget>[
               _Step(
                 step: 1,
                 text: 'Öffne Sharezone auf deinem Handy / Tablet',
@@ -178,7 +178,7 @@ class _QrCodeSteps extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 40),
+        SizedBox(height: 40),
         Text(
           "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
           style: TextStyle(color: Colors.grey),

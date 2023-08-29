@@ -6,14 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:sharezone_about_page_addon/sharezone_about_page_addon.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'widgets/about_section.dart';
@@ -59,8 +62,89 @@ class AboutPage extends StatelessWidget {
   }
 }
 
-class _AboutHeader extends StatelessWidget {
+class _AboutHeader extends StatefulWidget {
+  @override
+  State<_AboutHeader> createState() => _AboutHeaderState();
+}
+
+class _AboutHeaderState extends State<_AboutHeader> {
   final tapNotifier = ValueNotifier<int>(0);
+
+  void _handleSharezoneLogoTap() {
+    switch (tapNotifier.value) {
+      case 0:
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_zero),
+        );
+        break;
+      case 1:
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Sharezone wächst, halte durch"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_plus_1),
+        );
+        break;
+      case 2:
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.exposure_plus_2),
+        );
+        break;
+      case 3:
+        tapNotifier.value++;
+        showSimpleNotification(
+          Text(
+              "Oh nein, Sharezone ist zu klein geworden 😧 Wir müssen es wieder vergrößern!"),
+          autoDismiss: true,
+          slideDismissDirection: DismissDirection.horizontal,
+          leading: Icon(Icons.thumb_down),
+        );
+        _executeEasterEgg();
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> _executeEasterEgg() async {
+    final currentTextScalingFactor =
+        context.read<ThemeSettings>().textScalingFactor;
+
+    // Set the text scaling factor to 0.1 as an Easter egg
+    context.read<ThemeSettings>().textScalingFactor = 0.1;
+
+    // As an Easter egg, the text scaling factor will be changed 10 times
+    // with a random value between 0 and 2.
+    for (int i = 0; i < 10; i++) {
+      final random = Random().nextDouble() * 2.0;
+
+      context.read<ThemeSettings>().textScalingFactor = random;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+
+    // Reset the text scaling factor
+    context.read<ThemeSettings>().textScalingFactor = currentTextScalingFactor;
+
+    showSimpleNotification(
+      Text(
+          "Puuuh, geschafft! Sharezone hat wieder die normale Größe! 🎉 #easter-egg"),
+      autoDismiss: true,
+      slideDismissDirection: DismissDirection.horizontal,
+      leading: Icon(Icons.thumb_up),
+    );
+
+    // Set the tap counter back to 0 to be able to trigger the Easter egg again.
+    tapNotifier.value = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,62 +184,8 @@ class _AboutHeader extends StatelessWidget {
           },
         )
       ],
-      onTapImage: () => _handleSharezoneLogoTap(context),
+      onTapImage: () => _handleSharezoneLogoTap(),
     );
-  }
-
-  void _handleSharezoneLogoTap(BuildContext context) {
-    tapNotifier.value++;
-    switch (tapNotifier.value) {
-      case 1:
-        {
-          showSimpleNotification(
-              Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_zero));
-          break;
-        }
-      case 2:
-        {
-          showSimpleNotification(Text("Sharezone wächst, halte durch"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_plus_1));
-          break;
-        }
-      case 3:
-        {
-          showSimpleNotification(
-              Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.exposure_plus_2));
-          break;
-        }
-      case 4:
-        {
-          showSimpleNotification(
-              Text(
-                  "Auf gehts, renne und rette dich vor der bösen Hausaufgabenflut."),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              leading: Icon(Icons.directions_run));
-          tapNotifier.value = 0;
-          _openTrexGame(context);
-
-          break;
-        }
-      default:
-        {
-          tapNotifier.value = 0;
-          break;
-        }
-    }
-  }
-
-  Future<void> _openTrexGame(BuildContext context) async {
-    startTrexGame(context);
   }
 }
 

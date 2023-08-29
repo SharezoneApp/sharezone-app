@@ -763,7 +763,7 @@ Future<bool> warnUserAboutLeavingOrSavingForm(
     content: const Text(
         'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert'),
     context: context,
-    withCancleButtonOnIOS: true,
+    withCancelButtonOnIOS: true,
     left: const AdaptiveDialogAction(
       title: "Verlassen",
       popResult: false,

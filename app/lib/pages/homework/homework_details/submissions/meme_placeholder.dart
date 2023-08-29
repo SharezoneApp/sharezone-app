@@ -28,7 +28,7 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);

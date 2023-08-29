@@ -27,7 +27,8 @@ class _VideoViewerState extends State<VideoViewer> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.network(widget.downloadURL);
+    _videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.downloadURL));
     _videoPlayerController.initialize().then(
       (value) {
         setState(() {

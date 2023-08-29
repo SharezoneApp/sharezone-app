@@ -41,8 +41,7 @@ class DashboardTipSystem extends BlocBase {
 
     return CombineLatestStream(tips.map((tip) => tip.shouldShown()).toList(),
         (streamValues) {
-      final showRateOurAppCard = streamValues[0] as bool? ?? false;
-
+      final showRateOurAppCard = streamValues[0];
       if (showRateOurAppCard) return rateOurAppTip;
       return null;
     });

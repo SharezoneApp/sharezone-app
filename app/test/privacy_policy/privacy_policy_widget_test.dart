@@ -48,9 +48,9 @@ void testWidgetsWithDimensions(
   required double devicePixelRatio,
 }) {
   testWidgets(description, (tester) {
-    tester.binding.window.physicalSizeTestValue = physicalSize;
-    tester.binding.window.devicePixelRatioTestValue = devicePixelRatio;
-    addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    tester.view.physicalSize = physicalSize;
+    tester.view.devicePixelRatio = devicePixelRatio;
+    addTearDown(tester.view.resetPhysicalSize);
     return callback(tester);
   });
 }

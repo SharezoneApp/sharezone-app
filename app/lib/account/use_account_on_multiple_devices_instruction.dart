@@ -99,8 +99,8 @@ class __ExplainingVideoState extends State<_ExplainingVideo> {
   void initState() {
     super.initState();
 
-    _controller = VideoPlayerController.network(
-      'https://sharezone.net/sign_in_sign_out',
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse('https://sharezone.net/sign_in_sign_out'),
     );
 
     _initializeVideoPlayerFuture = _controller.initialize();

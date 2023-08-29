@@ -8,7 +8,7 @@
 
 import 'dart:async';
 
-class AuthentificationValidators {
+mixin AuthentificationValidators {
   static const int minNameSize = 2;
   static const int maxNameSize = 48;
   static RegExp charactersNotAllowedInNames =
