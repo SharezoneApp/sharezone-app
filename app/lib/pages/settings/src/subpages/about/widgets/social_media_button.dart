@@ -52,6 +52,11 @@ class SocialButton extends StatelessWidget {
         svgPath = 'assets/icons/email.svg',
         socialButtonTypes = SocialButtonTypes.email;
 
+  const SocialButton.github(this.link)
+      : tooltip = 'GitHub',
+        svgPath = 'assets/icons/github.svg',
+        socialButtonTypes = SocialButtonTypes.linkedIn;
+
   final String link, tooltip, svgPath;
   final SocialButtonTypes socialButtonTypes;
   static const double _svgSize = 28;

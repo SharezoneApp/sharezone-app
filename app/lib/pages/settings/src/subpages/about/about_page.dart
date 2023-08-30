@@ -50,7 +50,7 @@ class AboutPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 _AboutSharezone(),
                 const SizedBox(height: 20),
-                _SocialMedia(),
+                _FollowUs(),
                 const SizedBox(height: 20),
                 TeamList(),
               ],
@@ -189,17 +189,17 @@ class _AboutHeaderState extends State<_AboutHeader> {
   }
 }
 
-class _SocialMedia extends StatelessWidget {
+class _FollowUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: 'Social Media',
+      title: 'Folge uns',
       child: CustomCard(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: <Widget>[
             Text(
-              "Auf unseren Social-Media Kanälen geben wir täglich Einblicke in unsere Arbeit. Gerne kannst du mal vorbeischauen:",
+              "Folge uns auf unseren Kanälen, um immer auf dem neusten Stand zu bleiben.",
               style: _greyTextStyle(context),
             ),
             const SizedBox(height: 8),
@@ -209,6 +209,7 @@ class _SocialMedia extends StatelessWidget {
                 SocialButton.instagram("https://sharezone.net/instagram"),
                 SocialButton.twitter("https://sharezone.net/twitter"),
                 SocialButton.discord("https://sharezone.net/discord"),
+                SocialButton.github("https://sharezone.net/github"),
               ],
             )
           ],
