@@ -3,7 +3,5 @@
 **/Pods/
 
 # Xcode-related
+**/dgph
 **/xcuserdata/
-
-# Build artifacts
-build/

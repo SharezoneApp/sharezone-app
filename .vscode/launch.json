@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "main",
+            "type": "dart",
+            "request": "launch",
+            "program": "app/lib/main_prod.dart"
+        },
+        {
             "name": "[Debug] - Production flavor",
             "type": "dart",
             "request": "launch",
