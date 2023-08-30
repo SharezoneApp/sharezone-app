@@ -12,12 +12,11 @@ class _MemberCard extends StatelessWidget {
   const _MemberCard({
     required this.name,
     required this.avatarPath,
-    required this.description,
     this.email,
     this.socialMediaLinks,
   });
 
-  final String name, avatarPath, description;
+  final String name, avatarPath;
   final String? email;
   final _SocialMediaLinks? socialMediaLinks;
 
@@ -38,21 +37,10 @@ class _MemberCard extends StatelessWidget {
                     image: AssetImage(avatarPath),
                   ),
                   const SizedBox(width: 10),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          name,
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          description,
-                          style: TextStyle(
-                              color: isDarkThemeEnabled(context)
-                                  ? Colors.white30
-                                  : Colors.black54),
-                        ),
-                      ]),
+                  Text(
+                    name,
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
