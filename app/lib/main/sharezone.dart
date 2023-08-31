@@ -196,7 +196,8 @@ class _ThemeSettingsProvider extends StatelessWidget {
         /// several different weird ways.
         /// Thus we use MediaQuery.fromWindow which is the method that Flutter
         /// uses internally inside MaterialApp etc to create a new MediaQuery.
-        return MediaQuery.fromWindow(
+        return MediaQuery.fromView(
+          view: View.of(context),
           child: Builder(builder: (context) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(

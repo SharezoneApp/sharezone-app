@@ -15,8 +15,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// that the action of the [notification] could not be handled because of
 /// [errorReason].
 void showNotificationHandlingErrorDialog(
-    PushNotification notification, NotificationHandlerErrorReason errorReason,
-    {required BuildContext? context}) {
+  PushNotification notification,
+  NotificationHandlerErrorReason errorReason, {
+  required BuildContext context,
+}) {
   WidgetsBinding.instance.addPostFrameCallback((_) async {
     showLeftRightAdaptiveDialog<bool>(
       context: context,

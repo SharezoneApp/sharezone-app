@@ -12,7 +12,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -30,8 +30,8 @@ dependencies:
   meta: ^1.1.8
   mime: ^1.0.0
   optional: ^6.1.0+1
-  path: any
-  permission_handler: any
+  path: ^1.8.3
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

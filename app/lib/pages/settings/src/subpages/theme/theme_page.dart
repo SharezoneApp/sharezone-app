@@ -140,13 +140,13 @@ class _RateOurApp extends StatelessWidget {
         content: const Text(
           "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
         ),
-        actions: [
+        actions: const [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 8),
+              padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
               child: Row(
-                children: const [
+                children: [
                   _ContactSupportButton(),
                   SizedBox(width: 12),
                   _RateAppButton(),

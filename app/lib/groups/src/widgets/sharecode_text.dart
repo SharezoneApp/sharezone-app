@@ -82,7 +82,7 @@ class SharecodeText extends StatelessWidget {
     }
   }
 
-  void _copySharecode() => Clipboard.setData(ClipboardData(text: sharecode));
+  void _copySharecode() => Clipboard.setData(ClipboardData(text: sharecode!));
 
   /// Returns the German character-by-character spelled version of the
   /// sharecode which can be read aloud by screen readers.

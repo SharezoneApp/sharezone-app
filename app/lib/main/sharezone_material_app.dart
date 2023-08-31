@@ -43,9 +43,6 @@ class SharezoneMaterialApp extends StatelessWidget {
 
     return FeatureDiscovery(
       child: MaterialApp(
-        // Otherwise the MediaQuery setting the textScaleFactor above
-        // will be ignored.
-        useInheritedMediaQuery: true,
         debugShowCheckedModeBanner: false,
         title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
         color: primaryColor,

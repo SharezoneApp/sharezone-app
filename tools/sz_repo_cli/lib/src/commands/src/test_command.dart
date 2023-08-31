@@ -26,6 +26,13 @@ class TestCommand extends ConcurrentCommand {
       defaultsTo: false,
       negatable: false,
     );
+    argParser.addFlag(
+      'update-goldens',
+      help:
+          'Update golden tests. Is not used if "exclude-goldens" is set to "true".',
+      defaultsTo: false,
+      negatable: false,
+    );
   }
 
   @override
@@ -59,6 +66,7 @@ class TestCommand extends ConcurrentCommand {
       package,
       excludeGoldens: argResults!['exclude-goldens'] as bool,
       onlyGoldens: argResults!['only-goldens'] as bool,
+      updateGoldens: argResults!['update-goldens'] as bool,
     );
   }
 }
@@ -67,12 +75,14 @@ Future<void> runTests(
   Package package, {
   required bool excludeGoldens,
   required bool onlyGoldens,
+  required bool updateGoldens,
 }) {
   if (package.isFlutterPackage) {
     return _runTestsFlutter(
       package,
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
+      updateGoldens: updateGoldens,
     );
   } else {
     return _runTestsDart(
@@ -108,6 +118,7 @@ Future<void> _runTestsFlutter(
   Package package, {
   required bool excludeGoldens,
   required bool onlyGoldens,
+  required bool updateGoldens,
 }) async {
   if (onlyGoldens) {
     if (!package.hasGoldenTestsDirectory) {
@@ -116,7 +127,12 @@ Future<void> _runTestsFlutter(
 
     await runProcessSucessfullyOrThrow(
       'fvm',
-      ['flutter', 'test', 'test_goldens'],
+      [
+        'flutter',
+        'test',
+        'test_goldens',
+        if (updateGoldens) '--update-goldens',
+      ],
       workingDirectory: package.path,
     );
     return;

@@ -115,7 +115,7 @@ class GroupPageState extends State<GroupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (data!.schoolClass != null)
+                    if (data.schoolClass != null)
                       _SchoolClassList(
                           schoolClasses: data.schoolClass!.values.toList()),
                     _CourseList(data.courses.values.toList()),
