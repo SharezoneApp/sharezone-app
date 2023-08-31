@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum TypeOfUser { student, teacher, parent, tutor, unknown }
+enum TypeOfUser { student, teacher, parent, unknown }
 
 extension TypeOfUserExtension on TypeOfUser {
   bool get isTeacher => this == TypeOfUser.teacher;
@@ -21,8 +21,6 @@ extension TypeOfUserExtension on TypeOfUser {
         return 'Lehrkraft';
       case TypeOfUser.parent:
         return 'Elternteil';
-      case TypeOfUser.tutor:
-        return 'Nachhilfekraft';
       case TypeOfUser.unknown:
         return 'Unbekannt';
     }
