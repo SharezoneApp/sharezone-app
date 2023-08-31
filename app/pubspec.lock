@@ -881,8 +881,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/flutter_markdown"
-      ref: b7b0b44fe2f7c2219fdaa298ab0f99a97a07a852
-      resolved-ref: b7b0b44fe2f7c2219fdaa298ab0f99a97a07a852
+      ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
+      resolved-ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
       url: "https://github.com/SharezoneApp/packages"
     source: git
     version: "0.6.17+2"

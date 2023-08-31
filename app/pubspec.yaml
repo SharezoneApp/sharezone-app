@@ -82,11 +82,15 @@ dependencies:
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
+  # We use a custom version to be able to scroll to a
+  # specific heading inside the text and to be able
+  # to know which section is currently read by the user 
+  # (used e.g. by the privacy policy).
   flutter_markdown:
     git:
       url: https://github.com/SharezoneApp/packages
       path: packages/flutter_markdown
-      ref: b7b0b44fe2f7c2219fdaa298ab0f99a97a07a852
+      ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
