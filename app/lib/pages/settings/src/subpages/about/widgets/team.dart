@@ -60,9 +60,6 @@ class _JonasCard extends StatelessWidget {
       name: "Jonas Sander",
       avatarPath: TeamImagePath.jonas,
       email: "jonas@sharezone.net",
-      socialMediaLinks: _SocialMediaLinks(
-        linkedIn: "https://linkedin.com/in/jsanl",
-      ),
     );
   }
 }
