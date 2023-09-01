@@ -9,7 +9,7 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
-  - cloud_firestore (4.9.0):
+  - cloud_firestore (4.9.1):
     - Firebase/Firestore (= 10.12.0)
     - firebase_core
     - Flutter
@@ -94,7 +94,7 @@ PODS:
     - Firebase/Analytics (= 10.12.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.8.0):
+  - firebase_auth (4.9.0):
     - Firebase/Auth (= 10.12.0)
     - firebase_core
     - Flutter
@@ -379,12 +379,12 @@ PODS:
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
-  - purchases_flutter (5.6.2):
+  - purchases_flutter (5.6.4):
     - Flutter
-    - PurchasesHybridCommon (= 5.6.3)
-  - PurchasesHybridCommon (5.6.3):
-    - RevenueCat (= 4.25.6)
-  - RevenueCat (4.25.6)
+    - PurchasesHybridCommon (= 6.1.0)
+  - PurchasesHybridCommon (6.1.0):
+    - RevenueCat (= 4.25.7)
+  - RevenueCat (4.25.7)
   - SDWebImage (5.17.0):
     - SDWebImage/Core (= 5.17.0)
   - SDWebImage/Core (5.17.0)
@@ -582,7 +582,7 @@ SPEC CHECKSUMS:
   add_2_calendar: e9d68636aed37fb18e12f5a3d74c2e0589487af0
   app_review: 6f51001269c59a2f4a5b5ae68b7d106401152764
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
-  cloud_firestore: 2d219f5d2eec836c5525699e777f907c9d3cd3eb
+  cloud_firestore: 85d66b543b25130c45258412a39e851e230186e7
   cloud_functions: 19478d5af48098293778c254f64cf85ac8f1c1b8
   device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
@@ -591,7 +591,7 @@ SPEC CHECKSUMS:
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_analytics: 3bdcd8b68b7b8ccf28bbcdcfb994309f6232f873
-  firebase_auth: 604e47908bc2dcd7baa113bbd37ab74000bff488
+  firebase_auth: 097a2440d40bed75f4dfe4cb91b4d98349509b47
   firebase_core: 4a3246a02f828a01c74a2c26427037786d90f17f
   firebase_crashlytics: df144edf7d04ace42beb3a3e29d825bfa49dd04b
   firebase_dynamic_links: cc3fd36190c7b58c27353915271d2c0d031ee11b
@@ -651,9 +651,9 @@ SPEC CHECKSUMS:
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
-  purchases_flutter: 1fd037093309808e55fd5f30298371ec52a44b51
-  PurchasesHybridCommon: 009e27a22f3fd34924cede31eece27a5c10049e9
-  RevenueCat: 9726d792ed47b41dfe83754c1391fa3d08e1bbdf
+  purchases_flutter: 30998775345137058b3b8c9e04436490d1783da1
+  PurchasesHybridCommon: 195de137f1993af1a034099773eed15bf771b1d4
+  RevenueCat: a70e08e45bd96bea5187dbd7b18f5f1db39646be
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
   SDWebImageWebPCoder: af09429398d99d524cae2fe00f6f0f6e491ed102
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410

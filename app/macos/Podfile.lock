@@ -1,5 +1,5 @@
 PODS:
-  - cloud_firestore (4.9.0):
+  - cloud_firestore (4.9.1):
     - Firebase/CoreOnly (~> 10.12.0)
     - Firebase/Firestore (~> 10.12.0)
     - firebase_core
@@ -48,7 +48,7 @@ PODS:
     - Firebase/Analytics (= 10.12.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_auth (4.8.0):
+  - firebase_auth (4.9.0):
     - Firebase/Auth (~> 10.12.0)
     - Firebase/CoreOnly (~> 10.12.0)
     - firebase_core
@@ -241,12 +241,12 @@ PODS:
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
-  - purchases_flutter (5.6.2):
+  - purchases_flutter (5.6.4):
     - FlutterMacOS
-    - PurchasesHybridCommon (= 5.6.3)
-  - PurchasesHybridCommon (5.6.3):
-    - RevenueCat (= 4.25.6)
-  - RevenueCat (4.25.6)
+    - PurchasesHybridCommon (= 6.1.0)
+  - PurchasesHybridCommon (6.1.0):
+    - RevenueCat (= 4.25.7)
+  - RevenueCat (4.25.7)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -375,14 +375,14 @@ CHECKOUT OPTIONS:
     :tag: 10.12.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: f69140345f855ce9fc39946f3a8dbd388b2afe2e
+  cloud_firestore: bba2d937f3624375a4777b894a2ad93ff42efe7f
   cloud_functions: 9d395a58496dc3522f776555d58a1006b7749599
   device_info_plus: 5401765fde0b8d062a2f8eb65510fb17e77cf07f
   fast_rsa: 47a50bec1042c8c01726007dc0590a078418f997
   file_selector_macos: 468fb6b81fac7c0e88d71317f3eec34c3b008ff9
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_analytics: 9b489de49d018316c4157a0375a735f701310127
-  firebase_auth: 4d7e174edd78f501a3311891f57651cc1e684ec3
+  firebase_auth: d1343ed5a697e39bc05e1b964384869da92a3d50
   firebase_core: 559d892df9267acc6b7254d46fb3041866777509
   firebase_crashlytics: 5c146808f99644445d69c3dc2eb20324717edd00
   firebase_messaging: 21ed750c687ae4ad5790278d5d65a7b02407f328
@@ -421,9 +421,9 @@ SPEC CHECKSUMS:
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
-  purchases_flutter: 58fd7a5c24f3f9668f135b1caa6e5ab00a642c10
-  PurchasesHybridCommon: 009e27a22f3fd34924cede31eece27a5c10049e9
-  RevenueCat: 9726d792ed47b41dfe83754c1391fa3d08e1bbdf
+  purchases_flutter: 980e970f7cf75c7959b3b222230082e9d5c9310c
+  PurchasesHybridCommon: 195de137f1993af1a034099773eed15bf771b1d4
+  RevenueCat: a70e08e45bd96bea5187dbd7b18f5f1db39646be
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: 45af3d61de06997666568a7149c1be98b41c95d4
