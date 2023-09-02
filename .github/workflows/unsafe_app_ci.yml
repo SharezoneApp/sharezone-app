@@ -78,7 +78,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -136,7 +136,7 @@ jobs:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
