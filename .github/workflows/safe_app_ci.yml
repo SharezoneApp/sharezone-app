@@ -258,6 +258,9 @@ jobs:
             --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER
 
+          sudo chown -R $USER .
+          sudo chmod -R a+rwx .
+
       - name: Publish to App Store Connect
         working-directory: app
         env:
@@ -284,6 +287,9 @@ jobs:
 
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
           rm -f unsigned.pkg
+
+          sudo chown -R $USER .
+          sudo chmod -R a+rwx .
 
           # Because we are publishing every commit a new alpha version, we are
           # able to use the last commit message (title and description) as release
