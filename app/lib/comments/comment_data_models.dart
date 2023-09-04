@@ -7,17 +7,16 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/comments/comment.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class CommentDataModel {
-  final String id;
+  final String? id;
   final String comment;
   final CommentAuthorDataModel author;
   final List<String> likedBy;
   final List<String> dislikedBy;
-  final Timestamp writtenOn;
+  final Timestamp? writtenOn;
 
   const CommentDataModel({
     this.comment = "",
@@ -44,8 +43,10 @@ class CommentDataModel {
     );
   }
 
-  factory CommentDataModel.fromFirestore(Map<String, dynamic> data,
-      {@required String id}) {
+  factory CommentDataModel.fromFirestore(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return CommentDataModel(
       id: id,
       author: CommentAuthorDataModel.fromFirestore(
@@ -53,7 +54,7 @@ class CommentDataModel {
       comment: data["comment"] as String,
       dislikedBy: decodeList<String>(data["dislikedBy"], (kp) => kp as String),
       likedBy: decodeList<String>(data["likedBy"], (kp) => kp as String),
-      writtenOn: data["writtenOn"] as Timestamp ?? Timestamp.now(),
+      writtenOn: (data["writtenOn"] as Timestamp?) ?? Timestamp.now(),
     );
   }
 
@@ -73,7 +74,7 @@ class CommentDataModel {
       content: comment,
       ratings: _createRatings(),
       age: CommentAge.fromDuration(
-          DateTime.now().difference(writtenOn.toDate())),
+          DateTime.now().difference(writtenOn!.toDate())),
       id: id,
     );
   }

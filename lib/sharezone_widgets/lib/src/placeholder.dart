@@ -16,21 +16,21 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// Hier wird definiert, wie das Widget aufgebaut sein soll
 class PlaceholderModel extends StatefulWidget {
   const PlaceholderModel({
-    Key key,
+    Key? key,
     this.title,
     this.subtitle,
     this.svgPath,
     this.iconSize,
-    @required this.animateSVG,
+    required this.animateSVG,
     this.rivePath,
     this.riveAnimationName,
   }) : super(key: key);
 
-  final String title, svgPath, rivePath;
-  final Widget subtitle;
-  final Size iconSize;
+  final String? title, svgPath, rivePath;
+  final Widget? subtitle;
+  final Size? iconSize;
   final bool animateSVG;
-  final String riveAnimationName;
+  final String? riveAnimationName;
 
   @override
   PlaceholderModelState createState() => PlaceholderModelState();
@@ -38,7 +38,7 @@ class PlaceholderModel extends StatefulWidget {
 
 class PlaceholderModelState extends State<PlaceholderModel>
     with TickerProviderStateMixin {
-  AnimationController _controllerIcon;
+  AnimationController? _controllerIcon;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
       vsync: this,
     );
 
-    if (widget.animateSVG) _controllerIcon.repeat();
+    if (widget.animateSVG) _controllerIcon!.repeat();
   }
 
   @override
@@ -72,7 +72,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
             Padding(
               padding: const EdgeInsets.only(top: 12),
               child: _RotateAnimation(
-                controller: _controllerIcon,
+                controller: _controllerIcon!,
                 size: widget.iconSize,
                 path: widget.svgPath,
                 rivePath: widget.rivePath,
@@ -85,7 +85,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Text(
-                  widget.title,
+                  widget.title!,
                   style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
@@ -111,10 +111,10 @@ class PlaceholderModelState extends State<PlaceholderModel>
 
 class PlaceholderWidgetWithAnimation extends StatelessWidget {
   const PlaceholderWidgetWithAnimation({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.description,
-    @required this.svgPath,
+    required this.svgPath,
     this.iconSize = const Size(175, 175),
     this.animateSVG = false,
     this.scrollable = true,
@@ -122,7 +122,7 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
   }) : super(key: key);
 
   final String title, svgPath;
-  final Widget description;
+  final Widget? description;
   final Size iconSize;
   final bool animateSVG, scrollable, center;
 
@@ -133,7 +133,7 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
       svgPath: svgPath,
       title: title,
       subtitle: description,
-      iconSize: iconSize ?? const Size(175, 175),
+      iconSize: iconSize,
     );
 
     if (!center && !scrollable) return w;
@@ -145,8 +145,8 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
 
 class _RotateAnimation extends StatelessWidget {
   _RotateAnimation({
-    Key key,
-    this.controller,
+    Key? key,
+    required this.controller,
     this.size,
     this.path,
     this.rivePath,
@@ -169,16 +169,16 @@ class _RotateAnimation extends StatelessWidget {
   final Animation<double> controller;
   final Animation<double> rotate;
 
-  final Size size;
-  final String path;
-  final String rivePath;
-  final String riveAnimationName;
+  final Size? size;
+  final String? path;
+  final String? rivePath;
+  final String? riveAnimationName;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Container(
           alignment: Alignment.center,
           child: RotationTransition(
@@ -202,21 +202,21 @@ class _RotateAnimation extends StatelessWidget {
 
 class _Rive extends StatelessWidget {
   const _Rive({
-    Key key,
-    @required this.size,
-    @required this.path,
-    @required this.animationName,
+    Key? key,
+    required this.size,
+    required this.path,
+    required this.animationName,
   }) : super(key: key);
 
-  final Size size;
-  final String path;
-  final String animationName;
+  final Size? size;
+  final String? path;
+  final String? animationName;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height,
-      width: size.width,
+      height: size!.height,
+      width: size!.width,
       child: FlareActor(
         path,
         animation: animationName,
@@ -229,13 +229,13 @@ class _Rive extends StatelessWidget {
 /// Ghost SVG
 class SVGIcon extends StatefulWidget {
   const SVGIcon({
-    Key key,
+    Key? key,
     this.size,
-    @required this.path,
+    required this.path,
   }) : super(key: key);
 
-  final Size size;
-  final String path;
+  final Size? size;
+  final String? path;
 
   @override
   SVGIconState createState() => SVGIconState();
@@ -245,9 +245,9 @@ class SVGIconState extends State<SVGIcon> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.size.width,
-      height: widget.size.height,
-      child: PlatformSvg.asset(widget.path),
+      width: widget.size!.width,
+      height: widget.size!.height,
+      child: PlatformSvg.asset(widget.path!),
     );
   }
 }

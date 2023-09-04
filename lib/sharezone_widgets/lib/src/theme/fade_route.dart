@@ -11,15 +11,14 @@ import 'package:flutter/material.dart';
 class FadeRoute<T> extends MaterialPageRoute<T> {
   final Duration duration;
 
-  FadeRoute(
-      {@required Widget child,
-      this.duration = const Duration(milliseconds: 250),
-      @required String tag})
-      : super(builder: (context) => child, settings: RouteSettings(name: tag));
+  FadeRoute({
+    required Widget child,
+    this.duration = const Duration(milliseconds: 250),
+    required String tag,
+  }) : super(builder: (context) => child, settings: RouteSettings(name: tag));
 
   @override
-  Duration get transitionDuration =>
-      duration ?? const Duration(milliseconds: 250);
+  Duration get transitionDuration => duration;
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,

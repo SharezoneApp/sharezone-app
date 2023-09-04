@@ -21,7 +21,7 @@ class NavigationBloc extends BlocBase {
       BehaviorSubject<NavigationItem>.seeded(NavigationItem.overview);
   Stream<NavigationItem> get navigationItems => _navigationItemsSubject;
 
-  NavigationItem get currentItem => _navigationItemsSubject.valueOrNull;
+  NavigationItem get currentItem => _navigationItemsSubject.valueOrNull!;
 
   void navigateTo(NavigationItem item) {
     // Sometimes in integration tests `navigateTo` is called after the bloc is

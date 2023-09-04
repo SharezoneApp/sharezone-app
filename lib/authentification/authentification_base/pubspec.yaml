@@ -12,7 +12,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -29,18 +29,15 @@ dependencies:
   user:
     path: ../../user
   google_sign_in_dartio: ^0.2.2
-  cloud_firestore: ^4.5.0
-  firebase_auth: ^4.4.0
-  firebase_auth_oauth: any
+  cloud_firestore: ^4.8.5
+  firebase_auth: ^4.7.3
   google_sign_in: ^5.0.4
   meta: ^1.1.8
   rxdart: ^0.27.1
-  sign_in_with_apple: ^4.3.0
+  firebase_auth_platform_interface: ^6.16.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   sharezone_lints:
     path: ../../sharezone_lints
-
-flutter: null

@@ -15,7 +15,7 @@ class UserTipsBloc extends BlocBase {
 
   UserTipsBloc(this._userGateway);
 
-  Stream<UserTipData> streamUserTipData() {
+  Stream<UserTipData?> streamUserTipData() {
     return _userGateway.userStream.map((user) => user?.userTipData);
   }
 

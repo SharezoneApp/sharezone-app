@@ -20,6 +20,7 @@ import 'package:sharezone/settings/weekdays_edit_page.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
@@ -53,8 +54,13 @@ class TimetableSettingsPage extends StatelessWidget {
                   _TimetableEnabledWeekDaysField(),
                   Divider(),
                   _TimetablePeriodsField(),
-                  Divider(),
-                  _IsTimePickerFifeMinutesIntervalActive(),
+                  // We only show the time picker settings on iOS because on
+                  // other platforms we use the different time picker where we
+                  // have a visible steps option.
+                  if (PlatformCheck.isIOS) ...[
+                    Divider(),
+                    _IsTimePickerFifeMinutesIntervalActive(),
+                  ]
                 ],
               ),
             ),
@@ -80,7 +86,7 @@ class _ABWeekField extends StatelessWidget {
           children: <Widget>[
             SwitchListTile.adaptive(
               title: const Text("A/B Wochen"),
-              value: userSettings.isABWeekEnabled,
+              value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
                     userSettings.copyWith(isABWeekEnabled: newValue));
@@ -167,7 +173,7 @@ class _TimetablePreferencesField extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Container();
         final userSettings = snapshot.data;
-        final tbStart = userSettings.timetableStartTime;
+        final tbStart = userSettings!.timetableStartTime;
         return Column(
           children: <Widget>[
             ListTile(
@@ -199,9 +205,9 @@ class _TimetablePreferencesField extends StatelessWidget {
 
 class LessonsLengthField extends StatelessWidget {
   const LessonsLengthField({
-    Key key,
-    @required this.streamLessonLength,
-    @required this.onChanged,
+    Key? key,
+    required this.streamLessonLength,
+    required this.onChanged,
   }) : super(key: key);
 
   final Stream<LessonLength> streamLessonLength;
@@ -248,15 +254,15 @@ class LessonsLengthField extends StatelessWidget {
   }
 
   Future<LessonLength> showNumberPickerDialog(
-      BuildContext context, int initalLengthInMinutes) async {
+      BuildContext context, int initialLengthInMinutes) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
       builder: (context) => _NumberPicker(
-        initalLength: initalLengthInMinutes,
+        initialLength: initialLengthInMinutes,
       ),
     );
 
-    return LessonLength(selectedLengthInMinutes ?? initalLengthInMinutes);
+    return LessonLength(selectedLengthInMinutes ?? initialLengthInMinutes);
   }
 
   void _showConfirmationSnackBar(BuildContext context) {
@@ -269,20 +275,23 @@ class LessonsLengthField extends StatelessWidget {
 }
 
 class _NumberPicker extends StatefulWidget {
-  const _NumberPicker({Key key, this.initalLength}) : super(key: key);
+  const _NumberPicker({
+    Key? key,
+    required this.initialLength,
+  }) : super(key: key);
 
-  final int initalLength;
+  final int initialLength;
 
   @override
   __NumberPickerState createState() => __NumberPickerState();
 }
 
 class __NumberPickerState extends State<_NumberPicker> {
-  int value;
+  late int value;
 
   @override
   void initState() {
-    value = widget.initalLength;
+    value = widget.initialLength;
     super.initState();
   }
 

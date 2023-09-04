@@ -15,15 +15,18 @@ class UploadTaskSnapshot {
   final int bytesTransferred;
 
   /// The total bytes of the task.
-  /// Note; when performing a download task, the value of -1 will be provided whilst the total size of the remote file is being determined.
+  ///
+  /// Note; when performing a download task, the value of -1 will be provided
+  /// whilst the total size of the remote file is being determined.
   final int totalByteCount;
 
-  // Im Web nicht verfügbar!
+  /// Fetches a long lived download URL for this object.
   final Future<dynamic> Function() getDownloadUrl;
+
   const UploadTaskSnapshot({
-    this.storageMetaData,
-    this.bytesTransferred,
-    this.totalByteCount,
-    this.getDownloadUrl,
+    required this.bytesTransferred,
+    required this.totalByteCount,
+    required this.storageMetaData,
+    required this.getDownloadUrl,
   });
 }

@@ -9,7 +9,7 @@
 part of '../timetable_add_page.dart';
 
 class _TimeTab extends StatelessWidget {
-  const _TimeTab({Key key, @required this.index}) : super(key: key);
+  const _TimeTab({Key? key, required this.index}) : super(key: key);
 
   final int index;
 
@@ -23,7 +23,7 @@ class _TimeTab extends StatelessWidget {
         return _TimetableAddSection(
           index: index,
           title: timeType == TimeType.period
-              ? "In der wie vielten Stunde findet die neue Schulstunde statt?"
+              ? "In der wievielten Stunde findet die neue Schulstunde statt?"
               : "Wähle die Uhrzeit aus",
           child: _SwitchTimeType(timeType: timeType),
         );
@@ -33,7 +33,7 @@ class _TimeTab extends StatelessWidget {
 }
 
 class _SwitchTimeType extends StatelessWidget {
-  const _SwitchTimeType({Key key, @required this.timeType}) : super(key: key);
+  const _SwitchTimeType({Key? key, required this.timeType}) : super(key: key);
 
   final TimeType timeType;
 
@@ -60,7 +60,7 @@ class _SwitchTimeType extends StatelessWidget {
 }
 
 class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
-  const _NoteForChangingTheTimesOfTheTimetable({Key key}) : super(key: key);
+  const _NoteForChangingTheTimesOfTheTimetable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +111,17 @@ class _PeriodList extends StatelessWidget {
       stream: timetableBloc.stream,
       builder: (context, snapshot) {
         final config = snapshot.hasData ? snapshot.data : null;
-        return StreamBuilder<Period>(
+        return StreamBuilder<Period?>(
           stream: bloc.period,
           builder: (context, snapshot2) {
-            final selectedPeriod = snapshot2.hasData ? snapshot2.data : null;
+            final selectedPeriod = snapshot2.data;
             return Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Wrap(
                 spacing: 6,
                 children: <Widget>[
                   for (final period
-                      in config?.getPeriods()?.getPeriods() ?? <Period>[])
+                      in config?.getPeriods().getPeriods() ?? <Period>[])
                     _PeriodTile(
                       period: period,
                       selectedPeriod: selectedPeriod,
@@ -142,11 +142,15 @@ class _PeriodList extends StatelessWidget {
 
 class _PeriodTile extends StatelessWidget {
   final Period period;
-  final VoidCallback onTap;
-  final Period selectedPeriod;
+  final VoidCallback? onTap;
+  final Period? selectedPeriod;
 
-  const _PeriodTile({Key key, this.period, this.onTap, this.selectedPeriod})
-      : super(key: key);
+  const _PeriodTile({
+    Key? key,
+    required this.period,
+    this.onTap,
+    this.selectedPeriod,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

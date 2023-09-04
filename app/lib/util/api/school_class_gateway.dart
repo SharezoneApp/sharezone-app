@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:app_functions/app_functions.dart';
+import 'package:collection/collection.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -54,8 +55,8 @@ class SchoolClassGateway {
     return references.functions.memberUpdateRole(
       id: schoolClassID,
       memberID: memberID,
-      role: memberRoleEnumToString(newRole),
-      type: groupTypeToString(GroupType.schoolclass),
+      role: newRole.name,
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -65,14 +66,14 @@ class SchoolClassGateway {
       memberID: memberID,
       id: schoolClass.id,
       data: schoolClass.toCreateJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassID) {
     return references.functions.generateNewMeetingID(
       id: schoolClassID,
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -85,7 +86,7 @@ class SchoolClassGateway {
       data: courseData.copyWith(
           id: courseID,
           referenceSchoolClassIDs: [schoolClassID]).toCreateJson(memberID),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
@@ -93,7 +94,7 @@ class SchoolClassGateway {
     return references.functions.groupEdit(
       id: schoolClass.id,
       data: schoolClass.toJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -118,7 +119,7 @@ class SchoolClassGateway {
     return references.functions.groupEditSettings(
       id: schoolClassID,
       settings: schoolClassSettings.toJson(),
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
     );
   }
 
@@ -126,7 +127,7 @@ class SchoolClassGateway {
       String schoolClassID, String kickedMemberID) async {
     return references.functions.leave(
       id: schoolClassID,
-      type: groupTypeToString(GroupType.schoolclass),
+      type: GroupType.schoolclass.name,
       memberID: kickedMemberID,
     );
   }
@@ -152,13 +153,12 @@ class SchoolClassGateway {
   Stream<List<SchoolClass>> stream() {
     return _connectionsGateway
         .streamConnectionsData()
-        .map((connections) => connections?.schoolClass?.values?.toList());
+        .map((connections) => connections?.schoolClass?.values.toList() ?? []);
   }
 
-  Stream<SchoolClass> streamSingleSchoolClass(String id) {
+  Stream<SchoolClass?> streamSingleSchoolClass(String id) {
     return _connectionsGateway.streamConnectionsData().map((connections) =>
-        connections.schoolClass.values
-            .where((schoolClass) => schoolClass.id == id)
-            .first);
+        connections?.schoolClass?.values
+            .firstWhereOrNull((schoolClass) => schoolClass.id == id));
   }
 }

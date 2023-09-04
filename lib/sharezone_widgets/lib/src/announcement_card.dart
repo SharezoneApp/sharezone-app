@@ -13,7 +13,7 @@ import 'package:build_context/build_context.dart';
 
 class AnnouncementCard extends StatelessWidget {
   const AnnouncementCard({
-    Key key,
+    Key? key,
     this.title,
     this.actions,
     this.content,
@@ -22,17 +22,16 @@ class AnnouncementCard extends StatelessWidget {
     this.titleColor,
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
     this.padding = const EdgeInsets.only(bottom: 16),
-  })  : assert(padding != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final String title;
+  final String? title;
 
   /// Default is Colors.black (Dark Mode) Colors.white (Dark Mode).
-  final Color titleColor;
+  final Color? titleColor;
 
-  final Widget content;
-  final List<Widget> actions;
-  final VoidCallback onTap;
+  final Widget? content;
+  final List<Widget>? actions;
+  final VoidCallback? onTap;
 
   /// Default is Colors.amber.
   final Color color;
@@ -66,13 +65,13 @@ class AnnouncementCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (hasTitle) _Title(title, color: titleColor),
-                    if (hasContent) ...[const SizedBox(height: 8), content],
+                    if (hasTitle) _Title(title!, color: titleColor),
+                    if (hasContent) ...[const SizedBox(height: 8), content!],
                   ],
                 ),
               ),
             ),
-            if (hasActions) _ActionsAligment(actions: actions),
+            if (hasActions) _ActionsAligment(actions: actions!),
           ],
         ),
       ),
@@ -81,14 +80,12 @@ class AnnouncementCard extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key key, this.color})
-      : assert(title != null),
-        super(key: key);
+  const _Title(this.title, {Key? key, this.color}) : super(key: key);
 
   final String title;
 
   /// Default is Colors.black (Dark Mode) Colors.white (Dark Mode).
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +107,9 @@ class _Title extends StatelessWidget {
 
 class _ActionsAligment extends StatelessWidget {
   const _ActionsAligment({
-    Key key,
-    @required this.actions,
-  })  : assert(actions != null),
-        super(key: key);
+    Key? key,
+    required this.actions,
+  }) : super(key: key);
 
   final List<Widget> actions;
 

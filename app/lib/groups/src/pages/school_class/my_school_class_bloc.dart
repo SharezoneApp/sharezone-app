@@ -10,35 +10,33 @@ import 'package:app_functions/app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
-import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api.dart';
-import 'package:sharezone_common/helper_functions.dart';
 
 enum SchoolClassDeleteType {
   withCourses,
   withoutCourses,
 }
 
-String schoolClassTypeToString(SchoolClassDeleteType data) =>
-    enumToString(data);
-
 class MySchoolClassBloc extends BlocBase {
   final SharezoneGateway gateway;
-  final SchoolClass schoolClass;
-  String schoolClassId;
+  final SchoolClass? schoolClass;
+  String? schoolClassId;
 
-  MySchoolClassBloc({@required this.gateway, this.schoolClass}) {
-    if (schoolClass != null) schoolClassId = schoolClassId;
+  MySchoolClassBloc({
+    required this.gateway,
+    this.schoolClass,
+  }) {
+    schoolClassId = schoolClass?.id;
   }
 
   Future<AppFunctionsResult<bool>> createSchoolClass(String name) {
+    final id = gateway.references.schoolClasses.doc().id;
     final schoolClassData = SchoolClassData.create().copyWith(
-      id: gateway.references.schoolClasses.doc().id,
+      id: id,
       name: name,
     );
-    schoolClassId = schoolClassData.id;
+    schoolClassId = id;
     return gateway.schoolClassGateway.createSchoolClass(schoolClassData);
   }
 
@@ -48,12 +46,15 @@ class MySchoolClassBloc extends BlocBase {
 
   Stream<WritePermission> writePermissionStream() {
     return streamSchoolClass()
-        .map((schoolClass) => schoolClass.settings.writePermission)
+        .map((schoolClass) => schoolClass!.settings.writePermission)
         .asBroadcastStream();
   }
 
-  Stream<SchoolClass> streamSchoolClass() {
-    return gateway.schoolClassGateway.streamSingleSchoolClass(schoolClass.id);
+  Stream<SchoolClass?> streamSchoolClass() {
+    if (schoolClassId == null) {
+      return Stream.empty();
+    }
+    return gateway.schoolClassGateway.streamSingleSchoolClass(schoolClassId!);
   }
 
   Stream<List<MemberData>> streamMembers(String schoolClassID) {
@@ -93,45 +94,39 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Future<AppFunctionsResult<bool>> leaveSchoolClass() async {
-    return gateway.schoolClassGateway.leaveSchoolClass(schoolClass.id);
+    return gateway.schoolClassGateway.leaveSchoolClass(schoolClassId!);
   }
 
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
       SchoolClassDeleteType schoolClassDeleteType) async {
     return gateway.schoolClassGateway
-        .deleteSchoolClass(schoolClass.id, schoolClassDeleteType);
+        .deleteSchoolClass(schoolClassId!, schoolClassDeleteType);
   }
 
   Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
     return gateway.schoolClassGateway
-        .kickMember(schoolClass.id, kickedMemberID);
+        .kickMember(schoolClassId!, kickedMemberID);
   }
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
     return gateway.schoolClassGateway.editSchoolClassSettings(
-        schoolClass.id, schoolClass.settings.copyWith(isPublic: isPublic));
-  }
-
-  Future<AppFunctionsResult<bool>> setIsGroupMeetingEnabled(
-      bool isMeetingEnabled) {
-    return gateway.schoolClassGateway.editSchoolClassSettings(schoolClass.id,
-        schoolClass.settings.copyWith(isMeetingEnabled: isMeetingEnabled));
+        schoolClassId!, schoolClass!.settings.copyWith(isPublic: isPublic));
   }
 
   Future<bool> setWritePermission(WritePermission writePermission) {
     return gateway.schoolClassGateway
-        .editSchoolClassSettings(schoolClass.id,
-            schoolClass.settings.copyWith(writePermission: writePermission))
+        .editSchoolClassSettings(schoolClassId!,
+            schoolClass!.settings.copyWith(writePermission: writePermission))
         .then((result) => result.hasData && result.data == true);
   }
 
   bool isAdmin() {
-    return schoolClass.myRole.hasPermission(GroupPermission.administration);
+    return schoolClass!.myRole.hasPermission(GroupPermission.administration);
   }
 
   Stream<bool> isAdminStream() {
     return streamSchoolClass()
-        .map((sc) => sc.myRole.hasPermission(GroupPermission.administration));
+        .map((sc) => sc!.myRole.hasPermission(GroupPermission.administration));
   }
 
   @override

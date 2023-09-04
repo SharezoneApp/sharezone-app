@@ -9,76 +9,69 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
+    as hws_bloc;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/events.dart'
-    as hws_bloc;
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/states.dart'
-    as hws_bloc;
 
 import 'events.dart';
 import 'states.dart';
 
+export 'events.dart';
+export 'states.dart';
+
 class OpenHomeworksViewBloc
     extends Bloc<OpenHomeworkViewEvent, OpenHomeworksViewBlocState>
-    implements BlocBase {
+    implements bloc_base.BlocBase {
   final OpenHomeworkListViewFactory _listViewFactory;
-  final OpenHomeworkListBloc _openHomeworksBloc;
+  final hws_bloc.OpenHomeworkListBloc _openHomeworksBloc;
 
-  Stream<HomeworkList> _openHomeworks;
-  StreamSubscription _streamSubscription;
-  HomeworkList _latestHomeworks;
-  Sort<HomeworkReadModel> _currentSort;
+  late Stream<HomeworkList> _openHomeworks;
+  late StreamSubscription _streamSubscription;
+  HomeworkList? _latestHomeworks;
+  Sort<HomeworkReadModel>? _currentSort;
 
-  OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory) {
+  OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory)
+      : super(Uninitialized()) {
     _latestHomeworks = HomeworkList([]);
-    _openHomeworks = _openHomeworksBloc.transform(_toHomeworkList);
-  }
+    _openHomeworks = _openHomeworksBloc.stream.transform(_toHomeworkList);
 
-  @override
-  OpenHomeworksViewBlocState get initialState => Uninitialized();
+    on<LoadHomeworks>((event, emit) {
+      _currentSort = event.sort;
+      _openHomeworksBloc.add(hws_bloc.LoadHomeworks());
+      _streamSubscription = _openHomeworks.listen((hws) {
+        _latestHomeworks = hws;
+        add(_CreateListView(hws, _currentSort));
+      });
+    });
+    on<SortingChanged>((event, emit) {
+      _currentSort = event.sort;
+      add(_CreateListView(_latestHomeworks, _currentSort));
+    });
+    on<_CreateListView>((event, emit) {
+      final view = _listViewFactory.create(event.homeworks!, event.sort!);
+      var success = Success(view);
+      emit(success);
+    });
+  }
 
   @override
   void dispose() {
     _streamSubscription.cancel();
   }
-
-  @override
-  Stream<OpenHomeworksViewBlocState> mapEventToState(
-      OpenHomeworkViewEvent event) async* {
-    if (event is LoadHomeworks) {
-      _currentSort = event.sort;
-      _openHomeworksBloc.add(hws_bloc.LoadHomeworks());
-      _streamSubscription = _openHomeworks.listen((hws) {
-        assert(hws != null);
-        _latestHomeworks = hws;
-        add(_CreateListView(hws, _currentSort));
-      });
-    } else if (event is SortingChanged) {
-      _currentSort = event.sort;
-      add(_CreateListView(_latestHomeworks, _currentSort));
-    } else if (event is _CreateListView) {
-      final view = _listViewFactory.create(event.homeworks, event.sort);
-      var success = Success(view);
-      yield success;
-    } else {
-      throw UnimplementedError('$event is not implemented');
-    }
-  }
 }
 
 class _CreateListView extends OpenHomeworkViewEvent {
-  final HomeworkList homeworks;
-  final Sort<HomeworkReadModel> sort;
+  final HomeworkList? homeworks;
+  final Sort<HomeworkReadModel>? sort;
 
   _CreateListView(this.homeworks, this.sort);
 
   @override
-  List<Object> get props => [homeworks, sort];
+  List<Object?> get props => [homeworks, sort];
 }
 
 final _toHomeworkList = StreamTransformer<hws_bloc.OpenHomeworkListBlocState,

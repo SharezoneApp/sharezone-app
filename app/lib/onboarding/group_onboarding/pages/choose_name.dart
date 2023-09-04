@@ -29,7 +29,7 @@ class OnboardingChangeName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = BlocProvider.of<SharezoneContext>(context).api.user;
-    return FutureBuilder<AppUser>(
+    return FutureBuilder<AppUser?>(
       future: user.userStream.first,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Scaffold(body: Container());
@@ -42,9 +42,9 @@ class OnboardingChangeName extends StatelessWidget {
 }
 
 class _OnboardingChangeNameLoaded extends StatefulWidget {
-  final AppUser user;
+  final AppUser? user;
 
-  const _OnboardingChangeNameLoaded({Key key, @required this.user})
+  const _OnboardingChangeNameLoaded({Key? key, required this.user})
       : super(key: key);
 
   @override
@@ -52,15 +52,15 @@ class _OnboardingChangeNameLoaded extends StatefulWidget {
 }
 
 class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
-  UserEditPageBloc userEditPageBloc;
+  late UserEditPageBloc userEditPageBloc;
 
   @override
   void initState() {
     super.initState();
     final api = BlocProvider.of<SharezoneContext>(context).api;
     userEditPageBloc = UserEditPageBloc(
-      name: widget.user.name,
-      gateway: UserEditBlocGateway(api.user, widget.user),
+      name: widget.user!.name,
+      gateway: UserEditBlocGateway(api.user, widget.user!),
     );
   }
 
@@ -73,7 +73,7 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
         title:
             'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?',
         children: [
-          _TextFieldSubmitButton(initalName: widget.user.name),
+          _TextFieldSubmitButton(initialName: widget.user!.name),
         ],
       ),
     );
@@ -81,9 +81,9 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
 }
 
 class _TextFieldSubmitButton extends StatefulWidget {
-  const _TextFieldSubmitButton({Key key, this.initalName}) : super(key: key);
+  const _TextFieldSubmitButton({Key? key, this.initialName}) : super(key: key);
 
-  final String initalName;
+  final String? initialName;
 
   @override
   __TextFieldSubmitButtonState createState() => __TextFieldSubmitButtonState();
@@ -105,7 +105,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: NameField(
-                  initialName: widget.initalName,
+                  initialName: widget.initialName,
                   onChanged: bloc.changeName,
                   nameStream: bloc.name,
                   onEditingComplete: () => _submit(context),
@@ -184,9 +184,14 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final notificationsPermission = context.read<NotificationsPermission>();
     final isNeededToRequestNotificationsPermission =
         await notificationsPermission.isRequiredToRequestPermission();
-    final showNotificationsRequestPage =
+    // Currently, we skip the notifications request page on macOS because it is
+    // not possible to request the permission on macOS with firebase_messaging
+    // package. In the future, we need to show a tutorial how the user can
+    // enable the notifications. See:
+    // https://github.com/SharezoneApp/sharezone-app/issues/807
+    final showNotificationsRequestPage = !PlatformCheck.isMacOS &&
         isNeededToRequestNotificationsPermission &&
-            isFirebaseMessagingSupported();
+        isFirebaseMessagingSupported();
 
     if (status == GroupOnboardingStatus.onlyNameAndTurnOfNotifactions ||
         showNotificationsRequestPage) {

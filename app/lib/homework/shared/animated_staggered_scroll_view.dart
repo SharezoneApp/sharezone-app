@@ -13,10 +13,10 @@ import 'package:sharezone/homework/shared/bottom_of_scrollview_visibility.dart';
 
 class AnimatedStaggeredScrollView extends StatelessWidget {
   final List<Widget> children;
-  final CrossAxisAlignment crossAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
 
   const AnimatedStaggeredScrollView(
-      {Key key, @required this.children, this.crossAxisAlignment})
+      {Key? key, required this.children, this.crossAxisAlignment})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

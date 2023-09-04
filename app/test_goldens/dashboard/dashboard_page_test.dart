@@ -20,10 +20,10 @@ import 'package:sharezone/dashboard/dashboard_page.dart';
 
 class FakeHolidayBloc extends Fake implements HolidayBloc {
   StreamController<bool> hasStateSelectedController = StreamController();
-  StreamController<List<Holiday>> holidaysController = StreamController();
+  StreamController<List<Holiday?>> holidaysController = StreamController();
 
   @override
-  Stream<List<Holiday>> get holidays => holidaysController.stream;
+  Stream<List<Holiday?>> get holidays => holidaysController.stream;
 
   @override
   Stream<bool> get hasStateSelected => hasStateSelectedController.stream;

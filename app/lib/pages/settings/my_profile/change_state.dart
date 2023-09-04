@@ -33,7 +33,7 @@ class _ChangeStatePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HolidayBloc>(context);
 
-    return StreamBuilder<StateEnum>(
+    return StreamBuilder<StateEnum?>(
       stream: bloc.userState,
       builder: (context, snapshot) {
         if (!snapshot.hasData)
@@ -84,9 +84,9 @@ class _WhyWeNeedTheState extends StatelessWidget {
 }
 
 class _StateRadioGroup extends StatelessWidget {
-  const _StateRadioGroup({Key key, this.initialState}) : super(key: key);
+  const _StateRadioGroup({Key? key, this.initialState}) : super(key: key);
 
-  final StateEnum initialState;
+  final StateEnum? initialState;
 
   @override
   Widget build(BuildContext context) {
@@ -118,20 +118,20 @@ class _StateRadioGroup extends StatelessWidget {
 }
 
 class _StateListTile extends StatelessWidget {
-  const _StateListTile(this.state, {Key key, this.initialState})
+  const _StateListTile(this.state, {Key? key, this.initialState})
       : super(key: key);
 
   final StateEnum state;
-  final StateEnum initialState;
+  final StateEnum? initialState;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HolidayBloc>(context);
     return RadioListTile(
-      title: Text(stateEnumToString[state]),
+      title: Text(stateEnumToString[state]!),
       value: state,
       groupValue: initialState,
-      onChanged: (StateEnum newState) {
+      onChanged: (StateEnum? newState) {
         bloc.changeState(newState);
         savedChangesSnackBar(context);
       },

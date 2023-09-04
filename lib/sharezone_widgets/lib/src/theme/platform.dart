@@ -19,7 +19,7 @@ class ThemePlatform {
 
 /// Gibt IconData abhängig von der ThemePlatform an. Standardmäßig das Material Icon
 /// Sofern vorhanden, wird beim CupertinoTheme das cupertinoIcon angezeigt.
-IconData themeIconData(IconData icon, {IconData cupertinoIcon}) {
+IconData themeIconData(IconData icon, {IconData? cupertinoIcon}) {
   if (ThemePlatform.isMaterial) return icon;
   return cupertinoIcon ?? icon;
 }

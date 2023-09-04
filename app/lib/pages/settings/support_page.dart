@@ -9,6 +9,7 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -76,13 +77,18 @@ class _Header extends StatelessWidget {
 }
 
 class _SupportCard extends StatelessWidget {
-  final Widget icon;
-  final String title, subtitle;
-  final VoidCallback onPressed;
+  const _SupportCard({
+    Key? key,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.onPressed,
+  }) : super(key: key);
 
-  const _SupportCard(
-      {Key key, this.icon, this.title, this.subtitle, this.onPressed})
-      : super(key: key);
+  final Widget icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +102,7 @@ class _SupportCard extends StatelessWidget {
             child: icon,
           ),
           title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
         ),
       ),
@@ -117,9 +123,9 @@ class _EmailTile extends StatelessWidget {
       onPressed: () async {
         final url = Uri.parse(Uri.encodeFull(
             'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭'));
-        if (await canLaunchUrl(url)) {
-          launchUrl(url);
-        } else {
+        try {
+          await launchUrl(url);
+        } on Exception catch (_) {
           showSnackSec(
             context: context,
             text: 'E-Mail: support@sharezone.net',
@@ -147,16 +153,7 @@ class _DiscordTile extends StatelessWidget {
         );
 
         if (confirmed == true) {
-          final url =
-              Uri.parse(Uri.encodeFull('https://sharezone.net/discord'));
-          if (await canLaunchUrl(url)) {
-            launchUrl(url);
-          } else {
-            showSnackSec(
-              context: context,
-              text: 'www.sharezone.net/discord',
-            );
-          }
+          launchURL('https://sharezone.net/discord', context: context);
         }
       },
     );
@@ -164,17 +161,22 @@ class _DiscordTile extends StatelessWidget {
 }
 
 class _NoteAboutPrivacyPolicy extends StatelessWidget {
-  const _NoteAboutPrivacyPolicy({Key key}) : super(key: key);
+  const _NoteAboutPrivacyPolicy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Discord Datenschutz"),
-      content: MarkdownBody(
-        data:
-            "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
-        styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-        onTapLink: (_, url, __) => launchUrl(Uri.parse(url)),
+      content: SingleChildScrollView(
+        child: MarkdownBody(
+          data:
+              "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+          styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
+          onTapLink: (_, url, __) {
+            if (url == null) return;
+            launchURL(url, context: context);
+          },
+        ),
       ),
       actions: [
         TextButton(

@@ -28,7 +28,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
 
-Future<bool> showDeleteEventConfirmationDialog(BuildContext context) async {
+Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
     defaultValue: false,
     context: context,
@@ -43,12 +43,17 @@ Future<bool> showDeleteEventConfirmationDialog(BuildContext context) async {
 }
 
 Future<void> showTimetableEventDetails(
-    BuildContext context, CalendricalEvent event, Design design) async {
-  final navigatonService = BlocProvider.of<NavigationService>(context);
+  BuildContext context,
+  CalendricalEvent event,
+  Design? design,
+) async {
+  final navigationService = BlocProvider.of<NavigationService>(context);
 
-  final popOption = await navigatonService.pushWidget<_EventModelSheetAction>(
+  final popOption = await navigationService.pushWidget<_EventModelSheetAction>(
     _TimetableEventDetailsPage(
-        event: event, design: design ?? Design.standard()),
+      event: event,
+      design: design ?? Design.standard(),
+    ),
     name: _TimetableEventDetailsPage.tag,
   );
   switch (popOption) {
@@ -60,6 +65,8 @@ Future<void> showTimetableEventDetails(
       break;
     case _EventModelSheetAction.report:
       openReportPage(context, ReportItemReference.event(event.eventID));
+      break;
+    case null:
       break;
   }
 }
@@ -92,7 +99,8 @@ Future<void> openTimetableEventEditPage(
 Future<void> deleteEvent(BuildContext context, CalendricalEvent event) async {
   await waitingForBottomModelSheetClosing();
   final confirmed = await showDeleteEventConfirmationDialog(context);
-  if (confirmed) _deleteEventAndShowConfirmationSnackbar(context, event);
+  if (confirmed == true)
+    _deleteEventAndShowConfirmationSnackbar(context, event);
 }
 
 Future<void> _deleteEventAndShowConfirmationSnackbar(
@@ -113,10 +121,13 @@ class _TimetableEventDetailsPage extends StatelessWidget {
   static const tag = "timetable-event-details-page";
 
   final CalendricalEvent event;
-  final Design design;
+  final Design? design;
 
-  const _TimetableEventDetailsPage({Key key, @required this.event, this.design})
-      : super(key: key);
+  const _TimetableEventDetailsPage({
+    Key? key,
+    required this.event,
+    this.design,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +140,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final isAuthor = api.uID == event.authorID;
     final hasPermissionsToManageLessons = hasPermissionToManageEvents(
-        api.course.getRoleFromCourseNoSync(event.groupID), isAuthor);
+        api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
     final isExam = event.eventType == Exam();
     final theme = Theme.of(context);
 
@@ -171,7 +182,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                         TextSpan(text: "Kursname: "),
                         TextSpan(
                             text: courseName,
-                            style: TextStyle(color: design.color))
+                            style: TextStyle(color: design?.color))
                       ],
                     ),
                   ),
@@ -179,7 +190,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                 if (event.eventType is OtherEventType == false)
                   ListTile(
                     leading: Icon(Icons.label),
-                    title: Text("Art: ${event.eventType.name ?? "-"}"),
+                    title: Text("Art: ${event.eventType.name}"),
                   ),
                 ListTile(
                   leading: const Icon(Icons.place),
@@ -220,18 +231,18 @@ class _TimetableEventDetailsPage extends StatelessWidget {
 
 class _TitleAndDate extends StatelessWidget {
   const _TitleAndDate({
-    Key key,
-    @required this.design,
-    @required this.event,
+    Key? key,
+    required this.design,
+    required this.event,
   }) : super(key: key);
 
-  final Design design;
+  final Design? design;
   final CalendricalEvent event;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: _Square(color: design.color),
+      leading: _Square(color: design?.color),
       title: Text(
         event.title,
         style: TextStyle(
@@ -251,11 +262,11 @@ class _TitleAndDate extends StatelessWidget {
 
 class _Square extends StatelessWidget {
   const _Square({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +285,7 @@ class _Square extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key key}) : super(key: key);
+  const _DeleteIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +298,7 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key key}) : super(key: key);
+  const _EditIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +314,7 @@ class _EditIcon extends StatelessWidget {
 /// Bei dem Kalendar auf dem Gerät wird direkt der Hinzufügen-Dialog mit den jeweiligen
 /// Daten aus dem [event] vorausgefüllt geöffnet.
 class _AddToMyCalendarButton extends StatelessWidget {
-  const _AddToMyCalendarButton({Key key, @required this.event})
+  const _AddToMyCalendarButton({Key? key, required this.event})
       : super(key: key);
 
   final CalendricalEvent event;
@@ -338,25 +349,8 @@ class _AddToMyCalendarButton extends StatelessWidget {
                       startDate: event.startDateTime,
                       endDate: event.endDateTime,
                       title: event.title,
-                      // Wenn description oder location null ist, crasht die App
-                      // bei iOS-Geräten. Dieser Fehler liegt an dem Package
-                      // add_2_calendar. Ticket:
-                      // https://github.com/ja2375/add_2_calendar/issues/37
-                      //
-                      // Für Android ist dieser Workaround mit dem leeren String
-                      // nicht notwenidg, da es dort die beiden Werte auch null
-                      // sein können.
-                      //
-                      // Der Workaround mit dem leeren String den Nachteil mit
-                      // sich, dass auch bei dem Termin in der jeweiligen
-                      // Kalender-App ein leerer String eingetragen wird.
-                      // Deswegen sollte der Workaround nur auf den Plattformen
-                      // angewendet, wo dieser auch benötigt wird (in diesem
-                      // Fall iOS).
-                      description:
-                          event.detail ?? (PlatformCheck.isIOS ? '' : null),
-                      location:
-                          event.place ?? (PlatformCheck.isIOS ? '' : null),
+                      description: event.detail,
+                      location: event.place,
                       timeZone: timezone,
                     );
 

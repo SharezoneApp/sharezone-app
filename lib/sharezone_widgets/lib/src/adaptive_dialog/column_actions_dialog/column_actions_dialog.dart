@@ -14,11 +14,11 @@ import 'package:sharezone_widgets/src/dialog_wrapper.dart';
 
 import '../adaptive_dialog_action.dart';
 
-Future<T> showColumnActionsAdaptiveDialog<T>({
-  @required BuildContext context,
-  @required List<AdaptiveDialogAction<T>> actions,
-  String title,
-  String messsage,
+Future<T?> showColumnActionsAdaptiveDialog<T>({
+  required BuildContext context,
+  required List<AdaptiveDialogAction<T>> actions,
+  String? title,
+  String? messsage,
 }) async {
   return PlatformCheck.isIOS
       ? await showCupertinoDialog<T>(
@@ -41,32 +41,32 @@ Future<T> showColumnActionsAdaptiveDialog<T>({
 
 class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
   const _ColumnActionsDialogMaterial({
-    Key key,
+    Key? key,
     this.actions,
     this.title,
     this.message,
   }) : super(key: key);
 
-  final List<AdaptiveDialogAction<T>> actions;
-  final String title;
-  final String message;
+  final List<AdaptiveDialogAction<T>>? actions;
+  final String? title;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
-      content: DialogWrapper(child: Text(message)),
+      title: Text(title!),
+      content: DialogWrapper(child: Text(message!)),
       actions: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: actions
+          children: actions!
               .map((action) => TextButton(
                     style: TextButton.styleFrom(
                       foregroundColor:
                           action.textColor ?? Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.pop(context, action.popResult),
-                    child: Text(action.title.toUpperCase()),
+                    child: Text(action.title!.toUpperCase()),
                   ))
               .toList(),
         )
@@ -79,25 +79,25 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
 
 class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
   const _ColumnActionsDialogCupertino(
-      {Key key, this.actions, this.title, this.message})
+      {Key? key, this.actions, this.title, this.message})
       : super(key: key);
 
-  final List<AdaptiveDialogAction<T>> actions;
-  final String title;
-  final String message;
+  final List<AdaptiveDialogAction<T>>? actions;
+  final String? title;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      title: isNotEmptyOrNull(title) ? Text(title) : null,
-      content: isNotEmptyOrNull(message) ? Text(message) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
+      content: isNotEmptyOrNull(message) ? Text(message!) : null,
       actions: <Widget>[
-        ...actions
+        ...actions!
             .map((action) => CupertinoDialogAction(
                   isDefaultAction: action.isDefaultAction,
                   isDestructiveAction: action.isDestructiveAction,
                   onPressed: () => Navigator.pop(context, action.popResult),
-                  child: Text(action.title),
+                  child: Text(action.title!),
                 ))
             .toList(),
         CupertinoDialogAction(

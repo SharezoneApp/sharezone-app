@@ -24,7 +24,6 @@ import 'package:async/async.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:meta/meta.dart';
 import 'package:optional/optional.dart';
 import 'package:random_string/random_string.dart';
 import 'package:rxdart/subjects.dart';
@@ -35,10 +34,10 @@ void main() {
     'HomeworkUserCreateSubmissionsBloc',
     () {
       group('Tests Zeitirrelevant', () {
-        AbgabeId abgabeId;
-        HomeworkUserCreateSubmissionsBloc bloc;
-        MockAbgabendateiUseCases useCases;
-        MockAbgabedateiIdGenerator abgabedateiIdGenerator;
+        late AbgabeId abgabeId;
+        late HomeworkUserCreateSubmissionsBloc bloc;
+        late MockAbgabendateiUseCases useCases;
+        late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
         SingletonLocalFileSaver fileSaver;
 
         setUp(() {
@@ -66,9 +65,9 @@ void main() {
         });
 
         Future<void> testeDateiumbenennung({
-          @required String vorher,
-          @required String neuerBasename,
-          @required String nachher,
+          required String vorher,
+          required String neuerBasename,
+          required String nachher,
         }) async {
           var abgabedateiId = AbgabedateiId('abgabedateiId');
           useCases.abgabe.add(
@@ -95,8 +94,8 @@ void main() {
         }
 
         void fuegeLokaleDateiHinzuUndSetzeId({
-          AbgabedateiId id,
-          String name,
+          required AbgabedateiId id,
+          required String name,
         }) {
           final file = MockLocalFile(name: name);
           abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
@@ -177,7 +176,7 @@ void main() {
 
           await bloc.pageView.firstWhere((view) => view.files
               .where(
-                  (file) => file.status == FileViewStatus.succesfullyUploaded)
+                  (file) => file.status == FileViewStatus.successfullyUploaded)
               .isNotEmpty);
 
           /// Wir wollen sichergehen, dass die Abgabe vom Server wieder ankommt
@@ -266,7 +265,7 @@ void main() {
           bloc.files.where((event) =>
               event.length == 2 &&
               event.every((element) =>
-                  element.status == FileViewStatus.succesfullyUploaded));
+                  element.status == FileViewStatus.successfullyUploaded));
 
           final abgabeMitEntfernterDatei =
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
@@ -279,11 +278,11 @@ void main() {
       });
 
       group('Datei-Tests', () {
-        HomeworkUserCreateSubmissionsBloc bloc;
-        MockAbgabendateiUseCases useCases;
-        MockAbgabedateiIdGenerator abgabedateiIdGenerator;
-        SingletonLocalFileSaver fileSaver;
-        DateTime Function() kriegeAktuelleZeit;
+        late HomeworkUserCreateSubmissionsBloc bloc;
+        late MockAbgabendateiUseCases useCases;
+        late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
+        late SingletonLocalFileSaver fileSaver;
+        late DateTime Function() kriegeAktuelleZeit;
 
         setUp(() {
           useCases = MockAbgabendateiUseCases();
@@ -312,8 +311,8 @@ void main() {
         });
 
         void fuegeLokaleDateiHinzuUndSetzeId({
-          AbgabedateiId id,
-          String name,
+          required AbgabedateiId id,
+          required String name,
         }) {
           final file = MockLocalFile(name: name);
           abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
@@ -348,7 +347,7 @@ void main() {
           expect(fileView.fileFormat, FileFormat.pdf);
           expect(fileView.path.value, '/eine/datei.pdf');
           expect(fileView.status, FileViewStatus.unitiated);
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.uploadProgress.isPresent, false);
           expect(fileView.downloadUrl.isPresent, false);
         });
 
@@ -371,8 +370,8 @@ void main() {
           expect(fileView.extentionName, 'pdf');
           expect(fileView.fileFormat, FileFormat.pdf);
           expect(fileView.path.isPresent, false);
-          expect(fileView.status, FileViewStatus.succesfullyUploaded);
-          expect(fileView.uploadProgess.isPresent, false);
+          expect(fileView.status, FileViewStatus.successfullyUploaded);
+          expect(fileView.uploadProgress.isPresent, false);
           expect(fileView.downloadUrl.value, 'https://some-url.com');
         });
 
@@ -426,27 +425,27 @@ void main() {
 
           // ASSERT
 
-          var fileView = await queue.next;
+          var fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.unitiated);
 
           uploadProzess.add(
             DateiUploadProzessFortschritt.imGange(AbgabedateiId('dad'), 0.2),
           );
 
-          fileView = await queue.next;
+          fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.uploading);
-          expect(fileView.uploadProgess.value, 0.2);
+          expect(fileView.uploadProgress.value, 0.2);
 
           uploadProzess.add(
               DateiUploadProzessFortschritt.erfolgreich(AbgabedateiId('dad')));
-          fileView = await queue.next;
-          expect(fileView.status, FileViewStatus.succesfullyUploaded);
-          expect(fileView.uploadProgess.isPresent, false);
+          fileView = (await queue.next)!;
+          expect(fileView.status, FileViewStatus.successfullyUploaded);
+          expect(fileView.uploadProgress.isPresent, false);
 
           uploadProzess.add(DateiUploadProzessFortschritt.fehlgeschlagen(
               AbgabedateiId('dad')));
-          fileView = await queue.next;
-          expect(fileView.uploadProgess.isPresent, false);
+          fileView = (await queue.next)!;
+          expect(fileView.uploadProgress.isPresent, false);
         });
 
         test(
@@ -596,7 +595,7 @@ void main() {
               .firstWhere((file) => file.downloadUrl.isPresent);
 
           expect(view.downloadUrl.value, 'https://some-url.com');
-          expect(view.status, FileViewStatus.succesfullyUploaded);
+          expect(view.status, FileViewStatus.successfullyUploaded);
 
           expect(
             bloc.files.map((event) => event.length),
@@ -706,7 +705,7 @@ void main() {
           await bloc.pageView.firstWhere((pageView) =>
               pageView.files.isNotEmpty &&
               pageView.files.first.status ==
-                  FileViewStatus.succesfullyUploaded);
+                  FileViewStatus.successfullyUploaded);
 
           bloc.removeSubmissionFile('$abgabedateiId');
 
@@ -717,10 +716,10 @@ void main() {
       });
 
       group('Abgabzeitpunkt-Status', () {
-        HomeworkUserCreateSubmissionsBloc bloc;
-        BehaviorSubject<DateTime> abgabezeitpunktStream;
-        DateTime Function() kriegeAktuelleZeit;
-        MockAbgabendateiUseCases useCases;
+        late HomeworkUserCreateSubmissionsBloc bloc;
+        late BehaviorSubject<DateTime> abgabezeitpunktStream;
+        late DateTime Function() kriegeAktuelleZeit;
+        late MockAbgabendateiUseCases useCases;
         AbgabeId abgabeId;
 
         setUp(() {
@@ -845,9 +844,9 @@ extension on HomeworkUserCreateSubmissionsBloc {
 }
 
 HochgeladeneAbgabedatei hochgeladeneAbgabedatei({
-  AbgabedateiId id,
-  String name,
-  DateTime erstellungsdatum,
+  AbgabedateiId? id,
+  String? name,
+  DateTime? erstellungsdatum,
 }) {
   return HochgeladeneAbgabedatei(
     id: id ?? AbgabedateiId(randomAlpha(10)),
@@ -860,7 +859,8 @@ HochgeladeneAbgabedatei hochgeladeneAbgabedatei({
 }
 
 ErstellerAbgabeModelSnapshot erstelleAbgabenModelSnapshot(
-    {bool abgegeben, List<HochgeladeneAbgabedatei> abgabedateien}) {
+    {required bool abgegeben,
+    required List<HochgeladeneAbgabedatei> abgabedateien}) {
   return ErstellerAbgabeModel(
           abgabeId: AbgabeId(
               AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
@@ -959,26 +959,73 @@ class MockAbgabendateiUseCases
 
 int _counter = 0;
 
-class BrokenLocalFile extends MockLocalFile {
-  BrokenLocalFile() {
-    name = null;
-    path = null;
-    sizeInBytes = -23123;
-    mimeType = null;
+class BrokenLocalFile implements MockLocalFile {
+  @override
+  MimeType get mimeType => throw Exception('A dummy exception for testing');
+
+  @override
+  String get name => throw Exception('A dummy exception for testing');
+
+  @override
+  String get path => throw Exception('A dummy exception for testing');
+
+  @override
+  int get sizeInBytes => throw Exception('A dummy exception for testing');
+
+  @override
+  Uint8List getData() {
+    throw Exception('A dummy exception for testing');
   }
+
+  @override
+  File getFile() {
+    throw Exception('A dummy exception for testing');
+  }
+
+  @override
+  String getName() {
+    throw Exception('A dummy exception for testing');
+  }
+
+  @override
+  String getPath() {
+    throw Exception('A dummy exception for testing');
+  }
+
+  @override
+  int getSizeBytes() {
+    throw Exception('A dummy exception for testing');
+  }
+
+  @override
+  MimeType getType() {
+    throw Exception('A dummy exception for testing');
+  }
+
+  @override
+  set mimeType(MimeType mimeType) {}
+
+  @override
+  set name(String name) {}
+
+  @override
+  set path(String path) {}
+
+  @override
+  set sizeInBytes(int sizeInBytes) {}
 }
 
 class MockLocalFile extends LocalFile {
-  String name;
-  String path;
-  int sizeInBytes;
-  MimeType mimeType;
+  late String name;
+  late String path;
+  late int sizeInBytes;
+  late MimeType mimeType;
 
   MockLocalFile({
-    String name,
-    String path,
-    int sizeInBytes,
-    MimeType mimeType,
+    String? name,
+    String? path,
+    int? sizeInBytes,
+    MimeType? mimeType,
   }) {
     this.name = name ?? 'MockFileName${_counter++}';
     this.path = path ?? '/ABc/aw${_counter++}dw/file.pdf';

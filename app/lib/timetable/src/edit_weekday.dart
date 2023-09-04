@@ -33,9 +33,9 @@ String getWeekDayText(WeekDay weekDay) {
   }
 }
 
-Future<WeekDay> selectWeekDay(BuildContext context, {WeekDay selected}) {
+Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
   final userSettings =
-      BlocProvider.of<SharezoneContext>(context).api.user.data.userSettings;
+      BlocProvider.of<SharezoneContext>(context).api.user.data!.userSettings;
   final enabledWeekDays = userSettings.enabledWeekDays.getEnabledWeekDaysList();
   return selectItem<WeekDay>(
     context: context,

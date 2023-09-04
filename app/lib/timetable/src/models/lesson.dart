@@ -9,83 +9,84 @@
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
-import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:time/time.dart';
 
 class Lesson {
-  final String lessonID, groupID;
+  final String? lessonID;
+  final String groupID;
   final GroupType groupType;
-  final Date startDate, endDate;
+  final Date? startDate, endDate;
   final Time startTime, endTime;
-  final int periodNumber;
+  final int? periodNumber;
   final WeekDay weekday;
   final WeekType weektype;
-  final String teacher, place;
+  final String? teacher, place;
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
-  Lesson(
-      {@required this.lessonID,
-      @required this.groupID,
-      @required this.groupType,
-      this.startDate,
-      this.endDate,
-      this.periodNumber,
-      @required this.startTime,
-      @required this.endTime,
-      @required this.weekday,
-      @required this.weektype,
-      @required this.teacher,
-      @required this.place});
+  Lesson({
+    required this.lessonID,
+    required this.groupID,
+    required this.groupType,
+    this.startDate,
+    this.endDate,
+    this.periodNumber,
+    required this.startTime,
+    required this.endTime,
+    required this.weekday,
+    required this.weektype,
+    required this.teacher,
+    required this.place,
+  });
 
-  factory Lesson.fromData(Map<String, dynamic> data, {@required String id}) {
+  factory Lesson.fromData(Map<String, dynamic> data, {required String id}) {
     return Lesson(
       lessonID: id,
       groupID: data['groupID'] as String,
-      groupType: groupTypeFromString(data['groupType'] as String),
-      startDate: Date.parseOrNull(data['startDate'] as String),
-      endDate: Date.parseOrNull(data['endDate'] as String),
+      groupType: GroupType.values.byName(data['groupType'] as String),
+      startDate: Date.parseOrNull(data['startDate'] as String?),
+      endDate: Date.parseOrNull(data['endDate'] as String?),
       startTime: Time.parse(data['startTime'] as String),
       endTime: Time.parse(data['endTime'] as String),
       periodNumber: data['periodNumber'] as int,
-      weekday: weekDayEnumFromString(data['weekday'] as String),
-      weektype: weekTypeEnumFromString(data['weektype'] as String),
-      teacher: data['teacher'] as String,
-      place: data['place'] as String,
+      weekday: WeekDay.values.byName(data['weekday'] as String),
+      weektype: WeekType.values.byName(data['weektype'] as String),
+      teacher: data['teacher'] as String?,
+      place: data['place'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'groupID': groupID,
-      'groupType': groupTypeToString(groupType),
+      'groupType': groupType.name,
       'startDate': startDate?.toDateString,
       'endDate': endDate?.toDateString,
-      'startTime': startTime?.time,
-      'endTime': endTime?.time,
+      'startTime': startTime.time,
+      'endTime': endTime.time,
       'periodNumber': periodNumber,
-      'weekday': weekDayEnumToString(weekday),
-      'weektype': weekTypeEnumToString(weektype),
+      'weekday': weekday.name,
+      'weektype': weektype.name,
       'teacher': teacher,
       'place': place,
     };
   }
 
-  Lesson copyWith(
-      {String lessonID,
-      String groupID,
-      GroupType groupType,
-      Date startDate,
-      Date endDate,
-      Time startTime,
-      Time endTime,
-      int periodNumber,
-      WeekDay weekday,
-      WeekType weektype,
-      String teacher,
-      String place}) {
+  Lesson copyWith({
+    String? lessonID,
+    String? groupID,
+    GroupType? groupType,
+    Date? startDate,
+    Date? endDate,
+    Time? startTime,
+    Time? endTime,
+    int? periodNumber,
+    WeekDay? weekday,
+    WeekType? weektype,
+    String? teacher,
+    String? place,
+  }) {
     return Lesson(
       groupType: groupType ?? this.groupType,
       lessonID: lessonID ?? this.lessonID,

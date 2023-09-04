@@ -12,30 +12,32 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<T> showLongPressAdaptiveDialog<T>({
-  @required BuildContext context,
-  @required List<LongPress<T>> longPressList,
-  String title,
-  String subtile,
+Future<T?> showLongPressAdaptiveDialog<T>({
+  required BuildContext context,
+  required List<LongPress<T>> longPressList,
+  String? title,
+  String? subtile,
 }) async {
-  return PlatformCheck.isIOS
-      ? await showCupertinoModalPopup<T>(
-          context: context,
-          builder: (context) => _LongPressDialogCupertino<T>(
-            longPressList: longPressList,
-            title: title,
-            subtitle: subtile,
-          ),
-        )
-      : showDialog<T>(
-          context: context,
-          builder: (context) =>
-              _LongPressDialogMaterial<T>(longPressList: longPressList),
-        );
+  if (PlatformCheck.isIOS) {
+    return showCupertinoModalPopup<T>(
+      context: context,
+      builder: (context) => _LongPressDialogCupertino<T>(
+        longPressList: longPressList,
+        title: title,
+        subtitle: subtile,
+      ),
+    );
+  } else {
+    return showDialog<T>(
+      context: context,
+      builder: (context) =>
+          _LongPressDialogMaterial<T>(longPressList: longPressList),
+    );
+  }
 }
 
 class _LongPressDialogMaterial<T> extends StatelessWidget {
-  const _LongPressDialogMaterial({Key key, @required this.longPressList})
+  const _LongPressDialogMaterial({Key? key, required this.longPressList})
       : super(key: key);
 
   final List<LongPress<T>> longPressList;
@@ -60,17 +62,17 @@ class _LongPressDialogMaterial<T> extends StatelessWidget {
 
 class _LongPressDialogCupertino<T> extends StatelessWidget {
   const _LongPressDialogCupertino(
-      {Key key, this.title, this.subtitle, @required this.longPressList})
+      {Key? key, this.title, this.subtitle, required this.longPressList})
       : super(key: key);
 
-  final String title, subtitle;
+  final String? title, subtitle;
   final List<LongPress<T>> longPressList;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: isNotEmptyOrNull(title) ? Text(title) : null,
-      message: isNotEmptyOrNull(subtitle) ? Text(subtitle) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
+      message: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
       actions: longPressList
           .map((longPress) => CupertinoActionSheetAction(
               child: Text(longPress.title),

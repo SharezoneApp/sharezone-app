@@ -16,7 +16,7 @@ import 'realtime_updating_lazy_loading_controller_factory.dart';
 FirestoreHomeworkDataSource createDefaultFirestoreRepository(
     CollectionReference homeworkCollection,
     String uid,
-    CourseColorRetreiver getCourseColorFromCourseId) {
+    CourseColorRetriever getCourseColorFromCourseId) {
   final homeworkLoader = FirestoreRealtimeCompletedHomeworkLoader(
     homeworkCollection,
     uid,

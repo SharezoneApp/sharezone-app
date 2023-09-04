@@ -17,7 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 Future<void> openUserEditPageIfUserIsLoaded(
-    BuildContext context, AppUser user) async {
+    BuildContext context, AppUser? user) async {
   if (user != null) {
     final confirmed = await pushWithDefault<bool>(
       context,
@@ -42,13 +42,13 @@ void _showConfirmationSnackbar(BuildContext context) {
   showSnackSec(
     context: context,
     seconds: 2,
-    text: "Dein Name wurde erfolgreich umbebenannt.",
+    text: "Dein Name wurde erfolgreich umbenannt.",
   );
 }
 
 Future<void> _submit(BuildContext context,
-    {UserEditPageBloc bloc,
-    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
+    {UserEditPageBloc? bloc,
+    GlobalKey<ScaffoldMessengerState>? scaffoldKey}) async {
   bloc ??= BlocProvider.of<UserEditPageBloc>(context);
   showSnackSec(
     context: context,
@@ -82,25 +82,25 @@ Future<void> _submit(BuildContext context,
 }
 
 class UserEditPage extends StatefulWidget {
-  const UserEditPage({Key key, this.user}) : super(key: key);
+  const UserEditPage({Key? key, this.user}) : super(key: key);
 
   static const tag = "user-edit-page";
-  final AppUser user;
+  final AppUser? user;
 
   @override
   _UserEditPageState createState() => _UserEditPageState();
 }
 
 class _UserEditPageState extends State<UserEditPage> {
-  UserEditPageBloc bloc;
+  late UserEditPageBloc bloc;
 
   @override
   void initState() {
     super.initState();
     final api = BlocProvider.of<SharezoneContext>(context).api;
     bloc = UserEditPageBloc(
-      name: widget.user.name,
-      gateway: UserEditBlocGateway(api.user, widget.user),
+      name: widget.user!.name,
+      gateway: UserEditBlocGateway(api.user, widget.user!),
     );
   }
 
@@ -127,7 +127,7 @@ class _UserEditPageState extends State<UserEditPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     NameField(
-                      initialName: widget.user.name,
+                      initialName: widget.user!.name,
                       onChanged: bloc.changeName,
                       nameStream: bloc.name,
                       onEditingComplete: () => _submit(context,

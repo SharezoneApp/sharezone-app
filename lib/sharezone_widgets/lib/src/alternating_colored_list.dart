@@ -35,17 +35,15 @@ class AlternatingColoredList extends StatelessWidget {
   /// Default is 2
   final int alternatingInterval;
 
-  final AlternatingColoredListTheme theme;
+  final AlternatingColoredListTheme? theme;
 
   const AlternatingColoredList({
-    Key key,
-    @required this.itemCount,
-    @required this.itemBuilder,
+    Key? key,
+    required this.itemCount,
+    required this.itemBuilder,
     this.alternatingInterval = 2,
     this.theme,
-  })  : assert(itemCount != null),
-        assert(itemBuilder != null),
-        assert(alternatingInterval != null && alternatingInterval > 0),
+  })  : assert(alternatingInterval > 0),
         super(key: key);
 
   @override
@@ -63,7 +61,7 @@ class AlternatingColoredList extends StatelessWidget {
     );
   }
 
-  Color _getColor(BuildContext context, int index) {
+  Color? _getColor(BuildContext context, int index) {
     if ((index + 1) % alternatingInterval == 0) {
       return theme?.highlightedColor ??
           (isDarkThemeEnabled(context)
@@ -76,10 +74,10 @@ class AlternatingColoredList extends StatelessWidget {
 
 class AlternatingColoredListTheme {
   /// Default is Colors.transparent (Light & Dark Mode)
-  final Color highlightedColor;
+  final Color? highlightedColor;
 
   /// Default is Color(0xFF1a1919) (Dark Mode) and Colors.grey[50] (Light Mode)
-  final Color notHighlightedColor;
+  final Color? notHighlightedColor;
 
   const AlternatingColoredListTheme({
     this.highlightedColor,

@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:meta/meta.dart';
 
 import 'homework_section_view.dart';
 
@@ -19,8 +18,8 @@ class OpenHomeworkListView {
 
   OpenHomeworkListView(
     this.sections, {
-    @required this.showCompleteOverdueHomeworkPrompt,
-    @required this.sorting,
+    required this.showCompleteOverdueHomeworkPrompt,
+    required this.sorting,
   }) : super();
 
   @override
@@ -83,5 +82,4 @@ String homeworkSortToString(HomeworkSort s) {
     case HomeworkSort.subjectSmallestDateAndTitleSort:
       return _subjectSmallestDateAndTitleSort;
   }
-  throw UnimplementedError();
 }

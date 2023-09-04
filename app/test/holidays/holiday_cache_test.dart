@@ -14,8 +14,8 @@ import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'holiday_bloc_unit_test.dart';
 
 void main() {
-  InMemoryKeyValueStore kVstore;
-  State state;
+  late InMemoryKeyValueStore kVstore;
+  late State state;
   setUp(() {
     state = NordrheinWestfalen();
     kVstore = InMemoryKeyValueStore();
@@ -26,7 +26,7 @@ void main() {
     var expectedHolidays = generateHolidayList(5);
 
     cache.save(expectedHolidays, state);
-    CacheResponse cacheResponse = cache.load(state);
+    CacheResponse cacheResponse = cache.load(state)!;
 
     expect(cacheResponse.payload, expectedHolidays);
   });
@@ -49,11 +49,11 @@ void main() {
         HolidayCache.getKeyString(state), holidayCacheData.toJson());
 
     CacheResponse expectedResonse = CacheResponse.valid([holidayInTheFuture]);
-    expect(cache.load(state).payload, expectedResonse.payload);
+    expect(cache.load(state)!.payload, expectedResonse.payload);
   });
 
   group('Correctly returns if Holidays are past valid duration', () {
-    List<Holiday> expectedHolidays;
+    late List<Holiday> expectedHolidays;
     setUp(() {
       expectedHolidays = generateHolidayList(3);
     });
@@ -61,7 +61,7 @@ void main() {
       HolidayCache cache = HolidayCache(kVstore);
 
       await cache.save(expectedHolidays, state);
-      CacheResponse cacheResponse = cache.load(state);
+      CacheResponse cacheResponse = cache.load(state)!;
 
       expect(cacheResponse.inValidTimeframe, true);
     });
@@ -75,7 +75,7 @@ void main() {
       await cache.save(expectedHolidays, state);
       currentTimeReturnedToCache = now;
 
-      CacheResponse cacheResponse = cache.load(state);
+      CacheResponse cacheResponse = cache.load(state)!;
 
       expect(cacheResponse.inValidTimeframe, false);
     });

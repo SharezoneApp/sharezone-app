@@ -39,16 +39,17 @@ void main() {
   });
 
   test('version', () {
-    expect(Version(name: "3.0.0") > Version(name: "1.0.0"), true);
-    expect(Version(name: "3.0.0") < Version(name: "1.0.0"), false);
-    expect(Version(name: "3.0.0") == Version(name: "1.0.0"), false);
-    expect(Version(name: "3.0.0") == Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.1") >= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.0") >= Version(name: "3.0.0"), true);
-    expect(Version(name: "2.9.9") >= Version(name: "3.0.0"), false);
-    expect(Version(name: "2.9.9") <= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.0") <= Version(name: "3.0.0"), true);
-    expect(Version(name: "3.0.1") <= Version(name: "3.0.0"), false);
+    expect(Version.parse(name: "3.0.0") > Version.parse(name: "1.0.0"), true);
+    expect(Version.parse(name: "3.0.0") < Version.parse(name: "1.0.0"), false);
+    expect(Version.parse(name: "3.0.0") == Version.parse(name: "1.0.0"), false);
+    expect(Version.parse(name: "3.0.0") == Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.1") >= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.0") >= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "2.9.9") >= Version.parse(name: "3.0.0"), false);
+    expect(Version.parse(name: "2.9.9") <= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.0") <= Version.parse(name: "3.0.0"), true);
+    expect(Version.parse(name: "3.0.1") <= Version.parse(name: "3.0.0"), false);
+    expect(Version.parse(name: "1.7.3") > Version.parse(name: "1.5.81"), true);
   });
 }
 
@@ -56,7 +57,7 @@ class LocalChangeGateway implements ChangelogGateway {
   List<ChangeDatabaseModel> changes = mockData;
 
   @override
-  Future<List<ChangeDatabaseModel>> loadChange({int from = 0, int to}) async {
+  Future<List<ChangeDatabaseModel>> loadChange({int from = 0, int? to}) async {
     return changes.sublist(from, to);
   }
 
@@ -65,13 +66,13 @@ class LocalChangeGateway implements ChangelogGateway {
       throw UnimplementedError();
 }
 
-class MockInformationManager extends PlatformInformationRetreiver {
+class MockInformationManager extends PlatformInformationRetriever {
   @override
   String get appName => "Sharezone";
 
   @override
-  Future<void> init() {
-    return null;
+  Future<void> init() async {
+    return;
   }
 
   @override

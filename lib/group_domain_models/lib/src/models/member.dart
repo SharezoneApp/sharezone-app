@@ -10,6 +10,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:user/user.dart';
+
 import 'member_role.dart';
 
 @immutable
@@ -21,18 +22,19 @@ class MemberData {
   final DateTime joinedOn;
 
   const MemberData({
-    @required this.id,
-    @required this.name,
-    @required this.abbreviation,
-    @required this.typeOfUser,
-    @required this.role,
-    @required this.joinedOn,
+    required this.id,
+    required this.name,
+    required this.abbreviation,
+    required this.typeOfUser,
+    required this.role,
+    required this.joinedOn,
   });
 
-  factory MemberData.create(
-      {@required String id,
-      @required MemberRole role,
-      @required AppUser user}) {
+  factory MemberData.create({
+    required String id,
+    required MemberRole role,
+    required AppUser user,
+  }) {
     return MemberData(
       id: UserId(id),
       name: user.name,
@@ -43,15 +45,16 @@ class MemberData {
     );
   }
 
-  factory MemberData.fromData(Map<String, dynamic> data,
-      {@required String id}) {
-    if (data == null) return null;
+  factory MemberData.fromData(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return MemberData(
       id: UserId(id),
       name: data['name'] ?? "",
       abbreviation: data['abbreviation'] ?? "",
-      typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']),
-      role: memberRoleEnumFromString(data['role']),
+      typeOfUser: TypeOfUser.values.byName(data['typeOfUser']),
+      role: MemberRole.values.byName(data['role']),
       joinedOn: dateTimeFromTimestamp(data['joinedOn']),
     );
   }
@@ -61,25 +64,25 @@ class MemberData {
       'id': id.toString(),
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
-      'role': memberRoleEnumToString(role),
+      'typeOfUser': typeOfUser.name,
+      'role': role.name,
       'joinedOn': timestampFromDateTime(joinedOn),
     };
   }
 
   MemberData copyWith({
-    String name,
+    String? name,
     abbreviation,
-    DateTime joinedOn,
-    MemberData role,
-    TypeOfUser typeOfUser,
+    DateTime? joinedOn,
+    MemberData? role,
+    TypeOfUser? typeOfUser,
   }) {
     return MemberData(
       id: id,
       name: name ?? this.name,
       abbreviation: abbreviation ?? this.abbreviation,
       typeOfUser: typeOfUser ?? this.typeOfUser,
-      role: role ?? this.role,
+      role: role as MemberRole? ?? this.role,
       joinedOn: joinedOn ?? this.joinedOn,
     );
   }

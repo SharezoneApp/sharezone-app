@@ -8,12 +8,11 @@
 
 import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:meta/meta.dart';
 
 import '../../hausaufgabenheft_logik_lehrer.dart';
 
 class TeacherHomeworkViewFactory {
-  Date Function() _getCurrentDate;
+  late Date Function() _getCurrentDate;
 
   /// The color value from `color.value`.
   /// E.g. "0xFF03A9F4" for light blue.
@@ -21,7 +20,7 @@ class TeacherHomeworkViewFactory {
   final Color defaultColor;
 
   TeacherHomeworkViewFactory(
-      {Date Function() getCurrentDate, @required this.defaultColorValue})
+      {Date Function()? getCurrentDate, required this.defaultColorValue})
       : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
@@ -45,13 +44,13 @@ class TeacherHomeworkViewFactory {
           ? homework.canViewSubmissions
           : homework.canViewCompletions,
       colorDate: homework.isOverdueRelativeTo(twoDaysInFuture),
-      subjectColor: homework.subject.color.orElse(defaultColor),
+      subjectColor: homework.subject.color ?? defaultColor,
       canDeleteForEveryone: false,
       canEditForEveryone: false,
     );
   }
 
-  String _getLocaleDateString(Date date, {String time}) {
+  String _getLocaleDateString(Date date, {String? time}) {
     final months = {
       1: 'Januar',
       2: 'Februar',
@@ -77,7 +76,7 @@ class TeacherHomeworkViewFactory {
     return '$dateString - $time Uhr';
   }
 
-  String _getTime(bool withSubmissions, DateTime dateTime) {
+  String? _getTime(bool withSubmissions, DateTime dateTime) {
     if (!withSubmissions) return null;
     return '${dateTime.hour}:${_getMinute(dateTime.minute)}';
   }

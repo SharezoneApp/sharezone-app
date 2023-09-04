@@ -45,13 +45,13 @@ class ShowBlackboardItemRequest extends ActionRequest {
 
 class ShowBlackboardItemExecutor
     extends ActionRequestExecutor<ShowBlackboardItemRequest> {
-  final NavigationService _navigationService;
+  final NavigationService? _navigationService;
 
   ShowBlackboardItemExecutor(this._navigationService);
 
   @override
   FutureOr<void> execute(ShowBlackboardItemRequest actionRequest) {
-    return _navigationService.pushWidget(
+    return _navigationService!.pushWidget(
         BlackboardDetails.loadId('${actionRequest.blackboardItemId}'),
         name: BlackboardDetails.tag);
   }

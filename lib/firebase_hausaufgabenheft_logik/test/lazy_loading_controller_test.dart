@@ -46,8 +46,8 @@ Stream<List<HomeworkReadModel>> getHomeworkResultsAsStream(
 
 void main() {
   group('LazyLoadingController', () {
-    ReportingInMemoryHomeworkLoader homeworkLoader;
-    rx.BehaviorSubject<List<HomeworkReadModel>> homeworkSubject;
+    late ReportingInMemoryHomeworkLoader homeworkLoader;
+    late rx.BehaviorSubject<List<HomeworkReadModel>> homeworkSubject;
 
     void addToDataSource(List<HomeworkReadModel> homeworks) {
       final hws = homeworkSubject.valueOrNull;
@@ -66,20 +66,6 @@ void main() {
 
     tearDown(() {
       homeworkSubject.close();
-    });
-
-    test(
-        'lazy loading controller throws ArgumentError if initial homeworks is 0',
-        () {
-      void create() => RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: null);
-      expect(create, throwsArgumentError);
-    });
-
-    test('throws an argument error if the provided data source is null', () {
-      void create() => RealtimeUpdatingLazyLoadingController(null,
-          initialNumberOfHomeworksToLoad: 2);
-      expect(create, throwsArgumentError);
     });
 
     test(
@@ -160,7 +146,7 @@ void main() {
           initialNumberOfHomeworksToLoad: 5);
       var results = controller.results.asBroadcastStream();
 
-      // Delay so that the first request (inital number of homeworks) gets
+      // Delay so that the first request (initial number of homeworks) gets
       // executed before the stream subscription in the lazy loading controller
       // for the first request gets cancelled because of the advanceBy call.
       final first = await results.first;

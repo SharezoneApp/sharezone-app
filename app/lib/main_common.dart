@@ -8,12 +8,11 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/util/flavor.dart';
 
-Future main({
-  @required Flavor flavor,
+Future<void> mainCommon({
+  required Flavor flavor,
 }) async {
   return runFlutterApp(flavor: flavor);
 }

@@ -8,7 +8,6 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
-import 'package:authentification_base/authentification_apple.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -82,47 +81,31 @@ class _SignInMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return FutureBuilder<bool>(
-      future: AppleSignInLogic.isSignInGetCredentailsAvailable(),
-      builder: (context, snapshot) {
-        final isAppleSignInAvailable = snapshot.data ?? false;
-        if (isAppleSignInAvailable) {
-          if (width < 550)
-            return Column(
-              children: <Widget>[
-                _AppleButton.long(),
-                const SizedBox(height: 8),
-                _GoogleButton.long(),
-                const SizedBox(height: 8),
-                _EmailButton.long(),
-              ],
-            );
+    if (width < 550)
+      return Column(
+        children: <Widget>[
+          _AppleButton.long(),
+          const SizedBox(height: 8),
+          _GoogleButton.long(),
+          const SizedBox(height: 8),
+          _EmailButton.long(),
+        ],
+      );
 
-          return Row(
-            children: <Widget>[
-              Expanded(child: _EmailButton.short()),
-              const SizedBox(width: 8),
-              Expanded(child: _AppleButton.short()),
-              const SizedBox(width: 8),
-              Expanded(child: _GoogleButton.short()),
-            ],
-          );
-        }
-
-        return Row(
-          children: <Widget>[
-            Expanded(child: _EmailButton.short()),
-            const SizedBox(width: 8),
-            Expanded(child: _GoogleButton.short()),
-          ],
-        );
-      },
+    return Row(
+      children: <Widget>[
+        Expanded(child: _EmailButton.short()),
+        const SizedBox(width: 8),
+        Expanded(child: _AppleButton.short()),
+        const SizedBox(width: 8),
+        Expanded(child: _GoogleButton.short()),
+      ],
     );
   }
 }
 
 class _GoogleButton extends StatelessWidget {
-  const _GoogleButton._(this.title, {Key key}) : super(key: key);
+  const _GoogleButton._(this.title, {Key? key}) : super(key: key);
   factory _GoogleButton.short() => _GoogleButton._('Google');
   factory _GoogleButton.long() => _GoogleButton._('Mit Google anmelden');
 
@@ -148,7 +131,8 @@ class _GoogleButton extends StatelessWidget {
 }
 
 class _AppleButton extends StatelessWidget {
-  const _AppleButton._(this.title, {Key key}) : super(key: key);
+  const _AppleButton._(this.title, {Key? key}) : super(key: key);
+
   factory _AppleButton.short() => _AppleButton._('Apple');
   factory _AppleButton.long() => _AppleButton._('Mit Apple anmelden');
 
@@ -170,7 +154,7 @@ class _AppleButton extends StatelessWidget {
 }
 
 class _EmailButton extends StatelessWidget {
-  const _EmailButton._(this.title, {Key key}) : super(key: key);
+  const _EmailButton._(this.title, {Key? key}) : super(key: key);
   factory _EmailButton.short() => _EmailButton._('E-Mail');
   factory _EmailButton.long() => _EmailButton._('Mit E-Mail anmelden');
 
@@ -179,7 +163,7 @@ class _EmailButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       stream: userGateway.userStream,
       builder: (context, snapshot) {
         final user = snapshot.data;
@@ -211,8 +195,12 @@ class _EmailButton extends StatelessWidget {
 }
 
 class _SignUpButton extends StatelessWidget {
-  const _SignUpButton({Key key, this.name, this.icon, this.onTap})
-      : super(key: key);
+  const _SignUpButton({
+    Key? key,
+    required this.name,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
 
   final String name;
   final Widget icon;
@@ -230,7 +218,7 @@ class _SignUpButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.10),
+          color: color!.withOpacity(0.10),
           borderRadius: _borderRadius,
         ),
         child: Row(

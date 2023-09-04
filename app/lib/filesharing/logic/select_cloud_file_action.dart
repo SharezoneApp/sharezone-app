@@ -22,22 +22,22 @@ import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> selectCloudFileAction({
-  @required BuildContext context,
-  @required SheetOption sheetOption,
-  @required CloudFile cloudFile,
+  required BuildContext context,
+  required SheetOption? sheetOption,
+  required CloudFile cloudFile,
   bool popIfDelete = false,
 }) async {
   if (sheetOption == null) return;
   final api = BlocProvider.of<SharezoneContext>(context).api;
   cloudFile = await api.fileSharing.cloudFilesGateway
-      .cloudFileStream(cloudFile.id)
+      .cloudFileStream(cloudFile.id!)
       .first;
   switch (sheetOption) {
     case SheetOption.download:
       if (PlatformCheck.isWeb) {
         showStartedDownloadSnackBar(context, cloudFile.downloadURL);
-        getFileSaver().saveFromUrl(
-            cloudFile.downloadURL, cloudFile.name, cloudFile.fileFormat);
+        getFileSaver()!.saveFromUrl(
+            cloudFile.downloadURL!, cloudFile.name, cloudFile.fileFormat);
       } else {
         showDialog(
           context: context,
@@ -46,7 +46,7 @@ Future<void> selectCloudFileAction({
             id: cloudFile.id,
             name: cloudFile.name,
             nameStream:
-                api.fileSharing.cloudFilesGateway.nameStream(cloudFile.id),
+                api.fileSharing.cloudFilesGateway.nameStream(cloudFile.id!),
           ),
         );
       }
@@ -79,7 +79,7 @@ Future<void> selectCloudFileAction({
       openMoveFilePage(context: context, cloudFile: cloudFile);
       break;
     case SheetOption.report:
-      openReportPage(context, ReportItemReference.file(cloudFile.id));
+      openReportPage(context, ReportItemReference.file(cloudFile.id!));
       break;
     case SheetOption.delete:
       showDeleteDialog(
@@ -90,7 +90,7 @@ Future<void> selectCloudFileAction({
         title: "Datei löschen?",
         onDelete: () {
           api.fileSharing.cloudFilesGateway
-              .deleteFile(cloudFile.courseID, cloudFile.id);
+              .deleteFile(cloudFile.courseID!, cloudFile.id!);
           if (popIfDelete == true) Navigator.pop(context);
         },
       );
@@ -98,7 +98,7 @@ Future<void> selectCloudFileAction({
   }
 }
 
-void showStartedDownloadSnackBar(BuildContext context, String downloadURL) {
+void showStartedDownloadSnackBar(BuildContext context, String? downloadURL) {
   showSnackSec(
     context: context,
     text:
@@ -108,10 +108,23 @@ void showStartedDownloadSnackBar(BuildContext context, String downloadURL) {
     action: SnackBarAction(
       label: 'Link kopieren'.toUpperCase(),
       onPressed: () {
+        if (downloadURL == null) {
+          _showNoDownloadUrlSnackBar(context);
+          return;
+        }
+
         _copyDownloadUrlToClipboard(downloadURL);
         _confirmCopiedDownloadUrlSnackBar(context);
       },
     ),
+  );
+}
+
+void _showNoDownloadUrlSnackBar(BuildContext context) {
+  showSnackSec(
+    context: context,
+    behavior: SnackBarBehavior.fixed,
+    text: 'Der Download-Link konnte nicht gefunden werden.',
   );
 }
 

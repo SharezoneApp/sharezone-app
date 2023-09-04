@@ -13,7 +13,6 @@ import 'package:design/design.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
@@ -56,7 +55,7 @@ class CourseGateway {
     // können, muss sichergestellt sein, dass erst der Kurs erstellt wurde und
     // *danach* das Dokument in der Members-Collection.
     //
-    // Ohne `Futre.delayed` kommt es bei ca. 1 von 4 Fällen zu dem Bug, dass die
+    // Ohne `Future.delayed` kommt es bei ca. 1 von 4 Fällen zu dem Bug, dass die
     // Security-Rules die Erstellung des Members-Dokument ablehnen, weil
     // Firestore denkt, dass das Kurs-Dokument noch nicht erstellt wurde. Durch
     // den Workaround mit dem kurzen Delay kann dieser Bug nicht mehr
@@ -72,7 +71,7 @@ class CourseGateway {
           .collection(CollectionNames.members)
           .doc(memberID)
           .set(
-            MemberData.create(id: memberID, role: MemberRole.owner, user: user)
+            MemberData.create(id: memberID, role: MemberRole.owner, user: user!)
                 .toJson(),
           );
     });
@@ -105,7 +104,7 @@ class CourseGateway {
       String courseID, String kickedMemberID) async {
     return references.functions.leave(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
       memberID: kickedMemberID,
     );
   }
@@ -114,11 +113,11 @@ class CourseGateway {
     return references.functions.groupEdit(
       id: course.id,
       data: course.toEditJson(),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
-  Course getCourse(String id) {
+  Course? getCourse(String id) {
     final connectionsData = _connectionsGateway.current();
     if (connectionsData != null) {
       return connectionsData.courses[id];
@@ -132,43 +131,49 @@ class CourseGateway {
     return references.functions.groupEditSettings(
       id: courseID,
       settings: courseSettings.toJson(),
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> generateNewMeetingID(String courseID) async {
     return references.functions.generateNewMeetingID(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
   Future<AppFunctionsResult<bool>> deleteCourse(String courseID) async {
     return references.functions.groupDelete(
       groupID: courseID,
-      type: groupTypeToString(GroupType.course),
+      type: GroupType.course.name,
     );
   }
 
-  /// CHANGES THE GENERAL COLOR OF THE COURSE
-  Future<bool> editCourseGeneralDesign(
-      {@required String courseID, Design design}) async {
-    final course = _connectionsGateway.current().courses[courseID];
+  /// Changes the general color of the course.
+  ///
+  /// Returns `true` if the color was changed successfully, `false` otherwise.
+  Future<bool> editCourseGeneralDesign({
+    required String courseID,
+    Design? design,
+  }) async {
+    final course = _connectionsGateway.current()?.courses[courseID];
     if (course != null) {
-      return editCourse(course.copyWith(design: design))
-          .then((result) => result.hasData && result.data == true);
+      final result = await editCourse(course.copyWith(design: design));
+      return result.hasData && result.data == true;
     }
     return false;
   }
 
   /// CHANGES THE PERSONAL COLOR OF THE COURSE
-  Future<bool> editCoursePersonalDesign(
-      {@required String courseID, Design personalDesign}) async {
-    final course = _connectionsGateway.current().courses[courseID];
+  Future<bool> editCoursePersonalDesign({
+    required String courseID,
+    Design? personalDesign,
+  }) async {
+    final course = _connectionsGateway.current()?.courses[courseID];
     if (course != null) {
       await _connectionsGateway.addCoursePersonalDesign(
         id: courseID,
-        personalDesignData: personalDesign.toJson(),
+        personalDesignData: personalDesign?.toJson(),
         course: course,
       );
       return true;
@@ -177,7 +182,7 @@ class CourseGateway {
   }
 
   Future<bool> removeCoursePersonalDesign(String courseID) async {
-    final course = _connectionsGateway.current().courses[courseID];
+    final course = _connectionsGateway.current()?.courses[courseID];
     if (course != null) {
       await _connectionsGateway.removeCoursePersonalDesign(
         courseID: courseID,
@@ -188,23 +193,24 @@ class CourseGateway {
     return false;
   }
 
-  Future<AppFunctionsResult<bool>> memberUpdateRole(
-      {@required String courseID,
-      @required String newMemberID,
-      @required MemberRole newRole}) {
+  Future<AppFunctionsResult<bool>> memberUpdateRole({
+    required String courseID,
+    required String newMemberID,
+    required MemberRole newRole,
+  }) {
     return references.functions.memberUpdateRole(
       id: courseID,
-      type: groupTypeToString(GroupType.course),
-      role: memberRoleEnumToString(newRole),
+      type: GroupType.course.name,
+      role: newRole.name,
       memberID: newMemberID,
     );
   }
 
-  MemberRole getRoleFromCourseNoSync(String courseID) {
+  MemberRole? getRoleFromCourseNoSync(String courseID) {
     if (_connectionsGateway.current() == null) return null;
-    Map<String, Course> courses = _connectionsGateway.current().courses;
+    Map<String?, Course> courses = _connectionsGateway.current()!.courses;
     if (courses.containsKey(courseID))
-      return courses[courseID].myRole;
+      return courses[courseID]?.myRole;
     else {
       Iterable<Course> filteredJoinedCourses =
           _connectionsGateway.newJoinedCourses.where((it) => it.id == courseID);
@@ -215,16 +221,15 @@ class CourseGateway {
     }
   }
 
-  Stream<Course> streamCourse(String courseID) {
+  Stream<Course?> streamCourse(String courseID) {
     return _connectionsGateway
         .streamConnectionsData()
-        .map((connections) => connections.courses[courseID]);
+        .map((connections) => connections?.courses[courseID]);
   }
 
   Stream<List<Course>> streamCourses() {
     return _connectionsGateway.streamConnectionsData().map((connections) =>
-        connections.courses.values.where((it) => it != null).toList()
-          ..sortAlphabeticly());
+        (connections?.courses.values.toList() ?? [])..sortAlphabetically());
   }
 
   Stream<Map<String, GroupInfo>> getGroupInfoStream(
@@ -233,9 +238,9 @@ class CourseGateway {
     final schoolClassStream = schoolClassGateway.stream();
     final streamGroup =
         CombineLatestStream([courseStream, schoolClassStream], (streamValues) {
-      List<Course> courses = streamValues[0] as List<Course> ?? [];
+      List<Course> courses = streamValues[0] as List<Course>? ?? [];
       List<SchoolClass> schoolClasses =
-          streamValues[1] as List<SchoolClass> ?? [];
+          streamValues[1] as List<SchoolClass>? ?? [];
       List<GroupInfo> groupInfos = [
         for (final course in courses) course.toGroupInfo(),
         for (final schoolClass in schoolClasses) schoolClass.toGroupInfo(),
@@ -249,24 +254,18 @@ class CourseGateway {
 
   Future<List<Course>> getCourses() async {
     final connectionData = await _connectionsGateway.get();
-    final courses = connectionData?.courses?.values?.toList() ?? [];
-    return courses..sortAlphabeticly();
+    final courses = connectionData.courses.values.toList();
+    return courses..sortAlphabetically();
   }
 
   List<Course> getCurrentCourses() {
-    return _connectionsGateway
-            .current()
-            ?.courses
-            ?.values
-            ?.where((it) => it != null)
-            ?.toList() ??
-        []
-      ..sortAlphabeticly();
+    return _connectionsGateway.current()?.courses.values.toList() ?? []
+      ..sortAlphabetically();
   }
 
   bool canEditCourse(Course course) => course.version2;
 }
 
 extension on List<Course> {
-  void sortAlphabeticly() => sort((a, b) => a.name.compareTo(b.name));
+  void sortAlphabetically() => sort((a, b) => a.name.compareTo(b.name));
 }

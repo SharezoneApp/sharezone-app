@@ -16,11 +16,11 @@ import 'models/navigation_item.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({
-    Key key,
-    @required this.fbMessagingConfigurator,
+    Key? key,
+    required this.fbMessagingConfigurator,
   }) : super(key: key);
 
-  final FirebaseMessagingCallbackConfigurator fbMessagingConfigurator;
+  final FirebaseMessagingCallbackConfigurator? fbMessagingConfigurator;
   @override
   _NavigationControllerState createState() => _NavigationControllerState();
 }
@@ -29,7 +29,7 @@ class _NavigationControllerState extends State<NavigationController> {
   @override
   void initState() {
     if (isFirebaseMessagingSupported()) {
-      widget.fbMessagingConfigurator.configureCallbacks(context);
+      widget.fbMessagingConfigurator!.configureCallbacks(context);
     }
     super.initState();
   }

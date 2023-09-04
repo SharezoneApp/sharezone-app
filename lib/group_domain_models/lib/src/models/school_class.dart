@@ -8,39 +8,43 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
-import 'package:flutter/foundation.dart';
-import 'group_type.dart';
 import 'package:user/user.dart';
-import 'group_info.dart';
+
 import 'course.dart';
-import 'group_key.dart';
+import 'group_info.dart';
+import 'group_type.dart';
 import 'member_role.dart';
 
 class SchoolClass {
-  final String id, name, sharecode, joinLink, meetingID;
+  final String id;
+  final String name;
+  final String sharecode;
+  final String? joinLink, meetingID;
   GroupId get groupId => GroupId(id);
   final MemberRole myRole;
   final CourseSettings settings;
-  final String personalSharecode, personalJoinLink;
+  final String? personalSharecode, personalJoinLink;
 
   SchoolClass._({
-    @required this.id,
-    @required this.name,
-    @required this.myRole,
-    @required this.settings,
-    @required this.sharecode,
-    @required this.meetingID,
-    @required this.joinLink,
-    @required this.personalSharecode,
-    @required this.personalJoinLink,
+    required this.id,
+    required this.name,
+    required this.myRole,
+    required this.settings,
+    required this.sharecode,
+    required this.meetingID,
+    required this.joinLink,
+    required this.personalSharecode,
+    required this.personalJoinLink,
   });
 
-  factory SchoolClass.fromData(Map<String, dynamic> data,
-      {@required String id}) {
+  factory SchoolClass.fromData(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return SchoolClass._(
       id: id,
       name: data['name'] ?? '',
-      myRole: memberRoleEnumFromString(data['myRole']),
+      myRole: MemberRole.values.byName(data['myRole']),
       sharecode: data['publicKey'],
       joinLink: data['joinLink'],
       meetingID: data['meetingID'] ?? '',
@@ -58,13 +62,13 @@ class SchoolClass {
   }
 
   SchoolClass copyWith({
-    String id,
-    String name,
-    String sharecode,
-    String meetingID,
-    MemberRole myRole,
-    CourseSettings settings,
-    String joinLink,
+    String? id,
+    String? name,
+    String? sharecode,
+    String? meetingID,
+    MemberRole? myRole,
+    CourseSettings? settings,
+    String? joinLink,
   }) {
     return SchoolClass._(
       id: id ?? this.id,
@@ -83,11 +87,11 @@ class SchoolClass {
     return Design.standard();
   }
 
-  String getPublicKey() {
+  String? getPublicKey() {
     return personalSharecode ?? sharecode;
   }
 
-  String getJoinLink() {
+  String? getJoinLink() {
     return personalJoinLink ?? joinLink;
   }
 
@@ -104,33 +108,31 @@ class SchoolClass {
       myRole: myRole,
     );
   }
-
-  GroupKey getGroupKey() {
-    return GroupKey(id: id, groupType: GroupType.schoolclass);
-  }
 }
 
 class SchoolClassData {
-  final String id, name, description, abbreviation, meetingID;
-  final String sharecode, joinLink, referenceSchoolID;
+  final String id;
+  final String name;
+  final String? description, abbreviation, meetingID;
+  final String? sharecode, joinLink, referenceSchoolID;
 
   final CourseSettings settings;
 
   const SchoolClassData._({
-    @required this.id,
-    @required this.name,
-    @required this.description,
-    @required this.meetingID,
-    @required this.abbreviation,
-    @required this.sharecode,
-    @required this.joinLink,
-    @required this.referenceSchoolID,
-    @required this.settings,
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.meetingID,
+    required this.abbreviation,
+    required this.sharecode,
+    required this.joinLink,
+    required this.referenceSchoolID,
+    required this.settings,
   });
 
   factory SchoolClassData.create() {
     return const SchoolClassData._(
-      id: null,
+      id: '',
       name: "",
       description: "",
       abbreviation: "",
@@ -143,7 +145,9 @@ class SchoolClassData {
   }
 
   factory SchoolClassData.fromData(
-      {@required String id, @required Map<String, dynamic> data}) {
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return SchoolClassData._(
       id: id,
       name: data['name'],
@@ -179,14 +183,14 @@ class SchoolClassData {
   }
 
   SchoolClassData copyWith({
-    String id,
-    String name,
-    String description,
-    String abbreviation,
-    String sharecode,
-    String joinLink,
+    String? id,
+    String? name,
+    String? description,
+    String? abbreviation,
+    String? sharecode,
+    String? joinLink,
     referenceSchoolID,
-    CourseSettings settings,
+    CourseSettings? settings,
   }) {
     return SchoolClassData._(
       id: id ?? this.id,

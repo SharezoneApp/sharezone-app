@@ -23,10 +23,10 @@ import 'school_class_filter_view.dart';
 /// Feature ist vor allem für Eltern sehr hilfreich, um den Stundenplan nur für
 /// ein bestimmtes Kind anzuzeigen.
 class SchoolClassFilterBottomBar extends StatefulWidget {
-  const SchoolClassFilterBottomBar({Key key, this.backgroundColor})
+  const SchoolClassFilterBottomBar({Key? key, this.backgroundColor})
       : super(key: key);
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   _SchoolClassFilterBottomBarState createState() =>
@@ -37,7 +37,7 @@ class _SchoolClassFilterBottomBarState
     extends State<SchoolClassFilterBottomBar> {
   /// Die Tap-Position wird für das Popup-Menü bei Geräten mit einem großen
   /// Screen benötigt.
-  Offset _tapPosition;
+  Offset? _tapPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _SchoolClassFilterBottomBarState
   /// Bei Geräten mit einem großen Screen wird kein BottomModelSheet verwendet,
   /// da dies für große Geräte unpraktisch ist. Stattdessen wird ein Popup-Menü
   /// verwendet.
-  Future<SchoolClassFilter> _openSelectionMenu(
+  Future<SchoolClassFilter?> _openSelectionMenu(
       SchoolClassFilterView view) async {
     if (context.isDesktopModus) {
       return _openDesktopMenu(view);
@@ -112,14 +112,15 @@ class _SchoolClassFilterBottomBarState
     return _openMobileMenu(view);
   }
 
-  Future<SchoolClassFilter> _openMobileMenu(SchoolClassFilterView view) async {
+  Future<SchoolClassFilter?> _openMobileMenu(SchoolClassFilterView view) async {
     return showModalBottomSheet<SchoolClassFilter>(
       context: context,
       builder: (context) => _SelectionSheet(view: view),
     );
   }
 
-  Future<SchoolClassFilter> _openDesktopMenu(SchoolClassFilterView view) async {
+  Future<SchoolClassFilter?> _openDesktopMenu(
+      SchoolClassFilterView view) async {
     return showMenu<SchoolClassFilter>(
       context: context,
       position: _getMousePosition(context),
@@ -147,7 +148,7 @@ class _SchoolClassFilterBottomBarState
   RelativeRect _getMousePosition(BuildContext context) {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     return RelativeRect.fromRect(
-      _tapPosition & const Size(40, 40),
+      _tapPosition! & const Size(40, 40),
       Offset.zero & overlay.size,
     );
   }
@@ -155,8 +156,8 @@ class _SchoolClassFilterBottomBarState
 
 class _Text extends StatelessWidget {
   const _Text({
-    Key key,
-    @required this.view,
+    Key? key,
+    required this.view,
   }) : super(key: key);
 
   final SchoolClassFilterView view;
@@ -178,9 +179,9 @@ class _DesktopMenuTile extends StatelessWidget {
   final bool isSelected;
 
   const _DesktopMenuTile({
-    Key key,
-    this.title,
-    this.isSelected,
+    Key? key,
+    required this.title,
+    required this.isSelected,
   }) : super(key: key);
 
   @override
@@ -199,7 +200,7 @@ class _DesktopMenuTile extends StatelessWidget {
 }
 
 class _SelectionSheet extends StatelessWidget {
-  const _SelectionSheet({Key key, @required this.view}) : super(key: key);
+  const _SelectionSheet({Key? key, required this.view}) : super(key: key);
 
   final SchoolClassFilterView view;
 
@@ -234,15 +235,15 @@ class _SelectionSheet extends StatelessWidget {
 
 class _SelectionSheetTile extends StatelessWidget {
   const _SelectionSheetTile({
-    Key key,
-    this.isSelected,
-    this.title,
+    Key? key,
+    required this.isSelected,
+    required this.title,
     this.id,
   }) : super(key: key);
 
   final bool isSelected;
   final String title;
-  final GroupId id;
+  final GroupId? id;
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +255,7 @@ class _SelectionSheetTile extends StatelessWidget {
             context,
             id == null
                 ? SchoolClassFilter.showAllGroups()
-                : SchoolClassFilter.showSchoolClass(id)),
+                : SchoolClassFilter.showSchoolClass(id!)),
         trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
       ),
     );

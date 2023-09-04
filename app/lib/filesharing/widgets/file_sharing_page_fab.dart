@@ -24,12 +24,12 @@ import 'upload_file_dialog.dart';
 enum _FABAddOption { newFolder, camera, upload, gallery }
 
 class FileSharingPageFAB extends StatelessWidget {
-  const FileSharingPageFAB({Key key, this.groupState}) : super(key: key);
+  const FileSharingPageFAB({Key? key, this.groupState}) : super(key: key);
 
-  final FileSharingPageStateGroup groupState;
+  final FileSharingPageStateGroup? groupState;
 
-  String get courseID => groupState.groupID;
-  FolderPath get path => groupState.path;
+  String get courseID => groupState!.groupID;
+  FolderPath get path => groupState!.path;
 
   Future<bool> _checkCameraPermission() async {
     final permission = await Permission.camera.status;
@@ -61,7 +61,7 @@ class FileSharingPageFAB extends StatelessWidget {
               hint: "Ordnername",
               actionName: "Erstellen".toUpperCase(),
               onTap: (name) async {
-                final creatorName = (await api.user.userStream.first).name;
+                final creatorName = (await api.user.userStream.first)!.name;
                 final fileSharingData = await api.fileSharing.folderGateway
                     .getFilesharingData(courseID);
                 api.fileSharing.folderGateway.createFolder(
@@ -69,7 +69,7 @@ class FileSharingPageFAB extends StatelessWidget {
                     path,
                     Folder.create(
                       id: Folder.generateFolderID(
-                          folderName: name,
+                          folderName: name!,
                           folderPath: path,
                           fileSharingData: fileSharingData),
                       name: name,
@@ -93,7 +93,7 @@ class FileSharingPageFAB extends StatelessWidget {
             tempFiles.addAll(files ?? []);
           }
           if (tempFiles.isNotEmpty) {
-            final creatorName = (await api.user.userStream.first).name;
+            final creatorName = (await api.user.userStream.first)!.name;
             for (final file in tempFiles) {
               final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
                   courseID: courseID,
@@ -113,7 +113,7 @@ class FileSharingPageFAB extends StatelessWidget {
           if (hasPermissions) {
             final tempImage = await FilePicker().pickImageCamera();
             if (tempImage != null) {
-              final creatorName = (await api.user.userStream.first).name;
+              final creatorName = (await api.user.userStream.first)!.name;
               final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
                   courseID: courseID,
                   path: path,
@@ -141,7 +141,7 @@ class FileSharingPageFAB extends StatelessWidget {
         FileSharingPermissionsNoSync.fromContext(context).canUploadFiles(
             courseID: courseID,
             folderPath: path,
-            fileSharingData: groupState.initialFileSharingData);
+            fileSharingData: groupState!.initialFileSharingData);
     if (!hasPermissionsToUpload) return Container();
     return ModalFloatingActionButton(
       tooltip: 'Neu erstellen',
@@ -152,7 +152,7 @@ class FileSharingPageFAB extends StatelessWidget {
 }
 
 class _FABModalBottomSheetContent extends StatefulWidget {
-  const _FABModalBottomSheetContent({Key key}) : super(key: key);
+  const _FABModalBottomSheetContent({Key? key}) : super(key: key);
 
   @override
   __FABModalBottomSheetContentState createState() =>

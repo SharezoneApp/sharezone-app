@@ -8,6 +8,6 @@
 
 import '../file_saver.dart';
 
-FileSaver getFileSaver() {
+FileSaver? getFileSaver() {
   return null;
 }

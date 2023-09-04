@@ -30,26 +30,30 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   final _sendNotificationSubject = BehaviorSubject<bool>();
 
   final BlackboardDialogApi api;
-  final BlackboardItem initalBlackboardItem;
+  final BlackboardItem? initialBlackboardItem;
 
   final MarkdownAnalytics _markdownAnalytics;
 
-  BlackboardDialogBloc(this.api, this._markdownAnalytics,
-      {BlackboardItem blackboardItem})
-      : initalBlackboardItem = blackboardItem {
+  BlackboardDialogBloc(
+    this.api,
+    this._markdownAnalytics, {
+    BlackboardItem? blackboardItem,
+  }) : initialBlackboardItem = blackboardItem {
     if (blackboardItem != null) {
       loadInitialCloudFiles(
-          blackboardItem.courseReference.id, blackboardItem.id);
+          blackboardItem.courseReference!.id, blackboardItem.id);
 
       changeTitle(blackboardItem.title);
-      changeText(blackboardItem.text);
+      if (blackboardItem.text != null) {
+        changeText(blackboardItem.text!);
+      }
       changeSendNotification(false);
       final c = Course.create().copyWith(
         subject: blackboardItem.subject,
         name: blackboardItem.subject,
         sharecode: "000000",
         abbreviation: blackboardItem.subjectAbbreviation,
-        id: blackboardItem.courseReference.id,
+        id: blackboardItem.courseReference!.id,
       );
       changeCourseSegment(c);
     }
@@ -71,25 +75,19 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
       _sendNotificationSubject.sink.add;
   Function(List<LocalFile>) get addLocalFile => (localFiles) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull);
-        }
+        list.addAll(_localFilesSubject.value);
         list.addAll(localFiles);
         _localFilesSubject.sink.add(list);
       };
   Function(LocalFile) get removeLocalFile => (localFile) {
         final list = <LocalFile>[];
-        if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull);
-        }
+        list.addAll(_localFilesSubject.value);
         list.remove(localFile);
         _localFilesSubject.sink.add(list);
       };
   Function(CloudFile) get removeCloudFile => (cloudFile) {
         final list = <CloudFile>[];
-        if (_cloudFilesSubject.valueOrNull != null) {
-          list.addAll(_cloudFilesSubject.valueOrNull);
-        }
+        list.addAll(_cloudFilesSubject.value);
         list.remove(cloudFile);
         _cloudFilesSubject.sink.add(list);
       };
@@ -135,24 +133,24 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
 
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
     final cloudFiles =
-        _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
+        _cloudFilesSubject.valueOrNull!.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
-    if (initalBlackboardItem == null) {
+    if (initialBlackboardItem == null) {
       return isNotEmptyOrNull(title) ||
           isNotEmptyOrNull(text) ||
           hasAttachments ||
           course != null;
     } else {
-      return title != initalBlackboardItem.title ||
-          text != initalBlackboardItem.text ||
-          course.id != initalBlackboardItem.courseReference.id ||
+      return title != initialBlackboardItem?.title ||
+          text != initialBlackboardItem?.text ||
+          course?.id != initialBlackboardItem?.courseReference?.id ||
           hasAttachments ||
-          initalBlackboardItem.attachments.length != cloudFiles.length;
+          initialBlackboardItem?.attachments.length != cloudFiles.length;
     }
   }
 
-  Future<void> submit({BlackboardItem oldBlackboardItem}) async {
+  Future<void> submit({BlackboardItem? oldBlackboardItem}) async {
     if (isValid()) {
       final title = _titleSubject.valueOrNull;
       final course = _courseSegmentSubject.valueOrNull;
@@ -162,12 +160,13 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
       final sendNotification = _sendNotificationSubject.valueOrNull;
 
       final userInput = UserInput(
-          title: title,
-          course: course,
-          text: text,
-          pictureURL: pictureURL,
-          localFiles: localFiles,
-          sendNotification: sendNotification);
+        title: title!,
+        course: course!,
+        text: text,
+        pictureURL: pictureURL,
+        localFiles: localFiles,
+        sendNotification: sendNotification,
+      );
 
       final hasAttachments = localFiles != null && localFiles.isNotEmpty;
       if (oldBlackboardItem == null) {
@@ -180,7 +179,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
           _markdownAnalytics.logMarkdownUsedBlackboard();
       } else {
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.valueOrNull);
+          initialCloudFiles,
+          _cloudFilesSubject.valueOrNull!,
+        );
 
         // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
         // weil die Daten sofort in Firestore gespeichert werden können und somit
@@ -208,18 +209,20 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
 }
 
 class UserInput {
-  final String title, text, pictureURL;
+  final String title;
+  final String? text, pictureURL;
   final Course course;
-  final List<LocalFile> localFiles;
-  final bool sendNotification;
+  final List<LocalFile>? localFiles;
+  final bool? sendNotification;
 
-  UserInput(
-      {this.title,
-      this.course,
-      this.text,
-      this.pictureURL,
-      this.localFiles,
-      this.sendNotification});
+  UserInput({
+    required this.title,
+    required this.course,
+    this.text,
+    this.pictureURL,
+    this.localFiles,
+    this.sendNotification,
+  });
 }
 
 class BlackboardDialogApi {
@@ -238,19 +241,19 @@ class BlackboardDialogApi {
     final localFiles = userInput.localFiles;
     final sendNotification = userInput.sendNotification;
 
-    final authorName = (await api.user.userStream.first).name;
-    final authorReference = api.references.users.doc(api.user.authUser.uid);
-    final authorID = authorReference.id;
+    final authorName = (await api.user.userStream.first)?.name ?? "-";
+    final authorID = api.user.authUser!.uid;
 
     final attachments = await api.fileSharing.uploadAttachments(
-        localFiles, courseReference.id, authorID, authorName);
+      localFiles,
+      courseReference.id,
+      authorID,
+      authorName,
+    );
 
     final blackboardItem = BlackboardItem.create(
-            authorReference: authorReference,
-            authorID: authorID,
-            courseReference: courseReference)
+            authorID: authorID, courseReference: courseReference)
         .copyWith(
-      authorReference: authorReference,
       authorName: authorName,
       courseName: courseName,
       subject: subject,
@@ -272,15 +275,15 @@ class BlackboardDialogApi {
 
   Future<BlackboardItem> edit(BlackboardItem oldBlackboardItem,
       UserInput userInput, List<CloudFile> removedCloudFiles) async {
-    final attachments = oldBlackboardItem.attachments?.toList() ?? [];
+    final attachments = oldBlackboardItem.attachments.toList();
 
-    final editorName = (await api.user.userStream.first).name;
-    final editorID = api.user.authUser.uid;
+    final editorName = (await api.user.userStream.first)?.name ?? "-";
+    final editorID = api.user.authUser!.uid;
 
     for (int i = 0; i < removedCloudFiles.length; i++) {
       attachments.remove(removedCloudFiles[i].id);
       api.fileSharing.removeReferenceData(
-          removedCloudFiles[i].id,
+          removedCloudFiles[i].id!,
           ReferenceData(
               type: ReferenceType.blackboard, id: oldBlackboardItem.id));
     }
@@ -288,7 +291,7 @@ class BlackboardDialogApi {
     final localFiles = userInput.localFiles;
     final newAttachments = await api.fileSharing.uploadAttachments(
       localFiles,
-      oldBlackboardItem.courseReference.id,
+      oldBlackboardItem.courseReference!.id,
       editorID,
       editorName,
     );

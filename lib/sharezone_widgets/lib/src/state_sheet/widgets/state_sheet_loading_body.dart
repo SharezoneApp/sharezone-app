@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateSheetLoadingBody extends StatelessWidget {
-  const StateSheetLoadingBody({Key key}) : super(key: key);
+  const StateSheetLoadingBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
         SizedBox(height: 32),
         SizedBox(
           width: 35,

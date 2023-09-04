@@ -9,10 +9,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:user/user.dart';
 
@@ -38,10 +37,15 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
     List<MemberData> membersData = [];
 
     void update() {
-      streamController.add(List.of(membersData)
-        ..addAll(joinedUsersData.where((joinedUser) =>
-                membersData.where((it) => it.id == joinedUser.id).isEmpty) ??
-            []));
+      streamController.add(
+        List.of(membersData)
+          ..addAll(
+            joinedUsersData.where(
+              (joinedUser) =>
+                  membersData.where((it) => it.id == joinedUser.id).isEmpty,
+            ),
+          ),
+      );
     }
 
     final subscription2 = _firestore
@@ -53,15 +57,16 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
       try {
         if (querySnapshot.docs.isNotEmpty) {
           joinedUsersData = querySnapshot.docs.map((docSnapshot) {
+            final data = docSnapshot.data();
             return MemberData.create(
               id: docSnapshot.id,
-              role: docSnapshot.data()['powerLevel'] == 'owner'
+              role: data['powerLevel'] == 'owner'
                   ? MemberRole.owner
                   : MemberRole.creator,
               user: AppUser.create(id: docSnapshot.id).copyWith(
-                  name: docSnapshot.data()['name'],
-                  typeOfUser: enumFromString(
-                      TypeOfUser.values, docSnapshot.data()['typeOfUser'])),
+                name: data['name'],
+                typeOfUser: TypeOfUser.values.byName(data['typeOfUser']),
+              ),
             );
           }).toList();
           update();
@@ -73,8 +78,12 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
     final subscription = _memberReference(courseID)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((docSnap) =>
-                MemberData.fromData(docSnap.data(), id: docSnap.id))
+            .map(
+              (docSnap) => MemberData.fromData(
+                docSnap.data() as Map<String, dynamic>,
+                id: docSnap.id,
+              ),
+            )
             .toList())
         .listen((newData) {
       membersData = newData;
@@ -92,11 +101,15 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
   Stream<MemberData> streamSingleMember(String courseID, String memberID) {
     // ignore:close_sinks
     final StreamController<MemberData> streamController = StreamController();
-    MemberData joinedUsersData;
-    MemberData membersData;
+    MemberData? joinedUsersData;
+    MemberData? membersData;
 
     void update() {
-      streamController.add(membersData ?? joinedUsersData);
+      if (membersData != null) {
+        streamController.add(membersData!);
+      } else if (joinedUsersData != null) {
+        streamController.add(joinedUsersData!);
+      }
     }
 
     final subscription2 = _firestore
@@ -108,15 +121,16 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
         .listen((docSnapshot) {
       try {
         if (docSnapshot.exists) {
+          final data = docSnapshot.data()!;
           joinedUsersData = MemberData.create(
             id: docSnapshot.id,
-            role: docSnapshot.data()['powerLevel'] == 'owner'
+            role: data['powerLevel'] == 'owner'
                 ? MemberRole.owner
                 : MemberRole.creator,
             user: AppUser.create(id: docSnapshot.id).copyWith(
-                name: docSnapshot.data()['name'],
-                typeOfUser: enumFromString(
-                    TypeOfUser.values, docSnapshot.data()['typeOfUser'])),
+              name: data['name'],
+              typeOfUser: TypeOfUser.values.byName(data['typeOfUser']),
+            ),
           );
         } else {
           joinedUsersData = null;
@@ -129,7 +143,9 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
     final subscription = _memberReference(courseID)
         .doc(memberID)
         .snapshots()
-        .map((docSnap) => MemberData.fromData(docSnap.data(), id: docSnap.id))
+        .map((docSnap) => MemberData.fromData(
+            docSnap.data() as Map<String, dynamic>,
+            id: docSnap.id))
         .listen((newData) {
       membersData = newData;
       update();

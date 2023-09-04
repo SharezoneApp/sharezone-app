@@ -13,11 +13,11 @@ import 'package:rxdart/rxdart.dart';
 
 class TeacherHomeworkBottomActionBar extends StatelessWidget {
   const TeacherHomeworkBottomActionBar({
-    Key key,
-    @required this.backgroundColor,
+    Key? key,
+    required this.backgroundColor,
   }) : super(key: key);
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +41,12 @@ class TeacherSortButton extends StatelessWidget {
   static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
 
   String _sortString(HomeworkSort sort) {
-    if (sort == null) return '';
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return sortByDateSortButtonUiString;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return sortBySubjectSortButtonUiString;
     }
-    throw UnimplementedError('HomeworkSort $sort not implemented');
   }
 
   HomeworkSort _getNextSort(HomeworkSort current) {
@@ -58,7 +56,6 @@ class TeacherSortButton extends StatelessWidget {
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return HomeworkSort.smallestDateSubjectAndTitle;
     }
-    throw UnimplementedError();
   }
 
   @override
@@ -67,9 +64,10 @@ class TeacherSortButton extends StatelessWidget {
     final bloc = BlocProvider.of<TeacherHomeworkPageBloc>(context);
 
     return StreamBuilder<Success>(
-      stream: bloc.whereType<Success>(),
+      stream: bloc.stream.whereType<Success>(),
       builder: (context, snapshot) {
-        final currentSort = snapshot?.data?.open?.sorting;
+        final currentSort = snapshot.data?.open.sorting ??
+            HomeworkSort.subjectSmallestDateAndTitleSort;
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(

@@ -15,11 +15,11 @@ void main() {
     const list = [0, 1, 2, 3, 4, 5];
 
     void testRowWith({
-      @required Color color,
-      @required int index,
-      @required WidgetTester tester,
+      required Color? color,
+      required int index,
+      required WidgetTester tester,
     }) {
-      assert(color != null && index != null && tester != null);
+      assert(color != null);
 
       final row = tester.firstWidget<Material>(
           find.byKey(ValueKey('AlternatingColoredList;Item:$index')));

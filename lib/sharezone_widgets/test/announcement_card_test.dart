@@ -13,9 +13,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 void main() {
   group('AnnouncementCard', () {
     Future<void> pumpAnnouncementCard(
-        {@required WidgetTester tester, @required Widget card}) async {
-      assert(tester != null && card != null);
-
+        {required WidgetTester tester, required Widget card}) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(child: card),

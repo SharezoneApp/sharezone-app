@@ -17,7 +17,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
-  const SharezonePlusPage({Key key}) : super(key: key);
+  const SharezonePlusPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

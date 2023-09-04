@@ -32,7 +32,7 @@ class TimetableDateHelper {
     int days = endDateTime.difference(startDateTime).inDays.abs() + 1;
     return List.generate(days,
             (it) => Date.fromDateTime(startDateTime.add(Duration(days: it))))
-        .where((it) => enabledWeekDays.getValue(it.weekDayEnum))
+        .where((it) => enabledWeekDays.getValue(it.weekDayEnum)!)
         .toList();
   }
 

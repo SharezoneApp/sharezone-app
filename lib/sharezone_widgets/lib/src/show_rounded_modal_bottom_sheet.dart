@@ -8,23 +8,19 @@
 
 import 'package:flutter/material.dart';
 
-Future<T> showRoundedModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color backgroundColor,
-  double elevation,
+Future<T?> showRoundedModalBottomSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  Color? backgroundColor,
+  double? elevation,
   bool isScrollControlled = false,
   bool useRootNavigator = false,
-  T defaultValue,
+  T? defaultValue,
 }) async {
-  assert(context != null);
-  assert(builder != null);
-  assert(isScrollControlled != null);
-  assert(useRootNavigator != null);
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
 
-  T res = await showModalBottomSheet<T>(
+  T? res = await showModalBottomSheet<T>(
     context: context,
     builder: builder,
     backgroundColor: backgroundColor,

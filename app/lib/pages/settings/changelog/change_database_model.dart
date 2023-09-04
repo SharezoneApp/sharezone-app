@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
@@ -21,27 +20,29 @@ class ChangeDatabaseModel {
   final List<String> fixes;
 
   const ChangeDatabaseModel._({
-    @required this.id,
-    @required this.version,
-    @required this.releaseDate,
-    @required this.newFeatures,
-    @required this.improvements,
-    @required this.fixes,
+    required this.id,
+    required this.version,
+    required this.releaseDate,
+    required this.newFeatures,
+    required this.improvements,
+    required this.fixes,
   });
 
   factory ChangeDatabaseModel.create() {
     return ChangeDatabaseModel._(
       id: "",
       version: "",
-      releaseDate: null,
+      releaseDate: DateTime.now(),
       newFeatures: [],
       improvements: [],
       fixes: [],
     );
   }
 
-  factory ChangeDatabaseModel.fromData(Map<String, dynamic> data,
-      {@required String id}) {
+  factory ChangeDatabaseModel.fromData(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return ChangeDatabaseModel._(
       id: id,
       version: data['version'] as String,
@@ -57,16 +58,16 @@ class ChangeDatabaseModel {
         releaseDate: releaseDate,
         newFeatures: newFeatures,
         improvements: improvements,
-        version: Version(name: version),
+        version: Version.parse(name: version),
       );
 
   ChangeDatabaseModel copyWith({
-    String id,
-    String version,
-    DateTime releaseDate,
-    List<String> newFeatures,
-    List<String> improvements,
-    List<String> fixes,
+    String? id,
+    String? version,
+    DateTime? releaseDate,
+    List<String>? newFeatures,
+    List<String>? improvements,
+    List<String>? fixes,
   }) {
     return ChangeDatabaseModel._(
       id: id ?? this.id,

@@ -19,9 +19,9 @@ class PrivacyPolicyPage extends StatelessWidget {
   static const tag = "privacy-policy-page";
 
   PrivacyPolicyPage({
-    Key key,
-    PrivacyPolicy privacyPolicy,
-    PrivacyPolicyPageConfig config,
+    Key? key,
+    PrivacyPolicy? privacyPolicy,
+    PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
   })  : privacyPolicy = privacyPolicy ?? v1PrivacyPolicy,
         config = config ??

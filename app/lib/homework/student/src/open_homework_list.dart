@@ -23,7 +23,7 @@ import 'util.dart';
 /// loading.
 class OpenHomeworkList extends StatelessWidget {
   final OpenHomeworkListView homeworkListView;
-  final Color overscrollColor;
+  final Color? overscrollColor;
 
   /// Whether to show the [MarkOverdueHomeworkPrompt] to the user.
   ///
@@ -34,9 +34,9 @@ class OpenHomeworkList extends StatelessWidget {
   final bool showCompleteAllOverdueCard;
 
   const OpenHomeworkList({
-    Key key,
-    @required this.homeworkListView,
-    @required this.overscrollColor,
+    Key? key,
+    required this.homeworkListView,
+    required this.overscrollColor,
     this.showCompleteAllOverdueCard = false,
   }) : super(key: key);
 
@@ -74,5 +74,5 @@ class OpenHomeworkList extends StatelessWidget {
   }
 
   bool _nullOrEmpty(List<HomeworkSectionView> homeworkSections) =>
-      homeworkSections == null || homeworkSections.isEmpty;
+      homeworkSections.isEmpty;
 }

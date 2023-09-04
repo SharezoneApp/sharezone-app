@@ -12,17 +12,17 @@ import 'package:sharezone_utils/dimensions.dart';
 class ModalFloatingActionButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Icon icon;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final String tooltip;
-  final String heroTag;
-  final String label;
+  final String? heroTag;
+  final String? label;
 
   const ModalFloatingActionButton({
-    Key key,
-    @required this.onPressed,
-    @required this.icon,
+    Key? key,
+    required this.onPressed,
+    required this.icon,
     this.backgroundColor,
-    @required this.tooltip,
+    required this.tooltip,
     this.label,
     this.heroTag,
   }) : super(key: key);

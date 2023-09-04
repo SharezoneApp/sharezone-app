@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 
 class PrefilledTextField extends StatefulWidget {
   const PrefilledTextField({
-    Key key,
-    @required this.prefilledText,
+    Key? key,
+    required this.prefilledText,
     this.autofocus = false,
     this.onEditingComplete,
     this.onChanged,
@@ -26,12 +26,12 @@ class PrefilledTextField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.autofillHints,
     this.autoSelectAllCharactersOnFirstBuild = false,
-  })  : assert(autoSelectAllCharactersOnFirstBuild != null),
-        super(key: key);
+    this.textCapitalization = TextCapitalization.none,
+  }) : super(key: key);
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.
-  final String prefilledText;
+  final String? prefilledText;
 
   /// Will autoselect the [prefilledText] on the first build if true.
   /// This helps the user to quickly delete the default [prefilledText] and
@@ -92,7 +92,7 @@ class PrefilledTextField extends StatefulWidget {
   /// showing when it is tapped by calling [EditableTextState.requestKeyboard()].
   ///
   /// (Copied from [TextField.focusNode])
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// Called when the user submits editable content (e.g., user presses the "done"
   /// button on the keyboard).
@@ -111,18 +111,18 @@ class PrefilledTextField extends StatefulWidget {
   ///
   /// Providing [onEditingComplete] prevents the aforementioned default behavior.
   /// (Copied from  [TextField.onEditingComplete])
-  final VoidCallback onEditingComplete;
+  final VoidCallback? onEditingComplete;
 
   /// Called when the user initiates a change to the TextField's
   /// value: when they have inserted or deleted text.
   ///
   /// This callback doesn't run when the TextField's text is changed
-  /// programmatically, via the TextField's [controller]. Typically it
+  /// programmatically, via the TextField's [mockController]. Typically it
   /// isn't necessary to be notified of such changes, since they're
   /// initiated by the app itself.
   ///
   /// To be notified of all changes to the TextField's text, cursor,
-  /// and selection, one can add a listener to its [controller] with
+  /// and selection, one can add a listener to its [mockController] with
   /// [TextEditingController.addListener].
   ///
   /// {@tool dartpad --template=stateful_widget_material}
@@ -189,7 +189,7 @@ class PrefilledTextField extends StatefulWidget {
   ///    which are more specialized input change notifications.
   ///
   /// (Copied from [TextField.onChanged])
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onChanged;
 
   /// The type of action button to use for the keyboard.
   ///
@@ -197,7 +197,7 @@ class PrefilledTextField extends StatefulWidget {
   /// [TextInputType.multiline] and [TextInputAction.done] otherwise.
   ///
   /// (Copied from [TextField.textInputAction])
-  final TextInputAction textInputAction;
+  final TextInputAction? textInputAction;
 
   /// The decoration to show around the text field.
   ///
@@ -208,7 +208,7 @@ class PrefilledTextField extends StatefulWidget {
   /// extra padding introduced by the decoration to save space for the labels).
   ///
   /// (Copied from [TextField.decoration])
-  final InputDecoration decoration;
+  final InputDecoration? decoration;
 
   /// The maximum number of characters (Unicode scalar values) to allow in the
   /// text field.
@@ -263,7 +263,7 @@ class PrefilledTextField extends StatefulWidget {
   ///    counts characters, and how it may differ from the intuitive meaning.
   ///
   /// (Copied from [TextField.maxLength])
-  final int maxLength;
+  final int? maxLength;
 
   /// The maximum number of lines for the text to span, wrapping if necessary.
   ///
@@ -308,7 +308,7 @@ class PrefilledTextField extends StatefulWidget {
   /// ```
   ///
   /// (Copied from [TextField.maxLines])
-  final int maxLines;
+  final int? maxLines;
 
   /// The style to use for the text being edited.
   ///
@@ -317,7 +317,7 @@ class PrefilledTextField extends StatefulWidget {
   /// If null, defaults to the `subtitle1` text style from the current [Theme].
   ///
   /// (Copied from [TextField.style])
-  final TextStyle style;
+  final TextStyle? style;
 
   /// The color of the cursor.
   ///
@@ -329,7 +329,7 @@ class PrefilledTextField extends StatefulWidget {
   /// [ThemeData.platform] is [TargetPlatform.iOS] or [TargetPlatform.macOS]
   /// it will use [CupertinoThemeData.primaryColor]. Otherwise it will use
   /// the value of [ColorScheme.primary] of [ThemeData.colorScheme].
-  final Color cursorColor;
+  final Color? cursorColor;
 
   /// The type of keyboard to use for editing the text.
   ///
@@ -337,7 +337,7 @@ class PrefilledTextField extends StatefulWidget {
   /// [TextInputType.multiline] otherwise.
   ///
   /// (Copied from [TextField.keyboardType])
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
 
   /// Configures padding to edges surrounding a [Scrollable] when the Textfield scrolls into view.
   ///
@@ -418,23 +418,25 @@ class PrefilledTextField extends StatefulWidget {
   ///   the web equivalent.
   ///
   /// (Copied from [TextField.autofillHints])
-  final Iterable<String> autofillHints;
+  final Iterable<String>? autofillHints;
+
+  /// See [TextField.textCapitalization].
+  final TextCapitalization textCapitalization;
 
   @override
   State createState() => _PrefilledTextFieldState();
 }
 
 class _PrefilledTextFieldState extends State<PrefilledTextField> {
-  TextEditingController controller;
+  TextEditingController? controller;
 
   @override
   void initState() {
     super.initState();
     controller = TextEditingController(text: widget.prefilledText);
-    if (widget.autoSelectAllCharactersOnFirstBuild != null &&
-        widget.autoSelectAllCharactersOnFirstBuild) {
-      controller.selection =
-          TextSelection(baseOffset: 0, extentOffset: controller.text.length);
+    if (widget.autoSelectAllCharactersOnFirstBuild) {
+      controller!.selection =
+          TextSelection(baseOffset: 0, extentOffset: controller!.text.length);
     }
   }
 
@@ -455,6 +457,7 @@ class _PrefilledTextFieldState extends State<PrefilledTextField> {
       keyboardType: widget.keyboardType,
       cursorColor: widget.cursorColor,
       scrollPadding: widget.scrollPadding,
+      textCapitalization: widget.textCapitalization,
     );
   }
 }

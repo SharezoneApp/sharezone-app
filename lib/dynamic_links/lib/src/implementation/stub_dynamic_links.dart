@@ -12,7 +12,7 @@ import '../dynamic_links.dart';
 
 class StubDynamicLinks extends DynamicLinks {
   @override
-  Future<DynamicLinkData> getInitialLink() {
+  Future<DynamicLinkData>? getInitialLink() {
     return null;
   }
 

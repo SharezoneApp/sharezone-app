@@ -46,6 +46,8 @@ Future<void> deleteHomeworkDialogsEntry(
     case _DeleteDialogOptions.onlyUser:
       _deleteOnlyForCurrentUser(context, homework);
       break;
+    case null:
+      break;
   }
 }
 
@@ -62,7 +64,7 @@ void _deleteHomeworkForAllAndShowDialogIfAttachementsExist(
     _showAttachmentsDeleteOrRemainDialog(context, homework, popTwice);
   else {
     api.homework.deleteHomework(homework);
-    if (popTwice != null && popTwice) Navigator.pop(context);
+    if (popTwice) Navigator.pop(context);
   }
 }
 

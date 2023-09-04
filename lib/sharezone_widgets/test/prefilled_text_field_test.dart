@@ -12,7 +12,7 @@ import 'package:sharezone_widgets/src/widgets.dart';
 
 void main() {
   Future<void> pumpTextField(
-      {@required WidgetTester tester, @required Widget textField}) async {
+      {required WidgetTester tester, required Widget textField}) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
@@ -31,7 +31,7 @@ void main() {
           tester: tester,
           textField: const PrefilledTextField(prefilledText: sharezone));
       final TextField textField = tester.firstWidget(find.byType(TextField));
-      expect(textField.controller.text, sharezone);
+      expect(textField.controller!.text, sharezone);
     });
 
     testWidgets(
@@ -48,7 +48,7 @@ void main() {
 
       // Checks if 'sharezone' is selected in 'tf1'
       expect(
-        tf1.controller.selection,
+        tf1.controller!.selection,
         const TextSelection(baseOffset: 0, extentOffset: sharezone.length),
       );
     });
@@ -67,7 +67,7 @@ void main() {
 
       // Checks if 'sharezone' is not selected in 'tf1'
       expect(
-        tf1.controller.selection,
+        tf1.controller!.selection,
         const TextSelection(baseOffset: -1, extentOffset: -1),
       );
     });

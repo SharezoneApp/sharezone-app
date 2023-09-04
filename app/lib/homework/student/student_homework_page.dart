@@ -25,7 +25,7 @@ import 'src/empty_homework_list_widgets/homework_status.dart';
 import 'src/open_homework_list.dart';
 
 class StudentHomeworkPage extends StatelessWidget {
-  const StudentHomeworkPage({Key key}) : super(key: key);
+  const StudentHomeworkPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class StudentHomeworkPage extends StatelessWidget {
 
 enum HomeworkTab { open, completed }
 
-final Color overscrollColor = Colors.grey[600];
+final Color? overscrollColor = Colors.grey[600];
 
 class StudentHomeworkBody extends StatelessWidget {
   Widget getCenteredPlaceholder(HomeworkTab tab, HomeworkPageStatus status) {
@@ -80,7 +80,7 @@ class StudentHomeworkBody extends StatelessWidget {
     );
   }
 
-  const StudentHomeworkBody({Key key}) : super(key: key);
+  const StudentHomeworkBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +88,8 @@ class StudentHomeworkBody extends StatelessWidget {
     final bloc = BlocProvider.of<HomeworkPageBloc>(context);
     bloc.add(LoadHomeworks());
     return StreamBuilder<HomeworkPageState>(
-      stream: bloc,
-      initialData: Uninitialized(),
+      stream: bloc.stream,
+      initialData: bloc.state,
       builder: (context, snapshot) {
         final state = snapshot.hasData ? snapshot.data : Uninitialized();
 

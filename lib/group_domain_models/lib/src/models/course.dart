@@ -10,42 +10,44 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'member_role.dart';
-import 'write_permissions.dart';
+
 import 'group_info.dart';
 import 'group_type.dart';
-import 'group_key.dart';
+import 'member_role.dart';
+import 'write_permissions.dart';
 
 class Course {
-  final String id, name, subject, abbreviation, sharecode, joinLink, meetingID;
+  final String id;
+  final String name, subject, abbreviation;
+  final String? sharecode, joinLink, meetingID;
   final MemberRole myRole;
   final CourseSettings settings;
   final bool version2;
-  final GroupId groupId;
-  final Design design, personalDesign;
-  final String personalSharecode, personalJoinLink;
+  final GroupId? groupId;
+  final Design? design, personalDesign;
+  final String? personalSharecode, personalJoinLink;
 
   const Course._({
-    @required this.id,
-    @required this.name,
-    @required this.settings,
-    @required this.sharecode,
-    @required this.joinLink,
-    @required this.subject,
-    @required this.abbreviation,
-    @required this.meetingID,
-    @required this.myRole,
-    @required this.design,
-    @required this.personalDesign,
-    @required this.personalSharecode,
-    @required this.personalJoinLink,
-    @required this.groupId,
+    required this.id,
+    required this.name,
+    required this.settings,
+    required this.sharecode,
+    required this.joinLink,
+    required this.subject,
+    required this.abbreviation,
+    required this.meetingID,
+    required this.myRole,
+    required this.design,
+    required this.personalDesign,
+    required this.personalSharecode,
+    required this.personalJoinLink,
+    required this.groupId,
     this.version2 = true,
   });
 
   factory Course.create() {
     return Course._(
-      id: null,
+      id: "",
       name: "",
       subject: "",
       sharecode: null,
@@ -53,17 +55,16 @@ class Course {
       personalSharecode: null,
       personalJoinLink: null,
       meetingID: null,
-      abbreviation: null,
+      abbreviation: "",
       groupId: null,
-      myRole: null,
-      design: Design
-          .standard(), // MIGHT WANT TO CHANGE IT TO RANDOM OR SO, TO GENERATE A RANDOM COLOR
+      myRole: MemberRole.standard,
+      design: Design.random(),
       settings: CourseSettings.standard,
       personalDesign: null,
     );
   }
 
-  factory Course.fromData(Map<String, dynamic> data, {@required String id}) {
+  factory Course.fromData(Map<String, dynamic> data, {required String id}) {
     return Course._(
       id: id,
       name: data['name'] ?? "",
@@ -76,7 +77,7 @@ class Course {
       groupId: GroupId(id),
       abbreviation:
           data['abbreviation'] ?? _getAbbreviationFromName(data['name'] ?? ""),
-      myRole: memberRoleEnumFromString(data['myRole'] ?? 'standard'),
+      myRole: MemberRole.values.byName(data['myRole'] ?? 'standard'),
       settings: CourseSettings.fromData(data['settings']),
       design: Design.fromData(data['design']),
       personalDesign: data['personalDesign'] != null
@@ -93,7 +94,7 @@ class Course {
       'publicKey': sharecode,
       'joinLink': joinLink,
       'meetingID': meetingID,
-      'myRole': memberRoleEnumToString(myRole),
+      'myRole': myRole.name,
       'settings': settings.toJson(),
       'design': design?.toJson(),
     };
@@ -109,17 +110,17 @@ class Course {
   }
 
   Course copyWith({
-    String id,
-    String name,
-    String subject,
-    String abbreviation,
-    String sharecode,
-    String joinLink,
-    String meetingID,
-    MemberRole myRole,
-    CourseSettings settings,
-    bool version2,
-    Design design,
+    String? id,
+    String? name,
+    String? subject,
+    String? abbreviation,
+    String? sharecode,
+    String? joinLink,
+    String? meetingID,
+    MemberRole? myRole,
+    CourseSettings? settings,
+    bool? version2,
+    Design? design,
     personalDesign,
   }) {
     return Course._(
@@ -145,11 +146,11 @@ class Course {
     return personalDesign ?? design ?? Design.standard();
   }
 
-  String getPublicKey() {
+  String? getPublicKey() {
     return personalSharecode ?? sharecode;
   }
 
-  String getJoinLink() {
+  String? getJoinLink() {
     return personalJoinLink ?? joinLink;
   }
 
@@ -166,37 +167,35 @@ class Course {
       myRole: myRole,
     );
   }
-
-  GroupKey getGroupKey() {
-    return GroupKey(id: id, groupType: GroupType.course);
-  }
 }
 
 class CourseData {
-  final String id, name, subject, description, abbreviation;
-  final String sharecode, joinLink, referenceSchoolID, meetingID;
-  final List<String> referenceSchoolClassIDs;
+  final String id;
+  final String name, subject, abbreviation;
+  final String? description;
+  final String? sharecode, joinLink, referenceSchoolID, meetingID;
+  final List<String?>? referenceSchoolClassIDs;
   final CourseSettings settings;
   final Design design;
 
   const CourseData._({
-    @required this.id,
-    @required this.name,
-    @required this.subject,
-    @required this.description,
-    @required this.abbreviation,
-    @required this.sharecode,
-    @required this.joinLink,
-    @required this.meetingID,
-    @required this.referenceSchoolID,
-    @required this.referenceSchoolClassIDs,
-    @required this.settings,
-    @required this.design,
+    required this.id,
+    required this.name,
+    required this.subject,
+    required this.description,
+    required this.abbreviation,
+    required this.sharecode,
+    required this.joinLink,
+    required this.meetingID,
+    required this.referenceSchoolID,
+    required this.referenceSchoolClassIDs,
+    required this.settings,
+    required this.design,
   });
 
   factory CourseData.create() {
     return CourseData._(
-      id: null,
+      id: '',
       name: "",
       subject: "",
       description: "",
@@ -211,8 +210,10 @@ class CourseData {
     );
   }
 
-  factory CourseData.fromData(
-      {@required String id, @required Map<String, dynamic> data}) {
+  factory CourseData.fromData({
+    required String id,
+    required Map<String, dynamic> data,
+  }) {
     return CourseData._(
       id: id,
       name: data['name'],
@@ -241,7 +242,7 @@ class CourseData {
       'settings': settings.toJson(),
       'referenceSchoolClassIDs': referenceSchoolClassIDs,
       'referenceSchoolID': referenceSchoolID,
-      'design': design?.toJson(),
+      'design': design.toJson(),
     };
   }
 
@@ -274,16 +275,16 @@ class CourseData {
   }
 
   CourseData copyWith({
-    String id,
+    String? id,
     name,
     subject,
     description,
     abbreviation,
-    String publicKey,
-    String joinLink,
+    String? publicKey,
+    String? joinLink,
     referenceSchoolID,
-    List<String> referenceSchoolClassIDs,
-    CourseSettings settings,
+    List<String>? referenceSchoolClassIDs,
+    CourseSettings? settings,
   }) {
     return CourseData._(
       id: id ?? this.id,
@@ -310,9 +311,9 @@ class CourseSettings {
   final WritePermission writePermission;
 
   const CourseSettings._({
-    @required this.isPublic,
-    @required this.isMeetingEnabled,
-    @required this.writePermission,
+    required this.isPublic,
+    required this.isMeetingEnabled,
+    required this.writePermission,
   });
 
   static const CourseSettings standard = CourseSettings._(
@@ -321,13 +322,13 @@ class CourseSettings {
     writePermission: WritePermission.everyone,
   );
 
-  factory CourseSettings.fromData(Map<String, dynamic> data) {
+  factory CourseSettings.fromData(Map<String, dynamic>? data) {
     if (data == null) return standard;
     return CourseSettings._(
       isPublic: data['isPublic'] ?? true,
       isMeetingEnabled: data['isMeetingEnabled'] ?? true,
       writePermission:
-          writePermissionEnumFromString(data['writePermission'] ?? 'everyone'),
+          WritePermission.values.byName(data['writePermission'] ?? 'everyone'),
     );
   }
 
@@ -335,14 +336,14 @@ class CourseSettings {
     return {
       'isPublic': isPublic,
       'isMeetingEnabled': isMeetingEnabled,
-      'writePermission': writePermissionEnumToString(writePermission),
+      'writePermission': writePermission.name,
     };
   }
 
   CourseSettings copyWith({
-    bool isPublic,
-    bool isMeetingEnabled,
-    WritePermission writePermission,
+    bool? isPublic,
+    bool? isMeetingEnabled,
+    WritePermission? writePermission,
   }) {
     return CourseSettings._(
       isPublic: isPublic ?? this.isPublic,
@@ -353,13 +354,6 @@ class CourseSettings {
 }
 
 String _getAbbreviationFromName(String name) {
-  if (name != null) {
-    if (name.length > 2) {
-      return name.substring(0, 2);
-    } else {
-      return name;
-    }
-  } else {
-    return null;
-  }
+  if (name.length > 2) return name.substring(0, 2);
+  return name;
 }

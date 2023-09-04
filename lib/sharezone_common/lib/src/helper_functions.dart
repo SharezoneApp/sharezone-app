@@ -40,18 +40,7 @@ List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
   return originaldata.map((dynamic value) => builder(value)).toList();
 }
 
-T? enumFromString<T>(List<T?> values, dynamic json, {T? orElse}) => json != null
-    ? values.firstWhere(
-        (it) =>
-            '$it'.split(".")[1].toString().toLowerCase() ==
-            json.toString().toLowerCase(),
-        orElse: () => orElse)
-    : orElse;
-
-String? enumToString<T>(T value) =>
-    value != null ? value.toString().split('.')[1] : null;
-
-bool isNotEmptyOrNull(String value) => !isEmptyOrNull(value);
+bool isNotEmptyOrNull(String? value) => !isEmptyOrNull(value);
 
 bool isEmptyOrNull(String? value) {
   return value == null || value.isEmpty;

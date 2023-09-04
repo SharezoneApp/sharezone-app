@@ -8,7 +8,6 @@
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
@@ -24,11 +23,11 @@ class GroupOnboardingBloc extends BlocBase {
   final SchoolClassGateway _schoolClassGateway;
   final SignUpBloc _signedUpBloc;
   final GroupOnboardingAnalytics _analytics;
-  final Stream<Beitrittsversuch> beitrittsversucheStream;
+  final Stream<Beitrittsversuch?> beitrittsversucheStream;
   final Stream<bool> signedUp;
-  final TypeOfUser typeOfUser;
+  final TypeOfUser? typeOfUser;
 
-  TeacherType teacherType;
+  TeacherType? teacherType;
 
   GroupOnboardingBloc(
     this._courseGateway,
@@ -36,16 +35,16 @@ class GroupOnboardingBloc extends BlocBase {
     this._signedUpBloc,
     this._analytics,
     this.beitrittsversucheStream,
-  )   : typeOfUser = _signedUpBloc?.typeOfUser,
-        signedUp = _signedUpBloc?.signedUp;
-
-  Function(TeacherType) get setTeacherType => (tt) => teacherType = tt;
+  )   : typeOfUser = _signedUpBloc.typeOfUser,
+        signedUp = _signedUpBloc.signedUp;
 
   /// Nutzer überspringt das Group-Onboarding
   void skipOnboarding() {
     _closeOnboarding();
     _analytics.logSkippedGroupOnboarding();
   }
+
+  Function(TeacherType) get setTeacherType => (tt) => teacherType = tt;
 
   Future<bool> get isGroupOnboardingActive => signedUp.first;
 
@@ -58,10 +57,10 @@ class GroupOnboardingBloc extends BlocBase {
   bool get isStudent => typeOfUser == TypeOfUser.student;
   bool get isTeacher => typeOfUser == TypeOfUser.teacher;
 
-  Stream<GroupInfo> schoolClassGroupInfo(String schoolClassId) =>
+  Stream<GroupInfo?> schoolClassGroupInfo(String schoolClassId) =>
       _schoolClassGateway
           .streamSingleSchoolClass(schoolClassId)
-          .map((schoolClass) => schoolClass.toGroupInfo());
+          .map((schoolClass) => schoolClass?.toGroupInfo());
 
   Stream<List<GroupInfo>> courseGroupInfos() => _courseGateway
       .streamCourses()

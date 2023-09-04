@@ -62,7 +62,6 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         // From https://pub.dev/packages/integration_test
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -86,7 +85,8 @@ android {
 
             minifyEnabled true
             ndk {
-                abiFilters "x86_64", "armeabi-v7a", "arm64-v8a"
+                // From: https://stackoverflow.com/a/46051246/8358501
+                abiFilters "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             }
         }
         debug {
@@ -116,6 +116,10 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // These dependencies are required for Flutter integration tests, which run
+    // on Firebase Test Lab. Copied these steps from:
+    // https://github.com/flutter/flutter/tree/master/packages/integration_test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

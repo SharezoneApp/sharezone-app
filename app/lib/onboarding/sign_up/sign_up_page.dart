@@ -28,7 +28,7 @@ class SignUpPage extends StatefulWidget {
   static const tag = 'sign-up-page';
 
   const SignUpPage({
-    Key key,
+    Key? key,
     this.withLogin = true,
     this.withBackButton = false,
   }) : super(key: key);
@@ -91,10 +91,17 @@ class _SignUpPageState extends State<SignUpPage> {
 }
 
 class _AdvancedListTile extends StatelessWidget {
-  const _AdvancedListTile({Key key, this.title, this.subtitle, this.leading})
-      : super(key: key);
+  const _AdvancedListTile({
+    Key? key,
+    required this.title,
+    this.subtitle,
+    this.leading,
+  }) : super(key: key);
 
-  factory _AdvancedListTile.dataProtection({String title, String subtitle}) {
+  factory _AdvancedListTile.dataProtection({
+    required String title,
+    String? subtitle,
+  }) {
     return _AdvancedListTile(
       leading: PlatformSvg.asset("assets/icons/correct.svg", height: 40),
       title: title,
@@ -102,9 +109,9 @@ class _AdvancedListTile extends StatelessWidget {
     );
   }
 
-  final Widget leading;
+  final Widget? leading;
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +121,19 @@ class _AdvancedListTile extends StatelessWidget {
       child: ListTile(
         leading: leading,
         title: Text(title, style: TextStyle(fontSize: 22)),
-        subtitle: subtitle == null ? null : Text(subtitle),
+        subtitle: subtitle == null ? null : Text(subtitle!),
       ),
     );
   }
 }
 
 class OnboardingNavigationBar extends StatelessWidget {
-  const OnboardingNavigationBar({Key key, this.action}) : super(key: key);
+  const OnboardingNavigationBar({
+    Key? key,
+    this.action,
+  }) : super(key: key);
 
-  final Widget action;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +158,7 @@ class OnboardingNavigationBar extends StatelessWidget {
                       tooltip: 'Zurück',
                       color: Colors.grey,
                     ),
-                    if (action != null) action,
+                    if (action != null) action!,
                   ],
                 ),
               ),
@@ -161,9 +171,11 @@ class OnboardingNavigationBar extends StatelessWidget {
 }
 
 class OnboardingNavigationBarContinueButton extends StatelessWidget {
-  const OnboardingNavigationBarContinueButton(
-      {Key key, @required this.nextPage, @required this.nextTag})
-      : super(key: key);
+  const OnboardingNavigationBarContinueButton({
+    Key? key,
+    required this.nextPage,
+    required this.nextTag,
+  }) : super(key: key);
 
   /// Dieses Widget wird angezeigt, sobald der Weiter-Button gedrückt wird.
   final Widget nextPage;

@@ -22,6 +22,15 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
 
+    <!-- Required by add_2_calendar package, see
+    https://pub.dev/packages/add_2_calendar -->
+    <queries>
+      <intent>
+        <action android:name="android.intent.action.INSERT" />
+        <data android:mimeType="vnd.android.cursor.item/event" />
+      </intent>
+    </queries>
+
     <application android:requestLegacyExternalStorage="true" android:label="@string/app_name" android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/statusbar_notification" />
         <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/colorAccent" />
@@ -29,7 +38,6 @@
 
         <!-- 'android:exported="true"' is required by Firebase Messaging, see https://github.com/firebase/flutterfire/pull/9348 -->
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:exported="true" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
-            <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
             <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -51,19 +59,11 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="sharez.one" android:scheme="https"/>
             </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="sharezone.net" android:scheme="https"/>
-            </intent-filter>
         </activity>
 
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileProvider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/filepaths" tools:replace="android:resource" />
         </provider>
-
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
 
         <!-- Set up the Sign in with Apple activity, such that it's callable from the browser-redirect -->
         <activity android:name="de.codingbrain.sharezone.SignInWithAppleCallback" android:exported="true">

@@ -19,10 +19,10 @@ import 'package:overlay_support/overlay_support.dart';
 /// ourselves with this class.
 class InAppNotification extends StatelessWidget {
   const InAppNotification({
-    Key key,
-    @required this.onTap,
-    @required this.title,
-    @required this.body,
+    Key? key,
+    required this.onTap,
+    required this.title,
+    required this.body,
   }) : super(key: key);
 
   /// Called when the user taps anywhere on the notification except the dismiss
@@ -33,8 +33,8 @@ class InAppNotification extends StatelessWidget {
   /// [InAppNotification] was shown to the user alerting him of a new comment
   /// on this homework.
   final VoidCallback onTap;
-  final String title;
-  final String body;
+  final String? title;
+  final String? body;
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +42,18 @@ class InAppNotification extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          OverlaySupportEntry.of(context).dismiss();
+          OverlaySupportEntry.of(context)!.dismiss();
           onTap();
         },
         child: Card(
           margin: const EdgeInsets.all(6),
           child: SafeArea(
             child: ListTile(
-              title: Text(title),
-              subtitle: Text(body),
+              title: Text(title!),
+              subtitle: Text(body!),
               trailing: IconButton(
                   icon: const Icon(Icons.close),
-                  onPressed: () => OverlaySupportEntry.of(context).dismiss()),
+                  onPressed: () => OverlaySupportEntry.of(context)!.dismiss()),
             ),
           ),
         ),

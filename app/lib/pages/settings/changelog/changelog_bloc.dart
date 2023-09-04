@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 import 'package:sharezone/pages/settings/changelog/change_view.dart';
@@ -17,7 +16,7 @@ import 'package:sharezone/util/platform_information_manager/platform_information
 
 class ChangelogBloc extends BlocBase {
   final ChangelogGateway _gateway;
-  final PlatformInformationRetreiver _platformInformationManager;
+  final PlatformInformationRetriever _platformInformationManager;
   final _changesSubject = BehaviorSubject<ChangelogPageView>();
   final int numberOfInitialChanges;
 
@@ -45,9 +44,10 @@ class ChangelogBloc extends BlocBase {
   }
 
   Future<ChangelogPageView> _loadChangelogData(
-      {int from = 0, @required int to}) async {
+      {int from = 0, required int to}) async {
     assert(from <= to);
-    final currentVersion = Version(name: _platformInformationManager.version);
+    final currentVersion =
+        Version.parse(name: _platformInformationManager.version);
 
     final dbModels = await _gateway.loadChange(from: from, to: to);
     final changes = dbModels.map((model) => model.toChange()).toList();

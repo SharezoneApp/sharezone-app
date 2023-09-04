@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/dynamic_links/einkommender_link.dart';
 
@@ -24,14 +23,14 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
   final Future<bool> Function(Sharecode groupId) istGruppeBereitsBeigetreten;
 
   final _gefilterteBeitrittsversucheSubject =
-      BehaviorSubject<Beitrittsversuch>();
-  Stream<Beitrittsversuch> get gefilterteBeitrittsversuche =>
+      BehaviorSubject<Beitrittsversuch?>();
+  Stream<Beitrittsversuch?> get gefilterteBeitrittsversuche =>
       _gefilterteBeitrittsversucheSubject;
 
-  StreamSubscription _subscription;
+  late StreamSubscription _subscription;
   GruppenBeitrittsversuchFilterBloc(
-      {@required this.einkommendeLinks,
-      @required this.istGruppeBereitsBeigetreten}) {
+      {required this.einkommendeLinks,
+      required this.istGruppeBereitsBeigetreten}) {
     _subscription =
         einkommendeLinks.asyncMap(_toBeitrittsversuchIfValid).listen(
               _gefilterteBeitrittsversucheSubject.add,
@@ -40,11 +39,11 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
             );
   }
 
-  Future<Beitrittsversuch> _toBeitrittsversuchIfValid(
+  Future<Beitrittsversuch?> _toBeitrittsversuchIfValid(
       EinkommenderLink link) async {
     {
       if (link.typ == matchingLinkType) {
-        final sharecode = Sharecode(link.zusatzinformationen[sharecodeKey]);
+        final sharecode = Sharecode(link.zusatzinformationen[sharecodeKey]!);
         final schonBeigetreten = await istGruppeBereitsBeigetreten(sharecode);
         if (!schonBeigetreten) {
           return Beitrittsversuch(sharecode: sharecode);

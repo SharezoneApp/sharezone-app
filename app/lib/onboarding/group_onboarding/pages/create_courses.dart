@@ -21,9 +21,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'share_sharecode.dart';
 
 class GroupOnboardingCreateCourse extends StatelessWidget {
-  const GroupOnboardingCreateCourse({Key key, @required this.schoolClassId})
-      : assert(schoolClassId != null),
-        super(key: key);
+  const GroupOnboardingCreateCourse({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = 'onboarding-course-page';
   final Optional<String> schoolClassId;
@@ -67,7 +68,10 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
 }
 
 class _CreateCustomCourse extends StatelessWidget {
-  const _CreateCustomCourse({Key key, this.schoolClassId}) : super(key: key);
+  const _CreateCustomCourse({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   final Optional<String> schoolClassId;
 

@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class StateDialogLoadingBody extends StatelessWidget {
-  const StateDialogLoadingBody({Key key}) : super(key: key);
+  const StateDialogLoadingBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
         SizedBox(height: 16),
         AccentColorCircularProgressIndicator(),
         SizedBox(height: 16),

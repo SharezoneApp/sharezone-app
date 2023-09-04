@@ -7,66 +7,66 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
-import 'package:flutter/services.dart';
-import 'package:sharezone_utils/platform.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/foundation.dart';
 
 class AppleSignInLogic {
-  Future<User> signIn() async {
-    if (PlatformCheck.isMacOS || PlatformCheck.isIOS) {
-      final credentials = await SignInWithApple.getAppleIDCredential(
-        scopes: [],
-      );
-      if (credentials is AuthorizationCredentialAppleID) {
-        final oAuthProvider = OAuthProvider('apple.com');
-        final credential = oAuthProvider.credential(
-          idToken: credentials.identityToken,
-          accessToken: credentials.authorizationCode,
-        );
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-        final result =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        return result.user;
+  /// Signs in the user with Apple.
+  ///
+  /// Returns the user if the sign in was successful.
+  ///
+  /// Returns null if the user cancels the sign in process. Throws an exception
+  /// if the sign in fails.
+  Future<UserCredential?> signIn() async {
+    final appleProvider = AppleAuthProvider();
+
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.signInWithPopup(appleProvider);
       } else {
-        throw PlatformException(
-          code: 'ERROR_USERNAME_AND_PASSWORD_APPLE',
-          message: "Username and Password Apple Sign is not implemented",
-        );
+        return auth.signInWithProvider(appleProvider);
       }
-    } else {
-      return await FirebaseAuthOAuth()
-          .openSignInFlow("apple.com", [], {"locale": "en"});
-    }
+    });
   }
 
-  Future<AuthCredential> getCredentials() async {
-    assert(PlatformCheck.isMacOS ||
-        PlatformCheck.isIOS ||
-        PlatformCheck.isAndroid);
-    final credentials = await SignInWithApple.getAppleIDCredential(
-      scopes: [],
-    );
+  Future<UserCredential?> linkWithApple() async {
+    final appleProvider = AppleAuthProvider();
 
-    if (credentials is AuthorizationCredentialAppleID) {
-      final oAuthProvider = OAuthProvider('apple.com');
-      final credential = oAuthProvider.credential(
-        idToken: credentials.identityToken,
-        accessToken: credentials.authorizationCode,
-      );
-
-      return credential;
-    } else {
-      throw PlatformException(
-        code: 'ERROR_USERNAME_AND_PASSWORD_APPLE',
-        message: "Username and Password Apple Sign is not implemented",
-      );
-    }
+    return _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.linkWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.linkWithProvider(appleProvider);
+      }
+    });
   }
 
-  static Future<bool> isSignInGetCredentailsAvailable() async {
-    if ((PlatformCheck.isIOS || PlatformCheck.isMacOS) &&
-        await SignInWithApple.isAvailable()) return true;
-    return false;
+  Future<void> reauthenticateWithApple() async {
+    final appleProvider = AppleAuthProvider();
+
+    await _ignoreCanceledException(() async {
+      if (kIsWeb) {
+        return auth.currentUser!.reauthenticateWithPopup(appleProvider);
+      } else {
+        return auth.currentUser!.reauthenticateWithProvider(appleProvider);
+      }
+    });
+  }
+
+  /// Ignores the [FirebaseAuthException] when the user cancels the sign in
+  /// process.
+  Future<UserCredential?> _ignoreCanceledException(
+    Future<UserCredential> Function() function,
+  ) async {
+    try {
+      return await function();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'popup-closed-by-user' || e.code == 'canceled') {
+        return null;
+      }
+
+      rethrow;
+    }
   }
 }

@@ -26,7 +26,7 @@ class TimetableSettingsBloc extends BlocBase {
   Function(LessonLength) get changeLessonLength =>
       lessonLengthCache.setLessonLength;
 
-  void saveLessonLengthInCache(int lengthInMinutes) {
+  void saveLessonLengthInCache(int? lengthInMinutes) {
     if (lengthInMinutes != null) {
       final lessonLength = LessonLength(lengthInMinutes);
       lessonLengthCache.setLessonLength(lessonLength);

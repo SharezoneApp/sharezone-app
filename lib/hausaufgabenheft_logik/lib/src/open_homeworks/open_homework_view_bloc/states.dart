@@ -15,7 +15,7 @@ class Uninitialized extends OpenHomeworksViewBlocState {}
 class Success extends OpenHomeworksViewBlocState {
   final OpenHomeworkListView openHomeworkListView;
 
-  Success(this.openHomeworkListView) : assert(openHomeworkListView != null);
+  Success(this.openHomeworkListView);
 
   @override
   bool operator ==(dynamic other) {

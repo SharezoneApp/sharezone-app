@@ -9,9 +9,9 @@
 import 'package:collection/collection.dart';
 
 class HourView {
-  final int index;
-  final String subject;
-  final String room;
+  final int? index;
+  final String? subject;
+  final String? room;
 
   const HourView({this.index, this.subject, this.room});
 
@@ -34,8 +34,8 @@ class HourView {
 }
 
 class DayView {
-  final String abbreviation;
-  List<HourView> hours;
+  final String? abbreviation;
+  List<HourView>? hours;
 
   DayView({this.abbreviation, this.hours}) {
     hours ??= [];
@@ -58,12 +58,12 @@ class DayView {
 }
 
 class WeekView {
-  final List<DayView> days;
+  final List<DayView>? days;
   ListEquality<DayView> get equality => const ListEquality<DayView>();
 
   WeekView({this.days});
 
-  int get length => days.length;
+  int get length => days!.length;
 
   @override
   String toString() {

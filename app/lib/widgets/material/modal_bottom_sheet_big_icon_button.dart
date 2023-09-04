@@ -11,11 +11,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
   const ModalBottomSheetBigIconButton({
-    Key key,
-    @required this.title,
-    @required this.iconData,
-    @required this.popValue,
-    @required this.tooltip,
+    Key? key,
+    required this.title,
+    required this.iconData,
+    required this.popValue,
+    required this.tooltip,
     this.alignment = Alignment.center,
     this.onTap,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
   final T popValue;
 
   // onTap wird höher als popValue gewichtet
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
                     height: 64,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey[300], width: 1.25),
+                      border: Border.all(color: Colors.grey[300]!, width: 1.25),
                     ),
                     child: Icon(
                       iconData,

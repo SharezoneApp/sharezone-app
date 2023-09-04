@@ -21,7 +21,7 @@ class LoginAnalytics {
 
   LoginAnalytics(this._analytics);
 
-  void logGoolgeLogin() {
+  void logGoogleLogin() {
     _analytics.log(AuthentifactionEvent(provider: google, name: name));
   }
 

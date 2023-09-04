@@ -27,8 +27,10 @@ class _DateTab extends StatelessWidget {
 }
 
 class _DateField extends StatelessWidget {
-  final Date selectedDate;
   const _DateField(this.selectedDate);
+
+  final Date? selectedDate;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddEventBloc>(context);

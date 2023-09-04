@@ -18,5 +18,9 @@ class TimetableElementTimeProperties {
   final Time start, end;
 
   const TimetableElementTimeProperties(
-      this.id, this.date, this.start, this.end);
+    this.id,
+    this.date,
+    this.start,
+    this.end,
+  );
 }

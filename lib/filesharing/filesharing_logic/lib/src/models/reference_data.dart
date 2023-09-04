@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/foundation.dart';
-
 import 'reference_type.dart';
 
 class ReferenceData {
@@ -15,8 +13,8 @@ class ReferenceData {
   ReferenceType type;
 
   ReferenceData({
-    @required this.id,
-    @required this.type,
+    required this.id,
+    required this.type,
   });
 
   factory ReferenceData.fromData(Map<String, dynamic> data) {
@@ -26,24 +24,26 @@ class ReferenceData {
     );
   }
 
-  factory ReferenceData.fromMapData(
-      {@required String id, @required Map<String, dynamic> data}) {
+  factory ReferenceData.fromMapData({
+    required String id,
+    required Map<String, dynamic> data,
+  }) {
     return ReferenceData(
       id: id,
-      type: referenceTypeEnumFromString(data['type']),
+      type: ReferenceType.values.byName(data['type']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'type': referenceTypeEnumToString(type),
+      'type': type.name,
     };
   }
 
   ReferenceData copyWith({
-    String id,
-    ReferenceType type,
+    String? id,
+    ReferenceType? type,
   }) {
     return ReferenceData(
       id: id ?? this.id,

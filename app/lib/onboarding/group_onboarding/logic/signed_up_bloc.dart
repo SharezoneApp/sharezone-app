@@ -22,7 +22,7 @@ class SignUpBloc extends BlocBase {
   /// [typeOfUser] wird in dem [SignUpBloc] gespeichert, damit im GroupOnboarding
   /// dieser Wert synchron geladen werden kann. Ansonsten müsste dieser über den
   /// TypeOfUser-Stream aus dem User-Gateway asynchron geladen werden.
-  TypeOfUser typeOfUser;
+  TypeOfUser? typeOfUser;
 
   SignUpBloc();
 
