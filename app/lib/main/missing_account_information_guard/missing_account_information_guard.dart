@@ -34,15 +34,15 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 /// erstellen kann.
 class MissingAccountInformationGuard extends StatelessWidget {
   const MissingAccountInformationGuard({
-    Key key,
-    @required this.child,
-    @required this.userCollection,
+    Key? key,
+    required this.child,
+    required this.userCollection,
     this.gateway,
   }) : super(key: key);
 
   final CollectionReference userCollection;
 
-  final RegistrationGateway gateway;
+  final RegistrationGateway? gateway;
 
   /// Dieses Widget wird angezeigt, wenn der Nutzer einen Sharezone Account
   /// hat (normaler Fall).
@@ -72,7 +72,7 @@ class MissingAccountInformationGuard extends StatelessWidget {
 }
 
 class _SignOutButton extends StatelessWidget {
-  const _SignOutButton({Key key}) : super(key: key);
+  const _SignOutButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,14 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
-
-enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
-
-WeekDay? weekDayEnumFromString(String data) =>
-    enumFromString(WeekDay.values, data);
-
-String? weekDayEnumToString(WeekDay weekDay) => enumToString(weekDay);
+enum WeekDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
 
 String weekDayEnumToGermanString(WeekDay weekDay) {
   switch (weekDay) {

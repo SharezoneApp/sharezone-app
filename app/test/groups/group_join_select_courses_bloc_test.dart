@@ -8,23 +8,28 @@
 
 import 'dart:async';
 
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
+import 'package:mockito/annotations.dart';
 import 'package:random_string/random_string.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 
+import 'group_join_select_courses_bloc_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<ConnectionsGateway>(), MockSpec<CrashAnalytics>()])
 class MockGroupJoinBloc extends GroupJoinBloc {
   // Resent, da der JoinVersuch hier ja ein zweites Mal erfolgt, aber diesmal mit einer
   // zusätzlichen Kursliste.
   bool hasResentJoinRequest = false;
-  List<String> sentCourseIds;
+  List<String>? sentCourseIds;
 
-  MockGroupJoinBloc() : super(null, null);
+  MockGroupJoinBloc() : super(MockConnectionsGateway(), MockCrashAnalytics());
 
   @override
   Future<void> enterValueWithCourseList(List<GroupKey> courseList) {
@@ -48,8 +53,8 @@ GroupInfo _mockSchoolClass() {
 }
 
 GroupInfoWithSelectionState _courseWith({
-  String id,
-  String name,
+  String? id,
+  String? name,
   bool isSelected = true,
 }) {
   return GroupInfoWithSelectionState(
@@ -68,13 +73,13 @@ GroupKey _groupKeyOfCourse(String groupId) {
 
 void main() {
   group('GroupJoinSelectCoursesBlocTest', () {
-    MockGroupJoinBloc mockGroupJoinBloc;
+    late MockGroupJoinBloc mockGroupJoinBloc;
     setUp(() {
       mockGroupJoinBloc = MockGroupJoinBloc();
     });
 
     GroupJoinSelectCoursesBloc _blocWith({
-      @required List<GroupInfoWithSelectionState> courses,
+      required List<GroupInfoWithSelectionState> courses,
     }) {
       return GroupJoinSelectCoursesBloc(
         joinResult: RequireCourseSelectionsJoinResult(
@@ -182,7 +187,7 @@ void main() {
 }
 
 extension on Stream<List<GroupInfoWithSelectionState>> {
-  Future<GroupInfoWithSelectionState> withCourse({@required String id}) async {
+  Future<GroupInfoWithSelectionState> withCourse({required String id}) async {
     return (await first).firstWhere((groupInfo) => groupInfo.id == id);
   }
 }

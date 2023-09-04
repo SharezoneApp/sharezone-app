@@ -15,7 +15,7 @@ import 'teacher/teacher_homework_page.dart';
 enum HomeworkPageTypeOfUser { student, parent, teacher }
 
 HomeworkPageTypeOfUser typeOfUserToHomeworkPageTypeOfUserOrThrow(
-    TypeOfUser typeOfUser) {
+    TypeOfUser? typeOfUser) {
   switch (typeOfUser) {
     case TypeOfUser.student:
       return HomeworkPageTypeOfUser.student;
@@ -32,9 +32,8 @@ class NewHomeworkPage extends StatelessWidget {
   /// Can be converted from [TypeOfUser] via
   /// [typeOfUserToHomeworkPageTypeOfUserOrThrow].
   final HomeworkPageTypeOfUser currentUserType;
-  const NewHomeworkPage({Key key, @required this.currentUserType})
-      : assert(currentUserType != null),
-        super(key: key);
+  const NewHomeworkPage({Key? key, required this.currentUserType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

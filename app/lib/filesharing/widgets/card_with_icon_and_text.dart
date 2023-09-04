@@ -11,16 +11,16 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CardWithIconAndText extends StatelessWidget {
   const CardWithIconAndText({
-    Key key,
+    Key? key,
     this.icon,
     this.text,
     this.onTap,
     this.trailing,
   }) : super(key: key);
 
-  final Widget icon, trailing;
-  final String text;
-  final VoidCallback onTap;
+  final Widget? icon, trailing;
+  final String? text;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +36,17 @@ class CardWithIconAndText extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 8, 0, 8),
               child: Row(
                 children: <Widget>[
-                  icon,
+                  icon!,
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      text,
+                      text!,
                       style: TextStyle(fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
                   ),
-                  if (trailing != null) trailing else const SizedBox(width: 8)
+                  if (trailing != null) trailing! else const SizedBox(width: 8)
                 ],
               ),
             ),

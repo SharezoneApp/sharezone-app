@@ -17,8 +17,10 @@ import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dar
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
-  const SchoolClassCoursesList({Key key, @required this.schoolClassID})
-      : super(key: key);
+  const SchoolClassCoursesList({
+    Key? key,
+    required this.schoolClassID,
+  }) : super(key: key);
 
   final String schoolClassID;
 
@@ -53,10 +55,10 @@ class _List extends StatelessWidget {
   final bool isAdmin;
 
   const _List({
-    Key key,
-    this.courses,
-    this.schoolClassId,
-    this.isAdmin,
+    Key? key,
+    this.courses = const [],
+    required this.schoolClassId,
+    required this.isAdmin,
   }) : super(key: key);
 
   @override
@@ -89,12 +91,16 @@ class _List extends StatelessWidget {
 }
 
 class _SchoolCoursesActions extends StatelessWidget {
-  const _SchoolCoursesActions({Key key, this.title, this.onTap, this.iconData})
-      : super(key: key);
+  const _SchoolCoursesActions({
+    Key? key,
+    required this.title,
+    this.onTap,
+    this.iconData,
+  }) : super(key: key);
 
   final String title;
-  final VoidCallback onTap;
-  final IconData iconData;
+  final VoidCallback? onTap;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +118,7 @@ class _SchoolCoursesActions extends StatelessWidget {
 }
 
 class _AddExistingCourse extends StatelessWidget {
-  const _AddExistingCourse(this.schoolClassID, {Key key}) : super(key: key);
+  const _AddExistingCourse(this.schoolClassID, {Key? key}) : super(key: key);
 
   final String schoolClassID;
 
@@ -127,7 +133,7 @@ class _AddExistingCourse extends StatelessWidget {
           title: "Existierenden Kurs hinzufügen",
           onTap: () async {
             if (snapshot.hasData) {
-              final courseList = snapshot.data;
+              final courseList = snapshot.data!;
               final futureResult =
                   await _showCourseListDialog(context, courseList);
               if (futureResult != null) {
@@ -146,8 +152,10 @@ class _AddExistingCourse extends StatelessWidget {
     );
   }
 
-  Future<Future<bool>> _showCourseListDialog(
-      BuildContext context, List<Course> courseList) async {
+  Future<Future<bool>?> _showCourseListDialog(
+    BuildContext context,
+    List<Course> courseList,
+  ) async {
     return showDialog<Future<bool>>(
         context: context,
         builder: (context) {
@@ -179,9 +187,9 @@ class _AddExistingCourse extends StatelessWidget {
 
 class _CourseTile extends StatelessWidget {
   const _CourseTile({
-    Key key,
-    @required this.course,
-    @required this.schoolClassID,
+    Key? key,
+    required this.course,
+    required this.schoolClassID,
   }) : super(key: key);
 
   final Course course;
@@ -189,7 +197,7 @@ class _CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final schoolClassGatewy =
+    final schoolClassGateway =
         BlocProvider.of<SharezoneContext>(context).api.schoolClassGateway;
     final enabled = course.myRole.hasPermission(GroupPermission.administration);
     return DialogTile(
@@ -200,7 +208,7 @@ class _CourseTile extends StatelessWidget {
           ? const Icon(Icons.lock, color: Colors.grey, size: 20)
           : null,
       onPressed: () {
-        final futureResult = schoolClassGatewy
+        final futureResult = schoolClassGateway
             .addCourse(schoolClassID, course.id)
             .then((result) => result.hasData && result.data == true);
         Navigator.pop(context, futureResult);
@@ -212,7 +220,7 @@ class _CourseTile extends StatelessWidget {
 class _AddNewCourse extends StatelessWidget {
   const _AddNewCourse(
     this.schoolClassID, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final String schoolClassID;

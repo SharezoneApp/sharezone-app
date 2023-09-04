@@ -57,19 +57,19 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
-    Key key,
+    Key? key,
     this.withBackIcon = true,
     this.withQrCodeLogin = false,
     this.withRegistrationButton = false,
   }) : super(key: key);
 
-  const LoginPage.desktop({Key key})
+  const LoginPage.desktop({Key? key})
       : withBackIcon = false,
         withQrCodeLogin = true,
         withRegistrationButton = true,
         super(key: key);
 
-  const LoginPage.mobile({Key key})
+  const LoginPage.mobile({Key? key})
       : withBackIcon = true,
         withQrCodeLogin = false,
         withRegistrationButton = false,
@@ -86,7 +86,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginBloc bloc;
+  late LoginBloc bloc;
   bool isLoading = false;
 
   final passwordFocusNode = FocusNode();
@@ -241,9 +241,9 @@ class _DebugLoginButtons extends StatelessWidget {
 
 class _EmailPassword extends StatelessWidget {
   const _EmailPassword({
-    Key key,
-    @required this.passwordFocusNode,
-    @required this.onEditingComplete,
+    Key? key,
+    required this.passwordFocusNode,
+    required this.onEditingComplete,
   }) : super(key: key);
 
   final FocusNode passwordFocusNode;
@@ -276,7 +276,7 @@ class _EmailPassword extends StatelessWidget {
 
 class _LoadingCircle extends StatelessWidget {
   const _LoadingCircle({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -327,9 +327,9 @@ class _RegistrationSection extends StatelessWidget {
 
 class _PasswordField extends StatelessWidget {
   const _PasswordField({
-    Key key,
-    @required this.passwordFocusNode,
-    @required this.onEditingComplete,
+    Key? key,
+    required this.passwordFocusNode,
+    required this.onEditingComplete,
   }) : super(key: key);
 
   final FocusNode passwordFocusNode;
@@ -348,7 +348,9 @@ class _PasswordField extends StatelessWidget {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({Key key}) : super(key: key);
+  const _Logo({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -362,15 +364,15 @@ class _Logo extends StatelessWidget {
 
 class EmailLoginField extends StatelessWidget {
   const EmailLoginField({
-    Key key,
-    @required this.emailStream,
-    @required this.onChanged,
-    @required this.passwordFocusNode,
-    this.autofocus,
+    Key? key,
+    required this.emailStream,
+    required this.onChanged,
+    required this.passwordFocusNode,
+    this.autofocus = false,
     this.emailFocusNode,
   }) : super(key: key);
 
-  final FocusNode emailFocusNode;
+  final FocusNode? emailFocusNode;
   final FocusNode passwordFocusNode;
   final Stream<String> emailStream;
   final ValueChanged<String> onChanged;
@@ -389,7 +391,7 @@ class EmailLoginField extends StatelessWidget {
               FocusScope.of(context).requestFocus(passwordFocusNode),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          autofocus: autofocus ?? false,
+          autofocus: autofocus,
           autofillHints: const [AutofillHints.email],
           decoration: InputDecoration(
             labelText: 'E-Mail',
@@ -405,16 +407,16 @@ class EmailLoginField extends StatelessWidget {
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
-    Key key,
-    @required this.focusNode,
-    @required this.passwordStream,
-    @required this.onChanged,
-    @required this.onEditingComplete,
+    Key? key,
+    required this.focusNode,
+    required this.passwordStream,
+    required this.onChanged,
+    required this.onEditingComplete,
     this.isNewPassword = false,
   }) : super(key: key);
 
   final FocusNode focusNode;
-  final Stream<String> passwordStream;
+  final Stream<String?> passwordStream;
   final ValueChanged<String> onChanged;
   final VoidCallback onEditingComplete;
   final bool isNewPassword;
@@ -494,8 +496,10 @@ class _ResetPasswordButton extends StatelessWidget {
 }
 
 class _LoginWithGoogleButton extends StatelessWidget {
-  const _LoginWithGoogleButton({Key key, @required this.onLogin})
-      : super(key: key);
+  const _LoginWithGoogleButton({
+    Key? key,
+    required this.onLogin,
+  }) : super(key: key);
 
   final VoidCallback onLogin;
 
@@ -531,8 +535,8 @@ class _LoginWithQrCodeButton extends StatelessWidget {
 
 class _LoginWithAppleButton extends StatelessWidget {
   const _LoginWithAppleButton({
-    Key key,
-    @required this.onLogin,
+    Key? key,
+    required this.onLogin,
   }) : super(key: key);
 
   final VoidCallback onLogin;
@@ -553,12 +557,16 @@ class _LoginWithAppleButton extends StatelessWidget {
 }
 
 class _SignWithOAuthButton extends StatelessWidget {
-  const _SignWithOAuthButton({Key key, this.icon, this.text, this.onTap})
-      : super(key: key);
+  const _SignWithOAuthButton({
+    Key? key,
+    required this.icon,
+    required this.text,
+    this.onTap,
+  }) : super(key: key);
 
   final Widget icon;
   final String text;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -45,7 +45,7 @@ class QrSignInDocument {
 
   QrSignInState toSignInState() {
     if (encryptedCustomToken == null) {
-      return QrSignInIdle(qrId: qrId);
+      return QrSignInIdle(qrId: qrId!);
     } else {
       return QrSignInSuccessfull(
         base64encryptedCustomToken: encryptedCustomToken,

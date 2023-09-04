@@ -21,8 +21,8 @@ import 'open_submission_file.dart';
 
 class HomeworkUserSubmissionsPage extends StatefulWidget {
   const HomeworkUserSubmissionsPage({
-    @required this.homeworkId,
-    Key key,
+    required this.homeworkId,
+    Key? key,
   }) : super(key: key);
 
   final String homeworkId;
@@ -34,7 +34,7 @@ class HomeworkUserSubmissionsPage extends StatefulWidget {
 
 class _HomeworkUserSubmissionsPageState
     extends State<HomeworkUserSubmissionsPage> {
-  ViewSubmissionsPageBloc bloc;
+  late ViewSubmissionsPageBloc bloc;
 
   @override
   void initState() {
@@ -75,26 +75,26 @@ class _HomeworkUserSubmissionsPageState
 
 class _Abgabenbody extends StatelessWidget {
   const _Abgabenbody({
-    Key key,
-    @required this.pageView,
+    Key? key,
+    required this.pageView,
   }) : super(key: key);
 
-  final CreatedSubmissionsPageView pageView;
+  final CreatedSubmissionsPageView? pageView;
 
   @override
   Widget build(BuildContext context) {
-    if (pageView.missingSubmissions.isEmpty && pageView.submissions.isEmpty) {
+    if (pageView!.missingSubmissions.isEmpty && pageView!.submissions.isEmpty) {
       return _NoMembersPlaceholder();
     }
     return SingleChildScrollView(
       child: Column(
         children: [
           ...[
-            for (final view in pageView.submissions)
+            for (final view in pageView!.submissions)
               _UserSubmissionTile(view: view)
           ],
           SizedBox(height: 10),
-          if (pageView.afterDeadlineSubmissions.isNotEmpty)
+          if (pageView!.afterDeadlineSubmissions.isNotEmpty)
             DividerWithText(
               text: 'Zu spät abgegeben 🕐',
               textStyle: TextStyle(
@@ -103,10 +103,10 @@ class _Abgabenbody extends StatelessWidget {
               ),
             ),
           ...[
-            for (final view in pageView.afterDeadlineSubmissions)
+            for (final view in pageView!.afterDeadlineSubmissions)
               _UserSubmissionTile(view: view)
           ],
-          if (pageView.missingSubmissions.isNotEmpty)
+          if (pageView!.missingSubmissions.isNotEmpty)
             DividerWithText(
               text: 'Nicht abgegeben 😭',
               textStyle: TextStyle(
@@ -115,7 +115,7 @@ class _Abgabenbody extends StatelessWidget {
               ),
             ),
           ...[
-            for (final view in pageView.missingSubmissions)
+            for (final view in pageView!.missingSubmissions)
               _NoSubmissionTile(view: view)
           ],
         ],
@@ -125,7 +125,7 @@ class _Abgabenbody extends StatelessWidget {
 }
 
 class _LoadingPlaceholder extends StatelessWidget {
-  const _LoadingPlaceholder({Key key}) : super(key: key);
+  const _LoadingPlaceholder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +179,8 @@ class _NoMembersPlaceholder extends StatelessWidget {
 
 class _UserSubmissionTile extends StatelessWidget {
   const _UserSubmissionTile({
-    @required this.view,
-    Key key,
+    required this.view,
+    Key? key,
   }) : super(key: key);
 
   final CreatedSubmissionView view;
@@ -212,10 +212,10 @@ class _UserSubmissionTile extends StatelessWidget {
 
 class _FileTile extends StatelessWidget {
   const _FileTile({
-    @required this.format,
-    @required this.title,
-    @required this.onTap,
-    Key key,
+    required this.format,
+    required this.title,
+    required this.onTap,
+    Key? key,
   }) : super(key: key);
 
   final FileFormat format;
@@ -245,7 +245,7 @@ class _FileTile extends StatelessWidget {
 
 class _NoSubmissionTile extends StatelessWidget {
   const _NoSubmissionTile({
-    @required this.view,
+    required this.view,
   });
 
   final NotSubmittedView view;

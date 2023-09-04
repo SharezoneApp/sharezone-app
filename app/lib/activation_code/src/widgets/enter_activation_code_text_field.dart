@@ -15,7 +15,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class EnterActivationCodeTextField extends StatelessWidget
     implements PreferredSizeWidget {
-  const EnterActivationCodeTextField({Key key}) : super(key: key);
+  const EnterActivationCodeTextField({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(140);

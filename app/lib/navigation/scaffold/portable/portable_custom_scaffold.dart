@@ -22,13 +22,13 @@ class PortableCustomScaffold extends StatelessWidget {
   final NavigationItem navigationItem;
   final Widget body;
   final Widget floatingActionButton;
-  final Key scaffoldKey;
+  final Key? scaffoldKey;
 
   const PortableCustomScaffold({
-    @required this.navigationItem,
-    @required this.appBarConfiguration,
-    @required this.body,
-    @required this.floatingActionButton,
+    required this.navigationItem,
+    required this.appBarConfiguration,
+    required this.body,
+    required this.floatingActionButton,
     this.scaffoldKey,
   });
 
@@ -52,7 +52,7 @@ class PortableCustomScaffold extends StatelessWidget {
                   backgroundColor: appBarConfiguration.backgroundColor,
                   expandedHeight: appBarConfiguration.expandedHeight,
                   elevation: appBarConfiguration.elevation,
-                  pinned: appBarConfiguration.pinned,
+                  pinned: appBarConfiguration.pinned!,
                   title: appBarConfiguration.title,
                   centerTitle: true,
                   leading: isOldNav

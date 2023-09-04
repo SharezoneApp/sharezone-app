@@ -43,7 +43,7 @@ Future<String?> showQrCodeScanner(
 }
 
 /// A page with the [Scanner] and the [title] at the top.
-class _ScanQrCodePage extends StatelessWidget {
+class _ScanQrCodePage extends StatefulWidget {
   const _ScanQrCodePage({
     Key? key,
     required this.title,
@@ -62,6 +62,16 @@ class _ScanQrCodePage extends StatelessWidget {
   ///
   /// Is primarily used for testing to mock the scanner.
   final MobileScannerController? mockController;
+
+  @override
+  State<_ScanQrCodePage> createState() => _ScanQrCodePageState();
+}
+
+class _ScanQrCodePageState extends State<_ScanQrCodePage> {
+  // The scanner could detect multiple QR codes (or the same QR code twice). We
+  // only want to return the first QR code because otherwise we would pop the
+  // page multiple times.
+  bool hasFoundQrCode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +94,20 @@ class _ScanQrCodePage extends StatelessWidget {
             // Because we make the [AppBar] transparent, we need to extend the
             // body to the top.
             extendBodyBehindAppBar: true,
-            appBar: AppBar(title: title),
+            appBar: AppBar(title: widget.title),
             body: Scanner(
-              mockController: mockController,
-              description: description,
-              onDetect: (qrCode) => Navigator.pop(context, qrCode),
+              mockController: widget.mockController,
+              description: widget.description,
+              onDetect: (qrCode) {
+                if (hasFoundQrCode) {
+                  // We already found a QR code, so we ignore all other QR
+                  // codes.
+                  return;
+                }
+
+                hasFoundQrCode = true;
+                Navigator.pop(context, qrCode);
+              },
             ),
           ),
         );

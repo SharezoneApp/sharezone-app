@@ -15,8 +15,8 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showUploadFileDialog({
-  @required BuildContext context,
-  @required Future<UploadTask> task,
+  required BuildContext context,
+  required Future<UploadTask> task,
 }) async {
   final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
   showDialog(
@@ -32,9 +32,9 @@ Future<void> showUploadFileDialog({
 }
 
 class _UploadFileDialogContent extends StatefulWidget {
-  const _UploadFileDialogContent({Key key, this.task}) : super(key: key);
+  const _UploadFileDialogContent({Key? key, this.task}) : super(key: key);
 
-  final Future<UploadTask> task;
+  final Future<UploadTask>? task;
 
   @override
   __UploadFileDialogContentState createState() =>
@@ -63,7 +63,7 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
       builder: (context, future) {
         if (!future.hasData) return _UploadingDialog(percent: 0);
         return StreamBuilder<UploadTaskEvent>(
-          stream: future.data.events,
+          stream: future.data!.events,
           builder: (context, snapshot) {
             final event = snapshot.data;
             if (snapshot.hasError)
@@ -85,7 +85,7 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
 }
 
 class _UploadingDialog extends StatelessWidget {
-  const _UploadingDialog({Key key, @required this.percent}) : super(key: key);
+  const _UploadingDialog({Key? key, required this.percent}) : super(key: key);
 
   final double percent;
 
@@ -103,7 +103,7 @@ class _UploadingDialog extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
             child: Text(
-          "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0) ?? "0"}/100",
+          "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
           style: TextStyle(fontSize: 16),
         )),
         const SizedBox(width: 12),
@@ -113,7 +113,7 @@ class _UploadingDialog extends StatelessWidget {
 }
 
 class _UploadingDialogFailure extends StatelessWidget {
-  const _UploadingDialogFailure({Key key, @required this.error})
+  const _UploadingDialogFailure({Key? key, required this.error})
       : super(key: key);
 
   final dynamic error;

@@ -18,7 +18,7 @@ class CourseCreateBlocFactory implements BlocBase {
 
   CourseCreateBlocFactory(this._api, this._analytics);
 
-  CourseCreateBloc create({String schoolClassId}) {
+  CourseCreateBloc create({String? schoolClassId}) {
     return CourseCreateBloc(_api, _analytics, schoolClassId: schoolClassId);
   }
 

@@ -16,26 +16,27 @@ typedef FutureVoidCallback = Future<void> Function();
 typedef FutureBoolCallback = Future<bool> Function();
 typedef FutureBoolValueChanged<T> = Future<bool> Function(T t);
 
-Future<void> showDeleteDialog(
-    {BuildContext? context,
-    String? title,
-    Widget? description,
-    dynamic popTwiceResult,
-    VoidCallback? onDelete,
-    bool popTwice = true}) async {
+Future<void> showDeleteDialog({
+  required BuildContext context,
+  String? title,
+  Widget? description,
+  dynamic popTwiceResult,
+  VoidCallback? onDelete,
+  bool popTwice = true,
+}) async {
   final result = (await showLeftRightAdaptiveDialog<bool>(
     context: context,
     title: title,
     content: description,
     defaultValue: false,
-    left: AdaptiveDialogAction.cancle,
+    left: AdaptiveDialogAction.cancel,
     right: AdaptiveDialogAction.delete,
   ))!;
 
   if (result) {
     onDelete!();
     // ignore: use_build_context_synchronously
-    if (popTwice) Navigator.pop(context!, popTwiceResult);
+    if (popTwice) Navigator.pop(context, popTwiceResult);
   }
 }
 

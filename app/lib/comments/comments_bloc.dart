@@ -9,7 +9,6 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/comments/comment.dart';
 import 'package:sharezone/comments/comment_data_models.dart';
@@ -24,22 +23,24 @@ import 'comments_gateway.dart';
 class CommentsBloc extends BlocBase {
   final CommentsGateway _gateway;
   final CommentsLocation _commentsLocation;
-  final Stream<AppUser> _userStream;
+  final Stream<AppUser?> _userStream;
   final CommentViewFactory _commentViewFactory;
   final String courseID;
   final CommentsAnalytics _analytics;
 
-  CommentAuthor _currentAuthorInformation;
+  late CommentAuthor _currentAuthorInformation;
 
   final _commentsSubject = BehaviorSubject<List<CommentView>>();
   final _commentAddSubject = BehaviorSubject<String>();
   final _rateSubject = BehaviorSubject<RateCommentEvent>();
   final _deletionSubject = BehaviorSubject<String>();
 
-  StreamSubscription _subscription;
+  StreamSubscription? _subscription;
+
   CommentsBloc(this._gateway, this._commentsLocation, this._userStream,
       this._commentViewFactory, this.courseID, this._analytics) {
     _userStream.listen((user) {
+      if (user == null) return;
       _currentAuthorInformation = CommentAuthor(
         abbreviation: user.abbreviation,
         name: user.name,
@@ -66,9 +67,6 @@ class CommentsBloc extends BlocBase {
   Function(RateCommentEvent) get rateComment => _rateSubject.sink.add;
 
   void _buildAndAddComment(String userComment) {
-    assert(_currentAuthorInformation != null,
-        "_currentAuthorInformation should not be null. Has the _userStream been properly passed and did it emit values?");
-
     final comment = Comment(
       content: userComment,
       author: _currentAuthorInformation,
@@ -76,7 +74,7 @@ class CommentsBloc extends BlocBase {
 
     _gateway.add(CommentDataModel.fromComment(comment), _commentsLocation);
 
-    _analytics.logCommentAdded(getCommentLocation(comment.id));
+    _analytics.logCommentAdded(_commentsLocation);
   }
 
   Future<void> _changeRating(RateCommentEvent event) async {
@@ -108,7 +106,7 @@ class CommentsBloc extends BlocBase {
 
   CommentStatus _getNewStatus(
       CommentEvent userAction, CommentStatus oldStatus) {
-    CommentStatus newStatus;
+    late CommentStatus newStatus;
     if (userAction == CommentEvent.liked) {
       if (oldStatus == CommentStatus.liked) {
         newStatus = CommentStatus.notRated;
@@ -130,7 +128,7 @@ class CommentsBloc extends BlocBase {
   }
 
   CommentStatus _searchOldStatus(String commentId) {
-    return _commentsSubject.valueOrNull
+    return _commentsSubject.valueOrNull!
         .firstWhere((comment) => comment.id == commentId)
         .status;
   }
@@ -147,7 +145,7 @@ class CommentsBloc extends BlocBase {
 
   @override
   void dispose() {
-    _subscription.cancel();
+    _subscription?.cancel();
     _commentAddSubject.close();
     _rateSubject.close();
     _deletionSubject.close();
@@ -159,5 +157,5 @@ class RateCommentEvent {
   final CommentEvent status;
   final String commentId;
 
-  RateCommentEvent({@required this.status, @required this.commentId});
+  RateCommentEvent({required this.status, required this.commentId});
 }

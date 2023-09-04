@@ -15,26 +15,22 @@ class EinkommenderLink {
   final String typ;
   final Map<String, String> zusatzinformationen;
   final EinkommensZeitpunkt einkommensZeitpunkt;
-  bool get empty =>
-      isEmptyOrNull(typ) && zusatzinformationen == null ||
-      zusatzinformationen.isEmpty;
+  bool get empty => isEmptyOrNull(typ) && zusatzinformationen.isEmpty;
 
-  EinkommenderLink(
-      {this.typ = "",
-      this.zusatzinformationen = const {},
-      this.einkommensZeitpunkt = EinkommensZeitpunkt.unbekannt})
-      : assert(typ != null),
-        assert(zusatzinformationen != null),
-        assert(einkommensZeitpunkt != null);
+  EinkommenderLink({
+    this.typ = "",
+    this.zusatzinformationen = const {},
+    this.einkommensZeitpunkt = EinkommensZeitpunkt.unbekannt,
+  });
 
   factory EinkommenderLink.fromDynamicLink(
-      DynamicLinkData pendingDynamicLinkData,
+      DynamicLinkData? pendingDynamicLinkData,
       EinkommensZeitpunkt einkommensZeitpunkt) {
     if (pendingDynamicLinkData == null) {
       return EinkommenderLink();
     }
     final copiedQueryParameters = Map<String, String>.from(
-        pendingDynamicLinkData?.link?.queryParameters ?? {});
+        pendingDynamicLinkData.link?.queryParameters ?? {});
     final type = copiedQueryParameters.remove("type") ?? "";
 
     return EinkommenderLink(

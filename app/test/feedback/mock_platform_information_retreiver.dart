@@ -8,7 +8,7 @@
 
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
-class MockPlatformInformationRetreiver extends PlatformInformationRetreiver {
+class MockPlatformInformationRetriever extends PlatformInformationRetriever {
   @override
   String appName = "";
 
@@ -22,7 +22,5 @@ class MockPlatformInformationRetreiver extends PlatformInformationRetreiver {
   String versionNumber = "";
 
   @override
-  Future<void> init() {
-    return null;
-  }
+  Future<void> init() async {}
 }

@@ -111,8 +111,12 @@ class _SettingsIcon extends StatelessWidget {
 }
 
 class TimeTableUnit extends StatelessWidget {
-  TimeTableUnit({Key key, this.groupInfos, this.lessons, this.timetableConfig})
-      : super(key: key);
+  TimeTableUnit({
+    Key? key,
+    required this.groupInfos,
+    required this.lessons,
+    required this.timetableConfig,
+  }) : super(key: key);
 
   final Map<String, GroupInfo> groupInfos;
   final List<Lesson> lessons;
@@ -153,8 +157,7 @@ class TimeTableUnit extends StatelessWidget {
         return StreamBuilder<List<CalendricalEvent>>(
           stream: bloc.events(startOfWeek, endDate: endDate),
           builder: (context, snapshot) {
-            final events =
-                snapshot.hasData ? snapshot.data : <CalendricalEvent>[];
+            final events = snapshot.data ?? <CalendricalEvent>[];
             final builder = TimetableBuilder(
               filteredLessonsList,
               daysList,

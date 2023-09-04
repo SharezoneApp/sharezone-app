@@ -58,7 +58,10 @@ Future<void> submit(BuildContext context) async {
 }
 
 class CourseEditPage extends StatefulWidget {
-  const CourseEditPage({Key key, this.course}) : super(key: key);
+  const CourseEditPage({
+    Key? key,
+    required this.course,
+  }) : super(key: key);
 
   static const String tag = "course-edit-page";
   final Course course;
@@ -68,7 +71,7 @@ class CourseEditPage extends StatefulWidget {
 }
 
 class _CourseEditPageState extends State<CourseEditPage> {
-  CourseEditPageBloc bloc;
+  late CourseEditPageBloc bloc;
 
   @override
   void initState() {
@@ -77,7 +80,7 @@ class _CourseEditPageState extends State<CourseEditPage> {
         subject: widget.course.subject,
         abbreviation: widget.course.abbreviation,
         courseName: widget.course.name,
-        design: widget.course.design,
+        design: widget.course.design!,
         gateway: CourseEditBlocGateway(api.course, widget.course));
     super.initState();
   }
@@ -92,7 +95,10 @@ class _CourseEditPageState extends State<CourseEditPage> {
 }
 
 class _CourseEditPage extends StatelessWidget {
-  const _CourseEditPage({Key key, @required this.course}) : super(key: key);
+  const _CourseEditPage({
+    Key? key,
+    required this.course,
+  }) : super(key: key);
 
   final Course course;
 
@@ -127,9 +133,9 @@ class _CourseEditPage extends StatelessWidget {
 
 class _SubjectField extends StatelessWidget {
   const _SubjectField({
-    Key key,
-    @required this.nextNode,
-    @required this.initialSubject,
+    Key? key,
+    required this.nextNode,
+    required this.initialSubject,
   }) : super(key: key);
 
   final FocusNode nextNode;
@@ -160,9 +166,9 @@ class _SubjectField extends StatelessWidget {
 
 class _AbbreviationField extends StatelessWidget {
   const _AbbreviationField({
-    Key key,
-    @required this.nextNode,
-    @required this.initialAbbreviation,
+    Key? key,
+    required this.nextNode,
+    required this.initialAbbreviation,
   }) : super(key: key);
 
   final FocusNode nextNode;
@@ -183,7 +189,7 @@ class _AbbreviationField extends StatelessWidget {
 }
 
 class _CourseNameField extends StatelessWidget {
-  const _CourseNameField({Key key, @required this.initialCourseName})
+  const _CourseNameField({Key? key, required this.initialCourseName})
       : super(key: key);
 
   final String initialCourseName;

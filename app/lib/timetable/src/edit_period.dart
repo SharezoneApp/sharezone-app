@@ -13,7 +13,7 @@ import 'package:user/user.dart';
 
 import 'bloc/timetable_bloc.dart';
 
-Future<Period> selectPeriod(BuildContext context, {Period selected}) {
+Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
   final bloc = BlocProvider.of<TimetableBloc>(context);
   final periods = bloc.current.getPeriods();
   return selectItem<Period>(

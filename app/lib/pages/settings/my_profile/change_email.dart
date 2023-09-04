@@ -54,7 +54,7 @@ class ChangeEmailPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final currentEmail = api.user.authUser.email;
+    final currentEmail = api.user.authUser!.email;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(12),
       child: MaxWidthConstraintBox(
@@ -87,7 +87,7 @@ class ChangeEmailPageBody extends StatelessWidget {
 }
 
 class _WhyWeNeedTheEmail extends StatelessWidget {
-  const _WhyWeNeedTheEmail({Key key}) : super(key: key);
+  const _WhyWeNeedTheEmail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +103,10 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
 }
 
 class _CurrentEmailField extends StatelessWidget {
-  const _CurrentEmailField({Key key, @required this.currentEmail})
+  const _CurrentEmailField({Key? key, required this.currentEmail})
       : super(key: key);
 
-  final String currentEmail;
+  final String? currentEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -121,12 +121,12 @@ class _CurrentEmailField extends StatelessWidget {
 
 class _NewEmailField extends StatefulWidget {
   const _NewEmailField({
-    Key key,
-    @required this.currentEmail,
-    @required this.passwordNode,
+    Key? key,
+    required this.currentEmail,
+    required this.passwordNode,
   }) : super(key: key);
 
-  final String currentEmail;
+  final String? currentEmail;
   final FocusNode passwordNode;
 
   @override
@@ -134,7 +134,7 @@ class _NewEmailField extends StatefulWidget {
 }
 
 class __NewEmailFieldState extends State<_NewEmailField> {
-  TextEditingController controller;
+  TextEditingController? controller;
 
   @override
   void initState() {

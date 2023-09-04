@@ -23,10 +23,10 @@ class TimetableWeekView extends StatelessWidget {
   final TimetableConfig config;
 
   const TimetableWeekView({
-    @required this.dates,
-    @required this.elements,
-    @required this.config,
-    @required this.periods,
+    required this.dates,
+    required this.elements,
+    required this.config,
+    required this.periods,
   });
 
   @override

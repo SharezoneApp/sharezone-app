@@ -11,8 +11,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ListTileWithDescription extends StatelessWidget {
   const ListTileWithDescription({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.description,
     this.onTap,
     this.onLongPress,
@@ -21,18 +21,17 @@ class ListTileWithDescription extends StatelessWidget {
     this.trailing,
     this.subtitle,
     this.bottomPadding = 8,
-  })  : assert(bottomPadding != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final VoidCallback onDoubleTap;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final VoidCallback? onDoubleTap;
 
-  final Widget leading;
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final Widget description;
+  final Widget? leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final Widget? description;
 
   final double bottomPadding;
 
@@ -62,7 +61,7 @@ class ListTileWithDescription extends StatelessWidget {
                   fontSize: 12,
                   fontFamily: rubik,
                 ),
-                child: description,
+                child: description!,
               ),
             )
         ],

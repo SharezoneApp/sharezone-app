@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone_common/helper_functions.dart';
@@ -27,8 +26,8 @@ class SuccessfullJoinResult implements GroupJoinResult {
   final GroupInfo groupInfo;
 
   const SuccessfullJoinResult({
-    @required this.groupInfo,
-  }) : assert(groupInfo != null);
+    required this.groupInfo,
+  });
 
   factory SuccessfullJoinResult.fromData(Map<String, dynamic> data) {
     return SuccessfullJoinResult(
@@ -47,10 +46,10 @@ class RequireCourseSelectionsJoinResult implements GroupJoinResult {
   final String enteredValue;
 
   const RequireCourseSelectionsJoinResult({
-    @required this.groupInfo,
-    @required this.courses,
-    @required this.enteredValue,
-  }) : assert(groupInfo != null && courses != null);
+    required this.groupInfo,
+    required this.courses,
+    required this.enteredValue,
+  });
 
   factory RequireCourseSelectionsJoinResult.fromData(
       Map<String, dynamic> data) {

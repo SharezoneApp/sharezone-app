@@ -24,11 +24,11 @@ class _CourseTab extends StatelessWidget {
 }
 
 class _CourseList extends StatelessWidget {
-  const _CourseList(this.courseList, {Key key}) : super(key: key);
+  const _CourseList(this.courseList, {Key? key}) : super(key: key);
 
-  final List<Course> courseList;
+  final List<Course>? courseList;
 
-  List<Widget> getLines(List<Course> courseList, Course selectedCourse) {
+  List<Widget> getLines(List<Course> courseList, Course? selectedCourse) {
     final list = <Widget>[];
     for (int i = 0; i < courseList.length; i += 2) {
       final first = _CourseTile(
@@ -59,7 +59,7 @@ class _CourseList extends StatelessWidget {
       stream: bloc.course,
       builder: (context, courseSnapshot) {
         final selectedCourse = courseSnapshot.data;
-        if (courseList.isEmpty) return _EmptyCourseList();
+        if (courseList!.isEmpty) return _EmptyCourseList();
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -70,7 +70,7 @@ class _CourseList extends StatelessWidget {
                     first: _JoinCourse(),
                     second: _CreateCourse(),
                   ),
-                  ...getLines(courseList, selectedCourse),
+                  ...getLines(courseList!, selectedCourse),
                 ],
               ),
             ),
@@ -81,16 +81,16 @@ class _CourseList extends StatelessWidget {
   }
 
   void _sortCourseListByAlphabet() {
-    courseList.sort((a, b) => a.name.compareTo(b.name));
+    courseList!.sort((a, b) => a.name.compareTo(b.name));
   }
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key key, @required this.course, this.color})
+  const _CourseTile({Key? key, required this.course, this.color})
       : super(key: key);
 
   final Course course;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class _CourseTile extends StatelessWidget {
           title: course.name,
           leading: hasPermissions ? courseAvatar() : lockAvatar(),
           backgroundColor: hasPermissions
-              ? color.withOpacity(0.14)
+              ? color?.withOpacity(0.14)
               : Colors.grey.withOpacity(0.14),
           onTap: hasPermissions
               ? () async {
@@ -134,8 +134,11 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _LineWithTwoWidgets extends StatelessWidget {
-  const _LineWithTwoWidgets({Key key, this.first, this.second})
-      : super(key: key);
+  const _LineWithTwoWidgets({
+    Key? key,
+    required this.first,
+    required this.second,
+  }) : super(key: key);
 
   final Widget first;
   final Widget second;
@@ -189,13 +192,16 @@ class _CreateCourse extends StatelessWidget {
 }
 
 class _CourseManagementButtons extends StatelessWidget {
-  const _CourseManagementButtons(
-      {Key key, this.iconData, this.title, this.onTap})
-      : super(key: key);
+  const _CourseManagementButtons({
+    Key? key,
+    required this.title,
+    this.iconData,
+    this.onTap,
+  }) : super(key: key);
 
-  final IconData iconData;
+  final IconData? iconData;
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

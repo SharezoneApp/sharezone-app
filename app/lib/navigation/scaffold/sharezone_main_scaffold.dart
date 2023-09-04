@@ -16,19 +16,19 @@ import 'desktop/desktop_main_scaffold.dart';
 import 'portable/portable_main_scaffold.dart';
 
 class SharezoneMainScaffold extends StatelessWidget {
-  final AppBarConfiguration appBarConfiguration;
+  final AppBarConfiguration? appBarConfiguration;
   final NavigationItem navigationItem;
   final Widget body;
-  final Widget floatingActionButton;
-  final BottomBarConfiguration bottomBarConfiguration;
-  final Key scaffoldKey;
-  final Color colorBehindBNB;
+  final Widget? floatingActionButton;
+  final BottomBarConfiguration? bottomBarConfiguration;
+  final Key? scaffoldKey;
+  final Color? colorBehindBNB;
 
   const SharezoneMainScaffold({
-    @required this.navigationItem,
-    @required this.body,
-    this.floatingActionButton,
+    required this.navigationItem,
+    required this.body,
     this.appBarConfiguration,
+    this.floatingActionButton,
     this.bottomBarConfiguration,
     this.scaffoldKey,
     this.colorBehindBNB,

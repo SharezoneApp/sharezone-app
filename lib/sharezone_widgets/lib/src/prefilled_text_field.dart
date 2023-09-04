@@ -26,11 +26,12 @@ class PrefilledTextField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.autofillHints,
     this.autoSelectAllCharactersOnFirstBuild = false,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.
-  final String prefilledText;
+  final String? prefilledText;
 
   /// Will autoselect the [prefilledText] on the first build if true.
   /// This helps the user to quickly delete the default [prefilledText] and
@@ -307,7 +308,7 @@ class PrefilledTextField extends StatefulWidget {
   /// ```
   ///
   /// (Copied from [TextField.maxLines])
-  final int maxLines;
+  final int? maxLines;
 
   /// The style to use for the text being edited.
   ///
@@ -419,6 +420,9 @@ class PrefilledTextField extends StatefulWidget {
   /// (Copied from [TextField.autofillHints])
   final Iterable<String>? autofillHints;
 
+  /// See [TextField.textCapitalization].
+  final TextCapitalization textCapitalization;
+
   @override
   State createState() => _PrefilledTextFieldState();
 }
@@ -453,6 +457,7 @@ class _PrefilledTextFieldState extends State<PrefilledTextField> {
       keyboardType: widget.keyboardType,
       cursorColor: widget.cursorColor,
       scrollPadding: widget.scrollPadding,
+      textCapitalization: widget.textCapitalization,
     );
   }
 }

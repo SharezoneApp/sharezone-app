@@ -10,7 +10,6 @@ import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:holidays/holidays.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
@@ -23,19 +22,17 @@ class NextLessonCalculator {
   final HolidayService holidayManager;
 
   NextLessonCalculator({
-    @required this.timetableGateway,
-    @required this.userGateway,
-    @required this.holidayManager,
+    required this.timetableGateway,
+    required this.userGateway,
+    required this.holidayManager,
   });
 
-  Future<Date> calculateNextLesson(String courseID) async {
+  Future<Date?> calculateNextLesson(String courseID) async {
     List<Lesson> lessons = await timetableGateway.getLessonsOfGroup(courseID);
     AppUser user = await userGateway.get();
-    List<Holiday> holidays;
+    List<Holiday?> holidays;
     try {
-      holidays = user.state != null
-          ? await holidayManager.load(toStateOrThrow(user.state))
-          : [];
+      holidays = await holidayManager.load(toStateOrThrow(user.state));
     } catch (e) {
       holidays = [];
     }
@@ -52,7 +49,7 @@ class NextLessonCalculator {
 
 class _NextLessonCalculation {
   final List<Lesson> lessons;
-  final List<Holiday> holidays;
+  final List<Holiday?> holidays;
   final UserSettings userSettings;
 
   _NextLessonCalculation(this.lessons, this.holidays, this.userSettings);
@@ -87,7 +84,7 @@ class _NextLessonCalculation {
 
   bool _isHolidayAt(Date date) {
     for (final holiday in holidays) {
-      Date start = Date.fromDateTime(holiday.start);
+      Date start = Date.fromDateTime(holiday!.start);
       Date end = Date.fromDateTime(holiday.end);
       if (date.isInsideDateRange(start, end)) return true;
     }

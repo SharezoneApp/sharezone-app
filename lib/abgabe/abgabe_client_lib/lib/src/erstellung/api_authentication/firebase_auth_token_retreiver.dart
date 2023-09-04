@@ -8,17 +8,17 @@
 
 /// Lädt den aktuellen Token vom Firebase-User.
 /// Ist ein Interface, weil wir in dem Package nicht auf Flutteer dependen wollen.
-abstract class FirebaseAuthTokenRetreiver {
-  Future<String> getToken();
+abstract class FirebaseAuthTokenRetriever {
+  Future<String?> getToken();
 }
 
-class FirebaseAuthHeaderRetreiver {
-  FirebaseAuthHeaderRetreiver(this._tokenRetreiver);
+class FirebaseAuthHeaderRetriever {
+  FirebaseAuthHeaderRetriever(this._tokenRetriever);
 
-  final FirebaseAuthTokenRetreiver _tokenRetreiver;
+  final FirebaseAuthTokenRetriever _tokenRetriever;
 
   Future<Map<String, String>> getAuthHeader() async {
-    final token = await _tokenRetreiver.getToken();
+    final token = await _tokenRetriever.getToken();
     return {'authorization': 'Bearer $token'};
   }
 }

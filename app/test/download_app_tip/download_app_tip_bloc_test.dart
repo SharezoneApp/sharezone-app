@@ -18,9 +18,9 @@ import 'mock_analytics.dart';
 
 void main() {
   group('DownloadTip tests', () {
-    DownloadAppTipCache cache;
-    DownloadAppTipBloc bloc;
-    MockDownloadAppTipAnalytics analytics;
+    late DownloadAppTipCache cache;
+    late DownloadAppTipBloc bloc;
+    late MockDownloadAppTipAnalytics analytics;
 
     setUp(() {
       cache = DownloadAppTipCache(InMemoryStreamingKeyValueStore());

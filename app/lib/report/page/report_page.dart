@@ -32,7 +32,7 @@ Future<void> openReportPage(
 }
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({Key key, @required this.item}) : super(key: key);
+  const ReportPage({Key? key, required this.item}) : super(key: key);
 
   static const tag = 'report-page';
 
@@ -43,7 +43,7 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
-  ReportPageBloc bloc;
+  late ReportPageBloc bloc;
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _ReportPageState extends State<ReportPage> {
 }
 
 class _SendButton extends StatelessWidget {
-  const _SendButton({Key key}) : super(key: key);
+  const _SendButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class _SendButton extends StatelessWidget {
     if (bloc.isSubmitValid()) {
       final confirmedSendingReport =
           await _showSendReportConfirmationDialog(context);
-      if (confirmedSendingReport) {
+      if (confirmedSendingReport == true) {
         try {
           bloc.send();
           Navigator.pop(context, true);
@@ -128,7 +128,7 @@ class _SendButton extends StatelessWidget {
         seconds: 5,
       );
 
-  Future<bool> _showSendReportConfirmationDialog(BuildContext context) async {
+  Future<bool?> _showSendReportConfirmationDialog(BuildContext context) async {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
@@ -154,7 +154,10 @@ class _ReasonRadioGroup extends StatelessWidget {
         return Column(
           children: <Widget>[
             for (final reason in ReportReason.values)
-              _ReasonTile(reason: reason, currentReason: currentReason)
+              _ReasonTile(
+                reason: reason,
+                currentReason: currentReason,
+              )
           ],
         );
       },
@@ -164,21 +167,24 @@ class _ReasonRadioGroup extends StatelessWidget {
 
 class _ReasonTile extends StatelessWidget {
   const _ReasonTile({
-    Key key,
-    @required this.reason,
-    @required this.currentReason,
+    Key? key,
+    required this.reason,
+    required this.currentReason,
   }) : super(key: key);
 
   final ReportReason reason;
-  final ReportReason currentReason;
+  final ReportReason? currentReason;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<ReportPageBloc>(context);
-    return RadioListTile(
+    return RadioListTile<ReportReason>(
       value: reason,
       groupValue: currentReason,
-      onChanged: bloc.changeReason,
+      onChanged: (value) {
+        if (value == null) return;
+        bloc.changeReason(value);
+      },
       title: Text(getReportReasonUiText(reason)),
     );
   }
@@ -206,6 +212,7 @@ class _DescriptionField extends StatelessWidget {
             textInputAction: TextInputAction.newline,
             maxLines: null,
             onChanged: bloc.changeDescription,
+            textCapitalization: TextCapitalization.sentences,
           ),
         ],
       ),

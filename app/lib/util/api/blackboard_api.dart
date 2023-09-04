@@ -11,7 +11,6 @@ import 'dart:async';
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
@@ -26,9 +25,10 @@ class BlackboardGateway {
   final BehaviorSubject<List<BlackboardItem>> streamOfParsedBlackboardItem =
       BehaviorSubject<List<BlackboardItem>>();
 
-  BlackboardGateway(
-      {@required AuthUser authUser, @required FirebaseFirestore firestore})
-      : uID = authUser.uid,
+  BlackboardGateway({
+    required AuthUser authUser,
+    required FirebaseFirestore firestore,
+  })  : uID = authUser.uid,
         blackboardItemCollection = firestore.collection("Blackboard"),
         blackboardItemStream = firestore
             .collection("Blackboard")
@@ -41,17 +41,18 @@ class BlackboardGateway {
 
   Stream<BlackboardItem> singleBlackboardItem(String itemID) {
     return blackboardItemCollection.doc(itemID).snapshots().map(
-        (docSnap) => BlackboardItem.fromData(docSnap.data(), id: docSnap.id));
+        (docSnap) => BlackboardItem.fromData(docSnap.data()!, id: docSnap.id));
   }
 
   /// Sollte es keine Attachments geben, sollte an [attachmentsRemainOrDelete]
   /// null übergeben werden.
-  void deleteBlackboardItemWithAttachments(
-      {@required String id,
-      @required String courseID,
-      @required List<String> attachmentIDs,
-      @required AttachmentOperation attachmentsRemainOrDelete,
-      @required FileSharingGateway fileSharingGateway}) {
+  void deleteBlackboardItemWithAttachments({
+    required String id,
+    required String courseID,
+    required List<String> attachmentIDs,
+    required AttachmentOperation attachmentsRemainOrDelete,
+    required FileSharingGateway fileSharingGateway,
+  }) {
     // Attachments
     if (attachmentsRemainOrDelete == AttachmentOperation.delete) {
       _deleteAllFiles(fileSharingGateway, courseID, attachmentIDs);
@@ -88,9 +89,10 @@ class BlackboardGateway {
       blackboardItemCollection.doc(id).delete();
 
   Future<DocumentReference> addBlackboardItemToCourse(
-      BlackboardItem blackboardItem,
-      List<String> attachments,
-      FileSharingGateway fileSharingGateway) async {
+    BlackboardItem blackboardItem,
+    List<String>? attachments,
+    FileSharingGateway fileSharingGateway,
+  ) async {
     final reference = blackboardItemCollection.doc();
     await reference.set(blackboardItem.toJson());
 
@@ -106,10 +108,13 @@ class BlackboardGateway {
   }
 
   /// Adds a Bl4eackboardItem to the [blackboardItemCollection] or if [merge] is true updates the [Blackboard] at [blackboardItem.reference].
-  Future<DocumentReference> add(BlackboardItem blackboardItem, bool merge,
-      {List<String> attachments,
-      FileSharingGateway fileSharingGateway,
-      String courseID}) async {
+  Future<DocumentReference> add(
+    BlackboardItem blackboardItem,
+    bool merge, {
+    List<String>? attachments,
+    required FileSharingGateway fileSharingGateway,
+    required String courseID,
+  }) async {
     DocumentReference reference;
     if (!merge) {
       reference = await blackboardItemCollection.add(blackboardItem.toJson());

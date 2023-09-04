@@ -35,9 +35,11 @@ Future<void> openWeekDaysEditPage(BuildContext context) async {
   if (result) _showConfirmSnackBarOfSavingEnabledWeekDays(context);
 }
 
-Future<void> _submit(BuildContext context,
-    {EnabledWeekDaysEditBloc bloc,
-    GlobalKey<ScaffoldMessengerState> scaffoldKey}) async {
+Future<void> _submit(
+  BuildContext context, {
+  EnabledWeekDaysEditBloc? bloc,
+  GlobalKey<ScaffoldMessengerState>? scaffoldKey,
+}) async {
   bloc ??= BlocProvider.of<EnabledWeekDaysEditBloc>(context);
   try {
     await bloc.submit();
@@ -54,8 +56,8 @@ Future<void> _submit(BuildContext context,
 
 class _WeekDaysEditPage extends StatefulWidget {
   const _WeekDaysEditPage({
-    Key key,
-    @required this.userSettingsBloc,
+    Key? key,
+    required this.userSettingsBloc,
   }) : super(key: key);
 
   static const tag = "week-days-edit-page";
@@ -66,7 +68,7 @@ class _WeekDaysEditPage extends StatefulWidget {
 }
 
 class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
-  EnabledWeekDaysEditBloc bloc;
+  late EnabledWeekDaysEditBloc bloc;
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
@@ -99,7 +101,7 @@ class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
                       for (final weekDay in WeekDay.values)
                         _WeekDayTile(
                           weekDay: weekDay,
-                          isEnabled: enabledWeekDays.getValue(weekDay),
+                          isEnabled: enabledWeekDays!.getValue(weekDay)!,
                         ),
                     ],
                   ),
@@ -126,7 +128,11 @@ class _EnabledWeekDaysEditFAB extends StatelessWidget {
 }
 
 class _WeekDayTile extends StatelessWidget {
-  const _WeekDayTile({Key key, this.weekDay, this.isEnabled}) : super(key: key);
+  const _WeekDayTile({
+    Key? key,
+    required this.weekDay,
+    required this.isEnabled,
+  }) : super(key: key);
 
   final bool isEnabled;
   final WeekDay weekDay;
@@ -138,6 +144,7 @@ class _WeekDayTile extends StatelessWidget {
       value: isEnabled,
       title: Text(getWeekDayText(weekDay)),
       onChanged: (newValue) {
+        if (newValue == null) return;
         bloc.changeWeekDay(weekDay, newValue);
       },
     );

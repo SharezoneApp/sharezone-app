@@ -17,23 +17,20 @@ class FilePage extends StatefulWidget {
   static const tag = "file-page";
 
   const FilePage({
-    Key key,
-    @required this.fileType,
+    Key? key,
+    required this.fileType,
     this.actions,
-    this.onLoadedFile,
-    @required this.name,
-    this.nameStream,
-    @required this.downloadURL,
-    @required this.id,
-  })  : assert(fileType != null ||
-            !(fileType == FileFormat.pdf ||
-                fileType == FileFormat.image ||
-                fileType == FileFormat.video)),
+    required this.name,
+    required this.nameStream,
+    required this.downloadURL,
+    required this.id,
+  })  : assert(!(fileType == FileFormat.pdf ||
+            fileType == FileFormat.image ||
+            fileType == FileFormat.video)),
         super(key: key);
 
   final FileFormat fileType;
-  final ValueChanged<LocalFile> onLoadedFile;
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   final String name;
   final Stream<String> nameStream;
@@ -47,7 +44,7 @@ class FilePage extends StatefulWidget {
 class _FilePageState extends State<FilePage> {
   _FilePageState();
 
-  FilePageBloc filePageBloc;
+  late FilePageBloc filePageBloc;
 
   FileFormat get fileFormat => widget.fileType;
   String get name => widget.name;
@@ -55,7 +52,7 @@ class _FilePageState extends State<FilePage> {
   @override
   void initState() {
     super.initState();
-    filePageBloc ??= FilePageBloc(
+    filePageBloc = FilePageBloc(
       downloadURL: widget.downloadURL,
       id: widget.id,
       name: widget.name,
@@ -91,7 +88,7 @@ class _FilePageState extends State<FilePage> {
         if (fileFormat == FileFormat.pdf) {
           return PdfFilePage(
             name: name,
-            localFile: localFile,
+            localFile: localFile!,
             actions: widget.actions,
             nameStream: widget.nameStream,
           );
@@ -107,9 +104,9 @@ class _FilePageState extends State<FilePage> {
 
 class _LoadingPage extends StatefulWidget {
   const _LoadingPage({
-    Key key,
-    @required this.name,
-    @required this.nameStream,
+    Key? key,
+    required this.name,
+    required this.nameStream,
   }) : super(key: key);
 
   final String name;
@@ -135,9 +132,9 @@ class __LoadingPageState extends State<_LoadingPage> {
 
 class _EmptyPage extends StatelessWidget {
   const _EmptyPage({
-    Key key,
-    @required this.name,
-    @required this.nameStream,
+    Key? key,
+    required this.name,
+    required this.nameStream,
     this.error,
   }) : super(key: key);
 

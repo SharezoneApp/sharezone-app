@@ -8,30 +8,27 @@
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:design/design.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 
 class CourseEditDesignBloc extends BlocBase {
   final String courseId;
   final CourseGateway courseGateway;
 
-  final Stream<Design> courseDesign;
-  final Stream<Design> personalDesign;
+  final Stream<Design?> courseDesign;
+  final Stream<Design?> personalDesign;
 
   CourseEditDesignBloc(this.courseId, this.courseGateway)
-      : courseDesign =
-            courseGateway.streamCourse(courseId).map((course) => course.design),
+      : courseDesign = courseGateway
+            .streamCourse(courseId)
+            .map((course) => course?.design),
         personalDesign = courseGateway
             .streamCourse(courseId)
-            .map((course) => course.personalDesign);
+            .map((course) => course?.personalDesign);
 
   Future<void> submitCourseDesign({
-    @required Design initialDesign,
-    @required Design selectedDesign,
+    Design? initialDesign,
+    required Design selectedDesign,
   }) async {
-    assert(initialDesign != null && selectedDesign != null,
-        "initialDesign and selectedDesign shouldn't be null");
-
     if (_hasUserChangedDesign(initialDesign, selectedDesign)) {
       final result = await _editCourseDesign(selectedDesign);
       if (result == false) {
@@ -40,10 +37,10 @@ class CourseEditDesignBloc extends BlocBase {
     }
   }
 
-  void submitPersonalDesign(
-      {Design initialDesign, @required Design selectedDesign}) {
-    assert(selectedDesign != null, "selectedDesign shouldn't be null");
-
+  void submitPersonalDesign({
+    Design? initialDesign,
+    required Design selectedDesign,
+  }) {
     if (_hasUserChangedDesign(initialDesign, selectedDesign)) {
       _editPersonalDesign(selectedDesign);
     }
@@ -69,7 +66,7 @@ class CourseEditDesignBloc extends BlocBase {
     }
   }
 
-  bool _hasUserChangedDesign(Design initialDesign, Design selectedDesign) =>
+  bool _hasUserChangedDesign(Design? initialDesign, Design selectedDesign) =>
       initialDesign != selectedDesign;
 
   @override

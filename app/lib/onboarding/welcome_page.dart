@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone_utils/platform.dart';
+
 import 'sign_up/sign_up_page.dart';
 
 /// Die [WelcomePage] ist die erste Page, die der Nutzer sieht. Bei der mobilen

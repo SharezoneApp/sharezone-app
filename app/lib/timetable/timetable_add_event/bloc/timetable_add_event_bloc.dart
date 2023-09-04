@@ -162,29 +162,29 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return false;
   }
 
-  CalendricalEvent submit(TabController controller) {
+  CalendricalEvent? submit(TabController controller) {
     if (_isValid(controller)) {
-      final course = _courseSegmentSubject.valueOrNull;
+      final course = _courseSegmentSubject.valueOrNull!;
       final startTime = _startTimeSubject.valueOrNull;
       final endTime = _endTimeSubject.valueOrNull;
       final place = _placeSubject.valueOrNull;
       final date = _dateSubject.valueOrNull;
       final title = _titleSubject.valueOrNull;
-      final eventType = _eventTypeSubject.valueOrNull;
+      final eventType = _eventTypeSubject.valueOrNull!;
       final detail = _detailSubject.valueOrNull;
-      final sendNotification = _sendNotificationSubject.valueOrNull;
+      final sendNotification = _sendNotificationSubject.valueOrNull!;
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $place $date $sendNotification");
 
       final event = CalendricalEvent(
         groupID: course.id,
         groupType: GroupType.course,
         eventType: eventType,
-        date: date,
+        date: date!,
         place: place,
-        startTime: startTime,
-        endTime: endTime,
-        eventID: null, authorID: null, // WILL BE ADDED IN THE GATEWAY!
-        title: title,
+        startTime: startTime!,
+        endTime: endTime!,
+        eventID: 'temp', authorID: 'temp', // WILL BE ADDED IN THE GATEWAY!
+        title: title!,
         detail: detail,
         sendNotification: sendNotification,
         latestEditor: gateway.memberID,
@@ -227,7 +227,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return true;
   }
 
-  bool _isStartTimeValid([TabController controller]) {
+  bool _isStartTimeValid([TabController? controller]) {
     final validatorStartTime = NotNullValidator(_startTimeSubject.valueOrNull);
     if (!validatorStartTime.isValid()) {
       if (controller != null) {
@@ -238,7 +238,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return true;
   }
 
-  bool _isEndTimeValid([TabController controller]) {
+  bool _isEndTimeValid([TabController? controller]) {
     final validatorEndTime = NotNullValidator(_endTimeSubject.valueOrNull);
     if (!validatorEndTime.isValid()) {
       if (controller != null) {
@@ -276,7 +276,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return false;
   }
 
-  void _throwIfStartIsBeforeEnd([TabController controller]) {
+  void _throwIfStartIsBeforeEnd([TabController? controller]) {
     if (!_isStartBeforeEnd()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);
@@ -291,7 +291,7 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
     return startTime == endTime;
   }
 
-  void _throwIfStartAndEndTimeIsEqual([TabController controller]) {
+  void _throwIfStartAndEndTimeIsEqual([TabController? controller]) {
     if (_isStartAndEndTimeEqual()) {
       if (controller != null) {
         _animateBackToStartAndEndTime(controller);

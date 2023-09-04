@@ -82,8 +82,8 @@ class _HowToJoinAGroup extends StatefulWidget {
 }
 
 class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
-  Color _svgColor = Colors.grey[600];
-  Color _typeInPublicKeyIconColor = Colors.grey[600];
+  Color? _svgColor = Colors.grey[600];
+  Color? _typeInPublicKeyIconColor = Colors.grey[600];
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 class _HomeworkSection extends StatelessWidget {
-  const _HomeworkSection({Key key}) : super(key: key);
+  const _HomeworkSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _HomeworkSection extends StatelessWidget {
 }
 
 class _HomeworkSectionTitle extends StatelessWidget {
-  const _HomeworkSectionTitle({Key key}) : super(key: key);
+  const _HomeworkSectionTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:optional/optional.dart';
@@ -21,8 +22,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class GroupOnboardingShareSharecode extends StatelessWidget {
-  const GroupOnboardingShareSharecode({Key key, @required this.schoolClassId})
-      : super(key: key);
+  const GroupOnboardingShareSharecode({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   static const tag = 'onboarding-share-sharecode-page';
   final Optional<String> schoolClassId;
@@ -45,7 +48,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
         else
           _CoursesSharecodeBox(),
       ],
-      bottomNavigationBar: OnboardingNavigationBar(action: _FinsihButton()),
+      bottomNavigationBar: OnboardingNavigationBar(action: _FinishButton()),
     );
   }
 }
@@ -71,7 +74,6 @@ class _Title extends StatelessWidget {
     switch (bloc.typeOfUser) {
       case TypeOfUser.teacher:
         return 'Lade jetzt deine Schüler und Schülerinnen ein!';
-        break;
       case TypeOfUser.parent:
         return 'Lade jetzt andere Schüler, Eltern oder Lehrkräfte ein!';
       case TypeOfUser.student:
@@ -90,7 +92,7 @@ class _CoursesSharecodeBox extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return _LoadingSharecodeBox();
 
-        final groupInfos = snapshot.data;
+        final groupInfos = snapshot.data!;
         return Column(
           children: [
             for (final groupInfo in groupInfos)
@@ -103,20 +105,21 @@ class _CoursesSharecodeBox extends StatelessWidget {
 }
 
 class _SchoolClassSharecodeBox extends StatelessWidget {
-  const _SchoolClassSharecodeBox({Key key, this.schoolClassId})
-      : super(key: key);
+  const _SchoolClassSharecodeBox({
+    Key? key,
+    required this.schoolClassId,
+  }) : super(key: key);
 
   final String schoolClassId;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    return StreamBuilder<GroupInfo>(
+    return StreamBuilder<GroupInfo?>(
       stream: bloc.schoolClassGroupInfo(schoolClassId),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return _LoadingSharecodeBox();
-
         final groupInfo = snapshot.data;
+        if (groupInfo == null) return _LoadingSharecodeBox();
         return _SharecodeBox(groupInfo: groupInfo);
       },
     );
@@ -129,7 +132,7 @@ class _LoadingSharecodeBox extends StatelessWidget {
     final mockGroupInfo = GroupInfo(
       id: 'id',
       name: 'name',
-      design: null,
+      design: Design.standard(),
       meetingID: null,
       abbreviation: null,
       sharecode: null,
@@ -143,8 +146,8 @@ class _LoadingSharecodeBox extends StatelessWidget {
 
 class _SharecodeBox extends StatelessWidget {
   const _SharecodeBox({
-    Key key,
-    @required this.groupInfo,
+    Key? key,
+    required this.groupInfo,
   }) : super(key: key);
 
   final GroupInfo groupInfo;
@@ -208,7 +211,7 @@ class _JoinHint extends StatelessWidget {
   }
 }
 
-class _FinsihButton extends StatelessWidget {
+class _FinishButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(

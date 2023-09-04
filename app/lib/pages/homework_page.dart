@@ -40,7 +40,7 @@ Map<SortBy, String> sortByAsString = {
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   BuildContext context, {
-  HomeworkDto homework,
+  HomeworkDto? homework,
 }) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final nextLessonCalculator = NextLessonCalculator(
@@ -78,7 +78,7 @@ List<HomeworkDto> getNotArchived(List<HomeworkDto> homeworkList) {
 }
 
 class HomeworkPage extends StatelessWidget {
-  const HomeworkPage({Key key}) : super(key: key);
+  const HomeworkPage({Key? key}) : super(key: key);
   static const String tag = 'homework-page';
 
   @override
@@ -92,9 +92,9 @@ class HomeworkPage extends StatelessWidget {
 }
 
 class _HomeworkPage extends StatefulWidget {
-  const _HomeworkPage({Key key, this.typeOfUser}) : super(key: key);
+  const _HomeworkPage({Key? key, this.typeOfUser}) : super(key: key);
 
-  final TypeOfUser typeOfUser;
+  final TypeOfUser? typeOfUser;
 
   @override
   _HomeworkPageState createState() => _HomeworkPageState();
@@ -103,7 +103,7 @@ class _HomeworkPage extends StatefulWidget {
 class _HomeworkPageState extends State<_HomeworkPage> {
   SortBy sortBy = SortBy.date;
 
-  ScrollController _hideButtonController;
+  ScrollController? _hideButtonController;
   bool _isVisible = true;
   bool _isAtEdge = false;
 
@@ -111,10 +111,10 @@ class _HomeworkPageState extends State<_HomeworkPage> {
   void initState() {
     super.initState();
     _hideButtonController = ScrollController();
-    _hideButtonController.addListener(() {
-      if (_hideButtonController.position.pixels != 0 &&
-          _hideButtonController.position.maxScrollExtent -
-                  _hideButtonController.position.pixels <
+    _hideButtonController!.addListener(() {
+      if (_hideButtonController!.position.pixels != 0 &&
+          _hideButtonController!.position.maxScrollExtent -
+                  _hideButtonController!.position.pixels <
               5) {
         _isAtEdge = true;
         setState(() {
@@ -157,8 +157,10 @@ class _HomeworkPageState extends State<_HomeworkPage> {
           appBarConfiguration: AppBarConfiguration(
             actions: <Widget>[
               _PopupMenu(
-                onChangedSortBy: (SortBy changedSortBy) =>
-                    setState(() => sortBy = changedSortBy),
+                onChangedSortBy: (SortBy? changedSortBy) {
+                  if (changedSortBy == null) return;
+                  setState(() => sortBy = changedSortBy);
+                },
                 typeOfUser: widget.typeOfUser,
               )
             ],
@@ -195,26 +197,26 @@ class _HomeworkPageState extends State<_HomeworkPage> {
                     return StreamBuilder<List<HomeworkDto>>(
                       stream: bloc.homeworkDone,
                       builder: (context, snapshotHomeworkDone) {
-                        log("HomeworkNotDone length: ${snapshotHomeworkNotDone?.data?.length ?? 0}");
+                        log("HomeworkNotDone length: ${snapshotHomeworkNotDone.data?.length ?? 0}");
                         if (!snapshotHomeworkDone.hasData) return Container();
                         if (snapshotHomeworkDone.hasError)
                           return ShowCenteredError(
                               error: snapshotHomeworkDone.error.toString());
 
-                        List<HomeworkDto> homeworkListNotDone =
+                        List<HomeworkDto>? homeworkListNotDone =
                             snapshotHomeworkNotDone.data;
-                        List<HomeworkDto> homeworkListDone =
+                        List<HomeworkDto>? homeworkListDone =
                             snapshotHomeworkDone.data;
 
                         if (widget.typeOfUser == TypeOfUser.teacher)
                           return _TeacherScaffoldBody(
-                            homeworkList: getNotArchived(homeworkListNotDone),
+                            homeworkList: getNotArchived(homeworkListNotDone!),
                             hideButtonController: _hideButtonController,
                             sortBy: sortBy,
                           );
                         if (widget.typeOfUser == TypeOfUser.parent)
                           return _ParentsScaffoldBody(
-                            homeworkList: getNotArchived(homeworkListNotDone),
+                            homeworkList: getNotArchived(homeworkListNotDone!),
                             hideButtonController: _hideButtonController,
                             sortBy: sortBy,
                           );
@@ -243,14 +245,14 @@ class _HomeworkPageState extends State<_HomeworkPage> {
 }
 
 class _PopupMenu extends StatelessWidget {
-  const _PopupMenu({Key key, this.onChangedSortBy, this.typeOfUser})
+  const _PopupMenu({Key? key, this.onChangedSortBy, this.typeOfUser})
       : super(key: key);
 
-  final ValueChanged<SortBy> onChangedSortBy;
-  final TypeOfUser typeOfUser;
+  final ValueChanged<SortBy?>? onChangedSortBy;
+  final TypeOfUser? typeOfUser;
 
-  void onPopupSortTap({BuildContext context, SortBy sortBy}) {
-    onChangedSortBy(sortBy);
+  void onPopupSortTap({BuildContext? context, SortBy? sortBy}) {
+    onChangedSortBy!(sortBy);
     showSnackSec(
       text: "Hausaufgaben werden nach dem ${sortByAsString[sortBy]} sortiert.",
       context: context,
@@ -281,7 +283,7 @@ class _PopupMenu extends StatelessWidget {
             onPopupSortTap(context: context, sortBy: SortBy.subject);
             break;
           case "MarkAllOpenHomeworks":
-            bool isConfirmed =
+            bool? isConfirmed =
                 await confirmToCheckAllOverdueHomeworkDialog(context);
             if (isConfirmed != null && isConfirmed) {
               bloc.checkAllOverdueHomeworks();
@@ -334,7 +336,7 @@ class _PopupMenu extends StatelessWidget {
     analytics.log(NamedAnalyticsEvent(name: "homework_add_via_popup_menu"));
   }
 
-  Future<bool> confirmToCheckAllOverdueHomeworkDialog(BuildContext context) {
+  Future<bool?> confirmToCheckAllOverdueHomeworkDialog(BuildContext context) {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
@@ -356,12 +358,12 @@ class _PopupMenu extends StatelessWidget {
 
 class _ParentsScaffoldBody extends StatelessWidget {
   const _ParentsScaffoldBody(
-      {Key key, this.homeworkList, this.sortBy, this.hideButtonController})
+      {Key? key, this.homeworkList, this.sortBy, this.hideButtonController})
       : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final SortBy sortBy;
-  final ScrollController hideButtonController;
+  final List<HomeworkDto>? homeworkList;
+  final SortBy? sortBy;
+  final ScrollController? hideButtonController;
 
   @override
   Widget build(BuildContext context) {
@@ -375,12 +377,12 @@ class _ParentsScaffoldBody extends StatelessWidget {
 
 class _TeacherScaffoldBody extends StatelessWidget {
   const _TeacherScaffoldBody(
-      {Key key, this.homeworkList, this.sortBy, this.hideButtonController})
+      {Key? key, this.homeworkList, this.sortBy, this.hideButtonController})
       : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final SortBy sortBy;
-  final ScrollController hideButtonController;
+  final List<HomeworkDto>? homeworkList;
+  final SortBy? sortBy;
+  final ScrollController? hideButtonController;
 
   @override
   Widget build(BuildContext context) {
@@ -394,17 +396,17 @@ class _TeacherScaffoldBody extends StatelessWidget {
 
 class _StudentScaffoldBody extends StatelessWidget {
   const _StudentScaffoldBody({
-    @required this.homeworkDoneList,
-    @required this.homeworkNotDoneList,
-    Key key,
+    required this.homeworkDoneList,
+    required this.homeworkNotDoneList,
+    Key? key,
     this.hideButtonController,
     this.sortBy,
   }) : super(key: key);
 
-  final List<HomeworkDto> homeworkDoneList;
-  final List<HomeworkDto> homeworkNotDoneList;
-  final ScrollController hideButtonController;
-  final SortBy sortBy;
+  final List<HomeworkDto>? homeworkDoneList;
+  final List<HomeworkDto>? homeworkNotDoneList;
+  final ScrollController? hideButtonController;
+  final SortBy? sortBy;
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +418,7 @@ class _StudentScaffoldBody extends StatelessWidget {
         sortBy: sortBy,
       ),
       _HomeworkPageLogic(
-        homeworkDoneList: getNotArchived(homeworkDoneList),
+        homeworkDoneList: getNotArchived(homeworkDoneList!),
         homeworkNotDoneList: homeworkNotDoneList,
         typeOfUser: TypeOfUser.student,
         hideButtonController: hideButtonController,
@@ -428,19 +430,19 @@ class _StudentScaffoldBody extends StatelessWidget {
 
 class _ParentsHomeworkPageView extends StatelessWidget {
   const _ParentsHomeworkPageView(
-      {Key key,
-      @required this.homeworkList,
+      {Key? key,
+      required this.homeworkList,
       this.sortBy,
       this.hideButtonController})
       : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final SortBy sortBy;
-  final ScrollController hideButtonController;
+  final List<HomeworkDto>? homeworkList;
+  final SortBy? sortBy;
+  final ScrollController? hideButtonController;
 
   @override
   Widget build(BuildContext context) {
-    if (homeworkList.isEmpty) return _SleepingSmileyParents();
+    if (homeworkList!.isEmpty) return _SleepingSmileyParents();
     return _HomeworkListWithCards(
       homeworkList: homeworkList,
       typeOfUser: TypeOfUser.parent,
@@ -451,19 +453,19 @@ class _ParentsHomeworkPageView extends StatelessWidget {
 
 class _TeacherHomeworkPageView extends StatelessWidget {
   const _TeacherHomeworkPageView(
-      {Key key,
-      @required this.homeworkList,
+      {Key? key,
+      required this.homeworkList,
       this.sortBy,
       this.hideButtonController})
       : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final SortBy sortBy;
-  final ScrollController hideButtonController;
+  final List<HomeworkDto>? homeworkList;
+  final SortBy? sortBy;
+  final ScrollController? hideButtonController;
 
   @override
   Widget build(BuildContext context) {
-    if (homeworkList.isEmpty) return _SleepingSmileyTeacher();
+    if (homeworkList!.isEmpty) return _SleepingSmileyTeacher();
     return _HomeworkListWithCards(
       homeworkList: homeworkList,
       typeOfUser: TypeOfUser.teacher,
@@ -479,13 +481,13 @@ void logHomeworkAddViaHomeworkPage(BuildContext context) {
 }
 
 class _HomeworkPageFAB extends StatelessWidget {
-  const _HomeworkPageFAB({Key key, this.visible}) : super(key: key);
+  const _HomeworkPageFAB({Key? key, this.visible}) : super(key: key);
 
-  final bool visible;
+  final bool? visible;
 
   @override
   Widget build(BuildContext context) {
-    if (!visible) return Container();
+    if (!visible!) return Container();
     return ModalFloatingActionButton(
       heroTag: 'sharezone-fab',
       onPressed: () async {
@@ -499,21 +501,21 @@ class _HomeworkPageFAB extends StatelessWidget {
 }
 
 Future<void> showUserConfirmationOfHomeworkArrival(
-    {@required BuildContext context}) async {
+    {required BuildContext context}) async {
   await waitingForPopAnimation();
   showDataArrivalConfirmedSnackbar(context: context);
 }
 
 class _HomeworkPageLogic extends StatelessWidget {
-  final List<HomeworkDto> homeworkDoneList, homeworkNotDoneList;
-  final TypeOfUser typeOfUser;
-  final ScrollController hideButtonController;
-  final SortBy sortBy;
+  final List<HomeworkDto>? homeworkDoneList, homeworkNotDoneList;
+  final TypeOfUser? typeOfUser;
+  final ScrollController? hideButtonController;
+  final SortBy? sortBy;
 
   const _HomeworkPageLogic(
       {this.homeworkDoneList,
       this.homeworkNotDoneList,
-      Key key,
+      Key? key,
       this.typeOfUser,
       this.hideButtonController,
       this.sortBy})
@@ -524,7 +526,7 @@ class _HomeworkPageLogic extends StatelessWidget {
   Widget build(BuildContext context) {
     if (homeworkDoneList == null) {
       // Show open homeworks
-      if (homeworkNotDoneList.isEmpty) return GameController();
+      if (homeworkNotDoneList!.isEmpty) return GameController();
       return _HomeworkListWithCards(
         homeworkList: homeworkNotDoneList,
         typeOfUser: typeOfUser,
@@ -533,9 +535,9 @@ class _HomeworkPageLogic extends StatelessWidget {
       );
     } else {
       // Show done homeworks
-      if (homeworkDoneList.isEmpty) {
+      if (homeworkDoneList!.isEmpty) {
         // Show Motivation-Widgets
-        if (homeworkNotDoneList.isEmpty)
+        if (homeworkNotDoneList!.isEmpty)
           return GameController(); // User has not done all homeworks
         return FireMotivation(); // User done all homeworks
       }
@@ -552,17 +554,17 @@ class _HomeworkPageLogic extends StatelessWidget {
 
 class _HomeworkListWithCards extends StatelessWidget {
   const _HomeworkListWithCards({
-    Key key,
+    Key? key,
     this.homeworkList,
     this.typeOfUser,
-    @required this.hideButtonController,
+    required this.hideButtonController,
     this.sortBy,
   }) : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final TypeOfUser typeOfUser;
-  final ScrollController hideButtonController;
-  final SortBy sortBy;
+  final List<HomeworkDto>? homeworkList;
+  final TypeOfUser? typeOfUser;
+  final ScrollController? hideButtonController;
+  final SortBy? sortBy;
 
   static const padding = EdgeInsets.fromLTRB(8, 10, 8, 8);
 
@@ -570,7 +572,7 @@ class _HomeworkListWithCards extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> children = <Widget>[];
     if (sortBy == SortBy.date) {
-      homeworkList.sort((HomeworkDto a, HomeworkDto b) {
+      homeworkList!.sort((HomeworkDto a, HomeworkDto b) {
         var r = a.todoUntil.compareTo(b.todoUntil);
         if (r != 0) return r;
         return a.subject.compareTo(b.subject);
@@ -584,7 +586,7 @@ class _HomeworkListWithCards extends StatelessWidget {
 
       DateTime today = DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      homeworkList.forEach((HomeworkDto homework) {
+      homeworkList!.forEach((HomeworkDto homework) {
         DateTime homeworkDate = DateTime(homework.todoUntil.year,
             homework.todoUntil.month, homework.todoUntil.day);
 
@@ -628,7 +630,7 @@ class _HomeworkListWithCards extends StatelessWidget {
         ),
       ];
     } else {
-      homeworkList.sort((HomeworkDto a, HomeworkDto b) {
+      homeworkList!.sort((HomeworkDto a, HomeworkDto b) {
         var r = a.subject.compareTo(b.subject);
         if (r != 0) return r;
         return a.todoUntil.compareTo(b.todoUntil);
@@ -636,12 +638,12 @@ class _HomeworkListWithCards extends StatelessWidget {
 
       final homeworkSplittedIntoSubjects = <String, List<HomeworkDto>>{};
 
-      homeworkList.forEach((HomeworkDto homework) {
+      homeworkList!.forEach((HomeworkDto homework) {
         if (homeworkSplittedIntoSubjects[homework.courseID] == null) {
           homeworkSplittedIntoSubjects[homework.courseID] = <HomeworkDto>[];
         }
 
-        homeworkSplittedIntoSubjects[homework.courseID].add(homework);
+        homeworkSplittedIntoSubjects[homework.courseID]!.add(homework);
       });
 
       homeworkSplittedIntoSubjects.forEach((ref, list) {
@@ -664,21 +666,21 @@ class _HomeworkListWithCards extends StatelessWidget {
 
 class _HomeworkViewerInCategories extends StatelessWidget {
   const _HomeworkViewerInCategories(
-      {Key key, this.homeworkList, this.typeOfUser, this.title})
+      {Key? key, this.homeworkList, this.typeOfUser, this.title})
       : super(key: key);
 
-  final List<HomeworkDto> homeworkList;
-  final TypeOfUser typeOfUser;
-  final String title;
+  final List<HomeworkDto>? homeworkList;
+  final TypeOfUser? typeOfUser;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
-    return homeworkList.isNotEmpty
+    return homeworkList!.isNotEmpty
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                title,
+                title!,
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 6),
@@ -690,7 +692,7 @@ class _HomeworkViewerInCategories extends StatelessWidget {
                       horizontalOffset: 25,
                       child: FadeInAnimation(child: widget),
                     ),
-                    children: homeworkList
+                    children: homeworkList!
                         .map(
                           (homework) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),
@@ -766,7 +768,7 @@ class GameController extends StatelessWidget {
 }
 
 class _EmptyHomeworkListAddHomeworkCard extends StatelessWidget {
-  const _EmptyHomeworkListAddHomeworkCard({Key key}) : super(key: key);
+  const _EmptyHomeworkListAddHomeworkCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

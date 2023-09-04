@@ -13,7 +13,7 @@ import 'package:time/time.dart';
 
 class TimetableElement {
   final Date date;
-  final GroupInfo groupInfo;
+  final GroupInfo? groupInfo;
   final Time start;
   final Time end;
   final dynamic data;
@@ -21,10 +21,10 @@ class TimetableElement {
   final TimetableElementProperties properties;
 
   const TimetableElement({
-    this.date,
-    this.start,
-    this.end,
-    this.groupInfo,
+    required this.date,
+    required this.start,
+    required this.end,
+    required this.groupInfo,
     this.data,
     this.priority = 0,
     this.properties = TimetableElementProperties.standard,
