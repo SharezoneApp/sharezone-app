@@ -12,7 +12,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'open_homework_dialog.dart';
 
 class AddHomeworkCard extends StatelessWidget {
-  const AddHomeworkCard({Key key}) : super(key: key);
+  const AddHomeworkCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

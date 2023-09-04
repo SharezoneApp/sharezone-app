@@ -105,7 +105,7 @@ class _SignInMethods extends StatelessWidget {
 }
 
 class _GoogleButton extends StatelessWidget {
-  const _GoogleButton._(this.title, {Key key}) : super(key: key);
+  const _GoogleButton._(this.title, {Key? key}) : super(key: key);
   factory _GoogleButton.short() => _GoogleButton._('Google');
   factory _GoogleButton.long() => _GoogleButton._('Mit Google anmelden');
 
@@ -131,7 +131,8 @@ class _GoogleButton extends StatelessWidget {
 }
 
 class _AppleButton extends StatelessWidget {
-  const _AppleButton._(this.title, {Key key}) : super(key: key);
+  const _AppleButton._(this.title, {Key? key}) : super(key: key);
+
   factory _AppleButton.short() => _AppleButton._('Apple');
   factory _AppleButton.long() => _AppleButton._('Mit Apple anmelden');
 
@@ -153,7 +154,7 @@ class _AppleButton extends StatelessWidget {
 }
 
 class _EmailButton extends StatelessWidget {
-  const _EmailButton._(this.title, {Key key}) : super(key: key);
+  const _EmailButton._(this.title, {Key? key}) : super(key: key);
   factory _EmailButton.short() => _EmailButton._('E-Mail');
   factory _EmailButton.long() => _EmailButton._('Mit E-Mail anmelden');
 
@@ -162,7 +163,7 @@ class _EmailButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
-    return StreamBuilder<AppUser>(
+    return StreamBuilder<AppUser?>(
       stream: userGateway.userStream,
       builder: (context, snapshot) {
         final user = snapshot.data;
@@ -194,8 +195,12 @@ class _EmailButton extends StatelessWidget {
 }
 
 class _SignUpButton extends StatelessWidget {
-  const _SignUpButton({Key key, this.name, this.icon, this.onTap})
-      : super(key: key);
+  const _SignUpButton({
+    Key? key,
+    required this.name,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
 
   final String name;
   final Widget icon;
@@ -213,7 +218,7 @@ class _SignUpButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.10),
+          color: color!.withOpacity(0.10),
           borderRadius: _borderRadius,
         ),
         child: Row(

@@ -12,8 +12,8 @@ import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 
 void main() {
   group("FeedbackCache", () {
-    FeedbackCache cache;
-    InMemoryKeyValueStore dummyKeyValueStore;
+    late FeedbackCache cache;
+    late InMemoryKeyValueStore dummyKeyValueStore;
 
     setUp(() async {
       dummyKeyValueStore = InMemoryKeyValueStore();

@@ -29,15 +29,15 @@ import 'mock_navigation_analytics.dart';
 void main() {
   group('ExtendableBottomNavigationBar', () {
     // Navigation
-    NavigationBloc navigationBloc;
-    MockNavigationAnalytics navigationAnalytics;
-    NavigationExperimentCache navigationExperimentCache;
+    late NavigationBloc navigationBloc;
+    late MockNavigationAnalytics navigationAnalytics;
+    late NavigationExperimentCache navigationExperimentCache;
 
     // Tutorial
-    BnbTutorialBloc tutorialBloc;
+    late BnbTutorialBloc tutorialBloc;
     BnbTutorialCache cache;
     MockBnbTutorialAnalytics analytics;
-    BehaviorSubject<bool> isGroupOnboardingFinished;
+    late BehaviorSubject<bool> isGroupOnboardingFinished;
 
     setUp(() {
       cache = BnbTutorialCache(InMemoryKeyValueStore());

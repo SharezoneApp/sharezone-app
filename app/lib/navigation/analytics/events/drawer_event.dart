@@ -6,12 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
-
 import 'navigation_event.dart';
 
 class DrawerEvent extends NavigationEvent {
-  DrawerEvent(String name)
-      : assert(isNotEmptyOrNull(name)),
-        super("drawer_$name");
+  DrawerEvent(String name) : super("drawer_$name");
 }

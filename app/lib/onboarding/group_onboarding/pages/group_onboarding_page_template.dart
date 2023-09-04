@@ -16,7 +16,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingPageTemplate extends StatelessWidget {
   const GroupOnboardingPageTemplate({
-    Key key,
+    Key? key,
     this.title,
     this.children = const [],
     this.bottomNavigationBar,
@@ -25,11 +25,11 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
     this.topPadding = 60,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final List<Widget> children;
-  final Widget bottomNavigationBar;
+  final Widget? bottomNavigationBar;
   final EdgeInsets padding;
-  final Widget top;
+  final Widget? top;
   final double topPadding;
 
   @override
@@ -55,7 +55,7 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
                           ),
                           children: [
                             if (isNotEmptyOrNull(title))
-                              GroupOnboardingTitle(title),
+                              GroupOnboardingTitle(title!),
                             SizedBox(height: 12),
                             ...children
                           ],

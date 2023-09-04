@@ -62,16 +62,16 @@ class ViewInNewTabPage extends StatelessWidget {
                     "Das Darstellen von PDF-Dateien wird vorübergehend nicht unterstützt."
                     " Du kannst dir diese PDF aber in einem neuen Tab ansehen."),
                 MaterialButton(
-                  child: Row(
+                  child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.open_in_new),
                         SizedBox(width: 8),
                         Text("In neuem Tab öffnen"),
                       ]),
                   onPressed: () {
-                    openWebFile(src!, attachment.name!);
+                    openWebFile(src!, attachment.name);
                   },
                 ),
               ],

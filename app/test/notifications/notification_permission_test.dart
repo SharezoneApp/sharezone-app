@@ -8,19 +8,21 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
 
-class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
+import 'notification_permission_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<FirebaseMessaging>()])
 void main() {
   group('NotificationPermission', () {
-    MockFirebaseMessaging firebaseMessaging;
-    MockMobileDeviceInformationRetriever mobileDeviceInformationRetriever;
+    late MockFirebaseMessaging firebaseMessaging;
+    late MockMobileDeviceInformationRetriever mobileDeviceInformationRetriever;
 
-    NotificationsPermission notificationsPermission;
+    late NotificationsPermission notificationsPermission;
 
     setUp(() {
       firebaseMessaging = MockFirebaseMessaging();

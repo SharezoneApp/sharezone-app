@@ -60,7 +60,7 @@ class DownloadAppTipBloc extends BlocBase {
   /// aufgelistet
   ///
   /// Falls der Tip nicht gezeigt werden soll, wird null zurückgegeben.
-  Stream<DownloadAppTip> getDownloadTipIfShouldShowTip() {
+  Stream<DownloadAppTip?> getDownloadTipIfShouldShowTip() {
     if (PlatformCheck.isWeb &&
         _platformsWithTips.contains(defaultTargetPlatform)) {
       return _cache.alreadyShowedTip(defaultTargetPlatform).map(

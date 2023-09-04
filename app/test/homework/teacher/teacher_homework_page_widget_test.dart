@@ -57,7 +57,7 @@ enum HomeworkTab { open, archived }
 
 Future<void> pumpHomeworkPage(
   WidgetTester tester, {
-  @required TeacherHomeworkPageBloc bloc,
+  required TeacherHomeworkPageBloc bloc,
   HomeworkTab initialTab = HomeworkTab.open,
 }) async {
   /// Wir müssen hier die Hausaufgaben-Seite nachbauen, weil
@@ -118,7 +118,7 @@ Future<void> pumpHomeworkPage(
 
 void main() {
   group('TeacherHomeworkPage', () {
-    MockTeacherHomeworkPageBloc homeworkPageBloc;
+    late MockTeacherHomeworkPageBloc homeworkPageBloc;
 
     // Can't use this because of weird async behavior:
     // https://github.com/flutter/flutter/issues/5728
@@ -232,7 +232,7 @@ void main() {
           Offset(0, -5000));
     }
 
-    List<TeacherHomeworkView> _generateRandomHomeworks({@required int count}) {
+    List<TeacherHomeworkView> _generateRandomHomeworks({required int count}) {
       return List.generate(
           count, (index) => randomHomeworkViewWith(/*Random content*/));
     }
@@ -466,9 +466,9 @@ bool _randomBool() {
 }
 
 TeacherHomeworkView randomHomeworkViewWith({
-  String title,
-  int nrOfStudentsCompletedOrSubmitted,
-  bool withSubmissions,
+  String? title,
+  int? nrOfStudentsCompletedOrSubmitted,
+  bool? withSubmissions,
 }) {
   return TeacherHomeworkView(
     id: HomeworkId(randomAlphaNumeric(10)),
@@ -517,7 +517,7 @@ final _noArchivedHomeworks =
 
 Future<void> _pumpHomeworkPageWithNoHomeworks(
   WidgetTester tester, {
-  @required MockTeacherHomeworkPageBloc bloc,
+  required MockTeacherHomeworkPageBloc bloc,
   HomeworkTab initialTab = HomeworkTab.open,
 }) async {
   await pumpHomeworkPage(tester, bloc: bloc, initialTab: initialTab);

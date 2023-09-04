@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:sharezone_common/validators.dart';
 
-class HomeworkValidators {
+mixin HomeworkValidators {
   final validateTitle = StreamTransformer<String?, String>.fromHandlers(
       handleData: (title, sink) {
     if (title != null) {

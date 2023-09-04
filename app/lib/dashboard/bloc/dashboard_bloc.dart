@@ -116,7 +116,7 @@ class DashboardBloc extends BlocBase {
             userGateway.userStream)
         .stream
         .listen((result) {
-      final homeworkList = result.data0;
+      final homeworkList = result.data0 ?? [];
       final user = result.data1;
 
       final urgentHomeworks = _filterUrgentHomeworks(
@@ -209,8 +209,8 @@ class DashboardBloc extends BlocBase {
 
     final stream =
         CombineLatestStream([eventStream, groupInfoStream], (streamValues) {
-      final events = streamValues[0] as List<CalendricalEvent> ?? [];
-      final groupInfos = streamValues[1] as Map<String, GroupInfo> ?? {};
+      final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+      final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
       _sortEventsByDateTime(events);
 
@@ -219,8 +219,7 @@ class DashboardBloc extends BlocBase {
               EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
           .toList();
 
-      if (eventViews != null)
-        _nubmerOfUpcomingEventsSubject.sink.add(eventViews.length);
+      _nubmerOfUpcomingEventsSubject.sink.add(eventViews.length);
 
       return eventViews;
     });

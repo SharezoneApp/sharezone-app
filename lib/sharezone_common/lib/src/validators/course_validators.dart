@@ -9,7 +9,7 @@
 import 'dart:async';
 import '../validator.dart';
 
-class CourseValidators {
+mixin CourseValidators {
   final validateSubject =
       StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
     if (NotEmptyOrNullValidator(name).isValid()) {

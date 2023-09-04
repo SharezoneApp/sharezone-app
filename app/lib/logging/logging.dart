@@ -19,7 +19,7 @@ void startLoggingRecording(CrashAnalytics crashAnalytics) {
     crashAnalytics
         .log('${record.level.name}: ${record.time}: ${record.message}');
     if (record.error != null) {
-      crashAnalytics.recordError(record.error, record.stackTrace);
+      crashAnalytics.recordError(record.error, record.stackTrace!);
     }
 
     debugPrint('\n${record.level.name}: ${record.time}: ${record.message}');

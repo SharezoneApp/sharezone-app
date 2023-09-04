@@ -13,7 +13,7 @@ import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DisplaySettingsDialog extends StatelessWidget {
-  const DisplaySettingsDialog({Key key, @required this.themeSettings})
+  const DisplaySettingsDialog({Key? key, required this.themeSettings})
       : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
@@ -67,7 +67,7 @@ Brightness _getBrightness(
 }
 
 class _TextSize extends StatelessWidget {
-  const _TextSize({Key key, @required this.themeSettings}) : super(key: key);
+  const _TextSize({Key? key, required this.themeSettings}) : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
 
@@ -84,7 +84,7 @@ class _TextSize extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).textTheme.bodyMedium.color,
+                color: Theme.of(context).textTheme.bodyMedium!.color!,
               ),
               borderRadius: BorderRadius.all(
                 Radius.circular(10),
@@ -125,7 +125,7 @@ class _TextSize extends StatelessWidget {
 }
 
 class _LightOrDarkMode extends StatelessWidget {
-  const _LightOrDarkMode({Key key, @required this.themeSettings})
+  const _LightOrDarkMode({Key? key, required this.themeSettings})
       : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
@@ -153,9 +153,9 @@ class _LightOrDarkMode extends StatelessWidget {
                 fillColor: isDarkThemeEnabled(context)
                     ? blueColor
                     : null, // standard color
-                borderColor: Theme.of(context).textTheme.bodyMedium.color,
+                borderColor: Theme.of(context).textTheme.bodyMedium!.color,
                 selectedBorderColor:
-                    Theme.of(context).textTheme.bodyMedium.color,
+                    Theme.of(context).textTheme.bodyMedium!.color,
                 children: const [
                   Icon(Icons.dark_mode),
                   Icon(Icons.light_mode),
@@ -171,12 +171,12 @@ class _LightOrDarkMode extends StatelessWidget {
                     0: ThemeBrightness.dark,
                     1: ThemeBrightness.light,
                     2: ThemeBrightness.system,
-                  }[index];
+                  }[index]!;
 
                   themeSettings.themeBrightness = brightness;
                 },
               ),
-              Text(_getText())
+              Text(_getText()!)
             ],
           ),
         ],
@@ -184,7 +184,7 @@ class _LightOrDarkMode extends StatelessWidget {
     );
   }
 
-  String _getText() {
+  String? _getText() {
     return <ThemeBrightness, String>{
       ThemeBrightness.dark: 'Dunkler Modus',
       ThemeBrightness.light: 'Heller Modus',
@@ -194,7 +194,7 @@ class _LightOrDarkMode extends StatelessWidget {
 }
 
 class _VisualDensity extends StatelessWidget {
-  const _VisualDensity({Key key, @required this.themeSettings})
+  const _VisualDensity({Key? key, required this.themeSettings})
       : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;
@@ -229,7 +229,7 @@ class _VisualDensity extends StatelessWidget {
             ),
           ],
           onChanged: (visualDensity) {
-            themeSettings.visualDensitySetting = visualDensity;
+            themeSettings.visualDensitySetting = visualDensity!;
           },
         ),
       ],
@@ -238,7 +238,7 @@ class _VisualDensity extends StatelessWidget {
 }
 
 class _DrawDebugThresholdIndicator extends StatelessWidget {
-  const _DrawDebugThresholdIndicator({Key key, @required this.themeSettings})
+  const _DrawDebugThresholdIndicator({Key? key, required this.themeSettings})
       : super(key: key);
 
   final PrivacyPolicyThemeSettings themeSettings;

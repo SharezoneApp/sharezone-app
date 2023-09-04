@@ -21,38 +21,43 @@ enum SocialButtonTypes {
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
-    @required this.svgPath,
-    this.tooltipp,
-    this.link,
-    this.socialButtonTypes,
+    required this.svgPath,
+    required this.tooltip,
+    required this.link,
+    required this.socialButtonTypes,
   });
 
   const SocialButton.instagram(this.link)
-      : tooltipp = 'Instagram',
+      : tooltip = 'Instagram',
         svgPath = 'assets/icons/instagram.svg',
         socialButtonTypes = SocialButtonTypes.instagram;
 
   const SocialButton.twitter(this.link)
-      : tooltipp = 'Twitter',
+      : tooltip = 'Twitter',
         svgPath = 'assets/icons/twitter.svg',
         socialButtonTypes = SocialButtonTypes.twitter;
 
   const SocialButton.linkedIn(this.link)
-      : tooltipp = 'LinkedIn',
+      : tooltip = 'LinkedIn',
         svgPath = 'assets/icons/linkedin.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
   const SocialButton.discord(this.link)
-      : tooltipp = 'Discord',
+      : tooltip = 'Discord',
         svgPath = 'assets/icons/discord.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
   const SocialButton.email(this.link)
-      : tooltipp = 'E-Mail',
+      : tooltip = 'E-Mail',
         svgPath = 'assets/icons/email.svg',
         socialButtonTypes = SocialButtonTypes.email;
 
-  final String link, tooltipp, svgPath;
+  const SocialButton.github(this.link)
+      : tooltip = 'GitHub',
+        svgPath = 'assets/icons/github.svg',
+        socialButtonTypes = SocialButtonTypes.linkedIn;
+
+  final String link, tooltip, svgPath;
   final SocialButtonTypes socialButtonTypes;
   static const double _svgSize = 28;
 
@@ -75,7 +80,7 @@ class SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: tooltipp,
+      tooltip: tooltip,
       onPressed: () => onPressed(context),
       icon: PlatformSvg.asset(
         svgPath,

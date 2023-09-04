@@ -33,7 +33,7 @@ void main() {
       final data = {
         'name': id,
         'myRole': 'standard',
-        'sharecode': '123456',
+        'publicKey': '123456',
         'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
         'meetingID': 'l7hj-y1hw-s2we',
         'personalSharecode': '654321',
@@ -96,10 +96,10 @@ void main() {
     final eventAg = _createEvent(informatikAgId.id);
 
     group('SchoolClassSelection', () {
-      TimetableBloc bloc;
-      MockSchoolClassGateway schoolClassGateway;
+      late TimetableBloc bloc;
+      late MockSchoolClassGateway schoolClassGateway;
       MockTimetableGateway timetableGateway;
-      MockSchoolClassFilterAnalytics schoolClassSelectionAnalytics;
+      late MockSchoolClassFilterAnalytics schoolClassSelectionAnalytics;
 
       setUp(() {
         schoolClassGateway = MockSchoolClassGateway();
@@ -175,7 +175,7 @@ void main() {
 
       test('As a default value all groups should be shown', () {
         expect(
-            bloc.schoolClassFilterView.valueOrNull.shouldShowAllGroups, true);
+            bloc.schoolClassFilterView.valueOrNull!.shouldShowAllGroups, true);
       });
 
       test(
@@ -189,7 +189,7 @@ void main() {
 
         await pumpEventQueue();
 
-        final view = bloc.schoolClassFilterView.valueOrNull;
+        final view = bloc.schoolClassFilterView.valueOrNull!;
 
         /// Da keine Klasse selektiert wurde, heißt das, dass die Stunden aller
         /// Gruppen dem Nutzer angezeigt werden sollen.

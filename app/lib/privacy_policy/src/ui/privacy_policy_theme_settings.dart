@@ -26,9 +26,9 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
   final double textScalingFactorUpperBound;
 
   PrivacyPolicyThemeSettings({
-    @required Analytics analytics,
-    @required ThemeSettings themeSettings,
-    @required PrivacyPolicyPageConfig config,
+    required Analytics analytics,
+    required ThemeSettings themeSettings,
+    required PrivacyPolicyPageConfig config,
     this.textScalingFactorLowerBound = 0.1,
     this.textScalingFactorUpperBound = 5.0,
   })  : _analytics = analytics,
@@ -39,7 +39,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     _showDebugThresholdIndicator = config.showDebugThresholdIndicator;
   }
 
-  double _textScalingFactor;
+  late double _textScalingFactor;
   double get textScalingFactor => _textScalingFactor;
   set textScalingFactor(double textScalingFactor) {
     textScalingFactor = textScalingFactor
@@ -54,7 +54,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     ));
   }
 
-  VisualDensitySetting _visualDensitySetting;
+  late VisualDensitySetting _visualDensitySetting;
   VisualDensitySetting get visualDensitySetting => _visualDensitySetting;
   set visualDensitySetting(VisualDensitySetting value) {
     _visualDensitySetting = value;
@@ -70,7 +70,7 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     ));
   }
 
-  ThemeBrightness _themeBrightness;
+  late ThemeBrightness _themeBrightness;
   ThemeBrightness get themeBrightness => _themeBrightness;
   set themeBrightness(ThemeBrightness value) {
     _themeBrightness = value;
@@ -81,9 +81,9 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _showDebugThresholdIndicator;
-  bool get showDebugThresholdIndicator => _showDebugThresholdIndicator;
-  set showDebugThresholdIndicator(bool value) {
+  bool? _showDebugThresholdIndicator;
+  bool? get showDebugThresholdIndicator => _showDebugThresholdIndicator;
+  set showDebugThresholdIndicator(bool? value) {
     _showDebugThresholdIndicator = value;
     notifyListeners();
   }

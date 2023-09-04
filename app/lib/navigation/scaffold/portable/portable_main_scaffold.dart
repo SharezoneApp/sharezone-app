@@ -20,25 +20,25 @@ import 'bottom_navigation_bar/extendable_bottom_navigation_bar.dart';
 import 'bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 
 class PortableMainScaffold extends StatefulWidget {
-  final AppBarConfiguration appBarConfiguration;
+  final AppBarConfiguration? appBarConfiguration;
   final NavigationItem navigationItem;
   final Widget body;
-  final Widget floatingActionButton;
-  final BottomBarConfiguration bottomBarConfiguration;
-  final Key scaffoldKey;
+  final Widget? floatingActionButton;
+  final BottomBarConfiguration? bottomBarConfiguration;
+  final Key? scaffoldKey;
 
   /// Through the round corners of the [ExtendableBottomNavigationBar] you can
   /// look behind the [ExtendableBottomNavigationBar]. With [colorBehindBNB] you
   /// set this color.
   ///
   /// Default is [context.scaffoldBackgroundColor]
-  final Color colorBehindBNB;
+  final Color? colorBehindBNB;
 
   const PortableMainScaffold({
-    @required this.navigationItem,
-    @required this.appBarConfiguration,
-    @required this.body,
-    @required this.floatingActionButton,
+    required this.navigationItem,
+    required this.appBarConfiguration,
+    required this.body,
+    required this.floatingActionButton,
     this.bottomBarConfiguration,
     this.scaffoldKey,
     this.colorBehindBNB,
@@ -91,7 +91,7 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
     );
   }
 
-  Widget bottomBar(NavigationExperimentOption option) {
+  Widget? bottomBar(NavigationExperimentOption option) {
     if (option != NavigationExperimentOption.drawerAndBnb)
       return widget.bottomBarConfiguration?.bottomBar;
     return Column(
@@ -100,7 +100,7 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         if (widget.bottomBarConfiguration?.bottomBar != null)
-          widget.bottomBarConfiguration.bottomBar,
+          widget.bottomBarConfiguration!.bottomBar!,
         BnbAndDrawerBottomNavigationBar(navigationItem: widget.navigationItem),
       ],
     );

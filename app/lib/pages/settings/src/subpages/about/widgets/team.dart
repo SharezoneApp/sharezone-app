@@ -43,7 +43,6 @@ class _NilsCard extends StatelessWidget {
     return _MemberCard(
       name: 'Nils Reichardt',
       avatarPath: TeamImagePath.nils,
-      description: "UX/UI-Development",
       email: "nils@sharezone.net",
       socialMediaLinks: _SocialMediaLinks(
         instagram: "https://instagram.com/nils.reichardt",
@@ -60,11 +59,7 @@ class _JonasCard extends StatelessWidget {
     return _MemberCard(
       name: "Jonas Sander",
       avatarPath: TeamImagePath.jonas,
-      description: "App-Development",
       email: "jonas@sharezone.net",
-      socialMediaLinks: _SocialMediaLinks(
-        linkedIn: "https://linkedin.com/in/jsanl",
-      ),
     );
   }
 }

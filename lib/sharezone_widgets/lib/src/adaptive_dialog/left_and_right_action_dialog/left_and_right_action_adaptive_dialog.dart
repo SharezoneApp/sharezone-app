@@ -13,44 +13,46 @@ import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T?> showLeftRightAdaptiveDialog<T>({
-  required BuildContext? context,
+  required BuildContext context,
   String? title,
   Widget? content,
-  AdaptiveDialogAction left = AdaptiveDialogAction.cancel,
+  AdaptiveDialogAction? left = AdaptiveDialogAction.cancel,
   AdaptiveDialogAction? right,
-  bool withCancleButtonOnIOS = false,
+  bool withCancelButtonOnIOS = false,
   T? defaultValue,
 }) async {
-  final result = PlatformCheck.isIOS
-      ? await showCupertinoDialog<T>(
-          context: context!,
-          builder: (context) => _ActionAndCancleDialogCupertino(
-            title: title,
-            content: content,
-            left: left,
-            right: right,
-            withCancleButtonOnIOS: withCancleButtonOnIOS,
-          ),
-        )
-      : await showDialog<T>(
-          context: context!,
-          builder: (context) => _ActionAndCancleDialogMaterial(
-            title: title,
-            content: content,
-            left: left,
-            right: right,
-          ),
-        );
-  if (result == null) return defaultValue;
-  return result;
+  final T? result;
+  if (PlatformCheck.isIOS) {
+    result = await showCupertinoDialog<T>(
+      context: context,
+      builder: (context) => _ActionAndCancelDialogCupertino(
+        title: title,
+        content: content,
+        left: left,
+        right: right,
+        withCancelButtonOnIOS: withCancelButtonOnIOS,
+      ),
+    );
+  } else {
+    result = await showDialog<T>(
+      context: context,
+      builder: (context) => _ActionAndCancelDialogMaterial(
+        title: title,
+        content: content,
+        left: left,
+        right: right,
+      ),
+    );
+  }
+  return result ?? defaultValue;
 }
 
 class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
-  final AdaptiveDialogAction left;
+  final AdaptiveDialogAction? left;
   final AdaptiveDialogAction? right;
   final String? title;
   final Widget? content;
-  final bool withCancleButtonOnIOS;
+  final bool withCancelButtonOnIOS;
 
   const LeftAndRightAdaptiveDialog({
     Key? key,
@@ -58,21 +60,21 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
     this.right,
     this.title,
     this.content,
-    this.withCancleButtonOnIOS = false,
+    this.withCancelButtonOnIOS = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (ThemePlatform.isCupertino) {
-      return _ActionAndCancleDialogCupertino(
+      return _ActionAndCancelDialogCupertino(
         left: left,
         right: right,
         content: content,
         title: title,
-        withCancleButtonOnIOS: withCancleButtonOnIOS,
+        withCancelButtonOnIOS: withCancelButtonOnIOS,
       );
     }
-    return _ActionAndCancleDialogMaterial<T>(
+    return _ActionAndCancelDialogMaterial<T>(
       content: content,
       title: title,
       left: left as AdaptiveDialogAction<T>?,
@@ -81,13 +83,13 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
   }
 }
 
-class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
+class _ActionAndCancelDialogMaterial<T> extends StatelessWidget {
   final AdaptiveDialogAction<T>? left;
   final AdaptiveDialogAction<T>? right;
   final String? title;
   final Widget? content;
 
-  const _ActionAndCancleDialogMaterial({
+  const _ActionAndCancelDialogMaterial({
     Key? key,
     this.right,
     this.title,
@@ -128,20 +130,20 @@ class _ActionAndCancleDialogMaterial<T> extends StatelessWidget {
   }
 }
 
-class _ActionAndCancleDialogCupertino extends StatelessWidget {
+class _ActionAndCancelDialogCupertino extends StatelessWidget {
   final AdaptiveDialogAction? right;
   final AdaptiveDialogAction? left;
   final String? title;
   final Widget? content;
-  final bool? withCancleButtonOnIOS;
+  final bool? withCancelButtonOnIOS;
 
-  const _ActionAndCancleDialogCupertino({
+  const _ActionAndCancelDialogCupertino({
     Key? key,
     this.right,
     this.title,
     this.content,
     this.left,
-    this.withCancleButtonOnIOS,
+    this.withCancelButtonOnIOS,
   }) : super(key: key);
 
   @override
@@ -168,7 +170,7 @@ class _ActionAndCancleDialogCupertino extends StatelessWidget {
                 (() => Navigator.pop(context, right!.popResult)),
             child: Text(right!.title!),
           ),
-        if (ThemePlatform.isCupertino && withCancleButtonOnIOS!)
+        if (ThemePlatform.isCupertino && withCancelButtonOnIOS!)
           CupertinoDialogAction(
             onPressed: () => Navigator.pop(context),
             isDestructiveAction: true,

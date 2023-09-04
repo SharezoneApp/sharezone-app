@@ -9,7 +9,6 @@
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -19,8 +18,8 @@ class NotificationsPermission {
   final FirebaseMessaging firebaseMessaging;
 
   const NotificationsPermission({
-    @required this.mobileDeviceInformationRetriever,
-    @required this.firebaseMessaging,
+    required this.mobileDeviceInformationRetriever,
+    required this.firebaseMessaging,
   });
 
   /// Returns `true` if this device is required to request permission for
@@ -29,6 +28,11 @@ class NotificationsPermission {
     if (PlatformCheck.isAndroid) {
       final currentAndroidSdk =
           await mobileDeviceInformationRetriever.androidSdkInt();
+
+      if (currentAndroidSdk == null) {
+        log('Could not retrieve Android SDK version. Skipping to request Firebase Messaging access.');
+        return false;
+      }
 
       // Android SDK 33 equals Android 13.
       //

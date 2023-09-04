@@ -23,22 +23,26 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
+import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'details/blackboard_details.dart';
 
 class BlackboardDialog extends StatefulWidget {
-  const BlackboardDialog(
-      {Key key, this.blackboardItem, this.course, this.popTwice = true})
-      : super(key: key);
+  const BlackboardDialog({
+    Key? key,
+    this.blackboardItem,
+    this.course,
+    this.popTwice = true,
+  }) : super(key: key);
 
   static const tag = "blackboard-dialog-page";
 
   /// BlackboardItem, which will be edited; When you create
   /// a new blackboardItem, [blackboardItem] is null
-  final BlackboardItem blackboardItem;
-  final Course course;
+  final BlackboardItem? blackboardItem;
+  final Course? course;
   final bool popTwice;
 
   @override
@@ -46,7 +50,7 @@ class BlackboardDialog extends StatefulWidget {
 }
 
 class _BlackboardDialogState extends State<BlackboardDialog> {
-  BlackboardDialogBloc bloc;
+  late BlackboardDialogBloc bloc;
 
   @override
   void initState() {
@@ -72,17 +76,17 @@ class _BlackboardDialogState extends State<BlackboardDialog> {
 }
 
 class _BlackboardDialog extends StatefulWidget {
-  final BlackboardItem oldBlackboardItem;
-  final Course course;
+  final BlackboardItem? oldBlackboardItem;
+  final Course? course;
   final BlackboardDialogBloc bloc;
   final bool popTwice;
 
   const _BlackboardDialog({
-    Key key,
+    Key? key,
     this.oldBlackboardItem,
     this.course,
-    this.bloc,
-    this.popTwice,
+    required this.bloc,
+    required this.popTwice,
   }) : super(key: key);
 
   @override
@@ -103,7 +107,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
   Future<void> leaveDialog() async {
     if (widget.bloc.hasInputChanged()) {
       final leaveDialog = await warnUserAboutLeavingForm(context);
-      if (leaveDialog != null && leaveDialog) Navigator.pop(context);
+      if (leaveDialog) Navigator.pop(context);
     } else
       Navigator.pop(context);
   }
@@ -141,7 +145,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
                         _AttachFile(),
                         getDividerOnMobile(context),
                         _TextField(
-                            initialText: widget?.oldBlackboardItem?.text ?? ""),
+                            initialText: widget.oldBlackboardItem?.text ?? ""),
                         getDividerOnMobile(context),
                         _SendNotification(editMode: editMode),
                         getDividerOnMobile(context),
@@ -164,18 +168,21 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton(
-      {Key key, this.oldBlackboardItem, this.popTwice, this.editMode})
-      : super(key: key);
+  const _SaveButton({
+    Key? key,
+    this.oldBlackboardItem,
+    required this.popTwice,
+    required this.editMode,
+  }) : super(key: key);
 
-  final BlackboardItem oldBlackboardItem;
+  final BlackboardItem? oldBlackboardItem;
   final bool popTwice;
   final bool editMode;
 
   Future<void> onPressed(
       BuildContext context, BlackboardDialogBloc bloc) async {
     final localFiles = await bloc.localFiles.first;
-    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
+    final hasAttachments = localFiles.isNotEmpty;
     try {
       if (bloc.isValid()) {
         sendDataToFrankfurtSnackBar(context);
@@ -217,11 +224,8 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
-    return IconButton(
-      icon: const Text("SPEICHERN",
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+    return SaveButton(
       tooltip: "Eintrag speichern",
-      iconSize: 90,
       onPressed: () => onPressed(context, bloc),
     );
   }
@@ -229,15 +233,15 @@ class _SaveButton extends StatelessWidget {
 
 class _AppBar extends StatelessWidget {
   const _AppBar({
-    Key key,
-    @required this.oldBlackboardItem,
-    @required this.editMode,
-    @required this.popTwice,
-    @required this.focusNodeTitle,
-    @required this.onCloseTap,
+    Key? key,
+    required this.oldBlackboardItem,
+    required this.editMode,
+    required this.popTwice,
+    required this.focusNodeTitle,
+    required this.onCloseTap,
   }) : super(key: key);
 
-  final BlackboardItem oldBlackboardItem;
+  final BlackboardItem? oldBlackboardItem;
   final bool editMode;
   final bool popTwice;
   final VoidCallback onCloseTap;
@@ -252,7 +256,7 @@ class _AppBar extends StatelessWidget {
           : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
-        top: false,
+        top: true,
         bottom: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -289,11 +293,14 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({Key key, this.initialTitle, this.focusNode})
-      : super(key: key);
+  const _TitleField({
+    Key? key,
+    required this.initialTitle,
+    required this.focusNode,
+  }) : super(key: key);
 
   final FocusNode focusNode;
-  final String initialTitle;
+  final String? initialTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +346,7 @@ class _TitleField extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key key, @required this.editMode}) : super(key: key);
+  const _CourseTile({Key? key, required this.editMode}) : super(key: key);
 
   final bool editMode;
 
@@ -358,7 +365,7 @@ class _PictureTile extends StatelessWidget {
   Future<void> onTap(BuildContext context, BlackboardDialogBloc bloc) async {
     final path =
         await Navigator.pushNamed(context, BlackboardDialogChoosePicture.tag)
-            as String;
+            as String?;
     if (path != null) bloc.changePictureURL(path);
   }
 
@@ -381,7 +388,7 @@ class _PictureTile extends StatelessWidget {
         builder: (context, snapshot) {
           final hasData = !(!snapshot.hasData ||
               snapshot.data == null ||
-              snapshot.data.isEmpty ||
+              snapshot.data!.isEmpty ||
               snapshot.data == "null");
           return ListTile(
             onTap: () => onTap(context, bloc),
@@ -392,7 +399,7 @@ class _PictureTile extends StatelessWidget {
                   if (!hasData) return const Text("Titelbild auswählen");
                   return InkWell(
                     child: Image.asset(
-                      snapshot.data,
+                      snapshot.data!,
                       height: 120,
                       fit: BoxFit.cover,
                     ),
@@ -408,7 +415,7 @@ class _PictureTile extends StatelessWidget {
 }
 
 class _TextField extends StatelessWidget {
-  const _TextField({@required this.initialText});
+  const _TextField({required this.initialText});
 
   final String initialText;
 
@@ -461,7 +468,7 @@ class _AttachFile extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification({Key key, this.editMode = true}) : super(key: key);
+  const _SendNotification({Key? key, this.editMode = true}) : super(key: key);
 
   final bool editMode;
 

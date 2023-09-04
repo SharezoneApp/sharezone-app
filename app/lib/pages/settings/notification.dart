@@ -56,7 +56,7 @@ class _NotificationPage extends StatelessWidget {
                       const Divider(),
                     ],
                   ),
-                  notMatchtingWidget: Container(),
+                  notMatchingWidget: Container(),
                 ),
                 _BlackboardNotificationsCard(),
                 const Divider(),
@@ -113,9 +113,9 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
 }
 
 class _HomeworkNotificationsTimeTile extends StatelessWidget {
-  Future<Time> _openPicker(
+  Future<Time?> _openPicker(
     BuildContext context, {
-    @required Time initialTime,
+    required Time initialTime,
   }) {
     // Currently, the homework reminder only supports 30 minute intervals.
     const interval = 30;
@@ -123,15 +123,15 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     if (PlatformCheck.isDesktopOrWeb) {
       return showIntervalTimePicker(
         context: context,
-        initialTime: initialTime?.toTimeOfDay(),
+        initialTime: initialTime.toTimeOfDay(),
         interval: interval,
         visibleStep: VisibleStep.thirtieths,
         errorInvalidText:
             'Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.',
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
+            child: child!,
           );
         },
         initialEntryMode: TimePickerEntryMode.input,
@@ -146,7 +146,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
       // We just use the iOS picker also on Android, because the Interval picker
       // looks a bit weird when setting the visual steps to 30 minutes.
       builder: (context) => CupertinoTimerPickerWithTimeOfDay(
-        initialTime: initialTime?.toTimeOfDay(),
+        initialTime: initialTime.toTimeOfDay(),
         minutesInterval: interval,
       ),
     ).then((timeOfDay) {
@@ -161,7 +161,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     return StreamBuilder<bool>(
       stream: bloc.notificationsForHomeworks,
       builder: (context, homeworkEnabled) {
-        return StreamBuilder<TimeOfDay>(
+        return StreamBuilder<TimeOfDay?>(
           stream: bloc.notificationsTimeForHomeworks,
           builder: (context, timeForHomeworks) {
             return ListTile(
@@ -174,8 +174,8 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
                 final newTime = await _openPicker(
                   context,
                   initialTime: Time(
-                      hour: timeForHomeworks?.data?.hour ?? 18,
-                      minute: timeForHomeworks?.data?.minute ?? 0),
+                      hour: timeForHomeworks.data?.hour ?? 18,
+                      minute: timeForHomeworks.data?.minute ?? 0),
                 );
 
                 if (newTime != null) {

@@ -24,6 +24,10 @@ class PlatformInfo {
   final String version;
   final String versionNumber;
 
-  PlatformInfo(
-      this.appName, this.packageName, this.version, this.versionNumber);
+  const PlatformInfo(
+    this.appName,
+    this.packageName,
+    this.version,
+    this.versionNumber,
+  );
 }

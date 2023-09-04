@@ -66,6 +66,7 @@ class HomeworkCompletionUserListBlocFactory extends BlocBase {
     // Gets removed if we're not in debug.
     assert(() {
       isDebug = true;
+      return true;
     }());
     return isDebug;
   }

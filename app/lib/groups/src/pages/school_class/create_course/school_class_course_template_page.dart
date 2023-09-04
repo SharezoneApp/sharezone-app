@@ -18,8 +18,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'school_class_create_course.dart';
 
 class SchoolClassCourseTemplatePage extends StatelessWidget {
-  const SchoolClassCourseTemplatePage({Key key, this.schoolClassID})
-      : super(key: key);
+  const SchoolClassCourseTemplatePage({
+    Key? key,
+    required this.schoolClassID,
+  }) : super(key: key);
 
   static const tag = "school-class-course-template-page";
   final String schoolClassID;
@@ -41,12 +43,14 @@ class SchoolClassCourseTemplatePage extends StatelessWidget {
 }
 
 class SchoolClassCourseCreateTemplateBody extends StatelessWidget {
-  const SchoolClassCourseCreateTemplateBody(
-      {Key key, @required this.schoolClassID, this.bottom})
-      : super(key: key);
+  const SchoolClassCourseCreateTemplateBody({
+    Key? key,
+    required this.schoolClassID,
+    this.bottom,
+  }) : super(key: key);
 
   final String schoolClassID;
-  final Widget bottom;
+  final Widget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +67,7 @@ class SchoolClassCourseCreateTemplateBody extends StatelessWidget {
               _Naturwissenschaften(),
               _Gesellschaftwissenschaften(),
               _Nebenfaecher(),
-              if (bottom != null) bottom,
+              if (bottom != null) bottom!,
             ],
           ),
         ),
@@ -146,9 +150,12 @@ class _Nebenfaecher extends StatelessWidget {
 }
 
 class _CourseTemplateCategorySection extends StatelessWidget {
-  const _CourseTemplateCategorySection(
-      {Key key, this.title, this.courseTemplates, this.showLastDivider = true})
-      : super(key: key);
+  const _CourseTemplateCategorySection({
+    Key? key,
+    required this.title,
+    required this.courseTemplates,
+    this.showLastDivider = true,
+  }) : super(key: key);
 
   final String title;
   final List<CourseTemplate> courseTemplates;
@@ -177,9 +184,12 @@ class _CourseTemplateCategorySection extends StatelessWidget {
 }
 
 class _CourseTemplateTile extends StatefulWidget {
-  const _CourseTemplateTile(this.courseTemplate,
-      {Key key, this.showDivider = true, this.isAlreadyAdded = false})
-      : super(key: key);
+  const _CourseTemplateTile(
+    this.courseTemplate, {
+    Key? key,
+    this.showDivider = true,
+    this.isAlreadyAdded = false,
+  }) : super(key: key);
 
   final CourseTemplate courseTemplate;
   final bool showDivider;
@@ -190,7 +200,7 @@ class _CourseTemplateTile extends StatefulWidget {
 }
 
 class __CourseTemplateTileState extends State<_CourseTemplateTile> {
-  _CourseTemplateTileStatus status;
+  late _CourseTemplateTileStatus status;
 
   @override
   void initState() {
@@ -218,7 +228,7 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
                     isDefaultAction: true,
                     popResult: true,
                   ));
-              if (!createAgain) return;
+              if (createAgain == false) return;
             }
             final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
             final result = bloc.submitWithCourseTemplate(widget.courseTemplate);
@@ -288,7 +298,6 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
           ),
         );
     }
-    return null;
   }
 
   void startLoading() =>
@@ -301,7 +310,7 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
 enum _CourseTemplateTileStatus { add, added, loading }
 
 class _CourseIsCreatedIcon extends StatelessWidget {
-  const _CourseIsCreatedIcon({Key key}) : super(key: key);
+  const _CourseIsCreatedIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -311,9 +320,9 @@ class _CourseIsCreatedIcon extends StatelessWidget {
 }
 
 class _CreateCourseButton extends StatelessWidget {
-  const _CreateCourseButton({Key key, this.onCreate}) : super(key: key);
+  const _CreateCourseButton({Key? key, this.onCreate}) : super(key: key);
 
-  final VoidCallback onCreate;
+  final VoidCallback? onCreate;
 
   @override
   Widget build(BuildContext context) {

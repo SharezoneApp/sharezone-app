@@ -23,12 +23,12 @@ class DocumentController {
   final CurrentlyReadThreshold threshold;
 
   DocumentController({
-    @required this.anchorController,
-    @required this.threshold,
+    required this.anchorController,
+    required this.threshold,
   }) {
     anchorController.anchorPositions.addListener(() {
       final anchorPositions = anchorController.anchorPositions.value;
-      final sectionPositions =
+      final IList<DocumentSectionHeadingPosition> sectionPositions =
           anchorPositions.map(_toDocumentSectionPosition).toIList();
       // [sectionPositions] has the same sorting as underlying
       // `ItemPositionsListener.itemPositions`.
@@ -84,8 +84,8 @@ class DocumentSectionHeadingPosition {
 
   DocumentSectionHeadingPosition(
     this.documentSectionId, {
-    @required this.itemLeadingEdge,
-    @required this.itemTrailingEdge,
+    required this.itemLeadingEdge,
+    required this.itemTrailingEdge,
   });
 
   @override

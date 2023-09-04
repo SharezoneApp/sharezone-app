@@ -17,19 +17,19 @@ class UserCommentField extends StatefulWidget {
   final String textFieldMessage;
   final String userAbbreviation;
 
-  const UserCommentField(
-      {Key key,
-      this.textFieldMessage = "Gib deinen Senf ab...",
-      this.userAbbreviation = "?"})
-      : super(key: key);
+  const UserCommentField({
+    Key? key,
+    this.textFieldMessage = "Gib deinen Senf ab...",
+    this.userAbbreviation = "?",
+  }) : super(key: key);
 
   @override
   _UserCommentFieldState createState() => _UserCommentFieldState();
 }
 
 class _UserCommentFieldState extends State<UserCommentField> {
-  String text;
-  TextEditingController controller;
+  String? text;
+  late TextEditingController controller;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
           suffixIcon: ContinueRoundButton(
             onTap: () {
               if (isNotEmptyOrNull(text)) {
-                bloc.addComment(text);
+                bloc.addComment(text!);
                 text = null;
                 controller.clear();
                 FocusManager.instance.primaryFocus?.unfocus();

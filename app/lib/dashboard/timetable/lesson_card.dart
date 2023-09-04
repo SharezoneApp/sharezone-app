@@ -12,7 +12,7 @@ Color _getLessonCardTextColor(BuildContext context) =>
     isDarkThemeEnabled(context) ? Colors.lightBlue : darkBlueColor;
 
 class _LessonCard extends StatelessWidget {
-  const _LessonCard(this.view, {Key key}) : super(key: key);
+  const _LessonCard(this.view, {Key? key}) : super(key: key);
 
   final LessonView view;
 
@@ -60,7 +60,7 @@ class _LessonCard extends StatelessWidget {
                           : color.withOpacity(0.2),
                       foregroundColor: color,
                       child: Text(
-                        view.abbreviation ?? "",
+                        view.abbreviation,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
@@ -81,17 +81,17 @@ class _LessonCard extends StatelessWidget {
 
 class _PassedLessonFade extends StatelessWidget {
   const _PassedLessonFade({
-    Key key,
+    Key? key,
     this.hasAlreadyTakenPlace,
     this.child,
     this.lessonID,
     this.percentTimePassed,
   }) : super(key: key);
 
-  final Widget child;
-  final bool hasAlreadyTakenPlace;
-  final String lessonID;
-  final double percentTimePassed;
+  final Widget? child;
+  final bool? hasAlreadyTakenPlace;
+  final String? lessonID;
+  final double? percentTimePassed;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _PassedLessonFade extends StatelessWidget {
           ClipRRect(
             child: Align(
               alignment: Alignment.topCenter,
-              heightFactor: 1 - percentTimePassed,
+              heightFactor: 1 - percentTimePassed!,
               child: child,
             ),
           ),
@@ -116,16 +116,16 @@ class _PassedLessonFade extends StatelessWidget {
 
 /// Erste Stunde = 1, zweite Stunde = 2, etc.
 class _LessonNumber extends StatelessWidget {
-  const _LessonNumber(this.periodNumber, {Key key}) : super(key: key);
+  const _LessonNumber(this.periodNumber, {Key? key}) : super(key: key);
 
-  final String periodNumber;
+  final String? periodNumber;
 
   @override
   Widget build(BuildContext context) {
     if (isEmptyOrNull(periodNumber) || periodNumber == "null")
       return const SizedBox(height: 14);
     return Text(
-      periodNumber,
+      periodNumber!,
       style: TextStyle(
         fontSize: 12,
         color: _getLessonCardTextColor(context),
@@ -135,9 +135,9 @@ class _LessonNumber extends StatelessWidget {
 }
 
 class _Time extends StatelessWidget {
-  const _Time({Key key, this.start, this.end}) : super(key: key);
+  const _Time({Key? key, this.start, this.end}) : super(key: key);
 
-  final String start, end;
+  final String? start, end;
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +160,10 @@ class _Time extends StatelessWidget {
 }
 
 class _Room extends StatelessWidget {
-  const _Room({Key key, this.room, this.isNow}) : super(key: key);
+  const _Room({Key? key, this.room, this.isNow}) : super(key: key);
 
-  final String room;
-  final bool isNow;
+  final String? room;
+  final bool? isNow;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +171,7 @@ class _Room extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 9),
       child: Text(
-        room,
+        room!,
         style: TextStyle(
           fontSize: 11,
           color: _getLessonCardTextColor(context),

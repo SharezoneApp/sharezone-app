@@ -9,18 +9,17 @@
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/dashboard/update_reminder/release.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 
 void main() {
   group('UpdateReminderBloc', () {
-    UpdateReminderBloc bloc;
-    Version currentVersion;
-    Release latestRelease;
-    Duration gracePeriod;
-    DateTime Function() getCurrentDateTime;
+    late UpdateReminderBloc bloc;
+    late Version currentVersion;
+    late Release latestRelease;
+    late Duration gracePeriod;
+    late DateTime Function() getCurrentDateTime;
 
     setUp(() {
       gracePeriod = Duration(days: 3);
@@ -137,7 +136,7 @@ void main() {
   });
 }
 
-Release _releaseWith({@required String version, DateTime releaseTime}) {
+Release _releaseWith({required String version, DateTime? releaseTime}) {
   return Release(
       version: Version.parse(name: version),
       releaseDate:

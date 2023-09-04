@@ -30,7 +30,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'school_class_details/school_class_course_list.dart';
 
-Future<SchoolClassDeleteType> showDeleteSchoolClassDialog(
+Future<SchoolClassDeleteType?> showDeleteSchoolClassDialog(
     BuildContext context) async {
   return await showColumnActionsAdaptiveDialog<SchoolClassDeleteType>(
     context: context,
@@ -50,7 +50,7 @@ Future<SchoolClassDeleteType> showDeleteSchoolClassDialog(
   );
 }
 
-Future<bool> showLeaveSchoolClassDialog(BuildContext context) async {
+Future<bool?> showLeaveSchoolClassDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
     context: context,
     defaultValue: false,
@@ -135,7 +135,10 @@ class SchoolClassDetailsPage extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key key, @required this.schoolClass}) : super(key: key);
+  const _EditIcon({
+    Key? key,
+    required this.schoolClass,
+  }) : super(key: key);
 
   final SchoolClass schoolClass;
 
@@ -150,8 +153,10 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _LeaveSchoolClassButton extends StatelessWidget {
-  const _LeaveSchoolClassButton({Key key, this.onDialogClose})
-      : super(key: key);
+  const _LeaveSchoolClassButton({
+    Key? key,
+    required this.onDialogClose,
+  }) : super(key: key);
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -165,7 +170,7 @@ class _LeaveSchoolClassButton extends StatelessWidget {
         title: Text("KLASSE VERLASSEN"),
         onTap: () async {
           final confirmed = await showLeaveSchoolClassDialog(context);
-          if (confirmed) {
+          if (confirmed == true) {
             onDialogClose(bloc.leaveSchoolClass());
           }
         },
@@ -175,8 +180,10 @@ class _LeaveSchoolClassButton extends StatelessWidget {
 }
 
 class _DeleteSchoolClassButton extends StatelessWidget {
-  const _DeleteSchoolClassButton({Key key, this.onDialogClose})
-      : super(key: key);
+  const _DeleteSchoolClassButton({
+    Key? key,
+    required this.onDialogClose,
+  }) : super(key: key);
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -204,8 +211,10 @@ class _DeleteSchoolClassButton extends StatelessWidget {
 }
 
 class _SchoolClassAvatarCard extends StatelessWidget {
-  const _SchoolClassAvatarCard(
-      {@required this.schoolClass, this.memberCount = 0});
+  const _SchoolClassAvatarCard({
+    required this.schoolClass,
+    this.memberCount = 0,
+  });
 
   final SchoolClass schoolClass;
   final int memberCount;
@@ -218,7 +227,6 @@ class _SchoolClassAvatarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (schoolClass == null) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -239,7 +247,8 @@ class _SchoolClassAvatarCard extends StatelessWidget {
             MemberCountText(memberCount: memberCount),
             const SizedBox(height: 16),
             SharecodeText(
-                schoolClass.personalSharecode ?? schoolClass.sharecode),
+              schoolClass.personalSharecode ?? schoolClass.sharecode,
+            ),
             const Divider(height: 40),
             ShareGroupSection(groupInfo: schoolClass.toGroupInfo()),
           ],
@@ -251,7 +260,7 @@ class _SchoolClassAvatarCard extends StatelessWidget {
 }
 
 class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({Key key, @required this.schoolClass}) : super(key: key);
+  const _SettingsCard({Key? key, required this.schoolClass}) : super(key: key);
 
   final SchoolClass schoolClass;
 
@@ -270,7 +279,7 @@ class _SettingsCard extends StatelessWidget {
 }
 
 class SchoolClassSettingsCard extends StatelessWidget {
-  const SchoolClassSettingsCard({Key key, @required this.settings})
+  const SchoolClassSettingsCard({Key? key, required this.settings})
       : super(key: key);
 
   final CourseSettings settings;
@@ -297,7 +306,7 @@ class SchoolClassSettingsCard extends StatelessWidget {
 }
 
 class _IsPublic extends StatelessWidget {
-  const _IsPublic({Key key, @required this.isPublic}) : super(key: key);
+  const _IsPublic({Key? key, required this.isPublic}) : super(key: key);
 
   final bool isPublic;
 

@@ -11,7 +11,7 @@ description: A starting point for Dart libraries or applications.
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -39,7 +39,7 @@ dependencies:
   meta: ^1.1.8
   optional: ^6.1.0+1
   rxdart: ^0.27.1
-  collection: ^1.17.0
+  collection: ^1.17.2
 
 dev_dependencies:
   flutter_test:

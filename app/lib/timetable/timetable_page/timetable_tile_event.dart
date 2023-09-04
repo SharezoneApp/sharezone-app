@@ -10,20 +10,23 @@ part of 'timetable_page.dart';
 
 class TimetableEntryEvent extends StatelessWidget {
   final CalendricalEvent event;
-  final GroupInfo groupInfo;
+  final GroupInfo? groupInfo;
 
-  const TimetableEntryEvent({@required this.event, @required this.groupInfo});
+  const TimetableEntryEvent({
+    required this.event,
+    required this.groupInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
-        color: groupInfo?.design?.color?.withOpacity(0.2),
+        color: groupInfo?.design.color.withOpacity(0.2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
           side: BorderSide(
-              color: groupInfo?.design?.color ?? Colors.grey, width: 1.5),
+              color: groupInfo?.design.color ?? Colors.grey, width: 1.5),
         ),
         child: InkWell(
           child: Padding(
@@ -33,23 +36,23 @@ class TimetableEntryEvent extends StatelessWidget {
               children: <Widget>[
                 _EventTitle(
                   title: event.title,
-                  color: groupInfo?.design?.color,
+                  color: groupInfo?.design.color,
                 ),
                 GroupName(
                     abbreviation: groupInfo?.abbreviation,
-                    groupName: groupInfo?.name,
-                    color: groupInfo?.design?.color),
+                    groupName: groupInfo!.name!,
+                    color: groupInfo?.design.color),
                 if (event.place != null && event.place != "")
                   Room(
-                    room: event.place,
-                    color: groupInfo?.design?.color,
+                    room: event.place!,
+                    color: groupInfo?.design.color,
                   ),
               ],
             ),
           ),
           borderRadius: BorderRadius.all(Radius.circular(4)),
           onTap: () =>
-              showTimetableEventDetails(context, event, groupInfo.design),
+              showTimetableEventDetails(context, event, groupInfo?.design),
           onLongPress: () => onEventLongPress(context, event),
         ),
       ),
@@ -58,11 +61,14 @@ class TimetableEntryEvent extends StatelessWidget {
 }
 
 class _EventTitle extends StatelessWidget {
-  const _EventTitle({Key key, @required this.title, @required this.color})
-      : super(key: key);
+  const _EventTitle({
+    Key? key,
+    required this.title,
+    required this.color,
+  }) : super(key: key);
 
-  final String title;
-  final Color color;
+  final String? title;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

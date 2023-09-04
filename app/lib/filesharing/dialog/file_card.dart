@@ -13,9 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<void> showRemoveFileFromBlocDialog(
-    {@required BuildContext context,
-    @required VoidCallback removeFileFromBlocMethod}) async {
+Future<void> showRemoveFileFromBlocDialog({
+  required BuildContext context,
+  required VoidCallback removeFileFromBlocMethod,
+}) async {
   FocusManager.instance.primaryFocus?.unfocus(); // Closing keyboard
   await Future.delayed(const Duration(milliseconds: 200));
 
@@ -38,20 +39,20 @@ Future<void> showRemoveFileFromBlocDialog(
 }
 
 class FileCard extends StatelessWidget {
-  final LocalFile localFile;
-  final CloudFile cloudFile;
+  final LocalFile? localFile;
+  final CloudFile? cloudFile;
 
-  final Widget trailing;
-  final VoidCallback onTap, onLongPress;
+  final Widget? trailing;
+  final VoidCallback? onTap, onLongPress;
 
-  const FileCard(
-      {Key key,
-      this.localFile,
-      this.cloudFile,
-      this.trailing,
-      this.onTap,
-      this.onLongPress})
-      : super(key: key);
+  const FileCard({
+    Key? key,
+    this.localFile,
+    this.cloudFile,
+    this.trailing,
+    this.onTap,
+    this.onLongPress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => FileTile(
@@ -64,16 +65,16 @@ class FileCard extends StatelessWidget {
 }
 
 class FileTile extends StatelessWidget {
-  final LocalFile localFile;
-  final CloudFile cloudFile;
+  final LocalFile? localFile;
+  final CloudFile? cloudFile;
 
-  final Widget trailing;
-  final VoidCallback onTap, onLongPress;
+  final Widget? trailing;
+  final VoidCallback? onTap, onLongPress;
 
   const FileTile({
-    Key key,
+    Key? key,
+    required this.cloudFile,
     this.localFile,
-    this.cloudFile,
     this.onTap,
     this.onLongPress,
     this.trailing,
@@ -82,9 +83,9 @@ class FileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FileFormat fileType = localFile != null
-        ? FileUtils.getFileFormatFromMimeType(localFile.getType())
-        : cloudFile.fileFormat;
-    final name = localFile != null ? localFile.getName() : cloudFile.name;
+        ? FileUtils.getFileFormatFromMimeType(localFile!.getType())
+        : cloudFile!.fileFormat;
+    final name = localFile != null ? localFile!.getName() : cloudFile!.name;
 
     return ListTile(
       leading: FileIcon(fileFormat: fileType),
@@ -97,9 +98,10 @@ class FileTile extends StatelessWidget {
 }
 
 class FileMoreOptionsWithOnlyRemoveFileFromBloc extends StatelessWidget {
-  const FileMoreOptionsWithOnlyRemoveFileFromBloc(
-      {Key key, @required this.removeFileFromBlocMethod})
-      : super(key: key);
+  const FileMoreOptionsWithOnlyRemoveFileFromBloc({
+    Key? key,
+    required this.removeFileFromBlocMethod,
+  }) : super(key: key);
 
   final VoidCallback removeFileFromBlocMethod;
 

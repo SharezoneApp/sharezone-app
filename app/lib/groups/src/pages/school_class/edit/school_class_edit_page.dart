@@ -53,7 +53,10 @@ Future<void> _submit(BuildContext context) async {
 }
 
 class SchoolClassEditPage extends StatefulWidget {
-  const SchoolClassEditPage({Key key, this.schoolClass}) : super(key: key);
+  const SchoolClassEditPage({
+    Key? key,
+    required this.schoolClass,
+  }) : super(key: key);
 
   static const tag = "school-class-details-page";
   final SchoolClass schoolClass;
@@ -63,7 +66,7 @@ class SchoolClassEditPage extends StatefulWidget {
 }
 
 class _SchoolClassEditPageState extends State<SchoolClassEditPage> {
-  SchoolClassEditBloc bloc;
+  late SchoolClassEditBloc bloc;
 
   @override
   void initState() {
@@ -113,9 +116,12 @@ class _SchoolClassEditPageFAB extends StatelessWidget {
 }
 
 class _NameField extends StatelessWidget {
-  const _NameField({Key key, this.currentName}) : super(key: key);
+  const _NameField({
+    Key? key,
+    this.currentName,
+  }) : super(key: key);
 
-  final String currentName;
+  final String? currentName;
 
   @override
   Widget build(BuildContext context) {

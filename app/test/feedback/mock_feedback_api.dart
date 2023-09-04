@@ -14,13 +14,12 @@ class MockFeedbackApi extends FeedbackApi {
 
   List<UserFeedback> invocations = [];
 
-  bool wasOnlyInvokedWith(UserFeedback feedback) {
+  bool wasOnlyInvokedWith(UserFeedback? feedback) {
     return invocations.single == feedback;
   }
 
   @override
-  Future<void> sendFeedback(UserFeedback feedback) {
+  Future<void> sendFeedback(UserFeedback feedback) async {
     invocations.add(feedback);
-    return null;
   }
 }

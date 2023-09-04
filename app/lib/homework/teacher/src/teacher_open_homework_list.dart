@@ -19,12 +19,12 @@ import 'teacher_homework_tile.dart';
 /// loading.
 class TeacherOpenHomeworkList extends StatelessWidget {
   final TeacherOpenHomeworkListView homeworkListView;
-  final Color overscrollColor;
+  final Color? overscrollColor;
 
   const TeacherOpenHomeworkList({
-    Key key,
-    @required this.homeworkListView,
-    @required this.overscrollColor,
+    Key? key,
+    required this.homeworkListView,
+    required this.overscrollColor,
   }) : super(key: key);
 
   @override
@@ -50,5 +50,5 @@ class TeacherOpenHomeworkList extends StatelessWidget {
   }
 
   bool _nullOrEmpty(List<TeacherHomeworkSectionView> homeworkSections) =>
-      homeworkSections == null || homeworkSections.isEmpty;
+      homeworkSections.isEmpty;
 }

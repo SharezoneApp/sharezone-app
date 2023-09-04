@@ -15,16 +15,16 @@ class RegistrationBloc extends BlocBase {
   final RegistrationGateway _gateway;
   final SignUpBloc _signUpBloc;
 
-  TypeOfUser typeOfUser;
+  TypeOfUser? typeOfUser;
 
   RegistrationBloc(this._gateway, this._signUpBloc);
 
   Function(TypeOfUser) get setTypeOfUser => (userType) => typeOfUser = userType;
 
   Future<void> signUp() async {
-    _signUpBloc.setTypeOfUser(typeOfUser);
+    _signUpBloc.setTypeOfUser(typeOfUser!);
     _signUpBloc.setSignedUp(true);
-    await _gateway.registerUser(typeOfUser);
+    await _gateway.registerUser(typeOfUser!);
   }
 
   @override

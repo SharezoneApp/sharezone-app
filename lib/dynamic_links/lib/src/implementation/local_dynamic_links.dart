@@ -16,8 +16,8 @@ class LocalDynamicLinks extends DynamicLinks {
   OnDynamicLinkErrorException? onLinkErrorReturn;
 
   @override
-  Future<DynamicLinkData> getInitialLink() {
-    return Future.value(getInitialDataReturn);
+  Future<DynamicLinkData?> getInitialLink() async {
+    return getInitialDataReturn;
   }
 
   @override

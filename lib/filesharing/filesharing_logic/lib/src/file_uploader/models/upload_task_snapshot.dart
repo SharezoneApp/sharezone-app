@@ -20,13 +20,13 @@ class UploadTaskSnapshot {
   /// whilst the total size of the remote file is being determined.
   final int totalByteCount;
 
-  // Im Web nicht verfügbar!
-  final Future<dynamic> Function()? getDownloadUrl;
+  /// Fetches a long lived download URL for this object.
+  final Future<dynamic> Function() getDownloadUrl;
 
   const UploadTaskSnapshot({
     required this.bytesTransferred,
     required this.totalByteCount,
     required this.storageMetaData,
-    this.getDownloadUrl,
+    required this.getDownloadUrl,
   });
 }

@@ -113,13 +113,13 @@ final navigationBloc = NavigationBloc();
 class SharezoneBlocProviders extends StatefulWidget {
   final Widget child;
   final BlocDependencies blocDependencies;
-  final NavigationService navigationService;
-  final Stream<Beitrittsversuch> beitrittsversuche;
+  final NavigationService? navigationService;
+  final Stream<Beitrittsversuch?>? beitrittsversuche;
 
   const SharezoneBlocProviders({
-    Key key,
-    @required this.child,
-    @required this.blocDependencies,
+    Key? key,
+    required this.child,
+    required this.blocDependencies,
     this.navigationService,
     this.beitrittsversuche,
   }) : super(key: key);
@@ -129,8 +129,8 @@ class SharezoneBlocProviders extends StatefulWidget {
 }
 
 class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
-  FeedbackBloc feedbackBloc;
-  Analytics analytics;
+  late FeedbackBloc feedbackBloc;
+  late Analytics analytics;
 
   @override
   void initState() {
@@ -149,7 +149,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       FeedbackCache(
           FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
       getPlatformInformationRetriever(),
-      widget.blocDependencies.authUser.uid,
+      widget.blocDependencies.authUser!.uid,
       FeedbackAnalytics(analytics),
     );
 
@@ -158,7 +158,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           .getString('revenuecat_api_android_key'),
       appleApiKey: widget.blocDependencies.remoteConfiguration
           .getString('revenuecat_api_apple_key'),
-      uid: widget.blocDependencies.authUser.uid,
+      uid: widget.blocDependencies.authUser!.uid,
     );
 
     super.initState();
@@ -177,9 +177,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   @override
   Widget build(BuildContext context) {
     final api = SharezoneGateway(
-      authUser: widget.blocDependencies.authUser,
+      authUser: widget.blocDependencies.authUser!,
       memberID:
-          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser.uid),
+          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
 
@@ -201,14 +201,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ).addTokenToUserIfNotExisting();
     }
     final firestore = api.references.firestore;
-    final firebaseAuth = api.references.firebaseAuth;
+    final firebaseAuth = api.references.firebaseAuth!;
     final homeworkCollection = firestore.collection("Homework");
     final uid = api.uID;
     final crashAnalytics = getCrashAnalytics();
     final firestoreHomeworkRepository = createDefaultFirestoreRepository(
       homeworkCollection,
       uid,
-      (courseId) => getCourseColorFromCourseId(api, courseId),
+      (courseId) => getCourseColorFromCourseId(api, courseId)!,
     );
     final _homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
@@ -287,14 +287,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
-        widget.blocDependencies.authUser.firebaseUser);
+        widget.blocDependencies.authUser!.firebaseUser);
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
 
-    final typeOfUserStream = api.user.userStream.map((user) => user.typeOfUser);
+    final typeOfUserStream =
+        api.user.userStream.map((user) => user!.typeOfUser);
     final onboardingNavigator = OnboardingNavigator(
       signUpBloc,
-      widget.beitrittsversuche,
+      widget.beitrittsversuche!,
     );
 
     final holidayApiClient =
@@ -321,7 +322,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ChangeNotifierProvider<SubscriptionEnabledFlag>(
         create: (context) => subscriptionEnabledFlag,
       ),
-      StreamProvider<auth.AuthUser>(
+      StreamProvider<auth.AuthUser?>(
         create: (context) => api.user.authUserStream,
         initialData: null,
       )
@@ -333,7 +334,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           api,
           widget.blocDependencies.streamingSharedPreferences,
           widget.blocDependencies.sharedPreferences,
-          widget.navigationService,
+          widget.navigationService!,
           analytics,
         ),
       ),
@@ -424,7 +425,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<NavigationAnalytics>(bloc: NavigationAnalytics(analytics)),
       BlocProvider<TeacherHomeworkPageBloc>(bloc: teacherHomeworkBloc),
       BlocProvider<HomeworkPageBloc>(bloc: homeworkPageBloc),
-      BlocProvider<NavigationService>(bloc: widget.navigationService),
+      BlocProvider<NavigationService>(bloc: widget.navigationService!),
       BlocProvider<UserTipsBloc>(bloc: UserTipsBloc(api.user)),
       BlocProvider<old.HomeworkPageBloc>(bloc: old.HomeworkPageBloc(api)),
       BlocProvider<LessonLengthCache>(bloc: lessonLengthCache),
@@ -449,7 +450,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           api.schoolClassGateway,
           signUpBloc,
           GroupOnboardingAnalytics(analytics),
-          widget.beitrittsversuche,
+          widget.beitrittsversuche as Stream<Beitrittsversuch?>,
         ),
       ),
       BlocProvider<RegistrationBloc>(
@@ -482,7 +483,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<ChangeDataBloc>(
           bloc: ChangeDataBloc(
         userAPI: api.user,
-        currentEmail: api.user.authUser.email,
+        currentEmail: api.user.authUser!.email,
         firebaseAuth: firebaseAuth,
       )),
       BlocProvider<HolidayBloc>(
@@ -543,8 +544,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
   }
 
-  int getCourseColorFromCourseId(SharezoneGateway api, String courseId) {
+  int? getCourseColorFromCourseId(SharezoneGateway api, String courseId) {
     final course = api.course.getCourse(courseId);
-    return course?.getDesign()?.color?.value;
+    return course?.getDesign().color.value;
   }
 }

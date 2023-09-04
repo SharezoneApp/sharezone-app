@@ -59,7 +59,7 @@ typedef IsAtEdge = void Function(bool isAtEdge);
 class BottomOfScrollViewInvisibility extends StatefulWidget {
   final Widget child;
 
-  const BottomOfScrollViewInvisibility({Key key, @required this.child})
+  const BottomOfScrollViewInvisibility({Key? key, required this.child})
       : super(key: key);
 
   @override
@@ -107,18 +107,18 @@ class BottomOfScrollViewInvisibilityController extends ChangeNotifier {
   /// The [ScrollController] which is observed.
   /// This should be the [ScrollController] which is passed to the [ScrollView]
   /// used by the user.
-  ScrollController get registeredScrollController =>
+  ScrollController? get registeredScrollController =>
       _registeredScrollController;
-  set registeredScrollController(ScrollController registeredScrollController) {
+  set registeredScrollController(ScrollController? registeredScrollController) {
     _registeredScrollController = registeredScrollController;
     _listenToScrollController(registeredScrollController);
   }
 
-  ScrollController _registeredScrollController;
+  ScrollController? _registeredScrollController;
 
-  void _listenToScrollController(ScrollController registeredScrollController) {
-    _registeredScrollController.addListener(() {
-      final position = registeredScrollController.position;
+  void _listenToScrollController(ScrollController? registeredScrollController) {
+    _registeredScrollController!.addListener(() {
+      final position = registeredScrollController!.position;
 
       final lowerEdgeStart =
           position.maxScrollExtent - heightOfBottomZoneInPixel;

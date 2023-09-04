@@ -6,18 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
 import 'package:sharezone/pages/settings/changelog/change.dart';
 
 class ChangeView {
-  String version;
-  List<String> newFeatures;
-  List<String> improvements;
-  List<String> fixes;
-  bool isNewerThanCurrentVersion;
+  String? version;
+  List<String>? newFeatures;
+  List<String>? improvements;
+  List<String>? fixes;
+  bool? isNewerThanCurrentVersion;
 
   ChangeView({
-    @required this.version,
+    required this.version,
     this.newFeatures = const [],
     this.improvements = const [],
     this.fixes = const [],

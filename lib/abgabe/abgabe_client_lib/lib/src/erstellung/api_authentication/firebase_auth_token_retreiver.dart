@@ -9,7 +9,7 @@
 /// Lädt den aktuellen Token vom Firebase-User.
 /// Ist ein Interface, weil wir in dem Package nicht auf Flutteer dependen wollen.
 abstract class FirebaseAuthTokenRetriever {
-  Future<String> getToken();
+  Future<String?> getToken();
 }
 
 class FirebaseAuthHeaderRetriever {

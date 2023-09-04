@@ -17,9 +17,9 @@ class TeacherArchivedHomeworkList extends StatelessWidget {
   final TeacherHomeworkPageBloc bloc;
 
   const TeacherArchivedHomeworkList({
-    Key key,
-    @required this.view,
-    @required this.bloc,
+    Key? key,
+    required this.view,
+    required this.bloc,
   }) : super(key: key);
 
   @override

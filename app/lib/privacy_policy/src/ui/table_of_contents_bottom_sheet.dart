@@ -42,7 +42,7 @@ void showTableOfContentsBottomSheet(BuildContext context) {
 }
 
 class _TableOfContentsBottomSheet extends StatefulWidget {
-  const _TableOfContentsBottomSheet({Key key}) : super(key: key);
+  const _TableOfContentsBottomSheet({Key? key}) : super(key: key);
 
   @override
   State<_TableOfContentsBottomSheet> createState() =>
@@ -96,14 +96,14 @@ class __TableOfContentsBottomSheetState
 
 class _TocSectionHeadingList extends StatelessWidget {
   _TocSectionHeadingList({
-    Key key,
+    Key? key,
   }) : super(key: key);
   final itemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
-    int indexHighlighted = tocController.documentSections
+    int indexHighlighted = tocController.documentSections!
         .indexWhere((section) => section.shouldHighlight);
 
     // This list bounces when opening the bottom sheet and viewing the list
@@ -115,9 +115,9 @@ class _TocSectionHeadingList extends StatelessWidget {
       separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
       initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
       itemScrollController: itemScrollController,
-      itemCount: tocController.documentSections.length,
+      itemCount: tocController.documentSections!.length,
       itemBuilder: (context, index) {
-        final section = tocController.documentSections[index];
+        final section = tocController.documentSections![index];
         return _TocHeading(
           key: ValueKey(section.id),
           section: section,
@@ -129,8 +129,8 @@ class _TocSectionHeadingList extends StatelessWidget {
 
 class _TocHeading extends StatefulWidget {
   const _TocHeading({
-    Key key,
-    @required this.section,
+    Key? key,
+    required this.section,
   }) : super(key: key);
 
   final TocDocumentSectionView section;
@@ -143,10 +143,10 @@ class _TocHeading extends StatefulWidget {
 // else we get an error if we hot reload while the bottom bar is opened.
 class _TocHeadingState extends State<_TocHeading>
     with TickerProviderStateMixin {
-  AnimationController _controller;
-  bool isExpanded;
-  Animation<double> _heightFactor;
-  Animation<double> expansionArrowTurns;
+  late AnimationController _controller;
+  late bool isExpanded;
+  late Animation<double> _heightFactor;
+  Animation<double>? expansionArrowTurns;
 
   final expansionDuration = Duration(milliseconds: 200);
   final collapseDuration = Duration(milliseconds: 150);
@@ -226,7 +226,7 @@ class _TocHeadingState extends State<_TocHeading>
                 Expanded(
                   child: Text(
                     '${widget.section.sectionHeadingText}',
-                    style: Theme.of(context).textTheme.bodyMedium.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: widget.section.shouldHighlight
                               ? FontWeight.w500
                               : FontWeight.normal,
@@ -336,8 +336,8 @@ List<Widget> _buildSubheadings(
 
 class _Subheading extends StatelessWidget {
   const _Subheading({
-    Key key,
-    @required this.subsection,
+    Key? key,
+    required this.subsection,
   }) : super(key: key);
 
   final TocDocumentSectionView subsection;
@@ -364,9 +364,9 @@ class _Subheading extends StatelessWidget {
             ),
             child: Text(
               '${subsection.sectionHeadingText}',
-              style: Theme.of(context).textTheme.bodyMedium.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize:
-                        Theme.of(context).textTheme.bodyMedium.fontSize - .5,
+                        Theme.of(context).textTheme.bodyMedium!.fontSize! - .5,
                     fontWeight: subsection.shouldHighlight
                         ? FontWeight.w400
                         : FontWeight.normal,
