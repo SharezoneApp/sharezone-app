@@ -123,9 +123,7 @@ void main() {
         await tester.tap(find.text(klasse10a.name));
         await tester.pumpAndSettle();
 
-        expect(
-            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass.value
-                .id,
+        expect(bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass!.id,
             klasse10a.groupId);
       });
 

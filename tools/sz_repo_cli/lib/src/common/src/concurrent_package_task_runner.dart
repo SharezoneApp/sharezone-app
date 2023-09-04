@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:optional/optional.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -232,7 +231,7 @@ class Success extends PackageTaskStatus {
 
 class Failure extends PackageTaskStatus {
   final dynamic error;
-  final Optional<StackTrace> stackTrace;
+  final StackTrace? stackTrace;
   final Duration timeToFinish;
 
   Failure({
@@ -240,9 +239,8 @@ class Failure extends PackageTaskStatus {
     required DateTime startedOn,
     required this.timeToFinish,
     required this.error,
-    StackTrace? stackTrace,
-  })  : stackTrace = Optional.ofNullable(stackTrace),
-        super(package: package, startedOn: startedOn);
+    this.stackTrace,
+  }) : super(package: package, startedOn: startedOn);
 }
 
 class Running extends PackageTaskStatus {

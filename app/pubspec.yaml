@@ -119,7 +119,6 @@ dependencies:
     path: ../lib/notifications
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
-  optional: ^6.1.0+1
   overlay_support: ^2.1.0
   package_info_plus: ^4.1.0
   permission_handler: ^10.2.0

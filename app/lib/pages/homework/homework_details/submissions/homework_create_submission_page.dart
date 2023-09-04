@@ -299,7 +299,7 @@ class _FileCard extends StatelessWidget {
         key: ValueKey(view.id),
         padding: const EdgeInsets.only(bottom: 10),
         child: CustomCard(
-          onTap: view.downloadUrl.isPresent
+          onTap: view.downloadUrl != null
               ? () => openCreateSubmissionFile(context, view)
               : null,
           child: Column(
@@ -336,7 +336,7 @@ class _FileCard extends StatelessWidget {
                 LinearProgressIndicator(
                   backgroundColor: Colors.grey[400],
                   valueColor: const AlwaysStoppedAnimation(Colors.lightBlue),
-                  value: view.uploadProgress.orElse(0),
+                  value: view.uploadProgress ?? 0,
                 ),
               if (view.status == FileViewStatus.failed)
                 LinearProgressIndicator(
