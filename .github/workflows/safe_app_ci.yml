@@ -258,9 +258,6 @@ jobs:
             --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER
 
-          sudo chown -R $USER .
-          sudo chmod -R a+rwx .
-
       - name: Publish to App Store Connect
         working-directory: app
         env:
