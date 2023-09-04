@@ -19,11 +19,9 @@ platform :android do
   lane :deploy do
     # Upload the App Bundle to the Google Play Store
     upload_to_play_store(
-      track: 'beta',
+      track: ENV['TRACK'],
       package_name: 'de.codingbrain.sharezone',
       aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
-      # skip_upload_changelogs: false,
-      # changelog_path: 'android/app/src/main/fastlane/metadata/android'
     )
   end
 end
