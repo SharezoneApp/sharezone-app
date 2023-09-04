@@ -152,7 +152,7 @@ jobs:
 
   deploy-android:
     # We skip the deployment if no changelog is provided because we assume that
-    # nothing has changed in the iOS app and therefore no new version is needed.
+    # nothing has changed in the Android app and therefore no new version is needed.
     if: github.event.inputs.android-changelog != ''
     runs-on: ubuntu-22.04
     timeout-minutes: 120
