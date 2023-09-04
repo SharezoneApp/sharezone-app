@@ -52,7 +52,7 @@ class DeployAndroidCommand extends Command {
   static const flavorOptionName = 'flavor';
   static const whatsNewOptionName = 'whats-new';
 
-  static const _changelogDirectory = 'fastlane/metadata/android/de-DE';
+  static const _changelogDirectory = 'android/fastlane/metadata/android/de-DE';
   static const _defaultChangelogFileName = 'default.txt';
   static const _changelogFilePath =
       '$_changelogDirectory/$_defaultChangelogFileName';
@@ -98,6 +98,7 @@ class DeployAndroidCommand extends Command {
     await runProcessSucessfullyOrThrow(
       'fastlane',
       ['run', 'validate_play_store_json_key'],
+      workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
     );
   }
 
@@ -170,7 +171,8 @@ class DeployAndroidCommand extends Command {
       return;
     }
 
-    final changelogFile = File(_changelogFilePath);
+    final appPath = _repo.sharezoneFlutterApp.location.path;
+    final changelogFile = File('$appPath/$_changelogFilePath');
 
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
