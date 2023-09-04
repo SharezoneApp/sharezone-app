@@ -51,10 +51,11 @@ jobs:
             changesFound:
               # When we change the Flutter version, we need to trigger this workflow.
               - ".fvm/fvm_config.json"
-              # We only build and deploy a new version, when a user relevant files
-              # changed.
+              # We only build and deploy a new version, when user relevant files
+              # or integration test files changed.
               - "app/**"
               - "lib/**"
+              - "app/integration_test/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
               - ".github/workflows/integration_tests_app_ci.yml"
