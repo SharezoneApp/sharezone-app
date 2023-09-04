@@ -355,9 +355,17 @@ jobs:
           LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $MACOS_APP_ID --platform MAC_OS | head -2 | tail -1)
           BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
+          # Workaround for https://github.com/flutter/flutter/issues/132725
+          sudo chown -R $USER .
+          sudo chmod -R a+rwx .
+
           sz build macos \
             --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER
+
+          # Workaround for https://github.com/flutter/flutter/issues/132725
+          sudo chown -R $USER .
+          sudo chmod -R a+rwx .
 
       - name: Publish to App Store Connect
         working-directory: app
@@ -385,6 +393,10 @@ jobs:
 
           xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
           rm -f unsigned.pkg
+
+          # Workaround for https://github.com/flutter/flutter/issues/132725
+          sudo chown -R $USER .
+          sudo chmod -R a+rwx .
 
           # Because we are publishing every commit a new alpha version, we are
           # able to use the last commit message (title and description) as release
