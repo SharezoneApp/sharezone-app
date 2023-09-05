@@ -13,6 +13,7 @@ const rubik = 'Rubik';
 
 const Color accentColor = Colors.redAccent;
 const Color primaryColor = Color(0xFF68B3E9);
+const Color darkPrimaryColor = Color(0xFF254D71);
 
 Size getScreenSize(BuildContext context) {
   return MediaQuery.of(context).size;
