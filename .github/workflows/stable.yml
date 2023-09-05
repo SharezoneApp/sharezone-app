@@ -29,6 +29,11 @@ on:
         description: |
           Whether to deploy the web app. If this is set to false, the web
           deployment will be skipped.
+      android-changelog:
+        type: string
+        description: |
+          Android changelog: Used for the Google Play Store release notes. If the 
+          changelog is not provided, the deployment for Android will be skipped.
 
 # Set permissions to none.
 #
@@ -144,3 +149,66 @@ jobs:
             --stage prod \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --credentials sharezone-prod-key.json
+
+  deploy-android:
+    # We skip the deployment if no changelog is provided because we assume that
+    # nothing has changed in the Android app and therefore no new version is needed.
+    if: github.event.inputs.android-changelog != ''
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
+
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.39.1
+
+      - name: Setup signing
+        working-directory: app/android
+        env:
+          KEYSTORE_STRING: ${{ secrets.SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
+          KEY_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
+          STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
+        run: |
+          echo $KEYSTORE_STRING | base64 -di > app/key.jks
+          echo "storePassword=$STORE_PASSWORD" >> key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> key.properties
+          echo "keyAlias=$KEY_ALIAS" >> key.properties
+          echo "storeFile=key.jks" >> key.properties
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Install Fastlane
+        run: sudo gem install fastlane -v 2.214.0
+
+      - name: Install Sharezone Repo CLI
+        run: |
+          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Set up Google Play credentials
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        working-directory: app/private_keys
+        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
+
+      - name: Deploy
+        run: |
+          sz deploy android \
+            --stage stable \
+            --whats-new "${{ github.event.inputs.android-changelog }}"
