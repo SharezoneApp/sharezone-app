@@ -47,6 +47,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
       if (blackboardItem.text != null) {
         changeText(blackboardItem.text!);
       }
+      if (blackboardItem.pictureURL != null) {
+        changePictureURL(blackboardItem.pictureURL!);
+      }
       changeSendNotification(false);
       final c = Course.create().copyWith(
         subject: blackboardItem.subject,
