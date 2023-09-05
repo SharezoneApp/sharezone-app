@@ -99,16 +99,16 @@ class ExpansionCardState extends State<ExpansionCard> {
         },
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: AnimatedSize(
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOutQuart,
-            alignment: Alignment.topCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                color: widget.backgroundColor ??
-                    Theme.of(context).colorScheme.surface,
-                borderRadius: borderRadius,
-              ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: widget.backgroundColor ??
+                  Theme.of(context).colorScheme.surface,
+              borderRadius: borderRadius,
+            ),
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOutQuart,
+              alignment: Alignment.topCenter,
               child: Padding(
                 padding: widget.padding,
                 child: DefaultTextStyle(
@@ -188,10 +188,11 @@ class _AnimatedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      child: isExpanded
-          ? Column(
-              children: [
+      duration: Duration(milliseconds: isExpanded ? 100 : 500),
+      child: Column(
+        key: ValueKey(isExpanded),
+        children: isExpanded
+            ? [
                 const SizedBox(height: 18),
                 DefaultTextStyle(
                   style: DefaultTextStyle.of(context).style.copyWith(
@@ -200,9 +201,9 @@ class _AnimatedBody extends StatelessWidget {
                       ),
                   child: body,
                 ),
-              ],
-            )
-          : const SizedBox(),
+              ]
+            : [],
+      ),
     );
   }
 }
