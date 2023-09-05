@@ -80,6 +80,8 @@ export 'src/theme/brightness/general_theme.dart';
 
 // widgets
 export 'src/widgets.dart';
+export 'src/widgets/animated_swap.dart';
+export 'src/widgets/expansion_card.dart';
 
 // wrappable_list
 export 'src/wrappable_list.dart';
