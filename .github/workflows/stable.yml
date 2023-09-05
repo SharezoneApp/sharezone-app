@@ -208,12 +208,6 @@ jobs:
         run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
 
       - name: Deploy
-        env:
-          # The following secrets are used by the Codemagic CLI tool. It's important
-          # to use the same names as the CLI tool expects.
-          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
           sz deploy android \
             --stage stable \
