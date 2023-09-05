@@ -10,6 +10,7 @@ import 'dart:developer';
 
 import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:retry/retry.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api/user_api.dart';
 
@@ -59,7 +60,19 @@ class NotificationTokenAdderApi {
       return null;
     }
 
-    return _firebaseMessaging.getToken(vapidKey: vapidKey);
+    try {
+      // Retry because sometimes we get an unknown error from Firebase
+      // Messaging.
+      //
+      // See https://console.firebase.google.com/u/0/project/sharezone-c2bd8/crashlytics/app/ios:de.codingbrain.sharezone.app/issues/bd7d15551a69ad54ea806f4627d8eeda
+      return retry<String?>(
+        () => _firebaseMessaging.getToken(vapidKey: vapidKey),
+        maxAttempts: 3,
+      );
+    } catch (e, s) {
+      log('Could not get FCM token', error: e, stackTrace: s);
+      return null;
+    }
   }
 
   Future<void> tryAddTokenToDatabase(String token) async {
