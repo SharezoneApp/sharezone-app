@@ -122,15 +122,10 @@ class ExpansionCardState extends State<ExpansionCard> {
                         children: [
                           Expanded(child: widget.header),
                           const SizedBox(width: 8),
-                          AnimatedSwap(
-                            duration: const Duration(milliseconds: 275),
-                            child: isExpanded
-                                ? _HideBodyIcon(
-                                    tooltip: widget.closeTooltip,
-                                  )
-                                : _ShowBodyIcon(
-                                    tooltip: widget.openTooltip,
-                                  ),
+                          _CloseOpenBodyIcon(
+                            isExpanded: isExpanded,
+                            openTooltip: widget.openTooltip,
+                            closeTooltip: widget.closeTooltip,
                           ),
                         ],
                       ),
@@ -145,6 +140,37 @@ class ExpansionCardState extends State<ExpansionCard> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _CloseOpenBodyIcon extends StatelessWidget {
+  const _CloseOpenBodyIcon({
+    required this.isExpanded,
+    required this.closeTooltip,
+    required this.openTooltip,
+  });
+
+  final bool isExpanded;
+  final String closeTooltip;
+  final String openTooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconTheme(
+      data: Theme.of(context).iconTheme.copyWith(
+            color: Colors.grey[600],
+          ),
+      child: AnimatedSwap(
+        duration: const Duration(milliseconds: 275),
+        child: isExpanded
+            ? _HideBodyIcon(
+                tooltip: closeTooltip,
+              )
+            : _ShowBodyIcon(
+                tooltip: openTooltip,
+              ),
       ),
     );
   }
