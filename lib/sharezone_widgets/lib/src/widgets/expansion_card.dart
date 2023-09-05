@@ -188,6 +188,15 @@ class _AnimatedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
+      // Adding the default transitionBuilder here fixes
+      // https://github.com/flutter/flutter/issues/121336. The bug can occur
+      // when clicking the card very quickly.
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
       duration: Duration(milliseconds: isExpanded ? 100 : 500),
       child: Column(
         key: ValueKey(isExpanded),
