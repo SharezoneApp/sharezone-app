@@ -61,7 +61,7 @@ class SharezonePlusPageBloc extends BlocBase {
   }
 
   Future<void> buySubscription() async {
-    //TODO: Implement
+    // Implement
 
     final purchaseService = RevenueCatPurchaseService();
     final products = await purchaseService.getProducts();
@@ -71,7 +71,7 @@ class SharezonePlusPageBloc extends BlocBase {
   }
 
   Future<void> cancelSubscription() async {
-    // TODO
+    // Implement
   }
 
   @override
