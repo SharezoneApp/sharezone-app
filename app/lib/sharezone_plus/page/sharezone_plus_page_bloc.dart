@@ -7,6 +7,10 @@ import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.d
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
+/// A fallback price if the price cannot be fetched from the backend.
+///
+/// On macOS the price is not fetched from the backend because RevenueCat does
+/// not support macOS.
 const kFallbackPrice = '4,99 €';
 
 class SharezonePlusPageBloc extends BlocBase {

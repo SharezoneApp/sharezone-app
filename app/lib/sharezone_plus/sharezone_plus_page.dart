@@ -158,31 +158,6 @@ class _WhyPlusSharezoneCard extends StatelessWidget {
   }
 }
 
-class _WhyPlusSharezoneText extends StatelessWidget {
-  const _WhyPlusSharezoneText();
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'Neben einem Studium können wir, Jonas und Nils, die monatlichen Kosten von 1.000 € für Sharezone nicht selbst tragen. Daher haben wir Sharezone Plus entwickelt - der Schlüssel zur Fortführung und Werbefreiheit unserer App.',
-      style: Theme.of(context).textTheme.bodyMedium,
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class _WhyPlusSharezoneHeadline extends StatelessWidget {
-  const _WhyPlusSharezoneHeadline();
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'Warum kostet Sharezone Plus Geld?',
-      style: Theme.of(context).textTheme.headlineSmall,
-    );
-  }
-}
-
 class _WhyPlusSharezoneImage extends StatelessWidget {
   const _WhyPlusSharezoneImage();
 
@@ -205,6 +180,31 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
   }
 }
 
+class _WhyPlusSharezoneHeadline extends StatelessWidget {
+  const _WhyPlusSharezoneHeadline();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Warum kostet Sharezone Plus Geld?',
+      style: Theme.of(context).textTheme.headlineSmall,
+    );
+  }
+}
+
+class _WhyPlusSharezoneText extends StatelessWidget {
+  const _WhyPlusSharezoneText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Neben einem Studium können wir, Jonas und Nils, die monatlichen Kosten von 1.000 € für Sharezone nicht selbst tragen. Daher haben wir Sharezone Plus entwickelt - der Schlüssel zur Fortführung und Werbefreiheit unserer App.',
+      style: Theme.of(context).textTheme.bodyMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
 @visibleForTesting
 class PlusAdvantages extends StatelessWidget {
   const PlusAdvantages();
@@ -214,8 +214,8 @@ class PlusAdvantages extends StatelessWidget {
     return Column(
       children: [
         _AdvantageTile(
-          icon: Icon(Icons.favorite),
-          title: Text('Unterstützung von Open-Source'),
+          icon: const Icon(Icons.favorite),
+          title: const Text('Unterstützung von Open-Source'),
           description: MarkdownBody(
             data:
                 'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
@@ -336,7 +336,7 @@ class _UnsubscribeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return MarkdownBody(
       data:
-          'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.',
+          'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.',
       styleSheet: MarkdownStyleSheet(
         a: TextStyle(
           color: Theme.of(context).primaryColor,
@@ -347,7 +347,7 @@ class _UnsubscribeText extends StatelessWidget {
       onTapLink: (text, href, title) {
         if (href == null) return;
 
-        if (href == 'feedback') {
+        if (href == '#feedback') {
           final navigationBloc = BlocProvider.of<NavigationBloc>(context);
           navigationBloc.navigateTo(NavigationItem.feedbackBox);
           return;
@@ -370,7 +370,7 @@ class _UnsubscribeButton extends StatelessWidget {
         final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
         await bloc.cancelSubscription();
       },
-      text: Text('Kündigungen'),
+      text: Text('Kündigen'),
       backgroundColor: flatRed,
     );
   }
@@ -443,6 +443,18 @@ class _SubscribeButton extends StatelessWidget {
   }
 }
 
+class _LegalText extends StatelessWidget {
+  const _LegalText();
+
+  @override
+  Widget build(BuildContext context) {
+    return _MarkdownCenteredText(
+      text:
+          'Dein ist Abo Monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [Datenschutzerklärung](https://sharezone.net/privacy-policy) un die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
+    );
+  }
+}
+
 class _CallToActionButton extends StatelessWidget {
   const _CallToActionButton({
     required this.text,
@@ -481,18 +493,6 @@ class _CallToActionButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _LegalText extends StatelessWidget {
-  const _LegalText();
-
-  @override
-  Widget build(BuildContext context) {
-    return _MarkdownCenteredText(
-      text:
-          'Dein ist Abo Monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [Datenschutzerklärung](https://sharezone.net/privacy-policy) un die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
     );
   }
 }
@@ -558,7 +558,12 @@ class _WhoIsBehindSharezone extends StatelessWidget {
     return ExpansionCard(
       header: Text('Wer steht hinter Sharezone?'),
       body: Text(
-          'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer persönlichen Frustration über die Organisation des Schulalltags während der Schulzeit entstand die Idee für Sharezone. Es ist unsere Vision, den Schulalltag für alle einfacher und übersichtlicher zu gestalten.'),
+        'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer '
+        'persönlichen Frustration über die Organisation des Schulalltags '
+        'während der Schulzeit entstand die Idee für Sharezone. Es ist '
+        'unsere Vision, den Schulalltag für alle einfacher und übersichtlicher '
+        'zu gestalten.',
+      ),
       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
     );
   }
@@ -575,7 +580,8 @@ class _IsSharezoneOpenSource extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ja, Sharezone ist Open-Source im Frontend. Du kannst den Quellcode auf GitHub einsehen:',
+            'Ja, Sharezone ist Open-Source im Frontend. Du kannst den '
+            'Quellcode auf GitHub einsehen:',
           ),
           const SizedBox(height: 12),
           Link(
@@ -630,7 +636,11 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
       header: Text('Erhält der gesamte Kurs 50 GB Speicherplatz?'),
       body: Text(
         'Nein, der Speicherplatz von 50 GB mit Sharezone Plus gilt nur für '
-        'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest beispielsweise 20 GB in den Deutsch-Kurs hochladen, 20 GB in den Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen Speicherplatz.',
+        'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest '
+        'beispielsweise 20 GB in den Deutsch-Kurs hochladen, 20 GB in den '
+        'Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur '
+        'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
+        'Speicherplatz.',
       ),
       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
     );
@@ -645,8 +655,9 @@ class _SupportNote extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 710,
       child: _MarkdownCenteredText(
-        text:
-            'Du hast noch Fragen zu Sharezone Plus? Schreib uns an [plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und wir helfen dir gerne weiter.',
+        text: 'Du hast noch Fragen zu Sharezone Plus? Schreib uns an '
+            '[plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und'
+            'wir helfen dir gerne weiter.',
       ),
     );
   }

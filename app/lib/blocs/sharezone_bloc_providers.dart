@@ -381,7 +381,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<SharezonePlusPageBloc>(
         bloc: SharezonePlusPageBloc(
-          // TODO(nilsreichardt): use the correct stream
           subscriptionService: subscriptionService,
           purchaseService: RevenueCatPurchaseService(),
         ),
