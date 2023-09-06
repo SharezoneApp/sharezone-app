@@ -6,17 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
+
   const SharezonePlusPage({Key? key}) : super(key: key);
 
   @override
@@ -40,7 +44,7 @@ class SharezonePlusPage extends StatelessWidget {
                       SizedBox(height: 18),
                       _Advantages(),
                       SizedBox(height: 18),
-                      _SubscribeSection(),
+                      _CallToActionSection(),
                       SizedBox(height: 32),
                       _FaqSection(),
                       SizedBox(height: 18),
@@ -216,7 +220,10 @@ class _Advantages extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
             ),
-            onTapLink: (text, href, title) => launchURL(href!),
+            onTapLink: (text, href, title) {
+              if (href == null) return;
+              launchURL(href, context: context);
+            },
           ),
         ),
       ],
@@ -277,6 +284,88 @@ class _AdvantageTile extends StatelessWidget {
   }
 }
 
+class _CallToActionSection extends StatelessWidget {
+  const _CallToActionSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
+    return StreamBuilder<bool>(
+      initialData: false,
+      stream: bloc.view.map((view) => view.hasPlus),
+      builder: (context, snapshot) {
+        final hasPlus = snapshot.data!;
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: !hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
+        );
+      },
+    );
+  }
+}
+
+class _UnsubscribeSection extends StatelessWidget {
+  const _UnsubscribeSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        _UnsubscribeText(),
+        SizedBox(height: 12),
+        _UnsubscribeButton(),
+      ],
+    );
+  }
+}
+
+class _UnsubscribeText extends StatelessWidget {
+  const _UnsubscribeText();
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkdownBody(
+      data:
+          'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.',
+      styleSheet: MarkdownStyleSheet(
+        a: TextStyle(
+          color: Theme.of(context).primaryColor,
+          decoration: TextDecoration.underline,
+        ),
+        textAlign: WrapAlignment.center,
+      ),
+      onTapLink: (text, href, title) {
+        if (href == null) return;
+
+        if (href == 'feedback') {
+          final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+          navigationBloc.navigateTo(NavigationItem.feedbackBox);
+          return;
+        }
+
+        launchURL(href, context: context);
+      },
+    );
+  }
+}
+
+class _UnsubscribeButton extends StatelessWidget {
+  const _UnsubscribeButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const flatRed = Color(0xFFF55F4B);
+    return _CallToActionButton(
+      onPressed: () async {
+        final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
+        await bloc.cancelSubscription();
+      },
+      text: Text('Kündigungen'),
+      backgroundColor: flatRed,
+    );
+  }
+}
+
 class _SubscribeSection extends StatelessWidget {
   const _SubscribeSection();
 
@@ -324,18 +413,42 @@ class _SubscribeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _CallToActionButton(
+      text: Text('Abonnieren'),
+      onPressed: () async {
+        final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
+        await bloc.buySubscription();
+      },
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+}
+
+class _CallToActionButton extends StatelessWidget {
+  const _CallToActionButton({
+    required this.text,
+    required this.onPressed,
+    this.backgroundColor,
+  });
+
+  final Widget text;
+  final VoidCallback onPressed;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
       maxWidth: 300,
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: Text('Abonnieren'),
+            child: text,
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: backgroundColor,
             elevation: 0,
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
@@ -381,11 +494,14 @@ class _MarkdownCenteredText extends StatelessWidget {
         textAlign: WrapAlignment.center,
       ),
       onTapLink: (text, href, title) {
+        if (href == null) return;
+
         if (href == 'https://sharezone.net/privacy-policy') {
           Navigator.pushNamed(context, PrivacyPolicyPage.tag);
           return;
         }
-        launchURL(href!);
+
+        launchURL(href, context: context);
       },
     );
   }

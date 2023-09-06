@@ -8,9 +8,10 @@ import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharez
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
 class SharezonePlusPageBloc extends BlocBase {
-  final BehaviorSubject<SharezonePlusPageView> view =
+  final BehaviorSubject<SharezonePlusPageView> _view =
       BehaviorSubject<SharezonePlusPageView>.seeded(
           SharezonePlusPageView.empty());
+  Stream<SharezonePlusPageView> get view => _view;
 
   late StreamSubscription<bool> _hasPlusSubscription;
   late RevenueCatPurchaseService _purchaseService;
@@ -29,18 +30,18 @@ class SharezonePlusPageBloc extends BlocBase {
 
   Future<void> _getPlusPrice() async {
     final product = await _purchaseService.getPlusSubscriptionProduct();
-    view.add(view.value.copyWith(price: product.priceString));
+    _view.add(_view.value.copyWith(price: product.priceString));
   }
 
   void _listenToPlusStatus() {
     final hasPlus = _subscriptionService.isSubscriptionActiveStream();
 
     _hasPlusSubscription = hasPlus.listen((hasPlus) {
-      view.add(view.value.copyWith(hasPlus: hasPlus));
+      _view.add(_view.value.copyWith(hasPlus: hasPlus));
     });
   }
 
-  Future<void> buy() async {
+  Future<void> buySubscription() async {
     //TODO: Implement
 
     final purchaseService = RevenueCatPurchaseService();
@@ -50,9 +51,13 @@ class SharezonePlusPageBloc extends BlocBase {
     await purchaseService.purchase(ProductId('default-dev-plus-subscription'));
   }
 
+  Future<void> cancelSubscription() async {
+    // TODO
+  }
+
   @override
   void dispose() {
-    view.close();
+    _view.close();
     _hasPlusSubscription.cancel();
   }
 }
