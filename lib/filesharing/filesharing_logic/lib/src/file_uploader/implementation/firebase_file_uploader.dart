@@ -73,7 +73,7 @@ class FirebaseFileUploader extends FileUploader {
     final metadata = fb.SettableMetadata(
       contentDisposition: getContentDispositionString(cloudFile.name),
       contentType: file.getType()!.toData(),
-      customMetadata: cloudFile.toMetaData().toJson() as Map<String, String>?,
+      customMetadata: Map.from(cloudFile.toMetaData().toJson()),
     );
 
     final uploadTask = _uploadToFirebase(
@@ -95,15 +95,15 @@ class FirebaseFileUploader extends FileUploader {
   }
 
   UploadTaskSnapshot _uploadTaskSnapshotFromFirebase(
-      fb.TaskSnapshot taskSnpashot) {
+      fb.TaskSnapshot taskSnapshot) {
     return UploadTaskSnapshot(
       storageMetaData: UploadMetadata(
-        customMetadata: taskSnpashot.metadata?.customMetadata,
-        sizeBytes: taskSnpashot.metadata?.size,
+        customMetadata: taskSnapshot.metadata?.customMetadata,
+        sizeBytes: taskSnapshot.metadata?.size,
       ),
-      totalByteCount: taskSnpashot.totalBytes,
-      bytesTransferred: taskSnpashot.bytesTransferred,
-      getDownloadUrl: () => taskSnpashot.ref.getDownloadURL(),
+      totalByteCount: taskSnapshot.totalBytes,
+      bytesTransferred: taskSnapshot.bytesTransferred,
+      getDownloadUrl: () => taskSnapshot.ref.getDownloadURL(),
     );
   }
 
