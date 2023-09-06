@@ -229,8 +229,8 @@ jobs:
           flutter test \
             integration_test \
             --flavor prod \
-            --dart-define USER_1_EMAIL=$USER_1_EMAIL \
-            --dart-define USER_1_PASSWORD=$USER_1_PASSWORD
+            --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD
             -d $SIMULATOR_UDID
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
