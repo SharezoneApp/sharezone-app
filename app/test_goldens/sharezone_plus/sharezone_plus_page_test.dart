@@ -62,7 +62,10 @@ void main() {
           .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
     });
 
-    Future<void> _pumpPlusPage(WidgetTester tester) async {
+    Future<void> _pumpPlusPage(
+      WidgetTester tester, {
+      required ThemeData theme,
+    }) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
@@ -93,15 +96,23 @@ void main() {
             child: (context) => SharezonePlusPage(),
           ),
         ),
-        wrapper: materialAppWrapper(theme: lightTheme),
+        wrapper: materialAppWrapper(theme: theme),
       );
     }
 
     group('everything collapsed', () {
-      testGoldens('renders as expected ', (tester) async {
-        await _pumpPlusPage(tester);
+      testGoldens('renders as expected (light theme)', (tester) async {
+        await _pumpPlusPage(tester, theme: lightTheme);
 
-        await multiScreenGolden(tester, 'sharezone_plus_page_collapsed');
+        await multiScreenGolden(
+            tester, 'sharezone_plus_page_collapsed_light_theme');
+      });
+
+      testGoldens('renders as expected (dark theme)', (tester) async {
+        await _pumpPlusPage(tester, theme: darkTheme);
+
+        await multiScreenGolden(
+            tester, 'sharezone_plus_page_collapsed_dark_theme');
       });
     });
   });
