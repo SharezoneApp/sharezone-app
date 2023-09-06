@@ -42,11 +42,11 @@ class SharezonePlusPage extends StatelessWidget {
                       SizedBox(height: 18),
                       _WhyPlusSharezoneCard(),
                       SizedBox(height: 18),
-                      _Advantages(),
+                      PlusAdvantages(),
                       SizedBox(height: 18),
                       _CallToActionSection(),
                       SizedBox(height: 32),
-                      _FaqSection(),
+                      PlusFaqSection(),
                       SizedBox(height: 18),
                       _SupportNote(),
                     ],
@@ -201,8 +201,9 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
   }
 }
 
-class _Advantages extends StatelessWidget {
-  const _Advantages();
+@visibleForTesting
+class PlusAdvantages extends StatelessWidget {
+  const PlusAdvantages();
 
   @override
   Widget build(BuildContext context) {
@@ -509,8 +510,9 @@ class _MarkdownCenteredText extends StatelessWidget {
   }
 }
 
-class _FaqSection extends StatelessWidget {
-  const _FaqSection();
+@visibleForTesting
+class PlusFaqSection extends StatelessWidget {
+  const PlusFaqSection();
 
   @override
   Widget build(BuildContext context) {

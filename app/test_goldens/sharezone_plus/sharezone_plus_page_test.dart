@@ -56,6 +56,8 @@ void main() {
           BehaviorSubject<NavigationExperimentOption>.seeded(
               NavigationExperimentOption.drawerAndBnb));
 
+      when(navigationBloc.navigationItems)
+          .thenAnswer((_) => Stream.value(NavigationItem.sharezonePlus));
       when(navigationBloc.currentItem)
           .thenAnswer((_) => NavigationItem.sharezonePlus);
       when(navigationBloc.scaffoldKey)
@@ -71,7 +73,9 @@ void main() {
           providers: [
             ChangeNotifierProvider<SubscriptionEnabledFlag>(
               create: (context) => SubscriptionEnabledFlag(
-                InMemoryKeyValueStore(),
+                InMemoryKeyValueStore({
+                  SubscriptionEnabledFlag.cacheKey: true,
+                }),
               ),
             ),
           ],
@@ -100,19 +104,99 @@ void main() {
       );
     }
 
-    group('everything collapsed', () {
-      testGoldens('renders as expected (light theme)', (tester) async {
-        await _pumpPlusPage(tester, theme: lightTheme);
+    Future<void> _tapEveryExpansionCard(WidgetTester tester) async {
+      for (final element in find.byType(ExpansionCard).evaluate()) {
+        // We need to scroll the element into view before we can tap it.
+        await tester.dragUntilVisible(
+          find.byWidget(element.widget),
+          find.byType(SingleChildScrollView),
+          const Offset(0, 50),
+        );
+
+        await tester.tap(find.byWidget(element.widget));
+      }
+      await tester.pumpAndSettle();
+    }
+
+    testGoldens('renders page as expected (light theme)', (tester) async {
+      await _pumpPlusPage(tester, theme: lightTheme);
+
+      await multiScreenGolden(tester, 'sharezone_plus_page_light_theme');
+    });
+
+    testGoldens('renders page as expected (dark theme)', (tester) async {
+      await _pumpPlusPage(tester, theme: darkTheme);
+
+      await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
+    });
+
+    // ignore: invalid_use_of_visible_for_testing_member
+    group(PlusAdvantages, () {
+      testGoldens('renders advantages as expected (dark theme)',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+          SingleChildScrollView(child: PlusAdvantages()),
+          wrapper: materialAppWrapper(theme: darkTheme),
+        );
+
+        await _tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
-            tester, 'sharezone_plus_page_collapsed_light_theme');
+          tester,
+          'sharezone_plus_advantages_dark_theme',
+          devices: [Device.tabletPortrait],
+        );
       });
 
-      testGoldens('renders as expected (dark theme)', (tester) async {
-        await _pumpPlusPage(tester, theme: darkTheme);
+      testGoldens('renders advantages as expected (light theme)',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+          SingleChildScrollView(child: PlusAdvantages()),
+          wrapper: materialAppWrapper(theme: lightTheme),
+        );
+
+        await _tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
-            tester, 'sharezone_plus_page_collapsed_dark_theme');
+          tester,
+          'sharezone_plus_advantages_light_theme',
+          devices: [Device.tabletPortrait],
+        );
+      });
+    });
+
+    // ignore: invalid_use_of_visible_for_testing_member
+    group(PlusFaqSection, () {
+      testGoldens('renders faq section as expected (dark theme)',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+          SingleChildScrollView(child: PlusFaqSection()),
+          wrapper: materialAppWrapper(theme: darkTheme),
+        );
+
+        await _tapEveryExpansionCard(tester);
+
+        await multiScreenGolden(
+          tester,
+          'sharezone_plus_faq_section_dark_theme',
+          devices: [Device.tabletPortrait],
+        );
+      });
+
+      testGoldens('renders faq section as expected (light theme)',
+          (tester) async {
+        await tester.pumpWidgetBuilder(
+          SingleChildScrollView(child: PlusFaqSection()),
+          wrapper: materialAppWrapper(theme: lightTheme),
+        );
+
+        await _tapEveryExpansionCard(tester);
+
+        await multiScreenGolden(
+          tester,
+          'sharezone_plus_faq_section_light_theme',
+          devices: [Device.tabletPortrait],
+        );
       });
     });
   });
