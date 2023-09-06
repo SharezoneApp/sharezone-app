@@ -74,7 +74,7 @@ class _PageTheme extends StatelessWidget {
     return Theme(
       data: baseTheme.copyWith(
         textTheme: baseTheme.textTheme.copyWith(
-          bodyMedium: TextStyle(
+          bodyMedium: baseTheme.textTheme.bodyMedium?.copyWith(
             color: Colors.grey[600],
           ),
           headlineSmall: baseTheme.textTheme.headlineSmall?.copyWith(
