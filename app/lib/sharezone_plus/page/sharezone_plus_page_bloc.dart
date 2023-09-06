@@ -7,6 +7,8 @@ import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.d
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
+const kFallbackPrice = '4,99 €';
+
 class SharezonePlusPageBloc extends BlocBase {
   final BehaviorSubject<SharezonePlusPageView> _view =
       BehaviorSubject<SharezonePlusPageView>.seeded(
@@ -34,8 +36,7 @@ class SharezonePlusPageBloc extends BlocBase {
     if (product != null) {
       _view.add(_view.value.copyWith(price: product.priceString));
     } else {
-      const fallbackPrice = '4,99 €';
-      _view.add(_view.value.copyWith(price: fallbackPrice));
+      _view.add(_view.value.copyWith(price: kFallbackPrice));
     }
   }
 

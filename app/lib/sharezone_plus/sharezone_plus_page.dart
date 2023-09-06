@@ -85,7 +85,6 @@ class _PageTheme extends StatelessWidget {
           ),
           headlineMedium: baseTheme.textTheme.headlineMedium?.copyWith(
             color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
-            fontWeight: FontWeight.w500,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -246,9 +245,11 @@ class PlusAdvantages extends StatelessWidget {
 
 class _AdvantageTile extends StatelessWidget {
   const _AdvantageTile({
-    super.key,
     required this.icon,
     required this.title,
+    // Can be removed when the subtitle is used.
+    //
+    // ignore: unused_element
     this.subtitle,
     required this.description,
   });
@@ -312,7 +313,7 @@ class _CallToActionSection extends StatelessWidget {
         final hasPlus = snapshot.data!;
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          child: !hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
+          child: hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
         );
       },
     );
@@ -365,7 +366,7 @@ class _UnsubscribeText extends StatelessWidget {
 }
 
 class _UnsubscribeButton extends StatelessWidget {
-  const _UnsubscribeButton({super.key});
+  const _UnsubscribeButton();
 
   @override
   Widget build(BuildContext context) {
@@ -403,22 +404,30 @@ class _Price extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '4,99 €',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        const SizedBox(width: 4),
-        Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: Text(
-            '/Monat',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      ],
+    final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
+    return StreamBuilder<String>(
+      initialData: kFallbackPrice,
+      stream: bloc.view.map((view) => view.price),
+      builder: (context, snapshot) {
+        final price = snapshot.data!;
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              price,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(width: 4),
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                '/Monat',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

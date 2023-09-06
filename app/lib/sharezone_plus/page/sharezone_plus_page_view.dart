@@ -1,3 +1,5 @@
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
+
 class SharezonePlusPageView {
   final bool hasPlus;
 
@@ -12,7 +14,7 @@ class SharezonePlusPageView {
 
   const SharezonePlusPageView.empty()
       : hasPlus = false,
-        price = '';
+        price = kFallbackPrice;
 
   SharezonePlusPageView copyWith({
     bool? hasPlus,
