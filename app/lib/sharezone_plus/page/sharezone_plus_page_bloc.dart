@@ -30,7 +30,13 @@ class SharezonePlusPageBloc extends BlocBase {
 
   Future<void> _getPlusPrice() async {
     final product = await _purchaseService.getPlusSubscriptionProduct();
-    _view.add(_view.value.copyWith(price: product.priceString));
+
+    if (product != null) {
+      _view.add(_view.value.copyWith(price: product.priceString));
+    } else {
+      const fallbackPrice = '4,99 €';
+      _view.add(_view.value.copyWith(price: fallbackPrice));
+    }
   }
 
   void _listenToPlusStatus() {
