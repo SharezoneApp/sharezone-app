@@ -90,21 +90,13 @@ void main() {
           ],
           child: MultiBlocProvider(
             blocProviders: [
-              BlocProvider<NavigationBloc>(
-                bloc: navigationBloc,
-              ),
+              BlocProvider<NavigationBloc>(bloc: navigationBloc),
               BlocProvider<NavigationExperimentCache>(
-                bloc: navigationExperimentCache,
-              ),
-              BlocProvider<SharezonePlusPageBloc>(
-                bloc: bloc,
-              ),
+                  bloc: navigationExperimentCache),
+              BlocProvider<SharezonePlusPageBloc>(bloc: bloc),
               BlocProvider<NavigationAnalytics>(
-                bloc: MockNavigationAnalytics(),
-              ),
-              BlocProvider<SharezoneContext>(
-                bloc: sharezoneContext,
-              ),
+                  bloc: MockNavigationAnalytics()),
+              BlocProvider<SharezoneContext>(bloc: sharezoneContext),
             ],
             child: (context) => SharezonePlusPage(),
           ),

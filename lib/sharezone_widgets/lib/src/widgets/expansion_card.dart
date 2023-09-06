@@ -229,7 +229,7 @@ class _ShowBodyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      key: const ValueKey('ShowAnswer'),
+      key: const ValueKey('show-answer'),
       message: tooltip,
       child: const Icon(Icons.keyboard_arrow_down),
     );
@@ -246,7 +246,7 @@ class _HideBodyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      key: const ValueKey('HideAnswer'),
+      key: const ValueKey('hide-answer'),
       message: tooltip,
       child: const Icon(Icons.keyboard_arrow_up),
     );
