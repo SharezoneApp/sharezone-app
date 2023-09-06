@@ -48,7 +48,9 @@ void main() {
       );
 
       await tester.pumpWidgetBuilder(widget);
+
       await tester.tap(find.byType(ExpansionCard));
+      await tester.pumpAndSettle();
 
       await multiScreenGolden(tester, 'expansion_card_expanded', devices: [
         Device.phone,
