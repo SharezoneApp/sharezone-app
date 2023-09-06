@@ -1784,6 +1784,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  sharezone_font:
+    dependency: "direct main"
+    description:
+      path: "../lib/sharezone_font"
+      relative: true
+    source: path
+    version: "1.0.0"
   sharezone_lints:
     dependency: transitive
     description:

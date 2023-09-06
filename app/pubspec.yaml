@@ -139,6 +139,8 @@ dependencies:
   shared_preferences: ^2.0.5
   sharezone_common:
     path: ../lib/sharezone_common
+  sharezone_font:
+    path: ../lib/sharezone_font
   sharezone_utils:
     path: ../lib/sharezone_utils
   sharezone_widgets:
@@ -181,17 +183,17 @@ flutter:
   fonts:
     - family: Rubik
       fonts:
-        - asset: fonts/Rubik/Rubik-Light.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Light.ttf
           weight: 200
-        - asset: fonts/Rubik/Rubik-Regular.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Regular.ttf
           weight: 400
-        - asset: fonts/Rubik/Rubik-Medium.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Medium.ttf
           weight: 500
-        - asset: fonts/Rubik/Rubik-Bold.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Bold.ttf
           weight: 700
-        - asset: fonts/Rubik/Rubik-Black.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Black.ttf
           weight: 900
-        - asset: fonts/Rubik/Rubik-Italic.ttf
+        - asset: packages/sharezone_font/fonts/Rubik/Rubik-Italic.ttf
           style: italic
 
     - family: PT MONO
