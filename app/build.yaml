@@ -8,6 +8,12 @@
 
 targets:
   $default:
+    sources:
+      - $package$
+      - lib/$lib$
+      - lib/**.dart
+      - test/**.dart
+      - test_goldens/**.dart
     builders:
       # To speed up the code generation, only watch the test files.
       mockito|mockBuilder:
