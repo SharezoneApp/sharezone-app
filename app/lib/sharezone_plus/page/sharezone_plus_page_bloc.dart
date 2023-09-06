@@ -5,6 +5,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_view.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
 class SharezonePlusPageBloc extends BlocBase {
   final BehaviorSubject<SharezonePlusPageView> view =
@@ -13,22 +14,27 @@ class SharezonePlusPageBloc extends BlocBase {
 
   late StreamSubscription<bool> _hasPlusSubscription;
   late RevenueCatPurchaseService _purchaseService;
+  late SubscriptionService _subscriptionService;
 
   SharezonePlusPageBloc({
-    required Stream<bool> hasPlus,
     required RevenueCatPurchaseService purchaseService,
+    required SubscriptionService subscriptionService,
   }) {
     _purchaseService = purchaseService;
-    _listenToPlusStatus(hasPlus);
-    _getPlusPrice(purchaseService);
+    _subscriptionService = subscriptionService;
+
+    _listenToPlusStatus();
+    _getPlusPrice();
   }
 
-  Future<void> _getPlusPrice(RevenueCatPurchaseService purchaseService) async {
-    final product = await purchaseService.getPlusSubscriptionProduct();
+  Future<void> _getPlusPrice() async {
+    final product = await _purchaseService.getPlusSubscriptionProduct();
     view.add(view.value.copyWith(price: product.priceString));
   }
 
-  void _listenToPlusStatus(Stream<bool> hasPlus) {
+  void _listenToPlusStatus() {
+    final hasPlus = _subscriptionService.isSubscriptionActiveStream();
+
     _hasPlusSubscription = hasPlus.listen((hasPlus) {
       view.add(view.value.copyWith(hasPlus: hasPlus));
     });
