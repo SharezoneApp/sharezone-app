@@ -172,7 +172,7 @@ jobs:
     needs: changes
     runs-on: macos-13
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
 
