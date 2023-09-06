@@ -326,6 +326,7 @@ class _UnsubscribeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
+      key: ValueKey('unsubscribe-section'),
       children: [
         _UnsubscribeText(),
         SizedBox(height: 12),
@@ -388,6 +389,7 @@ class _SubscribeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
+      key: ValueKey('subscribe-section'),
       children: [
         _Price(),
         SizedBox(height: 12),

@@ -15,6 +15,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_view.dart';
 import 'package:sharezone/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
@@ -66,7 +67,7 @@ void main() {
 
     Future<void> _pumpPlusPage(
       WidgetTester tester, {
-      required ThemeData theme,
+      ThemeData? theme,
     }) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
@@ -128,6 +129,27 @@ void main() {
       await _pumpPlusPage(tester, theme: darkTheme);
 
       await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
+    });
+
+    testGoldens('shows unsubscribe section if user has subscribed',
+        (tester) async {
+      final view = SharezonePlusPageView.empty().copyWith(hasPlus: true);
+      when(bloc.view).thenAnswer((_) => Stream.value(view));
+
+      await _pumpPlusPage(tester, theme: lightTheme);
+
+      // Ensure visibility
+      await tester.dragUntilVisible(
+        find.byKey(ValueKey('unsubscribe-section')),
+        find.byType(SingleChildScrollView),
+        const Offset(0, 50),
+      );
+
+      await multiScreenGolden(
+        tester,
+        'sharezone_plus_unsubscribe_section',
+        devices: [Device.tabletPortrait],
+      );
     });
 
     // ignore: invalid_use_of_visible_for_testing_member
