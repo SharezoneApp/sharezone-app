@@ -85,6 +85,8 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -376,6 +378,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<ViewSubmissionsPageBlocFactory>(
         bloc: ViewSubmissionsPageBlocFactory(
             gateway: abgabenGateway, nutzerId: UserId(uid)),
+      ),
+      BlocProvider<SharezonePlusPageBloc>(
+        bloc: SharezonePlusPageBloc(
+          // TODO(nilsreichardt): use the correct stream
+          subscriptionService: subscriptionService,
+          purchaseService: RevenueCatPurchaseService(),
+        ),
       ),
       BlocProvider<BnbTutorialBloc>(
         bloc: BnbTutorialBloc(
