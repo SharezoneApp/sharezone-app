@@ -75,7 +75,10 @@ class _PageTheme extends StatelessWidget {
       data: baseTheme.copyWith(
         textTheme: baseTheme.textTheme.copyWith(
           bodyMedium: baseTheme.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[600],
+            color: Theme.of(context).isDarkTheme
+                ? Colors.grey[400]
+                : Colors.grey[600],
+            fontSize: 16,
           ),
           headlineSmall: baseTheme.textTheme.headlineSmall?.copyWith(
             fontSize: 18,
@@ -83,6 +86,13 @@ class _PageTheme extends StatelessWidget {
           headlineMedium: baseTheme.textTheme.headlineMedium?.copyWith(
             color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
             fontWeight: FontWeight.w500,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: baseTheme.elevatedButtonTheme.style?.copyWith(
+            elevation: MaterialStateProperty.resolveWith((states) => 0),
+            shadowColor: MaterialStateProperty.resolveWith(
+                (states) => Colors.transparent),
           ),
         ),
       ),
@@ -100,14 +110,16 @@ class _Header extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Icon(
               Icons.star,
-              color: darkPrimaryColor,
+              color: Theme.of(context).isDarkTheme
+                  ? Theme.of(context).primaryColor
+                  : darkBlueColor,
               size: 30,
             ),
           ),
@@ -452,15 +464,14 @@ class _CallToActionButton extends StatelessWidget {
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.5),
-            ),
             textStyle: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.5),
+            ),
+            foregroundColor: Colors.white,
           ),
         ),
       ),
