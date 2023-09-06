@@ -87,13 +87,6 @@ class _PageTheme extends StatelessWidget {
             color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
           ),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: baseTheme.elevatedButtonTheme.style?.copyWith(
-            elevation: MaterialStateProperty.resolveWith((states) => 0),
-            shadowColor: MaterialStateProperty.resolveWith(
-                (states) => Colors.transparent),
-          ),
-        ),
       ),
       child: child,
     );
@@ -483,6 +476,8 @@ class _CallToActionButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.5),
             ),
             foregroundColor: Colors.white,
+            shadowColor: Colors.transparent,
+            elevation: 0,
           ),
         ),
       ),
