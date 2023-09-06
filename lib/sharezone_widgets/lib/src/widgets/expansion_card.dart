@@ -206,7 +206,9 @@ class _AnimatedBody extends StatelessWidget {
                 DefaultTextStyle(
                   style: DefaultTextStyle.of(context).style.copyWith(
                         fontSize: 16,
-                        color: Colors.grey[700],
+                        color: Theme.of(context).isDarkTheme
+                            ? Colors.grey[400]
+                            : Colors.grey[700],
                       ),
                   child: body,
                 ),
