@@ -265,16 +265,18 @@ class _AdvantageTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              title,
-              if (subtitle != null)
-                DefaultTextStyle(
-                  style: Theme.of(context).textTheme.bodyMedium!,
-                  child: subtitle!,
-                ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                title,
+                if (subtitle != null)
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium!,
+                    child: subtitle!,
+                  ),
+              ],
+            ),
           ),
         ],
       ),
