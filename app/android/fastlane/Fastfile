@@ -1,0 +1,27 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Fastfile
+
+default_platform(:android)
+
+platform :android do
+  desc "Deploy to Google Play Store"
+  lane :deploy do
+    # Upload the App Bundle to the Google Play Store
+    upload_to_play_store(
+      track: ENV['TRACK'],
+      package_name: 'de.codingbrain.sharezone',
+      aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
+    )
+  end
+end

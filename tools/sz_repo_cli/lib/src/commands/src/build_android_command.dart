@@ -13,6 +13,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 
 final _androidStages = [
   'stable',
+  'beta',
   'alpha',
 ];
 
