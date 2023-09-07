@@ -54,8 +54,8 @@ class Folder {
     try {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
-    } catch (e) {
-      log("folders error: $id", error: e);
+    } catch (e, s) {
+      log("folders error: $id", error: e, stackTrace: s);
     }
     return Folder._(
       id: id,
@@ -66,7 +66,9 @@ class Folder {
           ? 'Automatisch erstellt'
           : data['creatorName'],
       folderType: FolderType.values.tryByName(
-        data['folderType'],
+        // We need to pass an empty string as fallback because `tryByName`
+        // assumes that the value is not null.
+        data['folderType'] ?? '',
         defaultValue: FolderType.normal,
       ),
     );
