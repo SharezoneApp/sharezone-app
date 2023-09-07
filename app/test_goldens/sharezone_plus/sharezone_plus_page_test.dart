@@ -148,6 +148,9 @@ void main() {
       await multiScreenGolden(
         tester,
         'sharezone_plus_unsubscribe_section',
+        // Since we only need to test the unsubscribe section and we have
+        // already tested the Sharezone Plus page for all devices, we don't need
+        // to test it for all devices.
         devices: [Device.tabletPortrait],
       );
     });
@@ -166,6 +169,10 @@ void main() {
         await multiScreenGolden(
           tester,
           'sharezone_plus_advantages_dark_theme',
+          // Since we only need to test the expanded advantages and we have
+          // already tested the Sharezone Plus page for all devices, we don't
+          // need to test it for all devices. Using a tablet portrait is
+          // sufficient.
           devices: [Device.tabletPortrait],
         );
       });
@@ -182,6 +189,7 @@ void main() {
         await multiScreenGolden(
           tester,
           'sharezone_plus_advantages_light_theme',
+          // See comment above.
           devices: [Device.tabletPortrait],
         );
       });
@@ -201,6 +209,7 @@ void main() {
         await multiScreenGolden(
           tester,
           'sharezone_plus_faq_section_dark_theme',
+          // See comment above.
           devices: [Device.tabletPortrait],
         );
       });
@@ -217,6 +226,7 @@ void main() {
         await multiScreenGolden(
           tester,
           'sharezone_plus_faq_section_light_theme',
+          // See comment above.
           devices: [Device.tabletPortrait],
         );
       });
