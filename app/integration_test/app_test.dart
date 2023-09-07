@@ -161,11 +161,6 @@ class _UserCredentials {
 /// ```dart
 /// await waitFor(tester, find.text('Hello, World'));
 /// ```
-///
-/// ## Exceptions
-///
-/// Throws an [Exception] if the [timeout] is reached before the widget is
-/// found.
 Future<void> waitFor(
   WidgetTester tester,
   Finder finder, {
