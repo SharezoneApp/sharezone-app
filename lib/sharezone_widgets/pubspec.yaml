@@ -38,3 +38,6 @@ dev_dependencies:
   golden_toolkit: ^0.15.0
   sharezone_lints:
     path: ../sharezone_lints
+
+flutter: 
+  uses-material-design: true
