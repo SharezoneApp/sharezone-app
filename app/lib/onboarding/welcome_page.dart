@@ -21,9 +21,7 @@ import 'sign_up/sign_up_page.dart';
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MobileWelcomePage();
-
     if (PlatformCheck.isDesktopOrWeb) return LoginPage.desktop();
-    return SignUpPage(withLogin: true, withBackButton: false);
+    return MobileWelcomePage();
   }
 }
