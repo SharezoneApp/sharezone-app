@@ -6,19 +6,22 @@ class SharezonePlusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final color = isDarkThemeEnabled(context)
+        ? Theme.of(context).primaryColor
+        : darkBlueColor;
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           Icons.star_rounded,
-          color: darkBlueColor,
+          color: color,
         ),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(
           'PLUS',
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: darkBlueColor,
+            color: color,
             letterSpacing: 0.5,
           ),
         )
