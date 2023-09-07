@@ -87,12 +87,12 @@ void main() {
 
       // We assume that the user is in at least 5 groups with the following
       // group names.
-      expect(find.text('10A'), findsOneWidget);
-      expect(find.text('Deutsch LK'), findsOneWidget);
-      expect(find.text('Englisch LK'), findsOneWidget);
-      expect(find.text('Französisch LK'), findsOneWidget);
-      expect(find.text('Latein LK'), findsOneWidget);
-      expect(find.text('Spanisch LK'), findsOneWidget);
+      await waitFor(tester, find.text('10A'));
+      await waitFor(tester, find.text('Deutsch LK'));
+      await waitFor(tester, find.text('Englisch LK'));
+      await waitFor(tester, find.text('Französisch LK'));
+      await waitFor(tester, find.text('Latein LK'));
+      await waitFor(tester, find.text('Spanisch LK'));
 
       print("Test: User should be able to load timetable");
       await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
@@ -112,7 +112,7 @@ void main() {
 
       // We a searching for an information sheet that is already created.
       const informationSheetTitel = 'German Course Trip to Berlin';
-      expect(find.text(informationSheetTitel), findsOneWidget);
+      await waitFor(tester, find.text(informationSheetTitel));
 
       // We don't check the text of the information sheet for now because the
       // `find.text()` can't find text `MarkdownBody` which it a bit more
@@ -133,4 +133,46 @@ class _UserCredentials {
 
   /// The password of the user.
   final String password;
+}
+
+/// Waits for a widget identified by [finder] to be present in the widget tree.
+///
+/// The function can be helpful when no loading indicator is present and the
+/// widget tree is not yet ready to be tested.
+///
+/// The function repeatedly calls `tester.pumpAndSettle()` and then delays for a
+/// short duration, checking at each iteration if the widget identified by
+/// [finder] is present in the widget tree. This continues until the widget is
+/// found or the [timeout] duration has passed, whichever occurs first.
+///
+/// Throws an [Exception] if the [timeout] duration passes without the widget
+/// being found in the widget tree.
+///
+/// Workaround for https://github.com/flutter/flutter/issues/88765.
+///
+/// ## Example
+///
+/// ```dart
+/// await waitFor(tester, find.text('Hello, World'));
+/// ```
+///
+/// ## Exceptions
+///
+/// Throws an [Exception] if the [timeout] is reached before the widget is
+/// found.
+Future<void> waitFor(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 70),
+}) async {
+  final end = tester.binding.clock.now().add(timeout);
+
+  do {
+    if (tester.binding.clock.now().isAfter(end)) {
+      throw Exception('Timed out waiting for $finder');
+    }
+
+    await tester.pumpAndSettle();
+    await Future.delayed(const Duration(milliseconds: 100));
+  } while (finder.evaluate().isEmpty);
 }
