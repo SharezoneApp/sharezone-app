@@ -87,7 +87,7 @@ void main() {
 
       // Ensure that the group list is loaded. When the school class is loaded,
       // we assume that the courses list is loaded as well.
-      await waitFor(tester, find.text('Meine Klasse:'));
+      await tester.pumpUntil(find.text('Meine Klasse:'));
 
       // We assume that the user is in at least 5 groups with the following
       // group names.
@@ -116,7 +116,7 @@ void main() {
 
       // We a searching for an information sheet that is already created.
       const informationSheetTitel = 'German Course Trip to Berlin';
-      await waitFor(tester, find.text(informationSheetTitel));
+      await tester.pumpUntil(find.text(informationSheetTitel));
       expect(find.text(informationSheetTitel), findsOneWidget);
 
       // We don't check the text of the information sheet for now because the
@@ -140,40 +140,42 @@ class _UserCredentials {
   final String password;
 }
 
-/// Waits for a widget identified by [finder] to be present in the widget tree.
-///
-/// This function can be useful when there is no load indicator (if there were,
-/// `await tester.pumpAndSettle()` would wait until the load animation was
-/// finished) and the widget tree is not yet ready to be tested.
-///
-/// The function repeatedly calls `tester.pumpAndSettle()` and then delays for a
-/// short duration, checking at each iteration if the widget identified by
-/// [finder] is present in the widget tree. This continues until the widget is
-/// found or the [timeout] duration has passed, whichever occurs first.
-///
-/// Throws an [Exception] if the [timeout] duration passes without the widget
-/// being found in the widget tree.
-///
-/// Workaround for https://github.com/flutter/flutter/issues/88765.
-///
-/// ## Example
-///
-/// ```dart
-/// await waitFor(tester, find.text('Hello, World'));
-/// ```
-Future<void> waitFor(
-  WidgetTester tester,
-  Finder finder, {
-  Duration timeout = const Duration(seconds: 70),
-}) async {
-  final end = tester.binding.clock.now().add(timeout);
+extension on WidgetTester {
+  /// Waits for a widget identified by [finder] to be present in the widget
+  /// tree.
+  ///
+  /// This function can be useful when there is no load indicator (if there
+  /// were, `await tester.pumpAndSettle()` would wait until the load animation
+  /// was finished) and the widget tree is not yet ready to be tested.
+  ///
+  /// The function repeatedly calls `tester.pump()` and then delays for
+  /// a short duration, checking at each iteration if the widget identified by
+  /// [finder] is present in the widget tree. This continues until the widget is
+  /// found or the [timeout] duration has passed, whichever occurs first.
+  ///
+  /// Throws an [Exception] if the [timeout] duration passes without the widget
+  /// being found in the widget tree.
+  ///
+  /// Workaround for https://github.com/flutter/flutter/issues/88765.
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// await tester.pumpUntil(find.text('Hello, World'));
+  /// ```
+  Future<void> pumpUntil(
+    Finder finder, {
+    Duration timeout = const Duration(seconds: 70),
+  }) async {
+    final end = binding.clock.now().add(timeout);
 
-  do {
-    if (tester.binding.clock.now().isAfter(end)) {
-      throw Exception('Timed out waiting for $finder');
-    }
+    do {
+      if (binding.clock.now().isAfter(end)) {
+        throw Exception('Timed out waiting for $finder');
+      }
 
-    await tester.pump();
-    await Future.delayed(const Duration(milliseconds: 200));
-  } while (finder.evaluate().isEmpty);
+      await pump();
+      await Future.delayed(const Duration(milliseconds: 200));
+    } while (finder.evaluate().isEmpty);
+  }
 }
