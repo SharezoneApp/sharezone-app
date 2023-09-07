@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:optional/optional.dart';
 
 class SubmissionPageView {
   final SubmissionDeadlineState deadlineState;
@@ -51,7 +50,7 @@ enum SubmissionDeadlineState {
 
 class FileView {
   final String id;
-  final Optional<String> path;
+  final String? path;
   String get name => '$basename.$extentionName';
   final String basename;
 
@@ -59,8 +58,8 @@ class FileView {
   final String extentionName;
   final FileFormat fileFormat;
   final FileViewStatus status;
-  final Optional<double> uploadProgress;
-  final Optional<String> downloadUrl;
+  final double? uploadProgress;
+  final String? downloadUrl;
 
   FileView({
     required this.id,
@@ -68,12 +67,10 @@ class FileView {
     required this.basename,
     required this.status,
     required this.fileFormat,
-    String? path,
-    double? uploadProgess,
-    String? downloadUrl,
-  })  : uploadProgress = Optional.ofNullable(uploadProgess),
-        path = Optional.ofNullable(path),
-        downloadUrl = Optional.ofNullable(downloadUrl);
+    this.path,
+    this.uploadProgress,
+    this.downloadUrl,
+  });
 
   @override
   String toString() {

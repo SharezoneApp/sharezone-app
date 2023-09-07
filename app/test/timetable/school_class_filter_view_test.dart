@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:optional/optional.dart';
+
 import 'package:random_string/random_string.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
 
@@ -100,7 +100,7 @@ void main() {
     test(
         'selectedSchoolClass returns empty Optional if no school class is selected',
         () {
-      expect(viewWithNoSelection.selectedSchoolClass, Optional.empty());
+      expect(viewWithNoSelection.selectedSchoolClass, isNull);
     });
 
     test(
@@ -114,7 +114,7 @@ void main() {
         createSchoolClassView('group2'),
       ]);
 
-      expect(view.selectedSchoolClass, Optional.of(selectedSchoolClassView));
+      expect(view.selectedSchoolClass, selectedSchoolClassView);
     });
 
     test('throw argument error if more than one school class is selected', () {

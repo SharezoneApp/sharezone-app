@@ -24,7 +24,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:optional/optional.dart';
+
 import 'package:rxdart/rxdart.dart' as rx;
 import 'package:rxdart/subjects.dart';
 import 'contains_where_extension.dart';
@@ -124,7 +124,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
         /// Es gibt schon erfolgreich hochgeladene Dateien, vielleicht wurde
         /// die Abgabe auch schon abgegeben.
       } else {
-        final hochgeladeneDateien = abgabenSnapshot.abgabe.value.abgabedateien;
+        final hochgeladeneDateien = abgabenSnapshot.abgabe?.abgabedateien ?? [];
         final nurLokaleDateien = hochladeneDateien.where((datei) =>
             !hochgeladeneDateien.containsWhere((hd) => hd.id == datei.id));
 
@@ -168,12 +168,10 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
             hochgeladeneDateien.isNotEmpty && keineDateiAmHochladen;
 
         return SubmissionPageView(
-          submittable: istAbgebbar,
-          deadlineState: state,
-          files: views,
-          submitted:
-              abgabenSnapshot.abgabe.map((val) => val.abgegeben).orElse(false),
-        );
+            submittable: istAbgebbar,
+            deadlineState: state,
+            files: views,
+            submitted: abgabenSnapshot.abgabe?.abgegeben ?? false);
       }
     });
 
@@ -195,7 +193,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
       (localFiles) async {
         final res = _localFileKonvertierer.konvertiereLocalFiles(localFiles);
 
-        final aktuelleAbgabe = _aktuelleAbgabe.valueOrNull?.abgabe.orElseNull;
+        final aktuelleAbgabe = _aktuelleAbgabe.valueOrNull?.abgabe;
         final hochgeladeneNamen =
             aktuelleAbgabe?.abgabedateien.map((e) => e.name).toSet() ?? {};
 
@@ -253,7 +251,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
         }
         final abgabeSnapshot = _aktuelleAbgabe.value;
         if (abgabeSnapshot.existiertAbgabe) {
-          final abgabe = abgabeSnapshot.abgabe.value;
+          final abgabe = abgabeSnapshot.abgabe!;
           final hatDateiMitId = abgabe.abgabedateien
               .where((element) => element.id == AbgabedateiId(fileId))
               .isNotEmpty;
@@ -280,7 +278,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
   Future<void> renameFile(String fileId, String newBasename) async {
     final abgabeSnapshot = _aktuelleAbgabe.value;
     if (abgabeSnapshot.existiertAbgabe) {
-      final abgabe = abgabeSnapshot.abgabe.value;
+      final abgabe = abgabeSnapshot.abgabe!;
       final datei = abgabe.abgabedateien
           .firstWhereOrNull((element) => element.id == AbgabedateiId(fileId));
       if (datei != null) {
@@ -357,7 +355,7 @@ extension on BuiltList<HochladeneLokaleAbgabedatei> {
 }
 
 class Fortschritt {
-  final Optional<double> inProzent;
+  final double? inProzent;
   final FileViewStatus status;
 
   const Fortschritt({
@@ -367,7 +365,7 @@ class Fortschritt {
 
   factory Fortschritt.nichtGestartet() {
     return const Fortschritt(
-      inProzent: Optional.empty(),
+      inProzent: null,
       status: FileViewStatus.unitiated,
     );
   }
@@ -418,7 +416,7 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
           name: datei.name,
           dateigroesse: datei.dateigroesse,
           erstellungsdatum: datei.erstellungsdatum,
-          pfad: datei.pfad.orElseNull,
+          pfad: datei.pfad,
           localFile: datei.localFile,
         );
 

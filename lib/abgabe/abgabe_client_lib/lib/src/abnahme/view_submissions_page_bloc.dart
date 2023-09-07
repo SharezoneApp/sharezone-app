@@ -91,7 +91,7 @@ extension on AbgegebeneAbgabe {
       username: author.name.ausgeschrieben,
       submittedFiles: abgegebeneDateien.map((datei) => datei.toView()).toList(),
       lastActionDateTime: letzteAktion,
-      wasEditedAfterwards: zuletztBearbeitet.isPresent,
+      wasEditedAfterwards: zuletztBearbeitet != null,
     );
   }
 }
