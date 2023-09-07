@@ -97,9 +97,7 @@ class _Bottom extends StatelessWidget {
                 duration: const Duration(milliseconds: 1250),
                 childAnimationBuilder: (widget) => SlideAnimation(
                   verticalOffset: 20,
-                  child: FadeInAnimation(
-                    child: widget,
-                  ),
+                  child: FadeInAnimation(child: widget),
                 ),
                 children: const [
                   _Headline(),
@@ -125,7 +123,7 @@ class _Headline extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Text(
         'Gemeinsam den\nSchulalltag organisieren 🚀',
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 22,
           height: 1.1,
           color: Colors.black,
@@ -144,7 +142,7 @@ class _SubHeadline extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: Text(
         'Optional kannst du Sharezone auch komplett alleine verwenden.',
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.grey,
           fontSize: 12,
         ),
@@ -265,7 +263,7 @@ class _BaseButton extends StatelessWidget {
           ),
           foregroundColor: foregroundColor,
           backgroundColor: backgroundColor,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 18,
           ),
