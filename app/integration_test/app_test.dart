@@ -173,7 +173,7 @@ Future<void> waitFor(
       throw Exception('Timed out waiting for $finder');
     }
 
-    await tester.pumpAndSettle();
-    await Future.delayed(const Duration(milliseconds: 100));
+    await tester.pump();
+    await Future.delayed(const Duration(milliseconds: 200));
   } while (finder.evaluate().isEmpty);
 }
