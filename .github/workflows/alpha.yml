@@ -214,24 +214,6 @@ jobs:
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.39.1
 
-      - name: Setup signing
-        working-directory: app
-        env:
-          # The following secrets are used by the Codemagic CLI tool. It's important
-          # to use the same names as the CLI tool expects.
-          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
-          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-        run: |
-          keychain initialize
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
-            --platform IOS \
-            --type IOS_APP_STORE \
-            --create
-          keychain add-certificates
-          xcode-project use-profiles
-
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
@@ -259,6 +241,7 @@ jobs:
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
           # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
