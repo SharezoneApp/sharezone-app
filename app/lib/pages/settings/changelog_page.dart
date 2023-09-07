@@ -27,7 +27,7 @@ class ChangelogPage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<ChangelogBloc>(
       bloc: ChangelogBloc(ChangelogGateway(firestore: api.references.firestore),
-          getPlatformInformationRetreiver()),
+          getPlatformInformationRetriever()),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(title: const Text("Was ist neu?"), centerTitle: true),
@@ -48,10 +48,10 @@ class _ChangeList extends StatelessWidget {
       initialData: const ChangelogPageView.placeholder(),
       stream: bloc.changes,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || !snapshot.data.hasChanges)
+        if (!snapshot.hasData || !snapshot.data!.hasChanges)
           return const Center(child: AccentColorCircularProgressIndicator());
 
-        final changeData = snapshot.data;
+        final changeData = snapshot.data!;
         final children = _convertViewsToVersionSectionsWithNoDeviderAtTheBottom(
             changeData.changes);
 
@@ -86,7 +86,7 @@ class _ChangeList extends StatelessWidget {
       versionSections.add(_VersionSection(
         change: change,
         showBottomDivider: change != lastChange,
-        key: Key(change.version),
+        key: Key(change.version!),
       ));
     }
     return versionSections;
@@ -95,7 +95,7 @@ class _ChangeList extends StatelessWidget {
 
 class _VersionSection extends StatelessWidget {
   const _VersionSection(
-      {Key key, @required this.change, this.showBottomDivider = true})
+      {Key? key, required this.change, this.showBottomDivider = true})
       : super(key: key);
 
   final bool showBottomDivider;
@@ -104,11 +104,11 @@ class _VersionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: change.isNewerThanCurrentVersion ? 0.3 : 1,
+      opacity: change.isNewerThanCurrentVersion! ? 0.3 : 1,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(change.version,
+          Text(change.version!,
               style: Theme.of(context).textTheme.headlineSmall),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,25 +129,25 @@ class _VersionSection extends StatelessWidget {
 }
 
 class _ChangeParagraph extends StatelessWidget {
-  const _ChangeParagraph({Key key, this.list, this.title}) : super(key: key);
+  const _ChangeParagraph({Key? key, this.list, this.title}) : super(key: key);
 
-  final String title;
-  final List<String> list;
+  final String? title;
+  final List<String>? list;
 
   @override
   Widget build(BuildContext context) {
-    if (list == null || list.isEmpty) return Container();
+    if (list == null || list!.isEmpty) return Container();
     return Padding(
       padding: EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title,
+          Text(title!,
               style:
                   const TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: list
+            children: list!
                 .map(
                   (text) => Padding(
                     padding: const EdgeInsets.only(bottom: 2.5),
@@ -168,33 +168,39 @@ class _ChangeParagraph extends StatelessWidget {
 }
 
 class UpdatePromptCard extends StatelessWidget {
+  String _getText() {
+    if (PlatformCheck.isWeb) {
+      return "Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍";
+    }
+
+    return "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen jetzt die Version im ${PlatformCheck.isMacOsOrIOS ? "App Store" : "Play Store"} herunter! 👍";
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnouncementCard(
       key: ValueKey('UpdatePromptCard'),
-      onTap: () => launchURL(getStoreLink()),
+      onTap: PlatformCheck.isWeb
+          ? null
+          : () => launchURL(getStoreLink(), context: context),
       title: "Neues Update verfügbar!",
       padding: const EdgeInsets.all(0),
       titleColor: Colors.white,
-      color: const Color(0xFFF44336),
+      color: Colors.orange,
       content: Text(
-        "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen unbedingt jetzt die Version im ${ThemePlatform.isCupertino ? "AppStore" : "PlayStore"} herunter! 👍",
+        _getText(),
         style: const TextStyle(color: Colors.white),
       ),
     );
   }
 
   String getStoreLink() {
-    // Öffnet direkt den Mac AppStore (funktioniert nur auf macOS-Geräten)
+    // Opens the Mac AppStore directly (only works on macOS devices)
     if (PlatformCheck.isMacOS) return 'https://sharezone.net/macos-direct';
 
-    // Es sollte für iOS & Android NICHT https://sharezone.net/ios oder
-    // https://sharezone.net/android verwendet werden, weil der Nutzer direkt
-    // wieder in die App geleitet wird, wenn diese installiert ist. Der Nutzer
-    // wird nur in den Store geleitet, wenn dieser die App nicht installiert hat.
-    //
-    // Der "onelink.to" leitet immer in den Store - egal, ob die App installiert
-    // ist oder nicht.
-    return "http://onelink.to/eqkmz5";
+    if (PlatformCheck.isAndroid) return 'https://sharezone.net/android';
+    if (PlatformCheck.isIOS) return 'https://sharezone.net/ios';
+
+    throw Exception('Unsupported platform');
   }
 }

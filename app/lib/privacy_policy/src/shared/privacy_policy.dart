@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:meta/meta.dart';
 import 'package:quiver/time.dart';
 
 import '../privacy_policy_src.dart';
@@ -19,17 +18,17 @@ class PrivacyPolicy {
   final String version;
   final Uri downloadUrl;
   final DateTime lastChanged;
-  final DateTime entersIntoForceOnOrNull;
+  final DateTime? entersIntoForceOnOrNull;
   bool get hasNotYetEnteredIntoForce =>
       entersIntoForceOnOrNull != null &&
-      entersIntoForceOnOrNull.isAfter(Clock().now());
+      entersIntoForceOnOrNull!.isAfter(Clock().now());
 
   const PrivacyPolicy({
-    @required this.markdownText,
-    @required this.tableOfContentSections,
-    @required this.downloadUrl,
-    @required this.version,
-    @required this.lastChanged,
+    required this.markdownText,
+    required this.tableOfContentSections,
+    required this.downloadUrl,
+    required this.version,
+    required this.lastChanged,
     this.entersIntoForceOnOrNull,
   });
 

@@ -11,7 +11,6 @@ import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:meta/meta.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc.dart';
 
 import '../../../sharezone_plus/subscription_service/subscription_flag.dart';
@@ -24,11 +23,11 @@ class EnterActivationCodeBlocFactory extends BlocBase {
   final KeyValueStore keyValueStore;
 
   EnterActivationCodeBlocFactory({
-    @required this.analytics,
-    @required this.crashAnalytics,
-    @required this.appFunctions,
-    @required this.subscriptionEnabledFlag,
-    @required this.keyValueStore,
+    required this.analytics,
+    required this.crashAnalytics,
+    required this.appFunctions,
+    required this.subscriptionEnabledFlag,
+    required this.keyValueStore,
   });
 
   EnterActivationCodeBloc createBloc() {

@@ -12,7 +12,6 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
@@ -38,22 +37,25 @@ class TimetableEditBloc extends BlocBase {
   final TimetableBloc timetableBloc;
 
   TimetableEditBloc({
-    @required this.gateway,
-    @required this.initialLesson,
-    @required this.connectionsGateway,
-    @required this.timetableBloc,
+    required this.gateway,
+    required this.initialLesson,
+    required this.connectionsGateway,
+    required this.timetableBloc,
   }) {
-    Course course = connectionsGateway.current().courses[initialLesson.groupID];
+    Course course =
+        connectionsGateway.current()!.courses[initialLesson.groupID]!;
     _changeCourse(course);
     changeStartTime(initialLesson.startTime);
     changeEndTime(initialLesson.endTime);
-    changeRoom(initialLesson.place);
+    if (initialLesson.place != null) {
+      changeRoom(initialLesson.place!);
+    }
     changeWeekDay(initialLesson.weekday);
     changeWeekType(initialLesson.weektype);
     if (initialLesson.periodNumber != null) {
       final period = timetableBloc.current
           .getPeriods()
-          .getPeriod(initialLesson.periodNumber);
+          .getPeriod(initialLesson.periodNumber!);
       if (period != null) {
         _periodSubject.sink.add(period);
       }
@@ -106,7 +108,7 @@ class TimetableEditBloc extends BlocBase {
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
 
       final lesson = initialLesson.copyWith(
-        groupID: course.id,
+        groupID: course?.id,
         teacher: null,
         place: room,
         weekday: weekDay,

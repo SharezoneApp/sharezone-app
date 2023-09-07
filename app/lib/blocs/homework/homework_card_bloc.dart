@@ -16,17 +16,15 @@ import 'package:sharezone/util/api.dart';
 class HomeworkCardBloc extends BlocBase {
   final SharezoneGateway api;
   final HomeworkDto homework;
-  final BehaviorSubject<bool> _isDoneSubject = BehaviorSubject();
-  final _toggleIsDoneController = StreamController<bool>();
+  final BehaviorSubject<bool?> _isDoneSubject = BehaviorSubject();
+  final _toggleIsDoneController = StreamController<bool?>();
 
-  HomeworkCardBloc(this.api, this.homework)
-      : assert(homework.forUsers.containsKey(api.userId.toString()) != null,
-            "User uID is in Homework map") {
-    final bool isDoneForUser = homework.forUsers[api.userId.toString()];
+  HomeworkCardBloc(this.api, this.homework) {
+    final bool? isDoneForUser = homework.forUsers[api.userId.toString()];
     _isDoneSubject.add(isDoneForUser);
 
     _toggleIsDoneController.stream
-        .listen((homeworkDone) => _changeValue(homeworkDone));
+        .listen((homeworkDone) => _changeValue(homeworkDone!));
   }
 
   void _changeValue(bool newValue) {
@@ -36,11 +34,11 @@ class HomeworkCardBloc extends BlocBase {
 
   /// If the User with the key [api.userId] in the [Map] [homework.forUsers] has the
   /// value true or false, so if he's done the homework or not.
-  Stream<bool> get isDone => _isDoneSubject;
+  Stream<bool?> get isDone => _isDoneSubject;
 
   /// Toggle if the User with the key [api.userId] in the [Map] [homework.forUsers]
   /// has done the homework, so if the value is true or false.
-  Sink<bool> get toggleIsDone => _toggleIsDoneController;
+  Sink<bool?> get toggleIsDone => _toggleIsDoneController;
 
   @override
   void dispose() {

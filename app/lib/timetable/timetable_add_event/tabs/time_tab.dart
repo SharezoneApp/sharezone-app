@@ -9,7 +9,7 @@
 part of '../timetable_add_event_page.dart';
 
 class _TimeTab extends StatelessWidget {
-  const _TimeTab({Key key}) : super(key: key);
+  const _TimeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class _StartTime extends StatelessWidget {
               // Navigate to next Tab, if endTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
               try {
-                if (bloc.isEndTimeValid()) {
+                bloc.throwIfStartTimeHasIncorrectValues();
+                if (!bloc.isEndTimeEmpty()) {
                   navigateToNextTab(context);
                 }
               } on Exception catch (e, s) {
@@ -82,7 +83,8 @@ class _EndTime extends StatelessWidget {
               // Navigate to next Tab, if startTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
               try {
-                if (bloc.isStartTimeValid()) {
+                bloc.throwIfEndTimeHasIncorrectValues();
+                if (!bloc.isStartTimeEmpty()) {
                   navigateToNextTab(context);
                 }
               } on Exception catch (e, s) {

@@ -9,14 +9,17 @@
 part of '../../course_edit_design.dart';
 
 class _SelectTypePopResult {
-  final Design initialDesign;
+  final Design? initialDesign;
   final _EditDesignType editDesignType;
 
-  const _SelectTypePopResult(this.initialDesign, this.editDesignType);
+  const _SelectTypePopResult(
+    this.initialDesign,
+    this.editDesignType,
+  );
 }
 
 class _SelectTypeDialog extends StatelessWidget {
-  const _SelectTypeDialog({Key key, @required this.bloc}) : super(key: key);
+  const _SelectTypeDialog({Key? key, required this.bloc}) : super(key: key);
 
   final CourseEditDesignBloc bloc;
 
@@ -36,7 +39,7 @@ class _SelectTypeDialog extends StatelessWidget {
 }
 
 class _CourseDesign extends StatelessWidget {
-  const _CourseDesign({Key key}) : super(key: key);
+  const _CourseDesign({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class _CourseDesign extends StatelessWidget {
 }
 
 class _PersonalDesign extends StatelessWidget {
-  const _PersonalDesign({Key key}) : super(key: key);
+  const _PersonalDesign({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,30 +69,30 @@ class _PersonalDesign extends StatelessWidget {
 }
 
 class _DesignTypeSection extends StatelessWidget {
-  final Stream<Design> stream;
+  final Stream<Design?> stream;
   final String title, subtitle;
   final EdgeInsets padding;
   final _EditDesignType type;
 
   const _DesignTypeSection.left({
-    @required this.stream,
-    @required this.title,
-    @required this.subtitle,
-    @required this.type,
+    required this.stream,
+    required this.title,
+    required this.subtitle,
+    required this.type,
   }) : padding = const EdgeInsets.fromLTRB(12, 12, 6, 12);
 
   const _DesignTypeSection.right({
-    @required this.stream,
-    @required this.title,
-    @required this.subtitle,
-    @required this.type,
+    required this.stream,
+    required this.title,
+    required this.subtitle,
+    required this.type,
   }) : padding = const EdgeInsets.fromLTRB(6, 12, 12, 12);
 
   @override
   Widget build(BuildContext context) {
     final hasPermissionToEdit = _hasPermissionToEdit(context);
     return Expanded(
-      child: StreamBuilder<Design>(
+      child: StreamBuilder<Design?>(
         stream: stream,
         builder: (context, snapshot) {
           final initialDesign = snapshot.data;
@@ -131,26 +134,26 @@ class _DesignTypeSection extends StatelessWidget {
     if (type == _EditDesignType.personal) return true;
     final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
-    final memberRole = courseGateway.getRoleFromCourseNoSync(bloc.courseId);
+    final memberRole = courseGateway.getRoleFromCourseNoSync(bloc.courseId)!;
     return memberRole.hasPermission(GroupPermission.contentCreation);
   }
 }
 
 class _ColorCircleSelectType extends StatelessWidget {
   const _ColorCircleSelectType({
-    Key key,
-    @required this.design,
+    Key? key,
+    required this.design,
     this.hasPermission = true,
     this.size = 50,
   }) : super(key: key);
 
-  final Design design;
+  final Design? design;
   final bool hasPermission;
   final double size;
 
   @override
   Widget build(BuildContext context) {
-    Widget child;
+    Widget? child;
     if (!hasPermission) child = const Icon(Icons.lock, color: Colors.white);
     if (design == null)
       child = const Align(alignment: Alignment.center, child: Text("-"));

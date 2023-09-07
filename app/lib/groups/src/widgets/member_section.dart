@@ -8,7 +8,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/groups/src/models/splitted_member_list.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -16,10 +15,10 @@ import 'member_list.dart';
 
 class MemberSection extends StatelessWidget {
   const MemberSection({
-    this.splittedMemberList,
-    this.allMembers,
-    this.groupInfo,
-    @required this.onTap,
+    required this.splittedMemberList,
+    required this.allMembers,
+    required this.groupInfo,
+    required this.onTap,
   });
 
   final List<MemberData> allMembers;
@@ -28,7 +27,7 @@ class MemberSection extends StatelessWidget {
   final Function(MemberData member) onTap;
 
   bool _isLoading() =>
-      groupInfo.sharecode == null || groupInfo.sharecode.isEmpty;
+      groupInfo.sharecode == null || groupInfo.sharecode!.isEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +75,7 @@ class MemberSection extends StatelessWidget {
 }
 
 class MemberCountText extends StatelessWidget {
-  const MemberCountText({Key key, this.memberCount = 0}) : super(key: key);
+  const MemberCountText({Key? key, this.memberCount = 0}) : super(key: key);
 
   final int memberCount;
 

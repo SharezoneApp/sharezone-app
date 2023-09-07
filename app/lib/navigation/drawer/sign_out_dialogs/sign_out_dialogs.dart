@@ -17,7 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'src/sign_out_and_delete_anonymous_user.dart';
 
 Future<void> signOut(BuildContext context, bool isAnonymous) async {
-  bool loggedOut;
+  bool? loggedOut;
   if (PlatformCheck.isWeb) {
     loggedOut = await _showSignOutWithNormalUserDialog(context);
   } else {
@@ -32,7 +32,7 @@ Future<void> signOut(BuildContext context, bool isAnonymous) async {
 }
 
 Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
-  final confirmed = await showLeftRightAdaptiveDialog<bool>(
+  final confirmed = (await showLeftRightAdaptiveDialog<bool>(
       context: context,
       title: ThemePlatform.isCupertino
           ? "Möchtest du dich wirklich abmelden?"
@@ -47,7 +47,7 @@ Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
         popResult: true,
         isDestructiveAction: true,
         isDefaultAction: true,
-      ));
+      )))!;
   if (confirmed) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
     userGateway.logOut();

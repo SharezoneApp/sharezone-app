@@ -146,7 +146,7 @@ void main() {
           initialNumberOfHomeworksToLoad: 5);
       var results = controller.results.asBroadcastStream();
 
-      // Delay so that the first request (inital number of homeworks) gets
+      // Delay so that the first request (initial number of homeworks) gets
       // executed before the stream subscription in the lazy loading controller
       // for the first request gets cancelled because of the advanceBy call.
       final first = await results.first;

@@ -58,9 +58,12 @@
     <!-- Required for QR Login -->
     <script src="assets/packages/fast_rsa/web/assets/wasm_exec.js" type="application/javascript"></script>
 
-    <!-- Required for Google Sign In -->
-    <meta name="google-signin-client_id"
-        content="730263787697-s5tqfln3apv1j27netnnv8p8305ns3j9.apps.googleusercontent.com">
+    <!-- Required for the "mobile_scanner" package, see
+    https://pub.dev/packages/mobile_scanner#web. Copied the file from
+    https://unpkg.com/@zxing/library@0.19.1. We copied the file into the source
+    code to be more GDPR friendly (client avoid making a request to a third
+    party service) -->
+    <script src="https://unpkg.com/@zxing/library@0.19.1" type="application/javascript"></script>
 
     <script>
         // The value below is injected by flutter build, do not touch.

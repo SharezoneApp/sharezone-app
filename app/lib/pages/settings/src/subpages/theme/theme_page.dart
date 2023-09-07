@@ -61,7 +61,7 @@ class _DarkModeSwitch extends StatelessWidget {
 }
 
 class _BrightnessRadioGroup extends StatelessWidget {
-  const _BrightnessRadioGroup({Key key}) : super(key: key);
+  const _BrightnessRadioGroup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +96,11 @@ class _BrightnessRadioGroup extends StatelessWidget {
 
 class _BrightnessRadio extends StatelessWidget {
   const _BrightnessRadio({
-    Key key,
-    @required this.icon,
-    @required this.title,
-    @required this.themeBrightness,
-    @required this.groupValue,
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.themeBrightness,
+    required this.groupValue,
   }) : super(key: key);
 
   final Widget icon;
@@ -117,7 +117,7 @@ class _BrightnessRadio extends StatelessWidget {
       onTap: () => themeSettings.themeBrightness = themeBrightness,
       trailing: Radio<ThemeBrightness>(
         onChanged: (newBrightness) =>
-            themeSettings.themeBrightness = newBrightness,
+            themeSettings.themeBrightness = newBrightness!,
         value: themeBrightness,
         groupValue: groupValue,
       ),
@@ -126,7 +126,7 @@ class _BrightnessRadio extends StatelessWidget {
 }
 
 class _RateOurApp extends StatelessWidget {
-  const _RateOurApp({Key key}) : super(key: key);
+  const _RateOurApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,13 +140,13 @@ class _RateOurApp extends StatelessWidget {
         content: const Text(
           "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
         ),
-        actions: [
+        actions: const [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 8),
+              padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
               child: Row(
-                children: const [
+                children: [
                   _ContactSupportButton(),
                   SizedBox(width: 12),
                   _RateAppButton(),
@@ -187,7 +187,7 @@ class _NewNavigationExperiment extends StatelessWidget {
 
 class _NavigationRadioGroup extends StatelessWidget {
   const _NavigationRadioGroup({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -214,7 +214,7 @@ class _NavigationRadioGroup extends StatelessWidget {
 }
 
 class _RateAppButton extends StatelessWidget {
-  const _RateAppButton({Key key}) : super(key: key);
+  const _RateAppButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -268,26 +268,26 @@ class _RateAppButton extends StatelessWidget {
 
 class _NavigationRadioTile extends StatelessWidget {
   const _NavigationRadioTile({
-    Key key,
+    Key? key,
     this.option,
     this.number,
     this.currentValue,
   }) : super(key: key);
 
-  final NavigationExperimentOption currentValue;
-  final NavigationExperimentOption option;
-  final int number;
+  final NavigationExperimentOption? currentValue;
+  final NavigationExperimentOption? option;
+  final int? number;
 
   @override
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: ListTile(
-        title: Text('Option $number: ${option.toReadableString()}'),
+        title: Text('Option $number: ${option!.toReadableString()}'),
         onTap: () => onTap(context),
         trailing: Radio(
           value: option,
           groupValue: currentValue,
-          onChanged: (_) => onTap(context),
+          onChanged: (dynamic _) => onTap(context),
         ),
       ),
     );
@@ -295,7 +295,7 @@ class _NavigationRadioTile extends StatelessWidget {
 
   void onTap(BuildContext context) {
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
-    navigationCache.setNavigation(option);
+    navigationCache.setNavigation(option!);
     if (option != NavigationExperimentOption.drawerAndBnb) {
       popToShowBnbTutorial(context);
     }
@@ -313,7 +313,7 @@ class _NavigationRadioTile extends StatelessWidget {
 }
 
 class _ContactSupportButton extends StatelessWidget {
-  const _ContactSupportButton({Key key}) : super(key: key);
+  const _ContactSupportButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

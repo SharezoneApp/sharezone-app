@@ -9,7 +9,6 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/events/course_create_event.dart';
@@ -31,16 +30,17 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
   final String schoolClassID;
   final SharezoneGateway gateway;
 
-  final Course initalCourse;
+  final Course? initialCourse;
 
-  SchoolClassCourseCreateBloc(
-      {@required this.gateway,
-      @required this.schoolClassID,
-      this.initalCourse}) {
-    if (initalCourse != null) _addInitalValuesToStream(initalCourse);
+  SchoolClassCourseCreateBloc({
+    required this.gateway,
+    required this.schoolClassID,
+    this.initialCourse,
+  }) {
+    if (initialCourse != null) _addInitialValuesToStream(initialCourse!);
   }
 
-  void _addInitalValuesToStream(Course course) {
+  void _addInitialValuesToStream(Course course) {
     _nameSubject.sink.add(course.name);
     _subjectSubject.sink.add(course.subject);
     _abbreviationSubject.sink.add(course.abbreviation);
@@ -59,14 +59,14 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
     final subject = _subjectSubject.valueOrNull;
     final abbreviation = _abbreviationSubject.valueOrNull;
 
-    if (initalCourse == null) {
+    if (initialCourse == null) {
       return isNotEmptyOrNull(name) ||
           isNotEmptyOrNull(subject) ||
           isNotEmptyOrNull(abbreviation);
     } else {
-      return !(name == initalCourse.name ||
-          subject == initalCourse.subject ||
-          abbreviation == initalCourse.abbreviation);
+      return !(name == initialCourse!.name ||
+          subject == initialCourse!.subject ||
+          abbreviation == initialCourse!.abbreviation);
     }
   }
 
@@ -78,7 +78,7 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
       throw InvalidInputException();
     }
 
-    final subject = _subjectSubject.valueOrNull;
+    final subject = _subjectSubject.valueOrNull!;
     final name = _ifNotGivenGenerateName(_nameSubject.valueOrNull, subject);
     final abbreviation = _ifNotGivenGenerateAbbreviation(
         _abbreviationSubject.valueOrNull, subject);
@@ -122,13 +122,13 @@ class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
     return highest >= 0.7;
   }
 
-  String _ifNotGivenGenerateName(String name, String subject) {
-    if (NotEmptyOrNullValidator(name).isValid()) return name;
+  String _ifNotGivenGenerateName(String? name, String subject) {
+    if (NotEmptyOrNullValidator(name).isValid()) return name!;
     return subject;
   }
 
-  String _ifNotGivenGenerateAbbreviation(String abbreviation, String subject) {
-    if (NotEmptyOrNullValidator(abbreviation).isValid()) return abbreviation;
+  String _ifNotGivenGenerateAbbreviation(String? abbreviation, String subject) {
+    if (NotEmptyOrNullValidator(abbreviation).isValid()) return abbreviation!;
     return subject.length >= 2
         ? subject.substring(0, 2).toUpperCase()
         : subject;

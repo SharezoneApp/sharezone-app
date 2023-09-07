@@ -17,9 +17,9 @@ import '../analytics/analytics_test.dart';
 
 void main() {
   group('ThemeSettings', () {
-    KeyValueStore keyValueStore;
-    Analytics analytics;
-    LocalAnalyticsBackend localAnalyticsBackend;
+    late KeyValueStore keyValueStore;
+    late Analytics analytics;
+    late LocalAnalyticsBackend localAnalyticsBackend;
 
     setUp(() {
       keyValueStore = InMemoryKeyValueStore();

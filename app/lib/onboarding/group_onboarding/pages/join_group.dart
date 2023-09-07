@@ -26,7 +26,7 @@ class GroupOnboardingGroupJoinPage extends StatefulWidget {
 
 class _GroupOnboardingGroupJoinPageState
     extends State<GroupOnboardingGroupJoinPage> {
-  GroupJoinBloc bloc;
+  late GroupJoinBloc bloc;
 
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _GroupOnboardingGroupJoinPageState
 }
 
 class _FinishButton extends StatelessWidget {
-  const _FinishButton({Key key}) : super(key: key);
+  const _FinishButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

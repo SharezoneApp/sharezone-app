@@ -18,7 +18,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   BuildContext context, {
-  HomeworkDto homework,
+  HomeworkDto? homework,
 }) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final nextLessonCalculator = NextLessonCalculator(
@@ -43,7 +43,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
 }
 
 Future<void> _showUserConfirmationOfHomeworkArrival(
-    {@required BuildContext context}) async {
+    {required BuildContext context}) async {
   await waitingForPopAnimation();
   showDataArrivalConfirmedSnackbar(context: context);
 }

@@ -44,8 +44,11 @@ class BlackboardItemReadByUsersListBloc extends BlocBase {
             .collection(CollectionNames.members)
             .doc(userId)
             .get();
-        final user = MemberData.fromData(membersDoc.data(), id: userId);
-        final hasRead = item.forUsers[userId];
+        final data = membersDoc.data();
+        if (data == null) continue;
+
+        final user = MemberData.fromData(data, id: userId);
+        final hasRead = item.forUsers[userId]!;
         views.add(user.toView(hasRead));
       }
     }

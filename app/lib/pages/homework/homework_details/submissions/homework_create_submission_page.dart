@@ -25,7 +25,7 @@ class HomeworkUserCreateSubmissionPage extends StatefulWidget {
 
   final String homeworkId;
 
-  const HomeworkUserCreateSubmissionPage({Key key, @required this.homeworkId})
+  const HomeworkUserCreateSubmissionPage({Key? key, required this.homeworkId})
       : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class HomeworkUserCreateSubmissionPage extends StatefulWidget {
 
 class _HomeworkUserCreateSubmissionPageState
     extends State<HomeworkUserCreateSubmissionPage> {
-  HomeworkUserCreateSubmissionsBloc bloc;
+  late HomeworkUserCreateSubmissionsBloc bloc;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _HomeworkUserCreateSubmissionPageState
           await warnUserAboutUploadingFilesForm(context);
         }
         if (dateienVorhanden && !abgegeben) {
-          return await warnUserAboutNotSubmittedForm(context);
+          return (await warnUserAboutNotSubmittedForm(context))!;
         }
         return true;
       },
@@ -74,10 +74,10 @@ class _HomeworkUserCreateSubmissionPageState
             builder: (context, snapshot) {
               final view = snapshot.data;
               final showSubmitButton =
-                  (view?.submittable ?? false) && !view.submitted;
+                  (view?.submittable ?? false) && !view!.submitted;
               final afterDeadline = view?.deadlineState != null &&
-                  view.deadlineState == SubmissionDeadlineState.afterDeadline;
-              final hasSubmitted = snapshot?.data?.submitted ?? false;
+                  view!.deadlineState == SubmissionDeadlineState.afterDeadline;
+              final hasSubmitted = snapshot.data?.submitted ?? false;
 
               return Scaffold(
                 appBar: AppBar(
@@ -113,6 +113,8 @@ class _HomeworkUserCreateSubmissionPageState
                                     break;
                                   case SubmitDialogOption.cancel:
                                     break;
+                                  case null:
+                                    break;
                                 }
                               }
                             : null,
@@ -129,8 +131,7 @@ class _HomeworkUserCreateSubmissionPageState
                             : Column(
                                 children: <Widget>[
                                   /// Falls submitted & editierbar
-                                  if (view != null && view.submitted)
-                                    _SubmissionReceivedInfo(),
+                                  if (view.submitted) _SubmissionReceivedInfo(),
                                   if (afterDeadline && !hasSubmitted)
                                     _AfterDeadlineCanStillBeSubmitted(),
                                   _FileList(),
@@ -153,7 +154,7 @@ enum SubmitDialogOption { cancel, submit }
 
 class _SubmissionReceivedInfo extends StatelessWidget {
   const _SubmissionReceivedInfo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -164,7 +165,7 @@ class _SubmissionReceivedInfo extends StatelessWidget {
 }
 
 class _FileList extends StatelessWidget {
-  const _FileList({Key key}) : super(key: key);
+  const _FileList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +173,7 @@ class _FileList extends StatelessWidget {
     return StreamBuilder<SubmissionPageView>(
       stream: bloc.pageView,
       builder: (context, snapshot) {
-        final pageView = snapshot?.data;
+        final pageView = snapshot.data;
         final files = snapshot.data?.files ?? [];
 
         if (files.isEmpty)
@@ -203,7 +204,7 @@ class _FileList extends StatelessWidget {
 
 class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
   const _AfterDeadlineCanStillBeSubmitted({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -218,7 +219,7 @@ class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
 
 class _AddFileFab extends StatelessWidget {
   const _AddFileFab({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -253,7 +254,7 @@ class _AddFileFab extends StatelessWidget {
                   'Die gewählte Datei "${e.files.first.getName()}" scheint invalide zu sein.';
             } else {
               final names = e.files.map((e) => e.getName()).join(', ');
-              msg = 'Die gewählte Datein "$names" scheinen invalide zu sein.';
+              msg = 'Die gewählte Dateien "$names" scheinen invalide zu sein.';
             }
             showLeftRightAdaptiveDialog(
               context: context,
@@ -282,9 +283,9 @@ class _AddFileFab extends StatelessWidget {
 
 class _FileCard extends StatelessWidget {
   const _FileCard({
-    @required this.view,
-    @required this.submitted,
-    Key key,
+    required this.view,
+    required this.submitted,
+    Key? key,
   }) : super(key: key);
 
   final FileView view;
@@ -315,9 +316,10 @@ class _FileCard extends StatelessWidget {
                     children: <Widget>[
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 250),
-                        child: view.status == FileViewStatus.succesfullyUploaded
-                            ? _RenameFile(view: view)
-                            : Container(),
+                        child:
+                            view.status == FileViewStatus.successfullyUploaded
+                                ? _RenameFile(view: view)
+                                : Container(),
                       ),
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 250),
@@ -334,14 +336,14 @@ class _FileCard extends StatelessWidget {
                 LinearProgressIndicator(
                   backgroundColor: Colors.grey[400],
                   valueColor: const AlwaysStoppedAnimation(Colors.lightBlue),
-                  value: view.uploadProgess.orElse(0),
+                  value: view.uploadProgress.orElse(0),
                 ),
               if (view.status == FileViewStatus.failed)
                 LinearProgressIndicator(
                   valueColor: const AlwaysStoppedAnimation(Colors.red),
                   value: 1,
                 ),
-              if (view.status == FileViewStatus.succesfullyUploaded)
+              if (view.status == FileViewStatus.successfullyUploaded)
                 LinearProgressIndicator(
                   valueColor: const AlwaysStoppedAnimation(Colors.green),
                   value: 1,
@@ -356,8 +358,8 @@ class _FileCard extends StatelessWidget {
 
 class _RenameFile extends StatelessWidget {
   const _RenameFile({
-    Key key,
-    @required this.view,
+    Key? key,
+    required this.view,
   }) : super(key: key);
 
   final FileView view;
@@ -387,10 +389,10 @@ class _RenameFile extends StatelessWidget {
 
 class _RenameDialog extends StatefulWidget {
   const _RenameDialog({
-    Key key,
-    @required this.view,
-    @required this.invalidNames,
-    @required this.bloc,
+    Key? key,
+    required this.view,
+    required this.invalidNames,
+    required this.bloc,
   }) : super(key: key);
 
   final FileView view;
@@ -402,8 +404,8 @@ class _RenameDialog extends StatefulWidget {
 }
 
 class __RenameDialogState extends State<_RenameDialog> {
-  _RenameError error;
-  String newName;
+  _RenameError? error;
+  late String newName;
 
   @override
   void initState() {
@@ -416,7 +418,7 @@ class __RenameDialogState extends State<_RenameDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Datei umbennen'),
+      title: const Text('Datei umbenennen'),
       content: PrefilledTextField(
         prefilledText: widget.view.basename,
         decoration: InputDecoration(
@@ -468,7 +470,7 @@ class __RenameDialogState extends State<_RenameDialog> {
     return false;
   }
 
-  String getErrorText() {
+  String? getErrorText() {
     switch (error) {
       case _RenameError.tooLong:
         return 'Der Name ist zu lang!';
@@ -476,15 +478,16 @@ class __RenameDialogState extends State<_RenameDialog> {
         return 'Dieser Dateiname existiert bereits!';
       case _RenameError.isEmpty:
         return 'Der Name darf nicht leer sein!';
+      case null:
+        return null;
     }
-    return null;
   }
 }
 
 enum _RenameError { tooLong, alreadyExits, isEmpty }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key key, @required this.view}) : super(key: key);
+  const _DeleteIcon({Key? key, required this.view}) : super(key: key);
 
   final FileView view;
 
@@ -493,14 +496,14 @@ class _DeleteIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.delete),
       onPressed: () async {
-        final confirmed = await showLeftRightAdaptiveDialog<bool>(
+        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
           context: context,
           title: 'Datei entfernen',
           content:
               Text('Möchtest du die Datei "${view.name}" wirklich entfernen?'),
           right: AdaptiveDialogAction.delete,
           defaultValue: false,
-        );
+        ))!;
 
         if (confirmed) {
           final bloc =
@@ -514,11 +517,11 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EmptyState extends StatelessWidget {
-  final SubmissionDeadlineState submissionDeadlineState;
+  final SubmissionDeadlineState? submissionDeadlineState;
 
   const _EmptyState({
-    Key key,
-    @required this.submissionDeadlineState,
+    Key? key,
+    required this.submissionDeadlineState,
   }) : super(key: key);
 
   @override
@@ -529,7 +532,7 @@ class _EmptyState extends StatelessWidget {
 
 class _NoFilesUploaded extends StatelessWidget {
   const _NoFilesUploaded({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -548,9 +551,9 @@ class _NoFilesUploaded extends StatelessWidget {
   }
 }
 
-Future<bool> warnUserAboutUploadingFilesForm(BuildContext context) async {
+Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
-  return showLeftRightAdaptiveDialog<bool>(
+  return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Dateien am hochladen!',
         content: Text(
@@ -563,12 +566,12 @@ Future<bool> warnUserAboutUploadingFilesForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      Future.value(false);
+      false;
 }
 
-Future<bool> warnUserAboutNotSubmittedForm(BuildContext context) async {
+Future<bool?> warnUserAboutNotSubmittedForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
-  return showLeftRightAdaptiveDialog<bool>(
+  return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Abgabe nicht abgegeben!',
         content: Text(
@@ -582,5 +585,5 @@ Future<bool> warnUserAboutNotSubmittedForm(BuildContext context) async {
           popResult: true,
         ),
       ) ??
-      Future.value(false);
+      false;
 }

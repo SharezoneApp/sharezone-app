@@ -17,7 +17,7 @@ class TimePickerSettingsCache extends BlocBase {
 
   TimePickerSettingsCache(this.streamingCache);
 
-  void setTimePickerWithFifeMinutesInterval(bool newValue) {
+  void setTimePickerWithFifeMinutesInterval(bool? newValue) {
     if (newValue != null) {
       streamingCache.setBool(_timePickerWithFifeMinutesIntervalKey, newValue);
     }

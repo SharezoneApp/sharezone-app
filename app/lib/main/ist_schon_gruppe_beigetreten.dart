@@ -23,9 +23,8 @@ Future<bool> istBereitsSchulklasseMitSharecodeBeigetreten(
   final schoolClasses =
       await sharezoneGateway.schoolClassGateway.stream().first;
   final isAlreadyInClass = schoolClasses
-          ?.where((schoolClass) => schoolClass?.sharecode == '$sharecode')
-          ?.isNotEmpty ??
-      false;
+      .where((schoolClass) => schoolClass.sharecode == '$sharecode')
+      .isNotEmpty;
   return isAlreadyInClass;
 }
 

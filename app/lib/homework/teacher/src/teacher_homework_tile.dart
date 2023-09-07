@@ -20,10 +20,9 @@ class TeacherHomeworkTile extends StatelessWidget {
   final TeacherHomeworkView homework;
 
   const TeacherHomeworkTile({
-    Key key,
-    @required this.homework,
-  })  : assert(homework != null),
-        super(key: key);
+    Key? key,
+    required this.homework,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class TeacherHomeworkTile extends StatelessWidget {
       todoDate: homework.todoDate,
       todoDateColor: homework.colorDate
           ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyMedium.color,
+          : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
       trailing: homework.withSubmissions
           ? _SubmissionsCounter(
@@ -73,10 +72,10 @@ class _SubmissionsCounter extends StatelessWidget {
   final HomeworkId homeworkId;
 
   const _SubmissionsCounter({
-    Key key,
-    @required this.nrOfSubmitters,
-    @required this.hasPermissionsToSeeSubmissions,
-    @required this.homeworkId,
+    Key? key,
+    required this.nrOfSubmitters,
+    required this.hasPermissionsToSeeSubmissions,
+    required this.homeworkId,
   }) : super(key: key);
 
   @override
@@ -116,10 +115,10 @@ class _DoneHomeworksCounter extends StatelessWidget {
   final HomeworkId homeworkId;
 
   const _DoneHomeworksCounter({
-    Key key,
-    @required this.nrOfDoneHomeworks,
-    @required this.hasPermissionsToSeeDoneHomeworks,
-    @required this.homeworkId,
+    Key? key,
+    required this.nrOfDoneHomeworks,
+    required this.hasPermissionsToSeeDoneHomeworks,
+    required this.homeworkId,
   }) : super(key: key);
 
   @override
@@ -159,9 +158,9 @@ class _TrailingCounterIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _TrailingCounterIconButton({
-    Key key,
-    @required this.counterValue,
-    @required this.onPressed,
+    Key? key,
+    required this.counterValue,
+    required this.onPressed,
   }) : super(key: key);
 
   @override

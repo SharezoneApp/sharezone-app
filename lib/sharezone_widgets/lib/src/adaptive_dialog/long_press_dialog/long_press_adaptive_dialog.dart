@@ -18,20 +18,22 @@ Future<T?> showLongPressAdaptiveDialog<T>({
   String? title,
   String? subtile,
 }) async {
-  return (PlatformCheck.isIOS
-      ? await showCupertinoModalPopup<T>(
-          context: context,
-          builder: (context) => _LongPressDialogCupertino<T>(
-            longPressList: longPressList,
-            title: title,
-            subtitle: subtile,
-          ),
-        )
-      : showDialog<T>(
-          context: context,
-          builder: (context) =>
-              _LongPressDialogMaterial<T>(longPressList: longPressList),
-        )) as Future<T?>;
+  if (PlatformCheck.isIOS) {
+    return showCupertinoModalPopup<T>(
+      context: context,
+      builder: (context) => _LongPressDialogCupertino<T>(
+        longPressList: longPressList,
+        title: title,
+        subtitle: subtile,
+      ),
+    );
+  } else {
+    return showDialog<T>(
+      context: context,
+      builder: (context) =>
+          _LongPressDialogMaterial<T>(longPressList: longPressList),
+    );
+  }
 }
 
 class _LongPressDialogMaterial<T> extends StatelessWidget {
@@ -69,8 +71,8 @@ class _LongPressDialogCupertino<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: isNotEmptyOrNull(title!) ? Text(title!) : null,
-      message: isNotEmptyOrNull(subtitle!) ? Text(subtitle!) : null,
+      title: isNotEmptyOrNull(title) ? Text(title!) : null,
+      message: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
       actions: longPressList
           .map((longPress) => CupertinoActionSheetAction(
               child: Text(longPress.title),

@@ -13,9 +13,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class FailedEnterActivationCodeResultDialog extends StatelessWidget {
   final FailedEnterActivationCodeResult failedEnterActivationCodeResult;
 
-  const FailedEnterActivationCodeResultDialog(
-      {Key key, this.failedEnterActivationCodeResult})
-      : super(key: key);
+  const FailedEnterActivationCodeResultDialog({
+    Key? key,
+    required this.failedEnterActivationCodeResult,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (failedEnterActivationCodeResult.enterActivationCodeException

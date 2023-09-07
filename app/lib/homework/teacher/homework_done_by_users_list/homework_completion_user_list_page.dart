@@ -20,8 +20,8 @@ import 'user_has_completed_homework_view.dart';
 
 class HomeworkCompletionUserListPage extends StatefulWidget {
   const HomeworkCompletionUserListPage({
-    Key key,
-    @required this.homeworkId,
+    Key? key,
+    required this.homeworkId,
   }) : super(key: key);
 
   final HomeworkId homeworkId;
@@ -35,7 +35,7 @@ class HomeworkCompletionUserListPage extends StatefulWidget {
 
 class _HomeworkCompletionUserListPageState
     extends State<HomeworkCompletionUserListPage> {
-  HomeworkCompletionUserListBloc bloc;
+  late HomeworkCompletionUserListBloc bloc;
 
   @override
   void initState() {
@@ -101,20 +101,20 @@ class _Loading extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
-  const _List(this.views, {Key key}) : super(key: key);
+  const _List(this.views, {Key? key}) : super(key: key);
 
-  final List<UserHasCompletedHomeworkView> views;
+  final List<UserHasCompletedHomeworkView>? views;
 
   @override
   Widget build(BuildContext context) {
-    if (views.isEmpty) return _EmptyList();
+    if (views!.isEmpty) return _EmptyList();
     return Align(
       alignment: Alignment.topCenter,
       child: SingleChildScrollView(
         child: MaxWidthConstraintBox(
           child: SafeArea(
             child: Column(
-              children: [for (final view in views) _UserTile(view)],
+              children: [for (final view in views!) _UserTile(view)],
             ),
           ),
         ),
@@ -133,7 +133,7 @@ class _EmptyList extends StatelessWidget {
 }
 
 class _UserTile extends StatelessWidget {
-  const _UserTile(this.view, {Key key}) : super(key: key);
+  const _UserTile(this.view, {Key? key}) : super(key: key);
 
   final UserHasCompletedHomeworkView view;
 
@@ -146,7 +146,7 @@ class _UserTile extends StatelessWidget {
         title: Text(view.name),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbrevation, style: TextStyle(color: Colors.white)),
+          child: Text(view.abbreviation, style: TextStyle(color: Colors.white)),
         ),
         trailing: _hasDoneIcon(),
       ),

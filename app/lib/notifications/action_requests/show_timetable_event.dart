@@ -47,7 +47,7 @@ class ShowTimetableEventRequest extends ActionRequest {
 
 class ShowTimetableEventExecutor
     extends ActionRequestExecutor<ShowTimetableEventRequest> {
-  final BuildContext Function() _getCurrentContext;
+  final BuildContext? Function() _getCurrentContext;
   final TimetableGateway _timetableGateway;
   final CourseGateway _courseGateway;
 
@@ -59,6 +59,6 @@ class ShowTimetableEventExecutor
     final event =
         await _timetableGateway.getEvent('${actionRequest.timetableEventId}');
     final design = _courseGateway.getCourse(event.groupID)?.getDesign();
-    return showTimetableEventDetails(_getCurrentContext(), event, design);
+    return showTimetableEventDetails(_getCurrentContext()!, event, design);
   }
 }

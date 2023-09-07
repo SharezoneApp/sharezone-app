@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:authentification_base/authentification.dart';
-import 'package:meta/meta.dart';
 import 'package:user/user.dart';
 
 class UserView {
@@ -16,21 +15,21 @@ class UserView {
   final AppUser user;
   final String id;
   final String name;
-  final String email;
-  final String state;
+  final String? email;
+  final String? state;
   final String typeOfUser;
   final bool isAnonymous;
   final Provider provider;
 
   UserView({
-    @required this.id,
-    @required this.user,
-    @required this.name,
-    @required this.email,
-    @required this.typeOfUser,
-    @required this.state,
-    @required this.isAnonymous,
-    @required this.provider,
+    required this.id,
+    required this.user,
+    required this.name,
+    required this.email,
+    required this.typeOfUser,
+    required this.state,
+    required this.isAnonymous,
+    required this.provider,
   });
 
   UserView.fromUserAndFirebaseUser(this.user, AuthUser authUser)
@@ -50,7 +49,7 @@ class UserView {
       name: "",
       typeOfUser: "",
       isAnonymous: true,
-      provider: null,
+      provider: Provider.anonymous,
       state: "",
     );
   }

@@ -11,5 +11,5 @@ import 'package:sharezone/util/flavor.dart';
 import 'main_common.dart' as main_common;
 
 void main() {
-  main_common.main(flavor: Flavor.dev);
+  main_common.mainCommon(flavor: Flavor.dev);
 }

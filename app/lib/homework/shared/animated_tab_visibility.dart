@@ -57,7 +57,7 @@ class AnimatedTabVisibility extends StatefulWidget {
   /// one of [visibleInTabIndicies].
   /// If [tabController] is `null` [AnimatedTabVisibility] will use the
   /// `DefaultTabController.of(context)` or throw if neither is available.
-  final TabController tabController;
+  final TabController? tabController;
 
   /// Whether to maintain the [State] objects of the [child] subtree when it is
   /// not visible.
@@ -70,12 +70,12 @@ class AnimatedTabVisibility extends StatefulWidget {
   ///
   /// This can be useful to trigger additional actions (e.g. another animation)
   /// at the end of the current animation.
-  final VoidCallback onEnd;
+  final VoidCallback? onEnd;
 
   const AnimatedTabVisibility({
-    Key key,
-    @required this.child,
-    @required this.visibleInTabIndicies,
+    Key? key,
+    required this.child,
+    required this.visibleInTabIndicies,
     this.tabController,
     // Same default as [Visiblity.maintainState]
     this.maintainState = false,
@@ -88,11 +88,11 @@ class AnimatedTabVisibility extends StatefulWidget {
 }
 
 class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
-  bool isVisible;
-  TabController tabController;
+  bool? isVisible;
+  TabController? tabController;
 
   /// [true] if the [build] function has not been run yet.
-  bool isFirstBuild;
+  late bool isFirstBuild;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
   }
 
   bool _shouldChildBeVisible() {
-    return widget.visibleInTabIndicies.contains(tabController.index);
+    return widget.visibleInTabIndicies.contains(tabController!.index);
   }
 
   void _animateVisibilityIfNecessary() {
@@ -118,7 +118,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
   @override
   Widget build(BuildContext context) {
     tabController ??= DefaultTabController.of(context);
-    tabController.addListener(() {
+    tabController!.addListener(() {
       _animateVisibilityIfNecessary();
     });
 
@@ -133,7 +133,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
 
     return AnimatedVisibility(
       child: widget.child,
-      visible: isVisible,
+      visible: isVisible!,
       maintainState: widget.maintainState,
       duration: Duration(milliseconds: 300),
       curve: widget.curve,

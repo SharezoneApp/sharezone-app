@@ -14,9 +14,9 @@ import 'package:sharezone_utils/streams.dart';
 
 class MoveFileBloc extends BlocBase {
   final CloudFile cloudFile;
-  final FileSharingGateway fileSharingGateway;
+  final FileSharingGateway? fileSharingGateway;
 
-  MoveFileBloc({this.cloudFile, this.fileSharingGateway}) {
+  MoveFileBloc({required this.cloudFile, this.fileSharingGateway}) {
     changeNewPath(cloudFile.path);
   }
 
@@ -24,7 +24,7 @@ class MoveFileBloc extends BlocBase {
   Stream<FolderPath> get newPath => _newPathSubject;
 
   TwoStreams<FileSharingData, FolderPath> get moveFileState => TwoStreams(
-        fileSharingGateway.folderGateway.folderStream(cloudFile.courseID),
+        fileSharingGateway!.folderGateway.folderStream(cloudFile.courseID!),
         newPath,
       );
 
@@ -34,16 +34,16 @@ class MoveFileBloc extends BlocBase {
       .map((streamSnapshot) => canMoveFile(streamSnapshot.data0));
 
   Future<void> moveFileToNewPath() async {
-    if (canMoveFile(await fileSharingGateway.folderGateway
-        .getFilesharingData(cloudFile.courseID)))
-      fileSharingGateway.cloudFilesGateway
-          .moveFile(cloudFile, _newPathSubject.valueOrNull);
+    if (canMoveFile(await fileSharingGateway!.folderGateway
+        .getFilesharingData(cloudFile.courseID!)))
+      fileSharingGateway!.cloudFilesGateway
+          .moveFile(cloudFile, _newPathSubject.valueOrNull!);
   }
 
-  bool canMoveFile(FileSharingData fileSharingData) {
+  bool canMoveFile(FileSharingData? fileSharingData) {
     final _pathValue = _newPathSubject.valueOrNull;
     if (_pathValue == cloudFile.path) return false;
-    if (fileSharingData.getFolder(_pathValue) == null) return false;
+    if (fileSharingData!.getFolder(_pathValue!) == null) return false;
 
     return true;
   }

@@ -96,7 +96,7 @@ final tocDocumentSections = [
 DocumentSection _section(
   String id,
   String name, [
-  List<DocumentSection> subsections,
+  List<DocumentSection> subsections = const [],
 ]) =>
     DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 

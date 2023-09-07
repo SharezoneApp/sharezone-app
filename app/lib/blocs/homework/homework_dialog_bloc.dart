@@ -27,7 +27,7 @@ extension on DateTime {
 
 class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   List<CloudFile> initialCloudFiles = [];
-  final _titleSubject = BehaviorSubject<String>();
+  final _titleSubject = BehaviorSubject<String?>();
   final _courseSegmentSubject = BehaviorSubject<Course>();
   final _todoUntilSubject = BehaviorSubject<DateTime>();
   final _descriptionSubject = BehaviorSubject<String>();
@@ -40,14 +40,14 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       BehaviorSubject<Time>.seeded(Time(hour: 23, minute: 59));
 
   final HomeworkDialogApi api;
-  final HomeworkDto initalHomework;
+  final HomeworkDto? initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
 
-  HomeworkDialogBloc(this.api, this._markdownAnalytics, {HomeworkDto homework})
-      : initalHomework = homework {
+  HomeworkDialogBloc(this.api, this._markdownAnalytics, {HomeworkDto? homework})
+      : initialHomework = homework {
     if (homework != null) {
-      _loadInitialCloudFiles(homework.courseReference.id, homework.id);
+      _loadInitialCloudFiles(homework.courseReference!.id, homework.id);
 
       changeTitle(homework.title);
       changeTodoUntil(homework.todoUntil);
@@ -63,7 +63,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         name: homework.subject,
         sharecode: "000000",
         abbreviation: homework.subjectAbbreviation,
-        id: homework.courseReference.id,
+        id: homework.courseReference!.id,
       );
       changeCourseSegment(c);
       changeSendNotification(homework.sendNotification);
@@ -72,7 +72,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   bool get hasAttachments =>
       _localFilesSubject.valueOrNull != null &&
-      _localFilesSubject.valueOrNull.isNotEmpty;
+      _localFilesSubject.valueOrNull!.isNotEmpty;
 
   Stream<String> get title => _titleSubject.stream.transform(validateTitle);
   Stream<DateTime> get todoUntil => _todoUntilSubject;
@@ -110,7 +110,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   Function(List<LocalFile>) get addLocalFile => (localFiles) {
         final list = <LocalFile>[];
         if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull);
+          list.addAll(_localFilesSubject.valueOrNull!);
         }
         list.addAll(localFiles);
         _localFilesSubject.sink.add(list);
@@ -118,7 +118,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   Function(LocalFile) get removeLocalFile => (localFile) {
         final list = <LocalFile>[];
         if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull);
+          list.addAll(_localFilesSubject.valueOrNull!);
         }
         list.remove(localFile);
         _localFilesSubject.sink.add(list);
@@ -126,7 +126,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   Function(CloudFile) get removeCloudFile => (cloudFile) {
         final list = <CloudFile>[];
         if (_cloudFilesSubject.valueOrNull != null) {
-          list.addAll(_cloudFilesSubject.valueOrNull);
+          list.addAll(_cloudFilesSubject.valueOrNull!);
         }
         list.remove(cloudFile);
         _cloudFilesSubject.sink.add(list);
@@ -147,22 +147,22 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
     final hasAttachments = localFiles != null && localFiles.isNotEmpty;
     final cloudFiles =
-        _cloudFilesSubject.valueOrNull.map((cf) => cf.id).toList();
+        _cloudFilesSubject.valueOrNull!.map((cf) => cf.id).toList();
 
     // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
-    if (initalHomework == null) {
+    if (initialHomework == null) {
       return isNotEmptyOrNull(title) ||
           isNotEmptyOrNull(description) ||
           hasAttachments ||
           course != null ||
           todoUntil != null;
     } else {
-      return title != initalHomework.title ||
-          description != initalHomework.description ||
-          course.id != initalHomework.courseID ||
-          todoUntil != initalHomework.todoUntil ||
+      return title != initialHomework!.title ||
+          description != initialHomework!.description ||
+          course!.id != initialHomework!.courseID ||
+          todoUntil != initialHomework!.todoUntil ||
           hasAttachments ||
-          initalHomework.attachments.length != cloudFiles.length;
+          initialHomework!.attachments.length != cloudFiles.length;
     }
   }
 
@@ -217,12 +217,12 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     initialCloudFiles.addAll(cloudFiles);
   }
 
-  Future<void> submit({HomeworkDto oldHomework}) async {
+  Future<void> submit({HomeworkDto? oldHomework}) async {
     if (isValid()) {
       final todoUntil = DateTime(
-          _todoUntilSubject.valueOrNull.year,
-          _todoUntilSubject.valueOrNull.month,
-          _todoUntilSubject.valueOrNull.day);
+          _todoUntilSubject.valueOrNull!.year,
+          _todoUntilSubject.valueOrNull!.month,
+          _todoUntilSubject.valueOrNull!.day);
       final description = _descriptionSubject.valueOrNull;
       final private = _privateSubject.valueOrNull;
       final localFiles = _localFilesSubject.valueOrNull;
@@ -236,7 +236,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         localFiles,
         _sendNotificationSubject.valueOrNull,
         _submissionTimeSubject.valueOrNull,
-        _withSubmissionsSubject.valueOrNull,
+        _withSubmissionsSubject.valueOrNull!,
       );
 
       final hasAttachments = localFiles != null && localFiles.isNotEmpty;
@@ -253,7 +253,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
         // von der Hausaufgabe entfernt.
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.valueOrNull);
+            initialCloudFiles, _cloudFilesSubject.valueOrNull!);
         if (hasAttachments) {
           await api.edit(oldHomework, userInput,
               removedCloudFiles: removedCloudFiles);
@@ -291,12 +291,12 @@ class InvalidTitleException implements Exception {}
 class InvalidCourseException implements Exception {}
 
 class UserInput {
-  final String title, description;
-  final Course course;
-  DateTime todoUntil;
-  final bool private;
-  final List<LocalFile> localFiles;
-  final bool sendNotification;
+  final String? title, description;
+  final Course? course;
+  DateTime? todoUntil;
+  final bool? private;
+  final List<LocalFile>? localFiles;
+  final bool? sendNotification;
   final bool withSubmission;
 
   UserInput(
@@ -307,7 +307,7 @@ class UserInput {
     this.private,
     this.localFiles,
     this.sendNotification,
-    final Time submissionTime,
+    final Time? submissionTime,
     this.withSubmission,
   ) {
     if (withSubmission && submissionTime != null) {
@@ -327,14 +327,14 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    final course = userInput.course;
-    final authorReference = api.references.users.doc(api.user.authUser.uid);
-    final authorName = (await api.user.userStream.first).name;
-    final authorID = api.user.authUser.uid;
-    final typeOfUser = (await api.user.userStream.first).typeOfUser;
+    final course = userInput.course!;
+    final authorReference = api.references.users.doc(api.user.authUser!.uid);
+    final authorName = (await api.user.userStream.first)!.name;
+    final authorID = api.user.authUser!.uid;
+    final typeOfUser = (await api.user.userStream.first)!.typeOfUser;
 
     final attachments = await api.fileSharing.uploadAttachments(
-        localFiles, userInput.course.id, authorReference.id, authorName);
+        localFiles, userInput.course!.id, authorReference.id, authorName);
 
     final homework = HomeworkDto.create(
             courseReference: api.references.getCourseReference(course.id),
@@ -362,7 +362,7 @@ class HomeworkDialogApi {
       ),
     );
 
-    if (userInput.private)
+    if (userInput.private!)
       await api.homework.addPrivateHomework(homework, false,
           attachments: attachments, fileSharingGateway: api.fileSharing);
     else
@@ -375,20 +375,20 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
-    List<String> attachments = oldHomework.attachments?.toList() ?? [];
-    final editorName = (await api.user.userStream.first).name;
-    final editorID = api.user.authUser.uid;
+    List<String> attachments = oldHomework.attachments.toList();
+    final editorName = (await api.user.userStream.first)!.name;
+    final editorID = api.user.authUser!.uid;
 
     for (int i = 0; i < removedCloudFiles.length; i++) {
       attachments.remove(removedCloudFiles[i].id);
-      api.fileSharing.removeReferenceData(removedCloudFiles[i].id,
+      api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
           ReferenceData(type: ReferenceType.blackboard, id: oldHomework.id));
     }
 
     final localFiles = userInput.localFiles;
     final newAttachments = await api.fileSharing.uploadAttachments(
       localFiles,
-      oldHomework.courseReference.id,
+      oldHomework.courseReference!.id,
       editorID,
       editorName,
     );
@@ -404,7 +404,7 @@ class HomeworkDialogApi {
       sendNotification: userInput.sendNotification,
     );
 
-    final hasAttachments = attachments != null && attachments.isNotEmpty;
+    final hasAttachments = attachments.isNotEmpty;
     if (hasAttachments) {
       await api.homework.addPrivateHomework(homework, true,
           attachments: newAttachments, fileSharingGateway: api.fileSharing);

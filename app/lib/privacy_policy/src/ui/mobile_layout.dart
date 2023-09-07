@@ -13,9 +13,9 @@ import 'ui.dart';
 
 class MainContentMobile extends StatelessWidget {
   const MainContentMobile({
-    @required this.privacyPolicy,
+    required this.privacyPolicy,
     this.showBackButton = true,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final PrivacyPolicy privacyPolicy;

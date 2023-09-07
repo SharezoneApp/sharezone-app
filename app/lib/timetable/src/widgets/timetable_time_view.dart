@@ -20,9 +20,9 @@ class TimetablePeriodView extends StatelessWidget {
   final Periods periods;
 
   const TimetablePeriodView({
-    @required this.hourHeight,
-    @required this.timetableBegin,
-    @required this.periods,
+    required this.hourHeight,
+    required this.timetableBegin,
+    required this.periods,
   });
 
   @override
@@ -59,10 +59,10 @@ class _PositionedPeriodTile extends StatelessWidget {
   final Time timetableBegin;
 
   const _PositionedPeriodTile({
-    Key key,
-    this.period,
-    this.hourHeight,
-    this.timetableBegin,
+    Key? key,
+    required this.period,
+    required this.hourHeight,
+    required this.timetableBegin,
   }) : super(key: key);
 
   @override
@@ -85,10 +85,10 @@ class _PositionedHourTile extends StatelessWidget {
   final Time timetableBegin;
 
   const _PositionedHourTile({
-    Key key,
-    this.hour,
-    this.hourHeight,
-    this.timetableBegin,
+    Key? key,
+    required this.hour,
+    required this.hourHeight,
+    required this.timetableBegin,
   }) : super(key: key);
 
   @override
@@ -107,7 +107,10 @@ class _PositionedHourTile extends StatelessWidget {
 class _PeriodTile extends StatelessWidget {
   final Period period;
 
-  const _PeriodTile({Key key, this.period}) : super(key: key);
+  const _PeriodTile({
+    Key? key,
+    required this.period,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +163,10 @@ class _PeriodTile extends StatelessWidget {
 class _HourTile extends StatelessWidget {
   final Time hour;
 
-  const _HourTile({Key key, this.hour}) : super(key: key);
+  const _HourTile({
+    Key? key,
+    required this.hour,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

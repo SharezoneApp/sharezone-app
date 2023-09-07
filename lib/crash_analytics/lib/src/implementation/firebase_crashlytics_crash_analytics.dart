@@ -26,8 +26,12 @@ class FirebaseCrashlyticsCrashAnalytics extends CrashAnalytics {
   }
 
   @override
-  Future<void> recordError(exception, StackTrace stack) {
-    return _crashlytics.recordError(exception, stack);
+  Future<void> recordError(
+    exception,
+    StackTrace stack, {
+    bool fatal = false,
+  }) {
+    return _crashlytics.recordError(exception, stack, fatal: fatal);
   }
 
   @override

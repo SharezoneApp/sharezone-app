@@ -22,7 +22,10 @@ void showExplanation(BuildContext context, String text) {
 }
 
 class CourseSettingsCard extends StatelessWidget {
-  const CourseSettingsCard({Key key, @required this.course}) : super(key: key);
+  const CourseSettingsCard({
+    Key? key,
+    required this.course,
+  }) : super(key: key);
 
   final Course course;
 
@@ -36,7 +39,7 @@ class CourseSettingsCard extends StatelessWidget {
         children: <Widget>[
           _IsPublic(isPublic: courseSettings.isPublic),
           WritePermissions(
-            initalWritePermission: course.settings.writePermission,
+            initialWritePermission: course.settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
             writePermissionStream: bloc.writePermissionStream,
           ),
@@ -47,7 +50,10 @@ class CourseSettingsCard extends StatelessWidget {
 }
 
 class _IsPublic extends StatelessWidget {
-  const _IsPublic({Key key, @required this.isPublic}) : super(key: key);
+  const _IsPublic({
+    Key? key,
+    required this.isPublic,
+  }) : super(key: key);
 
   final bool isPublic;
 

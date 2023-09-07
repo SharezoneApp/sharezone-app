@@ -101,10 +101,10 @@ class AppUser {
     }
     return AppUser._(
       id: id,
-      name: data['name'],
+      name: data['name'] ?? '',
       abbreviation: generateAbbreviation(data['name']),
-      typeOfUser: enumFromString(TypeOfUser.values, data['typeOfUser']) ??
-          TypeOfUser.unknown,
+      typeOfUser: TypeOfUser.values
+          .tryByName(data['typeOfUser'], defaultValue: TypeOfUser.unknown),
       notificationTokens: decodeList(data['notificationTokens'], (it) => it),
       reminderTime: data['reminderTime'],
       referralLink: data['referralLink'],
@@ -125,7 +125,7 @@ class AppUser {
     return {
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
+      'typeOfUser': typeOfUser.name,
       'notificationTokens': notificationTokens,
       'reminderTime': reminderTime,
       'state': state.index,
@@ -144,7 +144,7 @@ class AppUser {
     return {
       'name': name,
       'abbreviation': abbreviation,
-      'typeOfUser': enumToString(typeOfUser),
+      'typeOfUser': typeOfUser.name,
       'reminderTime': reminderTime,
       'state': state.index,
       'referralScore': referralScore,

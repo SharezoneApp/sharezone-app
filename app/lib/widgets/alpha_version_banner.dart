@@ -20,9 +20,9 @@ import 'package:flutter/material.dart';
 class AlphaVersionBanner extends StatelessWidget {
   /// Creates a const alpha version banner.
   const AlphaVersionBanner({
-    Key key,
-    @required this.child,
-    @required this.enabled,
+    Key? key,
+    required this.child,
+    required this.enabled,
   }) : super(key: key);
 
   /// The widget to show behind the banner.

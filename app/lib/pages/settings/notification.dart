@@ -7,12 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TimePickerEntryMode;
+import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
+import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
@@ -54,7 +56,7 @@ class _NotificationPage extends StatelessWidget {
                       const Divider(),
                     ],
                   ),
-                  notMatchtingWidget: Container(),
+                  notMatchingWidget: Container(),
                 ),
                 _BlackboardNotificationsCard(),
                 const Divider(),
@@ -111,13 +113,55 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
 }
 
 class _HomeworkNotificationsTimeTile extends StatelessWidget {
+  Future<Time?> _openPicker(
+    BuildContext context, {
+    required Time initialTime,
+  }) {
+    // Currently, the homework reminder only supports 30 minute intervals.
+    const interval = 30;
+
+    if (PlatformCheck.isDesktopOrWeb) {
+      return showIntervalTimePicker(
+        context: context,
+        initialTime: initialTime.toTimeOfDay(),
+        interval: interval,
+        visibleStep: VisibleStep.thirtieths,
+        errorInvalidText:
+            'Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.',
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          );
+        },
+        initialEntryMode: TimePickerEntryMode.input,
+      ).then((timeOfDay) {
+        if (timeOfDay == null) return null;
+        return Time.fromTimeOfDay(timeOfDay);
+      });
+    }
+
+    return showDialog<TimeOfDay>(
+      context: context,
+      // We just use the iOS picker also on Android, because the Interval picker
+      // looks a bit weird when setting the visual steps to 30 minutes.
+      builder: (context) => CupertinoTimerPickerWithTimeOfDay(
+        initialTime: initialTime.toTimeOfDay(),
+        minutesInterval: interval,
+      ),
+    ).then((timeOfDay) {
+      if (timeOfDay == null) return null;
+      return Time.fromTimeOfDay(timeOfDay);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<NotificationsBloc>(context);
     return StreamBuilder<bool>(
       stream: bloc.notificationsForHomeworks,
       builder: (context, homeworkEnabled) {
-        return StreamBuilder<TimeOfDay>(
+        return StreamBuilder<TimeOfDay?>(
           stream: bloc.notificationsTimeForHomeworks,
           builder: (context, timeForHomeworks) {
             return ListTile(
@@ -127,11 +171,12 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
                   "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr"),
               enabled: homeworkEnabled.data ?? true,
               onTap: () async {
-                final newTime = await selectTime(context,
-                    initialTime: Time(
-                        hour: timeForHomeworks?.data?.hour ?? 18,
-                        minute: timeForHomeworks?.data?.minute ?? 0),
-                    minutesInterval: 30);
+                final newTime = await _openPicker(
+                  context,
+                  initialTime: Time(
+                      hour: timeForHomeworks.data?.hour ?? 18,
+                      minute: timeForHomeworks.data?.minute ?? 0),
+                );
 
                 if (newTime != null) {
                   bloc.changeNotificationsTimeForHomeworks(

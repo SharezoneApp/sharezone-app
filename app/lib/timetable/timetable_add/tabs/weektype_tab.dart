@@ -18,7 +18,7 @@ class _WeekTypeTab extends StatelessWidget {
       child: StreamBuilder<WeekType>(
         stream: bloc.weekType,
         builder: (context, snapshot) {
-          final selectedWeekType = snapshot.hasData ? snapshot.data : null;
+          final selectedWeekType = snapshot.data;
           return _WeekTypeList(selectedWeekType);
         },
       ),
@@ -29,7 +29,7 @@ class _WeekTypeTab extends StatelessWidget {
 class _WeekTypeList extends StatelessWidget {
   const _WeekTypeList(this.selectedWeekType);
 
-  final WeekType selectedWeekType;
+  final WeekType? selectedWeekType;
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +60,15 @@ class _WeekTypeList extends StatelessWidget {
 
 class _WeekTypeTile extends StatelessWidget {
   final WeekType weekType;
-  final VoidCallback onTap;
-  final WeekType selectedWeekType;
+  final VoidCallback? onTap;
+  final WeekType? selectedWeekType;
 
-  const _WeekTypeTile(
-      {Key key, this.weekType, this.onTap, this.selectedWeekType})
-      : super(key: key);
+  const _WeekTypeTile({
+    Key? key,
+    required this.weekType,
+    this.onTap,
+    this.selectedWeekType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

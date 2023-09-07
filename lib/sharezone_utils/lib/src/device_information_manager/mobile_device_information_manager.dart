@@ -14,7 +14,7 @@ import 'android_information.dart';
 import 'device_information_retreiver.dart';
 import 'ios_information.dart';
 
-class MobileDeviceInformationRetreiver extends DeviceInformationRetreiver {
+class MobileDeviceInformationRetriever extends DeviceInformationRetriever {
   final _deviceInfoPlugin = DeviceInfoPlugin();
 
   @override
@@ -113,8 +113,8 @@ class MobileDeviceInformationRetreiver extends DeviceInformationRetreiver {
 }
 
 @visibleForTesting
-class MockMobileDeviceInformationRetreiver
-    implements MobileDeviceInformationRetreiver {
+class MockMobileDeviceInformationRetriever
+    implements MobileDeviceInformationRetriever {
   int? _androidSdkInt;
 
   @override

@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupMeetingButton extends StatelessWidget {
-  const GroupMeetingButton({Key key}) : super(key: key);
+  const GroupMeetingButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class GroupMeetingButton extends StatelessWidget {
 }
 
 class _MeetingIsDisabledHint extends StatelessWidget {
-  const _MeetingIsDisabledHint({Key key}) : super(key: key);
+  const _MeetingIsDisabledHint({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class _MeetingIsDisabledHint extends StatelessWidget {
 }
 
 class _TextBelowButton extends StatelessWidget {
-  const _TextBelowButton(this.text, {Key key}) : super(key: key);
+  const _TextBelowButton(this.text, {Key? key}) : super(key: key);
 
   final String text;
 
@@ -97,19 +99,19 @@ class _MeetingDisabledListTile extends StatelessWidget {
 
 class _MeetingBasicListTile extends StatelessWidget {
   const _MeetingBasicListTile({
-    Key key,
-    @required this.isLoading,
-    @required this.isThreeLine,
-    @required this.enabled,
-    @required this.subtitle,
-    @required this.trailing,
+    Key? key,
+    required this.isLoading,
+    required this.isThreeLine,
+    required this.enabled,
+    required this.subtitle,
+    required this.trailing,
   }) : super(key: key);
 
   final bool isLoading;
   final bool isThreeLine;
   final bool enabled;
   final Widget subtitle;
-  final Widget trailing;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {

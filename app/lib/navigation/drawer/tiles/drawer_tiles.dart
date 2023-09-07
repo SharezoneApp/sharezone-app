@@ -12,7 +12,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'drawer_tile.dart';
 
 const settingsPageTile = DrawerTile(NavigationItem.settings);
-const feedbackBoxtile = DrawerTile(NavigationItem.feedbackBox);
+const feedbackBoxTile = DrawerTile(NavigationItem.feedbackBox);
 const sharezonePlusTile = DrawerTile(NavigationItem.sharezonePlus);
 const onlyDesktopTiles = <Widget>[
   DrawerTile(NavigationItem.overview),

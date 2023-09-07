@@ -40,13 +40,13 @@ class ShowHomeworkRequest extends ActionRequest {
 }
 
 class ShowHomeworkExecutor extends ActionRequestExecutor<ShowHomeworkRequest> {
-  final NavigationService _navigationService;
+  final NavigationService? _navigationService;
 
   ShowHomeworkExecutor(this._navigationService);
 
   @override
   FutureOr<void> execute(ShowHomeworkRequest actionRequest) {
-    return _navigationService.pushWidget(
+    return _navigationService!.pushWidget(
         HomeworkDetails.loadId('${actionRequest.homeworkId}'),
         name: HomeworkDetails.tag);
   }

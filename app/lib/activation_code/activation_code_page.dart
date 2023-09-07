@@ -29,7 +29,7 @@ Future<dynamic> openEnterActivationCodePage(BuildContext context) {
 }
 
 class _EnterActivationCodePage extends StatelessWidget {
-  const _EnterActivationCodePage({Key key}) : super(key: key);
+  const _EnterActivationCodePage({Key? key}) : super(key: key);
 
   static const tag = "enter-activation-code-page";
 
@@ -49,7 +49,7 @@ class _EnterActivationCodePage extends StatelessWidget {
 
 class _EnterActivationCodeAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const _EnterActivationCodeAppBar({Key key}) : super(key: key);
+  const _EnterActivationCodeAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

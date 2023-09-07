@@ -10,7 +10,7 @@ part of '../dashboard_page.dart';
 
 @visibleForTesting
 class HolidayCountdownSection extends StatelessWidget {
-  const HolidayCountdownSection({Key key}) : super(key: key);
+  const HolidayCountdownSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +22,14 @@ class HolidayCountdownSection extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           child: CustomCard(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: SizedBox(
               width: double.infinity,
               child: StreamBuilder<bool>(
                 stream: bloc.hasStateSelected,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return Container(height: 50);
-                  final hasUserSelectedState = snapshot.data;
+                  final hasUserSelectedState = snapshot.data!;
                   if (hasUserSelectedState) return const _HolidayCounter();
                   return const _SelectStateDropdown();
                 },
@@ -50,19 +50,19 @@ class _HolidayCounter extends StatelessWidget {
     final bloc = BlocProvider.of<HolidayBloc>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: StreamBuilder<List<Holiday>>(
+      child: StreamBuilder<List<Holiday?>>(
         stream: bloc.holidays,
         builder: (context, snapshot) {
           if (snapshot.hasError) return handleError(snapshot.error);
           if (!snapshot.hasData)
             return const Center(child: AccentColorCircularProgressIndicator());
-          if (snapshot.data.isEmpty) return handleError(null);
+          if (snapshot.data!.isEmpty) return handleError(null);
           return DefaultTextStyle(
             style: DefaultTextStyle.of(context).style,
             textAlign: TextAlign.center,
             child: _HolidayText(
               maxItems: 2,
-              holidayList: snapshot.data,
+              holidayList: snapshot.data!,
             ),
           );
         },
@@ -70,7 +70,7 @@ class _HolidayCounter extends StatelessWidget {
     );
   }
 
-  Widget handleError(Object error) {
+  Widget handleError(Object? error) {
     if (error is UnsupportedStateException)
       return Center(
         child: Text(
@@ -88,20 +88,19 @@ class _HolidayCounter extends StatelessWidget {
 
 class _HolidayText extends StatelessWidget {
   final int maxItems;
-  final List<Holiday> holidayList;
+  final List<Holiday?> holidayList;
 
   const _HolidayText({
-    Key key,
-    @required this.maxItems,
-    @required this.holidayList,
+    Key? key,
+    required this.maxItems,
+    required this.holidayList,
   })  : assert(maxItems > 0),
-        assert(holidayList != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: _buildHolidayWidgets(holidayList, maxItems ?? 3),
+      children: _buildHolidayWidgets(holidayList, maxItems),
     );
   }
 
@@ -116,14 +115,14 @@ class _HolidayText extends StatelessWidget {
         "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfters auftaucht kontaktiere uns bitte.");
   }
 
-  List<Widget> _buildHolidayWidgets(List<Holiday> holidayList, int maxItems) {
+  List<Widget> _buildHolidayWidgets(List<Holiday?> holidayList, int maxItems) {
     List<Widget> widgetList = [];
     if (holidayList.length > maxItems)
       holidayList = List.from(holidayList.getRange(0, maxItems));
     // For each Holiday create a Widget and add to the list.
     holidayList.forEach((holiday) {
       int daysTillHolidayBeginn =
-          holiday.start.difference(DateTime.now()).inDays;
+          holiday!.start.difference(DateTime.now()).inDays;
       String holidayTitle = capitalize(holiday.name);
 
       String emoji;
@@ -148,7 +147,7 @@ class _HolidayText extends StatelessWidget {
         }
       }
 
-      final isFirstText = holidayList.first.slug == holiday.slug;
+      final isFirstText = holidayList.first!.slug == holiday.slug;
       if (!isFirstText) {
         // Add padding between the text widgets
         widgetList.add(SizedBox(height: 4));
@@ -161,7 +160,7 @@ class _HolidayText extends StatelessWidget {
 }
 
 class _SelectStateDropdown extends StatelessWidget {
-  const _SelectStateDropdown({Key key}) : super(key: key);
+  const _SelectStateDropdown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +178,7 @@ class _SelectStateDropdown extends StatelessWidget {
                 .sublist(0, StateEnum.values.length - 1)
                 .map(
                   (state) => DropdownMenuItem(
-                    child: Text(stateEnumToString[state]),
+                    child: Text(stateEnumToString[state]!),
                     value: state,
                   ),
                 )
@@ -204,7 +203,7 @@ class _SelectStateDropdown extends StatelessWidget {
   /// sofort, sobald der Nutzer ein Bundesland auswählt, womit auch der
   /// Context ungültigt wird. Würde man nun über den Context navigieren,
   /// so würde es zu einer Fehlermeldung kommen.
-  void showSelectedStateSnackBar(BuildContext context, StateEnum state) {
+  void showSelectedStateSnackBar(BuildContext context, StateEnum? state) {
     final navigationService = BlocProvider.of<NavigationService>(context);
     showSnackSec(
       context: context,

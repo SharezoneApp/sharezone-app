@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann
 /// Informatiert den Nutzer, wie wir mit seinen Daten umgehen.
@@ -19,9 +19,9 @@ import 'package:sharezone/util/launch_link.dart';
 class InfoMessage extends StatelessWidget {
   const InfoMessage({this.title, this.message, this.withPrivacyStatement});
 
-  final String title;
-  final String message;
-  final bool withPrivacyStatement;
+  final String? title;
+  final String? message;
+  final bool? withPrivacyStatement;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +29,15 @@ class InfoMessage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          title,
+          title!,
           style: TextStyle(fontSize: 16.0),
         ),
         Text(
-          message,
+          message!,
           style: TextStyle(color: Colors.grey),
         ),
         SizedBox(height: 12.0),
-        withPrivacyStatement != null && withPrivacyStatement
+        withPrivacyStatement != null && withPrivacyStatement!
             ? privacyStatement(context)
             : Container(),
       ],
@@ -55,7 +55,7 @@ class InfoMessage extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).primaryColor),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launchURL("https://www.codingbrain.de/imprint#privacy-app");
+                Navigator.pushNamed(context, PrivacyPolicyPage.tag);
               }),
         TextSpan(
           style: TextStyle(color: Colors.grey),
@@ -68,14 +68,14 @@ class InfoMessage extends StatelessWidget {
 
 class ChangeDataPasswordField extends StatefulWidget {
   const ChangeDataPasswordField({
-    @required this.onEditComplete,
+    required this.onEditComplete,
     this.focusNode,
     this.labelText = "Passwort",
     this.autofocus = false,
   });
 
   final VoidCallback onEditComplete;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final String labelText;
   final bool autofocus;
 

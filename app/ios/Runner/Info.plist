@@ -32,7 +32,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p</string>
+				<string>$(GOOGLE_SIGN_IN_URL)</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>de.codingbrain.sharezone.app</string>
+				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			</array>
 		</dict>
 	</array>

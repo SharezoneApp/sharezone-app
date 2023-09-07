@@ -42,7 +42,6 @@ String reportItemTypeToUiString(ReportedItemType type) {
     case ReportedItemType.comment:
       return 'Kommentar';
   }
-  return null;
 }
 
 class ReportItemReference {

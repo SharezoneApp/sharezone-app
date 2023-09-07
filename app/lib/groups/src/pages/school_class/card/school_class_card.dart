@@ -98,7 +98,10 @@ class SchoolClassCard extends StatelessWidget {
 }
 
 class _AbbreviationAvatar extends StatelessWidget {
-  const _AbbreviationAvatar({Key key, @required this.name}) : super(key: key);
+  const _AbbreviationAvatar({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   final String name;
 
@@ -114,7 +117,6 @@ class _AbbreviationAvatar extends StatelessWidget {
   }
 
   String _getAbbreviation(String name) {
-    if (name == null) return "";
     if (name.length <= 1) return name;
     return name.substring(0, 2).toUpperCase();
   }
@@ -122,7 +124,7 @@ class _AbbreviationAvatar extends StatelessWidget {
 
 class ShareIconButton extends StatelessWidget {
   const ShareIconButton({
-    @required this.schoolClass,
+    required this.schoolClass,
   });
 
   final SchoolClass schoolClass;
