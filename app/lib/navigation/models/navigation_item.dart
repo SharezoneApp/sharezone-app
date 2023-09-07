@@ -17,7 +17,7 @@ import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/pages/settings_page.dart';
-import 'package:sharezone/sharezone_plus/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
