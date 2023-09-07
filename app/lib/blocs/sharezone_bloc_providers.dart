@@ -85,7 +85,7 @@ import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -327,6 +327,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       StreamProvider<auth.AuthUser?>(
         create: (context) => api.user.authUserStream,
         initialData: null,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SharezonePlusPageController(
+          purchaseService: RevenueCatPurchaseService(),
+          subscriptionService: subscriptionService,
+        ),
       )
     ];
 
@@ -378,12 +384,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<ViewSubmissionsPageBlocFactory>(
         bloc: ViewSubmissionsPageBlocFactory(
             gateway: abgabenGateway, nutzerId: UserId(uid)),
-      ),
-      BlocProvider<SharezonePlusPageBloc>(
-        bloc: SharezonePlusPageBloc(
-          subscriptionService: subscriptionService,
-          purchaseService: RevenueCatPurchaseService(),
-        ),
       ),
       BlocProvider<BnbTutorialBloc>(
         bloc: BnbTutorialBloc(

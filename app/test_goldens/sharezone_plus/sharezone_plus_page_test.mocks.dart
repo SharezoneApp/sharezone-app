@@ -4,6 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i22;
+import 'dart:ui' as _i23;
 
 import 'package:analytics/analytics.dart' as _i5;
 import 'package:app_functions/app_functions.dart' as _i20;
@@ -25,10 +26,8 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
     as _i26;
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart'
     as _i27;
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart'
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart'
     as _i21;
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_view.dart'
-    as _i23;
 import 'package:sharezone/util/api.dart' as _i4;
 import 'package:sharezone/util/api/blackboard_api.dart' as _i11;
 import 'package:sharezone/util/api/connections_gateway.dart' as _i15;
@@ -258,18 +257,45 @@ class _FakeAppFunctionsResult_18<T> extends _i2.SmartFake
         );
 }
 
-/// A class which mocks [SharezonePlusPageBloc].
+/// A class which mocks [SharezonePlusPageController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharezonePlusPageBloc extends _i2.Mock
-    implements _i21.SharezonePlusPageBloc {
+class MockSharezonePlusPageController extends _i2.Mock
+    implements _i21.SharezonePlusPageController {
   @override
-  _i22.Stream<_i23.SharezonePlusPageView> get view => (super.noSuchMethod(
-        Invocation.getter(#view),
-        returnValue: _i22.Stream<_i23.SharezonePlusPageView>.empty(),
-        returnValueForMissingStub:
-            _i22.Stream<_i23.SharezonePlusPageView>.empty(),
-      ) as _i22.Stream<_i23.SharezonePlusPageView>);
+  bool get hasPlus => (super.noSuchMethod(
+        Invocation.getter(#hasPlus),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  set hasPlus(bool? _hasPlus) => super.noSuchMethod(
+        Invocation.setter(
+          #hasPlus,
+          _hasPlus,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  String get price => (super.noSuchMethod(
+        Invocation.getter(#price),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  set price(String? _price) => super.noSuchMethod(
+        Invocation.setter(
+          #price,
+          _price,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
   @override
   _i22.Future<void> buySubscription() => (super.noSuchMethod(
         Invocation.method(
@@ -292,6 +318,30 @@ class MockSharezonePlusPageBloc extends _i2.Mock
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(_i23.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(_i23.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
           [],
         ),
         returnValueForMissingStub: null,

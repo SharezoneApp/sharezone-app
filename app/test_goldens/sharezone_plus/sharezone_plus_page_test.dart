@@ -22,8 +22,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_view.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
@@ -33,7 +32,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'sharezone_plus_page_test.mocks.dart';
 
 @GenerateNiceMocks([
-  MockSpec<SharezonePlusPageBloc>(),
+  MockSpec<SharezonePlusPageController>(),
   MockSpec<NavigationBloc>(),
   MockSpec<NavigationExperimentCache>(),
   MockSpec<NavigationAnalytics>(),
@@ -43,7 +42,7 @@ import 'sharezone_plus_page_test.mocks.dart';
 ])
 void main() {
   group(SharezonePlusPage, () {
-    late MockSharezonePlusPageBloc bloc;
+    late MockSharezonePlusPageController controller;
     late MockNavigationBloc navigationBloc;
     late MockNavigationExperimentCache navigationExperimentCache;
     late MockSharezoneContext sharezoneContext;
@@ -51,7 +50,7 @@ void main() {
     late MockSharezoneGateway sharezoneGateway;
 
     setUp(() {
-      bloc = MockSharezonePlusPageBloc();
+      controller = MockSharezonePlusPageController();
       navigationBloc = MockNavigationBloc();
       navigationExperimentCache = MockNavigationExperimentCache();
       sharezoneContext = MockSharezoneContext();
@@ -71,6 +70,8 @@ void main() {
           .thenAnswer((_) => NavigationItem.sharezonePlus);
       when(navigationBloc.scaffoldKey)
           .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
+
+      when(controller.price).thenAnswer((_) => fallbackPlusPrice);
     });
 
     Future<void> _pumpPlusPage(
@@ -87,13 +88,15 @@ void main() {
                 }),
               ),
             ),
+            ChangeNotifierProvider<SharezonePlusPageController>(
+              create: (context) => controller,
+            ),
           ],
           child: MultiBlocProvider(
             blocProviders: [
               BlocProvider<NavigationBloc>(bloc: navigationBloc),
               BlocProvider<NavigationExperimentCache>(
                   bloc: navigationExperimentCache),
-              BlocProvider<SharezonePlusPageBloc>(bloc: bloc),
               BlocProvider<NavigationAnalytics>(
                   bloc: MockNavigationAnalytics()),
               BlocProvider<SharezoneContext>(bloc: sharezoneContext),
@@ -133,8 +136,7 @@ void main() {
 
     testGoldens('shows unsubscribe section if user has subscribed',
         (tester) async {
-      final view = SharezonePlusPageView(hasPlus: true, price: '4,99 €');
-      when(bloc.view).thenAnswer((_) => Stream.value(view));
+      when(controller.hasPlus).thenAnswer((_) => true);
 
       await _pumpPlusPage(tester, theme: lightTheme);
 

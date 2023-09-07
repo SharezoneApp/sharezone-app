@@ -9,11 +9,12 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
@@ -298,17 +299,10 @@ class _CallToActionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
-    return StreamBuilder<bool>(
-      initialData: false,
-      stream: bloc.view.map((view) => view.hasPlus),
-      builder: (context, snapshot) {
-        final hasPlus = snapshot.data!;
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
-        );
-      },
+    final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
     );
   }
 }
@@ -367,8 +361,8 @@ class _UnsubscribeButton extends StatelessWidget {
     const flatRed = Color(0xFFF55F4B);
     return _CallToActionButton(
       onPressed: () async {
-        final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
-        await bloc.cancelSubscription();
+        final controller = context.read<SharezonePlusPageController>();
+        await controller.cancelSubscription();
       },
       text: Text('Kündigen'),
       backgroundColor: flatRed,
@@ -399,30 +393,23 @@ class _Price extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
-    return StreamBuilder<String>(
-      initialData: kFallbackPrice,
-      stream: bloc.view.map((view) => view.price),
-      builder: (context, snapshot) {
-        final price = snapshot.data!;
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              price,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(width: 4),
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Text(
-                '/Monat',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          ],
-        );
-      },
+    final price = context.watch<SharezonePlusPageController>().price;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          price,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(width: 4),
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Text(
+            '/Monat',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -435,8 +422,8 @@ class _SubscribeButton extends StatelessWidget {
     return _CallToActionButton(
       text: Text('Abonnieren'),
       onPressed: () async {
-        final bloc = BlocProvider.of<SharezonePlusPageBloc>(context);
-        await bloc.buySubscription();
+        final controller = context.read<SharezonePlusPageController>();
+        await controller.buySubscription();
       },
       backgroundColor: Theme.of(context).primaryColor,
     );

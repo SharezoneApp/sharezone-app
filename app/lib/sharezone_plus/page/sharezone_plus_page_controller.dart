@@ -8,9 +8,7 @@
 
 import 'dart:async';
 
-import 'package:bloc_base/bloc_base.dart';
-import 'package:rxdart/subjects.dart';
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_view.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -19,23 +17,15 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 ///
 /// On macOS the price is not fetched from the backend because RevenueCat does
 /// not support macOS.
-const kFallbackPrice = '4,99 €';
+const fallbackPlusPrice = '4,99 €';
 
-class SharezonePlusPageBloc extends BlocBase {
-  final BehaviorSubject<SharezonePlusPageView> _view =
-      BehaviorSubject<SharezonePlusPageView>.seeded(
-    const SharezonePlusPageView(
-      hasPlus: false,
-      price: kFallbackPrice,
-    ),
-  );
-  Stream<SharezonePlusPageView> get view => _view;
-
-  late StreamSubscription<bool> _hasPlusSubscription;
+class SharezonePlusPageController extends ChangeNotifier {
   late RevenueCatPurchaseService _purchaseService;
   late SubscriptionService _subscriptionService;
 
-  SharezonePlusPageBloc({
+  StreamSubscription<bool>? _hasPlusSubscription;
+
+  SharezonePlusPageController({
     required RevenueCatPurchaseService purchaseService,
     required SubscriptionService subscriptionService,
   }) {
@@ -46,13 +36,23 @@ class SharezonePlusPageBloc extends BlocBase {
     _getPlusPrice();
   }
 
+  /// Whether the user has a Sharezone Plus subscription.
+  ///
+  /// We use `false` as the initial value because we don't know if the user has
+  /// a subscription or not. The value will be updated as soon as the
+  /// subscription status is fetched from the backend.
+  bool hasPlus = false;
+
+  /// The price of the Sharezone Plus subscription including the currency
+  /// symbol.
+  String price = fallbackPlusPrice;
+
   Future<void> _getPlusPrice() async {
     final product = await _purchaseService.getPlusSubscriptionProduct();
 
     if (product != null) {
-      _view.add(_view.value.copyWith(price: product.priceString));
-    } else {
-      _view.add(_view.value.copyWith(price: kFallbackPrice));
+      price = product.priceString;
+      notifyListeners();
     }
   }
 
@@ -60,13 +60,13 @@ class SharezonePlusPageBloc extends BlocBase {
     final hasPlus = _subscriptionService.isSubscriptionActiveStream();
 
     _hasPlusSubscription = hasPlus.listen((hasPlus) {
-      _view.add(_view.value.copyWith(hasPlus: hasPlus));
+      this.hasPlus = hasPlus;
+      notifyListeners();
     });
   }
 
   Future<void> buySubscription() async {
     // Implement
-
     final purchaseService = RevenueCatPurchaseService();
     final products = await purchaseService.getProducts();
     print(products);
@@ -80,7 +80,7 @@ class SharezonePlusPageBloc extends BlocBase {
 
   @override
   void dispose() {
-    _view.close();
-    _hasPlusSubscription.cancel();
+    _hasPlusSubscription?.cancel();
+    super.dispose();
   }
 }
