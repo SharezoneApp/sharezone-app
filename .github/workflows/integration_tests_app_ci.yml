@@ -209,6 +209,7 @@ jobs:
           flutter build ipa \
             --target=lib/main_prod.dart \
             --flavor prod \
+            --debug \
             --no-codesign
 
       - name: Run integration tests
