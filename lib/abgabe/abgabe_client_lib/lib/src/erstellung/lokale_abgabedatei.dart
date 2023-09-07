@@ -10,11 +10,10 @@ import 'package:abgabe_client_lib/src/models/abgabedatei.dart';
 import 'package:abgabe_client_lib/src/models/dateiname.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:optional/optional.dart';
 
 class LokaleAbgabedatei extends Abgabedatei {
   /// Might not be available on the web.
-  final Optional<String> pfad;
+  final String? pfad;
 
   /// Used to pass to the [SingletonLocalFileSaver].
   /// Used to get the data of the file. The other attributes might differ
@@ -27,9 +26,8 @@ class LokaleAbgabedatei extends Abgabedatei {
     required Dateigroesse dateigroesse,
     required DateTime erstellungsdatum,
     required this.localFile,
-    String? pfad,
-  })  : pfad = Optional.ofNullable(pfad),
-        super(
+    this.pfad,
+  }) : super(
             id: id,
             name: name,
             dateigroesse: dateigroesse,
@@ -44,7 +42,7 @@ class LokaleAbgabedatei extends Abgabedatei {
       id: id,
       name: neuerDateiname,
       dateigroesse: dateigroesse,
-      pfad: pfad.orElseNull,
+      pfad: pfad,
       erstellungsdatum: erstellungsdatum,
       localFile: localFile,
     );

@@ -77,8 +77,7 @@ extension ErstellerAbgabeToDto on ErstellerAbgabeModel {
   ErstellerAbgabenModelDto toDto() {
     return ErstellerAbgabenModelDto(
       abgabeId: '$abgabeId',
-      abgegebenUmIsoString:
-          abgegebenUm.map((val) => val.toUtc().toIso8601String()).orElseNull,
+      abgegebenUmIsoString: abgegebenUm?.toUtc().toIso8601String(),
       dateien: abgabedateien.map((e) => e.toDto()).toList(),
     );
   }

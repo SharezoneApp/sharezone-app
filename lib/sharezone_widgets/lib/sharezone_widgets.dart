@@ -78,6 +78,9 @@ export 'src/theme/scale_up_route.dart';
 export 'src/theme/fade_route.dart';
 export 'src/theme/brightness/general_theme.dart';
 
+// sharezone_plus
+export 'src/sharezone_plus/sharezone_plus_widgets.dart';
+
 // widgets
 export 'src/widgets.dart';
 

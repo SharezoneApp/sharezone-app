@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:files_basics/local_file.dart';
-import 'package:optional/optional.dart';
 
 final Map<String, LocalFile> _files = {};
 
@@ -17,7 +16,7 @@ class SingletonLocalFileSaver {
     _files[id] = file;
   }
 
-  Optional<LocalFile> getFile(String id) {
-    return Optional.ofNullable(_files[id]);
+  LocalFile? getFile(String id) {
+    return _files[id];
   }
 }
