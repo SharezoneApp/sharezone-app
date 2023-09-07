@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:sharezone/auth/login_page.dart';
+import 'package:sharezone/onboarding/mobile_welcome_page.dart';
 import 'package:sharezone_utils/platform.dart';
 
 import 'sign_up/sign_up_page.dart';
@@ -20,6 +21,8 @@ import 'sign_up/sign_up_page.dart';
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MobileWelcomePage();
+
     if (PlatformCheck.isDesktopOrWeb) return LoginPage.desktop();
     return SignUpPage(withLogin: true, withBackButton: false);
   }
