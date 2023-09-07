@@ -85,7 +85,8 @@ void main() {
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
-      // Ensure that the group list is loaded.
+      // Ensure that the group list is loaded. When the school class is loaded,
+      // we assume that the courses list is loaded as well.
       await waitFor(tester, find.text('Meine Klasse:'));
 
       // We assume that the user is in at least 5 groups with the following
