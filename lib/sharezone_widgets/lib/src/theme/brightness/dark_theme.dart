@@ -103,6 +103,10 @@ final darkTheme = ThemeData(
 bool isDarkThemeEnabled(BuildContext context) =>
     Theme.of(context).brightness == Brightness.dark;
 
+extension ThemeExtension on ThemeData {
+  bool get isDarkTheme => brightness == Brightness.dark;
+}
+
 /// Things with an elevation gets an other color.
 /// Material Design published the Colors for
 /// X dp elevation.

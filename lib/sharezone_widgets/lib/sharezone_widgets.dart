@@ -83,6 +83,8 @@ export 'src/sharezone_plus/sharezone_plus_widgets.dart';
 
 // widgets
 export 'src/widgets.dart';
+export 'src/widgets/animated_swap.dart';
+export 'src/widgets/expansion_card.dart';
 
 // wrappable_list
 export 'src/wrappable_list.dart';
