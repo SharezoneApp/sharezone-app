@@ -18,7 +18,7 @@ class MobileWelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE7EBED),
+      backgroundColor: const Color(0xFFE7EBED),
       body: Stack(
         children: const [
           _BackgroundImage(),
@@ -62,6 +62,8 @@ class _BackgroundImage extends StatelessWidget {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.white,
+                    // We shouldn't use `Colors.transparent` here, because it
+                    // will destroy the gradient effect.
                     Colors.white.withOpacity(0.0),
                   ],
                   stops: [
