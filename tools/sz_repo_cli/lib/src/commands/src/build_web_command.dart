@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
 final _webStages = [
   'stable',
@@ -67,6 +68,8 @@ class BuildWebCommand extends Command {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
+      final buildNameWithStage =
+          getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
       await runProcessSucessfullyOrThrow(
         'fvm',
         [
@@ -79,7 +82,8 @@ class BuildWebCommand extends Command {
           '--web-renderer',
           'canvaskit',
           '--dart-define',
-          'DEVELOPMENT_STAGE=${stage.toUpperCase()}'
+          'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
+          if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );

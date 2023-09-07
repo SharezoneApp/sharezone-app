@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
 final _macOsStages = [
   'stable',
@@ -63,6 +64,8 @@ When none is specified, the value from pubspec.yaml is used.''',
       const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
+      final buildNameWithStage =
+          getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
       await runProcessSucessfullyOrThrow(
         'fvm',
         [
@@ -75,6 +78,7 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (buildNumber != null) ...['--build-number', buildNumber],
+          if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );
