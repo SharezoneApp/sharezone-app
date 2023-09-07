@@ -137,8 +137,9 @@ class _UserCredentials {
 
 /// Waits for a widget identified by [finder] to be present in the widget tree.
 ///
-/// The function can be helpful when no loading indicator is present and the
-/// widget tree is not yet ready to be tested.
+/// This function can be useful when there is no load indicator (if there were,
+/// `await tester.pumpAndSettle()` would wait until the load animation was
+/// finished) and the widget tree is not yet ready to be tested.
 ///
 /// The function repeatedly calls `tester.pumpAndSettle()` and then delays for a
 /// short duration, checking at each iteration if the widget identified by
