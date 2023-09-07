@@ -117,6 +117,7 @@ void main() {
       // We a searching for an information sheet that is already created.
       const informationSheetTitel = 'German Course Trip to Berlin';
       await waitFor(tester, find.text(informationSheetTitel));
+      expect(find.text(informationSheetTitel), findsOneWidget);
 
       // We don't check the text of the information sheet for now because the
       // `find.text()` can't find text `MarkdownBody` which it a bit more
