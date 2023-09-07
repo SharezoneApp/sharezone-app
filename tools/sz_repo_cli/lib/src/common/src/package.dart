@@ -21,7 +21,9 @@ class Package {
   /// The version of the package.
   ///
   /// Contains the build number if it was specified in the pubspec.yaml.
-  final String version;
+  ///
+  /// Is `null` if no version was specified.
+  final String? version;
 
   final PackageType type;
   bool get isFlutterPackage => type == PackageType.flutter;
@@ -47,7 +49,7 @@ class Package {
     final containsFlutter = dependencies.containsKey('flutter') ||
         devDependencies.containsKey('flutter');
     final name = pubspecYaml['name'] as String?;
-    final version = pubspecYaml['version'] as String? ?? '0.0.0';
+    final version = pubspecYaml['version'] as String?;
     if (name == null) {
       throw Exception(
         'Package at "${directory.path}" has no name. Please add a name',
