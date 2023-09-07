@@ -85,14 +85,17 @@ void main() {
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
+      // Ensure that the group list is loaded.
+      await waitFor(tester, find.text('Meine Klasse:'));
+
       // We assume that the user is in at least 5 groups with the following
       // group names.
-      await waitFor(tester, find.text('10A'));
-      await waitFor(tester, find.text('Deutsch LK'));
-      await waitFor(tester, find.text('Englisch LK'));
-      await waitFor(tester, find.text('Französisch LK'));
-      await waitFor(tester, find.text('Latein LK'));
-      await waitFor(tester, find.text('Spanisch LK'));
+      expect(find.text('10A'), findsOneWidget);
+      expect(find.text('Deutsch LK'), findsOneWidget);
+      expect(find.text('Englisch LK'), findsOneWidget);
+      expect(find.text('Französisch LK'), findsOneWidget);
+      expect(find.text('Latein LK'), findsOneWidget);
+      expect(find.text('Spanisch LK'), findsOneWidget);
 
       print("Test: User should be able to load timetable");
       await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
