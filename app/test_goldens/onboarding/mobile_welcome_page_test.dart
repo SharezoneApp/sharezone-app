@@ -28,7 +28,7 @@ void main() {
     });
 
     // At the moment, the screen is hard coded to dark mode. This test will just
-    // ensures that the screen is still rendered with correct colors.
+    // ensures that the screen is still rendered with the correct colors.
     //
     // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/916
     testGoldens('renders as expected (dark theme)', (tester) async {
