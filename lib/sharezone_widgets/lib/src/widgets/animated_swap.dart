@@ -32,8 +32,6 @@ class AnimatedSwap extends StatelessWidget {
   /// unless the reverseDuration property is set. Note that changing the
   /// duration property will not affect the durations of transitions that are
   /// already in progress.
-  ///
-  /// By default, the [duration] property is set to 250 milliseconds.
   final Duration duration;
 
   @override

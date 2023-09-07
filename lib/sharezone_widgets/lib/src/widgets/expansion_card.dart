@@ -22,9 +22,6 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// represents the always-visible portion of the card, while the [body] is shown
 /// or hidden based on user interaction.
 ///
-/// The appearance of the card can be customized with [padding],
-/// [backgroundColor], and other provided properties.
-///
 /// The card uses [openTooltip] and [closeTooltip] to provide tooltips for the
 /// expand and collapse icons, respectively.
 ///
