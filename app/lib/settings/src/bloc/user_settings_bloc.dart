@@ -17,10 +17,11 @@ class UserSettingsBloc extends BlocBase {
   UserSettingsBloc(this._userGateway);
 
   Stream<UserSettings> streamUserSettings() {
-    return _userGateway.userStream.map((user) => user?.userSettings);
+    return _userGateway.userStream
+        .map((user) => user?.userSettings ?? UserSettings.defaultSettings());
   }
 
-  UserSettings current() => _userGateway.data.userSettings;
+  UserSettings? current() => _userGateway.data?.userSettings;
 
   void updateSettings(UserSettings newUserSettings) {
     _userGateway.updateSettings(newUserSettings);
@@ -30,9 +31,9 @@ class UserSettingsBloc extends BlocBase {
     _userGateway.updateSettingsSingleFiled('periods', periods.toJson());
   }
 
-  void updateEnabledWeekDays(EnabledWeekDays enabledWeekDays) {
+  void updateEnabledWeekDays(EnabledWeekDays? enabledWeekDays) {
     _userGateway.updateSettingsSingleFiled(
-        'enabledWeekDays', enabledWeekDays.toJson());
+        'enabledWeekDays', enabledWeekDays?.toJson());
   }
 
   void updateTimetableStartTime(Time time) {

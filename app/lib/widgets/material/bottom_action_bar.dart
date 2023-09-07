@@ -14,11 +14,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// at the bottom to mark the homework as done.
 class BottomActionBar extends StatelessWidget {
   const BottomActionBar({
-    Key key,
-    @required this.title,
-    @required this.onTap,
-  })  : assert(title != null || onTap != null),
-        super(key: key);
+    Key? key,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
 
   final String title;
   final VoidCallback onTap;

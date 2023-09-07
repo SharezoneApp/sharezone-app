@@ -16,7 +16,7 @@ import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
 void main() {
   group('GruppenBeitrittsTransformer', () {
     const gruppenId = "gruppenId";
-    BehaviorSubject<EinkommenderLink> einkommendeLinks;
+    late BehaviorSubject<EinkommenderLink> einkommendeLinks;
 
     setUp(() {
       einkommendeLinks = BehaviorSubject<EinkommenderLink>();

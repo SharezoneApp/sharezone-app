@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 /// to the [child].
 class ColorFadeIn extends StatefulWidget {
   const ColorFadeIn({
-    Key key,
+    Key? key,
     this.color = Colors.white,
     this.duration = const Duration(milliseconds: 500),
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   final Color color;

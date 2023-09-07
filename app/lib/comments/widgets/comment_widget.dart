@@ -31,7 +31,7 @@ class Comment extends StatelessWidget {
   final VoidCallback onReport;
 
   const Comment({
-    Key key,
+    Key? key,
     this.avatarText = "?",
     this.userComment = "",
     this.userName = "Max Mustermann",
@@ -39,16 +39,16 @@ class Comment extends StatelessWidget {
     this.likes = "0",
     this.status = CommentStatus.notRated,
     this.hasPermissionsToMangeComments = false,
-    this.onRated,
-    this.onReport,
-    this.onDelete,
+    required this.onRated,
+    required this.onReport,
+    required this.onDelete,
   }) : super(key: key);
 
   Comment.fromView(
     CommentView comment, {
-    @required this.onRated,
-    @required this.onDelete,
-    @required this.onReport,
+    required this.onRated,
+    required this.onDelete,
+    required this.onReport,
   })  : avatarText = comment.avatarAbbreviation,
         userComment = comment.content,
         userName = comment.userName,
@@ -179,7 +179,7 @@ class Comment extends StatelessWidget {
           const Text("Möchtest du wirklich den Kommentar für alle löschen?"),
     );
 
-    if (result) {
+    if (result == true) {
       onDelete();
       showSnack(
         duration: const Duration(milliseconds: 1600),
@@ -200,7 +200,7 @@ class Comment extends StatelessWidget {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({Key key, @required this.avatarText}) : super(key: key);
+  const _Avatar({Key? key, required this.avatarText}) : super(key: key);
 
   final String avatarText;
 
@@ -221,11 +221,11 @@ enum _CommentSheetAction { copy, report, delete }
 
 class _CommentSheet extends StatelessWidget {
   const _CommentSheet({
-    Key key,
-    this.avatarAbbreviation,
-    this.authorName,
-    this.content,
-    this.hasPermissionsToMangeComments,
+    Key? key,
+    required this.avatarAbbreviation,
+    required this.authorName,
+    required this.content,
+    required this.hasPermissionsToMangeComments,
   }) : super(key: key);
 
   final String avatarAbbreviation;

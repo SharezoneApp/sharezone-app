@@ -30,23 +30,23 @@ const contactInfo = "Instagram: @jsan_l";
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group("Feedback tests", () {
-    MockFeedbackApi api;
-    ClearableFeedbackCache cache;
-    MockPlatformInformationRetreiver platformInformationRetreiver;
-    FeedbackBloc bloc;
-    UserFeedback expectedResponseWithIdentifiableInfo;
-    UserFeedback expectedAnonymousResponse;
-    MockFeedbackAnalytics analytics;
+    late MockFeedbackApi api;
+    late ClearableFeedbackCache cache;
+    MockPlatformInformationRetriever platformInformationRetriever;
+    late FeedbackBloc bloc;
+    UserFeedback? expectedResponseWithIdentifiableInfo;
+    UserFeedback? expectedAnonymousResponse;
+    late MockFeedbackAnalytics analytics;
 
     setUp(() {
       api = MockFeedbackApi();
       cache = ClearableFeedbackCache(InMemoryKeyValueStore());
-      platformInformationRetreiver = MockPlatformInformationRetreiver();
+      platformInformationRetriever = MockPlatformInformationRetriever();
       analytics = MockFeedbackAnalytics();
       bloc = FeedbackBloc(
-          api, cache, platformInformationRetreiver, uid, analytics);
-      platformInformationRetreiver.appName = "appName";
-      platformInformationRetreiver.packageName = "packageName";
+          api, cache, platformInformationRetriever, uid, analytics);
+      platformInformationRetriever.appName = "appName";
+      platformInformationRetriever.packageName = "packageName";
 
       expectedResponseWithIdentifiableInfo = UserFeedback.create().copyWith(
           rating: rating,
@@ -100,7 +100,7 @@ void main() {
 
       writeRdmValues(bloc);
 
-      expect(bloc.submit(), throwsA(isInstanceOf<CooldownException>()));
+      expect(bloc.submit(), throwsA(isInstanceOf<CoolDownException>()));
       expect(api.wasInvoked, false);
     });
 

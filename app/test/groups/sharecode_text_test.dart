@@ -14,12 +14,10 @@ import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 void main() {
   group('SharecodeText', () {
     Future<void> _pumpSharecodeText({
-      @required WidgetTester tester,
-      @required String sharecode,
-      VoidCallback onCopied,
+      required WidgetTester tester,
+      required String sharecode,
+      VoidCallback? onCopied,
     }) async {
-      assert(tester != null && sharecode != null);
-
       await tester.pumpWidget(
         MaterialApp(
           home: Material(
@@ -90,14 +88,14 @@ void main() {
     });
 
     group('spells out the sharecode for screen readers:', () {
-      Finder _findSemanticsWidgetWith({@required String spelledOutSharecode}) {
+      Finder _findSemanticsWidgetWith({required String spelledOutSharecode}) {
         return find.bySemanticsLabel('Sharecode: $spelledOutSharecode');
       }
 
       Future<void> testThat({
-        @required String sharecode,
-        @required String isSpelledOutAs,
-        @required WidgetTester tester,
+        required String sharecode,
+        required String isSpelledOutAs,
+        required WidgetTester tester,
       }) async {
         await _pumpSharecodeText(tester: tester, sharecode: sharecode);
 

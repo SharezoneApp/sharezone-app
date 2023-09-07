@@ -20,17 +20,17 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachmentStreamList extends StatelessWidget {
   const AttachmentStreamList({
-    Key key,
-    @required this.cloudFileStream,
-    @required this.courseID,
-    this.initalAttachmentIDs,
+    Key? key,
+    required this.cloudFileStream,
+    required this.courseID,
+    this.initialAttachmentIDs,
   }) : super(key: key);
 
   final Stream<List<CloudFile>> cloudFileStream;
   final String courseID;
 
   /// Wird benötigt, um beim Laden direkt einen Platzhalter für diese Dateien einzurichten.
-  final List<String> initalAttachmentIDs;
+  final List<String>? initialAttachmentIDs;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class AttachmentStreamList extends StatelessWidget {
                     courseID: courseID,
                     cloudFiles: snapshot.data,
                   )
-                : _Placeholder(initalAttachmentIDs: initalAttachmentIDs),
+                : _Placeholder(initialAttachmentIDs: initialAttachmentIDs),
           );
         },
       ),
@@ -58,16 +58,16 @@ class AttachmentStreamList extends StatelessWidget {
 }
 
 class _Placeholder extends StatelessWidget {
-  const _Placeholder({Key key, this.initalAttachmentIDs}) : super(key: key);
+  const _Placeholder({Key? key, this.initialAttachmentIDs}) : super(key: key);
 
-  final List<String> initalAttachmentIDs;
+  final List<String>? initialAttachmentIDs;
 
   @override
   Widget build(BuildContext context) {
-    if (initalAttachmentIDs == null || initalAttachmentIDs.isEmpty)
+    if (initialAttachmentIDs == null || initialAttachmentIDs!.isEmpty)
       return Container();
     return Column(
-      children: [for (final id in initalAttachmentIDs) emptyFileCard(id)],
+      children: [for (final id in initialAttachmentIDs!) emptyFileCard(id)],
     );
   }
 
@@ -86,12 +86,12 @@ class _Placeholder extends StatelessWidget {
 
 class AttachmentList extends StatelessWidget {
   const AttachmentList({
-    Key key,
+    Key? key,
     this.cloudFiles,
-    @required this.courseID,
+    required this.courseID,
   }) : super(key: key);
 
-  final List<CloudFile> cloudFiles;
+  final List<CloudFile>? cloudFiles;
   final String courseID;
 
   @override
@@ -100,7 +100,7 @@ class AttachmentList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final cloudFile in cloudFiles)
+        for (final cloudFile in cloudFiles!)
           FileCard(
             key: ValueKey(cloudFile.id),
             cloudFile: cloudFile,

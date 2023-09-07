@@ -40,7 +40,7 @@ class TurnOnNotifications extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key key}) : super(key: key);
+  const _Title({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _NotNowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        final confirmed = await confirmDialog(context);
+        final confirmed = (await confirmDialog(context))!;
         if (confirmed) {
           final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
           bloc.logTurnOfNotifiactions();
@@ -100,7 +100,7 @@ class _NotNowButton extends StatelessWidget {
     );
   }
 
-  Future<bool> confirmDialog(BuildContext context) {
+  Future<bool?> confirmDialog(BuildContext context) {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       title: 'Keine Push-Nachrichten? 🤨',

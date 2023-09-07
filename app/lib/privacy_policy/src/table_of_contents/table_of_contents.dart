@@ -8,7 +8,6 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:meta/meta.dart';
 
 part './section_expansion.dart';
 
@@ -30,7 +29,7 @@ class TableOfContents {
           final sectionsHaveCorrectExpansionBehavior = sections.every(
               (element) =>
                   element.expansionStateOrNull == null ||
-                  element.expansionStateOrNull.expansionBehavior ==
+                  element.expansionStateOrNull!.expansionBehavior ==
                       expansionBehavior);
 
           return sectionsHaveCorrectExpansionBehavior;
@@ -39,7 +38,7 @@ class TableOfContents {
   /// Update the [TableOfContents] with the new [currentlyReadSection].
   /// This might update the [TocSectionExpansionState] of the [sections].
   TableOfContents changeCurrentlyReadSectionTo(
-      DocumentSectionId currentlyReadSection) {
+      DocumentSectionId? currentlyReadSection) {
     return _copyWith(
         sections: sections
             .map((section) =>
@@ -88,8 +87,8 @@ class TableOfContents {
   }
 
   TableOfContents _copyWith({
-    IList<TocSection> sections,
-    ExpansionBehavior expansionBehavior,
+    IList<TocSection>? sections,
+    ExpansionBehavior? expansionBehavior,
   }) {
     return TableOfContents(
       sections ?? this.sections,
@@ -103,7 +102,7 @@ class TocSection {
   final String title;
   final IList<TocSection> subsections;
 
-  final TocSectionExpansionState expansionStateOrNull;
+  final TocSectionExpansionState? expansionStateOrNull;
   bool get isExpanded => expansionStateOrNull?.isExpanded ?? false;
   bool get isCollapsed => !isExpanded;
   bool get isExpandable => subsections.isNotEmpty;
@@ -116,10 +115,10 @@ class TocSection {
           .isNotEmpty;
 
   TocSection({
-    @required this.id,
-    @required this.title,
-    @required this.subsections,
-    @required this.isThisCurrentlyRead,
+    required this.id,
+    required this.title,
+    required this.subsections,
+    required this.isThisCurrentlyRead,
     this.expansionStateOrNull,
   }) : assert(subsections
                 .where((element) => element.isThisOrASubsectionCurrentlyRead)
@@ -136,7 +135,7 @@ class TocSection {
       throw ArgumentError();
     }
     return _copyWith(
-      expansionStateOrNull: expansionStateOrNull.copyWith(
+      expansionStateOrNull: expansionStateOrNull!.copyWith(
         isExpanded: !isExpanded,
         expansionMode: ExpansionMode.forced,
       ),
@@ -150,7 +149,7 @@ class TocSection {
 
     return _copyWith(
       expansionStateOrNull:
-          expansionStateOrNull.copyWith(expansionBehavior: expansionBehavior),
+          expansionStateOrNull!.copyWith(expansionBehavior: expansionBehavior),
     );
   }
 
@@ -162,8 +161,8 @@ class TocSection {
   /// [notifyOfNewCurrentlyRead] would return an updated version of `this` with
   /// [isThisCurrentlyRead] == `true` and [isExpanded] == `true`.
   TocSection notifyOfNewCurrentlyRead(
-      DocumentSectionId newCurrentlyReadSection) {
-    final newSubsections = subsections
+      DocumentSectionId? newCurrentlyReadSection) {
+    final IList<TocSection> newSubsections = subsections
         .map((subsection) =>
             subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection))
         .toIList();
@@ -175,8 +174,8 @@ class TocSection {
 
     if (isExpandable) {
       updated = updated._copyWith(
-        expansionStateOrNull: expansionStateOrNull.computeNewExpansionState(
-            before: this, after: updated),
+        expansionStateOrNull: expansionStateOrNull!
+            .computeNewExpansionState(before: this, after: updated),
       );
     }
 
@@ -184,11 +183,11 @@ class TocSection {
   }
 
   TocSection _copyWith({
-    DocumentSectionId id,
-    String title,
-    IList<TocSection> subsections,
-    TocSectionExpansionState expansionStateOrNull,
-    bool isThisCurrentlyRead,
+    DocumentSectionId? id,
+    String? title,
+    IList<TocSection>? subsections,
+    TocSectionExpansionState? expansionStateOrNull,
+    bool? isThisCurrentlyRead,
   }) {
     return TocSection(
       id: id ?? this.id,
@@ -237,21 +236,21 @@ class TocSectionExpansionState {
   final ExpansionBehavior expansionBehavior;
 
   TocSectionExpansionState({
-    @required this.isExpanded,
-    @required this.expansionMode,
-    @required this.expansionBehavior,
+    required this.isExpanded,
+    required this.expansionMode,
+    required this.expansionBehavior,
   });
 
   TocSectionExpansionState computeNewExpansionState(
-      {TocSection before, TocSection after}) {
+      {required TocSection before, required TocSection after}) {
     return expansionBehavior.computeExpansionState(
         before: before, after: after);
   }
 
   TocSectionExpansionState copyWith({
-    bool isExpanded,
-    ExpansionMode expansionMode,
-    ExpansionBehavior expansionBehavior,
+    bool? isExpanded,
+    ExpansionMode? expansionMode,
+    ExpansionBehavior? expansionBehavior,
   }) {
     return TocSectionExpansionState(
       isExpanded: isExpanded ?? this.isExpanded,
@@ -281,9 +280,9 @@ class TocSectionExpansionState {
 
 extension ReplaceWhere<T> on IList<T> {
   Iterable<T> replaceWhere({
-    @required Predicate<T> where,
-    @required T Function(T element) replace,
-    ConfigList config,
+    required Predicate<T> where,
+    required T Function(T element) replace,
+    ConfigList? config,
   }) {
     return map(
       (element) => where(element) ? replace(element) : element,

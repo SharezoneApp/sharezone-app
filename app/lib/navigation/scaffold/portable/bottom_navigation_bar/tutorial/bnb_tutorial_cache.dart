@@ -16,7 +16,7 @@ class BnbTutorialCache {
   BnbTutorialCache(this._cache);
 
   bool wasTutorialCompleted() =>
-      _cache.containsKey(_tutorialKey) && _cache.getBool(_tutorialKey);
+      _cache.containsKey(_tutorialKey) && _cache.getBool(_tutorialKey) == true;
 
   void setTutorialAsCompleted() => _cache.setBool(_tutorialKey, true);
 }

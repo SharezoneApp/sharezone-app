@@ -27,7 +27,7 @@ class CloudFile {
 
   final FolderPath path;
 
-  final String? name;
+  final String name;
   final String? downloadURL;
   final String? thumbnailURL;
   final DateTime createdOn;
@@ -75,7 +75,7 @@ class CloudFile {
       creatorName: creatorName,
       courseID: courseID,
       path: path,
-      name: null,
+      name: '',
       downloadURL: null,
       thumbnailURL: null,
       createdOn: DateTime.now(),

@@ -15,8 +15,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// that the action of the [notification] could not be handled because of
 /// [errorReason].
 void showNotificationHandlingErrorDialog(
-    PushNotification notification, NotificationHandlerErrorReason errorReason,
-    {@required BuildContext context}) {
+  PushNotification notification,
+  NotificationHandlerErrorReason errorReason, {
+  required BuildContext context,
+}) {
   WidgetsBinding.instance.addPostFrameCallback((_) async {
     showLeftRightAdaptiveDialog<bool>(
       context: context,
@@ -24,8 +26,10 @@ void showNotificationHandlingErrorDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          notification.hasNonEmptyBody ? Text(notification.body) : null,
-          SizedBox(height: 20),
+          if (notification.hasNonEmptyBody) ...[
+            Text(notification.body!),
+            SizedBox(height: 20),
+          ],
           _ErrorBanner(errorReason: errorReason),
         ],
       ),
@@ -39,7 +43,7 @@ void showNotificationHandlingErrorDialog(
 }
 
 class _ErrorBanner extends StatefulWidget {
-  const _ErrorBanner({Key key, @required this.errorReason}) : super(key: key);
+  const _ErrorBanner({Key? key, required this.errorReason}) : super(key: key);
 
   final NotificationHandlerErrorReason errorReason;
 
@@ -50,8 +54,7 @@ class _ErrorBanner extends StatefulWidget {
 class __ErrorBannerState extends State<_ErrorBanner> {
   static String getLongErrorDescription(
       NotificationHandlerErrorReason errorReason) {
-    assert(errorReason != null);
-    String _errorReason;
+    String? _errorReason;
 
     switch (errorReason) {
       case NotificationHandlerErrorReason.fatalParsingError:

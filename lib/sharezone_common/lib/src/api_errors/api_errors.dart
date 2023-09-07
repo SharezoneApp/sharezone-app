@@ -122,6 +122,13 @@ class InvalidStartTimeException implements Exception {
   }
 }
 
+class StartTimeEndTimeIsEqualException implements Exception {
+  @override
+  String toString() {
+    return "StartTimeEndTimeIsEqualException";
+  }
+}
+
 class InvalidEndTimeException implements Exception {
   @override
   String toString() {

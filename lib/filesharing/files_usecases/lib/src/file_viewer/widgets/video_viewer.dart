@@ -17,17 +17,18 @@ class VideoViewer extends StatefulWidget {
   final String downloadURL;
 
   @override
-  State createState() => __VideoViewerState();
+  State createState() => _VideoViewerState();
 }
 
-class __VideoViewerState extends State<VideoViewer> {
+class _VideoViewerState extends State<VideoViewer> {
   ChewieController? _controller;
   late VideoPlayerController _videoPlayerController;
 
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.network(widget.downloadURL);
+    _videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.downloadURL));
     _videoPlayerController.initialize().then(
       (value) {
         setState(() {
@@ -45,7 +46,7 @@ class __VideoViewerState extends State<VideoViewer> {
   @override
   void dispose() {
     super.dispose();
-    _controller!.dispose();
+    _controller?.dispose();
     _videoPlayerController.dispose();
   }
 

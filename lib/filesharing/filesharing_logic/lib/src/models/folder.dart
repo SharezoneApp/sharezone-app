@@ -20,7 +20,7 @@ class Folder {
   final String? creatorID;
 
   final Map<String, Folder> folders;
-  final FolderType? folderType;
+  final FolderType folderType;
 
   const Folder._({
     required this.id,
@@ -65,9 +65,10 @@ class Folder {
       creatorName: data['creatorName'] == ""
           ? 'Automatisch erstellt'
           : data['creatorName'],
-      folderType: data['folderType'] != null
-          ? folderTypeFromString(data['folderType'])
-          : FolderType.normal,
+      folderType: FolderType.values.tryByName(
+        data['folderType'],
+        defaultValue: FolderType.normal,
+      ),
     );
   }
 
@@ -76,7 +77,7 @@ class Folder {
       'id': id,
       'name': name,
       'folders': folders.map((key, value) => MapEntry(key, value.toJson())),
-      'folderType': folderTypeToString(folderType),
+      'folderType': folderType.name,
       'creatorID': creatorID,
       'creatorName': creatorName,
     };

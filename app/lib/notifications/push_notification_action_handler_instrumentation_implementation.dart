@@ -36,7 +36,7 @@ class PushNotificationActionHandlerInstrumentationImpl
 
   @override
   void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead, PushNotification notification, error}) {
+      {fallbackValueChosenInstead, PushNotification? notification, error}) {
     _logger.warning(
       "Parsing notificiation $notification had non-fatal failure. The attribute $attributeName couldn't be parsed, the value $fallbackValueChosenInstead will be used instead.",
       error,

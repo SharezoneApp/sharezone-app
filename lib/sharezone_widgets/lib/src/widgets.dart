@@ -10,12 +10,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-export 'widgets/modal_floating_action_button.dart';
 export 'prefilled_text_field.dart';
+export 'widgets/modal_floating_action_button.dart';
 
 Future<void> waitingForPopAnimation() async =>
     await Future.delayed(const Duration(milliseconds: 270));
@@ -204,6 +204,8 @@ class SharezoneLogo extends StatelessWidget {
         getLogoPath()!,
         height: height,
         width: width,
+        semanticsLabel:
+            'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.',
       ),
     );
   }
@@ -736,7 +738,7 @@ class TextFieldWithDescription extends StatelessWidget {
 Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
   // ignore: use_build_context_synchronously
-  return showLeftRightAdaptiveDialog<bool>(
+  return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Eingabe verlassen?',
         content: const Text(
@@ -747,7 +749,7 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
           isDefaultAction: true,
           popResult: true,
         ),
-      ) as FutureOr<bool>? ??
+      ) ??
       false;
 }
 
@@ -761,7 +763,7 @@ Future<bool> warnUserAboutLeavingOrSavingForm(
     content: const Text(
         'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert'),
     context: context,
-    withCancleButtonOnIOS: true,
+    withCancelButtonOnIOS: true,
     left: const AdaptiveDialogAction(
       title: "Verlassen",
       popResult: false,
@@ -916,7 +918,7 @@ class CustomCardListTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
-                  if (isNotEmptyOrNull(subtitle!)) ...[
+                  if (isNotEmptyOrNull(subtitle)) ...[
                     const SizedBox(height: 2),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -11,7 +11,6 @@ import 'dart:async';
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -23,26 +22,28 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   final FirebaseAuth firebaseAuth;
 
   final _emailSubject = BehaviorSubject<String>();
-  final _passwordSubject = BehaviorSubject<String>();
-  final _newPasswordSubject = BehaviorSubject<String>();
+  final _passwordSubject = BehaviorSubject<String?>();
+  final _newPasswordSubject = BehaviorSubject<String?>();
 
   ChangeDataBloc({
-    @required this.userAPI,
-    @required this.firebaseAuth,
-    @required String currentEmail,
+    required this.userAPI,
+    required this.firebaseAuth,
+    required String? currentEmail,
   }) {
-    _emailSubject.sink.add(currentEmail);
+    if (currentEmail != null) {
+      _emailSubject.sink.add(currentEmail);
+    }
   }
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordSubject.stream.transform(validatePassword);
-  Stream<String> get newPassword =>
+  Stream<String?> get newPassword =>
       _newPasswordSubject.stream.transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
-  Function(String) get changePassword => _passwordSubject.sink.add;
-  Function(String) get changeNewPassword => _newPasswordSubject.sink.add;
+  Function(String?) get changePassword => _passwordSubject.sink.add;
+  Function(String?) get changeNewPassword => _newPasswordSubject.sink.add;
 
   Stream<bool> get submitChangeEmailValid =>
       Rx.combineLatest2(email, password, (e, p) => true);
@@ -51,7 +52,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
   bool isPasswordEmpty() {
     if (_passwordSubject.valueOrNull == null ||
-        _passwordSubject.valueOrNull.isEmpty) {
+        _passwordSubject.valueOrNull!.isEmpty) {
       _passwordSubject.sink.add("");
       return true;
     } else
@@ -59,7 +60,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   }
 
   bool compareEmail(String pEmail) {
-    if (pEmail.toLowerCase() == _emailSubject.valueOrNull.toLowerCase())
+    if (pEmail.toLowerCase() == _emailSubject.valueOrNull?.toLowerCase())
       return true;
     else
       return false;
@@ -68,16 +69,16 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   Future<void> sendResetPasswordMail() async {
     if (await hasInternetAccess()) {
       await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: userAPI.authUser.email);
+          .sendPasswordResetEmail(email: userAPI.authUser!.email!);
     } else {
       throw NoInternetAccess();
     }
   }
 
   Future<void> submitEmail() async {
-    final String currentEmail = userAPI.authUser.email;
-    final String newEmail = _emailSubject.valueOrNull;
-    final String password = _passwordSubject.valueOrNull;
+    final String currentEmail = userAPI.authUser!.email!;
+    final String? newEmail = _emailSubject.valueOrNull;
+    final String? password = _passwordSubject.valueOrNull;
 
     if (newEmail == currentEmail) {
       throw IdenticalEmailException(
@@ -85,13 +86,13 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
           currentEmail);
     } else {
       if (!isEmptyOrNull(newEmail) &&
-          AuthentificationValidators.isEmailValid(newEmail)) {
+          AuthentificationValidators.isEmailValid(newEmail!)) {
         if (!isEmptyOrNull(password) &&
-            AuthentificationValidators.isPasswordValid(password)) {
+            AuthentificationValidators.isPasswordValid(password!)) {
           if (await hasInternetAccess()) {
             final credential = EmailAuthProvider.credential(
                 email: currentEmail, password: password);
-            await userAPI.authUser.firebaseUser
+            await userAPI.authUser!.firebaseUser
                 .reauthenticateWithCredential(credential);
             await userAPI.changeEmail(newEmail);
 
@@ -115,20 +116,20 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
   }
 
   Future<void> submitPassword() async {
-    final String password = _passwordSubject.valueOrNull;
-    final String newPassword = _newPasswordSubject.valueOrNull;
-    final String email = userAPI.authUser.email;
+    final String? password = _passwordSubject.valueOrNull;
+    final String? newPassword = _newPasswordSubject.valueOrNull;
+    final String email = userAPI.authUser!.email!;
 
     if (!isEmptyOrNull(password) &&
-        AuthentificationValidators.isPasswordValid(password)) {
+        AuthentificationValidators.isPasswordValid(password!)) {
       if (!isEmptyOrNull(newPassword) &&
-          AuthentificationValidators.isPasswordValid(password)) {
+          AuthentificationValidators.isPasswordValid(newPassword!)) {
         if (await hasInternetAccess()) {
           final AuthCredential credential =
               EmailAuthProvider.credential(email: email, password: password);
-          await userAPI.authUser.firebaseUser
+          await userAPI.authUser!.firebaseUser
               .reauthenticateWithCredential(credential);
-          userAPI.authUser.firebaseUser.updatePassword(newPassword);
+          userAPI.authUser!.firebaseUser.updatePassword(newPassword);
         } else {
           throw NoInternetAccess();
         }
@@ -156,8 +157,8 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 }
 
 class IdenticalEmailException implements Exception {
-  final String message;
-  final String email;
+  final String? message;
+  final String? email;
 
   IdenticalEmailException([this.message, this.email]);
 

@@ -6,12 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:meta/meta.dart';
-
 import 'misc.dart';
 
 class Comment {
-  final String id;
+  final String? id;
   final String content;
   final CommentAuthor author;
   final List<Rating> ratings;
@@ -25,8 +23,8 @@ class Comment {
       ratings.where((rating) => rating.isDislike).toList();
 
   Comment({
-    @required this.content,
-    @required this.author,
+    required this.content,
+    required this.author,
     this.ratings = const [],
     this.age = CommentAge.zero,
     this.id,
@@ -84,7 +82,7 @@ class CommentAuthor {
   final String uid;
 
   const CommentAuthor({
-    @required this.uid,
+    required this.uid,
     this.name = "",
     this.abbreviation = "",
   });
@@ -98,7 +96,7 @@ class Rating {
   bool get isLike => status == RatingStatus.liked;
   bool get isDislike => status == RatingStatus.disliked;
 
-  Rating({@required this.status, @required this.uid});
-  Rating.positive({@required this.uid}) : status = RatingStatus.liked;
-  Rating.negative({@required this.uid}) : status = RatingStatus.disliked;
+  Rating({required this.status, required this.uid});
+  Rating.positive({required this.uid}) : status = RatingStatus.liked;
+  Rating.negative({required this.uid}) : status = RatingStatus.disliked;
 }

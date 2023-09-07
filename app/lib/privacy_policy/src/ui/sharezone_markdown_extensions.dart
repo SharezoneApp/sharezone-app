@@ -76,7 +76,7 @@ class _SharezoneSetextHeaderWithIdSyntax extends SetextHeaderWithIdSyntax {
 }
 
 String _generateAnchorHashFromElement(Element element) =>
-    generateAnchorHash(element.children.first.textContent);
+    generateAnchorHash(element.children!.first.textContent);
 
 /// Generates a valid HTML anchor from the inner text of [element].
 ///

@@ -17,7 +17,7 @@ import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 
 class CalendricalEventsPageBloc extends BlocBase {
-  final TimetableGateway timetabelGateway;
+  final TimetableGateway timetableGateway;
   final CourseGateway courseGateway;
   final SchoolClassGateway schoolClassGateway;
 
@@ -27,16 +27,16 @@ class CalendricalEventsPageBloc extends BlocBase {
       _allUpcomingEventsSubject;
 
   CalendricalEventsPageBloc(
-    this.timetabelGateway,
+    this.timetableGateway,
     this.courseGateway,
     this.schoolClassGateway,
   ) {
     CombineLatestStream([
-      timetabelGateway.streamEvents(Date.today()),
+      timetableGateway.streamEvents(Date.today()),
       courseGateway.getGroupInfoStream(schoolClassGateway)
     ], (streamValues) {
-      final events = streamValues[0] as List<CalendricalEvent> ?? [];
-      final groupInfos = streamValues[1] as Map<String, GroupInfo> ?? {};
+      final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+      final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
       final eventViews = events
           .map((event) =>

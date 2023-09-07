@@ -29,10 +29,10 @@ final _borderRadiusPanel = BorderRadius.only(
 /// A BottomNavigationBar which can be expaneded by swiping it up.
 class ExtendableBottomNavigationBar extends StatefulWidget {
   const ExtendableBottomNavigationBar({
-    Key key,
-    @required this.page,
-    @required this.currentNavigationItem,
-    @required this.option,
+    Key? key,
+    required this.page,
+    required this.currentNavigationItem,
+    required this.option,
     this.colorBehindBNB,
   }) : super(key: key);
 
@@ -50,7 +50,7 @@ class ExtendableBottomNavigationBar extends StatefulWidget {
   /// set this color.
   ///
   /// Default is [context.scaffoldBackgroundColor]
-  final Color colorBehindBNB;
+  final Color? colorBehindBNB;
 
   final NavigationExperimentOption option;
 
@@ -97,9 +97,9 @@ class ExtendableBottomNavigationBarState
 
 class _ExtendableBottomNavigationBarContent extends StatefulWidget {
   const _ExtendableBottomNavigationBarContent({
-    Key key,
-    @required this.controller,
-    @required this.currentNavigationItem,
+    Key? key,
+    required this.controller,
+    required this.currentNavigationItem,
     this.backgroundColor,
   }) : super(key: key);
 
@@ -110,7 +110,7 @@ class _ExtendableBottomNavigationBarContent extends StatefulWidget {
   /// currently selected.
   final NavigationItem currentNavigationItem;
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   _ExtendableBottomNavigationBarContentState createState() =>
@@ -127,7 +127,7 @@ class _ExtendableBottomNavigationBarContent extends StatefulWidget {
 
 class _ExtendableBottomNavigationBarContentState
     extends State<_ExtendableBottomNavigationBarContent> {
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
 
   @override
   void initState() {
@@ -149,18 +149,18 @@ class _ExtendableBottomNavigationBarContentState
     if (!context.isDesktopModus) {
       _overlayEntry = OverlayEntry(
         builder: (context) => _BnbTutorial(
-          animationController: widget.controller.animationController,
+          animationController: widget.controller.animationController!,
         ),
       );
 
-      Overlay.of(context).insert(_overlayEntry);
+      Overlay.of(context).insert(_overlayEntry!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.controller.animationController,
+      animation: widget.controller.animationController!,
       builder: (context, _) => Material(
         color: widget.backgroundColor,
         borderRadius: _borderRadiusPanel,
@@ -169,8 +169,8 @@ class _ExtendableBottomNavigationBarContentState
             border: isDarkThemeEnabled(context)
                 ? null
                 : Border.all(
-                    width:
-                        0.8 * (1 - widget.controller.animationController.value),
+                    width: 0.8 *
+                        (1 - widget.controller.animationController!.value),
                     color: Colors.black.withOpacity(0.1),
                   ),
             borderRadius: _borderRadiusPanel,
@@ -225,12 +225,12 @@ class _ExtendableBottomNavigationBarContentState
   /// directly below each other. Picture of the problems and the current
   /// Solution: https://bit.ly/3fW9ecw
   Widget flexibleSizedBox() => AnimatedBuilder(
-        animation: widget.controller.animationController,
+        animation: widget.controller.animationController!,
         builder: (context, child) {
           return SizedBox(
             height: 8 +
                 (context.mediaQueryViewPadding.bottom *
-                    (1 - widget.controller.animationController.value)),
+                    (1 - widget.controller.animationController!.value)),
           );
         },
       );
@@ -240,13 +240,16 @@ class _ExtendableBottomNavigationBarContentState
 /// the [ExtendableBottomNavigationBar]. Will also open the
 /// [ExtendableBottomNavigationBar] if tapped on.
 class _SwipeUpLine extends StatelessWidget {
-  const _SwipeUpLine({Key key, this.controller}) : super(key: key);
+  const _SwipeUpLine({
+    Key? key,
+    this.controller,
+  }) : super(key: key);
 
-  /// [controller] is needed to open the ExentableBottonNavigationBar, if the
+  /// [controller] is needed to open the [ExtendableBottomNavigationBar], if the
   /// user taps on this widget.
   ///
   /// If [controller] is null, this function will be disabled.
-  final PanelController controller;
+  final PanelController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +267,7 @@ class _SwipeUpLine extends StatelessWidget {
               width: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
-                color: Colors.grey[400].withOpacity(0.7),
+                color: Colors.grey[400]!.withOpacity(0.7),
               ),
             ),
           ),
@@ -274,7 +277,9 @@ class _SwipeUpLine extends StatelessWidget {
   }
 
   Future<void> onTap(BuildContext context) async {
-    controller.isPanelOpen ? controller.close() : controller.open();
+    if (controller == null) return;
+
+    controller!.isPanelOpen ? controller!.close() : controller!.open();
     _logAnalytics(context);
   }
 
@@ -286,9 +291,9 @@ class _SwipeUpLine extends StatelessWidget {
 
 class _ProfileChip extends StatelessWidget {
   const _ProfileChip({
-    Key key,
-    @required this.controller,
-    @required this.currentNavigationItem,
+    Key? key,
+    required this.controller,
+    required this.currentNavigationItem,
   }) : super(key: key);
 
   final PanelController controller;
@@ -306,9 +311,9 @@ class _ProfileChip extends StatelessWidget {
 
 class _FeedbackBoxChip extends StatelessWidget {
   const _FeedbackBoxChip({
-    Key key,
-    @required this.controller,
-    @required this.currentNavigationItem,
+    Key? key,
+    required this.controller,
+    required this.currentNavigationItem,
   }) : super(key: key);
 
   final PanelController controller;
@@ -326,10 +331,10 @@ class _FeedbackBoxChip extends StatelessWidget {
 
 class _Chip extends StatelessWidget {
   const _Chip({
-    Key key,
-    @required this.controller,
-    @required this.navigationItem,
-    @required this.currentNavigationItem,
+    Key? key,
+    required this.controller,
+    required this.navigationItem,
+    required this.currentNavigationItem,
   }) : super(key: key);
 
   /// [PanelController] is from the "sliding_up_panel" and is needed to close

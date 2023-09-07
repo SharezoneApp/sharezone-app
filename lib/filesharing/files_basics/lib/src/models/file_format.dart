@@ -80,7 +80,9 @@ class FileUtils {
     }
   }
 
-  static FileFormat getFileFormatFromMimeType(MimeType mimeType) {
+  static FileFormat getFileFormatFromMimeType(MimeType? mimeType) {
+    if (mimeType == null) return FileFormat.unknown;
+
     final mimeTypeAsString = mimeType.toData();
     // FILEFORMAT.PDF
     if (mimeTypesPDF.contains(mimeTypeAsString) ||

@@ -29,7 +29,7 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.7.0'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.12.0'
 
   use_frameworks!
   use_modular_headers!
@@ -42,6 +42,19 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
       config.build_settings['ENABLE_BITCODE'] = 'NO'
+
+      # For each permission on iOS that is handled by the "permission_handler"
+      # package, we need to add a preprocessor macro, see
+      # https://pub.dev/packages/permission_handler#setup.
+      #
+      # Preprocessor definitions can be found in:
+      # https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler_apple/ios/Classes/PermissionHandlerEnums.h
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+  
+        # dart: PermissionGroup.camera
+        'PERMISSION_CAMERA=1',
+      ]
      end
   end
 end

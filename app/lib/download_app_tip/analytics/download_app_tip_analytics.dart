@@ -30,8 +30,10 @@ class DownloadAppTipAnalytics {
 }
 
 class _DownloadAppTipEvent extends AnalyticsEvent {
-  _DownloadAppTipEvent({@required String status, @required this.targetPlatform})
-      : super('download_app_tip_$status');
+  _DownloadAppTipEvent({
+    required String status,
+    required this.targetPlatform,
+  }) : super('download_app_tip_$status');
 
   final TargetPlatform targetPlatform;
 

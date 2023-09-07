@@ -6,41 +6,28 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:sharezone/account/features/features_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
-
-class MockFeatureBloc implements FeatureBloc {
-  @override
-  void dispose() {}
-
-  @override
-  Stream<bool> get isAllColorsUnlocked => Stream.value(true);
-}
 
 void main() {
   group('selectDesign', () {
     testGoldens('display select design dialog as expected', (tester) async {
       await tester.pumpWidget(
-        BlocProvider<FeatureBloc>(
-          bloc: MockFeatureBloc(),
-          child: MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: Builder(builder: (context) {
-                  return ElevatedButton(
-                    // @visibleForTesting is not working for our `test_goldens`
-                    // folder. Therefore we have to ignore the warning.
-                    //
-                    // ignore: invalid_use_of_visible_for_testing_member
-                    onPressed: () => selectDesign(context, null),
-                    child: Text("Select"),
-                  );
-                }),
-              ),
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: Builder(builder: (context) {
+                return ElevatedButton(
+                  // @visibleForTesting is not working for our `test_goldens`
+                  // folder. Therefore we have to ignore the warning.
+                  //
+                  // ignore: invalid_use_of_visible_for_testing_member
+                  onPressed: () => selectDesign(context, null),
+                  child: Text("Select"),
+                );
+              }),
             ),
           ),
         ),

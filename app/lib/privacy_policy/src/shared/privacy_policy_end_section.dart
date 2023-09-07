@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 
 import '../privacy_policy_src.dart';
 
@@ -50,8 +49,8 @@ class PrivacyPolicyEndSection {
   final String Function(PrivacyPolicy privacyPolicy) generateMarkdown;
 
   const PrivacyPolicyEndSection({
-    @required this.sectionName,
-    @required this.generateMarkdown,
+    required this.sectionName,
+    required this.generateMarkdown,
   });
 
   factory PrivacyPolicyEndSection.metadata() {

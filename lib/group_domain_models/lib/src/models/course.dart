@@ -18,8 +18,9 @@ import 'write_permissions.dart';
 
 class Course {
   final String id;
-  final String? name, subject, abbreviation, sharecode, joinLink, meetingID;
-  final MemberRole? myRole;
+  final String name, subject, abbreviation;
+  final String? sharecode, joinLink, meetingID;
+  final MemberRole myRole;
   final CourseSettings settings;
   final bool version2;
   final GroupId? groupId;
@@ -54,11 +55,10 @@ class Course {
       personalSharecode: null,
       personalJoinLink: null,
       meetingID: null,
-      abbreviation: null,
+      abbreviation: "",
       groupId: null,
-      myRole: null,
-      design: Design
-          .standard(), // MIGHT WANT TO CHANGE IT TO RANDOM OR SO, TO GENERATE A RANDOM COLOR
+      myRole: MemberRole.standard,
+      design: Design.random(),
       settings: CourseSettings.standard,
       personalDesign: null,
     );
@@ -94,7 +94,7 @@ class Course {
       'publicKey': sharecode,
       'joinLink': joinLink,
       'meetingID': meetingID,
-      'myRole': myRole?.name,
+      'myRole': myRole.name,
       'settings': settings.toJson(),
       'design': design?.toJson(),
     };
@@ -157,7 +157,7 @@ class Course {
   GroupInfo toGroupInfo() {
     return GroupInfo(
       id: id,
-      name: name!,
+      name: name,
       abbreviation: abbreviation,
       design: getDesign(),
       meetingID: meetingID,
@@ -171,7 +171,8 @@ class Course {
 
 class CourseData {
   final String id;
-  final String? name, subject, description, abbreviation;
+  final String name, subject, abbreviation;
+  final String? description;
   final String? sharecode, joinLink, referenceSchoolID, meetingID;
   final List<String?>? referenceSchoolClassIDs;
   final CourseSettings settings;

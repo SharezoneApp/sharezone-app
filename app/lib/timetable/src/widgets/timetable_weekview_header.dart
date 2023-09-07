@@ -20,7 +20,9 @@ const _headerHeight = 50.0;
 class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
   final List<Date> dates;
 
-  TimetableWeekViewHeader({@required this.dates});
+  TimetableWeekViewHeader({
+    required this.dates,
+  });
 
   @override
   Widget build(
@@ -49,11 +51,11 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
                                       ? Theme.of(context)
                                           .textTheme
                                           .titleLarge
-                                          .color
+                                          ?.color
                                       : Theme.of(context)
                                           .appBarTheme
                                           .titleTextStyle
-                                          .color),
+                                          ?.color),
                             ),
                           );
                   },

@@ -19,7 +19,7 @@ import 'card_with_icon_and_text.dart';
 import 'filesharing_headline.dart';
 
 Future<void> openMoveFilePage(
-    {@required BuildContext context, @required CloudFile cloudFile}) async {
+    {required BuildContext context, required CloudFile cloudFile}) async {
   await Navigator.push(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -36,7 +36,7 @@ Future<void> openMoveFilePage(
 }
 
 class _MoveFilePage extends StatelessWidget {
-  const _MoveFilePage({Key key}) : super(key: key);
+  const _MoveFilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,13 @@ class _MoveFileCurrentPath extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MoveFileBloc>(context);
-    return StreamBuilder<TwoStreamSnapshot<FileSharingData, FolderPath>>(
+    return StreamBuilder<TwoStreamSnapshot<FileSharingData?, FolderPath?>>(
       stream: bloc.moveFileState.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(child: CircularProgressIndicator());
-        final fileSharingData = snapshot.data.data0;
-        final currentPath = snapshot.data.data1;
+        final fileSharingData = snapshot.data!.data0!;
+        final currentPath = snapshot.data!.data1;
         return Column(
           children: <Widget>[
             MoveFilePageHeader(
@@ -72,7 +72,7 @@ class _MoveFileCurrentPath extends StatelessWidget {
             _FolderList(
               fileSharingData: fileSharingData,
               folders:
-                  fileSharingData.getFolders(currentPath)?.values?.toList() ??
+                  fileSharingData.getFolders(currentPath)?.values.toList() ??
                       [],
               courseID: fileSharingData.courseID,
               path: currentPath,
@@ -86,20 +86,20 @@ class _MoveFileCurrentPath extends StatelessWidget {
 
 class _FolderList extends StatelessWidget {
   const _FolderList(
-      {@required this.folders,
-      @required this.fileSharingData,
-      @required this.courseID,
-      @required this.path});
+      {required this.folders,
+      required this.fileSharingData,
+      required this.courseID,
+      required this.path});
 
   final List<Folder> folders;
   final FileSharingData fileSharingData;
   final String courseID;
-  final FolderPath path;
+  final FolderPath? path;
 
   @override
   Widget build(BuildContext context) {
-    if (folders != null && folders.isEmpty) return _EmptyFoldersList();
-    folders.sort((a, b) => a.name.compareTo(b.name));
+    if (folders.isEmpty) return _EmptyFoldersList();
+    folders.sort((a, b) => a.name!.compareTo(b.name!));
     return SingleChildScrollView(
       padding: const EdgeInsets.only(left: 12),
       child: Column(
@@ -114,7 +114,7 @@ class _FolderList extends StatelessWidget {
                 _FolderCard(
                   folder: folder,
                   fileSharingData: fileSharingData,
-                  path: path.getChildPath(folder.id),
+                  path: path!.getChildPath(folder.id),
                 ),
             ],
           ),
@@ -126,7 +126,7 @@ class _FolderList extends StatelessWidget {
 
 class _EmptyFoldersList extends StatelessWidget {
   const _EmptyFoldersList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -143,14 +143,14 @@ class _EmptyFoldersList extends StatelessWidget {
 
 class _FolderCard extends StatelessWidget {
   const _FolderCard({
-    @required this.folder,
-    @required this.path,
+    required this.folder,
+    required this.path,
     this.fileSharingData,
   });
 
   final Folder folder;
   final FolderPath path;
-  final FileSharingData fileSharingData;
+  final FileSharingData? fileSharingData;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +166,7 @@ class _FolderCard extends StatelessWidget {
 }
 
 class _MoveFileBottomBar extends StatelessWidget {
-  const _MoveFileBottomBar({Key key}) : super(key: key);
+  const _MoveFileBottomBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

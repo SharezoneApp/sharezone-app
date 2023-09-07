@@ -94,10 +94,10 @@ class PdfFilePage extends StatelessWidget {
   // wird bei älteren Geräten einfach die Datei geöffnet.
   Future<bool> isDeviceSupportedByPdfPlguin() async {
     if (PlatformCheck.isAndroid) {
-      final android = await MobileDeviceInformationRetreiver().androidInfo;
+      final android = await MobileDeviceInformationRetriever().androidInfo;
       return android.version.sdkInt! >= 21;
     } else if (PlatformCheck.isIOS) {
-      final ios = await MobileDeviceInformationRetreiver().iosInfo;
+      final ios = await MobileDeviceInformationRetriever().iosInfo;
       final result = ios.systemVersion!.compareTo('11.0.0');
       return result != -1;
     }

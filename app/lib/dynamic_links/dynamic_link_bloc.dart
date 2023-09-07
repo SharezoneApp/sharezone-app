@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:rxdart/rxdart.dart';
@@ -38,7 +39,7 @@ class DynamicLinkBloc extends BlocBase {
     );
   }
 
-  void _konvertiereZuEingehendemLink(DynamicLinkData einkommenderLink,
+  void _konvertiereZuEingehendemLink(DynamicLinkData? einkommenderLink,
       {bool isInitialLink = false}) {
     if (einkommenderLink != null) {
       _einkommendeLinksSubject.add(EinkommenderLink.fromDynamicLink(

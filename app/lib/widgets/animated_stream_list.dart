@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:animated_stream_list/animated_stream_list.dart';
+import 'package:animated_stream_list_nullsafety/animated_stream_list.dart';
 import 'package:flutter/material.dart';
 
 typedef SharezoneAnimatedStreamListItemBuilder<T> = Widget Function(
@@ -18,26 +18,26 @@ typedef SharezoneAnimatedStreamListItemBuilder<T> = Widget Function(
 
 class SharezoneAnimatedStreamList<E> extends StatelessWidget {
   const SharezoneAnimatedStreamList({
-    Key key,
-    this.listStream,
+    Key? key,
+    required this.listStream,
+    required this.itemBuilder,
+    required this.itemRemovedBuilder,
+    required this.emptyListWidget,
     this.isListEmptyStream,
-    this.emptyListWidget,
     this.height,
-    this.scrollDirection,
-    this.itemBuilder,
-    this.itemRemovedBuilder,
+    this.scrollDirection = Axis.vertical,
     this.padding,
-    this.initalList,
+    this.initialList,
   }) : super(key: key);
 
   final Stream<List<E>> listStream;
-  final List<E> initalList;
-  final Stream<bool> isListEmptyStream;
+  final List<E>? initialList;
+  final Stream<bool>? isListEmptyStream;
 
   final Widget emptyListWidget;
-  final double height;
+  final double? height;
   final Axis scrollDirection;
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry? padding;
 
   final SharezoneAnimatedStreamListItemBuilder<E> itemBuilder;
   final SharezoneAnimatedStreamListItemBuilder<E> itemRemovedBuilder;
@@ -45,6 +45,7 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<E>>(
+      initialData: initialList,
       future: listStream.first,
       builder: (context, future) {
         if (!future.hasData) return emptyListWidget;

@@ -9,7 +9,7 @@
 part of '../sign_up_page.dart';
 
 class _PrivacyPolicy extends StatelessWidget {
-  const _PrivacyPolicy({Key key}) : super(key: key);
+  const _PrivacyPolicy({Key? key}) : super(key: key);
 
   static const tag = 'onboarding-privacy-policy';
 
@@ -31,7 +31,7 @@ class _PrivacyPolicy extends StatelessWidget {
 }
 
 class _ContinueButton extends StatefulWidget {
-  const _ContinueButton({Key key}) : super(key: key);
+  const _ContinueButton({Key? key}) : super(key: key);
 
   @override
   _ContinueButtonState createState() => _ContinueButtonState();
@@ -51,6 +51,7 @@ class _ContinueButtonState extends State<_ContinueButton> {
       ),
       child: Stack(
         key: const ValueKey('SubmitButton'),
+        alignment: Alignment.center,
         children: [
           Text(
             "Weiter".toUpperCase(),
@@ -62,18 +63,10 @@ class _ContinueButtonState extends State<_ContinueButton> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 275),
             child: isLoading
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 2, left: 58),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: Theme(
-                        data: ThemeData(
-                            colorScheme: ColorScheme.fromSwatch()
-                                .copyWith(secondary: Colors.white)),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(color: Colors.white),
                   )
                 : Container(),
           )

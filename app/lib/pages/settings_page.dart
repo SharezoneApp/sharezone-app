@@ -186,22 +186,22 @@ class _MoreSection extends StatelessWidget {
 }
 
 class _SettingsSection extends StatelessWidget {
-  const _SettingsSection({Key key, this.title, this.children})
+  const _SettingsSection({Key? key, this.title, this.children})
       : super(key: key);
 
-  final String title;
-  final List<Widget> children;
+  final String? title;
+  final List<Widget>? children;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Headline(title),
+        Headline(title!),
         CustomCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: children,
+            children: children!,
           ),
         )
       ],
@@ -218,17 +218,17 @@ class _SettingsOption extends StatelessWidget {
     this.tag,
   });
 
-  final String title;
-  final IconData icon;
-  final GestureTapCallback onTap;
-  final String tag;
+  final String? title;
+  final IconData? icon;
+  final GestureTapCallback? onTap;
+  final String? tag;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title),
+      title: Text(title!),
       leading: Icon(icon),
-      onTap: onTap != null ? onTap : () => Navigator.pushNamed(context, tag),
+      onTap: onTap != null ? onTap : () => Navigator.pushNamed(context, tag!),
     );
   }
 }

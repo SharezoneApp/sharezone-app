@@ -10,24 +10,26 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:holidays/holidays.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
-import 'package:sharezone/dashboard/models/homework_view.dart';
-import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
-import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone_utils/platform.dart';
-import 'package:user/user.dart';
 
+import 'update_reminder_test.mocks.dart';
+
+@GenerateNiceMocks([
+  MockSpec<UpdateReminderBloc>(),
+  MockSpec<HolidayBloc>(),
+  MockSpec<DashboardTipSystem>(),
+  MockSpec<DashboardBloc>(),
+])
 void main() {
   group('Update-Reminder Card', () {
-    MockUpdateReminderBloc mockUpdateReminderBloc;
+    late MockUpdateReminderBloc mockUpdateReminderBloc;
     final updateCardFinder = find.byKey(ValueKey('UpdatePromptCard'));
 
     setUp(() {
@@ -106,54 +108,4 @@ Widget _buildDashboardPage(UpdateReminderBloc updateReminderBloc) {
     ],
     child: (c) => MaterialApp(home: DashboardPageBody()),
   );
-}
-
-class MockDashboardBloc implements DashboardBloc {
-  @override
-  void dispose() {}
-
-  @override
-  Stream<List<LessonView>> get lessonViews => Stream.value([]);
-
-  @override
-  Stream<int> get nubmerOfUpcomingEvents => Stream.value(0);
-
-  @override
-  Stream<int> get numberOfUnreadBlackboardViews => Stream.value(0);
-
-  @override
-  Stream<int> get numberOfUrgentHomeworks => Stream.value(0);
-
-  @override
-  DateTime get todayDateTimeWithoutTime => DateTime.now();
-
-  @override
-  Stream<List<BlackboardView>> get unreadBlackboardViews => Stream.value([]);
-
-  @override
-  Stream<bool> get unreadBlackboardViewsEmpty => Stream.value(false);
-
-  @override
-  Stream<List<EventView>> get upcomingEvents => Stream.value([]);
-
-  @override
-  Stream<List<HomeworkView>> get urgentHomeworks => Stream.value([]);
-
-  @override
-  Stream<bool> get urgentHomeworksEmpty => Stream.value(true);
-}
-
-class MockUpdateReminderBloc extends Mock implements UpdateReminderBloc {}
-
-class MockHolidayBloc extends Mock implements HolidayBloc {
-  @override
-  Stream<StateEnum> get userState => Stream.value(StateEnum.nordrheinWestfalen);
-
-  @override
-  Stream<List<Holiday>> get holidays => Stream.value([]);
-}
-
-class MockDashboardTipSystem extends Mock implements DashboardTipSystem {
-  @override
-  Stream<DashboardTip> get dashboardTip => Stream.empty();
 }

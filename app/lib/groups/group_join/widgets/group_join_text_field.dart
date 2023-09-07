@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
@@ -20,7 +20,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../group_join_result_dialog.dart';
 
 class GroupJoinTextField extends StatefulWidget implements PreferredSizeWidget {
-  const GroupJoinTextField({Key key}) : super(key: key);
+  const GroupJoinTextField({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(140);
@@ -78,29 +78,23 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                   border: const OutlineInputBorder(),
                   labelText: 'Sharecode',
                   hintText: "z.B. Qb32vF",
-                  suffixIcon: PlatformCheck.isDesktopOrWeb
-                      ? null
-                      : GestureDetector(
-                          onTap: () async {
-                            hideKeyboard(context: context);
-                            final qrCode = await _scanQRCode();
-                            if (_isValidQrCode(qrCode)) {
-                              bloc.enterValue(qrCode);
-                              final groupJoinResultDialog =
-                                  GroupJoinResultDialog(bloc);
-                              groupJoinResultDialog.show(context);
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 10, 8),
-                            child: PlatformSvg.asset(
-                              "assets/icons/qr-code.svg",
-                              color: Colors.white,
-                              width: 18,
-                              height: 18,
-                            ),
-                          ),
-                        ),
+                  suffixIcon: IconButton(
+                    tooltip: 'QR-Code scannen',
+                    onPressed: () async {
+                      hideKeyboard(context: context);
+                      final qrCode = await _scanQRCode();
+                      if (_isValidQrCode(qrCode)) {
+                        bloc.enterValue(qrCode);
+                        final groupJoinResultDialog =
+                            GroupJoinResultDialog(bloc);
+                        groupJoinResultDialog.show(context);
+                      }
+                    },
+                    icon: PlatformSvg.asset(
+                      "assets/icons/qr-code.svg",
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -111,19 +105,20 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     );
   }
 
-  bool _isValidQrCode(String qrCodeText) => isNotEmptyOrNull(qrCodeText);
+  bool _isValidQrCode(String? qrCodeText) => isNotEmptyOrNull(qrCodeText);
 
   bool _isValidText(String newText) {
     return isNotEmptyOrNull(newText) && newText.length == 6;
   }
 
-  Future<String> _scanQRCode() async {
-    try {
-      final scanResult = await BarcodeScanner.scan();
-      return scanResult.rawContent;
-    } catch (e) {
-      return null;
-    }
+  Future<String?> _scanQRCode() async {
+    return showQrCodeScanner(
+      context,
+      title: const Text('QR-Code scannen'),
+      description:
+          const Text('Scanne einen QR-Code, um einer Gruppe beizutreten.'),
+      settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
+    );
   }
 
   void copySharecodeFromClipboardOrOpenKeyboard() {
@@ -161,7 +156,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       ),
     );
 
-    if (result) {
+    if (result == true) {
       bloc.enterValue(sharecode.value);
       sharecodeFieldTextController.text = sharecode.value;
       _logPastingSharecodeFromClipboard(context);

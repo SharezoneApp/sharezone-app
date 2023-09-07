@@ -12,7 +12,7 @@ description: A starting point for Dart libraries or applications.
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   common_domain_models:
@@ -20,7 +20,7 @@ dependencies:
   bloc: ^8.1.2
   rxdart: ^0.27.1
   equatable: ^2.0.5
-  collection: ^1.17.0
+  collection: ^1.17.2
   meta: any
   key_value_store:
     path: ../key_value_store

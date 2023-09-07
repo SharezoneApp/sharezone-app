@@ -34,7 +34,7 @@ class _TipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DownloadAppTipBloc>(context);
-    return StreamBuilder<DownloadAppTip>(
+    return StreamBuilder<DownloadAppTip?>(
       stream: bloc.getDownloadTipIfShouldShowTip(),
       builder: (context, snapshot) {
         final tip = snapshot.data;

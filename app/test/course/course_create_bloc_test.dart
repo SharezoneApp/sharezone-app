@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
@@ -18,17 +19,17 @@ import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
 
 import '../analytics/analytics_test.dart';
+import 'course_create_bloc_test.mocks.dart';
 
-class MockCourseCreateApi extends Mock implements CourseCreateGateway {}
-
+@GenerateNiceMocks([MockSpec<CourseCreateGateway>()])
 void main() {
-  CourseCreateBloc bloc;
-  CourseCreateAnalytics analytics;
-  CourseCreateGateway gateway;
+  late CourseCreateBloc bloc;
+  late CourseCreateAnalytics analytics;
+  late MockCourseCreateGateway gateway;
 
   setUp(() {
     analytics = CourseCreateAnalytics(Analytics(LocalAnalyticsBackend()));
-    gateway = MockCourseCreateApi();
+    gateway = MockCourseCreateGateway();
     bloc = CourseCreateBloc(gateway, analytics);
   });
 
@@ -60,7 +61,7 @@ void main() {
     bloc.changeSubject("Some value");
     bloc.changeSubject("");
     final queue = StreamQueue<String>(bloc.subject);
-    TextValidationException validationException;
+    late TextValidationException validationException;
     try {
       await queue.next;
     } on TextValidationException catch (e) {

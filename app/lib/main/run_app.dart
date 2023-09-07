@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
@@ -20,7 +21,6 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
-import 'package:sharezone/main/flutter_error_handler.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -29,17 +29,16 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
-BehaviorSubject<Beitrittsversuch> runBeitrittsVersuche() {
+BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
   // ignore:close_sinks
-  BehaviorSubject<Beitrittsversuch> beitrittsversuche =
-      BehaviorSubject<Beitrittsversuch>();
+  BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
+      BehaviorSubject<Beitrittsversuch?>();
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
@@ -60,31 +59,18 @@ DynamicLinkBloc runDynamicLinkBloc(
   return dynamicLinkBloc;
 }
 
-Future<void> runFlutterApp({@required Flavor flavor}) async {
+Future<void> runFlutterApp({required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
-
-  runZonedGuarded<Future<void>>(
-    () async => runApp(Sharezone(
-      beitrittsversuche: dependencies.beitrittsversuche,
-      blocDependencies: dependencies.blocDependencies,
-      dynamicLinkBloc: dependencies.dynamicLinkBloc,
-      flavor: flavor,
-    )),
-    (error, stackTrace) async {
-      debugPrint(error.toString());
-
-      // Whenever an error occurs, call the `reportCrash`
-      // to send Dart errors to Crashlytics
-      await dependencies.pluginInitializations.crashAnalytics.recordError(
-        error,
-        stackTrace,
-      );
-    },
-  );
+  runApp(Sharezone(
+    beitrittsversuche: dependencies.beitrittsversuche,
+    blocDependencies: dependencies.blocDependencies,
+    dynamicLinkBloc: dependencies.dynamicLinkBloc,
+    flavor: flavor,
+  ));
 }
 
 Future<AppDependencies> initializeDependencies({
-  @required Flavor flavor,
+  required Flavor flavor,
 }) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
@@ -93,7 +79,7 @@ Future<AppDependencies> initializeDependencies({
 
   await _initializeFirebase(flavor);
 
-  final pluginInitializations = await runPluginInitializations();
+  final pluginInitializations = await runPluginInitializations(flavor: flavor);
 
   final firebaseDependencies = FirebaseDependencies.get();
   final firebaseFunctions =
@@ -107,14 +93,14 @@ Future<AppDependencies> initializeDependencies({
   final keyValueStore =
       FlutterKeyValueStore(pluginInitializations.sharedPreferences);
   final registrationGateway =
-      RegistrationGateway(references.users, firebaseDependencies.auth);
+      RegistrationGateway(references.users, firebaseDependencies.auth!);
   final blocDependencies = BlocDependencies(
     analytics: Analytics(getBackend()),
-    firestore: firebaseDependencies.firestore,
+    firestore: firebaseDependencies.firestore!,
     keyValueStore: keyValueStore,
     sharedPreferences: pluginInitializations.sharedPreferences,
     references: references,
-    auth: firebaseDependencies.auth,
+    auth: firebaseDependencies.auth!,
     streamingSharedPreferences:
         pluginInitializations.streamingSharedPreferences,
     registrationGateway: registrationGateway,
@@ -123,7 +109,14 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
-  FlutterError.onError = (error) => flutterErrorHandler(error);
+  // From:
+  // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
+  FlutterError.onError =
+      pluginInitializations.crashAnalytics.recordFlutterError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    pluginInitializations.crashAnalytics.recordError(error, stack);
+    return true;
+  };
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 
@@ -132,13 +125,14 @@ Future<AppDependencies> initializeDependencies({
 
   final analytics = Analytics(getBackend());
 
-  UserGateway userGateway;
-  SharezoneGateway sharezoneGateway;
+  UserGateway? userGateway;
+  SharezoneGateway? sharezoneGateway;
+
   listenToAuthStateChanged().listen((currentUser) async {
     final isAuthenticated = currentUser?.uid != null;
     if (isAuthenticated) {
       sharezoneGateway = SharezoneGateway(
-          authUser: currentUser,
+          authUser: currentUser!,
           memberID: currentUser.uid,
           references: references);
 
@@ -146,7 +140,7 @@ Future<AppDependencies> initializeDependencies({
         einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
         istGruppeBereitsBeigetreten: (publicKey) async =>
             await istSchonGruppeMitSharecodeBeigetreten(
-          sharezoneGateway,
+          sharezoneGateway!,
           publicKey,
         ),
       );
@@ -158,10 +152,12 @@ Future<AppDependencies> initializeDependencies({
       );
 
       userGateway = UserGateway(references, currentUser);
-      userGateway.userStream.listen((user) {
+      userGateway!.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
-              name: 'typeOfUser', value: enumToString(user.typeOfUser));
+            name: 'typeOfUser',
+            value: user!.typeOfUser.name,
+          );
         }
       });
     } else {
@@ -200,14 +196,14 @@ Future<void> _initializeFirebase(Flavor flavor) async {
 /// The dependencies for the [Sharezone] widget and the integration tests.
 class AppDependencies {
   const AppDependencies({
-    @required this.dynamicLinkBloc,
-    @required this.beitrittsversuche,
-    @required this.blocDependencies,
-    @required this.pluginInitializations,
+    required this.dynamicLinkBloc,
+    required this.beitrittsversuche,
+    required this.blocDependencies,
+    required this.pluginInitializations,
   });
 
   final DynamicLinkBloc dynamicLinkBloc;
-  final Stream<Beitrittsversuch> beitrittsversuche;
+  final Stream<Beitrittsversuch?> beitrittsversuche;
   final BlocDependencies blocDependencies;
   final PluginInitializations pluginInitializations;
 }

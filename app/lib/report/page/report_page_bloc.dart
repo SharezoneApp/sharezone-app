@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_item.dart' as ui;
@@ -25,9 +24,9 @@ class ReportPageBloc extends BlocBase {
   final ReportFactory reportFactory;
 
   ReportPageBloc({
-    @required this.reportGateway,
-    @required this.item,
-    @required this.reportFactory,
+    required this.reportGateway,
+    required this.item,
+    required this.reportFactory,
   });
 
   final _reasonSubject = BehaviorSubject<ReportReason>();
@@ -53,8 +52,8 @@ class ReportPageBloc extends BlocBase {
       final reason = _reasonSubject.valueOrNull;
 
       final report = reportFactory.create(
-        description,
-        reason,
+        description!,
+        reason!,
         item,
       );
 

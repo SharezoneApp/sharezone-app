@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:authentification_base/authentification_google.dart';
 import 'package:authentification_base/src/apple/apple_sign_in_logic.dart';
@@ -22,12 +23,12 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
   final LoginAnalytics _analytics;
 
   final _emailSubject = BehaviorSubject<String>();
-  final _passwordSubject = BehaviorSubject<String>();
+  final _passwordSubject = BehaviorSubject<String?>();
 
   LoginBloc(this._analytics);
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
-  Stream<String> get password =>
+  Stream<String?> get password =>
       _passwordSubject.stream.transform(validatePassword);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
@@ -62,11 +63,8 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> loginWithGoogle() async {
     final googleSignInLogic = GoogleSignInLogic();
-    final credential = await googleSignInLogic.signIn();
-
-    _analytics.logGoolgeLogin();
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await googleSignInLogic.signIn();
+    _analytics.logGoogleLogin();
   }
 
   Future<void> loginWithApple() async {

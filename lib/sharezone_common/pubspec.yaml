@@ -12,7 +12,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -23,9 +23,9 @@ dependencies:
     path: ../crash_analytics
   sharezone_utils:
     path: ../sharezone_utils
-  cloud_firestore: ^4.5.0
-  firebase_auth: ^4.4.0
-  intl: any
+  cloud_firestore: ^4.8.5
+  firebase_auth: ^4.7.3
+  intl: ^0.18.1
   quiver: any
 
 dev_dependencies:

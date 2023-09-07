@@ -8,10 +8,11 @@
 
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:retry/retry.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:user/user.dart';
 
 class NotificationTokenAdder {
   final NotificationTokenAdderApi _api;
@@ -23,7 +24,7 @@ class NotificationTokenAdder {
     final token = await _api.getFCMToken();
     if (token != null && token.isNotEmpty) {
       try {
-        existingTokens = await _api.getUserTokensFromDatabase() ?? [];
+        existingTokens = await _api.getUserTokensFromDatabase();
       } on Exception {
         existingTokens = [];
       }
@@ -52,14 +53,26 @@ class NotificationTokenAdderApi {
     this.vapidKey,
   );
 
-  Future<String> getFCMToken() {
+  Future<String?> getFCMToken() async {
     if (isIntegrationTest) {
       // Firebase Messaging is not available in integration tests.
       log('Skipping to get FCM token because integration test is running.');
       return null;
     }
 
-    return _firebaseMessaging.getToken(vapidKey: vapidKey);
+    try {
+      // Retry because sometimes we get an unknown error from Firebase
+      // Messaging.
+      //
+      // See https://console.firebase.google.com/u/0/project/sharezone-c2bd8/crashlytics/app/ios:de.codingbrain.sharezone.app/issues/bd7d15551a69ad54ea806f4627d8eeda
+      return retry<String?>(
+        () => _firebaseMessaging.getToken(vapidKey: vapidKey),
+        maxAttempts: 3,
+      );
+    } catch (e, s) {
+      log('Could not get FCM token', error: e, stackTrace: s);
+      return null;
+    }
   }
 
   Future<void> tryAddTokenToDatabase(String token) async {
@@ -78,7 +91,7 @@ class NotificationTokenAdderApi {
   }
 
   Future<List<String>> getUserTokensFromDatabase() async {
-    AppUser user = await _userApi.userStream.first;
-    return user?.notificationTokens?.toList() ?? [];
+    final user = await _userApi.userStream.first;
+    return user?.notificationTokens.whereNotNull().toList() ?? [];
   }
 }

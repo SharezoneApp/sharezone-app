@@ -23,8 +23,8 @@ class FileSharingPage extends StatefulWidget {
 }
 
 class _FileSharingPageState extends State<FileSharingPage> {
-  FileSharingPageBloc fileSharingPageBloc;
-  FileSharingPageStateBloc fileSharingPageStateBloc;
+  late FileSharingPageBloc fileSharingPageBloc;
+  late FileSharingPageStateBloc fileSharingPageStateBloc;
 
   @override
   void initState() {

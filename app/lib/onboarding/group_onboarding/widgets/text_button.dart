@@ -11,15 +11,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingTextButton extends StatelessWidget {
   const GroupOnboardingTextButton({
-    Key key,
+    Key? key,
     this.text,
     this.onTap,
     this.icon,
   }) : super(key: key);
 
-  final Widget icon;
-  final String text;
-  final VoidCallback onTap;
+  final Widget? icon;
+  final String? text;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +37,14 @@ class GroupOnboardingTextButton extends StatelessWidget {
                 if (icon != null) ...[
                   IconTheme(
                     data: IconThemeData(color: Colors.grey[700]),
-                    child: icon,
+                    child: icon!,
                   ),
                   const SizedBox(width: 12),
                 ],
                 Expanded(
                   child: Center(
                     child: Text(
-                      text,
+                      text!,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 18),
                     ),
