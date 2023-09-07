@@ -7,7 +7,8 @@ import 'package:sz_repo_cli/src/common/src/run_process.dart';
 /// Optionally, you can pass [instructionsToInstall] to throw an helpful
 /// exception.
 ///
-/// Currently, we skip this method for [Platform.]
+/// Currently, we skip this method for [Platform.isWindows] because "which -s"
+/// is not available for Windows.
 Future<void> throwIfCommandIsNotInstalled({
   required String command,
   String? instructionsToInstall,
