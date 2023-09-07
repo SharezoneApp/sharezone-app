@@ -1,6 +1,4 @@
-# We must set iOS to +12.0 because the Jitsi SDK requires it
-# (https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-ios-sdk/).
-platform :ios, '12.0'
+platform :ios, '11.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
