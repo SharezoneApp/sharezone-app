@@ -76,6 +76,7 @@ class DeployIosCommand extends Command {
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
     addAppStoreConnectPrivateKey(argParser);
+    addCertificateKey(argParser);
     addWhatsNewOption(argParser);
   }
 
@@ -94,7 +95,7 @@ class DeployIosCommand extends Command {
   @override
   Future<void> run() async {
     _throwIfFlavorIsNotSupportForDeployment();
-    await throwIfCodemagiCliToolsAreNotInstalled();
+    await throwIfCodemagicCliToolsAreNotInstalled();
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -102,16 +103,26 @@ class DeployIosCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
+    const platform = ApplePlatform.iOS;
+
+    await setUpSigning(
+      config: AppleSigningConfig.create(
+        argResults: argResults!,
+        environment: Platform.environment,
+        platform: platform,
+        type: ProvisioningProfileType.iOsAppStore,
+      ),
+    );
+
     final appStoreConnectConfig = AppStoreConnectConfig.create(
       argResults!,
       Platform.environment,
     );
 
-    const platform = 'IOS';
     final buildNumber = await getNextBuildNumberFromAppStoreConnect(
       appStoreConnectConfig: appStoreConnectConfig,
       platform: platform,
-      // Using the app location as working direcorty because the default
+      // Using the app location as working directory because the default
       // location for the App Store Connect private key is
       // app/private_keys/AuthKey_{keyIdentifier}.p8.
       workingDirectory: _repo.sharezoneFlutterApp.path,
@@ -121,7 +132,6 @@ class DeployIosCommand extends Command {
       appStoreConnectConfig: appStoreConnectConfig,
       stage: argResults![releaseStageOptionName] as String,
       whatsNew: argResults![whatsNewOptionName] as String?,
-      platform: platform,
       path: 'build/ios/ipa/*.ipa',
       repo: _repo,
       stageToTracks: _iosStageToTracks,

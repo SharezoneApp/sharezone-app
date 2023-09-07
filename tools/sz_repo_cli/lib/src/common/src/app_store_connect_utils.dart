@@ -13,18 +13,63 @@ import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 import 'package:sz_repo_cli/src/common/src/run_process.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 
+const certificateKeyOptionName = 'certificate-key';
 const privateKeyOptionName = 'private-key';
 const keyIdOptionName = 'key-id';
 const issuerIdOptionName = 'issuer-id';
 const whatsNewOptionName = 'whats-new';
 const releaseStageOptionName = 'stage';
 
+/// Sets up signing that is required to deploy a macOS or iOS app.
+Future<void> setUpSigning({
+  required AppleSigningConfig config,
+}) async {
+  await _keychainInitialize();
+  await _fetchSigningFiles(config: config);
+  await _keychainAddCertificates();
+  await _xcodeProjectUseProfiles();
+}
+
+Future<void> _keychainInitialize() async {
+  await runProcessSucessfullyOrThrow('keychain', ['initialize']);
+}
+
+Future<void> _fetchSigningFiles({
+  required AppleSigningConfig config,
+}) async {
+  const bundleId = 'de.codingbrain.sharezone';
+  await runProcessSucessfullyOrThrow(
+    'app-store-connect',
+    [
+      'fetch-signing-files',
+      bundleId,
+      '--platform',
+      config.platform.toUppercaseSnakeCase(),
+      '--type',
+      config.type.toUppercaseSnakeCase(),
+      '--issuer-id',
+      config.appStoreConnectConfig.issuerId,
+      '--key-id',
+      config.appStoreConnectConfig.keyId,
+      '--private-key',
+      config.appStoreConnectConfig.privateKey,
+      '--create'
+    ],
+  );
+}
+
+Future<void> _keychainAddCertificates() async {
+  await runProcessSucessfullyOrThrow('keychain', ['add-certificates']);
+}
+
+Future<void> _xcodeProjectUseProfiles() async {
+  await runProcessSucessfullyOrThrow('xcode-project', ['use-profiles']);
+}
+
 Future<int> getNextBuildNumberFromAppStoreConnect({
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
-
-  /// Should be either "IOS" or "MAC_OS".
-  required String platform,
+  required ApplePlatform platform,
 }) async {
   final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect(
     platform: platform,
@@ -40,9 +85,7 @@ Future<int> getNextBuildNumberFromAppStoreConnect({
 Future<int> _getLatestBuildNumberFromAppStoreConnect({
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
-
-  /// Should be either "IOS" or "MAC_OS".
-  required String platform,
+  required ApplePlatform platform,
 }) async {
   try {
     // From https://appstoreconnect.apple.com/apps/1434868489/
@@ -54,7 +97,7 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
         'get-latest-build-number',
         '$appId',
         '--platform',
-        platform,
+        platform.toUppercaseSnakeCase(),
         '--issuer-id',
         appStoreConnectConfig.issuerId,
         '--key-id',
@@ -78,9 +121,6 @@ Future<void> publishToAppStoreConnect({
   required String stage,
   required AppStoreConnectConfig appStoreConnectConfig,
   String? whatsNew,
-
-  /// Should be either "IOS" or "MAC_OS".
-  required String platform,
 }) async {
   final track = _getAppleTrack(
     stage: stage,
@@ -130,7 +170,7 @@ AppleTrack _getAppleTrack({
   return track;
 }
 
-Future<void> throwIfCodemagiCliToolsAreNotInstalled() async {
+Future<void> throwIfCodemagicCliToolsAreNotInstalled() async {
   // Check if "which -s app-store-connect" returns 0.
   // If not, throw an exception.
   final result = await runProcess(
@@ -176,6 +216,57 @@ void addAppStoreConnectPrivateKey(ArgParser argParser) {
   );
 }
 
+void addCertificateKey(ArgParser argParser) {
+  argParser.addOption(
+    certificateKeyOptionName,
+    help:
+        'Private key used to generate the certificate. If not provided, the value will be checked from the environment variable CERTIFICATE_PRIVATE_KEY. If no value is set, the deployment will fail.',
+  );
+}
+
+/// Configs that are required to sign an iOS or macOS app.
+class AppleSigningConfig {
+  final AppStoreConnectConfig appStoreConnectConfig;
+  final String certificatePrivateKey;
+  final ApplePlatform platform;
+  final ProvisioningProfileType type;
+
+  const AppleSigningConfig({
+    required this.appStoreConnectConfig,
+    required this.certificatePrivateKey,
+    required this.platform,
+    required this.type,
+  });
+
+  factory AppleSigningConfig.create({
+    required ArgResults argResults,
+    required Map<String, String> environment,
+    required ApplePlatform platform,
+    required ProvisioningProfileType type,
+  }) {
+    final appStoreConnectConfig = AppStoreConnectConfig.create(
+      argResults,
+      environment,
+    );
+
+    final certificatePrivateKey =
+        argResults[certificateKeyOptionName] as String? ??
+            Platform.environment['CERTIFICATE_PRIVATE_KEY'];
+
+    if (certificatePrivateKey == null) {
+      throw Exception(
+          'No certificate private key provided. Either provide it via the command line or set the CERTIFICATE_PRIVATE_KEY environment variable.');
+    }
+
+    return AppleSigningConfig(
+      appStoreConnectConfig: appStoreConnectConfig,
+      certificatePrivateKey: certificatePrivateKey,
+      platform: platform,
+      type: type,
+    );
+  }
+}
+
 class AppStoreConnectConfig {
   final String privateKey;
   final String keyId;
@@ -218,5 +309,41 @@ class AppStoreConnectConfig {
       keyId: keyIdentifier,
       issuerId: issuerId,
     );
+  }
+}
+
+/// Platforms that can be used to deploy an Apple app.
+enum ApplePlatform {
+  macOS,
+  iOS;
+
+  String toUppercaseSnakeCase() {
+    switch (this) {
+      case ApplePlatform.iOS:
+        return 'IOS';
+      case ApplePlatform.macOS:
+        return 'MAC_OS';
+    }
+  }
+}
+
+/// Types of provisioning profiles.
+///
+/// See https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/fetch-signing-files.md#--typeios_app_adhoc--ios_app_development--ios_app_inhouse--ios_app_store--mac_app_development--mac_app_direct--mac_app_store--mac_catalyst_app_development--mac_catalyst_app_direct--mac_catalyst_app_store--tvos_app_adhoc--tvos_app_development--tvos_app_inhouse--tvos_app_store.
+enum ProvisioningProfileType {
+  // There are more types, but these are the ones we need right now.
+  macAppStore,
+  iOsAppStore,
+  iOsAppAdhoc;
+
+  String toUppercaseSnakeCase() {
+    switch (this) {
+      case ProvisioningProfileType.macAppStore:
+        return 'MAC_APP_STORE';
+      case ProvisioningProfileType.iOsAppStore:
+        return 'IOS_APP_STORE';
+      case ProvisioningProfileType.iOsAppAdhoc:
+        return 'IOS_APP_ADHOC';
+    }
   }
 }

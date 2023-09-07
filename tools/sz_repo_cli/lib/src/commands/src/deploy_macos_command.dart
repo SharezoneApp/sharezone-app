@@ -71,7 +71,7 @@ class DeployMacOsCommand extends Command {
 
   @override
   Future<void> run() async {
-    await throwIfCodemagiCliToolsAreNotInstalled();
+    await throwIfCodemagicCliToolsAreNotInstalled();
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
