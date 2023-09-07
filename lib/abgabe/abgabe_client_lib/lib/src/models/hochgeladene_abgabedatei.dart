@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:optional/optional.dart';
 
 import 'abgabedatei.dart';
 import 'dateiname.dart';
@@ -15,7 +14,7 @@ import 'download_url.dart';
 
 class HochgeladeneAbgabedatei extends Abgabedatei {
   final DateiDownloadUrl downloadUrl;
-  final Optional<DateTime> zuletztBearbeitet;
+  final DateTime? zuletztBearbeitet;
 
   HochgeladeneAbgabedatei({
     required AbgabedateiId id,
@@ -23,9 +22,8 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
     required Dateigroesse groesse,
     required this.downloadUrl,
     required DateTime erstellungsdatum,
-    DateTime? zuletztBearbeitet,
-  })  : zuletztBearbeitet = Optional.ofNullable(zuletztBearbeitet),
-        super(
+    this.zuletztBearbeitet,
+  }) : super(
           id: id,
           name: name,
           dateigroesse: groesse,
@@ -43,7 +41,7 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
       groesse: dateigroesse,
       downloadUrl: downloadUrl,
       erstellungsdatum: erstellungsdatum,
-      zuletztBearbeitet: zuletztBearbeitet.orElseNull,
+      zuletztBearbeitet: zuletztBearbeitet,
     );
   }
 

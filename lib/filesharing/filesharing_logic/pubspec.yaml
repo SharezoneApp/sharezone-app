@@ -29,7 +29,6 @@ dependencies:
   firebase_storage: ^11.2.6
   meta: ^1.1.8
   mime: ^1.0.0
-  optional: ^6.1.0+1
   path: ^1.8.3
   permission_handler: ^10.2.0
 
