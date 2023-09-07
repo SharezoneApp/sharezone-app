@@ -119,11 +119,11 @@ class _Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 4),
       child: Text(
         'Gemeinsam den\nSchulalltag organisieren 🚀',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 22,
           height: 1.1,
           color: Colors.black,
@@ -138,11 +138,11 @@ class _SubHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 20),
       child: Text(
         'Optional kannst du Sharezone auch komplett alleine verwenden.',
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.grey,
           fontSize: 12,
         ),
