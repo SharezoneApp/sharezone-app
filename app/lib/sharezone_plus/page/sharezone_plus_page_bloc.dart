@@ -24,7 +24,11 @@ const kFallbackPrice = '4,99 €';
 class SharezonePlusPageBloc extends BlocBase {
   final BehaviorSubject<SharezonePlusPageView> _view =
       BehaviorSubject<SharezonePlusPageView>.seeded(
-          SharezonePlusPageView.empty());
+    const SharezonePlusPageView(
+      hasPlus: false,
+      price: kFallbackPrice,
+    ),
+  );
   Stream<SharezonePlusPageView> get view => _view;
 
   late StreamSubscription<bool> _hasPlusSubscription;

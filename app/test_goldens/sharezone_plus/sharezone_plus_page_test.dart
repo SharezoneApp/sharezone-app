@@ -133,7 +133,7 @@ void main() {
 
     testGoldens('shows unsubscribe section if user has subscribed',
         (tester) async {
-      final view = SharezonePlusPageView.empty().copyWith(hasPlus: true);
+      final view = SharezonePlusPageView(hasPlus: true, price: '4,99 €');
       when(bloc.view).thenAnswer((_) => Stream.value(view));
 
       await _pumpPlusPage(tester, theme: lightTheme);

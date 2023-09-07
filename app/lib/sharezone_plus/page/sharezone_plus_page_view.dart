@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_bloc.dart';
-
 class SharezonePlusPageView {
   final bool hasPlus;
 
@@ -19,10 +17,6 @@ class SharezonePlusPageView {
     required this.hasPlus,
     required this.price,
   });
-
-  const SharezonePlusPageView.empty()
-      : hasPlus = false,
-        price = kFallbackPrice;
 
   SharezonePlusPageView copyWith({
     bool? hasPlus,
