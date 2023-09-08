@@ -10,6 +10,7 @@ import 'package:app_functions/app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api.dart';
 
@@ -21,10 +22,14 @@ enum SchoolClassDeleteType {
 class MySchoolClassBloc extends BlocBase {
   final SharezoneGateway gateway;
   final SchoolClass? schoolClass;
+  final GroupAnalytics analytics;
   String? schoolClassId;
+
+  static const _groupType = GroupType.schoolclass;
 
   MySchoolClassBloc({
     required this.gateway,
+    required this.analytics,
     this.schoolClass,
   }) {
     schoolClassId = schoolClass?.id;
@@ -69,6 +74,7 @@ class MySchoolClassBloc extends BlocBase {
 
   Future<AppFunctionsResult<bool>> updateMemberRole(
       String schoolClassID, UserId memberID, MemberRole newRole) {
+    analytics.logUpdateMemberRole(newRole, groupType: _groupType);
     return gateway.schoolClassGateway
         .updateMemberRole(schoolClassID, memberID.toString(), newRole);
   }
@@ -94,26 +100,32 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Future<AppFunctionsResult<bool>> leaveSchoolClass() async {
+    analytics.logLeftGroup(groupType: _groupType);
     return gateway.schoolClassGateway.leaveSchoolClass(schoolClassId!);
   }
 
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
       SchoolClassDeleteType schoolClassDeleteType) async {
+    analytics.logDeletedGroup(groupType: _groupType);
     return gateway.schoolClassGateway
         .deleteSchoolClass(schoolClassId!, schoolClassDeleteType);
   }
 
   Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
+    analytics.logKickedMember(groupType: _groupType);
     return gateway.schoolClassGateway
         .kickMember(schoolClassId!, kickedMemberID);
   }
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
+    analytics.logChangeGroupVisibility(
+        isPublic: isPublic, groupType: _groupType);
     return gateway.schoolClassGateway.editSchoolClassSettings(
         schoolClassId!, schoolClass!.settings.copyWith(isPublic: isPublic));
   }
 
   Future<bool> setWritePermission(WritePermission writePermission) {
+    analytics.logChangedWritePermission(writePermission, groupType: _groupType);
     return gateway.schoolClassGateway
         .editSchoolClassSettings(schoolClassId!,
             schoolClass!.settings.copyWith(writePermission: writePermission))

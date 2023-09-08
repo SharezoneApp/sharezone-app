@@ -8,6 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 
 class GroupAnalytics extends BlocBase {
   final Analytics _analytics;
@@ -15,11 +16,83 @@ class GroupAnalytics extends BlocBase {
   GroupAnalytics(this._analytics);
 
   void logEnableMeeting() {
-    _analytics.log(GroupSettingsEvent('enable_meeting'));
+    _analytics.log(GroupEvent('enable_meeting'));
   }
 
   void logDisbaleMeeting() {
-    _analytics.log(GroupSettingsEvent('disable_meeting'));
+    _analytics.log(GroupEvent('disable_meeting'));
+  }
+
+  void logChangedWritePermission(
+    WritePermission permission, {
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'changed_write_permission',
+      data: {
+        'permission': permission.name,
+        'groupType': groupType.name,
+      },
+    ));
+  }
+
+  void logUpdateMemberRole(
+    MemberRole role, {
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'update_member_role',
+      data: {
+        'role': role.name,
+        'groupType': groupType.name,
+      },
+    ));
+  }
+
+  void logChangeGroupVisibility({
+    required bool isPublic,
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'changed_group_visibility',
+      data: {
+        'visibility': isPublic ? 'public' : 'private',
+        'groupType': groupType.name,
+      },
+    ));
+  }
+
+  void logKickedMember({
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'kicked_member',
+      data: {
+        'groupType': groupType.name,
+      },
+    ));
+  }
+
+  void logDeletedGroup({
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'deleted_group',
+      data: {
+        'groupType': groupType.name,
+      },
+    ));
+  }
+
+  void logLeftGroup({
+    required GroupType groupType,
+  }) {
+    _analytics.log(GroupEvent(
+      'left_group',
+      data: {
+        'groupType': groupType.name,
+      },
+    ));
   }
 
   @override
@@ -27,9 +100,6 @@ class GroupAnalytics extends BlocBase {
 }
 
 class GroupEvent extends AnalyticsEvent {
-  GroupEvent(String name) : super('group_$name');
-}
-
-class GroupSettingsEvent extends GroupEvent {
-  GroupSettingsEvent(String name) : super('settings_$name');
+  GroupEvent(String name, {Map<String, dynamic>? data})
+      : super('group_$name', data: data);
 }

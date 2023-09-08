@@ -12,6 +12,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_member_options.dart';
@@ -88,10 +89,12 @@ class CourseDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final groupAnalytics = BlocProvider.of<GroupAnalytics>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<CourseDetailsBloc>(
       bloc: CourseDetailsBloc(
-          CourseDetailsBlocGateway(api.course, course), api.userId),
+          CourseDetailsBlocGateway(api.course, course, groupAnalytics),
+          api.userId),
       child: _CourseDetailsPage(),
     );
   }

@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
@@ -34,7 +35,12 @@ class SchoolClassCard extends StatelessWidget {
     final isAdmin =
         schoolClass.myRole.hasPermission(GroupPermission.administration);
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
-    final bloc = MySchoolClassBloc(schoolClass: schoolClass, gateway: gateway);
+    final analytics = BlocProvider.of<GroupAnalytics>(context);
+    final bloc = MySchoolClassBloc(
+      schoolClass: schoolClass,
+      gateway: gateway,
+      analytics: analytics,
+    );
     return CustomCard(
       child: ListTile(
         leading: Hero(
