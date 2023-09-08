@@ -25,16 +25,24 @@ const releaseStageOptionName = 'stage';
 Future<void> setUpSigning({
   required AppleSigningConfig config,
 }) async {
+  // Steps are from the docs to deploy an iOS / macOS app to App Store Connect:
+  // https://github.com/flutter/website/blob/850ba5dcab36e81f7dfc71c5e46333173c764fac/src/deployment/ios.md#L322
   await _keychainInitialize();
   await _fetchSigningFiles(config: config);
   await _keychainAddCertificates();
   await _xcodeProjectUseProfiles();
 }
 
+/// Sets up a temporary keychain to be used for code signing.
+///
+/// Keep in mind that you should call `keychain use-default` (see
+/// [keychainUseLogin]) after the deployment to avoid potential authentication
+/// issues if you run the deployment on your local machine.
 Future<void> _keychainInitialize() async {
   await runProcessSucessfullyOrThrow('keychain', ['initialize']);
 }
 
+/// Fetch the code signing files from App Store Connect.
 Future<void> _fetchSigningFiles({
   required AppleSigningConfig config,
 }) async {
@@ -59,12 +67,24 @@ Future<void> _fetchSigningFiles({
   );
 }
 
+/// Adds the certificates to the keychain.
 Future<void> _keychainAddCertificates() async {
   await runProcessSucessfullyOrThrow('keychain', ['add-certificates']);
 }
 
+/// Update the Xcode project settings to use fetched code signing profiles.
 Future<void> _xcodeProjectUseProfiles() async {
   await runProcessSucessfullyOrThrow('xcode-project', ['use-profiles']);
+}
+
+/// Sets your login keychain as the default to avoid potential authentication
+/// issues with apps on your machine.
+///
+/// This is only useful if you are running the deployment on your local machine
+/// and have previously used the `keychain initialize' command. If you run it on
+/// a CI server, this step is not necessary.
+Future<void> keychainUseLogin() async {
+  await runProcessSucessfullyOrThrow('keychain', ['use-login']);
 }
 
 Future<int> getNextBuildNumberFromAppStoreConnect({

@@ -105,37 +105,41 @@ class DeployIosCommand extends Command {
 
     const platform = ApplePlatform.iOS;
 
-    await setUpSigning(
-      config: AppleSigningConfig.create(
-        argResults: argResults!,
-        environment: Platform.environment,
+    try {
+      await setUpSigning(
+        config: AppleSigningConfig.create(
+          argResults: argResults!,
+          environment: Platform.environment,
+          platform: platform,
+          type: ProvisioningProfileType.iOsAppStore,
+        ),
+      );
+
+      final appStoreConnectConfig = AppStoreConnectConfig.create(
+        argResults!,
+        Platform.environment,
+      );
+
+      final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,
-        type: ProvisioningProfileType.iOsAppStore,
-      ),
-    );
-
-    final appStoreConnectConfig = AppStoreConnectConfig.create(
-      argResults!,
-      Platform.environment,
-    );
-
-    final buildNumber = await getNextBuildNumberFromAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      platform: platform,
-      // Using the app location as working directory because the default
-      // location for the App Store Connect private key is
-      // app/private_keys/AuthKey_{keyIdentifier}.p8.
-      workingDirectory: _repo.sharezoneFlutterApp.path,
-    );
-    await _buildApp(buildNumber: buildNumber);
-    await publishToAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      stage: argResults![releaseStageOptionName] as String,
-      whatsNew: argResults![whatsNewOptionName] as String?,
-      path: 'build/ios/ipa/*.ipa',
-      repo: _repo,
-      stageToTracks: _iosStageToTracks,
-    );
+        // Using the app location as working directory because the default
+        // location for the App Store Connect private key is
+        // app/private_keys/AuthKey_{keyIdentifier}.p8.
+        workingDirectory: _repo.sharezoneFlutterApp.path,
+      );
+      await _buildApp(buildNumber: buildNumber);
+      await publishToAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
+        stage: argResults![releaseStageOptionName] as String,
+        whatsNew: argResults![whatsNewOptionName] as String?,
+        path: 'build/ios/ipa/*.ipa',
+        repo: _repo,
+        stageToTracks: _iosStageToTracks,
+      );
+    } finally {
+      await keychainUseLogin();
+    }
 
     stdout.writeln('Deployment finished 🎉 ');
   }
