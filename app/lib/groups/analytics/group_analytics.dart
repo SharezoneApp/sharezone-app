@@ -41,7 +41,7 @@ class GroupAnalytics extends BlocBase {
     required GroupType groupType,
   }) {
     _analytics.log(GroupEvent(
-      'update_member_role',
+      'updated_member_role',
       data: {
         'role': role.name,
         'groupType': groupType.name,
