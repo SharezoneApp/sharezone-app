@@ -71,7 +71,7 @@ class DeployMacOsCommand extends Command {
 
   @override
   Future<void> run() async {
-    await throwIfCodemagiCliToolsAreNotInstalled();
+    await throwIfCodemagicCliToolsAreNotInstalled();
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -84,11 +84,11 @@ class DeployMacOsCommand extends Command {
       Platform.environment,
     );
 
-    const platform = 'MAC_OS';
+    const platform = ApplePlatform.macOS;
     final buildNumber = await getNextBuildNumberFromAppStoreConnect(
       appStoreConnectConfig: appStoreConnectConfig,
       platform: platform,
-      // Using the app location as working direcorty because the default
+      // Using the app location as working directory because the default
       // location for the App Store Connect private key is
       // app/private_keys/AuthKey_{keyIdentifier}.p8.
       workingDirectory: _repo.sharezoneFlutterApp.path,
@@ -99,7 +99,6 @@ class DeployMacOsCommand extends Command {
       stage: argResults![releaseStageOptionName] as String,
       whatsNew: argResults![whatsNewOptionName] as String?,
       path: 'build/macos/Build/Products/Release/*.pkg',
-      platform: platform,
       repo: _repo,
       stageToTracks: _macOsStageToTracks,
     );
