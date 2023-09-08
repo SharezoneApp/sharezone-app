@@ -112,9 +112,9 @@ workflows:
           # new changes will be applied.
           - "codemagic.yaml"
         excludes:
-          - "*.md"
-          - "*.mdx"
-          - "*.gitignore"
+          - "**/*.md"
+          - "**/*.mdx"
+          - "**/.gitignore"
           - "**/firebase.json"
           - "**/.firebaserc"
     triggering:

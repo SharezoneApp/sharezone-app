@@ -36,3 +36,5 @@ We have more instructions to help you get started in the [CONTRIBUTING.md](CONTR
 - [Instagram](https://www.instagram.com/sharezone.app/)
 - [Twitter](https://twitter.com/SharezoneApp)
 - [Discord](https://sharezone.net/discord)
+
+test
