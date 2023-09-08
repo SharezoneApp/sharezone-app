@@ -18,7 +18,6 @@ import 'package:sharezone/groups/src/pages/course/course_details/course_member_o
 import 'package:sharezone/groups/src/pages/course/course_details/course_settings.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
-import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/report/report_icon.dart';
@@ -159,7 +158,6 @@ class _CourseDetailsPage extends StatelessWidget {
                     children: <Widget>[
                       _CourseAvatarCard(
                           course: course, memberCount: members.length),
-                      GroupMeetingButton(),
                       _SettingsCard(course: course),
                       MemberSection(
                         splittedMemberList: createSplittedMemberList(members),

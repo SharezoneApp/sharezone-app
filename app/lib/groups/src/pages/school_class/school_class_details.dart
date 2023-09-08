@@ -19,7 +19,6 @@ import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dar
 import 'package:sharezone/groups/src/pages/school_class/school_class_details/school_class_member_option.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
-import 'package:sharezone/groups/src/widgets/meeting/group_meeting_button.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/report/report_icon.dart';
@@ -94,7 +93,6 @@ class SchoolClassDetailsPage extends StatelessWidget {
                 children: <Widget>[
                   _SchoolClassAvatarCard(
                       schoolClass: schoolClass, memberCount: members.length),
-                  GroupMeetingButton(),
                   SchoolClassCoursesList(
                     key: ValueKey(schoolClass.id),
                     schoolClassID: schoolClass.id,

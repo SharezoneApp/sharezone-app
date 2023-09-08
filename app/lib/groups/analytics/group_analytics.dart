@@ -10,17 +10,10 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 
 class GroupAnalytics extends BlocBase {
+  // ignore: unused_field
   final Analytics _analytics;
 
   GroupAnalytics(this._analytics);
-
-  void logEnableMeeting() {
-    _analytics.log(GroupSettingsEvent('enable_meeting'));
-  }
-
-  void logDisbaleMeeting() {
-    _analytics.log(GroupSettingsEvent('disable_meeting'));
-  }
 
   @override
   void dispose() {}

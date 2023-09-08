@@ -74,7 +74,6 @@ class PluginInitializations {
     final remoteConfiguration = getRemoteConfiguration();
 
     remoteConfiguration.initialize({
-      'meeting_server_url': 'https://meet.sharezone.net',
       'abgaben_bucket_name': 'sharezone-c2bd8-submissions',
       'abgaben_service_base_url': 'https://api.sharezone.net',
       'revenuecat_api_apple_key': 'appl_VOCPKvkVdZsqpVeDkJQVCNemPbF',

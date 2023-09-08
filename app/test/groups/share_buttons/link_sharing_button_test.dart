@@ -25,7 +25,6 @@ void main() {
         design: Design.standard(),
         abbreviation: 'n',
         sharecode: sharecode,
-        meetingID: 'meetingID',
         joinLink: joinLink,
         groupType: GroupType.course,
       );

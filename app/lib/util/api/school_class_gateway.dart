@@ -70,13 +70,6 @@ class SchoolClassGateway {
     );
   }
 
-  Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassID) {
-    return references.functions.generateNewMeetingID(
-      id: schoolClassID,
-      type: GroupType.schoolclass.name,
-    );
-  }
-
   Future<AppFunctionsResult<bool>> createCourse(
       String schoolClassID, CourseData courseData) {
     String courseID = references.courses.doc().id;

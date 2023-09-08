@@ -19,7 +19,7 @@ import 'write_permissions.dart';
 class Course {
   final String id;
   final String name, subject, abbreviation;
-  final String? sharecode, joinLink, meetingID;
+  final String? sharecode, joinLink;
   final MemberRole myRole;
   final CourseSettings settings;
   final bool version2;
@@ -35,7 +35,6 @@ class Course {
     required this.joinLink,
     required this.subject,
     required this.abbreviation,
-    required this.meetingID,
     required this.myRole,
     required this.design,
     required this.personalDesign,
@@ -54,7 +53,6 @@ class Course {
       joinLink: null,
       personalSharecode: null,
       personalJoinLink: null,
-      meetingID: null,
       abbreviation: "",
       groupId: null,
       myRole: MemberRole.standard,
@@ -73,7 +71,6 @@ class Course {
       personalSharecode: data['personalPublicKey'],
       joinLink: data['joinLink'],
       personalJoinLink: data['personalJoinLink'],
-      meetingID: data['meetingID'],
       groupId: GroupId(id),
       abbreviation:
           data['abbreviation'] ?? _getAbbreviationFromName(data['name'] ?? ""),
@@ -93,7 +90,6 @@ class Course {
       'abbreviation': abbreviation,
       'publicKey': sharecode,
       'joinLink': joinLink,
-      'meetingID': meetingID,
       'myRole': myRole.name,
       'settings': settings.toJson(),
       'design': design?.toJson(),
@@ -116,7 +112,6 @@ class Course {
     String? abbreviation,
     String? sharecode,
     String? joinLink,
-    String? meetingID,
     MemberRole? myRole,
     CourseSettings? settings,
     bool? version2,
@@ -131,7 +126,6 @@ class Course {
       sharecode: sharecode ?? this.sharecode,
       joinLink: joinLink ?? this.joinLink,
       personalSharecode: personalSharecode,
-      meetingID: meetingID ?? this.meetingID,
       personalJoinLink: personalJoinLink,
       myRole: myRole ?? this.myRole,
       settings: settings ?? this.settings,
@@ -160,7 +154,6 @@ class Course {
       name: name,
       abbreviation: abbreviation,
       design: getDesign(),
-      meetingID: meetingID,
       sharecode: getPublicKey(),
       joinLink: getJoinLink(),
       groupType: GroupType.course,
@@ -173,7 +166,7 @@ class CourseData {
   final String id;
   final String name, subject, abbreviation;
   final String? description;
-  final String? sharecode, joinLink, referenceSchoolID, meetingID;
+  final String? sharecode, joinLink, referenceSchoolID;
   final List<String?>? referenceSchoolClassIDs;
   final CourseSettings settings;
   final Design design;
@@ -186,7 +179,6 @@ class CourseData {
     required this.abbreviation,
     required this.sharecode,
     required this.joinLink,
-    required this.meetingID,
     required this.referenceSchoolID,
     required this.referenceSchoolClassIDs,
     required this.settings,
@@ -201,7 +193,6 @@ class CourseData {
       description: "",
       abbreviation: "",
       sharecode: null,
-      meetingID: null,
       joinLink: null,
       referenceSchoolID: null,
       referenceSchoolClassIDs: null,
@@ -221,7 +212,6 @@ class CourseData {
       description: data['description'],
       abbreviation: data['abbreviation'],
       sharecode: data['publicKey'],
-      meetingID: data['meetingID'],
       joinLink: data['joinLink'],
       referenceSchoolID: data['referenceSchoolID'],
       referenceSchoolClassIDs:
@@ -238,7 +228,6 @@ class CourseData {
       'subject': subject,
       'description': description,
       'abbreviation': abbreviation,
-      'meetingID': meetingID,
       'settings': settings.toJson(),
       'referenceSchoolClassIDs': referenceSchoolClassIDs,
       'referenceSchoolID': referenceSchoolID,
@@ -265,7 +254,6 @@ class CourseData {
       settings: settings,
       sharecode: sharecode,
       design: design,
-      meetingID: meetingID,
       groupId: GroupId(id),
       joinLink: joinLink,
       personalDesign: null,
@@ -293,7 +281,6 @@ class CourseData {
       description: description ?? this.description,
       abbreviation: abbreviation ?? this.abbreviation,
       sharecode: publicKey ?? sharecode,
-      meetingID: meetingID ?? meetingID,
       joinLink: joinLink ?? this.joinLink,
       referenceSchoolClassIDs:
           referenceSchoolClassIDs ?? this.referenceSchoolClassIDs,
@@ -307,18 +294,15 @@ class CourseData {
 @immutable
 class CourseSettings {
   final bool isPublic;
-  final bool isMeetingEnabled;
   final WritePermission writePermission;
 
   const CourseSettings._({
     required this.isPublic,
-    required this.isMeetingEnabled,
     required this.writePermission,
   });
 
   static const CourseSettings standard = CourseSettings._(
     isPublic: true,
-    isMeetingEnabled: true,
     writePermission: WritePermission.everyone,
   );
 
@@ -326,7 +310,6 @@ class CourseSettings {
     if (data == null) return standard;
     return CourseSettings._(
       isPublic: data['isPublic'] ?? true,
-      isMeetingEnabled: data['isMeetingEnabled'] ?? true,
       writePermission:
           WritePermission.values.byName(data['writePermission'] ?? 'everyone'),
     );
@@ -335,19 +318,16 @@ class CourseSettings {
   Map<String, dynamic> toJson() {
     return {
       'isPublic': isPublic,
-      'isMeetingEnabled': isMeetingEnabled,
       'writePermission': writePermission.name,
     };
   }
 
   CourseSettings copyWith({
     bool? isPublic,
-    bool? isMeetingEnabled,
     WritePermission? writePermission,
   }) {
     return CourseSettings._(
       isPublic: isPublic ?? this.isPublic,
-      isMeetingEnabled: isMeetingEnabled ?? this.isMeetingEnabled,
       writePermission: writePermission ?? this.writePermission,
     );
   }

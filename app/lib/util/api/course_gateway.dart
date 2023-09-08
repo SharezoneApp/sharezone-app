@@ -135,13 +135,6 @@ class CourseGateway {
     );
   }
 
-  Future<AppFunctionsResult<bool>> generateNewMeetingID(String courseID) async {
-    return references.functions.generateNewMeetingID(
-      id: courseID,
-      type: GroupType.course.name,
-    );
-  }
-
   Future<AppFunctionsResult<bool>> deleteCourse(String courseID) async {
     return references.functions.groupDelete(
       groupID: courseID,
