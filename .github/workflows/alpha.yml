@@ -124,7 +124,7 @@ jobs:
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.39.1
+        run: pip3 install codemagic-cli-tools==0.43.0
 
       - name: Setup signing
         working-directory: app/android
@@ -212,7 +212,7 @@ jobs:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.39.1
+        run: pip3 install codemagic-cli-tools==0.43.0
 
       - name: Setup signing
         working-directory: app
@@ -288,7 +288,7 @@ jobs:
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.39.1
+        run: pip3 install codemagic-cli-tools==0.43.0
       - name: Setup signing
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
