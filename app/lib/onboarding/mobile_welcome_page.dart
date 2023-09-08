@@ -186,6 +186,7 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BaseButton(
+      key: const Key('go-to-login-button-E2E'),
       text: Column(
         children: const [
           Text(
@@ -217,6 +218,7 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
 
 class _BaseButton extends StatelessWidget {
   const _BaseButton({
+    super.key,
     required this.text,
     required this.onPressed,
     required this.backgroundColor,
