@@ -34,9 +34,9 @@ on:
       # applied.
       #
       # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
-      - "!**.md"
-      - "!**.mdx"
-      - "!**.gitignore"
+      - "!**/*.md"
+      - "!**/*.mdx"
+      - "!**/*.gitignore"
       # The macOS version of our app has no alpha program. Therefore, we don't
       # need to build it.
       - "!app/macos/**"

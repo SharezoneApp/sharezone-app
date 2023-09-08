@@ -68,9 +68,9 @@ jobs:
               # applied.
               #
               # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
-              - "!**.md"
-              - "!**.mdx"
-              - "!**.gitignore"
+              - "!**/*.md"
+              - "!**/*.mdx"
+              - "!**/*.gitignore"
               - "!**/firebase.json"
               - "!**/.firebaserc"
 
