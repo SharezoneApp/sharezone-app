@@ -17,6 +17,14 @@ class Package {
   final Directory location;
   String get path => location.path;
   final String name;
+
+  /// The version of the package.
+  ///
+  /// Contains the build number if it was specified in the pubspec.yaml.
+  ///
+  /// Is `null` if no version was specified.
+  final String? version;
+
   final PackageType type;
   bool get isFlutterPackage => type == PackageType.flutter;
   bool get isPureDartPackage => type == PackageType.pureDart;
@@ -29,6 +37,7 @@ class Package {
     required this.type,
     required this.hasTestDirectory,
     required this.hasGoldenTestsDirectory,
+    required this.version,
   });
 
   factory Package.fromDirectory(Directory directory) {
@@ -40,6 +49,7 @@ class Package {
     final containsFlutter = dependencies.containsKey('flutter') ||
         devDependencies.containsKey('flutter');
     final name = pubspecYaml['name'] as String?;
+    final version = pubspecYaml['version'] as String?;
     if (name == null) {
       throw Exception(
         'Package at "${directory.path}" has no name. Please add a name',
@@ -56,6 +66,7 @@ class Package {
       hasTestDirectory: hasTestDirectory,
       hasGoldenTestsDirectory: hasTestGoldensDirectory,
       type: containsFlutter ? PackageType.flutter : PackageType.pureDart,
+      version: version,
     );
   }
 

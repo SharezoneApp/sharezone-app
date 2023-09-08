@@ -39,5 +39,5 @@ dev_dependencies:
   sharezone_lints:
     path: ../sharezone_lints
 
-flutter: 
+flutter:
   uses-material-design: true

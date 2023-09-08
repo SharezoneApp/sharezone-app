@@ -14,4 +14,7 @@ class LicenseHeadersCommand extends Command {
 
   @override
   String get name => 'license-headers';
+
+  @override
+  List<String> get aliases => ['lh'];
 }
