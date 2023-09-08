@@ -66,9 +66,7 @@ class Folder {
           ? 'Automatisch erstellt'
           : data['creatorName'],
       folderType: FolderType.values.tryByName(
-        // We need to pass an empty string as fallback because `tryByName`
-        // assumes that the value is not null.
-        data['folderType'] ?? '',
+        data['folderType'],
         defaultValue: FolderType.normal,
       ),
     );
