@@ -12,6 +12,7 @@ import 'package:args/args.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 import 'package:sz_repo_cli/src/common/src/run_process.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 const certificateKeyOptionName = 'certificate-key';
 const privateKeyOptionName = 'private-key';
@@ -171,17 +172,11 @@ AppleTrack _getAppleTrack({
 }
 
 Future<void> throwIfCodemagicCliToolsAreNotInstalled() async {
-  // Check if "which -s app-store-connect" returns 0.
-  // If not, throw an exception.
-  final result = await runProcess(
-    'which',
-    ['-s', 'app-store-connect'],
+  await throwIfCommandIsNotInstalled(
+    command: 'app-store-connect',
+    instructionsToInstall:
+        'Docs to install them: https://github.com/codemagic-ci-cd/cli-tools#installing',
   );
-  if (result.exitCode != 0) {
-    throw Exception(
-      'Codemagic CLI tools are not installed. Docs to install them: https://github.com/codemagic-ci-cd/cli-tools#installing',
-    );
-  }
 }
 
 void addWhatsNewOption(ArgParser argParser) {

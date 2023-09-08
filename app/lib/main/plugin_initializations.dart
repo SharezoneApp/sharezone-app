@@ -99,13 +99,22 @@ class PluginInitializations {
         // First, we activate the fetched remote config from the last fetch. Then
         // we fetch the remote config in the background. The next time the app
         // starts, the fetched remote config will be available.
-        unawaited(remoteConfiguration.fetch());
+        unawaited(tryFetchRemoteConfiguration(remoteConfiguration));
       }
     } catch (e) {
       log('Remote configuration could not be initialized: $e');
     }
 
     return remoteConfiguration;
+  }
+
+  static Future<void> tryFetchRemoteConfiguration(
+      RemoteConfiguration remoteConfiguration) async {
+    try {
+      await remoteConfiguration.fetch();
+    } catch (e, s) {
+      log('Remote configuration could not be fetched', error: e, stackTrace: s);
+    }
   }
 
   static Future<SharedPreferences> initializeSharedPreferences() async {

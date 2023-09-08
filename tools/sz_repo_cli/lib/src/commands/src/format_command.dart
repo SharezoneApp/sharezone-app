@@ -11,6 +11,7 @@ import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 class FormatCommand extends ConcurrentCommand {
   FormatCommand(SharezoneRepo repo) : super(repo);
@@ -37,22 +38,10 @@ class FormatCommand extends ConcurrentCommand {
       await formatCode(package);
 
   Future<void> _throwIfPrettierIsNotInstalled() async {
-    if (Platform.isWindows) {
-      // We skip this check on Windows because "which -s" is not available.
-      return;
-    }
-
-    // Check if "which -s prettier" returns 0.
-    // If not, throw an exception.
-    final result = await runProcess(
-      'which',
-      ['-s', 'prettier'],
+    await throwIfCommandIsNotInstalled(
+      command: 'prettier',
+      instructionsToInstall: 'Run `npm install -g prettier` to install it.',
     );
-    if (result.exitCode != 0) {
-      throw Exception(
-        'Prettier is not installed. Run `npm install -g prettier` to install it.',
-      );
-    }
   }
 
   Future<void> _formatActionFiles({

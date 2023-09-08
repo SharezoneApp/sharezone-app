@@ -16,7 +16,7 @@ import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_
 import 'package:sharezone_utils/platform.dart';
 
 void openCreateSubmissionFile(BuildContext context, FileView view) {
-  if (view.downloadUrl.isPresent) {
+  if (view.downloadUrl != null) {
     openFirestoreFilePage(
       context: context,
       fileFormat: view.fileFormat,
@@ -25,14 +25,14 @@ void openCreateSubmissionFile(BuildContext context, FileView view) {
           icon: const Icon(Icons.file_download),
           onPressed: () => _downloadFile(
             context: context,
-            downloadUrl: view.downloadUrl.value,
+            downloadUrl: view.downloadUrl!,
             fileId: view.id,
             fileName: view.name,
             format: view.fileFormat,
           ),
         )
       ],
-      downloadURL: view.downloadUrl.value,
+      downloadURL: view.downloadUrl,
       id: view.id,
       name: view.name,
     );

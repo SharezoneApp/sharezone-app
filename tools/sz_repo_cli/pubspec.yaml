@@ -29,7 +29,6 @@ dependencies:
   glob: ^2.1.1
   grinder: ^0.9.2
   union: ^0.0.3+1
-  optional: ^6.1.0+1
   console: ^4.1.0
   rxdart: ^0.27.1
 

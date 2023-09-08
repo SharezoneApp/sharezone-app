@@ -76,9 +76,7 @@ class HochgeladeneAbgabedateiDto {
       createdOnIsoString: datei.erstellungsdatum.toUtcIso8601String(),
       downloadUrl: datei.downloadUrl.toString(),
       sizeInBytes: datei.dateigroesse.inBytes,
-      lastEditedIsoString: datei.zuletztBearbeitet
-          .map((zB) => zB.toUtcIso8601String())
-          .orElseNull,
+      lastEditedIsoString: datei.zuletztBearbeitet?.toUtcIso8601String(),
     );
   }
 

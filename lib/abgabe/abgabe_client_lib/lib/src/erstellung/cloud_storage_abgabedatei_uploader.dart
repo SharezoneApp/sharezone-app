@@ -91,7 +91,7 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   Stream<DateiUploadProzessFortschritt> _ladeDateiZuCloudStorageHoch(
       DateiHinzufuegenCommand befehl) async* {
     final dateiId = befehl.dateiId;
-    final localFile = localFileSaver.getFile(dateiId.toString()).value;
+    final localFile = localFileSaver.getFile(dateiId.toString())!;
     // Der Name wird bei den Abgaben z.B. bei einer bereits vorhandenen Datei
     // mit dem selben Namen ungeändert.
     final nameCorrectedLocalFile =

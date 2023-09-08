@@ -32,12 +32,20 @@ class SubscriptionService {
     });
   }
 
-  bool isSubscriptionActive() {
+  bool isSubscriptionActive([AppUser? appUser]) {
+    appUser ??= _user;
+
     // Subscriptions feature is disabled, so every feature is unlocked.
     if (!_isEnabled) return true;
 
-    if (_user?.subscription == null) return false;
-    return clock.now().isBefore(_user!.subscription!.expiresAt);
+    if (appUser?.subscription == null) return false;
+    return clock.now().isBefore(appUser!.subscription!.expiresAt);
+  }
+
+  Stream<bool> isSubscriptionActiveStream() {
+    // Subscriptions feature is disabled, so every feature is unlocked.
+    if (!_isEnabled) return Stream.value(true);
+    return user.map(isSubscriptionActive);
   }
 
   bool hasFeatureUnlocked(SharezonePlusFeature feature) {

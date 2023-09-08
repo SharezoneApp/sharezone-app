@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:optional/optional.dart';
 
 enum AbgabenStatus {
   /// Der Abgabenstart wird hochgeladen
@@ -36,9 +35,7 @@ enum UploadStatusEnum { erfolgreich, imGange, fehlgeschlagen }
 
 class DateiUploadProzessFortschritt {
   final AbgabedateiId dateiId;
-  Optional<double> get fortschrittInProzent =>
-      Optional.ofNullable(_fortschrittInProzent);
-  double? _fortschrittInProzent;
+  double? fortschrittInProzent;
   final UploadStatusEnum status;
 
   DateiUploadProzessFortschritt.fehlgeschlagen(this.dateiId)
@@ -51,12 +48,12 @@ class DateiUploadProzessFortschritt {
   /// Null ist im diesem Falle nicht zulässig
   DateiUploadProzessFortschritt.imGange(
       this.dateiId, double fortschrittInProzent)
-      : status = UploadStatusEnum.imGange {
-    ArgumentError.checkNotNull(fortschrittInProzent, 'fortschrittInProzent');
+      : status = UploadStatusEnum.imGange,
+        // ignore: prefer_initializing_formals
+        fortschrittInProzent = fortschrittInProzent {
     if (fortschrittInProzent < 0 || fortschrittInProzent > 1) {
       throw ArgumentError('Ungültiger Fortschritt: $fortschrittInProzent');
     }
-    _fortschrittInProzent = fortschrittInProzent;
   }
 
   @override

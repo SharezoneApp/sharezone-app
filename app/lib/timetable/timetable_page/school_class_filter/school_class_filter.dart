@@ -206,7 +206,7 @@ class _SelectionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isASchoolClassSelected = view.selectedSchoolClass.isPresent;
+    final isASchoolClassSelected = view.selectedSchoolClass != null;
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
