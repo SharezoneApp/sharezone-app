@@ -61,7 +61,7 @@ Timestamp? timestampFromDateTime(DateTime? dateTime) {
 }
 
 extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
-  T tryByName(String name, {T? defaultValue}) {
+  T tryByName(String? name, {T? defaultValue}) {
     for (T value in this) {
       if (value.name == name) return value;
     }
