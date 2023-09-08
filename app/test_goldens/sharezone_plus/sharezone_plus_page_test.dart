@@ -24,6 +24,7 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_fallback_price.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
@@ -71,7 +72,8 @@ void main() {
       when(navigationBloc.scaffoldKey)
           .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
 
-      when(controller.price).thenAnswer((_) => fallbackPlusPrice);
+      when(controller.price)
+          .thenAnswer((_) => fallbackSharezonePlusPriceWithCurrencySymbol);
     });
 
     Future<void> _pumpPlusPage(

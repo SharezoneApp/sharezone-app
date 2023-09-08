@@ -22,10 +22,6 @@ class RevenueCatPurchaseService implements PurchaseService {
     await Purchases.purchasePackage(packageToPurchase);
   }
 
-  Future<StoreProduct?> getPlusSubscriptionProduct() async {
-    return (await getProducts()).firstOrNull;
-  }
-
   @override
   Future<List<StoreProduct>> getProducts() async {
     final offerings = await Purchases.getOfferings();

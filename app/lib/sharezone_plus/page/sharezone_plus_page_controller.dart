@@ -7,33 +7,52 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:remote_configuration/remote_configuration.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_fallback_price.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
-/// A fallback price if the price cannot be fetched from the backend.
-///
-/// On macOS the price is not fetched from the backend because RevenueCat does
-/// not support macOS.
-const fallbackPlusPrice = '4,99 €';
-
 class SharezonePlusPageController extends ChangeNotifier {
-  late RevenueCatPurchaseService _purchaseService;
+  late PurchaseService _purchaseService;
   late SubscriptionService _subscriptionService;
+  late RemoteConfiguration _remoteConfiguration;
 
   StreamSubscription<bool>? _hasPlusSubscription;
 
   SharezonePlusPageController({
-    required RevenueCatPurchaseService purchaseService,
+    required PurchaseService purchaseService,
     required SubscriptionService subscriptionService,
+    required RemoteConfiguration remoteConfiguration,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
+    _remoteConfiguration = remoteConfiguration;
 
+    _getFallbackPrice();
     _listenToPlusStatus();
     _getPlusPrice();
+  }
+
+  void _getFallbackPrice() {
+    try {
+      final res = _remoteConfiguration.getString('sz_plus_price_with_symbol');
+      // Remote config returns an empty string if the key is not found.
+      if (res.isNotEmpty) {
+        price = res;
+        return;
+      } else {
+        log('Could not find Sharezone Plus price in remote config. Using hardcoded fallback price: $fallbackSharezonePlusPriceWithCurrencySymbol.');
+      }
+    } catch (e, s) {
+      log('Error when fetching Sharezone Plus price from remote config. Using hardcoded fallback price: $fallbackSharezonePlusPriceWithCurrencySymbol.',
+          error: e, stackTrace: s);
+    }
+    price = fallbackSharezonePlusPriceWithCurrencySymbol;
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -45,15 +64,28 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   /// The price of the Sharezone Plus subscription including the currency
   /// symbol.
-  String price = fallbackPlusPrice;
+  late String price;
 
   Future<void> _getPlusPrice() async {
-    final product = await _purchaseService.getPlusSubscriptionProduct();
+    StoreProduct? product;
+
+    // We have already set the price to the fallback price in the constructor.
+    // So should this fail then the fallback price will be used instead.
+    try {
+      product = await getPlusSubscriptionProduct();
+    } catch (e, s) {
+      log('Could not fetch Sharezone Plus price from the backend.',
+          error: e, stackTrace: s);
+    }
 
     if (product != null) {
       price = product.priceString;
       notifyListeners();
     }
+  }
+
+  Future<StoreProduct?> getPlusSubscriptionProduct() async {
+    return (await _purchaseService.getProducts()).firstOrNull;
   }
 
   void _listenToPlusStatus() {

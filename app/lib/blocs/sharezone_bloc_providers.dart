@@ -332,6 +332,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => SharezonePlusPageController(
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
+          remoteConfiguration: remoteConfig,
         ),
       )
     ];

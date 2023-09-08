@@ -18,6 +18,7 @@ import 'package:intl/intl_standalone.dart'
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_fallback_price.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -81,6 +82,7 @@ class PluginInitializations {
       'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
+      'sz_plus_price_with_symbol': fallbackSharezonePlusPriceWithCurrencySymbol,
     });
 
     try {
