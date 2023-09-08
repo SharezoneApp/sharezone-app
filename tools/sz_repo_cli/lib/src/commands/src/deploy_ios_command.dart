@@ -138,6 +138,8 @@ class DeployIosCommand extends Command {
         stageToTracks: _iosStageToTracks,
       );
     } finally {
+      // Fixes potential authentication issues after running keychain commands.
+      // Only really necessary when running on local machines.
       await keychainUseLogin();
     }
 
