@@ -51,7 +51,7 @@ void main() {
         'returns fallback price from remote config is price cannot be fetched from $PurchaseService',
         () {
       localRemoteConfiguration
-          .initialize({'sz_plus_price_with_symbol': '6,32€'});
+          .initialize({'sz_plus_monthly_price_with_symbol': '6,32€'});
       when(purchaseService.getProducts())
           .thenThrow(Exception('Couldnt fetch products'));
       // Ensure that the remote config fallback price in this test is not the

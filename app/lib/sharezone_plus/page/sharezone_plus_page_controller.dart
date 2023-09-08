@@ -40,7 +40,8 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   void _getFallbackPrice() {
     try {
-      final res = _remoteConfiguration.getString('sz_plus_price_with_symbol');
+      final res =
+          _remoteConfiguration.getString('sz_plus_monthly_price_with_symbol');
       // Remote config returns an empty string if the key is not found.
       if (res.isNotEmpty) {
         price = res;
