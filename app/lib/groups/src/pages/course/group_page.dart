@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
@@ -38,8 +39,9 @@ Future<dynamic> handleCourseDialogOption(
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
     switch (dialogOptions) {
       case CourseDialogOption.schoolClassCreate:
+        final analytics = BlocProvider.of<GroupAnalytics>(context);
         openMySchoolClassCreateDialog(
-            context, MySchoolClassBloc(gateway: gateway));
+            context, MySchoolClassBloc(gateway: gateway, analytics: analytics));
         break;
       case CourseDialogOption.courseCreate:
         return Navigator.pushNamed(context, CourseTemplatePage.tag);
@@ -392,8 +394,13 @@ class _EmptyGroupList extends StatelessWidget {
               title: "Schulklasse erstellen",
               subtitle:
                   "Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.",
-              onTap: () => openMySchoolClassCreateDialog(
-                  context, MySchoolClassBloc(gateway: gateway)),
+              onTap: () {
+                final analytics = BlocProvider.of<GroupAnalytics>(context);
+                openMySchoolClassCreateDialog(
+                  context,
+                  MySchoolClassBloc(gateway: gateway, analytics: analytics),
+                );
+              },
             ),
             _EmptyGroupListAction(
               icon: Icon(Icons.add_circle_outline),

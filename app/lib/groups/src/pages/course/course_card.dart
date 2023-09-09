@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
@@ -106,8 +107,10 @@ class CourseCardRedesign extends StatelessWidget {
         break;
       case _CourseCardLongPressResult.leave:
         _logCourseLeaveViaCourseCardLongPress(analytics);
+        final groupAnalytics = BlocProvider.of<GroupAnalytics>(context);
         final bloc = CourseDetailsBloc(
-            CourseDetailsBlocGateway(api.course, course), api.userId);
+            CourseDetailsBlocGateway(api.course, course, groupAnalytics),
+            api.userId);
         final isLastMember = await bloc.isLastMember.first;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
         if (confirmed == true) {
@@ -278,8 +281,10 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
         break;
       case _CourseCardLongPressResult.leave:
         _logCourseLeaveViaCourseCardLongPress(analytics);
+        final groupAnalytics = BlocProvider.of<GroupAnalytics>(context);
         final bloc = CourseDetailsBloc(
-            CourseDetailsBlocGateway(api.course, course), api.userId);
+            CourseDetailsBlocGateway(api.course, course, groupAnalytics),
+            api.userId);
         final isLastMember = (await bloc.members.first).length <= 1;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
         if (confirmed == true) {

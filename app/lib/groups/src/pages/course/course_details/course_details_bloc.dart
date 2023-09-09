@@ -13,6 +13,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/models/splitted_member_list.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -106,8 +107,15 @@ class CourseDetailsBlocGateway {
   final CourseGateway _gateway;
   final Course _course;
   final String courseID;
+  final GroupAnalytics _analytics;
 
-  CourseDetailsBlocGateway(this._gateway, this._course) : courseID = _course.id;
+  static const _groupType = GroupType.course;
+
+  CourseDetailsBlocGateway(
+    this._gateway,
+    this._course,
+    this._analytics,
+  ) : courseID = _course.id;
 
   Course get initialData => _course;
 
@@ -121,32 +129,42 @@ class CourseDetailsBlocGateway {
   Stream<Course?> get course => _gateway.streamCourse(_course.id);
 
   Future<AppFunctionsResult<bool>> deleteCourse() async {
+    _analytics.logDeletedGroup(groupType: _groupType);
     return _gateway.deleteCourse(_course.id);
   }
 
   Future<AppFunctionsResult<bool>> leaveCourse() async {
+    _analytics.logLeftGroup(groupType: _groupType);
     return _gateway.leaveCourse(_course.id);
   }
 
   Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
+    _analytics.logKickedMember(groupType: _groupType);
     return _gateway.kickMember(courseID, kickedMemberID);
   }
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
+    _analytics.logChangeGroupVisibility(
+        isPublic: isPublic, groupType: _groupType);
     return _gateway.editCourseSettings(
         courseID, _course.settings.copyWith(isPublic: isPublic));
   }
 
   Future<AppFunctionsResult<bool>> setWritePermission(
-      WritePermission writePermission) {
+      WritePermission writePermission) async {
+    _analytics.logChangedWritePermission(writePermission,
+        groupType: _groupType);
     return _gateway.editCourseSettings(
-        courseID, _course.settings.copyWith(writePermission: writePermission));
+      courseID,
+      _course.settings.copyWith(writePermission: writePermission),
+    );
   }
 
   Future<AppFunctionsResult<bool>> updateMemberRole({
     required String newMemberID,
     required MemberRole newRole,
   }) {
+    _analytics.logUpdateMemberRole(newRole, groupType: _groupType);
     return _gateway.memberUpdateRole(
       courseID: courseID,
       newMemberID: newMemberID,

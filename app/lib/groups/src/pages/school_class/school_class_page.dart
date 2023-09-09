@@ -11,6 +11,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_details.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -31,9 +32,11 @@ class LeaveSchoolClassDetailsPopOption implements SchoolClassDetailsPopOption {
 
 Future<void> openMySchoolClassPage(
     BuildContext context, SchoolClass schoolClass) async {
+  final analytics = BlocProvider.of<GroupAnalytics>(context);
   final bloc = MySchoolClassBloc(
     gateway: BlocProvider.of<SharezoneContext>(context).api,
     schoolClass: schoolClass,
+    analytics: analytics,
   );
   final popOption = await Navigator.push<SchoolClassDetailsPopOption>(
     context,

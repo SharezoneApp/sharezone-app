@@ -13,6 +13,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/create_courses.dart';
@@ -50,7 +51,8 @@ class _GroupOnboardingCreateSchoolClassState
   void initState() {
     super.initState();
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
-    schoolClassBloc = MySchoolClassBloc(gateway: gateway);
+    final analytics = BlocProvider.of<GroupAnalytics>(context);
+    schoolClassBloc = MySchoolClassBloc(gateway: gateway, analytics: analytics);
     schoolClassCreateBloc = SchoolClassCreateBloc();
   }
 
