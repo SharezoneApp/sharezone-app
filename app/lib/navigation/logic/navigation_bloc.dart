@@ -19,8 +19,8 @@ class NavigationBloc extends BlocBase {
 
   final _navigationItemsSubject =
       BehaviorSubject<NavigationItem>.seeded(NavigationItem.overview);
-  Stream<NavigationItem> get navigationItems => _navigationItemsSubject;
 
+  Stream<NavigationItem> get currentItemStream => _navigationItemsSubject;
   NavigationItem get currentItem => _navigationItemsSubject.valueOrNull!;
 
   Function(NavigationItem) get navigateTo => _navigationItemsSubject.sink.add;

@@ -38,7 +38,7 @@ class _NavigationControllerState extends State<NavigationController> {
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
     return StreamBuilder<NavigationItem>(
-      stream: navigationBloc.navigationItems,
+      stream: navigationBloc.currentItemStream,
       builder: (context, snapshot) {
         final currentNavigationItem = snapshot.data ?? NavigationItem.overview;
         return currentNavigationItem.getPageWidget();

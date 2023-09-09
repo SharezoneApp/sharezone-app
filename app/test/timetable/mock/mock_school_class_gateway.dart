@@ -61,11 +61,6 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   }
 
   @override
-  Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassID) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<AppFunctionsResult<bool>> kickMember(
       String schoolClassID, String kickedMemberID) {
     throw UnimplementedError();

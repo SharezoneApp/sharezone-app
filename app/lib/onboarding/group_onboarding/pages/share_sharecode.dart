@@ -133,7 +133,6 @@ class _LoadingSharecodeBox extends StatelessWidget {
       id: 'id',
       name: 'name',
       design: Design.standard(),
-      meetingID: null,
       abbreviation: null,
       sharecode: null,
       joinLink: null,

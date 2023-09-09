@@ -290,46 +290,6 @@ class MockSharezoneAppFunctions extends _i1.Mock
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
   @override
-  _i4.Future<_i2.AppFunctionsResult<bool>> generateNewMeetingID({
-    required String? id,
-    required String? type,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #generateNewMeetingID,
-          [],
-          {
-            #id: id,
-            #type: type,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #generateNewMeetingID,
-            [],
-            {
-              #id: id,
-              #type: type,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #generateNewMeetingID,
-            [],
-            {
-              #id: id,
-              #type: type,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
-  @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupDelete({
     required String? groupID,
     required String? type,

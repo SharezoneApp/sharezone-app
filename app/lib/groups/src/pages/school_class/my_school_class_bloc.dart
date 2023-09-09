@@ -79,10 +79,6 @@ class MySchoolClassBloc extends BlocBase {
         .updateMemberRole(schoolClassID, memberID.toString(), newRole);
   }
 
-  Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassId) {
-    return gateway.schoolClassGateway.generateNewMeetingID(schoolClassId);
-  }
-
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
             .where((member) =>

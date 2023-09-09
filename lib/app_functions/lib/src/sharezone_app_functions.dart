@@ -90,18 +90,6 @@ class SharezoneAppFunctions {
     });
   }
 
-  Future<AppFunctionsResult<bool>> generateNewMeetingID({
-    required String id,
-    required String type,
-  }) {
-    return _appFunctions.callCloudFunction(
-        functionName: 'GenerateNewGroupMeetingID',
-        parameters: {
-          'id': id,
-          'type': type,
-        });
-  }
-
   Future<AppFunctionsResult<bool>> groupDelete({
     required String groupID,
     required String type,

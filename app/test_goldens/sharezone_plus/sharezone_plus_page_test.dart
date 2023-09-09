@@ -64,7 +64,7 @@ void main() {
           BehaviorSubject<NavigationExperimentOption>.seeded(
               NavigationExperimentOption.drawerAndBnb));
 
-      when(navigationBloc.navigationItems)
+      when(navigationBloc.currentItemStream)
           .thenAnswer((_) => Stream.value(NavigationItem.sharezonePlus));
       when(navigationBloc.currentItem)
           .thenAnswer((_) => NavigationItem.sharezonePlus);

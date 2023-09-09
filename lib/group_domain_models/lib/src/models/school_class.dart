@@ -19,7 +19,7 @@ class SchoolClass {
   final String id;
   final String name;
   final String sharecode;
-  final String? joinLink, meetingID;
+  final String? joinLink;
   GroupId get groupId => GroupId(id);
   final MemberRole myRole;
   final CourseSettings settings;
@@ -31,7 +31,6 @@ class SchoolClass {
     required this.myRole,
     required this.settings,
     required this.sharecode,
-    required this.meetingID,
     required this.joinLink,
     required this.personalSharecode,
     required this.personalJoinLink,
@@ -47,7 +46,6 @@ class SchoolClass {
       myRole: MemberRole.values.byName(data['myRole']),
       sharecode: data['publicKey'],
       joinLink: data['joinLink'],
-      meetingID: data['meetingID'] ?? '',
       personalSharecode: data['personalPublicKey'],
       personalJoinLink: data['personalJoinLink'],
       settings: CourseSettings.fromData(data['settings']),
@@ -65,7 +63,6 @@ class SchoolClass {
     String? id,
     String? name,
     String? sharecode,
-    String? meetingID,
     MemberRole? myRole,
     CourseSettings? settings,
     String? joinLink,
@@ -74,7 +71,6 @@ class SchoolClass {
       id: id ?? this.id,
       name: name ?? this.name,
       sharecode: sharecode ?? this.sharecode,
-      meetingID: meetingID ?? this.meetingID,
       joinLink: joinLink ?? this.joinLink,
       personalJoinLink: personalJoinLink,
       personalSharecode: personalSharecode,
@@ -101,7 +97,6 @@ class SchoolClass {
       name: name,
       abbreviation: generateAbbreviation(name),
       design: getDesign(),
-      meetingID: meetingID,
       sharecode: getPublicKey(),
       joinLink: getJoinLink(),
       groupType: GroupType.schoolclass,
@@ -113,7 +108,7 @@ class SchoolClass {
 class SchoolClassData {
   final String id;
   final String name;
-  final String? description, abbreviation, meetingID;
+  final String? description, abbreviation;
   final String? sharecode, joinLink, referenceSchoolID;
 
   final CourseSettings settings;
@@ -122,7 +117,6 @@ class SchoolClassData {
     required this.id,
     required this.name,
     required this.description,
-    required this.meetingID,
     required this.abbreviation,
     required this.sharecode,
     required this.joinLink,
@@ -137,7 +131,6 @@ class SchoolClassData {
       description: "",
       abbreviation: "",
       sharecode: null,
-      meetingID: null,
       joinLink: null,
       referenceSchoolID: null,
       settings: CourseSettings.standard,
@@ -154,7 +147,6 @@ class SchoolClassData {
       description: data['description'],
       abbreviation: data['abbreviation'],
       sharecode: data['publicKey'],
-      meetingID: data['meetingID'],
       joinLink: data['joinLink'],
       referenceSchoolID: data['referenceSchoolID'],
       settings: CourseSettings.fromData(data['settings']),
@@ -199,7 +191,6 @@ class SchoolClassData {
       abbreviation: abbreviation ?? this.abbreviation,
       sharecode: sharecode ?? this.sharecode,
       joinLink: joinLink ?? this.joinLink,
-      meetingID: meetingID ?? meetingID,
       referenceSchoolID: referenceSchoolID ?? this.referenceSchoolID,
       settings: settings ?? this.settings,
     );

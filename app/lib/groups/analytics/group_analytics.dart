@@ -15,14 +15,6 @@ class GroupAnalytics extends BlocBase {
 
   GroupAnalytics(this._analytics);
 
-  void logEnableMeeting() {
-    _analytics.log(GroupEvent('enable_meeting'));
-  }
-
-  void logDisbaleMeeting() {
-    _analytics.log(GroupEvent('disable_meeting'));
-  }
-
   void logChangedWritePermission(
     WritePermission permission, {
     required GroupType groupType,
