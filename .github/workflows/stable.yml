@@ -41,6 +41,9 @@ on:
 # and would cause alerts from our scanning tools.
 permissions: {}
 
+env:
+  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
+
 jobs:
   deploy-ios:
     # We skip the deployment if no changelog is provided because we assume that
