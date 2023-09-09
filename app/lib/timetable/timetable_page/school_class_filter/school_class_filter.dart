@@ -11,6 +11,11 @@ import 'package:build_context/build_context.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -96,6 +101,9 @@ class _SchoolClassFilterBottomBarState
   Future<void> _openAndHandleSelectionMenu(BuildContext context,
       TimetableBloc bloc, SchoolClassFilterView view) async {
     final selectedOption = await _openSelectionMenu(view);
+
+    // TODO: Handle here if should redirect to Sharezone Plus page
+
     if (selectedOption != null) {
       bloc.changeSchoolClassFilter(selectedOption);
     }
@@ -245,20 +253,72 @@ class _SelectionSheetTile extends StatelessWidget {
   final String title;
   final GroupId? id;
 
+  void closeBottomSheet(
+    BuildContext context, {
+    SchoolClassFilter? selectedFilter,
+  }) {
+    Navigator.pop(context, selectedFilter);
+  }
+
+  void _openSharezonePlusPage(BuildContext context) {
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+    closeBottomSheet(context);
+    navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isPlusEnabled =
+        Provider.of<SubscriptionEnabledFlag>(context).isEnabled;
+    final hasPlus =
+        Provider.of<SubscriptionService>(context).isSubscriptionActive();
+    final isPlusRequiredTile = id != null;
+
     return Semantics(
       selected: isSelected,
       child: ListTile(
         title: Text(title),
-        onTap: () => Navigator.pop(
-            context,
-            id == null
-                ? SchoolClassFilter.showAllGroups()
-                : SchoolClassFilter.showSchoolClass(id!)),
-        trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
+        onTap: () async {
+          if (isPlusRequiredTile && !hasPlus && isPlusEnabled) {
+            _openSharezonePlusPage(context);
+          } else {
+            closeBottomSheet(
+              context,
+              selectedFilter: id == null
+                  ? SchoolClassFilter.showAllGroups()
+                  : SchoolClassFilter.showSchoolClass(id!),
+            );
+          }
+        },
+        trailing: _SelectionSheetTileTrailing(
+          hasPlus: hasPlus,
+          isPlusEnabled: isPlusEnabled,
+          isSelected: isSelected,
+          isPlusRequiredTile: isPlusRequiredTile,
+        ),
       ),
     );
+  }
+}
+
+class _SelectionSheetTileTrailing extends StatelessWidget {
+  const _SelectionSheetTileTrailing({
+    required this.hasPlus,
+    required this.isSelected,
+    required this.isPlusEnabled,
+    required this.isPlusRequiredTile,
+  });
+
+  final bool isSelected;
+  final bool isPlusEnabled;
+  final bool hasPlus;
+  final bool isPlusRequiredTile;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isPlusRequiredTile && !hasPlus && isPlusEnabled)
+      return SharezonePlusCard();
+    return isSelected ? Icon(Icons.check, color: Colors.green) : Container();
   }
 }
 
