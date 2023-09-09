@@ -62,14 +62,6 @@ class CourseDetailsBloc extends BlocBase {
     return _gateway.setIsPublic(value);
   }
 
-  Future<AppFunctionsResult<bool>> generateNewMeetingID() {
-    return _gateway.generateNewMeetingID();
-  }
-
-  Future<AppFunctionsResult<bool>> setIsGroupMeetingEnabled(bool value) {
-    return _gateway.setIsMeetingEnabled(value);
-  }
-
   Future<bool> setWritePermission(WritePermission writePermission) {
     return _gateway
         .setWritePermission(writePermission)
@@ -143,15 +135,6 @@ class CourseDetailsBlocGateway {
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
     return _gateway.editCourseSettings(
         courseID, _course.settings.copyWith(isPublic: isPublic));
-  }
-
-  Future<AppFunctionsResult<bool>> setIsMeetingEnabled(bool isMeetingEnabled) {
-    return _gateway.editCourseSettings(courseID,
-        _course.settings.copyWith(isMeetingEnabled: isMeetingEnabled));
-  }
-
-  Future<AppFunctionsResult<bool>> generateNewMeetingID() {
-    return _gateway.generateNewMeetingID(courseID);
   }
 
   Future<AppFunctionsResult<bool>> setWritePermission(

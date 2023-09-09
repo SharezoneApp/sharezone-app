@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:optional/optional.dart';
+
 import 'package:sharezone/groups/src/widgets/group_qr_code.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
@@ -28,7 +28,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
   }) : super(key: key);
 
   static const tag = 'onboarding-share-sharecode-page';
-  final Optional<String> schoolClassId;
+  final String? schoolClassId;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
         const SizedBox(height: 6),
         _JoinHint(),
         const SizedBox(height: 18),
-        if (schoolClassId.isPresent)
-          _SchoolClassSharecodeBox(schoolClassId: schoolClassId.value)
+        if (schoolClassId != null)
+          _SchoolClassSharecodeBox(schoolClassId: schoolClassId!)
         else
           _CoursesSharecodeBox(),
       ],
@@ -133,7 +133,6 @@ class _LoadingSharecodeBox extends StatelessWidget {
       id: 'id',
       name: 'name',
       design: Design.standard(),
-      meetingID: null,
       abbreviation: null,
       sharecode: null,
       joinLink: null,

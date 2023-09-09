@@ -46,7 +46,6 @@ GroupInfo _mockSchoolClass() {
     name: 'Klasse 8b',
     abbreviation: "Gr",
     design: Design.standard(),
-    meetingID: null,
     joinLink: null,
     sharecode: null,
   );

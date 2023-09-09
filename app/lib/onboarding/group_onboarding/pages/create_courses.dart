@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:optional/optional.dart';
+
 import 'package:sharezone/groups/src/pages/course/create/course_create_page.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_course_template_page.dart';
@@ -27,16 +27,16 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
   }) : super(key: key);
 
   static const tag = 'onboarding-course-page';
-  final Optional<String> schoolClassId;
+  final String? schoolClassId;
 
   @override
   Widget build(BuildContext context) {
     return GroupOnboardingPageTemplate(
       title: getTitle(context),
       children: [
-        if (schoolClassId.isPresent)
+        if (schoolClassId != null)
           SchoolClassCourseCreateTemplateBody(
-            schoolClassID: schoolClassId.value,
+            schoolClassID: schoolClassId!,
             bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
           )
         else
@@ -73,7 +73,7 @@ class _CreateCustomCourse extends StatelessWidget {
     required this.schoolClassId,
   }) : super(key: key);
 
-  final Optional<String> schoolClassId;
+  final String? schoolClassId;
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +99,8 @@ class _CreateCustomCourse extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              if (schoolClassId.isPresent) {
-                openSchoolClassCourseCreatePage(context, schoolClassId.value);
+              if (schoolClassId != null) {
+                openSchoolClassCourseCreatePage(context, schoolClassId!);
               } else {
                 openCourseCreatePage(context);
               }

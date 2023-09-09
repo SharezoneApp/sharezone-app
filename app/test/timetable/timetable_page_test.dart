@@ -30,7 +30,6 @@ void main() {
           'myRole': 'standard',
           'publicKey': '123456',
           'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
-          'meetingID': 'l7hj-y1hw-s2we',
           'personalSharecode': '654321',
           'personalJoinLink': 'https://sharez.one/RpvEuUZMLEjb522N7',
           'settings': null
@@ -123,9 +122,7 @@ void main() {
         await tester.tap(find.text(klasse10a.name));
         await tester.pumpAndSettle();
 
-        expect(
-            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass.value
-                .id,
+        expect(bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass!.id,
             klasse10a.groupId);
       });
 

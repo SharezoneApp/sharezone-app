@@ -10,7 +10,7 @@ import 'package:app_functions/app_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:optional/optional_internal.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
@@ -61,11 +61,6 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   }
 
   @override
-  Future<AppFunctionsResult<bool>> generateNewMeetingID(String schoolClassID) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<AppFunctionsResult<bool>> kickMember(
       String schoolClassID, String kickedMemberID) {
     throw UnimplementedError();
@@ -105,7 +100,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
     return Stream.value(_courses.valueOrNull!
-        .where((course) => course.schoolClassId.value.id == schoolClassID)
+        .where((course) => course.schoolClassId!.id == schoolClassID)
         .map((course) => course.courseId.id)
         .toList());
   }
@@ -138,8 +133,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
 class MockCourse {
   final GroupId courseId;
-  final Optional<GroupId> schoolClassId;
+  final GroupId? schoolClassId;
 
-  MockCourse({GroupId? schoolClassId, required this.courseId})
-      : schoolClassId = Optional.ofNullable(schoolClassId);
+  MockCourse({this.schoolClassId, required this.courseId});
 }

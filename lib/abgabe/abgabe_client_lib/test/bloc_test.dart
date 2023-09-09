@@ -24,7 +24,7 @@ import 'package:async/async.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:optional/optional.dart';
+
 import 'package:random_string/random_string.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -84,9 +84,8 @@ void main() {
           await bloc.renameFile('$abgabedateiId', neuerBasename);
 
           final name = useCases.dateiUmbenennenAufrufFuer(abgabedateiId);
-          expect(name.isPresent, true);
           expect(
-            name.value.mitExtension,
+            name!.mitExtension,
             nachher,
             reason:
                 'Wenn der "Basename" (Name ohne Extension) der Datei "$vorher" zu "$neuerBasename" umgeändert wird, dann sollte der neue Dateiname (mit Extension) "$nachher" sein.',
@@ -269,7 +268,7 @@ void main() {
 
           final abgabeMitEntfernterDatei =
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            snapshot.abgabe.value.abgabedateien.first,
+            snapshot.abgabe!.abgabedateien.first,
           ]);
           useCases.abgabe.add(abgabeMitEntfernterDatei);
 
@@ -345,10 +344,10 @@ void main() {
           expect(fileView.basename, 'datei');
           expect(fileView.extentionName, 'pdf');
           expect(fileView.fileFormat, FileFormat.pdf);
-          expect(fileView.path.value, '/eine/datei.pdf');
+          expect(fileView.path, '/eine/datei.pdf');
           expect(fileView.status, FileViewStatus.unitiated);
-          expect(fileView.uploadProgress.isPresent, false);
-          expect(fileView.downloadUrl.isPresent, false);
+          expect(fileView.uploadProgress, null);
+          expect(fileView.downloadUrl, null);
         });
 
         test('Datei-View-Attribute - Hochgeladene Datei', () async {
@@ -369,10 +368,10 @@ void main() {
           expect(fileView.basename, 'file');
           expect(fileView.extentionName, 'pdf');
           expect(fileView.fileFormat, FileFormat.pdf);
-          expect(fileView.path.isPresent, false);
+          expect(fileView.path, null);
           expect(fileView.status, FileViewStatus.successfullyUploaded);
-          expect(fileView.uploadProgress.isPresent, false);
-          expect(fileView.downloadUrl.value, 'https://some-url.com');
+          expect(fileView.uploadProgress, null);
+          expect(fileView.downloadUrl, 'https://some-url.com');
         });
 
         test('File-Format - mp3', () async {
@@ -434,18 +433,18 @@ void main() {
 
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.uploading);
-          expect(fileView.uploadProgress.value, 0.2);
+          expect(fileView.uploadProgress, 0.2);
 
           uploadProzess.add(
               DateiUploadProzessFortschritt.erfolgreich(AbgabedateiId('dad')));
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.successfullyUploaded);
-          expect(fileView.uploadProgress.isPresent, false);
+          expect(fileView.uploadProgress, null);
 
           uploadProzess.add(DateiUploadProzessFortschritt.fehlgeschlagen(
               AbgabedateiId('dad')));
           fileView = (await queue.next)!;
-          expect(fileView.uploadProgress.isPresent, false);
+          expect(fileView.uploadProgress, null);
         });
 
         test(
@@ -462,8 +461,8 @@ void main() {
           /// bis die Dateien komplett "verarbeitet" wurden.
           await bloc.files.firstWhere((files) => files.length == 2);
 
-          expect(fileSaver.getFile('$abgabedateiId1').isPresent, true);
-          expect(fileSaver.getFile('$abgabedateiId2').isPresent, true);
+          expect(fileSaver.getFile('$abgabedateiId1'), isNotNull);
+          expect(fileSaver.getFile('$abgabedateiId2'), isNotNull);
         });
 
         test(
@@ -592,9 +591,9 @@ void main() {
               .map((event) => event.first);
 
           final view = await firstFileView
-              .firstWhere((file) => file.downloadUrl.isPresent);
+              .firstWhere((file) => file.downloadUrl != null);
 
-          expect(view.downloadUrl.value, 'https://some-url.com');
+          expect(view.downloadUrl, 'https://some-url.com');
           expect(view.status, FileViewStatus.successfullyUploaded);
 
           expect(
@@ -923,7 +922,7 @@ class MockAbgabendateiUseCases
     _aufrufe.add(id);
     final snap = abgabe.value;
     // ignore: no_leading_underscores_for_local_identifiers
-    final _abgabe = snap.abgabe.value;
+    final _abgabe = snap.abgabe!;
     _abgabe.abgabedateien.removeWhere((datei) => datei.id == id);
     abgabe.add(_abgabe.toSnapshot());
   }
@@ -935,8 +934,8 @@ class MockAbgabendateiUseCases
     return;
   }
 
-  Optional<Dateiname> dateiUmbenennenAufrufFuer(AbgabedateiId id) {
-    return Optional.ofNullable(_nenneDateiUmAufrufe[id]);
+  Dateiname? dateiUmbenennenAufrufFuer(AbgabedateiId id) {
+    return _nenneDateiUmAufrufe[id];
   }
 
   final _nenneDateiUmAufrufe = <AbgabedateiId, Dateiname>{};

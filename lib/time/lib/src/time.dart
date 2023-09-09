@@ -13,7 +13,19 @@ class Time {
   final String _time;
 
   factory Time({required int hour, int minute = 0}) {
-    final numberFormat = NumberFormat("00");
+    final numberFormat = NumberFormat(
+      "00",
+      // We need to set the locale to "de_DE", otherwise the number formatter
+      // will use the device's locale, which can cause problems if the number
+      // formatter does not work as we expect, e.g. if the device is set to
+      // Arabic.
+      //
+      // If we go international with Sharezone, we should probably remove this
+      // and instead use a number formatter that is locale independent.
+      //
+      // See: https://github.com/SharezoneApp/sharezone-app/issues/903
+      "de_DE",
+    );
     return Time._(
         "${numberFormat.format(hour)}:${numberFormat.format(minute)}");
   }

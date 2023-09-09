@@ -27,12 +27,12 @@ extension AbgabedateiToView on Abgabedatei {
 extension HochladeneDateiToView on HochladeneLokaleAbgabedatei {
   FileView toView() => FileView(
         id: '$id',
-        path: pfad.orElseNull,
+        path: pfad,
         basename: name.ohneExtension,
         extentionName: name.nurExtension,
         fileFormat: format,
         status: fortschritt.status,
-        uploadProgess: fortschritt.inProzent.orElseNull,
+        uploadProgress: fortschritt.inProzent,
       );
 }
 

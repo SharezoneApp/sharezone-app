@@ -8,7 +8,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:optional/optional_internal.dart';
 
 class SchoolClassFilterView {
   final List<SchoolClassView> schoolClassList;
@@ -31,7 +30,7 @@ class SchoolClassFilterView {
   /// Gibt den Namen der ausgewählten Schulklasse zurück.
   /// Falls keine Schulklasse ausgewählt ist, wird null zurückgegeben.
   String? get currentSchoolClassName =>
-      hasSchoolClassSelected ? selectedSchoolClass.value.name : null;
+      hasSchoolClassSelected ? selectedSchoolClass!.name : null;
 
   bool get hasMoreThanOneSchoolClass => schoolClassList.length > 1;
 
@@ -41,12 +40,11 @@ class SchoolClassFilterView {
 
   bool get shouldShowAllGroups => !hasSchoolClassSelected;
 
-  Optional<SchoolClassView> get selectedSchoolClass {
-    if (!hasSchoolClassSelected) return Optional.empty();
+  SchoolClassView? get selectedSchoolClass {
+    if (!hasSchoolClassSelected) return null;
 
     return schoolClassList
-        .singleWhere((schoolClass) => schoolClass.isSelected == true)
-        .toOptional;
+        .singleWhere((schoolClass) => schoolClass.isSelected == true);
   }
 
   @override

@@ -47,8 +47,8 @@ class FileSharingData {
     try {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
-    } catch (e) {
-      log("filesharingdata folders error: $id");
+    } catch (e, s) {
+      log("filesharingdata folders error: $id", error: e, stackTrace: s);
     }
     return FileSharingData._(
         courseID: id,

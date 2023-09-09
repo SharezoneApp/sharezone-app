@@ -8,19 +8,16 @@
 
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:optional/optional.dart';
 
 import 'models.dart';
 
 class ErstellerAbgabeModelSnapshot {
-  ErstellerAbgabeModelSnapshot(ErstellerAbgabeModel abgabe)
-      : abgabe = Optional.ofNullable(abgabe);
+  ErstellerAbgabeModelSnapshot(this.abgabe);
 
-  ErstellerAbgabeModelSnapshot.nichtExistent()
-      : abgabe = const Optional.empty();
+  ErstellerAbgabeModelSnapshot.nichtExistent() : abgabe = null;
 
-  bool get existiertAbgabe => abgabe.isPresent;
-  final Optional<ErstellerAbgabeModel> abgabe;
+  bool get existiertAbgabe => abgabe != null;
+  final ErstellerAbgabeModel? abgabe;
 
   @override
   bool operator ==(Object other) {
@@ -38,15 +35,15 @@ class ErstellerAbgabeModelSnapshot {
 
 class ErstellerAbgabeModel {
   final AbgabeId abgabeId;
-  final Optional<DateTime> abgegebenUm;
-  bool get abgegeben => abgegebenUm.isPresent;
+  final DateTime? abgegebenUm;
+  bool get abgegeben => abgegebenUm != null;
   final List<HochgeladeneAbgabedatei> abgabedateien;
 
   ErstellerAbgabeModel({
     required this.abgabeId,
-    required DateTime? abgegebenUm,
+    this.abgegebenUm,
     required this.abgabedateien,
-  }) : abgegebenUm = Optional.ofNullable(abgegebenUm);
+  });
 
   ErstellerAbgabeModelSnapshot toSnapshot() =>
       ErstellerAbgabeModelSnapshot(this);
