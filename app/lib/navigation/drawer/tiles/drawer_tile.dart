@@ -66,7 +66,7 @@ class DrawerTile extends StatelessWidget {
 
     return StreamBuilder<NavigationItem>(
         key: ValueKey('nav-item-${navigationItem?.name}-E2E'),
-        stream: navigationBloc.navigationItems,
+        stream: navigationBloc.currentItemStream,
         builder: (context, snapshot) {
           final currentNavigationItem = snapshot.data;
 

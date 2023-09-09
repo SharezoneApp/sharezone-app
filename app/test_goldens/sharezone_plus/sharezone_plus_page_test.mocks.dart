@@ -384,11 +384,11 @@ class MockNavigationBloc extends _i2.Mock implements _i23.NavigationBloc {
         ),
       ) as _i1.GlobalKey<_i1.State<_i1.StatefulWidget>>);
   @override
-  _i21.Stream<_i24.NavigationItem> get navigationItems => (super.noSuchMethod(
-        Invocation.getter(#navigationItems),
-        returnValue: _i21.Stream<_i24.NavigationItem>.empty(),
-        returnValueForMissingStub: _i21.Stream<_i24.NavigationItem>.empty(),
-      ) as _i21.Stream<_i24.NavigationItem>);
+  _i22.Stream<_i25.NavigationItem> get currentItemStream => (super.noSuchMethod(
+        Invocation.getter(#currentItemStream),
+        returnValue: _i22.Stream<_i25.NavigationItem>.empty(),
+        returnValueForMissingStub: _i22.Stream<_i25.NavigationItem>.empty(),
+      ) as _i22.Stream<_i25.NavigationItem>);
   @override
   _i24.NavigationItem get currentItem => (super.noSuchMethod(
         Invocation.getter(#currentItem),
