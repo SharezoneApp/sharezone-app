@@ -62,9 +62,11 @@ class SharezonePlusCard extends StatelessWidget {
             backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(7.5),
       ),
-      child: const Padding(
-        padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-        child: SharezonePlusBadge(),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+        child: SharezonePlusBadge(
+          color: foregroundColor,
+        ),
       ),
     );
   }
