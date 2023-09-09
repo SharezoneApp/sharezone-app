@@ -14,7 +14,6 @@ class GroupInfo {
   final String? name, abbreviation;
   final Design design;
   final String? sharecode, joinLink;
-  final String? meetingID;
   final MemberRole? myRole;
   final GroupType groupType;
 
@@ -24,7 +23,6 @@ class GroupInfo {
     required this.design,
     required this.abbreviation,
     required this.sharecode,
-    required this.meetingID,
     required this.joinLink,
     required this.groupType,
     this.myRole,
@@ -38,7 +36,6 @@ class GroupInfo {
       abbreviation:
           data['abbreviation'] ?? _getAbbreviationFromName(data['name'] ?? ""),
       sharecode: data['publicKey'],
-      meetingID: data['meetingID'],
       joinLink: data['joinLink'],
       groupType: GroupType.values.byName(data['groupType']),
     );

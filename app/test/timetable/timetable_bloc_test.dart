@@ -35,7 +35,6 @@ void main() {
         'myRole': 'standard',
         'publicKey': '123456',
         'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
-        'meetingID': 'l7hj-y1hw-s2we',
         'personalSharecode': '654321',
         'personalJoinLink': 'https://sharez.one/RpvEuUZMLEjb522N7',
         'settings': null
