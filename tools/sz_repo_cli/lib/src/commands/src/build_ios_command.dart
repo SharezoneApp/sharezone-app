@@ -14,6 +14,7 @@ import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
 final _iosStages = [
   'stable',
+  'beta',
   'alpha',
 ];
 

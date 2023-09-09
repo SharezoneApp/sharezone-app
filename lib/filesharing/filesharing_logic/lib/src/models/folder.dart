@@ -54,8 +54,8 @@ class Folder {
     try {
       mFolders = decodeMap(data['folders'],
           (key, value) => Folder.fromData(id: key, data: value));
-    } catch (e) {
-      log("folders error: $id", error: e);
+    } catch (e, s) {
+      log("folders error: $id", error: e, stackTrace: s);
     }
     return Folder._(
       id: id,

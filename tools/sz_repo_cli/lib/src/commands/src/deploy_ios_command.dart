@@ -17,6 +17,7 @@ import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 final _iosStageToTracks = {
   'stable': const AppStoreTrack(),
   'alpha': const TestFlightTrack('alpha'),
+  'beta': const TestFlightTrack('beta'),
 };
 
 /// The different flavors of the iOS app that support deployment.
