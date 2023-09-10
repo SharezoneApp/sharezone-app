@@ -20,7 +20,6 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
-import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../test/timetable/mock/mock_course_gateway.dart';
@@ -82,16 +81,15 @@ void main() {
       }) async {
         await tester.pumpWidget(
           FeatureDiscovery(
-            child: MaterialApp(
-              theme: themeData,
-              home: MultiProvider(
-                providers: [
-                  Provider<SubscriptionService>.value(
-                      value: subscriptionService),
-                  ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
-                      value: subscriptionEnabledFlag),
-                ],
-                child: BlocProvider(
+            child: MultiProvider(
+              providers: [
+                Provider<SubscriptionService>.value(value: subscriptionService),
+                ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
+                    value: subscriptionEnabledFlag),
+              ],
+              child: MaterialApp(
+                theme: themeData,
+                home: BlocProvider(
                   bloc: bloc,
                   child: SingleChildScrollView(
                     child: SchoolClassFilterBottomBar(),

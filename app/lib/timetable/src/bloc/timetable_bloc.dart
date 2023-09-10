@@ -31,13 +31,12 @@ import 'package:user/user.dart';
 class SchoolClassFilter {
   SchoolClassFilter.showAllGroups() : classIdToFilterBy = null;
   SchoolClassFilter.showSchoolClass(GroupId classId)
-      // ignore: prefer_initializing_formals
-      : classIdToFilterBy = classId {
-    ArgumentError.notNull('SchoolClassId');
-  }
+      : classIdToFilterBy = classId;
 
   final GroupId? classIdToFilterBy;
+
   bool get shouldFilterForClass => classIdToFilterBy != null;
+  bool get isPlusRequiredFilter => shouldFilterForClass;
 }
 
 class TimetableBloc extends BlocBase {
