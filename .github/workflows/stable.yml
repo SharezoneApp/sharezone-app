@@ -207,8 +207,10 @@ jobs:
       - name: Set up Google Play credentials
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        working-directory: app/private_keys
-        run: echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
+        working-directory: app
+        run: |
+          mkdir private_keys && cd private_keys
+          echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
 
       - name: Deploy
         run: |
