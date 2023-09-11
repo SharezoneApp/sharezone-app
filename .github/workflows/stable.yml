@@ -204,13 +204,13 @@ jobs:
           fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-          - name: Set up Google Play credentials
-          env:
-            GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          working-directory: app
-          run: |
-            mkdir private_keys && cd private_keys
-            echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
+      - name: Set up Google Play credentials
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        working-directory: app
+        run: |
+          mkdir private_keys && cd private_keys
+          echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
 
       - name: Deploy
         run: |
