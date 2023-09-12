@@ -57,7 +57,9 @@ sidebar:
     - - - Konto löschen
         - "/account/delete"
   - - Weiteres
-    - - - Alpha-Programm
+    - - - Beta-Programm
+        - "/more/beta-program"
+      - - Alpha-Programm
         - "/more/alpha-program"
       - - Firewall
         - "/more/firewall"
