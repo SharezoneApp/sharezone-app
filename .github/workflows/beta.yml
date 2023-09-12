@@ -90,9 +90,14 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
+          # When passing the changelog from GitHub Actions to the CLI, the line
+          # breaks are escaped. We need to replace them with actual line breaks.
+          CHANGELOG="${{ github.event.inputs.ios-changelog }}"
+          CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
+          
           sz deploy ios \
             --stage beta \
-            --whats-new "${{ github.event.inputs.ios-changelog }}" \
+            --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --export-options-plist=$HOME/export_options.plist
 
   deploy-web-app:
@@ -197,6 +202,11 @@ jobs:
 
       - name: Deploy
         run: |
+          # When passing the changelog from GitHub Actions to the CLI, the line
+          # breaks are escaped. We need to replace them with actual line breaks.
+          CHANGELOG="${{ github.event.inputs.android-changelog }}"
+          CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
+          
           sz deploy android \
             --stage beta \
-            --whats-new "${{ github.event.inputs.android-changelog }}"
+            --whats-new "$CHANGELOG_WITH_NEW_LINES"

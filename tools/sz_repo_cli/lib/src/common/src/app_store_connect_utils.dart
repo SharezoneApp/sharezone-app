@@ -143,10 +143,6 @@ Future<void> publishToAppStoreConnect({
   required AppStoreConnectConfig appStoreConnectConfig,
   String? whatsNew,
 }) async {
-  // When passing the changelog from GitHub Actions to the CLI, the line breaks
-  // are escaped. We need to replace them with actual line breaks.
-  String? whatsNewWithLineBreaks = whatsNew?.replaceAll('\\n', '\n');
-
   final track = _getAppleTrack(
     stage: stage,
     stageToTracks: stageToTracks,
@@ -161,9 +157,9 @@ Future<void> publishToAppStoreConnect({
       // The app version will be automatically released right after it has
       // been approved by App Review.
       'AFTER_APPROVAL',
-      if (whatsNewWithLineBreaks != null) ...[
+      if (whatsNew != null) ...[
         '--whats-new',
-        whatsNewWithLineBreaks,
+        whatsNew,
       ],
       if (track is AppStoreTrack) ...[
         '--app-store',
