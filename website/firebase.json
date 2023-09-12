@@ -198,6 +198,11 @@
                 "source": "/delete-account",
                 "destination": "https://docs.page/sharezoneapp/sharezone-app/account/delete",
                 "type": 302
+            },
+            {
+                "source": "/beta",
+                "destination": "https://docs.sharezone.net/more/beta-program",
+                "type": 302
             }
         ],
         "rewrites": [
