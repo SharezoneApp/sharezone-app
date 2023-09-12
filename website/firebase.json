@@ -180,6 +180,11 @@
                 "type": 302
             },
             {
+                "source": "/apple-beta",
+                "destination": "https://testflight.apple.com/join/4luKeRNN",
+                "type": 302
+            },
+            {
                 "source": "/github",
                 "destination": "https://github.com/SharezoneApp/sharezone-app",
                 "type": 302
