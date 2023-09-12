@@ -199,6 +199,7 @@ jobs:
       - name: Deploy
         run: |
           DECODED_CHANGELOG=$(echo -e "${{ github.event.inputs.android-changelog }}")
+          echo $DECODED_CHANGELOG
           sz deploy android \
             --stage beta \
             --whats-new "$DECODED_CHANGELOG"
