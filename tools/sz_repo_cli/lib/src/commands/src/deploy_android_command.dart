@@ -177,10 +177,14 @@ class DeployAndroidCommand extends Command {
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
 
+    // When passing the changelog from GitHub Actions to the CLI, the line
+    // breaks are escaped. We need to replace them with actual line breaks.
+    final whatsNewWithLineBreaks = whatsNew.replaceAll(r'\n', '\n');
+
     // Write changelog into file. Fastlane will pick it up automatically.
     //
     // See: https://docs.fastlane.tools/actions/upload_to_play_store/#changelogs-whats-new
-    await changelogFile.writeAsString(whatsNew);
+    await changelogFile.writeAsString(whatsNewWithLineBreaks);
   }
 
   String _getGooglePlayTrackFromStage() {

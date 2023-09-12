@@ -22,7 +22,7 @@ on:
         type: string
         description: |
           iOS changelog: Used for the App Store release notes. If the changelog 
-          is not provided, the deployment for iOS will be skipped. Use %0A for 
+          is not provided, the deployment for iOS will be skipped. Use '\n' for 
           line breaks.
       # For web deployments, we don't have a changelog.
       deploy-web-app:
@@ -35,7 +35,7 @@ on:
         description: |
           Android changelog: Used for the Google Play Store release notes. If the 
           changelog is not provided, the deployment for Android will be skipped.
-          Use %0A for line breaks.
+          Use '\n' for line breaks.
 
 # Set permissions to none.
 #
@@ -90,10 +90,9 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
-          DECODED_CHANGELOG=$(echo -e "${{ github.event.inputs.ios-changelog }}")
           sz deploy ios \
             --stage beta \
-            --whats-new "$DECODED_CHANGELOG" \
+            --whats-new "${{ github.event.inputs.ios-changelog }}" \
             --export-options-plist=$HOME/export_options.plist
 
   deploy-web-app:
@@ -144,12 +143,6 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
-      - name: Changelog
-        run: |
-          echo "Android changelog:"
-          echo -e "${{ github.event.inputs.android-changelog }}"
-          echo "Android changelog (decoded):"
-
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
 
       - name: Install Codemagic CLI Tools
@@ -204,8 +197,6 @@ jobs:
 
       - name: Deploy
         run: |
-          DECODED_CHANGELOG=$(echo -e "${{ github.event.inputs.android-changelog }}")
-          echo $DECODED_CHANGELOG
           sz deploy android \
             --stage beta \
-            --whats-new "$DECODED_CHANGELOG"
+            --whats-new "$"${{ github.event.inputs.android-changelog }}""
