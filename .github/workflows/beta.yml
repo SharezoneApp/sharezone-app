@@ -144,6 +144,12 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
+      - name: Changelog
+        run: |
+          echo "Android changelog:"
+          echo -e "${{ github.event.inputs.android-changelog }}"
+          echo "Android changelog (decoded):"
+
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
 
       - name: Install Codemagic CLI Tools
