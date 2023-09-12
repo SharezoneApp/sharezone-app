@@ -199,4 +199,4 @@ jobs:
         run: |
           sz deploy android \
             --stage beta \
-            --whats-new "$"${{ github.event.inputs.android-changelog }}""
+            --whats-new "${{ github.event.inputs.android-changelog }}"
