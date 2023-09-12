@@ -643,7 +643,7 @@ class _SupportNote extends StatelessWidget {
       maxWidth: 710,
       child: _MarkdownCenteredText(
         text: 'Du hast noch Fragen zu Sharezone Plus? Schreib uns an '
-            '[plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und'
+            '[plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und '
             'wir helfen dir gerne weiter.',
       ),
     );
