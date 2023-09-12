@@ -22,7 +22,8 @@ on:
         type: string
         description: |
           iOS changelog: Used for the App Store release notes. If the changelog 
-          is not provided, the deployment for iOS will be skipped.
+          is not provided, the deployment for iOS will be skipped. Use %0A for 
+          line breaks.
       # For web deployments, we don't have a changelog.
       deploy-web-app:
         type: boolean
@@ -34,6 +35,7 @@ on:
         description: |
           Android changelog: Used for the Google Play Store release notes. If the 
           changelog is not provided, the deployment for Android will be skipped.
+          Use %0A for line breaks.
 
 # Set permissions to none.
 #
@@ -88,9 +90,10 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
+          DECODED_CHANGELOG=$(echo -e "${{ github.event.inputs.ios-changelog }}")
           sz deploy ios \
             --stage beta \
-            --whats-new "${{ github.event.inputs.ios-changelog }}" \
+            --whats-new "$DECODED_CHANGELOG" \
             --export-options-plist=$HOME/export_options.plist
 
   deploy-web-app:
@@ -195,6 +198,7 @@ jobs:
 
       - name: Deploy
         run: |
+          DECODED_CHANGELOG=$(echo -e "${{ github.event.inputs.android-changelog }}")
           sz deploy android \
             --stage beta \
-            --whats-new "${{ github.event.inputs.android-changelog }}"
+            --whats-new "$DECODED_CHANGELOG"
