@@ -52,7 +52,8 @@ class DeployAndroidCommand extends Command {
   static const flavorOptionName = 'flavor';
   static const whatsNewOptionName = 'whats-new';
 
-  static const _changelogDirectory = 'android/fastlane/metadata/android/de-DE';
+  static const _changelogDirectory =
+      'android/fastlane/metadata/android/de-DE/changelogs';
   static const _defaultChangelogFileName = 'default.txt';
   static const _changelogFilePath =
       '$_changelogDirectory/$_defaultChangelogFileName';
