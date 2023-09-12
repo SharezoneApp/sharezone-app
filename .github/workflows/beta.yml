@@ -203,7 +203,7 @@ jobs:
       - name: Deploy
         env:
           # Export the Google Play service account credentials as an environment
-          # variable. This is needed by the Sharezone Repo CLI.
+          # variable for Codemagic CLI tools.
           GCLOUD_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
           # When passing the changelog from GitHub Actions to the CLI, the line
