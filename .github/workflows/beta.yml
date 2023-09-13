@@ -192,18 +192,10 @@ jobs:
           fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      - name: Set up Google Play credentials for Fastlane
-        env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        working-directory: app
-        run: |
-          mkdir private_keys && cd private_keys
-          echo $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON > google-play-gserviceaccount.json
-
       - name: Deploy
         env:
           # Export the Google Play service account credentials as an environment
-          # variable for Codemagic CLI tools.
+          # variable for Sharezone Repo CLI.
           GCLOUD_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.SHAREZONE_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
           # When passing the changelog from GitHub Actions to the CLI, the line
