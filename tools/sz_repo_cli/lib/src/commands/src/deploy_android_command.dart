@@ -210,7 +210,8 @@ class DeployAndroidCommand extends Command {
   }
 
   Future<void> _removeChangelogFile() async {
-    final changelogFile = File(_changelogFilePath);
+    final appPath = _repo.sharezoneFlutterApp.location.path;
+    final changelogFile = File('$appPath/$_changelogFilePath');
     if (await changelogFile.exists()) {
       await changelogFile.delete();
     }
