@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:retry/retry.dart';
 
 import '../remote_configuration.dart';
 
@@ -63,7 +64,10 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   /// Fetches and caches configuration from the Remote Config service.
   @override
   Future<void> fetch() async {
-    await _remoteConfig.fetch();
+    await retry(
+      () => _remoteConfig.fetch(),
+      maxAttempts: 3,
+    );
   }
 }
 
