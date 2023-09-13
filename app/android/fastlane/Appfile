@@ -1,2 +1,2 @@
-json_key_file("../private_keys/google-play-gserviceaccount.json")
+json_key_data_raw(ENV['GCLOUD_SERVICE_ACCOUNT_CREDENTIALS'])
 package_name("de.codingbrain.sharezone")
