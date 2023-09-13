@@ -83,14 +83,10 @@ android {
                 signingConfig signingConfigs.release
             }
 
-            minifyEnabled true
             ndk {
                 // From: https://stackoverflow.com/a/46051246/8358501
                 abiFilters "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             }
-        }
-        debug {
-            minifyEnabled false
         }
     }
 
