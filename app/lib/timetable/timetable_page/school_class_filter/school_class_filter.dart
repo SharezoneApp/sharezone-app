@@ -115,11 +115,7 @@ class _SchoolClassFilterBottomBarState
       BuildContext context, SchoolClassFilter selectedOption) {
     final isPlusEnabled = context.read<SubscriptionEnabledFlag>().isEnabled;
     final hasPlus = context.read<SubscriptionService>().isSubscriptionActive();
-
-    final isForSelectedOptionPlusRequired =
-        selectedOption.shouldFilterForClass == true;
-
-    return isForSelectedOptionPlusRequired && !hasPlus && isPlusEnabled;
+    return selectedOption.isPlusRequiredFilter && !hasPlus && isPlusEnabled;
   }
 
   Future<void> _openSharezonePlusPage(BuildContext context) async {
