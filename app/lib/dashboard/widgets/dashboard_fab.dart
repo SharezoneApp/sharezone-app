@@ -20,7 +20,7 @@ class _DashboardPageFABState extends State<_DashboardPageFAB> {
 
   @override
   Widget build(BuildContext context) {
-    return MatchingTypeOfUserStreamBuilder(
+    return MatchingTypeOfUserBuilder(
       expectedTypeOfUser: TypeOfUser.parent,
       matchesTypeOfUserWidget: Container(),
       notMatchingWidget: ModalFloatingActionButton(
