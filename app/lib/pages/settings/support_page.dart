@@ -9,6 +9,9 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -19,8 +22,15 @@ class SupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPlusEnabled = context.watch<SubscriptionEnabledFlag>().isEnabled;
+    final isPlusSupportUnlocked = context
+        .watch<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.plusSupport);
     return Scaffold(
-      appBar: AppBar(title: const Text('Support'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Support'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12)
             .add(const EdgeInsets.only(bottom: 12)),
@@ -28,10 +38,17 @@ class SupportPage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 _Header(),
                 SizedBox(height: 12),
-                _FreeSupport(),
+                if (isPlusEnabled) ...[
+                  if (isPlusSupportUnlocked)
+                    _PlusSupport()
+                  else ...[
+                    _FreeSupport(),
+                  ]
+                ] else
+                  _FreeSupport(),
               ],
             ),
           ),
@@ -81,26 +98,16 @@ class _FreeSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Text(
-          'Kostenfreier Support',
-          style: TextStyle(
-            fontSize: 22,
-          ),
-        ),
-        const SizedBox(height: 4),
-        const Text(
-          'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann',
-          style: TextStyle(
-            color: Colors.grey,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        _DiscordTile(),
-        _EmailTile(),
-      ],
+    return _SupportPlanBase(
+      title: const Text('Kostenfreier Support'),
+      subtitle: const Text(
+          'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.'),
+      body: const Column(
+        children: [
+          _DiscordTile(),
+          _FreeEmailTile(),
+        ],
+      ),
     );
   }
 }
@@ -110,16 +117,50 @@ class _PlusSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return _SupportPlanBase(
+      title: const Text('Plus Support'),
+      subtitle: const Text(
+          'Als Sharezone-Plus Nutzer hast du Zugriff auf unseren Premium-Support.'),
+      body: const Column(
+        children: [
+          _PlusEmailTile(),
+          _VideoCallTile(),
+          _DiscordTile(),
+        ],
+      ),
+    );
   }
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
+class _SupportPlanBase extends StatelessWidget {
+  const _SupportPlanBase({
+    required this.title,
+    required this.subtitle,
+    required this.body,
+  });
+
+  final Widget title;
+  final Widget subtitle;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        DefaultTextStyle.merge(
+          child: title,
+          style: TextStyle(fontSize: 22),
+        ),
+        const SizedBox(height: 4),
+        DefaultTextStyle.merge(
+          child: subtitle,
+          style: TextStyle(color: Colors.grey),
+          textAlign: TextAlign.center,
+        ),
+        body,
+      ],
+    );
   }
 }
 
@@ -157,7 +198,10 @@ class _SupportCard extends StatelessWidget {
   }
 }
 
-class _EmailTile extends StatelessWidget {
+/// The tile that is used for the free email support in [_FreeSupport].
+class _FreeEmailTile extends StatelessWidget {
+  const _FreeEmailTile();
+
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
@@ -183,7 +227,69 @@ class _EmailTile extends StatelessWidget {
   }
 }
 
+/// The tile that is used for the free email support in [_FreeSupport].
+class _PlusEmailTile extends StatelessWidget {
+  const _PlusEmailTile();
+
+  @override
+  Widget build(BuildContext context) {
+    const emailAddress = 'plus-support@sharezone.net';
+    return _SupportCard(
+      icon: PlatformSvg.asset(
+        'assets/icons/email.svg',
+        color: context.primaryColor,
+      ),
+      title: 'E-Mail',
+      subtitle: 'Erhalte eine Rückmeldung innerhalb von wenigen Stunden.',
+      onPressed: () async {
+        final url = Uri.parse(Uri.encodeFull(
+            'mailto:$emailAddress?subject=[💎 Sharezone Plus Support] Meine Anfrage'));
+        try {
+          await launchUrl(url);
+        } on Exception catch (_) {
+          showSnackSec(
+            context: context,
+            text: 'E-Mail: $emailAddress',
+          );
+        }
+      },
+    );
+  }
+}
+
+class _VideoCallTile extends StatelessWidget {
+  const _VideoCallTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return _SupportCard(
+      icon: Icon(
+        Icons.video_call,
+        color: context.primaryColor,
+      ),
+      title: 'Videocall-Support',
+      subtitle:
+          'Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.',
+      onPressed: () => launchURL(
+        'https://sharezone.net/sharezone-plus-video-call-support',
+        context: context,
+      ),
+    );
+  }
+}
+
+class _SharezonePlusAdvertising extends StatelessWidget {
+  const _SharezonePlusAdvertising({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 class _DiscordTile extends StatelessWidget {
+  const _DiscordTile();
+
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
