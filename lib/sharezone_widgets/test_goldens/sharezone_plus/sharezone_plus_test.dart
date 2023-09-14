@@ -14,7 +14,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 void main() {
   group('Sharezone Plus Widgets', () {
     group(SharezonePlusChip, () {
-      Future<void> pumpSharezonePlusCard(
+      Future<void> pumpSharezonePlusChip(
         WidgetTester tester, {
         ThemeData? theme,
       }) async {
@@ -25,13 +25,13 @@ void main() {
       }
 
       testGoldens('renders as expected (light mode)', (tester) async {
-        await pumpSharezonePlusCard(tester);
+        await pumpSharezonePlusChip(tester);
 
         await screenMatchesGolden(tester, 'sharezone_plus_chip_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
-        await pumpSharezonePlusCard(
+        await pumpSharezonePlusChip(
           tester,
           // We can't use our Sharezone `darkTheme` here because we a custom
           // font that is not included in this package and the `golden_toolkit`
