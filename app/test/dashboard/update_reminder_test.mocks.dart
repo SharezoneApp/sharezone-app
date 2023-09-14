@@ -382,7 +382,7 @@ class MockDashboardBloc extends _i1.Mock implements _i13.DashboardBloc {
       ) as _i9.Stream<bool>);
   @override
   _i9.Stream<int> get numberOfUpcomingEvents => (super.noSuchMethod(
-        Invocation.getter(#nubmerOfUpcomingEvents),
+        Invocation.getter(#numberOfUpcomingEvents),
         returnValue: _i9.Stream<int>.empty(),
         returnValueForMissingStub: _i9.Stream<int>.empty(),
       ) as _i9.Stream<int>);
