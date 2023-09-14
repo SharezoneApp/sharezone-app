@@ -73,11 +73,13 @@ class Design {
   /// Sharezone Plus subscription.
   static List<Design> freeDesigns = [
     Colors.pinkAccent,
+    Colors.grey[700],
     Colors.green,
     Colors.deepOrangeAccent,
     Colors.orangeAccent,
     Colors.purpleAccent,
     Colors.lightBlue,
+    Colors.amberAccent,
     Colors.yellow,
     Colors.redAccent,
     Colors.deepPurpleAccent,
@@ -88,5 +90,6 @@ class Design {
     Colors.indigo,
     Colors.grey,
     Colors.brown,
+    Colors.black87,
   ].map((color) => Design.fromColor(color!)).toList();
 }
