@@ -203,6 +203,11 @@
                 "source": "/beta",
                 "destination": "https://docs.sharezone.net/more/beta-program",
                 "type": 302
+            },
+            {
+                "source": "/sharezone-plus-video-call-support",
+                "destination": "https://app.reclaim.ai/m/sharezone/plus-support",
+                "type": 302
             }
         ],
         "rewrites": [
