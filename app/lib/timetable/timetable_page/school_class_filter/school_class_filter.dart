@@ -104,17 +104,22 @@ class _SchoolClassFilterBottomBarState
       return;
     }
 
+    if (_shouldOpenSharezonePlusPage(context, selectedOption)) {
+      _openSharezonePlusPage(context);
+    } else {
+      bloc.changeSchoolClassFilter(selectedOption);
+    }
+  }
+
+  bool _shouldOpenSharezonePlusPage(
+      BuildContext context, SchoolClassFilter selectedOption) {
     final isPlusEnabled = context.read<SubscriptionEnabledFlag>().isEnabled;
     final hasPlus = context.read<SubscriptionService>().isSubscriptionActive();
 
     final isForSelectedOptionPlusRequired =
         selectedOption.shouldFilterForClass == true;
 
-    if (isForSelectedOptionPlusRequired && !hasPlus && isPlusEnabled) {
-      _openSharezonePlusPage(context);
-    } else {
-      bloc.changeSchoolClassFilter(selectedOption);
-    }
+    return isForSelectedOptionPlusRequired && !hasPlus && isPlusEnabled;
   }
 
   Future<void> _openSharezonePlusPage(BuildContext context) async {
