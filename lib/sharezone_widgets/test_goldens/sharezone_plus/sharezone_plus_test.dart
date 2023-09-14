@@ -46,5 +46,43 @@ void main() {
         await screenMatchesGolden(tester, 'sharezone_plus_card_dark');
       });
     });
+
+    group(SharezonePlusFeatureInfoCard, () {
+      Future<void> pumpSharezonePlusFeatureInfoCard(
+        WidgetTester tester, {
+        ThemeData? theme,
+      }) async {
+        await tester.pumpWidgetBuilder(
+          Center(
+              child: SharezonePlusFeatureInfoCard(
+            withLearnMoreButton: true,
+            child: const Text(
+                'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+            onLearnMorePressed: () {},
+          )),
+          wrapper: materialAppWrapper(theme: theme),
+        );
+      }
+
+      testGoldens('renders as expected (light mode)', (tester) async {
+        await pumpSharezonePlusFeatureInfoCard(tester);
+
+        await screenMatchesGolden(
+            tester, 'sharezone_plus_feature_info_card_light');
+      });
+
+      testGoldens('renders as expected (dark mode)', (tester) async {
+        await pumpSharezonePlusFeatureInfoCard(
+          tester,
+          // We can't use our Sharezone `darkTheme` here. See comment above.
+          theme: ThemeData.dark().copyWith(
+            primaryColor: primaryColor,
+          ),
+        );
+
+        await screenMatchesGolden(
+            tester, 'sharezone_plus_feature_info_card_dark');
+      });
+    });
   });
 }
