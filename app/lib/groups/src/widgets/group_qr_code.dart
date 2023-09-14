@@ -32,14 +32,15 @@ class GroupQrCode extends StatelessWidget {
 }
 
 class QRCodeButton extends StatelessWidget {
-  QRCodeButton(
+  const QRCodeButton(
     this.groupInfo, {
+    super.key,
     required this.closeDialog,
   });
 
   final bool closeDialog;
   final GroupInfo groupInfo;
-  final Color color = Color(0xFF3a8df1);
+  final Color color = const Color(0xFF3a8df1);
 
   Future<void> showQRCode(BuildContext context) async {
     if (closeDialog) {
@@ -47,6 +48,7 @@ class QRCodeButton extends StatelessWidget {
       await Future.delayed(
           const Duration(milliseconds: 100)); // Waiting for closing
     }
+    if (!context.mounted) return;
 
     showModalBottomSheet<void>(
       context: context,
@@ -54,14 +56,14 @@ class QRCodeButton extends StatelessWidget {
     );
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
-    if (await signUpBloc.signedUp.first) {
+    if (await signUpBloc.signedUp.first && context.mounted) {
       _logOnboardingAnalytics(context);
     }
   }
 
   Future<void> _logOnboardingAnalytics(BuildContext context) async {
     final groupOnboardingBloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    groupOnboardingBloc.logShareQrcode();
+    groupOnboardingBloc.logShareQrCode();
   }
 
   @override
@@ -110,7 +112,7 @@ class _QRCodeBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Container(
+          SizedBox(
             height: 200,
             width: 200,
             child: GroupQrCode(

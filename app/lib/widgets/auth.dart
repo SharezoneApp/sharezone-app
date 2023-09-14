@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 // und der E-Mail bei Passwort vergessen
 class SubmitButton extends StatelessWidget {
   const SubmitButton({
+    super.key,
     required this.titel,
     required this.onPressed,
     this.padding = const EdgeInsets.all(0),

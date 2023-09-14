@@ -24,7 +24,7 @@ class TeacherHomeworkBottomActionBar extends StatelessWidget {
     return Material(
       elevation: 0,
       color: backgroundColor,
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           TeacherSortButton(),
@@ -39,6 +39,8 @@ class TeacherSortButton extends StatelessWidget {
   static const sortByDateSortButtonUiString = "Sortiere nach Datum";
   @visibleForTesting
   static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
+
+  const TeacherSortButton({super.key});
 
   String _sortString(HomeworkSort sort) {
     switch (sort) {
@@ -74,7 +76,7 @@ class TeacherSortButton extends StatelessWidget {
             key: const Key("change_homework_sorting"),
             onTap: () =>
                 bloc.add(OpenHwSortingChanged(_getNextSort(currentSort))),
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             child: Row(
               children: <Widget>[
                 const Padding(

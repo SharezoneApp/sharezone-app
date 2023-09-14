@@ -32,6 +32,7 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
       elevation: 1,
       child: Center(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
                 flex: 2,
@@ -67,7 +68,6 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
                 isToday: _isToday(date),
               ),
           ],
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         ),
       ),
     );

@@ -115,8 +115,9 @@ class TimetableEditEventBloc extends BlocBase {
 
       gateway.editEvent(event);
 
-      if (!markdownAnalytics.containsMarkdown(initialEvent.detail))
+      if (!markdownAnalytics.containsMarkdown(initialEvent.detail)) {
         markdownAnalytics.logMarkdownUsedEvent();
+      }
     }
   }
 

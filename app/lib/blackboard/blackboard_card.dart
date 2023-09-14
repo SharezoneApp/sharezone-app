@@ -24,14 +24,18 @@ Future<void> showUserConfirmationOfBlackboardArrival(
     BuildContext context) async {
   await Future.delayed(
       const Duration(milliseconds: 320)); // Waiting for pop animation
-  showDataArrivalConfirmedSnackbar(context: context);
+  if (context.mounted) {
+    showDataArrivalConfirmedSnackbar(context: context);
+  }
 }
 
 Future<void> showUserConfirmationOfBlackboardDeleted(
     BuildContext context) async {
   await Future.delayed(
       const Duration(milliseconds: 320)); // Waiting for pop animation
-  showSnackSec(context: context, text: "Eintrag wurde gelöscht.");
+  if (context.mounted) {
+    showSnackSec(context: context, text: "Eintrag wurde gelöscht.");
+  }
 }
 
 void openDetails(
@@ -164,7 +168,7 @@ class _HeadlineAndCourseName extends StatelessWidget {
 class _AttachmentIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _TipIcon(
+    return const _TipIcon(
       tooltip: 'Enthält Anhänge',
       icon: Icons.attach_file,
     );
@@ -244,7 +248,7 @@ class _Text extends StatelessWidget {
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(
-              bodyMedium: TextStyle(
+              bodyMedium: const TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
                 fontFamily: rubik,
@@ -311,7 +315,6 @@ class BottomActionBar extends StatelessWidget {
             //   ),
             if (!view.isAuthor && !view.isRead)
               TextButton(
-                child: const Text('ALS GELESEN MARKIEREN'),
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).primaryColor,
                 ),
@@ -319,6 +322,7 @@ class BottomActionBar extends StatelessWidget {
                   analytics.log(NamedAnalyticsEvent(name: "blackboard_read"));
                   bloc.changeReadState(true);
                 },
+                child: const Text('ALS GELESEN MARKIEREN'),
               ),
           ],
         ),

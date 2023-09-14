@@ -18,8 +18,10 @@ import 'logic/file_sharing_page_state_bloc.dart';
 class FileSharingPage extends StatefulWidget {
   static const String tag = "file-sharing-page";
 
+  const FileSharingPage({super.key});
+
   @override
-  _FileSharingPageState createState() => _FileSharingPageState();
+  State createState() => _FileSharingPageState();
 }
 
 class _FileSharingPageState extends State<FileSharingPage> {
@@ -42,7 +44,7 @@ class _FileSharingPageState extends State<FileSharingPage> {
         BlocProvider<FileSharingPageBloc>(bloc: fileSharingPageBloc),
         BlocProvider<FileSharingPageStateBloc>(bloc: fileSharingPageStateBloc),
       ],
-      child: (context) => FileSharingPageController(),
+      child: (context) => const FileSharingPageController(),
     );
   }
 }

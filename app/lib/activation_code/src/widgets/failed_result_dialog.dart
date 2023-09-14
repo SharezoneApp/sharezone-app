@@ -33,7 +33,7 @@ class FailedEnterActivationCodeResultDialog extends StatelessWidget {
 class _UnknownError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein unbekannter Fehler ist aufgetreten 😭",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -46,7 +46,7 @@ class _UnknownError extends StatelessWidget {
 class _NoInternet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -59,7 +59,7 @@ class _NoInternet extends StatelessWidget {
 class _NotAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Dieser Code ist nicht gültig 🤨",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -72,7 +72,7 @@ class _NotAvailable extends StatelessWidget {
 class _NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Aktivierungscode nicht gefunden ❌",
       iconData: Icons.error,
       iconColor: Colors.red,

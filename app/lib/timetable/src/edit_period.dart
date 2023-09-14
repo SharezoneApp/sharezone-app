@@ -25,13 +25,13 @@ Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
         leading: Text(
           item.number.toString(),
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
         title: Text("${item.startTime} - ${item.endTime}"),
         trailing: isSelected
-            ? Icon(
+            ? const Icon(
                 Icons.done,
                 color: Colors.green,
               )

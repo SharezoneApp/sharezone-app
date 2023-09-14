@@ -28,8 +28,7 @@ class HomeworkUserSubmissionsPage extends StatefulWidget {
   final String homeworkId;
 
   @override
-  _HomeworkUserSubmissionsPageState createState() =>
-      _HomeworkUserSubmissionsPageState();
+  State createState() => _HomeworkUserSubmissionsPageState();
 }
 
 class _HomeworkUserSubmissionsPageState
@@ -50,21 +49,21 @@ class _HomeworkUserSubmissionsPageState
       feature: SharezonePlusFeature.submissionsList,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Abgaben'),
+          title: const Text('Abgaben'),
           centerTitle: true,
         ),
         body: StreamBuilder<CreatedSubmissionsPageView>(
           stream: bloc.pageView,
           builder: (context, snapshot) {
             return AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               child: snapshot.hasData
                   ? _Abgabenbody(
                       pageView: snapshot.data,
                       key: const ValueKey('AnimatedSwitcherKey'),
                     )
-                  : _LoadingPlaceholder(
-                      key: const ValueKey('AnimatedSwitcherKey')),
+                  : const _LoadingPlaceholder(
+                      key: ValueKey('AnimatedSwitcherKey')),
             );
           },
         ),
@@ -93,9 +92,9 @@ class _Abgabenbody extends StatelessWidget {
             for (final view in pageView!.submissions)
               _UserSubmissionTile(view: view)
           ],
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           if (pageView!.afterDeadlineSubmissions.isNotEmpty)
-            DividerWithText(
+            const DividerWithText(
               text: 'Zu spät abgegeben 🕐',
               textStyle: TextStyle(
                 fontSize: 18,
@@ -107,7 +106,7 @@ class _Abgabenbody extends StatelessWidget {
               _UserSubmissionTile(view: view)
           ],
           if (pageView!.missingSubmissions.isNotEmpty)
-            DividerWithText(
+            const DividerWithText(
               text: 'Nicht abgegeben 😭',
               textStyle: TextStyle(
                 fontSize: 18,
@@ -156,7 +155,7 @@ class _LoadingPlaceholder extends StatelessWidget {
               wasEditedAfterwards: false,
             ),
           ], missingSubmissions: [
-            NotSubmittedView(
+            const NotSubmittedView(
               abbreviation: 'P',
               username: 'Plankton',
             ),
@@ -170,7 +169,7 @@ class _LoadingPlaceholder extends StatelessWidget {
 class _NoMembersPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MemePlaceholder(
+    return const MemePlaceholder(
       url: 'https://sharezone.net/meme-no-members-for-submissions',
       text: 'Vergessen Teilnehmer in den Kurs einzuladen?',
     );

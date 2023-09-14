@@ -31,7 +31,7 @@ class _TableOfContentsTestController {
   }
 
   _TocState build(List<_Section> sections) {
-    final _sections = sections
+    final sections0 = sections
         .map(
           (section) => DocumentSection(
             DocumentSectionId(section.id),
@@ -49,7 +49,7 @@ class _TableOfContentsTestController {
     _tocController ??= TableOfContentsController(
       currentlyReadingController:
           MockCurrentlyReadingController(_currentlyReadingNotifier!),
-      privacyPolicy: privacyPolicyWith(tableOfContentSections: _sections),
+      privacyPolicy: privacyPolicyWith(tableOfContentSections: sections0),
       documentController: MockDocumentController(),
       initialExpansionBehavior: _expansionBehavior ??
           ExpansionBehavior.leaveManuallyOpenedSectionsOpen,
@@ -158,9 +158,9 @@ void main() {
       test('Expandable sections are collapsed by default', () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
@@ -172,7 +172,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: false),
+              const _SectionResult('Foo', isExpanded: false),
             ],
           );
         });
@@ -184,16 +184,16 @@ void main() {
       test('A section that is currently read is expanded automatically.', () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
             ),
-            _Section(
+            const _Section(
               'Quz',
-              subsections: const [
+              subsections: [
                 _Section('Xyzzy'),
               ],
             )
@@ -205,8 +205,8 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
-              _SectionResult('Quz', isExpanded: false),
+              const _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Quz', isExpanded: false),
             ],
           );
         });
@@ -217,16 +217,16 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
             ),
-            _Section(
+            const _Section(
               'Quz',
-              subsections: const [
+              subsections: [
                 _Section('Xyzzy'),
               ],
             )
@@ -238,8 +238,8 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
-              _SectionResult('Quz', isExpanded: false),
+              const _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Quz', isExpanded: false),
             ],
           );
         });
@@ -250,9 +250,9 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
@@ -263,7 +263,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: false),
+              const _SectionResult('Foo', isExpanded: false),
             ],
           );
 
@@ -272,7 +272,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Foo', isExpanded: true),
             ],
           );
         });
@@ -283,9 +283,9 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Quz',
-              subsections: const [
+              subsections: [
                 _Section('Xyzzy'),
               ],
             )
@@ -298,7 +298,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Quz', isExpanded: false),
+              const _SectionResult('Quz', isExpanded: false),
             ],
           );
         });
@@ -310,9 +310,9 @@ void main() {
         forExpansionBehavior(
             [ExpansionBehavior.leaveManuallyOpenedSectionsOpen], () {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
@@ -327,7 +327,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Foo', isExpanded: true),
             ],
           );
         });
@@ -339,9 +339,9 @@ void main() {
           forExpansionBehavior(
               [ExpansionBehavior.leaveManuallyOpenedSectionsOpen], () {
             final sections = [
-              _Section(
+              const _Section(
                 'Foo',
-                subsections: const [
+                subsections: [
                   _Section('Bar'),
                   _Section('Baz'),
                 ],
@@ -363,7 +363,7 @@ void main() {
             expect(
               tocController.currentState.sections,
               [
-                _SectionResult('Foo', isExpanded: false),
+                const _SectionResult('Foo', isExpanded: false),
               ],
             );
           });
@@ -375,16 +375,16 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
             ),
-            _Section(
+            const _Section(
               'Quz',
-              subsections: const [
+              subsections: [
                 _Section('Xyzzy'),
               ],
             )
@@ -403,8 +403,8 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
-              _SectionResult('Quz', isExpanded: false),
+              const _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Quz', isExpanded: false),
             ],
           );
         });
@@ -415,9 +415,9 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
@@ -435,7 +435,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Foo', isExpanded: true),
             ],
           );
         });
@@ -445,22 +445,22 @@ void main() {
         forExpansionBehavior(
             [ExpansionBehavior.leaveManuallyOpenedSectionsOpen], () {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
             ),
-            _Section(
+            const _Section(
               'Quz',
-              subsections: const [
+              subsections: [
                 _Section('Xyzzy'),
               ],
             ),
-            _Section(
+            const _Section(
               'Moa',
-              subsections: const [
+              subsections: [
                 _Section('Zuz'),
               ],
             )
@@ -474,9 +474,9 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
-              _SectionResult('Quz', isExpanded: true),
-              _SectionResult('Moa', isExpanded: true),
+              const _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Quz', isExpanded: true),
+              const _SectionResult('Moa', isExpanded: true),
             ],
           );
         });
@@ -484,9 +484,9 @@ void main() {
 
       test('Regression test: Changing the expansion behavior works', () {
         final sections = [
-          _Section(
+          const _Section(
             'Foo',
-            subsections: const [
+            subsections: [
               _Section('Bar'),
               _Section('Baz'),
             ],
@@ -503,7 +503,7 @@ void main() {
         expect(
           tocController.currentState.sections,
           [
-            _SectionResult('Foo', isExpanded: false),
+            const _SectionResult('Foo', isExpanded: false),
           ],
         );
 
@@ -517,16 +517,16 @@ void main() {
         expect(
           tocController.currentState.sections,
           [
-            _SectionResult('Foo', isExpanded: true),
+            const _SectionResult('Foo', isExpanded: true),
           ],
         );
       });
 
       test('Regression test: Changing the expansion behavior works 2', () {
         final sections = [
-          _Section(
+          const _Section(
             'Foo',
-            subsections: const [
+            subsections: [
               _Section('Bar'),
               _Section('Baz'),
             ],
@@ -543,7 +543,7 @@ void main() {
         expect(
           tocController.currentState.sections,
           [
-            _SectionResult('Foo', isExpanded: true),
+            const _SectionResult('Foo', isExpanded: true),
           ],
         );
 
@@ -557,7 +557,7 @@ void main() {
         expect(
           tocController.currentState.sections,
           [
-            _SectionResult('Foo', isExpanded: false),
+            const _SectionResult('Foo', isExpanded: false),
           ],
         );
       });
@@ -569,9 +569,9 @@ void main() {
           () {
         forEveryExpansionBehavior(() {
           final sections = [
-            _Section(
+            const _Section(
               'Foo',
-              subsections: const [
+              subsections: [
                 _Section('Bar'),
                 _Section('Baz'),
               ],
@@ -590,7 +590,7 @@ void main() {
           expect(
             tocController.currentState.sections,
             [
-              _SectionResult('Foo', isExpanded: true),
+              const _SectionResult('Foo', isExpanded: true),
             ],
           );
         });

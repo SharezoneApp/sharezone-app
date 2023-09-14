@@ -29,11 +29,11 @@ class MainContentWide extends StatelessWidget {
       children: [
         Flexible(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 450),
+            constraints: const BoxConstraints(maxWidth: 450),
             child: _TableOfContentsDesktop(privacyPolicy: privacyPolicy),
           ),
         ),
-        VerticalDivider(),
+        const VerticalDivider(),
         Center(
           child: Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -66,7 +66,7 @@ class MainContentWide extends StatelessWidget {
                           const PrivacyPolicyHeading(),
                           if (privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 8.0),
                               child: PrivacyPolicySubheading(
                                 entersIntoForceOn:
@@ -78,10 +78,10 @@ class MainContentWide extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Expanded(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxWidth: 830,
                       minWidth: 400,
                     ),
@@ -110,13 +110,13 @@ class _TableOfContentsDesktop extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Text(
           'Inhaltsverzeichnis',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Expanded(
           child: _TocSectionHeadingListDesktop(),
         ),
@@ -129,10 +129,10 @@ class _TableOfContentsDesktop extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.start,
               ),
-              SizedBox(height: 13),
-              ChangeAppearanceButton(),
-              SizedBox(height: 8),
-              DownloadAsPDFButton(),
+              const SizedBox(height: 13),
+              const ChangeAppearanceButton(),
+              const SizedBox(height: 8),
+              const DownloadAsPDFButton(),
             ],
           ),
         ),
@@ -156,7 +156,7 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
       scrollController: scrollController,
       child: SingleChildScrollView(
         controller: scrollController,
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
         child: Column(
@@ -169,7 +169,7 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.only(
                     bottom: visualDensity
-                        .effectiveConstraints(BoxConstraints())
+                        .effectiveConstraints(const BoxConstraints())
                         .constrainHeight(15 + visualDensity.vertical * 5),
                   ),
                   child: _TocHeadingDesktop(
@@ -204,8 +204,8 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
   late bool isExpanded;
   late Animation<double> _heightFactor;
   Animation<double>? expansionArrowTurns;
-  final expansionDuration = Duration(milliseconds: 300);
-  final collapseDuration = Duration(milliseconds: 200);
+  final expansionDuration = const Duration(milliseconds: 300);
+  final collapseDuration = const Duration(milliseconds: 200);
 
   @override
   void didUpdateWidget(covariant _TocHeadingDesktop oldWidget) {
@@ -274,7 +274,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                 children: [
                   Expanded(
                     child: Text(
-                      '${widget.section.sectionHeadingText}',
+                      widget.section.sectionHeadingText,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: widget.section.shouldHighlight
                                 ? FontWeight.w500
@@ -329,7 +329,8 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                       padding: EdgeInsets.only(
                         left: 15.0,
                         top: visualDensity
-                            .effectiveConstraints(BoxConstraints(maxHeight: 20))
+                            .effectiveConstraints(
+                                const BoxConstraints(maxHeight: 20))
                             .constrainHeight(13 + visualDensity.vertical * 2.5),
                       ),
                       child: TocSectionHighlight(
@@ -345,7 +346,7 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
                                 .toDouble(),
                           ),
                           child: Text(
-                            '${subsection.sectionHeadingText}',
+                            subsection.sectionHeadingText,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -387,7 +388,7 @@ class _BottomFade extends StatelessWidget {
     return AnimatedBuilder(
         animation: scrollController,
         child: child,
-        builder: (context, _child) {
+        builder: (context, child) {
           final isAtBottom = scrollController.hasClients &&
               scrollController.position.pixels >=
                   scrollController.position.maxScrollExtent;
@@ -412,7 +413,7 @@ class _BottomFade extends StatelessWidget {
               ).createShader(rect);
             },
             blendMode: BlendMode.dstOut,
-            child: _child,
+            child: child,
           );
         });
   }

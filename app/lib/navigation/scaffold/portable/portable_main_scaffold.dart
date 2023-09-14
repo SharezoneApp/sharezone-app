@@ -35,6 +35,7 @@ class PortableMainScaffold extends StatefulWidget {
   final Color? colorBehindBNB;
 
   const PortableMainScaffold({
+    super.key,
     required this.navigationItem,
     required this.appBarConfiguration,
     required this.body,
@@ -45,7 +46,7 @@ class PortableMainScaffold extends StatefulWidget {
   });
 
   @override
-  _PortableMainScaffoldState createState() => _PortableMainScaffoldState();
+  State createState() => _PortableMainScaffoldState();
 }
 
 class _PortableMainScaffoldState extends State<PortableMainScaffold> {
@@ -61,7 +62,7 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
         final option = snapshot.data ?? NavigationExperimentOption.drawerAndBnb;
         final isOldNav = option == NavigationExperimentOption.drawerAndBnb;
         return AnimatedSwitcher(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           child: ExtendableBottomNavigationBar(
             currentNavigationItem: widget.navigationItem,
             colorBehindBNB: widget.colorBehindBNB,
@@ -69,13 +70,13 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
             page: ScaffoldMessenger(
               key: widget.scaffoldKey,
               child: Scaffold(
-                drawer: isOldNav ? SharezoneDrawer() : null,
+                drawer: isOldNav ? const SharezoneDrawer() : null,
                 appBar: AppBar(
                   title: Text(widget.appBarConfiguration?.title ??
                       widget.navigationItem.getName()),
                   centerTitle: isOldNav,
                   elevation: widget.appBarConfiguration?.elevation,
-                  leading: isOldNav ? DrawerIcon() : null,
+                  leading: isOldNav ? const DrawerIcon() : null,
                   automaticallyImplyLeading: isOldNav,
                   bottom: widget.appBarConfiguration?.bottom,
                   actions: widget.appBarConfiguration?.actions,
@@ -92,8 +93,9 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
   }
 
   Widget? bottomBar(NavigationExperimentOption option) {
-    if (option != NavigationExperimentOption.drawerAndBnb)
+    if (option != NavigationExperimentOption.drawerAndBnb) {
       return widget.bottomBarConfiguration?.bottomBar;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,

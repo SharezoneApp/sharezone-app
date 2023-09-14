@@ -73,7 +73,7 @@ void main() {
       einkommendeLinks.add(einkommenderLink);
 
       expect(beitrittsVersuche,
-          emitsError(TypeMatcher<KursBereitsBeigetretenException>()));
+          emitsError(const TypeMatcher<KursBereitsBeigetretenException>()));
     });
     test(
         'emittiert keinen Beitrittsversuch, falls der Gruppe schon beigetreten wurde',

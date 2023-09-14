@@ -25,14 +25,16 @@ void _showConfirmSnackBarOfSavingEnabledWeekDays(BuildContext context) {
 }
 
 Future<void> openWeekDaysEditPage(BuildContext context) async {
-  final _userSettingsBloc = BlocProvider.of<UserSettingsBloc>(context);
+  final userSettingsBloc = BlocProvider.of<UserSettingsBloc>(context);
   final result = await pushWithDefault<bool>(
     context,
-    _WeekDaysEditPage(userSettingsBloc: _userSettingsBloc),
+    _WeekDaysEditPage(userSettingsBloc: userSettingsBloc),
     defaultValue: false,
     name: _WeekDaysEditPage.tag,
   );
-  if (result) _showConfirmSnackBarOfSavingEnabledWeekDays(context);
+  if (result && context.mounted) {
+    _showConfirmSnackBarOfSavingEnabledWeekDays(context);
+  }
 }
 
 Future<void> _submit(
@@ -43,14 +45,19 @@ Future<void> _submit(
   bloc ??= BlocProvider.of<EnabledWeekDaysEditBloc>(context);
   try {
     await bloc.submit();
-    Navigator.pop(context, true);
+
+    if (context.mounted) {
+      Navigator.pop(context, true);
+    }
   } on Exception catch (e, s) {
-    showSnackSec(
-      context: context,
-      key: scaffoldKey,
-      text: handleErrorMessage(e.toString(), s),
-      seconds: 4,
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        key: scaffoldKey,
+        text: handleErrorMessage(e.toString(), s),
+        seconds: 4,
+      );
+    }
   }
 }
 
@@ -120,9 +127,9 @@ class _EnabledWeekDaysEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      child: const Icon(Icons.done),
       tooltip: 'Speichern',
       onPressed: () => _submit(context),
+      child: const Icon(Icons.done),
     );
   }
 }

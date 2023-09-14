@@ -47,8 +47,7 @@ class ListWithBottomThreshold extends StatefulWidget {
         super(key: key);
 
   @override
-  _ListWithBottomThresholdState createState() =>
-      _ListWithBottomThresholdState();
+  State createState() => _ListWithBottomThresholdState();
 }
 
 class _ListWithBottomThresholdState extends State<ListWithBottomThreshold> {
@@ -98,9 +97,9 @@ class _ListWithBottomThresholdState extends State<ListWithBottomThreshold> {
       // Needed for ListView if no Ancestor with Directionality is given (mostly tests).
       textDirection: Directionality.of(context),
       child: ListView(
-        children: [...widget.children, if (loading) widget.loadingIndicator],
         controller: _controller,
         padding: widget.padding,
+        children: [...widget.children, if (loading) widget.loadingIndicator],
       ),
     );
   }
@@ -134,9 +133,9 @@ class _DefaultCircularLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: Center(child: const AccentColorCircularProgressIndicator()),
+    return const Padding(
+      padding: EdgeInsets.only(top: 12.0),
+      child: Center(child: AccentColorCircularProgressIndicator()),
     );
   }
 }

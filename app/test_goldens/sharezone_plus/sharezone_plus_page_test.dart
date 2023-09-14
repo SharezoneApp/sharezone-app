@@ -74,7 +74,7 @@ void main() {
       when(controller.price).thenAnswer((_) => fallbackPlusPrice);
     });
 
-    Future<void> _pumpPlusPage(
+    Future<void> pumpPlusPage(
       WidgetTester tester, {
       ThemeData? theme,
     }) async {
@@ -101,14 +101,14 @@ void main() {
                   bloc: MockNavigationAnalytics()),
               BlocProvider<SharezoneContext>(bloc: sharezoneContext),
             ],
-            child: (context) => SharezonePlusPage(),
+            child: (context) => const SharezonePlusPage(),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),
       );
     }
 
-    Future<void> _tapEveryExpansionCard(WidgetTester tester) async {
+    Future<void> tapEveryExpansionCard(WidgetTester tester) async {
       for (final element in find.byType(ExpansionCard).evaluate()) {
         // We need to scroll the element into view before we can tap it.
         await tester.dragUntilVisible(
@@ -123,13 +123,13 @@ void main() {
     }
 
     testGoldens('renders page as expected (light theme)', (tester) async {
-      await _pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: lightTheme);
 
       await multiScreenGolden(tester, 'sharezone_plus_page_light_theme');
     });
 
     testGoldens('renders page as expected (dark theme)', (tester) async {
-      await _pumpPlusPage(tester, theme: darkTheme);
+      await pumpPlusPage(tester, theme: darkTheme);
 
       await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
     });
@@ -138,11 +138,11 @@ void main() {
         (tester) async {
       when(controller.hasPlus).thenAnswer((_) => true);
 
-      await _pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: lightTheme);
 
       // Ensure visibility
       await tester.dragUntilVisible(
-        find.byKey(ValueKey('unsubscribe-section')),
+        find.byKey(const ValueKey('unsubscribe-section')),
         find.byType(SingleChildScrollView),
         const Offset(0, 50),
       );
@@ -162,11 +162,11 @@ void main() {
       testGoldens('renders advantages as expected (dark theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusAdvantages()),
+          const SingleChildScrollView(child: PlusAdvantages()),
           wrapper: materialAppWrapper(theme: darkTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,
@@ -182,11 +182,11 @@ void main() {
       testGoldens('renders advantages as expected (light theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusAdvantages()),
+          const SingleChildScrollView(child: PlusAdvantages()),
           wrapper: materialAppWrapper(theme: lightTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,
@@ -202,11 +202,11 @@ void main() {
       testGoldens('renders faq section as expected (dark theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: PlusFaqSection()),
           wrapper: materialAppWrapper(theme: darkTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,
@@ -219,11 +219,11 @@ void main() {
       testGoldens('renders faq section as expected (light theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: PlusFaqSection()),
           wrapper: materialAppWrapper(theme: lightTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,

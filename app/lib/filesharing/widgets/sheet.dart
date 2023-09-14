@@ -21,12 +21,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'cloud_file_icon.dart';
 
-Future<void> showFolderSheet(
-    {required Folder folder,
-    required BuildContext context,
-    required bool hasPermissions,
-    required FolderPath? path,
-    String? courseID}) async {
+Future<void> showFolderSheet({
+  required Folder folder,
+  required BuildContext context,
+  required bool hasPermissions,
+  required FolderPath? path,
+  String? courseID,
+}) async {
   final option = await showModalBottomSheet<SheetOption>(
     context: context,
     builder: (context) => FileSheet(
@@ -42,6 +43,8 @@ Future<void> showFolderSheet(
       ),
     ),
   );
+  if (!context.mounted) return;
+
   await selectFolderAction(
     context: context,
     courseID: courseID,
@@ -74,8 +77,13 @@ Future<void> showCloudFileSheet({
       ),
     ),
   );
+  if (!context.mounted) return;
+
   await selectCloudFileAction(
-      cloudFile: cloudFile, sheetOption: option, context: context);
+    cloudFile: cloudFile,
+    sheetOption: option,
+    context: context,
+  );
 }
 
 class FileSheet extends StatelessWidget {
@@ -98,7 +106,7 @@ class FileSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle _greyTextStyle = TextStyle(
+    final TextStyle greyTextStyle = TextStyle(
         color:
             isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[600]);
     final api = BlocProvider.of<SharezoneContext>(context).api;
@@ -123,7 +131,7 @@ class FileSheet extends StatelessWidget {
                           const SizedBox(width: 32),
                           Flexible(
                             child: Text(name!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 16)),
                           ),
                         ],
@@ -136,12 +144,12 @@ class FileSheet extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "Ersteller: $creatorName",
-                            style: _greyTextStyle,
+                            style: greyTextStyle,
                           ),
                           sizeBytes != null
                               ? Text(
                                   "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
-                                  style: _greyTextStyle,
+                                  style: greyTextStyle,
                                 )
                               : Container(),
                         ],

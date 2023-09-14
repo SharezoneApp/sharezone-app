@@ -64,7 +64,7 @@ class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
+    return const Opacity(
       opacity: 0.4,
       child: Text(
           "Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.",
@@ -79,7 +79,7 @@ class _ChangeToPeriodButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return TextButton(
-      child: Text(
+      child: const Text(
         "Alternativ kannst du auch eine Stunde auswählen",
         textAlign: TextAlign.center,
       ),
@@ -93,7 +93,7 @@ class _ChangeToIndividualButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return TextButton(
-      child: Text(
+      child: const Text(
         "Alternativ kannst du auch individuell die Uhrzeit festlegen",
         textAlign: TextAlign.center,
       ),
@@ -161,6 +161,11 @@ class _PeriodTile extends StatelessWidget {
         width: (MediaQuery.of(context).size.width / 2) - 19,
         child: Material(
           clipBehavior: Clip.antiAlias,
+          color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
+              .withOpacity(0.20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: ListTile(
               title: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -175,17 +180,12 @@ class _PeriodTile extends StatelessWidget {
                         opacity: 0.7,
                         child: Text(
                           "${period.startTime} - ${period.endTime}",
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                         )),
                   ],
                 ),
               ),
               onTap: onTap),
-          color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
-              .withOpacity(0.20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
         ),
       ),
     );
@@ -218,6 +218,8 @@ class _StartTime extends StatelessWidget {
 
               // Navigate to next Tab, if endTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
+              if (!context.mounted) return;
+
               try {
                 if (bloc.isEndTimeValid()) {
                   navigateToNextTab(context);
@@ -256,6 +258,8 @@ class _EndTime extends StatelessWidget {
 
               // Navigate to next Tab, if startTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
+              if (!context.mounted) return;
+
               try {
                 if (bloc.isStartTimeValid()) {
                   navigateToNextTab(context);

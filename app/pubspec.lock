@@ -118,7 +118,7 @@ packages:
     source: hosted
     version: "1.5.0"
   async:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: async
       sha256: "947bfcf187f74dbc5e146c9eb9c0f10c9f8b30743e341481c1e2ed3ecc18c20c"
@@ -927,7 +927,7 @@ packages:
     source: hosted
     version: "3.0.0"
   flutter_staggered_animations:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_staggered_animations
       sha256: "81d3c816c9bb0dca9e8a5d5454610e21ffb068aedb2bde49d2f8d04f75538351"
@@ -1285,7 +1285,7 @@ packages:
     source: hosted
     version: "2.1.1"
   logging:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logging
       sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"

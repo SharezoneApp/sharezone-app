@@ -26,10 +26,10 @@ void main() {
         PlatformCheck.setCurrentPlatformForTesting(platform);
 
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: Scaffold(
               body: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     UpdatePromptCard(),

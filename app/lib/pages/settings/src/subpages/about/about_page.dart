@@ -35,6 +35,8 @@ TextStyle _greyTextStyle(BuildContext context) {
 class AboutPage extends StatelessWidget {
   static const String tag = "about-page";
 
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class AboutPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 _FollowUs(),
                 const SizedBox(height: 20),
-                TeamList(),
+                const TeamList(),
               ],
             ),
           ),
@@ -75,38 +77,38 @@ class _AboutHeaderState extends State<_AboutHeader> {
       case 0:
         tapNotifier.value++;
         showSimpleNotification(
-          Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
+          const Text("Bald passiert etwas... Was ist nur los mit Sharezone???"),
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
-          leading: Icon(Icons.exposure_zero),
+          leading: const Icon(Icons.exposure_zero),
         );
         break;
       case 1:
         tapNotifier.value++;
         showSimpleNotification(
-          Text("Sharezone wächst, halte durch"),
+          const Text("Sharezone wächst, halte durch"),
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
-          leading: Icon(Icons.exposure_plus_1),
+          leading: const Icon(Icons.exposure_plus_1),
         );
         break;
       case 2:
         tapNotifier.value++;
         showSimpleNotification(
-          Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
+          const Text("Noch einmal, bleib stark. Sharezone braucht dich!"),
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
-          leading: Icon(Icons.exposure_plus_2),
+          leading: const Icon(Icons.exposure_plus_2),
         );
         break;
       case 3:
         tapNotifier.value++;
         showSimpleNotification(
-          Text(
+          const Text(
               "Oh nein, Sharezone ist zu klein geworden 😧 Wir müssen es wieder vergrößern!"),
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
-          leading: Icon(Icons.thumb_down),
+          leading: const Icon(Icons.thumb_down),
         );
         _executeEasterEgg();
         break;
@@ -131,15 +133,17 @@ class _AboutHeaderState extends State<_AboutHeader> {
       await Future.delayed(const Duration(milliseconds: 500));
     }
 
+    if (!context.mounted) return;
+
     // Reset the text scaling factor
     context.read<ThemeSettings>().textScalingFactor = currentTextScalingFactor;
 
     showSimpleNotification(
-      Text(
+      const Text(
           "Puuuh, geschafft! Sharezone hat wieder die normale Größe! 🎉 #easter-egg"),
       autoDismiss: true,
       slideDismissDirection: DismissDirection.horizontal,
-      leading: Icon(Icons.thumb_up),
+      leading: const Icon(Icons.thumb_up),
     );
 
     // Set the tap counter back to 0 to be able to trigger the Easter egg again.
@@ -172,8 +176,9 @@ class _AboutHeaderState extends State<_AboutHeader> {
           future: getPlatformInformationRetrieverWithInit(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text("Version wird geladen...");
-            if (snapshot.hasError)
+            if (snapshot.hasError) {
               return Text("Fehler: ${snapshot.error.toString()}");
+            }
             return Text(
               "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
               style: TextStyle(
@@ -203,9 +208,9 @@ class _FollowUs extends StatelessWidget {
               style: _greyTextStyle(context),
             ),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const <Widget>[
+              children: <Widget>[
                 SocialButton.instagram("https://sharezone.net/instagram"),
                 SocialButton.twitter("https://sharezone.net/twitter"),
                 SocialButton.discord("https://sharezone.net/discord"),

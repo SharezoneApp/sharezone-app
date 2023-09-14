@@ -28,6 +28,8 @@ const List<String> localPictures = [
 class BlackboardDialogChoosePicture extends StatelessWidget {
   static const tag = "blackboard-dialog-choose-picture";
 
+  const BlackboardDialogChoosePicture({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,11 +84,11 @@ class _PictureBox extends StatelessWidget {
                   "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!"),
               actions: <Widget>[
                 TextButton(
-                  child: const Text("OK"),
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
                 )
               ],
             ),

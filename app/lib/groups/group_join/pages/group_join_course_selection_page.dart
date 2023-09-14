@@ -33,7 +33,7 @@ Future<dynamic> openGroupJoinCourseSelectionPage(
         ),
         child: _GroupJoinCourseSelectionPage(),
       ),
-      settings: RouteSettings(name: _GroupJoinCourseSelectionPage.tag),
+      settings: const RouteSettings(name: _GroupJoinCourseSelectionPage.tag),
     ),
   );
 }
@@ -51,10 +51,10 @@ class _GroupJoinCourseSelectionPage extends StatelessWidget {
         body: const SingleChildScrollView(
           child: SafeArea(child: _OptionalCoursesList()),
         ),
-        bottomNavigationBar: SafeArea(
+        bottomNavigationBar: const SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Divider(),
               _BottomSheet(),
             ],
@@ -70,11 +70,11 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
+    return const MaxWidthConstraintBox(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         child: Column(
-          children: const [
+          children: [
             _CallToAction(),
             SizedBox(height: 12),
             SafeArea(
@@ -157,10 +157,10 @@ class _SkipButton extends StatelessWidget {
         bloc.skip();
         Navigator.pop(context);
       },
-      child: Text("Überspringen".toUpperCase()),
       style: TextButton.styleFrom(
         foregroundColor: context.primaryColor,
       ),
+      child: Text("Überspringen".toUpperCase()),
     );
   }
 }
@@ -176,7 +176,7 @@ class _OptionalCoursesList extends StatelessWidget {
       builder: (context, snapshot) {
         final items = snapshot.data;
         if (items == null) {
-          return Center(child: AccentColorCircularProgressIndicator());
+          return const Center(child: AccentColorCircularProgressIndicator());
         }
         return AlternatingColoredList(
           itemCount: items.length,

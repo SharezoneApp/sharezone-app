@@ -95,7 +95,7 @@ class _WritePermissionSheet extends StatelessWidget {
                       .add(const EdgeInsets.only(top: 16)),
                   child: Column(
                     children: <Widget>[
-                      Text(
+                      const Text(
                         "Wer ist dazu berechtigt, neue Einträge, neue Hausaufgaben, neue Dateien, etc. zu erstellen, bzw. hochzuladen?",
                         style: textStyle,
                         textAlign: TextAlign.center,

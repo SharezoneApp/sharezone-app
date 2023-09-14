@@ -17,11 +17,11 @@ void main() {
   late InMemoryKeyValueStore kVstore;
   late State state;
   setUp(() {
-    state = NordrheinWestfalen();
+    state = const NordrheinWestfalen();
     kVstore = InMemoryKeyValueStore();
   });
   test('Can save and load Holidays from Cache', () async {
-    State state = NordrheinWestfalen();
+    State state = const NordrheinWestfalen();
     HolidayCache cache = HolidayCache(kVstore);
     var expectedHolidays = generateHolidayList(5);
 
@@ -34,14 +34,14 @@ void main() {
   test('Does not return holidays which are over/in the past.', () {
     HolidayCache cache = HolidayCache(kVstore);
     HolidayCacheData holidayCacheData;
-    State state = NordrheinWestfalen();
+    State state = const NordrheinWestfalen();
 
     Holiday holidayInTheFuture = generateHoliday(
-        DateTime.now().add(Duration(days: 1)),
-        DateTime.now().add(Duration(days: 5)));
+        DateTime.now().add(const Duration(days: 1)),
+        DateTime.now().add(const Duration(days: 5)));
     Holiday holidayInThePast = generateHoliday(
-        DateTime.now().subtract(Duration(days: 10)),
-        DateTime.now().subtract(Duration(days: 5)));
+        DateTime.now().subtract(const Duration(days: 10)),
+        DateTime.now().subtract(const Duration(days: 5)));
     holidayCacheData = HolidayCacheData((b) => b
       ..holidays = ListBuilder([holidayInThePast, holidayInTheFuture])
       ..saved = DateTime.now());
@@ -66,7 +66,7 @@ void main() {
       expect(cacheResponse.inValidTimeframe, true);
     });
     test("Correctly returns false", () async {
-      final sixtyDaysBefore = DateTime.now().subtract(Duration(days: 60));
+      final sixtyDaysBefore = DateTime.now().subtract(const Duration(days: 60));
       final now = DateTime.now();
       var currentTimeReturnedToCache = sixtyDaysBefore;
       HolidayCache cache = HolidayCache(kVstore,

@@ -15,7 +15,7 @@ import 'package:sharezone_utils/platform.dart';
 
 void main() {
   group('LinkSharingButton', () {
-    GroupInfo _createGroupInfoWith({String? joinLink, String? sharecode}) {
+    GroupInfo createGroupInfoWith({String? joinLink, String? sharecode}) {
       assert(joinLink != null || sharecode != null,
           'group info needs a joinLink or a sharecode');
 
@@ -30,7 +30,7 @@ void main() {
       );
     }
 
-    Future<void> _pumpLinkSharingButton({
+    Future<void> pumpLinkSharingButton({
       required WidgetTester tester,
       required GroupInfo groupInfo,
     }) async {
@@ -56,8 +56,8 @@ void main() {
     testWidgets(
       'should has the text "Link verschicken" if the group has a join link and platform supports share options',
       (tester) async {
-        final groupInfo = _createGroupInfoWith(joinLink: joinLink);
-        await _pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
+        final groupInfo = createGroupInfoWith(joinLink: joinLink);
+        await pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
 
         // Title
         expect(find.text(wordLink), findsOneWidget);
@@ -73,8 +73,8 @@ void main() {
     testWidgets(
       'should has the text "Sharecode verschicken" if the group has not a join link and platform supports share options',
       (tester) async {
-        final groupInfo = _createGroupInfoWith(sharecode: sharecode);
-        await _pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
+        final groupInfo = createGroupInfoWith(sharecode: sharecode);
+        await pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
 
         // Title
         expect(find.text(wordSharecode), findsOneWidget);
@@ -90,8 +90,8 @@ void main() {
     testWidgets(
       'should has the text "Link kopieren" if the group has a join link and platform not supports share options',
       (tester) async {
-        final groupInfo = _createGroupInfoWith(joinLink: joinLink);
-        await _pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
+        final groupInfo = createGroupInfoWith(joinLink: joinLink);
+        await pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
 
         // Title
         expect(find.text(wordLink), findsOneWidget);
@@ -107,8 +107,8 @@ void main() {
     testWidgets(
       'should has the text "Sharecode kopieren" if the group has not a join link and platform not supports share options',
       (tester) async {
-        final groupInfo = _createGroupInfoWith(sharecode: sharecode);
-        await _pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
+        final groupInfo = createGroupInfoWith(sharecode: sharecode);
+        await pumpLinkSharingButton(tester: tester, groupInfo: groupInfo);
 
         // Title
         expect(find.text(wordSharecode), findsOneWidget);

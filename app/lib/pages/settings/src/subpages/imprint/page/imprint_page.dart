@@ -18,8 +18,10 @@ import 'package:sharezone/util/launch_link.dart';
 class ImprintPage extends StatefulWidget {
   static const tag = 'imprint-page';
 
+  const ImprintPage({super.key});
+
   @override
-  _ImprintPageState createState() => _ImprintPageState();
+  State createState() => _ImprintPageState();
 }
 
 class _ImprintPageState extends State<ImprintPage> {
@@ -35,7 +37,7 @@ class _ImprintPageState extends State<ImprintPage> {
   Widget build(BuildContext context) {
     final offlineData = Imprint.offline().asMarkdown;
     return Scaffold(
-      appBar: AppBar(title: Text("Impressum")),
+      appBar: AppBar(title: const Text("Impressum")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(
@@ -53,7 +55,7 @@ class _ImprintPageState extends State<ImprintPage> {
           ),
         ),
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }

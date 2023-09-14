@@ -110,7 +110,7 @@ class EnterActivationCodeBloc extends BlocBase {
     ]);
 
     _changeEnterActivationCodeResult(
-      SuccessfullEnterActivationCodeResult(
+      const SuccessfullEnterActivationCodeResult(
         'clear',
         'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.',
       ),

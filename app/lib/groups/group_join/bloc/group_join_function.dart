@@ -69,8 +69,9 @@ class GroupJoinFunction {
         return ErrorJoinResult(UnknownGroupJoinException());
       } else {
         final exception = appFunctionsResult.exception;
-        if (exception is NoInternetAppFunctionsException)
+        if (exception is NoInternetAppFunctionsException) {
           return ErrorJoinResult(NoInternetGroupJoinException());
+        }
         return ErrorJoinResult(UnknownGroupJoinException(exception: exception));
       }
     } catch (exception) {

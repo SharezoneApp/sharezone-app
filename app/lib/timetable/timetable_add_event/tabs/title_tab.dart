@@ -29,7 +29,7 @@ class _TitleTab extends StatelessWidget {
             child: PrefilledTextField(
               prefilledText: title,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   labelText: "Titel",
                   hintText: isExam ? "Philosophie Klausur Nr. 1" : "Sportfest"),
               onChanged: (newTitle) => bloc.changeTitle(newTitle),

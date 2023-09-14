@@ -79,9 +79,9 @@ class SchoolClassCourseCreateTemplateBody extends StatelessWidget {
 class _Hauptfaecher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Sprachen",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Deutsch", "D"),
         CourseTemplate("Englisch", "E"),
         CourseTemplate("Französisch", "F"),
@@ -95,9 +95,9 @@ class _Hauptfaecher extends StatelessWidget {
 class _Naturwissenschaften extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Naturwissenschaften",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Mathematik", "M"),
         CourseTemplate("Biologie", "BI"),
         CourseTemplate("Chemie", "CH"),
@@ -113,9 +113,9 @@ class _Naturwissenschaften extends StatelessWidget {
 class _Gesellschaftwissenschaften extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Nebenfächer",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Gesellschaftslehre", "GL"),
         CourseTemplate("Politik", "PO"),
         CourseTemplate("Geschichte", "GE"),
@@ -129,10 +129,10 @@ class _Gesellschaftwissenschaften extends StatelessWidget {
 class _Nebenfaecher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Nebenfächer",
       showLastDivider: false,
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Sport", "SP"),
         CourseTemplate("Evangelische Religion", "ER"),
         CourseTemplate("Katholische Religion", "KR"),
@@ -223,13 +223,14 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
                   defaultValue: false,
                   content: Text(
                       "Möchtest du nochmal den Kurs ${widget.courseTemplate.subject} erstellen?"),
-                  right: AdaptiveDialogAction(
+                  right: const AdaptiveDialogAction(
                     title: 'Ja',
                     isDefaultAction: true,
                     popResult: true,
                   ));
               if (createAgain == false) return;
             }
+            if (!context.mounted) return;
             final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
             final result = bloc.submitWithCourseTemplate(widget.courseTemplate);
 
@@ -287,13 +288,13 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
       case _CourseTemplateTileStatus.add:
         return _createCourseButton(context);
       case _CourseTemplateTileStatus.added:
-        return _CourseIsCreatedIcon(
-            key: const ValueKey(_CourseTemplateTileStatus.added));
+        return const _CourseIsCreatedIcon(
+            key: ValueKey(_CourseTemplateTileStatus.added));
       case _CourseTemplateTileStatus.loading:
-        return Padding(
-          padding: const EdgeInsets.only(left: 12, top: 12),
+        return const Padding(
+          padding: EdgeInsets.only(left: 12, top: 12),
           child: LoadingCircle(
-            key: const ValueKey(_CourseTemplateTileStatus.loading),
+            key: ValueKey(_CourseTemplateTileStatus.loading),
             size: 20,
           ),
         );
@@ -314,7 +315,7 @@ class _CourseIsCreatedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return const IconButton(
         icon: Icon(Icons.check, color: Colors.greenAccent), onPressed: null);
   }
 }
@@ -327,7 +328,7 @@ class _CreateCourseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.add_circle_outline),
+      icon: const Icon(Icons.add_circle_outline),
       onPressed: onCreate,
       tooltip: 'Hinzufügen',
     );

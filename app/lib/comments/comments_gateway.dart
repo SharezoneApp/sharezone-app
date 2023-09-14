@@ -191,8 +191,8 @@ class MultiRatingActions extends RatingAction {
 
   @override
   Future<void> execute(DocumentReference commentLocation, String uid) async {
-    final _firestore = commentLocation.firestore;
-    await _firestore.runTransaction((transaction) async {
+    final firestore = commentLocation.firestore;
+    await firestore.runTransaction((transaction) async {
       for (final action in actions) {
         await action.execute(commentLocation, uid, transaction);
       }

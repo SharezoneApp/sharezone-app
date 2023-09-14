@@ -55,15 +55,17 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
         _passwordSubject.valueOrNull!.isEmpty) {
       _passwordSubject.sink.add("");
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   bool compareEmail(String pEmail) {
-    if (pEmail.toLowerCase() == _emailSubject.valueOrNull?.toLowerCase())
+    if (pEmail.toLowerCase() == _emailSubject.valueOrNull?.toLowerCase()) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   Future<void> sendResetPasswordMail() async {

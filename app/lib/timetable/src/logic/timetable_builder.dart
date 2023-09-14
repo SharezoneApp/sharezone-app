@@ -95,8 +95,9 @@ class TimetableBuilder {
   Iterable<Lesson> _getFilteredLessonsForDate(Date date) {
     WeekDay weekday = date.weekDayEnum;
     return lessons.where((lesson) {
-      if (lesson.startDate != null && lesson.startDate!.isBefore(date))
+      if (lesson.startDate != null && lesson.startDate!.isBefore(date)) {
         return false;
+      }
       if (lesson.endDate != null && lesson.endDate!.isAfter(date)) return false;
       return lesson.weekday == weekday;
     });

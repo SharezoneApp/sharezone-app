@@ -15,8 +15,9 @@ double _indexChangeProgress(TabController controller) {
 
   // The controller's offset is changing because the user is dragging the
   // TabBarView's PageView to the left or right.
-  if (!controller.indexIsChanging)
+  if (!controller.indexIsChanging) {
     return (currentIndex - controllerValue).abs().clamp(0.0, 1.0).toDouble();
+  }
 
   // The TabController animation's value is changing from previousIndex to currentIndex.
   return (controllerValue - currentIndex).abs() /
@@ -74,12 +75,13 @@ class SharezoneTabPageSelector extends StatelessWidget {
     if (tabController.indexIsChanging) {
       // The selection's animation is animating from previousValue to value.
       final double t = 1.0 - _indexChangeProgress(tabController);
-      if (tabController.index == tabIndex)
+      if (tabController.index == tabIndex) {
         background = selectedColorTween.lerp(t);
-      else if (tabController.previousIndex == tabIndex)
+      } else if (tabController.previousIndex == tabIndex) {
         background = previousColorTween.lerp(t);
-      else
+      } else {
         background = selectedColorTween.begin;
+      }
     } else {
       // The selection's offset reflects how far the TabBarView has / been dragged
       // to the previous page (-1.0 to 0.0) or the next page (0.0 to 1.0).

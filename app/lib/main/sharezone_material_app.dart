@@ -19,6 +19,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezoneMaterialApp extends StatelessWidget {
   const SharezoneMaterialApp({
+    super.key,
     required this.home,
     required this.blocDependencies,
     required this.onUnknownRouteWidget,
@@ -36,18 +37,16 @@ class SharezoneMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeSettings = context.watch<ThemeSettings>();
-    final _darkTheme = darkTheme.copyWith(
-        visualDensity: themeSettings.visualDensitySetting.visualDensity);
-    final _lightTheme = lightTheme.copyWith(
-        visualDensity: themeSettings.visualDensitySetting.visualDensity);
 
     return FeatureDiscovery(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
         color: primaryColor,
-        darkTheme: _darkTheme,
-        theme: _lightTheme,
+        darkTheme: darkTheme.copyWith(
+            visualDensity: themeSettings.visualDensitySetting.visualDensity),
+        theme: lightTheme.copyWith(
+            visualDensity: themeSettings.visualDensitySetting.visualDensity),
         themeMode: _getThemeMode(themeSettings.themeBrightness),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,

@@ -66,7 +66,7 @@ class _NoBlackboardViews extends StatelessWidget {
           bloc.navigateTo(NavigationItem.blackboard);
         },
         padding: const EdgeInsets.all(8),
-        child: Center(
+        child: const Center(
           child: Text(
             "Du hast alle Infozettel gelesen 👍",
             textAlign: TextAlign.center,

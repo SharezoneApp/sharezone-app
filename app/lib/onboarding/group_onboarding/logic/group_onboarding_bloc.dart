@@ -49,7 +49,7 @@ class GroupOnboardingBloc extends BlocBase {
   Future<bool> get isGroupOnboardingActive => signedUp.first;
 
   /// Nutzer überspringt das Group-Onboarding
-  Future<void> finsihOnboarding() async {
+  Future<void> finishOnboarding() async {
     _closeOnboarding();
     _analytics.logFinishedGroupOnboarding();
   }
@@ -72,7 +72,7 @@ class GroupOnboardingBloc extends BlocBase {
 
   void logShareLink() => _analytics.logShareSharecode();
 
-  void logShareQrcode() => _analytics.logShareQrCode();
+  void logShareQrCode() => _analytics.logShareQrCode();
 
   void logShareSharecode() => _analytics.logShareQrCode();
 

@@ -37,7 +37,7 @@ class SignUpPage extends StatefulWidget {
   final bool withBackButton;
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  State createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
@@ -49,14 +49,15 @@ class _SignUpPageState extends State<SignUpPage> {
     super.initState();
 
     // Animating to ChooseTypeOfUser-Page
-    Future.delayed(Duration(milliseconds: 350)).then((_) => isWidgetDisposed
-        ? null
-        : setState(() {
-            child = ChooseTypeOfUser(
-              withBackButton: widget.withBackButton,
-              withLogin: widget.withLogin,
-            );
-          }));
+    Future.delayed(const Duration(milliseconds: 350))
+        .then((_) => isWidgetDisposed
+            ? null
+            : setState(() {
+                child = ChooseTypeOfUser(
+                  withBackButton: widget.withBackButton,
+                  withLogin: widget.withLogin,
+                );
+              }));
   }
 
   @override
@@ -69,7 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return ColorFadeIn(
       child: AnimatedSwitcher(
-        duration: Duration(milliseconds: 175),
+        duration: const Duration(milliseconds: 175),
         transitionBuilder: (widget, animation) {
           return ScaleTransition(
             scale: animation.drive(Tween<double>(begin: 0.925, end: 1)
@@ -120,7 +121,7 @@ class _AdvancedListTile extends StatelessWidget {
       padding: EdgeInsets.only(left: width > 720 ? width * 0.125 : 0, top: 16),
       child: ListTile(
         leading: leading,
-        title: Text(title, style: TextStyle(fontSize: 22)),
+        title: Text(title, style: const TextStyle(fontSize: 22)),
         subtitle: subtitle == null ? null : Text(subtitle!),
       ),
     );
@@ -139,7 +140,7 @@ class OnboardingNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
       ),
       child: SafeArea(
         child: Column(

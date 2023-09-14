@@ -137,7 +137,7 @@ const v2MarkdownPrivacyPolicy = """
 
 Hey, du bzw. ihr! Das ist die Datenschutzerklärung unserer App „Sharezone“ (kurz: „App“). Im Folgenden informieren wir, die Sharezone UG (haftungsbeschränkt), Speditionstraße 15A, 40221 Düsseldorf, Deutschland (kurz: „Sharezone“, „wir“ oder „uns“), über die Erhebung personenbezogener Daten bei der Nutzung der App.
 
-> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.\
+> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.
 Auch wenn wir euch die Zusammenfassung anbieten, ist es wichtig und erforderlich, dass ihr die allein maßgeblich geltenden „Informationen über die Verarbeitung personenbezogener Daten“ gänzlich lest.
 
 Nachfolgend findet ihr eine Übersicht des Inhalts. Durch einen Klick auf eine bestimmte Überschrift landet ihr direkt bei der betreffenden Stelle.
@@ -184,8 +184,8 @@ Für Anwendungen und Internetseiten anderer Anbieter, auf die gegebenenfalls z.B
 
 Verantwortlicher für die Verarbeitung personenbezogener Daten dieser App im Sinne der DSGVO ist:
 
-Sharezone UG (haftungsbeschränkt)\
-Speditionstraße 15A\
+Sharezone UG (haftungsbeschränkt)
+Speditionstraße 15A
 40221 Düsseldorf
 
 nachfolgend kurz: „wir“, „uns“ oder „Sharezone“
@@ -338,7 +338,7 @@ Wenn ihr unter 16 Jahre alt seid, dürft ihr lediglich diesen anonymen Account n
 
 Jeder Nutzer, der die App verwendet, bekommt stets automatisch ein anonymes Konto zugewiesen. Dieses Konto erhält ein Pseudonym als Nickname (etwa „Anonymer Tiger“). Dieser Nickname kann in den Einstellungen auch nach eurem Belieben abschließend in entweder euren Spitznamen oder Fantasienamen umbenannt werden (etwa “Matze“ für “Matthias Mustermann“, “Jen“ für “Jennifer Musterfrau“ oder einfach “Schlauer Fuchs“).
 
-Der Fantasie- oder euer freiwillig angegebene Nickname in der App ist erforderlich, damit die anderen Teilnehmer\*innen aus euren Kursen, Klassen oder Schule (**nachfolgend zusammengefasst als „Gruppe“ bezeichnet**) euch in den Anwendungsmöglichkeiten der App von anderen Schüler\*innen unterscheiden können (Zweck der Verarbeitung).
+Der Fantasie- oder euer freiwillig angegebene Nickname in der App ist erforderlich, damit die anderen Teilnehmer*innen aus euren Kursen, Klassen oder Schule (**nachfolgend zusammengefasst als „Gruppe“ bezeichnet**) euch in den Anwendungsmöglichkeiten der App von anderen Schüler*innen unterscheiden können (Zweck der Verarbeitung).
 
 Soweit ihr unter 16 Jahren alt seid, verbieten wir für die Erlangung eines Nutzungsrechts an der App ausdrücklich, dass ihr dabei euren echten Namen verwendet, damit eure Privatsphäre so weit wie möglich gewahrt bleibt.
 
@@ -364,7 +364,7 @@ Die Registrierung mittels der Registrierungsdaten erfolgt auf eurem Wunsch, d.h.
 
 * Außerdem können wir dich über sicherheitsrelevante Informationen über deinen Account informieren (z.B. Login von einem fremden Gerät).
 
-Euer frei wählbarer Nickname hilft darüber hinaus anderen Teilnehmer\*innen aus eurer Gruppe, euch in den Anwendungsmöglichkeiten der App von anderen Schüler\*innen, Lehrkräften und Eltern zu unterscheiden. Ihr könnt dafür auch euren Spitznamen oder einen Fantasienamen wählen.
+Euer frei wählbarer Nickname hilft darüber hinaus anderen Teilnehmer*innen aus eurer Gruppe, euch in den Anwendungsmöglichkeiten der App von anderen Schüler*innen, Lehrkräften und Eltern zu unterscheiden. Ihr könnt dafür auch euren Spitznamen oder einen Fantasienamen wählen.
 
 Die Registrierung und Anmeldung mit den Registrierungsdaten haben den Zweck, dass ihr euch stets von jedem beliebigen Gerät auf euren Account einloggen könnt. Wenn ihr euer Passwort vergessen habt, könnt ihr die Option „Passwort vergessen“ auswählen. Wir schicken euch dann eine E-Mail mit einem Link, über den ihr ein neues Passwort setzen könnt. Des Weiteren kann der Missbrauch der App verhindert bzw. verfolgt werden.
 
@@ -460,7 +460,7 @@ Nutzt Instance-IDs, um sicherzustellen, dass genügend verschiedene Installation
 
 ### Firebase Predictions
 
-Nutzt Instance-IDs, um für die App spezifische Nutzungsdaten (Events) abzurufen und analysieren zu können.\
+Nutzt Instance-IDs, um für die App spezifische Nutzungsdaten (Events) abzurufen und analysieren zu können.
 Daraus werden Vorhersagen generiert, wie z.B., dass ein Nutzer bald die App deinstallieren wird. Die Instance-ID kann bis zu 180 in Backup-Systemen verbleiben.
 
 ### Firebase Remote Config

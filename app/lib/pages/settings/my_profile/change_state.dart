@@ -14,7 +14,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class ChangeStatePage extends StatelessWidget {
-  const ChangeStatePage();
+  const ChangeStatePage({super.key});
   static const tag = "change-state-page";
 
   @override
@@ -36,11 +36,13 @@ class _ChangeStatePageBody extends StatelessWidget {
     return StreamBuilder<StateEnum?>(
       stream: bloc.userState,
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
+        if (!snapshot.hasData) {
           return const Center(child: AccentColorCircularProgressIndicator());
-        if (snapshot.hasError)
-          return Text(
+        }
+        if (snapshot.hasError) {
+          return const Text(
               "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.");
+        }
         final currentState = snapshot.data;
         return SingleChildScrollView(
           child: MaxWidthConstraintBox(
@@ -71,8 +73,8 @@ class _ChangeStatePageBody extends StatelessWidget {
 class _WhyWeNeedTheState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: InfoMessage(
         title: "Wozu brauchen wir dein Bundesland?",
         message:

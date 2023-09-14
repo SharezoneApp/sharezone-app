@@ -62,7 +62,7 @@ class _IsPublic extends StatelessWidget {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return ListTile(
       title: const Text("Beitreten erlauben"),
-      leading: Icon(Icons.lock),
+      leading: const Icon(Icons.lock),
       onTap: () {
         Future<AppFunctionsResult<bool>> setFuture =
             bloc.setIsPublic(!isPublic);

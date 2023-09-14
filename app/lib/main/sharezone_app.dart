@@ -60,14 +60,18 @@ import 'onboarding/onboarding_listener.dart';
 
 class SharezoneApp extends StatefulWidget {
   const SharezoneApp(
-      this.blocDependencies, this.analytics, this.beitrittsversuche);
+    this.blocDependencies,
+    this.analytics,
+    this.beitrittsversuche, {
+    super.key,
+  });
 
   final BlocDependencies blocDependencies;
   final Analytics analytics;
   final Stream<Beitrittsversuch?> beitrittsversuche;
 
   @override
-  _SharezoneAppState createState() => _SharezoneAppState();
+  State createState() => _SharezoneAppState();
 }
 
 class _SharezoneAppState extends State<SharezoneApp>
@@ -108,7 +112,7 @@ class _SharezoneAppState extends State<SharezoneApp>
       widget.blocDependencies.firestore,
       userId,
       getCrashAnalytics(),
-      minimumDurationBetweenReports: Duration(minutes: 5),
+      minimumDurationBetweenReports: const Duration(minutes: 5),
     );
     disposeCallbacks.add(reporter.dispose);
   }
@@ -151,32 +155,35 @@ class _SharezoneAppState extends State<SharezoneApp>
                 key: navigationBloc.controllerKey,
               ),
               routes: {
-                HomeworkArchivedPage.tag: (context) => HomeworkArchivedPage(),
-                AccountPage.tag: (context) => AccountPage(),
-                AboutPage.tag: (context) => AboutPage(),
-                FeedbackPage.tag: (context) => FeedbackPage(),
-                ChangelogPage.tag: (context) => ChangelogPage(),
-                CourseHelpPage.tag: (context) => CourseHelpPage(),
-                SettingsPage.tag: (context) => SettingsPage(),
-                NotificationPage.tag: (context) => NotificationPage(),
-                SupportPage.tag: (context) => SupportPage(),
-                ChangeEmailPage.tag: (context) => ChangeEmailPage(),
-                ChangePasswordPage.tag: (context) => ChangePasswordPage(),
-                ChangeStatePage.tag: (context) => ChangeStatePage(),
-                FileSharingPage.tag: (context) => FileSharingPage(),
-                ThemePage.tag: (context) => ThemePage(),
-                TimetableSettingsPage.tag: (context) => TimetableSettingsPage(),
-                CourseTemplatePage.tag: (context) => CourseTemplatePage(),
-                CalendricalEventsPage.tag: (context) => CalendricalEventsPage(),
+                HomeworkArchivedPage.tag: (context) =>
+                    const HomeworkArchivedPage(),
+                AccountPage.tag: (context) => const AccountPage(),
+                AboutPage.tag: (context) => const AboutPage(),
+                FeedbackPage.tag: (context) => const FeedbackPage(),
+                ChangelogPage.tag: (context) => const ChangelogPage(),
+                CourseHelpPage.tag: (context) => const CourseHelpPage(),
+                SettingsPage.tag: (context) => const SettingsPage(),
+                NotificationPage.tag: (context) => const NotificationPage(),
+                SupportPage.tag: (context) => const SupportPage(),
+                ChangeEmailPage.tag: (context) => const ChangeEmailPage(),
+                ChangePasswordPage.tag: (context) => const ChangePasswordPage(),
+                ChangeStatePage.tag: (context) => const ChangeStatePage(),
+                FileSharingPage.tag: (context) => const FileSharingPage(),
+                ThemePage.tag: (context) => const ThemePage(),
+                TimetableSettingsPage.tag: (context) =>
+                    const TimetableSettingsPage(),
+                CourseTemplatePage.tag: (context) => const CourseTemplatePage(),
+                CalendricalEventsPage.tag: (context) =>
+                    const CalendricalEventsPage(),
                 PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
                 UseAccountOnMultipleDevicesIntruction.tag: (context) =>
-                    UseAccountOnMultipleDevicesIntruction(),
-                MyProfilePage.tag: (context) => MyProfilePage(),
+                    const UseAccountOnMultipleDevicesIntruction(),
+                MyProfilePage.tag: (context) => const MyProfilePage(),
                 BlackboardDialogChoosePicture.tag: (context) =>
-                    BlackboardDialogChoosePicture(),
-                TimetableAddPage.tag: (context) => TimetableAddPage(),
-                WebAppSettingsPage.tag: (context) => WebAppSettingsPage(),
-                ImprintPage.tag: (context) => ImprintPage(),
+                    const BlackboardDialogChoosePicture(),
+                TimetableAddPage.tag: (context) => const TimetableAddPage(),
+                WebAppSettingsPage.tag: (context) => const WebAppSettingsPage(),
+                ImprintPage.tag: (context) => const ImprintPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

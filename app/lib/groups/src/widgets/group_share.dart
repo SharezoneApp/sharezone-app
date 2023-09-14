@@ -22,7 +22,7 @@ import 'group_qr_code.dart';
 /// Sharecode because it could happend, that the joinLink is null, if the
 /// course has a old structure
 class LinkSharingButton extends StatelessWidget {
-  const LinkSharingButton({required this.groupInfo});
+  const LinkSharingButton({super.key, required this.groupInfo});
 
   final GroupInfo groupInfo;
   static const color = Color(0xFF976aff);
@@ -51,6 +51,7 @@ class LinkSharingButton extends StatelessWidget {
               if (hasJoinLink) {
                 await _showJoinLinksNotAvailableOnWebWarning(context);
               }
+              if (!context.mounted) return;
 
               _showShareJoinLinkBox(
                 context: context,
@@ -58,7 +59,8 @@ class LinkSharingButton extends StatelessWidget {
                 hasJoinLink: hasJoinLink,
               );
 
-              if (await _isUserCurrentlyInGroupOnboarding(context)) {
+              if (await _isUserCurrentlyInGroupOnboarding(context) &&
+                  context.mounted) {
                 _logOnboardingShareLinkAnalytics(context);
               }
             },
@@ -141,12 +143,13 @@ class LinkSharingButton extends StatelessWidget {
 
   Future<void> _logOnboardingShareLinkAnalytics(BuildContext context) async {
     final groupOnboardingBloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    groupOnboardingBloc.logShareQrcode();
+    groupOnboardingBloc.logShareQrCode();
   }
 }
 
 class ShareThisGroupDialogContent extends StatelessWidget {
   const ShareThisGroupDialogContent({
+    super.key,
     required this.groupInfo,
   });
 
@@ -172,6 +175,7 @@ class ShareThisGroupDialogContent extends StatelessWidget {
 
 class ShareGroupSection extends StatelessWidget {
   const ShareGroupSection({
+    super.key,
     required this.groupInfo,
     this.closeDialog = false,
   });

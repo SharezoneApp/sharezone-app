@@ -127,7 +127,7 @@ class SharezoneBlocProviders extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SharezoneBlocProvidersState createState() => _SharezoneBlocProvidersState();
+  State createState() => _SharezoneBlocProvidersState();
 }
 
 class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
@@ -212,7 +212,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       uid,
       (courseId) => getCourseColorFromCourseId(api, courseId)!,
     );
-    final _homeworkCompletionDispatcher =
+    final homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
 
     final config = HausaufgabenheftConfig(
@@ -236,7 +236,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     final dependencies = HausaufgabenheftDependencies(
       dataSource: firestoreHomeworkRepository,
-      completionDispatcher: _homeworkCompletionDispatcher,
+      completionDispatcher: homeworkCompletionDispatcher,
       getOpenOverdueHomeworkIds:
           firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds,
       keyValueStore: widget.blocDependencies.keyValueStore,
@@ -303,7 +303,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final holidayApiClient =
         CloudFunctionHolidayApiClient(api.references.functions);
 
-    final clock = Clock();
+    const clock = Clock();
     final subscriptionEnabledFlag = SubscriptionEnabledFlag(
       FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
     );
@@ -360,7 +360,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             platformInformationRetriever: FlutterPlatformInformationRetriever(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
-            updateGracePeriod: Duration(days: 3)),
+            updateGracePeriod: const Duration(days: 3)),
       ),
       BlocProvider<DashboardTipSystem>(
           bloc: DashboardTipSystem(

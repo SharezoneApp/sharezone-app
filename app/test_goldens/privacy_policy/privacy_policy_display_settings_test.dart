@@ -44,7 +44,7 @@ void main() {
                 child: Builder(builder: (context) {
                   return ElevatedButton(
                     onPressed: () => showDisplaySettingsDialog(context),
-                    child: Text("Open Dialog"),
+                    child: const Text("Open Dialog"),
                   );
                 }),
               ),

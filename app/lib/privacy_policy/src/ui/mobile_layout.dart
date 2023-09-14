@@ -26,16 +26,16 @@ class MainContentMobile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: showBackButton,
-        title: Text('Datenschutzerklärung'),
+        title: const Text('Datenschutzerklärung'),
         actions: [
           IconButton(
               onPressed: () {
                 showDisplaySettingsDialog(context);
               },
-              icon: Icon(Icons.display_settings)),
-          SizedBox(width: 5),
-          DownloadAsPDFButton.icon(),
-          SizedBox(width: 10)
+              icon: const Icon(Icons.display_settings)),
+          const SizedBox(width: 5),
+          const DownloadAsPDFButton.icon(),
+          const SizedBox(width: 10)
         ],
       ),
       body: Padding(
@@ -54,13 +54,13 @@ class MainContentMobile extends StatelessWidget {
                   entersIntoForceOn: privacyPolicy.entersIntoForceOnOrNull,
                 ),
               ),
-            Divider(height: 0, thickness: .5),
+            const Divider(height: 0, thickness: .5),
             Flexible(
               child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
             ),
-            Divider(height: 0, thickness: .5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
+            const Divider(height: 0, thickness: .5),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
               child: OpenTocBottomSheetButton(),
             ),
           ],

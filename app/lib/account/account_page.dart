@@ -30,8 +30,10 @@ import 'account_page_bloc_factory.dart';
 class AccountPage extends StatefulWidget {
   static const tag = 'profil-page';
 
+  const AccountPage({super.key});
+
   @override
-  _AccountPageState createState() => _AccountPageState();
+  State createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
@@ -106,7 +108,7 @@ class _WebIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'QR-Code Login für die Web-App',
-      icon: Icon(Icons.desktop_mac),
+      icon: const Icon(Icons.desktop_mac),
       onPressed: () => Navigator.pushNamed(context, WebAppSettingsPage.tag),
     );
   }
@@ -128,7 +130,7 @@ class _SecondaryInformationCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: Text("Bundesland"),
+              title: const Text("Bundesland"),
               subtitle: Text(user.state!),
               onTap: () => Navigator.pushNamed(context, ChangeStatePage.tag),
             ),
@@ -156,16 +158,16 @@ class _MainAccountInformationCard extends StatelessWidget {
         children: [
           AvatarCard(
             crossAxisAlignment: CrossAxisAlignment.center,
+            kuerzel: user.abbreviation,
             children: <Widget>[
               _Name(userView: user),
               if (user.provider?.hasEmailAddress == true) _EmailText(user),
               _TypeOfUserText(userType: user.userType, uid: user.id),
-              if (isAnonymous) RegistierAccountSection(),
+              if (isAnonymous) const RegistierAccountSection(),
               if (kDebugMode) _UserId(user: user),
             ],
-            kuerzel: user.abbreviation,
           ),
-          _EditProfilButton(),
+          const _EditProfilButton(),
         ],
       ),
     );

@@ -25,6 +25,7 @@ import 'widgets/sheet.dart';
 
 class FileSharingViewGroup extends StatelessWidget {
   const FileSharingViewGroup({
+    super.key,
     required this.groupState,
   });
 
@@ -43,7 +44,7 @@ class FileSharingViewGroup extends StatelessWidget {
       builder: (context, snapshot) {
         final fileSharingData = snapshot.data;
         if (fileSharingData == null) {
-          return Center(child: AccentColorCircularProgressIndicator());
+          return const Center(child: AccentColorCircularProgressIndicator());
         }
         final folders = fileSharingData.getFolders(path)!.values.toList();
 
@@ -248,13 +249,13 @@ class _NoFilesFound extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height -
           (dimensions.isDesktopModus ? 100 : 200),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 48),
+      child: const Padding(
+        padding: EdgeInsets.only(bottom: 48),
         child: PlaceholderWidgetWithAnimation(
           svgPath: "assets/icons/folder.svg",
           animateSVG: true,
           title: "Keine Dateien gefunden 😶",
-          description: const Text(
+          description: Text(
               "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍"),
         ),
       ),

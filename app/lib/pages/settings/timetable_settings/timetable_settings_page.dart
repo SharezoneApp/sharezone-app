@@ -27,6 +27,8 @@ import 'package:user/user.dart';
 
 class TimetableSettingsPage extends StatelessWidget {
   static const String tag = 'timetable-settings-page';
+
+  const TimetableSettingsPage({super.key});
   @override
   Widget build(BuildContext context) {
     final bloc =
@@ -46,19 +48,19 @@ class TimetableSettingsPage extends StatelessWidget {
                     onChanged: (lessonLength) =>
                         bloc.saveLessonLengthInCache(lessonLength.minutes),
                   ),
-                  Divider(),
+                  const Divider(),
                   _ABWeekField(),
-                  Divider(),
+                  const Divider(),
                   _TimetablePreferencesField(),
-                  Divider(),
+                  const Divider(),
                   _TimetableEnabledWeekDaysField(),
-                  Divider(),
+                  const Divider(),
                   _TimetablePeriodsField(),
                   // We only show the time picker settings on iOS because on
                   // other platforms we use the different time picker where we
                   // have a visible steps option.
                   if (PlatformCheck.isIOS) ...[
-                    Divider(),
+                    const Divider(),
                     _IsTimePickerFifeMinutesIntervalActive(),
                   ]
                 ],
@@ -79,7 +81,7 @@ class _ABWeekField extends StatelessWidget {
       stream: bloc.streamUserSettings(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         final userSettings = snapshot.data;
         return Column(
@@ -135,8 +137,8 @@ class _ABWeekField extends StatelessWidget {
   }
 
   WeekType _getCurrentWeekType(bool isAWeekEvenWeek) {
-    final _isCurrentWeekEven = getWeekNumber(DateTime.now()).isEven;
-    if (_isCurrentWeekEven) {
+    final isCurrentWeekEven = getWeekNumber(DateTime.now()).isEven;
+    if (isCurrentWeekEven) {
       return isAWeekEvenWeek ? WeekType.a : WeekType.b;
     } else {
       return isAWeekEvenWeek ? WeekType.b : WeekType.a;
@@ -187,7 +189,7 @@ class _TimetablePreferencesField extends StatelessWidget {
                 }
               },
             ),
-            Divider(),
+            const Divider(),
             SwitchListTile.adaptive(
               title: const Text("Kürzel im Stundenplan anzeigen"),
               value: userSettings.showAbbreviation,
@@ -224,7 +226,8 @@ class LessonsLengthField extends StatelessWidget {
             final selectedLessonLength =
                 await showNumberPickerDialog(context, lessonLength.minutes);
             if (selectedLessonLength.isValid &&
-                selectedLessonLength != lessonLength) {
+                selectedLessonLength != lessonLength &&
+                context.mounted) {
               onChanged(selectedLessonLength);
               _showConfirmationSnackBar(context);
             }
@@ -301,13 +304,13 @@ class __NumberPickerState extends State<_NumberPicker> {
       title: const Text('Wähle die Länge der Stunde in Minuten aus.'),
       actions: [
         TextButton(
-          child: Text('Abbrechen'),
+          child: const Text('Abbrechen'),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: Text('Bestätigen'),
+          child: const Text('Bestätigen'),
           onPressed: () {
             Navigator.pop(context, value);
           },

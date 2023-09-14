@@ -22,19 +22,21 @@ import 'is_it_first_person_using_sharezone.dart';
 class TurnOnNotifications extends StatelessWidget {
   static const tag = 'onboarding-turn-on-notifications-page';
 
+  const TurnOnNotifications({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GroupOnboardingPageTemplate(
       top: _NotNowButton(),
       padding: const EdgeInsets.all(12),
+      bottomNavigationBar: _TurnOnButton(),
       children: [
         _ClockAnimation(),
         const SizedBox(height: 12),
-        _Title(),
+        const _Title(),
         const SizedBox(height: 12),
         _Description(),
       ],
-      bottomNavigationBar: _TurnOnButton(),
     );
   }
 }
@@ -44,7 +46,8 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GroupOnboardingTitle("Erinnerungen und Benachrichtigungen erhalten");
+    return const GroupOnboardingTitle(
+        "Erinnerungen und Benachrichtigungen erhalten");
   }
 }
 
@@ -53,15 +56,16 @@ class _Description extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       getText(context),
-      style: TextStyle(color: Colors.grey),
+      style: const TextStyle(color: Colors.grey),
       textAlign: TextAlign.center,
     );
   }
 
   String getText(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    if (bloc.isStudent)
+    if (bloc.isStudent) {
       return 'Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.';
+    }
     return 'Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhälst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪';
   }
 }
@@ -69,7 +73,7 @@ class _Description extends StatelessWidget {
 class _ClockAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: 175,
       width: 175,
       child: FlareActor(
@@ -86,8 +90,8 @@ class _NotNowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        final confirmed = (await confirmDialog(context))!;
-        if (confirmed) {
+        final confirmed = (await confirmDialog(context));
+        if (confirmed == true && context.mounted) {
           final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
           bloc.logTurnOfNotifiactions();
           await _continue(context);
@@ -107,7 +111,7 @@ class _NotNowButton extends StatelessWidget {
       content: const Text(
           "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten."),
       defaultValue: false,
-      right: AdaptiveDialogAction(
+      right: const AdaptiveDialogAction(
         title: 'Ja',
         popResult: true,
       ),
@@ -130,6 +134,7 @@ class _TurnOnButton extends StatelessWidget {
                 text: 'Aktivieren',
                 onTap: () async {
                   await requestNotificationsPermission(context);
+                  if (!context.mounted) return;
                   await _continue(context);
                 },
               ),
@@ -151,6 +156,8 @@ class _TurnOnButton extends StatelessWidget {
 Future<void> _continue(BuildContext context) async {
   final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
   final status = await bloc.status();
+  if (!context.mounted) return;
+
   if (status == GroupOnboardingStatus.full) {
     _navigateToNextPage(context);
   } else {
@@ -160,7 +167,7 @@ Future<void> _continue(BuildContext context) async {
 
 void _finishOnboarding(BuildContext context) {
   final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-  bloc.finsihOnboarding();
+  bloc.finishOnboarding();
   Navigator.popUntil(context, ModalRoute.withName('/'));
 }
 
@@ -168,7 +175,7 @@ void _navigateToNextPage(BuildContext context) {
   Navigator.pushReplacement(
     context,
     FadeRoute(
-      child: GroupOnboardingIsItFirstPersonUsingSharezone(),
+      child: const GroupOnboardingIsItFirstPersonUsingSharezone(),
       tag: GroupOnboardingIsItFirstPersonUsingSharezone.tag,
     ),
   );

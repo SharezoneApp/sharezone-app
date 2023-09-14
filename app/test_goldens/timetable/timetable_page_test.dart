@@ -34,7 +34,7 @@ import 'timetable_page_test.mocks.dart';
 void main() {
   group(TimetablePage, () {
     group(SchoolClassFilter, () {
-      SchoolClass _createSchoolClass(String id) {
+      SchoolClass createSchoolClass(String id) {
         final data = {
           'name': id,
           'myRole': 'standard',
@@ -65,11 +65,11 @@ void main() {
           MockSchoolClassFilterAnalytics(),
         );
 
-        schoolClassGateway.addSchoolClass(_createSchoolClass('10a'));
-        schoolClassGateway.addSchoolClass(_createSchoolClass('5b'));
+        schoolClassGateway.addSchoolClass(createSchoolClass('10a'));
+        schoolClassGateway.addSchoolClass(createSchoolClass('5b'));
       });
 
-      Future<void> _pumpSchoolClassSelection(
+      Future<void> pumpSchoolClassSelection(
         WidgetTester tester, {
         ThemeData? themeData,
       }) async {
@@ -83,7 +83,7 @@ void main() {
                 theme: themeData,
                 home: BlocProvider(
                   bloc: bloc,
-                  child: SingleChildScrollView(
+                  child: const SingleChildScrollView(
                     child: SchoolClassFilterBottomBar(),
                   ),
                 ),
@@ -93,19 +93,19 @@ void main() {
         );
       }
 
-      Future<void> _openSchoolClassSelection(WidgetTester tester) async {
+      Future<void> openSchoolClassSelection(WidgetTester tester) async {
         await tester.tap(find.byIcon(Icons.group));
         await tester.pumpAndSettle();
       }
 
-      Future<void> _testSchoolClassSelection(
+      Future<void> testSchoolClassSelection(
         WidgetTester tester, {
         required String variant,
         ThemeData? themeData,
       }) async {
-        await _pumpSchoolClassSelection(tester, themeData: themeData);
+        await pumpSchoolClassSelection(tester, themeData: themeData);
 
-        await _openSchoolClassSelection(tester);
+        await openSchoolClassSelection(tester);
 
         await screenMatchesGolden(tester, 'school_class_filter_$variant');
       }
@@ -118,7 +118,7 @@ void main() {
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {
-          await _testSchoolClassSelection(
+          await testSchoolClassSelection(
             tester,
             variant: 'with_plus_light',
             themeData: lightTheme,
@@ -126,7 +126,7 @@ void main() {
         });
 
         testGoldens('should render as expected (dark mode)', (tester) async {
-          await _testSchoolClassSelection(
+          await testSchoolClassSelection(
             tester,
             variant: 'with_plus_dark',
             themeData: lightTheme,
@@ -142,7 +142,7 @@ void main() {
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {
-          await _testSchoolClassSelection(
+          await testSchoolClassSelection(
             tester,
             variant: 'with_without_plus_light',
             themeData: lightTheme,
@@ -150,7 +150,7 @@ void main() {
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {
-          await _testSchoolClassSelection(
+          await testSchoolClassSelection(
             tester,
             variant: 'with_without_plus_dark',
             themeData: darkTheme,

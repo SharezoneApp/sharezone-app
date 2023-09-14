@@ -28,7 +28,7 @@ Future<void> openSchoolClassCourseCreatePage(
     name: _CourseCreatePage.tag,
   );
   await waitingForPopAnimation();
-  if (createdCourse) {
+  if (createdCourse && context.mounted) {
     showSnackSec(
       context: context,
       text: 'Kurs wurde erstellt.',
@@ -45,12 +45,16 @@ Future<void> submit(BuildContext context) async {
 
   try {
     result = await bloc.submit();
-    Navigator.pop(context, result);
+    if (context.mounted) {
+      Navigator.pop(context, result);
+    }
   } catch (e, s) {
-    showSnackSec(
-      context: context,
-      text: handleErrorMessage(e.toString(), s),
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        text: handleErrorMessage(e.toString(), s),
+      );
+    }
   }
 }
 
@@ -124,8 +128,8 @@ class _CreateCourseFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context),
-      child: const Icon(Icons.check),
       tooltip: 'Erstellen',
+      child: const Icon(Icons.check),
     );
   }
 }

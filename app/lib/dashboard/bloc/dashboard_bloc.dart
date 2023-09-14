@@ -157,12 +157,13 @@ class DashboardBloc extends BlocBase {
     // Was passiert, wenn der 30. Oktober ist und 2 Tage dazu gezählt werden? Springt es dann auf den 1. November um?
     // Antwort: Springt um auf den 1.November, gechekt, auf wenn der Code unschön ist, besser wäre dayAfterTomorrow = now.add(Duration(days:2))
 
-    if (typeOfUser == TypeOfUser.student)
+    if (typeOfUser == TypeOfUser.student) {
       return allHomeworks
           .where((homework) =>
               homework.forUsers[_uid] == false &&
               homework.todoUntil.isBefore(dayAfterTomorrow))
           .toList();
+    }
 
     // Für Eltern und Lehrkräfe nicht beachten, ob die HA gemacht wurde oder nicht.
     return allHomeworks.where((homework) {
@@ -203,7 +204,8 @@ class DashboardBloc extends BlocBase {
       CourseGateway courseGateway, SchoolClassGateway schoolClassGateway) {
     final eventStream = timetablegGateway.streamEvents(
         Date.fromDateTime(todayDateTimeWithoutTime),
-        Date.fromDateTime(todayDateTimeWithoutTime.add(Duration(days: 14))));
+        Date.fromDateTime(
+            todayDateTimeWithoutTime.add(const Duration(days: 14))));
     final groupInfoStream =
         courseGateway.getGroupInfoStream(schoolClassGateway);
 

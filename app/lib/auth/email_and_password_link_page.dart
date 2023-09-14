@@ -25,12 +25,12 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 
   final bloc = BlocProvider.of<EmailAndPasswordLinkBloc>(context);
   final result = await bloc.linkWithEmailAndPasswordAndHandleExceptions();
-  if (result == LinkAction.finished) {
+  if (result == LinkAction.finished && context.mounted) {
     // Hides the loading snackbar, see
     // https://github.com/SharezoneApp/sharezone-app/issues/814.
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     Navigator.pop(context, true);
-  } else if (result == LinkAction.credentialAlreadyInUse) {
+  } else if (result == LinkAction.credentialAlreadyInUse && context.mounted) {
     showCredentialAlreadyInUseDialog(context);
   }
 }
@@ -51,8 +51,7 @@ class EmailAndPasswordLinkPage extends StatefulWidget {
   final AppUser user;
 
   @override
-  _EmailAndPasswordLinkPageState createState() =>
-      _EmailAndPasswordLinkPageState();
+  State createState() => _EmailAndPasswordLinkPageState();
 }
 
 class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
@@ -130,7 +129,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                 ),
               ),
             ),
-            BackIcon(),
+            const BackIcon(),
           ],
         ),
       ),
@@ -160,7 +159,7 @@ class _PasswordField extends StatelessWidget {
 }
 
 class BackIcon extends StatelessWidget {
-  const BackIcon();
+  const BackIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

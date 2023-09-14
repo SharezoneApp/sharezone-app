@@ -17,8 +17,8 @@ Future<dynamic> openMySchoolClassCreateDialog(
     context: context,
     builder: (context) {
       return BlocProvider(
-        child: SchoolClassCreateDialog(),
         bloc: schoolClassBloc,
+        child: const SchoolClassCreateDialog(),
       );
     },
   );
@@ -28,8 +28,7 @@ class SchoolClassCreateDialog extends StatefulWidget {
   const SchoolClassCreateDialog({Key? key}) : super(key: key);
 
   @override
-  _SchoolClassCreateDialogState createState() =>
-      _SchoolClassCreateDialogState();
+  State createState() => _SchoolClassCreateDialogState();
 }
 
 class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
@@ -48,7 +47,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       final bloc = BlocProvider.of<MySchoolClassBloc>(context);
 
       final result = await bloc.createSchoolClass(className);
-      if (result.hasData && result.data == true) {
+      if (result.hasData && result.data == true && context.mounted) {
         Navigator.pop(context, true);
       }
     } catch (e, s) {
@@ -66,6 +65,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 8),
             _NameField(
@@ -82,21 +82,20 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
                 ),
               ),
           ],
-          mainAxisSize: MainAxisSize.min,
         ),
       ),
       actions: isLoading
-          ? <Widget>[LoadingCircle()]
+          ? <Widget>[const LoadingCircle()]
           : <Widget>[
-              CancelButton(),
+              const CancelButton(),
               TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColor,
                   ),
-                  child: const Text("ERSTELLEN"),
                   onPressed: className.isEmpty
                       ? null
-                      : () => _createClass(context, className)),
+                      : () => _createClass(context, className),
+                  child: const Text("ERSTELLEN")),
             ],
     );
   }
@@ -118,7 +117,7 @@ class _NameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Name",
         border: OutlineInputBorder(),
       ),

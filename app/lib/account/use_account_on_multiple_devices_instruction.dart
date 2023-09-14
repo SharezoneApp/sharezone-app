@@ -14,6 +14,8 @@ import 'package:video_player/video_player.dart';
 class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
   static const tag = "use-account-on-multiple-devices-instruction-page";
 
+  const UseAccountOnMultipleDevicesIntruction({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }

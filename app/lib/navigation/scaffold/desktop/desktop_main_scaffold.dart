@@ -23,6 +23,7 @@ class DesktopMainScaffold extends StatelessWidget {
   final Key? scaffoldKey;
 
   const DesktopMainScaffold({
+    super.key,
     required this.navigationItem,
     required this.appBarConfiguration,
     required this.body,
@@ -34,7 +35,7 @@ class DesktopMainScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DesktopAlignment(
-      drawer: SharezoneDrawer(isDesktopModus: true),
+      drawer: const SharezoneDrawer(isDesktopModus: true),
       scaffold: ScaffoldMessenger(
         key: scaffoldKey,
         child: Scaffold(
