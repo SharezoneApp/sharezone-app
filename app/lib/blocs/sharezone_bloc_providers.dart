@@ -36,6 +36,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
+import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
 import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
@@ -421,6 +422,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
+      BlocProvider<NotificationsBlocFactory>(
+          bloc: NotificationsBlocFactory(api.user)),
       BlocProvider<DownloadAppTipBloc>(
         bloc: DownloadAppTipBloc(
           DownloadAppTipCache(
