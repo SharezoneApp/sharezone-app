@@ -113,9 +113,10 @@ class _SchoolClassFilterBottomBarState
 
   bool _shouldOpenSharezonePlusPage(
       BuildContext context, SchoolClassFilter selectedOption) {
-    final isPlusEnabled = context.read<SubscriptionEnabledFlag>().isEnabled;
-    final hasPlus = context.read<SubscriptionService>().isSubscriptionActive();
-    return selectedOption.isPlusRequiredFilter && !hasPlus && isPlusEnabled;
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
+    return selectedOption.shouldFilterForClass && !isUnlocked;
   }
 
   Future<void> _openSharezonePlusPage(BuildContext context) async {
@@ -141,7 +142,7 @@ class _SchoolClassFilterBottomBarState
     );
   }
 
-  PopupMenuItem<SchoolClassFilter> schoolClassToItem(
+  PopupMenuItem<SchoolClassFilter> schoolClassToFilterItem(
       SchoolClassView schoolClass) {
     final value = SchoolClassFilter.showSchoolClass(schoolClass.id);
     return PopupMenuItem(
@@ -175,7 +176,7 @@ class _SchoolClassFilterBottomBarState
         ),
         const PopupMenuDivider(),
         for (final schoolClass in view.schoolClassList)
-          schoolClassToItem(schoolClass)
+          schoolClassToFilterItem(schoolClass)
       ],
     );
   }
@@ -326,11 +327,10 @@ class _SelectionSheetTileTrailing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlusEnabled = context.read<SubscriptionEnabledFlag>().isEnabled;
-    final hasPlus = context.read<SubscriptionService>().isSubscriptionActive();
-
-    if (filter.isPlusRequiredFilter && !hasPlus && isPlusEnabled)
-      return SharezonePlusCard();
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
+    if (filter.shouldFilterForClass && !isUnlocked) return SharezonePlusCard();
     return isSelected ? activeIcon : Container();
   }
 }

@@ -3,17 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
-import 'dart:ui' as _i8;
+import 'dart:async' as _i5;
 
 import 'package:clock/clock.dart' as _i2;
-import 'package:key_value_store/key_value_store.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart'
     as _i3;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
-    as _i5;
-import 'package:user/user.dart' as _i7;
+    as _i4;
+import 'package:user/user.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -47,27 +45,17 @@ class _FakeSubscriptionEnabledFlag_1 extends _i1.SmartFake
         );
 }
 
-class _FakeKeyValueStore_2 extends _i1.SmartFake implements _i4.KeyValueStore {
-  _FakeKeyValueStore_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [SubscriptionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionService extends _i1.Mock
-    implements _i5.SubscriptionService {
+    implements _i4.SubscriptionService {
   @override
-  _i6.Stream<_i7.AppUser?> get user => (super.noSuchMethod(
+  _i5.Stream<_i6.AppUser?> get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _i6.Stream<_i7.AppUser?>.empty(),
-        returnValueForMissingStub: _i6.Stream<_i7.AppUser?>.empty(),
-      ) as _i6.Stream<_i7.AppUser?>);
+        returnValue: _i5.Stream<_i6.AppUser?>.empty(),
+        returnValueForMissingStub: _i5.Stream<_i6.AppUser?>.empty(),
+      ) as _i5.Stream<_i6.AppUser?>);
   @override
   _i2.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -94,7 +82,7 @@ class MockSubscriptionService extends _i1.Mock
         ),
       ) as _i3.SubscriptionEnabledFlag);
   @override
-  bool isSubscriptionActive([_i7.AppUser? appUser]) => (super.noSuchMethod(
+  bool isSubscriptionActive([_i6.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActive,
           [appUser],
@@ -103,16 +91,16 @@ class MockSubscriptionService extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i6.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
+  _i5.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActiveStream,
           [],
         ),
-        returnValue: _i6.Stream<bool>.empty(),
-        returnValueForMissingStub: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+        returnValueForMissingStub: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  bool hasFeatureUnlocked(_i5.SharezonePlusFeature? feature) =>
+  bool hasFeatureUnlocked(_i4.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
         Invocation.method(
           #hasFeatureUnlocked,
@@ -121,75 +109,4 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-}
-
-/// A class which mocks [SubscriptionEnabledFlag].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSubscriptionEnabledFlag extends _i1.Mock
-    implements _i3.SubscriptionEnabledFlag {
-  @override
-  _i4.KeyValueStore get keyValueStore => (super.noSuchMethod(
-        Invocation.getter(#keyValueStore),
-        returnValue: _FakeKeyValueStore_2(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-        returnValueForMissingStub: _FakeKeyValueStore_2(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-      ) as _i4.KeyValueStore);
-  @override
-  bool get isEnabled => (super.noSuchMethod(
-        Invocation.getter(#isEnabled),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
-  void toggle() => super.noSuchMethod(
-        Invocation.method(
-          #toggle,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
 }

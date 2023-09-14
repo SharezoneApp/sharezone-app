@@ -15,7 +15,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
@@ -31,7 +30,6 @@ import 'timetable_page_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<SubscriptionService>(),
-  MockSpec<SubscriptionEnabledFlag>(),
 ])
 void main() {
   group(TimetablePage, () {
@@ -54,12 +52,10 @@ void main() {
       late TimetableBloc bloc;
       late MockSchoolClassGateway schoolClassGateway;
       late MockSubscriptionService subscriptionService;
-      late MockSubscriptionEnabledFlag subscriptionEnabledFlag;
 
       setUp(() {
         schoolClassGateway = MockSchoolClassGateway();
         subscriptionService = MockSubscriptionService();
-        subscriptionEnabledFlag = MockSubscriptionEnabledFlag();
 
         bloc = TimetableBloc(
           schoolClassGateway,
@@ -71,8 +67,6 @@ void main() {
 
         schoolClassGateway.addSchoolClass(_createSchoolClass('10a'));
         schoolClassGateway.addSchoolClass(_createSchoolClass('5b'));
-
-        when(subscriptionEnabledFlag.isEnabled).thenReturn(true);
       });
 
       Future<void> _pumpSchoolClassSelection(
@@ -84,8 +78,6 @@ void main() {
             child: MultiProvider(
               providers: [
                 Provider<SubscriptionService>.value(value: subscriptionService),
-                ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
-                    value: subscriptionEnabledFlag),
               ],
               child: MaterialApp(
                 theme: themeData,
@@ -120,8 +112,9 @@ void main() {
 
       group('with Sharezone Plus', () {
         setUp(() {
-          when(subscriptionEnabledFlag.isEnabled).thenReturn(true);
-          when(subscriptionService.isSubscriptionActive()).thenReturn(true);
+          when(subscriptionService.hasFeatureUnlocked(
+                  SharezonePlusFeature.filterTimetableByClass))
+              .thenReturn(true);
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {
@@ -143,7 +136,9 @@ void main() {
 
       group('without Sharezone Plus', () {
         setUp(() {
-          when(subscriptionService.isSubscriptionActive()).thenReturn(false);
+          when(subscriptionService.hasFeatureUnlocked(
+                  SharezonePlusFeature.filterTimetableByClass))
+              .thenReturn(false);
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {

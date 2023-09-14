@@ -36,7 +36,6 @@ class SchoolClassFilter {
   final GroupId? classIdToFilterBy;
 
   bool get shouldFilterForClass => classIdToFilterBy != null;
-  bool get isPlusRequiredFilter => shouldFilterForClass;
 }
 
 class TimetableBloc extends BlocBase {

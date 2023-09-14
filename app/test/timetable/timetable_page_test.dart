@@ -14,7 +14,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
@@ -29,7 +28,6 @@ import 'mock/mock_user_gateway.dart';
 
 @GenerateNiceMocks([
   MockSpec<SubscriptionService>(),
-  MockSpec<SubscriptionEnabledFlag>(),
 ])
 void main() {
   group('TimetablePage', () {
@@ -56,14 +54,12 @@ void main() {
       TimetableGateway timetableGateway;
       MockSchoolClassFilterAnalytics schoolClassFilterAnalytics;
       late MockSubscriptionService subscriptionService;
-      late MockSubscriptionEnabledFlag subscriptionEnabledFlag;
 
       setUp(() {
         schoolClassGateway = MockSchoolClassGateway();
         timetableGateway = MockTimetableGateway();
         schoolClassFilterAnalytics = MockSchoolClassFilterAnalytics();
         subscriptionService = MockSubscriptionService();
-        subscriptionEnabledFlag = MockSubscriptionEnabledFlag();
 
         bloc = TimetableBloc(
           schoolClassGateway,
@@ -75,8 +71,6 @@ void main() {
 
         schoolClassGateway.addSchoolClass(klasse10a);
         schoolClassGateway.addSchoolClass(klasse5b);
-
-        when(subscriptionEnabledFlag.isEnabled).thenReturn(true);
       });
 
       Future<void> _pumpSchoolClassSelection(WidgetTester tester) async {
@@ -85,8 +79,6 @@ void main() {
             child: MultiProvider(
               providers: [
                 Provider<SubscriptionService>.value(value: subscriptionService),
-                ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
-                    value: subscriptionEnabledFlag),
               ],
               child: MaterialApp(
                 home: BlocProvider(
@@ -135,7 +127,9 @@ void main() {
       testWidgets(
           'If the user selects a school class, this school class should be passed to the bloc',
           (tester) async {
-        when(subscriptionService.isSubscriptionActive()).thenReturn(true);
+        when(subscriptionService.hasFeatureUnlocked(
+                SharezonePlusFeature.filterTimetableByClass))
+            .thenReturn(true);
 
         await _pumpSchoolClassSelection(tester);
 
