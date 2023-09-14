@@ -10,7 +10,6 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
 final _macOsStages = [
   'stable',
