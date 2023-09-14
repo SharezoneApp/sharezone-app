@@ -10,7 +10,6 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
 final _macOsStages = [
   'stable',
@@ -64,8 +63,6 @@ When none is specified, the value from pubspec.yaml is used.''',
       const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      final buildNameWithStage =
-          getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
       await runProcessSucessfullyOrThrow(
         'fvm',
         [
@@ -78,7 +75,13 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (buildNumber != null) ...['--build-number', buildNumber],
-          if (stage != 'stable') ...['--build-name', buildNameWithStage]
+          // For Android we add the stage to the build name (using
+          // --build-name), but for iOS we can't do that because Flutter removes
+          // the stage from the build name.
+          //
+          // See:
+          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
+          //  * https://github.com/flutter/flutter/issues/115483
         ],
         workingDirectory: _repo.sharezoneFlutterApp.location.path,
       );
