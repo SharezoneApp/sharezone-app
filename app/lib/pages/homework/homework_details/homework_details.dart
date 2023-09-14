@@ -28,7 +28,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
-import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
@@ -442,7 +442,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkDetailsBloc>(context);
-    return MatchingTypeOfUserStreamBuilder(
+    return MatchingTypeOfUserBuilder(
       expectedTypeOfUser: TypeOfUser.student,
       // Hier wird ein leeres Text-Widget anstatt einem Container verwendet,
       // da bei einem Container einfach nur eine weiße Seite angezeigt

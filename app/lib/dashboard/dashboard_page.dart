@@ -47,7 +47,7 @@ import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/animated_stream_list.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';

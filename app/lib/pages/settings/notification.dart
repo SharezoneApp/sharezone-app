@@ -12,7 +12,7 @@ import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -61,7 +61,7 @@ class _NotificationPage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               children: <Widget>[
-                MatchingTypeOfUserStreamBuilder(
+                MatchingTypeOfUserBuilder(
                   expectedTypeOfUser: TypeOfUser.student,
                   matchesTypeOfUserWidget: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

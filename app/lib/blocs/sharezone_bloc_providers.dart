@@ -106,6 +106,7 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
+import 'package:user/user.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
@@ -334,7 +335,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
         ),
-      )
+      ),
+      StreamProvider<TypeOfUser?>.value(
+        value: typeOfUserStream,
+        initialData: null,
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[
