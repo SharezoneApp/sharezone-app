@@ -6,9 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:user/user.dart';
 
 /// If the current user matches [expectedTypeOfUser] [matchesTypeOfUserWidget] is build
@@ -27,16 +26,9 @@ class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final api = BlocProvider.of<SharezoneContext>(context).api;
-    return StreamBuilder<AppUser?>(
-      stream: api.user.userStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.data?.typeOfUser == expectedTypeOfUser) {
-          return matchesTypeOfUserWidget;
-        }
-        return notMatchingWidget;
-      },
-    );
+    final typeOfUser = context.watch<TypeOfUser?>();
+    return typeOfUser == expectedTypeOfUser
+        ? matchesTypeOfUserWidget
+        : notMatchingWidget;
   }
 }
