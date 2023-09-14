@@ -115,10 +115,11 @@ class TimetablePositionBuilder {
       final timeData1 = elementTimeValues[e1]!;
       final timeData2 = elementTimeValues[e2]!;
       final compare1 = timeData1.start.compareTo(timeData2.start);
-      if (compare1 != 0)
+      if (compare1 != 0) {
         return compare1;
-      else
+      } else {
         return timeData2.end.compareTo(timeData1.end);
+      }
     });
     final Map<String, TimetableElementProperties> newMap = {};
     final elementID = sortedTimes.first;
@@ -129,7 +130,7 @@ class TimetablePositionBuilder {
     // THIS METHOD CANT YET HANDLE INDIRECT CONFLICTS => TO COMPLEX
     if ((directConflicts.length + 1) < conflictingElements.length) return null;
 
-    newMap[elementID] = TimetableElementProperties(2, 0);
+    newMap[elementID] = const TimetableElementProperties(2, 0);
     for (final String otherElementID in directConflicts) {
       final otherElementTime = elementTimeValues[otherElementID];
       // THIS METHOD ONLY HANDLES TWO ENTRIES NEXT TO EACH OTHER...
@@ -144,7 +145,7 @@ class TimetablePositionBuilder {
           itTime.end,
         );
       }).isNotEmpty) return null;
-      newMap[otherElementID] = TimetableElementProperties(2, 1);
+      newMap[otherElementID] = const TimetableElementProperties(2, 1);
     }
     return newMap;
   }

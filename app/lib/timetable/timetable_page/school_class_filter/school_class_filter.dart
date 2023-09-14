@@ -32,8 +32,7 @@ class SchoolClassFilterBottomBar extends StatefulWidget {
   final Color? backgroundColor;
 
   @override
-  _SchoolClassFilterBottomBarState createState() =>
-      _SchoolClassFilterBottomBarState();
+  State createState() => _SchoolClassFilterBottomBarState();
 }
 
 class _SchoolClassFilterBottomBarState
@@ -55,7 +54,9 @@ class _SchoolClassFilterBottomBarState
         // Nutzer in mehr als einer Schulklasse ist. Ansonsten bringt diese
         // Funktion keinen Mehrwert und ist somit unnötig, wenn es angezeigt
         // wird.
-        if (view == null || !view.hasMoreThanOneSchoolClass) return Text("");
+        if (view == null || !view.hasMoreThanOneSchoolClass) {
+          return const Text("");
+        }
 
         return Material(
           key: const ValueKey('school-class-filter-widget-test'),
@@ -77,7 +78,7 @@ class _SchoolClassFilterBottomBarState
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        _GroupIcon(),
+                        const _GroupIcon(),
                         const SizedBox(width: 12),
                         _Text(view: view),
                       ],
@@ -99,6 +100,10 @@ class _SchoolClassFilterBottomBarState
   Future<void> _openAndHandleSelectionMenu(BuildContext context,
       TimetableBloc bloc, SchoolClassFilterView view) async {
     final selectedOption = await _openSelectionMenu(view);
+    if (!context.mounted) {
+      return;
+    }
+
     if (selectedOption == null) {
       return;
     }
@@ -145,12 +150,12 @@ class _SchoolClassFilterBottomBarState
       SchoolClassView schoolClass) {
     final value = SchoolClassFilter.showSchoolClass(schoolClass.id);
     return PopupMenuItem(
+      value: value,
       child: _DesktopMenuTile(
         isSelected: schoolClass.isSelected,
         title: schoolClass.name,
         filter: value,
       ),
-      value: value,
     );
   }
 
@@ -160,18 +165,18 @@ class _SchoolClassFilterBottomBarState
     return showMenu<SchoolClassFilter>(
       context: context,
       position: _getMousePosition(context),
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         minWidth: 200,
         maxWidth: 360,
       ),
       items: [
         PopupMenuItem(
+          value: showAllGroups,
           child: _DesktopMenuTile(
             isSelected: !view.hasSchoolClassSelected,
             title: "Alle Schulklassen",
             filter: showAllGroups,
           ),
-          value: showAllGroups,
         ),
         const PopupMenuDivider(),
         for (final schoolClass in view.schoolClassList)
@@ -233,8 +238,8 @@ class _DesktopMenuTile extends StatelessWidget {
         children: [
           isSelected ? icon : const SizedBox(width: 32),
           SizedBox(
-            child: Text(title),
             width: 200,
+            child: Text(title),
           ),
           _SelectionSheetTileTrailing(
             isSelected: isSelected,
@@ -304,7 +309,7 @@ class _SelectionSheetTile extends StatelessWidget {
         trailing: _SelectionSheetTileTrailing(
           isSelected: isSelected,
           filter: filter,
-          activeIcon: Icon(Icons.check, color: Colors.green),
+          activeIcon: const Icon(Icons.check, color: Colors.green),
         ),
       ),
     );
@@ -329,7 +334,9 @@ class _SelectionSheetTileTrailing extends StatelessWidget {
     final isUnlocked = context
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
-    if (filter.shouldFilterForClass && !isUnlocked) return SharezonePlusChip();
+    if (filter.shouldFilterForClass && !isUnlocked) {
+      return const SharezonePlusChip();
+    }
     return isSelected ? activeIcon : Container();
   }
 }

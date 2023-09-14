@@ -65,7 +65,7 @@ class Sharezone extends StatefulWidget {
   static Analytics analytics = Analytics(getBackend());
 
   @override
-  _SharezoneState createState() => _SharezoneState();
+  State createState() => _SharezoneState();
 }
 
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {

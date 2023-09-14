@@ -43,6 +43,8 @@ class _DashboardPageFABState extends State<_DashboardPageFAB> {
       builder: (context) => _DashboardFabSheet(),
     );
 
+    if (!context.mounted) return;
+
     switch (fabResult) {
       case _DashboardFabResult.lesson:
         analytics.logLessonAdd();
@@ -86,7 +88,7 @@ class _DashboardFabSheet extends StatelessWidget {
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),
-            Container(
+            SizedBox(
               height: 275,
               child: Stack(
                 children: <Widget>[
@@ -155,15 +157,17 @@ class _DashboardFabSheet extends StatelessWidget {
                             final prefs = await SharedPreferences.getInstance();
                             final cache = FlutterKeyValueStore(prefs);
                             cache.clear();
-                            // This will probably cause the feature discoveries
-                            // to be displayed again.
-                            //
-                            // There might be other conditions (e.g. current
-                            // user type) which might still prevent a feature
-                            // discovery from showing after this.
-                            FeatureDiscovery.clearPreferences(context, [
-                              blackboardItemReadByUsersListFeatureDiscoveryStepId,
-                            ]);
+                            if (context.mounted) {
+                              // This will probably cause the feature discoveries
+                              // to be displayed again.
+                              //
+                              // There might be other conditions (e.g. current
+                              // user type) which might still prevent a feature
+                              // discovery from showing after this.
+                              FeatureDiscovery.clearPreferences(context, [
+                                blackboardItemReadByUsersListFeatureDiscoveryStepId,
+                              ]);
+                            }
                           },
                         ),
                       ),

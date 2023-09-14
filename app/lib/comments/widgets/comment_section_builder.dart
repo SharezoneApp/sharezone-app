@@ -30,7 +30,7 @@ class CommentSectionBuilder extends StatefulWidget {
   final String courseID;
 
   @override
-  _CommentSectionBuilderState createState() => _CommentSectionBuilderState();
+  State createState() => _CommentSectionBuilderState();
 }
 
 class _CommentSectionBuilderState extends State<CommentSectionBuilder> {

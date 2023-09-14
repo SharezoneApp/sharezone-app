@@ -33,11 +33,13 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
     await bloc.loginWithGoogle();
   } on Exception catch (e, s) {
     log("Couldn't sign in with Google: $e", error: e);
-    showSnackSec(
-      context: context,
-      seconds: 4,
-      text: handleErrorMessage(e.toString(), s),
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        seconds: 4,
+        text: handleErrorMessage(e.toString(), s),
+      );
+    }
   }
 }
 
@@ -47,11 +49,13 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
     await bloc.loginWithApple();
   } on Exception catch (e, s) {
     log("Couldn't sign in with Apple: $e", error: e);
-    showSnackSec(
-      context: context,
-      seconds: 4,
-      text: handleErrorMessage(e.toString(), s),
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        seconds: 4,
+        text: handleErrorMessage(e.toString(), s),
+      );
+    }
   }
 }
 
@@ -82,7 +86,7 @@ class LoginPage extends StatefulWidget {
   final bool withQrCodeLogin;
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -111,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Center(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 600),
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
                     child: SafeArea(
@@ -132,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                               AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 250),
                                 child: isLoading
-                                    ? _LoadingCircle()
+                                    ? const _LoadingCircle()
                                     : ContinueRoundButton(
                                         tooltip: 'Einloggen',
                                         onTap: () => handleLoginSubmit(context),
@@ -163,12 +167,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              if (widget.withBackIcon) BackIcon(),
+              if (widget.withBackIcon) const BackIcon(),
               if (showDebugLogins) _DebugLoginButtons(),
             ],
           ),
         ),
-        bottomNavigationBar: ContactSupport(),
+        bottomNavigationBar: const ContactSupport(),
       ),
     );
   }
@@ -183,7 +187,12 @@ class _LoginPageState extends State<LoginPage> {
       await bloc.submit();
     } on Exception catch (e, s) {
       setState(() => isLoading = false);
-      showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
+      if (context.mounted) {
+        showSnackSec(
+          text: handleErrorMessage(e.toString(), s),
+          context: context,
+        );
+      }
     }
   }
 }
@@ -281,10 +290,10 @@ class _LoadingCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
+    return const Align(
       alignment: Alignment.centerRight,
       child: Padding(
-        padding: const EdgeInsets.only(left: 4, top: 6, right: 2),
+        padding: EdgeInsets.only(left: 4, top: 6, right: 2),
         child: LoadingCircle(),
       ),
     );
@@ -297,7 +306,7 @@ class _RegistrationSection extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        Divider(),
+        const Divider(),
         _SignWithOAuthButton(
           icon: Icon(
             Icons.add_circle,
@@ -315,7 +324,7 @@ class _RegistrationSection extends StatelessWidget {
     Navigator.push(
       context,
       FadeRoute(
-        child: SignUpPage(
+        child: const SignUpPage(
           withBackButton: true,
           withLogin: false,
         ),
@@ -354,7 +363,7 @@ class _Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneLogo(
+    return const SharezoneLogo(
       height: 60,
       width: 200,
       logoColor: LogoColor.blueShort,
@@ -422,7 +431,7 @@ class PasswordField extends StatefulWidget {
   final bool isNewPassword;
 
   @override
-  _PasswordFieldState createState() => _PasswordFieldState();
+  State createState() => _PasswordFieldState();
 }
 
 class _PasswordFieldState extends State<PasswordField> {
@@ -480,7 +489,7 @@ class _ResetPasswordButton extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => ResetPasswordPage(loginMail: email),
-              settings: RouteSettings(name: ResetPasswordPage.tag),
+              settings: const RouteSettings(name: ResetPasswordPage.tag),
             ),
           ),
           child: Text(

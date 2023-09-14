@@ -20,6 +20,7 @@ class TimetableEntryLesson extends StatelessWidget {
   final GroupInfo? groupInfo;
 
   const TimetableEntryLesson({
+    super.key,
     required this.lesson,
     this.groupInfo,
   });
@@ -32,6 +33,9 @@ class TimetableEntryLesson extends StatelessWidget {
         color: groupInfo?.design.color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
+          onLongPress: () => onLessonLongPress(context, lesson),
           child: Padding(
             padding: const EdgeInsets.only(top: 3, left: 6),
             child: Column(
@@ -49,9 +53,6 @@ class TimetableEntryLesson extends StatelessWidget {
               ],
             ),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
-          onLongPress: () => onLessonLongPress(context, lesson),
         ),
       ),
     );

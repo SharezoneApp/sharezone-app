@@ -13,14 +13,16 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'open_homework_dialog.dart';
 
 class HomeworkFab extends StatelessWidget {
+  const HomeworkFab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
-      icon: Icon(Icons.add),
+      icon: const Icon(Icons.add),
       tooltip: "Hausaufgabe hinzufügen",
       onPressed: () async {
         AnalyticsProvider.ofOrNullObject(context)
-            .log(AnalyticsEvent("homework_add_via_fab"));
+            .log(const AnalyticsEvent("homework_add_via_fab"));
         await openHomeworkDialogAndShowConfirmationIfSuccessful(context);
       },
       // When there are multiple FABs one has to have a different tag

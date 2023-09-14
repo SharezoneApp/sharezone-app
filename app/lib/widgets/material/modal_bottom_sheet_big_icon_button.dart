@@ -37,11 +37,11 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
       child: Container(
         width: 150,
         height: 150,
-        decoration: BoxDecoration(shape: BoxShape.circle),
+        decoration: const BoxDecoration(shape: BoxShape.circle),
         child: Tooltip(
           message: tooltip,
           child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(75)),
+            borderRadius: const BorderRadius.all(Radius.circular(75)),
             onTap: onTap ?? () => Navigator.pop(context, popValue),
             child: Center(
               child: Column(

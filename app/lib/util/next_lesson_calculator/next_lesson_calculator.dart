@@ -75,8 +75,9 @@ class _NextLessonCalculation {
     WeekDay weekDay = WeekDay.values[date.weekDay - 1];
     for (final lesson in lessons) {
       if (weekDay != lesson.weekday) continue;
-      if (lesson.weektype == WeekType.always || weekType == WeekType.always)
+      if (lesson.weektype == WeekType.always || weekType == WeekType.always) {
         return true;
+      }
       if (weekType == lesson.weektype) return true;
     }
     return false;

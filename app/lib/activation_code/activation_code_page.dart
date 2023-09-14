@@ -21,9 +21,9 @@ Future<dynamic> openEnterActivationCodePage(BuildContext context) {
     MaterialPageRoute(
       builder: (context) => BlocProvider(
         bloc: blocFactory.createBloc(),
-        child: _EnterActivationCodePage(),
+        child: const _EnterActivationCodePage(),
       ),
-      settings: RouteSettings(name: _EnterActivationCodePage.tag),
+      settings: const RouteSettings(name: _EnterActivationCodePage.tag),
     ),
   );
 }
@@ -42,7 +42,7 @@ class _EnterActivationCodePage extends StatelessWidget {
           child: _EnterActivationCodeDescription(),
         ),
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }
@@ -61,14 +61,14 @@ class _EnterActivationCodeAppBar extends StatelessWidget
       centerTitle: true,
       backgroundColor:
           isDarkThemeEnabled(context) ? null : Theme.of(context).primaryColor,
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
       actions: const [],
       bottom: const EnterActivationCodeTextField(),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(190);
+  Size get preferredSize => const Size.fromHeight(190);
 }
 
 class _EnterActivationCodeDescription extends StatelessWidget {

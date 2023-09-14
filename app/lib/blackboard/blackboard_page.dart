@@ -28,20 +28,23 @@ Future<bool> openBlackboardDialogAndShowConfirmationIfSuccessful(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
       builder: (context) => const BlackboardDialog(),
-      settings: RouteSettings(name: BlackboardDialog.tag),
+      settings: const RouteSettings(name: BlackboardDialog.tag),
     ),
   );
-  if (popOption == BlackboardPopOption.added) {
+  if (popOption == BlackboardPopOption.added && context.mounted) {
     _showUserConfirmationOfBlackboardArrival(context: context);
     return true;
   }
   return false;
 }
 
-Future<void> _showUserConfirmationOfBlackboardArrival(
-    {required BuildContext context}) async {
+Future<void> _showUserConfirmationOfBlackboardArrival({
+  required BuildContext context,
+}) async {
   await waitingForPopAnimation();
-  showDataArrivalConfirmedSnackbar(context: context);
+  if (context.mounted) {
+    showDataArrivalConfirmedSnackbar(context: context);
+  }
 }
 
 class BlackboardPage extends StatelessWidget {
@@ -53,9 +56,9 @@ class BlackboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => popToOverview(context),
-      child: SharezoneMainScaffold(
-        body: const _BlackboardList(),
-        floatingActionButton: const _BlackboardPageFAB(),
+      child: const SharezoneMainScaffold(
+        body: _BlackboardList(),
+        floatingActionButton: _BlackboardPageFAB(),
         navigationItem: NavigationItem.blackboard,
       ),
     );
@@ -88,7 +91,7 @@ class _BlackboardList extends StatelessWidget {
       builder: (context, snapshot) {
         final list = snapshot.data;
         if (list == null) return Container();
-        if (list.isEmpty) return _NoItemsFound();
+        if (list.isEmpty) return const _NoItemsFound();
         return SingleChildScrollView(
           padding: const EdgeInsets.all(12),
           child: SafeArea(
@@ -131,7 +134,7 @@ class _NoItemsFound extends StatelessWidget {
                 'Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.'),
             const SizedBox(height: 16),
             CardListTile(
-              title: Text('Infozettel hinzufügen'),
+              title: const Text('Infozettel hinzufügen'),
               leading: const Icon(Icons.add_circle_outline),
               centerTitle: true,
               onTap: () =>

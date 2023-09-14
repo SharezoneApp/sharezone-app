@@ -28,7 +28,7 @@ class PrivacyPolicyPageConfig {
     PrivacyPolicyEndSection? endSection,
   }) {
     return PrivacyPolicyPageConfig._(
-      threshold ?? CurrentlyReadThreshold(0.1),
+      threshold ?? const CurrentlyReadThreshold(0.1),
       showDebugThresholdMarker ?? false,
       endSection ?? PrivacyPolicyEndSection.metadata(),
     );

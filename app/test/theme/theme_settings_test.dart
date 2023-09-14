@@ -97,7 +97,7 @@ void main() {
       });
 
       themeSettings.visualDensitySetting = VisualDensitySetting.manual(
-          VisualDensity(horizontal: 1.0, vertical: 1.5));
+          const VisualDensity(horizontal: 1.0, vertical: 1.5));
       expect(localAnalyticsBackend.loggedEvents[2], {
         'ui_visual_density_changed': {
           'isAdaptivePlatformDensity': 'false',

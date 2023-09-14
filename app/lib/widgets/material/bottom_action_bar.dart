@@ -24,7 +24,7 @@ class BottomActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Material(
         color: Theme.of(context).scaffoldBackgroundColor,

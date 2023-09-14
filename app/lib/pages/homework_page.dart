@@ -56,10 +56,10 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
         homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
         homework: homework,
       ),
-      settings: RouteSettings(name: HomeworkDialog.tag),
+      settings: const RouteSettings(name: HomeworkDialog.tag),
     ),
   );
-  if (successful != null && successful) {
+  if (successful == true && context.mounted) {
     await showUserConfirmationOfHomeworkArrival(context: context);
   }
 }
@@ -68,12 +68,12 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
 /// Datum entweder heute oder in der Zukunft ist.
 List<HomeworkDto> getNotArchived(List<HomeworkDto> homeworkList) {
   final List<HomeworkDto> notArchivedHomeworks = <HomeworkDto>[];
-  homeworkList.forEach((HomeworkDto homework) {
+  for (var homework in homeworkList) {
     final int dif = homework.todoUntil.difference(DateTime.now()).inDays;
     if (dif > -1) {
       notArchivedHomeworks.add(homework);
     }
-  });
+  }
   return notArchivedHomeworks;
 }
 
@@ -188,10 +188,11 @@ class _HomeworkPageState extends State<_HomeworkPage> {
               stream: bloc.homeworkNotDone,
               builder: (context, snapshotHomeworkNotDone) {
                 if (!snapshotHomeworkNotDone.hasData) return Container();
-                if (snapshotHomeworkNotDone.hasError)
+                if (snapshotHomeworkNotDone.hasError) {
                   return ShowCenteredError(
                     error: snapshotHomeworkNotDone.error.toString(),
                   );
+                }
                 return Builder(
                   builder: (context) {
                     return StreamBuilder<List<HomeworkDto>>(
@@ -199,27 +200,30 @@ class _HomeworkPageState extends State<_HomeworkPage> {
                       builder: (context, snapshotHomeworkDone) {
                         log("HomeworkNotDone length: ${snapshotHomeworkNotDone.data?.length ?? 0}");
                         if (!snapshotHomeworkDone.hasData) return Container();
-                        if (snapshotHomeworkDone.hasError)
+                        if (snapshotHomeworkDone.hasError) {
                           return ShowCenteredError(
                               error: snapshotHomeworkDone.error.toString());
+                        }
 
                         List<HomeworkDto>? homeworkListNotDone =
                             snapshotHomeworkNotDone.data;
                         List<HomeworkDto>? homeworkListDone =
                             snapshotHomeworkDone.data;
 
-                        if (widget.typeOfUser == TypeOfUser.teacher)
+                        if (widget.typeOfUser == TypeOfUser.teacher) {
                           return _TeacherScaffoldBody(
                             homeworkList: getNotArchived(homeworkListNotDone!),
                             hideButtonController: _hideButtonController,
                             sortBy: sortBy,
                           );
-                        if (widget.typeOfUser == TypeOfUser.parent)
+                        }
+                        if (widget.typeOfUser == TypeOfUser.parent) {
                           return _ParentsScaffoldBody(
                             homeworkList: getNotArchived(homeworkListNotDone!),
                             hideButtonController: _hideButtonController,
                             sortBy: sortBy,
                           );
+                        }
                         return _StudentScaffoldBody(
                           homeworkDoneList: homeworkListDone,
                           homeworkNotDoneList: homeworkListNotDone,
@@ -234,9 +238,10 @@ class _HomeworkPageState extends State<_HomeworkPage> {
           floatingActionButton: AnimatedSwitcher(
             duration: const Duration(milliseconds: 175),
             transitionBuilder: (child, animation) =>
-                ScaleTransition(child: child, scale: animation),
-            child:
-                _isVisible ? _HomeworkPageFAB(visible: _isVisible) : Text(""),
+                ScaleTransition(scale: animation, child: child),
+            child: _isVisible
+                ? _HomeworkPageFAB(visible: _isVisible)
+                : const Text(""),
           ),
         ),
       ),
@@ -287,10 +292,13 @@ class _PopupMenu extends StatelessWidget {
                 await confirmToCheckAllOverdueHomeworkDialog(context);
             if (isConfirmed != null && isConfirmed) {
               bloc.checkAllOverdueHomeworks();
-              showSnackSec(
+              if (context.mounted) {
+                showSnackSec(
                   context: context,
                   text: "Alle überfälligen Hausaufgen wurden abgehakt!",
-                  seconds: 2);
+                  seconds: 2,
+                );
+              }
             }
             break;
           default:
@@ -341,13 +349,13 @@ class _PopupMenu extends StatelessWidget {
       context: context,
       defaultValue: false,
       content: !ThemePlatform.isCupertino
-          ? Text(
+          ? const Text(
               "Möchtest du wirklich alle überfälligen Hausaufgaben als erledigt markieren?")
           : null,
       title: ThemePlatform.isCupertino
           ? "Möchtest du wirklich alle überfälligen Hausaufgaben als erledigt markieren?"
           : null,
-      right: AdaptiveDialogAction(
+      right: const AdaptiveDialogAction(
         title: "Ja",
         popResult: true,
         isDefaultAction: true,
@@ -500,9 +508,11 @@ class _HomeworkPageFAB extends StatelessWidget {
   }
 }
 
-Future<void> showUserConfirmationOfHomeworkArrival(
-    {required BuildContext context}) async {
+Future<void> showUserConfirmationOfHomeworkArrival({
+  required BuildContext context,
+}) async {
   await waitingForPopAnimation();
+  if (!context.mounted) return;
   showDataArrivalConfirmedSnackbar(context: context);
 }
 
@@ -521,12 +531,11 @@ class _HomeworkPageLogic extends StatelessWidget {
       this.sortBy})
       : super(key: key);
 
-  // @formatter:off
   @override
   Widget build(BuildContext context) {
     if (homeworkDoneList == null) {
       // Show open homeworks
-      if (homeworkNotDoneList!.isEmpty) return GameController();
+      if (homeworkNotDoneList!.isEmpty) return const GameController();
       return _HomeworkListWithCards(
         homeworkList: homeworkNotDoneList,
         typeOfUser: typeOfUser,
@@ -537,9 +546,10 @@ class _HomeworkPageLogic extends StatelessWidget {
       // Show done homeworks
       if (homeworkDoneList!.isEmpty) {
         // Show Motivation-Widgets
-        if (homeworkNotDoneList!.isEmpty)
-          return GameController(); // User has not done all homeworks
-        return FireMotivation(); // User done all homeworks
+        if (homeworkNotDoneList!.isEmpty) {
+          return const GameController(); // User has not done all homeworks
+        }
+        return const FireMotivation(); // User done all homeworks
       }
       return _HomeworkListWithCards(
         homeworkList: homeworkDoneList,
@@ -549,7 +559,6 @@ class _HomeworkPageLogic extends StatelessWidget {
       ); // Show done homework list
     }
   }
-  // @formatter:on
 }
 
 class _HomeworkListWithCards extends StatelessWidget {
@@ -586,21 +595,22 @@ class _HomeworkListWithCards extends StatelessWidget {
 
       DateTime today = DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      homeworkList!.forEach((HomeworkDto homework) {
+      for (var homework in homeworkList!) {
         DateTime homeworkDate = DateTime(homework.todoUntil.year,
             homework.todoUntil.month, homework.todoUntil.day);
 
-        if (today.isAfter(homeworkDate))
+        if (today.isAfter(homeworkDate)) {
           overdoueList.add(homework);
-        else if (today.isAtSameMomentAs(homeworkDate))
+        } else if (today.isAtSameMomentAs(homeworkDate)) {
           todayList.add(homework);
-        else if (homeworkDate == today.add(const Duration(days: 1)))
+        } else if (homeworkDate == today.add(const Duration(days: 1))) {
           tomorrowList.add(homework);
-        else if (homeworkDate == today.add(const Duration(days: 2)))
+        } else if (homeworkDate == today.add(const Duration(days: 2))) {
           dayAfterTomorrowList.add(homework);
-        else
+        } else {
           severalDaysList.add(homework);
-      });
+        }
+      }
 
       children = [
         _HomeworkViewerInCategories(
@@ -638,13 +648,13 @@ class _HomeworkListWithCards extends StatelessWidget {
 
       final homeworkSplittedIntoSubjects = <String, List<HomeworkDto>>{};
 
-      homeworkList!.forEach((HomeworkDto homework) {
+      for (var homework in homeworkList!) {
         if (homeworkSplittedIntoSubjects[homework.courseID] == null) {
           homeworkSplittedIntoSubjects[homework.courseID] = <HomeworkDto>[];
         }
 
         homeworkSplittedIntoSubjects[homework.courseID]!.add(homework);
-      });
+      }
 
       homeworkSplittedIntoSubjects.forEach((ref, list) {
         children.add(
@@ -716,13 +726,13 @@ class _HomeworkViewerInCategories extends StatelessWidget {
 class _SleepingSmileyParents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 48),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 48),
       child: PlaceholderWidgetWithAnimation(
-        iconSize: const Size(175, 175),
+        iconSize: Size(175, 175),
         title:
             "Jetzt haben die Schüler Zeit für die wirklich wichtigen Dinge! 😉😍",
-        description: const Text(
+        description: Text(
             "Die Schüler und Schülerinnen haben aktuell keine Hausaufgaben auf."),
         svgPath: 'assets/icons/sleeping.svg',
         animateSVG: true,
@@ -734,11 +744,11 @@ class _SleepingSmileyParents extends StatelessWidget {
 class _SleepingSmileyTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      iconSize: Size(175, 175),
       title: "Keine Hausaufgaben für die Schüler und Schülerinnen? 😮😍",
       description: Padding(
-        padding: const EdgeInsets.only(top: 8),
+        padding: EdgeInsets.only(top: 8),
         child: _EmptyHomeworkListAddHomeworkCard(),
       ),
       svgPath: 'assets/icons/sleeping.svg',
@@ -749,13 +759,15 @@ class _SleepingSmileyTeacher extends StatelessWidget {
 
 /// Show animated Game Controller
 class GameController extends StatelessWidget {
+  const GameController({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      iconSize: Size(175, 175),
       title: "Jetzt ist Zeit für die wirklich wichtigen Dinge im Leben! 🤘💪",
       description: Column(
-        children: const <Widget>[
+        children: <Widget>[
           Text("Sehr gut! Du hast keine Hausaufgaben zu erledigen"),
           SizedBox(height: 12),
           _EmptyHomeworkListAddHomeworkCard(),
@@ -773,9 +785,9 @@ class _EmptyHomeworkListAddHomeworkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      leading: Icon(Icons.add_circle_outline),
+      leading: const Icon(Icons.add_circle_outline),
       centerTitle: true,
-      title: Text("Hausaufgabe eintragen"),
+      title: const Text("Hausaufgabe eintragen"),
       onTap: () => openHomeworkDialogAndShowConfirmationIfSuccessful(context),
     );
   }
@@ -783,12 +795,14 @@ class _EmptyHomeworkListAddHomeworkCard extends StatelessWidget {
 
 /// Show animated fire --> user should be motivated to do his homeworks
 class FireMotivation extends StatelessWidget {
+  const FireMotivation({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      iconSize: Size(175, 175),
       title: "AUF GEHTS! 💥👊",
-      description: const Text(
+      description: Text(
           "Du musst noch die Hausaufgaben erledigen! Also schau mich nicht weiter an und erledige die Aufgaben! Do it!"),
       svgPath: 'assets/icons/fire.svg',
       animateSVG: true,

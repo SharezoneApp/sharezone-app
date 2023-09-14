@@ -18,8 +18,7 @@ class MarkOverdueHomeworkPrompt extends StatefulWidget {
   const MarkOverdueHomeworkPrompt({Key? key}) : super(key: key);
 
   @override
-  _MarkOverdueHomeworkPromptState createState() =>
-      _MarkOverdueHomeworkPromptState();
+  State createState() => _MarkOverdueHomeworkPromptState();
 }
 
 class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {

@@ -34,16 +34,18 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
         homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
         homework: homework,
       ),
-      settings: RouteSettings(name: HomeworkDialog.tag),
+      settings: const RouteSettings(name: HomeworkDialog.tag),
     ),
   );
-  if (successful != null && successful) {
+  if (successful == true && context.mounted) {
     await _showUserConfirmationOfHomeworkArrival(context: context);
   }
 }
 
-Future<void> _showUserConfirmationOfHomeworkArrival(
-    {required BuildContext context}) async {
+Future<void> _showUserConfirmationOfHomeworkArrival({
+  required BuildContext context,
+}) async {
   await waitingForPopAnimation();
+  if (!context.mounted) return;
   showDataArrivalConfirmedSnackbar(context: context);
 }

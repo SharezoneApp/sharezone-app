@@ -77,14 +77,14 @@ class _WeekTypeTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Material(
         clipBehavior: Clip.antiAlias,
-        child: ListTile(
-          title: Text(getWeekTypeText(weekType)),
-          onTap: onTap,
-        ),
         color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
             .withOpacity(0.20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
+        ),
+        child: ListTile(
+          title: Text(getWeekTypeText(weekType)),
+          onTap: onTap,
         ),
       ),
     );

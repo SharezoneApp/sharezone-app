@@ -38,7 +38,7 @@ class HomeworkTileTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4.0),
       child: CustomCard(
         child: ListTile(
           dense: true,

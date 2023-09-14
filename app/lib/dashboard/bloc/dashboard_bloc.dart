@@ -39,7 +39,7 @@ part 'build_lesson_views.dart';
 part 'current_lesson_index.dart';
 
 extension RepeatEveryExtension<T> on Stream<T> {
-  /// Gibt die letzen/neuesten Daten des Streams jede [duration] zurück.
+  /// Gibt die letzten/neuesten Daten des Streams jede [duration] zurück.
   Stream<T> repeatEvery(Duration duration) {
     return Rx.combineLatest2<T, void, T>(
       this,
@@ -61,7 +61,7 @@ class DashboardBloc extends BlocBase {
   final _upcomingEventsSubject = BehaviorSubject<List<EventView>>();
   final _numberOfUrgentHomeworksSubject = BehaviorSubject<int>();
   final _numberOfUnreadBlackboardViewsSubject = BehaviorSubject<int>();
-  final _nubmerOfUpcomingEventsSubject = BehaviorSubject<int>();
+  final _numberOfUpcomingEventsSubject = BehaviorSubject<int>();
   final _lessonViewsSubject = BehaviorSubject<List<LessonView>>();
 
   Stream<List<HomeworkView>> get urgentHomeworks => _urgentHomeworksSubject;
@@ -75,22 +75,22 @@ class DashboardBloc extends BlocBase {
       _numberOfUnreadBlackboardViewsSubject;
   Stream<bool> get unreadBlackboardViewsEmpty =>
       _unreadBlackboardItemsEmptySubject;
-  Stream<int> get nubmerOfUpcomingEvents => _nubmerOfUpcomingEventsSubject;
+  Stream<int> get numberOfUpcomingEvents => _numberOfUpcomingEventsSubject;
 
   final _subscriptions = <StreamSubscription>[];
 
   DashboardBloc(
       this._uid, DashboardGateway gateway, TimetableBloc timetableBloc) {
-    _initialiseUrgentHomeworks(
+    _initializeUrgentHomeworks(
         gateway.homeworkGateway, gateway.courseGateway, gateway.userGateway);
-    _initialiseUnreadBlackboardViews(
+    _initializeUnreadBlackboardViews(
         gateway.blackboardGateway, gateway.courseGateway);
-    _initialiseUpcomingEvents(gateway.timetableGateway, gateway.courseGateway,
+    _initializeUpcomingEvents(gateway.timetableGateway, gateway.courseGateway,
         gateway.schoolClassGateway);
-    _initialiseLessonViewStream(timetableBloc);
+    _initializeLessonViewStream(timetableBloc);
   }
 
-  void _initialiseLessonViewStream(TimetableBloc timetableBloc) {
+  void _initializeLessonViewStream(TimetableBloc timetableBloc) {
     // Durch das periodische Aktualisieren des aktuellen Tages bleibt die Seite
     // immer aktuell.
     // Ansonsten werden alte Daten angezeigt, wenn man die App am nächsten Tag
@@ -109,7 +109,7 @@ class DashboardBloc extends BlocBase {
     _subscriptions.add(subscription);
   }
 
-  void _initialiseUrgentHomeworks(HomeworkGateway homeworkGateway,
+  void _initializeUrgentHomeworks(HomeworkGateway homeworkGateway,
       CourseGateway courseGateway, UserGateway userGateway) {
     TwoStreams<List<HomeworkDto>, AppUser>(
             homeworkGateway.homeworkForNowAndInFutureStream,
@@ -157,12 +157,13 @@ class DashboardBloc extends BlocBase {
     // Was passiert, wenn der 30. Oktober ist und 2 Tage dazu gezählt werden? Springt es dann auf den 1. November um?
     // Antwort: Springt um auf den 1.November, gechekt, auf wenn der Code unschön ist, besser wäre dayAfterTomorrow = now.add(Duration(days:2))
 
-    if (typeOfUser == TypeOfUser.student)
+    if (typeOfUser == TypeOfUser.student) {
       return allHomeworks
           .where((homework) =>
               homework.forUsers[_uid] == false &&
               homework.todoUntil.isBefore(dayAfterTomorrow))
           .toList();
+    }
 
     // Für Eltern und Lehrkräfe nicht beachten, ob die HA gemacht wurde oder nicht.
     return allHomeworks.where((homework) {
@@ -171,7 +172,7 @@ class DashboardBloc extends BlocBase {
     }).toList();
   }
 
-  void _initialiseUnreadBlackboardViews(
+  void _initializeUnreadBlackboardViews(
       BlackboardGateway gateway, CourseGateway courseGateway) {
     gateway.blackboardItemStream.listen((blackboardItems) {
       final unreadBlackboardItems = blackboardItems
@@ -199,11 +200,12 @@ class DashboardBloc extends BlocBase {
         .toList();
   }
 
-  void _initialiseUpcomingEvents(TimetableGateway timetablegGateway,
+  void _initializeUpcomingEvents(TimetableGateway timetablegGateway,
       CourseGateway courseGateway, SchoolClassGateway schoolClassGateway) {
     final eventStream = timetablegGateway.streamEvents(
         Date.fromDateTime(todayDateTimeWithoutTime),
-        Date.fromDateTime(todayDateTimeWithoutTime.add(Duration(days: 14))));
+        Date.fromDateTime(
+            todayDateTimeWithoutTime.add(const Duration(days: 14))));
     final groupInfoStream =
         courseGateway.getGroupInfoStream(schoolClassGateway);
 
@@ -219,7 +221,7 @@ class DashboardBloc extends BlocBase {
               EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
           .toList();
 
-      _nubmerOfUpcomingEventsSubject.sink.add(eventViews.length);
+      _numberOfUpcomingEventsSubject.sink.add(eventViews.length);
 
       return eventViews;
     });
@@ -271,7 +273,7 @@ class DashboardBloc extends BlocBase {
     _numberOfUnreadBlackboardViewsSubject.close();
     _unreadBlackboardItemsEmptySubject.close();
     _lessonViewsSubject.close();
-    _nubmerOfUpcomingEventsSubject.close();
+    _numberOfUpcomingEventsSubject.close();
     for (final listener in _subscriptions) {
       listener.cancel();
     }

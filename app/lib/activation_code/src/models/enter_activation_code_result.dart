@@ -9,9 +9,11 @@
 part 'enter_activation_code_exception.dart';
 
 class _EnterActivationCodeResultType {
-  static const successfull = 'successfull';
-  static const notavailable = 'notavailable';
-  static const notfound = 'notfound';
+  // Even "successfull" is a typo, it's the name of the event in the backend
+  // and we can't change it.
+  static const successful = 'successfull';
+  static const notAvailable = 'notavailable';
+  static const notFound = 'notfound';
   static const unknown = 'unknown';
 }
 
@@ -19,10 +21,11 @@ abstract class EnterActivationCodeResult {
   factory EnterActivationCodeResult.fromData(Map<String, dynamic> data) {
     final resultType = data['resultType'];
     final resultData = data['resultData'];
-    if (resultType == _EnterActivationCodeResultType.successfull)
-      return SuccessfullEnterActivationCodeResult.fromData(resultData);
-    else
+    if (resultType == _EnterActivationCodeResultType.successful) {
+      return SuccessfulEnterActivationCodeResult.fromData(resultData);
+    } else {
       return FailedEnterActivationCodeResult.fromData(data);
+    }
   }
 }
 
@@ -42,17 +45,16 @@ class NoDataEnterActivationCodeResult implements EnterActivationCodeResult {}
 
 class LoadingEnterActivationCodeResult implements EnterActivationCodeResult {}
 
-class SuccessfullEnterActivationCodeResult
-    implements EnterActivationCodeResult {
+class SuccessfulEnterActivationCodeResult implements EnterActivationCodeResult {
   final String codeName, codeDescription;
 
-  const SuccessfullEnterActivationCodeResult(
+  const SuccessfulEnterActivationCodeResult(
     this.codeName,
     this.codeDescription,
   );
 
-  factory SuccessfullEnterActivationCodeResult.fromData(dynamic resultData) {
-    return SuccessfullEnterActivationCodeResult(
+  factory SuccessfulEnterActivationCodeResult.fromData(dynamic resultData) {
+    return SuccessfulEnterActivationCodeResult(
       resultData['name'] as String,
       resultData['description'] as String,
     );

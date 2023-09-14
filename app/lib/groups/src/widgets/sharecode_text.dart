@@ -15,6 +15,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class SharecodeText extends StatelessWidget {
   const SharecodeText(
     this.sharecode, {
+    super.key,
     this.onCopied,
   });
 
@@ -100,7 +101,7 @@ class SharecodeText extends StatelessWidget {
     } else if (_isNonNumberUppercase(char)) {
       return 'großes $char';
     }
-    return '$char';
+    return char;
   }
 
   bool _isNonNumberLowercase(String currentChar) {

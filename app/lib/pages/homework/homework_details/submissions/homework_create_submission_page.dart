@@ -29,8 +29,7 @@ class HomeworkUserCreateSubmissionPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _HomeworkUserCreateSubmissionPageState createState() =>
-      _HomeworkUserCreateSubmissionPageState();
+  State createState() => _HomeworkUserCreateSubmissionPageState();
 }
 
 class _HomeworkUserCreateSubmissionPageState
@@ -59,10 +58,13 @@ class _HomeworkUserCreateSubmissionPageState
                 .isNotEmpty)
             .first;
 
+        if (!context.mounted) return true;
+
         if (dateienAmHochladen) {
           await warnUserAboutUploadingFilesForm(context);
         }
         if (dateienVorhanden && !abgegeben) {
+          if (!context.mounted) return true;
           return (await warnUserAboutNotSubmittedForm(context))!;
         }
         return true;
@@ -81,28 +83,27 @@ class _HomeworkUserCreateSubmissionPageState
 
               return Scaffold(
                 appBar: AppBar(
-                  leading: CloseIconButton(),
+                  leading: const CloseIconButton(),
                   actions: <Widget>[
                     /// Im Web wird der Button nicht immer ausgefaded, auch wenn
                     /// [showSubmitButton] false ist und onPressed null sein müsste.
                     /// Deswegen der Workaround für Web.
                     if (!kIsWeb || kIsWeb && showSubmitButton)
                       TextButton(
-                        child: Text('Abgeben'.toUpperCase()),
                         onPressed: showSubmitButton
                             ? () async {
                                 final res = await showLeftRightAdaptiveDialog<
                                     SubmitDialogOption>(
                                   context: context,
                                   title: 'Wirklich Abgeben?',
-                                  content: Text(
+                                  content: const Text(
                                     'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.',
                                   ),
-                                  right: AdaptiveDialogAction(
+                                  right: const AdaptiveDialogAction(
                                     title: 'Abgeben',
                                     popResult: SubmitDialogOption.submit,
                                   ),
-                                  left: AdaptiveDialogAction(
+                                  left: const AdaptiveDialogAction(
                                     title: 'Abbrechen',
                                     popResult: SubmitDialogOption.cancel,
                                   ),
@@ -118,6 +119,7 @@ class _HomeworkUserCreateSubmissionPageState
                                 }
                               }
                             : null,
+                        child: Text('Abgeben'.toUpperCase()),
                       ),
                   ],
                   centerTitle: true,
@@ -131,16 +133,18 @@ class _HomeworkUserCreateSubmissionPageState
                             : Column(
                                 children: <Widget>[
                                   /// Falls submitted & editierbar
-                                  if (view.submitted) _SubmissionReceivedInfo(),
+                                  if (view.submitted)
+                                    const _SubmissionReceivedInfo(),
                                   if (afterDeadline && !hasSubmitted)
-                                    _AfterDeadlineCanStillBeSubmitted(),
-                                  _FileList(),
+                                    const _AfterDeadlineCanStillBeSubmitted(),
+                                  const _FileList(),
                                 ],
                               )),
                   ),
                 ),
-                floatingActionButton:
-                    view != null && !view.submitted ? _AddFileFab() : null,
+                floatingActionButton: view != null && !view.submitted
+                    ? const _AddFileFab()
+                    : null,
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerFloat,
               );
@@ -159,7 +163,7 @@ class _SubmissionReceivedInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnouncementCard(
+    return const AnnouncementCard(
         color: Colors.lightGreen, title: 'Abgabe erfolgreich abgegeben!');
   }
 }
@@ -176,8 +180,9 @@ class _FileList extends StatelessWidget {
         final pageView = snapshot.data;
         final files = snapshot.data?.files ?? [];
 
-        if (files.isEmpty)
+        if (files.isEmpty) {
           return _EmptyState(submissionDeadlineState: pageView?.deadlineState);
+        }
 
         return AnimationLimiter(
           child: Column(
@@ -209,7 +214,7 @@ class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnouncementCard(
+    return const AnnouncementCard(
       title: 'Abgabefrist verpasst? Du kannst trotzdem abgeben!',
       content: Text(
           'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)'),
@@ -271,7 +276,7 @@ class _AddFileFab extends StatelessWidget {
         }),
       );
 
-      if (error != null) {
+      if (error != null && context.mounted) {
         showSnackSec(
           text: error,
           context: context,
@@ -308,21 +313,21 @@ class _FileCard extends StatelessWidget {
                 opacity: view.status == FileViewStatus.uploading ? 0.6 : 1.0,
                 child: ListTile(
                   leading: view.status == FileViewStatus.failed
-                      ? Icon(Icons.close)
+                      ? const Icon(Icons.close)
                       : FileIcon(fileFormat: view.fileFormat),
                   title: Text(view.name),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       AnimatedSwitcher(
-                        duration: Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 250),
                         child:
                             view.status == FileViewStatus.successfullyUploaded
                                 ? _RenameFile(view: view)
                                 : Container(),
                       ),
                       AnimatedSwitcher(
-                        duration: Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 250),
                         child: view.status != FileViewStatus.uploading &&
                                 !submitted
                             ? _DeleteIcon(view: view)
@@ -339,13 +344,13 @@ class _FileCard extends StatelessWidget {
                   value: view.uploadProgress ?? 0,
                 ),
               if (view.status == FileViewStatus.failed)
-                LinearProgressIndicator(
-                  valueColor: const AlwaysStoppedAnimation(Colors.red),
+                const LinearProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.red),
                   value: 1,
                 ),
               if (view.status == FileViewStatus.successfullyUploaded)
-                LinearProgressIndicator(
-                  valueColor: const AlwaysStoppedAnimation(Colors.green),
+                const LinearProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.green),
                   value: 1,
                 ),
             ],
@@ -372,6 +377,7 @@ class _RenameFile extends StatelessWidget {
         final bloc =
             BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(context);
         final invalidNames = await bloc.submissionFileBasenames.first;
+        if (!context.mounted) return;
 
         showDialog(
           context: context,
@@ -437,7 +443,7 @@ class __RenameDialogState extends State<_RenameDialog> {
         },
       ),
       actions: <Widget>[
-        CancelButton(),
+        const CancelButton(),
         TextButton(
           onPressed: error == null
               ? () {
@@ -505,7 +511,7 @@ class _DeleteIcon extends StatelessWidget {
           defaultValue: false,
         ))!;
 
-        if (confirmed) {
+        if (confirmed && context.mounted) {
           final bloc =
               BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(context);
           bloc.removeSubmissionFile(view.id);
@@ -526,7 +532,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _NoFilesUploaded();
+    return const _NoFilesUploaded();
   }
 }
 
@@ -539,7 +545,7 @@ class _NoFilesUploaded extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.16),
-      child: PlaceholderModel(
+      child: const PlaceholderModel(
         animateSVG: false,
         riveAnimationName: 'Writing',
         rivePath: 'assets/flare/submissions_empty_state.flr',
@@ -553,14 +559,16 @@ class _NoFilesUploaded extends StatelessWidget {
 
 Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Dateien am hochladen!',
-        content: Text(
+        content: const Text(
           'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.',
         ),
         defaultValue: false,
-        right: AdaptiveDialogAction(
+        right: const AdaptiveDialogAction(
           title: "Verlassen",
           isDefaultAction: true,
           popResult: true,
@@ -571,15 +579,17 @@ Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
 
 Future<bool?> warnUserAboutNotSubmittedForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
         title: 'Abgabe nicht abgegeben!',
-        content: Text(
+        content: const Text(
           'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\n'
           'Deine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.',
         ),
         defaultValue: false,
-        right: AdaptiveDialogAction(
+        right: const AdaptiveDialogAction(
           title: "Verlassen",
           isDefaultAction: true,
           popResult: true,

@@ -18,7 +18,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 part 'src/dialog/select_design_dialog.dart';
 part 'src/dialog/select_type_dialog.dart';
 
-enum _EditDesignType {
+enum EditDesignType {
   course,
   personal,
 }
@@ -30,11 +30,12 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
   final selectTypePopResult = await showDialog<_SelectTypePopResult>(
       context: context, builder: (context) => _SelectTypeDialog(bloc: bloc));
 
-  if (selectTypePopResult != null) {
+  if (selectTypePopResult != null && context.mounted) {
     final initialDesign = selectTypePopResult.initialDesign;
 
     final selectDesignPopResult = await selectDesign(context, initialDesign,
         type: selectTypePopResult.editDesignType);
+    if (!context.mounted) return;
 
     if (selectDesignPopResult != null) {
       if (selectDesignPopResult.navigateBackToSelectType) {
@@ -47,7 +48,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
           seconds: 2,
         );
       } else if (selectDesignPopResult.design != null) {
-        if (selectTypePopResult.editDesignType == _EditDesignType.personal) {
+        if (selectTypePopResult.editDesignType == EditDesignType.personal) {
           bloc.submitPersonalDesign(
             selectedDesign: selectDesignPopResult.design!,
             initialDesign: initialDesign,
@@ -58,13 +59,15 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
             seconds: 2,
           );
         } else if (selectTypePopResult.editDesignType ==
-            _EditDesignType.course) {
+            EditDesignType.course) {
           sendDataToFrankfurtSnackBar(context);
           try {
             await bloc.submitCourseDesign(
               selectedDesign: selectDesignPopResult.design!,
               initialDesign: initialDesign,
             );
+            if (!context.mounted) return;
+
             showSnackSec(
               context: context,
               text: "Farbe wurde erfolgreich für den gesamten Kurs geändert.",

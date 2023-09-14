@@ -80,8 +80,8 @@ class _DefaultNotSubscribedFallbackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text('Dieses Feature ist nur mit "Sharezone Plus" verfügbar.'),
       ),
     );

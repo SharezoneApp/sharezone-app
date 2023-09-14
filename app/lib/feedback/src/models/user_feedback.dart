@@ -39,7 +39,7 @@ class UserFeedback {
   });
 
   factory UserFeedback.create() {
-    return UserFeedback._(
+    return const UserFeedback._(
       rating: null,
       likes: "",
       dislikes: "",
@@ -153,7 +153,7 @@ class FeedbackDeviceInformation {
   }
 
   factory FeedbackDeviceInformation.create() {
-    return FeedbackDeviceInformation._(
+    return const FeedbackDeviceInformation._(
       appName: "",
       packageName: "",
       versionName: "",

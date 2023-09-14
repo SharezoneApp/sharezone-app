@@ -23,7 +23,7 @@ class OnboardingListener extends StatelessWidget {
     return StreamBuilder<bool>(
       stream: onboardingNavigator.showOnboarding,
       builder: (context, snapshot) {
-        if (snapshot.data ?? false) return OnboardingChangeName();
+        if (snapshot.data ?? false) return const OnboardingChangeName();
         return child!;
       },
     );

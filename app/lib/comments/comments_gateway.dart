@@ -33,7 +33,7 @@ class CommentsGateway extends BlocBase {
       final snapshotStream = _getCommentCollection(commentLocation).snapshots();
 
       final commentModelDataStream = snapshotStream.map((snap) => snap.docs
-          .map((doc) => _commentToDatamodel(doc.data(), id: doc.id))
+          .map((doc) => _commentToDataModel(doc.data(), id: doc.id))
           .toList());
 
       firestoreSubscription = commentModelDataStream.listen(
@@ -46,7 +46,7 @@ class CommentsGateway extends BlocBase {
     return commentsController.stream;
   }
 
-  CommentDataModel _commentToDatamodel(
+  CommentDataModel _commentToDataModel(
     Map<String, dynamic> firestoreComment, {
     required String id,
   }) =>
@@ -191,8 +191,8 @@ class MultiRatingActions extends RatingAction {
 
   @override
   Future<void> execute(DocumentReference commentLocation, String uid) async {
-    final _firestore = commentLocation.firestore;
-    await _firestore.runTransaction((transaction) async {
+    final firestore = commentLocation.firestore;
+    await firestore.runTransaction((transaction) async {
       for (final action in actions) {
         await action.execute(commentLocation, uid, transaction);
       }

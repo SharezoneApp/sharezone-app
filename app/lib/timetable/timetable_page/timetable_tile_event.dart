@@ -13,6 +13,7 @@ class TimetableEntryEvent extends StatelessWidget {
   final GroupInfo? groupInfo;
 
   const TimetableEntryEvent({
+    super.key,
     required this.event,
     required this.groupInfo,
   });
@@ -29,6 +30,10 @@ class TimetableEntryEvent extends StatelessWidget {
               color: groupInfo?.design.color ?? Colors.grey, width: 1.5),
         ),
         child: InkWell(
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          onTap: () =>
+              showTimetableEventDetails(context, event, groupInfo?.design),
+          onLongPress: () => onEventLongPress(context, event),
           child: Padding(
             padding: const EdgeInsets.only(top: 3, left: 6),
             child: Column(
@@ -50,10 +55,6 @@ class TimetableEntryEvent extends StatelessWidget {
               ],
             ),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          onTap: () =>
-              showTimetableEventDetails(context, event, groupInfo?.design),
-          onLongPress: () => onEventLongPress(context, event),
         ),
       ),
     );

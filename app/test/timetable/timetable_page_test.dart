@@ -32,7 +32,7 @@ import 'mock/mock_user_gateway.dart';
 void main() {
   group('TimetablePage', () {
     group('SchoolClassFilter', () {
-      SchoolClass _createSchoolClass(String id) {
+      SchoolClass createSchoolClass(String id) {
         final data = {
           'name': id,
           'myRole': 'standard',
@@ -46,8 +46,8 @@ void main() {
         return SchoolClass.fromData(data, id: id);
       }
 
-      final klasse10a = _createSchoolClass('10a');
-      final klasse5b = _createSchoolClass('5b');
+      final klasse10a = createSchoolClass('10a');
+      final klasse5b = createSchoolClass('5b');
 
       late TimetableBloc bloc;
       MockSchoolClassGateway schoolClassGateway;
@@ -73,7 +73,7 @@ void main() {
         schoolClassGateway.addSchoolClass(klasse5b);
       });
 
-      Future<void> _pumpSchoolClassSelection(WidgetTester tester) async {
+      Future<void> pumpSchoolClassSelection(WidgetTester tester) async {
         await tester.pumpWidget(
           FeatureDiscovery(
             child: MultiProvider(
@@ -83,7 +83,7 @@ void main() {
               child: MaterialApp(
                 home: BlocProvider(
                   bloc: bloc,
-                  child: SingleChildScrollView(
+                  child: const SingleChildScrollView(
                     child: SchoolClassFilterBottomBar(),
                   ),
                 ),
@@ -101,7 +101,7 @@ void main() {
         // funktioniert.
         await bloc.schoolClassGateway.leaveSchoolClass(klasse5b.id);
 
-        await _pumpSchoolClassSelection(tester);
+        await pumpSchoolClassSelection(tester);
 
         expect(find.byKey(const ValueKey('school-class-filter-widget-test')),
             findsNothing);
@@ -110,7 +110,7 @@ void main() {
       testWidgets(
           'If the user is member of two or more school classes, the school class selection widget should be shown',
           (tester) async {
-        await _pumpSchoolClassSelection(tester);
+        await pumpSchoolClassSelection(tester);
 
         expect(find.byKey(const ValueKey('school-class-filter-widget-test')),
             findsOneWidget);
@@ -119,7 +119,7 @@ void main() {
       testWidgets(
           'If the user has not selected a school class, the word "Alle" should be used as the current school class',
           (tester) async {
-        await _pumpSchoolClassSelection(tester);
+        await pumpSchoolClassSelection(tester);
 
         expect(find.text('Schulklasse: Alle'), findsOneWidget);
       });
@@ -131,7 +131,7 @@ void main() {
                 SharezonePlusFeature.filterTimetableByClass))
             .thenReturn(true);
 
-        await _pumpSchoolClassSelection(tester);
+        await pumpSchoolClassSelection(tester);
 
         // Öffne Schulklassen-Auswahl-Menü
         await tester.tap(find.byIcon(Icons.group));
@@ -148,7 +148,7 @@ void main() {
       testWidgets(
           'If a user opens school class menu, all school classes should be shown',
           (tester) async {
-        await _pumpSchoolClassSelection(tester);
+        await pumpSchoolClassSelection(tester);
         expect(find.text('Alle Schulklassen'), findsNothing);
         expect(find.text(klasse5b.name), findsNothing);
         expect(find.text(klasse10a.name), findsNothing);

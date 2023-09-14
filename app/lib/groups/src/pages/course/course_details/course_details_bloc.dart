@@ -87,8 +87,9 @@ class CourseDetailsBloc extends BlocBase {
             .length >
         1) {
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   Future<AppFunctionsResult<bool>> updateMemberRole(

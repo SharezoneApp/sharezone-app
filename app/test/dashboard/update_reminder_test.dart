@@ -30,7 +30,7 @@ import 'update_reminder_test.mocks.dart';
 void main() {
   group('Update-Reminder Card', () {
     late MockUpdateReminderBloc mockUpdateReminderBloc;
-    final updateCardFinder = find.byKey(ValueKey('UpdatePromptCard'));
+    final updateCardFinder = find.byKey(const ValueKey('UpdatePromptCard'));
 
     setUp(() {
       mockUpdateReminderBloc = MockUpdateReminderBloc();
@@ -106,6 +106,6 @@ Widget _buildDashboardPage(UpdateReminderBloc updateReminderBloc) {
       BlocProvider<DashboardTipSystem>(bloc: MockDashboardTipSystem()),
       BlocProvider<HolidayBloc>(bloc: MockHolidayBloc()),
     ],
-    child: (c) => MaterialApp(home: DashboardPageBody()),
+    child: (c) => const MaterialApp(home: DashboardPageBody()),
   );
 }

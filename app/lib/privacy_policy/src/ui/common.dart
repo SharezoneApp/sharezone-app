@@ -28,8 +28,9 @@ class PrivacyPolicyHeading extends StatelessWidget {
       'Datenschutzerklärung',
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontSize: 24,
-            color:
-                isDarkThemeEnabled(context) ? primaryColor : Color(0xFF254D71),
+            color: isDarkThemeEnabled(context)
+                ? primaryColor
+                : const Color(0xFF254D71),
             fontWeight: FontWeight.bold,
           ),
     );
@@ -52,9 +53,9 @@ class PrivacyPolicySubheading extends StatelessWidget {
         children: [
           TextSpan(
             text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn!)} ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(
+          const TextSpan(
             text: 'in Kraft.',
           )
         ],
@@ -75,8 +76,8 @@ class ChangeAppearanceButton extends StatelessWidget {
       onPressed: () {
         showDisplaySettingsDialog(context);
       },
-      icon: Icon(Icons.display_settings),
-      label: Text('Darstellung ändern'),
+      icon: const Icon(Icons.display_settings),
+      label: const Text('Darstellung ändern'),
     );
   }
 }
@@ -120,12 +121,12 @@ class DownloadAsPDFButton extends StatelessWidget {
     return _isIconButton
         ? IconButton(
             onPressed: enabled ? () => downloadPdf(context) : null,
-            icon: Icon(Icons.download),
+            icon: const Icon(Icons.download),
           )
         : TextButton.icon(
             onPressed: enabled ? () => downloadPdf(context) : null,
-            icon: Icon(Icons.download),
-            label: Text('Als PDF herunterladen'),
+            icon: const Icon(Icons.download),
+            label: const Text('Als PDF herunterladen'),
           );
   }
 }
@@ -147,8 +148,8 @@ class ExpansionArrow extends StatelessWidget {
       child: IconButton(
         // Without constraints the TOC section containing the button would grow
         // too large vertically.
-        constraints: BoxConstraints(maxHeight: 30),
-        padding: EdgeInsets.all(0),
+        constraints: const BoxConstraints(maxHeight: 30),
+        padding: const EdgeInsets.all(0),
         visualDensity: VisualDensity.compact,
         onPressed: onPressed,
         icon: const Icon(Icons.expand_more),
@@ -187,7 +188,7 @@ class TocSectionHighlight extends StatelessWidget {
             : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         shape: shape,
       ),
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -265,7 +266,7 @@ class PrivacyPolicyText extends StatelessWidget {
                     // screen. I have absolutely no clue why though. If you dear
                     // reader know why then please replace this comment.
                     .add(Alignment(0, config.threshold.position * 2)),
-                child: Divider(
+                child: const Divider(
                   color: Colors.red,
                   thickness: 2,
                   height: 0,
@@ -289,19 +290,19 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: TextButton(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text('Inhaltsverzeichnis'),
-            Icon(Icons.expand_less),
-          ],
-        ),
         onPressed: enabled
             ? () {
                 showTableOfContentsBottomSheet(context);
               }
             : null,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Inhaltsverzeichnis'),
+            Icon(Icons.expand_less),
+          ],
+        ),
       ),
     );
   }

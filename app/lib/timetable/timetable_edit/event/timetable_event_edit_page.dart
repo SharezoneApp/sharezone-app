@@ -49,32 +49,26 @@ class TimetableEditEventPage extends StatefulWidget {
   final CalendricalEvent initialEvent;
 
   const TimetableEditEventPage(
-      this.initialEvent, this.timetableGateway, this.connectionsGateway);
+    this.initialEvent,
+    this.timetableGateway,
+    this.connectionsGateway, {
+    super.key,
+  });
 
   @override
-  _TimetableEditEventPageState createState() => _TimetableEditEventPageState(
-      initialEvent, timetableGateway, connectionsGateway);
+  State createState() => _TimetableEditEventPageState();
 }
 
 class _TimetableEditEventPageState extends State<TimetableEditEventPage> {
-  final TimetableGateway timetableGateway;
-  final ConnectionsGateway connectionsGateway;
-  final CalendricalEvent initialEvent;
   late TimetableEditEventBloc bloc;
-
-  _TimetableEditEventPageState(
-    this.initialEvent,
-    this.timetableGateway,
-    this.connectionsGateway,
-  );
 
   @override
   void initState() {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     bloc = TimetableEditEventBloc(
-      initialEvent: initialEvent,
-      gateway: timetableGateway,
-      connectionsGateway: connectionsGateway,
+      initialEvent: widget.initialEvent,
+      gateway: widget.timetableGateway,
+      connectionsGateway: widget.connectionsGateway,
       markdownAnalytics: markdownAnalytics,
     );
     super.initState();
@@ -84,16 +78,15 @@ class _TimetableEditEventPageState extends State<TimetableEditEventPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: _TimetableEditEventPage(initialEvent),
+      child: _TimetableEditEventPage(widget.initialEvent),
     );
   }
 }
 
 class _TimetableEditEventPage extends StatelessWidget {
-  final CalendricalEvent initialEvent;
+  const _TimetableEditEventPage(this.initialEvent);
 
-  const _TimetableEditEventPage(this.initialEvent, {Key? key})
-      : super(key: key);
+  final CalendricalEvent initialEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +162,8 @@ class _CourseField extends StatelessWidget {
         return ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.lightBlue,
-            child: Text(course?.abbreviation ?? ""),
             foregroundColor: Colors.white,
+            child: Text(course?.abbreviation ?? ""),
           ),
           title: Text(course?.name ?? ""),
           onTap: () {
@@ -185,7 +178,7 @@ class _CourseField extends StatelessWidget {
                       onPressed: () async {
                         final confirmed =
                             await showDeleteLessonConfirmationDialog(context);
-                        if (confirmed != null && confirmed) {
+                        if (confirmed == true && context.mounted) {
                           timetableGateway.deleteEvent(initialEvent);
                           Navigator.pop(context);
                         }
@@ -211,11 +204,11 @@ class _TitleField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
           prefilledText: initialEvent.title,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
             labelText: "Titel",
           ),
           onChanged: bloc.changeTitle,
@@ -301,15 +294,15 @@ class _RoomField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
           prefilledText: initialEvent.place,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             icon: Padding(
-              padding: const EdgeInsets.only(left: 6),
-              child: const Icon(Icons.place),
+              padding: EdgeInsets.only(left: 6),
+              child: Icon(Icons.place),
             ),
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(),
             labelText: "Raum",
           ),
           maxLength: 32,
@@ -330,7 +323,8 @@ class _SendNotificationField extends StatelessWidget {
         final sendNotification = snapshot.data ?? false;
         return ListTile(
           leading: const Icon(Icons.notifications_active),
-          title: Text("Kursmitglieder über die Änderungen benachrichtigen"),
+          title:
+              const Text("Kursmitglieder über die Änderungen benachrichtigen"),
           trailing: Switch.adaptive(
             onChanged: bloc.changeSendNotification,
             value: sendNotification,
@@ -354,16 +348,16 @@ class _DetailField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             PrefilledTextField(
               prefilledText: initialEvent.detail,
               decoration: InputDecoration(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: const Icon(Icons.details),
+                icon: const Padding(
+                  padding: EdgeInsets.only(left: 6),
+                  child: Icon(Icons.details),
                 ),
                 border: const OutlineInputBorder(),
                 labelText: isExam ? "Themen der Prüfung" : "Details",
@@ -373,7 +367,7 @@ class _DetailField extends StatelessWidget {
               maxLines: null,
             ),
             const SizedBox(height: 8),
-            MarkdownSupport(),
+            const MarkdownSupport(),
           ],
         ),
       ),

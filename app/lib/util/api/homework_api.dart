@@ -259,7 +259,7 @@ class HomeworkGateway {
     List<DeserializeFirestoreDocException> errorList = [];
 
     // Adds each document either to parsedHomeworkList or errorList, depending if the deserializing/parsing succeeded.
-    querySnapshot.docs.forEach((homeworkDocument) {
+    for (var homeworkDocument in querySnapshot.docs) {
       try {
         parsedHomeworkList.add(HomeworkDto.fromData(homeworkDocument.data(),
             id: homeworkDocument.id));
@@ -269,7 +269,7 @@ class HomeworkGateway {
             "Error while trying to deserialize a FirestoreDocument into a Homework.",
             s));
       }
-    });
+    }
     sink.add(parsedHomeworkList);
     if (errorList.isNotEmpty) sink.addError(errorList);
   });

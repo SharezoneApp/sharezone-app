@@ -45,7 +45,7 @@ Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
       return ListTile(
         title: Text(getWeekDayText(item)),
         trailing: isSelected
-            ? Icon(
+            ? const Icon(
                 Icons.done,
                 color: Colors.green,
               )

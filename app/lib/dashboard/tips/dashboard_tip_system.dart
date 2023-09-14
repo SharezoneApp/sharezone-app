@@ -25,12 +25,12 @@ class DashboardTipSystem extends BlocBase {
     required this.navigationBloc,
     required UserTipsBloc userTipsBloc,
   }) : dashboardTip =
-            initialiseDashboardTipStream(cache, navigationBloc, userTipsBloc)
+            initializeDashboardTipStream(cache, navigationBloc, userTipsBloc)
                 .asBroadcastStream() {
     cache.increaseDashboardCounter();
   }
 
-  static Stream<DashboardTip?> initialiseDashboardTipStream(
+  static Stream<DashboardTip?> initializeDashboardTipStream(
     DashboardTipCache cache,
     NavigationBloc navigationBloc,
     UserTipsBloc userTipsBloc,

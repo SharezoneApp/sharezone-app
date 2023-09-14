@@ -29,7 +29,7 @@ Future<void> openMoveFilePage(
           fileSharingGateway:
               BlocProvider.of<SharezoneContext>(context).api.fileSharing,
         ),
-        child: _MoveFilePage(),
+        child: const _MoveFilePage(),
       ),
     ),
   );
@@ -47,7 +47,7 @@ class _MoveFilePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: _MoveFileCurrentPath(),
-      bottomNavigationBar: _MoveFileBottomBar(),
+      bottomNavigationBar: const _MoveFileBottomBar(),
     );
   }
 }
@@ -59,8 +59,9 @@ class _MoveFileCurrentPath extends StatelessWidget {
     return StreamBuilder<TwoStreamSnapshot<FileSharingData?, FolderPath?>>(
       stream: bloc.moveFileState.stream,
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         final fileSharingData = snapshot.data!.data0!;
         final currentPath = snapshot.data!.data1;
         return Column(
@@ -98,7 +99,7 @@ class _FolderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (folders.isEmpty) return _EmptyFoldersList();
+    if (folders.isEmpty) return const _EmptyFoldersList();
     folders.sort((a, b) => a.name!.compareTo(b.name!));
     return SingleChildScrollView(
       padding: const EdgeInsets.only(left: 12),
@@ -131,9 +132,9 @@ class _EmptyFoldersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-      child: const Center(
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
+      child: Center(
         child: Text(
             "Es befinden sich an diesem Ort keine weiteren Ordner... Navigiere zwischen den Ordnern über die Leiste oben."),
       ),
@@ -190,13 +191,13 @@ class _MoveFileBottomBar extends StatelessWidget {
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).primaryColor,
                 ),
-                child: Text("Verschieben".toUpperCase()),
                 onPressed: isMoveFileAllowed
                     ? () {
                         bloc.moveFileToNewPath();
                         Navigator.pop(context);
                       }
                     : null,
+                child: Text("Verschieben".toUpperCase()),
               ),
               const SizedBox(width: 8),
             ],

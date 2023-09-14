@@ -24,6 +24,7 @@ class EditTimeField extends StatelessWidget {
   final ValueNotifier<bool> isSelected = ValueNotifier(false);
 
   EditTimeField({
+    super.key,
     required this.time,
     required this.onChanged,
     this.iconData,
@@ -33,7 +34,7 @@ class EditTimeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 6,
         right: 6,
         top: 6,
@@ -68,7 +69,7 @@ class EditTimeField extends StatelessWidget {
                     child: time == null
                         ? Container()
                         : Text(time!.toTimeOfDay().format(context),
-                            style: TextStyle(fontSize: 16.0)),
+                            style: const TextStyle(fontSize: 16.0)),
                   ),
                 ),
               ),
@@ -96,6 +97,7 @@ Future<Time?> selectTime(
   final cache = BlocProvider.of<TimePickerSettingsCache>(context);
   final isFiveMinutesIntervalActive =
       await cache.isTimePickerWithFifeMinutesIntervalActiveStream().first;
+  if (!context.mounted) return null;
 
   // We only use the five minutes interval on iOS, because only on iOS we have a
   // CupertinoTimePicker where 1 minute steps would slow users down
@@ -120,7 +122,8 @@ Future<Time?> selectTime(
 
   return showIntervalTimePicker(
     context: context,
-    initialTime: initialTime?.toTimeOfDay() ?? TimeOfDay(hour: 9, minute: 10),
+    initialTime:
+        initialTime?.toTimeOfDay() ?? const TimeOfDay(hour: 9, minute: 10),
     interval: minutesInterval,
     visibleStep: minutesInterval.toVisibleStep(),
     builder: (BuildContext context, Widget? child) {
@@ -151,8 +154,7 @@ class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
   final String? title;
 
   @override
-  _CupertinoTimerPickerWithTimeOfDayState createState() =>
-      _CupertinoTimerPickerWithTimeOfDayState();
+  State createState() => _CupertinoTimerPickerWithTimeOfDayState();
 }
 
 class _CupertinoTimerPickerWithTimeOfDayState
@@ -162,12 +164,13 @@ class _CupertinoTimerPickerWithTimeOfDayState
   @override
   void initState() {
     super.initState();
-    timeOfDay = widget.initialTime ?? TimeOfDay(hour: 9, minute: 0);
+    timeOfDay = widget.initialTime ?? const TimeOfDay(hour: 9, minute: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final initialTime = widget.initialTime ?? TimeOfDay(hour: 9, minute: 0);
+    final initialTime =
+        widget.initialTime ?? const TimeOfDay(hour: 9, minute: 0);
     return AlertDialog(
       title: isNotEmptyOrNull(widget.title) ? Text(widget.title!) : null,
       content: SizedBox(

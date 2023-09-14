@@ -37,7 +37,7 @@ class PrivacyPolicyPage extends StatelessWidget {
               // With using this as the threshold the first section is
               // highlighted as currently read instead of the second section
               // when opening the page.
-              threshold: CurrentlyReadThreshold(0.08),
+              threshold: const CurrentlyReadThreshold(0.08),
             ),
         anchorController = AnchorController(),
         super(key: key);

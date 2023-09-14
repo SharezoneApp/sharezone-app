@@ -57,7 +57,7 @@ class LazyLoadingHomeworkList extends StatelessWidget {
       child: ListWithBottomThreshold(
         loadingIndicator: loadedAllHomeworks
             ? Container()
-            : _LazyLoadingHomeworkListLoadingIndicator(),
+            : const _LazyLoadingHomeworkListLoadingIndicator(),
         onThresholdExceeded: loadMoreHomeworksCallback,
         thresholdHeight: threshold,
         children: children,

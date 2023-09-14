@@ -42,8 +42,9 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
         final result = await _gateway.edit(userInput);
         return result.hasData && result.data == true;
       }
-    } else
+    } else {
       throw SameNameAsBefore();
+    }
 
     return false;
   }

@@ -61,9 +61,9 @@ class MissingAccountInformationGuard extends StatelessWidget {
           final hasUserSharezoneAccount = snapshot.data ?? true;
           if (hasUserSharezoneAccount) return child;
 
-          return Scaffold(
+          return const Scaffold(
             body: SignUpPage(withLogin: false),
-            bottomNavigationBar: SafeArea(child: const _SignOutButton()),
+            bottomNavigationBar: SafeArea(child: _SignOutButton()),
           );
         },
       ),

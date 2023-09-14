@@ -31,7 +31,7 @@ class _RoomTab extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: PrefilledTextField(
               prefilledText: room,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: "Raum"),
               onChanged: (newRoom) => bloc.changeRoom(newRoom),
               maxLength: 32,

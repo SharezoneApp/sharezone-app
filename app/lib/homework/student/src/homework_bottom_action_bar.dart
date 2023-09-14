@@ -37,10 +37,11 @@ class HomeworkBottomActionBar extends StatelessWidget {
               var action =
                   await showRoundedModalBottomSheet<_BottomSheetAction>(
                       context: context,
-                      builder: (context) => _MoreActionsBottomSheet(),
+                      builder: (context) => const _MoreActionsBottomSheet(),
                       defaultValue: _BottomSheetAction.abort,
                       isScrollControlled: true);
-              // ignore:close_sinks
+              if (!context.mounted) return;
+
               final bloc = BlocProvider.of<HomeworkPageBloc>(context);
               switch (action) {
                 case _BottomSheetAction.completeOverdue:
@@ -72,15 +73,15 @@ class _MoreActionsBottomSheet extends StatelessWidget {
       minChildSize: .2,
       maxChildSize: 1,
       builder: (context, controller) => Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16.0),
             topRight: Radius.circular(16.0),
           ),
         ),
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             _CompleteOverdue(),
             _MoreIdeas(opacity: .65),
           ],
@@ -170,10 +171,10 @@ class _SortButton extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(
-            key: Key("change_homework_sorting"),
+            key: const Key("change_homework_sorting"),
             onTap: () =>
                 bloc.add(OpenHwSortingChanged(_getNextSort(currentSort))),
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             child: Row(
               children: <Widget>[
                 const Padding(

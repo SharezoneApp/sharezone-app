@@ -54,8 +54,9 @@ class _HolidayCounter extends StatelessWidget {
         stream: bloc.holidays,
         builder: (context, snapshot) {
           if (snapshot.hasError) return handleError(snapshot.error);
-          if (!snapshot.hasData)
+          if (!snapshot.hasData) {
             return const Center(child: AccentColorCircularProgressIndicator());
+          }
           if (snapshot.data!.isEmpty) return handleError(null);
           return DefaultTextStyle(
             style: DefaultTextStyle.of(context).style,
@@ -71,14 +72,15 @@ class _HolidayCounter extends StatelessWidget {
   }
 
   Widget handleError(Object? error) {
-    if (error is UnsupportedStateException)
-      return Center(
+    if (error is UnsupportedStateException) {
+      return const Center(
         child: Text(
           "Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.",
           textAlign: TextAlign.center,
         ),
       );
-    return Center(
+    }
+    return const Center(
         child: Text(
       "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
       textAlign: TextAlign.center,
@@ -109,18 +111,20 @@ class _HolidayText extends StatelessWidget {
     log("Error when displaying Holidays: ${snapshot.error}",
         error: snapshot.error, stackTrace: snapshot.stackTrace);
     if (snapshot.error is UnsupportedStateException) {
-      return Text("Ferien konnten für dein Bundesland nicht angezeigt werden");
+      return const Text(
+          "Ferien konnten für dein Bundesland nicht angezeigt werden");
     }
-    return Text(
+    return const Text(
         "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfters auftaucht kontaktiere uns bitte.");
   }
 
   List<Widget> _buildHolidayWidgets(List<Holiday?> holidayList, int maxItems) {
     List<Widget> widgetList = [];
-    if (holidayList.length > maxItems)
+    if (holidayList.length > maxItems) {
       holidayList = List.from(holidayList.getRange(0, maxItems));
+    }
     // For each Holiday create a Widget and add to the list.
-    holidayList.forEach((holiday) {
+    for (var holiday in holidayList) {
       int daysTillHolidayBeginn =
           holiday!.start.difference(DateTime.now()).inDays;
       String holidayTitle = capitalize(holiday.name);
@@ -150,11 +154,11 @@ class _HolidayText extends StatelessWidget {
       final isFirstText = holidayList.first!.slug == holiday.slug;
       if (!isFirstText) {
         // Add padding between the text widgets
-        widgetList.add(SizedBox(height: 4));
+        widgetList.add(const SizedBox(height: 4));
       }
 
       widgetList.add(textWidget);
-    });
+    }
     return widgetList;
   }
 }
@@ -178,8 +182,8 @@ class _SelectStateDropdown extends StatelessWidget {
                 .sublist(0, StateEnum.values.length - 1)
                 .map(
                   (state) => DropdownMenuItem(
-                    child: Text(stateEnumToString[state]!),
                     value: state,
+                    child: Text(stateEnumToString[state]!),
                   ),
                 )
                 .toList(),
@@ -189,7 +193,7 @@ class _SelectStateDropdown extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             "Durch das Auswählen eines Bundeslandes können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
             style: TextStyle(color: Colors.grey, fontSize: 12),
           )
@@ -201,7 +205,7 @@ class _SelectStateDropdown extends StatelessWidget {
   /// [navigationBloc] wird benötigt, da nicht mehr mit dem Context
   /// navigiert werden kann. Das [_SelectStateDropdown] Widget verschwindet
   /// sofort, sobald der Nutzer ein Bundesland auswählt, womit auch der
-  /// Context ungültigt wird. Würde man nun über den Context navigieren,
+  /// Context ungültig wird. Würde man nun über den Context navigieren,
   /// so würde es zu einer Fehlermeldung kommen.
   void showSelectedStateSnackBar(BuildContext context, StateEnum? state) {
     final navigationService = BlocProvider.of<NavigationService>(context);
@@ -212,7 +216,7 @@ class _SelectStateDropdown extends StatelessWidget {
       text: "Bundesland ${stateEnumToString[state]} ausgewählt",
       action: SnackBarAction(
         label: "Ändern".toUpperCase(),
-        onPressed: () => navigationService.pushWidget(ChangeStatePage(),
+        onPressed: () => navigationService.pushWidget(const ChangeStatePage(),
             name: ChangeStatePage.tag),
       ),
     );

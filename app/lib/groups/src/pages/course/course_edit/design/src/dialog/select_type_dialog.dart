@@ -10,7 +10,7 @@ part of '../../course_edit_design.dart';
 
 class _SelectTypePopResult {
   final Design? initialDesign;
-  final _EditDesignType editDesignType;
+  final EditDesignType editDesignType;
 
   const _SelectTypePopResult(
     this.initialDesign,
@@ -27,11 +27,11 @@ class _SelectTypeDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: AlertDialog(
+      child: const AlertDialog(
         contentPadding: EdgeInsets.all(0),
         content: Row(
           mainAxisSize: MainAxisSize.min,
-          children: const <Widget>[_CourseDesign(), _PersonalDesign()],
+          children: <Widget>[_CourseDesign(), _PersonalDesign()],
         ),
       ),
     );
@@ -48,7 +48,7 @@ class _CourseDesign extends StatelessWidget {
       stream: bloc.courseDesign,
       title: "Kurs",
       subtitle: "Farbe gilt für den gesamten Kurs",
-      type: _EditDesignType.course,
+      type: EditDesignType.course,
     );
   }
 }
@@ -63,7 +63,7 @@ class _PersonalDesign extends StatelessWidget {
       stream: bloc.personalDesign,
       title: "Persönlich",
       subtitle: "Gilt nur für dich und liegt über der Kursfarbe",
-      type: _EditDesignType.personal,
+      type: EditDesignType.personal,
     );
   }
 }
@@ -72,7 +72,7 @@ class _DesignTypeSection extends StatelessWidget {
   final Stream<Design?> stream;
   final String title, subtitle;
   final EdgeInsets padding;
-  final _EditDesignType type;
+  final EditDesignType type;
 
   const _DesignTypeSection.left({
     required this.stream,
@@ -118,7 +118,7 @@ class _DesignTypeSection extends StatelessWidget {
                     Text(
                       subtitle,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey, fontSize: 11),
+                      style: const TextStyle(color: Colors.grey, fontSize: 11),
                     ),
                   ],
                 ),
@@ -131,7 +131,7 @@ class _DesignTypeSection extends StatelessWidget {
   }
 
   bool _hasPermissionToEdit(BuildContext context) {
-    if (type == _EditDesignType.personal) return true;
+    if (type == EditDesignType.personal) return true;
     final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
     final memberRole = courseGateway.getRoleFromCourseNoSync(bloc.courseId)!;
@@ -155,17 +155,18 @@ class _ColorCircleSelectType extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget? child;
     if (!hasPermission) child = const Icon(Icons.lock, color: Colors.white);
-    if (design == null)
+    if (design == null) {
       child = const Align(alignment: Alignment.center, child: Text("-"));
+    }
 
     return Container(
       width: size,
       height: size,
-      child: child,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: design?.color,
       ),
+      child: child,
     );
   }
 }

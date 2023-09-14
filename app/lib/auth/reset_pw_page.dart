@@ -35,7 +35,7 @@ class ResetPasswordPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           _ResetPasswordPage(loginMail: loginMail),
-          BackIcon(),
+          const BackIcon(),
         ],
       ),
     );
@@ -151,7 +151,7 @@ class _EmailField extends StatelessWidget {
               labelText: "E-Mail Adresse deines Kontos",
               icon: const Icon(Icons.mail),
               errorText: snapshot.error?.toString(),
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
             textInputAction: TextInputAction.done,
             onEditingComplete: () async {
@@ -221,8 +221,8 @@ class _SubmitButton extends StatelessWidget {
     showLeftRightAdaptiveDialog(
       context: context,
       title: "E-Mail wurde verschickt",
-      content: Text(_ResetPasswordPage.erfolg),
-      left: AdaptiveDialogAction(
+      content: const Text(_ResetPasswordPage.erfolg),
+      left: const AdaptiveDialogAction(
         isDefaultAction: true,
         title: 'Ok',
       ),

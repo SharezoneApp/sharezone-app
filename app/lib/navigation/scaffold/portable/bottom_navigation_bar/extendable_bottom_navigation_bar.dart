@@ -23,7 +23,7 @@ import 'navigation_experiment/navigation_experiment_option.dart';
 
 part 'tutorial/bnb_tutorial_widget.dart';
 
-final _borderRadiusPanel = BorderRadius.only(
+const _borderRadiusPanel = BorderRadius.only(
     topRight: Radius.circular(17.5), topLeft: Radius.circular(17.5));
 
 /// A BottomNavigationBar which can be expaneded by swiping it up.
@@ -68,8 +68,9 @@ class ExtendableBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    if (widget.option == NavigationExperimentOption.drawerAndBnb)
+    if (widget.option == NavigationExperimentOption.drawerAndBnb) {
       return widget.page;
+    }
     return Material(
       color: widget.colorBehindBNB ?? context.scaffoldBackgroundColor,
       child: SlidingUpPanel(
@@ -191,7 +192,7 @@ class _ExtendableBottomNavigationBarContentState
                 controller: widget.controller,
               ),
               const SizedBox(height: 8),
-              Divider(height: 0),
+              const Divider(height: 0),
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                 child: Row(
@@ -266,7 +267,7 @@ class _SwipeUpLine extends StatelessWidget {
               height: 4.5,
               width: 30,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
                 color: Colors.grey[400]!.withOpacity(0.7),
               ),
             ),
@@ -346,7 +347,7 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.all(Radius.circular(50));
+    const borderRadius = BorderRadius.all(Radius.circular(50));
     final color = isDarkThemeEnabled(context)
         ? Theme.of(context).primaryColor
         : darkBlueColor;
@@ -357,6 +358,7 @@ class _Chip extends StatelessWidget {
           controller.close();
           if (currentNavigationItem != navigationItem) {
             await waitForClosingPanel();
+            if (!context.mounted) return;
             final bloc = BlocProvider.of<NavigationBloc>(context);
             bloc.navigateTo(navigationItem);
           }

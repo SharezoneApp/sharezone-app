@@ -21,19 +21,21 @@ import 'join_group.dart';
 class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
   static const tag = 'group-onboarding-is-it-first-person-using-sharezone';
 
+  const GroupOnboardingIsItFirstPersonUsingSharezone({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GroupOnboardingPageTemplate(
       title: _getString(context),
-      children: const [
-        _JoinGroupButton(),
-        _CreateGroupsButton(),
-      ],
       bottomNavigationBar: const SafeArea(
         child: GroupOnboardingHintText(
           "Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, du damit seiner Klasse beitreten kannst.",
         ),
       ),
+      children: const [
+        _JoinGroupButton(),
+        _CreateGroupsButton(),
+      ],
     );
   }
 
@@ -65,7 +67,7 @@ class _JoinGroupButton extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         FadeRoute(
-          child: GroupOnboardingGroupJoinPage(),
+          child: const GroupOnboardingGroupJoinPage(),
           tag: GroupOnboardingGroupJoinPage.tag,
         ),
       ),
@@ -87,7 +89,7 @@ class _CreateGroupsButton extends StatelessWidget {
           Navigator.push(
             context,
             FadeRoute(
-              child: GroupOnboardingIsClassTeacher(),
+              child: const GroupOnboardingIsClassTeacher(),
               tag: GroupOnboardingIsClassTeacher.tag,
             ),
           );
@@ -95,7 +97,7 @@ class _CreateGroupsButton extends StatelessWidget {
           Navigator.push(
             context,
             FadeRoute(
-              child: GroupOnboardingCreateSchoolClass(),
+              child: const GroupOnboardingCreateSchoolClass(),
               tag: GroupOnboardingCreateSchoolClass.tag,
             ),
           );

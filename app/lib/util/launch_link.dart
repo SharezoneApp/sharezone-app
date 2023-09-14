@@ -23,7 +23,7 @@ Future<void> launchURL(String url, {BuildContext? context}) async {
       mode: LaunchMode.externalApplication,
     );
   } catch (e) {
-    if (context != null) {
+    if (context != null && context.mounted) {
       showSnackSec(
         context: context,
         text: "Der Link konnte nicht geöffnet werden!",

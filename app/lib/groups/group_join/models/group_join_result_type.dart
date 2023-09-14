@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-const _successfull = 'successfull';
+// Even "successfull" is a typo, it's the name of the event in the backend and
+// we can't change it.
+const _successful = 'successfull';
 const _notPublic = 'notpublic';
 const _notFound = 'notfound';
 const _alreadyMember = 'alreadymember';
@@ -14,7 +16,7 @@ const _requireCourseSelections = 'requirecourseselections';
 const _unknown = 'unknown';
 
 enum GroupJoinResultType {
-  successfull,
+  successful,
   notPublic,
   notFound,
   alreadyMember,
@@ -25,8 +27,8 @@ enum GroupJoinResultType {
 extension GroupJoinResultTypeConverter on GroupJoinResultType {
   static GroupJoinResultType fromData(String data) {
     switch (data) {
-      case _successfull:
-        return GroupJoinResultType.successfull;
+      case _successful:
+        return GroupJoinResultType.successful;
       case _notPublic:
         return GroupJoinResultType.notPublic;
       case _notFound:
@@ -41,8 +43,8 @@ extension GroupJoinResultTypeConverter on GroupJoinResultType {
 
   String toData() {
     switch (this) {
-      case GroupJoinResultType.successfull:
-        return _successfull;
+      case GroupJoinResultType.successful:
+        return _successful;
       case GroupJoinResultType.notPublic:
         return _notPublic;
       case GroupJoinResultType.notFound:

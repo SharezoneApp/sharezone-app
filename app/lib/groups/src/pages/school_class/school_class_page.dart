@@ -42,17 +42,16 @@ Future<void> openMySchoolClassPage(
     context,
     MaterialPageRoute(
       builder: (context) => BlocProvider(
-        child: MySchoolClassPage(),
         bloc: bloc,
+        child: const MySchoolClassPage(),
       ),
-      settings: RouteSettings(name: MySchoolClassPage.tag),
+      settings: const RouteSettings(name: MySchoolClassPage.tag),
     ),
   );
-  if (popOption != null) {
+  if (popOption != null && context.mounted) {
     if (popOption is LeaveSchoolClassDetailsPopOption) {
       await showAppFunctionStateDialog(context, popOption.appFunction);
-    }
-    if (popOption is DeleteSchoolClassDetailsPopOption) {
+    } else if (popOption is DeleteSchoolClassDetailsPopOption) {
       await showAppFunctionStateDialog(context, popOption.appFunction);
     }
   }
@@ -61,6 +60,8 @@ Future<void> openMySchoolClassPage(
 class MySchoolClassPage extends StatelessWidget {
   static const tag = "school-class-details-page";
 
+  const MySchoolClassPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
@@ -68,11 +69,12 @@ class MySchoolClassPage extends StatelessWidget {
       stream: bloc.streamSchoolClass(),
       builder: (context, snapshot) {
         final schoolClass = snapshot.data;
-        if (schoolClass == null)
-          return Scaffold(
-            body: const Center(
+        if (schoolClass == null) {
+          return const Scaffold(
+            body: Center(
                 child: Text("Es ist ein Fehler beim Laden aufgetreten...")),
           );
+        }
         return SchoolClassDetailsPage(schoolClass);
       },
     );

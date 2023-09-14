@@ -94,17 +94,17 @@ void main() {
     });
 
     test('should call the api when the reminderTime is changed', () async {
-      blocWithUserWithReminder
-          .changeNotificationsTimeForHomeworks(TimeOfDay(hour: 13, minute: 30));
+      blocWithUserWithReminder.changeNotificationsTimeForHomeworks(
+          const TimeOfDay(hour: 13, minute: 30));
       verify(apiWithUserWithReminder
-          .setHomeworkReminderTime(TimeOfDay(hour: 13, minute: 30)));
+          .setHomeworkReminderTime(const TimeOfDay(hour: 13, minute: 30)));
     });
 
     test("should not call api if timeOfDay is same as before", () async {
-      blocWithUserWithReminder
-          .changeNotificationsTimeForHomeworks(TimeOfDay(hour: 15, minute: 30));
+      blocWithUserWithReminder.changeNotificationsTimeForHomeworks(
+          const TimeOfDay(hour: 15, minute: 30));
       verifyNever(apiWithUserWithReminder
-          .setHomeworkReminderTime(TimeOfDay(hour: 15, minute: 30)));
+          .setHomeworkReminderTime(const TimeOfDay(hour: 15, minute: 30)));
     });
     group(".convertReminderTimeToTimeOfDay", () {
       test("convertes correctly", () {
@@ -112,16 +112,16 @@ void main() {
         when(api.userStream).thenAnswer((_) => Stream.fromIterable([user]));
         bloc = NotificationsBloc(api);
         expect(bloc.convertReminderTimeToTimeOfDay("12:30"),
-            TimeOfDay(hour: 12, minute: 30));
+            const TimeOfDay(hour: 12, minute: 30));
       });
     });
   });
 
   group('TimeOfDay', () {
     test('returns correct short String', () {
-      expect(TimeOfDay(hour: 14, minute: 30).toApiString(), "14:30");
-      expect(TimeOfDay(hour: 1, minute: 3).toApiString(), "01:03");
-      expect(TimeOfDay(hour: 0, minute: 0).toApiString(), "00:00");
+      expect(const TimeOfDay(hour: 14, minute: 30).toApiString(), "14:30");
+      expect(const TimeOfDay(hour: 1, minute: 3).toApiString(), "01:03");
+      expect(const TimeOfDay(hour: 0, minute: 0).toApiString(), "00:00");
     });
   });
 }

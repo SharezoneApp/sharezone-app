@@ -22,15 +22,15 @@ class NoDataResult implements GroupJoinResult {}
 class LoadingJoinResult implements GroupJoinResult {}
 
 /// Das Beitreten der Gruppe hat erfolgreich funktionert und wurde von der CF ausgeführt.
-class SuccessfullJoinResult implements GroupJoinResult {
+class SuccessfulJoinResult implements GroupJoinResult {
   final GroupInfo groupInfo;
 
-  const SuccessfullJoinResult({
+  const SuccessfulJoinResult({
     required this.groupInfo,
   });
 
-  factory SuccessfullJoinResult.fromData(Map<String, dynamic> data) {
-    return SuccessfullJoinResult(
+  factory SuccessfulJoinResult.fromData(Map<String, dynamic> data) {
+    return SuccessfulJoinResult(
       groupInfo: GroupInfo.fromData(
           Map<String, dynamic>.from(data['groupData'] as Map)),
     );

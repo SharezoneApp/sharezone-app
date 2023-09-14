@@ -54,7 +54,7 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
           builder: (context, snapshot) {
             final streamListEmpty = snapshot.data ?? true;
             if (streamListEmpty) return emptyListWidget;
-            return Container(
+            return SizedBox(
               height: height,
               child: AnimatedStreamList<E>(
                 initialList: future.data,

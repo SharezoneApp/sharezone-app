@@ -61,20 +61,21 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
     return FutureBuilder<UploadTask>(
       future: widget.task,
       builder: (context, future) {
-        if (!future.hasData) return _UploadingDialog(percent: 0);
+        if (!future.hasData) return const _UploadingDialog(percent: 0);
         return StreamBuilder<UploadTaskEvent>(
           stream: future.data!.events,
           builder: (context, snapshot) {
             final event = snapshot.data;
-            if (snapshot.hasError)
+            if (snapshot.hasError) {
               return _UploadingDialogFailure(error: snapshot.error);
-            if (event == null) return _UploadingDialog(percent: 0);
+            }
+            if (event == null) return const _UploadingDialog(percent: 0);
 
             final percent = event.snapshot.bytesTransferred /
                 event.snapshot.totalByteCount *
                 100;
             if (event.type == UploadTaskEventType.error) {
-              return _UploadingDialogFailure(error: "Fehler");
+              return const _UploadingDialogFailure(error: "Fehler");
             }
             return _UploadingDialog(percent: percent);
           },
@@ -104,7 +105,7 @@ class _UploadingDialog extends StatelessWidget {
         Flexible(
             child: Text(
           "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         )),
         const SizedBox(width: 12),
       ],
@@ -124,15 +125,15 @@ class _UploadingDialogFailure extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         const SizedBox(width: 8),
-        Padding(
-          padding: const EdgeInsets.all(16),
+        const Padding(
+          padding: EdgeInsets.all(16),
           child: Icon(Icons.error_outline),
         ),
         const SizedBox(width: 6),
         Flexible(
             child: Text(
           "Es gab einen Fehler: $error",
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         )),
         const SizedBox(width: 12),
       ],
