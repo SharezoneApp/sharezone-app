@@ -335,7 +335,7 @@ class _SelectionSheetTileTrailing extends StatelessWidget {
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
     if (filter.shouldFilterForClass && !isUnlocked) {
-      return const SharezonePlusCard();
+      return const SharezonePlusChip();
     }
     return isSelected ? activeIcon : Container();
   }
