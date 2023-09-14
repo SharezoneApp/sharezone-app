@@ -15,7 +15,7 @@ class _HomeworkSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DashboardBloc>(context);
     return _Section(
-      title: _HomeworkSectionTitle(),
+      title: const _HomeworkSectionTitle(),
       child: SharezoneAnimatedStreamList<HomeworkView>(
         listStream: bloc.urgentHomeworks,
         isListEmptyStream: bloc.urgentHomeworksEmpty,
@@ -75,7 +75,7 @@ class _NoUrgentHomeworks extends StatelessWidget {
           bloc.navigateTo(NavigationItem.homework);
         },
         padding: const EdgeInsets.all(6),
-        child: Center(
+        child: const Center(
           child: Text(
             "Es stehen keine dringenden Hausaufgaben an 😅\nJetzt ist Zeit für die wichtigen Dinge! 😉",
             textAlign: TextAlign.center,

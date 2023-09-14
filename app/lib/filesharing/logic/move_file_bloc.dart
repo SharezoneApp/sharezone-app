@@ -35,15 +35,16 @@ class MoveFileBloc extends BlocBase {
 
   Future<void> moveFileToNewPath() async {
     if (canMoveFile(await fileSharingGateway!.folderGateway
-        .getFilesharingData(cloudFile.courseID!)))
+        .getFilesharingData(cloudFile.courseID!))) {
       fileSharingGateway!.cloudFilesGateway
           .moveFile(cloudFile, _newPathSubject.valueOrNull!);
+    }
   }
 
   bool canMoveFile(FileSharingData? fileSharingData) {
-    final _pathValue = _newPathSubject.valueOrNull;
-    if (_pathValue == cloudFile.path) return false;
-    if (fileSharingData!.getFolder(_pathValue!) == null) return false;
+    final pathValue = _newPathSubject.valueOrNull;
+    if (pathValue == cloudFile.path) return false;
+    if (fileSharingData!.getFolder(pathValue!) == null) return false;
 
     return true;
   }

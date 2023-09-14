@@ -125,9 +125,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   /// Prüfen, ob der Nutzer in den Eingabefelder etwas geändert hat. Falls ja,
   /// wird true zurückgegeben.
   ///
-  /// Attribut [pictureURL] & [sendNotifcation] werden vernachlässtig, da
-  /// dieser Input kein großer Verlust ist, wenn man versehentlich den
-  /// Dialog schließt.
+  /// Attribut [pictureURL] & [sendNotification] werden vernachlässigt, da
+  /// dieser Input kein großer Verlust ist, wenn man versehentlich den Dialog
+  /// schließt.
   bool hasInputChanged() {
     final title = _titleSubject.valueOrNull;
     final course = _courseSegmentSubject.valueOrNull;
@@ -178,8 +178,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
         // auch offline hinzufügbar sind.
         hasAttachments ? await api.create(userInput) : api.create(userInput);
 
-        if (_markdownAnalytics.containsMarkdown(text))
+        if (_markdownAnalytics.containsMarkdown(text)) {
           _markdownAnalytics.logMarkdownUsedBlackboard();
+        }
       } else {
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
           initialCloudFiles,
@@ -193,8 +194,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
             ? await api.edit(oldBlackboardItem, userInput, removedCloudFiles)
             : api.edit(oldBlackboardItem, userInput, removedCloudFiles);
 
-        if (!_markdownAnalytics.containsMarkdown(oldBlackboardItem.text))
+        if (!_markdownAnalytics.containsMarkdown(oldBlackboardItem.text)) {
           _markdownAnalytics.logMarkdownUsedBlackboard();
+        }
       }
     }
   }

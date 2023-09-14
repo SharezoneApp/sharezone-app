@@ -91,7 +91,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
         }
 
         // Loading
-        return _LoadingDialog();
+        return const _LoadingDialog();
       },
     );
 
@@ -100,7 +100,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     return FutureBuilder<AndroidDeviceInformation>(
       future: MobileDeviceInformationRetriever().androidInfo,
       builder: (context, versionFuture) {
-        if (!versionFuture.hasData) return _LoadingDialog();
+        if (!versionFuture.hasData) return const _LoadingDialog();
 
         const brokenFileTypes = ['docx', 'xlsx', 'pptx'];
         if (PlatformCheck.isAndroid &&
@@ -126,7 +126,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
 class _FinishDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _Dialog(
+    return const _Dialog(
       leading: Icon(Icons.check_circle, color: Colors.green),
       text: "Datei wird geöffnet...",
     );
@@ -152,8 +152,8 @@ class _LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Dialog(
-      leading: const AccentColorCircularProgressIndicator(),
+    return const _Dialog(
+      leading: AccentColorCircularProgressIndicator(),
       text: "Die Datei wird auf dein Gerät gebeamt...",
     );
   }
@@ -174,13 +174,13 @@ class _Dialog extends StatelessWidget {
           children: <Widget>[
             const SizedBox(width: 8),
             if (leading != null) ...[
-              Padding(padding: EdgeInsets.all(16), child: leading),
+              Padding(padding: const EdgeInsets.all(16), child: leading),
               const SizedBox(width: 6),
             ],
             Flexible(
                 child: Text(
               text!,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             )),
             const SizedBox(width: 12),
           ],

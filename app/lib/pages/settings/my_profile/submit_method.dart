@@ -33,15 +33,18 @@ Future<void> submit(
       await bloc.submitEmail();
     } else {
       await bloc.submitPassword();
+      if (!context.mounted) return;
       Navigator.pop(context, true);
     }
   } on IdenticalEmailException catch (e) {
+    if (!context.mounted) return;
     showSnackSec(
       text: e.message,
       context: context,
       behavior: SnackBarBehavior.fixed,
     );
   } on Exception catch (e, s) {
+    if (!context.mounted) return;
     showSnackSec(
       text: handleErrorMessage(e.toString(), s),
       behavior: SnackBarBehavior.fixed,

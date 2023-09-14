@@ -11,12 +11,14 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MarkdownSupport extends StatelessWidget {
+  const MarkdownSupport({super.key});
+
   @override
   Widget build(BuildContext context) {
     const style =
         TextStyle(color: Colors.grey, fontSize: 14, fontFamily: rubik);
     return MarkdownBody(
-      data: "Markdown: \*\***fett**\\*\*, \**kursiv*\\*",
+      data: "Markdown: ****fett**\\**, **kursiv*\\*",
       styleSheet: MarkdownStyleSheet(p: style, a: linkStyle(context, 14)),
       selectable: true,
     );

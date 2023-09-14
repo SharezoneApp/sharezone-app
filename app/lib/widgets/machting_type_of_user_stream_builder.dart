@@ -31,8 +31,10 @@ class MatchingTypeOfUserStreamBuilder extends StatelessWidget {
     return StreamBuilder<AppUser?>(
       stream: api.user.userStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data?.typeOfUser == expectedTypeOfUser)
+        if (snapshot.hasData &&
+            snapshot.data?.typeOfUser == expectedTypeOfUser) {
           return matchesTypeOfUserWidget;
+        }
         return notMatchingWidget;
       },
     );

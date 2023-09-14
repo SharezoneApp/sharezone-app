@@ -71,8 +71,10 @@ part './widgets/section.dart';
 class DashboardPage extends StatefulWidget {
   static const tag = 'overview-page';
 
+  const DashboardPage({super.key});
+
   @override
-  _DashboardPageState createState() => _DashboardPageState();
+  State createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
@@ -86,7 +88,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return SharezoneCustomScaffold(
       appBarConfiguration: SliverAppBarConfiguration(
-        title: _AppBarTitle(),
+        title: const _AppBarTitle(),
         backgroundColor:
             isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
         expandedHeight: 210,
@@ -97,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
         drawerIconColor: Colors.white,
       ),
       navigationItem: NavigationItem.overview,
-      body: DashboardPageBody(),
+      body: const DashboardPageBody(),
       floatingActionButton: _DashboardPageFAB(),
     );
   }
@@ -133,7 +135,7 @@ class DashboardPageBody extends StatelessWidget {
               const _HomeworkSection(),
               _EventsSection(),
               _BlackboardSection(),
-              HolidayCountdownSection(),
+              const HolidayCountdownSection(),
               const SizedBox(height: 32)
             ],
           ),

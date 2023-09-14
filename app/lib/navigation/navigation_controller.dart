@@ -22,7 +22,7 @@ class NavigationController extends StatefulWidget {
 
   final FirebaseMessagingCallbackConfigurator? fbMessagingConfigurator;
   @override
-  _NavigationControllerState createState() => _NavigationControllerState();
+  State createState() => _NavigationControllerState();
 }
 
 class _NavigationControllerState extends State<NavigationController> {

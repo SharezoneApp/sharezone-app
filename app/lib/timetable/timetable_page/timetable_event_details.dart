@@ -34,7 +34,7 @@ Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
     context: context,
     right: AdaptiveDialogAction.delete,
     content: !ThemePlatform.isCupertino
-        ? Text("Möchtest du wirklich diesen Termin löschen?")
+        ? const Text("Möchtest du wirklich diesen Termin löschen?")
         : null,
     title: ThemePlatform.isCupertino
         ? "Möchtest du wirklich diesen Termin löschen?"
@@ -56,6 +56,8 @@ Future<void> showTimetableEventDetails(
     ),
     name: _TimetableEventDetailsPage.tag,
   );
+  if (!context.mounted) return;
+
   switch (popOption) {
     case _EventModelSheetAction.delete:
       deleteEvent(context, event);
@@ -87,6 +89,8 @@ Future<void> openTimetableEventEditPage(
   );
   if (confirmed != null && confirmed) {
     await waitingForPopAnimation();
+    if (!context.mounted) return;
+
     showSnackSec(
       text: 'Termin wurde erfolgreich bearbeitet',
       context: context,
@@ -98,9 +102,12 @@ Future<void> openTimetableEventEditPage(
 
 Future<void> deleteEvent(BuildContext context, CalendricalEvent event) async {
   await waitingForBottomModelSheetClosing();
+  if (!context.mounted) return;
+
   final confirmed = await showDeleteEventConfirmationDialog(context);
-  if (confirmed == true)
+  if (confirmed == true && context.mounted) {
     _deleteEventAndShowConfirmationSnackbar(context, event);
+  }
 }
 
 Future<void> _deleteEventAndShowConfirmationSnackbar(
@@ -110,6 +117,8 @@ Future<void> _deleteEventAndShowConfirmationSnackbar(
   timetableGateway.deleteEvent(event);
 
   await waitingForPopAnimation();
+  if (!context.mounted) return;
+
   showSnackSec(
     text: 'Termin wurde gelöscht',
     context: context,
@@ -124,10 +133,9 @@ class _TimetableEventDetailsPage extends StatelessWidget {
   final Design? design;
 
   const _TimetableEventDetailsPage({
-    Key? key,
     required this.event,
     this.design,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +187,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                               : Colors.grey[800],
                           fontSize: 16),
                       children: <TextSpan>[
-                        TextSpan(text: "Kursname: "),
+                        const TextSpan(text: "Kursname: "),
                         TextSpan(
                             text: courseName,
                             style: TextStyle(color: design?.color))
@@ -189,7 +197,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                 ),
                 if (event.eventType is OtherEventType == false)
                   ListTile(
-                    leading: Icon(Icons.label),
+                    leading: const Icon(Icons.label),
                     title: Text("Art: ${event.eventType.name}"),
                   ),
                 ListTile(
@@ -245,7 +253,7 @@ class _TitleAndDate extends StatelessWidget {
       leading: _Square(color: design?.color),
       title: Text(
         event.title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 26,
         ),
       ),
@@ -324,13 +332,13 @@ class _AddToMyCalendarButton extends StatelessWidget {
     // Eigentlich sollte das Plugin auf Web funktioniert. Leider ist dies nicht
     // der Fall, weswegen der Button für Web ausgeblendet wird.
     // Ticket: https://github.com/ja2375/add_2_calendar/issues/32
-    if (PlatformCheck.isDesktopOrWeb) return Text("");
+    if (PlatformCheck.isDesktopOrWeb) return const Text("");
 
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Divider(),
+          const Divider(),
           MaxWidthConstraintBox(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
@@ -353,6 +361,7 @@ class _AddToMyCalendarButton extends StatelessWidget {
                       location: event.place,
                       timeZone: timezone,
                     );
+                    if (!context.mounted) return;
 
                     add_2_calendar.Add2Calendar.addEvent2Cal(calendarEvent);
 

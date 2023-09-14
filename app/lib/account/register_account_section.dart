@@ -20,7 +20,9 @@ import 'package:user/user.dart';
 
 import 'account_page_bloc.dart';
 
-class RegistierAccountSection extends StatelessWidget {
+class RegisterAccountSection extends StatelessWidget {
+  const RegisterAccountSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +83,7 @@ class _SignInMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    if (width < 550)
+    if (width < 550) {
       return Column(
         children: <Widget>[
           _AppleButton.long(),
@@ -91,6 +93,7 @@ class _SignInMethods extends StatelessWidget {
           _EmailButton.long(),
         ],
       );
+    }
 
     return Row(
       children: <Widget>[
@@ -106,8 +109,8 @@ class _SignInMethods extends StatelessWidget {
 
 class _GoogleButton extends StatelessWidget {
   const _GoogleButton._(this.title, {Key? key}) : super(key: key);
-  factory _GoogleButton.short() => _GoogleButton._('Google');
-  factory _GoogleButton.long() => _GoogleButton._('Mit Google anmelden');
+  factory _GoogleButton.short() => const _GoogleButton._('Google');
+  factory _GoogleButton.long() => const _GoogleButton._('Mit Google anmelden');
 
   final String title;
 
@@ -123,8 +126,9 @@ class _GoogleButton extends StatelessWidget {
       name: title,
       onTap: () async {
         final result = await bloc.linkWithGoogleAndHandleExceptions();
-        if (result == LinkAction.credentialAlreadyInUse)
+        if (result == LinkAction.credentialAlreadyInUse && context.mounted) {
           showCredentialAlreadyInUseDialog(context);
+        }
       },
     );
   }
@@ -133,8 +137,8 @@ class _GoogleButton extends StatelessWidget {
 class _AppleButton extends StatelessWidget {
   const _AppleButton._(this.title, {Key? key}) : super(key: key);
 
-  factory _AppleButton.short() => _AppleButton._('Apple');
-  factory _AppleButton.long() => _AppleButton._('Mit Apple anmelden');
+  factory _AppleButton.short() => const _AppleButton._('Apple');
+  factory _AppleButton.long() => const _AppleButton._('Mit Apple anmelden');
 
   final String title;
 
@@ -146,8 +150,9 @@ class _AppleButton extends StatelessWidget {
       name: title,
       onTap: () async {
         final result = await bloc.linkWithAppleAndHandleExceptions();
-        if (result == LinkAction.credentialAlreadyInUse)
+        if (result == LinkAction.credentialAlreadyInUse && context.mounted) {
           showCredentialAlreadyInUseDialog(context);
+        }
       },
     );
   }
@@ -155,8 +160,8 @@ class _AppleButton extends StatelessWidget {
 
 class _EmailButton extends StatelessWidget {
   const _EmailButton._(this.title, {Key? key}) : super(key: key);
-  factory _EmailButton.short() => _EmailButton._('E-Mail');
-  factory _EmailButton.long() => _EmailButton._('Mit E-Mail anmelden');
+  factory _EmailButton.short() => const _EmailButton._('E-Mail');
+  factory _EmailButton.long() => const _EmailButton._('Mit E-Mail anmelden');
 
   final String title;
 
@@ -178,7 +183,9 @@ class _EmailButton extends StatelessWidget {
                 defaultValue: false,
                 name: EmailAndPasswordLinkPage.tag,
               );
-              if (confirmed) _showConfirmationSnackBar(context);
+              if (confirmed && context.mounted) {
+                _showConfirmationSnackBar(context);
+              }
             }
           },
         );
@@ -241,22 +248,22 @@ class _SignUpButton extends StatelessWidget {
 Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
   final showInstruction = await showLeftRightAdaptiveDialog<bool>(
       context: context,
-      left: AdaptiveDialogAction<bool>(
+      left: const AdaptiveDialogAction<bool>(
         popResult: false,
         title: "Schließen",
       ),
-      right: AdaptiveDialogAction<bool>(
+      right: const AdaptiveDialogAction<bool>(
         popResult: true,
         title: "Anleitung zeigen",
       ),
       title: "Diese E-Mail wird schon verwendet!",
-      content: Text(
+      content: const Text(
           "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)"));
 
-  if (showInstruction != null && showInstruction) {
-    final LinkProviderAnalytics _analytics =
+  if (showInstruction != null && showInstruction && context.mounted) {
+    final LinkProviderAnalytics analytics =
         LinkProviderAnalytics(Analytics(getBackend()));
-    _analytics.logShowedUseMultipleDevicesInstruction();
-    Navigator.pushNamed(context, UseAccountOnMultipleDevicesIntruction.tag);
+    analytics.logShowedUseMultipleDevicesInstruction();
+    Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }
 }

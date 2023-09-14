@@ -15,7 +15,7 @@ List<CloudFileAction> folderActions(
     bool? isFolderDeletable, bool hasPermissionToEdit) {
   return [
     if (hasPermissionToEdit)
-      CloudFileAction(
+      const CloudFileAction(
         name: "Umbenennen",
         iconData: Icons.edit,
         sheetOption: SheetOption.rename,
@@ -32,19 +32,19 @@ List<CloudFileAction> folderActions(
 
 List<CloudFileAction> cloudFileActions(bool hasPermissionToEdit) {
   return [
-    CloudFileAction(
+    const CloudFileAction(
       name: "Herunterladen",
       iconData: Icons.file_download,
       sheetOption: SheetOption.download,
     ),
     if (hasPermissionToEdit)
-      CloudFileAction(
+      const CloudFileAction(
         name: "Umbenennen",
         iconData: Icons.edit,
         sheetOption: SheetOption.rename,
       ),
     if (hasPermissionToEdit)
-      CloudFileAction(
+      const CloudFileAction(
         name: "Verschieben nach",
         iconData: Icons.input,
         sheetOption: SheetOption.moveFile,
@@ -55,7 +55,7 @@ List<CloudFileAction> cloudFileActions(bool hasPermissionToEdit) {
       sheetOption: SheetOption.report,
     ),
     if (hasPermissionToEdit)
-      CloudFileAction(
+      const CloudFileAction(
         name: "Löschen",
         iconData: Icons.delete,
         sheetOption: SheetOption.delete,

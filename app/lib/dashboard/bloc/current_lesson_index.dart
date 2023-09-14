@@ -29,8 +29,9 @@ int getCurrentLessonIndex(List<LessonView> lessons) {
 
   // School is over.
   if (lessons.every(
-      (lesson) => lesson.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace))
+      (lesson) => lesson.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace)) {
     throw AllLessonsAreOverException();
+  }
 
   // If a lesson is currently taking place return its index.
   for (int i = 0; i < lessons.length; i++) {

@@ -25,6 +25,7 @@ class PortableCustomScaffold extends StatelessWidget {
   final Key? scaffoldKey;
 
   const PortableCustomScaffold({
+    super.key,
     required this.navigationItem,
     required this.appBarConfiguration,
     required this.body,
@@ -65,7 +66,7 @@ class PortableCustomScaffold extends StatelessWidget {
               ],
             ),
             floatingActionButton: floatingActionButton,
-            drawer: isOldNav ? SharezoneDrawer() : null,
+            drawer: isOldNav ? const SharezoneDrawer() : null,
             bottomNavigationBar: isOldNav
                 ? BnbAndDrawerBottomNavigationBar(
                     navigationItem: navigationItem)

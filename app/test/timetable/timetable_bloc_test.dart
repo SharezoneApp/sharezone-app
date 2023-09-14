@@ -29,7 +29,7 @@ import 'mock/mock_user_gateway.dart';
 
 void main() {
   group('TimetableBloc', () {
-    SchoolClass _createSchoolClass(String id) {
+    SchoolClass createSchoolClass(String id) {
       final data = {
         'name': id,
         'myRole': 'standard',
@@ -43,7 +43,7 @@ void main() {
       return SchoolClass.fromData(data, id: id);
     }
 
-    Lesson _createLesson(String groupId) {
+    Lesson createLesson(String groupId) {
       return Lesson(
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
@@ -59,7 +59,7 @@ void main() {
       );
     }
 
-    CalendricalEvent _createEvent(String groupId) {
+    CalendricalEvent createEvent(String groupId) {
       return CalendricalEvent(
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
@@ -77,8 +77,8 @@ void main() {
       );
     }
 
-    final klasse10a = _createSchoolClass('10a');
-    final klasse5b = _createSchoolClass('5b');
+    final klasse10a = createSchoolClass('10a');
+    final klasse5b = createSchoolClass('5b');
 
     final mathe10aId = GroupId('mathe10a');
     final deutsch5bId = GroupId('deutsch5bId');
@@ -86,13 +86,13 @@ void main() {
     // Die Informatik AG ist mit keiner Schulklasse verknüpft.
     final informatikAgId = GroupId('informatikAg');
 
-    final lesson10a = _createLesson(mathe10aId.id);
-    final lesson5b = _createLesson(deutsch5bId.id);
-    final lessonAg = _createLesson(informatikAgId.id);
+    final lesson10a = createLesson(mathe10aId.id);
+    final lesson5b = createLesson(deutsch5bId.id);
+    final lessonAg = createLesson(informatikAgId.id);
 
-    final event10a = _createEvent(mathe10aId.id);
-    final event5b = _createEvent(deutsch5bId.id);
-    final eventAg = _createEvent(informatikAgId.id);
+    final event10a = createEvent(mathe10aId.id);
+    final event5b = createEvent(deutsch5bId.id);
+    final eventAg = createEvent(informatikAgId.id);
 
     group('SchoolClassSelection', () {
       late TimetableBloc bloc;
@@ -226,9 +226,9 @@ void main() {
 
       test('The school classes in the view should be sorted alphabetically',
           () async {
-        final a = _createSchoolClass('a');
-        final b = _createSchoolClass('b');
-        final c = _createSchoolClass('c');
+        final a = createSchoolClass('a');
+        final b = createSchoolClass('b');
+        final c = createSchoolClass('c');
 
         schoolClassGateway.addSchoolClasses([c, a, b]);
 

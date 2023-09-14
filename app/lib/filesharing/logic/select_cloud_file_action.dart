@@ -32,6 +32,8 @@ Future<void> selectCloudFileAction({
   cloudFile = await api.fileSharing.cloudFilesGateway
       .cloudFileStream(cloudFile.id!)
       .first;
+  if (!context.mounted) return;
+
   switch (sheetOption) {
     case SheetOption.download:
       if (PlatformCheck.isWeb) {

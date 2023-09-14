@@ -22,6 +22,8 @@ import 'logic/file_sharing_page_state_bloc.dart';
 import 'widgets/file_sharing_page_fab.dart';
 
 class FileSharingPageController extends StatelessWidget {
+  const FileSharingPageController({super.key});
+
   @override
   Widget build(BuildContext context) {
     final pageStateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
@@ -81,7 +83,7 @@ class FileSharingPageBody extends StatelessWidget {
         child: pageState is FileSharingPageStateGroup
             ? FileSharingViewGroup(
                 groupState: pageState as FileSharingPageStateGroup?)
-            : FileSharingViewHome(),
+            : const FileSharingViewHome(),
       ),
     );
   }

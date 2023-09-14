@@ -20,6 +20,7 @@ class TimetablePeriodView extends StatelessWidget {
   final Periods periods;
 
   const TimetablePeriodView({
+    super.key,
     required this.hourHeight,
     required this.timetableBegin,
     required this.periods,
@@ -115,6 +116,12 @@ class _PeriodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
+          width: 0.1,
+        ),
+      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +129,7 @@ class _PeriodTile extends StatelessWidget {
             Text(
               period.startTime.toString(),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 11,
                 color: Colors.grey,
               ),
@@ -132,7 +139,7 @@ class _PeriodTile extends StatelessWidget {
               child: Text(
                 period.number.toString(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12.5,
                   // color: Colors.black,
                   fontWeight: FontWeight.w700,
@@ -142,18 +149,12 @@ class _PeriodTile extends StatelessWidget {
             Text(
               period.endTime.toString(),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 11,
                 color: Colors.grey,
               ),
             )
           ],
-        ),
-      ),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
-          width: 0.1,
         ),
       ),
     );
@@ -171,11 +172,6 @@ class _HourTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        hour.toString(),
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 11, color: Colors.grey),
-      ),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -183,6 +179,11 @@ class _HourTile extends StatelessWidget {
                   isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
               width: 0.1),
         ),
+      ),
+      child: Text(
+        hour.toString(),
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 11, color: Colors.grey),
       ),
     );
   }

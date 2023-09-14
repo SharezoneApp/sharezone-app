@@ -77,7 +77,7 @@ void main() {
       mockGroupJoinBloc = MockGroupJoinBloc();
     });
 
-    GroupJoinSelectCoursesBloc _blocWith({
+    GroupJoinSelectCoursesBloc blocWith({
       required List<GroupInfoWithSelectionState> courses,
     }) {
       return GroupJoinSelectCoursesBloc(
@@ -91,7 +91,7 @@ void main() {
 
     test('sorts courselist alphabetically', () async {
       // Arrange
-      final bloc = _blocWith(courses: [
+      final bloc = blocWith(courses: [
         _courseWith(name: 'Englisch'),
         _courseWith(name: 'Deutsch'),
         _courseWith(name: 'Spanisch'),
@@ -111,7 +111,7 @@ void main() {
 // Hierbei wird überprüft, dass beim submit dies auch an den GroupJoinBloc übergeben wird.
     test('sends new Join Request to GroupJoinBloc', () async {
       // Arrange
-      final bloc = _blocWith(courses: [
+      final bloc = blocWith(courses: [
         _courseWith(name: 'Englisch'),
         _courseWith(name: 'Deutsch'),
         _courseWith(name: 'Spanisch'),
@@ -125,7 +125,7 @@ void main() {
 
     test('updates isSelected, when the selectionState was updated', () async {
       // Arrange
-      final bloc = _blocWith(courses: [
+      final bloc = blocWith(courses: [
         _courseWith(id: 'deutsch', isSelected: false),
       ]);
       // Act
@@ -140,7 +140,7 @@ void main() {
 
     test('only sends new request with selected courses', () async {
       // Arrange
-      final bloc = _blocWith(courses: [
+      final bloc = blocWith(courses: [
         _courseWith(id: 'englisch', name: 'Englisch', isSelected: false),
         _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
         _courseWith(id: 'franzosisch', name: 'Französisch', isSelected: true),
@@ -166,7 +166,7 @@ void main() {
         'sends new request with all preselected courses, if users skips the selection',
         () async {
       // Arrange
-      final bloc = _blocWith(courses: [
+      final bloc = blocWith(courses: [
         _courseWith(id: 'englisch', name: 'Englisch', isSelected: true),
         _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
         _courseWith(id: 'franzosisch', name: 'Französisch', isSelected: true),

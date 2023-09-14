@@ -15,6 +15,7 @@ import 'member_list.dart';
 
 class MemberSection extends StatelessWidget {
   const MemberSection({
+    super.key,
     required this.splittedMemberList,
     required this.allMembers,
     required this.groupInfo,
@@ -42,7 +43,7 @@ class MemberSection extends StatelessWidget {
                 groupInfo: groupInfo,
               ),
               _isLoading()
-                  ? LoadingMemberList()
+                  ? const LoadingMemberList()
                   : Column(
                       children: <Widget>[
                         MemberList(
@@ -83,7 +84,7 @@ class MemberCountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "Anzahl der Teilnehmer: $memberCount",
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.grey,
         fontSize: 13,
       ),

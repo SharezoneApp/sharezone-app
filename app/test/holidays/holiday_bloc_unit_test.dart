@@ -73,7 +73,7 @@ void main() {
         CacheResponse.valid([generateHoliday(), generateHoliday()]);
     HolidayBloc bloc = getBlocWithMocks();
 
-    when(mockCache.load(NordrheinWestfalen())).thenReturn(cachedHolidays);
+    when(mockCache.load(const NordrheinWestfalen())).thenReturn(cachedHolidays);
 
     expect(bloc.holidays, emits(cachedHolidays.payload));
   });
@@ -113,8 +113,8 @@ void main() {
         holidayManager: getMockManager(), stateGateway: holidayStateGateway);
 
     cacheReturnsInvalidHolidays(generateHolidayList(2));
-    apiAnswersWith(expectedNrwResponse, forState: NordrheinWestfalen());
-    apiAnswersWith(expectedHessenResponse, forState: Hessen());
+    apiAnswersWith(expectedNrwResponse, forState: const NordrheinWestfalen());
+    apiAnswersWith(expectedHessenResponse, forState: const Hessen());
 
     holidayStateGateway.changeState(StateEnum.nordrheinWestfalen);
     holidayStateGateway.changeState(StateEnum.hessen);
@@ -129,10 +129,12 @@ void main() {
         holidayManager: getMockManager(), stateGateway: stateGateway);
 
     stateGateway.changeState(StateEnum.anonymous);
-    expect(bloc.holidays, emitsError(TypeMatcher<UnsupportedStateException>()));
+    expect(bloc.holidays,
+        emitsError(const TypeMatcher<UnsupportedStateException>()));
 
     stateGateway.changeState(StateEnum.notFromGermany);
-    expect(bloc.holidays, emitsError(TypeMatcher<UnsupportedStateException>()));
+    expect(bloc.holidays,
+        emitsError(const TypeMatcher<UnsupportedStateException>()));
   });
 
   test('When holidays can not be saved the api still returns as usual', () {

@@ -20,18 +20,19 @@ Future<bool?> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
   if (ThemePlatform.isCupertino) {
     return showCupertinoDialog(
         context: context,
-        builder: (context) => SignOutAndDeleteAnonymousUserAlert());
+        builder: (context) => const SignOutAndDeleteAnonymousUserAlert());
   } else {
     return showDialog(
         context: context,
-        builder: (context) => SignOutAndDeleteAnonymousUserAlert());
+        builder: (context) => const SignOutAndDeleteAnonymousUserAlert());
   }
 }
 
 class SignOutAndDeleteAnonymousUserAlert extends StatefulWidget {
+  const SignOutAndDeleteAnonymousUserAlert({super.key});
+
   @override
-  _SignOutAndDeleteAnonymousUserAlertState createState() =>
-      _SignOutAndDeleteAnonymousUserAlertState();
+  State createState() => _SignOutAndDeleteAnonymousUserAlertState();
 }
 
 class _SignOutAndDeleteAnonymousUserAlertState
@@ -82,7 +83,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(userDeletionNotice),
+              const Text(userDeletionNotice),
               DeleteConfirmationCheckbox(
                 onChanged: (value) {
                   if (value == null) return;
@@ -102,8 +103,8 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
             onPressed: () => Navigator.pop(context, false),
           ),
           if (isLoading)
-            Column(
-              children: const <Widget>[
+            const Column(
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 12),
                   child: LoadingCircle(),
@@ -112,10 +113,10 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
             ),
           if (confirmedToDeleteAccount && !isLoading)
             CupertinoActionSheetAction(
-                child: const Text("Löschen"),
                 isDefaultAction: true,
                 isDestructiveAction: true,
-                onPressed: () => tryToSignOutAndDeleteUser(context)),
+                onPressed: () => tryToSignOutAndDeleteUser(context),
+                child: const Text("Löschen")),
         ],
       );
     }
@@ -129,8 +130,8 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Text(userDeletionNotice),
                 ),
                 DeleteConfirmationCheckbox(
@@ -149,19 +150,19 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
         ),
         actions: [
           if (isLoading)
-            LoadingCircle()
+            const LoadingCircle()
           else
             Row(
               children: <Widget>[
-                CancelButton(),
+                const CancelButton(),
                 TextButton(
-                  child: const Text("LÖSCHEN"),
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: confirmedToDeleteAccount
                       ? () => tryToSignOutAndDeleteUser(context)
                       : null,
+                  child: const Text("LÖSCHEN"),
                 ),
               ],
             )
@@ -217,11 +218,12 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ThemePlatform.isCupertino)
+    if (ThemePlatform.isCupertino) {
       return GestureDetector(
         onTap: () => onChanged(!confirm),
         child: child(context),
       );
+    }
     return InkWell(
       onTap: () => onChanged(!confirm),
       child: child(context),
@@ -240,7 +242,7 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
           Flexible(
             child: Text(text, textAlign: TextAlign.start),
           ),
-          if (!ThemePlatform.isCupertino) SizedBox(width: 12),
+          if (!ThemePlatform.isCupertino) const SizedBox(width: 12),
           Material(
             color: Colors.transparent,
             child: Theme(

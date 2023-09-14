@@ -46,6 +46,7 @@ class Comment extends StatelessWidget {
 
   Comment.fromView(
     CommentView comment, {
+    super.key,
     required this.onRated,
     required this.onDelete,
     required this.onReport,
@@ -104,7 +105,8 @@ class Comment extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(likes,
-                          style: TextStyle(color: Colors.grey, fontSize: 11)),
+                          style: const TextStyle(
+                              color: Colors.grey, fontSize: 11)),
                       const SizedBox(width: 8),
                       InkWell(
                         onTap: () => onRated(CommentEvent.disliked),
@@ -156,6 +158,8 @@ class Comment extends StatelessWidget {
       ),
     );
 
+    if (!context.mounted) return;
+
     switch (action) {
       case _CommentSheetAction.copy:
         copyToClipboardAndShowConfirmation(context);
@@ -179,7 +183,7 @@ class Comment extends StatelessWidget {
           const Text("Möchtest du wirklich den Kommentar für alle löschen?"),
     );
 
-    if (result == true) {
+    if (result == true && context.mounted) {
       onDelete();
       showSnack(
         duration: const Duration(milliseconds: 1600),
@@ -207,12 +211,12 @@ class _Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      child: Text(
-        avatarText,
-        style: TextStyle(color: Colors.white),
-      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       radius: 18,
+      child: Text(
+        avatarText,
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }
@@ -249,10 +253,10 @@ class _CommentSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(authorName, style: TextStyle(fontSize: 16)),
+                      Text(authorName, style: const TextStyle(fontSize: 16)),
                       Text(
                         content,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),

@@ -41,8 +41,8 @@ class ChooseTypeOfUser extends StatelessWidget {
                           typeOfUserButtons(context),
                           if (withLogin) ...[
                             const Divider(height: 46),
-                            _LoginButton(
-                                key: const ValueKey('go-to-login-button-E2E')),
+                            const _LoginButton(
+                                key: ValueKey('go-to-login-button-E2E')),
                           ]
                         ],
                       ),
@@ -55,7 +55,7 @@ class ChooseTypeOfUser extends StatelessWidget {
           Padding(
             padding:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.12),
-            child: Align(
+            child: const Align(
               alignment: Alignment.topCenter,
               child: SharezoneLogo(
                 logoColor: LogoColor.blueShort,
@@ -66,7 +66,8 @@ class ChooseTypeOfUser extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: withBackButton ? OnboardingNavigationBar() : null,
+      bottomNavigationBar:
+          withBackButton ? const OnboardingNavigationBar() : null,
     );
   }
 
@@ -75,8 +76,8 @@ class ChooseTypeOfUser extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: hasLowWidth
-          ? Column(
-              children: const <Widget>[
+          ? const Column(
+              children: <Widget>[
                 _StudentNew(),
                 SizedBox(height: 12),
                 _TeacherNew(),
@@ -84,9 +85,9 @@ class ChooseTypeOfUser extends StatelessWidget {
                 _ParentsNew(),
               ],
             )
-          : Row(
+          : const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Expanded(
                   child: _StudentNew(),
                 ),
@@ -109,7 +110,7 @@ class _StudentNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TypeOfUserTileNew(
+    return const _TypeOfUserTileNew(
       typeOfUser: TypeOfUser.student,
       iconSvgPath: "assets/icons/students.svg",
     );
@@ -121,7 +122,7 @@ class _TeacherNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TypeOfUserTileNew(
+    return const _TypeOfUserTileNew(
       typeOfUser: TypeOfUser.teacher,
       iconSvgPath: "assets/icons/professor.svg",
     );
@@ -133,7 +134,7 @@ class _ParentsNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TypeOfUserTileNew(
+    return const _TypeOfUserTileNew(
       typeOfUser: TypeOfUser.parent,
       iconSvgPath: "assets/icons/parents.svg",
     );
@@ -161,7 +162,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
           Navigator.push(
             context,
             FadeRoute(
-              child: _Advantages(),
+              child: const _Advantages(),
               tag: _DataProtectionOverview.tag,
             ),
           );
@@ -169,7 +170,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
           Navigator.push(
             context,
             FadeRoute(
-              child: _DataProtectionOverview(),
+              child: const _DataProtectionOverview(),
               tag: _DataProtectionOverview.tag,
             ),
           );
@@ -222,7 +223,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
           Text(
             typeOfUser.toReadableString(),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           )
         ],
       );
@@ -244,9 +245,9 @@ class _LoginButton extends StatelessWidget {
           foregroundColor: Colors.grey,
         ),
         onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: const Text(
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 4),
+          child: Text(
             "Du hast bereits ein Konto? Klicke hier, um dich einzuloggen.",
             textAlign: TextAlign.center,
           ),

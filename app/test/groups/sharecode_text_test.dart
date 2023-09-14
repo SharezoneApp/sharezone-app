@@ -13,7 +13,7 @@ import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 
 void main() {
   group('SharecodeText', () {
-    Future<void> _pumpSharecodeText({
+    Future<void> pumpSharecodeText({
       required WidgetTester tester,
       required String sharecode,
       VoidCallback? onCopied,
@@ -37,7 +37,7 @@ void main() {
     testWidgets(
         'shows copy confirmation SnackBar, if user taps on SharecodeText',
         (tester) async {
-      await _pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
+      await pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
 
       await tester.tap(find.byType(SharecodeText));
       await tester.pump();
@@ -48,7 +48,7 @@ void main() {
     testWidgets(
         'shows copy confirmation SnackBar, if user presses long on SharecodeText',
         (tester) async {
-      await _pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
+      await pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
 
       await tester.longPress(find.byType(SharecodeText));
       await tester.pump();
@@ -59,7 +59,7 @@ void main() {
     testWidgets('runs onCopied, if user taps on SharecodeText', (tester) async {
       bool logTapped = false;
 
-      await _pumpSharecodeText(
+      await pumpSharecodeText(
         tester: tester,
         sharecode: sharecode.toString(),
         onCopied: () => logTapped = true,
@@ -75,7 +75,7 @@ void main() {
         (tester) async {
       bool logPressedLong = false;
 
-      await _pumpSharecodeText(
+      await pumpSharecodeText(
         tester: tester,
         sharecode: sharecode.toString(),
         onCopied: () => logPressedLong = true,
@@ -88,7 +88,7 @@ void main() {
     });
 
     group('spells out the sharecode for screen readers:', () {
-      Finder _findSemanticsWidgetWith({required String spelledOutSharecode}) {
+      Finder findSemanticsWidgetWith({required String spelledOutSharecode}) {
         return find.bySemanticsLabel('Sharecode: $spelledOutSharecode');
       }
 
@@ -97,10 +97,10 @@ void main() {
         required String isSpelledOutAs,
         required WidgetTester tester,
       }) async {
-        await _pumpSharecodeText(tester: tester, sharecode: sharecode);
+        await pumpSharecodeText(tester: tester, sharecode: sharecode);
 
         final finder =
-            _findSemanticsWidgetWith(spelledOutSharecode: isSpelledOutAs);
+            findSemanticsWidgetWith(spelledOutSharecode: isSpelledOutAs);
 
         expect(finder, findsOneWidget);
       }

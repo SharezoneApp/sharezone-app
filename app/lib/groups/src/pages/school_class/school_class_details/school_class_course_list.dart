@@ -64,6 +64,9 @@ class _List extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 16, top: 16),
@@ -76,16 +79,13 @@ class _List extends StatelessWidget {
             schoolClassId: schoolClassId,
           ),
         if (courses.isEmpty)
-          ListTile(
-            title: const Text(
+          const ListTile(
+            title: Text(
                 "Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist."),
           ),
         if (isAdmin) _AddExistingCourse(schoolClassId),
         if (isAdmin) _AddNewCourse(schoolClassId),
       ],
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
     );
   }
 }
@@ -107,9 +107,9 @@ class _SchoolCoursesActions extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.fromLTRB(18, 0, 16, 4),
       leading: CircleAvatar(
-        child: Icon(iconData),
         foregroundColor: Theme.of(context).primaryColor,
         backgroundColor: Colors.grey[200],
+        child: Icon(iconData),
       ),
       title: Text(title),
       onTap: onTap,
@@ -136,7 +136,7 @@ class _AddExistingCourse extends StatelessWidget {
               final courseList = snapshot.data!;
               final futureResult =
                   await _showCourseListDialog(context, courseList);
-              if (futureResult != null) {
+              if (futureResult != null && context.mounted) {
                 showSimpleStateDialog(context, futureResult);
               }
             } else {
@@ -163,9 +163,9 @@ class _AddExistingCourse extends StatelessWidget {
           return SimpleDialog(
             title: const Text("Wähle einen Kurs aus"),
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 6),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.fromLTRB(24, 0, 24, 6),
+                child: Text(
                     "Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.",
                     style: TextStyle(color: Colors.grey, fontSize: 12)),
               ),
@@ -235,7 +235,8 @@ class _AddNewCourse extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) =>
               SchoolClassCourseTemplatePage(schoolClassID: schoolClassID),
-          settings: RouteSettings(name: SchoolClassCourseTemplatePage.tag),
+          settings:
+              const RouteSettings(name: SchoolClassCourseTemplatePage.tag),
         ),
       ),
     );

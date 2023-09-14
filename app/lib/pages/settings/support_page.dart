@@ -17,6 +17,8 @@ import 'package:url_launcher/url_launcher.dart';
 class SupportPage extends StatelessWidget {
   static const String tag = 'support-page';
 
+  const SupportPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,7 @@ class SupportPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _Header(),
+                const _Header(),
                 _DiscordTile(),
                 _EmailTile(),
               ],
@@ -126,6 +128,7 @@ class _EmailTile extends StatelessWidget {
         try {
           await launchUrl(url);
         } on Exception catch (_) {
+          if (!context.mounted) return;
           showSnackSec(
             context: context,
             text: 'E-Mail: support@sharezone.net',
@@ -149,10 +152,10 @@ class _DiscordTile extends StatelessWidget {
       onPressed: () async {
         final confirmed = await showDialog<bool>(
           context: context,
-          builder: (_) => _NoteAboutPrivacyPolicy(),
+          builder: (_) => const _NoteAboutPrivacyPolicy(),
         );
 
-        if (confirmed == true) {
+        if (confirmed == true && context.mounted) {
           launchURL('https://sharezone.net/discord', context: context);
         }
       },
@@ -166,7 +169,7 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Discord Datenschutz"),
+      title: const Text("Discord Datenschutz"),
       content: SingleChildScrollView(
         child: MarkdownBody(
           data:

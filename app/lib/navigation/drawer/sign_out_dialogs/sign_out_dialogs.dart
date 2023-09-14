@@ -25,14 +25,14 @@ Future<void> signOut(BuildContext context, bool isAnonymous) async {
         ? await showSignOutAndDeleteAnonymousDialog(context)
         : await _showSignOutWithNormalUserDialog(context);
   }
-  if (loggedOut != null && loggedOut) {
+  if (loggedOut == true && context.mounted) {
     final bloc = BlocProvider.of<NavigationBloc>(context);
     bloc.navigateTo(NavigationItem.overview);
   }
 }
 
 Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
-  final confirmed = (await showLeftRightAdaptiveDialog<bool>(
+  final confirmed = await showLeftRightAdaptiveDialog<bool>(
       context: context,
       title: ThemePlatform.isCupertino
           ? "Möchtest du dich wirklich abmelden?"
@@ -47,10 +47,10 @@ Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
         popResult: true,
         isDestructiveAction: true,
         isDefaultAction: true,
-      )))!;
-  if (confirmed) {
+      ));
+  if (confirmed == true && context.mounted) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
     userGateway.logOut();
   }
-  return confirmed;
+  return confirmed!;
 }

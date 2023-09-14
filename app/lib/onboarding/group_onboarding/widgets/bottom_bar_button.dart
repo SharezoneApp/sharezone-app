@@ -22,14 +22,14 @@ class BottomBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
       ),
       child: TextButton(
         style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: Theme.of(context).primaryColor),
-        child: Text(text.toUpperCase(), style: TextStyle(fontSize: 20)),
         onPressed: onTap,
+        child: Text(text.toUpperCase(), style: const TextStyle(fontSize: 20)),
       ),
     );
   }

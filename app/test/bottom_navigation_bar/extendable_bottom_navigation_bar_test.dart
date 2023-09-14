@@ -67,9 +67,9 @@ void main() {
             BlocProvider<NavigationExperimentCache>(
                 bloc: navigationExperimentCache),
           ],
-          child: (context) => MaterialApp(
+          child: (context) => const MaterialApp(
             home: ExtendableBottomNavigationBar(
-              page: Scaffold(body: Container(height: 800, width: 800)),
+              page: Scaffold(body: SizedBox(height: 800, width: 800)),
               option: NavigationExperimentOption.drawerAndBnb,
               currentNavigationItem: NavigationItem.overview,
             ),

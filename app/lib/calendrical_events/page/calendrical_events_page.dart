@@ -24,8 +24,10 @@ enum _FABEventListOption { event, exam }
 class CalendricalEventsPage extends StatefulWidget {
   static const tag = "timetable-event-list";
 
+  const CalendricalEventsPage({super.key});
+
   @override
-  _CalendricalEventsPageState createState() => _CalendricalEventsPageState();
+  State createState() => _CalendricalEventsPageState();
 }
 
 class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
@@ -66,7 +68,7 @@ class _CalendricalEventsPageBody extends StatelessWidget {
         final events = snapshot.data;
 
         if (events == null) return Container();
-        if (events.isEmpty) return _EmptyEventList();
+        if (events.isEmpty) return const _EmptyEventList();
         return _EventList(events: events);
       },
     );
@@ -115,7 +117,7 @@ class _EventListFAB extends StatelessWidget {
       builder: (context) => _EventListFABSheet(),
     );
 
-    if (result != null) {
+    if (result != null && context.mounted) {
       if (result == _FABEventListOption.event) {
         return showTimetableAddEventPage(context, isExam: false);
       } else if (result == _FABEventListOption.exam) {
@@ -142,12 +144,12 @@ class _EventListFABSheet extends StatelessWidget {
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Container(
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: SizedBox(
                 height: 150,
                 child: Stack(
-                  children: const <Widget>[
+                  children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(right: 145),
                       child: ModalBottomSheetBigIconButton<_FABEventListOption>(
@@ -186,15 +188,15 @@ class _EmptyEventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
         child: PlaceholderWidgetWithAnimation(
-      iconSize: const Size(150, 150),
+      iconSize: Size(150, 150),
       title: "Es stehen keine Termine und Prüfungen in der Zukunft an.",
       svgPath: "assets/icons/calendar.svg",
       description: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8),
         child: Column(
-          children: const <Widget>[
+          children: <Widget>[
             _AddExamTile(),
             SizedBox(height: 12),
             _AddEventTile(),

@@ -105,10 +105,11 @@ class UnsupportedStateException implements Exception {
   String toString() {
     String report = "UnsupportedStateException";
     if (state != null) report += " for StateEnum $state";
-    if (message != null && message != "")
+    if (message != null && message != "") {
       report += ": $message.";
-    else
+    } else {
       report += ".";
+    }
     return report;
   }
 }
@@ -116,37 +117,37 @@ class UnsupportedStateException implements Exception {
 State toStateOrThrow(StateEnum? stateEnum) {
   switch (stateEnum) {
     case StateEnum.badenWuerttemberg:
-      return BadenWuerttemberg();
+      return const BadenWuerttemberg();
     case StateEnum.bayern:
-      return Bayern();
+      return const Bayern();
     case StateEnum.berlin:
-      return Berlin();
+      return const Berlin();
     case StateEnum.brandenburg:
-      return Brandenburg();
+      return const Brandenburg();
     case StateEnum.bremen:
-      return Bremen();
+      return const Bremen();
     case StateEnum.hamburg:
-      return Hamburg();
+      return const Hamburg();
     case StateEnum.hessen:
-      return Hessen();
+      return const Hessen();
     case StateEnum.mecklenburgVorpommern:
-      return MecklenburgVorpommern();
+      return const MecklenburgVorpommern();
     case StateEnum.niedersachsen:
-      return Niedersachsen();
+      return const Niedersachsen();
     case StateEnum.nordrheinWestfalen:
-      return NordrheinWestfalen();
+      return const NordrheinWestfalen();
     case StateEnum.rheinlandPfalz:
-      return RheinlandPfalz();
+      return const RheinlandPfalz();
     case StateEnum.saarland:
-      return Saarland();
+      return const Saarland();
     case StateEnum.sachsen:
-      return Sachsen();
+      return const Sachsen();
     case StateEnum.sachsenAnhalt:
-      return SachsenAnhalt();
+      return const SachsenAnhalt();
     case StateEnum.schleswigHolstein:
-      return SchleswigHolstein();
+      return const SchleswigHolstein();
     case StateEnum.thueringen:
-      return Thueringen();
+      return const Thueringen();
     case StateEnum.notFromGermany:
       throw UnsupportedStateException(
           "Holidays are not available for selected State", stateEnum);

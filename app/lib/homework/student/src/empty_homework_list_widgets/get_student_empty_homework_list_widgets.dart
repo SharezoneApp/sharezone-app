@@ -11,7 +11,7 @@ import '../../student_homework_page.dart';
 import 'homework_status.dart';
 import 'student_empty_homework_list_widgets.dart';
 
-Widget getStudentEmptyHomeworkListWidgetswithStatus(
+Widget getStudentEmptyHomeworkListWidgetsWithStatus(
     {required HomeworkTab forTab, required HomeworkPageStatus homeworkStatus}) {
   ArgumentError.checkNotNull(forTab);
   ArgumentError.checkNotNull(homeworkStatus);
@@ -28,7 +28,7 @@ Widget getStudentEmptyHomeworkListWidgetswithStatus(
     // So we know we are on StudentHomeworkTab.completed and there are open
     // homeworks
     assert(forTab == HomeworkTab.completed);
-    return FireMotivation();
+    return const FireMotivation();
   } else {
     // This means either:
     // - open homeworks tab with no open homeworks
@@ -37,6 +37,6 @@ Widget getStudentEmptyHomeworkListWidgetswithStatus(
         forTab == HomeworkTab.completed &&
             !homeworkStatus.hasOpenHomeworks &&
             !homeworkStatus.hasCompletedHomeworks);
-    return GameController();
+    return const GameController();
   }
 }

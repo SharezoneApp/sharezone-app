@@ -46,9 +46,9 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
       case TargetPlatform.fuchsia:
       default:
         return GlowingOverscrollIndicator(
-          child: child,
           axisDirection: details.direction,
           color: _overscrollColor!,
+          child: child,
         );
     }
   }

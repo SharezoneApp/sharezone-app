@@ -19,9 +19,11 @@ import 'sign_up/sign_up_page.dart';
 /// bei dem Login, weil davon ausgegangen wird, dass sich die meisten Nutzer über die
 /// mobile Version registrieren.
 class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    if (PlatformCheck.isDesktopOrWeb) return LoginPage.desktop();
-    return MobileWelcomePage();
+    if (PlatformCheck.isDesktopOrWeb) return const LoginPage.desktop();
+    return const MobileWelcomePage();
   }
 }

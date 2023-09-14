@@ -34,7 +34,7 @@ Future<void> openPeriodsEditPage(BuildContext context) async {
     defaultValue: false,
     name: _PeriodsEditPage.tag,
   );
-  if (result) _showConfirmSnackBarOfSavingPeriods(context);
+  if (result && context.mounted) _showConfirmSnackBarOfSavingPeriods(context);
 }
 
 Future<void> _submit(
@@ -45,8 +45,11 @@ Future<void> _submit(
   bloc ??= BlocProvider.of<PeriodsEditBloc>(context);
   try {
     await bloc.submit();
-    Navigator.pop(context, true);
+    if (context.mounted) {
+      Navigator.pop(context, true);
+    }
   } on Exception catch (e, s) {
+    if (!context.mounted) return;
     showSnackSec(
       context: context,
       key: scaffoldKey,
@@ -104,9 +107,9 @@ class __PeriodsEditPageState extends State<_PeriodsEditPage> {
                         onChanged: (lessonLength) =>
                             bloc.saveLessonLengthInCache(lessonLength.minutes),
                       ),
-                      Divider(),
+                      const Divider(),
                       _TimetableStart(),
-                      Divider(),
+                      const Divider(),
                       for (final period in periods!.getPeriods())
                         _PeriodTile(
                           period: period,
@@ -131,9 +134,9 @@ class _PeriodsEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      child: const Icon(Icons.done),
       tooltip: 'Speichern',
       onPressed: () => _submit(context),
+      child: const Icon(Icons.done),
     );
   }
 }
@@ -183,7 +186,7 @@ class _TimetableStart extends StatelessWidget {
       builder: (context, snapshot) {
         final time = snapshot.data ?? Time(hour: 7, minute: 30);
         return ListTile(
-          title: Text("Stundenplanbeginn"),
+          title: const Text("Stundenplanbeginn"),
           subtitle: Text(time.toString()),
           onTap: () async {
             final newTime = await selectTime(context,

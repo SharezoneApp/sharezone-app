@@ -29,8 +29,7 @@ class HomeworkCompletionUserListPage extends StatefulWidget {
   static const tag = 'homework-done-by-users-list-page';
 
   @override
-  _HomeworkCompletionUserListPageState createState() =>
-      _HomeworkCompletionUserListPageState();
+  State createState() => _HomeworkCompletionUserListPageState();
 }
 
 class _HomeworkCompletionUserListPageState
@@ -146,7 +145,8 @@ class _UserTile extends StatelessWidget {
         title: Text(view.name),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbreviation, style: TextStyle(color: Colors.white)),
+          child: Text(view.abbreviation,
+              style: const TextStyle(color: Colors.white)),
         ),
         trailing: _hasDoneIcon(),
       ),

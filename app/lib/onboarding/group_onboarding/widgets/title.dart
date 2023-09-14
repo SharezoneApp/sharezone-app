@@ -18,7 +18,7 @@ class GroupOnboardingTitle extends StatelessWidget {
     return Text(
       title,
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 22),
+      style: const TextStyle(fontSize: 22),
     );
   }
 }

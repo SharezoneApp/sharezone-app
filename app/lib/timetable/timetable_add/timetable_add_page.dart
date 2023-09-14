@@ -57,8 +57,10 @@ void navigateToBackTab(BuildContext context) {
 class TimetableAddPage extends StatefulWidget {
   static const tag = 'timetable-add-page';
 
+  const TimetableAddPage({super.key});
+
   @override
-  _TimetableAddPageState createState() => _TimetableAddPageState();
+  State createState() => _TimetableAddPageState();
 }
 
 class _TimetableAddPageState extends State<TimetableAddPage> {
@@ -109,7 +111,7 @@ class _TimetableAddPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Schulstunde hinzufügen"),
-          leading: TimetableAddAppBarLeading(),
+          leading: const TimetableAddAppBarLeading(),
         ),
         body: MaxWidthConstraintBox(
           child: SafeArea(
@@ -137,14 +139,14 @@ class TimetableAddAppBarLeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeSwitchBetweenIndexWithTabController(
-      startWidget: CloseIconButton(),
+      startWidget: const CloseIconButton(),
       endWidget: Builder(
           builder: (context) => IconButton(
                 icon: Icon(themeIconData(Icons.arrow_back,
                     cupertinoIcon: Icons.arrow_back_ios)),
                 onPressed: () => navigateToBackTab(context),
               )),
-      transitionPoint: BetweenIndex(0, 1),
+      transitionPoint: const BetweenIndex(0, 1),
     );
   }
 }
@@ -158,7 +160,7 @@ class _TimetableAddInfoMsg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(24, 16, 32, 0),
+      padding: const EdgeInsets.fromLTRB(24, 16, 32, 0),
       child: Text.rich(
         TextSpan(
           children: <TextSpan>[
@@ -188,11 +190,11 @@ class _TimetableAddInfoMsg extends StatelessWidget {
 class _BottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const <Widget>[
+        children: <Widget>[
           _NavigateBackButton(),
           _TabPageSelector(),
           _NavigateNextButton(),
@@ -282,7 +284,7 @@ class _NavigateBackButton extends StatelessWidget {
       controller: controller,
       startWidget: placeholder(),
       endWidget: backButton(context),
-      transitionPoint: BetweenIndex(0, 1),
+      transitionPoint: const BetweenIndex(0, 1),
     );
   }
 
@@ -314,9 +316,10 @@ class _RectangleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.all(Radius.circular(14));
+    const borderRadius = BorderRadius.all(Radius.circular(14));
     return InkWell(
       borderRadius: borderRadius,
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -333,7 +336,6 @@ class _RectangleButton extends StatelessWidget {
           ),
         ),
       ),
-      onTap: onTap,
     );
   }
 }
@@ -389,7 +391,8 @@ class _TimetableAddSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('$index. Schritt', style: TextStyle(color: Colors.grey)),
+              Text('$index. Schritt',
+                  style: const TextStyle(color: Colors.grey)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(

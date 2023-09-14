@@ -13,7 +13,7 @@ class _EventsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DashboardBloc>(context);
     return _Section(
-      title: _EventsSectionTitle(),
+      title: const _EventsSectionTitle(),
       child: StreamBuilder<List<EventView>>(
         stream: bloc.upcomingEvents,
         builder: (context, snapshot) {
@@ -41,7 +41,7 @@ class _EventsSectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DashboardBloc>(context);
     return StreamBuilder<int>(
-      stream: bloc.nubmerOfUpcomingEvents,
+      stream: bloc.numberOfUpcomingEvents,
       builder: (context, snapshot) {
         final numberOfUrgentHomeworks = snapshot.data ?? 0;
         return Text(
@@ -62,7 +62,7 @@ class _NoEventsViews extends StatelessWidget {
           bloc.navigateTo(NavigationItem.events);
         },
         padding: const EdgeInsets.all(8),
-        child: Center(
+        child: const Center(
           child: Text(
             "In den nächsten 14 Tagen stehen keine Termine an! 👻",
             textAlign: TextAlign.center,

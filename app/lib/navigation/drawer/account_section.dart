@@ -19,7 +19,7 @@ class _AccountSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return StreamBuilder<AppUser?>(
-      key: ValueKey('account-drawer-tile-E2E'),
+      key: const ValueKey('account-drawer-tile-E2E'),
       initialData: api.user.data,
       stream: api.user.userStream,
       builder: (context, snapshot) {
@@ -82,8 +82,8 @@ class _AccountSection extends StatelessWidget {
   }
 
   void _logAccountSectionClick(BuildContext context) {
-    final _analytics = BlocProvider.of<NavigationAnalytics>(context);
-    _analytics.logDrawerEvent(NavigationItem.accountPage);
+    final analytics = BlocProvider.of<NavigationAnalytics>(context);
+    analytics.logDrawerEvent(NavigationItem.accountPage);
   }
 }
 
@@ -116,7 +116,7 @@ class _Name extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
     );
   }
 }
@@ -136,7 +136,7 @@ class _Email extends StatelessWidget {
     if (isEmailEmpty) return Container();
     return Text(
       email,
-      style: TextStyle(color: Colors.grey, fontSize: 12),
+      style: const TextStyle(color: Colors.grey, fontSize: 12),
     );
   }
 }
@@ -147,11 +147,11 @@ class _ProfileArrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Icon(Icons.keyboard_arrow_right, color: Colors.grey[700]),
       decoration:
           BoxDecoration(shape: BoxShape.circle, color: Colors.grey[300]),
       width: 35,
       height: 35,
+      child: Icon(Icons.keyboard_arrow_right, color: Colors.grey[700]),
     );
   }
 }
@@ -169,8 +169,8 @@ class _ProfileAvatar extends StatelessWidget {
     return CircleAvatar(
       backgroundColor: Theme.of(context).primaryColor,
       foregroundColor: Colors.white,
-      child: Text(abbreviation, style: const TextStyle(fontSize: 18)),
       radius: 27.5,
+      child: Text(abbreviation, style: const TextStyle(fontSize: 18)),
     );
   }
 }

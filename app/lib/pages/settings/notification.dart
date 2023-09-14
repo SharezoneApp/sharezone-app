@@ -24,6 +24,8 @@ const _leftPadding = EdgeInsets.only(left: 16);
 class NotificationPage extends StatefulWidget {
   static const String tag = "notification-page";
 
+  const NotificationPage({super.key});
+
   @override
   State<NotificationPage> createState() => _NotificationPageState();
 }
@@ -111,8 +113,8 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
         builder: (context, snapshot) {
           final bool notificationsForHomework = snapshot.data ?? true;
           return ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Erinnerungen für offene Hausaufgaben"),
+            leading: const Icon(Icons.notifications),
+            title: const Text("Erinnerungen für offene Hausaufgaben"),
             onTap: () =>
                 bloc.changeNotificationsForHomeworks(!notificationsForHomework),
             trailing: Switch.adaptive(

@@ -44,6 +44,8 @@ class _StartTime extends StatelessWidget {
 
               // Navigate to next Tab, if endTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
+              if (!context.mounted) return;
+
               try {
                 bloc.throwIfStartTimeHasIncorrectValues();
                 if (!bloc.isEndTimeEmpty()) {
@@ -82,6 +84,8 @@ class _EndTime extends StatelessWidget {
 
               // Navigate to next Tab, if startTime is not Empty and startTime is before EndTime
               await waitingForPopAnimation();
+              if (!context.mounted) return;
+
               try {
                 bloc.throwIfEndTimeHasIncorrectValues();
                 if (!bloc.isStartTimeEmpty()) {

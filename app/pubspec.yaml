@@ -95,6 +95,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
   flutter_slidable: ^3.0.0
+  flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.2
   font_awesome_flutter: ^10.4.0
   group_domain_implementation:
@@ -113,6 +114,7 @@ dependencies:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
+  logging: ^1.1.1
   markdown: ^7.1.1
   meta: ^1.1.8
   notifications:
@@ -164,6 +166,8 @@ dependencies:
 # * ab wann der override entfernt werden kann.
 # dependency_overrides:
 dev_dependencies:
+  async: ^2.4.1
+  built_collection: ^5.1.0
   build_runner: ^2.3.3
   equatable: ^2.0.5
   flutter_test:

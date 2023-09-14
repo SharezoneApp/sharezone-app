@@ -14,15 +14,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group(MobileWelcomePage, () {
-    Future<void> _pumpPage(WidgetTester tester, {ThemeData? theme}) async {
+    Future<void> pumpPage(WidgetTester tester, {ThemeData? theme}) async {
       await tester.pumpWidgetBuilder(
-        MobileWelcomePage(),
+        const MobileWelcomePage(),
         wrapper: materialAppWrapper(theme: theme),
       );
     }
 
     testGoldens('renders as expected (light theme)', (tester) async {
-      await _pumpPage(tester, theme: lightTheme);
+      await pumpPage(tester, theme: lightTheme);
 
       await multiScreenGolden(tester, 'mobile_welcome_page_light');
     });
@@ -32,7 +32,7 @@ void main() {
     //
     // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/916
     testGoldens('renders as expected (dark theme)', (tester) async {
-      await _pumpPage(tester, theme: darkTheme);
+      await pumpPage(tester, theme: darkTheme);
 
       await multiScreenGolden(tester, 'mobile_welcome_page_dark');
     });

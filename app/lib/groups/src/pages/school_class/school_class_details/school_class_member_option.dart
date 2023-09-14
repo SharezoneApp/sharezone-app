@@ -136,9 +136,9 @@ class _AloneInCourse extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24)
           .add(const EdgeInsets.only(top: 12)),
-      child: Text(
+      child: const Text(
         "Da du der einzige in der Schulklasse bist, kannst du deine Rolle nicht bearbeiten.",
-        style: const TextStyle(color: Colors.grey, fontSize: 11),
+        style: TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -151,9 +151,9 @@ class _NoPermissions extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24)
           .add(const EdgeInsets.only(top: 12)),
-      child: Text(
+      child: const Text(
         "Da du kein Admin bist, hast du keine Rechte, um andere Mitglieder zu verwalten.",
-        style: const TextStyle(color: Colors.grey, fontSize: 11),
+        style: TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -166,9 +166,9 @@ class _OnlyAdminHint extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24)
           .add(const EdgeInsets.only(top: 12)),
-      child: Text(
+      child: const Text(
         "Du bist der einzige Admin in dieser Schulklasse. Daher kannst du dir keine Rechte entziehen.",
-        style: const TextStyle(color: Colors.grey, fontSize: 11),
+        style: TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -180,7 +180,6 @@ class _LeaveCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     return TextButton(
-      child: Text("SCHULKLASSE VERLASSEN"),
       style: TextButton.styleFrom(
         foregroundColor: Colors.red,
       ),
@@ -190,6 +189,7 @@ class _LeaveCourse extends StatelessWidget {
         Future<AppFunctionsResult<bool>> kickUser = bloc.leaveSchoolClass();
         showAppFunctionStateDialog(context, kickUser);
       },
+      child: const Text("SCHULKLASSE VERLASSEN"),
     );
   }
 }
@@ -208,7 +208,6 @@ class _KickUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     return TextButton(
-      child: const Text("AUS DER SCHULKLASSE KICKEN"),
       style: TextButton.styleFrom(
         foregroundColor: Colors.red,
       ),
@@ -220,6 +219,7 @@ class _KickUser extends StatelessWidget {
               showAppFunctionStateDialog(context, kickUser);
             }
           : null,
+      child: const Text("AUS DER SCHULKLASSE KICKEN"),
     );
   }
 }

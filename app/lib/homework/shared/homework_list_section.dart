@@ -35,10 +35,10 @@ class HomeworkListSection extends StatelessWidget {
         if (isNotEmptyOrNull(title))
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(left: 12, top: 8),
+              padding: const EdgeInsets.only(left: 12, top: 8),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),

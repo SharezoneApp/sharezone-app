@@ -20,6 +20,8 @@ import 'widgets/card_with_icon_and_text.dart';
 import 'widgets/filesharing_headline.dart';
 
 class FileSharingViewHome extends StatelessWidget {
+  const FileSharingViewHome({super.key});
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<FileSharingPageBloc>(context);
@@ -91,11 +93,11 @@ class _CourseFolderCard extends StatelessWidget {
 class _NoCourseFolderFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
+    return const PlaceholderWidgetWithAnimation(
       svgPath: "assets/icons/folder.svg",
       animateSVG: true,
       title: "Keine Ordner gefunden! 😬",
-      description: const Text(
+      description: Text(
           "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs."),
     );
   }

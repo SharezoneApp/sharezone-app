@@ -26,7 +26,7 @@ Future<void> openReportPage(
     ),
   );
 
-  if (result != null && result) {
+  if (result == true && context.mounted) {
     showDataArrivalConfirmedSnackbar(context: context);
   }
 }
@@ -39,7 +39,7 @@ class ReportPage extends StatefulWidget {
   final ReportItemReference item;
 
   @override
-  _ReportPageState createState() => _ReportPageState();
+  State createState() => _ReportPageState();
 }
 
 class _ReportPageState extends State<ReportPage> {
@@ -76,7 +76,7 @@ class _ReportPageState extends State<ReportPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _ReasonRadioGroup(),
-                  Divider(),
+                  const Divider(),
                   _DescriptionField(),
                 ],
               ),
@@ -105,6 +105,8 @@ class _SendButton extends StatelessWidget {
     if (bloc.isSubmitValid()) {
       final confirmedSendingReport =
           await _showSendReportConfirmationDialog(context);
+      if (!context.mounted) return;
+
       if (confirmedSendingReport == true) {
         try {
           bloc.send();
@@ -132,9 +134,9 @@ class _SendButton extends StatelessWidget {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
-      content: Text(
+      content: const Text(
           "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts)."),
-      right: AdaptiveDialogAction(
+      right: const AdaptiveDialogAction(
         isDefaultAction: true,
         title: "Senden",
         popResult: true,
@@ -198,13 +200,13 @@ class _DescriptionField extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             "Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.",
             style: TextStyle(fontSize: 12),
           ),
           const SizedBox(height: 12),
           TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Beschreibung',
               icon: Icon(Icons.short_text),
               border: OutlineInputBorder(),

@@ -38,19 +38,19 @@ void main() {
     );
 
     expect(notifications, [
-      PushNotification(
+      const PushNotification(
         actionType: 'do-something',
         actionData: {},
         title: null,
         body: null,
       ),
-      PushNotification(
+      const PushNotification(
         actionType: 'do-something-aswell',
         actionData: {'link': null},
         title: '',
         body: '',
       ),
-      PushNotification(
+      const PushNotification(
         actionType: 'do-something-aswell',
         actionData: {'link': ''},
         title: 'my title',
@@ -139,7 +139,7 @@ void main() {
               expect(actionRequest.shouldShowAnswerToSupportOption, false);
             });
       });
-      List<PushNotification> _with({required dynamic actionData}) {
+      List<PushNotification> withActionData(dynamic actionData) {
         return generateNotificationMutations(
           actionType: {null, ''},
           actionData: actionData,
@@ -153,18 +153,18 @@ void main() {
           () {
         TestHandlerFor.success<ShowNotificationDialogRequest>(
             generateNotifications: () => [
-                  ..._with(
-                    actionData: {
+                  ...withActionData(
+                    {
                       'showSupportOption': '',
                     },
                   ),
-                  ..._with(
-                    actionData: {
+                  ...withActionData(
+                    {
                       'showSupportOption': 3,
                     },
                   ),
-                  ..._with(
-                    actionData: {
+                  ...withActionData(
+                    {
                       'showSupportOption': "wadawdawdwad",
                     },
                   ),
@@ -224,7 +224,7 @@ void main() {
           () {
         TestHandlerFor.nonFatalParsingExceptions<ShowNotificationDialogRequest>(
             generateNotifications: () => [
-                  ..._with(actionData: {
+                  ...withActionData({
                     'showSupportOption': 3,
                   }),
                 ],
@@ -246,8 +246,8 @@ void main() {
         TestHandlerFor.success<ShowNotificationDialogRequest>(
           failOnNonFatalParsingErrors: true,
           generateNotifications: () => [
-            ..._with(actionData: <String, dynamic>{}),
-            ..._with(actionData: {
+            ...withActionData(<String, dynamic>{}),
+            ...withActionData({
               'showSupportOption': null,
             }),
           ],
@@ -447,7 +447,7 @@ void main() {
     test(
         'will notify instrumentation when failing because of an unknown action type',
         () {
-      final notification = PushNotification(
+      const notification = PushNotification(
           actionType: 'some-unknown-action-type', title: 'foo', body: 'bar');
       final result = handlePushNotification(notification);
       expect(result.instrumentation!.hasFailedOnUnknownActionType, true);
@@ -527,7 +527,7 @@ void main() {
         executeActionRequest: (_) {},
       );
 
-      final notification = PushNotification(
+      const notification = PushNotification(
         actionType: 'abc',
         title: 'title',
         body: 'body',

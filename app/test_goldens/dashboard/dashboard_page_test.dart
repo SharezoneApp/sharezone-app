@@ -43,7 +43,7 @@ void main() {
 
       final now = DateTime.now();
       final firstHolidays = Holiday.fromJson(jsonEncode({
-        "start": "${DateFormat('yyyy-MM-dd').format(now)}",
+        "start": DateFormat('yyyy-MM-dd').format(now),
         "end": "${now.year + 1}-02-01",
         "year": now.year,
         "stateCode": "HB",
@@ -53,7 +53,7 @@ void main() {
 
       final secondHolidays = Holiday.fromJson(jsonEncode({
         "start":
-            "${DateFormat('yyyy-MM-dd').format(now.add(Duration(days: 20)))}",
+            DateFormat('yyyy-MM-dd').format(now.add(const Duration(days: 20))),
         "end": "${now.year + 1}-02-01",
         "year": now.year,
         "stateCode": "HB",
@@ -67,7 +67,7 @@ void main() {
       await tester.pumpWidget(
         BlocProvider<HolidayBloc>(
           bloc: holidayBloc,
-          child: MaterialApp(
+          child: const MaterialApp(
             home: Scaffold(
               body: Center(
                 child: HolidayCountdownSection(),

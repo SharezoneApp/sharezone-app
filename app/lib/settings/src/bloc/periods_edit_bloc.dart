@@ -85,15 +85,16 @@ class PeriodsEditBloc extends BlocBase {
     final prevPeriod = periods.getPeriod(number - 1);
     final nextPeriod = periods.getPeriod(number + 1);
 
-    if (!period.validate())
+    if (!period.validate()) {
       addPeriodToErrorSubject(number);
-    else if (period.isBeforePeriod(prevPeriod))
+    } else if (period.isBeforePeriod(prevPeriod)) {
       addPeriodToErrorSubject(number);
-    else if (nextPeriod != null &&
-        startTime.totalMinutes > nextPeriod.startTime.totalMinutes)
+    } else if (nextPeriod != null &&
+        startTime.totalMinutes > nextPeriod.startTime.totalMinutes) {
       addPeriodToErrorSubject(number);
-    else
+    } else {
       removePeriodFromErrorSubject(number);
+    }
   }
 
   Future<void> editPeriodStartTime(int number, Time startTime) async {
@@ -117,15 +118,16 @@ class PeriodsEditBloc extends BlocBase {
     final nextPeriod = periods.getPeriod(number + 1);
     final prevPeriod = periods.getPeriod(number - 1);
 
-    if (!period.validate())
+    if (!period.validate()) {
       addPeriodToErrorSubject(number);
-    else if (period.isAfterPeriod(nextPeriod))
+    } else if (period.isAfterPeriod(nextPeriod)) {
       addPeriodToErrorSubject(number);
-    else if (prevPeriod != null &&
-        endTime.totalMinutes < prevPeriod.endTime.totalMinutes)
+    } else if (prevPeriod != null &&
+        endTime.totalMinutes < prevPeriod.endTime.totalMinutes) {
       addPeriodToErrorSubject(number);
-    else
+    } else {
       removePeriodFromErrorSubject(number);
+    }
   }
 
   void _setTimetableBeginToLessonStart(Time time) => changeTimetableStart(time);

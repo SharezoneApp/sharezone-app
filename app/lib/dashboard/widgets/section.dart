@@ -27,7 +27,6 @@ class _Section extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(22, 18, 12, 6),
             child: DefaultTextStyle(
-              child: title!,
               style: TextStyle(
                 color: isDarkThemeEnabled(context)
                     ? Colors.lightBlue
@@ -37,6 +36,7 @@ class _Section extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
               overflow: TextOverflow.ellipsis,
+              child: title!,
             ),
           ),
         ),

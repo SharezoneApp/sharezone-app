@@ -42,6 +42,8 @@ import 'user_view.dart';
 class MyProfilePage extends StatelessWidget {
   static const tag = "my-profile-page";
 
+  const MyProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
@@ -102,8 +104,8 @@ class _EnterActivationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Aktivierungscode eingeben"),
-      leading: Icon(Icons.vpn_key),
+      title: const Text("Aktivierungscode eingeben"),
+      leading: const Icon(Icons.vpn_key),
       onTap: () {
         openEnterActivationCodePage(context);
       },
@@ -120,7 +122,7 @@ class _EmailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     if (user.isAnonymous || user.provider == Provider.apple) return Container();
     return ListTile(
-      leading: Icon(Icons.email),
+      leading: const Icon(Icons.email),
       title: const Text("E-Mail"),
       subtitle: Text(user.email ?? '-'),
       onTap: () {
@@ -132,11 +134,11 @@ class _EmailTile extends StatelessWidget {
                   "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern."),
               actions: <Widget>[
                 TextButton(
-                  child: const Text("ALLES KLAR"),
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
+                  child: const Text("ALLES KLAR"),
                 ),
               ],
             ),
@@ -165,9 +167,9 @@ class _TypeOfUserTile extends StatelessWidget {
           context: context,
           defaultValue: false,
           title: 'Account-Typ',
-          content: Text(
+          content: const Text(
               "Der Typ des Accounts kann nur vom Support geändert werden."),
-          right: AdaptiveDialogAction(
+          right: const AdaptiveDialogAction(
             isDefaultAction: true,
             popResult: true,
             title: "Support kontaktieren",
@@ -200,12 +202,15 @@ class _PasswordTile extends StatelessWidget {
         bloc.changeNewPassword(null);
         final successful =
             await Navigator.pushNamed(context, ChangePasswordPage.tag) as bool?;
-        if (successful != null && successful) {
+        if (successful == true) {
           await waitingForPopAnimation();
+          if (!context.mounted) return;
+
           showSnackSec(
-              seconds: 3,
-              context: context,
-              text: "Das Passwort wurde erfolgreich geändert.");
+            seconds: 3,
+            context: context,
+            text: "Das Passwort wurde erfolgreich geändert.",
+          );
         }
       },
     );
@@ -227,7 +232,7 @@ class _StateTile extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => const ChangeStatePage(),
-          settings: RouteSettings(name: ChangeStatePage.tag),
+          settings: const RouteSettings(name: ChangeStatePage.tag),
         ),
       ),
     );
@@ -255,7 +260,7 @@ class _ProviderTile extends StatelessWidget {
               content: const Text(
                 "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
               ),
-              left: AdaptiveDialogAction(
+              left: const AdaptiveDialogAction(
                 isDefaultAction: true,
                 title: 'Ok',
               ));
@@ -287,15 +292,15 @@ class _PrivacyOptOut extends StatelessWidget {
       builder: (context, snapshot) {
         final hasUserOptOut = snapshot;
         return ListTileWithDescription(
-          title: Text("Entwickler unterstützen"),
+          title: const Text("Entwickler unterstützen"),
           leading: const Icon(Icons.security),
           onTap: () => setCollectionEnabled(!hasUserOptOut),
           trailing: Switch.adaptive(
             value: hasUserOptOut,
             onChanged: (isEnabled) => setCollectionEnabled(isEnabled),
           ),
-          description: Padding(
-            padding: const EdgeInsets.only(left: 56, right: 20),
+          description: const Padding(
+            padding: EdgeInsets.only(left: 56, right: 20),
             child: Text(
               "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
               style: TextStyle(fontSize: 11, color: Colors.grey),
@@ -317,11 +322,11 @@ class SignOutButton extends StatelessWidget {
     return Center(
       child: TextButton(
         key: const ValueKey('sign-out-button-E2E'),
-        child: Text("Abmelden".toUpperCase()),
         style: TextButton.styleFrom(
           foregroundColor: Colors.red,
         ),
         onPressed: () => signOut(context, isAnonymous),
+        child: Text("Abmelden".toUpperCase()),
       ),
     );
   }
@@ -394,9 +399,8 @@ class _DeleteAccountDialogContentState
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final provider = api.user.authUser!.provider;
     return [
-      CancelButton(),
+      const CancelButton(),
       TextButton(
-        child: const Text("LÖSCHEN"),
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).colorScheme.error,
         ),
@@ -407,6 +411,7 @@ class _DeleteAccountDialogContentState
             : !isStringNullOrEmpty(password)
                 ? () => tryToDeleteUser(context)
                 : null,
+        child: const Text("LÖSCHEN"),
       ),
     ];
   }
@@ -464,12 +469,12 @@ class _DeleteAccountDialogContentState
 
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
-        title: _DeleteAccountDialogTitle(),
+        title: const _DeleteAccountDialogTitle(),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _DeleteAccountDialogText(),
+              const _DeleteAccountDialogText(),
               if (provider == Provider.email)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -484,10 +489,10 @@ class _DeleteAccountDialogContentState
                         onChanged: (s) => setState(() => password = s),
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           labelText: 'Passwort',
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelStyle: const TextStyle(color: Colors.black),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -524,8 +529,8 @@ class _DeleteAccountDialogContentState
             onPressed: () => Navigator.pop(context),
           ),
           if (isLoading)
-            Column(
-              children: const <Widget>[
+            const Column(
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 12),
                   child: LoadingCircle(),
@@ -537,25 +542,25 @@ class _DeleteAccountDialogContentState
                   : signOut!) &&
               !isLoading)
             CupertinoActionSheetAction(
-              child: const Text("Löschen"),
               isDefaultAction: true,
               isDestructiveAction: true,
               onPressed: () => tryToDeleteUser(context),
+              child: const Text("Löschen"),
             ),
         ],
       );
     }
 
     return AlertDialog(
-      title: _DeleteAccountDialogTitle(),
+      title: const _DeleteAccountDialogTitle(),
       contentPadding: const EdgeInsets.only(top: 24),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: _DeleteAccountDialogText(),
             ),
             provider == Provider.email

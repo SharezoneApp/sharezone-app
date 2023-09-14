@@ -175,7 +175,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
           Duration(days: DateTime.now().weekday == DateTime.friday ? 3 : 2));
       return monday;
     } else {
-      DateTime tomorrow = now.add(Duration(days: 1));
+      DateTime tomorrow = now.add(const Duration(days: 1));
       return tomorrow;
     }
   }
@@ -246,8 +246,9 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         // auch offline hinzufügbar sind.
         hasAttachments ? await api.create(userInput) : api.create(userInput);
 
-        if (_markdownAnalytics.containsMarkdown(description))
+        if (_markdownAnalytics.containsMarkdown(description)) {
           _markdownAnalytics.logMarkdownUsedHomework();
+        }
       } else {
         // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
         // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
@@ -362,12 +363,13 @@ class HomeworkDialogApi {
       ),
     );
 
-    if (userInput.private!)
+    if (userInput.private!) {
       await api.homework.addPrivateHomework(homework, false,
           attachments: attachments, fileSharingGateway: api.fileSharing);
-    else
+    } else {
       await api.homework.addHomeworkToCourse(homework,
           attachments: attachments, fileSharingGateway: api.fileSharing);
+    }
 
     // If the homework will be added to the create, the wrong homework object will be return (the new forUsers map is missing)
     return homework;

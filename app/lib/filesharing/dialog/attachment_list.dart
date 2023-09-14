@@ -64,8 +64,9 @@ class _Placeholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (initialAttachmentIDs == null || initialAttachmentIDs!.isEmpty)
+    if (initialAttachmentIDs == null || initialAttachmentIDs!.isEmpty) {
       return Container();
+    }
     return Column(
       children: [for (final id in initialAttachmentIDs!) emptyFileCard(id)],
     );
@@ -75,7 +76,7 @@ class _Placeholder extends StatelessWidget {
     return GrayShimmer(
       enabled: true,
       key: ValueKey(id),
-      child: ListTile(
+      child: const ListTile(
         leading: FileIcon(fileFormat: FileFormat.image),
         title: Text("Laden..."),
         trailing: IconButton(icon: Icon(Icons.more_vert), onPressed: null),

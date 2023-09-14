@@ -202,15 +202,16 @@ class CourseGateway {
   MemberRole? getRoleFromCourseNoSync(String courseID) {
     if (_connectionsGateway.current() == null) return null;
     Map<String?, Course> courses = _connectionsGateway.current()!.courses;
-    if (courses.containsKey(courseID))
+    if (courses.containsKey(courseID)) {
       return courses[courseID]?.myRole;
-    else {
+    } else {
       Iterable<Course> filteredJoinedCourses =
           _connectionsGateway.newJoinedCourses.where((it) => it.id == courseID);
-      if (filteredJoinedCourses.isNotEmpty)
+      if (filteredJoinedCourses.isNotEmpty) {
         return filteredJoinedCourses.first.myRole;
-      else
+      } else {
         return null;
+      }
     }
   }
 

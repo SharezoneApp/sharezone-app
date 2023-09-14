@@ -67,7 +67,7 @@ Future<bool?> confirmToMarkHomeworkAsDoneWithoutSubmission(
     content: const Text(
         "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?"),
     defaultValue: false,
-    right: AdaptiveDialogAction<bool>(
+    right: const AdaptiveDialogAction<bool>(
       title: 'Abhaken',
       popResult: true,
       textColor: Colors.orange,
@@ -80,13 +80,13 @@ class HomeworkDetails extends StatelessWidget {
 
   /// Loads the [HomeworkDetails] with [initialHomework] being prefilled into
   /// the page (no loading animation is shown).
-  HomeworkDetails(HomeworkDetailsView this.initialHomework)
+  HomeworkDetails(HomeworkDetailsView this.initialHomework, {super.key})
       : id = initialHomework.id;
 
   /// Loads the [HomeworkDetails] for the homework with the given [id].
   /// This means that there may be a loading animation shown until all
   /// information has been loaded.
-  const HomeworkDetails.loadId(this.id) : initialHomework = null;
+  const HomeworkDetails.loadId(this.id, {super.key}) : initialHomework = null;
 
   final String id;
   final HomeworkDetailsView? initialHomework;
@@ -107,7 +107,7 @@ class HomeworkDetails extends StatelessWidget {
           final view = snapshot.data ?? initialHomework;
 
           /// This is neccessary as the homeworkItem can be null at the beginning.
-          if (view == null) return CircularProgressIndicator();
+          if (view == null) return const CircularProgressIndicator();
 
           return Scaffold(
             body: CustomScrollView(
@@ -170,11 +170,11 @@ class HomeworkTitleAppBar extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: SliverAppBar(
-        leading: CloseIconButton(color: Colors.white),
+        leading: const CloseIconButton(color: Colors.white),
         backgroundColor: isDarkThemeEnabled(context)
             ? Theme.of(context).appBarTheme.backgroundColor
             : Theme.of(context).primaryColor,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         elevation: 1,
         actions: <Widget>[
           ReportIcon(item: ReportItemReference.homework(view!.id)),
@@ -223,7 +223,7 @@ class _DoneByTile extends StatelessWidget {
         builder: (context) => HomeworkCompletionUserListPage(
           homeworkId: HomeworkId(view!.id),
         ),
-        settings: RouteSettings(name: HomeworkCompletionUserListPage.tag),
+        settings: const RouteSettings(name: HomeworkCompletionUserListPage.tag),
       ),
     );
   }
@@ -331,22 +331,22 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.folder_shared),
-      title: Text("Eltern dürfen keine Hausaufgaben abgeben"),
+      title: const Text("Eltern dürfen keine Hausaufgaben abgeben"),
       onTap: () async {
         final confirmed = (await showLeftRightAdaptiveDialog<bool>(
           context: context,
           defaultValue: false,
           title: 'Account-Typ ändern?',
-          content: Text(
+          content: const Text(
               "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registiert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst."),
-          right: AdaptiveDialogAction(
+          right: const AdaptiveDialogAction(
             isDefaultAction: true,
             popResult: true,
             title: "Support kontaktieren",
           ),
         ))!;
 
-        if (confirmed) {
+        if (confirmed && context.mounted) {
           final uid = BlocProvider.of<SharezoneContext>(context).api.uID;
           UrlLauncherExtended().tryLaunchMailOrThrow(
             "support@sharezone.net",
@@ -402,7 +402,7 @@ class _EditIcon extends StatelessWidget {
               homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
               homework: homework,
             ),
-            settings: RouteSettings(name: HomeworkDialog.tag),
+            settings: const RouteSettings(name: HomeworkDialog.tag),
           ),
         );
 
@@ -424,7 +424,9 @@ class _EditIcon extends StatelessWidget {
         // get at least the "sending data..." SnackBar to disappear.
         //
         // if (successful) {
-        await showUserConfirmationOfHomeworkArrival(context: context);
+        if (context.mounted) {
+          await showUserConfirmationOfHomeworkArrival(context: context);
+        }
         // }
       },
     );
@@ -445,7 +447,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
       // Hier wird ein leeres Text-Widget anstatt einem Container verwendet,
       // da bei einem Container einfach nur eine weiße Seite angezeigt
       // wird und der restliche Content nicht geladen wird.
-      notMatchingWidget: Text(""),
+      notMatchingWidget: const Text(""),
       matchesTypeOfUserWidget: BottomActionBar(
         onTap: () async {
           if (view.isDone) {
@@ -456,7 +458,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
               final result =
                   (await confirmToMarkHomeworkAsDoneWithoutSubmission(
                       context))!;
-              if (result) {
+              if (result && context.mounted) {
                 bloc.changeIsHomeworkDoneTo(true);
                 Navigator.pop(context);
               }

@@ -26,7 +26,7 @@ Future<bool?> showCourseLeaveDialog(
     context: context,
     right: isLastMember
         ? AdaptiveDialogAction.delete
-        : AdaptiveDialogAction(
+        : const AdaptiveDialogAction(
             title: "Verlassen",
             isDefaultAction: true,
             isDestructiveAction: true,
@@ -92,6 +92,7 @@ class CourseCardRedesign extends StatelessWidget {
           ),
       ],
     );
+    if (!context.mounted) return;
 
     switch (result) {
       case _CourseCardLongPressResult.share:
@@ -112,16 +113,18 @@ class CourseCardRedesign extends StatelessWidget {
             CourseDetailsBlocGateway(api.course, course, groupAnalytics),
             api.userId);
         final isLastMember = await bloc.isLastMember.first;
+        if (!context.mounted) return;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
-        if (confirmed == true) {
+        if (confirmed == true && context.mounted) {
           final leaveCourseFuture = api.course.leaveCourse(course.id);
           showAppFunctionStateDialog(context, leaveCourseFuture);
         }
         break;
       case _CourseCardLongPressResult.delete:
+        if (!context.mounted) return;
         _logCourseDeleteViaCourseCardLongPress(analytics);
         final confirmed = await showDeleteCourseDialog(context, course.name);
-        if (confirmed == true) {
+        if (confirmed == true && context.mounted) {
           final deleteCourseFunction = api.course.deleteCourse(course.id);
           showAppFunctionStateDialog(context, deleteCourseFunction);
         }
@@ -169,11 +172,11 @@ class CourseCardRedesign extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: courseColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                             left: Radius.circular(500),
                             right: Radius.circular(500))),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         course.abbreviation,
                         textAlign: TextAlign.center,
@@ -266,6 +269,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
           ),
       ],
     );
+    if (!context.mounted) return;
 
     switch (result) {
       case _CourseCardLongPressResult.share:
@@ -286,16 +290,19 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
             CourseDetailsBlocGateway(api.course, course, groupAnalytics),
             api.userId);
         final isLastMember = (await bloc.members.first).length <= 1;
+        if (!context.mounted) return;
         final confirmed = await showCourseLeaveDialog(context, isLastMember);
         if (confirmed == true) {
           final leaveCourseFuture = api.course.leaveCourse(course.id);
+          if (!context.mounted) return;
           showAppFunctionStateDialog(context, leaveCourseFuture);
         }
         break;
       case _CourseCardLongPressResult.delete:
         _logCourseDeleteViaCourseCardLongPress(analytics);
+        if (!context.mounted) return;
         final confirmed = await showDeleteCourseDialog(context, course.name);
-        if (confirmed == true) {
+        if (confirmed == true && context.mounted) {
           final deleteCourseFunction = api.course.deleteCourse(course.id);
           showAppFunctionStateDialog(context, deleteCourseFunction);
         }
@@ -303,6 +310,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
       case _CourseCardLongPressResult.join:
         _logCourseJoinViaCourseCardLongPress(analytics);
         final joinCourseFunction = api.course.joinCourse(course.id);
+        if (!context.mounted) return;
         showAppFunctionStateDialog(context, joinCourseFunction);
         break;
       default:

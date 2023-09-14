@@ -40,7 +40,7 @@ class AuthApp extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AuthAppState createState() => _AuthAppState();
+  State createState() => _AuthAppState();
 }
 
 class _AuthAppState extends State<AuthApp> {
@@ -78,17 +78,17 @@ class _AuthAppState extends State<AuthApp> {
       ],
       child: (context) => SharezoneMaterialApp(
         blocDependencies: widget.blocDependencies,
-        home: WelcomePage(),
-        onUnknownRouteWidget: WelcomePage(),
+        home: const WelcomePage(),
+        onUnknownRouteWidget: const WelcomePage(),
         analytics: widget.analytics,
         navigatorKey: null,
         routes: {
-          SupportPage.tag: (context) => SupportPage(),
-          SignUpPage.tag: (context) => SignUpPage(),
-          LoginPage.tag: (context) => LoginPage(),
+          SupportPage.tag: (context) => const SupportPage(),
+          SignUpPage.tag: (context) => const SignUpPage(),
+          LoginPage.tag: (context) => const LoginPage(),
           PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
-          SignInWithQrCodePage.tag: (context) => SignInWithQrCodePage(),
-          ImprintPage.tag: (context) => ImprintPage(),
+          SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
+          ImprintPage.tag: (context) => const ImprintPage(),
         },
       ),
     );

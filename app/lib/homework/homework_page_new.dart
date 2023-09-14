@@ -39,11 +39,11 @@ class NewHomeworkPage extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (currentUserType) {
       case HomeworkPageTypeOfUser.student:
-        return StudentHomeworkPage();
+        return const StudentHomeworkPage();
       case HomeworkPageTypeOfUser.parent:
-        return HomeworkPage();
+        return const HomeworkPage();
       case HomeworkPageTypeOfUser.teacher:
-        return TeacherHomeworkPage();
+        return const TeacherHomeworkPage();
       default:
         throw UnimplementedError();
     }

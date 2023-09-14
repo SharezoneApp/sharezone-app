@@ -51,27 +51,27 @@ class TeacherHomeworkPage extends StatelessWidget {
           length: 2,
           child: SharezoneMainScaffold(
             colorBehindBNB: bottomBarBackgroundColor,
-            appBarConfiguration: AppBarConfiguration(
+            appBarConfiguration: const AppBarConfiguration(
               bottom: HomeworkTabBar(
-                tabs: const [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
+                tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
               ),
-              actions: const <Widget>[],
+              actions: <Widget>[],
             ),
-            body: TeacherHomeworkBody(),
+            body: const TeacherHomeworkBody(),
             navigationItem: NavigationItem.homework,
             bottomBarConfiguration: BottomBarConfiguration(
               bottomBar: AnimatedTabVisibility(
-                child: TeacherHomeworkBottomActionBar(
-                  backgroundColor: bottomBarBackgroundColor,
-                ),
                 visibleInTabIndicies: const [0],
                 // Else the Sort shown in the button and the current sort
                 // could get out of order
                 maintainState: true,
+                child: TeacherHomeworkBottomActionBar(
+                  backgroundColor: bottomBarBackgroundColor,
+                ),
               ),
             ),
             floatingActionButton:
-                BottomOfScrollViewInvisibility(child: HomeworkFab()),
+                const BottomOfScrollViewInvisibility(child: HomeworkFab()),
           ),
         ),
       ),
@@ -130,12 +130,12 @@ class TeacherHomeworkBody extends StatelessWidget {
 class _NoOpenHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      key: const ValueKey('no-homework-teacher-placeholder-for-open-homework'),
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      key: ValueKey('no-homework-teacher-placeholder-for-open-homework'),
+      iconSize: Size(175, 175),
       title: "Keine Hausaufgaben für die Schüler:innen? 😮😍",
       description: Padding(
-        padding: const EdgeInsets.only(top: 8),
+        padding: EdgeInsets.only(top: 8),
         child: AddHomeworkCard(),
       ),
       svgPath: 'assets/icons/sleeping.svg',
@@ -147,13 +147,13 @@ class _NoOpenHomeworkPlaceholder extends StatelessWidget {
 class _NoArchivedHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
+    return const PlaceholderWidgetWithAnimation(
       key: ValueKey('no-homework-teacher-placeholder-for-archived-homework'),
-      iconSize: const Size(160, 160),
+      iconSize: Size(160, 160),
       title:
           "Hier werden alle Hausaufgaben angezeigt, deren Fälligkeitsdatum in der Vergangenheit liegt.",
       description: Padding(
-        padding: const EdgeInsets.only(top: 8),
+        padding: EdgeInsets.only(top: 8),
         child: AddHomeworkCard(),
       ),
       svgPath: 'assets/icons/cardboard-package.svg',

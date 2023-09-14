@@ -20,12 +20,16 @@ class ErrorJoinResultDialog extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (errorJoinResult.groupJoinException is NoInternetGroupJoinException)
+    if (errorJoinResult.groupJoinException is NoInternetGroupJoinException) {
       return _NoInternet();
-    if (errorJoinResult.groupJoinException is AlreadyMemberGroupJoinException)
+    }
+    if (errorJoinResult.groupJoinException is AlreadyMemberGroupJoinException) {
       return _AlreadyMember();
-    if (errorJoinResult.groupJoinException is GroupNotPublicGroupJoinException)
+    }
+    if (errorJoinResult.groupJoinException
+        is GroupNotPublicGroupJoinException) {
       return _NotPublic();
+    }
     if (errorJoinResult.groupJoinException
         is SharecodeNotFoundGroupJoinException) return _NotFound();
 
@@ -36,7 +40,7 @@ class ErrorJoinResultDialog extends StatelessWidget {
 class _UnknownError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein unbekannter Fehler ist aufgetreten 😭",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -49,12 +53,12 @@ class _UnknownError extends StatelessWidget {
 class _NoInternet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunktdaten.",
+          "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
     );
   }
 }
@@ -62,7 +66,7 @@ class _NoInternet extends StatelessWidget {
 class _AlreadyMember extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Bereits Mitglied 🤨",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -75,7 +79,7 @@ class _AlreadyMember extends StatelessWidget {
 class _NotPublic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Beitreten verboten ⛔️",
       iconData: Icons.error,
       iconColor: Colors.red,
@@ -88,7 +92,7 @@ class _NotPublic extends StatelessWidget {
 class _NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateSheetSimpleBody(
+    return const StateSheetSimpleBody(
       title: "Ein Fehler ist aufgetreten: Sharecode nicht gefunden ❌",
       iconData: Icons.error,
       iconColor: Colors.red,

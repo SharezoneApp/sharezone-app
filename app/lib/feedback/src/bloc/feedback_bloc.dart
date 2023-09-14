@@ -75,9 +75,10 @@ class FeedbackBloc extends BlocBase {
   Future<void> submit() async {
     final isOnCoolDown =
         await _cache.hasFeedbackSubmissionCoolDown(feedbackCoolDown);
-    if (isOnCoolDown)
+    if (isOnCoolDown) {
       throw CoolDownException(
           "User has not yet exceeded the cool down.", feedbackCoolDown);
+    }
 
     final isAnonymous = _isAnonymousSubject.valueOrNull!;
 

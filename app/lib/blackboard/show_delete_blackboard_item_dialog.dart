@@ -12,13 +12,14 @@ import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
 import 'details/blackboard_details.dart';
 
 Future<void> showDeleteBlackboardItemDialog(
     BuildContext context, BlackboardView? view,
     {bool popTwice = true}) async {
   final confirmed = (await _showConfirmDeletingDialog(context))!;
-  if (confirmed) {
+  if (confirmed && context.mounted) {
     if (view!.hasAttachments) {
       _showAttachmentsDeleteOrRemainDialog(context, view, popTwice: popTwice);
     } else {
@@ -54,7 +55,7 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
     messsage:
         "Sollen die Anhänge des Eintrags aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
     actions: [
-      AdaptiveDialogAction(
+      const AdaptiveDialogAction(
         title: "Entknüpfen",
         popResult: AttachmentOperation.unlink,
       ),
@@ -76,6 +77,8 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
       fileSharingGateway: api.fileSharing,
       attachmentsRemainOrDelete: attachmentsRemainOrDelete,
     );
-    if (popTwice) Navigator.pop(context, BlackboardPopOption.deleted);
+    if (popTwice && context.mounted) {
+      Navigator.pop(context, BlackboardPopOption.deleted);
+    }
   }
 }

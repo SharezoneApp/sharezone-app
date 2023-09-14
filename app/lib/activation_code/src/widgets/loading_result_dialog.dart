@@ -10,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class LoadingEnterActivationCodeResultDialog extends StatelessWidget {
+  const LoadingEnterActivationCodeResultDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return StateSheetLoadingBody();
+    return const StateSheetLoadingBody();
   }
 }
