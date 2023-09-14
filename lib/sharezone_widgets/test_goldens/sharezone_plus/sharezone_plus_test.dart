@@ -27,7 +27,7 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         await pumpSharezonePlusCard(tester);
 
-        await screenMatchesGolden(tester, 'sharezone_plus_card_light');
+        await screenMatchesGolden(tester, 'sharezone_plus_chip_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
@@ -43,7 +43,7 @@ void main() {
           ),
         );
 
-        await screenMatchesGolden(tester, 'sharezone_plus_card_dark');
+        await screenMatchesGolden(tester, 'sharezone_plus_chip_dark');
       });
     });
   });
