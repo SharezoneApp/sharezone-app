@@ -103,7 +103,7 @@ class _Colors extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            ...Design.designList
+            ...Design.freeDesigns
                 .map(
                   (design) => _ColorCircleSelectDesign(
                     design: design,

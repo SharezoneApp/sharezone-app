@@ -28,8 +28,8 @@ class Design {
   factory Design.standard() => Design.fromColor(Colors.lightBlue);
 
   factory Design.random() {
-    final value = Random().nextInt(designList.length);
-    return designList[value];
+    final value = Random().nextInt(freeDesigns.length);
+    return freeDesigns[value];
   }
 
   factory Design.fromColor(Color color) {
@@ -69,15 +69,15 @@ class Design {
   @override
   int get hashCode => Object.hash(hex, type);
 
-  static List<Design> designList = [
+  /// A list of designs that are available for free and don't require a
+  /// Sharezone Plus subscription.
+  static List<Design> freeDesigns = [
     Colors.pinkAccent,
-    Colors.grey[700],
     Colors.green,
     Colors.deepOrangeAccent,
     Colors.orangeAccent,
     Colors.purpleAccent,
     Colors.lightBlue,
-    Colors.amberAccent,
     Colors.yellow,
     Colors.redAccent,
     Colors.deepPurpleAccent,
@@ -88,6 +88,5 @@ class Design {
     Colors.indigo,
     Colors.grey,
     Colors.brown,
-    Colors.black87,
   ].map((color) => Design.fromColor(color!)).toList();
 }
