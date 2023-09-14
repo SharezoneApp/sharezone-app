@@ -11,16 +11,24 @@ import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 
+import '../../test_goldens/timetable/timetable_page_test.mocks.dart';
 import 'mock/mock_course_gateway.dart';
 import 'mock/mock_school_class_filter_analytics.dart';
 import 'mock/mock_school_class_gateway.dart';
 import 'mock/mock_timetable_gateway.dart';
 import 'mock/mock_user_gateway.dart';
 
+@GenerateNiceMocks([
+  MockSpec<SubscriptionService>(),
+])
 void main() {
   group('TimetablePage', () {
     group('SchoolClassFilter', () {
@@ -45,11 +53,13 @@ void main() {
       MockSchoolClassGateway schoolClassGateway;
       TimetableGateway timetableGateway;
       MockSchoolClassFilterAnalytics schoolClassFilterAnalytics;
+      late MockSubscriptionService subscriptionService;
 
       setUp(() {
         schoolClassGateway = MockSchoolClassGateway();
         timetableGateway = MockTimetableGateway();
         schoolClassFilterAnalytics = MockSchoolClassFilterAnalytics();
+        subscriptionService = MockSubscriptionService();
 
         bloc = TimetableBloc(
           schoolClassGateway,
@@ -66,11 +76,16 @@ void main() {
       Future<void> _pumpSchoolClassSelection(WidgetTester tester) async {
         await tester.pumpWidget(
           FeatureDiscovery(
-            child: MaterialApp(
-              home: BlocProvider(
-                bloc: bloc,
-                child: SingleChildScrollView(
-                  child: SchoolClassFilterBottomBar(),
+            child: MultiProvider(
+              providers: [
+                Provider<SubscriptionService>.value(value: subscriptionService),
+              ],
+              child: MaterialApp(
+                home: BlocProvider(
+                  bloc: bloc,
+                  child: SingleChildScrollView(
+                    child: SchoolClassFilterBottomBar(),
+                  ),
                 ),
               ),
             ),
@@ -112,6 +127,10 @@ void main() {
       testWidgets(
           'If the user selects a school class, this school class should be passed to the bloc',
           (tester) async {
+        when(subscriptionService.hasFeatureUnlocked(
+                SharezonePlusFeature.filterTimetableByClass))
+            .thenReturn(true);
+
         await _pumpSchoolClassSelection(tester);
 
         // Öffne Schulklassen-Auswahl-Menü

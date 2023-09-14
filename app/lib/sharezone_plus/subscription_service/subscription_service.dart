@@ -62,6 +62,7 @@ const _featuresMap = {
     SharezonePlusFeature.submissionsList,
     SharezonePlusFeature.infoSheetReadByUsersList,
     SharezonePlusFeature.homeworkDonyByUsersList,
+    SharezonePlusFeature.filterTimetableByClass,
   },
 };
 
@@ -69,6 +70,7 @@ enum SharezonePlusFeature {
   submissionsList,
   infoSheetReadByUsersList,
   homeworkDonyByUsersList,
+  filterTimetableByClass,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
