@@ -357,7 +357,7 @@ class __UserReadTileState extends State<_UserReadTile> {
                       ),
                       Text(
                         "Gelesen von: ${widget.view.readPercent}%",
-                        style: TextStyle(color: widget.view.readPerecentColor),
+                        style: TextStyle(color: widget.view.readPercentColor),
                       ),
                     ],
                   ),

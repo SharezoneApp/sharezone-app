@@ -16,7 +16,7 @@ class SuccessfulJoinResultDialog extends StatelessWidget {
     required this.result,
   }) : super(key: key);
 
-  final SuccessfullJoinResult result;
+  final SuccessfulJoinResult result;
 
   @override
   Widget build(BuildContext context) {

@@ -51,7 +51,7 @@ class _NoInternet extends StatelessWidget {
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten nicht versuchen, den Code einzulösen, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunktdaten.",
+          "Wir konnten nicht versuchen, den Code einzulösen, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
     );
   }
 }
@@ -77,7 +77,7 @@ class _NotFound extends StatelessWidget {
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten den eigegeben Aktivierungscode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Aktivierungscode noch gültig ist.",
+          "Wir konnten den eingegeben Aktivierungscode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Aktivierungscode noch gültig ist.",
     );
   }
 }

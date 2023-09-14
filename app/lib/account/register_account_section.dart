@@ -20,7 +20,7 @@ import 'package:user/user.dart';
 
 import 'account_page_bloc.dart';
 
-class RegistierAccountSection extends StatelessWidget {
+class RegisterAccountSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -257,6 +257,6 @@ Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
     final LinkProviderAnalytics _analytics =
         LinkProviderAnalytics(Analytics(getBackend()));
     _analytics.logShowedUseMultipleDevicesInstruction();
-    Navigator.pushNamed(context, UseAccountOnMultipleDevicesIntruction.tag);
+    Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }
 }

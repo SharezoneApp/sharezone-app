@@ -40,7 +40,7 @@ Future<void> deleteHomeworkDialogsEntry(
 
   switch (option) {
     case _DeleteDialogOptions.all:
-      _deleteHomeworkForAllAndShowDialogIfAttachementsExist(context, homework,
+      _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(context, homework,
           popTwice: popTwice);
       break;
     case _DeleteDialogOptions.onlyUser:
@@ -56,7 +56,7 @@ void _deleteOnlyForCurrentUser(BuildContext context, HomeworkDto homework) {
   api.deleteHomeworkOnlyForCurrentUser(homework);
 }
 
-void _deleteHomeworkForAllAndShowDialogIfAttachementsExist(
+void _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(
     BuildContext context, HomeworkDto homework,
     {bool popTwice = true}) {
   final api = BlocProvider.of<SharezoneContext>(context).api;

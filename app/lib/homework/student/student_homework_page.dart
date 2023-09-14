@@ -75,7 +75,7 @@ final Color? overscrollColor = Colors.grey[600];
 class StudentHomeworkBody extends StatelessWidget {
   Widget getCenteredPlaceholder(HomeworkTab tab, HomeworkPageStatus status) {
     return Center(
-      child: getStudentEmptyHomeworkListWidgetswithStatus(
+      child: getStudentEmptyHomeworkListWidgetsWithStatus(
           forTab: tab, homeworkStatus: status),
     );
   }

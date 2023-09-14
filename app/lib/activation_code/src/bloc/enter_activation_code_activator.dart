@@ -47,8 +47,8 @@ class EnterActivationCodeActivator {
         StackTrace.current,
       );
     }
-    if (result is SuccessfullEnterActivationCodeResult) {
-      _analytics.log(SuccessfullEnterActivationCodeEvent(activationCode));
+    if (result is SuccessfulEnterActivationCodeResult) {
+      _analytics.log(SuccessfulEnterActivationCodeEvent(activationCode));
     } else {
       _analytics.log(FailedEnterActivationCodeEvent(activationCode));
     }

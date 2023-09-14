@@ -26,7 +26,7 @@ class BlackboardView {
   final String createdOnText;
   final String authorName;
   final int readPercent;
-  final Color readPerecentColor, courseNameColor;
+  final Color readPercentColor, courseNameColor;
   final bool isAuthor, hasAttachments, hasPhoto, hasPermissionToEdit, isRead;
   final BlackboardItem item;
   final List<String> attachmentIDs;
@@ -42,7 +42,7 @@ class BlackboardView {
     required this.courseID,
     required this.readPercent,
     required this.createdOnText,
-    required this.readPerecentColor,
+    required this.readPercentColor,
     required this.isAuthor,
     required this.hasPhoto,
     required this.hasAttachments,
@@ -74,7 +74,7 @@ class BlackboardView {
       ),
       pictureURL: '',
       readPercent: 0,
-      readPerecentColor: Colors.green,
+      readPercentColor: Colors.green,
       text: '',
       title: '',
     );
@@ -98,7 +98,7 @@ class BlackboardView {
       courseName: item.courseName,
       courseNameColor: _getCourseColor(courseID, courseGateway),
       courseID: courseID,
-      readPerecentColor: _getReadByColor(readPercent),
+      readPercentColor: _getReadByColor(readPercent),
       hasAttachments: _hasAttachments(item),
       isAuthor: isAuthor,
       hasPhoto: _hasPhoto(item.pictureURL),

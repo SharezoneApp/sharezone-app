@@ -169,8 +169,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                 CourseTemplatePage.tag: (context) => CourseTemplatePage(),
                 CalendricalEventsPage.tag: (context) => CalendricalEventsPage(),
                 PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
-                UseAccountOnMultipleDevicesIntruction.tag: (context) =>
-                    UseAccountOnMultipleDevicesIntruction(),
+                UseAccountOnMultipleDevicesInstructions.tag: (context) =>
+                    UseAccountOnMultipleDevicesInstructions(),
                 MyProfilePage.tag: (context) => MyProfilePage(),
                 BlackboardDialogChoosePicture.tag: (context) =>
                     BlackboardDialogChoosePicture(),

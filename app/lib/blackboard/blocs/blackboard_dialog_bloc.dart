@@ -125,9 +125,9 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   /// Prüfen, ob der Nutzer in den Eingabefelder etwas geändert hat. Falls ja,
   /// wird true zurückgegeben.
   ///
-  /// Attribut [pictureURL] & [sendNotifcation] werden vernachlässtig, da
-  /// dieser Input kein großer Verlust ist, wenn man versehentlich den
-  /// Dialog schließt.
+  /// Attribut [pictureURL] & [sendNotification] werden vernachlässigt, da
+  /// dieser Input kein großer Verlust ist, wenn man versehentlich den Dialog
+  /// schließt.
   bool hasInputChanged() {
     final title = _titleSubject.valueOrNull;
     final course = _courseSegmentSubject.valueOrNull;

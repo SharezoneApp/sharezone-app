@@ -54,7 +54,7 @@ class _NoInternet extends StatelessWidget {
       iconData: Icons.error,
       iconColor: Colors.red,
       description:
-          "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunktdaten.",
+          "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
     );
   }
 }
