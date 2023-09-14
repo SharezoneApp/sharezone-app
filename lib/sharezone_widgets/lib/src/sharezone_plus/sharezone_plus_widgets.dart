@@ -116,6 +116,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
     final fontColor = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkPrimaryColor;
+    final baseTheme = Theme.of(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: maxWidth,
@@ -130,42 +131,54 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
             color: fontColor,
           ),
           textAlign: TextAlign.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (withSharezonePlusBadge)
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: SharezonePlusBadge(),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: child,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              textTheme: baseTheme.textTheme.copyWith(
+                // Modifying the also the `bodyMedium` style besides
+                // `DefaultTextStyle` to update the text color for p elements in
+                // the `MarkdownBody` widget of `flutter_markdown`.
+                bodyMedium: baseTheme.textTheme.bodyMedium?.copyWith(
+                  color: fontColor,
                 ),
-                if (withLearnMoreButton)
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (withSharezonePlusBadge)
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
+                      child: SharezonePlusBadge(),
+                    ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: TextButton(
-                      onPressed: onLearnMorePressed,
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: child,
+                  ),
+                  if (withLearnMoreButton)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+                      child: TextButton(
+                        onPressed: onLearnMorePressed,
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          foregroundColor: fontColor,
                         ),
-                        foregroundColor: fontColor,
-                      ),
-                      child: const Text(
-                        'MEHR ERFAHREN',
-                        style: TextStyle(
-                          letterSpacing: 0.5,
+                        child: const Text(
+                          'MEHR ERFAHREN',
+                          style: TextStyle(
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

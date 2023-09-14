@@ -25,7 +25,7 @@ import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_
 import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
-import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 

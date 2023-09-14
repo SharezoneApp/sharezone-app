@@ -38,6 +38,9 @@ class UserGateway implements UserGatewayAuthentifcation {
   // Firebase User Stream
   final _authUserSubject = BehaviorSubject<AuthUser?>();
   Stream<AuthUser?> get authUserStream => _authUserSubject;
+  Stream<bool> get isSignInStream =>
+      _authUserSubject.map((user) => user != null);
+
   AuthUser? get authUser => _authUserSubject.value;
 
   Future<AppUser> get() {

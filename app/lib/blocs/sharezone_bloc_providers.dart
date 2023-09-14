@@ -79,6 +79,7 @@ import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone/report/report_factory.dart';
@@ -333,7 +334,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
         ),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SupportPageController(api.user.isSignInStream),
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[

@@ -6,10 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -28,6 +32,7 @@ class SupportPage extends StatelessWidget {
     final isPlusSupportUnlocked = context
         .watch<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.plusSupport);
+    final isSignedIn = context.watch<SupportPageController>().isUserSignedIn;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Support'),
@@ -39,18 +44,24 @@ class SupportPage extends StatelessWidget {
         child: SafeArea(
           child: MaxWidthConstraintBox(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _Header(),
-                SizedBox(height: 12),
+                const _Header(),
+                const SizedBox(height: 12),
                 if (isPlusEnabled) ...[
                   if (isPlusSupportUnlocked)
-                    _PlusSupport()
+                    const _PlusSupport()
                   else ...[
-                    _FreeSupport(),
+                    const _FreeSupport(),
+                    // We only show the advertising if the user is signed in
+                    // because a logged out user can't buy Sharezone Plus.
+                    if (isSignedIn) ...const [
+                      SizedBox(height: 12),
+                      _SharezonePlusAdvertising(),
+                    ]
                   ]
                 ] else
-                  _FreeSupport(),
+                  const _FreeSupport(),
               ],
             ),
           ),
@@ -100,11 +111,11 @@ class _FreeSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SupportPlanBase(
-      title: const Text('Kostenfreier Support'),
-      subtitle: const Text(
+    return const _SupportPlanBase(
+      title: Text('Kostenfreier Support'),
+      subtitle: Text(
           'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.'),
-      body: const Column(
+      body: Column(
         children: [
           _DiscordTile(),
           _FreeEmailTile(),
@@ -119,11 +130,11 @@ class _PlusSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SupportPlanBase(
-      title: const Text('Plus Support'),
-      subtitle: const Text(
+    return const _SupportPlanBase(
+      title: Text('Plus Support'),
+      subtitle: Text(
           'Als Sharezone-Plus Nutzer hast du Zugriff auf unseren Premium-Support.'),
-      body: const Column(
+      body: Column(
         children: [
           _PlusEmailTile(),
           _VideoCallTile(),
@@ -152,12 +163,12 @@ class _SupportPlanBase extends StatelessWidget {
       children: [
         DefaultTextStyle.merge(
           child: title,
-          style: TextStyle(fontSize: 22),
+          style: const TextStyle(fontSize: 22),
         ),
         const SizedBox(height: 4),
         DefaultTextStyle.merge(
           child: subtitle,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
           textAlign: TextAlign.center,
         ),
         body,
@@ -210,6 +221,7 @@ class _FreeEmailTile extends StatelessWidget {
       icon: PlatformSvg.asset(
         'assets/icons/email.svg',
         color: context.primaryColor,
+        semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
       subtitle: 'support@sharezone.net',
@@ -241,6 +253,7 @@ class _PlusEmailTile extends StatelessWidget {
       icon: PlatformSvg.asset(
         'assets/icons/email.svg',
         color: context.primaryColor,
+        semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
       subtitle: 'Erhalte eine Rückmeldung innerhalb von wenigen Stunden.',
@@ -250,6 +263,7 @@ class _PlusEmailTile extends StatelessWidget {
         try {
           await launchUrl(url);
         } on Exception catch (_) {
+          if (!context.mounted) return;
           showSnackSec(
             context: context,
             text: 'E-Mail: $emailAddress',
@@ -282,11 +296,40 @@ class _VideoCallTile extends StatelessWidget {
 }
 
 class _SharezonePlusAdvertising extends StatelessWidget {
-  const _SharezonePlusAdvertising({super.key});
+  const _SharezonePlusAdvertising();
+
+  void _navigateToSharezonePlusPage(BuildContext context) {
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+    Navigator.pop(context);
+    navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SizedBox(
+      width: double.infinity,
+      child: SharezonePlusFeatureInfoCard(
+        withLearnMoreButton: true,
+        onLearnMorePressed: () => _navigateToSharezonePlusPage(context),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Mit Sharezone-Plus erhältst Zugriff auf unseren Premium-Support.',
+              ),
+              SizedBox(height: 12),
+              MarkdownBody(
+                data:
+                    '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
+- Videocall-Support nach Termin-vereinbarung (ermöglicht das Teilen des Bildschirms)''',
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -299,6 +342,7 @@ class _DiscordTile extends StatelessWidget {
       icon: PlatformSvg.asset(
         'assets/icons/discord.svg',
         color: context.primaryColor,
+        semanticsLabel: 'Discord Icon',
       ),
       title: 'Discord',
       subtitle: 'Community-Support',
