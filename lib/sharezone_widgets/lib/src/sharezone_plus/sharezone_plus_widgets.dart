@@ -80,10 +80,10 @@ class SharezonePlusCard extends StatelessWidget {
 class SharezonePlusFeatureInfoCard extends StatelessWidget {
   const SharezonePlusFeatureInfoCard({
     super.key,
+    required this.child,
     this.withSharezonePlusBadge = true,
     this.withLearnMoreButton = false,
     this.onLearnMorePressed,
-    this.child,
     this.maxWidth = 400,
   }) : assert(withLearnMoreButton == false || onLearnMorePressed != null);
 
@@ -106,7 +106,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
 
   /// The widget that is displayed below the [SharezonePlusBadge] and above the
   /// "Learn more" button.
-  final Widget? child;
+  final Widget child;
 
   /// The maximum width of the card.
   final double maxWidth;
@@ -141,11 +141,10 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
                     child: SharezonePlusBadge(),
                   ),
-                if (child != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: child!,
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: child,
+                ),
                 if (withLearnMoreButton)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
