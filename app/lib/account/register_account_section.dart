@@ -20,8 +20,8 @@ import 'package:user/user.dart';
 
 import 'account_page_bloc.dart';
 
-class RegistierAccountSection extends StatelessWidget {
-  const RegistierAccountSection({super.key});
+class RegisterAccountSection extends StatelessWidget {
+  const RegisterAccountSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -264,6 +264,6 @@ Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
     final LinkProviderAnalytics analytics =
         LinkProviderAnalytics(Analytics(getBackend()));
     analytics.logShowedUseMultipleDevicesInstruction();
-    Navigator.pushNamed(context, UseAccountOnMultipleDevicesIntruction.tag);
+    Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }
 }

@@ -53,7 +53,7 @@ class _TipCard extends StatelessWidget {
                 )
               // Ein Container-Widget kann nicht verwendet werden, weil ansonsten
               // die OverlayCard beim animierten Wechsel (durch den AnimatedSwitcher)
-              // für einen sehr kurzen Augenblick in der Mitter des Screens ist und
+              // für einen sehr kurzen Augenblick in der Mitte des Screens ist und
               // dies sehr komisch aussieht.
               : const Text(""),
         );

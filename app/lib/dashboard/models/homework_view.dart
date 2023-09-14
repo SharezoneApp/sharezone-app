@@ -16,7 +16,7 @@ class HomeworkView {
   final String courseName, title;
   final Color todoUntilColor, courseNameColor;
 
-  /// Example: Überfällig, bis heute, bis moregen, bis übermogen
+  /// Example: Überfällig, bis heute, bis morgen, bis übermorgen
   final String todoUntilText;
 
   /// The homework object is in the view needed, to open the homework dialog

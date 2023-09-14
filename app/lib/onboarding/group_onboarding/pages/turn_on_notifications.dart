@@ -66,7 +66,7 @@ class _Description extends StatelessWidget {
     if (bloc.isStudent) {
       return 'Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.';
     }
-    return 'Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhälst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪';
+    return 'Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhältst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪';
   }
 }
 
@@ -93,7 +93,7 @@ class _NotNowButton extends StatelessWidget {
         final confirmed = (await confirmDialog(context));
         if (confirmed == true && context.mounted) {
           final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-          bloc.logTurnOfNotifiactions();
+          bloc.logTurnOfNotifications();
           await _continue(context);
         }
       },

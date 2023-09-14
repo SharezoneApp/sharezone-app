@@ -11,10 +11,10 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
-class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
+class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
   static const tag = "use-account-on-multiple-devices-instruction-page";
 
-  const UseAccountOnMultipleDevicesIntruction({super.key});
+  const UseAccountOnMultipleDevicesInstructions({super.key});
 
   @override
   Widget build(BuildContext context) {

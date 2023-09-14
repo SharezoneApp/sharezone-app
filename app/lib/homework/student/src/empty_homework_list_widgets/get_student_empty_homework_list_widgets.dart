@@ -11,7 +11,7 @@ import '../../student_homework_page.dart';
 import 'homework_status.dart';
 import 'student_empty_homework_list_widgets.dart';
 
-Widget getStudentEmptyHomeworkListWidgetswithStatus(
+Widget getStudentEmptyHomeworkListWidgetsWithStatus(
     {required HomeworkTab forTab, required HomeworkPageStatus homeworkStatus}) {
   ArgumentError.checkNotNull(forTab);
   ArgumentError.checkNotNull(homeworkStatus);

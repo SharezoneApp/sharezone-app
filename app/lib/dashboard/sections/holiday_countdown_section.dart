@@ -205,7 +205,7 @@ class _SelectStateDropdown extends StatelessWidget {
   /// [navigationBloc] wird benötigt, da nicht mehr mit dem Context
   /// navigiert werden kann. Das [_SelectStateDropdown] Widget verschwindet
   /// sofort, sobald der Nutzer ein Bundesland auswählt, womit auch der
-  /// Context ungültigt wird. Würde man nun über den Context navigieren,
+  /// Context ungültig wird. Würde man nun über den Context navigieren,
   /// so würde es zu einer Fehlermeldung kommen.
   void showSelectedStateSnackBar(BuildContext context, StateEnum? state) {
     final navigationService = BlocProvider.of<NavigationService>(context);

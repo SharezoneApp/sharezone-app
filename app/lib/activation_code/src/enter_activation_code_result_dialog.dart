@@ -24,7 +24,7 @@ class EnterActivationCodeResultDialog {
     EnterActivationCodeResult enterActivationCodeResult,
     BuildContext context,
   ) {
-    if (enterActivationCodeResult is SuccessfullEnterActivationCodeResult) {
+    if (enterActivationCodeResult is SuccessfulEnterActivationCodeResult) {
       return StateSheetContent(
         body: SuccessfulEnterActivationCodeResultDialog(
             result: enterActivationCodeResult),

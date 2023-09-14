@@ -76,7 +76,7 @@ class AccountPageBloc extends BlocBase {
       _showErrorSnackBar(e, s);
     }
 
-    if (confirmed != null && confirmed) _showAppleeSignInConfirmation();
+    if (confirmed != null && confirmed) _showAppleSignInConfirmation();
     return null;
   }
 
@@ -87,7 +87,7 @@ class AccountPageBloc extends BlocBase {
     );
   }
 
-  void _showAppleeSignInConfirmation() {
+  void _showAppleSignInConfirmation() {
     showSnackSec(
       key: globalKey,
       text: "Dein Account wurde mit einem Apple-Konto verknüpft.",

@@ -163,7 +163,7 @@ class _MainAccountInformationCard extends StatelessWidget {
               _Name(userView: user),
               if (user.provider?.hasEmailAddress == true) _EmailText(user),
               _TypeOfUserText(userType: user.userType, uid: user.id),
-              if (isAnonymous) const RegistierAccountSection(),
+              if (isAnonymous) const RegisterAccountSection(),
               if (kDebugMode) _UserId(user: user),
             ],
           ),

@@ -68,7 +68,7 @@ class GroupOnboardingBloc extends BlocBase {
 
   void _closeOnboarding() => _signedUpBloc.setSignedUp(false);
 
-  void logTurnOfNotifiactions() => _analytics.logTurnOffNotifications();
+  void logTurnOfNotifications() => _analytics.logTurnOffNotifications();
 
   void logShareLink() => _analytics.logShareSharecode();
 

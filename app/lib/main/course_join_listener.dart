@@ -72,7 +72,7 @@ class CourseJoinListener extends StatelessWidget {
         groupJoinFunction
             .runGroupJoinFunction(enteredValue: '$sharecode', version: 1)
             .then((groupJoinResult) {
-          if (groupJoinResult is SuccessfullJoinResult) {
+          if (groupJoinResult is SuccessfulJoinResult) {
             final groupInfo = groupJoinResult.groupInfo;
             final groupname = groupInfo.name;
             showSimpleNotification(

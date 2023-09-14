@@ -17,10 +17,10 @@ import '../models/download_app_tip.dart';
 /// Warum wird [PlatformCheck] & [TargetPlatform] verwendet? Was ist der
 /// Unterschied?
 ///
-/// [PlatformCheck] prüft die jeweilige Plattform, auf der die App
-/// ausgeführt wird. Dabei wird nicht daraufgeachtet, über welches Betriebssystem
-/// die App ausgeführt wird. Egal, mit welchem Betriebssystem der Nutzer
-/// die Web-App aufruft, man erhält immer [Platform.web].
+/// [PlatformCheck] prüft die jeweilige Plattform, auf der die App ausgeführt
+/// wird. Dabei wird nicht darauf geachtet, über welches Betriebssystem die App
+/// ausgeführt wird. Egal, mit welchem Betriebssystem der Nutzer die Web-App
+/// aufruft, man erhält immer [Platform.web].
 ///
 /// [TargetPlatform] prüft dagegen, über welches Betriebssystem die App läuft.
 /// Somit wird auch über die Web-App erkennt, welches Betriebssystem der Nutzer

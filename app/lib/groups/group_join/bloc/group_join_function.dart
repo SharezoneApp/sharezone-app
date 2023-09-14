@@ -50,8 +50,8 @@ class GroupJoinFunction {
         final data = Map<String, dynamic>.from(appFunctionsResult.data as Map);
         final resultType =
             GroupJoinResultTypeConverter.fromData(data['resultType'] as String);
-        if (resultType == GroupJoinResultType.successfull) {
-          return SuccessfullJoinResult.fromData(data);
+        if (resultType == GroupJoinResultType.successful) {
+          return SuccessfulJoinResult.fromData(data);
         }
         if (resultType == GroupJoinResultType.requireCourseSelections) {
           return RequireCourseSelectionsJoinResult.fromData(data);

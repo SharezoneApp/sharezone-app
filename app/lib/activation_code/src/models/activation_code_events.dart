@@ -14,9 +14,11 @@ class EnterActivationCodeEvent extends AnalyticsEvent {
       : super(_eventName, data: {'activationCode': activationCode});
 }
 
-class SuccessfullEnterActivationCodeEvent extends AnalyticsEvent {
+class SuccessfulEnterActivationCodeEvent extends AnalyticsEvent {
+  // Even "successfull" is a typo, it's the name of the event in the backend
+  // and we can't change it.
   static const _eventName = 'entered_activation_code_successfull';
-  SuccessfullEnterActivationCodeEvent(String activationCode)
+  SuccessfulEnterActivationCodeEvent(String activationCode)
       : super(_eventName, data: {'activationCode': activationCode});
 }
 

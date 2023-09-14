@@ -40,7 +40,7 @@ class FireMotivation extends StatelessWidget {
   Widget build(BuildContext context) {
     return const PlaceholderWidgetWithAnimation(
       iconSize: Size(175, 175),
-      title: "AUF GEHTS! 💥👊",
+      title: "AUF GEHT'S! 💥👊",
       description: Text(
           "Du musst noch die Hausaufgaben erledigen! Also schau mich nicht weiter an und erledige die Aufgaben! Do it!"),
       svgPath: 'assets/icons/fire.svg',
