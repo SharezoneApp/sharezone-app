@@ -28,10 +28,10 @@ class SupportPage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: const [
                 _Header(),
-                _DiscordTile(),
-                _EmailTile(),
+                SizedBox(height: 12),
+                _FreeSupport(),
               ],
             ),
           ),
@@ -66,13 +66,60 @@ class _Header extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).',
+            'Du einen Fehler gefunden, hast Feedback oder eine einfach eine Frage über Sharezone? Kontaktiere und wir helfen dir weiter!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ),
       ],
     );
+  }
+}
+
+class _FreeSupport extends StatelessWidget {
+  const _FreeSupport();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Kostenfreier Support',
+          style: TextStyle(
+            fontSize: 22,
+          ),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann',
+          style: TextStyle(
+            color: Colors.grey,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        _DiscordTile(),
+        _EmailTile(),
+      ],
+    );
+  }
+}
+
+class _PlusSupport extends StatelessWidget {
+  const _PlusSupport();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 
