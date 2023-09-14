@@ -94,7 +94,7 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
     return const InfoMessage(
       title: "Wozu brauchen wir deine E-Mail?",
       message:
-          "Die E-Mail benötigst du um dich anzumelden. Sollest du zufällig mal dein Passwort vergessen haben, "
+          "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, "
           "können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse "
           "ist nur für dich sichtbar, und sonst niemanden.",
       withPrivacyStatement: true,

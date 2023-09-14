@@ -82,7 +82,7 @@ class EnterActivationCodeBloc extends BlocBase {
     if (_lastEnteredValue?.trim() == 'SharezonePlus') {
       subscriptionEnabledFlag.toggle();
       _changeEnterActivationCodeResult(
-        SuccessfullEnterActivationCodeResult(
+        SuccessfulEnterActivationCodeResult(
           'SharezonePlus',
           '"Sharezone Plus"-Prototyp ${subscriptionEnabledFlag.isEnabled ? 'aktiviert' : 'deaktiviert'}.',
         ),
@@ -110,7 +110,7 @@ class EnterActivationCodeBloc extends BlocBase {
     ]);
 
     _changeEnterActivationCodeResult(
-      SuccessfullEnterActivationCodeResult(
+      SuccessfulEnterActivationCodeResult(
         'clear',
         'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.',
       ),

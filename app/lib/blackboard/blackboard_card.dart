@@ -105,7 +105,7 @@ class BlackboardCard extends StatelessWidget {
                     if (view.hasPermissionToEdit)
                       _ReadPercent(
                         value: view.readPercent,
-                        color: view.readPerecentColor,
+                        color: view.readPercentColor,
                       ),
                     if (isNotEmptyOrNull(view.previewText))
                       _Text(view.previewText),

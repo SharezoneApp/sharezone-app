@@ -160,7 +160,7 @@ class _MainAccountInformationCard extends StatelessWidget {
               _Name(userView: user),
               if (user.provider?.hasEmailAddress == true) _EmailText(user),
               _TypeOfUserText(userType: user.userType, uid: user.id),
-              if (isAnonymous) RegistierAccountSection(),
+              if (isAnonymous) RegisterAccountSection(),
               if (kDebugMode) _UserId(user: user),
             ],
             kuerzel: user.abbreviation,

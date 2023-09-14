@@ -41,7 +41,7 @@ class _EventsSectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<DashboardBloc>(context);
     return StreamBuilder<int>(
-      stream: bloc.nubmerOfUpcomingEvents,
+      stream: bloc.numberOfUpcomingEvents,
       builder: (context, snapshot) {
         final numberOfUrgentHomeworks = snapshot.data ?? 0;
         return Text(

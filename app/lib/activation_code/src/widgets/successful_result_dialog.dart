@@ -16,7 +16,7 @@ class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
     required this.result,
   }) : super(key: key);
 
-  final SuccessfullEnterActivationCodeResult result;
+  final SuccessfulEnterActivationCodeResult result;
 
   @override
   Widget build(BuildContext context) {

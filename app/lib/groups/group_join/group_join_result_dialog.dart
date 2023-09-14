@@ -28,7 +28,7 @@ class GroupJoinResultDialog {
     GroupJoinResult groupJoinResult,
     BuildContext context,
   ) {
-    if (groupJoinResult is SuccessfullJoinResult)
+    if (groupJoinResult is SuccessfulJoinResult)
       return StateSheetContent(
         body: SuccessfulJoinResultDialog(result: groupJoinResult),
         actions: [

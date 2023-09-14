@@ -46,9 +46,9 @@ double _getPercentTimePassed(Time start, Time end, LessonTimeStatus timeline) {
   else if (timeline == LessonTimeStatus.hasAlreadyTakenPlace) return 1.0;
 
   final currentTime = Time.now();
-  final lengthInMinues = end.totalMinutes - start.totalMinutes;
+  final lengthInMinutes = end.totalMinutes - start.totalMinutes;
   final passedMinutes = currentTime.totalMinutes - start.totalMinutes;
-  return (100 * passedMinutes / lengthInMinues) / 100;
+  return (100 * passedMinutes / lengthInMinutes) / 100;
 }
 
 /// Berechnet, ob die Schulstunde in der Vergangenheit stattgefunden hat, jetzt oder
