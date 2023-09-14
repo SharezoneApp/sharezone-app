@@ -17,7 +17,7 @@ void main() {
       'displays the banner at the correct position',
       (tester) async {
         await tester.pumpWidgetBuilder(
-          AlphaVersionBanner(
+          const AlphaVersionBanner(
             enabled: true,
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -34,7 +34,7 @@ void main() {
 
     testWidgets("does display the banner if [enabled] is true", (tester) async {
       await tester.pumpWidget(
-        Directionality(
+        const Directionality(
           textDirection: TextDirection.ltr,
           child: AlphaVersionBanner(
             enabled: true,
@@ -55,7 +55,7 @@ void main() {
       "does not display the banner if [enabled] is false",
       (tester) async {
         await tester.pumpWidget(
-          Directionality(
+          const Directionality(
             textDirection: TextDirection.ltr,
             child: AlphaVersionBanner(
               enabled: false,

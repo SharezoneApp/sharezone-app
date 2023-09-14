@@ -55,7 +55,7 @@ class _TipCard extends StatelessWidget {
               // die OverlayCard beim animierten Wechsel (durch den AnimatedSwitcher)
               // für einen sehr kurzen Augenblick in der Mitte des Screens ist und
               // dies sehr komisch aussieht.
-              : Text(""),
+              : const Text(""),
         );
       },
     );

@@ -37,11 +37,11 @@ Future<SchoolClassDeleteType?> showDeleteSchoolClassDialog(
     messsage:
         "Möchtest du wirklich die Klasse verlassen?\n\nDu hast noch die Option, die Kurse der Schulklasse ebenfalls zu löschen oder diese zu behalten. Werden die Kurse der Schulklasse nicht gelöscht, bleiben diese weiterhin bestehen.",
     actions: [
-      AdaptiveDialogAction(
+      const AdaptiveDialogAction(
         title: "Mit Kursen löschen",
         popResult: SchoolClassDeleteType.withCourses,
       ),
-      AdaptiveDialogAction(
+      const AdaptiveDialogAction(
         title: "Ohne Kurse löschen",
         popResult: SchoolClassDeleteType.withoutCourses,
       ),
@@ -57,14 +57,14 @@ Future<bool?> showLeaveSchoolClassDialog(BuildContext context) async {
         ? "Möchtest du möchtest du wirklich Schulklasse verlassen?"
         : null,
     content: !ThemePlatform.isCupertino
-        ? Text("Möchtest du möchtest du wirklich Schulklasse verlassen?")
+        ? const Text("Möchtest du möchtest du wirklich Schulklasse verlassen?")
         : null,
     right: AdaptiveDialogAction.leave,
   );
 }
 
 class SchoolClassDetailsPage extends StatelessWidget {
-  const SchoolClassDetailsPage(this.schoolClass);
+  const SchoolClassDetailsPage(this.schoolClass, {super.key});
 
   final SchoolClass schoolClass;
 
@@ -165,7 +165,7 @@ class _LeaveSchoolClassButton extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: DestroyButton(
         color: const Color(0xFFff7d7d),
-        title: Text("KLASSE VERLASSEN"),
+        title: const Text("KLASSE VERLASSEN"),
         onTap: () async {
           final confirmed = await showLeaveSchoolClassDialog(context);
           if (confirmed == true) {
@@ -313,7 +313,7 @@ class _IsPublic extends StatelessWidget {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     return ListTile(
       title: const Text("Beitreten erlauben"),
-      leading: Icon(Icons.lock),
+      leading: const Icon(Icons.lock),
       onTap: () {
         final setFuture = bloc.setIsPublic(!isPublic);
         showAppFunctionStateDialog(context, setFuture);

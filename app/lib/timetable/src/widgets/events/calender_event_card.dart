@@ -143,6 +143,7 @@ Future<void> onEventLongPress(
       ]
     ],
   );
+  if (!context.mounted) return;
 
   switch (result) {
     case _EventLongPressResult.changeDesign:

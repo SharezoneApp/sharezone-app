@@ -51,34 +51,23 @@ class TimetableEditLessonPage extends StatefulWidget {
   final TimetableBloc timetableBloc;
   final Lesson initialLesson;
   const TimetableEditLessonPage(this.initialLesson, this.timetableGateway,
-      this.connectionsGateway, this.timetableBloc);
+      this.connectionsGateway, this.timetableBloc,
+      {super.key});
 
   @override
-  _TimetableEditLessonPageState createState() => _TimetableEditLessonPageState(
-      initialLesson, timetableGateway, connectionsGateway, timetableBloc);
+  State createState() => _TimetableEditLessonPageState();
 }
 
 class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
-  final TimetableGateway timetableGateway;
-  final ConnectionsGateway connectionsGateway;
-  final TimetableBloc timetableBloc;
-  final Lesson initialLesson;
   late TimetableEditBloc bloc;
-
-  _TimetableEditLessonPageState(
-    this.initialLesson,
-    this.timetableGateway,
-    this.connectionsGateway,
-    this.timetableBloc,
-  );
 
   @override
   void initState() {
     bloc = TimetableEditBloc(
-      initialLesson: initialLesson,
-      gateway: timetableGateway,
-      connectionsGateway: connectionsGateway,
-      timetableBloc: timetableBloc,
+      initialLesson: widget.initialLesson,
+      gateway: widget.timetableGateway,
+      connectionsGateway: widget.connectionsGateway,
+      timetableBloc: widget.timetableBloc,
     );
     super.initState();
   }
@@ -87,7 +76,7 @@ class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: _TimetableEditPage(initialLesson),
+      child: _TimetableEditPage(widget.initialLesson),
     );
   }
 }
@@ -166,8 +155,8 @@ class _CourseField extends StatelessWidget {
         return ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.lightBlue,
-            child: Text(course?.abbreviation ?? ""),
             foregroundColor: Colors.white,
+            child: Text(course?.abbreviation ?? ""),
           ),
           title: Text(course?.name ?? ""),
           onTap: () {
@@ -182,7 +171,7 @@ class _CourseField extends StatelessWidget {
                       onPressed: () async {
                         final confirmed =
                             await showDeleteLessonConfirmationDialog(context);
-                        if (confirmed != null && confirmed) {
+                        if (confirmed == true && context.mounted) {
                           timetableGateway.deleteLesson(initialLesson);
                           Navigator.pop(context);
                         }
@@ -206,9 +195,9 @@ class _WeekDayField extends StatelessWidget {
       builder: (context, snapshot) {
         final weekDay = snapshot.hasData ? snapshot.data : null;
         return ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: const Icon(Icons.today),
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 6),
+            child: Icon(Icons.today),
           ),
           title: weekDay == null ? null : Text(getWeekDayText(weekDay)),
           onTap: () async {
@@ -232,9 +221,9 @@ class _PeriodField extends StatelessWidget {
       builder: (context, snapshot) {
         final period = snapshot.hasData ? snapshot.data : null;
         return ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: const Icon(Icons.timeline),
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 6),
+            child: Icon(Icons.timeline),
           ),
           title: Text(period != null
               ? "${period.number}. Stunde"
@@ -260,9 +249,9 @@ class _WeekTypeField extends StatelessWidget {
       builder: (context, snapshot) {
         final weekType = snapshot.hasData ? snapshot.data : null;
         return ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: const Icon(Icons.swap_horiz),
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 6),
+            child: Icon(Icons.swap_horiz),
           ),
           title: weekType == null ? null : Text(getWeekTypeText(weekType)),
           onTap: () async {
@@ -332,15 +321,15 @@ class _RoomField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
           prefilledText: initialLesson.place,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             icon: Padding(
-              padding: const EdgeInsets.only(left: 6),
-              child: const Icon(Icons.place),
+              padding: EdgeInsets.only(left: 6),
+              child: Icon(Icons.place),
             ),
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(),
             labelText: "Raum",
           ),
           textCapitalization: TextCapitalization.sentences,

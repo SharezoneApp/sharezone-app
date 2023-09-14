@@ -10,12 +10,13 @@ part of 'enter_activation_code_result.dart';
 
 abstract class EnterActivationCodeException {
   factory EnterActivationCodeException.fromData(String resultType) {
-    if (resultType == _EnterActivationCodeResultType.notFound)
+    if (resultType == _EnterActivationCodeResultType.notFound) {
       return NotFoundEnterActivationCodeException();
-    else if (resultType == _EnterActivationCodeResultType.notAvailable)
+    } else if (resultType == _EnterActivationCodeResultType.notAvailable) {
       return NotAvailableEnterActivationCodeException();
-    else if (resultType == _EnterActivationCodeResultType.unknown)
+    } else if (resultType == _EnterActivationCodeResultType.unknown) {
       return UnknownEnterActivationCodeException();
+    }
     return UnknownEnterActivationCodeException();
   }
 }

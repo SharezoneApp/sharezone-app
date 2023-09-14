@@ -24,7 +24,7 @@ class MainContentNarrow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 800),
+        constraints: const BoxConstraints(maxWidth: 800),
         child: Padding(
           padding: const EdgeInsets.only(
             top: 20,
@@ -42,24 +42,24 @@ class MainContentNarrow extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        PrivacyPolicyHeading(),
+                        const PrivacyPolicyHeading(),
                         if (privacyPolicy.hasNotYetEnteredIntoForce)
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 6),
                             child: PrivacyPolicySubheading(
                               entersIntoForceOn:
                                   privacyPolicy.entersIntoForceOnOrNull,
                             ),
                           ),
-                        SizedBox(height: 3),
-                        Wrap(
+                        const SizedBox(height: 3),
+                        const Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           runAlignment: WrapAlignment.spaceEvenly,
                           alignment: WrapAlignment.spaceEvenly,
                           spacing: 25,
                           runSpacing: 3,
-                          children: const [
+                          children: [
                             ChangeAppearanceButton(),
                             DownloadAsPDFButton(),
                           ],
@@ -75,15 +75,15 @@ class MainContentNarrow extends StatelessWidget {
                     ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Flexible(
                 child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
               ),
               // If height is not zero this would cause a an uneven vertical
               // padding for the button below.
-              Divider(height: 0),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
+              const Divider(height: 0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
                 child: OpenTocBottomSheetButton(),
               ),
             ],

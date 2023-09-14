@@ -19,7 +19,7 @@ class MemePlaceholder extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MemePlaceholderState createState() => _MemePlaceholderState();
+  State createState() => _MemePlaceholderState();
 }
 
 class _MemePlaceholderState extends State<MemePlaceholder> {
@@ -64,12 +64,12 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
                             ? videoPlayer
                             : ClipRRect(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(10)),
                                 child: videoPlayer,
                               ),
                       )
-                    : Center(
-                        key: const ValueKey('loading'),
+                    : const Center(
+                        key: ValueKey('loading'),
                         child: AccentColorCircularProgressIndicator(),
                       ),
               ),
@@ -80,7 +80,8 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
                 child: Text(
                   widget.text!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 22),
                 ),
               ),
           ],

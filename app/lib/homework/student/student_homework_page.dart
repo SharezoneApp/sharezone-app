@@ -39,28 +39,28 @@ class StudentHomeworkPage extends StatelessWidget {
           length: 2,
           child: SharezoneMainScaffold(
             colorBehindBNB: bottomBarBackgroundColor,
-            appBarConfiguration: AppBarConfiguration(
+            appBarConfiguration: const AppBarConfiguration(
               bottom: HomeworkTabBar(
-                tabs: const [Tab(text: 'OFFEN'), Tab(text: 'ERLEDIGT')],
+                tabs: [Tab(text: 'OFFEN'), Tab(text: 'ERLEDIGT')],
               ),
-              actions: const <Widget>[],
+              actions: <Widget>[],
             ),
-            body: StudentHomeworkBody(),
+            body: const StudentHomeworkBody(),
             navigationItem: NavigationItem.homework,
             bottomBarConfiguration: BottomBarConfiguration(
               bottomBar: AnimatedTabVisibility(
-                child: HomeworkBottomActionBar(
-                  backgroundColor: bottomBarBackgroundColor,
-                ),
                 visibleInTabIndicies: const [0],
                 // Else the Sort shown in the button and the current sort
                 // could get out of order
                 maintainState: true,
                 curve: Curves.easeInOut,
+                child: HomeworkBottomActionBar(
+                  backgroundColor: bottomBarBackgroundColor,
+                ),
               ),
             ),
             floatingActionButton:
-                BottomOfScrollViewInvisibility(child: HomeworkFab()),
+                const BottomOfScrollViewInvisibility(child: HomeworkFab()),
           ),
         ),
       ),

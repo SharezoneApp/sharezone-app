@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
@@ -69,7 +70,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     // Implement
     final purchaseService = RevenueCatPurchaseService();
     final products = await purchaseService.getProducts();
-    print(products);
+    log('$products');
 
     await purchaseService.purchase(ProductId('default-dev-plus-subscription'));
   }

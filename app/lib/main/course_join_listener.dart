@@ -37,11 +37,11 @@ class CourseJoinListener extends StatelessWidget {
           if (snapshot.error is KursBereitsBeigetretenException) {
             Future.delayed(const Duration(microseconds: 200)).then((_) {
               showSimpleNotification(
-                Text('Du bist der Gruppe bereits beigetreten!'),
+                const Text('Du bist der Gruppe bereits beigetreten!'),
                 autoDismiss: true,
                 slideDismissDirection: DismissDirection.horizontal,
-                trailing: Icon(Icons.error_outline, color: Colors.red),
-                leading: Icon(Icons.link),
+                trailing: const Icon(Icons.error_outline, color: Colors.red),
+                leading: const Icon(Icons.link),
               );
             });
           }
@@ -62,12 +62,12 @@ class CourseJoinListener extends StatelessWidget {
           Text("$sharecode beitreten..."),
           autoDismiss: true,
           slideDismissDirection: DismissDirection.horizontal,
-          trailing: SizedBox(
+          trailing: const SizedBox(
             height: 25,
             width: 25,
             child: AccentColorCircularProgressIndicator(),
           ),
-          leading: Icon(Icons.link),
+          leading: const Icon(Icons.link),
         );
         groupJoinFunction
             .runGroupJoinFunction(enteredValue: '$sharecode', version: 1)
@@ -81,12 +81,12 @@ class CourseJoinListener extends StatelessWidget {
                   : 'Du bist der Klasse "${groupname ?? "???"}" beigetreten'),
               autoDismiss: true,
               slideDismissDirection: DismissDirection.horizontal,
-              trailing: Icon(Icons.check, color: Colors.lightGreen),
-              leading: Icon(Icons.link),
+              trailing: const Icon(Icons.check, color: Colors.lightGreen),
+              leading: const Icon(Icons.link),
             );
           } else if (groupJoinResult is ErrorJoinResult) {
             showSimpleNotification(
-              Text(
+              const Text(
                   'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.'),
               autoDismiss: true,
               slideDismissDirection: DismissDirection.horizontal,

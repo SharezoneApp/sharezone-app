@@ -12,13 +12,15 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Show animated Game Controller
 class GameController extends StatelessWidget {
+  const GameController({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      iconSize: Size(175, 175),
       title: "Jetzt ist Zeit für die wirklich wichtigen Dinge im Leben! 🤘💪",
       description: Column(
-        children: const <Widget>[
+        children: <Widget>[
           Text("Sehr gut! Du hast keine Hausaufgaben zu erledigen"),
           SizedBox(height: 12),
           AddHomeworkCard(),
@@ -32,12 +34,14 @@ class GameController extends StatelessWidget {
 
 /// Show animated fire --> user should be motivated to do his homeworks
 class FireMotivation extends StatelessWidget {
+  const FireMotivation({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return PlaceholderWidgetWithAnimation(
-      iconSize: const Size(175, 175),
+    return const PlaceholderWidgetWithAnimation(
+      iconSize: Size(175, 175),
       title: "AUF GEHT'S! 💥👊",
-      description: const Text(
+      description: Text(
           "Du musst noch die Hausaufgaben erledigen! Also schau mich nicht weiter an und erledige die Aufgaben! Do it!"),
       svgPath: 'assets/icons/fire.svg',
       animateSVG: true,

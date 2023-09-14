@@ -48,7 +48,7 @@ class _DataProtectionOverview extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: OnboardingNavigationBar(
+      bottomNavigationBar: const OnboardingNavigationBar(
         action: OnboardingNavigationBarContinueButton(
           nextPage: _PrivacyPolicy(),
           nextTag: _PrivacyPolicy.tag,
@@ -63,7 +63,7 @@ class _DataProtectionLockAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: 150,
       child: FlareActor(
         "assets/flare/privacy.flr",

@@ -93,18 +93,18 @@ List<PushNotification> generateNotificationMutations({
     /// index would access an element outside of the list.
     /// Is used because the different attributes can have a diffently sized
     /// number of mutations.
-    T _getElement<T>(List<T> list) => list[min(list.length - 1, i)];
+    T getElement<T>(List<T> list) => list[min(list.length - 1, i)];
 
-    final _actionType = _getElement(actionTypeMutations);
-    final _actionData = _getElement(actionDataMutations);
-    final _title = _getElement(titleMutations);
-    final _body = _getElement(bodyMutations);
+    final actionType0 = getElement(actionTypeMutations);
+    final actionData0 = getElement(actionDataMutations);
+    final title0 = getElement(titleMutations);
+    final body0 = getElement(bodyMutations);
 
     notifications.add(PushNotification(
-      actionType: _actionType as String?,
-      title: _title as String?,
-      body: _body as String?,
-      actionData: _actionData as Map<String, dynamic>?,
+      actionType: actionType0 as String?,
+      title: title0 as String?,
+      body: body0 as String?,
+      actionData: actionData0 as Map<String, dynamic>?,
     ));
   }
 

@@ -17,7 +17,8 @@ import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 /// [title] ist der Titel, wie z.B. "Wozu brauchen wir deinen Namen?"
 /// [message] ist die Nachricht an den Nutzer, wie z.B. "Dein Namen brauchen wir für..."
 class InfoMessage extends StatelessWidget {
-  const InfoMessage({this.title, this.message, this.withPrivacyStatement});
+  const InfoMessage(
+      {super.key, this.title, this.message, this.withPrivacyStatement});
 
   final String? title;
   final String? message;
@@ -30,13 +31,13 @@ class InfoMessage extends StatelessWidget {
       children: <Widget>[
         Text(
           title!,
-          style: TextStyle(fontSize: 16.0),
+          style: const TextStyle(fontSize: 16.0),
         ),
         Text(
           message!,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
-        SizedBox(height: 12.0),
+        const SizedBox(height: 12.0),
         withPrivacyStatement != null && withPrivacyStatement!
             ? privacyStatement(context)
             : Container(),
@@ -47,7 +48,7 @@ class InfoMessage extends StatelessWidget {
   Widget privacyStatement(BuildContext context) {
     return Text.rich(
       TextSpan(children: <TextSpan>[
-        TextSpan(
+        const TextSpan(
             style: TextStyle(color: Colors.grey),
             text: "Mehr Informationen erhältst du in unserer "),
         TextSpan(
@@ -57,7 +58,7 @@ class InfoMessage extends StatelessWidget {
               ..onTap = () {
                 Navigator.pushNamed(context, PrivacyPolicyPage.tag);
               }),
-        TextSpan(
+        const TextSpan(
           style: TextStyle(color: Colors.grey),
           text: ".",
         ),
@@ -68,6 +69,7 @@ class InfoMessage extends StatelessWidget {
 
 class ChangeDataPasswordField extends StatefulWidget {
   const ChangeDataPasswordField({
+    super.key,
     required this.onEditComplete,
     this.focusNode,
     this.labelText = "Passwort",
@@ -80,8 +82,7 @@ class ChangeDataPasswordField extends StatefulWidget {
   final bool autofocus;
 
   @override
-  _ChangeDataPasswordFieldState createState() =>
-      _ChangeDataPasswordFieldState();
+  State createState() => _ChangeDataPasswordFieldState();
 }
 
 class _ChangeDataPasswordFieldState extends State<ChangeDataPasswordField> {

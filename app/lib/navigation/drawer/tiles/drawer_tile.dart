@@ -71,8 +71,9 @@ class DrawerTile extends StatelessWidget {
           final currentNavigationItem = snapshot.data;
 
           bool isSelected = false;
-          if (currentNavigationItem != null)
+          if (currentNavigationItem != null) {
             isSelected = currentNavigationItem == navigationItem;
+          }
 
           Widget child;
 

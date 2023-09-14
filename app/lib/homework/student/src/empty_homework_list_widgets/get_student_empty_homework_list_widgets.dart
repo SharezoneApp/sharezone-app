@@ -28,7 +28,7 @@ Widget getStudentEmptyHomeworkListWidgetsWithStatus(
     // So we know we are on StudentHomeworkTab.completed and there are open
     // homeworks
     assert(forTab == HomeworkTab.completed);
-    return FireMotivation();
+    return const FireMotivation();
   } else {
     // This means either:
     // - open homeworks tab with no open homeworks
@@ -37,6 +37,6 @@ Widget getStudentEmptyHomeworkListWidgetsWithStatus(
         forTab == HomeworkTab.completed &&
             !homeworkStatus.hasOpenHomeworks &&
             !homeworkStatus.hasCompletedHomeworks);
-    return GameController();
+    return const GameController();
   }
 }

@@ -42,7 +42,7 @@ class HomeworkDialog extends StatefulWidget {
   final HomeworkDialogApi homeworkDialogApi;
 
   @override
-  _HomeworkDialogState createState() => _HomeworkDialogState();
+  State createState() => _HomeworkDialogState();
 }
 
 class _HomeworkDialogState extends State<HomeworkDialog> {
@@ -93,9 +93,10 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
   Future<void> leaveDialog() async {
     if (widget.bloc!.hasInputChanged()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
-      if (confirmedLeave) Navigator.pop(context);
-    } else
+      if (confirmedLeave && context.mounted) Navigator.pop(context);
+    } else {
       Navigator.pop(context);
+    }
   }
 
   @override
@@ -173,6 +174,7 @@ class _SaveButton extends StatelessWidget {
         if (editMode) {
           if (hasAttachments) {
             await bloc.submit(oldHomework: oldHomework);
+            if (!context.mounted) return;
           } else {
             bloc.submit(oldHomework: oldHomework);
           }
@@ -181,6 +183,7 @@ class _SaveButton extends StatelessWidget {
           Navigator.pop(context, true);
         } else {
           hasAttachments ? await bloc.submit() : bloc.submit();
+          if (!context.mounted) return;
           logHomeworkAddEvent(context);
           hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
@@ -282,7 +285,7 @@ class _AppBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(4, 6, 6, 0),
+              padding: const EdgeInsets.fromLTRB(4, 6, 6, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -339,7 +342,7 @@ class _TitleField extends StatelessWidget {
                   cursorColor: Colors.white,
                   maxLines: null,
                   style: const TextStyle(color: Colors.white, fontSize: 22),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
                     hintStyle: TextStyle(color: Colors.white),
                     border: InputBorder.none,
@@ -410,7 +413,7 @@ class _SendNotification extends StatelessWidget {
               onTap: () => bloc.changeSendNotification(!sendNotification),
               description: editMode
                   ? null
-                  : Text(
+                  : const Text(
                       "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast."),
             );
           },
@@ -438,13 +441,13 @@ class _DescriptionField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.subject),
+                leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
                   prefilledText: oldDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
                   keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Zusatzinformationen eingeben",
                     border: InputBorder.none,
                   ),
@@ -452,8 +455,8 @@ class _DescriptionField extends StatelessWidget {
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: MarkdownSupport(),
               ),
             ],
@@ -504,8 +507,8 @@ class _SubmissionsSwitch extends StatelessWidget {
               return Column(
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.folder_open),
-                    title: Text("Mit Abgabe"),
+                    leading: const Icon(Icons.folder_open),
+                    title: const Text("Mit Abgabe"),
                     onTap: () {
                       bloc.changeWithSubmissions(!withSubmissions);
                       FeatureDiscovery.completeCurrentStep(context);
@@ -530,6 +533,8 @@ class _SubmissionsSwitch extends StatelessWidget {
                                 title: const Text("Abgabe-Uhrzeit"),
                                 onTap: () async {
                                   await hideKeyboardWithDelay(context: context);
+                                  if (!context.mounted) return;
+
                                   final initialTime =
                                       time == Time(hour: 23, minute: 59)
                                           ? Time(hour: 18, minute: 0)

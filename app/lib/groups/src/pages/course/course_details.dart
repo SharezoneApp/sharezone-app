@@ -52,15 +52,17 @@ Future<void> openCourseDetailsPageAndShowConfirmationIfSuccessful(
       settings: const RouteSettings(name: CourseDetailsPage.tag),
     ),
   );
-  if (popOption != null) {
+  if (popOption != null && context.mounted) {
     if (popOption is LeaveCourseDetailsPopOption) {
       await showAppFunctionStateDialog(context, popOption.appFunction);
       await waitingForPopAnimation();
+      if (!context.mounted) return;
       _showCourseLeaveConformationSnackbar(context);
     }
     if (popOption is DeleteCourseDetailsPopOption) {
       await showAppFunctionStateDialog(context, popOption.appFunction);
       await waitingForPopAnimation();
+      if (!context.mounted) return;
       _showCourseDeleteConfirmationSnackbar(context);
     }
   }
@@ -94,7 +96,7 @@ class CourseDetailsPage extends StatelessWidget {
       bloc: CourseDetailsBloc(
           CourseDetailsBlocGateway(api.course, course, groupAnalytics),
           api.userId),
-      child: _CourseDetailsPage(),
+      child: const _CourseDetailsPage(),
     );
   }
 }
@@ -112,11 +114,12 @@ class _CourseDetailsPage extends StatelessWidget {
         if (!snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(),
-            body: Center(
+            body: const Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
-                  children: const [
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     Icon(
                       Icons.warning,
                       color: Colors.deepOrange,
@@ -132,7 +135,6 @@ class _CourseDetailsPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                  mainAxisSize: MainAxisSize.min,
                 ),
               ),
             ),
@@ -260,6 +262,7 @@ class _LeaveCourseButton extends StatelessWidget {
         onTap: () async {
           _logCourseLeaveButtonViaCourseDetailsPage(analytics);
           final isLastMember = (await bloc.members.first).length <= 1;
+          if (!context.mounted) return;
           final result = await showCourseLeaveDialog(context, isLastMember);
           if (result == true) {
             onDialogClose(bloc.leaveCourse());
@@ -315,7 +318,7 @@ class _DeleteCourseButton extends StatelessWidget {
 }
 
 class HelpCoursePageIconButton extends StatelessWidget {
-  const HelpCoursePageIconButton();
+  const HelpCoursePageIconButton({super.key});
 
   @override
   Widget build(BuildContext context) {

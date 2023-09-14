@@ -20,7 +20,7 @@ class _ProfileAvatar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: IconButton(
-        key: ValueKey('my-profile-button-E2E'),
+        key: const ValueKey('my-profile-button-E2E'),
         tooltip: 'Mein Profil',
         onPressed: () {
           cache.setProfilePageHintAsClicked();
@@ -61,7 +61,7 @@ class _AnonymousUserNote extends StatelessWidget {
       stream: cache.showProfilePageHint,
       builder: (context, snapshot) {
         final showProfilePageHint = snapshot.data ?? false;
-        if (showProfilePageHint)
+        if (showProfilePageHint) {
           return Positioned(
             top: 1,
             right: 1,
@@ -74,6 +74,7 @@ class _AnonymousUserNote extends StatelessWidget {
               ),
             ),
           );
+        }
         return Container();
       },
     );

@@ -120,7 +120,7 @@ class ShowNotificationDialogExecutor
         title: actionRequest.title,
         content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
         defaultValue: false,
-        right: AdaptiveDialogAction<bool>(
+        right: const AdaptiveDialogAction<bool>(
           isDefaultAction: true,
           popResult: true,
           title: "Antworten",
@@ -144,7 +144,7 @@ class ShowNotificationDialogExecutor
         title: actionRequest.title,
         content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
         defaultValue: false,
-        left: AdaptiveDialogAction<bool>(
+        left: const AdaptiveDialogAction<bool>(
           isDefaultAction: true,
           title: "Ok",
         ),

@@ -39,7 +39,8 @@ void main() {
     bloc.changeSubject("Mathematik");
     expect(bloc.subject, emits("Mathematik"));
     bloc.dispose();
-    expect(bloc.subject, neverEmits(TypeMatcher<TextValidationException>()));
+    expect(
+        bloc.subject, neverEmits(const TypeMatcher<TextValidationException>()));
   });
 
   test("If submit is called then the CourseCreateApi is used", () async {
@@ -52,7 +53,8 @@ void main() {
 
   test("When no subject is initially given then no Exception is emitted", () {
     bloc.dispose();
-    expect(bloc.subject, neverEmits(TypeMatcher<TextValidationException>()));
+    expect(
+        bloc.subject, neverEmits(const TypeMatcher<TextValidationException>()));
   });
 
   test(

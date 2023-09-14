@@ -115,12 +115,14 @@ class _AddLocalFile extends StatelessWidget {
           }
         } else {
           await closeKeyboardAndWait(context);
+          if (!context.mounted) return;
 
           final error = await showDialog<String>(
             context: context,
             builder: (context) => AddLocalFileDialog(
                 addLocalFileToBlocMethod: addLocalFileToBlocMethod),
           );
+          if (!context.mounted) return;
 
           if (error != null) {
             showSnackSec(
@@ -281,7 +283,7 @@ class _OpenCameraTile extends StatelessWidget {
       iconData: Icons.photo_camera,
       onTap: () async {
         final hasPermissions = await _checkCameraPermission();
-        if (hasPermissions) {
+        if (hasPermissions && context.mounted) {
           Navigator.pop(context);
           final image = await FilePicker().pickImageCamera();
           if (image != null) {
@@ -291,8 +293,10 @@ class _OpenCameraTile extends StatelessWidget {
             _logAttachmentAdd(analytics);
           }
         } else {
-          Navigator.pop(
-              context, "Die App hat leider keinen Zugang zur Kamera...");
+          if (context.mounted) {
+            Navigator.pop(
+                context, "Die App hat leider keinen Zugang zur Kamera...");
+          }
         }
       },
     );

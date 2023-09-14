@@ -166,10 +166,10 @@ extension on VisualDensitySetting {
 extension on String? {
   VisualDensitySetting? toVisualDensity() {
     if (this == null) return null;
-    final _map = jsonDecode(this!) as Map;
+    final map = jsonDecode(this!) as Map;
 
-    if (_map['isAdaptivePlatformDensity'] != null &&
-        _map['isAdaptivePlatformDensity'] == true) {
+    if (map['isAdaptivePlatformDensity'] != null &&
+        map['isAdaptivePlatformDensity'] == true) {
       // We return [VisualDensitySetting.adaptivePlatformDensity] (which calls
       // [VisualDensity.adaptivePlatformDensity]) instead of using the cached
       // values because theoretically Flutter might change the default values of
@@ -179,8 +179,8 @@ extension on String? {
 
     return VisualDensitySetting.manual(
       VisualDensity(
-        horizontal: _map['horizontal'] as double,
-        vertical: _map['vertical'] as double,
+        horizontal: map['horizontal'] as double,
+        vertical: map['vertical'] as double,
       ),
     );
   }

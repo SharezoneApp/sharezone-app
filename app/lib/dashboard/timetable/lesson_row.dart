@@ -53,13 +53,13 @@ class _LessonRow extends StatelessWidget {
                         views.length,
                         (index) => AnimationConfiguration.staggeredList(
                           position: index,
+                          duration: const Duration(milliseconds: 250),
                           child: SlideAnimation(
                             horizontalOffset: 10,
                             child: FadeInAnimation(
                               child: _LessonCard(views[index]),
                             ),
                           ),
-                          duration: const Duration(milliseconds: 250),
                         ),
                       ),
                     ),
@@ -77,13 +77,13 @@ class _LessonRow extends StatelessWidget {
 class _NoLessonsToday extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-      _EmptyStateMsg("Yeah! Heute stehen keine Schulstunden an! 😍");
+      const _EmptyStateMsg("Yeah! Heute stehen keine Schulstunden an! 😍");
 }
 
 class _SchoolIsOver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _EmptyStateMsg("Endlich Schulschluss! 😍");
+    return const _EmptyStateMsg("Endlich Schulschluss! 😍");
   }
 }
 

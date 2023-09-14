@@ -37,6 +37,7 @@ Future<void> deleteHomeworkDialogsEntry(
       ),
     ],
   );
+  if (!context.mounted) return;
 
   switch (option) {
     case _DeleteDialogOptions.all:
@@ -60,9 +61,9 @@ void _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(
     BuildContext context, HomeworkDto homework,
     {bool popTwice = true}) {
   final api = BlocProvider.of<SharezoneContext>(context).api;
-  if (homework.hasAttachments)
+  if (homework.hasAttachments) {
     _showAttachmentsDeleteOrRemainDialog(context, homework, popTwice);
-  else {
+  } else {
     api.homework.deleteHomework(homework);
     if (popTwice) Navigator.pop(context);
   }
@@ -90,7 +91,7 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
       messsage:
           "Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
       actions: [
-        AdaptiveDialogAction(
+        const AdaptiveDialogAction(
           title: "Entknüpfen",
           popResult: AttachmentOperation.unlink,
         ),
@@ -103,10 +104,13 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
         ),
       ]);
 
-  if (option == AttachmentOperation.delete)
+  if (option == AttachmentOperation.delete) {
     _deleteHomeworkAndAttachments(api, homework);
-  else if (option == AttachmentOperation.unlink)
+  } else if (option == AttachmentOperation.unlink) {
     api.homework.deleteHomework(homework);
+  }
 
-  if (option != null && popTwice) Navigator.pop(context);
+  if (option != null && popTwice && context.mounted) {
+    Navigator.pop(context);
+  }
 }

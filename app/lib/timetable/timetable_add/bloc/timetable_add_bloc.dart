@@ -183,8 +183,8 @@ class TimetableAddBloc extends BlocBase {
   }
 
   bool _isIndividualType() {
-    final _timeType = _timeTypeSubject.valueOrNull;
-    return _timeType == TimeType.individual;
+    final timeType = _timeTypeSubject.valueOrNull;
+    return timeType == TimeType.individual;
   }
 
   bool _isPeriodValid([TabController? controller]) {

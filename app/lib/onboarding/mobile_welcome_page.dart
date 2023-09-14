@@ -17,10 +17,10 @@ class MobileWelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFE7EBED),
+    return const Scaffold(
+      backgroundColor: Color(0xFFE7EBED),
       body: Stack(
-        children: const [
+        children: [
           _BackgroundImage(),
           _Bottom(),
         ],
@@ -187,8 +187,8 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _BaseButton(
       key: const Key('go-to-login-button-E2E'),
-      text: Column(
-        children: const [
+      text: const Column(
+        children: [
           Text(
             'Anmelden',
             style: TextStyle(
@@ -240,24 +240,6 @@ class _BaseButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: DefaultTextStyle.merge(
-            // Even though the text is already centered with `DefaultTextStyle`
-            // of the `_Bottom` widget`, we need to set `textAlign` to `center`
-            // here, because otherwise the text will be aligned to the left.
-            textAlign: TextAlign.center,
-            child: text,
-            style: TextStyle(
-              // For the golden tests we need to set the font family again,
-              // because otherwise 'Ahem' will be used.
-              //
-              // Can be removed when the following bug is resolved:
-              // https://github.com/eBay/flutter_glove_box/issues/103.
-              fontFamily: rubik,
-            ),
-          ),
-        ),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -271,6 +253,24 @@ class _BaseButton extends StatelessWidget {
           ),
           elevation: 0,
           shadowColor: Colors.transparent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: DefaultTextStyle.merge(
+            // Even though the text is already centered with `DefaultTextStyle`
+            // of the `_Bottom` widget`, we need to set `textAlign` to `center`
+            // here, because otherwise the text will be aligned to the left.
+            textAlign: TextAlign.center,
+            child: text,
+            style: const TextStyle(
+              // For the golden tests we need to set the font family again,
+              // because otherwise 'Ahem' will be used.
+              //
+              // Can be removed when the following bug is resolved:
+              // https://github.com/eBay/flutter_glove_box/issues/103.
+              fontFamily: rubik,
+            ),
+          ),
         ),
       ),
     );

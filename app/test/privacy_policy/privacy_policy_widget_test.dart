@@ -120,7 +120,7 @@ ${generateText(10)}
           );
 
           await tester.fling(
-              find.byType(PrivacyPolicyText), Offset(0, -400), 10000);
+              find.byType(PrivacyPolicyText), const Offset(0, -400), 10000);
 
           expect(
             find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
@@ -170,7 +170,7 @@ ${generateText(10)}
                 // We put the threhold in the middle of the page so that we know
                 // that this can't be a fluke (i.e. if we used `0.1` a small
                 // section might have still covered the whole threhold.)
-                threshold: CurrentlyReadThreshold(0.5),
+                threshold: const CurrentlyReadThreshold(0.5),
                 showDebugThresholdMarker: true,
               ),
             )),
@@ -224,7 +224,7 @@ ${generateText(10)}
           expect(find.byType(TocSectionHighlight), findsWidgets);
 
           // Change to tablet layout
-          await tester.binding.setSurfaceSize(Size(600, 1000));
+          await tester.binding.setSurfaceSize(const Size(600, 1000));
           await tester.pumpAndSettle();
 
           // Open table of contents bottom sheet
@@ -245,7 +245,7 @@ ${generateText(10)}
 
           // Scroll back to top of the privacy policy
           await tester.fling(
-              find.byType(PrivacyPolicyText), Offset(0, 400), 10000);
+              find.byType(PrivacyPolicyText), const Offset(0, 400), 10000);
 
           // Open bottom sheet
           await tester.tap(find.byType(OpenTocBottomSheetButton));
@@ -319,7 +319,7 @@ ${generateText(200)}
           );
 
           await tester.fling(
-              find.byType(PrivacyPolicyText), Offset(0, -40000), 100000);
+              find.byType(PrivacyPolicyText), const Offset(0, -40000), 100000);
 
           await tester.pumpAndSettle();
 

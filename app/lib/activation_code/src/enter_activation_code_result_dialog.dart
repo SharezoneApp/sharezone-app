@@ -24,7 +24,7 @@ class EnterActivationCodeResultDialog {
     EnterActivationCodeResult enterActivationCodeResult,
     BuildContext context,
   ) {
-    if (enterActivationCodeResult is SuccessfulEnterActivationCodeResult)
+    if (enterActivationCodeResult is SuccessfulEnterActivationCodeResult) {
       return StateSheetContent(
         body: SuccessfulEnterActivationCodeResultDialog(
             result: enterActivationCodeResult),
@@ -40,8 +40,9 @@ class EnterActivationCodeResultDialog {
           ),
         ],
       );
+    }
 
-    if (enterActivationCodeResult is FailedEnterActivationCodeResult)
+    if (enterActivationCodeResult is FailedEnterActivationCodeResult) {
       return StateSheetContent(
         body: FailedEnterActivationCodeResultDialog(
             failedEnterActivationCodeResult: enterActivationCodeResult),
@@ -52,8 +53,10 @@ class EnterActivationCodeResultDialog {
           ),
         ],
       );
+    }
 
-    return StateSheetContent(body: LoadingEnterActivationCodeResultDialog());
+    return const StateSheetContent(
+        body: LoadingEnterActivationCodeResultDialog());
   }
 
   Future<void> show(BuildContext context) {

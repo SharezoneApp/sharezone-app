@@ -151,7 +151,7 @@ extension NavigationItemExtension on NavigationItem {
   Widget getPageWidget() {
     switch (this) {
       case NavigationItem.overview:
-        return DashboardPage();
+        return const DashboardPage();
       case NavigationItem.group:
         return const GroupPage();
       case NavigationItem.homework:
@@ -161,17 +161,17 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.blackboard:
         return const BlackboardPage();
       case NavigationItem.filesharing:
-        return FileSharingPage();
+        return const FileSharingPage();
       case NavigationItem.events:
-        return CalendricalEventsPage();
+        return const CalendricalEventsPage();
       case NavigationItem.sharezonePlus:
-        return SharezonePlusPage();
+        return const SharezonePlusPage();
       case NavigationItem.settings:
-        return SettingsPage();
+        return const SettingsPage();
       case NavigationItem.feedbackBox:
-        return FeedbackPage();
+        return const FeedbackPage();
       case NavigationItem.accountPage:
-        return AccountPage();
+        return const AccountPage();
       case NavigationItem.more:
         // [NavigationItem.more] is not a spefic page. It's a navigation element
         // in the [ExtendableBottomNavigationBar]

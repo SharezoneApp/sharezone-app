@@ -41,9 +41,11 @@ LessonView _buildLessonView(Lesson lesson, {GroupInfo? groupInfo}) {
 
 /// Berechnet, wie viel Prozent der Stunden schon vorbei sind.
 double _getPercentTimePassed(Time start, Time end, LessonTimeStatus timeline) {
-  if (timeline == LessonTimeStatus.isYetToCome)
+  if (timeline == LessonTimeStatus.isYetToCome) {
     return 0.0;
-  else if (timeline == LessonTimeStatus.hasAlreadyTakenPlace) return 1.0;
+  } else if (timeline == LessonTimeStatus.hasAlreadyTakenPlace) {
+    return 1.0;
+  }
 
   final currentTime = Time.now();
   final lengthInMinutes = end.totalMinutes - start.totalMinutes;
@@ -55,9 +57,11 @@ double _getPercentTimePassed(Time start, Time end, LessonTimeStatus timeline) {
 /// in der Zukunft stattfindet.
 LessonTimeStatus _getTimeStatus(Time start, Time end) {
   final currentTime = Time.now();
-  if (currentTime.isAfter(end) || currentTime == end)
+  if (currentTime.isAfter(end) || currentTime == end) {
     return LessonTimeStatus.hasAlreadyTakenPlace;
-  else if (currentTime.isBefore(start)) return LessonTimeStatus.isYetToCome;
+  } else if (currentTime.isBefore(start)) {
+    return LessonTimeStatus.isYetToCome;
+  }
   return LessonTimeStatus.isNow;
 }
 

@@ -23,10 +23,10 @@ class GroupJoinTextField extends StatefulWidget implements PreferredSizeWidget {
   const GroupJoinTextField({Key? key}) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(140);
+  Size get preferredSize => const Size.fromHeight(140);
 
   @override
-  _GroupJoinTextFieldState createState() => _GroupJoinTextFieldState();
+  State createState() => _GroupJoinTextFieldState();
 }
 
 class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
@@ -48,7 +48,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 32,
               right: 32,
               top: 8,
@@ -65,7 +65,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 maxLines: 1,
                 focusNode: sharecodeFieldFocusNode,
                 controller: sharecodeFieldTextController,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 onChanged: (newText) {
                   if (_isValidText(newText)) {
                     bloc.enterValue(newText);
@@ -87,7 +87,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                         bloc.enterValue(qrCode);
                         final groupJoinResultDialog =
                             GroupJoinResultDialog(bloc);
-                        groupJoinResultDialog.show(context);
+                        if (context.mounted) {
+                          groupJoinResultDialog.show(context);
+                        }
                       }
                     },
                     icon: PlatformSvg.asset(
@@ -145,25 +147,26 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       title: "Sharecode einfügen",
       content: Text(
           'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?'),
-      left: AdaptiveDialogAction(
+      left: const AdaptiveDialogAction(
         title: 'Nein',
         popResult: false,
       ),
-      right: AdaptiveDialogAction(
+      right: const AdaptiveDialogAction(
         title: 'Ja',
         popResult: true,
         isDefaultAction: true,
       ),
     );
 
-    if (result == true) {
+    if (result == true && context.mounted) {
       bloc.enterValue(sharecode.value);
       sharecodeFieldTextController.text = sharecode.value;
       _logPastingSharecodeFromClipboard(context);
       final groupJoinResultDialog = GroupJoinResultDialog(bloc);
       groupJoinResultDialog.show(context);
-    } else
+    } else {
       _openKeyboardForSharecodeField();
+    }
   }
 
   void _logPastingSharecodeFromClipboard(BuildContext context) {

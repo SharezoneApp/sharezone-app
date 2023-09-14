@@ -32,8 +32,7 @@ class BlackboardItemReadByUsersListPage extends StatefulWidget {
   static const tag = 'blackboard-item-read-by-users-list-page';
 
   @override
-  _BlackboardItemReadByUsersListPageState createState() =>
-      _BlackboardItemReadByUsersListPageState();
+  State createState() => _BlackboardItemReadByUsersListPageState();
 }
 
 class _BlackboardItemReadByUsersListPageState
@@ -135,7 +134,7 @@ class _List extends StatelessWidget {
 class _EmptyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text("Es befinden sich keine Teilnehmer in dieser Gruppe 😭"),
     );
   }
@@ -156,7 +155,8 @@ class _UserTile extends StatelessWidget {
         subtitle: Text(view.typeOfUser),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbreviation, style: TextStyle(color: Colors.white)),
+          child: Text(view.abbreviation,
+              style: const TextStyle(color: Colors.white)),
         ),
         trailing: hasReadIcon(),
       ),
@@ -164,7 +164,7 @@ class _UserTile extends StatelessWidget {
   }
 
   Widget hasReadIcon() {
-    if (view.hasRead) return Icon(Icons.check, color: Colors.green);
-    return Icon(Icons.close, color: Colors.red);
+    if (view.hasRead) return const Icon(Icons.check, color: Colors.green);
+    return const Icon(Icons.close, color: Colors.red);
   }
 }

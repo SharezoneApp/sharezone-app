@@ -33,6 +33,7 @@ class CourseTile extends StatelessWidget {
 
     FocusManager.instance.primaryFocus?.unfocus();
     await Future.delayed(const Duration(milliseconds: 150));
+    if (!context.mounted) return;
 
     _showCourseListDialog(context, api);
   }
@@ -51,7 +52,7 @@ class CourseTile extends StatelessWidget {
               children: <Widget>[
                 _CourseList(courseList: courseList, onChanged: onChanged),
                 const Divider(),
-                _JoinCreateCourseFooter(),
+                const _JoinCreateCourseFooter(),
               ],
             );
           },
@@ -71,7 +72,8 @@ class CourseTile extends StatelessWidget {
             title: const Text("Kurs"),
             subtitle: Text(
               snapshot.data?.name ?? "Keinen Kurs ausgewählt",
-              style: snapshot.hasError ? TextStyle(color: Colors.red) : null,
+              style:
+                  snapshot.hasError ? const TextStyle(color: Colors.red) : null,
             ),
             trailing: const Icon(Icons.keyboard_arrow_down),
             enabled: !editMode,

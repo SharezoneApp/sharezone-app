@@ -31,6 +31,8 @@ import 'settings/src/subpages/imprint/page/imprint_page.dart';
 class SettingsPage extends StatelessWidget {
   static const String tag = "settings-page";
 
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SharezoneMainScaffold(
@@ -106,8 +108,8 @@ class _LegalSection extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LicensePage(),
-        settings: RouteSettings(name: 'license-page'),
+        builder: (context) => const LicensePage(),
+        settings: const RouteSettings(name: 'license-page'),
       ),
     );
   }
@@ -125,9 +127,9 @@ class _LegalSection extends StatelessWidget {
 class _AppSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _SettingsSection(
+    return const _SettingsSection(
       title: 'App-Einstellungen',
-      children: const <Widget>[
+      children: <Widget>[
         _SettingsOption(
           title: "Mein Konto",
           icon: Icons.account_circle,
@@ -159,23 +161,23 @@ class _MoreSection extends StatelessWidget {
     return _SettingsSection(
       title: "Mehr",
       children: <Widget>[
-        _SettingsOption(
+        const _SettingsOption(
           title: "Über uns",
           icon: Icons.info,
           tag: AboutPage.tag,
         ),
         if (!PlatformCheck.isDesktopOrWeb)
-          _SettingsOption(
+          const _SettingsOption(
             title: "Web-App",
             icon: Icons.desktop_mac,
             tag: WebAppSettingsPage.tag,
           ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Support",
           icon: Icons.question_answer,
           tag: SupportPage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Was ist neu?",
           icon: Icons.assignment,
           tag: ChangelogPage.tag,
@@ -228,7 +230,7 @@ class _SettingsOption extends StatelessWidget {
     return ListTile(
       title: Text(title!),
       leading: Icon(icon),
-      onTap: onTap != null ? onTap : () => Navigator.pushNamed(context, tag!),
+      onTap: onTap ?? () => Navigator.pushNamed(context, tag!),
     );
   }
 }

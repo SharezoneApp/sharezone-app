@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/pages/group_join_course_selection_page.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
 import 'bloc/group_join_bloc.dart';
 import 'group_join_page.dart';
 import 'models/group_join_result.dart';
@@ -28,7 +29,7 @@ class GroupJoinResultDialog {
     GroupJoinResult groupJoinResult,
     BuildContext context,
   ) {
-    if (groupJoinResult is SuccessfulJoinResult)
+    if (groupJoinResult is SuccessfulJoinResult) {
       return StateSheetContent(
         body: SuccessfulJoinResultDialog(result: groupJoinResult),
         actions: [
@@ -50,18 +51,19 @@ class GroupJoinResultDialog {
               Navigator.pop(context);
 
               final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-              if (await bloc.isGroupOnboardingActive) {
-                setGroupOnboardingAsFinshed(context);
+              if (await bloc.isGroupOnboardingActive && context.mounted) {
+                setGroupOnboardingAsFinished(context);
                 Navigator.pop(context);
               }
             },
           ),
         ],
       );
+    }
     // Dieser Screen wird dem Nutzer in der Regel nicht angezeigt, ist hier aber
     // für ein korrektes StateManagement. Also in der Regel wird die
     // GroupJoinCourseSelectionPage gelffnet, sodass dieser Screen gar nicht zu sehen ist.
-    if (groupJoinResult is RequireCourseSelectionsJoinResult)
+    if (groupJoinResult is RequireCourseSelectionsJoinResult) {
       return StateSheetContent(
         body: RequireCourseSelectionsJoinResultDialog(result: groupJoinResult),
         actions: [
@@ -73,7 +75,8 @@ class GroupJoinResultDialog {
           ),
         ],
       );
-    if (groupJoinResult is ErrorJoinResult)
+    }
+    if (groupJoinResult is ErrorJoinResult) {
       return StateSheetContent(
         body: ErrorJoinResultDialog(errorJoinResult: groupJoinResult),
         actions: [
@@ -83,8 +86,9 @@ class GroupJoinResultDialog {
           ),
         ],
       );
+    }
 
-    return StateSheetContent(body: LoadingJoinResultDialog());
+    return const StateSheetContent(body: LoadingJoinResultDialog());
   }
 
   Future<void> show(BuildContext context) {
@@ -102,9 +106,9 @@ class GroupJoinResultDialog {
     return stateSheet.showSheet(context);
   }
 
-  void setGroupOnboardingAsFinshed(BuildContext context) {
+  void setGroupOnboardingAsFinished(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    bloc.finsihOnboarding();
+    bloc.finishOnboarding();
   }
 
   var _hasOpenedCourseSelectionPage = false;

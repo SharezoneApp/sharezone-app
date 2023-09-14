@@ -25,7 +25,8 @@ class _PrivacyPolicy extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: OnboardingNavigationBar(action: _ContinueButton()),
+      bottomNavigationBar:
+          const OnboardingNavigationBar(action: _ContinueButton()),
     );
   }
 }
@@ -49,6 +50,23 @@ class _ContinueButtonState extends State<_ContinueButton> {
         disabledForegroundColor:
             Theme.of(context).primaryColor.withOpacity(0.38),
       ),
+      onPressed: isLoading
+          ? null
+          : () async {
+              final bloc = BlocProvider.of<RegistrationBloc>(context);
+              try {
+                setState(() => isLoading = true);
+                await bloc.signUp();
+                if (!context.mounted) return;
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              } catch (e, s) {
+                setState(() => isLoading = false);
+                showSnackSec(
+                  text: handleErrorMessage(e.toString(), s),
+                  context: context,
+                );
+              }
+            },
       child: Stack(
         key: const ValueKey('SubmitButton'),
         alignment: Alignment.center,
@@ -63,7 +81,7 @@ class _ContinueButtonState extends State<_ContinueButton> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 275),
             child: isLoading
-                ? SizedBox(
+                ? const SizedBox(
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(color: Colors.white),
@@ -72,22 +90,6 @@ class _ContinueButtonState extends State<_ContinueButton> {
           )
         ],
       ),
-      onPressed: isLoading
-          ? null
-          : () async {
-              final bloc = BlocProvider.of<RegistrationBloc>(context);
-              try {
-                setState(() => isLoading = true);
-                await bloc.signUp();
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              } catch (e, s) {
-                setState(() => isLoading = false);
-                showSnackSec(
-                  text: handleErrorMessage(e.toString(), s),
-                  context: context,
-                );
-              }
-            },
     );
   }
 }

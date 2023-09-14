@@ -27,29 +27,35 @@ void openChangeEmailPage(BuildContext context, String email) {
 class ChangeEmailPage extends StatelessWidget {
   static const String tag = "change-email-page";
 
+  const ChangeEmailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("E-Mail ändern"), centerTitle: true),
       body: ChangeEmailPageBody(),
-      floatingActionButton: ChangeEmailFab(),
+      floatingActionButton: const ChangeEmailFab(),
     );
   }
 }
 
 class ChangeEmailFab extends StatelessWidget {
+  const ChangeEmailFab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context, snackBarText, changeType),
-      child: const Icon(Icons.check),
       tooltip: "Speichern",
+      child: const Icon(Icons.check),
     );
   }
 }
 
 class ChangeEmailPageBody extends StatelessWidget {
   final passwordNode = FocusNode();
+
+  ChangeEmailPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {

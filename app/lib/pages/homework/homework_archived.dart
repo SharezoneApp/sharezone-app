@@ -21,8 +21,10 @@ import 'package:user/user.dart';
 class HomeworkArchivedPage extends StatefulWidget {
   static const String tag = "homework-archived-page";
 
+  const HomeworkArchivedPage({super.key});
+
   @override
-  _HomeworkArchivedPageState createState() => _HomeworkArchivedPageState();
+  State createState() => _HomeworkArchivedPageState();
 }
 
 class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
@@ -71,23 +73,25 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                 }).toList();
                 log("length: ${homeworkList.length}");
 
-                if (homeworkList.isEmpty)
+                if (homeworkList.isEmpty) {
                   return const Center(
                       child: Text("Es gibt keine archivierten Hausaufgaben."));
+                }
 
                 // Sort the Homeworks;
-                if (sortBy == SortBy.subject)
+                if (sortBy == SortBy.subject) {
                   homeworkList.sort((HomeworkDto a, HomeworkDto b) {
                     var r = a.subject.compareTo(b.subject);
                     if (r != 0) return r;
                     return b.todoUntil.compareTo(a.todoUntil);
                   });
-                else
+                } else {
                   homeworkList.sort((HomeworkDto a, HomeworkDto b) {
                     var r = b.todoUntil.compareTo(a.todoUntil);
                     if (r != 0) return r;
                     return a.subject.compareTo(b.subject);
                   });
+                }
 
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(8),

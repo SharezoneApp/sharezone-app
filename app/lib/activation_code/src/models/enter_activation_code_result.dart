@@ -21,10 +21,11 @@ abstract class EnterActivationCodeResult {
   factory EnterActivationCodeResult.fromData(Map<String, dynamic> data) {
     final resultType = data['resultType'];
     final resultData = data['resultData'];
-    if (resultType == _EnterActivationCodeResultType.successful)
+    if (resultType == _EnterActivationCodeResultType.successful) {
       return SuccessfulEnterActivationCodeResult.fromData(resultData);
-    else
+    } else {
       return FailedEnterActivationCodeResult.fromData(data);
+    }
   }
 }
 

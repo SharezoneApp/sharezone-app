@@ -24,6 +24,8 @@ const _leftPadding = EdgeInsets.only(left: 16);
 class NotificationPage extends StatelessWidget {
   static const String tag = "notification-page";
 
+  const NotificationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userApi = BlocProvider.of<SharezoneContext>(context).api.user;
@@ -99,8 +101,8 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
         builder: (context, snapshot) {
           final bool notificationsForHomework = snapshot.data ?? true;
           return ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Erinnerungen für offene Hausaufgaben"),
+            leading: const Icon(Icons.notifications),
+            title: const Text("Erinnerungen für offene Hausaufgaben"),
             onTap: () =>
                 bloc.changeNotificationsForHomeworks(!notificationsForHomework),
             trailing: Switch.adaptive(

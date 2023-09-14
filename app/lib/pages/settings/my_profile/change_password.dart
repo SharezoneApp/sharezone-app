@@ -20,6 +20,8 @@ const changeType = ChangeType.password;
 class ChangePasswordPage extends StatelessWidget {
   static const tag = "change-password-page";
 
+  const ChangePasswordPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final newPasswordNode = FocusNode();
@@ -55,8 +57,8 @@ class _ChangePasswordFAB extends StatelessWidget {
     return SafeArea(
       child: FloatingActionButton(
         onPressed: () async => submit(context, snackBarText, changeType),
-        child: const Icon(Icons.check),
         tooltip: "Speichern",
+        child: const Icon(Icons.check),
       ),
     );
   }
@@ -115,7 +117,6 @@ class _ResetPassword extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: TextButton(
-        child: const Text("Aktuelles Passwort vergessen?"),
         style: TextButton.styleFrom(
           foregroundColor: Colors.grey[400],
         ),
@@ -145,12 +146,14 @@ class _ResetPassword extends StatelessWidget {
                   ],
                 );
               });
+          if (!context.mounted) return;
+
           if (reset != null && reset) {
             showSnack(
               context: context,
               text: "Verschicken der E-Mail wird vorbereitet...",
               withLoadingCircle: true,
-              duration: Duration(minutes: 5),
+              duration: const Duration(minutes: 5),
             );
 
             String? message;
@@ -168,6 +171,7 @@ class _ResetPassword extends StatelessWidget {
             }
           }
         },
+        child: const Text("Aktuelles Passwort vergessen?"),
       ),
     );
   }

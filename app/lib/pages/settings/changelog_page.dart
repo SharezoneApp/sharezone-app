@@ -22,6 +22,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class ChangelogPage extends StatelessWidget {
   static const String tag = "changelog-page";
 
+  const ChangelogPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
@@ -48,8 +50,9 @@ class _ChangeList extends StatelessWidget {
       initialData: const ChangelogPageView.placeholder(),
       stream: bloc.changes,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || !snapshot.data!.hasChanges)
+        if (!snapshot.hasData || !snapshot.data!.hasChanges) {
           return const Center(child: AccentColorCircularProgressIndicator());
+        }
 
         final changeData = snapshot.data!;
         final children = _convertViewsToVersionSectionsWithNoDeviderAtTheBottom(
@@ -57,14 +60,6 @@ class _ChangeList extends StatelessWidget {
 
         return ListWithBottomThreshold(
           padding: const EdgeInsets.all(12),
-          children: [
-            if (!changeData.userHasNewestVersion)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: UpdatePromptCard(),
-              ),
-            ...children,
-          ],
           loadingIndicator: changeData.allChangesLoaded
               ? Container()
               : const Padding(
@@ -73,6 +68,14 @@ class _ChangeList extends StatelessWidget {
                 ),
           thresholdHeight: 50,
           onThresholdExceeded: () => bloc.loadNext(),
+          children: [
+            if (!changeData.userHasNewestVersion)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: UpdatePromptCard(),
+              ),
+            ...children,
+          ],
         );
       },
     );
@@ -138,7 +141,7 @@ class _ChangeParagraph extends StatelessWidget {
   Widget build(BuildContext context) {
     if (list == null || list!.isEmpty) return Container();
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -168,6 +171,8 @@ class _ChangeParagraph extends StatelessWidget {
 }
 
 class UpdatePromptCard extends StatelessWidget {
+  const UpdatePromptCard({super.key});
+
   String _getText() {
     if (PlatformCheck.isWeb) {
       return "Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍";
@@ -179,7 +184,7 @@ class UpdatePromptCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnouncementCard(
-      key: ValueKey('UpdatePromptCard'),
+      key: const ValueKey('UpdatePromptCard'),
       onTap: PlatformCheck.isWeb
           ? null
           : () => launchURL(getStoreLink(), context: context),

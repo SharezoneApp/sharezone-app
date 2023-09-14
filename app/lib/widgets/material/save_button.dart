@@ -24,7 +24,6 @@ class SaveButton extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: ElevatedButton(
-        child: const Text('Speichern'),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -41,6 +40,7 @@ class SaveButton extends StatelessWidget {
           ),
           shadowColor: Colors.transparent,
         ),
+        child: const Text('Speichern'),
       ),
     );
   }

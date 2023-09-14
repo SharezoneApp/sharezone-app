@@ -37,7 +37,7 @@ class HomeworkTile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HomeworkTileState createState() => _HomeworkTileState();
+  State createState() => _HomeworkTileState();
 }
 
 class _HomeworkTileState extends State<HomeworkTile> {
@@ -115,6 +115,8 @@ class _HomeworkTileState extends State<HomeworkTile> {
         BlocProvider.of<HomeworkDetailsViewFactory>(context);
     final homeworkDetailsView =
         await detailsViewFactory.fromStudentHomeworkView(widget.homework);
+    if (!context.mounted) return false;
+
     return pushWithDefault<bool>(
       context,
       HomeworkDetails(homeworkDetailsView),
@@ -125,6 +127,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
 
   Future<void> _showLongPressDialog(BuildContext context) async {
     final dbModel = await getHomeworkDbModel(widget.homework);
+    if (!context.mounted) return;
     final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
     await showLongPressIfUserHasPermissions(
       context,
@@ -137,11 +140,11 @@ class _HomeworkTileState extends State<HomeworkTile> {
   /// Lädt das HomeworkDbModel, weil ein paar Funktionen noch dieses verlangen.
   Future<HomeworkDto> getHomeworkDbModel(
       StudentHomeworkView homeworkView) async {
-    final CollectionReference<Map<String, dynamic>> _homeworkCollection =
+    final CollectionReference<Map<String, dynamic>> homeworkCollection =
         FirebaseFirestore.instance.collection("Homework");
 
     final homeworkId = homeworkView.id;
-    final homeworkDocument = await _homeworkCollection.doc(homeworkId).get();
+    final homeworkDocument = await homeworkCollection.doc(homeworkId).get();
     final homework =
         HomeworkDto.fromData(homeworkDocument.data()!, id: homeworkDocument.id);
     return homework;

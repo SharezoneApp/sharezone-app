@@ -22,6 +22,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class WebAppSettingsPage extends StatelessWidget {
   static const tag = 'web-app-settings-page';
 
+  const WebAppSettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
@@ -53,7 +55,7 @@ class _InnerWebAppSettingsPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }
@@ -76,7 +78,7 @@ class _Header extends StatelessWidget {
         const Text("Sharezone für's Web!", style: TextStyle(fontSize: 26)),
         const SizedBox(height: 4),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: MarkdownBody(
             data:
                 "Besuche für weitere Informationen einfach https://www.sharezone.net.",
@@ -120,7 +122,7 @@ class _ScanQrCode extends StatelessWidget {
           title: "QR-Code scannen",
           onTap: () async {
             final qrCode = await _scanQRCode(context);
-            if (qrCode != null) {
+            if (qrCode != null && context.mounted) {
               final hostBloc =
                   BlocProvider.of<QrSignInAuthentificationDeviceBloc>(context);
               final futureResult = hostBloc.authenticateUserViaQrCodeId(qrCode);
@@ -130,7 +132,7 @@ class _ScanQrCode extends StatelessWidget {
           },
         ),
         const SizedBox(height: 6),
-        Text(
+        const Text(
           "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
           style: TextStyle(
             color: Colors.grey,

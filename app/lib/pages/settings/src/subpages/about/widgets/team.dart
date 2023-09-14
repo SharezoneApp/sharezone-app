@@ -22,6 +22,8 @@ class TeamImagePath {
 }
 
 class TeamList extends StatelessWidget {
+  const TeamList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AboutSection(
@@ -40,7 +42,7 @@ class TeamList extends StatelessWidget {
 class _NilsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _MemberCard(
+    return const _MemberCard(
       name: 'Nils Reichardt',
       avatarPath: TeamImagePath.nils,
       email: "nils@sharezone.net",
@@ -56,7 +58,7 @@ class _NilsCard extends StatelessWidget {
 class _JonasCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _MemberCard(
+    return const _MemberCard(
       name: "Jonas Sander",
       avatarPath: TeamImagePath.jonas,
       email: "jonas@sharezone.net",

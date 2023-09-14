@@ -23,7 +23,7 @@ class ColorFadeIn extends StatefulWidget {
   final Widget child;
 
   @override
-  _ColorFadeInState createState() => _ColorFadeInState();
+  State createState() => _ColorFadeInState();
 }
 
 class _ColorFadeInState extends State<ColorFadeIn> {

@@ -43,7 +43,9 @@ class TimetablePage extends StatelessWidget {
   static const days = 5;
 
   final today = TimetableDateHelper.dateBeginThisWeek();
-  final timetableScale = 1.00;
+  static const timetableScale = 1.00;
+
+  TimetablePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +59,9 @@ class TimetablePage extends StatelessWidget {
         bloc: TimetableSelectionBloc(),
         child: SharezoneMainScaffold(
           colorBehindBNB: bottomBarBackgroundColor,
-          appBarConfiguration: AppBarConfiguration(
+          appBarConfiguration: const AppBarConfiguration(
             elevation: 0,
-            actions: const [_SettingsIcon()],
+            actions: [_SettingsIcon()],
           ),
           body: TimetableConfigBuilder(
             builder: (context, config) {

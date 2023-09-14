@@ -64,6 +64,8 @@ Future<T?> showSheetBuilder<T>({
             color: null,
             clipBehavior: Clip.antiAlias,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 6),
                 Align(
@@ -72,7 +74,8 @@ Future<T?> showSheetBuilder<T>({
                     height: 4,
                     width: MediaQuery.of(context).size.width / 6,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
                         color: Colors.grey[400]),
                   ),
                 ),
@@ -93,14 +96,12 @@ Future<T?> showSheetBuilder<T>({
                 const SizedBox(height: 6),
                 actions != null
                     ? Row(
-                        children: actions(context),
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: actions(context),
                       )
                     : const SizedBox(height: 0),
                 const SizedBox(height: 6),
               ],
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
             ),
           ),
         ),

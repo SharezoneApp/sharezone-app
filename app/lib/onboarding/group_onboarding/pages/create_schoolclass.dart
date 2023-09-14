@@ -37,9 +37,10 @@ class SchoolClassCreateBloc extends BlocBase {
 class GroupOnboardingCreateSchoolClass extends StatefulWidget {
   static const tag = 'onboarding-create-school-class-page';
 
+  const GroupOnboardingCreateSchoolClass({super.key});
+
   @override
-  _GroupOnboardingCreateSchoolClassState createState() =>
-      _GroupOnboardingCreateSchoolClassState();
+  State createState() => _GroupOnboardingCreateSchoolClassState();
 }
 
 class _GroupOnboardingCreateSchoolClassState
@@ -65,8 +66,8 @@ class _GroupOnboardingCreateSchoolClassState
       ],
       child: (context) => GroupOnboardingPageTemplate(
         title: _getTitle(context),
+        bottomNavigationBar: const OnboardingNavigationBar(),
         children: const [_TextFieldSubmitButton()],
-        bottomNavigationBar: OnboardingNavigationBar(),
       ),
     );
   }
@@ -104,7 +105,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
       builder: (context, name, _) {
         final isValid = isNotEmptyOrNull(name);
         return ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 550),
+          constraints: const BoxConstraints(maxWidth: 550),
           child: Column(
             children: [
               Row(
@@ -133,7 +134,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
                       child: isLoading
-                          ? LoadingCircle()
+                          ? const LoadingCircle()
                           : Padding(
                               padding: const EdgeInsets.only(bottom: 12),
                               child: ContinueRoundButton(

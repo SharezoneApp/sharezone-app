@@ -23,7 +23,7 @@ class _MemberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.only(bottom: 6),
       child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
@@ -39,7 +39,7 @@ class _MemberCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   Text(
                     name,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ],
               ),

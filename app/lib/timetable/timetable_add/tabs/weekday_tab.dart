@@ -51,6 +51,8 @@ class _WeekDayList extends StatelessWidget {
                   onTap: () async {
                     bloc.changeWeekDay(weekDay);
                     await waitingForPopAnimation();
+                    if (!context.mounted) return;
+
                     navigateToNextTab(context);
                   },
                 ),
@@ -81,12 +83,12 @@ class _WeekDayTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Material(
         clipBehavior: Clip.antiAlias,
-        child: ListTile(title: Text(getWeekDayText(weekDay)), onTap: onTap),
         color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
             .withOpacity(0.20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
+        child: ListTile(title: Text(getWeekDayText(weekDay)), onTap: onTap),
       ),
     );
   }

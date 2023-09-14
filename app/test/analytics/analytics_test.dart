@@ -20,7 +20,7 @@ void main() {
     });
 
     test('An Event with an empty name will be ignored', () {
-      final event = AnalyticsEvent("");
+      const event = AnalyticsEvent("");
 
       analytics.log(event);
 
@@ -28,7 +28,7 @@ void main() {
     });
 
     test('An Event a valid name gets logged', () {
-      final event = AnalyticsEvent("valid_name");
+      const event = AnalyticsEvent("valid_name");
 
       analytics.log(event);
 
@@ -42,7 +42,7 @@ void main() {
         const bar = 1;
         const zoink = "String";
         final data = {"foo": bar, "baz": zoink};
-        final event =
+        const event =
             AnalyticsEvent("with_data", data: {"foo": bar, "baz": zoink});
 
         analytics.log(event);
@@ -54,7 +54,7 @@ void main() {
     test(
         'if an Event has null data it will be given as an empty map to the backend',
         () {
-      analytics.log(AnalyticsEvent("name", data: null));
+      analytics.log(const AnalyticsEvent("name", data: null));
 
       expect(backend.getSingleEventData("name"), {});
     });

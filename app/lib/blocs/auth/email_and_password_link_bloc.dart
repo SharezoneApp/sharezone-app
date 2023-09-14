@@ -70,8 +70,9 @@ class EmailAndPasswordLinkBloc extends BlocBase
         }
         _showErrorSnackBar(e, s);
       }
-    } else
+    } else {
       _showMessageToFillFormularCompleteSnackBar();
+    }
     return null;
   }
 

@@ -18,9 +18,9 @@ import 'package:sharezone/util/platform_information_manager/platform_information
 
 void main() {
   test('paginated loading', () async {
-    final _gateway = LocalChangeGateway();
-    final _platformInformationManager = MockInformationManager();
-    final bloc = ChangelogBloc(_gateway, _platformInformationManager, 3);
+    final gateway = LocalChangeGateway();
+    final platformInformationManager = MockInformationManager();
+    final bloc = ChangelogBloc(gateway, platformInformationManager, 3);
     StreamQueue<ChangelogPageView> queue =
         StreamQueue<ChangelogPageView>(bloc.changes);
     final firstLoad = await queue.next;

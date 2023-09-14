@@ -33,6 +33,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
+                decoration: _getDecoration(context),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
@@ -41,7 +42,6 @@ class TimetableWeekViewDayTile extends StatelessWidget {
                         color: _getTextColorTitle(context), letterSpacing: 0.8),
                   ),
                 ),
-                decoration: _getDecoration(context),
               ),
               Text(
                 _getDayOfMonthText(),
