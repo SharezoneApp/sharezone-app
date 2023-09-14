@@ -13,13 +13,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group('Sharezone Plus Widgets', () {
-    group(SharezonePlusCard, () {
+    group(SharezonePlusChip, () {
       Future<void> pumpSharezonePlusCard(
         WidgetTester tester, {
         ThemeData? theme,
       }) async {
         await tester.pumpWidgetBuilder(
-          const Center(child: SharezonePlusCard()),
+          const Center(child: SharezonePlusChip()),
           wrapper: materialAppWrapper(theme: theme),
         );
       }

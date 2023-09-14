@@ -44,8 +44,8 @@ class SharezonePlusBadge extends StatelessWidget {
   }
 }
 
-class SharezonePlusCard extends StatelessWidget {
-  const SharezonePlusCard({
+class SharezonePlusChip extends StatelessWidget {
+  const SharezonePlusChip({
     super.key,
     this.backgroundColor,
     this.foregroundColor,
