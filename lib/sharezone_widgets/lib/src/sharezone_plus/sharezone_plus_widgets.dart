@@ -116,56 +116,65 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
     final fontColor = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkPrimaryColor;
+    final borderRadius = BorderRadius.circular(12.5);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: maxWidth,
       ),
       child: Container(
+        // Adding a base color to avoid that the card is a bit transparent
+        // because the card color has a low opacity.
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(12.5),
+          borderRadius: borderRadius,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
-        child: DefaultTextStyle.merge(
-          style: TextStyle(
-            color: fontColor,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            borderRadius: borderRadius,
           ),
-          textAlign: TextAlign.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (withSharezonePlusBadge)
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: SharezonePlusBadge(),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: child,
-                ),
-                if (withLearnMoreButton)
+          child: DefaultTextStyle.merge(
+            style: TextStyle(
+              color: fontColor,
+            ),
+            textAlign: TextAlign.center,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (withSharezonePlusBadge)
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
+                      child: SharezonePlusBadge(),
+                    ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: TextButton(
-                      onPressed: onLearnMorePressed,
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: child,
+                  ),
+                  if (withLearnMoreButton)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+                      child: TextButton(
+                        onPressed: onLearnMorePressed,
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          foregroundColor: fontColor,
                         ),
-                        foregroundColor: fontColor,
-                      ),
-                      child: const Text(
-                        'MEHR ERFAHREN',
-                        style: TextStyle(
-                          letterSpacing: 0.5,
+                        child: const Text(
+                          'MEHR ERFAHREN',
+                          style: TextStyle(
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
