@@ -67,6 +67,21 @@ class MockSupportPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
+  bool get isUserInGroupOnboarding => (super.noSuchMethod(
+        Invocation.getter(#isUserInGroupOnboarding),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  set isUserInGroupOnboarding(bool? _isUserInGroupOnboarding) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #isUserInGroupOnboarding,
+          _isUserInGroupOnboarding,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,

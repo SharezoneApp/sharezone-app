@@ -64,7 +64,7 @@ class SupportPage extends StatelessWidget {
                     //    that.
                     if (controller.isUserSignedIn &&
                         !controller.isUserInGroupOnboarding) ...const [
-                      SizedBox(height: 12),
+                      SizedBox(height: 16),
                       _SharezonePlusAdvertising(),
                     ]
                   ]
@@ -141,7 +141,7 @@ class _PlusSupport extends StatelessWidget {
     return const _SupportPlanBase(
       title: Text('Plus Support'),
       subtitle: Text(
-          'Als Sharezone-Plus Nutzer hast du Zugriff auf unseren Premium-Support.'),
+          'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.'),
       body: Column(
         children: [
           _PlusEmailTile(),
@@ -156,12 +156,12 @@ class _PlusSupport extends StatelessWidget {
 class _SupportPlanBase extends StatelessWidget {
   const _SupportPlanBase({
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.body,
   });
 
   final Widget title;
-  final Widget subtitle;
+  final Widget? subtitle;
   final Widget body;
 
   @override
@@ -173,12 +173,15 @@ class _SupportPlanBase extends StatelessWidget {
           child: title,
           style: const TextStyle(fontSize: 22),
         ),
+        if (subtitle != null) ...[
+          const SizedBox(height: 4),
+          DefaultTextStyle.merge(
+            child: subtitle!,
+            style: const TextStyle(color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+        ],
         const SizedBox(height: 4),
-        DefaultTextStyle.merge(
-          child: subtitle,
-          style: const TextStyle(color: Colors.grey),
-          textAlign: TextAlign.center,
-        ),
         body,
       ],
     );
@@ -314,26 +317,32 @@ class _SharezonePlusAdvertising extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: SharezonePlusFeatureInfoCard(
-        withLearnMoreButton: true,
-        onLearnMorePressed: () => _navigateToSharezonePlusPage(context),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Mit Sharezone-Plus erhältst Zugriff auf unseren Premium-Support.',
-              ),
-              SizedBox(height: 12),
-              MarkdownBody(
-                data:
-                    '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
+    return _SupportPlanBase(
+      title: const Text('Plus Support'),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: SizedBox(
+          width: double.infinity,
+          child: SharezonePlusFeatureInfoCard(
+            withLearnMoreButton: true,
+            onLearnMorePressed: () => _navigateToSharezonePlusPage(context),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support.',
+                  ),
+                  SizedBox(height: 12),
+                  MarkdownBody(
+                    data:
+                        '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
 - Videocall-Support nach Termin-vereinbarung (ermöglicht das Teilen des Bildschirms)''',
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
