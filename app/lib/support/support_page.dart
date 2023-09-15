@@ -6,10 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -17,53 +20,10 @@ import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Opens the support page.
-///
-/// [navigateToPlusPageOrHidePlusAd]
-/// {@macro supportPage.navigateToPlusPageOrHidePlusAd}
-Future<void> openSupportPage({
-  required BuildContext context,
-  required VoidCallback? navigateToPlusPageOrHidePlusAd,
-}) {
-  return Navigator.of(context).push<void>(
-    MaterialPageRoute(
-      builder: (_) => SupportPage(
-        navigateToPlusPageOrHidePlusAd: navigateToPlusPageOrHidePlusAd,
-      ),
-      settings: const RouteSettings(name: SupportPage.tag),
-    ),
-  );
-}
-
 class SupportPage extends StatelessWidget {
-  const SupportPage({
-    super.key,
-    required this.navigateToPlusPageOrHidePlusAd,
-  });
+  static const String tag = 'support-page';
 
-  // static const String tag = 'support-page';
-
-  /// {@template supportPage.navigateToPlusPageOrHidePlusAd}
-  /// Callback that is called when the user presses the learn more button in the
-  /// Sharezone Plus advertising and should navigate the user to the Sharezone
-  /// Plus page.
-  ///
-  /// When is `null`, the advertising is not shown. This is useful for cases,
-  /// where the is logged in (buying Sharezone Plus is possible) but we don't
-  /// want to show the advertising (e.g. user is in the onboarding).
-  ///
-  /// This value is required to don't forget to implement the callback or to
-  /// actively decide to not show the advertising (by setting the value to
-  /// `null`).
-  ///
-  /// We can't provide a default value for this callback because we to pop the
-  /// support page when the user presses the back button on the Sharezone Plus
-  /// page. When we use something like Navigator 2.0, we can provide a default
-  /// implementation because we wouldn't use `NavigationBloc` anymore.
-  ///
-  /// Ticket: https://github.com/SharezoneApp/sharezone-app/issues/970
-  /// {@endtemplate}
-  final VoidCallback? navigateToPlusPageOrHidePlusAd;
+  const SupportPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +51,9 @@ class SupportPage extends StatelessWidget {
                     const _FreeSupport(),
                     // We only show the advertising if the user is signed in
                     // because a logged out user can't buy Sharezone Plus.
-                    if (controller.isUserSignedIn &&
-                        navigateToPlusPageOrHidePlusAd != null) ...[
-                      const SizedBox(height: 12),
-                      _SharezonePlusAdvertising(
-                        onLearnMorePressed: navigateToPlusPageOrHidePlusAd!,
-                      ),
+                    if (controller.isUserSignedIn) ...const [
+                      SizedBox(height: 12),
+                      _SharezonePlusAdvertising(),
                     ]
                   ]
                 ] else
@@ -335,11 +292,13 @@ class _VideoCallTile extends StatelessWidget {
 }
 
 class _SharezonePlusAdvertising extends StatelessWidget {
-  const _SharezonePlusAdvertising({
-    required this.onLearnMorePressed,
-  });
+  const _SharezonePlusAdvertising();
 
-  final VoidCallback onLearnMorePressed;
+  void _navigateToSharezonePlusPage(BuildContext context) {
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+    Navigator.pop(context);
+    navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -347,7 +306,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
       width: double.infinity,
       child: SharezonePlusFeatureInfoCard(
         withLearnMoreButton: true,
-        onLearnMorePressed: onLearnMorePressed,
+        onLearnMorePressed: () => _navigateToSharezonePlusPage(context),
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Column(

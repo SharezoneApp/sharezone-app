@@ -12,13 +12,7 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ContactSupport extends StatelessWidget {
-  const ContactSupport({
-    super.key,
-    required this.navigateToPlusPageOrHidePlusAd,
-  });
-
-  /// {@macro supportPage.navigateToPlusPageOrHidePlusAd}
-  final VoidCallback? navigateToPlusPageOrHidePlusAd;
+  const ContactSupport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +36,11 @@ class ContactSupport extends StatelessWidget {
                         text:
                             "Du brauchst Hilfe? Dann kontaktiere einfach unseren "),
                     TextSpan(
-                      text: "Support",
-                      style: linkStyle(context),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => openSupportPage(
-                              context: context,
-                              navigateToPlusPageOrHidePlusAd:
-                                  navigateToPlusPageOrHidePlusAd,
-                            ),
-                    ),
+                        text: "Support",
+                        style: linkStyle(context),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () =>
+                              Navigator.pushNamed(context, SupportPage.tag)),
                     const TextSpan(text: " 😉"),
                   ],
                 ),

@@ -172,11 +172,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-        bottomNavigationBar: const ContactSupport(
-          // User is not logged in, so we don't need to show the Sharezone Plus
-          // ad.
-          navigateToPlusPageOrHidePlusAd: null,
-        ),
+        bottomNavigationBar: const ContactSupport(),
       ),
     );
   }
