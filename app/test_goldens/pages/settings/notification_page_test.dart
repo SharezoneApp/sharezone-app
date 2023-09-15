@@ -49,13 +49,13 @@ void main() {
     testGoldens('renders as expected (light mode)', (tester) async {
       await pumpNotificationPage(tester, themeData: lightTheme);
 
-      await screenMatchesGolden(tester, 'notification_page_light');
+      await multiScreenGolden(tester, 'notification_page_light');
     });
 
     testGoldens('renders as expected (dark mode)', (tester) async {
       await pumpNotificationPage(tester, themeData: darkTheme);
 
-      await screenMatchesGolden(tester, 'notification_page_dark');
+      await multiScreenGolden(tester, 'notification_page_dark');
     });
   });
 }
