@@ -13,9 +13,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -29,10 +28,7 @@ class SupportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPlusEnabled = context.watch<SubscriptionEnabledFlag>().isEnabled;
-    final isPlusSupportUnlocked = context
-        .watch<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.plusSupport);
-    final isSignedIn = context.watch<SupportPageController>().isUserSignedIn;
+    final controller = context.watch<SupportPageController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Support'),
@@ -49,13 +45,13 @@ class SupportPage extends StatelessWidget {
                 const _Header(),
                 const SizedBox(height: 12),
                 if (isPlusEnabled) ...[
-                  if (isPlusSupportUnlocked)
+                  if (controller.hasPlusSupportUnlocked)
                     const _PlusSupport()
                   else ...[
                     const _FreeSupport(),
                     // We only show the advertising if the user is signed in
                     // because a logged out user can't buy Sharezone Plus.
-                    if (isSignedIn) ...const [
+                    if (controller.isUserSignedIn) ...const [
                       SizedBox(height: 12),
                       _SharezonePlusAdvertising(),
                     ]

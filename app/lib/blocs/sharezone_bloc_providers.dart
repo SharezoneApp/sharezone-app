@@ -307,9 +307,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         CloudFunctionHolidayApiClient(api.references.functions);
 
     const clock = Clock();
-    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
-      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
-    );
+    final subscriptionEnabledFlag = context.read<SubscriptionEnabledFlag>();
     final subscriptionService = SubscriptionService(
       user: api.user.userStream,
       clock: clock,
@@ -338,7 +336,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       ChangeNotifierProvider(
-        create: (context) => SupportPageController(api.user.isSignInStream),
+        create: (context) => SupportPageController(
+          isUserSignedInStream: api.user.isSignInStream,
+          hasPlusSupportUnlockedStream: subscriptionService
+              .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
+        ),
       ),
       StreamProvider<TypeOfUser?>.value(
         value: typeOfUserStream,

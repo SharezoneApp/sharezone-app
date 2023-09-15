@@ -12,17 +12,30 @@ import 'package:flutter/material.dart';
 
 class SupportPageController extends ChangeNotifier {
   bool isUserSignedIn = false;
-  late StreamSubscription<bool> _isUserSignedInSubscription;
+  bool hasPlusSupportUnlocked = false;
 
-  SupportPageController(Stream<bool> isUserSignedInStream) {
+  late StreamSubscription<bool> _isUserSignedInSubscription;
+  late StreamSubscription<bool> _hasPlusSupportUnlockedSubscription;
+
+  SupportPageController({
+    required Stream<bool> isUserSignedInStream,
+    required Stream<bool> hasPlusSupportUnlockedStream,
+  }) {
     _isUserSignedInSubscription = isUserSignedInStream.listen((isUserSignedIn) {
       this.isUserSignedIn = isUserSignedIn;
+      notifyListeners();
+    });
+
+    _hasPlusSupportUnlockedSubscription =
+        hasPlusSupportUnlockedStream.listen((hasPlusSupportUnlocked) {
+      this.hasPlusSupportUnlocked = hasPlusSupportUnlocked;
       notifyListeners();
     });
   }
 
   @override
   void dispose() {
+    _hasPlusSupportUnlockedSubscription.cancel();
     _isUserSignedInSubscription.cancel();
     super.dispose();
   }

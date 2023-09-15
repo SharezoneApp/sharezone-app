@@ -12,10 +12,9 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'support_page_test.mocks.dart';
@@ -23,18 +22,15 @@ import 'support_page_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<SupportPageController>(),
   MockSpec<SubscriptionEnabledFlag>(),
-  MockSpec<SubscriptionService>(),
 ])
 void main() {
   group(SupportPage, () {
     late MockSupportPageController controller;
     late MockSubscriptionEnabledFlag subscriptionEnabledFlag;
-    late MockSubscriptionService subscriptionService;
 
     setUp(() {
       controller = MockSupportPageController();
       subscriptionEnabledFlag = MockSubscriptionEnabledFlag();
-      subscriptionService = MockSubscriptionService();
 
       when(controller.isUserSignedIn).thenReturn(true);
       when(subscriptionEnabledFlag.isEnabled).thenReturn(true);
@@ -51,7 +47,6 @@ void main() {
                 value: controller),
             ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
                 value: subscriptionEnabledFlag),
-            Provider<SubscriptionService>.value(value: subscriptionService),
           ],
           child: const SupportPage(),
         ),
@@ -61,9 +56,7 @@ void main() {
 
     group('with Sharezone Plus', () {
       setUp(() {
-        when(subscriptionService
-                .hasFeatureUnlocked(SharezonePlusFeature.plusSupport))
-            .thenReturn(true);
+        when(controller.hasPlusSupportUnlocked).thenReturn(true);
       });
 
       testGoldens('renders as expected (light mode)', (tester) async {
@@ -81,9 +74,7 @@ void main() {
 
     group('without Sharezone Plus', () {
       setUp(() {
-        when(subscriptionService
-                .hasFeatureUnlocked(SharezonePlusFeature.plusSupport))
-            .thenReturn(false);
+        when(controller.hasPlusSupportUnlocked).thenReturn(false);
       });
 
       testGoldens('renders as expected (light mode)', (tester) async {
