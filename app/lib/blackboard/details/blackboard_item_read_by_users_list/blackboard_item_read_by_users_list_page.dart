@@ -11,14 +11,10 @@ import 'dart:ui';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/navigation/logic/navigation_bloc.dart';
-import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
-import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -68,7 +64,7 @@ class _BlackboardItemReadByUsersListPageState
           title: const Text("Gelesen von"),
           centerTitle: true,
         ),
-        body: const _Body(),
+        body: const BlackboardItemReadByUsersListPageBody(),
       ),
     );
   }
@@ -79,8 +75,9 @@ class _BlackboardItemReadByUsersListPageState
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body();
+@visibleForTesting
+class BlackboardItemReadByUsersListPageBody extends StatelessWidget {
+  const BlackboardItemReadByUsersListPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -155,11 +152,14 @@ class _FreeUsersLockScreen extends StatelessWidget {
         ),
         Positioned.fill(
           child: Center(
-            child: SharezonePlusFeatureInfoCard(
-              withLearnMoreButton: true,
-              onLearnMorePressed: () => navigateToSharezonePlusPage(context),
-              child: const Text(
-                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: SharezonePlusFeatureInfoCard(
+                withLearnMoreButton: true,
+                onLearnMorePressed: () => navigateToSharezonePlusPage(context),
+                child: const Text(
+                    'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+              ),
             ),
           ),
         ),
