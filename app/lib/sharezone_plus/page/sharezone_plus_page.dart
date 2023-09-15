@@ -19,6 +19,12 @@ import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
 
+Future<void> navigateToSharezonePlusPage(BuildContext context) async {
+  final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+  Navigator.popUntil(context, ModalRoute.withName('/'));
+  navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+}
+
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
 
