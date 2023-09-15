@@ -380,7 +380,7 @@ class _SubscribeSection extends StatelessWidget {
       children: [
         _Price(),
         SizedBox(height: 12),
-        _SubscribeButton(loading: true),
+        _SubscribeButton(loading: false),
         SizedBox(height: 12),
         _LegalText(),
       ],
