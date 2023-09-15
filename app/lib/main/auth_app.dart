@@ -96,7 +96,6 @@ class _AuthAppState extends State<AuthApp> {
           analytics: widget.analytics,
           navigatorKey: null,
           routes: {
-            SupportPage.tag: (context) => const SupportPage(),
             SignUpPage.tag: (context) => const SignUpPage(),
             LoginPage.tag: (context) => const LoginPage(),
             PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),

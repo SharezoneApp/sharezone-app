@@ -11,6 +11,9 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -34,6 +37,29 @@ Future<dynamic> openGroupJoinPage(BuildContext context) {
   );
 }
 
+void _navigateToSharezonePlusPage(BuildContext context) {
+  final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+  Navigator.pop(context);
+  navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+}
+
+Future<bool> _isInOnboarding(BuildContext context) async {
+  final groupOnboardingBloc = BlocProvider.of<GroupOnboardingBloc>(context);
+  return groupOnboardingBloc.isGroupOnboardingActive;
+}
+
+Future<void> _openSupportPage(BuildContext context) async {
+  openSupportPage(
+    context: context,
+    // When the user is in the group onboarding, we don't want to show
+    // the Sharezone Plus ad because the user is new to the app and we
+    // don't want to overwhelm them.
+    navigateToPlusPageOrHidePlusAd: await _isInOnboarding(context)
+        ? null
+        : () => _navigateToSharezonePlusPage(context),
+  );
+}
+
 class _GroupJoinPage extends StatelessWidget {
   const _GroupJoinPage({Key? key}) : super(key: key);
 
@@ -41,10 +67,22 @@ class _GroupJoinPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: GroupJoinAppBar(),
-      body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
-      bottomNavigationBar: ContactSupport(),
+    return Scaffold(
+      appBar: const GroupJoinAppBar(),
+      body:
+          const SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
+      bottomNavigationBar: FutureBuilder<bool>(
+        future: _isInOnboarding(context),
+        builder: (context, future) {
+          final isInOnboarding = future.data ?? false;
+          return ContactSupport(
+            // See [_openSupportPage] for comment.
+            navigateToPlusPageOrHidePlusAd: isInOnboarding
+                ? null
+                : () => _navigateToSharezonePlusPage(context),
+          );
+        },
+      ),
     );
   }
 }
@@ -79,7 +117,7 @@ class _SupportIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.question_answer),
-      onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
+      onPressed: () => _openSupportPage(context),
       tooltip: "Support",
     );
   }

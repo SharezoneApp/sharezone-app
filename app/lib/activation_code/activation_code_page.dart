@@ -10,6 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/widgets/enter_activation_code_text_field.dart';
@@ -42,7 +44,13 @@ class _EnterActivationCodePage extends StatelessWidget {
           child: _EnterActivationCodeDescription(),
         ),
       ),
-      bottomNavigationBar: const ContactSupport(),
+      bottomNavigationBar: ContactSupport(
+        navigateToPlusPageOrHidePlusAd: () {
+          final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+          Navigator.pop(context);
+          navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+        },
+      ),
     );
   }
 }

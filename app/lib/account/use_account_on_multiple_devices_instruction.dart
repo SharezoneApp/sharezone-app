@@ -6,8 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
@@ -54,7 +57,13 @@ class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const ContactSupport(),
+      bottomNavigationBar: ContactSupport(
+        navigateToPlusPageOrHidePlusAd: () {
+          final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+          Navigator.pop(context);
+          navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+        },
+      ),
     );
   }
 }

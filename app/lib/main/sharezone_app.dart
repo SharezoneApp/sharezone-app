@@ -44,7 +44,6 @@ import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/theme/theme_page.dart';
-import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
 import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/pages/settings_page.dart';
@@ -164,7 +163,6 @@ class _SharezoneAppState extends State<SharezoneApp>
                 CourseHelpPage.tag: (context) => const CourseHelpPage(),
                 SettingsPage.tag: (context) => const SettingsPage(),
                 NotificationPage.tag: (context) => const NotificationPage(),
-                SupportPage.tag: (context) => const SupportPage(),
                 ChangeEmailPage.tag: (context) => const ChangeEmailPage(),
                 ChangePasswordPage.tag: (context) => const ChangePasswordPage(),
                 ChangeStatePage.tag: (context) => const ChangeStatePage(),
