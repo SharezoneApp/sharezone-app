@@ -148,9 +148,6 @@ Future<void> publishToAppStoreConnect({
     stageToTracks: stageToTracks,
   );
 
-  stdout.writeln(
-      'Publishing to App Store Connect track "$track" with the following release notes:\n$whatsNew');
-
   await runProcessSucessfullyOrThrow(
     'app-store-connect',
     [
