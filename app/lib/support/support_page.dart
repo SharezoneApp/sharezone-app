@@ -104,7 +104,7 @@ class _Header extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Du einen Fehler gefunden, hast Feedback oder eine einfach eine Frage über Sharezone? Kontaktiere und wir helfen dir weiter!',
+            'Du einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
