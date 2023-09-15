@@ -309,10 +309,10 @@ class _CallToActionSection extends StatelessWidget {
         child: switch (state) {
           PlusPageLoading() => const _SubscribeSection(loading: true),
           PlusPageError() => const _SubscribeSection(loading: false),
-          PlusPageSuccess(hasPlus: false, monthlyPriceString: final price) =>
-            _SubscribeSection(priceString: price, loading: false),
           PlusPageSuccess(hasPlus: true, monthlyPriceString: final price) =>
             _UnsubscribeSection(price),
+          PlusPageSuccess(hasPlus: false, monthlyPriceString: final price) =>
+            _SubscribeSection(priceString: price, loading: false),
         });
   }
 }
