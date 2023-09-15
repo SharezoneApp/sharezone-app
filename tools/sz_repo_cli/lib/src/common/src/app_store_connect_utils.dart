@@ -175,6 +175,15 @@ Future<void> publishToAppStoreConnect({
       appStoreConnectConfig.keyId,
       '--private-key',
       appStoreConnectConfig.privateKey,
+      // We set the maximum amount of minutes to wait for the freshly uploaded
+      // build to be processed by Apple and retry submitting the build for
+      // (beta) review to 60 minutes. This is necessary because the build
+      // processing can take a while and the default timeout of 20 minutes is
+      // not enough.
+      //
+      // See: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/publish.md#--max-build-processing-wait--wmax_build_processing_wait
+      '--max-build-processing-wait',
+      '60',
     ],
     workingDirectory: repo.sharezoneFlutterApp.location.path,
   );

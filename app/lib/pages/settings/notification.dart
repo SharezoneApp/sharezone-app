@@ -9,10 +9,10 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
 import 'package:interval_time_picker/interval_time_picker.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
+import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -21,16 +21,28 @@ import 'package:user/user.dart';
 
 const _leftPadding = EdgeInsets.only(left: 16);
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends StatefulWidget {
   static const String tag = "notification-page";
 
   const NotificationPage({super.key});
 
   @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  late NotificationsBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = BlocProvider.of<NotificationsBlocFactory>(context).create();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final userApi = BlocProvider.of<SharezoneContext>(context).api.user;
     return BlocProvider<NotificationsBloc>(
-      bloc: NotificationsBloc(userApi),
+      bloc: _bloc,
       child: _NotificationPage(),
     );
   }
@@ -49,7 +61,7 @@ class _NotificationPage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               children: <Widget>[
-                MatchingTypeOfUserStreamBuilder(
+                MatchingTypeOfUserBuilder(
                   expectedTypeOfUser: TypeOfUser.student,
                   matchesTypeOfUserWidget: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

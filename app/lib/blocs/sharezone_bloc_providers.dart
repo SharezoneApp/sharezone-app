@@ -36,6 +36,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
+import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
 import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
@@ -106,6 +107,7 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
+import 'package:user/user.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
@@ -338,6 +340,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ChangeNotifierProvider(
         create: (context) => SupportPageController(api.user.isSignInStream),
       ),
+      StreamProvider<TypeOfUser?>.value(
+        value: typeOfUserStream,
+        initialData: null,
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -425,6 +431,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
+      BlocProvider<NotificationsBlocFactory>(
+          bloc: NotificationsBlocFactory(api.user)),
       BlocProvider<DownloadAppTipBloc>(
         bloc: DownloadAppTipBloc(
           DownloadAppTipCache(
