@@ -15,11 +15,16 @@ class StateDialog {
 
   const StateDialog(this.stateSheetContent);
 
-  Future<void> show(BuildContext context) async {
+  Future<void> _show(
+    BuildContext context, {
+    required ValueChanged<BuildContext> onReceivedContext,
+  }) async {
     await showDialog(
       context: context,
-      builder: (context) =>
-          _StateDialogWidget(stateDialogContent: stateSheetContent),
+      builder: (context) => _StateDialogWidget(
+        stateDialogContent: stateSheetContent,
+        onReceivedContext: onReceivedContext,
+      ),
     );
   }
 
@@ -28,15 +33,24 @@ class StateDialog {
     required Future<bool> future,
     Duration delay = const Duration(milliseconds: 250),
   }) async {
-    final dialogPop = show(context);
+    BuildContext? dialogContext;
+
+    final dialogPop = _show(
+      context,
+      onReceivedContext: (context) => dialogContext = context,
+    );
+
     bool hasDialogPopped = false;
     dialogPop.then((_) => hasDialogPopped = true);
     future.then((result) async {
       if (result == true) {
         await Future.delayed(delay);
-        if (!hasDialogPopped) {
+        if (!hasDialogPopped && dialogContext?.mounted == true) {
+          // Because we want to pop the dialog, we need to use the BuildContext
+          // of the dialog.
+          //
           // ignore: use_build_context_synchronously
-          Navigator.pop(context);
+          Navigator.pop(dialogContext!);
         }
       }
     });
@@ -44,18 +58,22 @@ class StateDialog {
 }
 
 class _StateDialogWidget extends StatelessWidget {
-  final Stream<StateDialogContent>? stateDialogContent;
+  const _StateDialogWidget({
+    required this.stateDialogContent,
+    required this.onReceivedContext,
+  });
 
-  const _StateDialogWidget({Key? key, this.stateDialogContent})
-      : super(key: key);
+  final Stream<StateDialogContent> stateDialogContent;
+  final ValueChanged<BuildContext> onReceivedContext;
 
   @override
   Widget build(BuildContext context) {
+    onReceivedContext(context);
     return StreamBuilder<StateDialogContent>(
       stream: stateDialogContent,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
         final stateDialogContent = snapshot.data;
+        if (stateDialogContent == null) return Container();
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 150),
           child: _PlatformAlertDialog(
@@ -69,30 +87,33 @@ class _StateDialogWidget extends StatelessWidget {
 }
 
 class _PlatformAlertDialog extends StatelessWidget {
-  final StateDialogContent? stateDialogContent;
+  const _PlatformAlertDialog({
+    super.key,
+    required this.stateDialogContent,
+  });
 
-  const _PlatformAlertDialog({Key? key, this.stateDialogContent})
-      : super(key: key);
+  final StateDialogContent stateDialogContent;
+
   @override
   Widget build(BuildContext context) {
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
-        title: Text(stateDialogContent!.title),
-        content: DialogWrapper(child: stateDialogContent!.body),
+        title: Text(stateDialogContent.title),
+        content: DialogWrapper(child: stateDialogContent.body),
         actions: <Widget>[
-          for (final action in stateDialogContent!.actions)
+          for (final action in stateDialogContent.actions)
             ActionItemButton(item: action),
         ],
       );
     }
     return AlertDialog(
       title: Text(
-        stateDialogContent!.title,
+        stateDialogContent.title,
         textAlign: TextAlign.center,
       ),
-      content: DialogWrapper(child: stateDialogContent!.body),
+      content: DialogWrapper(child: stateDialogContent.body),
       actions: <Widget>[
-        for (final action in stateDialogContent!.actions)
+        for (final action in stateDialogContent.actions)
           ActionItemButton(item: action),
       ],
     );
