@@ -1,0 +1,2 @@
+# Automatically collapses these files when looking at a diff in GitHub
+**.mock.dart linguist-generated
