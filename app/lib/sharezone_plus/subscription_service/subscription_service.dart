@@ -55,6 +55,13 @@ class SubscriptionService {
     if (!isSubscriptionActive()) return false;
     return _user!.subscription!.tier.hasUnlocked(feature);
   }
+
+  Stream<bool> hasFeatureUnlockedStream(SharezonePlusFeature feature) {
+    // Subscriptions feature is disabled, so every feature is unlocked.
+    if (!_isEnabled) return Stream.value(true);
+
+    return user.map((event) => hasFeatureUnlocked(feature));
+  }
 }
 
 const _featuresMap = {
