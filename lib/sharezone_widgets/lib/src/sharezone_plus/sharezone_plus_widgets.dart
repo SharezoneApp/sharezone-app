@@ -134,7 +134,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
           child: Theme(
             data: Theme.of(context).copyWith(
               textTheme: baseTheme.textTheme.copyWith(
-                // Modifying the also the `bodyMedium` style besides
+                // Modifying also the `bodyMedium` style besides
                 // `DefaultTextStyle` to update the text color for p elements in
                 // the `MarkdownBody` widget of `flutter_markdown`.
                 bodyMedium: baseTheme.textTheme.bodyMedium?.copyWith(
