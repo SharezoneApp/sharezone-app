@@ -380,7 +380,7 @@ class _SubscribeSection extends StatelessWidget {
       children: [
         _Price(),
         SizedBox(height: 12),
-        _SubscribeButton(),
+        _SubscribeButton(loading: true),
         SizedBox(height: 12),
         _LegalText(),
       ],
@@ -415,17 +415,32 @@ class _Price extends StatelessWidget {
 }
 
 class _SubscribeButton extends StatelessWidget {
-  const _SubscribeButton();
+  const _SubscribeButton({this.loading = false});
+
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
-    return _CallToActionButton(
-      text: const Text('Abonnieren'),
-      onPressed: () async {
-        final controller = context.read<SharezonePlusPageController>();
-        await controller.buySubscription();
-      },
-      backgroundColor: Theme.of(context).primaryColor,
+    // When using [GrayShimmer] the text inside the [_CallToActionButton]
+    // disappears. Using a [Stack] fixes this issue (I don't know why).
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GrayShimmer(
+          enabled: loading,
+          child: _CallToActionButton(
+            text: const Text('Abonnieren'),
+            onPressed: loading
+                ? null
+                : () async {
+                    final controller =
+                        context.read<SharezonePlusPageController>();
+                    await controller.buySubscription();
+                  },
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        )
+      ],
     );
   }
 }
@@ -445,12 +460,12 @@ class _LegalText extends StatelessWidget {
 class _CallToActionButton extends StatelessWidget {
   const _CallToActionButton({
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.backgroundColor,
   });
 
   final Widget text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
 
   @override
