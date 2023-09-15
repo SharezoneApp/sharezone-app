@@ -51,7 +51,19 @@ class SupportPage extends StatelessWidget {
                     const _FreeSupport(),
                     // We only show the advertising if the user is signed in
                     // because a logged out user can't buy Sharezone Plus.
-                    if (controller.isUserSignedIn) ...const [
+                    //
+                    // Also we don't show the advertising if the user is in the
+                    // group onboarding because for two reasons:
+                    //
+                    // 1. The user opened the app for the first time a few
+                    //    minutes ago and we don't want to overwhelm them with
+                    //    buying Sharezone Plus.
+                    // 2. With the current onboarding navigation system,
+                    //    navigating to the Sharezone Plus page would require
+                    //    the user to leave the onboarding and we don't want
+                    //    that.
+                    if (controller.isUserSignedIn &&
+                        !controller.isUserInGroupOnboarding) ...const [
                       SizedBox(height: 12),
                       _SharezonePlusAdvertising(),
                     ]
@@ -296,7 +308,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
 
   void _navigateToSharezonePlusPage(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    Navigator.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     navigationBloc.navigateTo(NavigationItem.sharezonePlus);
   }
 

@@ -66,6 +66,7 @@ class _AuthAppState extends State<AuthApp> {
             // Sharezone Plus.
             isUserSignedInStream: Stream.value(false),
             hasPlusSupportUnlockedStream: Stream.value(false),
+            isUserInGroupOnboardingStream: Stream.value(false),
           ),
         ),
       ],
