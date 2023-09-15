@@ -147,6 +147,7 @@ Future<void> publishToAppStoreConnect({
     stage: stage,
     stageToTracks: stageToTracks,
   );
+
   await runProcessSucessfullyOrThrow(
     'app-store-connect',
     [
