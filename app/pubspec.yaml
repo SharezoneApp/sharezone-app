@@ -38,6 +38,7 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^3.0.0
+  bloc: ^8.1.2
   bloc_base:
     path: ../lib/bloc_base
   bloc_provider:
@@ -79,6 +80,7 @@ dependencies:
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter

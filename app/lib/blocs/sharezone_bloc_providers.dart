@@ -23,6 +23,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
@@ -315,6 +316,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       isSubscriptionEnabledFlag: subscriptionEnabledFlag,
     );
 
+    final revenueCatPurchaseService = RevenueCatPurchaseService();
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -331,10 +334,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         initialData: null,
       ),
       ChangeNotifierProvider(
-        create: (context) => SharezonePlusPageController(
-          purchaseService: RevenueCatPurchaseService(),
-          subscriptionService: subscriptionService,
-        ),
+        create: (context) {
+          return SharezonePlusPageController(
+            purchaseService: revenueCatPurchaseService,
+            subscriptionService: subscriptionService,
+          );
+        },
       ),
       StreamProvider<TypeOfUser?>.value(
         value: typeOfUserStream,
@@ -544,6 +549,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
 
+    final blocLibraryBlocs = [
+      bloc_lib.BlocProvider(
+        create: (context) => SharezonePlusPageBloc(
+            purchaseService: revenueCatPurchaseService,
+            subscriptionService: subscriptionService),
+      )
+    ];
+
     return MultiProvider(
       providers: providers,
       child: MultiBlocProvider(
@@ -552,9 +565,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           ...mainBlocProviders,
           ...timetableProviders,
         ],
-        child: (context) => AnalyticsProvider(
-          analytics: analytics,
-          child: Builder(builder: (context) => widget.child),
+        child: (context) => bloc_lib.MultiBlocProvider(
+          providers: blocLibraryBlocs,
+          child: AnalyticsProvider(
+            analytics: analytics,
+            child: Builder(builder: (context) => widget.child),
+          ),
         ),
       ),
     );

@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -299,22 +300,35 @@ class _CallToActionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
+    final state =
+        bloc.BlocProvider.of<SharezonePlusPageBloc>(context, listen: true)
+            .state;
+
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: hasPlus ? const _UnsubscribeSection() : const _SubscribeSection(),
-    );
+        duration: const Duration(milliseconds: 300),
+        child: switch (state) {
+          PlusPageLoading() => const _SubscribeSection(loading: true),
+          PlusPageError() => const _SubscribeSection(loading: false),
+          PlusPageSuccess(hasPlus: false, monthlyPriceString: final price) =>
+            _SubscribeSection(priceString: price, loading: false),
+          PlusPageSuccess(hasPlus: true, monthlyPriceString: final price) =>
+            _UnsubscribeSection(price),
+        });
   }
 }
 
 class _UnsubscribeSection extends StatelessWidget {
-  const _UnsubscribeSection();
+  const _UnsubscribeSection(this.priceString);
+
+  final String priceString;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       key: ValueKey('unsubscribe-section'),
       children: [
+        _Price(priceString),
+        SizedBox(height: 12),
         _UnsubscribeText(),
         SizedBox(height: 12),
         _UnsubscribeButton(),
@@ -361,8 +375,8 @@ class _UnsubscribeButton extends StatelessWidget {
     const flatRed = Color(0xFFF55F4B);
     return _CallToActionButton(
       onPressed: () async {
-        final controller = context.read<SharezonePlusPageController>();
-        await controller.cancelSubscription();
+        bloc.BlocProvider.of<SharezonePlusPageBloc>(context)
+            .add(PlusPageCancelSubscription());
       },
       text: const Text('Kündigen'),
       backgroundColor: flatRed,
@@ -371,16 +385,22 @@ class _UnsubscribeButton extends StatelessWidget {
 }
 
 class _SubscribeSection extends StatelessWidget {
-  const _SubscribeSection();
+  const _SubscribeSection({
+    this.priceString = '-,--€',
+    this.loading = true,
+  });
+
+  final bool loading;
+  final String priceString;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       key: ValueKey('subscribe-section'),
       children: [
-        _Price(),
+        GrayShimmer(enabled: loading, child: _Price(priceString)),
         SizedBox(height: 12),
-        _SubscribeButton(loading: true),
+        _SubscribeButton(loading: loading),
         SizedBox(height: 12),
         _LegalText(),
       ],
@@ -389,16 +409,17 @@ class _SubscribeSection extends StatelessWidget {
 }
 
 class _Price extends StatelessWidget {
-  const _Price();
+  const _Price(this.priceWithCurrencySymbol);
+
+  final String priceWithCurrencySymbol;
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          price,
+          priceWithCurrencySymbol,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(width: 4),
@@ -433,9 +454,8 @@ class _SubscribeButton extends StatelessWidget {
             onPressed: loading
                 ? null
                 : () async {
-                    final controller =
-                        context.read<SharezonePlusPageController>();
-                    await controller.buySubscription();
+                    bloc.BlocProvider.of<SharezonePlusPageBloc>(context)
+                        .add(PlusPageBuySubscription());
                   },
             backgroundColor: Theme.of(context).primaryColor,
           ),

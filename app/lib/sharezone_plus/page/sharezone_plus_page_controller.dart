@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
@@ -19,6 +20,86 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 /// On macOS the price is not fetched from the backend because RevenueCat does
 /// not support macOS.
 const fallbackPlusPrice = '4,99 €';
+
+sealed class PlusPageViewModel {}
+
+class PlusPageLoading extends PlusPageViewModel {}
+
+class PlusPageError extends PlusPageViewModel {
+  final dynamic error;
+  final StackTrace stackTrace;
+
+  PlusPageError({required this.error, required this.stackTrace});
+}
+
+class PlusPageSuccess extends PlusPageViewModel {
+  final bool hasPlus;
+
+  /// Formatted price of the item, including its currency sign.
+  final String monthlyPriceString;
+
+  /// Whether the subscription can be managed (subscribe, cancel) by the user.
+  final bool isSubscriptionManageable;
+
+  PlusPageSuccess({
+    required this.hasPlus,
+    required this.monthlyPriceString,
+    required this.isSubscriptionManageable,
+  });
+}
+
+sealed class PlusPageEvent {}
+
+class PlusPageBuySubscription extends PlusPageEvent {}
+
+class PlusPageCancelSubscription extends PlusPageEvent {}
+
+class _PlusStatusChanged extends PlusPageEvent {
+  final bool hasPlus;
+
+  _PlusStatusChanged({required this.hasPlus});
+}
+
+class SharezonePlusPageBloc extends Bloc<PlusPageEvent, PlusPageViewModel> {
+  late RevenueCatPurchaseService _purchaseService;
+  late SubscriptionService _subscriptionService;
+
+  SharezonePlusPageBloc({
+    required RevenueCatPurchaseService purchaseService,
+    required SubscriptionService subscriptionService,
+  })  : _purchaseService = purchaseService,
+        _subscriptionService = subscriptionService,
+        super(PlusPageLoading()) {
+    on<PlusPageBuySubscription>((event, emit) {
+      emit(PlusPageSuccess(
+        hasPlus: true,
+        monthlyPriceString: '4,99€',
+        isSubscriptionManageable: true,
+      ));
+    });
+    on<PlusPageCancelSubscription>((event, emit) {
+      emit(PlusPageSuccess(
+        hasPlus: false,
+        monthlyPriceString: '4,99€',
+        isSubscriptionManageable: true,
+      ));
+    });
+    on<_PlusStatusChanged>((event, emit) {
+      emit(PlusPageSuccess(
+        hasPlus: event.hasPlus,
+        monthlyPriceString: '4,99€',
+        isSubscriptionManageable: true,
+      ));
+    });
+
+    // Fake loading time (for development)
+    Future.delayed(const Duration(seconds: 1), () async {
+      _subscriptionService.isSubscriptionActiveStream().listen((hasPlus) {
+        add(_PlusStatusChanged(hasPlus: hasPlus));
+      });
+    });
+  }
+}
 
 class SharezonePlusPageController extends ChangeNotifier {
   late RevenueCatPurchaseService _purchaseService;
