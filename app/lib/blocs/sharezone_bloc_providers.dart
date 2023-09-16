@@ -333,6 +333,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => api.user.authUserStream,
         initialData: null,
       ),
+      Provider<RevenueCatPurchaseService>(
+        create: (context) => revenueCatPurchaseService,
+      ),
       ChangeNotifierProvider(
         create: (context) {
           return SharezonePlusPageController(

@@ -62,6 +62,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  analyzer_plugin:
+    dependency: transitive
+    description:
+      name: analyzer_plugin
+      sha256: c1d5f167683de03d5ab6c3b53fc9aeefc5d59476e7810ba7bbddff50c6f4392d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.2"
   animated_stream_list_nullsafety:
     dependency: "direct main"
     description:
@@ -272,6 +280,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.7.0"
+  ci:
+    dependency: transitive
+    description:
+      name: ci
+      sha256: "145d095ce05cddac4d797a158bc4cf3b6016d1fe63d8c3d2fbd7212590adca13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  cli_util:
+    dependency: transitive
+    description:
+      name: cli_util
+      sha256: b8db3080e59b2503ca9e7922c3df2072cf13992354d5e944074ffa836fba43b7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   clock:
     dependency: "direct main"
     description:
@@ -406,6 +430,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  custom_lint:
+    dependency: "direct dev"
+    description:
+      name: custom_lint
+      sha256: "837821e4619c167fd5a547b03bb2fc6be7e65b800ec75528848429705c31ceba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
+  custom_lint_builder:
+    dependency: transitive
+    description:
+      name: custom_lint_builder
+      sha256: "3537d50202568994a6f42b1f2953aed6292fc5ecf83e45237af73f64aff2be72"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
+  custom_lint_core:
+    dependency: transitive
+    description:
+      name: custom_lint_core
+      sha256: "3bdebdd52a42b4d6e5be9cd833ad1ecfbbc23e1020ca537060e54085497aea9c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   dart_style:
     dependency: transitive
     description:
@@ -918,6 +966,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_riverpod:
+    dependency: "direct main"
+    description:
+      name: flutter_riverpod
+      sha256: "1bd39b04f1bcd217a969589777ca6bd642d116e3e5de65c3e6a8e8bdd8b178ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   flutter_sfsymbols:
     dependency: "direct main"
     description:
@@ -1113,6 +1169,14 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  hotreloader:
+    dependency: transitive
+    description:
+      name: hotreloader
+      sha256: "728c0613556c1d153f7e7f4a367cffacc3f5a677d7f6497a1c2b35add4e6dacf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6"
   html:
     dependency: transitive
     description:
@@ -1689,6 +1753,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  riverpod:
+    dependency: transitive
+    description:
+      name: riverpod
+      sha256: a600120d6f213a9922860eea1abc32597436edd5b2c4e73b91410f8c2af67d22
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  riverpod_analyzer_utils:
+    dependency: transitive
+    description:
+      name: riverpod_analyzer_utils
+      sha256: aa216069d72f5478126029fa555874b4b38119f17e3f0f6c93fd63365f74502d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
+  riverpod_annotation:
+    dependency: "direct main"
+    description:
+      name: riverpod_annotation
+      sha256: "6294fe7e7d1875f32bdf04c8fce7620e718070273703097847df8f3bf16995ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
+  riverpod_generator:
+    dependency: "direct dev"
+    description:
+      name: riverpod_generator
+      sha256: d132b1ccb476e60f99989caa6ba9b1c4d88409806c93d880d1633c60c382454d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  riverpod_lint:
+    dependency: "direct dev"
+    description:
+      name: riverpod_lint
+      sha256: ac720622fde22356eca69a4831c15ab811615bf256a2ce37f1fff06b7f86cacf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   rsa_pkcs:
     dependency: transitive
     description:
@@ -1891,6 +1995,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      sha256: b8677376aa54f2d7c58280d5a007f9e8774f1968d1fb1c096adcb4792fba29bb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   states_rebuilder:
     dependency: transitive
     description:

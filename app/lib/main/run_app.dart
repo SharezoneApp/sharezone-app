@@ -31,6 +31,7 @@ import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
@@ -61,11 +62,13 @@ DynamicLinkBloc runDynamicLinkBloc(
 
 Future<void> runFlutterApp({required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
-  runApp(Sharezone(
-    beitrittsversuche: dependencies.beitrittsversuche,
-    blocDependencies: dependencies.blocDependencies,
-    dynamicLinkBloc: dependencies.dynamicLinkBloc,
-    flavor: flavor,
+  runApp(ProviderScope(
+    child: Sharezone(
+      beitrittsversuche: dependencies.beitrittsversuche,
+      blocDependencies: dependencies.blocDependencies,
+      dynamicLinkBloc: dependencies.dynamicLinkBloc,
+      flavor: flavor,
+    ),
   ));
 }
 

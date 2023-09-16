@@ -11,9 +11,13 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+
+part 'sharezone_plus_page_controller.g.dart';
 
 /// A fallback price if the price cannot be fetched from the backend.
 ///
@@ -98,6 +102,92 @@ class SharezonePlusPageBloc extends Bloc<PlusPageEvent, PlusPageViewModel> {
         add(_PlusStatusChanged(hasPlus: hasPlus));
       });
     });
+  }
+}
+
+@riverpod
+class SharezonePlusPageNotifier extends _$SharezonePlusPageNotifier {
+  late RevenueCatPurchaseService _purchaseService;
+  late SubscriptionService _subscriptionService;
+
+  @override
+  PlusPageViewModel build(BuildContext context) {
+    _purchaseService = context.read<RevenueCatPurchaseService>();
+    _subscriptionService = context.read<SubscriptionService>();
+
+    // Fake loading time (for development)
+    Future.delayed(const Duration(seconds: 1), () async {
+      _subscriptionService.isSubscriptionActiveStream().listen((hasPlus) {
+        add(_PlusStatusChanged(hasPlus: hasPlus));
+      });
+    });
+
+    return PlusPageLoading();
+  }
+
+  void add(PlusPageEvent event) {
+    state = switch (event) {
+      PlusPageBuySubscription() => PlusPageSuccess(
+          hasPlus: true,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+      PlusPageCancelSubscription() => PlusPageSuccess(
+          hasPlus: false,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+      _PlusStatusChanged(hasPlus: bool hasPlus) => PlusPageSuccess(
+          hasPlus: hasPlus,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+    };
+  }
+}
+
+class SharezonePlusPageController2 extends ChangeNotifier {
+  late RevenueCatPurchaseService _purchaseService;
+  late SubscriptionService _subscriptionService;
+
+  late PlusPageViewModel state;
+
+  SharezonePlusPageController2({
+    required RevenueCatPurchaseService purchaseService,
+    required SubscriptionService subscriptionService,
+  }) {
+    _purchaseService = purchaseService;
+    _subscriptionService = subscriptionService;
+
+    state = PlusPageLoading();
+
+    // Fake loading time (for development)
+    Future.delayed(const Duration(seconds: 1), () async {
+      _subscriptionService.isSubscriptionActiveStream().listen((hasPlus) {
+        add(_PlusStatusChanged(hasPlus: hasPlus));
+      });
+    });
+  }
+
+  void add(PlusPageEvent event) {
+    state = switch (event) {
+      PlusPageBuySubscription() => PlusPageSuccess(
+          hasPlus: true,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+      PlusPageCancelSubscription() => PlusPageSuccess(
+          hasPlus: false,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+      _PlusStatusChanged(hasPlus: bool hasPlus) => PlusPageSuccess(
+          hasPlus: hasPlus,
+          monthlyPriceString: '4,99€',
+          isSubscriptionManageable: true,
+        ),
+    };
+    notifyListeners();
   }
 }
 

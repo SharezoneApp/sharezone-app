@@ -95,6 +95,7 @@ dependencies:
       ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
   flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.0
+  flutter_riverpod: ^2.4.0
   flutter_sfsymbols: ^2.0.0
   flutter_slidable: ^3.0.0
   flutter_staggered_animations: ^1.1.1
@@ -136,6 +137,7 @@ dependencies:
   remote_configuration:
     path: ../lib/remote_configuration
   retry: ^3.1.2
+  riverpod_annotation: ^2.1.5
   rxdart: ^0.27.1
   scrollable_positioned_list: ^0.3.8
   share: ^2.0.4
@@ -170,7 +172,7 @@ dependencies:
 dev_dependencies:
   async: ^2.4.1
   built_collection: ^5.1.0
-  build_runner: ^2.3.3
+  build_runner: ^2.4.6
   equatable: ^2.0.5
   flutter_test:
     sdk: flutter
@@ -179,6 +181,9 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.3.2
   random_string: ^2.0.1
+  riverpod_generator: ^2.3.2
+  custom_lint: ^0.5.3
+  riverpod_lint: ^2.1.0
 
 flutter:
   uses-material-design: true

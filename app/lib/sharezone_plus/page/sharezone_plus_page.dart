@@ -19,6 +19,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dar
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
@@ -295,15 +296,12 @@ class _AdvantageTile extends StatelessWidget {
   }
 }
 
-class _CallToActionSection extends StatelessWidget {
+class _CallToActionSection extends ConsumerWidget {
   const _CallToActionSection();
 
   @override
-  Widget build(BuildContext context) {
-    final state =
-        bloc.BlocProvider.of<SharezonePlusPageBloc>(context, listen: true)
-            .state;
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(sharezonePlusPageNotifierProvider(context));
     return AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: switch (state) {
