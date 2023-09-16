@@ -110,18 +110,19 @@ class SharezonePlusPageNotifier extends _$SharezonePlusPageNotifier {
   late RevenueCatPurchaseService _purchaseService;
   late SubscriptionService _subscriptionService;
 
-  @override
-  PlusPageViewModel build(BuildContext context) {
-    _purchaseService = context.read<RevenueCatPurchaseService>();
-    _subscriptionService = context.read<SubscriptionService>();
-
+  SharezonePlusPageNotifier() {
     // Fake loading time (for development)
     Future.delayed(const Duration(seconds: 1), () async {
       _subscriptionService.isSubscriptionActiveStream().listen((hasPlus) {
         add(_PlusStatusChanged(hasPlus: hasPlus));
       });
     });
+  }
 
+  @override
+  PlusPageViewModel build(BuildContext context) {
+    _purchaseService = context.read<RevenueCatPurchaseService>();
+    _subscriptionService = context.read<SubscriptionService>();
     return PlusPageLoading();
   }
 

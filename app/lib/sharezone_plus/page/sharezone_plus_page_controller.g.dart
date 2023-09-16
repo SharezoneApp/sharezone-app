@@ -7,7 +7,7 @@ part of 'sharezone_plus_page_controller.dart';
 // **************************************************************************
 
 String _$sharezonePlusPageNotifierHash() =>
-    r'644bd0a9351604f2c88385f57c42d3bac6135f68';
+    r'b733f034fe26d85ee1c4902c7f9541e9a234d5de';
 
 /// Copied from Dart SDK
 class _SystemHash {
