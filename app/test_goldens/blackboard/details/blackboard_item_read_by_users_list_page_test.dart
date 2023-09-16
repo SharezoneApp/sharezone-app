@@ -110,7 +110,7 @@ void main() {
 
         await multiScreenGolden(
           tester,
-          'blackboard_item_read_by_users_list_page_list_light',
+          'blackboard_item_read_by_users_list_page_light',
         );
       });
 
@@ -119,7 +119,7 @@ void main() {
 
         await multiScreenGolden(
           tester,
-          'blackboard_item_read_by_users_list_page_list_dark',
+          'blackboard_item_read_by_users_list_page_dark',
         );
       });
     });
