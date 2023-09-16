@@ -16,8 +16,10 @@ import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
+import 'package:user/user.dart';
 
 Future<void> navigateToSharezonePlusPage(BuildContext context) async {
   final navigationBloc = BlocProvider.of<NavigationBloc>(context);
@@ -220,9 +222,30 @@ class PlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        _HomeworkDoneLists(),
         _ReadByInformationSheets(),
         _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _HomeworkDoneLists extends StatelessWidget {
+  const _HomeworkDoneLists();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MatchingTypeOfUserBuilder(
+      // We only show this advantage to teachers because only teachers can
+      // see the homework done lists.
+      expectedTypeOfUser: TypeOfUser.teacher,
+      matchesTypeOfUserWidget: _AdvantageTile(
+        icon: Icon(Icons.checklist),
+        title: Text('Erledigt-Status bei Hausaufgaben'),
+        description: Text(
+            'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe.'),
+      ),
+      notMatchingWidget: SizedBox(),
     );
   }
 }
