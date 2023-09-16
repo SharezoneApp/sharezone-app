@@ -212,27 +212,51 @@ class PlusAdvantages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        _AdvantageTile(
-          icon: const Icon(Icons.favorite),
-          title: const Text('Unterstützung von Open-Source'),
-          description: MarkdownBody(
-            data:
-                'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
-            styleSheet: MarkdownStyleSheet(
-              a: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline,
-                  ),
-            ),
-            onTapLink: (text, href, title) {
-              if (href == null) return;
-              launchURL(href, context: context);
-            },
-          ),
-        ),
+        _ReadByInformationSheets(),
+        _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _ReadByInformationSheets extends StatelessWidget {
+  const _ReadByInformationSheets();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.format_list_bulleted),
+      title: Text('Gelesen-Status bei Infozetteln'),
+      description: Text(
+          'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'),
+    );
+  }
+}
+
+class _SupportOpenSource extends StatelessWidget {
+  const _SupportOpenSource();
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      icon: const Icon(Icons.favorite),
+      title: const Text('Unterstützung von Open-Source'),
+      description: MarkdownBody(
+        data:
+            'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
+        styleSheet: MarkdownStyleSheet(
+          a: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+                decoration: TextDecoration.underline,
+              ),
+        ),
+        onTapLink: (text, href, title) {
+          if (href == null) return;
+          launchURL(href, context: context);
+        },
+      ),
     );
   }
 }
