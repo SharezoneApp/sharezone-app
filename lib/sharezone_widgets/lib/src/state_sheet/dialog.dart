@@ -17,13 +17,13 @@ class StateDialog {
 
   Future<void> _show(
     BuildContext context, {
-    required ValueChanged<BuildContext> onReceivedContext,
+    required ValueChanged<BuildContext> onDialogContextCreated,
   }) async {
     await showDialog(
       context: context,
       builder: (context) => _StateDialogWidget(
         stateDialogContent: stateSheetContent,
-        onReceivedContext: onReceivedContext,
+        onDialogContextCreated: onDialogContextCreated,
       ),
     );
   }
@@ -37,7 +37,7 @@ class StateDialog {
 
     final dialogPop = _show(
       context,
-      onReceivedContext: (context) => dialogContext = context,
+      onDialogContextCreated: (context) => dialogContext = context,
     );
 
     bool hasDialogPopped = false;
@@ -60,15 +60,15 @@ class StateDialog {
 class _StateDialogWidget extends StatelessWidget {
   const _StateDialogWidget({
     required this.stateDialogContent,
-    required this.onReceivedContext,
+    required this.onDialogContextCreated,
   });
 
   final Stream<StateDialogContent> stateDialogContent;
-  final ValueChanged<BuildContext> onReceivedContext;
+  final ValueChanged<BuildContext> onDialogContextCreated;
 
   @override
   Widget build(BuildContext context) {
-    onReceivedContext(context);
+    onDialogContextCreated(context);
     return StreamBuilder<StateDialogContent>(
       stream: stateDialogContent,
       builder: (context, snapshot) {
