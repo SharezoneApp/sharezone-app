@@ -104,6 +104,10 @@ void main() {
       await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
       await tester.pumpAndSettle();
 
+      // Ensure that the timetable is loaded. We assume that the timetable is
+      // loaded when we found one of the courses.
+      await tester.pumpUntil(find.text('Deutsch LK'));
+
       // We assume that we can load the timetable when we found x-times the name
       // of the course (the name of the course is included a lesson).
       expect(find.text('Deutsch LK'), findsNWidgets(6));
