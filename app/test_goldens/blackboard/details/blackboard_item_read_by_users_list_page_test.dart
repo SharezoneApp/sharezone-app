@@ -106,10 +106,6 @@ void main() {
       });
 
       testGoldens('(light mode)', (tester) async {
-        when(bloc.userViews).thenAnswer((_) {
-          throw Exception();
-        });
-
         await pumpPage(tester, theme: lightTheme);
 
         await multiScreenGolden(
