@@ -260,13 +260,16 @@ jobs:
           # longer than 4000 characters.
           export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-          # Tempoary prints
-          echo "LAST_COMMIT_MESSAGE: $LAST_COMMIT_MESSAGE"
-          echo "SHORT_LAST_COMMIT_MESSAGE: $SHORT_LAST_COMMIT_MESSAGE"
+          # Note that we use '--whats-new "$SHORT_LAST_COMMIT_MESSAGE"' instead
+          # of '--whats-new="$SHORT_LAST_COMMIT_MESSAGE"' to correctly pass the
+          # multiline string stored in the $SHORT_LAST_COMMIT_MESSAGE variable
+          # as a single argument. Including "=" can cause issues with argument
+          # parsing in the shell, potentially leading to incorrect handling of
+          # the multiline string argument.
 
           sz deploy ios \
             --stage alpha \
-            --whats-new="$SHORT_LAST_COMMIT_MESSAGE" \
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
@@ -404,4 +407,4 @@ jobs:
             --beta-group=alpha \
             --testflight \
             --release-type=AFTER_APPROVAL \
-            --whats-new="$SHORT_LAST_COMMIT_MESSAGE"
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE"
