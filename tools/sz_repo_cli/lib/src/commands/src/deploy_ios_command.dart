@@ -98,9 +98,6 @@ class DeployIosCommand extends Command {
     _throwIfFlavorIsNotSupportForDeployment();
     await throwIfCodemagicCliToolsAreNotInstalled();
 
-    final whatsNew = argResults![whatsNewOptionName] as String?;
-    stdout.writeln('Deploy iOS with the following release notes:\n$whatsNew');
-
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
     //
@@ -136,7 +133,7 @@ class DeployIosCommand extends Command {
       await publishToAppStoreConnect(
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,
-        whatsNew: whatsNew,
+        whatsNew: argResults![whatsNewOptionName] as String?,
         path: 'build/ios/ipa/*.ipa',
         repo: _repo,
         stageToTracks: _iosStageToTracks,
