@@ -76,7 +76,7 @@ void main() {
       setUp(() {
         when(subscriptionService.hasFeatureUnlocked(
                 SharezonePlusFeature.infoSheetReadByUsersList))
-            .thenAnswer((_) => true);
+            .thenAnswer((_) => false);
       });
 
       testGoldens('(light mode)', (tester) async {
@@ -102,7 +102,7 @@ void main() {
       setUp(() {
         when(subscriptionService.hasFeatureUnlocked(
                 SharezonePlusFeature.infoSheetReadByUsersList))
-            .thenAnswer((_) => false);
+            .thenAnswer((_) => true);
       });
 
       testGoldens('(light mode)', (tester) async {
