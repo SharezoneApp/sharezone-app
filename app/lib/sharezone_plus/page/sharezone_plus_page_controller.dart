@@ -42,8 +42,13 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// If `null` then the status is still loading.
   bool? hasPlus;
 
-  /// The price of the Sharezone Plus subscription including the currency
-  /// symbol.
+  /// The price for the Sharezone Plus per month, including the currency sign.
+  ///
+  /// If the user is subscribed to Sharezone Plus then this is the price for
+  /// his current subscription.
+  ///
+  /// If the user is not subscribed to Sharezone Plus then this is the price
+  /// for a new subscription.
   ///
   /// If `null` then the price is still loading.
   String? price;
