@@ -379,14 +379,16 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('unsubscribe-section'),
+    final price = context.watch<SharezonePlusPageController>().price;
+
+    return Column(
+      key: const ValueKey('unsubscribe-section'),
       children: [
-        _Price(),
-        SizedBox(height: 12),
-        _UnsubscribeText(),
-        SizedBox(height: 12),
-        _UnsubscribeButton(),
+        _Price(price!),
+        const SizedBox(height: 12),
+        const _UnsubscribeText(),
+        const SizedBox(height: 12),
+        const _UnsubscribeButton(),
       ],
     );
   }
@@ -449,7 +451,7 @@ class _SubscribeSection extends StatelessWidget {
     return Column(
       key: const ValueKey('subscribe-section'),
       children: [
-        loading ? const PriceLoadingIndicator() : _PriceBase(price),
+        loading ? const PriceLoadingIndicator() : _Price(price),
         const SizedBox(height: 12),
         _SubscribeButton(loading: loading),
         const SizedBox(height: 12),
@@ -459,28 +461,18 @@ class _SubscribeSection extends StatelessWidget {
   }
 }
 
-class _Price extends StatelessWidget {
-  const _Price();
-
-  @override
-  Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
-    return _PriceBase(price!);
-  }
-}
-
 @visibleForTesting
 class PriceLoadingIndicator extends StatelessWidget {
   const PriceLoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GrayShimmer(child: _PriceBase('-,-- €'));
+    return const GrayShimmer(child: _Price('-,-- €'));
   }
 }
 
-class _PriceBase extends StatelessWidget {
-  const _PriceBase(this.monthlyPriceWithCurrencySign);
+class _Price extends StatelessWidget {
+  const _Price(this.monthlyPriceWithCurrencySign);
 
   final String monthlyPriceWithCurrencySign;
 
