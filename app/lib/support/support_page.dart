@@ -120,6 +120,7 @@ class _FreeSupport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _SupportPlanBase(
+      key: ValueKey('free-support'),
       title: Text('Kostenfreier Support'),
       subtitle: Text(
           'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.'),
@@ -139,6 +140,7 @@ class _PlusSupport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _SupportPlanBase(
+      key: ValueKey('plus-support'),
       title: Text('Plus Support'),
       subtitle: Text(
           'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.'),
@@ -155,6 +157,7 @@ class _PlusSupport extends StatelessWidget {
 
 class _SupportPlanBase extends StatelessWidget {
   const _SupportPlanBase({
+    super.key,
     required this.title,
     this.subtitle,
     required this.body,
@@ -318,6 +321,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportPlanBase(
+      key: const ValueKey('sharezone-plus-advertising'),
       title: const Text('Plus Support'),
       body: Padding(
         padding: const EdgeInsets.only(top: 12),
