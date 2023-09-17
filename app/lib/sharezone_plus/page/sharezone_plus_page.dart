@@ -367,7 +367,9 @@ class _CallToActionSection extends StatelessWidget {
     final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: hasPlus ? const _UnsubscribeSection() : const _SubscribeSection(),
+      child: hasPlus ?? false
+          ? const _UnsubscribeSection()
+          : const _SubscribeSection(),
     );
   }
 }
@@ -442,14 +444,15 @@ class _SubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('subscribe-section'),
+    final loading = context.watch<SharezonePlusPageController>().price == null;
+    return Column(
+      key: const ValueKey('subscribe-section'),
       children: [
-        _Price(),
-        SizedBox(height: 12),
-        _SubscribeButton(loading: false),
-        SizedBox(height: 12),
-        _LegalText(),
+        const _Price(),
+        const SizedBox(height: 12),
+        _SubscribeButton(loading: loading),
+        const SizedBox(height: 12),
+        const _LegalText(),
       ],
     );
   }
@@ -460,7 +463,7 @@ class _Price extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
+    final price = context.watch<SharezonePlusPageController>().price ?? '';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

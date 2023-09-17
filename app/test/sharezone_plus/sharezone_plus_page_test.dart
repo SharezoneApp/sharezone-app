@@ -7,10 +7,10 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dar
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {
   @override
-  late bool hasPlus;
+  bool? hasPlus;
 
   @override
-  late String price;
+  String? price;
 
   bool buySubscriptionCalled = false;
   @override
@@ -42,6 +42,24 @@ void main() {
         ),
       );
     }
+
+    testWidgets('if loading then the "subscribe" button is disabled',
+        (tester) async {
+      controller.hasPlus = null;
+      controller.price = null;
+
+      await pumpPlusPage(tester);
+      await tester.ensureVisible(find.byType(CallToActionButton));
+      await tester.tap(find.byType(CallToActionButton), warnIfMissed: false);
+
+      expect(controller.buySubscriptionCalled, false);
+      expect(controller.cancelSubscriptionCalled, false);
+      expect(
+          tester
+              .widget<CallToActionButton>(find.byType(CallToActionButton))
+              .onPressed,
+          null);
+    });
 
     testWidgets('calls cancelSubscription() when "cancel" is pressed',
         (tester) async {
