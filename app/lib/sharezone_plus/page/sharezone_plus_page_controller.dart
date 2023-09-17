@@ -40,13 +40,13 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// Whether the user has a Sharezone Plus subscription.
   ///
   /// If `null` then the status is still loading.
-  bool? hasPlus = false;
+  bool? hasPlus;
 
   /// The price of the Sharezone Plus subscription including the currency
   /// symbol.
   ///
   /// If `null` then the price is still loading.
-  String? price = fallbackPlusPrice;
+  String? price;
 
   Future<void> _getPlusPrice() async {
     final product = await _purchaseService.getPlusSubscriptionProduct();

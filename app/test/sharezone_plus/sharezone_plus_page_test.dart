@@ -43,6 +43,17 @@ void main() {
       );
     }
 
+    testWidgets('if loading then the price placeholder is shown',
+        (tester) async {
+      controller.hasPlus = null;
+      controller.price = null;
+
+      await pumpPlusPage(tester);
+      await tester.ensureVisible(find.byType(CallToActionButton));
+
+      expect(find.byType(PriceLoadingIndicator), findsOneWidget);
+    });
+
     testWidgets('if loading then the "subscribe" button is disabled',
         (tester) async {
       controller.hasPlus = null;

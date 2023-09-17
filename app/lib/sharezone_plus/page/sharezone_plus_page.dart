@@ -444,11 +444,12 @@ class _SubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loading = context.watch<SharezonePlusPageController>().price == null;
+    final price = context.watch<SharezonePlusPageController>().price;
+    final loading = price == null;
     return Column(
       key: const ValueKey('subscribe-section'),
       children: [
-        const _Price(),
+        loading ? const PriceLoadingIndicator() : _PriceBase(price),
         const SizedBox(height: 12),
         _SubscribeButton(loading: loading),
         const SizedBox(height: 12),
@@ -463,12 +464,33 @@ class _Price extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price ?? '';
+    final price = context.watch<SharezonePlusPageController>().price;
+    return _PriceBase(price!);
+  }
+}
+
+@visibleForTesting
+class PriceLoadingIndicator extends StatelessWidget {
+  const PriceLoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return const GrayShimmer(child: _PriceBase('-,-- €'));
+  }
+}
+
+class _PriceBase extends StatelessWidget {
+  const _PriceBase(this.monthlyPriceWithCurrencySign);
+
+  final String monthlyPriceWithCurrencySign;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          price,
+          monthlyPriceWithCurrencySign,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(width: 4),
