@@ -58,13 +58,7 @@ void main() {
       controller.hasPlus = false;
       controller.price = '4,99 €';
 
-      await tester.pumpWidget(
-        ChangeNotifierProvider<SharezonePlusPageController>(
-          create: (context) => controller,
-          child:
-              const MaterialApp(home: Scaffold(body: SharezonePlusPageMain())),
-        ),
-      );
+      await pumpPlusPage(tester);
 
       expect(find.widgetWithText(CallToActionButton, 'Abonnieren'),
           findsOneWidget);
@@ -73,13 +67,7 @@ void main() {
       controller.hasPlus = true;
       controller.price = '4,99 €';
 
-      await tester.pumpWidget(
-        ChangeNotifierProvider<SharezonePlusPageController>(
-          create: (context) => controller,
-          child:
-              const MaterialApp(home: Scaffold(body: SharezonePlusPageMain())),
-        ),
-      );
+      await pumpPlusPage(tester);
 
       expect(
           find.widgetWithText(CallToActionButton, 'Kündigen'), findsOneWidget);
