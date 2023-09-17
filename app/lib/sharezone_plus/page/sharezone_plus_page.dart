@@ -367,6 +367,8 @@ class _CallToActionSection extends StatelessWidget {
     final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
+      // If the users plus status is still loading then we show the
+      // _SubscribeSection which will show loading indicators in turn.
       child: hasPlus ?? false
           ? const _UnsubscribeSection()
           : const _SubscribeSection(),
