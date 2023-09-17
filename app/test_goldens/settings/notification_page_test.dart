@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/pages/settings/notification.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -24,15 +25,18 @@ import 'notification_page_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<NotificationsBloc>(),
   MockSpec<NotificationsBlocFactory>(),
+  MockSpec<SubscriptionService>(),
 ])
 void main() {
   group(NotificationPage, () {
     late MockNotificationsBloc mockNotificationsBloc;
     late MockNotificationsBlocFactory mockNotificationsBlocFactory;
+    late MockSubscriptionService mockSubscriptionService;
 
     setUp(() {
       mockNotificationsBloc = MockNotificationsBloc();
       mockNotificationsBlocFactory = MockNotificationsBlocFactory();
+      mockSubscriptionService = MockSubscriptionService();
 
       when(mockNotificationsBlocFactory.create())
           .thenReturn(mockNotificationsBloc);
@@ -43,8 +47,15 @@ void main() {
       ThemeData? themeData,
     }) async {
       await tester.pumpWidgetBuilder(
-        Provider<TypeOfUser?>(
-          create: (_) => TypeOfUser.student,
+        MultiProvider(
+          providers: [
+            Provider<TypeOfUser?>(
+              create: (_) => TypeOfUser.student,
+            ),
+            Provider<SubscriptionService>(
+              create: (_) => mockSubscriptionService,
+            ),
+          ],
           child: BlocProvider<NotificationsBlocFactory>(
             bloc: mockNotificationsBlocFactory,
             child: const NotificationPage(),
