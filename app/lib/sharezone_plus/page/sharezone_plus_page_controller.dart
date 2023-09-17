@@ -35,6 +35,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
 
+    // Fake loading for development purposes.
     Future.delayed(const Duration(seconds: 1)).then((value) {
       hasPlus = true;
       price = fallbackPlusPrice;
