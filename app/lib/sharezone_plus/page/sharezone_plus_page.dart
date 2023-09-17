@@ -36,30 +36,42 @@ class SharezonePlusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
-      body: _PageTheme(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: MaxWidthConstraintBox(
-              maxWidth: 750,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 18),
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      _Header(),
-                      SizedBox(height: 18),
-                      _WhyPlusSharezoneCard(),
-                      SizedBox(height: 18),
-                      PlusAdvantages(),
-                      SizedBox(height: 18),
-                      _CallToActionSection(),
-                      SizedBox(height: 32),
-                      PlusFaqSection(),
-                      SizedBox(height: 18),
-                      _SupportNote(),
-                    ],
-                  ),
+      body: SharezonePlusPageMain(),
+    );
+  }
+}
+
+@visibleForTesting
+class SharezonePlusPageMain extends StatelessWidget {
+  const SharezonePlusPageMain({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const _PageTheme(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: MaxWidthConstraintBox(
+            maxWidth: 750,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 18),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _Header(),
+                    SizedBox(height: 18),
+                    _WhyPlusSharezoneCard(),
+                    SizedBox(height: 18),
+                    PlusAdvantages(),
+                    SizedBox(height: 18),
+                    _CallToActionSection(),
+                    SizedBox(height: 32),
+                    PlusFaqSection(),
+                    SizedBox(height: 18),
+                    _SupportNote(),
+                  ],
                 ),
               ),
             ),
