@@ -43,7 +43,7 @@ void main() {
       );
     }
 
-    testWidgets('if loading then the price placeholder is shown',
+    testWidgets('if loading then the $PriceLoadingIndicator is shown',
         (tester) async {
       controller.hasPlus = null;
       controller.price = null;
