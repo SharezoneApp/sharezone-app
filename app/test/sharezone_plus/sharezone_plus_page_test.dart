@@ -46,6 +46,7 @@ void main() {
       controller.price = '4,99 €';
 
       await pumpPlusPage(tester);
+      await tester.ensureVisible(find.byType(CallToActionButton));
       await tester.tap(find.widgetWithText(CallToActionButton, 'Abonnieren'));
 
       expect(controller.buySubscriptionCalled, true);
