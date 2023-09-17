@@ -195,4 +195,15 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+  @override
+  _i7.Stream<bool> hasFeatureUnlockedStream(
+          _i9.SharezonePlusFeature? feature) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #hasFeatureUnlockedStream,
+          [feature],
+        ),
+        returnValue: _i7.Stream<bool>.empty(),
+        returnValueForMissingStub: _i7.Stream<bool>.empty(),
+      ) as _i7.Stream<bool>);
 }
