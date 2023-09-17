@@ -45,6 +45,15 @@ void main() {
       expect(find.text('4,99 €'), findsOneWidget);
     });
 
+    testWidgets('shows currently paid price if subscribed', (tester) async {
+      controller.hasPlus = true;
+      controller.price = '4,99 €';
+
+      await pumpPlusPage(tester);
+
+      expect(find.text('4,99 €'), findsOneWidget);
+    });
+
     testWidgets('shows "subscribe" button if not subscribed', (tester) async {
       controller.hasPlus = false;
       controller.price = '4,99 €';

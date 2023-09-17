@@ -380,6 +380,8 @@ class _UnsubscribeSection extends StatelessWidget {
     return const Column(
       key: ValueKey('unsubscribe-section'),
       children: [
+        _Price(),
+        SizedBox(height: 12),
         _UnsubscribeText(),
         SizedBox(height: 12),
         _UnsubscribeButton(),
