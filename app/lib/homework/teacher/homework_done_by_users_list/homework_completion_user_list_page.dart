@@ -75,7 +75,7 @@ class HomeworkCompletionUserListPageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final isUnlocked = context
         .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.homeworkDonyByUsersList);
+        .hasFeatureUnlocked(SharezonePlusFeature.homeworkDoneByUsersList);
     if (!isUnlocked) {
       return const _FreeUsersLockScreen();
     }

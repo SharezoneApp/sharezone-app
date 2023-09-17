@@ -61,7 +61,7 @@ const _featuresMap = {
   SubscriptionTier.teacherPlus: {
     SharezonePlusFeature.submissionsList,
     SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDonyByUsersList,
+    SharezonePlusFeature.homeworkDoneByUsersList,
     SharezonePlusFeature.filterTimetableByClass,
   },
 };
@@ -69,7 +69,7 @@ const _featuresMap = {
 enum SharezonePlusFeature {
   submissionsList,
   infoSheetReadByUsersList,
-  homeworkDonyByUsersList,
+  homeworkDoneByUsersList,
   filterTimetableByClass,
 }
 

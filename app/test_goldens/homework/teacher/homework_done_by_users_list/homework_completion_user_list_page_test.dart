@@ -79,7 +79,7 @@ void main() {
     group('renders sharezone plus ad as expected', () {
       setUp(() {
         when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.homeworkDonyByUsersList))
+                SharezonePlusFeature.homeworkDoneByUsersList))
             .thenAnswer((_) => false);
       });
 
@@ -105,7 +105,7 @@ void main() {
     group('renders list as expected', () {
       setUp(() {
         when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.homeworkDonyByUsersList))
+                SharezonePlusFeature.homeworkDoneByUsersList))
             .thenAnswer((_) => true);
       });
 
