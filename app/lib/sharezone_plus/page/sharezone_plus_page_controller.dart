@@ -7,10 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
