@@ -471,7 +471,7 @@ class _Price extends StatelessWidget {
 
 @visibleForTesting
 class PriceLoadingIndicator extends StatelessWidget {
-  const PriceLoadingIndicator();
+  const PriceLoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
