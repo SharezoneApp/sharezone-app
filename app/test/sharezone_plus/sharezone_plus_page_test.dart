@@ -12,8 +12,11 @@ class MockSharezonePlusPageController extends ChangeNotifier
   @override
   late String price;
 
+  bool buySubscriptionCalled = false;
   @override
-  Future<void> buySubscription() async {}
+  Future<void> buySubscription() async {
+    buySubscriptionCalled = true;
+  }
 
   @override
   Future<void> cancelSubscription() async {}
@@ -36,6 +39,17 @@ void main() {
         ),
       );
     }
+
+    testWidgets('calls buySubscription() when "subscribe" is pressed',
+        (tester) async {
+      controller.hasPlus = false;
+      controller.price = '4,99 €';
+
+      await pumpPlusPage(tester);
+      await tester.tap(find.widgetWithText(CallToActionButton, 'Abonnieren'));
+
+      expect(controller.buySubscriptionCalled, true);
+    });
 
     testWidgets('shows price to pay if not subscribed', (tester) async {
       controller.hasPlus = false;
