@@ -43,6 +43,18 @@ void main() {
       );
     }
 
+    testWidgets(
+        'shows $PriceLoadingIndicator if plus status has loaded but the price hasnt',
+        (tester) async {
+      controller.hasPlus = true;
+      controller.price = null;
+
+      await pumpPlusPage(tester);
+      await tester.ensureVisible(find.byType(CallToActionButton));
+
+      expect(find.byType(PriceLoadingIndicator), findsOneWidget);
+    });
+
     testWidgets('if loading then the $PriceLoadingIndicator is shown',
         (tester) async {
       controller.hasPlus = null;
