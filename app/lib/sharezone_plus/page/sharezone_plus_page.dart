@@ -16,8 +16,16 @@ import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
+import 'package:user/user.dart';
+
+Future<void> navigateToSharezonePlusPage(BuildContext context) async {
+  final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+  Navigator.popUntil(context, ModalRoute.withName('/'));
+  navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+}
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
@@ -212,27 +220,72 @@ class PlusAdvantages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        _AdvantageTile(
-          icon: const Icon(Icons.favorite),
-          title: const Text('Unterstützung von Open-Source'),
-          description: MarkdownBody(
-            data:
-                'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
-            styleSheet: MarkdownStyleSheet(
-              a: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline,
-                  ),
-            ),
-            onTapLink: (text, href, title) {
-              if (href == null) return;
-              launchURL(href, context: context);
-            },
-          ),
-        ),
+        _HomeworkDoneLists(),
+        _ReadByInformationSheets(),
+        _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _HomeworkDoneLists extends StatelessWidget {
+  const _HomeworkDoneLists();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MatchingTypeOfUserBuilder(
+      // We only show this advantage to teachers because only teachers can
+      // see the homework done lists.
+      expectedTypeOfUser: TypeOfUser.teacher,
+      matchesTypeOfUserWidget: _AdvantageTile(
+        icon: Icon(Icons.checklist),
+        title: Text('Erledigt-Status bei Hausaufgaben'),
+        description: Text(
+            'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe.'),
+      ),
+      notMatchingWidget: SizedBox(),
+    );
+  }
+}
+
+class _ReadByInformationSheets extends StatelessWidget {
+  const _ReadByInformationSheets();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.format_list_bulleted),
+      title: Text('Gelesen-Status bei Infozetteln'),
+      description: Text(
+          'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'),
+    );
+  }
+}
+
+class _SupportOpenSource extends StatelessWidget {
+  const _SupportOpenSource();
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      icon: const Icon(Icons.favorite),
+      title: const Text('Unterstützung von Open-Source'),
+      description: MarkdownBody(
+        data:
+            'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
+        styleSheet: MarkdownStyleSheet(
+          a: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+                decoration: TextDecoration.underline,
+              ),
+        ),
+        onTapLink: (text, href, title) {
+          if (href == null) return;
+          launchURL(href, context: context);
+        },
+      ),
     );
   }
 }
@@ -380,7 +433,7 @@ class _SubscribeSection extends StatelessWidget {
       children: [
         _Price(),
         SizedBox(height: 12),
-        _SubscribeButton(),
+        _SubscribeButton(loading: false),
         SizedBox(height: 12),
         _LegalText(),
       ],
@@ -415,17 +468,32 @@ class _Price extends StatelessWidget {
 }
 
 class _SubscribeButton extends StatelessWidget {
-  const _SubscribeButton();
+  const _SubscribeButton({this.loading = false});
+
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
-    return _CallToActionButton(
-      text: const Text('Abonnieren'),
-      onPressed: () async {
-        final controller = context.read<SharezonePlusPageController>();
-        await controller.buySubscription();
-      },
-      backgroundColor: Theme.of(context).primaryColor,
+    // When using [GrayShimmer] the text inside the [_CallToActionButton]
+    // disappears. Using a [Stack] fixes this issue (I don't know why).
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GrayShimmer(
+          enabled: loading,
+          child: _CallToActionButton(
+            text: const Text('Abonnieren'),
+            onPressed: loading
+                ? null
+                : () async {
+                    final controller =
+                        context.read<SharezonePlusPageController>();
+                    await controller.buySubscription();
+                  },
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        )
+      ],
     );
   }
 }
@@ -445,12 +513,12 @@ class _LegalText extends StatelessWidget {
 class _CallToActionButton extends StatelessWidget {
   const _CallToActionButton({
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.backgroundColor,
   });
 
   final Widget text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
 
   @override

@@ -117,20 +117,23 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
         ? Theme.of(context).primaryColor
         : darkPrimaryColor;
     final baseTheme = Theme.of(context);
+    final borderRadius = BorderRadius.circular(12.5);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: maxWidth,
       ),
       child: Container(
+        // Adding a base color to avoid that the card is a bit transparent
+        // because the card color has a low opacity.
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(12.5),
+          borderRadius: borderRadius,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
-        child: DefaultTextStyle.merge(
-          style: TextStyle(
-            color: fontColor,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            borderRadius: borderRadius,
           ),
-          textAlign: TextAlign.center,
           child: Theme(
             data: Theme.of(context).copyWith(
               textTheme: baseTheme.textTheme.copyWith(
@@ -142,6 +145,11 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                 ),
               ),
             ),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(
+              color: fontColor,
+            ),
+            textAlign: TextAlign.center,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(

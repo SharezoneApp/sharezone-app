@@ -28,6 +28,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:user/user.dart';
 
 import 'sharezone_plus_page_test.mocks.dart';
 
@@ -91,6 +92,7 @@ void main() {
             ChangeNotifierProvider<SharezonePlusPageController>(
               create: (context) => controller,
             ),
+            Provider<TypeOfUser?>.value(value: TypeOfUser.student),
           ],
           child: MultiBlocProvider(
             blocProviders: [
