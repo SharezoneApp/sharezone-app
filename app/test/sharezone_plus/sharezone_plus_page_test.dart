@@ -22,6 +22,7 @@ class MockSharezonePlusPageController extends ChangeNotifier
 void main() {
   group(SharezonePlusPage, () {
     late MockSharezonePlusPageController controller;
+
     setUp(() {
       controller = MockSharezonePlusPageController();
     });
@@ -63,6 +64,7 @@ void main() {
       expect(find.widgetWithText(CallToActionButton, 'Abonnieren'),
           findsOneWidget);
     });
+
     testWidgets('shows "cancel" button if subscribed', (tester) async {
       controller.hasPlus = true;
       controller.price = '4,99 €';
