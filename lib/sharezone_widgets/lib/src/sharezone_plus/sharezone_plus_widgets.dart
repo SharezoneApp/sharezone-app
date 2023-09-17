@@ -145,47 +145,48 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                 ),
               ),
             ),
-          child: DefaultTextStyle.merge(
-            style: TextStyle(
-              color: fontColor,
-            ),
-            textAlign: TextAlign.center,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (withSharezonePlusBadge)
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                      child: SharezonePlusBadge(),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: child,
-                  ),
-                  if (withLearnMoreButton)
+            child: DefaultTextStyle.merge(
+              style: TextStyle(
+                color: fontColor,
+              ),
+              textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (withSharezonePlusBadge)
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
+                        child: SharezonePlusBadge(),
+                      ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-                      child: TextButton(
-                        onPressed: onLearnMorePressed,
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: child,
+                    ),
+                    if (withLearnMoreButton)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+                        child: TextButton(
+                          onPressed: onLearnMorePressed,
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            foregroundColor: fontColor,
                           ),
-                          foregroundColor: fontColor,
-                        ),
-                        child: const Text(
-                          'MEHR ERFAHREN',
-                          style: TextStyle(
-                            letterSpacing: 0.5,
+                          child: const Text(
+                            'MEHR ERFAHREN',
+                            style: TextStyle(
+                              letterSpacing: 0.5,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
