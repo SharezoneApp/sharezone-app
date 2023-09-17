@@ -20,7 +20,7 @@ import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import '../../../support_page.dart';
+import '../../../../../support/support_page.dart';
 
 class ThemePage extends StatelessWidget {
   static const tag = 'theme-page';

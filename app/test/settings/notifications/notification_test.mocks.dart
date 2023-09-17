@@ -113,6 +113,12 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValueForMissingStub: _i6.Stream<_i7.AuthUser?>.empty(),
       ) as _i6.Stream<_i7.AuthUser?>);
   @override
+  _i6.Stream<bool> get isSignedInStream => (super.noSuchMethod(
+        Invocation.getter(#isSignedInStream),
+        returnValue: _i6.Stream<bool>.empty(),
+        returnValueForMissingStub: _i6.Stream<bool>.empty(),
+      ) as _i6.Stream<bool>);
+  @override
   _i6.Stream<_i8.DocumentSnapshot<Object?>> get userDocument =>
       (super.noSuchMethod(
         Invocation.getter(#userDocument),

@@ -173,7 +173,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     });
   }
 
-  Future<void> showPlusAd(BuildContext context) async {
+  Future<void> showPlusAdDialog(BuildContext context) async {
     final shouldShowPlusAd = await showDialog<bool>(
       context: context,
       builder: (_) => const _ChangeHomeworkNotificationsTimePlusAd(),
@@ -219,7 +219,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
                         TimeOfDay(hour: newTime.hour, minute: newTime.minute));
                   }
                 } else {
-                  await showPlusAd(context);
+                  await showPlusAdDialog(context);
                 }
               },
               trailing: const _HomeworkNotificationsTimeTileTrailing(),
