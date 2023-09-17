@@ -424,7 +424,7 @@ class _UnsubscribeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const flatRed = Color(0xFFF55F4B);
-    return _CallToActionButton(
+    return CallToActionButton(
       onPressed: () async {
         final controller = context.read<SharezonePlusPageController>();
         await controller.cancelSubscription();
@@ -493,7 +493,7 @@ class _SubscribeButton extends StatelessWidget {
       children: [
         GrayShimmer(
           enabled: loading,
-          child: _CallToActionButton(
+          child: CallToActionButton(
             text: const Text('Abonnieren'),
             onPressed: loading
                 ? null
@@ -522,12 +522,13 @@ class _LegalText extends StatelessWidget {
   }
 }
 
-class _CallToActionButton extends StatelessWidget {
-  const _CallToActionButton({
+@visibleForTesting
+class CallToActionButton extends StatelessWidget {
+  const CallToActionButton({
     required this.text,
     this.onPressed,
     this.backgroundColor,
-  });
+  }) : super(key: const ValueKey('call-to-action-button'));
 
   final Widget text;
   final VoidCallback? onPressed;
