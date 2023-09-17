@@ -9,8 +9,10 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
 import 'package:interval_time_picker/interval_time_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -197,11 +199,24 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
                       TimeOfDay(hour: newTime.hour, minute: newTime.minute));
                 }
               },
+              trailing: const _HomeworkNotificationsTimeTileTrailing(),
             );
           },
         );
       },
     );
+  }
+}
+
+class _HomeworkNotificationsTimeTileTrailing extends StatelessWidget {
+  const _HomeworkNotificationsTimeTileTrailing();
+
+  @override
+  Widget build(BuildContext context) {
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.changeHomeworkReminderTime);
+    return isUnlocked ? const SizedBox() : const SharezonePlusChip();
   }
 }
 
