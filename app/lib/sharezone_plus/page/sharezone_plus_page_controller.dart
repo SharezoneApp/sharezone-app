@@ -21,7 +21,9 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 const fallbackPlusPrice = '4,99 €';
 
 class SharezonePlusPageController extends ChangeNotifier {
+  // ignore: unused_field
   late RevenueCatPurchaseService _purchaseService;
+  // ignore: unused_field
   late SubscriptionService _subscriptionService;
 
   StreamSubscription<bool>? _hasPlusSubscription;
@@ -33,8 +35,11 @@ class SharezonePlusPageController extends ChangeNotifier {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
 
-    _listenToPlusStatus();
-    _getPlusPrice();
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      hasPlus = true;
+      price = fallbackPlusPrice;
+      notifyListeners();
+    });
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -53,35 +58,14 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// If `null` then the price is still loading.
   String? price;
 
-  Future<void> _getPlusPrice() async {
-    final product = await _purchaseService.getPlusSubscriptionProduct();
-
-    if (product != null) {
-      price = product.priceString;
-      notifyListeners();
-    }
-  }
-
-  void _listenToPlusStatus() {
-    final hasPlus = _subscriptionService.isSubscriptionActiveStream();
-
-    _hasPlusSubscription = hasPlus.listen((hasPlus) {
-      this.hasPlus = hasPlus;
-      notifyListeners();
-    });
-  }
-
   Future<void> buySubscription() async {
-    // Implement
-    final purchaseService = RevenueCatPurchaseService();
-    final products = await purchaseService.getProducts();
-    log('$products');
-
-    await purchaseService.purchase(ProductId('default-dev-plus-subscription'));
+    hasPlus = true;
+    notifyListeners();
   }
 
   Future<void> cancelSubscription() async {
-    // Implement
+    hasPlus = false;
+    notifyListeners();
   }
 
   @override
