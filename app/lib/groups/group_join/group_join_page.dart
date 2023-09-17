@@ -11,7 +11,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'bloc/group_join_bloc.dart';

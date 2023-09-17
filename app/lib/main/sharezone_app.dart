@@ -44,7 +44,7 @@ import 'package:sharezone/pages/settings/notification.dart';
 import 'package:sharezone/pages/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/pages/settings/src/subpages/theme/theme_page.dart';
-import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
 import 'package:sharezone/pages/settings/web_app.dart';
 import 'package:sharezone/pages/settings_page.dart';
