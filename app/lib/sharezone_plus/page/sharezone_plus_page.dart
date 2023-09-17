@@ -448,13 +448,14 @@ class _SubscribeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final price = context.watch<SharezonePlusPageController>().price;
-    final loading = price == null;
+    final priceIsLoading = price == null;
+
     return Column(
       key: const ValueKey('subscribe-section'),
       children: [
-        loading ? const PriceLoadingIndicator() : _Price(price),
+        priceIsLoading ? const PriceLoadingIndicator() : _Price(price),
         const SizedBox(height: 12),
-        _SubscribeButton(loading: loading),
+        _SubscribeButton(loading: priceIsLoading),
         const SizedBox(height: 12),
         const _LegalText(),
       ],
