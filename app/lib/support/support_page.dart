@@ -338,7 +338,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
                   Text(
                     'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support.',
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 8),
                   MarkdownBody(
                     data:
                         '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)

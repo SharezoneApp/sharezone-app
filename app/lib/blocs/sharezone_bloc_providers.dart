@@ -337,7 +337,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider(
         create: (context) => SupportPageController(
-          isUserSignedInStream: api.user.isSignInStream,
+          isUserSignedInStream: api.user.isSignedInStream,
           hasPlusSupportUnlockedStream: subscriptionService
               .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
           isUserInGroupOnboardingStream: signUpBloc.signedUp,
