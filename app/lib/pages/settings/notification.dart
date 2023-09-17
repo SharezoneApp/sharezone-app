@@ -12,6 +12,7 @@ import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
@@ -90,6 +91,7 @@ class _HomeworkNotificationsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: const Key("homework-notifications-card"),
       padding: const EdgeInsets.only(top: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,6 +173,17 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     });
   }
 
+  Future<void> showPlusAd(BuildContext context) async {
+    final shouldShowPlusAd = await showDialog<bool>(
+      context: context,
+      builder: (_) => const _ChangeHomeworkNotificationsTimePlusAd(),
+    );
+
+    if (shouldShowPlusAd == true && context.mounted) {
+      navigateToSharezonePlusPage(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<NotificationsBloc>(context);
@@ -181,22 +194,32 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
           stream: bloc.notificationsTimeForHomeworks,
           builder: (context, timeForHomeworks) {
             return ListTile(
+              key: const Key("homework-notifications-time-tile"),
               leading: const Icon(Icons.access_time),
               title: const Text("Uhrzeit"),
               subtitle: Text(
                   "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr"),
               enabled: homeworkEnabled.data ?? true,
               onTap: () async {
-                final newTime = await _openPicker(
-                  context,
-                  initialTime: Time(
-                      hour: timeForHomeworks.data?.hour ?? 18,
-                      minute: timeForHomeworks.data?.minute ?? 0),
-                );
+                final isUnlocked = context
+                    .read<SubscriptionService>()
+                    .hasFeatureUnlocked(
+                        SharezonePlusFeature.changeHomeworkReminderTime);
 
-                if (newTime != null) {
-                  bloc.changeNotificationsTimeForHomeworks(
-                      TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+                if (isUnlocked) {
+                  final newTime = await _openPicker(
+                    context,
+                    initialTime: Time(
+                        hour: timeForHomeworks.data?.hour ?? 18,
+                        minute: timeForHomeworks.data?.minute ?? 0),
+                  );
+
+                  if (newTime != null) {
+                    bloc.changeNotificationsTimeForHomeworks(
+                        TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+                  }
+                } else {
+                  await showPlusAd(context);
                 }
               },
               trailing: const _HomeworkNotificationsTimeTileTrailing(),
@@ -217,6 +240,53 @@ class _HomeworkNotificationsTimeTileTrailing extends StatelessWidget {
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.changeHomeworkReminderTime);
     return isUnlocked ? const SizedBox() : const SharezonePlusChip();
+  }
+}
+
+class _ChangeHomeworkNotificationsTimePlusAd extends StatelessWidget {
+  const _ChangeHomeworkNotificationsTimePlusAd();
+
+  @override
+  Widget build(BuildContext context) {
+    final buttonShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12.5),
+    );
+    return AlertDialog(
+      key: const Key('change-homework-notifications-time-plus-ad'),
+      title: const Center(
+        child: Text(
+          'Uhrzeit für Erinnerung am Vortag',
+          textAlign: TextAlign.center,
+        ),
+      ),
+      content: const SharezonePlusFeatureInfoCard(
+        withLearnMoreButton: false,
+        child: Text(
+          'Mit Sharezone-Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.',
+        ),
+      ),
+      actionsPadding: const EdgeInsets.fromLTRB(16, 0, 24, 24),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).primaryColor,
+            shape: buttonShape,
+          ),
+          child: const Text('ZURÜCK'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            shape: buttonShape,
+          ),
+          child: const Text('MEHR ERFAHREN'),
+        ),
+      ],
+    );
   }
 }
 
