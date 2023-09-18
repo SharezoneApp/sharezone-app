@@ -214,7 +214,7 @@ jobs:
             -c 4 \
             --package-timeout-minutes 15
 
-      - name: Check if code generation files have changed
+      - name: Fail if generated files have changed
         run: |
           git diff --exit-code -- '**/*.mocks.dart' '**/*.g.dart'
 
