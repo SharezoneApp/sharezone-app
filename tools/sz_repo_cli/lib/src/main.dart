@@ -16,6 +16,8 @@ import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_macos_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_runner_build_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_runner_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_web_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_android_command.dart';
@@ -59,7 +61,8 @@ Future<void> main(List<String> args) async {
       ..addSubcommand(BuildAndroidCommand(repo))
       ..addSubcommand(BuildMacOsCommand(repo))
       ..addSubcommand(BuildWebCommand(repo))
-      ..addSubcommand(BuildIosCommand(repo)));
+      ..addSubcommand(BuildIosCommand(repo)))
+    ..addCommand(BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
     final toolExit = e as ToolExit;
