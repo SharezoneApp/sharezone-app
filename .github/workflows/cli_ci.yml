@@ -94,6 +94,7 @@ jobs:
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
           cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+          cache: true
 
       - name: Install FVM
         run: |
@@ -145,6 +146,7 @@ jobs:
           # Else this won't be recognized as an installed version when setting
           # '.../flutter' as the FVM Flutter version cache folder.
           cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+          cache: true
 
       - name: Install FVM
         run: |
