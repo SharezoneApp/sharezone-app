@@ -214,6 +214,7 @@ jobs:
         # We use the `flutter drive` because `flutter test` is not available for
         # the web yet.
         run: |
+          chromedriver --port=4444 &
           fvm flutter drive \
             --driver=test_driver/integration_test.dart \
             --target=integration_test/app_test.dart \
