@@ -322,9 +322,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
       ),
-      ChangeNotifierProvider<SubscriptionEnabledFlag>(
-        create: (context) => subscriptionEnabledFlag,
-      ),
       StreamProvider<auth.AuthUser?>(
         create: (context) => api.user.authUserStream,
         initialData: null,
