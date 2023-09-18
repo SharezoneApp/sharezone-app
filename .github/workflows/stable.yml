@@ -139,7 +139,7 @@ jobs:
         run: |
           echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
           sz deploy web-app \
-            --stage prod \
+            --stage stable \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --credentials sharezone-prod-key.json
 

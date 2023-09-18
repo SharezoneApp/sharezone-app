@@ -20,7 +20,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 final _webAppConfigs = {
   'alpha': const _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
   'beta': const _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
-  'prod': const _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
+  'stable': const _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
 };
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
