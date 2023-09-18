@@ -28,7 +28,7 @@ class SharecodeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(
-      color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+      color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
       fontSize: 22,
       fontWeight: FontWeight.w500,
     );

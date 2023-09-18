@@ -81,7 +81,7 @@ class AvatarCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           if (withShadow == true &&
-                              !isDarkThemeEnabled(context))
+                              !Theme.of(context).isDarkTheme)
                             BoxShadow(
                               color: Colors.grey[300]!,
                               blurRadius: 12.5,

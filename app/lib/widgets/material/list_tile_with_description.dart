@@ -55,7 +55,7 @@ class ListTileWithDescription extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(16, 0, 16, bottomPadding),
               child: DefaultTextStyle(
                 style: TextStyle(
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.white54
                       : Colors.black45,
                   fontSize: 12,

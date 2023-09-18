@@ -90,7 +90,7 @@ class _TimetableAddSheet extends StatelessWidget {
             const SizedBox(height: 20),
             Text("Neu erstellen",
                 style: TextStyle(
-                    color: isDarkThemeEnabled(context)
+                    color: Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),

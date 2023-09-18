@@ -126,7 +126,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
             if (value) {
               setState(() {
                 // Expansion is open: so let's make the svg black
-                _svgColor = isDarkThemeEnabled(context)
+                _svgColor = Theme.of(context).isDarkTheme
                     ? Colors.white
                     : Theme.of(context).colorScheme.secondary;
               });
@@ -168,7 +168,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
             if (value) {
               setState(() {
                 // Expansion is open: so let's make the svg black
-                _typeInPublicKeyIconColor = isDarkThemeEnabled(context)
+                _typeInPublicKeyIconColor = Theme.of(context).isDarkTheme
                     ? Colors.white
                     : Theme.of(context).colorScheme.secondary;
               });

@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 Color _getLessonCardTextColor(BuildContext context) =>
-    isDarkThemeEnabled(context) ? Colors.lightBlue : darkBlueColor;
+    Theme.of(context).isDarkTheme ? Colors.lightBlue : darkBlueColor;
 
 class _LessonCard extends StatelessWidget {
   const _LessonCard(this.view, {Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class _LessonCard extends StatelessWidget {
                     CircleAvatar(
                       radius: 17.5,
                       backgroundColor: isNow
-                          ? isDarkThemeEnabled(context)
+                          ? Theme.of(context).isDarkTheme
                               ? Theme.of(context).cardColor
                               : Colors.white
                           : color.withOpacity(0.2),

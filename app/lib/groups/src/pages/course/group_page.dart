@@ -353,7 +353,7 @@ class _JoinGroupTile extends StatelessWidget {
             children: <Widget>[
               const SizedBox(width: 16),
               Icon(iconData,
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.white54
                       : Colors.grey[600]),
               const SizedBox(width: 22),
