@@ -78,7 +78,7 @@ class ExtendableBottomNavigationBarState
         panel: _ExtendableBottomNavigationBarContent(
           controller: controller,
           currentNavigationItem: widget.currentNavigationItem,
-          backgroundColor: isDarkThemeEnabled(context)
+          backgroundColor: Theme.of(context).isDarkTheme
               ? ElevationColors.dp8
               : Colors.grey[100],
         ),
@@ -167,7 +167,7 @@ class _ExtendableBottomNavigationBarContentState
         borderRadius: _borderRadiusPanel,
         child: Container(
           decoration: BoxDecoration(
-            border: isDarkThemeEnabled(context)
+            border: Theme.of(context).isDarkTheme
                 ? null
                 : Border.all(
                     width: 0.8 *
@@ -348,7 +348,7 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(50));
-    final color = isDarkThemeEnabled(context)
+    final color = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkBlueColor;
     return Expanded(
@@ -367,7 +367,7 @@ class _Chip extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context)
                 .primaryColor
-                .withOpacity(isDarkThemeEnabled(context) ? 0.15 : 0.2),
+                .withOpacity(Theme.of(context).isDarkTheme ? 0.15 : 0.2),
             borderRadius: borderRadius,
           ),
           child: Padding(

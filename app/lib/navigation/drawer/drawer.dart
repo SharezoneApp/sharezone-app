@@ -105,7 +105,7 @@ class _DrawerItems extends StatelessWidget {
   }
 
   Color? getDrawerBackgroundColor(BuildContext context) {
-    if (!isDesktopModus || isDarkThemeEnabled(context)) return null;
+    if (!isDesktopModus || Theme.of(context).isDarkTheme) return null;
     return const Color(0xFFF4F5F7);
   }
 }

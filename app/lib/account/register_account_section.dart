@@ -67,7 +67,7 @@ class RegisterAccountSection extends StatelessWidget {
           Text(
             "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
             style: TextStyle(
-                color: isDarkThemeEnabled(context)
+                color: Theme.of(context).isDarkTheme
                     ? Colors.grey
                     : Colors.grey[600],
                 fontSize: 10),
@@ -218,7 +218,7 @@ class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color =
-        isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[800];
+        Theme.of(context).isDarkTheme ? Colors.grey[400] : Colors.grey[800];
     return InkWell(
       borderRadius: _borderRadius,
       onTap: onTap,

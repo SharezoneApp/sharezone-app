@@ -139,7 +139,7 @@ class MemberTile extends StatelessWidget {
           : withReportOption
               ? ReportIcon(
                   item: ReportItemReference.user(memberData.id.toString()),
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.grey
                       : Colors.grey[600],
                 )

@@ -30,7 +30,7 @@ class StudentHomeworkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomBarBackgroundColor =
-        isDarkThemeEnabled(context) ? Colors.grey[900] : Colors.grey[100];
+        Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
       create: (_) => BottomOfScrollViewInvisibilityController(),
       child: WillPopScope(
