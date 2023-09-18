@@ -94,7 +94,7 @@ jobs:
           # breaks are escaped. We need to replace them with actual line breaks.
           CHANGELOG="${{ github.event.inputs.ios-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
-
+          
           sz deploy ios \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
@@ -202,7 +202,7 @@ jobs:
           # breaks are escaped. We need to replace them with actual line breaks.
           CHANGELOG="${{ github.event.inputs.android-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
-
+          
           sz deploy android \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES"

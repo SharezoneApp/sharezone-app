@@ -118,7 +118,7 @@ class _PeriodTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Theme.of(context).isDarkTheme ? Colors.white30 : Colors.black,
+          color: isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
           width: 0.1,
         ),
       ),
@@ -176,7 +176,7 @@ class _HourTile extends StatelessWidget {
         border: Border(
           top: BorderSide(
               color:
-                  Theme.of(context).isDarkTheme ? Colors.white30 : Colors.black,
+                  isDarkThemeEnabled(context) ? Colors.white30 : Colors.black,
               width: 0.1),
         ),
       ),

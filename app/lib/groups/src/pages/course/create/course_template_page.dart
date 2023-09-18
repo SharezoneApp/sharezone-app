@@ -31,7 +31,7 @@ class CourseTemplatePage extends StatelessWidget {
         centerTitle: true,
         actions: const [CourseTemplatePageFinishButton()],
       ),
-      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
       body: const SingleChildScrollView(
         child: SafeArea(child: CourseTemplatePageBody()),
       ),
@@ -227,7 +227,7 @@ class CreateCustomCourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).isDarkTheme
+      color: isDarkThemeEnabled(context)
           ? Theme.of(context).scaffoldBackgroundColor
           : Colors.grey[100],
       child: SafeArea(

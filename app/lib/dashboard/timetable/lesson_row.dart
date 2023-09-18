@@ -107,7 +107,7 @@ class _EmptyStateMsg extends StatelessWidget {
             text,
             style: TextStyle(
                 fontSize: 18,
-                color: Theme.of(context).isDarkTheme
+                color: isDarkThemeEnabled(context)
                     ? Colors.lightBlue
                     : darkBlueColor),
             textAlign: TextAlign.center,

@@ -36,7 +36,7 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 }
 
 TextStyle _hintTextStyle(BuildContext context) => TextStyle(
-    color: Theme.of(context).isDarkTheme
+    color: isDarkThemeEnabled(context)
         ? Colors.grey
         : Colors.grey[600]!.withOpacity(0.75),
     fontSize: 11.5);
@@ -168,7 +168,7 @@ class BackIcon extends StatelessWidget {
       left: 5,
       child: SafeArea(
         child: IconButton(
-          color: Theme.of(context).isDarkTheme
+          color: isDarkThemeEnabled(context)
               ? Colors.grey
               : darkBlueColor.withOpacity(0.4),
           icon: Icon(themeIconData(Icons.arrow_back,

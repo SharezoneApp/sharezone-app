@@ -202,8 +202,7 @@ class _TipIcon extends StatelessWidget {
       child: Tooltip(
         message: tooltip,
         child: Icon(icon,
-            color:
-                Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[700],
+            color: isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[700],
             size: 20),
       ),
     );

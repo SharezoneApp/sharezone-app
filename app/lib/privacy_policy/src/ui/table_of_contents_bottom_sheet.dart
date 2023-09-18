@@ -211,7 +211,7 @@ class _TocHeadingState extends State<_TocHeading>
             Navigator.pop(context);
           },
           shouldHighlight: widget.section.shouldHighlight,
-          backgroundColor: Theme.of(context).isDarkTheme
+          backgroundColor: isDarkThemeEnabled(context)
               ? Theme.of(context).canvasColor
               : Theme.of(context).scaffoldBackgroundColor,
           child: Padding(
@@ -307,7 +307,7 @@ List<Widget> _buildSubheadings(
     widgets.add(const Divider(height: 0, thickness: .5));
 
     widgets.add(TocSectionHighlight(
-      backgroundColor: Theme.of(context).isDarkTheme
+      backgroundColor: isDarkThemeEnabled(context)
           ? const Color(0xff121212)
           : Theme.of(context).scaffoldBackgroundColor,
       shape: const ContinuousRectangleBorder(),

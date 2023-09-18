@@ -64,7 +64,7 @@ class AlternatingColoredList extends StatelessWidget {
   Color? _getColor(BuildContext context, int index) {
     if ((index + 1) % alternatingInterval == 0) {
       return theme?.highlightedColor ??
-          (Theme.of(context).isDarkTheme
+          (isDarkThemeEnabled(context)
               ? const Color(0xFF1a1919)
               : Colors.grey[50]);
     }

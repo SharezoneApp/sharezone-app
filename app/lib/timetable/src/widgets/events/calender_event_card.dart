@@ -97,7 +97,7 @@ class _Title extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-          color: Theme.of(context).isDarkTheme
+          color: isDarkThemeEnabled(context)
               ? Colors.lightBlueAccent
               : darkBlueColor,
           fontSize: 16,

@@ -37,7 +37,7 @@ class OverlayCard extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 400),
           child: Material(
             elevation: 10,
-            color: Theme.of(context).isDarkTheme
+            color: isDarkThemeEnabled(context)
                 ? ElevationColors.dp4
                 : Colors.white,
             shadowColor: Colors.black.withOpacity(0.6),
@@ -154,7 +154,7 @@ class _Title extends StatelessWidget {
       style: TextStyle(
         fontSize: 18,
         fontFamily: rubik,
-        color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+        color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
         fontWeight: FontWeight.w600,
       ),
       child: title!,

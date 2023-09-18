@@ -113,7 +113,7 @@ class _CourseEditPage extends StatelessWidget {
     final courseNameNode = FocusNode();
     return Scaffold(
       appBar: AppBar(title: const Text("Kurs bearbeiten")),
-      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8)
             .add(const EdgeInsets.symmetric(horizontal: 4)),

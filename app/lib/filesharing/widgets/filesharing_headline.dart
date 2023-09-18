@@ -21,7 +21,7 @@ class FileSharingHeadline extends StatelessWidget {
       child: Text(
         title!,
         style: TextStyle(
-            color: Theme.of(context).isDarkTheme
+            color: isDarkThemeEnabled(context)
                 ? Colors.grey[400]
                 : Colors.grey[700],
             fontWeight: FontWeight.w600),

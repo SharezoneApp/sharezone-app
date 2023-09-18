@@ -71,9 +71,8 @@ class Headline extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          color: Theme.of(context).isDarkTheme
-              ? Colors.grey[400]
-              : Colors.grey[700],
+          color:
+              isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[700],
           fontWeight: FontWeight.w600,
         ),
         textAlign: textAlign,

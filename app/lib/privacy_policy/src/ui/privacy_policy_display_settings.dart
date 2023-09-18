@@ -147,10 +147,10 @@ class _LightOrDarkMode extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                selectedColor: Theme.of(context).isDarkTheme
+                selectedColor: isDarkThemeEnabled(context)
                     ? Colors.black.withAlpha(240)
                     : null, // standard color
-                fillColor: Theme.of(context).isDarkTheme
+                fillColor: isDarkThemeEnabled(context)
                     ? blueColor
                     : null, // standard color
                 borderColor: Theme.of(context).textTheme.bodyMedium!.color,

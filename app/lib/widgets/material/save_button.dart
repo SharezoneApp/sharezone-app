@@ -31,10 +31,10 @@ class SaveButton extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
-          foregroundColor: Theme.of(context).isDarkTheme
+          foregroundColor: isDarkThemeEnabled(context)
               ? null
               : Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

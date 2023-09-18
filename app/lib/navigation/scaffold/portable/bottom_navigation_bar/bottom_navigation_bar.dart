@@ -317,7 +317,7 @@ class _BottomNavItem extends StatelessWidget {
   }
 
   Color? _getColor(BuildContext context) {
-    if (Theme.of(context).isDarkTheme) {
+    if (isDarkThemeEnabled(context)) {
       return isSelected ? Colors.white : Colors.grey[500];
     }
     return isSelected ? context.primaryColor : Colors.grey[500];

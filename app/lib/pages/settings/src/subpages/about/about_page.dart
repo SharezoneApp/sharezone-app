@@ -25,7 +25,7 @@ import 'widgets/team.dart';
 
 TextStyle _greyTextStyle(BuildContext context) {
   return TextStyle(
-    color: Theme.of(context).isDarkTheme ? null : Colors.black54,
+    color: isDarkThemeEnabled(context) ? null : Colors.black54,
     fontWeight: FontWeight.normal,
     height: 1.05,
     fontSize: 16.0,
@@ -160,8 +160,7 @@ class _AboutHeaderState extends State<_AboutHeader> {
         Text(
           "Sharezone",
           style: TextStyle(
-            color:
-                Theme.of(context).isDarkTheme ? Colors.white : Colors.black54,
+            color: isDarkThemeEnabled(context) ? Colors.white : Colors.black54,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),

@@ -84,7 +84,7 @@ class _DashboardFabSheet extends StatelessWidget {
             const SizedBox(height: 20),
             Text("Neu erstellen",
                 style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
+                    color: isDarkThemeEnabled(context)
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),

@@ -50,7 +50,7 @@ class TimetablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomBarBackgroundColor =
-        Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
+        isDarkThemeEnabled(context) ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
     return WillPopScope(

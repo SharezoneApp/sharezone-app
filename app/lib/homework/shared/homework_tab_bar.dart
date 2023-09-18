@@ -21,7 +21,7 @@ class HomeworkTabBar extends StatelessWidget implements PreferredSizeWidget {
     Color indicatorColor;
     if (context != null) {
       indicatorColor =
-          Theme.of(context).isDarkTheme ? primaryColor : darkBlueColor;
+          isDarkThemeEnabled(context) ? primaryColor : darkBlueColor;
     } else {
       // Ist egal, weil es ohne Kontext nur für preferredSize genutzt werden sollte
       indicatorColor = primaryColor;

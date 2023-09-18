@@ -122,7 +122,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
           ? warnUserAboutLeavingForm(context)
           : Future.value(true),
       child: Scaffold(
-        backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+        backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
         body: Column(
           children: <Widget>[
             _AppBar(
@@ -264,7 +264,7 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).isDarkTheme
+      color: isDarkThemeEnabled(context)
           ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,

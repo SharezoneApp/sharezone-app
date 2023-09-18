@@ -28,7 +28,7 @@ class _Section extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(22, 18, 12, 6),
             child: DefaultTextStyle(
               style: TextStyle(
-                color: Theme.of(context).isDarkTheme
+                color: isDarkThemeEnabled(context)
                     ? Colors.lightBlue
                     : darkBlueColor,
                 fontSize: 18,

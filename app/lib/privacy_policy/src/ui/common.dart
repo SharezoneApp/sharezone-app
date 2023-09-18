@@ -28,7 +28,7 @@ class PrivacyPolicyHeading extends StatelessWidget {
       'Datenschutzerklärung',
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontSize: 24,
-            color: Theme.of(context).isDarkTheme
+            color: isDarkThemeEnabled(context)
                 ? primaryColor
                 : const Color(0xFF254D71),
             fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class TocSectionHighlight extends StatelessWidget {
     return AnimatedContainer(
       decoration: ShapeDecoration(
         color: shouldHighlight
-            ? (Theme.of(context).isDarkTheme
+            ? (isDarkThemeEnabled(context)
                 ? Colors.blue.shade800
                 : Colors.lightBlue.shade100)
             : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
@@ -225,7 +225,7 @@ class PrivacyPolicyText extends StatelessWidget {
           styleSheet: MarkdownStyleSheet(
               // hyperlinks
               a: TextStyle(
-                  color: Theme.of(context).isDarkTheme
+                  color: isDarkThemeEnabled(context)
                       ? Colors.blue.shade400
                       : Colors.blue.shade600),
               h3: Theme.of(context)
@@ -233,7 +233,7 @@ class PrivacyPolicyText extends StatelessWidget {
                   .titleMedium!
                   .copyWith(fontWeight: FontWeight.w500),
               blockquoteDecoration: BoxDecoration(
-                color: Theme.of(context).isDarkTheme
+                color: isDarkThemeEnabled(context)
                     ? Colors.blue.shade800.withOpacity(.6)
                     : Colors.blue.shade100,
                 borderRadius: BorderRadius.circular(2.0),

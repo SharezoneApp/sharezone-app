@@ -51,8 +51,7 @@ class LeaveEditedFormAlert extends StatelessWidget {
         TextSpan(
           text: 'Möchtest du die Eingabe wirklich beenden? Die Daten werden ',
           style: TextStyle(
-              color:
-                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+              color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
               fontSize: 16.0),
           children: const <TextSpan>[
             TextSpan(

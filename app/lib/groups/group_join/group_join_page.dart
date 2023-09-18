@@ -61,7 +61,7 @@ class GroupJoinAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: withBackIcon,
       centerTitle: true,
       backgroundColor:
-          Theme.of(context).isDarkTheme ? null : Theme.of(context).primaryColor,
+          isDarkThemeEnabled(context) ? null : Theme.of(context).primaryColor,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: const [_SupportIcon()],
       bottom: const GroupJoinTextField(),

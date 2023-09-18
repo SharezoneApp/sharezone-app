@@ -95,7 +95,7 @@ class _TimetableEditEventPage extends StatelessWidget {
       onWillPop: () =>
           warnUserAboutLeavingOrSavingForm(context, () => _submit(context)),
       child: Scaffold(
-        backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+        backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
         appBar:
             AppBar(title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten")),
         body: SingleChildScrollView(

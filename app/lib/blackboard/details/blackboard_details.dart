@@ -285,8 +285,10 @@ class _Title extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: SelectableText(
         title!,
-        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-            color: Theme.of(context).isDarkTheme ? null : Colors.black),
+        style: Theme.of(context)
+            .textTheme
+            .headlineMedium!
+            .copyWith(color: isDarkThemeEnabled(context) ? null : Colors.black),
       ),
     );
   }
@@ -392,9 +394,8 @@ class __UserReadTileState extends State<_UserReadTile> {
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).isDarkTheme
-              ? Colors.grey[400]
-              : Colors.grey[300],
+          color:
+              isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[300],
         ),
         width: 30,
         height: 30,
@@ -438,7 +439,7 @@ class _Text extends StatelessWidget {
         theme.copyWith(
           textTheme: theme.textTheme.copyWith(
               bodyMedium: flowingText.copyWith(
-                  color: Theme.of(context).isDarkTheme
+                  color: isDarkThemeEnabled(context)
                       ? Colors.white
                       : Colors.black)),
         ),
@@ -448,7 +449,7 @@ class _Text extends StatelessWidget {
       //   // immer weiß ist. Ticket: https://github.com/flutter/flutter_markdown/issues/198
 
       //   p: flowingText.copyWith(
-      //       color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
+      //       color: isDarkThemeEnabled(context) ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
       onTapLink: (url, _, __) => launchURL(url, context: context),

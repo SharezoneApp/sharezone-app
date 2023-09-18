@@ -194,7 +194,7 @@ class CourseCardRedesign extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).isDarkTheme
+                      color: isDarkThemeEnabled(context)
                           ? Colors.lightBlue[100]
                           : darkBlueColor,
                       fontSize: 18,

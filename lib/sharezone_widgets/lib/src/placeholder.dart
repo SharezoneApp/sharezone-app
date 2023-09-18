@@ -95,7 +95,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
               child: DefaultTextStyle(
                 style: TextStyle(
                     fontFamily: rubik,
-                    color: Theme.of(context).isDarkTheme
+                    color: isDarkThemeEnabled(context)
                         ? Colors.white70
                         : Colors.grey[800]),
                 textAlign: TextAlign.center,

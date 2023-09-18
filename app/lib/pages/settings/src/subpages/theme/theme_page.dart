@@ -136,7 +136,7 @@ class _RateOurApp extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
         title: "Gefällt dir Sharezone?",
-        color: Theme.of(context).isDarkTheme
+        color: isDarkThemeEnabled(context)
             ? ElevationColors.dp12
             : context.primaryColor.withOpacity(0.15),
         content: const Text(
@@ -323,7 +323,7 @@ class _ContactSupportButton extends StatelessWidget {
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
       style: TextButton.styleFrom(
         foregroundColor:
-            Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600],
+            isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
       ),
       child: Text("Support kontaktieren".toUpperCase()),
     );

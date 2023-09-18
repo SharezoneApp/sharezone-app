@@ -39,7 +39,7 @@ class _DashboardTipCard extends StatelessWidget {
         child: AnnouncementCard(
           key: ValueKey(dashboardTip),
           padding: const EdgeInsets.all(0),
-          color: Theme.of(context).isDarkTheme
+          color: isDarkThemeEnabled(context)
               ? Colors.deepOrange[700]!
               : Colors.amberAccent,
           title: dashboardTip.title,

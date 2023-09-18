@@ -107,9 +107,8 @@ class FileSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle greyTextStyle = TextStyle(
-        color: Theme.of(context).isDarkTheme
-            ? Colors.grey[400]
-            : Colors.grey[600]);
+        color:
+            isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[600]);
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return SafeArea(
       left: true,

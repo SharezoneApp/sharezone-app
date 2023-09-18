@@ -31,7 +31,7 @@ import 'package:time/time.dart';
 import 'package:user/user.dart';
 
 Color? _getIconColor(BuildContext context) =>
-    Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600];
+    isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
 
 class TimetableDayView extends StatefulWidget {
   const TimetableDayView({
@@ -225,7 +225,7 @@ class _AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
       centerTitle: false,
       forceElevated: true,
       automaticallyImplyLeading: false,
@@ -248,7 +248,7 @@ class _EmptyCourseList extends StatelessWidget {
     final modalSheetHeight = height - (height / 5);
     const appBarHeight = 56.0;
     return Material(
-      color: Theme.of(context).isDarkTheme
+      color: isDarkThemeEnabled(context)
           ? Theme.of(context).scaffoldBackgroundColor
           : Colors.white,
       child: SizedBox(

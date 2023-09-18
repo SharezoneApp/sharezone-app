@@ -90,7 +90,7 @@ class __PeriodsEditPageState extends State<_PeriodsEditPage> {
         bloc: bloc,
         child: Scaffold(
           key: scaffoldKey,
-          backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
           appBar: AppBar(title: const Text("Stundenzeiten"), centerTitle: true),
           body: StreamBuilder<Periods>(
             stream: bloc.periods,

@@ -80,9 +80,8 @@ class DatePicker extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           primary: Theme.of(context).primaryColor,
           seedColor: Theme.of(context).primaryColor,
-          brightness: Theme.of(context).isDarkTheme
-              ? Brightness.dark
-              : Brightness.light,
+          brightness:
+              isDarkThemeEnabled(context) ? Brightness.dark : Brightness.light,
         ),
       ),
       child: Builder(
@@ -310,7 +309,7 @@ class _InputDropdown extends StatelessWidget {
                   Icon(
                     iconData,
                     color:
-                        Theme.of(context).isDarkTheme ? null : Colors.grey[600],
+                        isDarkThemeEnabled(context) ? null : Colors.grey[600],
                   ),
                   const SizedBox(width: 32.0),
                   labelText != null
@@ -467,7 +466,7 @@ class CustomCard extends StatelessWidget {
                 borderRadius: borderRadius,
                 border: withBorder
                     ? Border.all(
-                        color: Theme.of(context).isDarkTheme
+                        color: isDarkThemeEnabled(context)
                             ? Colors.grey[800]!
                             : Colors.grey[300]!,
                         width: borderWidth)
@@ -535,7 +534,7 @@ class CardListTile extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         fontFamily: rubik,
-                        color: Theme.of(context).isDarkTheme
+                        color: isDarkThemeEnabled(context)
                             ? Colors.white
                             : Colors.black),
                     child: centerTitle
@@ -591,8 +590,7 @@ class ExpansionTileTitle extends StatelessWidget {
             child: Text(
           title,
           style: TextStyle(
-              color:
-                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
+              color: isDarkThemeEnabled(context) ? Colors.white : Colors.black),
         )),
       ],
     );
@@ -964,7 +962,7 @@ class DividerWithText extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(text,
                 style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
+                    color: isDarkThemeEnabled(context)
                         ? Colors.grey[400]
                         : Colors.grey[600],
                     fontSize: fontSize)),

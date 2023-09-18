@@ -20,7 +20,7 @@ class SharezonePlusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = this.color ??
-        (Theme.of(context).isDarkTheme
+        (isDarkThemeEnabled(context)
             ? Theme.of(context).primaryColor
             : darkBlueColor);
     return Row(

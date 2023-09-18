@@ -117,7 +117,7 @@ class _ScanQrCode extends StatelessWidget {
             'assets/icons/qr-code.svg',
             height: 24,
             width: 24,
-            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
           ),
           title: "QR-Code scannen",
           onTap: () async {
