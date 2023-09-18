@@ -19,7 +19,7 @@ class GrayShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkThemeEnabled(context);
+    final isDark = Theme.of(context).isDarkTheme;
     if (!enabled) return child;
     return Shimmer.fromColors(
       baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,

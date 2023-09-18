@@ -45,7 +45,7 @@ class EditTimeField extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             primary: Theme.of(context).primaryColor,
             seedColor: Theme.of(context).primaryColor,
-            brightness: isDarkThemeEnabled(context)
+            brightness: Theme.of(context).isDarkTheme
                 ? Brightness.dark
                 : Brightness.light,
           ),
@@ -181,7 +181,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
             textTheme: CupertinoTextThemeData(
               pickerTextStyle: TextStyle(
                 color:
-                    isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+                    Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
                 fontSize: 16,
               ),
             ),

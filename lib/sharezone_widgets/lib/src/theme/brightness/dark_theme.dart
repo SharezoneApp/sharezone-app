@@ -100,9 +100,6 @@ final darkTheme = ThemeData(
   ),
 );
 
-bool isDarkThemeEnabled(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark;
-
 extension ThemeExtension on ThemeData {
   bool get isDarkTheme => brightness == Brightness.dark;
 }
