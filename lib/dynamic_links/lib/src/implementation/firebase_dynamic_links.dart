@@ -42,8 +42,15 @@ class FirebaseDynamicLinks extends DynamicLinks {
         onSuccess!(_getPendingFromFirebase(pending));
       },
       onError: (error) async {
-        onError!(OnDynamicLinkErrorException(
-            error.code, error.message, error.details));
+        if (onError != null) {
+          onError(
+            OnDynamicLinkErrorException(
+              error['code'],
+              error['message'],
+              error['details'],
+            ),
+          );
+        }
       },
       cancelOnError: false,
     );
