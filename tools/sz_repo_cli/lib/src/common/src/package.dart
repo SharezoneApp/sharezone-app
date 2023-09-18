@@ -30,6 +30,7 @@ class Package {
   bool get isPureDartPackage => type == PackageType.pureDart;
   final bool hasTestDirectory;
   final bool hasGoldenTestsDirectory;
+  final bool hasBuildRunnerDependency;
 
   Package({
     required this.location,
@@ -38,6 +39,7 @@ class Package {
     required this.hasTestDirectory,
     required this.hasGoldenTestsDirectory,
     required this.version,
+    required this.hasBuildRunnerDependency,
   });
 
   factory Package.fromDirectory(Directory directory) {
@@ -60,6 +62,9 @@ class Package {
     final hasTestGoldensDirectory =
         Directory(p.join(directory.path, 'test_goldens')).existsSync();
 
+    final hasBuildRunnerDependency = dependencies.containsKey('build_runner') ||
+        devDependencies.containsKey('build_runner');
+
     return Package(
       location: directory,
       name: name,
@@ -67,6 +72,7 @@ class Package {
       hasGoldenTestsDirectory: hasTestGoldensDirectory,
       type: containsFlutter ? PackageType.flutter : PackageType.pureDart,
       version: version,
+      hasBuildRunnerDependency: hasBuildRunnerDependency,
     );
   }
 
