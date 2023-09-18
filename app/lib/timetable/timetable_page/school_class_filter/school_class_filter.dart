@@ -337,7 +337,7 @@ class _SelectionSheetTileTrailing extends StatelessWidget {
     if (filter.shouldFilterForClass && !isUnlocked) {
       return const SharezonePlusChip();
     }
-    return isSelected ? activeIcon : Container();
+    return isSelected ? activeIcon : const SizedBox();
   }
 }
 
