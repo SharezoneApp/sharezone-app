@@ -79,13 +79,4 @@ jobs:
         run: npm install --global prettier@3.0.1
 
       - name: Format
-        run: ./bin/format_action_files.sh
-
-      - name: Fail if files were changed
-        id: changes
-        run: |
-          git diff --exit-code
-
-          # Print the Git diff with the file names and their status as a
-          # summary. 
-          git diff --name-status
+        run: ./bin/check_format_action_files.sh
