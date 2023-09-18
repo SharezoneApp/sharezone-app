@@ -23,6 +23,7 @@ void main() {
           hasTestDirectory: false,
           hasGoldenTestsDirectory: false,
           version: version,
+          hasBuildRunnerDependency: false,
         );
       }
 
