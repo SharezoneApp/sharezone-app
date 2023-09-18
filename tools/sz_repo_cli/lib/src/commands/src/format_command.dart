@@ -67,7 +67,7 @@ Future<void> formatCode(
   /// Useful for code analysis in CI.
   bool throwIfCodeChanged = false,
 }) {
-  return runProcessSucessfullyOrThrow(
+  return runProcessSuccessfullyOrThrow(
       'fvm',
       [
         'dart',

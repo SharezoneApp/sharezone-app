@@ -39,7 +39,7 @@ Future<void> setUpSigning({
 /// [keychainUseLogin]) after the deployment to avoid potential authentication
 /// issues if you run the deployment on your local machine.
 Future<void> _keychainInitialize() async {
-  await runProcessSucessfullyOrThrow('keychain', ['initialize']);
+  await runProcessSuccessfullyOrThrow('keychain', ['initialize']);
 }
 
 /// Fetch the code signing files from App Store Connect.
@@ -47,7 +47,7 @@ Future<void> _fetchSigningFiles({
   required AppleSigningConfig config,
 }) async {
   const bundleId = 'de.codingbrain.sharezone';
-  await runProcessSucessfullyOrThrow(
+  await runProcessSuccessfullyOrThrow(
     'app-store-connect',
     [
       'fetch-signing-files',
@@ -69,12 +69,12 @@ Future<void> _fetchSigningFiles({
 
 /// Adds the certificates to the keychain.
 Future<void> _keychainAddCertificates() async {
-  await runProcessSucessfullyOrThrow('keychain', ['add-certificates']);
+  await runProcessSuccessfullyOrThrow('keychain', ['add-certificates']);
 }
 
 /// Update the Xcode project settings to use fetched code signing profiles.
 Future<void> _xcodeProjectUseProfiles() async {
-  await runProcessSucessfullyOrThrow('xcode-project', ['use-profiles']);
+  await runProcessSuccessfullyOrThrow('xcode-project', ['use-profiles']);
 }
 
 /// Sets your login keychain as the default to avoid potential authentication
@@ -84,7 +84,7 @@ Future<void> _xcodeProjectUseProfiles() async {
 /// and have previously used the `keychain initialize' command. If you run it on
 /// a CI server, this step is not necessary.
 Future<void> keychainUseLogin() async {
-  await runProcessSucessfullyOrThrow('keychain', ['use-login']);
+  await runProcessSuccessfullyOrThrow('keychain', ['use-login']);
 }
 
 Future<int> getNextBuildNumberFromAppStoreConnect({
@@ -112,7 +112,7 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
     // From https://appstoreconnect.apple.com/apps/1434868489/
     const appId = 1434868489;
 
-    final result = await runProcessSucessfullyOrThrow(
+    final result = await runProcessSuccessfullyOrThrow(
       'app-store-connect',
       [
         'get-latest-build-number',
@@ -148,7 +148,7 @@ Future<void> publishToAppStoreConnect({
     stageToTracks: stageToTracks,
   );
 
-  await runProcessSucessfullyOrThrow(
+  await runProcessSuccessfullyOrThrow(
     'app-store-connect',
     [
       'publish',

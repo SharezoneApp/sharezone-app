@@ -83,7 +83,7 @@ class DeployWebAppCommand extends Command {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await runProcessSucessfullyOrThrow(
+    await runProcessSuccessfullyOrThrow(
       'fvm',
       [
         'dart',
@@ -105,7 +105,7 @@ class DeployWebAppCommand extends Command {
       deployMessage = 'Commit: $currentCommit';
     }
 
-    await runProcessSucessfullyOrThrow(
+    await runProcessSuccessfullyOrThrow(
         'firebase',
         [
           'deploy',
