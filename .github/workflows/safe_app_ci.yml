@@ -180,6 +180,8 @@ jobs:
 
   ios-integration-test:
     needs: changes
+    # We are using macos-12 instead macos-13 because with macos-13 we have job
+    # times of 40 - 120 minutes.
     runs-on: macos-12
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 120
@@ -206,6 +208,12 @@ jobs:
         run: |
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      # Because macos-12 doesn't have Metal support, we need to disable Impeller
+      # https://github.com/flutter/flutter/issues/126768
+      - name: Disable Impeller
+        working-directory: app/ios/Runner
+        run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
 
       - uses: futureware-tech/simulator-action@736249ceb5ed7916224ed6b6d3c3582fd8049deb
         id: simulator
