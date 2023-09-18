@@ -141,7 +141,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
         // because the card color has a low opacity.
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: underlayColor,
         ),
         child: Container(
           decoration: BoxDecoration(
