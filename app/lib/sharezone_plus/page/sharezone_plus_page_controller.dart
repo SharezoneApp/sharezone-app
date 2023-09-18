@@ -7,10 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
@@ -21,7 +19,9 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 const fallbackPlusPrice = '4,99 €';
 
 class SharezonePlusPageController extends ChangeNotifier {
+  // ignore: unused_field
   late RevenueCatPurchaseService _purchaseService;
+  // ignore: unused_field
   late SubscriptionService _subscriptionService;
 
   StreamSubscription<bool>? _hasPlusSubscription;
@@ -33,50 +33,38 @@ class SharezonePlusPageController extends ChangeNotifier {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
 
-    _listenToPlusStatus();
-    _getPlusPrice();
-  }
-
-  /// Whether the user has a Sharezone Plus subscription.
-  ///
-  /// We use `false` as the initial value because we don't know if the user has
-  /// a subscription or not. The value will be updated as soon as the
-  /// subscription status is fetched from the backend.
-  bool hasPlus = false;
-
-  /// The price of the Sharezone Plus subscription including the currency
-  /// symbol.
-  String price = fallbackPlusPrice;
-
-  Future<void> _getPlusPrice() async {
-    final product = await _purchaseService.getPlusSubscriptionProduct();
-
-    if (product != null) {
-      price = product.priceString;
-      notifyListeners();
-    }
-  }
-
-  void _listenToPlusStatus() {
-    final hasPlus = _subscriptionService.isSubscriptionActiveStream();
-
-    _hasPlusSubscription = hasPlus.listen((hasPlus) {
-      this.hasPlus = hasPlus;
+    // Fake loading for development purposes.
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      hasPlus = true;
+      price = fallbackPlusPrice;
       notifyListeners();
     });
   }
 
-  Future<void> buySubscription() async {
-    // Implement
-    final purchaseService = RevenueCatPurchaseService();
-    final products = await purchaseService.getProducts();
-    log('$products');
+  /// Whether the user has a Sharezone Plus subscription.
+  ///
+  /// If `null` then the status is still loading.
+  bool? hasPlus;
 
-    await purchaseService.purchase(ProductId('default-dev-plus-subscription'));
+  /// The price for the Sharezone Plus per month, including the currency sign.
+  ///
+  /// If the user is subscribed to Sharezone Plus then this is the price for
+  /// his current subscription.
+  ///
+  /// If the user is not subscribed to Sharezone Plus then this is the price
+  /// for a new subscription.
+  ///
+  /// If `null` then the price is still loading.
+  String? price;
+
+  Future<void> buySubscription() async {
+    hasPlus = true;
+    notifyListeners();
   }
 
   Future<void> cancelSubscription() async {
-    // Implement
+    hasPlus = false;
+    notifyListeners();
   }
 
   @override
