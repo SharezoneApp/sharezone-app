@@ -180,7 +180,7 @@ jobs:
 
   web-integration-test:
     needs: changes
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 120
     strategy:
