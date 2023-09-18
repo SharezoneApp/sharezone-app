@@ -177,3 +177,62 @@ jobs:
             -c 4 \
             --package-timeout-minutes 15 \
             --exclude-goldens
+
+  ios-integration-test:
+    needs: changes
+    runs-on: macos-13
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        A: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+        with:
+          ref: '931ffdd1e179c2bac2502bc44156047c027b1bb4'
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - uses: futureware-tech/simulator-action@736249ceb5ed7916224ed6b6d3c3582fd8049deb
+        id: simulator
+        with:
+          model: "iPhone 14"
+
+      - name: Run integration tests
+        working-directory: app
+        env:
+          USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
+          USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        # We use the `flutter drive` instead of the `flutter test` command
+        # because the test command times out after 12 minutes. But building the
+        # app takes more than 12 minutes... It seems so that there is no way to
+        # set the timeout (the --timeout argument has not effect). Tracking
+        # issue: https://github.com/flutter/flutter/issues/105913
+        run: |
+          # We need to run the integration tests with the prod flavor because
+          # using not the default flavor will cause an exception when
+          # uninstalling the app, see:
+          # https://github.com/flutter/flutter/issues/88690
+          fvm flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/app_test.dart \
+            --flavor prod \
+            --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
+            --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
+            -d $SIMULATOR_UDID
