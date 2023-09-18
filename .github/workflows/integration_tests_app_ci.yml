@@ -217,10 +217,10 @@ jobs:
           fvm flutter drive \
             --driver=test_driver/integration_test.dart \
             --target=integration_test/app_test.dart \
-            --flavor dev \
+            --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
-            -d web-server
+            -d $SIMULATOR_UDID
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).
