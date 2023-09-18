@@ -79,4 +79,4 @@ jobs:
         run: npm install --global prettier@3.0.1
 
       - name: Format
-        run: ./bin/format_action_files.sh
+        run: ./bin/check_format_action_files.sh
