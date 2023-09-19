@@ -47,23 +47,44 @@ class _SelectDesignAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUserPersonalColor =
         type == EditDesignType.personal && currentDesign != null;
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.moreGroupColors);
     return AlertDialog(
       contentPadding:
           EdgeInsets.fromLTRB(24, 24, 24, hasUserPersonalColor ? 12 : 24),
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _Colors(
-              selectedDesign: currentDesign,
-              type: type,
-            ),
-            if (hasUserPersonalColor) _RemovePersonalColor(),
-            if (hasUserPersonalColor) const SizedBox(height: 4),
-            if (!hasUserPersonalColor) const SizedBox(height: 16),
-          ],
+        child: MaxWidthConstraintBox(
+          maxWidth: 400,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _FreeColors(
+                selectedDesign: currentDesign,
+                type: type,
+              ),
+              if (hasUserPersonalColor) _RemovePersonalColor(),
+              if (hasUserPersonalColor) const SizedBox(height: 4),
+              if (!hasUserPersonalColor) const SizedBox(height: 16),
+              if (!isUnlocked) const _SharezonePlusAd(),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _SharezonePlusAd extends StatelessWidget {
+  const _SharezonePlusAd();
+
+  @override
+  Widget build(BuildContext context) {
+    return SharezonePlusFeatureInfoCard(
+      withLearnMoreButton: true,
+      onLearnMorePressed: () => navigateToSharezonePlusPage(context),
+      child: const Text(
+          'Zu wenig Farben? Schalte +200 weitere Farben mit Sharezone Plus frei.'),
     );
   }
 }
@@ -82,12 +103,11 @@ class _RemovePersonalColor extends StatelessWidget {
   }
 }
 
-class _Colors extends StatelessWidget {
-  const _Colors({
-    Key? key,
+class _FreeColors extends StatelessWidget {
+  const _FreeColors({
     this.selectedDesign,
     required this.type,
-  }) : super(key: key);
+  });
 
   final Design? selectedDesign;
   final EditDesignType type;
