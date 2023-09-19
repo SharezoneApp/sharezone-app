@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.44.1
+        run: pip3 install codemagic-cli-tools==0.45.1
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -151,7 +151,7 @@ jobs:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.44.1
+        run: pip3 install codemagic-cli-tools==0.45.1
 
       - name: Setup signing
         working-directory: app/android
