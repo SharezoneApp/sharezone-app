@@ -14,6 +14,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
+import 'package:sharezone_utils/platform.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -55,8 +56,12 @@ void main() {
       await pumpSharezoneApp(tester);
       await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
-      await tester.pumpAndSettle();
+      // On web and desktop we don't show the welcome page, therefore we don't
+      // need to navigate to the login page.
+      if (!PlatformCheck.isDesktopOrWeb) {
+        await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
+        await tester.pumpAndSettle();
+      }
 
       await tester.enterText(
         find.byKey(const Key('email-text-field-E2E')),
