@@ -38,7 +38,7 @@ Future<Course?> openCourseCreatePage(
       seconds: 2,
     );
   }
-  return createdCourse as Course;
+  return createdCourse as Course?;
 }
 
 Future<void> submit(BuildContext context) async {
