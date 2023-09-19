@@ -263,12 +263,6 @@ class _FakeAppFunctionsResult_18<T> extends _i2.SmartFake
 class MockSharezonePlusPageController extends _i2.Mock
     implements _i21.SharezonePlusPageController {
   @override
-  bool get hasPlus => (super.noSuchMethod(
-        Invocation.getter(#hasPlus),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
   set hasPlus(bool? _hasPlus) => super.noSuchMethod(
         Invocation.setter(
           #hasPlus,
@@ -276,12 +270,6 @@ class MockSharezonePlusPageController extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
-  @override
-  String get price => (super.noSuchMethod(
-        Invocation.getter(#price),
-        returnValue: '',
-        returnValueForMissingStub: '',
-      ) as String);
   @override
   set price(String? _price) => super.noSuchMethod(
         Invocation.setter(

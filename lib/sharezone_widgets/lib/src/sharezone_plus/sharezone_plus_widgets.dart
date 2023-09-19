@@ -20,7 +20,7 @@ class SharezonePlusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = this.color ??
-        (isDarkThemeEnabled(context)
+        (Theme.of(context).isDarkTheme
             ? Theme.of(context).primaryColor
             : darkBlueColor);
     return Row(
@@ -85,6 +85,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
     this.withLearnMoreButton = false,
     this.onLearnMorePressed,
     this.maxWidth = 400,
+    this.underlayColor,
   }) : assert(withLearnMoreButton == false || onLearnMorePressed != null);
 
   /// Whether the card should display the [SharezonePlusBadge] at the top
@@ -111,6 +112,19 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
   /// The maximum width of the card.
   final double maxWidth;
 
+  /// The color displayed behind the card's semi-transparent background.
+  ///
+  /// This color serves as an underlay to the card, helping to maintain the
+  /// visibility and integrity of the card's content by providing a solid
+  /// background color. It can be useful when the card is displayed over varied
+  /// or busy backgrounds, preventing the content behind the card from
+  /// interfering visually with the card's content. In this case, you may want
+  /// to use `Theme.of(context).scaffoldBackgroundColor` as the underlay color.
+  ///
+  /// When null, no underlay color is applied, and the card will blend with its
+  /// background based on its existing opacity setting.
+  final Color? underlayColor;
+
   @override
   Widget build(BuildContext context) {
     final fontColor = Theme.of(context).isDarkTheme
@@ -127,7 +141,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
         // because the card color has a low opacity.
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: underlayColor,
         ),
         child: Container(
           decoration: BoxDecoration(

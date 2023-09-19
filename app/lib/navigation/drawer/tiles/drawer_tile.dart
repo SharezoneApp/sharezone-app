@@ -17,9 +17,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../drawer_controller.dart';
 
 TextStyle getTextStyle(BuildContext context, bool isSelected) {
-  Color color = isDarkThemeEnabled(context) ? Colors.white : Colors.black;
+  Color color = Theme.of(context).isDarkTheme ? Colors.white : Colors.black;
   if (isSelected) {
-    color = isDarkThemeEnabled(context)
+    color = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkBlueColor;
   }
@@ -156,7 +156,7 @@ class _SelectedDrawerTile extends StatelessWidget {
         child: ListTile(
           leading: IconTheme(
             data: context.theme.iconTheme.copyWith(
-              color: isDarkThemeEnabled(context)
+              color: Theme.of(context).isDarkTheme
                   ? Theme.of(context).primaryColor
                   : darkBlueColor,
             ),

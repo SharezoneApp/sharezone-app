@@ -171,7 +171,7 @@ class HomeworkTitleAppBar extends StatelessWidget {
       data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: SliverAppBar(
         leading: const CloseIconButton(color: Colors.white),
-        backgroundColor: isDarkThemeEnabled(context)
+        backgroundColor: Theme.of(context).isDarkTheme
             ? Theme.of(context).appBarTheme.backgroundColor
             : Theme.of(context).primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -528,7 +528,7 @@ class _HomeworkDescription extends StatelessWidget {
                 theme.copyWith(
                   textTheme: theme.textTheme.copyWith(
                     bodyMedium: TextStyle(
-                      color: isDarkThemeEnabled(context)
+                      color: Theme.of(context).isDarkTheme
                           ? Colors.grey[400]
                           : Colors.grey[600],
                       fontFamily: rubik,

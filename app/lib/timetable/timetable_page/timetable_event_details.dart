@@ -182,7 +182,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                   title: Text.rich(
                     TextSpan(
                       style: TextStyle(
-                          color: isDarkThemeEnabled(context)
+                          color: Theme.of(context).isDarkTheme
                               ? Colors.white
                               : Colors.grey[800],
                           fontSize: 16),
@@ -218,7 +218,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(
                             bodyMedium: TextStyle(
-                              color: isDarkThemeEnabled(context)
+                              color: Theme.of(context).isDarkTheme
                                   ? Colors.white
                                   : Colors.black,
                               fontSize: 16,
