@@ -81,6 +81,8 @@ class DeployMacOsCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
+    const platform = ApplePlatform.macOS;
+
     try {
       await setUpSigning(
         config: AppleSigningConfig.create(
@@ -94,6 +96,7 @@ class DeployMacOsCommand extends Command {
           platform: ApplePlatform.iOS,
           type: ProvisioningProfileType.macAppStore,
         ),
+        platform: platform,
       );
 
       final appStoreConnectConfig = AppStoreConnectConfig.create(
@@ -103,7 +106,7 @@ class DeployMacOsCommand extends Command {
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
         appStoreConnectConfig: appStoreConnectConfig,
-        platform: ApplePlatform.macOS,
+        platform: platform,
         // Using the app location as working directory because the default
         // location for the App Store Connect private key is
         // app/private_keys/AuthKey_{keyIdentifier}.p8.

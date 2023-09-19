@@ -24,11 +24,15 @@ const releaseStageOptionName = 'stage';
 /// Sets up signing that is required to deploy a macOS or iOS app.
 Future<void> setUpSigning({
   required AppleSigningConfig config,
+  required ApplePlatform platform,
 }) async {
   // Steps are from the docs to deploy an iOS / macOS app to App Store Connect:
   // https://github.com/flutter/website/blob/850ba5dcab36e81f7dfc71c5e46333173c764fac/src/deployment/ios.md#L322
   await _keychainInitialize();
   await _fetchSigningFiles(config: config);
+  if (platform == ApplePlatform.macOS) {
+    await _listCertificates();
+  }
   await _keychainAddCertificates();
   await _xcodeProjectUseProfiles();
 }
@@ -63,6 +67,18 @@ Future<void> _fetchSigningFiles({
       '--private-key',
       config.appStoreConnectConfig.privateKey,
       '--create'
+    ],
+  );
+}
+
+Future<void> _listCertificates() async {
+  await runProcessSuccessfullyOrThrow(
+    'keychain',
+    [
+      'list-certificates',
+      '--type',
+      'MAC_INSTALLER_DISTRIBUTION',
+      '--save',
     ],
   );
 }
