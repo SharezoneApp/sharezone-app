@@ -495,7 +495,8 @@ class _ResetPasswordButton extends StatelessWidget {
           child: Text(
             'Passwort zurücksetzen',
             style: TextStyle(
-              color: isDarkThemeEnabled(context) ? Colors.grey : Colors.black54,
+              color:
+                  Theme.of(context).isDarkTheme ? Colors.grey : Colors.black54,
             ),
           ),
         );
@@ -534,7 +535,7 @@ class _LoginWithQrCodeButton extends StatelessWidget {
         "assets/icons/qr-code.svg",
         width: 24,
         height: 24,
-        color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+        color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
       ),
       text: "Über einen Qr-Code einloggen",
       onTap: () => Navigator.pushNamed(context, SignInWithQrCodePage.tag),
@@ -557,7 +558,7 @@ class _LoginWithAppleButton extends StatelessWidget {
         "assets/logo/apple-logo.svg",
         width: 24,
         height: 24,
-        color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+        color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
       ),
       onTap: onLogin,
       text: 'Über Apple anmelden',
@@ -601,7 +602,7 @@ class _SignWithOAuthButton extends StatelessWidget {
                     child: Text(
                       text.toUpperCase(),
                       style: TextStyle(
-                        color: isDarkThemeEnabled(context)
+                        color: Theme.of(context).isDarkTheme
                             ? Colors.white
                             : Colors.grey[800],
                         fontWeight: FontWeight.w500,

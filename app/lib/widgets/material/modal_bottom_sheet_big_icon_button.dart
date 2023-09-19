@@ -57,7 +57,7 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
                     child: Icon(
                       iconData,
                       size: 40,
-                      color: isDarkThemeEnabled(context)
+                      color: Theme.of(context).isDarkTheme
                           ? Colors.white70
                           : Colors.grey[600],
                     ),
@@ -66,7 +66,7 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: isDarkThemeEnabled(context)
+                      color: Theme.of(context).isDarkTheme
                           ? Colors.white70
                           : Colors.grey[600],
                     ),

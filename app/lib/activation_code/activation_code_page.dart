@@ -60,7 +60,7 @@ class _EnterActivationCodeAppBar extends StatelessWidget
       ),
       centerTitle: true,
       backgroundColor:
-          isDarkThemeEnabled(context) ? null : Theme.of(context).primaryColor,
+          Theme.of(context).isDarkTheme ? null : Theme.of(context).primaryColor,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: const [],
       bottom: const EnterActivationCodeTextField(),

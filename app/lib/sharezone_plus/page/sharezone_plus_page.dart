@@ -36,30 +36,42 @@ class SharezonePlusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
-      body: _PageTheme(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: MaxWidthConstraintBox(
-              maxWidth: 750,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 18),
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      _Header(),
-                      SizedBox(height: 18),
-                      _WhyPlusSharezoneCard(),
-                      SizedBox(height: 18),
-                      PlusAdvantages(),
-                      SizedBox(height: 18),
-                      _CallToActionSection(),
-                      SizedBox(height: 32),
-                      PlusFaqSection(),
-                      SizedBox(height: 18),
-                      _SupportNote(),
-                    ],
-                  ),
+      body: SharezonePlusPageMain(),
+    );
+  }
+}
+
+@visibleForTesting
+class SharezonePlusPageMain extends StatelessWidget {
+  const SharezonePlusPageMain({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const _PageTheme(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: MaxWidthConstraintBox(
+            maxWidth: 750,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 18),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _Header(),
+                    SizedBox(height: 18),
+                    _WhyPlusSharezoneCard(),
+                    SizedBox(height: 18),
+                    PlusAdvantages(),
+                    SizedBox(height: 18),
+                    _CallToActionSection(),
+                    SizedBox(height: 32),
+                    PlusFaqSection(),
+                    SizedBox(height: 18),
+                    _SupportNote(),
+                  ],
                 ),
               ),
             ),
@@ -93,7 +105,7 @@ class _PageTheme extends StatelessWidget {
             fontSize: 18,
           ),
           headlineMedium: baseTheme.textTheme.headlineMedium?.copyWith(
-            color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -355,7 +367,11 @@ class _CallToActionSection extends StatelessWidget {
     final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: hasPlus ? const _UnsubscribeSection() : const _SubscribeSection(),
+      // If the users plus status is still loading then we show the
+      // _SubscribeSection which will show loading indicators in turn.
+      child: hasPlus ?? false
+          ? const _UnsubscribeSection()
+          : const _SubscribeSection(),
     );
   }
 }
@@ -365,12 +381,17 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('unsubscribe-section'),
+    final price = context.watch<SharezonePlusPageController>().price;
+    final priceIsLoading = price == null;
+
+    return Column(
+      key: const ValueKey('unsubscribe-section'),
       children: [
-        _UnsubscribeText(),
-        SizedBox(height: 12),
-        _UnsubscribeButton(),
+        priceIsLoading ? const PriceLoadingIndicator() : _Price(price),
+        const SizedBox(height: 12),
+        const _UnsubscribeText(),
+        const SizedBox(height: 12),
+        const _UnsubscribeButton(),
       ],
     );
   }
@@ -412,7 +433,7 @@ class _UnsubscribeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const flatRed = Color(0xFFF55F4B);
-    return _CallToActionButton(
+    return CallToActionButton(
       onPressed: () async {
         final controller = context.read<SharezonePlusPageController>();
         await controller.cancelSubscription();
@@ -428,30 +449,44 @@ class _SubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('subscribe-section'),
+    final price = context.watch<SharezonePlusPageController>().price;
+    final priceIsLoading = price == null;
+
+    return Column(
+      key: const ValueKey('subscribe-section'),
       children: [
-        _Price(),
-        SizedBox(height: 12),
-        _SubscribeButton(loading: false),
-        SizedBox(height: 12),
-        _LegalText(),
+        priceIsLoading ? const PriceLoadingIndicator() : _Price(price),
+        const SizedBox(height: 12),
+        _SubscribeButton(loading: priceIsLoading),
+        const SizedBox(height: 12),
+        const _LegalText(),
       ],
     );
   }
 }
 
-class _Price extends StatelessWidget {
-  const _Price();
+@visibleForTesting
+class PriceLoadingIndicator extends StatelessWidget {
+  const PriceLoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
+    return const GrayShimmer(child: _Price('-,-- €'));
+  }
+}
+
+class _Price extends StatelessWidget {
+  const _Price(this.monthlyPriceWithCurrencySign);
+
+  final String monthlyPriceWithCurrencySign;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          price,
+          monthlyPriceWithCurrencySign,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(width: 4),
@@ -481,7 +516,7 @@ class _SubscribeButton extends StatelessWidget {
       children: [
         GrayShimmer(
           enabled: loading,
-          child: _CallToActionButton(
+          child: CallToActionButton(
             text: const Text('Abonnieren'),
             onPressed: loading
                 ? null
@@ -505,17 +540,18 @@ class _LegalText extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _MarkdownCenteredText(
       text:
-          'Dein ist Abo Monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [Datenschutzerklärung](https://sharezone.net/privacy-policy) un die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
+          'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
     );
   }
 }
 
-class _CallToActionButton extends StatelessWidget {
-  const _CallToActionButton({
+@visibleForTesting
+class CallToActionButton extends StatelessWidget {
+  const CallToActionButton({
     required this.text,
     this.onPressed,
     this.backgroundColor,
-  });
+  }) : super(key: const ValueKey('call-to-action-button'));
 
   final Widget text;
   final VoidCallback? onPressed;
@@ -646,7 +682,7 @@ class _IsSharezoneOpenSource extends StatelessWidget {
               child: Text(
                 'https://github.com/SharezoneApp/sharezone-app',
                 style: TextStyle(
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Theme.of(context).colorScheme.primary
                       : darkPrimaryColor,
                   decoration: TextDecoration.underline,

@@ -357,7 +357,7 @@ class _CourseAvatarCard extends StatelessWidget {
             const SizedBox(height: 4),
             MemberCountText(memberCount: memberCount),
             const SizedBox(height: 16),
-            SharecodeText(course.toGroupInfo().sharecode!),
+            SharecodeText(course.toGroupInfo().sharecode),
             const Divider(height: 40),
             ShareGroupSection(groupInfo: course.toGroupInfo()),
           ],

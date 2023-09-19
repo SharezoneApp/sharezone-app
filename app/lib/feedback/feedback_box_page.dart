@@ -111,7 +111,7 @@ class _AnonymousCheckbox extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.security,
-                        color: isDarkThemeEnabled(context)
+                        color: Theme.of(context).isDarkTheme
                             ? Colors.grey
                             : Colors.grey[600]),
                     const SizedBox(width: 16),
@@ -119,7 +119,7 @@ class _AnonymousCheckbox extends StatelessWidget {
                       child: Text(
                         "Ich möchte mein Feedback anonym abschicken",
                         style: TextStyle(
-                            color: isDarkThemeEnabled(context)
+                            color: Theme.of(context).isDarkTheme
                                 ? Colors.grey[400]
                                 : Colors.grey[600],
                             fontSize: 16),

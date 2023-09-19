@@ -23,7 +23,7 @@ class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
       body: DefaultTextStyle(
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+          color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
           fontFamily: rubik,
         ),
         child: SingleChildScrollView(

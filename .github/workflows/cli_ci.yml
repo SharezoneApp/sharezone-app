@@ -116,7 +116,7 @@ jobs:
         run: |
           # Fail if there are Git diffs and print the diff.
           git diff --exit-code
-          
+
           # Print the Git diff with the file names and their status as a
           # summary. 
           git diff --name-status

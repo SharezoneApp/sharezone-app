@@ -68,7 +68,7 @@ const _featuresMap = {
   SubscriptionTier.teacherPlus: {
     SharezonePlusFeature.submissionsList,
     SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDonyByUsersList,
+    SharezonePlusFeature.homeworkDoneByUsersList,
     SharezonePlusFeature.filterTimetableByClass,
     SharezonePlusFeature.changeHomeworkReminderTime,
     SharezonePlusFeature.plusSupport,
@@ -78,7 +78,7 @@ const _featuresMap = {
 enum SharezonePlusFeature {
   submissionsList,
   infoSheetReadByUsersList,
-  homeworkDonyByUsersList,
+  homeworkDoneByUsersList,
   filterTimetableByClass,
   changeHomeworkReminderTime,
   plusSupport,

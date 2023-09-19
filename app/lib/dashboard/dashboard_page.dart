@@ -90,7 +90,7 @@ class _DashboardPageState extends State<DashboardPage> {
       appBarConfiguration: SliverAppBarConfiguration(
         title: const _AppBarTitle(),
         backgroundColor:
-            isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
+            Theme.of(context).isDarkTheme ? ElevationColors.dp8 : blueColor,
         expandedHeight: 210,
         elevation: 1,
         pinned: true,

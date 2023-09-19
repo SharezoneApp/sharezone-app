@@ -274,7 +274,7 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isDarkThemeEnabled(context)
+      color: Theme.of(context).isDarkTheme
           ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,

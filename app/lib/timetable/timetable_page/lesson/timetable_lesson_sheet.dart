@@ -243,7 +243,7 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
 }
 
 Color? getIconGrey(BuildContext context) =>
-    isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
+    Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600];
 
 class _TimetableLessonBottomModelSheet extends StatelessWidget {
   final Lesson lesson;
@@ -307,7 +307,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             title: Text.rich(
               TextSpan(
                 style: TextStyle(
-                    color: isDarkThemeEnabled(context)
+                    color: Theme.of(context).isDarkTheme
                         ? Colors.white
                         : Colors.grey[800],
                     fontSize: 16),

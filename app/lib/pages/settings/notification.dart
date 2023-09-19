@@ -55,7 +55,7 @@ class _NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       appBar:
           AppBar(title: const Text("Benachrichtigungen"), centerTitle: true),
       body: SingleChildScrollView(

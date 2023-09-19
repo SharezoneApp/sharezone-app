@@ -157,6 +157,7 @@ class _FreeUsersLockScreen extends StatelessWidget {
               child: SharezonePlusFeatureInfoCard(
                 withLearnMoreButton: true,
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
+                underlayColor: Theme.of(context).scaffoldBackgroundColor,
                 child: const Text(
                     'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
               ),
