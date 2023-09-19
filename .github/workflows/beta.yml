@@ -36,6 +36,12 @@ on:
           Android changelog: Used for the Google Play Store release notes. If the 
           changelog is not provided, the deployment for Android will be skipped.
           Use '\n' for line breaks.
+      android-rollout-percentage:
+        type: number
+        description: |
+          Android rollout percentage: The percentage of users that should receive
+          the new version.
+        default: "1.0"
 
 # Set permissions to none.
 #
@@ -205,4 +211,5 @@ jobs:
 
           sz deploy android \
             --stage beta \
-            --whats-new "$CHANGELOG_WITH_NEW_LINES"
+            --whats-new "$CHANGELOG_WITH_NEW_LINES" \
+            --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}

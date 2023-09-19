@@ -45,9 +45,16 @@ class DeployAndroidCommand extends Command {
         allowed: _androidFlavors,
         help: 'The flavor to build for. Only the "prod" flavor is supported.',
         defaultsTo: 'prod',
+      )
+      ..addOption(
+        rolloutPercentageOptionName,
+        help:
+            'The percentage (between 0.0 - 1.0) of the user fraction when uploading to the rollout track (setting to 1 will complete the rollout).',
+        defaultsTo: '1.0',
       );
   }
 
+  static const rolloutPercentageOptionName = 'rollout-percentage';
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const whatsNewOptionName = 'whats-new';
@@ -158,11 +165,25 @@ class DeployAndroidCommand extends Command {
     try {
       await _setChangelog();
 
-      final track = _getGooglePlayTrackFromStage();
-      await _uploadToGooglePlay(track: track);
+      final rolloutPercentage =
+          argResults![rolloutPercentageOptionName] as String;
+      _printRolloutPercentage(rolloutPercentage);
+
+      await _uploadToGooglePlay(
+        track: _getGooglePlayTrackFromStage(),
+        rollout: rolloutPercentage,
+      );
     } finally {
       await _removeChangelogFile();
     }
+  }
+
+  void _printRolloutPercentage(String rolloutPercentage) {
+    final rolloutPercentageDouble = double.parse(rolloutPercentage);
+    stdout.writeln(
+        'This release will be rolled out to: ${rolloutPercentageDouble * 100}% of users.}');
+    stdout.writeln(
+        'You can later change the rollout percentage in the Play Store Console: Go to "Production" (or Open testing or Closed Testing) -> "Releases"');
   }
 
   Future<void> _setChangelog() async {
@@ -198,6 +219,7 @@ class DeployAndroidCommand extends Command {
 
   Future<void> _uploadToGooglePlay({
     required String track,
+    required String rollout,
   }) async {
     await runProcess(
       'fastlane',
@@ -205,6 +227,7 @@ class DeployAndroidCommand extends Command {
       workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
       environment: {
         'TRACK': track,
+        'ROLLOUT': rollout,
       },
     );
   }
