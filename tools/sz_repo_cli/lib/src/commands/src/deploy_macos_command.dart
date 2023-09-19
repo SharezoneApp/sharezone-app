@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: unnecessary_string_escapes
+
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
@@ -79,31 +81,55 @@ class DeployMacOsCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    final appStoreConnectConfig = AppStoreConnectConfig.create(
-      argResults!,
-      Platform.environment,
-    );
+    try {
+      await setUpSigning(
+        config: AppleSigningConfig.create(
+          argResults: argResults!,
+          environment: Platform.environment,
+          // Even though we deploy for macOS, we need to use the iOS platform
+          // here because our bundle ID is only registered for iOS. However,
+          // this doesn't matter for the signing process.
+          //
+          // More details: https://github.com/codemagic-ci-cd/cli-tools/issues/314
+          platform: ApplePlatform.iOS,
+          type: ProvisioningProfileType.macAppStore,
+        ),
+      );
 
-    const platform = ApplePlatform.macOS;
-    final buildNumber = await getNextBuildNumberFromAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      platform: platform,
-      // Using the app location as working directory because the default
-      // location for the App Store Connect private key is
-      // app/private_keys/AuthKey_{keyIdentifier}.p8.
-      workingDirectory: _repo.sharezoneFlutterApp.path,
-    );
-    await _buildApp(buildNumber: buildNumber);
-    await publishToAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      stage: argResults![releaseStageOptionName] as String,
-      whatsNew: argResults![whatsNewOptionName] as String?,
-      path: 'build/macos/Build/Products/Release/*.pkg',
-      repo: _repo,
-      stageToTracks: _macOsStageToTracks,
-    );
+      final appStoreConnectConfig = AppStoreConnectConfig.create(
+        argResults!,
+        Platform.environment,
+      );
 
-    stdout.writeln('Deployment finished 🎉 ');
+      final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
+        platform: ApplePlatform.macOS,
+        // Using the app location as working directory because the default
+        // location for the App Store Connect private key is
+        // app/private_keys/AuthKey_{keyIdentifier}.p8.
+        workingDirectory: _repo.sharezoneFlutterApp.path,
+      );
+
+      await setWorkaroundPermission();
+      await _buildApp(buildNumber: buildNumber);
+      await setWorkaroundPermission();
+
+      await _createPackage();
+
+      await publishToAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
+        stage: argResults![releaseStageOptionName] as String,
+        whatsNew: argResults![whatsNewOptionName] as String?,
+        path: 'build/macos/Build/Products/Release/*.pkg',
+        repo: _repo,
+        stageToTracks: _macOsStageToTracks,
+      );
+      stdout.writeln('Deployment finished 🎉 ');
+    } finally {
+      // Fixes potential authentication issues after running keychain commands.
+      // Only really necessary when running on local machines.
+      await keychainUseLogin();
+    }
   }
 
   Future<void> _buildApp({required int buildNumber}) async {
@@ -127,5 +153,23 @@ class DeployMacOsCommand extends Command {
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
     }
+  }
+
+  Future<void> _createPackage() async {
+    await runProcessSuccessfullyOrThrow('bash', [
+      '-c',
+      '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
+PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
+xcrun productbuild --component "\$APP_NAME" /Applications/ unsigned.pkg && \
+INSTALLER_CERT_NAME=\$(keychain list-certificates \
+  | jq '[.[]
+    | select(.common_name
+    | contains("Mac Developer Installer"))
+    | .common_name][0]' \
+  | xargs) && \
+xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
+rm -f unsigned.pkg && \
+echo \$PACKAGE_NAME'''
+    ]);
   }
 }

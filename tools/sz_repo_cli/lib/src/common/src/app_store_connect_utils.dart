@@ -135,6 +135,15 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
   }
 }
 
+// Sets the required permissions for deploying Flutter macOS.
+//
+// Workaround for https://github.com/flutter/flutter/issues/132725. Can be
+// removed with Flutter v3.13.5.
+Future<void> setWorkaroundPermission() async {
+  await runProcessSuccessfullyOrThrow('bash', ['-c', 'sudo chown -R \$USER .']);
+  await runProcessSuccessfullyOrThrow('bash', ['-c', 'sudo chmod -R a+rwx .']);
+}
+
 Future<void> publishToAppStoreConnect({
   required SharezoneRepo repo,
   required String path,
