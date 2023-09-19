@@ -234,10 +234,65 @@ class PlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        _HomeworkReminder(),
+        _AddEventsToLocalCalendar(),
+        _PlusSupport(),
         _HomeworkDoneLists(),
         _ReadByInformationSheets(),
         _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _AddEventsToLocalCalendar extends StatelessWidget {
+  const _AddEventsToLocalCalendar();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.calendar_today),
+      title: Text('Termine zum Kalender hinzufügen'),
+      description: Text(
+          'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
+    );
+  }
+}
+
+class _PlusSupport extends StatelessWidget {
+  const _PlusSupport();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.support_agent),
+      title: Text('Premium Support'),
+      description: MarkdownBody(
+        data:
+            '''Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:
+- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
+- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
+      ),
+    );
+  }
+}
+
+class _HomeworkReminder extends StatelessWidget {
+  const _HomeworkReminder();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MatchingTypeOfUserBuilder(
+      // We only show this advantage to students because only students can
+      // get homework reminders.
+      expectedTypeOfUser: TypeOfUser.student,
+      matchesTypeOfUserWidget: _AdvantageTile(
+        icon: Icon(Icons.checklist),
+        title: Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
+        description: Text(
+            'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.'),
+      ),
+      notMatchingWidget: SizedBox(),
     );
   }
 }
