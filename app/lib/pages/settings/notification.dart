@@ -174,14 +174,14 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
   }
 
   Future<void> showPlusAdDialog(BuildContext context) async {
-    final shouldShowPlusAd = await showDialog<bool>(
+    await showSharezonePlusFeatureInfoDialog(
       context: context,
-      builder: (_) => const _ChangeHomeworkNotificationsTimePlusAd(),
+      navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+      title: const Text('Uhrzeit für Erinnerung am Vortag'),
+      description: const Text(
+        'Mit Sharezone Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.',
+      ),
     );
-
-    if (shouldShowPlusAd == true && context.mounted) {
-      navigateToSharezonePlusPage(context);
-    }
   }
 
   @override
@@ -240,53 +240,6 @@ class _HomeworkNotificationsTimeTileTrailing extends StatelessWidget {
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.changeHomeworkReminderTime);
     return isUnlocked ? const SizedBox() : const SharezonePlusChip();
-  }
-}
-
-class _ChangeHomeworkNotificationsTimePlusAd extends StatelessWidget {
-  const _ChangeHomeworkNotificationsTimePlusAd();
-
-  @override
-  Widget build(BuildContext context) {
-    final buttonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12.5),
-    );
-    return AlertDialog(
-      key: const Key('change-homework-notifications-time-plus-ad'),
-      title: const Center(
-        child: Text(
-          'Uhrzeit für Erinnerung am Vortag',
-          textAlign: TextAlign.center,
-        ),
-      ),
-      content: const SharezonePlusFeatureInfoCard(
-        withLearnMoreButton: false,
-        child: Text(
-          'Mit Sharezone-Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.',
-        ),
-      ),
-      actionsPadding: const EdgeInsets.fromLTRB(16, 0, 24, 24),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).primaryColor,
-            shape: buttonShape,
-          ),
-          child: const Text('ZURÜCK'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            shape: buttonShape,
-          ),
-          child: const Text('MEHR ERFAHREN'),
-        ),
-      ],
-    );
   }
 }
 

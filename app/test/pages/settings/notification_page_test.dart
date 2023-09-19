@@ -148,8 +148,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(
-          find.byKey(
-              const ValueKey('change-homework-notifications-time-plus-ad')),
+          find.byKey(const Key('sharezone-plus-feature-info-dialog')),
           findsOneWidget,
         );
       });

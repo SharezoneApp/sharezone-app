@@ -76,5 +76,23 @@ void main() {
 
       await multiScreenGolden(tester, 'notification_page_dark');
     });
+
+    testGoldens('renders as expected (light mode, with homeworks)',
+        (tester) async {
+      when(mockSubscriptionService.hasFeatureUnlocked(
+              SharezonePlusFeature.changeHomeworkReminderTime))
+          .thenReturn(false);
+
+      await pumpNotificationPage(tester, themeData: lightTheme);
+
+      await tester
+          .tap(find.byKey(const Key('homework-notifications-time-tile')));
+      await tester.pumpAndSettle();
+
+      await screenMatchesGolden(
+        tester,
+        'notification_page_homework_time_plus_ad',
+      );
+    });
   });
 }
