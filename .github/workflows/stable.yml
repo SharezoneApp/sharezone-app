@@ -41,7 +41,7 @@ on:
         description: |
           Android rollout percentage: The percentage of users that should receive
           the new version.
-        default: '0.2'
+        default: "0.2"
 
 # Set permissions to none.
 #
