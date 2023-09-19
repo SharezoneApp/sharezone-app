@@ -118,13 +118,13 @@ class DeployMacOsCommand extends Command {
       await _buildApp(buildNumber: buildNumber);
       await setWorkaroundPermission();
 
-      await _createPackage();
+      await _createSignedPackage();
 
       await publishToAppStoreConnect(
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
-        path: 'build/macos/Build/Products/Release/*.pkg',
+        path: '*.pkg',
         repo: _repo,
         stageToTracks: _macOsStageToTracks,
       );
@@ -159,7 +159,14 @@ class DeployMacOsCommand extends Command {
     }
   }
 
-  Future<void> _createPackage() async {
+  /// Creates a signed macOS package from the built app and stores it in the
+  /// working directory.
+  ///
+  /// Usually the path to the signed macOS package is `app/Sharezone.pkg`.
+  ///
+  /// The steps are copied from the Flutter docs. You can find more details
+  /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
+  Future<void> _createSignedPackage() async {
     await runProcessSuccessfullyOrThrow(
       'bash',
       [
