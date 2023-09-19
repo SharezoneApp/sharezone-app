@@ -33,6 +33,11 @@ jobs:
     steps:
       - run: 'echo "No ios-integration-test required"'
 
+  web-integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No web-integration-test required"'
+
   macos-build-test:
     runs-on: ubuntu-latest
     steps:
