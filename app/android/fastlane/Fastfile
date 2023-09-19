@@ -23,6 +23,9 @@ platform :android do
       package_name: 'de.codingbrain.sharezone',
       aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
       rollout: ENV["ROLLOUT"],
+      # Even though we already defined the service account credentials in the
+      # Appfile, we need to define them again here, otherwise the deployment
+      # could fail.
       json_key_data: ENV['GCLOUD_SERVICE_ACCOUNT_CREDENTIALS']
     )
   end
