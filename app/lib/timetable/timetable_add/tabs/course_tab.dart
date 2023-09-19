@@ -28,7 +28,7 @@ class _CourseList extends StatelessWidget {
 
   final List<Course>? courseList;
 
-  List<Widget> getLines(List<Course> courseList, Course selectedCourse) {
+  List<Widget> getLines(List<Course> courseList, Course? selectedCourse) {
     final list = <Widget>[];
     for (int i = 0; i < courseList.length; i += 2) {
       final first = _CourseTile(
@@ -69,7 +69,7 @@ class _CourseList extends StatelessWidget {
                     first: _JoinCourse(),
                     second: _CreateCourse(),
                   ),
-                  ...getLines(courseList!, selectedCourse!),
+                  ...getLines(courseList!, selectedCourse),
                 ],
               ),
             ),
