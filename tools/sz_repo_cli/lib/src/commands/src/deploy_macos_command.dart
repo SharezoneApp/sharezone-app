@@ -160,14 +160,18 @@ class DeployMacOsCommand extends Command {
   }
 
   Future<void> _createPackage() async {
-    await runProcessSuccessfullyOrThrow('bash', [
-      '-c',
-      '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
+    await runProcessSuccessfullyOrThrow(
+      'bash',
+      [
+        '-c',
+        '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
 PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
 xcrun productbuild --component "\$APP_NAME" /Applications/ unsigned.pkg && \
 INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' | head -1) && \
 xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
 rm -f unsigned.pkg'''
-    ]);
+      ],
+      workingDirectory: _repo.sharezoneFlutterApp.path,
+    );
   }
 }
