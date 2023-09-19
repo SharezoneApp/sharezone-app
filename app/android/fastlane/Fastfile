@@ -22,6 +22,7 @@ platform :android do
       track: ENV['TRACK'],
       package_name: 'de.codingbrain.sharezone',
       aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
+      rollout: ENV["ROLLOUT"]
     )
   end
 end

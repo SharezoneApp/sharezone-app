@@ -158,8 +158,10 @@ class DeployAndroidCommand extends Command {
     try {
       await _setChangelog();
 
-      final track = _getGooglePlayTrackFromStage();
-      await _uploadToGooglePlay(track: track);
+      await _uploadToGooglePlay(
+        track: _getGooglePlayTrackFromStage(),
+        rollout: _getRolloutFromStage(),
+      );
     } finally {
       await _removeChangelogFile();
     }
@@ -196,8 +198,16 @@ class DeployAndroidCommand extends Command {
     }
   }
 
+  double _getRolloutFromStage() {
+    final stage = argResults![releaseStageOptionName] as String;
+    // For stable releases, we want to roll out to 20% at first to catch any
+    // potential issues. Other stages (like beta) are rolled out to 100%.
+    return stage == 'stable' ? 0.2 : 1.0;
+  }
+
   Future<void> _uploadToGooglePlay({
     required String track,
+    required double rollout,
   }) async {
     await runProcess(
       'fastlane',
@@ -205,6 +215,7 @@ class DeployAndroidCommand extends Command {
       workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
       environment: {
         'TRACK': track,
+        'ROLLOUT': '$rollout',
       },
     );
   }
