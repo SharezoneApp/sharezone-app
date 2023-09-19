@@ -47,7 +47,7 @@ class _SelectDesignAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUserPersonalColor =
         type == EditDesignType.personal && currentDesign != null;
-    final isUnlocked = !context
+    final isUnlocked = context
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.moreGroupColors);
     return AlertDialog(
@@ -84,7 +84,7 @@ class _SharezonePlusAd extends StatelessWidget {
       withLearnMoreButton: true,
       onLearnMorePressed: () => navigateToSharezonePlusPage(context),
       child: const Text(
-          'Zu wenig Farben? Schalte +200 weitere Farben mit Sharezone Plus frei.'),
+          'Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.'),
     );
   }
 }
@@ -142,6 +142,8 @@ class _FreeColors extends StatelessWidget {
   }
 }
 
+/// This widget is used to select a base color and then select from the base
+/// color the accurate color.
 class _PlusColors extends StatefulWidget {
   const _PlusColors({
     this.selectedDesign,
@@ -195,7 +197,7 @@ class _PlusColorsState extends State<_PlusColors> {
             );
           },
           duration: const Duration(milliseconds: 250),
-          // The users can first select a base color and then select from the
+          // The user can first select a base color and then select from the
           // base color the accurate color.
           child: baseColor == null
               ? _PlusBaseColors(
