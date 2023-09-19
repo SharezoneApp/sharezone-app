@@ -224,6 +224,27 @@ class _PlusBaseColors extends StatelessWidget {
 
   final ValueChanged<MaterialColor>? onBaseColorChanged;
 
+  static const _baseColors = <MaterialColor>[
+    Colors.red,
+    Colors.pink,
+    Colors.purple,
+    Colors.deepPurple,
+    Colors.indigo,
+    Colors.blue,
+    Colors.lightBlue,
+    Colors.cyan,
+    Colors.teal,
+    Colors.green,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.yellow,
+    Colors.amber,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.brown,
+    Colors.blueGrey,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -235,7 +256,7 @@ class _PlusBaseColors extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            ...Colors.primaries.map(
+            ..._baseColors.map(
               (color) {
                 final design = Design.fromColor(color);
                 return _ColorCircleSelectDesign(
