@@ -94,7 +94,7 @@ When none is specified, the value from pubspec.yaml is used.''',
       final buildNumber = argResults![buildNumberOptionName] as String?;
       final buildNameWithStage =
           getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
-      await runProcessSucessfullyOrThrow(
+      await runProcessSuccessfullyOrThrow(
         'fvm',
         [
           'flutter',

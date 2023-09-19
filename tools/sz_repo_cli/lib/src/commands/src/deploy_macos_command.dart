@@ -109,7 +109,7 @@ class DeployMacOsCommand extends Command {
   Future<void> _buildApp({required int buildNumber}) async {
     try {
       final stage = argResults![releaseStageOptionName] as String;
-      await runProcessSucessfullyOrThrow(
+      await runProcessSuccessfullyOrThrow(
         'fvm',
         [
           'dart',
