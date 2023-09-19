@@ -80,6 +80,7 @@ export 'src/theme/brightness/general_theme.dart';
 
 // sharezone_plus
 export 'src/sharezone_plus/sharezone_plus_widgets.dart';
+export 'src/sharezone_plus/sharezone_plus_feature_info_dialog.dart';
 
 // widgets
 export 'src/widgets.dart';

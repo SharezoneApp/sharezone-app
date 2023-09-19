@@ -105,7 +105,7 @@ class _PageTheme extends StatelessWidget {
             fontSize: 18,
           ),
           headlineMedium: baseTheme.textTheme.headlineMedium?.copyWith(
-            color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -682,7 +682,7 @@ class _IsSharezoneOpenSource extends StatelessWidget {
               child: Text(
                 'https://github.com/SharezoneApp/sharezone-app',
                 style: TextStyle(
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Theme.of(context).colorScheme.primary
                       : darkPrimaryColor,
                   decoration: TextDecoration.underline,

@@ -93,7 +93,7 @@ class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
         bloc: bloc,
         child: Scaffold(
           key: scaffoldKey,
-          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+          backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
           appBar: AppBar(title: const Text("Schultage"), centerTitle: true),
           body: StreamBuilder<EnabledWeekDays>(
             stream: bloc.weekDays,
