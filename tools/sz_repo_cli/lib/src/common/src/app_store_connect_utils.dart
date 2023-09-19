@@ -73,7 +73,7 @@ Future<void> _fetchSigningFiles({
 
 Future<void> _listCertificates() async {
   await runProcessSuccessfullyOrThrow(
-    'keychain',
+    'app-store-connect',
     [
       'list-certificates',
       '--type',
