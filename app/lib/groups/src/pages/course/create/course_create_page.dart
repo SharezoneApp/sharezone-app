@@ -19,6 +19,7 @@ Future<Course?> openCourseCreatePage(
   Course? course,
   String? schoolClassId,
 }) async {
+  // We use `dynamic` as type because we return either a `Course?` or `bool`.
   final createdCourse = await Navigator.push<dynamic>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -38,7 +39,7 @@ Future<Course?> openCourseCreatePage(
       seconds: 2,
     );
   }
-  return createdCourse as Course?;
+  return createdCourse is Course ? createdCourse : null;
 }
 
 Future<void> submit(BuildContext context) async {
