@@ -165,12 +165,25 @@ class DeployAndroidCommand extends Command {
     try {
       await _setChangelog();
 
+      final rolloutPercentage =
+          argResults![rolloutPercentageOptionName] as String;
+      _printRolloutPercentage(rolloutPercentage);
+
       await _uploadToGooglePlay(
         track: _getGooglePlayTrackFromStage(),
+        rollout: rolloutPercentage,
       );
     } finally {
       await _removeChangelogFile();
     }
+  }
+
+  void _printRolloutPercentage(String rolloutPercentage) {
+    final rolloutPercentageDouble = double.parse(rolloutPercentage);
+    stdout.writeln(
+        'This release will be rolled out to: ${rolloutPercentageDouble * 100}% of users.}');
+    stdout.writeln(
+        'You can later change the rollout percentage in the Play Store Console: Go to "Production" -> "Releases"');
   }
 
   Future<void> _setChangelog() async {
@@ -206,6 +219,7 @@ class DeployAndroidCommand extends Command {
 
   Future<void> _uploadToGooglePlay({
     required String track,
+    required String rollout,
   }) async {
     await runProcess(
       'fastlane',
@@ -213,7 +227,7 @@ class DeployAndroidCommand extends Command {
       workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
       environment: {
         'TRACK': track,
-        'ROLLOUT': argResults![rolloutPercentageOptionName] as String,
+        'ROLLOUT': rollout,
       },
     );
   }
