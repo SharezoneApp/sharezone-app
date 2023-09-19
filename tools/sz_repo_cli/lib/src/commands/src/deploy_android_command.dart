@@ -96,7 +96,7 @@ class DeployAndroidCommand extends Command {
   ///
   /// See https://docs.fastlane.tools/actions/validate_play_store_json_key
   Future<void> _checkIfGooglePlayCredentialsAreValid() async {
-    await runProcessSucessfullyOrThrow(
+    await runProcessSuccessfullyOrThrow(
       'fastlane',
       ['run', 'validate_play_store_json_key'],
       workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
@@ -132,7 +132,7 @@ class DeployAndroidCommand extends Command {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await runProcessSucessfullyOrThrow(
+      await runProcessSuccessfullyOrThrow(
         'fvm',
         [
           'dart',

@@ -12,7 +12,7 @@ import '../common.dart';
 
 /// Helper method that automatically throws if [Process.exitCode] is non-zero
 /// (unsucessfull).
-Future<ProcessResult> runProcessSucessfullyOrThrow(
+Future<ProcessResult> runProcessSuccessfullyOrThrow(
   String executable,
   List<String> arguments, {
   String? workingDirectory,

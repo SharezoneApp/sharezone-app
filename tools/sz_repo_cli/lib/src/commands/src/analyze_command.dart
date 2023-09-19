@@ -39,7 +39,7 @@ Future<void> analyzePackage(Package package) async {
 }
 
 Future<void> _runDartAnalyze(Package package) {
-  return runProcessSucessfullyOrThrow(
+  return runProcessSuccessfullyOrThrow(
       'fvm', ['dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
       workingDirectory: package.path);
 }
