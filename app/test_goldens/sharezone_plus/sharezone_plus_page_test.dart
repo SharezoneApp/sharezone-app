@@ -28,6 +28,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:user/user.dart';
 
 import 'sharezone_plus_page_test.mocks.dart';
 
@@ -74,7 +75,7 @@ void main() {
       when(controller.price).thenAnswer((_) => fallbackPlusPrice);
     });
 
-    Future<void> _pumpPlusPage(
+    Future<void> pumpPlusPage(
       WidgetTester tester, {
       ThemeData? theme,
     }) async {
@@ -91,6 +92,7 @@ void main() {
             ChangeNotifierProvider<SharezonePlusPageController>(
               create: (context) => controller,
             ),
+            Provider<TypeOfUser?>.value(value: TypeOfUser.student),
           ],
           child: MultiBlocProvider(
             blocProviders: [
@@ -101,14 +103,14 @@ void main() {
                   bloc: MockNavigationAnalytics()),
               BlocProvider<SharezoneContext>(bloc: sharezoneContext),
             ],
-            child: (context) => SharezonePlusPage(),
+            child: (context) => const SharezonePlusPage(),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),
       );
     }
 
-    Future<void> _tapEveryExpansionCard(WidgetTester tester) async {
+    Future<void> tapEveryExpansionCard(WidgetTester tester) async {
       for (final element in find.byType(ExpansionCard).evaluate()) {
         // We need to scroll the element into view before we can tap it.
         await tester.dragUntilVisible(
@@ -123,13 +125,13 @@ void main() {
     }
 
     testGoldens('renders page as expected (light theme)', (tester) async {
-      await _pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: lightTheme);
 
       await multiScreenGolden(tester, 'sharezone_plus_page_light_theme');
     });
 
     testGoldens('renders page as expected (dark theme)', (tester) async {
-      await _pumpPlusPage(tester, theme: darkTheme);
+      await pumpPlusPage(tester, theme: darkTheme);
 
       await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
     });
@@ -138,11 +140,11 @@ void main() {
         (tester) async {
       when(controller.hasPlus).thenAnswer((_) => true);
 
-      await _pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: lightTheme);
 
       // Ensure visibility
       await tester.dragUntilVisible(
-        find.byKey(ValueKey('unsubscribe-section')),
+        find.byKey(const ValueKey('unsubscribe-section')),
         find.byType(SingleChildScrollView),
         const Offset(0, 50),
       );
@@ -159,42 +161,68 @@ void main() {
 
     // ignore: invalid_use_of_visible_for_testing_member
     group(PlusAdvantages, () {
-      testGoldens('renders advantages as expected (dark theme)',
-          (tester) async {
-        await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusAdvantages()),
-          wrapper: materialAppWrapper(theme: darkTheme),
-        );
+      for (final typeOfUser in [
+        TypeOfUser.parent,
+        TypeOfUser.teacher,
+        TypeOfUser.student
+      ]) {
+        Future<void> pumpPlusAdvantages(
+          WidgetTester tester, {
+          required ThemeData theme,
+          required TypeOfUser typeOfUser,
+        }) async {
+          await tester.pumpWidgetBuilder(
+            Provider<TypeOfUser?>(
+              create: (context) => typeOfUser,
+              child: const SingleChildScrollView(
+                child: PlusAdvantages(),
+              ),
+            ),
+            wrapper: materialAppWrapper(theme: darkTheme),
+          );
+        }
 
-        await _tapEveryExpansionCard(tester);
+        testGoldens(
+            'renders advantages for ${typeOfUser.name} as expected (dark theme)',
+            (tester) async {
+          await pumpPlusAdvantages(
+            tester,
+            theme: darkTheme,
+            typeOfUser: typeOfUser,
+          );
 
-        await multiScreenGolden(
-          tester,
-          'sharezone_plus_advantages_dark_theme',
-          // Since we only need to test the expanded advantages and we have
-          // already tested the Sharezone Plus page for all devices, we don't
-          // need to test it for all devices. Using a tablet portrait is
-          // sufficient.
-          devices: [Device.tabletPortrait],
-        );
-      });
+          await tapEveryExpansionCard(tester);
 
-      testGoldens('renders advantages as expected (light theme)',
-          (tester) async {
-        await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusAdvantages()),
-          wrapper: materialAppWrapper(theme: lightTheme),
-        );
+          await multiScreenGolden(
+            tester,
+            'sharezone_plus_advantages_${typeOfUser.name}_dark_theme',
+            // Since we only need to test the expanded advantages and we have
+            // already tested the Sharezone Plus page for all devices, we don't
+            // need to test it for all devices. Using a tablet portrait is
+            // sufficient.
+            devices: [Device.tabletPortrait],
+          );
+        });
 
-        await _tapEveryExpansionCard(tester);
+        testGoldens(
+            'renders advantages for ${typeOfUser.name} as expected (light theme)',
+            (tester) async {
+          await pumpPlusAdvantages(
+            tester,
+            theme: lightTheme,
+            typeOfUser: typeOfUser,
+          );
 
-        await multiScreenGolden(
-          tester,
-          'sharezone_plus_advantages_light_theme',
-          // See comment above.
-          devices: [Device.tabletPortrait],
-        );
-      });
+          await tapEveryExpansionCard(tester);
+
+          await multiScreenGolden(
+            tester,
+            'sharezone_plus_advantages_${typeOfUser.name}_light_theme',
+            // See comment above.
+            devices: [Device.tabletPortrait],
+          );
+        });
+      }
     });
 
     // ignore: invalid_use_of_visible_for_testing_member
@@ -202,11 +230,11 @@ void main() {
       testGoldens('renders faq section as expected (dark theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: PlusFaqSection()),
           wrapper: materialAppWrapper(theme: darkTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,
@@ -219,11 +247,11 @@ void main() {
       testGoldens('renders faq section as expected (light theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: PlusFaqSection()),
           wrapper: materialAppWrapper(theme: lightTheme),
         );
 
-        await _tapEveryExpansionCard(tester);
+        await tapEveryExpansionCard(tester);
 
         await multiScreenGolden(
           tester,

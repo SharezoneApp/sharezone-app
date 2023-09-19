@@ -36,6 +36,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       top: Container(),
       topPadding: 0,
+      bottomNavigationBar: OnboardingNavigationBar(action: _FinishButton()),
       children: [
         _Icon(),
         const SizedBox(height: 12),
@@ -48,7 +49,6 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
         else
           _CoursesSharecodeBox(),
       ],
-      bottomNavigationBar: OnboardingNavigationBar(action: _FinishButton()),
     );
   }
 }
@@ -154,23 +154,23 @@ class _SharecodeBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 600),
+      constraints: const BoxConstraints(maxWidth: 600),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: Column(
             children: [
               const SizedBox(height: 12),
               Text(
                 "Zum Beitreten ${getGroupType()} (${groupInfo.name}):",
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
               SharecodeText(groupInfo.sharecode, onCopied: () {
-                BlocProvider.of<GroupOnboardingBloc>(context).logShareQrcode();
+                BlocProvider.of<GroupOnboardingBloc>(context).logShareQrCode();
               }),
               const SizedBox(height: 12),
               Row(
@@ -202,9 +202,9 @@ class _SharecodeBox extends StatelessWidget {
 class _JoinHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       'Mitschüler, Lehrer und Eltern können über den Sharecode der Klasse beitreten. Dadurch können Infozettel, Hausausgaben, Termine, Dateien und der Stundenplan gemeinsam organisiert werden.',
-      style: const TextStyle(color: Colors.grey),
+      style: TextStyle(color: Colors.grey),
       textAlign: TextAlign.center,
     );
   }
@@ -218,10 +218,10 @@ class _FinishButton extends StatelessWidget {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
+      child: Text("Fertig".toUpperCase(), style: const TextStyle(fontSize: 20)),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-        bloc.finsihOnboarding();
+        bloc.finishOnboarding();
         Navigator.popUntil(context, ModalRoute.withName('/'));
       },
     );

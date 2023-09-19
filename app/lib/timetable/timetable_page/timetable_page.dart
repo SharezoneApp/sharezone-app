@@ -43,12 +43,14 @@ class TimetablePage extends StatelessWidget {
   static const days = 5;
 
   final today = TimetableDateHelper.dateBeginThisWeek();
-  final timetableScale = 1.00;
+  static const timetableScale = 1.00;
+
+  TimetablePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final bottomBarBackgroundColor =
-        isDarkThemeEnabled(context) ? Colors.grey[900] : Colors.grey[100];
+        Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
     return WillPopScope(
@@ -57,9 +59,9 @@ class TimetablePage extends StatelessWidget {
         bloc: TimetableSelectionBloc(),
         child: SharezoneMainScaffold(
           colorBehindBNB: bottomBarBackgroundColor,
-          appBarConfiguration: AppBarConfiguration(
+          appBarConfiguration: const AppBarConfiguration(
             elevation: 0,
-            actions: const [_SettingsIcon()],
+            actions: [_SettingsIcon()],
           ),
           body: TimetableConfigBuilder(
             builder: (context, config) {

@@ -36,6 +36,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
+import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
 import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
@@ -79,6 +80,7 @@ import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone/report/report_factory.dart';
@@ -105,6 +107,7 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
+import 'package:user/user.dart';
 
 import '../blocs/homework/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
@@ -127,7 +130,7 @@ class SharezoneBlocProviders extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SharezoneBlocProvidersState createState() => _SharezoneBlocProvidersState();
+  State createState() => _SharezoneBlocProvidersState();
 }
 
 class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
@@ -212,7 +215,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       uid,
       (courseId) => getCourseColorFromCourseId(api, courseId)!,
     );
-    final _homeworkCompletionDispatcher =
+    final homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
 
     final config = HausaufgabenheftConfig(
@@ -236,7 +239,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     final dependencies = HausaufgabenheftDependencies(
       dataSource: firestoreHomeworkRepository,
-      completionDispatcher: _homeworkCompletionDispatcher,
+      completionDispatcher: homeworkCompletionDispatcher,
       getOpenOverdueHomeworkIds:
           firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds,
       keyValueStore: widget.blocDependencies.keyValueStore,
@@ -303,10 +306,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final holidayApiClient =
         CloudFunctionHolidayApiClient(api.references.functions);
 
-    final clock = Clock();
-    final subscriptionEnabledFlag = SubscriptionEnabledFlag(
-      FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
-    );
+    const clock = Clock();
+    final subscriptionEnabledFlag = context.read<SubscriptionEnabledFlag>();
     final subscriptionService = SubscriptionService(
       user: api.user.userStream,
       clock: clock,
@@ -321,9 +322,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
       ),
-      ChangeNotifierProvider<SubscriptionEnabledFlag>(
-        create: (context) => subscriptionEnabledFlag,
-      ),
       StreamProvider<auth.AuthUser?>(
         create: (context) => api.user.authUserStream,
         initialData: null,
@@ -333,7 +331,19 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
         ),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SupportPageController(
+          isUserSignedInStream: api.user.isSignedInStream,
+          hasPlusSupportUnlockedStream: subscriptionService
+              .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
+          isUserInGroupOnboardingStream: signUpBloc.signedUp,
+        ),
+      ),
+      StreamProvider<TypeOfUser?>.value(
+        value: typeOfUserStream,
+        initialData: null,
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -360,7 +370,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             platformInformationRetriever: FlutterPlatformInformationRetriever(),
             changelogGateway: ChangelogGateway(firestore: firestore),
             crashAnalytics: getCrashAnalytics(),
-            updateGracePeriod: Duration(days: 3)),
+            updateGracePeriod: const Duration(days: 3)),
       ),
       BlocProvider<DashboardTipSystem>(
           bloc: DashboardTipSystem(
@@ -421,6 +431,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
+      BlocProvider<NotificationsBlocFactory>(
+          bloc: NotificationsBlocFactory(api.user)),
       BlocProvider<DownloadAppTipBloc>(
         bloc: DownloadAppTipBloc(
           DownloadAppTipCache(

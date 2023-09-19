@@ -19,15 +19,17 @@ import 'create_courses.dart';
 class GroupOnboardingIsClassTeacher extends StatelessWidget {
   static const tag = 'onboarding-is-class-teacher-page';
 
+  const GroupOnboardingIsClassTeacher({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GroupOnboardingPageTemplate(
+    return const GroupOnboardingPageTemplate(
       title: "Leitest du eine Klasse? (Klassenlehrer)",
-      children: const [
+      bottomNavigationBar: OnboardingNavigationBar(),
+      children: [
         _ClassTeacherButton(),
         _CourseTeacherButton(),
       ],
-      bottomNavigationBar: OnboardingNavigationBar(),
     );
   }
 }
@@ -45,7 +47,7 @@ class _ClassTeacherButton extends StatelessWidget {
         Navigator.push(
           context,
           FadeRoute(
-            child: GroupOnboardingCreateSchoolClass(),
+            child: const GroupOnboardingCreateSchoolClass(),
             tag: GroupOnboardingCreateSchoolClass.tag,
           ),
         );
@@ -67,7 +69,7 @@ class _CourseTeacherButton extends StatelessWidget {
         Navigator.push(
           context,
           FadeRoute(
-            child: GroupOnboardingCreateCourse(schoolClassId: null),
+            child: const GroupOnboardingCreateCourse(schoolClassId: null),
             tag: GroupOnboardingCreateCourse.tag,
           ),
         );

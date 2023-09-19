@@ -11,7 +11,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'bloc/group_join_bloc.dart';
@@ -27,9 +27,9 @@ Future<dynamic> openGroupJoinPage(BuildContext context) {
     MaterialPageRoute(
       builder: (context) => BlocProvider(
         bloc: GroupJoinBloc(api.connectionsGateway, getCrashAnalytics()),
-        child: _GroupJoinPage(),
+        child: const _GroupJoinPage(),
       ),
-      settings: RouteSettings(name: _GroupJoinPage.tag),
+      settings: const RouteSettings(name: _GroupJoinPage.tag),
     ),
   );
 }
@@ -41,8 +41,8 @@ class _GroupJoinPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const GroupJoinAppBar(),
+    return const Scaffold(
+      appBar: GroupJoinAppBar(),
       body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
       bottomNavigationBar: ContactSupport(),
     );
@@ -61,15 +61,15 @@ class GroupJoinAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: withBackIcon,
       centerTitle: true,
       backgroundColor:
-          isDarkThemeEnabled(context) ? null : Theme.of(context).primaryColor,
-      iconTheme: IconThemeData(color: Colors.white),
+          Theme.of(context).isDarkTheme ? null : Theme.of(context).primaryColor,
+      iconTheme: const IconThemeData(color: Colors.white),
       actions: const [_SupportIcon()],
       bottom: const GroupJoinTextField(),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(190);
+  Size get preferredSize => const Size.fromHeight(190);
 }
 
 class _SupportIcon extends StatelessWidget {

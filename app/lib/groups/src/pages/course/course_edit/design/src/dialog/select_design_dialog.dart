@@ -8,12 +8,12 @@
 
 part of '../../course_edit_design.dart';
 
-class _SelectDesignPopResult {
+class SelectDesignPopResult {
   final Design? design;
   final bool removePersonalColor;
   final bool navigateBackToSelectType;
 
-  _SelectDesignPopResult({
+  const SelectDesignPopResult({
     this.design,
     this.removePersonalColor = false,
     this.navigateBackToSelectType = false,
@@ -21,12 +21,12 @@ class _SelectDesignPopResult {
 }
 
 @visibleForTesting
-Future<_SelectDesignPopResult?> selectDesign(
+Future<SelectDesignPopResult?> selectDesign(
   BuildContext context,
   Design? currentDesign, {
-  _EditDesignType type = _EditDesignType.personal,
+  EditDesignType type = EditDesignType.personal,
 }) async {
-  return await showDialog<_SelectDesignPopResult>(
+  return await showDialog<SelectDesignPopResult>(
     context: context,
     builder: (context) =>
         _SelectDesignAlert(currentDesign: currentDesign, type: type),
@@ -41,12 +41,12 @@ class _SelectDesignAlert extends StatelessWidget {
   }) : super(key: key);
 
   final Design? currentDesign;
-  final _EditDesignType type;
+  final EditDesignType type;
 
   @override
   Widget build(BuildContext context) {
     final hasUserPersonalColor =
-        type == _EditDesignType.personal && currentDesign != null;
+        type == EditDesignType.personal && currentDesign != null;
     return AlertDialog(
       contentPadding:
           EdgeInsets.fromLTRB(24, 24, 24, hasUserPersonalColor ? 12 : 24),
@@ -72,12 +72,12 @@ class _RemovePersonalColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: const Text("Persönliche Farbe entfernen"),
       onPressed: () => Navigator.pop(
-          context, _SelectDesignPopResult(removePersonalColor: true)),
+          context, const SelectDesignPopResult(removePersonalColor: true)),
       style: TextButton.styleFrom(
         foregroundColor: Colors.grey[700],
       ),
+      child: const Text("Persönliche Farbe entfernen"),
     );
   }
 }
@@ -90,7 +90,7 @@ class _Colors extends StatelessWidget {
   }) : super(key: key);
 
   final Design? selectedDesign;
-  final _EditDesignType type;
+  final EditDesignType type;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,8 @@ class _ColorCircleSelectDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const size = 50.0;
-    Widget? child = isSelected ? Icon(Icons.check, color: Colors.white) : null;
+    Widget? child =
+        isSelected ? const Icon(Icons.check, color: Colors.white) : null;
 
     return Material(
       color: design?.color,
@@ -141,8 +142,8 @@ class _ColorCircleSelectDesign extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(size),
         onTap: () =>
-            Navigator.pop(context, _SelectDesignPopResult(design: design)),
-        child: Container(
+            Navigator.pop(context, SelectDesignPopResult(design: design)),
+        child: SizedBox(
           width: size,
           height: size,
           child: child,
@@ -156,11 +157,11 @@ class _BackToSelectTypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       color: Colors.grey,
       onPressed: () => Navigator.pop(
         context,
-        _SelectDesignPopResult(navigateBackToSelectType: true),
+        const SelectDesignPopResult(navigateBackToSelectType: true),
       ),
     );
   }

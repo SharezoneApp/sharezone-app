@@ -28,7 +28,7 @@ class _CourseList extends StatelessWidget {
 
   final List<Course>? courseList;
 
-  List<Widget> getLines(List<Course> courseList, Course selectedCourse) {
+  List<Widget> getLines(List<Course> courseList, Course? selectedCourse) {
     final list = <Widget>[];
     for (int i = 0; i < courseList.length; i += 2) {
       final first = _CourseTile(
@@ -44,7 +44,7 @@ class _CourseList extends StatelessWidget {
                   ? Colors.lightGreen
                   : Colors.lightBlue,
             )
-          : Text("");
+          : const Text("");
       list.add(_LineWithTwoWidgets(first: first, second: second));
     }
     return list;
@@ -58,7 +58,7 @@ class _CourseList extends StatelessWidget {
       stream: bloc.course,
       builder: (context, courseSnapshot) {
         final selectedCourse = courseSnapshot.data;
-        if (courseList!.isEmpty) return _EmptyCourseList();
+        if (courseList!.isEmpty) return const _EmptyCourseList();
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -69,7 +69,7 @@ class _CourseList extends StatelessWidget {
                     first: _JoinCourse(),
                     second: _CreateCourse(),
                   ),
-                  ...getLines(courseList!, selectedCourse!),
+                  ...getLines(courseList!, selectedCourse),
                 ],
               ),
             ),
@@ -112,6 +112,8 @@ class _CourseTile extends StatelessWidget {
 
                   await Future.delayed(const Duration(
                       milliseconds: 200)); // Waiting for selecting feedback
+                  if (!context.mounted) return;
+
                   navigateToNextTab(context);
                 }
               : null,
@@ -122,13 +124,13 @@ class _CourseTile extends StatelessWidget {
 
   Widget courseAvatar() => CircleAvatar(
         backgroundColor: color,
-        child: Text(course.abbreviation),
         foregroundColor: Colors.white,
+        child: Text(course.abbreviation),
       );
-  Widget lockAvatar() => CircleAvatar(
+  Widget lockAvatar() => const CircleAvatar(
         backgroundColor: Colors.transparent,
-        child: const Icon(Icons.lock),
         foregroundColor: Colors.grey,
+        child: Icon(Icons.lock),
       );
 }
 

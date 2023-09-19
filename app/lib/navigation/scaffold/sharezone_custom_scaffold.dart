@@ -22,6 +22,7 @@ class SharezoneCustomScaffold extends StatelessWidget {
   final Key? scaffoldKey;
 
   const SharezoneCustomScaffold({
+    super.key,
     required this.navigationItem,
     required this.body,
     required this.floatingActionButton,

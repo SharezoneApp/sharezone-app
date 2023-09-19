@@ -21,6 +21,7 @@ class DesktopCustomScaffold extends StatelessWidget {
   final Key? scaffoldKey;
 
   const DesktopCustomScaffold({
+    super.key,
     required this.navigationItem,
     required this.appBarConfiguration,
     required this.body,
@@ -31,7 +32,7 @@ class DesktopCustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DesktopAlignment(
-      drawer: SharezoneDrawer(isDesktopModus: true),
+      drawer: const SharezoneDrawer(isDesktopModus: true),
       scaffold: Scaffold(
         key: scaffoldKey,
         body: CustomScrollView(

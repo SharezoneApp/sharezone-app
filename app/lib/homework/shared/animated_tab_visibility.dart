@@ -84,7 +84,7 @@ class AnimatedTabVisibility extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedTabVisibilityState createState() => _AnimatedTabVisibilityState();
+  State createState() => _AnimatedTabVisibilityState();
 }
 
 class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
@@ -132,12 +132,12 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
     }
 
     return AnimatedVisibility(
-      child: widget.child,
       visible: isVisible!,
       maintainState: widget.maintainState,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: widget.curve,
       onEnd: widget.onEnd,
+      child: widget.child,
     );
   }
 }

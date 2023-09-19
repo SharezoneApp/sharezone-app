@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 Color _getLessonCardTextColor(BuildContext context) =>
-    isDarkThemeEnabled(context) ? Colors.lightBlue : darkBlueColor;
+    Theme.of(context).isDarkTheme ? Colors.lightBlue : darkBlueColor;
 
 class _LessonCard extends StatelessWidget {
   const _LessonCard(this.view, {Key? key}) : super(key: key);
@@ -54,14 +54,14 @@ class _LessonCard extends StatelessWidget {
                     CircleAvatar(
                       radius: 17.5,
                       backgroundColor: isNow
-                          ? isDarkThemeEnabled(context)
+                          ? Theme.of(context).isDarkTheme
                               ? Theme.of(context).cardColor
                               : Colors.white
                           : color.withOpacity(0.2),
                       foregroundColor: color,
                       child: Text(
                         view.abbreviation,
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     SizedBox(height: isNow ? 10 : 7),
@@ -122,8 +122,9 @@ class _LessonNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isEmptyOrNull(periodNumber) || periodNumber == "null")
+    if (isEmptyOrNull(periodNumber) || periodNumber == "null") {
       return const SizedBox(height: 14);
+    }
     return Text(
       periodNumber!,
       style: TextStyle(
@@ -169,7 +170,7 @@ class _Room extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isEmptyOrNull(room)) return Container();
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 9),
       child: Text(
         room!,
         style: TextStyle(

@@ -39,11 +39,11 @@ class NavigationAnalytics extends BlocBase {
   /// kompatibel). Aus diesem Grund wurde ein normales [AnalyticsEvent]
   /// verwendet.
   void logDrawerLogoClick() {
-    _analytics.log(AnalyticsEvent("drawer_logo_click"));
+    _analytics.log(const AnalyticsEvent("drawer_logo_click"));
   }
 
   void logOpenDrawer() {
-    _analytics.log(AnalyticsEvent("open_drawer"));
+    _analytics.log(const AnalyticsEvent("open_drawer"));
   }
 
   @override

@@ -263,12 +263,6 @@ class _FakeAppFunctionsResult_18<T> extends _i2.SmartFake
 class MockSharezonePlusPageController extends _i2.Mock
     implements _i21.SharezonePlusPageController {
   @override
-  bool get hasPlus => (super.noSuchMethod(
-        Invocation.getter(#hasPlus),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
   set hasPlus(bool? _hasPlus) => super.noSuchMethod(
         Invocation.setter(
           #hasPlus,
@@ -276,12 +270,6 @@ class MockSharezonePlusPageController extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
-  @override
-  String get price => (super.noSuchMethod(
-        Invocation.getter(#price),
-        returnValue: '',
-        returnValueForMissingStub: '',
-      ) as String);
   @override
   set price(String? _price) => super.noSuchMethod(
         Invocation.setter(
@@ -772,6 +760,12 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i22.Stream<_i30.AuthUser?>.empty(),
         returnValueForMissingStub: _i22.Stream<_i30.AuthUser?>.empty(),
       ) as _i22.Stream<_i30.AuthUser?>);
+  @override
+  _i22.Stream<bool> get isSignedInStream => (super.noSuchMethod(
+        Invocation.getter(#isSignedInStream),
+        returnValue: _i22.Stream<bool>.empty(),
+        returnValueForMissingStub: _i22.Stream<bool>.empty(),
+      ) as _i22.Stream<bool>);
   @override
   _i22.Stream<_i31.DocumentSnapshot<Object?>> get userDocument =>
       (super.noSuchMethod(

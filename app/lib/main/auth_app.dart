@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/auth/sign_in_with_qr_code_page.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
@@ -25,8 +26,9 @@ import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_
 import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
-import 'package:sharezone/pages/settings/support_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 
 class AuthApp extends StatefulWidget {
@@ -40,7 +42,7 @@ class AuthApp extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AuthAppState createState() => _AuthAppState();
+  State createState() => _AuthAppState();
 }
 
 class _AuthAppState extends State<AuthApp> {
@@ -56,40 +58,53 @@ class _AuthAppState extends State<AuthApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      blocProviders: [
-        BlocProvider<DownloadAppTipBloc>(
-          bloc: DownloadAppTipBloc(
-            DownloadAppTipCache(
-              FlutterStreamingKeyValueStore(
-                  widget.blocDependencies.streamingSharedPreferences),
-            ),
-            DownloadAppTipAnalytics(widget.analytics),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => SupportPageController(
+            // Inside the [AuthApp] the user can't be signed in and can't have
+            // Sharezone Plus.
+            isUserSignedInStream: Stream.value(false),
+            hasPlusSupportUnlockedStream: Stream.value(false),
+            isUserInGroupOnboardingStream: Stream.value(false),
           ),
         ),
-        BlocProvider<RegistrationBloc>(bloc: bloc),
-        BlocProvider<ImprintBlocFactory>(
-          bloc: ImprintBlocFactory(
-            ImprintGateway(widget.blocDependencies.firestore),
-          ),
-        ),
-        BlocProvider<ImprintAnalytics>(
-            bloc: ImprintAnalytics(widget.analytics)),
       ],
-      child: (context) => SharezoneMaterialApp(
-        blocDependencies: widget.blocDependencies,
-        home: WelcomePage(),
-        onUnknownRouteWidget: WelcomePage(),
-        analytics: widget.analytics,
-        navigatorKey: null,
-        routes: {
-          SupportPage.tag: (context) => SupportPage(),
-          SignUpPage.tag: (context) => SignUpPage(),
-          LoginPage.tag: (context) => LoginPage(),
-          PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
-          SignInWithQrCodePage.tag: (context) => SignInWithQrCodePage(),
-          ImprintPage.tag: (context) => ImprintPage(),
-        },
+      child: MultiBlocProvider(
+        blocProviders: [
+          BlocProvider<DownloadAppTipBloc>(
+            bloc: DownloadAppTipBloc(
+              DownloadAppTipCache(
+                FlutterStreamingKeyValueStore(
+                    widget.blocDependencies.streamingSharedPreferences),
+              ),
+              DownloadAppTipAnalytics(widget.analytics),
+            ),
+          ),
+          BlocProvider<RegistrationBloc>(bloc: bloc),
+          BlocProvider<ImprintBlocFactory>(
+            bloc: ImprintBlocFactory(
+              ImprintGateway(widget.blocDependencies.firestore),
+            ),
+          ),
+          BlocProvider<ImprintAnalytics>(
+              bloc: ImprintAnalytics(widget.analytics)),
+        ],
+        child: (context) => SharezoneMaterialApp(
+          blocDependencies: widget.blocDependencies,
+          home: const WelcomePage(),
+          onUnknownRouteWidget: const WelcomePage(),
+          analytics: widget.analytics,
+          navigatorKey: null,
+          routes: {
+            SupportPage.tag: (context) => const SupportPage(),
+            SignUpPage.tag: (context) => const SignUpPage(),
+            LoginPage.tag: (context) => const LoginPage(),
+            PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+            SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
+            ImprintPage.tag: (context) => const ImprintPage(),
+          },
+        ),
       ),
     );
   }

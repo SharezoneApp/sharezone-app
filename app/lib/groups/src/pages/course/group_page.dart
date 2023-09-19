@@ -130,13 +130,14 @@ class GroupPageState extends State<GroupPage> {
         floatingActionButton: AnimatedSwitcher(
           duration: const Duration(milliseconds: 175),
           transitionBuilder: (child, animation) =>
-              ScaleTransition(child: child, scale: animation),
-          child: _isVisible ? _CoursePageFAB(visible: _isVisible) : Text(""),
+              ScaleTransition(scale: animation, child: child),
+          child:
+              _isVisible ? _CoursePageFAB(visible: _isVisible) : const Text(""),
         ),
         navigationItem: NavigationItem.group,
-        appBarConfiguration: AppBarConfiguration(
+        appBarConfiguration: const AppBarConfiguration(
           title: "Gruppen",
-          actions: const [HelpCoursePageIconButton()],
+          actions: [HelpCoursePageIconButton()],
         ),
       ),
     );
@@ -159,7 +160,7 @@ class _SchoolClassList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text("Meine Klasse${schoolClasses.length == 1 ? "" : "n"}:",
-            style: TextStyle(color: Colors.grey)),
+            style: const TextStyle(color: Colors.grey)),
         AnimationLimiter(
           child: Column(
             children: AnimationConfiguration.toStaggeredList(
@@ -244,7 +245,12 @@ class _CoursePageFAB extends StatelessWidget {
       context: context,
       builder: (BuildContext contextSheet) => _ModelBottomSheetContent(context),
     );
-    handleCourseDialogOption(context, courseDialogOption);
+    if (context.mounted) {
+      handleCourseDialogOption(
+        context,
+        courseDialogOption,
+      );
+    }
   }
 
   @override
@@ -347,11 +353,11 @@ class _JoinGroupTile extends StatelessWidget {
             children: <Widget>[
               const SizedBox(width: 16),
               Icon(iconData,
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.white54
                       : Colors.grey[600]),
               const SizedBox(width: 22),
-              Text(title, style: TextStyle(fontSize: 16)),
+              Text(title, style: const TextStyle(fontSize: 16)),
               const SizedBox(width: 16),
             ],
           ),
@@ -383,14 +389,14 @@ class _EmptyGroupList extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _EmptyGroupListAction(
-              icon: Icon(Icons.vpn_key),
+              icon: const Icon(Icons.vpn_key),
               title: "Kurs/Klasse beitreten",
               subtitle:
                   "Falls einer deiner Mitschüler schon eine Klasse oder einen Kurs erstellt hat, kannst du diesem einfach beitreten.",
               onTap: () => openGroupJoinPage(context),
             ),
             _EmptyGroupListAction(
-              icon: Icon(Icons.group_add),
+              icon: const Icon(Icons.group_add),
               title: "Schulklasse erstellen",
               subtitle:
                   "Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.",
@@ -403,7 +409,7 @@ class _EmptyGroupList extends StatelessWidget {
               },
             ),
             _EmptyGroupListAction(
-              icon: Icon(Icons.add_circle_outline),
+              icon: const Icon(Icons.add_circle_outline),
               title: "Kurs erstellen",
               subtitle:
                   "Einen Kurs kannst du dir wie ein Schulfach vorstellen. Jedes Fach wird mit einem Kurs abgebildet.",

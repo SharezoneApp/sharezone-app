@@ -43,7 +43,7 @@ void main() {
       FlutterError.onError = (e) => fail(e.toString());
     });
 
-    TestCurrentlyReadingController _createController(
+    TestCurrentlyReadingController createController(
       List<DocumentSection> sections, {
       double threshold = 0.1,
       String? endSection,
@@ -63,7 +63,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       expect(controller.currentlyReadSection, null);
     });
@@ -75,7 +75,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [
         _headingPosition(
@@ -95,7 +95,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [
         _headingPosition(
@@ -115,7 +115,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [
         _headingPosition(
@@ -135,7 +135,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [
         _headingPosition(
@@ -156,7 +156,7 @@ void main() {
         _section('bar'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // At bottom of the screen
       visibleSections.value = [
@@ -191,7 +191,7 @@ void main() {
         _section('quz'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // At bottom of the screen
       visibleSections.value = [
@@ -230,7 +230,7 @@ void main() {
         _section('baz'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -271,7 +271,7 @@ void main() {
         _section('bar'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We scroll the second chapter to the bottom of the screen
       visibleSections.value = [
@@ -312,7 +312,7 @@ void main() {
         _section('foo'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We start with the first section at the top of the screen...
       visibleSections.value = [
@@ -347,7 +347,7 @@ void main() {
         _section('bar'),
       ];
 
-      final controller = _createController(sections, endSection: endSectionId);
+      final controller = createController(sections, endSection: endSectionId);
 
       // We start with the last section at the top of the screen...
       visibleSections.value = [
@@ -372,7 +372,7 @@ void main() {
         _section('bar'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [];
 
@@ -403,7 +403,7 @@ void main() {
         _section('xyz'),
       ];
 
-      final controller = _createController(sections, threshold: 0.1);
+      final controller = createController(sections, threshold: 0.1);
 
       visibleSections.value = [];
 
@@ -433,7 +433,7 @@ void main() {
         ]),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We scroll to the first section (its at the bottom)
       visibleSections.value = [
@@ -487,7 +487,7 @@ void main() {
         _section('2-geltungsbereich'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -548,7 +548,7 @@ void main() {
         _section('2-geltungsbereich'),
       ];
 
-      final controller = _createController(sections);
+      final controller = createController(sections);
 
       // We scroll to the first section
       visibleSections.value = [
@@ -596,7 +596,7 @@ void main() {
         _section('baz'),
       ];
 
-      final controller = _createController(
+      final controller = createController(
         sections,
         endSection: 'last-section-id',
       );
@@ -649,7 +649,7 @@ void main() {
         _section('baz'),
       ];
 
-      final controller = _createController(
+      final controller = createController(
         sections,
         endSection: 'last-section-id',
       );
@@ -689,7 +689,7 @@ void main() {
         _section('baz'),
       ];
 
-      final controller = _createController(
+      final controller = createController(
         sections,
         endSection: 'last-section-id',
       );
@@ -724,7 +724,7 @@ void main() {
         _section('baz'),
       ];
 
-      final controller = _createController(
+      final controller = createController(
         sections,
         endSection: 'last-section-id',
       );

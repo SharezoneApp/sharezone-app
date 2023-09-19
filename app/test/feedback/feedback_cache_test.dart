@@ -22,15 +22,15 @@ void main() {
 
     test("Returns no Cooldown if no last submit was saved", () async {
       final onCooldown =
-          await cache.hasFeedbackSubmissionCoolDown(Duration(minutes: 1));
+          await cache.hasFeedbackSubmissionCoolDown(const Duration(minutes: 1));
       expect(onCooldown, false);
     });
     test(
         "Returns no cooldown if cached last send time is more than cooldown range",
         () async {
-      final cooldownDuration = Duration(minutes: 2);
+      const cooldownDuration = Duration(minutes: 2);
       final lastFeedbackSend = DateTime.now().subtract(cooldownDuration +
-          Duration(seconds: 10)); // So Feedback should get no cooldown
+          const Duration(seconds: 10)); // So Feedback should get no cooldown
 
       dummyKeyValueStore.setString(
           FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
@@ -43,9 +43,9 @@ void main() {
     test(
         "Returns cooldown if cached last send time is less than cooldown range",
         () async {
-      final cooldownDuration = Duration(minutes: 2);
+      const cooldownDuration = Duration(minutes: 2);
       final lastFeedbackSend = DateTime.now().subtract(cooldownDuration -
-          Duration(seconds: 10)); // So Feedback should get cooldown
+          const Duration(seconds: 10)); // So Feedback should get cooldown
 
       await dummyKeyValueStore.setString(
           FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());

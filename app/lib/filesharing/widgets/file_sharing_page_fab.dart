@@ -47,13 +47,17 @@ class FileSharingPageFAB extends StatelessWidget {
   Future<void> onPressed(BuildContext context, FolderPath path) async {
     final option = await showModalBottomSheet<_FABAddOption>(
       context: context,
-      builder: (context) => _FABModalBottomSheetContent(),
+      builder: (context) => const _FABModalBottomSheetContent(),
     );
+    if (!context.mounted) return;
+
     if (option != null) {
       final api = BlocProvider.of<SharezoneContext>(context).api;
       switch (option) {
         case _FABAddOption.newFolder:
           await Future.delayed(const Duration(milliseconds: 150));
+          if (!context.mounted) return;
+
           showDialog(
             context: context,
             builder: (context) => OneTextFieldDialog(
@@ -77,6 +81,8 @@ class FileSharingPageFAB extends StatelessWidget {
                       creatorName: creatorName,
                       folderType: FolderType.normal,
                     ));
+                if (!context.mounted) return;
+
                 Navigator.pop(context);
               },
             ),
@@ -101,6 +107,8 @@ class FileSharingPageFAB extends StatelessWidget {
                   localFile: file,
                   creatorID: api.uID,
                   creatorName: creatorName);
+              if (!context.mounted) return;
+
               await showUploadFileDialog(
                 context: context,
                 task: taskAsFuture,
@@ -120,15 +128,20 @@ class FileSharingPageFAB extends StatelessWidget {
                   localFile: tempImage,
                   creatorID: api.uID,
                   creatorName: creatorName);
+              if (!context.mounted) return;
+
               showUploadFileDialog(
                 context: context,
                 task: taskAsFuture,
               );
             }
           } else {
-            showSnackSec(
+            if (context.mounted) {
+              showSnackSec(
                 context: context,
-                text: "Oh! Die Berechtigung für die Kamera fehlt!");
+                text: "Oh! Die Berechtigung für die Kamera fehlt!",
+              );
+            }
           }
           break;
       }
@@ -173,13 +186,13 @@ class __FABModalBottomSheetContentState
             const SizedBox(height: 20),
             Text("Neu erstellen",
                 style: TextStyle(
-                    color: isDarkThemeEnabled(context)
+                    color: Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Container(
+              child: SizedBox(
                 height: 150,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 275),
@@ -202,8 +215,8 @@ class __FABModalBottomSheetContentState
           showUploadOptions = false;
         });
       },
-      child: Stack(
-        children: const <Widget>[
+      child: const Stack(
+        children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 130),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
@@ -234,7 +247,7 @@ class __FABModalBottomSheetContentState
         Padding(
           padding:
               EdgeInsets.only(right: PlatformCheck.isDesktopOrWeb ? 100 : 205),
-          child: ModalBottomSheetBigIconButton<_FABAddOption>(
+          child: const ModalBottomSheetBigIconButton<_FABAddOption>(
             title: "Ordner",
             iconData: Icons.folder,
             popValue: _FABAddOption.newFolder,
@@ -261,8 +274,8 @@ class __FABModalBottomSheetContentState
           ),
         ),
         if (!PlatformCheck.isDesktopOrWeb)
-          Padding(
-            padding: const EdgeInsets.only(left: 205),
+          const Padding(
+            padding: EdgeInsets.only(left: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
               title: "Kamera",
               iconData: Icons.photo_camera,

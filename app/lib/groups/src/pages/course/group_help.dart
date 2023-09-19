@@ -19,17 +19,21 @@ TextStyle _descriptionStyle(BuildContext context) => TextStyle(
 class CourseHelpPage extends StatelessWidget {
   static const String tag = "course-help-page";
 
+  const CourseHelpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Hilfe: Gruppen"), centerTitle: true),
-      body: SingleChildScrollView(child: CourseHelpInnerPage()),
-      bottomNavigationBar: ContactSupport(),
+      body: const SingleChildScrollView(child: CourseHelpInnerPage()),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }
 
 class CourseHelpInnerPage extends StatelessWidget {
+  const CourseHelpInnerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -88,12 +92,12 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: ExpansionTileTitle(title: "Wie trete ich einer Gruppe bei?"),
+      title: const ExpansionTileTitle(title: "Wie trete ich einer Gruppe bei?"),
       children: <Widget>[
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "Um einer Gruppe von deinen Mitschüler oder Lehrern beizutreten, gibt es zwei "
               "Möglichkeiten:"
@@ -119,18 +123,19 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
             ),
           ),
           onExpansionChanged: (value) {
-            if (value)
+            if (value) {
               setState(() {
                 // Expansion is open: so let's make the svg black
-                _svgColor = isDarkThemeEnabled(context)
+                _svgColor = Theme.of(context).isDarkTheme
                     ? Colors.white
                     : Theme.of(context).colorScheme.secondary;
               });
-            else
+            } else {
               // Expansion is closed: so let's make the svg grey
               setState(() {
                 _svgColor = Colors.grey[600];
               });
+            }
           },
           children: <Widget>[
             Padding(
@@ -160,18 +165,19 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
             icon: Icon(Icons.keyboard, color: _typeInPublicKeyIconColor),
           ),
           onExpansionChanged: (value) {
-            if (value)
+            if (value) {
               setState(() {
                 // Expansion is open: so let's make the svg black
-                _typeInPublicKeyIconColor = isDarkThemeEnabled(context)
+                _typeInPublicKeyIconColor = Theme.of(context).isDarkTheme
                     ? Colors.white
                     : Theme.of(context).colorScheme.secondary;
               });
-            else
+            } else {
               // Expansion is closed: so let's make the svg grey
               setState(() {
                 _typeInPublicKeyIconColor = Colors.grey[600];
               });
+            }
           },
           children: <Widget>[
             Padding(

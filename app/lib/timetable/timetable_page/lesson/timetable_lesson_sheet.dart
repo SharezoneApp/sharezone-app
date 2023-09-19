@@ -73,6 +73,7 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
       ]
     ],
   );
+  if (!context.mounted) return;
 
   switch (result) {
     case _LessonLongPressResult.changeDesign:
@@ -112,26 +113,26 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
           ),
           if (confirm)
             CupertinoDialogAction(
-              child: const Text("Löschen"),
               onPressed: () => Navigator.pop(context, true),
               isDefaultAction: true,
               isDestructiveAction: true,
+              child: const Text("Löschen"),
             ),
         ],
       );
     }
     return AlertDialog(
-      title: Text("Stunde löschen"),
+      title: const Text("Stunde löschen"),
       content: content(),
       contentPadding: const EdgeInsets.only(),
       actions: <Widget>[
         const CancelButton(),
         TextButton(
-          child: const Text("LÖSCHEN"),
           onPressed: confirm ? () => Navigator.pop(context, true) : null,
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.error,
           ),
+          child: const Text("LÖSCHEN"),
         ),
       ],
     );
@@ -142,8 +143,8 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
           child: Text(
               "Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?"),
         ),
@@ -171,6 +172,8 @@ Future<void> showLessonModelSheet(
       design: design,
     ),
   );
+  if (!context.mounted) return;
+
   switch (popOption) {
     case _LessonModelSheetAction.delete:
       _deleteLesson(context, lesson);
@@ -188,9 +191,12 @@ Future<void> showLessonModelSheet(
 
 Future _deleteLesson(BuildContext context, Lesson lesson) async {
   await waitingForBottomModelSheetClosing();
+  if (!context.mounted) return;
+
   final confirmed = await showDeleteLessonConfirmationDialog(context);
-  if (confirmed != null && confirmed)
+  if (confirmed == true && context.mounted) {
     _deleteLessonAndShowConfirmationSnackbar(context, lesson);
+  }
 }
 
 Future<void> _deleteLessonAndShowConfirmationSnackbar(
@@ -200,6 +206,8 @@ Future<void> _deleteLessonAndShowConfirmationSnackbar(
   timetableGateway.deleteLesson(lesson);
 
   await waitingForPopAnimation();
+  if (!context.mounted) return;
+
   showSnackSec(
     text: 'Schulstunde wurde gelöscht',
     context: context,
@@ -220,9 +228,11 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
                 api.connectionsGateway,
                 timetableBloc,
               ),
-          settings: RouteSettings(name: TimetableEditLessonPage.tag)));
+          settings: const RouteSettings(name: TimetableEditLessonPage.tag)));
   if (confirmed != null && confirmed) {
     await waitingForPopAnimation();
+    if (!context.mounted) return;
+
     showSnackSec(
       text: 'Schulstunde wurde erfolgreich bearbeitet',
       context: context,
@@ -233,17 +243,16 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
 }
 
 Color? getIconGrey(BuildContext context) =>
-    isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
+    Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600];
 
 class _TimetableLessonBottomModelSheet extends StatelessWidget {
   final Lesson lesson;
   final Design? design;
 
   const _TimetableLessonBottomModelSheet({
-    Key? key,
     required this.lesson,
     this.design,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -298,12 +307,12 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             title: Text.rich(
               TextSpan(
                 style: TextStyle(
-                    color: isDarkThemeEnabled(context)
+                    color: Theme.of(context).isDarkTheme
                         ? Colors.white
                         : Colors.grey[800],
                     fontSize: 16),
                 children: <TextSpan>[
-                  TextSpan(text: "Kursname: "),
+                  const TextSpan(text: "Kursname: "),
                   TextSpan(
                       text: courseName, style: TextStyle(color: design?.color))
                 ],
@@ -335,9 +344,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
 }
 
 class DeleteIcon extends StatelessWidget {
-  const DeleteIcon({
-    Key? key,
-  }) : super(key: key);
+  const DeleteIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -351,9 +358,7 @@ class DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({
-    Key? key,
-  }) : super(key: key);
+  const _EditIcon();
 
   @override
   Widget build(BuildContext context) {
@@ -367,12 +372,12 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _ChangeColorIcon extends StatelessWidget {
-  const _ChangeColorIcon({Key? key}) : super(key: key);
+  const _ChangeColorIcon();
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.color_lens),
+      icon: const Icon(Icons.color_lens),
       color: getIconGrey(context),
       tooltip: 'Farbe ändern',
       onPressed: () => Navigator.pop(context, _LessonModelSheetAction.design),

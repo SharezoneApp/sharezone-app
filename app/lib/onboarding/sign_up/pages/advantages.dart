@@ -48,7 +48,7 @@ class _Advantages extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: OnboardingNavigationBar(
+      bottomNavigationBar: const OnboardingNavigationBar(
         action: OnboardingNavigationBarContinueButton(
           nextPage: _PrivacyPolicy(),
           nextTag: _PrivacyPolicy.tag,
@@ -99,7 +99,7 @@ class _AdvantageNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AdvancedListTile(
+    return const _AdvancedListTile(
       title: "Erinnerungen an offene Hausaufgaben",
       leading: SizedBox(
         height: 45,

@@ -44,7 +44,7 @@ void onEdit(BuildContext context, BlackboardItem blackboardItem) {
               blackboardItem: blackboardItem,
               popTwice: true,
             ),
-        settings: RouteSettings(name: BlackboardDialog.tag)),
+        settings: const RouteSettings(name: BlackboardDialog.tag)),
   );
 }
 
@@ -59,15 +59,16 @@ List<Widget> _actions(BlackboardView view) => [
 const _kFabHalfSize = 28.0;
 
 class BlackboardDetails extends StatefulWidget {
-  BlackboardDetails({required this.view}) : id = view.id;
-  BlackboardDetails.loadId(this.id) : view = BlackboardView.empty(id: id);
+  BlackboardDetails({super.key, required this.view}) : id = view.id;
+  BlackboardDetails.loadId(this.id, {super.key})
+      : view = BlackboardView.empty(id: id);
 
   static const tag = "blackboard-details-page";
   final BlackboardView view;
   final String id;
 
   @override
-  _BlackboardDetailsState createState() => _BlackboardDetailsState();
+  State createState() => _BlackboardDetailsState();
 }
 
 class _BlackboardDetailsState extends State<BlackboardDetails> {
@@ -94,12 +95,14 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
         initialData: widget.view,
         stream: bloc.view,
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
+          if (!snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                  title: const Text("Details"), leading: CloseIconButton()),
+                  title: const Text("Details"),
+                  leading: const CloseIconButton()),
               body: const Center(child: AccentColorCircularProgressIndicator()),
             );
+          }
 
           final dimensions = Dimensions.fromMediaQuery(context);
           final view = snapshot.data ?? widget.view;
@@ -282,10 +285,8 @@ class _Title extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: SelectableText(
         title!,
-        style: Theme.of(context)
-            .textTheme
-            .headlineMedium!
-            .copyWith(color: isDarkThemeEnabled(context) ? null : Colors.black),
+        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            color: Theme.of(context).isDarkTheme ? null : Colors.black),
       ),
     );
   }
@@ -298,7 +299,7 @@ class _InformationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _greyTextStyle =
+    final greyTextStyle =
         Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -307,7 +308,7 @@ class _InformationHeader extends StatelessWidget {
         children: <Widget>[
           SelectableText(
             "${view.createdOnText}   -   ${view.authorName}",
-            style: _greyTextStyle,
+            style: greyTextStyle,
           ),
           view.hasPermissionToEdit ? _UserReadTile(view: view) : Container()
         ],
@@ -357,7 +358,7 @@ class __UserReadTileState extends State<_UserReadTile> {
                       ),
                       Text(
                         "Gelesen von: ${widget.view.readPercent}%",
-                        style: TextStyle(color: widget.view.readPerecentColor),
+                        style: TextStyle(color: widget.view.readPercentColor),
                       ),
                     ],
                   ),
@@ -365,7 +366,6 @@ class __UserReadTileState extends State<_UserReadTile> {
                 DescribedFeatureOverlay(
                   featureId:
                       blackboardItemReadByUsersListFeatureDiscoveryStepId,
-                  child: rightArrow(),
                   tapTarget: rightArrow(),
                   onDismiss: () async {
                     FeatureDiscovery.completeCurrentStep(context);
@@ -373,6 +373,7 @@ class __UserReadTileState extends State<_UserReadTile> {
                   },
                   title: const Text(
                       'Erhalte eine genaue Liste, welche Teilnehmer den Infozettel gelesen haben.'),
+                  child: rightArrow(),
                 ),
               ],
             ),
@@ -389,17 +390,18 @@ class __UserReadTileState extends State<_UserReadTile> {
         FeatureDiscovery.completeCurrentStep(context);
       },
       child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Theme.of(context).isDarkTheme
+              ? Colors.grey[400]
+              : Colors.grey[300],
+        ),
+        width: 30,
+        height: 30,
         child: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.grey[700],
         ),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color:
-              isDarkThemeEnabled(context) ? Colors.grey[400] : Colors.grey[300],
-        ),
-        width: 30,
-        height: 30,
       ),
     );
   }
@@ -412,7 +414,8 @@ class __UserReadTileState extends State<_UserReadTile> {
           itemId: widget.view.id,
           courseId: CourseId(widget.view.courseID),
         ),
-        settings: RouteSettings(name: BlackboardItemReadByUsersListPage.tag),
+        settings:
+            const RouteSettings(name: BlackboardItemReadByUsersListPage.tag),
       ),
     );
   }
@@ -435,7 +438,7 @@ class _Text extends StatelessWidget {
         theme.copyWith(
           textTheme: theme.textTheme.copyWith(
               bodyMedium: flowingText.copyWith(
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.white
                       : Colors.black)),
         ),
@@ -445,7 +448,7 @@ class _Text extends StatelessWidget {
       //   // immer weiß ist. Ticket: https://github.com/flutter/flutter_markdown/issues/198
 
       //   p: flowingText.copyWith(
-      //       color: isDarkThemeEnabled(context) ? Colors.white : Colors.black),
+      //       color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
       onTapLink: (url, _, __) => launchURL(url, context: context),

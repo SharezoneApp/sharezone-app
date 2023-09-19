@@ -46,7 +46,7 @@ class BlackboardDialog extends StatefulWidget {
   final bool popTwice;
 
   @override
-  _BlackboardDialogState createState() => _BlackboardDialogState();
+  State createState() => _BlackboardDialogState();
 }
 
 class _BlackboardDialogState extends State<BlackboardDialog> {
@@ -90,7 +90,7 @@ class _BlackboardDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  __BlackboardDialogState createState() => __BlackboardDialogState();
+  State createState() => __BlackboardDialogState();
 }
 
 class __BlackboardDialogState extends State<_BlackboardDialog> {
@@ -107,9 +107,12 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
   Future<void> leaveDialog() async {
     if (widget.bloc.hasInputChanged()) {
       final leaveDialog = await warnUserAboutLeavingForm(context);
-      if (leaveDialog) Navigator.pop(context);
-    } else
+      if (leaveDialog && context.mounted) {
+        Navigator.pop(context);
+      }
+    } else {
       Navigator.pop(context);
+    }
   }
 
   @override
@@ -119,7 +122,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
           ? warnUserAboutLeavingForm(context)
           : Future.value(true),
       child: Scaffold(
-        backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+        backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         body: Column(
           children: <Widget>[
             _AppBar(
@@ -185,35 +188,45 @@ class _SaveButton extends StatelessWidget {
     final hasAttachments = localFiles.isNotEmpty;
     try {
       if (bloc.isValid()) {
-        sendDataToFrankfurtSnackBar(context);
+        if (context.mounted) {
+          sendDataToFrankfurtSnackBar(context);
+        }
 
         if (editMode) {
-          if (hasAttachments)
+          if (hasAttachments) {
             await bloc.submit(oldBlackboardItem: oldBlackboardItem);
-          else
+          } else {
             bloc.submit(oldBlackboardItem: oldBlackboardItem);
+          }
 
-          logBlackboardEditEvent(context);
-          hideSendDataToFrankfurtSnackBar(context);
-          if (popTwice) Navigator.pop(context);
-          Navigator.pop(context, BlackboardPopOption.edited);
+          if (context.mounted) {
+            logBlackboardEditEvent(context);
+            hideSendDataToFrankfurtSnackBar(context);
+            if (popTwice) Navigator.pop(context);
+            Navigator.pop(context, BlackboardPopOption.edited);
+          }
         } else {
-          if (hasAttachments)
+          if (hasAttachments) {
             await bloc.submit();
-          else
+          } else {
             bloc.submit();
+          }
 
-          logBlackboardAddEvent(context);
-          hideSendDataToFrankfurtSnackBar(context);
-          Navigator.pop(context, BlackboardPopOption.added);
+          if (context.mounted) {
+            logBlackboardAddEvent(context);
+            hideSendDataToFrankfurtSnackBar(context);
+            Navigator.pop(context, BlackboardPopOption.added);
+          }
         }
       }
     } on Exception catch (e, s) {
-      showSnackSec(
-        text: handleErrorMessage(e.toString(), s),
-        context: context,
-        seconds: 5,
-      );
+      if (context.mounted) {
+        showSnackSec(
+          text: handleErrorMessage(e.toString(), s),
+          context: context,
+          seconds: 5,
+        );
+      }
     }
   }
 
@@ -251,7 +264,7 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isDarkThemeEnabled(context)
+      color: Theme.of(context).isDarkTheme
           ? Theme.of(context).appBarTheme.backgroundColor
           : Theme.of(context).primaryColor,
       elevation: 1,
@@ -323,9 +336,9 @@ class _TitleField extends StatelessWidget {
                   cursorColor: Colors.white,
                   maxLines: null,
                   style: const TextStyle(color: Colors.white, fontSize: 20.0),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Titel eingeben",
-                    hintStyle: const TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: Colors.white),
                     border: InputBorder.none,
                   ),
                   onChanged: (String title) => bloc.changeTitle(title),
@@ -434,15 +447,15 @@ class _TextField extends StatelessWidget {
               maxLines: null,
               scrollPadding: const EdgeInsets.all(16.0),
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Nachricht verfassen",
                 border: InputBorder.none,
               ),
               onChanged: bloc.changeText,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: MarkdownSupport(),
           ),
         ],
@@ -490,7 +503,7 @@ class _SendNotification extends StatelessWidget {
           ),
           description: editMode
               ? null
-              : Text(
+              : const Text(
                   "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast."),
         );
       },

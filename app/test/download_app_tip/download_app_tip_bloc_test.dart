@@ -91,17 +91,17 @@ void main() {
       expect(analytics.openTipLogged, true);
     });
 
-    void _testPlatformCheck(Platform platform) {
+    void testPlatformCheck(Platform platform) {
       PlatformCheck.setCurrentPlatformForTesting(platform);
       expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
     }
 
     test("bloc returns null, if PlatformCheck is not web", () {
-      _testPlatformCheck(Platform.android);
-      _testPlatformCheck(Platform.iOS);
-      _testPlatformCheck(Platform.macOS);
-      _testPlatformCheck(Platform.windows);
-      _testPlatformCheck(Platform.linux);
+      testPlatformCheck(Platform.android);
+      testPlatformCheck(Platform.iOS);
+      testPlatformCheck(Platform.macOS);
+      testPlatformCheck(Platform.windows);
+      testPlatformCheck(Platform.linux);
     });
   });
 }

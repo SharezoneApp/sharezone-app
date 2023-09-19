@@ -214,7 +214,9 @@ class TimetableBloc extends BlocBase {
     _selectedSchoolOptionSubject.close();
     _schoolClassFilterViewSubject.close();
     _lessonsSubject.close();
-    _subscriptions.forEach((element) => element.cancel());
+    for (var element in _subscriptions) {
+      element.cancel();
+    }
   }
 }
 

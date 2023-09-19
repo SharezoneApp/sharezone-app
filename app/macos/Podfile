@@ -38,5 +38,19 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_macos_build_settings(target)
+
+    # Workaround for building with XCode 15.
+    #
+    # See:
+    #  * https://github.com/CocoaPods/CocoaPods/issues/12012#issuecomment-1653051943
+    #  * https://github.com/firebase/flutterfire/issues/11604
+    #
+    # When building with XCode 15 works again, this can be removed.
+    target.build_configurations.each do |config|
+      xcconfig_path = config.base_configuration_reference.real_path
+      xcconfig = File.read(xcconfig_path)
+      xcconfig_mod = xcconfig.gsub(/DT_TOOLCHAIN_DIR/, "TOOLCHAIN_DIR")
+      File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
+    end
   end
 end

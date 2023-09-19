@@ -76,7 +76,7 @@ class TimetableAddEventPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TimetableAddEventPageState createState() => _TimetableAddEventPageState();
+  State createState() => _TimetableAddEventPageState();
 }
 
 class _TimetableAddEventPageState extends State<TimetableAddEventPage> {
@@ -128,10 +128,10 @@ class _TimetableAddEventPage extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+        backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         appBar: AppBar(
           title: Text("${isExam ? "Prüfung" : "Termin"} hinzufügen"),
-          leading: TimetableAddAppBarLeading(),
+          leading: const TimetableAddAppBarLeading(),
         ),
         body: MaxWidthConstraintBox(
           child: SafeArea(
@@ -153,11 +153,11 @@ class _TimetableAddEventPage extends StatelessWidget {
 class _BottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const <Widget>[
+        children: <Widget>[
           _NavigateBackButton(),
           _TabPageSelector(),
           _NavigateNextButton(),
@@ -225,7 +225,7 @@ class _NavigateBackButton extends StatelessWidget {
       controller: controller,
       startWidget: placeholder(),
       endWidget: backButton(context),
-      transitionPoint: BetweenIndex(0, 1),
+      transitionPoint: const BetweenIndex(0, 1),
     );
   }
 
@@ -257,9 +257,10 @@ class _RectangleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.all(Radius.circular(14));
+    const borderRadius = BorderRadius.all(Radius.circular(14));
     return InkWell(
       borderRadius: borderRadius,
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -276,7 +277,6 @@ class _RectangleButton extends StatelessWidget {
           ),
         ),
       ),
-      onTap: onTap,
     );
   }
 }
@@ -332,7 +332,8 @@ class _TimetableAddSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('$index. Schritt', style: TextStyle(color: Colors.grey)),
+              Text('$index. Schritt',
+                  style: const TextStyle(color: Colors.grey)),
               Text(title,
                   style: Theme.of(context)
                       .textTheme

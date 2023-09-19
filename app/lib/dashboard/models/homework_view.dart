@@ -16,7 +16,7 @@ class HomeworkView {
   final String courseName, title;
   final Color todoUntilColor, courseNameColor;
 
-  /// Example: Überfällig, bis heute, bis moregen, bis übermogen
+  /// Example: Überfällig, bis heute, bis morgen, bis übermorgen
   final String todoUntilText;
 
   /// The homework object is in the view needed, to open the homework dialog
@@ -34,23 +34,25 @@ class HomeworkView {
 
   static String _getTodoUntilText(
       DateTime dateTime, bool withTodoUntilTextUrgentColor) {
-    if (!withTodoUntilTextUrgentColor)
+    if (!withTodoUntilTextUrgentColor) {
       return _convertDateTimeIntoFormattedString(dateTime);
+    }
 
     final todayDateTimeWithoutTime =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    if (dateTime.isBefore(todayDateTimeWithoutTime))
+    if (dateTime.isBefore(todayDateTimeWithoutTime)) {
       return "Überfällig!";
-    else if (dateTime.isAtSameMomentAs(todayDateTimeWithoutTime))
+    } else if (dateTime.isAtSameMomentAs(todayDateTimeWithoutTime)) {
       return "Bis heute!";
-    else if (dateTime
-        .isAtSameMomentAs(todayDateTimeWithoutTime.add(Duration(days: 1))))
+    } else if (dateTime.isAtSameMomentAs(
+        todayDateTimeWithoutTime.add(const Duration(days: 1)))) {
       return "Bis morgen!";
-    else if (dateTime
-        .isAtSameMomentAs(todayDateTimeWithoutTime.add(Duration(days: 2))))
+    } else if (dateTime.isAtSameMomentAs(
+        todayDateTimeWithoutTime.add(const Duration(days: 2)))) {
       return "Bis übermorgen!";
-    else
+    } else {
       return _convertDateTimeIntoFormattedString(dateTime);
+    }
   }
 
   static String _convertDateTimeIntoFormattedString(DateTime dateTime) =>

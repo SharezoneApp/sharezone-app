@@ -44,7 +44,7 @@ class GroupJoinBloc extends BlocBase {
 
     final groupJoinResult = await _join(
       joinValue: enteredValue,
-      courseList: [],
+      courseList: null,
     );
     _changeJoinResult(groupJoinResult);
   }
@@ -87,11 +87,12 @@ class GroupJoinBloc extends BlocBase {
 
   Future<GroupJoinResult> _join({
     required String joinValue,
-    required List<GroupKey> courseList,
+    required List<GroupKey>? courseList,
   }) {
     return groupJoinFunction.runGroupJoinFunction(
       enteredValue: joinValue,
-      coursesForSchoolClass: courseList.map((groupKey) => groupKey.id).toList(),
+      coursesForSchoolClass:
+          courseList?.map((groupKey) => groupKey.id).toList(),
     );
   }
 

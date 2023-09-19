@@ -54,10 +54,11 @@ class FirebaseMessagingCallbackConfigurator {
 
     await _requestPermissionIfNeeded(context);
 
-    final _logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
+    final logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
 
-    _logger.fine(
+    logger.fine(
         'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken(vapidKey: vapidKey)}');
+    if (!context.mounted) return;
 
     final handler = _createNotificiationHandler(context);
 
@@ -147,6 +148,10 @@ class FirebaseMessagingCallbackConfigurator {
   Future<void> _requestPermissionIfNeeded(BuildContext context) async {
     final isNeeded =
         await notificationsPermission.isRequiredToRequestPermission();
+    if (!context.mounted) {
+      return;
+    }
+
     if (!isNeeded) {
       return;
     }

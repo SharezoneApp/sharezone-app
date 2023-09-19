@@ -39,12 +39,12 @@ Future<void> getPackage(Package package) async {
 }
 
 Future<void> getPackagesDart(Package package) async {
-  await runProcessSucessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
+  await runProcessSuccessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
       workingDirectory: package.path);
 }
 
 Future<void> getPackagesFlutter(Package package) async {
-  await runProcessSucessfullyOrThrow(
+  await runProcessSuccessfullyOrThrow(
     'fvm',
     ['flutter', 'pub', 'get'],
     workingDirectory: package.path,

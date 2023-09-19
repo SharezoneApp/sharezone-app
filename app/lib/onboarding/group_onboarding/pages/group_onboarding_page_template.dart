@@ -56,7 +56,7 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
                           children: [
                             if (isNotEmptyOrNull(title))
                               GroupOnboardingTitle(title!),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             ...children
                           ],
                         ),

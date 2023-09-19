@@ -33,6 +33,7 @@ class TimetableWeekViewDayTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
+                decoration: _getDecoration(context),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
@@ -41,7 +42,6 @@ class TimetableWeekViewDayTile extends StatelessWidget {
                         color: _getTextColorTitle(context), letterSpacing: 0.8),
                   ),
                 ),
-                decoration: _getDecoration(context),
               ),
               Text(
                 _getDayOfMonthText(),
@@ -67,21 +67,22 @@ class TimetableWeekViewDayTile extends StatelessWidget {
         ? ShapeDecoration(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-            color: isDarkThemeEnabled(context) ? Colors.white : darkBlueColor)
+            color: Theme.of(context).isDarkTheme ? Colors.white : darkBlueColor)
         : null;
   }
 
   Color? _getTextColorTitle(BuildContext context) {
     return isToday
-        ? isDarkThemeEnabled(context)
+        ? Theme.of(context).isDarkTheme
             ? Theme.of(context).appBarTheme.backgroundColor
             : Colors.white
-        : isDarkThemeEnabled(context)
+        : Theme.of(context).isDarkTheme
             ? Colors.white
             : darkBlueColor;
   }
 
-  Color _getTextColorMonth(BuildContext context) => isDarkThemeEnabled(context)
-      ? Colors.white.withOpacity(0.7)
-      : darkBlueColor.withOpacity(0.7);
+  Color _getTextColorMonth(BuildContext context) =>
+      Theme.of(context).isDarkTheme
+          ? Colors.white.withOpacity(0.7)
+          : darkBlueColor.withOpacity(0.7);
 }

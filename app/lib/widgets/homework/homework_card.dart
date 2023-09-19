@@ -36,6 +36,7 @@ enum _HomeworkTileLongPressModelSheetOption { delete, edit, done, report }
 
 class HomeworkCard extends StatelessWidget {
   const HomeworkCard({
+    super.key,
     this.homework,
     this.typeOfUser = TypeOfUser.student,
     this.markedDate = true,
@@ -64,6 +65,7 @@ class HomeworkCard extends StatelessWidget {
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
           final detailsView =
               await detailsViewFactory.fromHomeworkDb(homework!);
+          if (!context.mounted) return;
 
           return pushWithDefault<bool>(
             context,
@@ -79,6 +81,7 @@ class HomeworkCard extends StatelessWidget {
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
           final detailsView =
               await detailsViewFactory.fromHomeworkDb(homework!);
+          if (!context.mounted) return;
 
           _logHomeworkCardLongPress(analytics);
 
@@ -86,25 +89,25 @@ class HomeworkCard extends StatelessWidget {
           final longPressList =
               <LongPress<_HomeworkTileLongPressModelSheetOption>>[
             if (isStudent)
-              LongPress(
+              const LongPress(
                 title: 'Als erledigt markieren',
-                icon: const Icon(Icons.done),
+                icon: Icon(Icons.done),
                 popResult: _HomeworkTileLongPressModelSheetOption.done,
               ),
-            LongPress(
+            const LongPress(
               title: "Melden",
               popResult: _HomeworkTileLongPressModelSheetOption.report,
               icon: reportIcon,
             ),
             if (detailsView.hasPermission) ...[
-              LongPress(
+              const LongPress(
                 title: 'Bearbeiten',
-                icon: const Icon(Icons.edit),
+                icon: Icon(Icons.edit),
                 popResult: _HomeworkTileLongPressModelSheetOption.edit,
               ),
-              LongPress(
+              const LongPress(
                 title: 'Löschen',
-                icon: const Icon(Icons.delete),
+                icon: Icon(Icons.delete),
                 popResult: _HomeworkTileLongPressModelSheetOption.delete,
               )
             ]
@@ -115,6 +118,7 @@ class HomeworkCard extends StatelessWidget {
             longPressList: longPressList,
             title: "Hausaufgabe: ${homework!.title}",
           );
+          if (!context.mounted) return;
 
           switch (result) {
             case _HomeworkTileLongPressModelSheetOption.done:
@@ -136,6 +140,7 @@ class HomeworkCard extends StatelessWidget {
             case _HomeworkTileLongPressModelSheetOption.report:
               _logHomeworkReportViaCardLongPress(analytics);
               final reportItem = ReportItemReference.homework(homework!.id);
+              if (!context.mounted) return;
               openReportPage(context, reportItem);
               break;
             case null:
@@ -153,13 +158,13 @@ class HomeworkCard extends StatelessWidget {
             TextSpan(children: <TextSpan>[
               TextSpan(text: "${homework!.courseName}\n"),
               TextSpan(
-                  text:
-                      "${_formatTodoUntil(homework!.todoUntil, homework!.withSubmissions)}",
+                  text: _formatTodoUntil(
+                      homework!.todoUntil, homework!.withSubmissions),
                   style: markedDate
                       ? tomorrowWithoutTime
                                   .isAtSameMomentAs(todoUntilWithoutTime) ||
                               todoUntilWithoutTime.isBefore(tomorrowWithoutTime)
-                          ? TextStyle(color: Colors.red)
+                          ? const TextStyle(color: Colors.red)
                           : null
                       : null),
             ], style: TextStyle(color: Colors.grey[600])),
@@ -196,14 +201,15 @@ class HomeworkCard extends StatelessWidget {
       return StreamBuilder<bool?>(
         stream: bloc.isDone,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text("");
+          if (!snapshot.hasData) return const Text("");
           return Checkbox(
             value: snapshot.data,
             onChanged: (value) {
-              if (value!)
-                analytics.log(AnalyticsEvent("homework_done"));
-              else
-                analytics.log(AnalyticsEvent("homework_undone"));
+              if (value!) {
+                analytics.log(const AnalyticsEvent("homework_done"));
+              } else {
+                analytics.log(const AnalyticsEvent("homework_undone"));
+              }
               bloc.toggleIsDone.add(value);
             },
             tristate: false,
@@ -289,7 +295,7 @@ class HomeworkCardRedesigned extends StatelessWidget {
         builder: (context, snapshot) {
           final typeOfUser = snapshot.data ?? TypeOfUser.student;
           return Padding(
-            padding: padding ?? EdgeInsets.only(left: 12),
+            padding: padding ?? const EdgeInsets.only(left: 12),
             child: CustomCard(
               size: Size(
                   115, width ?? (MediaQuery.of(context).size.width / 2) - 36),
@@ -320,6 +326,8 @@ class HomeworkCardRedesigned extends StatelessWidget {
                     BlocProvider.of<HomeworkDetailsViewFactory>(context);
                 final homeworkDetailsView = await detailsViewFactory
                     .fromHomeworkDb(homeworkView!.homework);
+                if (!context.mounted) return;
+
                 pushWithDefault<bool>(
                   context,
                   HomeworkDetails(homeworkDetailsView),
@@ -340,23 +348,23 @@ class HomeworkCardRedesigned extends StatelessWidget {
 }
 
 void _logHomeworkCardLongPress(Analytics analytics) {
-  analytics.log(AnalyticsEvent("homework_card_long_press"));
+  analytics.log(const AnalyticsEvent("homework_card_long_press"));
 }
 
 void _logHomeworkDoneViaCardLongPress(Analytics analytics) {
-  analytics.log(AnalyticsEvent("homework_done_via_card_long_press"));
+  analytics.log(const AnalyticsEvent("homework_done_via_card_long_press"));
 }
 
 void _logHomeworkDeleteViaCardLongPress(Analytics analytics) {
-  analytics.log(AnalyticsEvent("homework_delete_via_card_long_press"));
+  analytics.log(const AnalyticsEvent("homework_delete_via_card_long_press"));
 }
 
 void _logHomeworkEditViaCardLongPress(Analytics analytics) {
-  analytics.log(AnalyticsEvent("homework_edit_via_card_long_press"));
+  analytics.log(const AnalyticsEvent("homework_edit_via_card_long_press"));
 }
 
 void _logHomeworkReportViaCardLongPress(Analytics analytics) {
-  analytics.log(AnalyticsEvent("homework_report_via_card_long_press"));
+  analytics.log(const AnalyticsEvent("homework_report_via_card_long_press"));
 }
 
 Future showLongPressIfUserHasPermissions(
@@ -380,25 +388,25 @@ Future showLongPressIfUserHasPermissions(
 
   final longPressList = <LongPress<_HomeworkTileLongPressModelSheetOption>>[
     if (isStudent)
-      LongPress(
+      const LongPress(
         title: 'Als erledigt markieren',
-        icon: const Icon(Icons.done),
+        icon: Icon(Icons.done),
         popResult: _HomeworkTileLongPressModelSheetOption.done,
       ),
-    LongPress(
+    const LongPress(
       title: "Melden",
       popResult: _HomeworkTileLongPressModelSheetOption.report,
       icon: reportIcon,
     ),
     if (hasPermission) ...[
-      LongPress(
+      const LongPress(
         title: 'Bearbeiten',
-        icon: const Icon(Icons.edit),
+        icon: Icon(Icons.edit),
         popResult: _HomeworkTileLongPressModelSheetOption.edit,
       ),
-      LongPress(
+      const LongPress(
         title: 'Löschen',
-        icon: const Icon(Icons.delete),
+        icon: Icon(Icons.delete),
         popResult: _HomeworkTileLongPressModelSheetOption.delete,
       )
     ]
@@ -409,6 +417,7 @@ Future showLongPressIfUserHasPermissions(
     longPressList: longPressList,
     title: "Hausaufgabe: ${homeworkView.title}",
   );
+  if (!context.mounted) return;
 
   switch (result) {
     case _HomeworkTileLongPressModelSheetOption.done:
@@ -419,6 +428,7 @@ Future showLongPressIfUserHasPermissions(
       break;
     case _HomeworkTileLongPressModelSheetOption.edit:
       _logHomeworkEditViaCardLongPress(analytics);
+      if (!context.mounted) return;
       openHomeworkDialogAndShowConfirmationIfSuccessful(
         context,
         homework: homeworkView.homework,
@@ -426,12 +436,14 @@ Future showLongPressIfUserHasPermissions(
       break;
     case _HomeworkTileLongPressModelSheetOption.delete:
       _logHomeworkDeleteViaCardLongPress(analytics);
+      if (!context.mounted) return;
       await deleteHomeworkDialogsEntry(context, homeworkView.homework,
           popTwice: false);
       break;
     case _HomeworkTileLongPressModelSheetOption.report:
       _logHomeworkReportViaCardLongPress(analytics);
       final reportItem = ReportItemReference.homework(homeworkView.homework.id);
+      if (!context.mounted) return;
       await openReportPage(context, reportItem);
       break;
     case null:
@@ -540,7 +552,7 @@ class _Title extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              color: isDarkThemeEnabled(context)
+              color: Theme.of(context).isDarkTheme
                   ? Colors.lightBlue[100]
                   : const Color(0xFF254D71),
               fontSize: 16,

@@ -17,6 +17,7 @@ class EditDateField extends StatelessWidget {
   final ValueNotifier<bool> isSelected = ValueNotifier(false);
 
   EditDateField({
+    super.key,
     required this.date,
     required this.onChanged,
     this.iconData,
@@ -26,7 +27,7 @@ class EditDateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 6,
         right: 6,
         top: 6,
@@ -51,7 +52,7 @@ class EditDateField extends StatelessWidget {
                   child: date == null
                       ? Container()
                       : Text(date!.parser.toYMMMMEEEEd,
-                          style: TextStyle(fontSize: 16.0)),
+                          style: const TextStyle(fontSize: 16.0)),
                 ),
               ),
             ),

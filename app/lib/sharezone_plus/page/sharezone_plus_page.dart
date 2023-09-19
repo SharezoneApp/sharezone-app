@@ -16,8 +16,16 @@ import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
+import 'package:user/user.dart';
+
+Future<void> navigateToSharezonePlusPage(BuildContext context) async {
+  final navigationBloc = BlocProvider.of<NavigationBloc>(context);
+  Navigator.popUntil(context, ModalRoute.withName('/'));
+  navigationBloc.navigateTo(NavigationItem.sharezonePlus);
+}
 
 class SharezonePlusPage extends StatelessWidget {
   static String tag = 'sharezone-plus-page';
@@ -26,32 +34,44 @@ class SharezonePlusPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneMainScaffold(
+    return const SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
-      body: _PageTheme(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: MaxWidthConstraintBox(
-              maxWidth: 750,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                child: SafeArea(
-                  child: Column(
-                    children: const [
-                      _Header(),
-                      SizedBox(height: 18),
-                      _WhyPlusSharezoneCard(),
-                      SizedBox(height: 18),
-                      PlusAdvantages(),
-                      SizedBox(height: 18),
-                      _CallToActionSection(),
-                      SizedBox(height: 32),
-                      PlusFaqSection(),
-                      SizedBox(height: 18),
-                      _SupportNote(),
-                    ],
-                  ),
+      body: SharezonePlusPageMain(),
+    );
+  }
+}
+
+@visibleForTesting
+class SharezonePlusPageMain extends StatelessWidget {
+  const SharezonePlusPageMain({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const _PageTheme(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: MaxWidthConstraintBox(
+            maxWidth: 750,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 18),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _Header(),
+                    SizedBox(height: 18),
+                    _WhyPlusSharezoneCard(),
+                    SizedBox(height: 18),
+                    PlusAdvantages(),
+                    SizedBox(height: 18),
+                    _CallToActionSection(),
+                    SizedBox(height: 32),
+                    PlusFaqSection(),
+                    SizedBox(height: 18),
+                    _SupportNote(),
+                  ],
                 ),
               ),
             ),
@@ -85,7 +105,7 @@ class _PageTheme extends StatelessWidget {
             fontSize: 18,
           ),
           headlineMedium: baseTheme.textTheme.headlineMedium?.copyWith(
-            color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -140,8 +160,8 @@ class _WhyPlusSharezoneCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(17.5),
             color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
           ),
-          child: Column(
-            children: const [
+          child: const Column(
+            children: [
               _WhyPlusSharezoneImage(),
               Padding(
                 padding: EdgeInsets.all(12),
@@ -165,7 +185,7 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         maxHeight: 200,
       ),
       child: ClipRRect(
@@ -208,31 +228,76 @@ class _WhyPlusSharezoneText extends StatelessWidget {
 
 @visibleForTesting
 class PlusAdvantages extends StatelessWidget {
-  const PlusAdvantages();
+  const PlusAdvantages({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        _AdvantageTile(
-          icon: const Icon(Icons.favorite),
-          title: const Text('Unterstützung von Open-Source'),
-          description: MarkdownBody(
-            data:
-                'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
-            styleSheet: MarkdownStyleSheet(
-              a: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline,
-                  ),
-            ),
-            onTapLink: (text, href, title) {
-              if (href == null) return;
-              launchURL(href, context: context);
-            },
-          ),
-        ),
+        _HomeworkDoneLists(),
+        _ReadByInformationSheets(),
+        _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _HomeworkDoneLists extends StatelessWidget {
+  const _HomeworkDoneLists();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MatchingTypeOfUserBuilder(
+      // We only show this advantage to teachers because only teachers can
+      // see the homework done lists.
+      expectedTypeOfUser: TypeOfUser.teacher,
+      matchesTypeOfUserWidget: _AdvantageTile(
+        icon: Icon(Icons.checklist),
+        title: Text('Erledigt-Status bei Hausaufgaben'),
+        description: Text(
+            'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe.'),
+      ),
+      notMatchingWidget: SizedBox(),
+    );
+  }
+}
+
+class _ReadByInformationSheets extends StatelessWidget {
+  const _ReadByInformationSheets();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.format_list_bulleted),
+      title: Text('Gelesen-Status bei Infozetteln'),
+      description: Text(
+          'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'),
+    );
+  }
+}
+
+class _SupportOpenSource extends StatelessWidget {
+  const _SupportOpenSource();
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      icon: const Icon(Icons.favorite),
+      title: const Text('Unterstützung von Open-Source'),
+      description: MarkdownBody(
+        data:
+            'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
+        styleSheet: MarkdownStyleSheet(
+          a: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+                decoration: TextDecoration.underline,
+              ),
+        ),
+        onTapLink: (text, href, title) {
+          if (href == null) return;
+          launchURL(href, context: context);
+        },
+      ),
     );
   }
 }
@@ -267,7 +332,7 @@ class _AdvantageTile extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconTheme(
-                data: IconThemeData(color: green),
+                data: const IconThemeData(color: green),
                 child: icon,
               ),
             ),
@@ -302,7 +367,11 @@ class _CallToActionSection extends StatelessWidget {
     final hasPlus = context.watch<SharezonePlusPageController>().hasPlus;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: hasPlus ? _UnsubscribeSection() : _SubscribeSection(),
+      // If the users plus status is still loading then we show the
+      // _SubscribeSection which will show loading indicators in turn.
+      child: hasPlus ?? false
+          ? const _UnsubscribeSection()
+          : const _SubscribeSection(),
     );
   }
 }
@@ -312,12 +381,17 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('unsubscribe-section'),
+    final price = context.watch<SharezonePlusPageController>().price;
+    final priceIsLoading = price == null;
+
+    return Column(
+      key: const ValueKey('unsubscribe-section'),
       children: [
-        _UnsubscribeText(),
-        SizedBox(height: 12),
-        _UnsubscribeButton(),
+        priceIsLoading ? const PriceLoadingIndicator() : _Price(price),
+        const SizedBox(height: 12),
+        const _UnsubscribeText(),
+        const SizedBox(height: 12),
+        const _UnsubscribeButton(),
       ],
     );
   }
@@ -359,12 +433,12 @@ class _UnsubscribeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const flatRed = Color(0xFFF55F4B);
-    return _CallToActionButton(
+    return CallToActionButton(
       onPressed: () async {
         final controller = context.read<SharezonePlusPageController>();
         await controller.cancelSubscription();
       },
-      text: Text('Kündigen'),
+      text: const Text('Kündigen'),
       backgroundColor: flatRed,
     );
   }
@@ -375,30 +449,44 @@ class _SubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('subscribe-section'),
+    final price = context.watch<SharezonePlusPageController>().price;
+    final priceIsLoading = price == null;
+
+    return Column(
+      key: const ValueKey('subscribe-section'),
       children: [
-        _Price(),
-        SizedBox(height: 12),
-        _SubscribeButton(),
-        SizedBox(height: 12),
-        _LegalText(),
+        priceIsLoading ? const PriceLoadingIndicator() : _Price(price),
+        const SizedBox(height: 12),
+        _SubscribeButton(loading: priceIsLoading),
+        const SizedBox(height: 12),
+        const _LegalText(),
       ],
     );
   }
 }
 
-class _Price extends StatelessWidget {
-  const _Price();
+@visibleForTesting
+class PriceLoadingIndicator extends StatelessWidget {
+  const PriceLoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
+    return const GrayShimmer(child: _Price('-,-- €'));
+  }
+}
+
+class _Price extends StatelessWidget {
+  const _Price(this.monthlyPriceWithCurrencySign);
+
+  final String monthlyPriceWithCurrencySign;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          price,
+          monthlyPriceWithCurrencySign,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(width: 4),
@@ -415,17 +503,32 @@ class _Price extends StatelessWidget {
 }
 
 class _SubscribeButton extends StatelessWidget {
-  const _SubscribeButton();
+  const _SubscribeButton({this.loading = false});
+
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
-    return _CallToActionButton(
-      text: Text('Abonnieren'),
-      onPressed: () async {
-        final controller = context.read<SharezonePlusPageController>();
-        await controller.buySubscription();
-      },
-      backgroundColor: Theme.of(context).primaryColor,
+    // When using [GrayShimmer] the text inside the [_CallToActionButton]
+    // disappears. Using a [Stack] fixes this issue (I don't know why).
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GrayShimmer(
+          enabled: loading,
+          child: CallToActionButton(
+            text: const Text('Abonnieren'),
+            onPressed: loading
+                ? null
+                : () async {
+                    final controller =
+                        context.read<SharezonePlusPageController>();
+                    await controller.buySubscription();
+                  },
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        )
+      ],
     );
   }
 }
@@ -435,22 +538,23 @@ class _LegalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _MarkdownCenteredText(
+    return const _MarkdownCenteredText(
       text:
-          'Dein ist Abo Monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [Datenschutzerklärung](https://sharezone.net/privacy-policy) un die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
+          'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [AGBs](https://sharezone.net/terms-of-service) gelesen hast.',
     );
   }
 }
 
-class _CallToActionButton extends StatelessWidget {
-  const _CallToActionButton({
+@visibleForTesting
+class CallToActionButton extends StatelessWidget {
+  const CallToActionButton({
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.backgroundColor,
-  });
+  }) : super(key: const ValueKey('call-to-action-button'));
 
   final Widget text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
 
   @override
@@ -461,13 +565,9 @@ class _CallToActionButton extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: text,
-          ),
           style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
@@ -477,6 +577,10 @@ class _CallToActionButton extends StatelessWidget {
             foregroundColor: Colors.white,
             shadowColor: Colors.transparent,
             elevation: 0,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: text,
           ),
         ),
       ),
@@ -516,14 +620,14 @@ class _MarkdownCenteredText extends StatelessWidget {
 
 @visibleForTesting
 class PlusFaqSection extends StatelessWidget {
-  const PlusFaqSection();
+  const PlusFaqSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
+    return const MaxWidthConstraintBox(
       maxWidth: 710,
       child: Column(
-        children: const [
+        children: [
           _WhoIsBehindSharezone(),
           SizedBox(height: 12),
           _IsSharezoneOpenSource(),
@@ -543,8 +647,8 @@ class _WhoIsBehindSharezone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: Text('Wer steht hinter Sharezone?'),
-      body: Text(
+      header: const Text('Wer steht hinter Sharezone?'),
+      body: const Text(
         'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer '
         'persönlichen Frustration über die Organisation des Schulalltags '
         'während der Schulzeit entstand die Idee für Sharezone. Es ist '
@@ -562,11 +666,11 @@ class _IsSharezoneOpenSource extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: Text('Ist der Quellcode von Sharezone öffentlich?'),
+      header: const Text('Ist der Quellcode von Sharezone öffentlich?'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Ja, Sharezone ist Open-Source im Frontend. Du kannst den '
             'Quellcode auf GitHub einsehen:',
           ),
@@ -578,7 +682,7 @@ class _IsSharezoneOpenSource extends StatelessWidget {
               child: Text(
                 'https://github.com/SharezoneApp/sharezone-app',
                 style: TextStyle(
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Theme.of(context).colorScheme.primary
                       : darkPrimaryColor,
                   decoration: TextDecoration.underline,
@@ -599,8 +703,8 @@ class _DoAlsoGroupMemberGetPlus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: Text('Erhalten auch Gruppenmitglieder Sharezone Plus?'),
-      body: Text(
+      header: const Text('Erhalten auch Gruppenmitglieder Sharezone Plus?'),
+      body: const Text(
         'Wenn du Sharezone Plus abonnierst, erhält nur dein Account '
         'Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus '
         'nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine '
@@ -620,8 +724,8 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: Text('Erhält der gesamte Kurs 50 GB Speicherplatz?'),
-      body: Text(
+      header: const Text('Erhält der gesamte Kurs 50 GB Speicherplatz?'),
+      body: const Text(
         'Nein, der Speicherplatz von 50 GB mit Sharezone Plus gilt nur für '
         'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest '
         'beispielsweise 20 GB in den Deutsch-Kurs hochladen, 20 GB in den '
@@ -639,7 +743,7 @@ class _SupportNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
+    return const MaxWidthConstraintBox(
       maxWidth: 710,
       child: _MarkdownCenteredText(
         text: 'Du hast noch Fragen zu Sharezone Plus? Schreib uns an '

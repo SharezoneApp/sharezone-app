@@ -107,6 +107,7 @@ jobs:
               - "!**/*.gitignore"
               - "!**/firebase.json"
               - "!**/.firebaserc"
+              - "!app/android/fastlane/**"
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:

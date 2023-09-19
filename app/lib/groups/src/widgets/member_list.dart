@@ -18,7 +18,7 @@ import 'package:user/user.dart';
 import 'group_share.dart';
 
 class AddMember extends StatelessWidget {
-  const AddMember({required this.groupInfo});
+  const AddMember({super.key, required this.groupInfo});
 
   final GroupInfo groupInfo;
 
@@ -45,6 +45,7 @@ class AddMember extends StatelessWidget {
 
 class MemberList extends StatelessWidget {
   const MemberList({
+    super.key,
     required this.members,
     required this.allMembers,
     required this.title,
@@ -76,6 +77,8 @@ class MemberList extends StatelessWidget {
 }
 
 class LoadingMemberList extends StatelessWidget {
+  const LoadingMemberList({super.key});
+
   @override
   Widget build(BuildContext context) {
     final placeholderUser = [
@@ -128,15 +131,15 @@ class MemberTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
         child: Text(generateAbbreviation(memberData.name),
-            style: TextStyle(color: Colors.white)),
+            style: const TextStyle(color: Colors.white)),
       ),
       onTap: onTap,
       trailing: memberData.id.toString() == api.uID
-          ? Chip(label: const Text("Du"))
+          ? const Chip(label: Text("Du"))
           : withReportOption
               ? ReportIcon(
                   item: ReportItemReference.user(memberData.id.toString()),
-                  color: isDarkThemeEnabled(context)
+                  color: Theme.of(context).isDarkTheme
                       ? Colors.grey
                       : Colors.grey[600],
                 )
@@ -154,9 +157,9 @@ class _DividerWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Container(width: 200),
-      Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: const Divider(height: 0),
+      const Padding(
+        padding: EdgeInsets.only(top: 8),
+        child: Divider(height: 0),
       ),
       Padding(
         padding: const EdgeInsets.only(left: 12),

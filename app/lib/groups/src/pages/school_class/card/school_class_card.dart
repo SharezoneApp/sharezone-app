@@ -26,7 +26,7 @@ import '../school_class_page.dart';
 enum _SchoolClassLongPressResult { edit, leave, delete }
 
 class SchoolClassCard extends StatelessWidget {
-  const SchoolClassCard(this.schoolClass);
+  const SchoolClassCard(this.schoolClass, {super.key});
 
   final SchoolClass schoolClass;
 
@@ -74,6 +74,7 @@ class SchoolClassCard extends StatelessWidget {
                 ),
             ],
           );
+          if (!context.mounted) return;
 
           switch (result) {
             case _SchoolClassLongPressResult.edit:
@@ -81,14 +82,17 @@ class SchoolClassCard extends StatelessWidget {
               break;
             case _SchoolClassLongPressResult.leave:
               final result = await showLeaveSchoolClassDialog(context);
+              if (!context.mounted) return;
               if (result == true) {
                 await showAppFunctionStateDialog(
                     context, bloc.leaveSchoolClass());
               }
               break;
             case _SchoolClassLongPressResult.delete:
+              if (!context.mounted) return;
               final schoolClassDeleteType =
                   await showDeleteSchoolClassDialog(context);
+              if (!context.mounted) return;
               if (schoolClassDeleteType != null) {
                 await showAppFunctionStateDialog(
                     context, bloc.deleteSchoolClass(schoolClassDeleteType));
@@ -130,6 +134,7 @@ class _AbbreviationAvatar extends StatelessWidget {
 
 class ShareIconButton extends StatelessWidget {
   const ShareIconButton({
+    super.key,
     required this.schoolClass,
   });
 

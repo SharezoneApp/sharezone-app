@@ -274,6 +274,17 @@ class _BottomNavItem extends StatelessWidget {
       key: ValueKey('nav-item-${item.name}-E2E'),
       flex: 1,
       child: InkResponse(
+        onTap: isSelected
+            ? null
+            : () {
+                if (item == NavigationItem.more) {
+                  if (onMoreButtonTapped != null) {
+                    onMoreButtonTapped!();
+                  }
+                } else {
+                  onNavigationItemSelected(item);
+                }
+              },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 6, 4, 6),
           child: IconTheme(
@@ -301,23 +312,12 @@ class _BottomNavItem extends StatelessWidget {
             ),
           ),
         ),
-        onTap: isSelected
-            ? null
-            : () {
-                if (item == NavigationItem.more) {
-                  if (onMoreButtonTapped != null) {
-                    onMoreButtonTapped!();
-                  }
-                } else {
-                  onNavigationItemSelected(item);
-                }
-              },
       ),
     );
   }
 
   Color? _getColor(BuildContext context) {
-    if (isDarkThemeEnabled(context)) {
+    if (Theme.of(context).isDarkTheme) {
       return isSelected ? Colors.white : Colors.grey[500];
     }
     return isSelected ? context.primaryColor : Colors.grey[500];

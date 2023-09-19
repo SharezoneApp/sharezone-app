@@ -24,7 +24,6 @@ class SaveButton extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: ElevatedButton(
-        child: const Text('Speichern'),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -32,15 +31,16 @@ class SaveButton extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
-          foregroundColor: isDarkThemeEnabled(context)
+          foregroundColor: Theme.of(context).isDarkTheme
               ? null
               : Theme.of(context).primaryColor,
-          backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+          backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           shadowColor: Colors.transparent,
         ),
+        child: const Text('Speichern'),
       ),
     );
   }

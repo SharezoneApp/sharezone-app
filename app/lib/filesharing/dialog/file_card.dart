@@ -19,6 +19,7 @@ Future<void> showRemoveFileFromBlocDialog({
 }) async {
   FocusManager.instance.primaryFocus?.unfocus(); // Closing keyboard
   await Future.delayed(const Duration(milliseconds: 200));
+  if (!context.mounted) return;
 
   showDialog(
     context: context,

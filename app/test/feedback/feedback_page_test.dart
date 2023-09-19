@@ -74,13 +74,13 @@ void main() {
       bloc.dispose();
     });
 
-    Future<void> _pumpFeedbackPage(WidgetTester tester) async {
+    Future<void> pumpFeedbackPage(WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(
             child: BlocProvider(
               bloc: bloc,
-              child: FeedbackPageBody(),
+              child: const FeedbackPageBody(),
             ),
           ),
         ),
@@ -129,7 +129,7 @@ void main() {
     testWidgets('prefills the textfields from last draft', (tester) async {
       fillInAllFields(bloc);
 
-      await _pumpFeedbackPage(tester);
+      await pumpFeedbackPage(tester);
       await tester.pump();
 
       expect(find.text(likes), findsOneWidget);

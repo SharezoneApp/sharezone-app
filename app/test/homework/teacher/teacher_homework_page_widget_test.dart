@@ -89,19 +89,18 @@ Future<void> pumpHomeworkPage(
                 child: DefaultTabController(
                   length: 2,
                   initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
-                  child: Scaffold(
+                  child: const Scaffold(
                     body: TeacherHomeworkBody(),
                     appBar: HomeworkTabBar(
-                      tabs: const [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
+                      tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
                     ),
                     bottomNavigationBar: AnimatedTabVisibility(
+                      visibleInTabIndicies: [0],
+                      maintainState: true,
                       child: TeacherHomeworkBottomActionBar(
                         // We dont care in the tests currently
                         backgroundColor: flutter.Color.fromRGBO(0, 0, 0, 255),
                       ),
-                      // Copied from "real" widget
-                      visibleInTabIndicies: const [0],
-                      maintainState: true,
                     ),
                     floatingActionButton:
                         BottomOfScrollViewInvisibility(child: HomeworkFab()),
@@ -225,14 +224,14 @@ void main() {
           findsOneWidget);
     });
 
-    Future<void> _scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
+    Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
       return tester.drag(
           find.byWidgetPredicate(
               (widget) => widget is TeacherArchivedHomeworkList),
-          Offset(0, -5000));
+          const Offset(0, -5000));
     }
 
-    List<TeacherHomeworkView> _generateRandomHomeworks({required int count}) {
+    List<TeacherHomeworkView> generateRandomHomeworks({required int count}) {
       return List.generate(
           count, (index) => randomHomeworkViewWith(/*Random content*/));
     }
@@ -243,7 +242,7 @@ void main() {
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
 
-      final firstHomeworkBatch = _generateRandomHomeworks(count: 30);
+      final firstHomeworkBatch = generateRandomHomeworks(count: 30);
 
       homeworkPageBloc.emitNewState(
         Success(
@@ -267,7 +266,7 @@ void main() {
       // couldn't get it to work. So this is the stupid solution :)
       // As we manually control returning new homworks to the UI we can't "overscroll"
       // here so the UI should only ask the bloc once.
-      await _scrollDownToEndOfArchivedHomeworkList(tester);
+      await scrollDownToEndOfArchivedHomeworkList(tester);
 
       expect(
           homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
@@ -277,7 +276,7 @@ void main() {
 
       final allLoadedHomeworks = [
         ...firstHomeworkBatch,
-        ..._generateRandomHomeworks(count: 10)
+        ...generateRandomHomeworks(count: 10)
       ];
 
       homeworkPageBloc.emitNewState(
@@ -291,7 +290,7 @@ void main() {
         ),
       );
 
-      await _scrollDownToEndOfArchivedHomeworkList(tester);
+      await scrollDownToEndOfArchivedHomeworkList(tester);
 
       expect(
           homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
@@ -308,7 +307,7 @@ void main() {
       // this test doesn't fail because of this:
       //  The following assertion was thrown running a test:
       //  A Timer is still pending even after the widget tree was disposed.
-      tester.pump(Duration(seconds: 2));
+      tester.pump(const Duration(seconds: 2));
     });
 
     testWidgets(
@@ -355,7 +354,7 @@ void main() {
           OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
     });
 
-    Future<void> _pumpHomeworkTiles(
+    Future<void> pumpHomeworkTiles(
         WidgetTester tester, List<TeacherHomeworkView> views) async {
       homeworkPageBloc = MockTeacherHomeworkPageBloc();
 
@@ -381,7 +380,7 @@ void main() {
       const nrOfCompletionsForNormalHomework = 5;
       const nrOfCompletionsForSubmittableHomework = 8;
 
-      await _pumpHomeworkTiles(tester, [
+      await pumpHomeworkTiles(tester, [
         randomHomeworkViewWith(
           title: 'normal HW',
           withSubmissions: false,
@@ -428,7 +427,7 @@ void main() {
       expect(_finders.archivedHomeworkTab.noHomeworkPlaceholder, findsNothing);
 
       // See test further above for why we need to pump here.
-      tester.pump(Duration(seconds: 2));
+      tester.pump(const Duration(seconds: 2));
     });
   });
 }
@@ -449,7 +448,8 @@ class _OpenHomeworkTabFinders {
   Finder get noHomeworkPlaceholder =>
       // Widget is private. Not sure if this is the best way or if we should make
       // the Widget public and use the type directly.
-      find.byKey(ValueKey('no-homework-teacher-placeholder-for-open-homework'));
+      find.byKey(
+          const ValueKey('no-homework-teacher-placeholder-for-open-homework'));
 }
 
 class _ArchivedHomeworkListFinders {
@@ -457,7 +457,8 @@ class _ArchivedHomeworkListFinders {
   Finder get noHomeworkPlaceholder => find
       // Widget is private. Not sure if this is the best way or if we should make
       // the Widget public and use the type directly.
-      .byKey(ValueKey('no-homework-teacher-placeholder-for-archived-homework'));
+      .byKey(const ValueKey(
+          'no-homework-teacher-placeholder-for-archived-homework'));
 }
 
 bool _randomBool() {
@@ -477,7 +478,7 @@ TeacherHomeworkView randomHomeworkViewWith({
     colorDate: false,
     nrOfStudentsCompletedOrSubmitted: nrOfStudentsCompletedOrSubmitted ?? 2,
     subject: 'Englisch',
-    subjectColor: Color.fromARGB(200, 200, 200, 255),
+    subjectColor: const Color.fromARGB(200, 200, 200, 255),
     todoDate: '03.04.2021',
     withSubmissions: withSubmissions ?? _randomBool(),
     canViewCompletionOrSubmissionList: _randomBool(),

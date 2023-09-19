@@ -51,7 +51,7 @@ class MoveFilePageHeader extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }
 
 class _FileSharingPathRow extends StatelessWidget {
@@ -101,6 +101,8 @@ class _ClickableElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: isLast! ? null : onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -118,8 +120,6 @@ class _ClickableElement extends StatelessWidget {
           ),
         ],
       ),
-      borderRadius: BorderRadius.circular(8),
-      onTap: isLast! ? null : onTap,
     );
   }
 }

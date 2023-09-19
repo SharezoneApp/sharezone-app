@@ -22,7 +22,7 @@ void main() {
     late DateTime Function() getCurrentDateTime;
 
     setUp(() {
-      gracePeriod = Duration(days: 3);
+      gracePeriod = const Duration(days: 3);
       bloc = UpdateReminderBloc.internal(
         getCurrentVersion: () async => currentVersion,
         getLatestRelease: () async => latestRelease,
@@ -47,7 +47,7 @@ void main() {
       currentVersion = Version.parse(name: '1.3.4');
 
       getCurrentDateTime = () => DateTime(2020, 02, 07);
-      final bloc = blocWithGracePeriodOf(Duration(days: 3));
+      final bloc = blocWithGracePeriodOf(const Duration(days: 3));
       latestRelease =
           _releaseWith(version: '1.3.5', releaseTime: DateTime(2020, 02, 03));
 
@@ -70,7 +70,7 @@ void main() {
       currentVersion = Version.parse(name: '1.3.4');
 
       getCurrentDateTime = () => DateTime(2020, 02, 04);
-      final bloc = blocWithGracePeriodOf(Duration(days: 3));
+      final bloc = blocWithGracePeriodOf(const Duration(days: 3));
       latestRelease =
           _releaseWith(version: '1.3.5', releaseTime: DateTime(2020, 02, 03));
 

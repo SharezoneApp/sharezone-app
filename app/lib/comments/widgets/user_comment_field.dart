@@ -24,7 +24,7 @@ class UserCommentField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _UserCommentFieldState createState() => _UserCommentFieldState();
+  State createState() => _UserCommentFieldState();
 }
 
 class _UserCommentFieldState extends State<UserCommentField> {

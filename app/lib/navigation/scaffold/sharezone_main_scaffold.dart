@@ -25,6 +25,7 @@ class SharezoneMainScaffold extends StatelessWidget {
   final Color? colorBehindBNB;
 
   const SharezoneMainScaffold({
+    super.key,
     required this.navigationItem,
     required this.body,
     this.appBarConfiguration,

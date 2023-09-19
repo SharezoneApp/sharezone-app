@@ -97,7 +97,7 @@ class _DrawerItems extends StatelessWidget {
                 ),
               ),
             ),
-            _SharezoneLogo(),
+            const _SharezoneLogo(),
           ],
         ),
       ),
@@ -105,8 +105,8 @@ class _DrawerItems extends StatelessWidget {
   }
 
   Color? getDrawerBackgroundColor(BuildContext context) {
-    if (!isDesktopModus || isDarkThemeEnabled(context)) return null;
-    return Color(0xFFF4F5F7);
+    if (!isDesktopModus || Theme.of(context).isDarkTheme) return null;
+    return const Color(0xFFF4F5F7);
   }
 }
 
@@ -134,8 +134,8 @@ class _SharezoneLogo extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12)
-                      .add(EdgeInsets.only(left: 10)),
-                  child: SharezoneLogo(
+                      .add(const EdgeInsets.only(left: 10)),
+                  child: const SharezoneLogo(
                     logoColor: LogoColor.blueLong,
                     height: 40,
                     width: 200,
@@ -163,7 +163,7 @@ class DrawerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      key: ValueKey('drawer-open-icon-E2E'),
+      key: const ValueKey('drawer-open-icon-E2E'),
       icon: Icon(Icons.menu, color: color),
       tooltip: "Navigation",
       onPressed: () {

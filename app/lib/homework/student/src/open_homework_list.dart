@@ -49,7 +49,7 @@ class OpenHomeworkList extends StatelessWidget {
       color: overscrollColor,
       child: AnimatedStaggeredScrollView(
         children: [
-          if (showCompleteAllOverdueCard) MarkOverdueHomeworkPrompt(),
+          if (showCompleteAllOverdueCard) const MarkOverdueHomeworkPrompt(),
           for (final section in homeworkListView.sections)
             HomeworkListSection(
               title: section.title,

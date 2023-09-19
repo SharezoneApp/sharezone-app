@@ -38,7 +38,7 @@ class FilePage extends StatefulWidget {
   final String id;
 
   @override
-  _FilePageState createState() => _FilePageState();
+  State createState() => _FilePageState();
 }
 
 class _FilePageState extends State<FilePage> {
@@ -64,17 +64,19 @@ class _FilePageState extends State<FilePage> {
     return StreamBuilder<LocalFile>(
       stream: filePageBloc.localFile,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data == null)
+        if (!snapshot.hasData || snapshot.data == null) {
           return _LoadingPage(
             name: name,
             nameStream: widget.nameStream,
           );
-        if (snapshot.hasError)
+        }
+        if (snapshot.hasError) {
           return _EmptyPage(
             name: name,
             nameStream: widget.nameStream,
             error: snapshot.error,
           );
+        }
         final localFile = snapshot.data;
         if (fileFormat == FileFormat.image) {
           return ImageFilePage(
@@ -148,8 +150,8 @@ class _EmptyPage extends StatelessWidget {
       appBar: FilePageAppBar(name: name, nameStream: nameStream),
       body: Center(
         child: ListTile(
-          leading: Icon(Icons.warning),
-          title: Text("Anzeigefehler"),
+          leading: const Icon(Icons.warning),
+          title: const Text("Anzeigefehler"),
           subtitle: error != null ? Text('$error') : null,
         ),
       ),

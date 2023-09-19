@@ -76,7 +76,7 @@ class _BnbTutorialState extends State<_BnbTutorial> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  _BnBTutorialDescription(),
+                                  const _BnBTutorialDescription(),
                                   const SizedBox(height: 68),
                                   _DemoBnb(
                                     onTriedToSwipeUp: () => setState(
@@ -178,8 +178,8 @@ class _BnBTutorialDescription extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
+        child: const Padding(
+          padding: EdgeInsets.all(12),
           child: Text(
             "Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.",
             style: TextStyle(
@@ -218,11 +218,11 @@ class _DemoBnb extends StatelessWidget {
           scale: 0.85,
           child: Material(
             borderRadius: BorderRadius.circular(10),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 6, 12, 12),
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(12, 6, 12, 12),
               child: IgnorePointer(
                 child: Column(
-                  children: const [
+                  children: [
                     _SwipeUpLine(),
                     FirstNavigationRow(),
                   ],
@@ -254,7 +254,7 @@ class _MovingFinger extends StatelessWidget {
     return Positioned(
       bottom: 135,
       left: (width / 2) - 10,
-      child: Container(
+      child: SizedBox(
         height: height,
         child: Align(
           alignment: Alignment.bottomCenter,

@@ -21,8 +21,8 @@ Future<void> openSchoolClassEditPage(
       context,
       MaterialPageRoute(
           builder: (context) => SchoolClassEditPage(schoolClass: schoolClass),
-          settings: RouteSettings(name: SchoolClassEditPage.tag)));
-  if (successful != null && successful == true) {
+          settings: const RouteSettings(name: SchoolClassEditPage.tag)));
+  if (successful == true && context.mounted) {
     await _showSchoolClassConformationSnackbarWithDelay(context);
   }
 }
@@ -30,6 +30,7 @@ Future<void> openSchoolClassEditPage(
 Future<void> _showSchoolClassConformationSnackbarWithDelay(
     BuildContext context) async {
   await waitingForPopAnimation();
+  if (!context.mounted) return;
   showSnackSec(
     context: context,
     text: "Die Schulklasse wurde erfolgreich bearbeitet!",
@@ -42,13 +43,15 @@ Future<void> _submit(BuildContext context) async {
   final bloc = BlocProvider.of<SchoolClassEditBloc>(context);
   try {
     final result = await bloc.submit();
-    if (result) Navigator.pop(context, true);
+    if (result && context.mounted) Navigator.pop(context, true);
   } on Exception catch (e, s) {
-    showSnackSec(
-      context: context,
-      seconds: 4,
-      text: handleErrorMessage(e.toString(), s),
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        seconds: 4,
+        text: handleErrorMessage(e.toString(), s),
+      );
+    }
   }
 }
 
@@ -62,7 +65,7 @@ class SchoolClassEditPage extends StatefulWidget {
   final SchoolClass schoolClass;
 
   @override
-  _SchoolClassEditPageState createState() => _SchoolClassEditPageState();
+  State createState() => _SchoolClassEditPageState();
 }
 
 class _SchoolClassEditPageState extends State<SchoolClassEditPage> {

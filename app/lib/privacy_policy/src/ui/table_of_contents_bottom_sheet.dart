@@ -36,7 +36,7 @@ void showTableOfContentsBottomSheet(BuildContext context) {
               listen: false),
         ),
       ],
-      child: _TableOfContentsBottomSheet(),
+      child: const _TableOfContentsBottomSheet(),
     ),
   );
 }
@@ -56,7 +56,7 @@ class __TableOfContentsBottomSheetState
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
-      constraints: BoxConstraints(maxHeight: 600),
+      constraints: const BoxConstraints(maxHeight: 600),
       enableDrag: true,
       onClosing: () {},
       animationController: BottomSheet.createAnimationController(this),
@@ -70,7 +70,7 @@ class __TableOfContentsBottomSheetState
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0)
-                      .add(EdgeInsets.only(left: 20)),
+                      .add(const EdgeInsets.only(left: 20)),
                   child: Text(
                     'Inhaltsverzeichnis',
                     style: Theme.of(context).textTheme.titleLarge,
@@ -86,7 +86,7 @@ class __TableOfContentsBottomSheetState
               ),
             ],
           ),
-          Divider(thickness: 2, height: 0),
+          const Divider(thickness: 2, height: 0),
           Expanded(child: _TocSectionHeadingList())
         ],
       ),
@@ -112,7 +112,8 @@ class _TocSectionHeadingList extends StatelessWidget {
     // It seems like this has to be fixed inside ScrollablePositionedList.
     // See: https://github.com/google/flutter.widgets/issues/276
     return ScrollablePositionedList.separated(
-      separatorBuilder: (context, index) => Divider(height: 1, thickness: 1),
+      separatorBuilder: (context, index) =>
+          const Divider(height: 1, thickness: 1),
       initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
       itemScrollController: itemScrollController,
       itemCount: tocController.documentSections!.length,
@@ -148,8 +149,8 @@ class _TocHeadingState extends State<_TocHeading>
   late Animation<double> _heightFactor;
   Animation<double>? expansionArrowTurns;
 
-  final expansionDuration = Duration(milliseconds: 200);
-  final collapseDuration = Duration(milliseconds: 150);
+  final expansionDuration = const Duration(milliseconds: 200);
+  final collapseDuration = const Duration(milliseconds: 150);
 
   @override
   void didUpdateWidget(covariant _TocHeading oldWidget) {
@@ -203,13 +204,14 @@ class _TocHeadingState extends State<_TocHeading>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TocSectionHighlight(
-          shape: ContinuousRectangleBorder(),
+          shape: const ContinuousRectangleBorder(),
           onTap: () async {
             await tocController.scrollTo(widget.section.id);
+            if (!context.mounted) return;
             Navigator.pop(context);
           },
           shouldHighlight: widget.section.shouldHighlight,
-          backgroundColor: isDarkThemeEnabled(context)
+          backgroundColor: Theme.of(context).isDarkTheme
               ? Theme.of(context).canvasColor
               : Theme.of(context).scaffoldBackgroundColor,
           child: Padding(
@@ -225,7 +227,7 @@ class _TocHeadingState extends State<_TocHeading>
               children: [
                 Expanded(
                   child: Text(
-                    '${widget.section.sectionHeadingText}',
+                    widget.section.sectionHeadingText,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: widget.section.shouldHighlight
                               ? FontWeight.w500
@@ -298,29 +300,30 @@ List<Widget> _buildSubheadings(
         color: subheadings.first.shouldHighlight
             ? Colors.black.withOpacity(.3)
             : Colors.transparent,
-        child: SizedBox(height: .5),
+        child: const SizedBox(height: .5),
       ));
     }
 
-    widgets.add(Divider(height: 0, thickness: .5));
+    widgets.add(const Divider(height: 0, thickness: .5));
 
     widgets.add(TocSectionHighlight(
-      backgroundColor: isDarkThemeEnabled(context)
-          ? Color(0xff121212)
+      backgroundColor: Theme.of(context).isDarkTheme
+          ? const Color(0xff121212)
           : Theme.of(context).scaffoldBackgroundColor,
-      shape: ContinuousRectangleBorder(),
+      shape: const ContinuousRectangleBorder(),
       shouldHighlight: subheading.shouldHighlight,
       onTap: () async {
         await tocController.scrollTo(subheading.id);
+        if (!context.mounted) return;
         Navigator.pop(context);
       },
       child: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 19.0,
         ).add(
           EdgeInsets.symmetric(
             vertical: visualDensity
-                .effectiveConstraints(BoxConstraints(maxHeight: 20))
+                .effectiveConstraints(const BoxConstraints(maxHeight: 20))
                 .constrainHeight(6 + visualDensity.vertical * 2),
           ),
         ),
@@ -349,9 +352,9 @@ class _Subheading extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(width: 8),
-        Icon(Icons.circle, size: 6),
-        SizedBox(width: 10),
+        const SizedBox(width: 8),
+        const Icon(Icons.circle, size: 6),
+        const SizedBox(width: 10),
         Flexible(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -363,7 +366,7 @@ class _Subheading extends StatelessWidget {
                   .toDouble(),
             ),
             child: Text(
-              '${subsection.sectionHeadingText}',
+              subsection.sectionHeadingText,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize:
                         Theme.of(context).textTheme.bodyMedium!.fontSize! - .5,
@@ -378,7 +381,7 @@ class _Subheading extends StatelessWidget {
         // So that if the highlighted text overflows there is a bit of white
         // space on the right. Else the highlight would fill the whole right
         // side which looks weird.
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
       ],
     );
   }

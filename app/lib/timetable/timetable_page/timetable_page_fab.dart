@@ -24,9 +24,9 @@ Future<void> showTimetableAddLessonPage(BuildContext context) async {
   final result = await Navigator.push<TimetableLessonAdded>(
       context,
       IgnoreWillPopScopeWhenIosSwipeBackRoute(
-          builder: (context) => TimetableAddPage()));
+          builder: (context) => const TimetableAddPage()));
 
-  if (result != null && result.isValid) {
+  if (result?.isValid == true && context.mounted) {
     _showLessonAddConfirmation(context);
   }
 }
@@ -47,9 +47,11 @@ Future<TimetableResult?> showTimetableAddEventPage(
       context,
       IgnoreWillPopScopeWhenIosSwipeBackRoute(
           builder: (context) => TimetableAddEventPage(isExam: isExam),
-          settings: RouteSettings(name: TimetableAddEventPage.tag)));
+          settings: const RouteSettings(name: TimetableAddEventPage.tag)));
   if (result != null) {
     await waitingForPopAnimation();
+    if (!context.mounted) return null;
+
     showDataArrivalConfirmedSnackbar(context: context);
   }
   return result;
@@ -58,6 +60,7 @@ Future<TimetableResult?> showTimetableAddEventPage(
 Future<void> openTimetableAddSheet(BuildContext context) async {
   final fabOptionValue = await showModalBottomSheet<_FABAddTimetableOption>(
       context: context, builder: (context) => _TimetableAddSheet());
+  if (!context.mounted) return;
 
   switch (fabOptionValue) {
     case _FABAddTimetableOption.lesson:
@@ -87,16 +90,16 @@ class _TimetableAddSheet extends StatelessWidget {
             const SizedBox(height: 20),
             Text("Neu erstellen",
                 style: TextStyle(
-                    color: isDarkThemeEnabled(context)
+                    color: Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
                     fontSize: 18)),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Container(
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: SizedBox(
                 height: 150,
                 child: Stack(
-                  children: const <Widget>[
+                  children: <Widget>[
                     ModalBottomSheetBigIconButton<_FABAddTimetableOption>(
                       title: "Schulstunde",
                       alignment: Alignment.centerLeft,

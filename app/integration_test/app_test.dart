@@ -6,12 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
+import 'package:sharezone_utils/platform.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +29,9 @@ void main() {
   setUp(() async {
     // Credentials are passed via environment variables. See "README.md" how to
     // pass the them correctly.
-    user1 = _UserCredentials(
-      email: const String.fromEnvironment('USER_1_EMAIL'),
-      password: const String.fromEnvironment('USER_1_PASSWORD'),
+    user1 = const _UserCredentials(
+      email: String.fromEnvironment('USER_1_EMAIL'),
+      password: String.fromEnvironment('USER_1_PASSWORD'),
     );
 
     // We should ensure that the user is logged out before running a test, to
@@ -36,7 +39,7 @@ void main() {
     await dependencies.blocDependencies.auth.signOut();
   });
 
-  Future<void> _pumpSharezoneApp(WidgetTester tester) async {
+  Future<void> pumpSharezoneApp(WidgetTester tester) async {
     await tester.pumpWidget(
       Sharezone(
         beitrittsversuche: dependencies.beitrittsversuche,
@@ -50,11 +53,15 @@ void main() {
 
   group('Authentication', () {
     testWidgets('User should be able to sign in', (tester) async {
-      await _pumpSharezoneApp(tester);
+      await pumpSharezoneApp(tester);
       await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
-      await tester.pumpAndSettle();
+      // On web and desktop we don't show the welcome page, therefore we don't
+      // need to navigate to the login page.
+      if (!PlatformCheck.isDesktopOrWeb) {
+        await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
+        await tester.pumpAndSettle();
+      }
 
       await tester.enterText(
         find.byKey(const Key('email-text-field-E2E')),
@@ -81,7 +88,7 @@ void main() {
       // * https://github.com/SharezoneApp/sharezone-app/issues/497
       // * https://github.com/SharezoneApp/sharezone-app/issues/117
 
-      print("Test: User should be able to load groups");
+      log("Test: User should be able to load groups");
       await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
       await tester.pumpAndSettle();
 
@@ -98,9 +105,13 @@ void main() {
       expect(find.text('Latein LK'), findsOneWidget);
       expect(find.text('Spanisch LK'), findsOneWidget);
 
-      print("Test: User should be able to load timetable");
+      log("Test: User should be able to load timetable");
       await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
       await tester.pumpAndSettle();
+
+      // Ensure that the timetable is loaded. We assume that the timetable is
+      // loaded when we found one of the courses.
+      await tester.pumpUntil(find.text('Deutsch LK'));
 
       // We assume that we can load the timetable when we found x-times the name
       // of the course (the name of the course is included a lesson).
@@ -110,7 +121,7 @@ void main() {
       expect(find.text('Latein LK'), findsNWidgets(4));
       expect(find.text('Spanisch LK'), findsNWidgets(4));
 
-      print("Test: User should be able to load information sheets");
+      log("Test: User should be able to load information sheets");
       await tester.tap(find.byKey(const Key('nav-item-blackboard-E2E')));
       await tester.pumpAndSettle();
 

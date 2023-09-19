@@ -33,17 +33,6 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     return GroupOnboardingPageTemplate(
       title: getTitle(context),
-      children: [
-        if (schoolClassId != null)
-          SchoolClassCourseCreateTemplateBody(
-            schoolClassID: schoolClassId!,
-            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
-          )
-        else
-          CourseTemplatePageBody(
-            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
-          )
-      ],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -56,13 +45,25 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
           ),
         ],
       ),
+      children: [
+        if (schoolClassId != null)
+          SchoolClassCourseCreateTemplateBody(
+            schoolClassID: schoolClassId!,
+            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
+          )
+        else
+          CourseTemplatePageBody(
+            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
+          )
+      ],
     );
   }
 
   String getTitle(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-    if (bloc.isTeacher && bloc.teacherType == TeacherType.courseTeacher)
+    if (bloc.isTeacher && bloc.teacherType == TeacherType.courseTeacher) {
       return 'Welche Kurse unterrichtest du?';
+    }
     return 'Welche Kurse sollen mit der Klasse verbunden werden?';
   }
 }
@@ -81,7 +82,7 @@ class _CreateCustomCourse extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Column(
         children: <Widget>[
-          Headline("Dein Kurs ist nicht dabei?"),
+          const Headline("Dein Kurs ist nicht dabei?"),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.lightBlueAccent,
@@ -89,9 +90,9 @@ class _CreateCustomCourse extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Icon(Icons.add_circle, color: Colors.white),
                 SizedBox(width: 8.0),
                 Text("EIGENEN KURS ERSTELLEN",

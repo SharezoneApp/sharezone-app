@@ -124,7 +124,7 @@ jobs:
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.43.0
+        run: pip3 install codemagic-cli-tools==0.45.1
 
       - name: Setup signing
         working-directory: app/android
@@ -212,7 +212,7 @@ jobs:
       - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.43.0
+        run: pip3 install codemagic-cli-tools==0.45.1
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -260,9 +260,16 @@ jobs:
           # longer than 4000 characters.
           export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
+          # Note that we use '--whats-new "$SHORT_LAST_COMMIT_MESSAGE"' instead
+          # of '--whats-new="$SHORT_LAST_COMMIT_MESSAGE"' to correctly pass the
+          # multiline string stored in the $SHORT_LAST_COMMIT_MESSAGE variable
+          # as a single argument. Including "=" can cause issues with argument
+          # parsing in the shell, potentially leading to incorrect handling of
+          # the multiline string argument.
+
           sz deploy ios \
             --stage alpha \
-            --whats-new="$SHORT_LAST_COMMIT_MESSAGE" \
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
@@ -271,7 +278,7 @@ jobs:
     steps:
       - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.43.0
+        run: pip3 install codemagic-cli-tools==0.45.1
       - name: Setup signing
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
@@ -400,4 +407,4 @@ jobs:
             --beta-group=alpha \
             --testflight \
             --release-type=AFTER_APPROVAL \
-            --whats-new="$SHORT_LAST_COMMIT_MESSAGE"
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE"

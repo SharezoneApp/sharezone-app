@@ -35,15 +35,15 @@ class DisplaySettingsDialog extends StatelessWidget {
               brightness:
                   _getBrightness(context, themeSettings.themeBrightness)),
           child: SimpleDialog(
-            title: Text('Anzeigeeinstellungen'),
+            title: const Text('Anzeigeeinstellungen'),
             children: [
               _TextSize(themeSettings: themeSettings),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _LightOrDarkMode(themeSettings: themeSettings),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _VisualDensity(themeSettings: themeSettings),
               if (kDebugMode) ...[
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _DrawDebugThresholdIndicator(themeSettings: themeSettings),
               ]
             ],
@@ -74,7 +74,7 @@ class _TextSize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Wrap(
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -86,7 +86,7 @@ class _TextSize extends StatelessWidget {
               border: Border.all(
                 color: Theme.of(context).textTheme.bodyMedium!.color!,
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
             ),
@@ -94,7 +94,7 @@ class _TextSize extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                   onPressed: () {
                     final scalingFactor = themeSettings.textScalingFactor;
                     // We use this calulation instead of `textScalingFactor -
@@ -107,7 +107,7 @@ class _TextSize extends StatelessWidget {
                 ),
                 Text('${themeSettings.textScalingFactor}'),
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     final scalingFactor = themeSettings.textScalingFactor;
                     const valueToAdd = 0.1;
@@ -140,27 +140,22 @@ class _LightOrDarkMode extends StatelessWidget {
         children: [
           Text('Dunkel-/Hellmodus',
               style: Theme.of(context).textTheme.labelLarge),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Column(
             children: [
               ToggleButtons(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                selectedColor: isDarkThemeEnabled(context)
+                selectedColor: Theme.of(context).isDarkTheme
                     ? Colors.black.withAlpha(240)
                     : null, // standard color
-                fillColor: isDarkThemeEnabled(context)
+                fillColor: Theme.of(context).isDarkTheme
                     ? blueColor
                     : null, // standard color
                 borderColor: Theme.of(context).textTheme.bodyMedium!.color,
                 selectedBorderColor:
                     Theme.of(context).textTheme.bodyMedium!.color,
-                children: const [
-                  Icon(Icons.dark_mode),
-                  Icon(Icons.light_mode),
-                  Icon(Icons.settings_brightness),
-                ],
                 isSelected: [
                   themeSettings.themeBrightness == ThemeBrightness.dark,
                   themeSettings.themeBrightness == ThemeBrightness.light,
@@ -175,6 +170,11 @@ class _LightOrDarkMode extends StatelessWidget {
 
                   themeSettings.themeBrightness = brightness;
                 },
+                children: const [
+                  Icon(Icons.dark_mode),
+                  Icon(Icons.light_mode),
+                  Icon(Icons.settings_brightness),
+                ],
               ),
               Text(_getText()!)
             ],
@@ -207,25 +207,25 @@ class _VisualDensity extends StatelessWidget {
       children: [
         Text('Visuelle Kompaktheit',
             style: Theme.of(context).textTheme.labelLarge),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         DropdownButton<VisualDensitySetting>(
           value: themeSettings.visualDensitySetting,
           items: [
             DropdownMenuItem<VisualDensitySetting>(
-              child: Text('Standard'),
               value: VisualDensitySetting.standard(),
+              child: const Text('Standard'),
             ),
             DropdownMenuItem<VisualDensitySetting>(
-              child: Text('Kompakt'),
               value: VisualDensitySetting.compact(),
+              child: const Text('Kompakt'),
             ),
             DropdownMenuItem<VisualDensitySetting>(
-              child: Text('Komfortabel'),
               value: VisualDensitySetting.comfortable(),
+              child: const Text('Komfortabel'),
             ),
             DropdownMenuItem<VisualDensitySetting>(
-              child: Text('Automatisch'),
               value: VisualDensitySetting.adaptivePlatformDensity(),
+              child: const Text('Automatisch'),
             ),
           ],
           onChanged: (visualDensity) {
@@ -252,7 +252,7 @@ class _DrawDebugThresholdIndicator extends StatelessWidget {
         children: [
           Text('"Am Lesen"-Indikator anzeigen',
               style: Theme.of(context).textTheme.labelLarge),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Checkbox(
             value: drawIndicator,
             onChanged: (newValue) {

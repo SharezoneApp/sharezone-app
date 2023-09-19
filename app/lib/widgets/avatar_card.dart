@@ -14,6 +14,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 // Wichtig: Es muss entweder ein SvgPath oder ein imagePath angeben werden!
 class AvatarCard extends StatelessWidget {
   const AvatarCard({
+    super.key,
     required this.children,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.radius = 55.0,
@@ -49,75 +50,69 @@ class AvatarCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 62.5),
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            CustomCard(
-              child: Container(
-                width: getScreenSize(context).width,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 87.0, bottom: paddingBottom),
-                  child: Column(
-                    crossAxisAlignment: crossAxisAlignment,
-                    children: children,
-                  ),
+      child: Stack(
+        children: <Widget>[
+          CustomCard(
+            child: SizedBox(
+              width: getScreenSize(context).width,
+              child: Padding(
+                padding: EdgeInsets.only(top: 87.0, bottom: paddingBottom),
+                child: Column(
+                  crossAxisAlignment: crossAxisAlignment,
+                  children: children,
                 ),
               ),
             ),
-            FractionalTranslation(
-              translation: Offset(0.0, -0.4),
-              child: Align(
-                child: Container(
-                  child: Stack(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: radius + 10,
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      Positioned(
-                        left: 10,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              if (withShadow == true &&
-                                  !isDarkThemeEnabled(context))
-                                BoxShadow(
-                                  color: Colors.grey[300]!,
-                                  blurRadius: 12.5,
-                                  offset: Offset(0.0, 5.0),
-                                ),
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            radius: radius,
-                            backgroundColor: avatarBackgroundColor ??
-                                Theme.of(context).primaryColor,
-                            child: icon == null
-                                ? svgPath == null
-                                    ? imagePath == null
-                                        ? Text(
-                                            kuerzel,
-                                            style: TextStyle(
-                                              fontSize: 26,
-                                              color: fontColor,
-                                            ),
-                                          )
-                                        : image()
-                                    : svg()
-                                : icon,
-                          ),
-                        ),
-                      ),
-                    ],
+          ),
+          FractionalTranslation(
+            translation: const Offset(0.0, -0.4),
+            child: Align(
+              alignment: const FractionalOffset(0.5, 0.0),
+              child: Stack(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: radius + 10,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                ),
-                alignment: FractionalOffset(0.5, 0.0),
+                  Positioned(
+                    left: 10,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          if (withShadow == true &&
+                              !Theme.of(context).isDarkTheme)
+                            BoxShadow(
+                              color: Colors.grey[300]!,
+                              blurRadius: 12.5,
+                              offset: const Offset(0.0, 5.0),
+                            ),
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        radius: radius,
+                        backgroundColor: avatarBackgroundColor ??
+                            Theme.of(context).primaryColor,
+                        child: icon ??
+                            (svgPath == null
+                                ? imagePath == null
+                                    ? Text(
+                                        kuerzel,
+                                        style: TextStyle(
+                                          fontSize: 26,
+                                          color: fontColor,
+                                        ),
+                                      )
+                                    : image()
+                                : svg()),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

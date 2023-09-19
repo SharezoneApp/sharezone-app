@@ -43,7 +43,7 @@ class SignInWithQrCodePage extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }
@@ -72,7 +72,7 @@ class _InnerSignInWithQrCodePage extends StatelessWidget {
                         children: <Widget>[
                           Expanded(child: _QrCodeSteps()),
                           const SizedBox(width: 64),
-                          SizedBox(height: 350, child: VerticalDivider()),
+                          const SizedBox(height: 350, child: VerticalDivider()),
                           const SizedBox(width: 64),
                           _QrCode(),
                         ],
@@ -81,7 +81,7 @@ class _InnerSignInWithQrCodePage extends StatelessWidget {
                       Column(
                         children: <Widget>[
                           _QrCode(),
-                          Divider(height: 64),
+                          const Divider(height: 64),
                           _QrCodeSteps(),
                         ],
                       ),
@@ -92,7 +92,7 @@ class _InnerSignInWithQrCodePage extends StatelessWidget {
             ),
           ),
         ),
-        BackIcon(),
+        const BackIcon(),
       ],
     );
   }
@@ -110,12 +110,13 @@ class _QrCode extends StatelessWidget {
         stream: bloc.qrSignInState,
         builder: (context, snapshot) {
           final state = snapshot.data;
-          if (state is QrSignInIdle)
+          if (state is QrSignInIdle) {
             return QrImageView(
               backgroundColor: Colors.white,
               data: state.qrId,
               version: 3,
             );
+          }
           return _LoadingCircular();
         },
       ),
@@ -130,10 +131,10 @@ class _LoadingCircular extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          AccentColorCircularProgressIndicator(),
+          const AccentColorCircularProgressIndicator(),
           const SizedBox(height: 18),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 175),
+            constraints: const BoxConstraints(maxWidth: 175),
             child: const Text(
                 "Die Erstellung des QR-Codes kann einige Sekunden dauern..."),
           )
@@ -146,9 +147,9 @@ class _LoadingCircular extends StatelessWidget {
 class _QrCodeSteps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const <Widget>[
+      children: <Widget>[
         Text(
           "So meldest du dich über einen QR-Code an:",
           style: TextStyle(fontSize: 30),
@@ -216,7 +217,7 @@ class _Step extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Flexible(child: Text(text, style: TextStyle(fontSize: 20))),
+          Flexible(child: Text(text, style: const TextStyle(fontSize: 20))),
         ],
       ),
     );

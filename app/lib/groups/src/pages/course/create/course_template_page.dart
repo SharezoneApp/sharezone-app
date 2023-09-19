@@ -21,6 +21,8 @@ import 'src/bloc/course_create_bloc.dart';
 class CourseTemplatePage extends StatelessWidget {
   static const tag = 'course-template-page';
 
+  const CourseTemplatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +31,8 @@ class CourseTemplatePage extends StatelessWidget {
         centerTitle: true,
         actions: const [CourseTemplatePageFinishButton()],
       ),
-      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
-      body: SingleChildScrollView(
+      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
+      body: const SingleChildScrollView(
         child: SafeArea(child: CourseTemplatePageBody()),
       ),
       bottomNavigationBar: CreateCustomCourseSection(
@@ -49,7 +51,7 @@ class CourseTemplatePageBody extends StatefulWidget {
   final Widget? bottom;
 
   @override
-  _CourseTemplatePageBodyState createState() => _CourseTemplatePageBodyState();
+  State createState() => _CourseTemplatePageBodyState();
 }
 
 class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
@@ -72,7 +74,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
             children: <Widget>[
               // _Benutzerdefiniert(),
               if (!bloc.hasSchoolClassId)
-                _CoursesAreNotLinkedWithSchoolClassWarning(),
+                const _CoursesAreNotLinkedWithSchoolClassWarning(),
               _Sprachen(),
               _Naturwissenschaften(),
               _Gesellschaftwissenschaften(),
@@ -144,9 +146,9 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
 class _Sprachen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Sprachen",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Deutsch", "D"),
         CourseTemplate("Englisch", "E"),
         CourseTemplate("Französisch", "F"),
@@ -160,9 +162,9 @@ class _Sprachen extends StatelessWidget {
 class _Naturwissenschaften extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Naturwissenschaften",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Mathematik", "M"),
         CourseTemplate("Biologie", "BI"),
         CourseTemplate("Chemie", "CH"),
@@ -178,9 +180,9 @@ class _Naturwissenschaften extends StatelessWidget {
 class _Gesellschaftwissenschaften extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Nebenfächer",
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Gesellschaftslehre", "GL"),
         CourseTemplate("Politik", "PO"),
         CourseTemplate("Geschichte", "GE"),
@@ -194,10 +196,10 @@ class _Gesellschaftwissenschaften extends StatelessWidget {
 class _Nebenfaecher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _CourseTemplateCategorySection(
+    return const _CourseTemplateCategorySection(
       title: "Nebenfächer",
       showLastDivider: false,
-      courseTemplates: const [
+      courseTemplates: [
         CourseTemplate("Sport", "SP"),
         CourseTemplate("Evangelische Religion", "ER"),
         CourseTemplate("Katholische Religion", "KR"),
@@ -225,14 +227,14 @@ class CreateCustomCourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: isDarkThemeEnabled(context)
+      color: Theme.of(context).isDarkTheme
           ? Theme.of(context).scaffoldBackgroundColor
           : Colors.grey[100],
       child: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Divider(height: 0),
+            const Divider(height: 0),
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
               child: ElevatedButton(
@@ -242,16 +244,16 @@ class CreateCustomCourseSection extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                 ),
-                child: Row(
+                onPressed: onTap,
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Icon(Icons.add_circle, color: Colors.white),
                     SizedBox(width: 8.0),
                     Text("EIGENEN KURS ERSTELLEN",
                         style: TextStyle(color: Colors.white)),
                   ],
                 ),
-                onPressed: onTap,
               ),
             ),
           ],
@@ -382,11 +384,13 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
     final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
     await courseGateway.deleteCourse(courseId);
 
-    showSnackSec(
-      context: context,
-      text: "Kurs wurde gelöscht.",
-      seconds: 2,
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        text: "Kurs wurde gelöscht.",
+        seconds: 2,
+      );
+    }
 
     setCourseAsNotCreated();
   }
@@ -398,7 +402,7 @@ class __CourseTemplateTileState extends State<_CourseTemplateTile> {
 class _CourseIsCreatedIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return const IconButton(
         icon: Icon(Icons.check, color: Colors.greenAccent), onPressed: null);
   }
 }
@@ -418,7 +422,7 @@ class _CreateCourseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.add_circle_outline),
+      icon: const Icon(Icons.add_circle_outline),
       onPressed: () {
         final bloc = BlocProvider.of<CourseCreateBloc>(context);
         final course = bloc.submitWithCourseTemplate(courseTemplate);

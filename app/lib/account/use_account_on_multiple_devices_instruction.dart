@@ -11,8 +11,10 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
-class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
+class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
   static const tag = "use-account-on-multiple-devices-instruction-page";
+
+  const UseAccountOnMultipleDevicesInstructions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
       body: DefaultTextStyle(
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+          color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
           fontFamily: rubik,
         ),
         child: SingleChildScrollView(
@@ -52,7 +54,7 @@ class UseAccountOnMultipleDevicesIntruction extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ContactSupport(),
+      bottomNavigationBar: const ContactSupport(),
     );
   }
 }

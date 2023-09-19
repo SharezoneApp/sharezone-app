@@ -41,9 +41,9 @@ class ContinueRoundButton extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.center,
-              child: const Icon(Icons.chevron_right, color: Colors.white),
+              child: Icon(Icons.chevron_right, color: Colors.white),
             )
           ],
         ),

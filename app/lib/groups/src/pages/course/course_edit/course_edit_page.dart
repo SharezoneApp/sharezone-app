@@ -22,10 +22,10 @@ Future<void> openCourseEditPage(BuildContext context, Course course) async {
     context,
     MaterialPageRoute(
       builder: (context) => CourseEditPage(course: course),
-      settings: RouteSettings(name: CourseEditPage.tag),
+      settings: const RouteSettings(name: CourseEditPage.tag),
     ),
   );
-  if (successful != null && successful == true) {
+  if (successful != null && successful == true && context.mounted) {
     _logCourseEdit(context);
     await _showCourseEditConformationSnackbarWithDelay(context);
   }
@@ -34,6 +34,7 @@ Future<void> openCourseEditPage(BuildContext context, Course course) async {
 Future _showCourseEditConformationSnackbarWithDelay(
     BuildContext context) async {
   await waitingForPopAnimation();
+  if (!context.mounted) return;
   showSnackSec(
     context: context,
     text: "Der Kurs wurde erfolgreich bearbeitet!",
@@ -53,7 +54,11 @@ Future<void> submit(BuildContext context) async {
     Navigator.pop(context, await bloc.submit());
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
-    showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
+    if (!context.mounted) return;
+    showSnackSec(
+      text: handleErrorMessage(e.toString(), s),
+      context: context,
+    );
   }
 }
 
@@ -67,7 +72,7 @@ class CourseEditPage extends StatefulWidget {
   final Course course;
 
   @override
-  _CourseEditPageState createState() => _CourseEditPageState();
+  State createState() => _CourseEditPageState();
 }
 
 class _CourseEditPageState extends State<CourseEditPage> {
@@ -108,7 +113,7 @@ class _CourseEditPage extends StatelessWidget {
     final courseNameNode = FocusNode();
     return Scaffold(
       appBar: AppBar(title: const Text("Kurs bearbeiten")),
-      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8)
             .add(const EdgeInsets.symmetric(horizontal: 4)),
@@ -180,7 +185,7 @@ class _AbbreviationField extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: initialAbbreviation,
       textInputAction: TextInputAction.next,
-      decoration: InputDecoration(labelText: "Kürzel des Fachs"),
+      decoration: const InputDecoration(labelText: "Kürzel des Fachs"),
       onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: bloc.changeAbbreviation,
       maxLength: 3,
@@ -200,7 +205,7 @@ class _CourseNameField extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: initialCourseName,
       textInputAction: TextInputAction.done,
-      decoration: InputDecoration(labelText: "Name des Kurses"),
+      decoration: const InputDecoration(labelText: "Name des Kurses"),
       onEditingComplete: () => submit(context),
       onChanged: bloc.changeCourseName,
     );

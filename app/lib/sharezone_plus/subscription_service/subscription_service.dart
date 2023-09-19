@@ -55,22 +55,33 @@ class SubscriptionService {
     if (!isSubscriptionActive()) return false;
     return _user!.subscription!.tier.hasUnlocked(feature);
   }
+
+  Stream<bool> hasFeatureUnlockedStream(SharezonePlusFeature feature) {
+    // Subscriptions feature is disabled, so every feature is unlocked.
+    if (!_isEnabled) return Stream.value(true);
+
+    return user.map((event) => hasFeatureUnlocked(feature));
+  }
 }
 
 const _featuresMap = {
   SubscriptionTier.teacherPlus: {
     SharezonePlusFeature.submissionsList,
     SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDonyByUsersList,
+    SharezonePlusFeature.homeworkDoneByUsersList,
     SharezonePlusFeature.filterTimetableByClass,
+    SharezonePlusFeature.changeHomeworkReminderTime,
+    SharezonePlusFeature.plusSupport,
   },
 };
 
 enum SharezonePlusFeature {
   submissionsList,
   infoSheetReadByUsersList,
-  homeworkDonyByUsersList,
+  homeworkDoneByUsersList,
   filterTimetableByClass,
+  changeHomeworkReminderTime,
+  plusSupport,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {

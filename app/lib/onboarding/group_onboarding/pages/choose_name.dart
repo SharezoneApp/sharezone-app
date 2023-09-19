@@ -26,6 +26,8 @@ import 'package:user/user.dart';
 import 'is_it_first_person_using_sharezone.dart';
 
 class OnboardingChangeName extends StatelessWidget {
+  const OnboardingChangeName({super.key});
+
   @override
   Widget build(BuildContext context) {
     final user = BlocProvider.of<SharezoneContext>(context).api.user;
@@ -98,7 +100,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 48),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 550),
+        constraints: const BoxConstraints(maxWidth: 550),
         child: Row(
           children: [
             Expanded(
@@ -122,8 +124,8 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: isLoading
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 8),
+                    ? const Padding(
+                        padding: EdgeInsets.only(left: 8),
                         child: LoadingCircle(),
                       )
                     : Padding(
@@ -151,9 +153,11 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
       setState(() => isLoading = true);
       try {
         await userEditPageBloc.submit();
+        if (!context.mounted) return;
         await _continue(context);
       } on Exception catch (e, s) {
         setState(() => isLoading = false);
+        if (!context.mounted) return;
         showSnackSec(
           text: handleErrorMessage(e.toString(), s),
           context: context,
@@ -171,9 +175,11 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final status = await bloc.status();
 
     if (status == GroupOnboardingStatus.onlyName) {
-      bloc.finsihOnboarding();
+      bloc.finishOnboarding();
     } else {
-      _navigateToNextPage(context, status);
+      if (context.mounted) {
+        _navigateToNextPage(context, status);
+      }
     }
   }
 
@@ -184,6 +190,8 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final notificationsPermission = context.read<NotificationsPermission>();
     final isNeededToRequestNotificationsPermission =
         await notificationsPermission.isRequiredToRequestPermission();
+    if (!context.mounted) return;
+
     // Currently, we skip the notifications request page on macOS because it is
     // not possible to request the permission on macOS with firebase_messaging
     // package. In the future, we need to show a tutorial how the user can
@@ -198,7 +206,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
       Navigator.push(
         context,
         FadeRoute(
-          child: TurnOnNotifications(),
+          child: const TurnOnNotifications(),
           tag: TurnOnNotifications.tag,
         ),
       );
@@ -206,7 +214,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
       Navigator.push(
         context,
         FadeRoute(
-          child: GroupOnboardingIsItFirstPersonUsingSharezone(),
+          child: const GroupOnboardingIsItFirstPersonUsingSharezone(),
           tag: GroupOnboardingIsItFirstPersonUsingSharezone.tag,
         ),
       );

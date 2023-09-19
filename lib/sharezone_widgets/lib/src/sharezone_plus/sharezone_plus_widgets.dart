@@ -20,7 +20,7 @@ class SharezonePlusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = this.color ??
-        (isDarkThemeEnabled(context)
+        (Theme.of(context).isDarkTheme
             ? Theme.of(context).primaryColor
             : darkBlueColor);
     return Row(
@@ -85,6 +85,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
     this.withLearnMoreButton = false,
     this.onLearnMorePressed,
     this.maxWidth = 400,
+    this.underlayColor,
   }) : assert(withLearnMoreButton == false || onLearnMorePressed != null);
 
   /// Whether the card should display the [SharezonePlusBadge] at the top
@@ -111,61 +112,96 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
   /// The maximum width of the card.
   final double maxWidth;
 
+  /// The color displayed behind the card's semi-transparent background.
+  ///
+  /// This color serves as an underlay to the card, helping to maintain the
+  /// visibility and integrity of the card's content by providing a solid
+  /// background color. It can be useful when the card is displayed over varied
+  /// or busy backgrounds, preventing the content behind the card from
+  /// interfering visually with the card's content. In this case, you may want
+  /// to use `Theme.of(context).scaffoldBackgroundColor` as the underlay color.
+  ///
+  /// When null, no underlay color is applied, and the card will blend with its
+  /// background based on its existing opacity setting.
+  final Color? underlayColor;
+
   @override
   Widget build(BuildContext context) {
     final fontColor = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkPrimaryColor;
+    final baseTheme = Theme.of(context);
+    final borderRadius = BorderRadius.circular(12.5);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: maxWidth,
       ),
       child: Container(
+        // Adding a base color to avoid that the card is a bit transparent
+        // because the card color has a low opacity.
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(12.5),
+          borderRadius: borderRadius,
+          color: underlayColor,
         ),
-        child: DefaultTextStyle.merge(
-          style: TextStyle(
-            color: fontColor,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            borderRadius: borderRadius,
           ),
-          textAlign: TextAlign.center,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (withSharezonePlusBadge)
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: SharezonePlusBadge(),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: child,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              textTheme: baseTheme.textTheme.copyWith(
+                // Modifying also the `bodyMedium` style besides
+                // `DefaultTextStyle` to update the text color for p elements in
+                // the `MarkdownBody` widget of `flutter_markdown`.
+                bodyMedium: baseTheme.textTheme.bodyMedium?.copyWith(
+                  color: fontColor,
                 ),
-                if (withLearnMoreButton)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-                    child: TextButton(
-                      onPressed: onLearnMorePressed,
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        foregroundColor: fontColor,
+              ),
+            ),
+            child: DefaultTextStyle.merge(
+              style: TextStyle(
+                color: fontColor,
+              ),
+              textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (withSharezonePlusBadge)
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
+                        child: SharezonePlusBadge(),
                       ),
-                      child: const Text(
-                        'MEHR ERFAHREN',
-                        style: TextStyle(
-                          letterSpacing: 0.5,
-                        ),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: child,
                     ),
-                  ),
-              ],
+                    if (withLearnMoreButton)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+                        child: TextButton(
+                          onPressed: onLearnMorePressed,
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            foregroundColor: fontColor,
+                          ),
+                          child: const Text(
+                            'MEHR ERFAHREN',
+                            style: TextStyle(
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

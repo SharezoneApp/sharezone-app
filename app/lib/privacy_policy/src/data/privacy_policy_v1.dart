@@ -60,9 +60,9 @@ Hey! Das ist unsere Datenschutzerklärung! Bitte nimm dir die Zeit und lies dir 
 
 Hier findest du unsere Kontaktdaten:
 
-Sander, Jonas; Reichardt, Nils u. Weuthen, Felix “Sharezone” GbR\
-Blücherstraße 34\
-57072 Siegen\
+Sander, Jonas; Reichardt, Nils u. Weuthen, Felix “Sharezone” GbR
+Blücherstraße 34
+57072 Siegen
 Deutschland
 
 E-Mail: support@sharezone.net
@@ -169,5 +169,5 @@ Sehr gut! Du hast unsere Datenschutzerklärung nun durchgelesen, wodurch du best
 
 Sollten immer noch irgendwelche Fragen aufkommen, dann schreib uns einfach eine E-Mail an: support@sharezone.net
 
-Beste Grüße,\
+Beste Grüße,
 Dein Sharezone Team""";

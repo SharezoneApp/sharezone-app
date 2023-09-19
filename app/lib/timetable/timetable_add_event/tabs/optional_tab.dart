@@ -26,7 +26,7 @@ class _OptionalTab extends StatelessWidget {
           const SizedBox(height: 12),
           _DescriptionField(isExam: isExam),
           const SizedBox(height: 12),
-          Divider(),
+          const Divider(),
           _SendNotificationField(isExam: isExam),
         ],
       ),
@@ -51,7 +51,7 @@ class _PlaceField extends StatelessWidget {
           child: PrefilledTextField(
             prefilledText: place,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               labelText: isExam ? 'Raum' : 'Ort',
               hintText: isExam ? 'z. B. Raum 203' : 'Aula',
             ),
@@ -86,7 +86,7 @@ class _DescriptionField extends StatelessWidget {
               PrefilledTextField(
                 prefilledText: description,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   labelText:
                       isExam ? "Themen der Prüfung" : "Zusatzinformationen",
                   hintText: isExam
@@ -100,8 +100,8 @@ class _DescriptionField extends StatelessWidget {
                 textCapitalization: TextCapitalization.sentences,
               ),
               const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
                 child: MarkdownSupport(),
               ),
             ],

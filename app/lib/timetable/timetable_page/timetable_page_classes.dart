@@ -75,7 +75,7 @@ class WeekView {
       identical(this, other) ||
       other is WeekView &&
           runtimeType == other.runtimeType &&
-          ListEquality<DayView>().equals(days, other.days);
+          const ListEquality<DayView>().equals(days, other.days);
 
   @override
   int get hashCode => equality.hash(days);

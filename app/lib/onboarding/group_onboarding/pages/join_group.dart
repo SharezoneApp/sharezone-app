@@ -19,9 +19,10 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 class GroupOnboardingGroupJoinPage extends StatefulWidget {
   static const tag = 'group-onboarding-group-join-page';
 
+  const GroupOnboardingGroupJoinPage({super.key});
+
   @override
-  _GroupOnboardingGroupJoinPageState createState() =>
-      _GroupOnboardingGroupJoinPageState();
+  State createState() => _GroupOnboardingGroupJoinPageState();
 }
 
 class _GroupOnboardingGroupJoinPageState
@@ -41,8 +42,8 @@ class _GroupOnboardingGroupJoinPageState
       bloc: bloc,
       child: Builder(
         builder: (context) {
-          return Scaffold(
-            appBar: const GroupJoinAppBar(withBackIcon: false),
+          return const Scaffold(
+            appBar: GroupJoinAppBar(withBackIcon: false),
             body:
                 SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
             bottomNavigationBar: OnboardingNavigationBar(
@@ -65,10 +66,10 @@ class _FinishButton extends StatelessWidget {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      child: Text("Fertig".toUpperCase(), style: TextStyle(fontSize: 20)),
+      child: Text("Fertig".toUpperCase(), style: const TextStyle(fontSize: 20)),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
-        bloc.finsihOnboarding();
+        bloc.finishOnboarding();
         Navigator.pop(context);
         Navigator.pop(context);
       },

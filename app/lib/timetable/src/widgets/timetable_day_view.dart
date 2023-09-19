@@ -31,10 +31,11 @@ import 'package:time/time.dart';
 import 'package:user/user.dart';
 
 Color? _getIconColor(BuildContext context) =>
-    isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600];
+    Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600];
 
 class TimetableDayView extends StatefulWidget {
   const TimetableDayView({
+    super.key,
     required this.date,
     required this.weekType,
     required this.elements,
@@ -53,7 +54,7 @@ class TimetableDayView extends StatefulWidget {
   final WeekType weekType;
 
   @override
-  _TimetableDayViewState createState() => _TimetableDayViewState();
+  State createState() => _TimetableDayViewState();
 }
 
 class _TimetableDayViewState extends State<TimetableDayView> {
@@ -90,11 +91,12 @@ class _TimetableDayViewState extends State<TimetableDayView> {
         hourHeight: hourHeight,
         isSelected: selection == getEmptyPeriodSelection(periodList[i]),
         onHighlightChanged: (value) {
-          if (value)
+          if (value) {
             selectionBloc
                 .onTapSelection(getEmptyPeriodSelection(periodList[i]));
-          else
+          } else {
             selectionBloc.clearSelections();
+          }
         },
         onTap: () {
           _openQuickCreateLessonDialog(
@@ -195,6 +197,7 @@ class TimetableQuickCreateDialog extends StatelessWidget {
                   child: isCourseListEmpty
                       ? _EmptyCourseList()
                       : Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: courses
                               .map((course) => _QuickCreateCourseTile(
                                     course: course,
@@ -202,7 +205,6 @@ class TimetableQuickCreateDialog extends StatelessWidget {
                                     periodSelection: periodSelection,
                                   ))
                               .toList(),
-                          mainAxisSize: MainAxisSize.min,
                         ),
                 ),
               )
@@ -223,7 +225,7 @@ class _AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      backgroundColor: isDarkThemeEnabled(context) ? null : Colors.white,
+      backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       centerTitle: false,
       forceElevated: true,
       automaticallyImplyLeading: false,
@@ -246,7 +248,7 @@ class _EmptyCourseList extends StatelessWidget {
     final modalSheetHeight = height - (height / 5);
     const appBarHeight = 56.0;
     return Material(
-      color: isDarkThemeEnabled(context)
+      color: Theme.of(context).isDarkTheme
           ? Theme.of(context).scaffoldBackgroundColor
           : Colors.white,
       child: SizedBox(
@@ -340,7 +342,7 @@ class _QuickCreateCourseTile extends StatelessWidget {
         courseId: course.id,
         abbreviation: course.abbreviation,
       ),
-      trailing: !hasCreatorPermissions ? Icon(Icons.lock) : null,
+      trailing: !hasCreatorPermissions ? const Icon(Icons.lock) : null,
       onTap: () {
         selectionBloc.createLesson(
           BlocProvider.of<SharezoneContext>(context).api.timetable,
@@ -361,7 +363,7 @@ class _PositionedPeriodElementTile extends StatelessWidget {
   final bool isSelected;
   final ValueChanged<bool> onHighlightChanged;
 
-  _PositionedPeriodElementTile({
+  const _PositionedPeriodElementTile({
     Key? key,
     required this.period,
     required this.hourHeight,
@@ -371,7 +373,7 @@ class _PositionedPeriodElementTile extends StatelessWidget {
     required this.onHighlightChanged,
   }) : super(key: key);
 
-  final borderRadius = BorderRadius.all(Radius.circular(5));
+  final borderRadius = const BorderRadius.all(Radius.circular(5));
 
   @override
   Widget build(BuildContext context) {
@@ -382,13 +384,11 @@ class _PositionedPeriodElementTile extends StatelessWidget {
       top: dimensions.topPosition,
       right: 0.0,
       height: dimensions.height,
-      child: Container(
-        child: InkWell(
-          borderRadius: borderRadius,
-          onHighlightChanged: onHighlightChanged,
-          onTap: onTap,
-          child: isSelected ? _getWidgetSelected(context) : Container(),
-        ),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onHighlightChanged: onHighlightChanged,
+        onTap: onTap,
+        child: isSelected ? _getWidgetSelected(context) : Container(),
       ),
     );
   }
@@ -398,7 +398,7 @@ class _PositionedPeriodElementTile extends StatelessWidget {
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.3),
           borderRadius: borderRadius),
-      child: Center(child: Icon(Icons.add, color: Colors.white)),
+      child: const Center(child: Icon(Icons.add, color: Colors.white)),
     );
   }
 }
@@ -412,8 +412,9 @@ class TimetableElementTile extends StatelessWidget {
     this.timetableElement,
     this.hourHeight,
     this.width,
-    this.timetableBegin,
-  );
+    this.timetableBegin, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -423,8 +424,8 @@ class TimetableElementTile extends StatelessWidget {
       left: dimensions.leftPosition,
       top: dimensions.topPosition,
       height: dimensions.height,
-      child: _getChild(context),
       width: dimensions.width,
+      child: _getChild(context),
     );
   }
 

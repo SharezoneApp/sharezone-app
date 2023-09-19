@@ -47,7 +47,7 @@ import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/animated_stream_list.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone/widgets/machting_type_of_user_stream_builder.dart';
+import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/platform.dart';
@@ -71,8 +71,10 @@ part './widgets/section.dart';
 class DashboardPage extends StatefulWidget {
   static const tag = 'overview-page';
 
+  const DashboardPage({super.key});
+
   @override
-  _DashboardPageState createState() => _DashboardPageState();
+  State createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
@@ -86,9 +88,9 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return SharezoneCustomScaffold(
       appBarConfiguration: SliverAppBarConfiguration(
-        title: _AppBarTitle(),
+        title: const _AppBarTitle(),
         backgroundColor:
-            isDarkThemeEnabled(context) ? ElevationColors.dp8 : blueColor,
+            Theme.of(context).isDarkTheme ? ElevationColors.dp8 : blueColor,
         expandedHeight: 210,
         elevation: 1,
         pinned: true,
@@ -97,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
         drawerIconColor: Colors.white,
       ),
       navigationItem: NavigationItem.overview,
-      body: DashboardPageBody(),
+      body: const DashboardPageBody(),
       floatingActionButton: _DashboardPageFAB(),
     );
   }
@@ -133,7 +135,7 @@ class DashboardPageBody extends StatelessWidget {
               const _HomeworkSection(),
               _EventsSection(),
               _BlackboardSection(),
-              HolidayCountdownSection(),
+              const HolidayCountdownSection(),
               const SizedBox(height: 32)
             ],
           ),

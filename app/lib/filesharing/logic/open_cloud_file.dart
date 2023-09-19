@@ -105,7 +105,7 @@ void openFirestoreFilePage({
           actions: actions,
           fileFormat: fileFormat,
         ),
-        settings: RouteSettings(name: FirestoreFilePage.tag),
+        settings: const RouteSettings(name: FirestoreFilePage.tag),
       ),
     );
   }

@@ -19,6 +19,7 @@ Future<Course?> openCourseCreatePage(
   Course? course,
   String? schoolClassId,
 }) async {
+  // We use `dynamic` as type because we return either a `Course?` or `bool`.
   final createdCourse = await Navigator.push<dynamic>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -26,11 +27,11 @@ Future<Course?> openCourseCreatePage(
         course: course,
         schoolClassId: schoolClassId,
       ),
-      settings: RouteSettings(name: _CourseCreatePage.tag),
+      settings: const RouteSettings(name: _CourseCreatePage.tag),
     ),
   );
   await waitingForPopAnimation();
-  if (createdCourse != null) {
+  if (createdCourse != null && context.mounted) {
     final name = createdCourse is Course ? ' "${createdCourse.name}"' : '';
     showSnackSec(
       context: context,
@@ -38,7 +39,7 @@ Future<Course?> openCourseCreatePage(
       seconds: 2,
     );
   }
-  return createdCourse as Course;
+  return createdCourse is Course ? createdCourse : null;
 }
 
 Future<void> submit(BuildContext context) async {
@@ -49,16 +50,20 @@ Future<void> submit(BuildContext context) async {
     if (bloc.hasSchoolClassId) {
       sendDataToFrankfurtSnackBar(context, behavior: SnackBarBehavior.fixed);
       final successful = await bloc.submitSchoolClassCourse();
-      Navigator.pop(context, successful);
+      if (context.mounted) {
+        Navigator.pop(context, successful);
+      }
     } else {
       createdCourse = bloc.submitCourse();
       Navigator.pop(context, createdCourse);
     }
   } catch (e, s) {
-    showSnackSec(
-      context: context,
-      text: handleErrorMessage(e.toString(), s),
-    );
+    if (context.mounted) {
+      showSnackSec(
+        context: context,
+        text: handleErrorMessage(e.toString(), s),
+      );
+    }
   }
 }
 
@@ -132,8 +137,8 @@ class _CreateCourseFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context),
-      child: const Icon(Icons.check),
       tooltip: 'Erstellen',
+      child: const Icon(Icons.check),
     );
   }
 }

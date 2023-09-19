@@ -57,7 +57,7 @@ class MySchoolClassBloc extends BlocBase {
 
   Stream<SchoolClass?> streamSchoolClass() {
     if (schoolClassId == null) {
-      return Stream.empty();
+      return const Stream.empty();
     }
     return gateway.schoolClassGateway.streamSingleSchoolClass(schoolClassId!);
   }

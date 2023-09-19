@@ -15,6 +15,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class SharecodeText extends StatelessWidget {
   const SharecodeText(
     this.sharecode, {
+    super.key,
     this.onCopied,
   });
 
@@ -27,7 +28,7 @@ class SharecodeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(
-      color: isDarkThemeEnabled(context) ? Colors.white : Colors.black,
+      color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
       fontSize: 22,
       fontWeight: FontWeight.w500,
     );
@@ -100,7 +101,7 @@ class SharecodeText extends StatelessWidget {
     } else if (_isNonNumberUppercase(char)) {
       return 'großes $char';
     }
-    return '$char';
+    return char;
   }
 
   bool _isNonNumberLowercase(String currentChar) {

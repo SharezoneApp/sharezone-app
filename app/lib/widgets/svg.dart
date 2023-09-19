@@ -12,6 +12,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 // Widget to create a Svg
 class SvgWidget extends StatelessWidget {
   const SvgWidget({
+    super.key,
     required this.assetName,
     this.size = const Size.square(35.0),
     this.color,

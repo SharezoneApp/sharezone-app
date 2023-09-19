@@ -26,11 +26,12 @@ class HomeworkDetailsBloc extends BlocBase {
           (homework) async {
             final view = await detailsViewFactory.fromHomeworkDb(homework);
 
-            if (view.hasAttachments)
+            if (view.hasAttachments) {
               return view.copyWith(
                   attachmentStream: detailsViewFactory
                       .fileSharingGateway.cloudFilesGateway
                       .filesStreamAttachment(courseID, view.id));
+            }
             return view;
           },
         );

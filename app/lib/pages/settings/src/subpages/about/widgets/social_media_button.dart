@@ -21,38 +21,39 @@ enum SocialButtonTypes {
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
+    super.key,
     required this.svgPath,
     required this.tooltip,
     required this.link,
     required this.socialButtonTypes,
   });
 
-  const SocialButton.instagram(this.link)
+  const SocialButton.instagram(this.link, {super.key})
       : tooltip = 'Instagram',
         svgPath = 'assets/icons/instagram.svg',
         socialButtonTypes = SocialButtonTypes.instagram;
 
-  const SocialButton.twitter(this.link)
+  const SocialButton.twitter(this.link, {super.key})
       : tooltip = 'Twitter',
         svgPath = 'assets/icons/twitter.svg',
         socialButtonTypes = SocialButtonTypes.twitter;
 
-  const SocialButton.linkedIn(this.link)
+  const SocialButton.linkedIn(this.link, {super.key})
       : tooltip = 'LinkedIn',
         svgPath = 'assets/icons/linkedin.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
-  const SocialButton.discord(this.link)
+  const SocialButton.discord(this.link, {super.key})
       : tooltip = 'Discord',
         svgPath = 'assets/icons/discord.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
-  const SocialButton.email(this.link)
+  const SocialButton.email(this.link, {super.key})
       : tooltip = 'E-Mail',
         svgPath = 'assets/icons/email.svg',
         socialButtonTypes = SocialButtonTypes.email;
 
-  const SocialButton.github(this.link)
+  const SocialButton.github(this.link, {super.key})
       : tooltip = 'GitHub',
         svgPath = 'assets/icons/github.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
@@ -62,13 +63,14 @@ class SocialButton extends StatelessWidget {
   static const double _svgSize = 28;
 
   Future<void> onPressed(BuildContext context) async {
-    if (socialButtonTypes != SocialButtonTypes.email)
+    if (socialButtonTypes != SocialButtonTypes.email) {
       launchURL(link);
-    else {
+    } else {
       try {
         final url = Uri.parse(Uri.encodeFull("mailto:$link"));
         await launchUrl(url);
       } on Exception catch (_) {
+        if (!context.mounted) return;
         showSnackSec(
           text: "E-Mail: $link",
           context: context,

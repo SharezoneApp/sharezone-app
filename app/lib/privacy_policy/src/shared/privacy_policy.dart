@@ -21,7 +21,7 @@ class PrivacyPolicy {
   final DateTime? entersIntoForceOnOrNull;
   bool get hasNotYetEnteredIntoForce =>
       entersIntoForceOnOrNull != null &&
-      entersIntoForceOnOrNull!.isAfter(Clock().now());
+      entersIntoForceOnOrNull!.isAfter(const Clock().now());
 
   const PrivacyPolicy({
     required this.markdownText,

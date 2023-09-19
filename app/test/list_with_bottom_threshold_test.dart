@@ -14,7 +14,7 @@ void main() {
   group('ListWithBottomThreshold', () {
     group("given no children", () {
       testWidgets("shows LoadingWidget", (WidgetTester tester) async {
-        Widget loadingWidget = CircularProgressIndicator();
+        Widget loadingWidget = const CircularProgressIndicator();
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(loadingIndicator: loadingWidget),
@@ -82,7 +82,7 @@ void main() {
       }
 
       const loadingWidgetHeight = 20.0;
-      Widget loadingWidget = SizedBox(height: loadingWidgetHeight);
+      Widget loadingWidget = const SizedBox(height: loadingWidgetHeight);
       Widget? infiniteScrollingList;
 
       Future<void> scrollList(
@@ -100,7 +100,7 @@ void main() {
       }
 
       void testAndPumpList(String description,
-          Future<void> callback(WidgetTester widgetTester)) {
+          Future<void> Function(WidgetTester widgetTester) callback) {
         testWidgets(description, (WidgetTester tester) async {
           await tester.pumpWidget(infiniteScrollingList!);
           await callback(tester);
@@ -113,10 +113,10 @@ void main() {
         infiniteScrollingList = Directionality(
             textDirection: TextDirection.ltr,
             child: ListWithBottomThreshold(
-              children: children,
               onThresholdExceeded: () => fired = true,
               thresholdHeight: listThreshold,
               loadingIndicator: loadingWidget,
+              children: children,
             ));
       });
 
@@ -146,12 +146,12 @@ void main() {
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(
-            children: List.filled(2, container),
-            loadingIndicator: SizedBox(
+            loadingIndicator: const SizedBox(
               height: 50,
             ),
             thresholdHeight: listThreshold,
             onThresholdExceeded: () => fired = true,
+            children: List.filled(2, container),
           ),
         );
 
@@ -192,9 +192,9 @@ void main() {
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(
-            children: children,
-            loadingIndicator:
-                Container(), // So pumpAndSettle does not wait for an animation to finish.
+            loadingIndicator: Container(),
+            children:
+                children, // So pumpAndSettle does not wait for an animation to finish.
           ),
         );
 
@@ -211,12 +211,12 @@ void main() {
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(
-            children: List.filled(20, container),
-            loadingIndicator: SizedBox(
+            loadingIndicator: const SizedBox(
               height: 5000,
             ),
             thresholdHeight: listThreshold,
             onThresholdExceeded: () => fired = true,
+            children: List.filled(20, container),
           ),
         );
 
@@ -233,9 +233,9 @@ void main() {
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(
-            children: List.filled(2, container),
             loadingIndicator: loadingWidget,
             thresholdHeight: listThreshold,
+            children: List.filled(2, container),
           ),
         );
 

@@ -47,7 +47,8 @@ Future<WeekType?> selectWeekType(
       final isSelected = selected == item;
       return ListTile(
         title: Text(getWeekTypeText(item)),
-        trailing: isSelected ? Icon(Icons.done, color: Colors.green) : null,
+        trailing:
+            isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {
           log("Ische poppe jetzt: ${getWeekTypeText(item)}");
           Navigator.pop(context, item);

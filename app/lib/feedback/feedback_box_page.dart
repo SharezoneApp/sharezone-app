@@ -44,7 +44,7 @@ class FeedbackPage extends StatelessWidget {
 
 @visibleForTesting
 class FeedbackPageBody extends StatelessWidget {
-  const FeedbackPageBody();
+  const FeedbackPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,17 +54,17 @@ class FeedbackPageBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _Description(),
-              Divider(),
-              if (!PlatformCheck.isWeb) _GeneralRating(),
-              SizedBox(height: 12),
-              _LikeField(),
-              _DislikeField(),
-              _MissingField(),
-              _HeardFromField(),
-              _AnonymousCheckbox(),
-              FeedbackPageSubmitButton(key: const Key("submitButton")),
-              SizedBox(height: _padding)
+              const _Description(),
+              const Divider(),
+              if (!PlatformCheck.isWeb) const _GeneralRating(),
+              const SizedBox(height: 12),
+              const _LikeField(),
+              const _DislikeField(),
+              const _MissingField(),
+              const _HeardFromField(),
+              const _AnonymousCheckbox(),
+              const FeedbackPageSubmitButton(key: Key("submitButton")),
+              const SizedBox(height: _padding)
             ],
           ),
         ),
@@ -111,7 +111,7 @@ class _AnonymousCheckbox extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.security,
-                        color: isDarkThemeEnabled(context)
+                        color: Theme.of(context).isDarkTheme
                             ? Colors.grey
                             : Colors.grey[600]),
                     const SizedBox(width: 16),
@@ -119,7 +119,7 @@ class _AnonymousCheckbox extends StatelessWidget {
                       child: Text(
                         "Ich möchte mein Feedback anonym abschicken",
                         style: TextStyle(
-                            color: isDarkThemeEnabled(context)
+                            color: Theme.of(context).isDarkTheme
                                 ? Colors.grey[400]
                                 : Colors.grey[600],
                             fontSize: 16),
@@ -137,7 +137,7 @@ class _AnonymousCheckbox extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: isAnonymous
-                  ? Text(
+                  ? const Text(
                       "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     )
@@ -265,11 +265,11 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(_padding),
+    return const Padding(
+      padding: EdgeInsets.all(_padding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
+        children: <Widget>[
           Text(
             "Warum wir Dein Feedback brauchen:",
             style: TextStyle(fontSize: 16),
@@ -288,8 +288,7 @@ class FeedbackPageSubmitButton extends StatefulWidget {
   const FeedbackPageSubmitButton({Key? key}) : super(key: key);
 
   @override
-  _FeedbackPageSubmitButtonState createState() =>
-      _FeedbackPageSubmitButtonState();
+  State createState() => _FeedbackPageSubmitButtonState();
 }
 
 class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
@@ -299,14 +298,6 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: ElevatedButton(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Icon(Icons.send, color: Colors.white),
-            SizedBox(width: 8),
-            Text("ABSCHICKEN", style: TextStyle(color: Colors.white)),
-          ],
-        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.lightBlueAccent,
           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -316,25 +307,44 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
         onPressed: () async {
           try {
             await bloc.submit();
-            showThankYouBottomSheet(context);
+            if (context.mounted) {
+              showThankYouBottomSheet(context);
+            }
           } on CoolDownException catch (e) {
-            showSnackSec(
+            if (context.mounted) {
+              showSnackSec(
                 context: context,
                 text:
-                    "Error! Dein Cool Down (${e.coolDown}) ist noch nicht abgelaufen.");
+                    "Error! Dein Cool Down (${e.coolDown}) ist noch nicht abgelaufen.",
+              );
+            }
           } on EmptyFeedbackException {
-            showSnackSec(
+            if (context.mounted) {
+              showSnackSec(
                 context: context,
-                text: "Du musst auch schon was reinschreiben 😉");
+                text: "Du musst auch schon was reinschreiben 😉",
+              );
+            }
           } on Exception catch (e, s) {
             log("Exception when submitting Feedback: $e",
                 error: e, stackTrace: s);
-            showSnackSec(
+            if (context.mounted) {
+              showSnackSec(
                 context: context,
                 text:
-                    "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per Email! :)");
+                    "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per Email! :)",
+              );
+            }
           }
         },
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.send, color: Colors.white),
+            SizedBox(width: 8),
+            Text("ABSCHICKEN", style: TextStyle(color: Colors.white)),
+          ],
+        ),
       ),
     );
   }

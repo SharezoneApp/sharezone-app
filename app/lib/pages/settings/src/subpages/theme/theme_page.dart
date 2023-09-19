@@ -20,10 +20,12 @@ import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import '../../../support_page.dart';
+import '../../../../../support/support_page.dart';
 
 class ThemePage extends StatelessWidget {
   static const tag = 'theme-page';
+
+  const ThemePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,9 @@ class ThemePage extends StatelessWidget {
 class _DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SettingsSubpageSection(
+    return const SettingsSubpageSection(
       title: "Light & Dark Mode",
-      children: const [
+      children: [
         _BrightnessRadioGroup(),
         _RateOurApp(),
       ],
@@ -134,7 +136,7 @@ class _RateOurApp extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
         title: "Gefällt dir Sharezone?",
-        color: isDarkThemeEnabled(context)
+        color: Theme.of(context).isDarkTheme
             ? ElevationColors.dp12
             : context.primaryColor.withOpacity(0.15),
         content: const Text(
@@ -169,9 +171,9 @@ class _NewNavigationExperiment extends StatelessWidget {
     // nichts passiert.
     if (context.isDesktopModus) return Container();
 
-    return SettingsSubpageSection(
+    return const SettingsSubpageSection(
       title: "Experiment: Neue Navigation",
-      children: const <Widget>[
+      children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
@@ -237,9 +239,9 @@ class _RateAppButton extends StatelessWidget {
 
         launchURL(_getStoreLink());
       },
-      child: Text("Bewerten".toUpperCase()),
       elevation: 0,
       highlightElevation: 0,
+      child: Text("Bewerten".toUpperCase()),
     );
   }
 
@@ -259,7 +261,7 @@ class _RateAppButton extends StatelessWidget {
     showLeftRightAdaptiveDialog(
       context: context,
       title: 'App-Bewertung nur über iOS & Android möglich!',
-      content: Text(
+      content: const Text(
           'Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍'),
       left: AdaptiveDialogAction.ok,
     );
@@ -306,7 +308,7 @@ class _NavigationRadioTile extends StatelessWidget {
   /// or a Drawer).
   Future<void> popToShowBnbTutorial(BuildContext context) async {
     final bloc = BlocProvider.of<BnbTutorialBloc>(context);
-    if (await bloc.shouldShowBnbTutorial().first) {
+    if (await bloc.shouldShowBnbTutorial().first && context.mounted) {
       Navigator.pop(context);
     }
   }
@@ -319,11 +321,11 @@ class _ContactSupportButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
-      child: Text("Support kontaktieren".toUpperCase()),
       style: TextButton.styleFrom(
         foregroundColor:
-            isDarkThemeEnabled(context) ? Colors.grey : Colors.grey[600],
+            Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600],
       ),
+      child: Text("Support kontaktieren".toUpperCase()),
     );
   }
 }

@@ -25,7 +25,7 @@ void main() {
                   //
                   // ignore: invalid_use_of_visible_for_testing_member
                   onPressed: () => selectDesign(context, null),
-                  child: Text("Select"),
+                  child: const Text("Select"),
                 );
               }),
             ),

@@ -25,9 +25,12 @@ Future<void> openUserEditPageIfUserIsLoaded(
       defaultValue: false,
       name: UserEditPage.tag,
     );
-    if (confirmed) _showConfirmationSnackbar(context);
-  } else
+    if (confirmed && context.mounted) {
+      _showConfirmationSnackbar(context);
+    }
+  } else {
     _showLoadingUserSnackBar(context);
+  }
 }
 
 void _showLoadingUserSnackBar(BuildContext context) {
@@ -60,6 +63,7 @@ Future<void> _submit(BuildContext context,
   );
   try {
     final result = await bloc.submit();
+    if (!context.mounted) return;
     if (result) {
       Navigator.pop(context, result);
     } else {
@@ -88,7 +92,7 @@ class UserEditPage extends StatefulWidget {
   final AppUser? user;
 
   @override
-  _UserEditPageState createState() => _UserEditPageState();
+  State createState() => _UserEditPageState();
 }
 
 class _UserEditPageState extends State<UserEditPage> {
@@ -152,7 +156,7 @@ class _UserEditPageFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      label: Text("Speichern"),
+      label: const Text("Speichern"),
       onPressed: () => _submit(context),
       icon: const Icon(Icons.check),
     );

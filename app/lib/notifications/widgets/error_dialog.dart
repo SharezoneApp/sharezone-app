@@ -28,13 +28,13 @@ void showNotificationHandlingErrorDialog(
         children: [
           if (notification.hasNonEmptyBody) ...[
             Text(notification.body!),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
           _ErrorBanner(errorReason: errorReason),
         ],
       ),
       defaultValue: false,
-      left: AdaptiveDialogAction<bool>(
+      left: const AdaptiveDialogAction<bool>(
         isDefaultAction: true,
         title: "Ok",
       ),
@@ -54,20 +54,20 @@ class _ErrorBanner extends StatefulWidget {
 class __ErrorBannerState extends State<_ErrorBanner> {
   static String getLongErrorDescription(
       NotificationHandlerErrorReason errorReason) {
-    String? _errorReason;
+    String? errorReason0;
 
     switch (errorReason) {
       case NotificationHandlerErrorReason.fatalParsingError:
-        _errorReason = 'Fatal-Parsing-Error';
+        errorReason0 = 'Fatal-Parsing-Error';
         break;
       case NotificationHandlerErrorReason.unknownActionType:
-        _errorReason = 'Unknown-Action-Type';
+        errorReason0 = 'Unknown-Action-Type';
         break;
     }
 
     return '''
 Es konnte nicht verarbeitet werden, was beim Tippen auf die Benachrichtigung eigentlich hätte passieren sollen. Der Fehler wurde automatisch an uns übermittelt. 
-Fehler: $_errorReason
+Fehler: $errorReason0
 
 Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstanden.
 Überprüfe bitte, ob du Sharezone updaten kannst.''';
@@ -75,12 +75,12 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
 
   Widget getLongDescription() => Text(
         getLongErrorDescription(widget.errorReason),
-        style: TextStyle(fontSize: 13),
+        style: const TextStyle(fontSize: 13),
       );
 
   Widget getShortDescription(BuildContext context) {
-    return Text.rich(
-      TextSpan(children: const [
+    return const Text.rich(
+      TextSpan(children: [
         TextSpan(
             text:
                 'Beim tippen auf die Benachrichtigung hätte jetzt etwas anderes passieren sollen.',
@@ -109,7 +109,7 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
           // Has a better contrast in darkmode
           ? Colors.orangeAccent
           : Colors.orange,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
         ),
@@ -121,12 +121,12 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
           });
         },
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: 30),
+          constraints: const BoxConstraints(minHeight: 30),
           child: Row(
             children: [
-              Expanded(
+              const Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 3.0),
+                  padding: EdgeInsets.only(left: 3.0),
                   child: Icon(
                     Icons.error_outline_outlined,
                     size: 25,
@@ -140,7 +140,7 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                     child: DefaultTextStyle(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       child: showLongErrorDescription
                           ? getLongDescription()
                           : getShortDescription(context),

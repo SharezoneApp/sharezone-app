@@ -19,8 +19,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 Future<void> showThankYouBottomSheet(BuildContext context) async {
   await showModalBottomSheet(
     context: context,
-    builder: (context) => ThankYouBottomSheetChild(),
+    builder: (context) => const ThankYouBottomSheetChild(),
   );
+  if (!context.mounted) return;
   _clearFeedbackBox(context);
   _navigateToOverviewPage(context);
 }
@@ -36,13 +37,15 @@ void _navigateToOverviewPage(BuildContext context) {
 }
 
 class ThankYouBottomSheetChild extends StatelessWidget {
+  const ThankYouBottomSheetChild({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            Align(
+            const Align(
               alignment: Alignment.centerRight,
               child: CloseIconButton(),
             ),
@@ -64,7 +67,7 @@ class ThankYouBottomSheetChild extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   children: <TextSpan>[
-                    TextSpan(
+                    const TextSpan(
                         text:
                             "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im "),
                     TextSpan(
@@ -80,11 +83,11 @@ class ThankYouBottomSheetChild extends StatelessWidget {
                                     ? "https://sharezone.net/ios"
                                     : "https://sharezone.net/android");
                           }),
-                    TextSpan(
+                    const TextSpan(
                       text: " riesig freuen! 😄",
                     ),
                   ],
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),
                 textAlign: TextAlign.center,
               ),

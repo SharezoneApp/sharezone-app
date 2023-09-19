@@ -63,8 +63,7 @@ class BottomOfScrollViewInvisibility extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BottomOfScrollViewInvisibilityState createState() =>
-      _BottomOfScrollViewInvisibilityState();
+  State createState() => _BottomOfScrollViewInvisibilityState();
 }
 
 class _BottomOfScrollViewInvisibilityState
@@ -75,9 +74,8 @@ class _BottomOfScrollViewInvisibilityState
         Provider.of<BottomOfScrollViewInvisibilityController>(context);
 
     return Visibility(
-      child: widget.child,
-      // rebuilds itself if value changes
       visible: !isAtEdgeController.isInBottomZone,
+      child: widget.child,
     );
   }
 }

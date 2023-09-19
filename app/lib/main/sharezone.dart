@@ -26,6 +26,7 @@ import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
@@ -65,7 +66,7 @@ class Sharezone extends StatefulWidget {
   static Analytics analytics = Analytics(getBackend());
 
   @override
-  _SharezoneState createState() => _SharezoneState();
+  State createState() => _SharezoneState();
 }
 
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
@@ -123,7 +124,12 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             mobileDeviceInformationRetriever:
                                 MobileDeviceInformationRetriever(),
                           ),
-                        )
+                        ),
+                        ChangeNotifierProvider<SubscriptionEnabledFlag>(
+                          create: (context) => SubscriptionEnabledFlag(
+                            widget.blocDependencies.keyValueStore,
+                          ),
+                        ),
                       ],
                       child: MultiBlocProvider(
                         blocProviders: [
