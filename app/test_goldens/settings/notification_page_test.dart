@@ -77,8 +77,7 @@ void main() {
       await multiScreenGolden(tester, 'notification_page_dark');
     });
 
-    testGoldens('renders as expected (light mode, with homeworks)',
-        (tester) async {
+    testGoldens('renders plus dialog as expected', (tester) async {
       when(mockSubscriptionService.hasFeatureUnlocked(
               SharezonePlusFeature.changeHomeworkReminderTime))
           .thenReturn(false);
