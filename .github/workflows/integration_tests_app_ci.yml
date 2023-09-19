@@ -69,6 +69,7 @@ jobs:
               - "!**/*.gitignore"
               - "!**/firebase.json"
               - "!**/.firebaserc"
+              - "!app/android/fastlane/**"
 
   android-integration-test:
     needs: changes
