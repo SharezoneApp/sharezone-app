@@ -45,9 +45,16 @@ class DeployAndroidCommand extends Command {
         allowed: _androidFlavors,
         help: 'The flavor to build for. Only the "prod" flavor is supported.',
         defaultsTo: 'prod',
+      )
+      ..addOption(
+        rolloutPercentageOptionName,
+        help:
+            'The percentage (between 0.0 - 1.0) of the user fraction when uploading to the rollout track (setting to 1 will complete the rollout).',
+        defaultsTo: '1.0',
       );
   }
 
+  static const rolloutPercentageOptionName = 'rollout-percentage';
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const whatsNewOptionName = 'whats-new';
@@ -160,7 +167,6 @@ class DeployAndroidCommand extends Command {
 
       await _uploadToGooglePlay(
         track: _getGooglePlayTrackFromStage(),
-        rollout: _getRolloutFromStage(),
       );
     } finally {
       await _removeChangelogFile();
@@ -198,16 +204,8 @@ class DeployAndroidCommand extends Command {
     }
   }
 
-  double _getRolloutFromStage() {
-    final stage = argResults![releaseStageOptionName] as String;
-    // For stable releases, we want to roll out to 20% at first to catch any
-    // potential issues. Other stages (like beta) are rolled out to 100%.
-    return stage == 'stable' ? 0.2 : 1.0;
-  }
-
   Future<void> _uploadToGooglePlay({
     required String track,
-    required double rollout,
   }) async {
     await runProcess(
       'fastlane',
@@ -215,7 +213,7 @@ class DeployAndroidCommand extends Command {
       workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
       environment: {
         'TRACK': track,
-        'ROLLOUT': '$rollout',
+        'ROLLOUT': argResults![rolloutPercentageOptionName] as String,
       },
     );
   }
