@@ -185,6 +185,13 @@ Future<void> publishToAppStoreConnect({
       // See: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/publish.md#--max-build-processing-wait--wmax_build_processing_wait
       '--max-build-processing-wait',
       '60',
+      // Cancels previous submissions for the application in App Store Connect
+      // before creating a new submission if the submissions are in a state
+      // where it is possible.
+      //
+      // We use this option because otherwise the deployment will fail if the
+      // previous submission is not approved yet.
+      '--cancel-previous-submissions'
     ],
     workingDirectory: repo.sharezoneFlutterApp.location.path,
   );
