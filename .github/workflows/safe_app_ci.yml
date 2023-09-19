@@ -89,6 +89,7 @@ jobs:
               - "!**/*.gitignore"
               - "!**/firebase.json"
               - "!**/.firebaserc"
+              - "!app/android/fastlane/**"
 
   analyze:
     needs: changes
