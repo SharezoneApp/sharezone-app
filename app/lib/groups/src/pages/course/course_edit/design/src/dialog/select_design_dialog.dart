@@ -224,6 +224,10 @@ class _PlusBaseColors extends StatelessWidget {
 
   final ValueChanged<MaterialColor>? onBaseColorChanged;
 
+  /// As base colors we use the Material colors.
+  ///
+  /// We copied the list from [Colors.primaries] to make sure we don't break
+  /// anything if the Flutter team changes the list.
   static const _baseColors = <MaterialColor>[
     Colors.red,
     Colors.pink,
