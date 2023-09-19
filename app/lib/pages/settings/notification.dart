@@ -9,8 +9,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
 import 'package:interval_time_picker/interval_time_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -88,6 +91,7 @@ class _HomeworkNotificationsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: const Key("homework-notifications-card"),
       padding: const EdgeInsets.only(top: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,6 +173,17 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     });
   }
 
+  Future<void> showPlusAdDialog(BuildContext context) async {
+    await showSharezonePlusFeatureInfoDialog(
+      context: context,
+      navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+      title: const Text('Uhrzeit für Erinnerung am Vortag'),
+      description: const Text(
+        'Mit Sharezone Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.',
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<NotificationsBloc>(context);
@@ -179,29 +194,52 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
           stream: bloc.notificationsTimeForHomeworks,
           builder: (context, timeForHomeworks) {
             return ListTile(
+              key: const Key("homework-notifications-time-tile"),
               leading: const Icon(Icons.access_time),
               title: const Text("Uhrzeit"),
               subtitle: Text(
                   "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr"),
               enabled: homeworkEnabled.data ?? true,
               onTap: () async {
-                final newTime = await _openPicker(
-                  context,
-                  initialTime: Time(
-                      hour: timeForHomeworks.data?.hour ?? 18,
-                      minute: timeForHomeworks.data?.minute ?? 0),
-                );
+                final isUnlocked = context
+                    .read<SubscriptionService>()
+                    .hasFeatureUnlocked(
+                        SharezonePlusFeature.changeHomeworkReminderTime);
 
-                if (newTime != null) {
-                  bloc.changeNotificationsTimeForHomeworks(
-                      TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+                if (isUnlocked) {
+                  final newTime = await _openPicker(
+                    context,
+                    initialTime: Time(
+                        hour: timeForHomeworks.data?.hour ?? 18,
+                        minute: timeForHomeworks.data?.minute ?? 0),
+                  );
+
+                  if (newTime != null) {
+                    bloc.changeNotificationsTimeForHomeworks(
+                        TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+                  }
+                } else {
+                  await showPlusAdDialog(context);
                 }
               },
+              trailing: const _HomeworkNotificationsTimeTileTrailing(),
             );
           },
         );
       },
     );
+  }
+}
+
+class _HomeworkNotificationsTimeTileTrailing extends StatelessWidget {
+  const _HomeworkNotificationsTimeTileTrailing();
+
+  @override
+  Widget build(BuildContext context) {
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.changeHomeworkReminderTime);
+    return isUnlocked ? const SizedBox() : const SharezonePlusChip();
   }
 }
 

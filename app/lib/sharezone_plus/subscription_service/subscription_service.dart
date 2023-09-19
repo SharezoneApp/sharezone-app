@@ -70,6 +70,7 @@ const _featuresMap = {
     SharezonePlusFeature.infoSheetReadByUsersList,
     SharezonePlusFeature.homeworkDoneByUsersList,
     SharezonePlusFeature.filterTimetableByClass,
+    SharezonePlusFeature.changeHomeworkReminderTime,
     SharezonePlusFeature.plusSupport,
   },
 };
@@ -79,6 +80,7 @@ enum SharezonePlusFeature {
   infoSheetReadByUsersList,
   homeworkDoneByUsersList,
   filterTimetableByClass,
+  changeHomeworkReminderTime,
   plusSupport,
 }
 

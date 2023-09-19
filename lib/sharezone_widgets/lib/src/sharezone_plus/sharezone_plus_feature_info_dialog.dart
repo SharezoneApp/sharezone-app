@@ -32,7 +32,7 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
   const _SharezonePlusFeatureInfoDialog({
     this.title,
     required this.description,
-  });
+  }) : super(key: const Key('sharezone-plus-feature-info-dialog'));
 
   final Widget? title;
   final Widget description;
