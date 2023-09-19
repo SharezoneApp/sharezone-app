@@ -68,7 +68,7 @@ void main() {
 
     group('homeworks', () {
       testWidgets(
-          'does not display homework notification section non student accounts',
+          'does not display the homework notification section for non-student accounts',
           (tester) async {
         for (final typeOfUser
             in TypeOfUser.values.where((e) => e != TypeOfUser.student)) {
@@ -97,7 +97,7 @@ void main() {
         );
       });
 
-      testWidgets('display Sharezone Plus chip for non plus accounts',
+      testWidgets('displays Sharezone Plus chip for non-plus accounts',
           (tester) async {
         when(mockSubscriptionService.hasFeatureUnlocked(
                 SharezonePlusFeature.changeHomeworkReminderTime))
@@ -132,7 +132,7 @@ void main() {
       });
 
       testWidgets(
-          'show sharezone plus ad when tapping on homework reminder time tile',
+          'shows sharezone plus ad when tapping on homework reminder time tile',
           (tester) async {
         when(mockSubscriptionService.hasFeatureUnlocked(
                 SharezonePlusFeature.changeHomeworkReminderTime))
