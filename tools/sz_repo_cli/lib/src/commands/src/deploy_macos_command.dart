@@ -59,6 +59,7 @@ class DeployMacOsCommand extends Command {
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
     addAppStoreConnectPrivateKey(argParser);
+    addCertificateKey(argParser);
     addWhatsNewOption(argParser);
   }
 
