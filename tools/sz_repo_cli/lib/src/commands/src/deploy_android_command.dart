@@ -183,7 +183,7 @@ class DeployAndroidCommand extends Command {
     stdout.writeln(
         'This release will be rolled out to: ${rolloutPercentageDouble * 100}% of users.}');
     stdout.writeln(
-        'You can later change the rollout percentage in the Play Store Console: Go to "Production" -> "Releases"');
+        'You can later change the rollout percentage in the Play Store Console: Go to "Production" (or Open testing or Closed Testing) -> "Releases"');
   }
 
   Future<void> _setChangelog() async {
