@@ -82,20 +82,19 @@ class _EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(0, 16, 12, 4),
-      child: SafeArea(
-        child: WrappableList(
-          minWidth: 150.0,
-          maxElementsPerSection: 3,
-          children: <Widget>[
-            for (final event in events)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: CalenderEventCard(event),
-              )
-          ],
-        ),
+    return SafeArea(
+      child: ListView.builder(
+        padding: const EdgeInsets.fromLTRB(0, 16, 12, 4),
+        itemCount: events.length,
+        itemBuilder: (context, index) {
+          final event = events[index];
+          return MaxWidthConstraintBox(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: CalenderEventCard(event),
+            ),
+          );
+        },
       ),
     );
   }
