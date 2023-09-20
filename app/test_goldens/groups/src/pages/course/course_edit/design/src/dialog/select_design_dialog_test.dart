@@ -65,14 +65,14 @@ void main() {
             .thenReturn(true);
       });
 
-      testGoldens('display select base color dialog as expected (light mode)',
+      testGoldens('displays select base color dialog as expected (light mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: lightTheme);
 
         await multiScreenGolden(tester, 'select_base_color_dialog_light');
       });
 
-      testGoldens('display select base color dialog as expected (dark mode)',
+      testGoldens('displays select base color dialog as expected (dark mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: darkTheme);
 
@@ -80,7 +80,7 @@ void main() {
       });
 
       testGoldens(
-          'display select an accurate color dialog as expected (light mode)',
+          'displays select an accurate color dialog as expected (light mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: lightTheme);
 
@@ -92,7 +92,7 @@ void main() {
       });
 
       testGoldens(
-          'display select an accurate color dialog as expected (dark mode)',
+          'displays select an accurate color dialog as expected (dark mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: darkTheme);
 
@@ -111,14 +111,14 @@ void main() {
             .thenReturn(false);
       });
 
-      testGoldens('display select design dialog as expected (light mode)',
+      testGoldens('displays select design dialog as expected (light mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: lightTheme);
 
         await multiScreenGolden(tester, 'select_free_design_dialog_light');
       });
 
-      testGoldens('display select design dialog as expected (dark mode)',
+      testGoldens('displays select design dialog as expected (dark mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: darkTheme);
 
