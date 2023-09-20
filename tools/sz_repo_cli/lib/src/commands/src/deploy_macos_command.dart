@@ -6,6 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// We need to ignore the lint "unnecessary_string_escapes" because in the
+// "_createSignedPackage" method we need to use the escape character "\" to
+// escape the "$" character in the bash command.
+//
 // ignore_for_file: unnecessary_string_escapes
 
 import 'dart:io';
