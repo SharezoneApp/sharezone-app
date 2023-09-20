@@ -6,6 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// We need to ignore the lint "unnecessary_string_escapes" because in the
+// "_createSignedPackage" method we need to use the escape character "\" to
+// escape the "$" character in the bash command.
+//
+// ignore_for_file: unnecessary_string_escapes
+
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
@@ -57,6 +63,7 @@ class DeployMacOsCommand extends Command {
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
     addAppStoreConnectPrivateKey(argParser);
+    addCertificateKey(argParser);
     addWhatsNewOption(argParser);
   }
 
@@ -79,31 +86,58 @@ class DeployMacOsCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    final appStoreConnectConfig = AppStoreConnectConfig.create(
-      argResults!,
-      Platform.environment,
-    );
-
     const platform = ApplePlatform.macOS;
-    final buildNumber = await getNextBuildNumberFromAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      platform: platform,
-      // Using the app location as working directory because the default
-      // location for the App Store Connect private key is
-      // app/private_keys/AuthKey_{keyIdentifier}.p8.
-      workingDirectory: _repo.sharezoneFlutterApp.path,
-    );
-    await _buildApp(buildNumber: buildNumber);
-    await publishToAppStoreConnect(
-      appStoreConnectConfig: appStoreConnectConfig,
-      stage: argResults![releaseStageOptionName] as String,
-      whatsNew: argResults![whatsNewOptionName] as String?,
-      path: 'build/macos/Build/Products/Release/*.pkg',
-      repo: _repo,
-      stageToTracks: _macOsStageToTracks,
-    );
 
-    stdout.writeln('Deployment finished 🎉 ');
+    try {
+      await setUpSigning(
+        config: AppleSigningConfig.create(
+          argResults: argResults!,
+          environment: Platform.environment,
+          // Even though we deploy for macOS, we need to use the iOS platform
+          // here because our bundle ID is only registered for iOS. However,
+          // this doesn't matter for the signing process.
+          //
+          // More details: https://github.com/codemagic-ci-cd/cli-tools/issues/314
+          platform: ApplePlatform.iOS,
+          type: ProvisioningProfileType.macAppStore,
+        ),
+        platform: platform,
+      );
+
+      final appStoreConnectConfig = AppStoreConnectConfig.create(
+        argResults!,
+        Platform.environment,
+      );
+
+      final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
+        platform: platform,
+        // Using the app location as working directory because the default
+        // location for the App Store Connect private key is
+        // app/private_keys/AuthKey_{keyIdentifier}.p8.
+        workingDirectory: _repo.sharezoneFlutterApp.path,
+      );
+
+      await setWorkaroundPermission();
+      await _buildApp(buildNumber: buildNumber);
+      await setWorkaroundPermission();
+
+      await _createSignedPackage();
+
+      await publishToAppStoreConnect(
+        appStoreConnectConfig: appStoreConnectConfig,
+        stage: argResults![releaseStageOptionName] as String,
+        whatsNew: argResults![whatsNewOptionName] as String?,
+        path: '*.pkg',
+        repo: _repo,
+        stageToTracks: _macOsStageToTracks,
+      );
+      stdout.writeln('Deployment finished 🎉 ');
+    } finally {
+      // Fixes potential authentication issues after running keychain commands.
+      // Only really necessary when running on local machines.
+      await keychainUseLogin();
+    }
   }
 
   Future<void> _buildApp({required int buildNumber}) async {
@@ -127,5 +161,28 @@ class DeployMacOsCommand extends Command {
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
     }
+  }
+
+  /// Creates a signed macOS package from the built app and stores it in the
+  /// working directory.
+  ///
+  /// Usually the path to the signed macOS package is `app/Sharezone.pkg`.
+  ///
+  /// The steps are copied from the Flutter docs. You can find more details
+  /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
+  Future<void> _createSignedPackage() async {
+    await runProcessSuccessfullyOrThrow(
+      'bash',
+      [
+        '-c',
+        '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
+PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
+xcrun productbuild --component "\$APP_NAME" /Applications/ unsigned.pkg && \
+INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' | head -1) && \
+xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
+rm -f unsigned.pkg'''
+      ],
+      workingDirectory: _repo.sharezoneFlutterApp.path,
+    );
   }
 }
