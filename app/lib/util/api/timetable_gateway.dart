@@ -119,6 +119,23 @@ class TimetableGateway {
     });
   }
 
+  Stream<List<CalendricalEvent>> streamEventsBefore(
+    DateTime endDate, {
+    bool descending = true,
+  }) {
+    return references.events
+        .where('users', arrayContains: memberID)
+        .where('date', isLessThanOrEqualTo: endDate.toIso8601String())
+        .orderBy('date', descending: descending)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs
+          .map((document) =>
+              CalendricalEvent.fromData(document.data(), id: document.id))
+          .toList();
+    });
+  }
+
   Stream<bool> isEventStreamEmpty() {
     return references.events
         .where('users', arrayContains: memberID)

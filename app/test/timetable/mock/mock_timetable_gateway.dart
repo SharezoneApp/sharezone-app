@@ -119,4 +119,9 @@ class MockTimetableGateway implements TimetableGateway {
     _lessonsSubject.close();
     _eventsSubject.close();
   }
+
+  @override
+  Stream<List<CalendricalEvent>> streamEventsBefore(DateTime endDate) {
+    throw UnimplementedError();
+  }
 }
