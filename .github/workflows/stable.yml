@@ -221,7 +221,7 @@ jobs:
             --stage stable \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}
-  
+
   deploy-macos:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the macOS app and therefore no new version is needed.
