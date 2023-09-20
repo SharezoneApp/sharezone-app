@@ -234,13 +234,43 @@ class PlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        _MoreColors(),
         _HomeworkReminder(),
         _AddEventsToLocalCalendar(),
-        _PlusSupport(),
         _HomeworkDoneLists(),
         _ReadByInformationSheets(),
+        _SelectTimetableBySchoolClass(),
+        _PlusSupport(),
         _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _MoreColors extends StatelessWidget {
+  const _MoreColors();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.color_lens),
+      title: Text('Mehr Farben für die Gruppen'),
+      description: Text(
+          'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.'),
+    );
+  }
+}
+
+class _SelectTimetableBySchoolClass extends StatelessWidget {
+  const _SelectTimetableBySchoolClass();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.calendar_month),
+      title: Text('Stundenplan nach Klasse auswählen'),
+      description: Text(
+          'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'),
     );
   }
 }
@@ -287,7 +317,7 @@ class _HomeworkReminder extends StatelessWidget {
       // get homework reminders.
       expectedTypeOfUser: TypeOfUser.student,
       matchesTypeOfUserWidget: _AdvantageTile(
-        icon: Icon(Icons.checklist),
+        icon: Icon(Icons.notifications),
         title: Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
         description: Text(
             'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.'),
