@@ -42,6 +42,12 @@ on:
           Android rollout percentage: The percentage of users that should receive
           the new version.
         default: "1.0"
+      macos-changelog:
+        type: string
+        description: |
+          macOS changelog: Used for the App Store release notes. If the changelog 
+          is not provided, the deployment for macOS will be skipped. Use '\n' for 
+          line breaks.
 
 # Set permissions to none.
 #
@@ -213,3 +219,55 @@ jobs:
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}
+
+  deploy-macos:
+    # We skip the deployment if no changelog is provided because we assume that
+    # nothing has changed in the macOS app and therefore no new version is needed.
+    if: github.event.inputs.macos-changelog != ''
+    runs-on: macos-13
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.45.1
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Install Sharezone Repo CLI
+        run: |
+          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Deploy to TestFlight
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          # When passing the changelog from GitHub Actions to the CLI, the line
+          # breaks are escaped. We need to replace them with actual line breaks.
+          CHANGELOG="${{ github.event.inputs.macos-changelog }}"
+          CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
+
+          sz deploy macos \
+            --stage beta \
+            --whats-new "$CHANGELOG_WITH_NEW_LINES"
