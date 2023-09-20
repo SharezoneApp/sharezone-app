@@ -343,7 +343,7 @@ class _ColorCircleSelectDesign extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  final Design? design;
+  final Design design;
   final bool isSelected;
   final VoidCallback? onTap;
 
@@ -354,9 +354,10 @@ class _ColorCircleSelectDesign extends StatelessWidget {
         isSelected ? const Icon(Icons.check, color: Colors.white) : null;
 
     return Material(
-      color: design?.color,
+      color: design.color,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size)),
       child: InkWell(
+        key: Key('color-circle-${design.color.value}'),
         borderRadius: BorderRadius.circular(size),
         onTap: onTap,
         child: SizedBox(
