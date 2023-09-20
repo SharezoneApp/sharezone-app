@@ -31,7 +31,7 @@ Future<void> setUpSigning({
   await _keychainInitialize();
   await _fetchSigningFiles(config: config);
   if (platform == ApplePlatform.macOS) {
-    await _listCertificates();
+    await _listMacCertificates();
   }
   await _keychainAddCertificates();
   await _xcodeProjectUseProfiles();
@@ -75,7 +75,7 @@ Future<void> _fetchSigningFiles({
   );
 }
 
-Future<void> _listCertificates() async {
+Future<void> _listMacCertificates() async {
   await runProcessSuccessfullyOrThrow(
     'app-store-connect',
     [
