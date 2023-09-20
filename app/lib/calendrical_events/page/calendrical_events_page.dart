@@ -10,8 +10,10 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
+import 'package:sharezone/calendrical_events/models/calendrical_events_layout.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
@@ -46,11 +48,91 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
       child: BlocProvider(
         bloc: bloc,
         child: SharezoneMainScaffold(
+          appBarConfiguration: const AppBarConfiguration(
+            actions: [_LayoutIconButton()],
+          ),
           body: const _CalendricalEventsPageBody(),
           floatingActionButton: _EventListFAB(),
           navigationItem: NavigationItem.events,
         ),
       ),
+    );
+  }
+}
+
+class _LayoutIconButton extends StatefulWidget {
+  const _LayoutIconButton();
+
+  @override
+  State<_LayoutIconButton> createState() => _LayoutIconButtonState();
+}
+
+class _LayoutIconButtonState extends State<_LayoutIconButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync: this);
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+
+    _setInitialAnimatedIconPosition();
+  }
+
+  void _setInitialAnimatedIconPosition() {
+    final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
+    bloc.layout.first.then((layout) {
+      controller.value = switch (layout) {
+        CalendricalEventsPageLayout.list => 0.0,
+        CalendricalEventsPageLayout.grid => 1.0,
+      };
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
+    return StreamBuilder<CalendricalEventsPageLayout>(
+      stream: bloc.layout,
+      builder: (context, snapshot) {
+        final layout = snapshot.data;
+        if (layout == null) return const SizedBox();
+
+        return IconButton(
+          tooltip: switch (layout) {
+            CalendricalEventsPageLayout.list => 'Auf Kacheln umschalten',
+            CalendricalEventsPageLayout.grid => 'Auf Liste umschalten',
+          },
+          onPressed: () {
+            bloc.setLayout(
+              switch (layout) {
+                CalendricalEventsPageLayout.list =>
+                  CalendricalEventsPageLayout.grid,
+                CalendricalEventsPageLayout.grid =>
+                  CalendricalEventsPageLayout.list,
+              },
+            );
+            controller.fling(
+              velocity: switch (layout) {
+                CalendricalEventsPageLayout.list => 1.0,
+                CalendricalEventsPageLayout.grid => -1.0,
+              },
+            );
+          },
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.view_list,
+            progress: animation,
+          ),
+        );
+      },
     );
   }
 }
@@ -69,14 +151,41 @@ class _CalendricalEventsPageBody extends StatelessWidget {
 
         if (events == null) return Container();
         if (events.isEmpty) return const _EmptyEventList();
-        return _EventList(events: events);
+        return _Events(events: events);
       },
     );
   }
 }
 
+class _Events extends StatelessWidget {
+  const _Events({required this.events});
+
+  final List<EventView> events;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
+    return SafeArea(
+      child: StreamBuilder<CalendricalEventsPageLayout>(
+        stream: bloc.layout,
+        builder: (context, snapshot) {
+          final layout = snapshot.data;
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: switch (layout) {
+              CalendricalEventsPageLayout.list => _EventList(events: events),
+              CalendricalEventsPageLayout.grid => _EventGrid(events: events),
+              null => const SizedBox()
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _EventList extends StatelessWidget {
-  const _EventList({Key? key, required this.events}) : super(key: key);
+  const _EventList({required this.events});
 
   final List<EventView> events;
 
@@ -95,6 +204,32 @@ class _EventList extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _EventGrid extends StatelessWidget {
+  const _EventGrid({required this.events});
+
+  final List<EventView> events;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(0, 16, 12, 4),
+      child: SafeArea(
+        child: WrappableList(
+          minWidth: 150.0,
+          maxElementsPerSection: 3,
+          children: <Widget>[
+            for (final event in events)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: CalenderEventCard(event),
+              )
+          ],
+        ),
       ),
     );
   }
