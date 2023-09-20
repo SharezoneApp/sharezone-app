@@ -138,7 +138,7 @@ class FirestoreFilePage extends StatelessWidget {
       return ImageFilePage(
         name: name!,
         actions: actions,
-        nameStream: nameStream!,
+        nameStream: nameStream,
         downloadURL: downloadURL!,
         id: id!,
       );
@@ -152,7 +152,7 @@ class FirestoreFilePage extends StatelessWidget {
     if (fileFormat == FileFormat.video && !PlatformCheck.isMacOS) {
       return VideoFilePage(
         name: name!,
-        nameStream: nameStream!,
+        nameStream: nameStream,
         actions: actions!,
         downloadURL: downloadURL!,
       );
@@ -165,7 +165,7 @@ class FirestoreFilePage extends StatelessWidget {
         downloadURL: downloadURL!,
         id: id!,
         name: name!,
-        nameStream: nameStream!,
+        nameStream: nameStream,
         actions: actions,
         fileType: fileFormat,
       );
