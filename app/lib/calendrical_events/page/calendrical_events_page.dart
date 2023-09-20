@@ -10,8 +10,10 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
+import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
@@ -46,11 +48,30 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
       child: BlocProvider(
         bloc: bloc,
         child: SharezoneMainScaffold(
+          appBarConfiguration: const AppBarConfiguration(
+            actions: [
+              _PastEventsIconButton(),
+            ],
+          ),
           body: const _CalendricalEventsPageBody(),
           floatingActionButton: _EventListFAB(),
           navigationItem: NavigationItem.events,
         ),
       ),
+    );
+  }
+}
+
+class _PastEventsIconButton extends StatelessWidget {
+  const _PastEventsIconButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: 'Vergangene Termine',
+      onPressed: () =>
+          Navigator.pushNamed(context, PastCalendricalEventsPage.tag),
+      icon: const Icon(Icons.history),
     );
   }
 }
