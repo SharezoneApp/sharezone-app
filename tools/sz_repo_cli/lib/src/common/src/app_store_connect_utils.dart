@@ -50,8 +50,6 @@ Future<void> _keychainInitialize() async {
 Future<void> _fetchSigningFiles({
   required AppleSigningConfig config,
 }) async {
-  // Even though our actual bundle ID has also the suffix ".app", we need to
-  // use here a different bundle ID
   const bundleId = 'de.codingbrain.sharezone.app';
   await runProcessSuccessfullyOrThrow(
     'app-store-connect',
