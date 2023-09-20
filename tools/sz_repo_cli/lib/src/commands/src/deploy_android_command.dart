@@ -83,8 +83,8 @@ class DeployAndroidCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    // final buildNumber = await _getNextBuildNumber();
-    // await _buildApp(buildNumber: buildNumber);
+    final buildNumber = await _getNextBuildNumber();
+    await _buildApp(buildNumber: buildNumber);
     await _publish();
 
     stdout.writeln('Deployment finished 🎉 ');
