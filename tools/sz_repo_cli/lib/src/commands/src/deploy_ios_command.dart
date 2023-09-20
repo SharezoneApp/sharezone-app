@@ -114,6 +114,7 @@ class DeployIosCommand extends Command {
           platform: platform,
           type: ProvisioningProfileType.iOsAppStore,
         ),
+        platform: platform,
       );
 
       final appStoreConnectConfig = AppStoreConnectConfig.create(

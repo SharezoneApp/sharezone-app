@@ -24,11 +24,15 @@ const releaseStageOptionName = 'stage';
 /// Sets up signing that is required to deploy a macOS or iOS app.
 Future<void> setUpSigning({
   required AppleSigningConfig config,
+  required ApplePlatform platform,
 }) async {
   // Steps are from the docs to deploy an iOS / macOS app to App Store Connect:
   // https://github.com/flutter/website/blob/850ba5dcab36e81f7dfc71c5e46333173c764fac/src/deployment/ios.md#L322
   await _keychainInitialize();
   await _fetchSigningFiles(config: config);
+  if (platform == ApplePlatform.macOS) {
+    await _listMacCertificates();
+  }
   await _keychainAddCertificates();
   await _xcodeProjectUseProfiles();
 }
@@ -46,7 +50,7 @@ Future<void> _keychainInitialize() async {
 Future<void> _fetchSigningFiles({
   required AppleSigningConfig config,
 }) async {
-  const bundleId = 'de.codingbrain.sharezone';
+  const bundleId = 'de.codingbrain.sharezone.app';
   await runProcessSuccessfullyOrThrow(
     'app-store-connect',
     [
@@ -62,7 +66,21 @@ Future<void> _fetchSigningFiles({
       config.appStoreConnectConfig.keyId,
       '--private-key',
       config.appStoreConnectConfig.privateKey,
-      '--create'
+      '--certificate-key',
+      config.certificatePrivateKey,
+      '--create',
+    ],
+  );
+}
+
+Future<void> _listMacCertificates() async {
+  await runProcessSuccessfullyOrThrow(
+    'app-store-connect',
+    [
+      'list-certificates',
+      '--type',
+      'MAC_INSTALLER_DISTRIBUTION',
+      '--save',
     ],
   );
 }
@@ -133,6 +151,15 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
     throw Exception(
         'Failed to get latest build number from App Store Connect: $e');
   }
+}
+
+// Sets the required permissions for deploying Flutter macOS.
+//
+// Workaround for https://github.com/flutter/flutter/issues/132725. Can be
+// removed with Flutter v3.13.5.
+Future<void> setWorkaroundPermission() async {
+  await runProcessSuccessfullyOrThrow('bash', ['-c', 'sudo chown -R \$USER .']);
+  await runProcessSuccessfullyOrThrow('bash', ['-c', 'sudo chmod -R a+rwx .']);
 }
 
 Future<void> publishToAppStoreConnect({
