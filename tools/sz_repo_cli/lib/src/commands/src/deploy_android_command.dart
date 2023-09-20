@@ -83,8 +83,8 @@ class DeployAndroidCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    final buildNumber = await _getNextBuildNumber();
-    await _buildApp(buildNumber: buildNumber);
+    // final buildNumber = await _getNextBuildNumber();
+    // await _buildApp(buildNumber: buildNumber);
     await _publish();
 
     stdout.writeln('Deployment finished 🎉 ');
@@ -228,6 +228,12 @@ class DeployAndroidCommand extends Command {
       environment: {
         'TRACK': track,
         'ROLLOUT': rollout,
+        // Sets the number of retries for uploading the app bundle to Google
+        // Play. This is needed because sometimes the upload fails for unknown
+        // reasons.
+        //
+        // See: https://github.com/fastlane/fastlane/issues/21507#issuecomment-1723116829
+        'SUPPLY_UPLOAD_MAX_RETRIES': '5',
       },
     );
   }
