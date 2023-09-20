@@ -197,7 +197,7 @@ jobs:
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Fastlane
-        run: sudo gem install fastlane -v 2.214.0
+        run: sudo gem install fastlane -v 2.216.0
 
       - name: Install Sharezone Repo CLI
         run: |
