@@ -80,6 +80,10 @@ class PluginInitializations {
       'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
+      // These values are not used anymore, we just keep them here temporarily
+      // to test remote config behavior.
+      'revenuecat_api_key': 'LOCAL',
+      'zeige_pilotschule_karte': 'nöö',
     });
 
     try {

@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
@@ -34,6 +35,14 @@ class SharezonePlusPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remoteConfig = getRemoteConfiguration();
+    print(
+        'revenuecat_api_key: ${remoteConfig.getString('revenuecat_api_key')}');
+    print(
+        'zeige_pilotschule_karte: ${remoteConfig.getString('zeige_pilotschule_karte')}');
+    print(
+        'useCfHolidayEndpoint: ${remoteConfig.getBool('useCfHolidayEndpoint')}');
+
     return const SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
       body: SharezonePlusPageMain(),
