@@ -205,6 +205,13 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       throw InvalidCourseException();
     }
 
+    final validatorTodoUntil = NotNullValidator(_todoUntilSubject.valueOrNull);
+    if (!validatorTodoUntil.isValid()) {
+      _todoUntilSubject.addError(
+          TextValidationException(HomeworkValidators.emptyDueDateUserMessage));
+      throw InvalidTodoUntilException();
+    }
+
     return true;
   }
 
@@ -290,6 +297,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 class InvalidTitleException implements Exception {}
 
 class InvalidCourseException implements Exception {}
+
+class InvalidTodoUntilException implements Exception {}
 
 class UserInput {
   final String? title, description;
