@@ -65,6 +65,7 @@ class QrSignInWebBloc extends BlocBase {
         _signInWithCustomToken(customToken);
       }
       try {
+        if (_qrSignInStateSubject.isClosed) return;
         _qrSignInStateSubject.sink.add(onUpdate);
       } catch (e, s) {
         getCrashAnalytics().recordError(e, s);
