@@ -201,6 +201,13 @@ class _SaveButton extends StatelessWidget {
             .toString(),
         context: context,
       );
+    } on InvalidTodoUntilException {
+      showSnackSec(
+        text:
+            TextValidationException(HomeworkValidators.emptyDueDateUserMessage)
+                .toString(),
+        context: context,
+      );
     } on Exception catch (e) {
       log("Exception when submitting: $e", error: e);
       showSnackSec(
@@ -245,10 +252,15 @@ class _TodoUntilPicker extends StatelessWidget {
         bottom: false,
         child: StreamBuilder<DateTime>(
           stream: bloc.todoUntil,
-          builder: (context, snapshot) => DatePicker(
-            padding: const EdgeInsets.all(12),
-            selectedDate: snapshot.data,
-            selectDate: bloc.changeTodoUntil,
+          builder: (context, snapshot) => DefaultTextStyle.merge(
+            style: TextStyle(
+              color: snapshot.hasError ? Colors.red : null,
+            ),
+            child: DatePicker(
+              padding: const EdgeInsets.all(12),
+              selectedDate: snapshot.data,
+              selectDate: bloc.changeTodoUntil,
+            ),
           ),
         ),
       ),
