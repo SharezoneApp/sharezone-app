@@ -87,7 +87,9 @@ class PluginInitializations {
     });
 
     try {
-      if (flavor == Flavor.dev) {
+      //ignore: dead_code
+      if (false) {
+        //if (flavor == Flavor.dev) {
         // Since we depend on some values from our Remote Config in the dev
         // environment, we can't use the "Load new values for next startup"
         // strategy.
