@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const List<String> localPictures = [
   "assets/wallpaper/blackboard/make-photo.png",
@@ -34,7 +35,11 @@ class BlackboardDialogChoosePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Titelbild auswählen")),
-      body: _PictureGrid(),
+      body: SafeArea(
+        child: MaxWidthConstraintBox(
+          child: _PictureGrid(),
+        ),
+      ),
     );
   }
 }
