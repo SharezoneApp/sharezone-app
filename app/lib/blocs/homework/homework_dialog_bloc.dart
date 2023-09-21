@@ -182,6 +182,10 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
     api.nextLessonCalculator.calculateNextLesson(courseID).then((result) {
+      // If the user has closed the dialog before the result is calculated, the
+      // stream is closed. In this case, the result is not used.
+      if (_todoUntilSubject.isClosed) return;
+
       if (result == null) {
         changeTodoUntil(_getSeedTodoUntilDate());
       } else {
