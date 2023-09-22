@@ -67,12 +67,19 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
 class _PastEventsIconButton extends StatelessWidget {
   const _PastEventsIconButton();
 
+  void logAnalytics(BuildContext context) {
+    final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
+    bloc.logPastEventsPageOpened();
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Vergangene Termine',
-      onPressed: () =>
-          Navigator.pushNamed(context, PastCalendricalEventsPage.tag),
+      onPressed: () {
+        logAnalytics(context);
+        Navigator.pushNamed(context, PastCalendricalEventsPage.tag);
+      },
       icon: const Icon(Icons.history),
     );
   }
