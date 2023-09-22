@@ -38,9 +38,10 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/analytics/calendrical_events_page_analytics.dart';
+import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
-import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_cache.dart';
+import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';
@@ -354,6 +355,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           timetableGateway: api.timetable,
           courseGateway: api.course,
           schoolClassGateway: api.schoolClassGateway,
+          analytics: PastCalendricalEventsPageAnalytics(analytics),
         ),
       ),
     ];

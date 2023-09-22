@@ -12,6 +12,7 @@ import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
@@ -26,9 +27,10 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   StreamSubscription<List<EventView>>? _eventsSubscription;
   late StreamSubscription<bool> _hasUnlockedSubscription;
-  late TimetableGateway _timetableGateway;
-  late CourseGateway _courseGateway;
-  late SchoolClassGateway _schoolClassGateway;
+  final TimetableGateway timetableGateway;
+  final CourseGateway courseGateway;
+  final SchoolClassGateway schoolClassGateway;
+  final PastCalendricalEventsPageAnalytics analytics;
 
   /// The date until which events should be fetched.
   ///
@@ -39,14 +41,12 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   PastCalendricalEventsPageController({
     required DateTime now,
     required SubscriptionService subscriptionService,
-    required TimetableGateway timetableGateway,
-    required CourseGateway courseGateway,
-    required SchoolClassGateway schoolClassGateway,
+    required this.timetableGateway,
+    required this.courseGateway,
+    required this.schoolClassGateway,
+    required this.analytics,
   }) {
     _getEventsUntilDateTime = now;
-    _timetableGateway = timetableGateway;
-    _courseGateway = courseGateway;
-    _schoolClassGateway = schoolClassGateway;
 
     state = PastCalendricalEventsPageNotUnlockedState();
     _hasUnlockedSubscription = subscriptionService
@@ -64,11 +64,11 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   void _listenToPastEvents() {
     _eventsSubscription = CombineLatestStream([
-      _timetableGateway.streamEventsBeforeOrOn(
+      timetableGateway.streamEventsBeforeOrOn(
         Date.fromDateTime(_getEventsUntilDateTime),
         descending: sortingOrder == EventsSortingOrder.descending,
       ),
-      _courseGateway.getGroupInfoStream(_schoolClassGateway)
+      courseGateway.getGroupInfoStream(schoolClassGateway)
     ], (streamValues) {
       final events = streamValues[0] as List<CalendricalEvent>? ?? [];
 
@@ -99,6 +99,7 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   set setSortOrder(EventsSortingOrder order) {
     _sortingOrder = order;
+    analytics.logChangedOrder(order);
     _refresh();
   }
 

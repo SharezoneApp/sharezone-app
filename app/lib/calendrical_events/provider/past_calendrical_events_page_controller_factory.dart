@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
+import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -19,6 +20,7 @@ class PastCalendricalEventsPageControllerFactory {
   final CourseGateway courseGateway;
   final SchoolClassGateway schoolClassGateway;
   final Clock clock;
+  final PastCalendricalEventsPageAnalytics analytics;
 
   const PastCalendricalEventsPageControllerFactory({
     required this.timetableGateway,
@@ -26,6 +28,7 @@ class PastCalendricalEventsPageControllerFactory {
     required this.schoolClassGateway,
     required this.clock,
     required this.subscriptionService,
+    required this.analytics,
   });
 
   PastCalendricalEventsPageController create() {
@@ -35,6 +38,7 @@ class PastCalendricalEventsPageControllerFactory {
       courseGateway: courseGateway,
       schoolClassGateway: schoolClassGateway,
       subscriptionService: subscriptionService,
+      analytics: analytics,
     );
   }
 }
