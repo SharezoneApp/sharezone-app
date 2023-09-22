@@ -74,15 +74,16 @@ class _ToggleSortOrder extends StatelessWidget {
       icon: const Icon(Icons.sort),
       itemBuilder: (context) => [
         PopupMenuItem(
-            value: EventsSortingOrder.ascending,
-            child: _SortingTile(
-              value: EventsSortingOrder.ascending,
-              selectedValue: sortingOrder,
-            )),
-        PopupMenuItem(
           value: EventsSortingOrder.descending,
           child: _SortingTile(
             value: EventsSortingOrder.descending,
+            selectedValue: sortingOrder,
+          ),
+        ),
+        PopupMenuItem(
+          value: EventsSortingOrder.ascending,
+          child: _SortingTile(
+            value: EventsSortingOrder.ascending,
             selectedValue: sortingOrder,
           ),
         ),
