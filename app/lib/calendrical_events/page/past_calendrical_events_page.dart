@@ -327,9 +327,13 @@ class _Error extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'Fehler beim Laden der vergangenen Termine: $error',
-        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: SelectableText(
+          'Fehler beim Laden der vergangenen Termine: $error',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
+        ),
       ),
     );
   }
