@@ -118,12 +118,9 @@ class DeployMacOsCommand extends Command {
         workingDirectory: _repo.sharezoneFlutterApp.path,
       );
 
-      await setWorkaroundPermission();
       await _buildApp(buildNumber: buildNumber);
-      await setWorkaroundPermission();
 
       await _createSignedPackage();
-
       await publishToAppStoreConnect(
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,

@@ -26,4 +26,6 @@ mixin HomeworkValidators {
       "Bitte gib einen Titel für die Hausaufgabe an!";
   static const emptyCourseUserMessage =
       "Bitte gib einen Kurs für die Hausaufgabe an!";
+  static const emptyDueDateUserMessage =
+      "Bitte gib ein Fälligkeitsdatum für die Hausaufgabe an!";
 }
