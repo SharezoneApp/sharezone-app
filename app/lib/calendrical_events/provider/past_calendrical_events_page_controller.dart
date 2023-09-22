@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,7 +21,7 @@ import 'package:sharezone/util/api/timetable_gateway.dart';
 
 class PastCalendricalEventsPageController extends ChangeNotifier {
   late PastCalendricalEventsPageState state;
-  EventsSortingOrder _sortingOrder = EventsSortingOrder.ascending;
+  EventsSortingOrder _sortingOrder = EventsSortingOrder.descending;
   EventsSortingOrder get sortingOrder => _sortingOrder;
 
   StreamSubscription<List<EventView>>? _eventsSubscription;
@@ -33,7 +34,7 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   ///
   /// This is used to determine which events are past events and which are
   /// upcoming events.
-  late DateTime _getEventsUntilDate;
+  late DateTime _getEventsUntilDateTime;
 
   PastCalendricalEventsPageController({
     required DateTime now,
@@ -42,7 +43,7 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
     required CourseGateway courseGateway,
     required SchoolClassGateway schoolClassGateway,
   }) {
-    _getEventsUntilDate = now;
+    _getEventsUntilDateTime = now;
     _timetableGateway = timetableGateway;
     _courseGateway = courseGateway;
     _schoolClassGateway = schoolClassGateway;
@@ -63,16 +64,24 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   void _listenToPastEvents() {
     _eventsSubscription = CombineLatestStream([
-      _timetableGateway.streamEventsBefore(
-        _getEventsUntilDate,
+      _timetableGateway.streamEventsBeforeOrOn(
+        Date.fromDateTime(_getEventsUntilDateTime),
         descending: sortingOrder == EventsSortingOrder.descending,
       ),
       _courseGateway.getGroupInfoStream(_schoolClassGateway)
     ], (streamValues) {
       final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+
+      // Because we can only query by the date and not by the date and time, we
+      // need to filter out events that are not past events, i.e. events that
+      // are on the same day as the current date.
+      final pastEvents = events
+          .where((event) => event.endDateTime.isBefore(_getEventsUntilDateTime))
+          .toList();
+
       final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
-      final eventViews = events
+      final eventViews = pastEvents
           .map((event) =>
               EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
           .toList();

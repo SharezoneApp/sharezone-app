@@ -121,7 +121,10 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  Stream<List<CalendricalEvent>> streamEventsBefore(DateTime endDate) {
+  Stream<List<CalendricalEvent>> streamEventsBeforeOrOn(
+    Date date, {
+    bool descending = false,
+  }) {
     throw UnimplementedError();
   }
 }
