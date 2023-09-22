@@ -1,64 +1,90 @@
 {
-  "hosting": [
-    {
-      "target": "alpha-web-app",
-      "public": "build/web",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+    "hosting": [
         {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "beta-web-app",
-      "public": "build/web",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+            "target": "alpha-web-app",
+            "public": "build/web",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
         {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "release-web-app",
-      "public": "build/web",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+            "target": "beta-web-app",
+            "public": "build/web",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
         {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "test-web-app",
-      "public": "build/web",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+            "target": "release-web-app",
+            "public": "build/web",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
         {
-          "source": "**",
-          "destination": "/index.html"
+            "target": "test-web-app",
+            "public": "build/web",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
         }
-      ]
+    ],
+    "flutter": {
+        "platforms": {
+            "macos": {
+                "default": {
+                    "projectId": "sharezone-c2bd8",
+                    "appId": "1:730263787697:ios:3ff9b2cb1c2a5a31",
+                    "uploadDebugSymbols": true,
+                    "fileOutput": "macos/config/prod/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options_prod.g.dart": {
+                    "projectId": "sharezone-c2bd8",
+                    "configurations": {
+                        "macos": "1:730263787697:ios:3ff9b2cb1c2a5a31"
+                    }
+                },
+                "lib/firebase_options_dev.g.dart": {
+                    "projectId": "sharezone-debug",
+                    "configurations": {
+                        "macos": "1:366164701221:ios:785f107df46335d5bfcfcc"
+                    }
+                }
+            }
+        }
     }
-  ]
 }
