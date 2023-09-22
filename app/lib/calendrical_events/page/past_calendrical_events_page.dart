@@ -183,7 +183,7 @@ class _SharezonePlusAd extends StatelessWidget {
         sendNotification: false,
         startTime: Time(hour: 10, minute: 0),
       ),
-      design: Design.random(),
+      design: Design.random(random),
     );
   }
 
@@ -242,6 +242,7 @@ class _SharezonePlusAd extends StatelessWidget {
     ];
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         IgnorePointer(
           // We ignore the pointer to avoid that the user can scroll in blurred
@@ -257,7 +258,8 @@ class _SharezonePlusAd extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
           child: const SizedBox.expand(),
         ),
-        Center(
+        Padding(
+          padding: const EdgeInsets.all(12),
           child: SharezonePlusFeatureInfoCard(
             withLearnMoreButton: true,
             onLearnMorePressed: () => navigateToSharezonePlusPage(context),

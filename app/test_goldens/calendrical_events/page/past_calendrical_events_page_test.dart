@@ -56,16 +56,6 @@ void main() {
     random = Random(42);
 
     when(controllerFactory.create()).thenReturn(controller);
-
-    final state = PastCalendricalEventsPageLoadedState(
-      [for (var i = 0; i < 10; i++) randomEventView()],
-    );
-    // Mockito does not support mocking sealed classes yet, so have to provide
-    // a dummy implementation of the state.
-    //
-    // Ticket: https://github.com/dart-lang/mockito/issues/675
-    provideDummy<PastCalendricalEventsPageState>(state);
-    when(controller.state).thenReturn(state);
   });
 
   group(PastCalendricalEventsPage, () {
@@ -79,22 +69,62 @@ void main() {
       );
     }
 
-    testGoldens('renders correctly (light theme)', (tester) async {
-      await pumpPage(tester, theme: lightTheme);
+    group('with Sharezone Plus', () {
+      setUp(() {
+        final state = PastCalendricalEventsPageLoadedState(
+          [for (var i = 0; i < 10; i++) randomEventView()],
+        );
+        // Mockito does not support mocking sealed classes yet, so have to provide
+        // a dummy implementation of the state.
+        //
+        // Ticket: https://github.com/dart-lang/mockito/issues/675
+        provideDummy<PastCalendricalEventsPageState>(state);
+        when(controller.state).thenReturn(state);
+      });
 
-      await multiScreenGolden(
-        tester,
-        'past_calendrical_events_page_light_theme',
-      );
+      testGoldens('renders correctly (light theme)', (tester) async {
+        await pumpPage(tester, theme: lightTheme);
+
+        await multiScreenGolden(
+          tester,
+          'past_calendrical_events_page_with_plus_light',
+        );
+      });
+
+      testGoldens('renders correctly (dark theme)', (tester) async {
+        await pumpPage(tester, theme: darkTheme);
+
+        await multiScreenGolden(
+          tester,
+          'past_calendrical_events_page_with_plus__dark',
+        );
+      });
     });
 
-    testGoldens('renders correctly (dark theme)', (tester) async {
-      await pumpPage(tester, theme: darkTheme);
+    group('without Sharezone Plus', () {
+      setUp(() {
+        when(controller.state).thenReturn(
+          PastCalendricalEventsPageNotUnlockedState(),
+        );
+      });
 
-      await multiScreenGolden(
-        tester,
-        'past_calendrical_events_page_dark_theme',
-      );
+      testGoldens('renders correctly (light theme)', (tester) async {
+        await pumpPage(tester, theme: lightTheme);
+
+        await multiScreenGolden(
+          tester,
+          'past_calendrical_events_page_without_plus_light',
+        );
+      });
+
+      testGoldens('renders correctly (dark theme)', (tester) async {
+        await pumpPage(tester, theme: darkTheme);
+
+        await multiScreenGolden(
+          tester,
+          'past_calendrical_events_page_without_plus__dark',
+        );
+      });
     });
   });
 }
