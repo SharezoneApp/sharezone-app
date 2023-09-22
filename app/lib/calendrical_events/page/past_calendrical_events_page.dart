@@ -6,14 +6,23 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:time/time.dart';
 
 class PastCalendricalEventsPage extends StatefulWidget {
   const PastCalendricalEventsPage({super.key});
@@ -148,15 +157,116 @@ class _Body extends StatelessWidget {
 class _SharezonePlusAd extends StatelessWidget {
   const _SharezonePlusAd();
 
+  EventView _createDummyEventView({
+    required String title,
+    required String dateText,
+    required String courseName,
+    required Random random,
+  }) {
+    return EventView(
+      groupID: 'groupId',
+      dateText: dateText,
+      title: title,
+      courseName: courseName,
+      event: CalendricalEvent(
+        authorID: 'authorId',
+        groupID: 'groupId',
+        title: 'title',
+        date: Date('01-01-2023'),
+        detail: null,
+        endTime: Time(hour: 12, minute: 0),
+        eventID: 'eventId',
+        eventType: Exam(),
+        groupType: GroupType.course,
+        latestEditor: null,
+        place: null,
+        sendNotification: false,
+        startTime: Time(hour: 10, minute: 0),
+      ),
+      design: Design.random(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SharezonePlusFeatureInfoCard(
-        withLearnMoreButton: true,
-        onLearnMorePressed: () => navigateToSharezonePlusPage(context),
-        child: const Text(
-            'Erwerbe Sharezone Plus, alle vergangene Termine einzusehen.'),
+    final random = Random(42);
+    final dummyEvents = [
+      _createDummyEventView(
+        title: 'Sportfest',
+        dateText: 'Jan 1, 2023',
+        random: random,
+        courseName: 'Sport',
       ),
+      _createDummyEventView(
+        title: 'Klausur Nr. 2',
+        dateText: 'Feb 12, 2023',
+        random: random,
+        courseName: 'Mathe',
+      ),
+      _createDummyEventView(
+        title: 'Elternsprechtag',
+        dateText: 'Apr 3, 2023',
+        random: random,
+        courseName: 'Orga',
+      ),
+      _createDummyEventView(
+        title: 'Klausur Nr. 3',
+        dateText: 'Apr 12, 2023',
+        random: random,
+        courseName: 'Mathe',
+      ),
+      _createDummyEventView(
+        title: 'Klausur Nr. 4',
+        dateText: 'Apr 12, 2023',
+        random: random,
+        courseName: 'Mathe',
+      ),
+      _createDummyEventView(
+        title: 'Schulfrei',
+        dateText: 'Apr 13, 2023',
+        random: random,
+        courseName: 'Orga',
+      ),
+      _createDummyEventView(
+        title: 'Klausur Nr. 5',
+        dateText: 'Jun 14, 2023',
+        random: random,
+        courseName: 'Mathe',
+      ),
+      _createDummyEventView(
+        title: 'Test Nr. 6',
+        dateText: 'Jun 14, 2023',
+        random: random,
+        courseName: 'Biologie',
+      ),
+    ];
+
+    return Stack(
+      children: [
+        IgnorePointer(
+          // We ignore the pointer to avoid that the user can scroll in blurred
+          // the list.
+          ignoring: true,
+          child: _PastEventsList(dummyEvents),
+        ),
+        BackdropFilter(
+          // We should use a blur that is not too strong so that a user can
+          // identify that the users in the list are no real users. Otherwise
+          // the user might think that some of the users have already read the
+          // info sheet.
+          filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+          child: const SizedBox.expand(),
+        ),
+        Center(
+          child: SharezonePlusFeatureInfoCard(
+            withLearnMoreButton: true,
+            onLearnMorePressed: () => navigateToSharezonePlusPage(context),
+            underlayColor: Theme.of(context).scaffoldBackgroundColor,
+            child: const Text(
+                'Erwerbe Sharezone Plus, alle vergangene Termine einzusehen.'),
+          ),
+        ),
+      ],
     );
   }
 }
