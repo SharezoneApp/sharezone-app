@@ -48,53 +48,59 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   }) {
     _getEventsUntilDateTime = now;
 
-    state = PastCalendricalEventsPageNotUnlockedState();
+    state = PastCalendricalEventsPageLoadingState();
     _hasUnlockedSubscription = subscriptionService
         .hasFeatureUnlockedStream(SharezonePlusFeature.viewPastEvents)
         .listen((hasUnlocked) {
-      // if (!hasUnlocked) {
-      if (!hasUnlocked) {
+      if (hasUnlocked) {
         _listenToPastEvents();
       } else {
         state = PastCalendricalEventsPageNotUnlockedState();
         notifyListeners();
       }
-    });
+    })
+      ..onError((e) {
+        _setError('$e');
+      });
   }
 
   void _listenToPastEvents() {
-    _eventsSubscription = CombineLatestStream([
-      timetableGateway.streamEventsBeforeOrOn(
-        Date.fromDateTime(_getEventsUntilDateTime),
-        descending: sortingOrder == EventsSortingOrder.descending,
-      ),
-      courseGateway.getGroupInfoStream(schoolClassGateway)
-    ], (streamValues) {
-      final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+    try {
+      _eventsSubscription = CombineLatestStream([
+        timetableGateway.streamEventsBeforeOrOn(
+          Date.fromDateTime(_getEventsUntilDateTime),
+          descending: sortingOrder == EventsSortingOrder.descending,
+        ),
+        courseGateway.getGroupInfoStream(schoolClassGateway)
+      ], (streamValues) {
+        final events = streamValues[0] as List<CalendricalEvent>? ?? [];
 
-      // Because we can only query by the date and not by the date and time, we
-      // need to filter out events that are not past events, i.e. events that
-      // are on the same day as the current date.
-      final pastEvents = events
-          .where((event) => event.endDateTime.isBefore(_getEventsUntilDateTime))
-          .toList();
+        // Because we can only query by the date and not by the date and time, we
+        // need to filter out events that are not past events, i.e. events that
+        // are on the same day as the current date.
+        final pastEvents = events
+            .where(
+                (event) => event.endDateTime.isBefore(_getEventsUntilDateTime))
+            .toList();
 
-      final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
+        final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
-      final eventViews = pastEvents
-          .map((event) =>
-              EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
-          .toList();
+        final eventViews = pastEvents
+            .map((event) => EventView.fromEventAndGroupInfo(
+                event, groupInfos[event.groupID]))
+            .toList();
 
-      return eventViews;
-    }).listen((events) {
-      state = PastCalendricalEventsPageLoadedState(events);
-      notifyListeners();
-    })
-      ..onError((error) {
-        state = PastCalendricalEventsPageErrorState('$error');
+        return eventViews;
+      }).listen((events) {
+        state = PastCalendricalEventsPageLoadedState(events);
         notifyListeners();
-      });
+      })
+        ..onError((e) {
+          _setError('$e');
+        });
+    } catch (e) {
+      _setError('$e');
+    }
   }
 
   set setSortOrder(EventsSortingOrder order) {
@@ -111,6 +117,11 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
     notifyListeners();
     _listenToPastEvents();
+  }
+
+  void _setError(String error) {
+    state = PastCalendricalEventsPageErrorState(error);
+    notifyListeners();
   }
 
   @override
