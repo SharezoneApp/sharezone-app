@@ -60,6 +60,10 @@ void main() {
     final state = PastCalendricalEventsPageLoadedState(
       [for (var i = 0; i < 10; i++) randomEventView()],
     );
+    // Mockito does not support mocking sealed classes yet, so have to provide
+    // a dummy implementation of the state.
+    //
+    // Ticket: https://github.com/dart-lang/mockito/issues/675
     provideDummy<PastCalendricalEventsPageState>(state);
     when(controller.state).thenReturn(state);
   });
