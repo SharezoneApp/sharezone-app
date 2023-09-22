@@ -265,7 +265,7 @@ class _SharezonePlusAd extends StatelessWidget {
             onLearnMorePressed: () => navigateToSharezonePlusPage(context),
             underlayColor: Theme.of(context).scaffoldBackgroundColor,
             child: const Text(
-                'Erwerbe Sharezone Plus, alle vergangene Termine einzusehen.'),
+                'Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.'),
           ),
         ),
       ],
