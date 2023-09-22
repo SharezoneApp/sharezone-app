@@ -101,24 +101,6 @@ class _SortingTile extends StatelessWidget {
   final EventsSortingOrder value;
   final EventsSortingOrder selectedValue;
 
-  String getTitel() {
-    switch (value) {
-      case EventsSortingOrder.ascending:
-        return 'Aufsteigend';
-      case EventsSortingOrder.descending:
-        return 'Absteigend';
-    }
-  }
-
-  String getSubtitle() {
-    switch (value) {
-      case EventsSortingOrder.ascending:
-        return 'Älteste Termine zuerst';
-      case EventsSortingOrder.descending:
-        return 'Neueste Termine zuerst';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isSelected = value == selectedValue;
@@ -129,8 +111,14 @@ class _SortingTile extends StatelessWidget {
               child: Icon(Icons.check, color: Colors.green),
             )
           : const SizedBox(width: 24, height: 24),
-      title: Text(getTitel()),
-      subtitle: Text(getSubtitle()),
+      title: Text(switch (value) {
+        EventsSortingOrder.ascending => 'Aufsteigend',
+        EventsSortingOrder.descending => 'Absteigend',
+      }),
+      subtitle: Text(switch (value) {
+        EventsSortingOrder.ascending => 'Älteste Termine zuerst',
+        EventsSortingOrder.descending => 'Neueste Termine zuerst',
+      }),
       mouseCursor: SystemMouseCursors.click,
       contentPadding: const EdgeInsets.symmetric(horizontal: 0),
     );
