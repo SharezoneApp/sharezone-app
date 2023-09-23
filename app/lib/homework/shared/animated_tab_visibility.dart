@@ -99,6 +99,11 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
     super.initState();
     isVisible = false;
     isFirstBuild = true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     tabController = widget.tabController ?? DefaultTabController.of(context);
   }
 
