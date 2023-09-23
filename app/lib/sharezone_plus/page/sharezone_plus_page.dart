@@ -236,6 +236,7 @@ class PlusAdvantages extends StatelessWidget {
       children: [
         _MoreColors(),
         _HomeworkReminder(),
+        _PastEvents(),
         _AddEventsToLocalCalendar(),
         _HomeworkDoneLists(),
         _ReadByInformationSheets(),
@@ -271,6 +272,20 @@ class _SelectTimetableBySchoolClass extends StatelessWidget {
       title: Text('Stundenplan nach Klasse auswählen'),
       description: Text(
           'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'),
+    );
+  }
+}
+
+class _PastEvents extends StatelessWidget {
+  const _PastEvents();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.history),
+      title: Text('Vergangene Termine einsehen'),
+      description: Text(
+          'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.'),
     );
   }
 }
