@@ -342,7 +342,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
                   MarkdownBody(
                     data:
                         '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
-- Videocall-Support nach Termin-vereinbarung (ermöglicht das Teilen des Bildschirms)''',
+- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
                   )
                 ],
               ),

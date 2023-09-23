@@ -29,6 +29,8 @@ class UserGateway implements UserGatewayAuthentifcation {
   final String uID;
 
   late StreamSubscription<AppUser> _appUserSubscription;
+  late StreamSubscription<AuthUser?> _authUserSubscription;
+
   final _userSubject = BehaviorSubject<AppUser>();
 
   Stream<AppUser?> get userStream => _userSubject;
@@ -67,9 +69,12 @@ class UserGateway implements UserGatewayAuthentifcation {
     });
 
     _authUserSubject.sink.add(authUser);
-    _authUserSubject.sink.addStream(
-      FirebaseAuth.instance.userChanges().map(AuthUser.fromFirebaseUser),
-    );
+    _authUserSubscription = FirebaseAuth.instance
+        .userChanges()
+        .map(AuthUser.fromFirebaseUser)
+        .listen((event) {
+      _authUserSubject.sink.add(event);
+    });
   }
 
   Future<void> logOut() async {
@@ -196,8 +201,14 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   Future<void> dispose() async {
+    // First cancel the subscriptions to avoid adding new values to the streams
+    // while closing them.
     await Future.wait([
       _appUserSubscription.cancel(),
+      _authUserSubscription.cancel(),
+    ]);
+
+    await Future.wait([
       _authUserSubject.close(),
       _userSubject.close(),
     ]);

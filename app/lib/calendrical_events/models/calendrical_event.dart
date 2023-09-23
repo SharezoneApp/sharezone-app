@@ -23,7 +23,7 @@ class CalendricalEvent {
   final String title;
   final String? detail, place;
   final bool sendNotification;
-  final String latestEditor;
+  final String? latestEditor;
 
   CalendricalEvent({
     required this.eventID,
@@ -58,7 +58,7 @@ class CalendricalEvent {
       detail: data['detail'] as String?,
       place: data['place'] as String?,
       sendNotification: (data['sendNotification'] as bool?) ?? false,
-      latestEditor: data['latestEditor'] as String,
+      latestEditor: data['latestEditor'] as String?,
     );
   }
 

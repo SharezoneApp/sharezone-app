@@ -8,12 +8,10 @@
 
 name: sharezone
 description: A collaborative school planner for students, teachers and parents.
-# Note that this build number is not the latest build number. Please go to App
-# Store Connect
-# (https://appstoreconnect.apple.com/apps/1434868489/testflight/ios) or use
-# "app-store-connect get-latest-build-number 1434868489" to get the latest build
-# number.
-version: 1.7.6+318
+# Note that we do not store the current build number in the pubspec.yaml. The
+# build number is automatically increased by the CD pipeline (using `sz deploy`
+# command).
+version: 1.7.8+0
 publish_to: none
 
 environment:

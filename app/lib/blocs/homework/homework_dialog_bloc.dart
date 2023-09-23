@@ -182,6 +182,10 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
     api.nextLessonCalculator.calculateNextLesson(courseID).then((result) {
+      // If the user has closed the dialog before the result is calculated, the
+      // stream is closed. In this case, the result is not used.
+      if (_todoUntilSubject.isClosed) return;
+
       if (result == null) {
         changeTodoUntil(_getSeedTodoUntilDate());
       } else {
@@ -203,6 +207,13 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       _courseSegmentSubject.addError(
           TextValidationException(HomeworkValidators.emptyCourseUserMessage));
       throw InvalidCourseException();
+    }
+
+    final validatorTodoUntil = NotNullValidator(_todoUntilSubject.valueOrNull);
+    if (!validatorTodoUntil.isValid()) {
+      _todoUntilSubject.addError(
+          TextValidationException(HomeworkValidators.emptyDueDateUserMessage));
+      throw InvalidTodoUntilException();
     }
 
     return true;
@@ -290,6 +301,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 class InvalidTitleException implements Exception {}
 
 class InvalidCourseException implements Exception {}
+
+class InvalidTodoUntilException implements Exception {}
 
 class UserInput {
   final String? title, description;
