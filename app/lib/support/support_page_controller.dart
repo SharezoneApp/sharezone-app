@@ -69,7 +69,8 @@ class SupportPageController extends ChangeNotifier {
   /// ```
   /// https://sharezone.net/sharezone-plus-video-call-support?userId=userId123&name=My Cool Name&email=my@email.com
   /// ```
-  /// Note: The URL returned by this method should be encoded before usage.
+  /// Note: The URL is not encoded because the `launchURL` method will encode
+  /// the URL.
   ///
   /// This method throws [UserNotAuthenticatedException] if the `userId` is
   /// `null`.
