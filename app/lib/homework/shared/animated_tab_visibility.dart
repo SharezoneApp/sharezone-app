@@ -88,22 +88,27 @@ class AnimatedTabVisibility extends StatefulWidget {
 }
 
 class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
-  bool? isVisible;
-  TabController? tabController;
+  late bool isVisible;
+  late TabController tabController;
 
   /// [true] if the [build] function has not been run yet.
   late bool isFirstBuild;
 
   @override
   void initState() {
+    super.initState();
     isVisible = false;
     isFirstBuild = true;
-    tabController = widget.tabController;
-    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    tabController = widget.tabController ?? DefaultTabController.of(context);
   }
 
   bool _shouldChildBeVisible() {
-    return widget.visibleInTabIndicies.contains(tabController!.index);
+    return widget.visibleInTabIndicies.contains(tabController.index);
   }
 
   void _animateVisibilityIfNecessary() {
@@ -117,8 +122,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
 
   @override
   Widget build(BuildContext context) {
-    tabController ??= DefaultTabController.of(context);
-    tabController!.addListener(() {
+    tabController.addListener(() {
       _animateVisibilityIfNecessary();
     });
 
@@ -132,7 +136,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
     }
 
     return AnimatedVisibility(
-      visible: isVisible!,
+      visible: isVisible,
       maintainState: widget.maintainState,
       duration: const Duration(milliseconds: 300),
       curve: widget.curve,
