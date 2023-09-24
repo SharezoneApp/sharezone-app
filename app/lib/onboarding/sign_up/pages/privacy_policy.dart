@@ -60,11 +60,13 @@ class _ContinueButtonState extends State<_ContinueButton> {
                 if (!context.mounted) return;
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               } catch (e, s) {
-                setState(() => isLoading = false);
-                showSnackSec(
-                  text: handleErrorMessage(e.toString(), s),
-                  context: context,
-                );
+                if (context.mounted) {
+                  setState(() => isLoading = false);
+                  showSnackSec(
+                    text: handleErrorMessage(e.toString(), s),
+                    context: context,
+                  );
+                }
               }
             },
       child: Stack(
