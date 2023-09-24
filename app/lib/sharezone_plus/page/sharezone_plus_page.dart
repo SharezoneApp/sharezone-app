@@ -297,7 +297,7 @@ class _AddEventsToLocalCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _AdvantageTile(
       icon: Icon(Icons.calendar_today),
-      title: Text('Termine zum Kalender hinzufügen'),
+      title: Text('Termine zum lokalen Kalender hinzufügen'),
       description: Text(
           'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
     );
