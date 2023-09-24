@@ -26,7 +26,6 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   EventsSortingOrder get sortingOrder => _sortingOrder;
 
   StreamSubscription<List<EventView>>? _eventsSubscription;
-  late StreamSubscription<bool> _hasUnlockedSubscription;
   final TimetableGateway timetableGateway;
   final CourseGateway courseGateway;
   final SchoolClassGateway schoolClassGateway;
@@ -49,19 +48,14 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
     _getEventsUntilDateTime = now;
 
     state = PastCalendricalEventsPageLoadingState();
-    _hasUnlockedSubscription = subscriptionService
-        .hasFeatureUnlockedStream(SharezonePlusFeature.viewPastEvents)
-        .listen((hasUnlocked) {
-      if (hasUnlocked) {
-        _listenToPastEvents();
-      } else {
-        state = PastCalendricalEventsPageNotUnlockedState();
-        notifyListeners();
-      }
-    })
-      ..onError((e) {
-        _setError('$e');
-      });
+    final hasUnlocked = subscriptionService
+        .hasFeatureUnlocked(SharezonePlusFeature.viewPastEvents);
+    if (hasUnlocked) {
+      _listenToPastEvents();
+    } else {
+      state = PastCalendricalEventsPageNotUnlockedState();
+      notifyListeners();
+    }
   }
 
   void _listenToPastEvents() {
@@ -126,7 +120,6 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   @override
   void dispose() {
-    _hasUnlockedSubscription.cancel();
     _eventsSubscription?.cancel();
     super.dispose();
   }
