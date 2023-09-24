@@ -75,6 +75,12 @@ void main() {
       await tester.tap(find.byKey(const Key('login-button-E2E')));
       await tester.pumpAndSettle();
 
+      // Ensure that the user document is loaded. Otherwise, the user might see
+      // for short moment the page to select the type of user which could fail
+      // the test.
+      await tester
+          .pumpUntil(find.byKey(const Key('dashboard-appbar-title-E2E')));
+
       expect(
         find.byKey(const Key('dashboard-appbar-title-E2E')),
         findsOneWidget,
