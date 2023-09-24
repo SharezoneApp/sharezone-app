@@ -352,25 +352,19 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
       ) as _i7.PastCalendricalEventsPageAnalytics);
   @override
-  _i8.EventsSortingOrder get sortingOrder => (super.noSuchMethod(
-        Invocation.getter(#sortingOrder),
-        returnValue: _i8.EventsSortingOrder.ascending,
-        returnValueForMissingStub: _i8.EventsSortingOrder.ascending,
-      ) as _i8.EventsSortingOrder);
-  @override
-  set setSortOrder(_i8.EventsSortingOrder? order) => super.noSuchMethod(
-        Invocation.setter(
-          #setSortOrder,
-          order,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+  @override
+  void setSortOrder(_i8.EventsSortingOrder? order) => super.noSuchMethod(
+        Invocation.method(
+          #setSortOrder,
+          [order],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
