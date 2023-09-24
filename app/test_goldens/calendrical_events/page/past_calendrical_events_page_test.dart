@@ -73,6 +73,7 @@ void main() {
       setUp(() {
         final state = PastCalendricalEventsPageLoadedState(
           [for (var i = 0; i < 10; i++) randomEventView()],
+          sortingOrder: EventsSortingOrder.descending,
         );
         // Mockito does not support mocking sealed classes yet, so we have to
         // provide a dummy implementation of the state.
@@ -104,7 +105,9 @@ void main() {
     group('without Sharezone Plus', () {
       setUp(() {
         when(controller.state).thenReturn(
-          PastCalendricalEventsPageNotUnlockedState(),
+          const PastCalendricalEventsPageNotUnlockedState(
+            sortingOrder: EventsSortingOrder.descending,
+          ),
         );
       });
 

@@ -73,12 +73,11 @@ class _ToggleSortOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sortingOrder =
-        context.watch<PastCalendricalEventsPageController>().sortingOrder;
+        context.watch<PastCalendricalEventsPageController>().state.sortingOrder;
     return PopupMenuButton<EventsSortingOrder>(
       tooltip: 'Sortierreihenfolge',
       onSelected: (order) {
-        context.read<PastCalendricalEventsPageController>().setSortOrder =
-            order;
+        context.read<PastCalendricalEventsPageController>().setSortOrder(order);
       },
       icon: const Icon(Icons.sort),
       itemBuilder: (context) => [

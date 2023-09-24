@@ -22,8 +22,6 @@ import 'package:sharezone/util/api/timetable_gateway.dart';
 
 class PastCalendricalEventsPageController extends ChangeNotifier {
   late PastCalendricalEventsPageState state;
-  EventsSortingOrder _sortingOrder = EventsSortingOrder.descending;
-  EventsSortingOrder get sortingOrder => _sortingOrder;
 
   StreamSubscription<List<EventView>>? _eventsSubscription;
   final TimetableGateway timetableGateway;
@@ -47,13 +45,17 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   }) {
     _getEventsUntilDateTime = now;
 
-    state = PastCalendricalEventsPageLoadingState();
+    state = const PastCalendricalEventsPageLoadingState(
+      sortingOrder: EventsSortingOrder.descending,
+    );
     final hasUnlocked = subscriptionService
         .hasFeatureUnlocked(SharezonePlusFeature.viewPastEvents);
     if (hasUnlocked) {
       _listenToPastEvents();
     } else {
-      state = PastCalendricalEventsPageNotUnlockedState();
+      state = PastCalendricalEventsPageNotUnlockedState(
+        sortingOrder: state.sortingOrder,
+      );
       notifyListeners();
     }
   }
@@ -63,7 +65,7 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
       _eventsSubscription = CombineLatestStream([
         timetableGateway.streamEventsBeforeOrOn(
           Date.fromDateTime(_getEventsUntilDateTime),
-          descending: sortingOrder == EventsSortingOrder.descending,
+          descending: state.sortingOrder == EventsSortingOrder.descending,
         ),
         courseGateway.getGroupInfoStream(schoolClassGateway)
       ], (streamValues) {
@@ -86,7 +88,10 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
         return eventViews;
       }).listen((events) {
-        state = PastCalendricalEventsPageLoadedState(events);
+        state = PastCalendricalEventsPageLoadedState(
+          events,
+          sortingOrder: state.sortingOrder,
+        );
         notifyListeners();
       })
         ..onError((e) {
@@ -97,14 +102,16 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
     }
   }
 
-  set setSortOrder(EventsSortingOrder order) {
-    _sortingOrder = order;
+  void setSortOrder(EventsSortingOrder order) {
+    state = state.copyWith(sortingOrder: order);
     analytics.logChangedOrder(order);
     _refresh();
   }
 
   void _refresh() {
-    state = PastCalendricalEventsPageLoadingState();
+    state = PastCalendricalEventsPageLoadingState(
+      sortingOrder: state.sortingOrder,
+    );
 
     _eventsSubscription?.cancel();
     _eventsSubscription = null;
@@ -114,7 +121,10 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   }
 
   void _setError(String error) {
-    state = PastCalendricalEventsPageErrorState(error);
+    state = PastCalendricalEventsPageErrorState(
+      error,
+      sortingOrder: state.sortingOrder,
+    );
     notifyListeners();
   }
 
@@ -131,25 +141,85 @@ enum EventsSortingOrder {
 }
 
 sealed class PastCalendricalEventsPageState {
-  const PastCalendricalEventsPageState();
+  final EventsSortingOrder sortingOrder;
+
+  const PastCalendricalEventsPageState({
+    required this.sortingOrder,
+  });
+
+  PastCalendricalEventsPageState copyWith({
+    EventsSortingOrder? sortingOrder,
+  });
 }
 
 class PastCalendricalEventsPageNotUnlockedState
-    extends PastCalendricalEventsPageState {}
+    extends PastCalendricalEventsPageState {
+  const PastCalendricalEventsPageNotUnlockedState({
+    required super.sortingOrder,
+  });
+
+  @override
+  PastCalendricalEventsPageNotUnlockedState copyWith({
+    EventsSortingOrder? sortingOrder,
+  }) {
+    return PastCalendricalEventsPageNotUnlockedState(
+      sortingOrder: sortingOrder ?? this.sortingOrder,
+    );
+  }
+}
 
 class PastCalendricalEventsPageLoadingState
-    extends PastCalendricalEventsPageState {}
+    extends PastCalendricalEventsPageState {
+  const PastCalendricalEventsPageLoadingState({
+    required super.sortingOrder,
+  });
+
+  @override
+  PastCalendricalEventsPageLoadingState copyWith({
+    EventsSortingOrder? sortingOrder,
+  }) {
+    return PastCalendricalEventsPageLoadingState(
+      sortingOrder: sortingOrder ?? this.sortingOrder,
+    );
+  }
+}
 
 class PastCalendricalEventsPageErrorState
     extends PastCalendricalEventsPageState {
   final String error;
 
-  const PastCalendricalEventsPageErrorState(this.error);
+  const PastCalendricalEventsPageErrorState(
+    this.error, {
+    required super.sortingOrder,
+  });
+
+  @override
+  PastCalendricalEventsPageErrorState copyWith({
+    EventsSortingOrder? sortingOrder,
+  }) {
+    return PastCalendricalEventsPageErrorState(
+      error,
+      sortingOrder: sortingOrder ?? this.sortingOrder,
+    );
+  }
 }
 
 class PastCalendricalEventsPageLoadedState
     extends PastCalendricalEventsPageState {
   final List<EventView> events;
 
-  const PastCalendricalEventsPageLoadedState(this.events);
+  const PastCalendricalEventsPageLoadedState(
+    this.events, {
+    required super.sortingOrder,
+  });
+
+  @override
+  PastCalendricalEventsPageLoadedState copyWith({
+    EventsSortingOrder? sortingOrder,
+  }) {
+    return PastCalendricalEventsPageLoadedState(
+      events,
+      sortingOrder: sortingOrder ?? this.sortingOrder,
+    );
+  }
 }
