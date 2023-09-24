@@ -84,8 +84,9 @@ class SupportPageController extends ChangeNotifier {
       throw UserNotAuthenticatedException();
     }
 
-    // Adding the user ID to prefill the user ID field in the form. This is
-    // helpful for the support team to identify the user.
+    // Add the user ID to prefill the user ID field in the form, aiding the
+    // support team in identifying the user and the field required to make an
+    // appointment.
     String url =
         'https://sharezone.net/sharezone-plus-video-call-support?userId=$userId';
 
@@ -96,11 +97,9 @@ class SupportPageController extends ChangeNotifier {
       url += '&name=$userName';
     }
 
-    // When the user makes an appointment, we want to prefill the email field
-    // with the user's email address. However, we don't want to prefill the
-    // email field if the user has a private Apple email address because the
-    // service for making appointments can't send emails to private Apple email
-    // addresses.
+    // Prefill the email field with the user's email address, unless it's a
+    // private Apple email address, to which the appointment service can't send
+    // emails.
     if (userEmail != null && !_isPrivateAppleEmail(userEmail!)) {
       url += '&email=$userEmail';
     }
