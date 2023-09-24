@@ -39,8 +39,10 @@ import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/settings/change_data_bloc.dart';
 import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/analytics/calendrical_events_page_analytics.dart';
+import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_cache.dart';
+import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/comments/comment_view_factory.dart';
 import 'package:sharezone/comments/comments_analytics.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';
@@ -83,7 +85,6 @@ import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
-import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone/report/report_factory.dart';
@@ -94,6 +95,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dar
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
@@ -348,6 +350,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       StreamProvider<TypeOfUser?>.value(
         value: typeOfUserStream,
         initialData: null,
+      ),
+      Provider(
+        create: (context) => PastCalendricalEventsPageControllerFactory(
+          clock: clock,
+          subscriptionService: subscriptionService,
+          timetableGateway: api.timetable,
+          courseGateway: api.course,
+          schoolClassGateway: api.schoolClassGateway,
+          analytics: PastCalendricalEventsPageAnalytics(analytics),
+        ),
       ),
     ];
 

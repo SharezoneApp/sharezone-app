@@ -67,6 +67,10 @@ class CalendricalEventsPageBloc extends BlocBase {
     cache.setLayout(layout);
   }
 
+  void logPastEventsPageOpened() {
+    analytics.logPastEventsPageOpened();
+  }
+
   @override
   void dispose() {
     _layoutSubject.close();
