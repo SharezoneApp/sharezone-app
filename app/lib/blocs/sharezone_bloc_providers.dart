@@ -17,6 +17,7 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:design/design.dart';
 import 'package:dio/dio.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_setup.dart';
@@ -215,7 +216,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final firestoreHomeworkRepository = createDefaultFirestoreRepository(
       homeworkCollection,
       uid,
-      (courseId) => getCourseColorFromCourseId(api, courseId)!,
+      (courseId) =>
+          getCourseColorFromCourseId(api, courseId) ??
+          Design.standard().color.value,
     );
     final homeworkCompletionDispatcher =
         FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
