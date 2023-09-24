@@ -105,9 +105,10 @@ class MockSupportPageController extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  String getVideoCallAppointmentsUrlWithPrefills() => (super.noSuchMethod(
+  String getVideoCallAppointmentsUnencodedUrlWithPrefills() =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getVideoCallAppointmentsUrlWithPrefills,
+          #getVideoCallAppointmentsUnencodedUrlWithPrefills,
           [],
         ),
         returnValue: '',
