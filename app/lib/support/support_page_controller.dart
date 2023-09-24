@@ -67,7 +67,7 @@ class SupportPageController extends ChangeNotifier {
   ///
   /// Example URL:
   /// ```
-  /// https://sharezone.net/sharezone-plus-video-call-support?userId=userId123&name=My%20Cool%20Name&email=my@email.com
+  /// https://sharezone.net/sharezone-plus-video-call-support?userId=userId123&name=My Cool Name&email=my@email.com
   /// ```
   /// Note: The URL returned by this method should be encoded before usage.
   ///
