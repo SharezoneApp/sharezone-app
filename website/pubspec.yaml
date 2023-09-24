@@ -21,7 +21,7 @@ dependencies:
   flutter_markdown: ^0.6.2
   flutter_staggered_animations: ^1.0.0
   number_slide_animation: ^0.2.1
-  dio: ^4.0.0
+  dio: ^5.3.3
   flutter:
     sdk: flutter
 
