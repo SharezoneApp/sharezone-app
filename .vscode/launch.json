@@ -77,5 +77,11 @@
             ],
             "program": "app/lib/main_dev.dart"
         },
+        {
+            "name": "Website",
+            "request": "launch",
+            "type": "dart",
+            "program": "website/lib/main.dart"
+        },
     ]
 }
