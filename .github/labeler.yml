@@ -262,3 +262,6 @@
 "w: dashboard-page":
   - "**/dashboard/**"
   - "**/**dashboard**"
+
+"website":
+  - "website/**"
