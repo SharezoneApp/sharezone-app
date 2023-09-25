@@ -118,6 +118,7 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
 
   void _closeDialogAfter1500Milliseconds(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 1500)).then((_) {
+      if (!context.mounted) return;
       Navigator.pop(context);
     });
   }
