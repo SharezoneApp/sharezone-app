@@ -98,9 +98,9 @@ class OneTextFieldDialog extends StatefulWidget {
 
   /// Defines if the user is allowed to submit `null` or empty text.
   ///
-  /// If [isNullOrEmptyTextAllowed] is `false` and the user submits `null` or
-  /// empty text, then the dialog will not be closed and the `onTap` callback
-  /// will not be called. Instead the user will be shown an error message.
+  /// If [isNullOrEmptyTextAllowed] is `false` and the user submits `null` or an
+  /// empty text, then the dialog will not be closed and the [onTap] callback
+  /// will not be called. Instead an error message will be shown.
   final bool isNullOrEmptyTextAllowed;
 
   /// The text, which will be set at the beginning
