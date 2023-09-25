@@ -88,12 +88,20 @@ class OneTextFieldDialog extends StatefulWidget {
     required this.title,
     required this.hint,
     required this.actionName,
+    this.isNullOrEmptyTextAllowed = false,
     this.notAllowedChars,
     this.text,
   }) : super(key: key);
 
   final ValueChanged<String?> onTap;
   final String? title, hint, actionName, notAllowedChars;
+
+  /// Defines if the user is allowed to submit `null` or empty text.
+  ///
+  /// If [isNullOrEmptyTextAllowed] is `false` and the user submits `null` or
+  /// empty text, then the dialog will not be closed and the `onTap` callback
+  /// will not be called. Instead the user will be shown an error message.
+  final bool isNullOrEmptyTextAllowed;
 
   /// The text, which will be set at the beginning
   final String? text;
@@ -160,6 +168,14 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
           ),
           child: Text(widget.actionName!),
           onPressed: () {
+            final isNullOrEmpty = name == null || name!.isEmpty;
+            if (!widget.isNullOrEmptyTextAllowed && isNullOrEmpty) {
+              setState(() {
+                errorText = 'Das Textfeld darf nicht leer sein!';
+              });
+              return;
+            }
+
             if (widget.notAllowedChars == null) {
               widget.onTap(name);
             } else {
