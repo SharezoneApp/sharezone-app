@@ -38,9 +38,15 @@ class SharezonePlusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final remoteConfig = getRemoteConfiguration();
-    log('revenuecat_api_key: ${remoteConfig.getString('revenuecat_api_key')}');
-    log('zeige_pilotschule_karte: ${remoteConfig.getString('zeige_pilotschule_karte')}');
-    log('useCfHolidayEndpoint: ${remoteConfig.getBool('useCfHolidayEndpoint')}');
+    // ignore: avoid_print
+    print(
+        'revenuecat_api_key: ${remoteConfig.getString('revenuecat_api_key')}');
+    // ignore: avoid_print
+    print(
+        'zeige_pilotschule_karte: ${remoteConfig.getString('zeige_pilotschule_karte')}');
+    // ignore: avoid_print
+    print(
+        'useCfHolidayEndpoint: ${remoteConfig.getBool('useCfHolidayEndpoint')}');
 
     return const SharezoneMainScaffold(
       navigationItem: NavigationItem.sharezonePlus,
