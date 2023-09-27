@@ -7,11 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -28,9 +30,16 @@ class TempHomeworkDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<FakeHomeworkDialogBloc>(
-      bloc: FakeHomeworkDialogBloc(),
-      child: const __HomeworkDialog(),
+    return Theme(
+      data: ThemeData.from(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
+      ),
+      // data: Theme.of(context).copyWith(useMaterial3: true),
+      child: BlocProvider<FakeHomeworkDialogBloc>(
+        bloc: FakeHomeworkDialogBloc(),
+        child: const __HomeworkDialog(),
+      ),
     );
   }
 }
@@ -125,21 +134,167 @@ class _TodoUntilPicker extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: StreamBuilder<DateTime>(
-          stream: bloc.todoUntil,
-          builder: (context, snapshot) => DefaultTextStyle.merge(
-            style: TextStyle(
-              color: snapshot.hasError ? Colors.red : null,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            StreamBuilder<DateTime>(
+              stream: bloc.todoUntil,
+              builder: (context, snapshot) => DefaultTextStyle.merge(
+                style: TextStyle(
+                  color: snapshot.hasError ? Colors.red : null,
+                ),
+                child: DatePicker(
+                  padding: const EdgeInsets.all(12),
+                  selectedDate: snapshot.data,
+                  selectDate: bloc.changeTodoUntil,
+                ),
+              ),
             ),
-            child: DatePicker(
-              padding: const EdgeInsets.all(12),
-              selectedDate: snapshot.data,
-              selectDate: bloc.changeTodoUntil,
-            ),
-          ),
+            _InXHours(inXHoursSelected: (inXHours) {
+              print(inXHours);
+            }),
+          ],
         ),
       ),
     );
+  }
+}
+
+class _InXHours extends StatefulWidget {
+  const _InXHours({required this.inXHoursSelected, super.key});
+
+  final void Function(int) inXHoursSelected;
+
+  @override
+  State<_InXHours> createState() => _InXHoursState();
+}
+
+typedef FilterData = (String label, {int inXHours});
+
+class _InXHoursState extends State<_InXHours> {
+  final filters = <int, FilterData>{
+    1: ("Nächste Stunde", inXHours: 1),
+    2: ("Übernächste Stunde", inXHours: 2),
+    // 3: (getName(3), inXHours: 3),
+  };
+  int? selectedFilter;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          for (final filter in filters.values)
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              // child: FilterChip(
+              child: InputChip(
+                label: Text(filter.$1),
+                selected: selectedFilter == filter.inXHours,
+                onSelected: (newState) {
+                  setState(() {
+                    selectedFilter == filter.inXHours
+                        ? selectedFilter = null
+                        : selectedFilter = filter.inXHours;
+                  });
+                  widget.inXHoursSelected(filter.inXHours);
+                },
+                onDeleted: filter.inXHours == 1 ||
+                        filter.inXHours == 2 ||
+                        filter.inXHours == 3
+                    ? null
+                    : () {
+                        setState(() {
+                          if (filter.inXHours == selectedFilter) {
+                            selectedFilter = null;
+                          }
+                          filters.removeWhere(
+                              (key, value) => key == filter.inXHours);
+                        });
+                      },
+              ),
+            ),
+          InputChip(
+            avatar: const Icon(Icons.edit),
+            label: Text('Benutzerdefiniert'),
+            onPressed: () async {
+              final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
+                  context: context,
+                  title: 'Stundenzeit auswählen',
+                  right: AdaptiveDialogAction(
+                    title: 'OK',
+                    onPressed: () {
+                      // Navigator.pop(context, Random().nextInt(10));
+                      Navigator.pop(context, 4);
+                    },
+                  ),
+                  content: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: TextField(
+                          maxLength: 2,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Text('.-nächste Stunde'),
+                    ],
+                  )
+                  // content: Text.rich(
+                  //     textAlign: TextAlign.center,
+                  //     softWrap: false,
+                  //     TextSpan(
+                  //       style: TextStyle(),
+                  //       children: [
+                  //         const TextSpan(text: 'In '),
+                  //         WidgetSpan(
+                  //             child: SizedBox(
+                  //           width: 50,
+                  //           child: TextField(
+                  //             maxLength: 2,
+                  //             maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  //             inputFormatters: [
+                  //               FilteringTextInputFormatter.digitsOnly
+                  //             ],
+                  //             keyboardType: TextInputType.number,
+                  //           ),
+                  //         )),
+                  //         const TextSpan(text: ' Stunden.'),
+                  //       ],
+                  //     )),
+                  );
+
+              if (newInXHours != null && newInXHours is int) {
+                filters[newInXHours] =
+                    (getName(newInXHours), inXHours: newInXHours);
+                setState(() {
+                  selectedFilter = newInXHours;
+                });
+              }
+            },
+          ),
+          const SizedBox(width: 10),
+        ],
+      ),
+    );
+  }
+
+  static String getName(int inXHours) {
+    return switch (inXHours) {
+      1 => 'Nächste Stunde',
+      2 => 'Übernächste Stunde',
+      >= 3 => '$inXHours.-nächste Stunde',
+      _ => throw Exception('Invalid inXHours: $inXHours'),
+    };
   }
 }
 
