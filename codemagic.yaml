@@ -84,7 +84,7 @@ workflows:
       scripts:
         - name: Post App Preview
           script: |
-            dart pub global activate codemagic_app_preview 0.1.0
+            dart pub global activate codemagic_app_preview 0.2.1
             app_preview post \
               --github_token $GITHUB_PAT \
               --codemagic_token $CODEMAGIC_TOKEN \
