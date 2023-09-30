@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_website/sharezone_plus/parents_buy_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 
 import 'home/home_page.dart';
@@ -27,6 +28,38 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sharezone - Vernetzter Schulplaner',
+      onGenerateRoute: (settings) {
+        print('args: ${settings.name}');
+        switch (settings.name) {
+          case ImprintPage.tag:
+            return MaterialPageRoute(
+              builder: (context) => const ImprintPage(),
+              settings: settings,
+            );
+          case SupportPage.tag:
+            return MaterialPageRoute(
+              builder: (context) => const SupportPage(),
+              settings: settings,
+            );
+          case PrivacyPolicyPage.tag:
+            return MaterialPageRoute(
+              builder: (context) => const PrivacyPolicyPage(),
+              settings: settings,
+            );
+          case 'parents-sharezone-plus':
+            print(settings.arguments); // prints 'studentId'
+            final studentId = settings.arguments;
+            return MaterialPageRoute(
+              builder: (context) => const ParentsBuyPlusPage(studentId: 'test'),
+              settings: settings,
+            );
+          default:
+            return MaterialPageRoute(
+              builder: (context) => const HomePage(),
+              settings: settings,
+            );
+        }
+      },
       routes: {
         HomePage.tag: (context) => const HomePage(),
         ImprintPage.tag: (context) => const ImprintPage(),
