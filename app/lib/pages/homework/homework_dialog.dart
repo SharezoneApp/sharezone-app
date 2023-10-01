@@ -212,7 +212,7 @@ class _SaveButton extends StatelessWidget {
       log("Exception when submitting: $e", error: e);
       showSnackSec(
         text:
-            "Es gab einen unbekannten Fehler (${e.toString()} 😖 Bitte kontaktiere den Support!",
+            "Es gab einen unbekannten Fehler (${e.toString()}) 😖 Bitte kontaktiere den Support!",
         context: context,
         seconds: 5,
       );
