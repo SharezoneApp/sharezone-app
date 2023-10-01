@@ -24,7 +24,7 @@ Future<void> delayKeyboard(
     required FocusNode focusNode,
     Duration duration = const Duration(milliseconds: 250)}) async {
   await Future.delayed(duration);
-  FocusManager.instance.primaryFocus?.requestFocus();
+  focusNode.requestFocus();
 }
 
 Future<void> hideKeyboardWithDelay(
