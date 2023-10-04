@@ -17,22 +17,24 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 
 class NextLessonCalculator {
-  final TimetableGateway timetableGateway;
-  final UserGateway userGateway;
-  final HolidayService holidayManager;
+  final TimetableGateway _timetableGateway;
+  final UserGateway _userGateway;
+  final HolidayService _holidayManager;
 
   NextLessonCalculator({
-    required this.timetableGateway,
-    required this.userGateway,
-    required this.holidayManager,
-  });
+    required TimetableGateway timetableGateway,
+    required UserGateway userGateway,
+    required HolidayService holidayManager,
+  })  : _timetableGateway = timetableGateway,
+        _userGateway = userGateway,
+        _holidayManager = holidayManager;
 
   Future<Date?> calculateNextLesson(String courseID) async {
-    List<Lesson> lessons = await timetableGateway.getLessonsOfGroup(courseID);
-    AppUser user = await userGateway.get();
+    List<Lesson> lessons = await _timetableGateway.getLessonsOfGroup(courseID);
+    AppUser user = await _userGateway.get();
     List<Holiday?> holidays;
     try {
-      holidays = await holidayManager.load(toStateOrThrow(user.state));
+      holidays = await _holidayManager.load(toStateOrThrow(user.state));
     } catch (e) {
       holidays = [];
     }

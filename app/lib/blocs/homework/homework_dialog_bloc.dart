@@ -40,11 +40,14 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       BehaviorSubject<Time>.seeded(Time(hour: 23, minute: 59));
 
   final HomeworkDialogApi api;
+  final NextLessonCalculator nextLessonCalculator;
   final HomeworkDto? initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
 
-  HomeworkDialogBloc(this.api, this._markdownAnalytics, {HomeworkDto? homework})
+  HomeworkDialogBloc(
+      this.api, this.nextLessonCalculator, this._markdownAnalytics,
+      {HomeworkDto? homework})
       : initialHomework = homework {
     if (homework != null) {
       _loadInitialCloudFiles(homework.courseReference!.id, homework.id);
@@ -181,7 +184,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
-    api.nextLessonCalculator.calculateNextLesson(courseID).then((result) {
+    nextLessonCalculator.calculateNextLesson(courseID).then((result) {
       // If the user has closed the dialog before the result is calculated, the
       // stream is closed. In this case, the result is not used.
       if (_todoUntilSubject.isClosed) return;
@@ -335,9 +338,8 @@ class UserInput {
 
 class HomeworkDialogApi {
   final SharezoneGateway api;
-  final NextLessonCalculator nextLessonCalculator;
 
-  HomeworkDialogApi(this.api, this.nextLessonCalculator);
+  HomeworkDialogApi(this.api);
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
