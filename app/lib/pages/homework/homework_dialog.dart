@@ -518,7 +518,7 @@ class _AttachFile extends StatelessWidget {
   }
 }
 
-typedef Res = ({
+typedef _SubmissionsData = ({
   bool isSubmissionEnableable,
   Time submissionTime,
   bool withSubmissions
@@ -529,7 +529,8 @@ class _SubmissionsSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
 
-    final combined = CombineLatestStream.combine3<bool, Time, bool, Res>(
+    final combined =
+        CombineLatestStream.combine3<bool, Time, bool, _SubmissionsData>(
       bloc.isSubmissionEnableable,
       bloc.submissionTime,
       bloc.withSubmissions,
