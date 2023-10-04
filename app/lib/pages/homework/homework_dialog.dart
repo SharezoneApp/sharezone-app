@@ -632,7 +632,7 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
         child: StreamBuilder<bool>(
           stream: bloc.private,
           builder: (context, snapshot) {
-            return _PrivateTile(
+            return _PrivateHomeworkSwitchBase(
               isPrivate: snapshot.data ?? false,
               onChanged: editMode ? null : bloc.changePrivate,
             );
@@ -643,8 +643,8 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
   }
 }
 
-class _PrivateTile extends StatelessWidget {
-  const _PrivateTile({
+class _PrivateHomeworkSwitchBase extends StatelessWidget {
+  const _PrivateHomeworkSwitchBase({
     required this.isPrivate,
     this.onChanged,
   });
