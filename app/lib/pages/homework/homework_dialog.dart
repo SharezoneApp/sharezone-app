@@ -105,62 +105,60 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
     return WillPopScope(
       onWillPop: () async => widget.bloc!.hasInputChanged()
           ? warnUserAboutLeavingForm(context)
           : Future.value(true),
-      child: StreamBuilder<String>(
-          stream: bloc.title,
-          builder: (context, snapshot) {
-            return Scaffold(
-              body: Column(
-                children: <Widget>[
-                  _AppBar(
-                    oldHomework: widget.homework,
-                    editMode: editMode,
-                    focusNodeTitle: titleNode,
-                    onCloseTap: () => leaveDialog(),
-                    titleField: MaxWidthConstraintBox(
-                      child: _TitleField(
+      child: Scaffold(
+        body: Column(
+          children: <Widget>[
+            _AppBar(
+              oldHomework: widget.homework,
+              editMode: editMode,
+              focusNodeTitle: titleNode,
+              onCloseTap: () => leaveDialog(),
+              titleField: MaxWidthConstraintBox(
+                child: StreamBuilder<String>(
+                    stream: widget.bloc!.title,
+                    builder: (context, snapshot) {
+                      return _TitleField(
                         prefilledTitle: widget.homework?.title ?? "",
                         focusNode: titleNode,
-                        onChanged: bloc.changeTitle,
+                        onChanged: widget.bloc!.changeTitle,
                         errorText: snapshot.error?.toString(),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(height: 8),
-                          _CourseTile(editMode: editMode),
-                          const _MobileDivider(),
-                          _TodoUntilPicker(),
-                          const _MobileDivider(),
-                          _SubmissionsSwitch(),
-                          const _MobileDivider(),
-                          _DescriptionField(
-                              oldDescription:
-                                  widget.homework?.description ?? ""),
-                          const _MobileDivider(),
-                          _AttachFile(),
-                          const _MobileDivider(),
-                          _SendNotification(editMode: editMode),
-                          const _MobileDivider(),
-                          _PrivateHomeworkSwitch(editMode: editMode),
-                          const _MobileDivider(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                      );
+                    }),
               ),
-            );
-          }),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(height: 8),
+                    _CourseTile(editMode: editMode),
+                    const _MobileDivider(),
+                    _TodoUntilPicker(),
+                    const _MobileDivider(),
+                    _SubmissionsSwitch(),
+                    const _MobileDivider(),
+                    _DescriptionField(
+                        oldDescription: widget.homework?.description ?? ""),
+                    const _MobileDivider(),
+                    _AttachFile(),
+                    const _MobileDivider(),
+                    _SendNotification(editMode: editMode),
+                    const _MobileDivider(),
+                    _PrivateHomeworkSwitch(editMode: editMode),
+                    const _MobileDivider(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
