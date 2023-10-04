@@ -60,7 +60,6 @@ dependencies:
   dynamic_links:
     path: ../lib/dynamic_links
   fast_immutable_collections: ^9.1.5
-  feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:

@@ -515,14 +515,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.1"
-  feature_discovery:
-    dependency: "direct main"
-    description:
-      name: feature_discovery
-      sha256: c4008f3d78515883354ab095cabaefbd5116fb7005b150d28cead306f03f4b30
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.14.1"
   ffi:
     dependency: transitive
     description:

@@ -147,29 +147,18 @@ class _DashboardFabSheet extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 250),
                       child: Center(
                         child: TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Theme.of(context)
-                                .colorScheme
-                                .error, // foreground
-                          ),
-                          child: const Text("[DEBUG] Cache löschen"),
-                          onPressed: () async {
-                            final prefs = await SharedPreferences.getInstance();
-                            final cache = FlutterKeyValueStore(prefs);
-                            cache.clear();
-                            if (context.mounted) {
-                              // This will probably cause the feature discoveries
-                              // to be displayed again.
-                              //
-                              // There might be other conditions (e.g. current
-                              // user type) which might still prevent a feature
-                              // discovery from showing after this.
-                              FeatureDiscovery.clearPreferences(context, [
-                                blackboardItemReadByUsersListFeatureDiscoveryStepId,
-                              ]);
-                            }
-                          },
-                        ),
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .error, // foreground
+                            ),
+                            child: const Text("[DEBUG] Cache löschen"),
+                            onPressed: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              final cache = FlutterKeyValueStore(prefs);
+                              cache.clear();
+                            }),
                       ),
                     )
                 ],
