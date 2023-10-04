@@ -7,19 +7,30 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:date/src/date.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
 import '../analytics/analytics_test.dart';
 
 class MockHomeworkDialogApi extends Mock implements HomeworkDialogApi {}
 
+class MockNextLessonCalculator implements NextLessonCalculator {
+  @override
+  Future<Date?> calculateNextLesson(String courseID) async {
+    return Date('2032-01-03');
+  }
+}
+
 void main() {
   late HomeworkDialogBloc bloc;
   setUp(() {
-    bloc = HomeworkDialogBloc(MockHomeworkDialogApi(),
+    bloc = HomeworkDialogBloc(
+        MockHomeworkDialogApi(),
+        MockNextLessonCalculator(),
         MarkdownAnalytics(Analytics(LocalAnalyticsBackend())));
   });
 

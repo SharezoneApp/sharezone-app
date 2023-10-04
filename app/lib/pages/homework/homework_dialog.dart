@@ -21,6 +21,7 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_common/homework_validators.dart';
@@ -34,12 +35,14 @@ class HomeworkDialog extends StatefulWidget {
     Key? key,
     this.homework,
     required this.homeworkDialogApi,
+    required this.nextLessonCalculator,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
 
   final HomeworkDto? homework;
   final HomeworkDialogApi homeworkDialogApi;
+  final NextLessonCalculator nextLessonCalculator;
 
   @override
   State createState() => _HomeworkDialogState();
@@ -51,7 +54,8 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
   @override
   void initState() {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
-    bloc = HomeworkDialogBloc(widget.homeworkDialogApi, markdownAnalytics,
+    bloc = HomeworkDialogBloc(widget.homeworkDialogApi,
+        widget.nextLessonCalculator, markdownAnalytics,
         homework: widget.homework);
     super.initState();
   }
