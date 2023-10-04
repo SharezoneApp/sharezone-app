@@ -593,9 +593,12 @@ class _SubmissionsSwitch extends StatelessWidget {
 }
 
 class _PrivateHomeworkSwitch extends StatelessWidget {
-  const _PrivateHomeworkSwitch({Key? key, this.editMode}) : super(key: key);
+  const _PrivateHomeworkSwitch({
+    Key? key,
+    required this.editMode,
+  }) : super(key: key);
 
-  final bool? editMode;
+  final bool editMode;
 
   @override
   Widget build(BuildContext context) {
@@ -607,22 +610,44 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
         child: StreamBuilder<bool>(
           stream: bloc.private,
           builder: (context, snapshot) {
-            return ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              leading: const Icon(Icons.security),
-              title: const Text("Privat"),
-              subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
-              enabled: !editMode!,
-              trailing: Switch.adaptive(
-                value: snapshot.data ?? false,
-                onChanged: !editMode! ? bloc.changePrivate : null,
-              ),
-              onTap: () => bloc.changePrivate(!snapshot.data!),
+            return _PrivateTile(
+              isPrivate: snapshot.data ?? false,
+              onChanged: editMode ? null : bloc.changePrivate,
             );
           },
         ),
       ),
+    );
+  }
+}
+
+class _PrivateTile extends StatelessWidget {
+  const _PrivateTile({
+    required this.isPrivate,
+    this.onChanged,
+  });
+
+  final bool isPrivate;
+
+  /// Called when the user changes if the homework is private.
+  ///
+  /// Passing `null` disables the tile.
+  final Function(bool)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final isEnabled = onChanged != null;
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      leading: const Icon(Icons.security),
+      title: const Text("Privat"),
+      subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
+      enabled: isEnabled,
+      trailing: Switch.adaptive(
+        value: isPrivate,
+        onChanged: isEnabled ? onChanged! : null,
+      ),
+      onTap: isEnabled ? () => onChanged!(!isPrivate) : null,
     );
   }
 }
