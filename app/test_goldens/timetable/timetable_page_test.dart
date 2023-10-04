@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -74,18 +74,16 @@ void main() {
         ThemeData? themeData,
       }) async {
         await tester.pumpWidget(
-          FeatureDiscovery(
-            child: MultiProvider(
-              providers: [
-                Provider<SubscriptionService>.value(value: subscriptionService),
-              ],
-              child: MaterialApp(
-                theme: themeData,
-                home: BlocProvider(
-                  bloc: bloc,
-                  child: const SingleChildScrollView(
-                    child: SchoolClassFilterBottomBar(),
-                  ),
+          MultiProvider(
+            providers: [
+              Provider<SubscriptionService>.value(value: subscriptionService),
+            ],
+            child: MaterialApp(
+              theme: themeData,
+              home: BlocProvider(
+                bloc: bloc,
+                child: const SingleChildScrollView(
+                  child: SchoolClassFilterBottomBar(),
                 ),
               ),
             ),

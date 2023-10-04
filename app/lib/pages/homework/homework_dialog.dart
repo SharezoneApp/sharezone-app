@@ -11,7 +11,7 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -523,14 +523,12 @@ class _SubmissionsSwitch extends StatelessWidget {
                     title: const Text("Mit Abgabe"),
                     onTap: () {
                       bloc.changeWithSubmissions(!withSubmissions);
-                      FeatureDiscovery.completeCurrentStep(context);
                     },
                     trailing: Switch.adaptive(
                         value: withSubmissions,
                         onChanged: isSubmissionEnableable!
                             ? (newValue) {
                                 bloc.changeWithSubmissions(newValue);
-                                FeatureDiscovery.completeCurrentStep(context);
                               }
                             : null),
                   ),
