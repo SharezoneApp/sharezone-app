@@ -105,48 +105,62 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
     return WillPopScope(
       onWillPop: () async => widget.bloc!.hasInputChanged()
           ? warnUserAboutLeavingForm(context)
           : Future.value(true),
-      child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            _AppBar(
-              oldHomework: widget.homework,
-              editMode: editMode,
-              focusNodeTitle: titleNode,
-              onCloseTap: () => leaveDialog(),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const SizedBox(height: 8),
-                    _CourseTile(editMode: editMode),
-                    const _MobileDivider(),
-                    _TodoUntilPicker(),
-                    const _MobileDivider(),
-                    _SubmissionsSwitch(),
-                    const _MobileDivider(),
-                    _DescriptionField(
-                        oldDescription: widget.homework?.description ?? ""),
-                    const _MobileDivider(),
-                    _AttachFile(),
-                    const _MobileDivider(),
-                    _SendNotification(editMode: editMode),
-                    const _MobileDivider(),
-                    _PrivateHomeworkSwitch(editMode: editMode),
-                    const _MobileDivider(),
-                  ],
-                ),
+      child: StreamBuilder<String>(
+          stream: bloc.title,
+          builder: (context, snapshot) {
+            return Scaffold(
+              body: Column(
+                children: <Widget>[
+                  _AppBar(
+                    oldHomework: widget.homework,
+                    editMode: editMode,
+                    focusNodeTitle: titleNode,
+                    onCloseTap: () => leaveDialog(),
+                    titleField: MaxWidthConstraintBox(
+                      child: _TitleField(
+                        prefilledTitle: widget.homework?.title ?? "",
+                        focusNode: titleNode,
+                        onChanged: bloc.changeTitle,
+                        errorText: snapshot.error?.toString(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 8),
+                          _CourseTile(editMode: editMode),
+                          const _MobileDivider(),
+                          _TodoUntilPicker(),
+                          const _MobileDivider(),
+                          _SubmissionsSwitch(),
+                          const _MobileDivider(),
+                          _DescriptionField(
+                              oldDescription:
+                                  widget.homework?.description ?? ""),
+                          const _MobileDivider(),
+                          _AttachFile(),
+                          const _MobileDivider(),
+                          _SendNotification(editMode: editMode),
+                          const _MobileDivider(),
+                          _PrivateHomeworkSwitch(editMode: editMode),
+                          const _MobileDivider(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }
@@ -279,11 +293,13 @@ class _AppBar extends StatelessWidget {
     required this.editMode,
     required this.focusNodeTitle,
     required this.onCloseTap,
+    required this.titleField,
   }) : super(key: key);
 
   final HomeworkDto? oldHomework;
   final bool editMode;
   final VoidCallback onCloseTap;
+  final Widget titleField;
 
   final FocusNode focusNodeTitle;
 
@@ -317,12 +333,7 @@ class _AppBar extends StatelessWidget {
                 ],
               ),
             ),
-            MaxWidthConstraintBox(
-              child: _TitleField(
-                title: oldHomework?.title ?? "",
-                focusNode: focusNodeTitle,
-              ),
-            ),
+            titleField,
           ],
         ),
       ),
@@ -331,48 +342,51 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({Key? key, this.title, this.focusNode}) : super(key: key);
+  const _TitleField({
+    Key? key,
+    required this.prefilledTitle,
+    required this.onChanged,
+    this.errorText,
+    this.focusNode,
+  }) : super(key: key);
 
-  final String? title;
+  final String? prefilledTitle;
+  final String? errorText;
   final FocusNode? focusNode;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final HomeworkDialogBloc bloc =
-        BlocProvider.of<HomeworkDialogBloc>(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height / 3,
       ),
       child: SingleChildScrollView(
-        child: StreamBuilder<String>(
-          stream: bloc.title,
-          builder: (context, snapshot) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                PrefilledTextField(
-                  prefilledText: title,
-                  focusNode: focusNode,
-                  cursorColor: Colors.white,
-                  maxLines: null,
-                  style: const TextStyle(color: Colors.white, fontSize: 22),
-                  decoration: const InputDecoration(
-                    hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
-                    hintStyle: TextStyle(color: Colors.white),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (String title) => bloc.changeTitle(title),
-                  textCapitalization: TextCapitalization.sentences,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              PrefilledTextField(
+                prefilledText: prefilledTitle,
+                focusNode: focusNode,
+                cursorColor: Colors.white,
+                maxLines: null,
+                style: const TextStyle(color: Colors.white, fontSize: 22),
+                decoration: const InputDecoration(
+                  hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
                 ),
-                Text(
-                  snapshot.error?.toString() ?? "",
-                  style: TextStyle(color: Colors.red[700], fontSize: 12),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+                onChanged: onChanged,
+                textCapitalization: TextCapitalization.sentences,
+              ),
+              Text(
+                errorText ?? "",
+                style: TextStyle(color: Colors.red[700], fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
         ),
       ),
