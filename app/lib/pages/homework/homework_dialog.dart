@@ -14,6 +14,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
@@ -517,38 +518,45 @@ class _AttachFile extends StatelessWidget {
   }
 }
 
+typedef Res = ({
+  bool isSubmissionEnableable,
+  Time submissionTime,
+  bool withSubmissions
+});
+
 class _SubmissionsSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
-    return MaxWidthConstraintBox(
-      child: StreamBuilder<bool>(
-        stream: bloc.isSubmissionEnableable,
-        initialData: true,
-        builder: (context, isEnabledSnapshot) {
-          return StreamBuilder(
-              stream: bloc.submissionTime,
-              builder: (context, submissionTimeSnapshot) {
-                return StreamBuilder<bool>(
-                  stream: bloc.withSubmissions,
-                  initialData: false,
-                  builder: (context, withSubmissionsSnapshot) {
-                    final isEnabled = isEnabledSnapshot.data ?? true;
-                    final withSubmissions =
-                        withSubmissionsSnapshot.data ?? false;
-                    final time = submissionTimeSnapshot.data;
 
-                    return _SubmissionsSwitchBase(
-                      isWidgetEnabled: isEnabled,
-                      submissionsEnabled: withSubmissions,
-                      onChanged: (newVal) => bloc.changeWithSubmissions(newVal),
-                      onTimeChanged: (newTime) =>
-                          bloc.changeSubmissionTime(newTime),
-                      time: time,
-                    );
-                  },
-                );
-              });
+    final combined = CombineLatestStream.combine3<bool, Time, bool, Res>(
+      bloc.isSubmissionEnableable,
+      bloc.submissionTime,
+      bloc.withSubmissions,
+      (a, b, c) {
+        return (
+          isSubmissionEnableable: a,
+          submissionTime: b,
+          withSubmissions: c,
+        );
+      },
+    );
+
+    return MaxWidthConstraintBox(
+      child: StreamBuilder(
+        stream: combined,
+        builder: (context, snapshot) {
+          final isEnabled = snapshot.data?.isSubmissionEnableable ?? true;
+          final withSubmissions = snapshot.data?.withSubmissions ?? false;
+          final time = snapshot.data?.submissionTime;
+
+          return _SubmissionsSwitchBase(
+            isWidgetEnabled: isEnabled,
+            submissionsEnabled: withSubmissions,
+            onChanged: (newVal) => bloc.changeWithSubmissions(newVal),
+            onTimeChanged: (newTime) => bloc.changeSubmissionTime(newTime),
+            time: time,
+          );
         },
       ),
     );
