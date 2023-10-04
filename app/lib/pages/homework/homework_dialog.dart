@@ -525,67 +525,91 @@ class _SubmissionsSwitch extends StatelessWidget {
       child: StreamBuilder<bool>(
         stream: bloc.isSubmissionEnableable,
         initialData: true,
-        builder: (context, snapshot) {
-          final isSubmissionEnableable = snapshot.data;
-          return StreamBuilder<bool>(
-            stream: bloc.withSubmissions,
-            initialData: false,
-            builder: (context, snapshot) {
-              final withSubmissions = snapshot.data!;
-              return Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: const Icon(Icons.folder_open),
-                    title: const Text("Mit Abgabe"),
-                    onTap: () {
-                      bloc.changeWithSubmissions(!withSubmissions);
-                    },
-                    trailing: Switch.adaptive(
-                        value: withSubmissions,
-                        onChanged: isSubmissionEnableable!
-                            ? (newValue) {
-                                bloc.changeWithSubmissions(newValue);
-                              }
-                            : null),
-                  ),
-                  StreamBuilder<Time>(
-                    stream: bloc.submissionTime,
-                    builder: (context, snapshot) {
-                      final time = snapshot.data;
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        child: withSubmissions
-                            ? ListTile(
-                                title: const Text("Abgabe-Uhrzeit"),
-                                onTap: () async {
-                                  await hideKeyboardWithDelay(context: context);
-                                  if (!context.mounted) return;
+        builder: (context, isEnabledSnapshot) {
+          return StreamBuilder(
+              stream: bloc.submissionTime,
+              builder: (context, submissionTimeSnapshot) {
+                return StreamBuilder<bool>(
+                  stream: bloc.withSubmissions,
+                  initialData: false,
+                  builder: (context, withSubmissionsSnapshot) {
+                    final isEnabled = isEnabledSnapshot.data ?? true;
+                    final withSubmissions =
+                        withSubmissionsSnapshot.data ?? false;
+                    final time = submissionTimeSnapshot.data;
 
-                                  final initialTime =
-                                      time == Time(hour: 23, minute: 59)
-                                          ? Time(hour: 18, minute: 0)
-                                          : time;
-                                  final newTime = await selectTime(context,
-                                      initialTime: initialTime);
-                                  if (newTime != null) {
-                                    bloc.changeSubmissionTime(newTime);
-                                  }
-                                },
-                                trailing: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Text(time.toString()),
-                                ),
-                              )
-                            : Container(),
-                      );
-                    },
-                  )
-                ],
-              );
-            },
-          );
+                    return _SubmissionsSwitchBase(
+                      isWidgetEnabled: isEnabled,
+                      submissionsEnabled: withSubmissions,
+                      onChanged: (newVal) => bloc.changeWithSubmissions(newVal),
+                      onTimeChanged: (newTime) =>
+                          bloc.changeSubmissionTime(newTime),
+                      time: time,
+                    );
+                  },
+                );
+              });
         },
       ),
+    );
+  }
+}
+
+class _SubmissionsSwitchBase extends StatelessWidget {
+  const _SubmissionsSwitchBase({
+    Key? key,
+    required this.isWidgetEnabled,
+    required this.submissionsEnabled,
+    required this.onChanged,
+    required this.onTimeChanged,
+    required this.time,
+  }) : super(key: key);
+
+  final bool isWidgetEnabled;
+  final bool submissionsEnabled;
+  final Function(bool) onChanged;
+  final Function(Time) onTimeChanged;
+  final Time? time;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: const Icon(Icons.folder_open),
+          title: const Text("Mit Abgabe"),
+          onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
+          trailing: Switch.adaptive(
+            value: submissionsEnabled,
+            onChanged: isWidgetEnabled ? onChanged : null,
+          ),
+        ),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: submissionsEnabled
+              ? ListTile(
+                  title: const Text("Abgabe-Uhrzeit"),
+                  onTap: () async {
+                    await hideKeyboardWithDelay(context: context);
+                    if (!context.mounted) return;
+
+                    final initialTime = time == Time(hour: 23, minute: 59)
+                        ? Time(hour: 18, minute: 0)
+                        : time;
+                    final newTime =
+                        await selectTime(context, initialTime: initialTime);
+                    if (newTime != null) {
+                      onTimeChanged(newTime);
+                    }
+                  },
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Text(time.toString()),
+                  ),
+                )
+              : Container(),
+        ),
+      ],
     );
   }
 }
