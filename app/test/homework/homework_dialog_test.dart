@@ -47,17 +47,19 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
 
 void main() {
   group('HomeworkDialog', () {
-    testWidgets('should display an empty dialog when no homework is passed',
-        (WidgetTester tester) async {
-      final homeworkDialogApi = MockHomeworkDialogApi();
-      final nextLessonCalculator = MockNextLessonCalculator();
-      const homework = null;
-      final markdownAnalytics =
-          MarkdownAnalytics(Analytics(NullAnalyticsBackend()));
+    late MockHomeworkDialogApi homeworkDialogApi;
+    late MockNextLessonCalculator nextLessonCalculator;
+    HomeworkDto? homework;
 
+    setUp(() {
+      homeworkDialogApi = MockHomeworkDialogApi();
+      nextLessonCalculator = MockNextLessonCalculator();
+    });
+
+    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
       await tester.pumpWidget(
         BlocProvider(
-          bloc: markdownAnalytics,
+          bloc: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
           child: MaterialApp(
             home: Scaffold(
               body: HomeworkDialog(
@@ -77,6 +79,13 @@ void main() {
       // We use a very long timer to show that it doesn't actually
       // make the test slower.
       await tester.pumpAndSettle(const Duration(seconds: 25));
+    }
+
+    testWidgets('should display an empty dialog when no homework is passed',
+        (WidgetTester tester) async {
+      homework = null;
+
+      await pumpAndSettleHomeworkDialog(tester);
 
       // Not found, idk why:
       // expect(
@@ -101,13 +110,9 @@ void main() {
     });
     testWidgets('should display a prefilled dialog if homework is passed',
         (WidgetTester tester) async {
-      final markdownAnalytics =
-          MarkdownAnalytics(Analytics(NullAnalyticsBackend()));
-      final homeworkDialogApi = MockHomeworkDialogApi();
-      final nextLessonCalculator = MockNextLessonCalculator();
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('foo_course');
-      final homework = HomeworkDto.create(
+      homework = HomeworkDto.create(
               courseID: 'foo_course', courseReference: mockDocumentReference)
           .copyWith(
         title: 'title text',
@@ -132,28 +137,7 @@ void main() {
             .copyWith(name: 'foo_attachment.png'),
       );
 
-      await tester.pumpWidget(
-        BlocProvider(
-          bloc: markdownAnalytics,
-          child: MaterialApp(
-            home: Scaffold(
-              body: HomeworkDialog(
-                homeworkDialogApi: homeworkDialogApi,
-                nextLessonCalculator: nextLessonCalculator,
-                homework: homework,
-              ),
-            ),
-          ),
-        ),
-      );
-
-      // We have a delay for displaying the keyboard (using a Timer).
-      // We have to wait until the timer is finished, otherwise this happens:
-      //  The following assertion was thrown running a test:
-      //  A Timer is still pending even after the widget tree was disposed.
-      // We use a very long timer to show that it doesn't actually
-      // make the test slower.
-      await tester.pumpAndSettle(const Duration(seconds: 25));
+      await pumpAndSettleHomeworkDialog(tester);
 
       expect(find.text('title text', findRichText: true), findsOneWidget);
       expect(find.text('Foo subject'), findsOneWidget);
