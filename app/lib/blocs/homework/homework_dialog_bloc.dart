@@ -224,9 +224,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
   Future<void> _loadInitialCloudFiles(
       String courseID, String homeworkID) async {
-    List<CloudFile> cloudFiles = await api.api.fileSharing.cloudFilesGateway
-        .filesStreamAttachment(courseID, homeworkID)
-        .first;
+    final cloudFiles =
+        await api.loadCloudFiles(courseId: courseID, homeworkId: homeworkID);
     _cloudFilesSubject.sink.add(cloudFiles);
     initialCloudFiles.addAll(cloudFiles);
   }
@@ -337,23 +336,30 @@ class UserInput {
 }
 
 class HomeworkDialogApi {
-  final SharezoneGateway api;
+  final SharezoneGateway _api;
 
-  HomeworkDialogApi(this.api);
+  HomeworkDialogApi(this._api);
+
+  Future<List<CloudFile>> loadCloudFiles(
+      {required String courseId, required String homeworkId}) {
+    return _api.fileSharing.cloudFilesGateway
+        .filesStreamAttachment(courseId, homeworkId)
+        .first;
+  }
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
     final course = userInput.course!;
-    final authorReference = api.references.users.doc(api.user.authUser!.uid);
-    final authorName = (await api.user.userStream.first)!.name;
-    final authorID = api.user.authUser!.uid;
-    final typeOfUser = (await api.user.userStream.first)!.typeOfUser;
+    final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
+    final authorName = (await _api.user.userStream.first)!.name;
+    final authorID = _api.user.authUser!.uid;
+    final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
 
-    final attachments = await api.fileSharing.uploadAttachments(
+    final attachments = await _api.fileSharing.uploadAttachments(
         localFiles, userInput.course!.id, authorReference.id, authorName);
 
     final homework = HomeworkDto.create(
-            courseReference: api.references.getCourseReference(course.id),
+            courseReference: _api.references.getCourseReference(course.id),
             courseID: course.id)
         .copyWith(
       subject: course.subject,
@@ -379,11 +385,11 @@ class HomeworkDialogApi {
     );
 
     if (userInput.private!) {
-      await api.homework.addPrivateHomework(homework, false,
-          attachments: attachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addPrivateHomework(homework, false,
+          attachments: attachments, fileSharingGateway: _api.fileSharing);
     } else {
-      await api.homework.addHomeworkToCourse(homework,
-          attachments: attachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addHomeworkToCourse(homework,
+          attachments: attachments, fileSharingGateway: _api.fileSharing);
     }
 
     // If the homework will be added to the create, the wrong homework object will be return (the new forUsers map is missing)
@@ -393,17 +399,17 @@ class HomeworkDialogApi {
   Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     List<String> attachments = oldHomework.attachments.toList();
-    final editorName = (await api.user.userStream.first)!.name;
-    final editorID = api.user.authUser!.uid;
+    final editorName = (await _api.user.userStream.first)!.name;
+    final editorID = _api.user.authUser!.uid;
 
     for (int i = 0; i < removedCloudFiles.length; i++) {
       attachments.remove(removedCloudFiles[i].id);
-      api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
+      _api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
           ReferenceData(type: ReferenceType.blackboard, id: oldHomework.id));
     }
 
     final localFiles = userInput.localFiles;
-    final newAttachments = await api.fileSharing.uploadAttachments(
+    final newAttachments = await _api.fileSharing.uploadAttachments(
       localFiles,
       oldHomework.courseReference!.id,
       editorID,
@@ -423,11 +429,11 @@ class HomeworkDialogApi {
 
     final hasAttachments = attachments.isNotEmpty;
     if (hasAttachments) {
-      await api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addPrivateHomework(homework, true,
+          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
     } else {
-      api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: api.fileSharing);
+      _api.homework.addPrivateHomework(homework, true,
+          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
     }
     return homework;
   }
