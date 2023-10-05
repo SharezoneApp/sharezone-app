@@ -1,33 +1,48 @@
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
+import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
-@GenerateNiceMocks([MockSpec<DocumentReference>()])
+@GenerateNiceMocks([
+  MockSpec<DocumentReference>(),
+  MockSpec<SharezoneContext>(),
+  MockSpec<SharezoneGateway>(),
+  MockSpec<CourseGateway>(),
+])
 import 'homework_dialog_test.mocks.dart';
 
 class MockNextLessonCalculator implements NextLessonCalculator {
+  Date? dateToReturn;
   @override
   Future<Date?> calculateNextLesson(String courseID) async {
-    return Date('2032-01-03');
+    return dateToReturn ?? Date('2032-01-03');
   }
 }
 
 class MockHomeworkDialogApi implements HomeworkDialogApi {
+  late UserInput userInputToBeCreated;
   @override
   Future<HomeworkDto> create(UserInput userInput) async {
-    return HomeworkDto.fromData({}, id: 'foo');
+    userInputToBeCreated = userInput;
+    return HomeworkDto.create(courseID: 'courseID');
   }
 
   @override
@@ -49,18 +64,30 @@ void main() {
   group('HomeworkDialog', () {
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockSharezoneContext sharezoneContext;
     HomeworkDto? homework;
 
     setUp(() {
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      sharezoneContext = MockSharezoneContext();
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
       await tester.pumpWidget(
-        BlocProvider(
-          bloc: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
-          child: MaterialApp(
+        MultiBlocProvider(
+          blocProviders: [
+            BlocProvider<TimePickerSettingsCache>(
+              bloc: TimePickerSettingsCache(
+                InMemoryStreamingKeyValueStore(),
+              ),
+            ),
+            BlocProvider<MarkdownAnalytics>(
+              bloc: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
+            ),
+            BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+          ],
+          child: (context) => MaterialApp(
             home: Scaffold(
               body: HomeworkDialog(
                 homeworkDialogApi: homeworkDialogApi,
@@ -80,6 +107,71 @@ void main() {
       // make the test slower.
       await tester.pumpAndSettle(const Duration(seconds: 25));
     }
+
+    testWidgets('wants to create the correct homework', (tester) async {
+      homework = null;
+
+      final fooCourse = Course.create().copyWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+        abbreviation: 'F',
+        myRole: MemberRole.admin,
+      );
+
+      final sharezoneGateway = MockSharezoneGateway();
+      final courseGateway = MockCourseGateway();
+      when(sharezoneContext.api).thenReturn(sharezoneGateway);
+      when(sharezoneGateway.course).thenReturn(courseGateway);
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([fooCourse]));
+      when(sharezoneContext.analytics)
+          .thenReturn(Analytics(NullAnalyticsBackend()));
+      final nextLessonDate = Date('2024-01-03');
+      nextLessonCalculator.dateToReturn = nextLessonDate;
+
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.enterText(
+          find.byKey(HwDialogKeys.titleTextField), 'S. 24 a)');
+      await tester.tap(find.byKey(HwDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Foo course'));
+      await tester.pumpAndSettle();
+      // NextLessonCalculator is mocked to return a fixed date. Using the UI
+      // to select a specific date is tricky. Also this doesn't work:
+      // await tester.tap(find.byKey(HwDialogKeys.todoUntilTile));
+      // await tester.tap(find.text('OK'));
+      // await tester.pumpAndSettle();
+      await tester.tap(find.byKey(HwDialogKeys.submissionTile));
+      await tester.pumpAndSettle();
+      // Doesn't work, idk why:
+      // await tester.tap(find.byKey(HwDialogKeys.submissionTimeTile));
+      // await tester.pumpAndSettle(Duration(seconds: 25));
+      // await tester.tap(find.text('OK'));
+      await tester.enterText(
+          find.byKey(HwDialogKeys.descriptionField), 'Rechenweg aufschreiben');
+      await tester.tap(find.byKey(HwDialogKeys.notifyCourseMembersTile));
+      await tester.tap(find.byKey(HwDialogKeys.saveButton));
+
+      final userInput = homeworkDialogApi.userInputToBeCreated;
+      expect(userInput.title, 'S. 24 a)');
+      expect(userInput.course!.id, 'foo_course');
+      expect(userInput.course!.name, 'Foo course');
+      expect(userInput.course!.subject, 'Foo subject');
+      expect(userInput.course!.abbreviation, 'F');
+      expect(userInput.course!.myRole, MemberRole.admin);
+      expect(userInput.withSubmission, true);
+      // As we activated submissions we assume the default time of 23:59 is
+      // used.
+      final expected = DateTime(nextLessonDate.year, nextLessonDate.month,
+          nextLessonDate.day, 23, 59);
+      expect(userInput.todoUntil, expected);
+      expect(userInput.description, 'Rechenweg aufschreiben');
+      expect(userInput.localFiles, isEmpty);
+      expect(userInput.sendNotification, true);
+      expect(userInput.private, false);
+    });
 
     testWidgets('should display an empty dialog when no homework is passed',
         (WidgetTester tester) async {

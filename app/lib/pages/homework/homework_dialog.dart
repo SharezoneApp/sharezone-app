@@ -81,9 +81,9 @@ class HwDialogKeys {
   static const Key submissionTimeTile = Key("submission-time-tile");
   static const Key descriptionField = Key("description-field");
   static const Key addAttachmentTile = Key("add-attachment-tile");
-  static const Key notificateCourseMembersTile =
-      Key("notificate-course-members-tile");
+  static const Key notifyCourseMembersTile = Key("notify-course-members-tile");
   static const Key isPrivateTile = Key("is-private-tile");
+  static const Key saveButton = Key("save-button");
 }
 
 class __HomeworkDialog extends StatefulWidget {
@@ -340,6 +340,7 @@ class _AppBar extends StatelessWidget {
                     tooltip: "Schließen",
                   ),
                   _SaveButton(
+                    key: HwDialogKeys.saveButton,
                     oldHomework: oldHomework,
                     editMode: editMode,
                   ),
@@ -448,7 +449,7 @@ class _SendNotification extends StatelessWidget {
           builder: (context, snapshot) {
             final sendNotification = snapshot.data ?? false;
             return ListTileWithDescription(
-              key: HwDialogKeys.notificateCourseMembersTile,
+              key: HwDialogKeys.notifyCourseMembersTile,
               leading: const Icon(Icons.notifications_active),
               title: Text(
                   "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen"),
@@ -617,6 +618,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           child: submissionsEnabled
               ? ListTile(
+                  key: HwDialogKeys.submissionTimeTile,
                   title: const Text("Abgabe-Uhrzeit"),
                   onTap: () async {
                     await hideKeyboardWithDelay(context: context);
