@@ -73,6 +73,19 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
   }
 }
 
+class HwDialogKeys {
+  static const Key titleTextField = Key("title-field");
+  static const Key courseTile = Key("course-tile");
+  static const Key todoUntilTile = Key("todo-until-tile");
+  static const Key submissionTile = Key("submission-tile");
+  static const Key submissionTimeTile = Key("submission-time-tile");
+  static const Key descriptionField = Key("description-field");
+  static const Key addAttachmentTile = Key("add-attachment-tile");
+  static const Key notificateCourseMembersTile =
+      Key("notificate-course-members-tile");
+  static const Key isPrivateTile = Key("is-private-tile");
+}
+
 class __HomeworkDialog extends StatefulWidget {
   const __HomeworkDialog({Key? key, this.homework, this.bloc})
       : super(key: key);
@@ -274,6 +287,7 @@ class _TodoUntilPicker extends StatelessWidget {
               color: snapshot.hasError ? Colors.red : null,
             ),
             child: DatePicker(
+              key: HwDialogKeys.todoUntilTile,
               padding: const EdgeInsets.all(12),
               selectedDate: snapshot.data,
               selectDate: bloc.changeTodoUntil,
@@ -367,6 +381,7 @@ class _TitleField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               PrefilledTextField(
+                key: HwDialogKeys.titleTextField,
                 prefilledText: prefilledTitle,
                 focusNode: focusNode,
                 cursorColor: Colors.white,
@@ -406,6 +421,7 @@ class _CourseTile extends StatelessWidget {
         top: false,
         bottom: false,
         child: CourseTile(
+          key: HwDialogKeys.courseTile,
           courseStream: bloc.courseSegment,
           onChanged: bloc.changeCourseSegment,
           editMode: editMode,
@@ -432,6 +448,7 @@ class _SendNotification extends StatelessWidget {
           builder: (context, snapshot) {
             final sendNotification = snapshot.data ?? false;
             return ListTileWithDescription(
+              key: HwDialogKeys.notificateCourseMembersTile,
               leading: const Icon(Icons.notifications_active),
               title: Text(
                   "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen"),
@@ -472,6 +489,7 @@ class _DescriptionField extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
+                  key: HwDialogKeys.descriptionField,
                   prefilledText: oldDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
@@ -505,6 +523,7 @@ class _AttachFile extends StatelessWidget {
         top: false,
         bottom: false,
         child: AttachFile(
+          key: HwDialogKeys.addAttachmentTile,
           addLocalFileToBlocMethod: (localFile) => bloc.addLocalFile(localFile),
           removeLocalFileFromBlocMethod: (localFile) =>
               bloc.removeLocalFile(localFile),
@@ -552,6 +571,7 @@ class _SubmissionsSwitch extends StatelessWidget {
           final time = snapshot.data?.submissionTime;
 
           return _SubmissionsSwitchBase(
+            key: HwDialogKeys.submissionTile,
             isWidgetEnabled: isEnabled,
             submissionsEnabled: withSubmissions,
             onChanged: (newVal) => bloc.changeWithSubmissions(newVal),
@@ -642,6 +662,7 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
           stream: bloc.private,
           builder: (context, snapshot) {
             return _PrivateHomeworkSwitchBase(
+              key: HwDialogKeys.isPrivateTile,
               isPrivate: snapshot.data ?? false,
               onChanged: editMode ? null : bloc.changePrivate,
             );
@@ -656,6 +677,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   const _PrivateHomeworkSwitchBase({
     required this.isPrivate,
     this.onChanged,
+    super.key,
   });
 
   final bool isPrivate;
