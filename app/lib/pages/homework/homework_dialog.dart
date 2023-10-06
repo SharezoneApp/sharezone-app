@@ -191,7 +191,7 @@ class _SaveButton extends StatelessWidget {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
     final hasAttachments = bloc.hasAttachments;
     try {
-      bloc.validate();
+      bloc.validateInputOrThrow();
       sendDataToFrankfurtSnackBar(context);
 
       if (editMode) {
