@@ -81,6 +81,7 @@ class HwDialogKeys {
   static const Key submissionTimeTile = Key("submission-time-tile");
   static const Key descriptionField = Key("description-field");
   static const Key addAttachmentTile = Key("add-attachment-tile");
+  static const Key attachmentOverflowMenuIcon = Key("attachment-overflow-menu");
   static const Key notifyCourseMembersTile = Key("notify-course-members-tile");
   static const Key isPrivateTile = Key("is-private-tile");
   static const Key saveButton = Key("save-button");
