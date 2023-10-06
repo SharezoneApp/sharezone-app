@@ -230,10 +230,10 @@ void main() {
       // We didn't change it
       expect(userInput.todoUntil, homework!.todoUntil);
       expect(userInput.description, 'New description text');
-// The following TestFailure was thrown running a test:
-// Expected: an object with length of <1>
-//   Actual: []
-//    Which: has length of <0>
+      // The following TestFailure was thrown running a test:
+      // Expected: an object with length of <1>
+      //   Actual: []
+      //    Which: has length of <0>
       // expect(userInput.localFiles, hasLength(1));
       // expect(userInput.localFiles?.first.getName(), 'foo_attachment2.png');
       expect(userInput.sendNotification, false);
