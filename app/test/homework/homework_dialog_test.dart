@@ -121,8 +121,6 @@ void main() {
     }
 
     testWidgets('edits homework correctly', (tester) async {
-      homework = null;
-
       final fooCourse = Course.create().copyWith(
         id: 'foo_course',
         name: 'Foo course',
