@@ -128,23 +128,14 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
         body: Column(
           children: <Widget>[
             _AppBar(
-              oldHomework: widget.homework,
-              editMode: editMode,
-              focusNodeTitle: titleNode,
-              onCloseTap: () => leaveDialog(),
-              titleField: MaxWidthConstraintBox(
-                child: StreamBuilder<String>(
-                    stream: widget.bloc!.title,
-                    builder: (context, snapshot) {
-                      return _TitleField(
-                        prefilledTitle: widget.homework?.title ?? "",
-                        focusNode: titleNode,
-                        onChanged: widget.bloc!.changeTitle,
-                        errorText: snapshot.error?.toString(),
-                      );
-                    }),
-              ),
-            ),
+                oldHomework: widget.homework,
+                editMode: editMode,
+                focusNodeTitle: titleNode,
+                onCloseTap: () => leaveDialog(),
+                titleField: _TitleField(
+                  focusNode: titleNode,
+                  prefilledTitle: widget.homework?.title,
+                )),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -358,6 +349,33 @@ class _AppBar extends StatelessWidget {
 
 class _TitleField extends StatelessWidget {
   const _TitleField({
+    required this.focusNode,
+    this.prefilledTitle,
+  });
+
+  final String? prefilledTitle;
+  final FocusNode focusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    return MaxWidthConstraintBox(
+      child: StreamBuilder<String>(
+          stream: bloc.title,
+          builder: (context, snapshot) {
+            return _TitleFieldBase(
+              prefilledTitle: prefilledTitle,
+              focusNode: focusNode,
+              onChanged: bloc.changeTitle,
+              errorText: snapshot.error?.toString(),
+            );
+          }),
+    );
+  }
+}
+
+class _TitleFieldBase extends StatelessWidget {
+  const _TitleFieldBase({
     Key? key,
     required this.prefilledTitle,
     required this.onChanged,
