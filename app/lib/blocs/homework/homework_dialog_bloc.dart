@@ -265,6 +265,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         if (_markdownAnalytics.containsMarkdown(description)) {
           _markdownAnalytics.logMarkdownUsedHomework();
         }
+        analytics.log(NamedAnalyticsEvent(name: "homework_add"));
       } else {
         // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
         // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
@@ -285,6 +286,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
             .containsMarkdown(initialHomework!.description)) {
           _markdownAnalytics.logMarkdownUsedHomework();
         }
+        analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
       }
     }
   }

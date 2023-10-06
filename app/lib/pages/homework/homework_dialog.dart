@@ -203,13 +203,11 @@ class _SaveButton extends StatelessWidget {
           } else {
             bloc.submit();
           }
-          logHomeworkEditEvent(context);
           hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         } else {
           hasAttachments ? await bloc.submit() : bloc.submit();
           if (!context.mounted) return;
-          logHomeworkAddEvent(context);
           hideSendDataToFrankfurtSnackBar(context);
           Navigator.pop(context, true);
         }
@@ -246,16 +244,6 @@ class _SaveButton extends StatelessWidget {
 
   void hideSendDataToFrankfurtSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  }
-
-  void logHomeworkEditEvent(BuildContext context) {
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
-  }
-
-  void logHomeworkAddEvent(BuildContext context) {
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    analytics.log(NamedAnalyticsEvent(name: "homework_add"));
   }
 
   @override
