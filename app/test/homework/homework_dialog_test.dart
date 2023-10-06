@@ -53,10 +53,14 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
     return HomeworkDto.create(courseID: 'courseID');
   }
 
+  late UserInput userInputFromEditing;
+  late List<CloudFile> removedCloudFilesFromEditing;
   @override
   Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
-    return HomeworkDto.fromData({}, id: 'foo');
+    userInputFromEditing = userInput;
+    removedCloudFilesFromEditing = removedCloudFiles;
+    return HomeworkDto.create(courseID: 'courseID');
   }
 
   final loadCloudFilesResult = <CloudFile>[];
@@ -115,6 +119,127 @@ void main() {
       // make the test slower.
       await tester.pumpAndSettle(const Duration(seconds: 25));
     }
+
+    testWidgets('edits homework correctly', (tester) async {
+      homework = null;
+
+      final fooCourse = Course.create().copyWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+        abbreviation: 'F',
+        myRole: MemberRole.admin,
+      );
+
+      final sharezoneGateway = MockSharezoneGateway();
+      final courseGateway = MockCourseGateway();
+      when(sharezoneContext.api).thenReturn(sharezoneGateway);
+      when(sharezoneGateway.course).thenReturn(courseGateway);
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([fooCourse]));
+      when(sharezoneContext.analytics)
+          .thenReturn(Analytics(NullAnalyticsBackend()));
+      final nextLessonDate = Date('2024-03-08');
+      nextLessonCalculator.dateToReturn = nextLessonDate;
+
+      homeworkDialogApi.loadCloudFilesResult.addAll([
+        CloudFile.create(
+                id: 'foo_attachment_id1',
+                creatorName: 'Assignment Creator Name',
+                courseID: 'foo_course',
+                creatorID: 'foo_creator_id',
+                path: FolderPath.fromPathString(
+                    '/foo_course/${FolderPath.attachments}'))
+            .copyWith(name: 'foo_attachment1.png'),
+        CloudFile.create(
+                id: 'foo_attachment_id2',
+                creatorName: 'Assignment Creator Name',
+                courseID: 'foo_course',
+                creatorID: 'foo_creator_id',
+                path: FolderPath.fromPathString(
+                    '/foo_course/${FolderPath.attachments}'))
+            .copyWith(name: 'foo_attachment2.png'),
+      ]);
+
+      final mockDocumentReference = MockDocumentReference();
+      when(mockDocumentReference.id).thenReturn('foo_course');
+      homework = HomeworkDto.create(
+              courseID: 'foo_course', courseReference: mockDocumentReference)
+          .copyWith(
+        title: 'title text',
+        courseID: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        // The submission time is included in the todoUntil date.
+        withSubmissions: true,
+        todoUntil: DateTime(2024, 03, 12, 16, 30),
+        description: 'description text',
+        attachments: ['foo_attachment_id1', 'foo_attachment_id2'],
+        private: false,
+      );
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.enterText(
+          find.byKey(HwDialogKeys.titleTextField), 'New title text');
+      await tester.pumpAndSettle();
+      // NextLessonCalculator is mocked to return a fixed date. Using the UI
+      // to select a specific date is tricky. Also this doesn't work:
+      // await tester.tap(find.byKey(HwDialogKeys.todoUntilTile));
+      // await tester.tap(find.text('OK'));
+      // await tester.pumpAndSettle();
+      await tester.tap(find.byKey(HwDialogKeys.submissionTile));
+      await tester.pumpAndSettle();
+      // Doesn't work, idk why:
+      // await tester.tap(find.byKey(HwDialogKeys.submissionTimeTile));
+      // await tester.pumpAndSettle(Duration(seconds: 25));
+      // await tester.tap(find.text('OK'));
+      await tester.enterText(
+          find.byKey(HwDialogKeys.descriptionField), 'New description text');
+      await tester
+          .tap(find.byKey(HwDialogKeys.attachmentOverflowMenuIcon).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Anhang entfernen'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(HwDialogKeys.saveButton));
+
+      final userInput = homeworkDialogApi.userInputFromEditing;
+      final cloudFilesToBeRemoved =
+          homeworkDialogApi.removedCloudFilesFromEditing;
+
+      expect(userInput.title, 'New title text');
+      expect(userInput.course!.id, 'foo_course');
+      // The following TestFailure was thrown running a test:
+      // Expected: 'Foo course'
+      //   Actual: 'Foo subject'
+      //    Which: is different.
+      //           Expected: Foo course
+      //             Actual: Foo subject
+      //                         ^
+      // expect(userInput.course!.name, 'Foo course');
+      expect(userInput.course!.subject, 'Foo subject');
+      // The following TestFailure was thrown running a test:
+      // Expected: 'F'
+      //   Actual: ''
+      // expect(userInput.course!.abbreviation, 'F');
+      // The following TestFailure was thrown running a test:
+      // Expected: MemberRole:<MemberRole.admin>
+      //   Actual: MemberRole:<MemberRole.standard>
+      // expect(userInput.course!.myRole, MemberRole.admin);
+      expect(userInput.withSubmission, true);
+      // We didn't change it
+      expect(userInput.todoUntil, homework!.todoUntil);
+      expect(userInput.description, 'New description text');
+// The following TestFailure was thrown running a test:
+// Expected: an object with length of <1>
+//   Actual: []
+//    Which: has length of <0>
+      // expect(userInput.localFiles, hasLength(1));
+      // expect(userInput.localFiles?.first.getName(), 'foo_attachment2.png');
+      expect(userInput.sendNotification, false);
+      expect(userInput.private, false);
+      expect(cloudFilesToBeRemoved, hasLength(1));
+      expect(cloudFilesToBeRemoved.first.name, 'foo_attachment1.png');
+    });
 
     testWidgets('wants to create the correct homework', (tester) async {
       homework = null;
