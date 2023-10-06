@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -44,9 +45,10 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   final HomeworkDto? initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
+  final Analytics analytics;
 
-  HomeworkDialogBloc(
-      this.api, this.nextLessonCalculator, this._markdownAnalytics,
+  HomeworkDialogBloc(this.api, this.nextLessonCalculator,
+      this._markdownAnalytics, this.analytics,
       {HomeworkDto? homework})
       : initialHomework = homework {
     if (homework != null) {

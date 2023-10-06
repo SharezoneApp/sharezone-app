@@ -55,9 +55,14 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
   @override
   void initState() {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
-    bloc = HomeworkDialogBloc(widget.homeworkDialogApi,
-        widget.nextLessonCalculator, markdownAnalytics,
-        homework: widget.homework);
+    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
+    bloc = HomeworkDialogBloc(
+      widget.homeworkDialogApi,
+      widget.nextLessonCalculator,
+      markdownAnalytics,
+      homework: widget.homework,
+      analytics,
+    );
     super.initState();
   }
 
