@@ -230,7 +230,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     initialCloudFiles.addAll(cloudFiles);
   }
 
-  Future<void> submit({HomeworkDto? oldHomework}) async {
+  Future<void> submit() async {
     if (isValid()) {
       final todoUntil = DateTime(
           _todoUntilSubject.valueOrNull!.year,
@@ -253,7 +253,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       );
 
       final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-      if (oldHomework == null) {
+
+      if (initialHomework == null) {
         // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
         // weil die Daten sofort in Firestore gespeichert werden können und somit
         // auch offline hinzufügbar sind.
@@ -269,16 +270,17 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
         final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
             initialCloudFiles, _cloudFilesSubject.valueOrNull!);
         if (hasAttachments) {
-          await api.edit(oldHomework, userInput,
+          await api.edit(initialHomework!, userInput,
               removedCloudFiles: removedCloudFiles);
         } else {
-          api.edit(oldHomework, userInput,
+          api.edit(initialHomework!, userInput,
               removedCloudFiles: removedCloudFiles);
         }
 
         // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
         // geloggt.
-        if (!_markdownAnalytics.containsMarkdown(oldHomework.description)) {
+        if (!_markdownAnalytics
+            .containsMarkdown(initialHomework!.description)) {
           _markdownAnalytics.logMarkdownUsedHomework();
         }
       }

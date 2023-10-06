@@ -195,10 +195,10 @@ class _SaveButton extends StatelessWidget {
 
         if (editMode) {
           if (hasAttachments) {
-            await bloc.submit(oldHomework: oldHomework);
+            await bloc.submit();
             if (!context.mounted) return;
           } else {
-            bloc.submit(oldHomework: oldHomework);
+            bloc.submit();
           }
           logHomeworkEditEvent(context);
           hideSendDataToFrankfurtSnackBar(context);
