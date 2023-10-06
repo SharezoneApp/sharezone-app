@@ -333,6 +333,11 @@ class UserInput {
       this.todoUntil = todoUntil;
     }
   }
+
+  @override
+  String toString() {
+    return 'UserInput(description: $description, course: $course, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
+  }
 }
 
 class HomeworkDialogApi {
