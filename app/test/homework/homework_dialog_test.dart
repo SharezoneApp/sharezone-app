@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
