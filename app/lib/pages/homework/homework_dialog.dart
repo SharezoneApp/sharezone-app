@@ -180,10 +180,8 @@ class _MobileDivider extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key? key, this.oldHomework, this.editMode = false})
-      : super(key: key);
+  const _SaveButton({Key? key, this.editMode = false}) : super(key: key);
 
-  final HomeworkDto? oldHomework;
   final bool editMode;
 
   Future<void> onPressed(BuildContext context) async {
@@ -333,7 +331,6 @@ class _AppBar extends StatelessWidget {
                   ),
                   _SaveButton(
                     key: HwDialogKeys.saveButton,
-                    oldHomework: oldHomework,
                     editMode: editMode,
                   ),
                 ],
