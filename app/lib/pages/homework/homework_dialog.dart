@@ -449,24 +449,47 @@ class _SendNotification extends StatelessWidget {
           stream: bloc.sendNotification,
           builder: (context, snapshot) {
             final sendNotification = snapshot.data ?? false;
-            return ListTileWithDescription(
-              key: HwDialogKeys.notifyCourseMembersTile,
-              leading: const Icon(Icons.notifications_active),
-              title: Text(
-                  "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen"),
-              trailing: Switch.adaptive(
-                onChanged: bloc.changeSendNotification,
-                value: sendNotification,
-              ),
-              onTap: () => bloc.changeSendNotification(!sendNotification),
+            return _SendNotificationBase(
+              title:
+                  "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen",
+              onChanged: bloc.changeSendNotification,
+              sendNotification: sendNotification,
               description: editMode
                   ? null
-                  : const Text(
-                      "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast."),
+                  : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
             );
           },
         ),
       ),
+    );
+  }
+}
+
+class _SendNotificationBase extends StatelessWidget {
+  const _SendNotificationBase({
+    required this.title,
+    required this.sendNotification,
+    required this.onChanged,
+    this.description,
+  });
+
+  final String title;
+  final String? description;
+  final bool sendNotification;
+  final Function(bool) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTileWithDescription(
+      key: HwDialogKeys.notifyCourseMembersTile,
+      leading: const Icon(Icons.notifications_active),
+      title: Text(title),
+      trailing: Switch.adaptive(
+        onChanged: onChanged,
+        value: sendNotification,
+      ),
+      onTap: () => onChanged(!sendNotification),
+      description: description != null ? Text(description!) : null,
     );
   }
 }
