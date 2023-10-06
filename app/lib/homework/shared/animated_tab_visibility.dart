@@ -113,7 +113,7 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
 
   void _animateVisibilityIfNecessary() {
     final shouldBeVisible = _shouldChildBeVisible();
-    if (shouldBeVisible != isVisible) {
+    if (shouldBeVisible != isVisible && mounted) {
       setState(() {
         isVisible = shouldBeVisible;
       });
