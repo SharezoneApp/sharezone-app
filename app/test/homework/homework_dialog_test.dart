@@ -29,6 +29,7 @@ import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
+import '../analytics/analytics_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
   MockSpec<SharezoneContext>(),
@@ -77,12 +78,16 @@ void main() {
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
     late MockSharezoneContext sharezoneContext;
+    late LocalAnalyticsBackend analyticsBackend;
+    late Analytics analytics;
     HomeworkDto? homework;
 
     setUp(() {
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
       sharezoneContext = MockSharezoneContext();
+      analyticsBackend = LocalAnalyticsBackend();
+      analytics = Analytics(analyticsBackend);
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
@@ -95,7 +100,7 @@ void main() {
               ),
             ),
             BlocProvider<MarkdownAnalytics>(
-              bloc: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
+              bloc: MarkdownAnalytics(analytics),
             ),
             BlocProvider<SharezoneContext>(bloc: sharezoneContext),
           ],
@@ -135,8 +140,7 @@ void main() {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([fooCourse]));
-      when(sharezoneContext.analytics)
-          .thenReturn(Analytics(NullAnalyticsBackend()));
+      when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
@@ -237,6 +241,15 @@ void main() {
       expect(userInput.private, false);
       expect(cloudFilesToBeRemoved, hasLength(1));
       expect(cloudFilesToBeRemoved.first.name, 'foo_attachment1.png');
+      expect(analyticsBackend.loggedEvents, hasLength(2));
+      expect(analyticsBackend.loggedEvents, [
+        // The first is wrong, should be fixed (we don't use markdown here):
+        // https://github.com/SharezoneApp/sharezone-app/issues/1115
+        {
+          'markdown_used': {'feature': 'homework'}
+        },
+        {'homework_edit': {}},
+      ]);
     });
 
     testWidgets('wants to create the correct homework', (tester) async {
@@ -256,8 +269,7 @@ void main() {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([fooCourse]));
-      when(sharezoneContext.analytics)
-          .thenReturn(Analytics(NullAnalyticsBackend()));
+      when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-01-03');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
@@ -302,6 +314,11 @@ void main() {
       expect(userInput.localFiles, isEmpty);
       expect(userInput.sendNotification, true);
       expect(userInput.private, false);
+
+      expect(analyticsBackend.loggedEvents, hasLength(1));
+      expect(analyticsBackend.loggedEvents, [
+        {'homework_add': {}},
+      ]);
     });
 
     testWidgets('should display an empty dialog when no homework is passed',
