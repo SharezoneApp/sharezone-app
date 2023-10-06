@@ -159,7 +159,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
                     _SubmissionsSwitch(),
                     const _MobileDivider(),
                     _DescriptionField(
-                        oldDescription: widget.homework?.description ?? ""),
+                        prefilledDescription: widget.homework?.description),
                     const _MobileDivider(),
                     _AttachFile(),
                     const _MobileDivider(),
@@ -472,13 +472,31 @@ class _SendNotification extends StatelessWidget {
 }
 
 class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({required this.oldDescription});
+  const _DescriptionField({required this.prefilledDescription});
 
-  final String oldDescription;
+  final String? prefilledDescription;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    return _DescriptionFieldBase(
+      onChanged: bloc.changeDescription,
+      prefilledDescription: prefilledDescription,
+    );
+  }
+}
+
+class _DescriptionFieldBase extends StatelessWidget {
+  const _DescriptionFieldBase({
+    required this.onChanged,
+    required this.prefilledDescription,
+  });
+
+  final Function(String) onChanged;
+  final String? prefilledDescription;
+
+  @override
+  Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -492,7 +510,7 @@ class _DescriptionField extends StatelessWidget {
                 leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
                   key: HwDialogKeys.descriptionField,
-                  prefilledText: oldDescription,
+                  prefilledText: prefilledDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
                   keyboardType: TextInputType.multiline,
@@ -500,7 +518,7 @@ class _DescriptionField extends StatelessWidget {
                     hintText: "Zusatzinformationen eingeben",
                     border: InputBorder.none,
                   ),
-                  onChanged: bloc.changeDescription,
+                  onChanged: onChanged,
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),
