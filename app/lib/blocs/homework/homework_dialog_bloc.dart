@@ -199,7 +199,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     });
   }
 
-  bool isValid() {
+  bool validate() {
     final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
@@ -233,7 +233,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   Future<void> submit() async {
-    if (isValid()) {
+    if (validate()) {
       final todoUntil = DateTime(
           _todoUntilSubject.valueOrNull!.year,
           _todoUntilSubject.valueOrNull!.month,
