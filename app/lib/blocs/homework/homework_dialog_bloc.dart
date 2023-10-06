@@ -199,7 +199,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     });
   }
 
-  bool validate() {
+  void validate() {
     final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
@@ -220,8 +220,6 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
           TextValidationException(HomeworkValidators.emptyDueDateUserMessage));
       throw InvalidTodoUntilException();
     }
-
-    return true;
   }
 
   Future<void> _loadInitialCloudFiles(
@@ -233,61 +231,59 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   Future<void> submit() async {
-    if (validate()) {
-      final todoUntil = DateTime(
-          _todoUntilSubject.valueOrNull!.year,
-          _todoUntilSubject.valueOrNull!.month,
-          _todoUntilSubject.valueOrNull!.day);
-      final description = _descriptionSubject.valueOrNull;
-      final private = _privateSubject.valueOrNull;
-      final localFiles = _localFilesSubject.valueOrNull;
+    validate();
+    final todoUntil = DateTime(
+        _todoUntilSubject.valueOrNull!.year,
+        _todoUntilSubject.valueOrNull!.month,
+        _todoUntilSubject.valueOrNull!.day);
+    final description = _descriptionSubject.valueOrNull;
+    final private = _privateSubject.valueOrNull;
+    final localFiles = _localFilesSubject.valueOrNull;
 
-      final userInput = UserInput(
-        _titleSubject.valueOrNull,
-        _courseSegmentSubject.valueOrNull,
-        todoUntil,
-        description,
-        private,
-        localFiles,
-        _sendNotificationSubject.valueOrNull,
-        _submissionTimeSubject.valueOrNull,
-        _withSubmissionsSubject.valueOrNull!,
-      );
+    final userInput = UserInput(
+      _titleSubject.valueOrNull,
+      _courseSegmentSubject.valueOrNull,
+      todoUntil,
+      description,
+      private,
+      localFiles,
+      _sendNotificationSubject.valueOrNull,
+      _submissionTimeSubject.valueOrNull,
+      _withSubmissionsSubject.valueOrNull!,
+    );
 
-      final hasAttachments = localFiles != null && localFiles.isNotEmpty;
+    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
 
-      if (initialHomework == null) {
-        // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
-        // weil die Daten sofort in Firestore gespeichert werden können und somit
-        // auch offline hinzufügbar sind.
-        hasAttachments ? await api.create(userInput) : api.create(userInput);
+    if (initialHomework == null) {
+      // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
+      // weil die Daten sofort in Firestore gespeichert werden können und somit
+      // auch offline hinzufügbar sind.
+      hasAttachments ? await api.create(userInput) : api.create(userInput);
 
-        if (_markdownAnalytics.containsMarkdown(description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
-        analytics.log(NamedAnalyticsEvent(name: "homework_add"));
-      } else {
-        // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
-        // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
-        // von der Hausaufgabe entfernt.
-        final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.valueOrNull!);
-        if (hasAttachments) {
-          await api.edit(initialHomework!, userInput,
-              removedCloudFiles: removedCloudFiles);
-        } else {
-          api.edit(initialHomework!, userInput,
-              removedCloudFiles: removedCloudFiles);
-        }
-
-        // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
-        // geloggt.
-        if (!_markdownAnalytics
-            .containsMarkdown(initialHomework!.description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
-        analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
+      if (_markdownAnalytics.containsMarkdown(description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
       }
+      analytics.log(NamedAnalyticsEvent(name: "homework_add"));
+    } else {
+      // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
+      // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
+      // von der Hausaufgabe entfernt.
+      final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
+          initialCloudFiles, _cloudFilesSubject.valueOrNull!);
+      if (hasAttachments) {
+        await api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      } else {
+        api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      }
+
+      // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
+      // geloggt.
+      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
+      }
+      analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
     }
   }
 

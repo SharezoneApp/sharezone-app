@@ -9,9 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -193,24 +191,23 @@ class _SaveButton extends StatelessWidget {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
     final hasAttachments = bloc.hasAttachments;
     try {
-      if (bloc.validate()) {
-        sendDataToFrankfurtSnackBar(context);
+      bloc.validate();
+      sendDataToFrankfurtSnackBar(context);
 
-        if (editMode) {
-          if (hasAttachments) {
-            await bloc.submit();
-            if (!context.mounted) return;
-          } else {
-            bloc.submit();
-          }
-          hideSendDataToFrankfurtSnackBar(context);
-          Navigator.pop(context, true);
-        } else {
-          hasAttachments ? await bloc.submit() : bloc.submit();
+      if (editMode) {
+        if (hasAttachments) {
+          await bloc.submit();
           if (!context.mounted) return;
-          hideSendDataToFrankfurtSnackBar(context);
-          Navigator.pop(context, true);
+        } else {
+          bloc.submit();
         }
+        hideSendDataToFrankfurtSnackBar(context);
+        Navigator.pop(context, true);
+      } else {
+        hasAttachments ? await bloc.submit() : bloc.submit();
+        if (!context.mounted) return;
+        hideSendDataToFrankfurtSnackBar(context);
+        Navigator.pop(context, true);
       }
     } on InvalidTitleException {
       showSnackSec(
