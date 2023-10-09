@@ -65,7 +65,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
       final c = Course.create().copyWith(
         subject: homework.subject,
-        name: homework.subject,
+        name: homework.courseName,
         sharecode: "000000",
         abbreviation: homework.subjectAbbreviation,
         id: homework.courseReference!.id,
