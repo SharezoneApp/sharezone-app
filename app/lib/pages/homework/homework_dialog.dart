@@ -23,8 +23,6 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
-import 'package:sharezone_common/homework_validators.dart';
-import 'package:sharezone_common/validators.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -182,6 +180,15 @@ class _MobileDivider extends StatelessWidget {
   }
 }
 
+class _ErrorStrings {
+  static const String emptyTitle =
+      "Bitte gib einen Titel für die Hausaufgabe an!";
+  static const String emptyCourse =
+      "Bitte gib einen Kurs für die Hausaufgabe an!";
+  static const String emptyTodoUntil =
+      "Bitte gib ein Fälligkeitsdatum für die Hausaufgabe an!";
+}
+
 class _SaveButton extends StatelessWidget {
   const _SaveButton({Key? key, this.editMode = false}) : super(key: key);
 
@@ -197,23 +204,13 @@ class _SaveButton extends StatelessWidget {
       if (!context.mounted) return;
       hideSendDataToFrankfurtSnackBar(context);
       Navigator.pop(context, true);
-    } on InvalidTitleException {
+    } on InvalidHomeworkInputException catch (e) {
       showSnackSec(
-        text: TextValidationException(HomeworkValidators.emptyTitleUserMessage)
-            .toString(),
-        context: context,
-      );
-    } on InvalidCourseException {
-      showSnackSec(
-        text: TextValidationException(HomeworkValidators.emptyCourseUserMessage)
-            .toString(),
-        context: context,
-      );
-    } on InvalidTodoUntilException {
-      showSnackSec(
-        text:
-            TextValidationException(HomeworkValidators.emptyDueDateUserMessage)
-                .toString(),
+        text: switch (e) {
+          EmptyTitleException() => _ErrorStrings.emptyTitle,
+          EmptyCourseException() => _ErrorStrings.emptyCourse,
+          EmptyTodoUntilException() => _ErrorStrings.emptyTodoUntil
+        },
         context: context,
       );
     } on Exception catch (e) {
@@ -338,11 +335,16 @@ class _TitleField extends StatelessWidget {
       child: StreamBuilder<String>(
           stream: bloc.title,
           builder: (context, snapshot) {
+            final errorText = switch (snapshot.error) {
+              EmptyTitleException => _ErrorStrings.emptyTitle,
+              _ => snapshot.error?.toString(),
+            };
+
             return _TitleFieldBase(
               prefilledTitle: prefilledTitle,
               focusNode: focusNode,
               onChanged: bloc.changeTitle,
-              errorText: snapshot.error?.toString(),
+              errorText: errorText,
             );
           }),
     );

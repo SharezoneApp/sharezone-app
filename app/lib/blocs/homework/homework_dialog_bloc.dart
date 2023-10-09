@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:files_basics/local_file.dart';
@@ -17,8 +19,6 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_common/homework_validators.dart';
-import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -26,7 +26,7 @@ extension on DateTime {
   Time toTime() => Time(hour: hour, minute: minute);
 }
 
-class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
+class HomeworkDialogBloc extends BlocBase {
   List<CloudFile> initialCloudFiles = [];
   final _titleSubject = BehaviorSubject<String?>();
   final _courseSegmentSubject = BehaviorSubject<Course>();
@@ -79,7 +79,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       _localFilesSubject.valueOrNull != null &&
       _localFilesSubject.valueOrNull!.isNotEmpty;
 
-  Stream<String> get title => _titleSubject.stream.transform(validateTitle);
+  Stream<String> get title =>
+      _titleSubject.stream.transform(_validateTitleTransformer);
   Stream<DateTime> get todoUntil => _todoUntilSubject;
   Stream<String> get description => _descriptionSubject;
   Stream<Course> get courseSegment => _courseSegmentSubject;
@@ -199,26 +200,31 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     });
   }
 
+  final _validateTitleTransformer =
+      StreamTransformer<String?, String>.fromHandlers(
+          handleData: (title, sink) {
+    if (isEmptyOrNull(title)) {
+      sink.addError(EmptyTitleException());
+    } else {
+      sink.add(title!);
+    }
+  });
+
   void validateInputOrThrow() {
-    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
-    if (!validatorTitle.isValid()) {
-      _titleSubject.addError(
-          TextValidationException(HomeworkValidators.emptyTitleUserMessage));
-      throw InvalidTitleException();
+    bool isNullOrEmpty(String? s) => s == null || s.isEmpty;
+
+    // This should be the same behavior as for [_validateTitleTransformer]
+    // above.
+    if (isNullOrEmpty(_titleSubject.valueOrNull)) {
+      throw EmptyTitleException();
     }
 
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
-    if (!validatorCourse.isValid()) {
-      _courseSegmentSubject.addError(
-          TextValidationException(HomeworkValidators.emptyCourseUserMessage));
-      throw InvalidCourseException();
+    if (_courseSegmentSubject.valueOrNull == null) {
+      throw EmptyCourseException();
     }
 
-    final validatorTodoUntil = NotNullValidator(_todoUntilSubject.valueOrNull);
-    if (!validatorTodoUntil.isValid()) {
-      _todoUntilSubject.addError(
-          TextValidationException(HomeworkValidators.emptyDueDateUserMessage));
-      throw InvalidTodoUntilException();
+    if (_todoUntilSubject.valueOrNull == null) {
+      throw EmptyTodoUntilException();
     }
   }
 
@@ -303,11 +309,13 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 }
 
-class InvalidTitleException implements Exception {}
+sealed class InvalidHomeworkInputException implements Exception {}
 
-class InvalidCourseException implements Exception {}
+class EmptyTitleException implements InvalidHomeworkInputException {}
 
-class InvalidTodoUntilException implements Exception {}
+class EmptyCourseException implements InvalidHomeworkInputException {}
+
+class EmptyTodoUntilException implements InvalidHomeworkInputException {}
 
 class UserInput {
   final String? title, description;
