@@ -278,9 +278,10 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
             removedCloudFiles: removedCloudFiles);
       }
 
-      // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
-      // geloggt.
-      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description)) {
+      // If markdown is added to the edited homework and the homework didn't
+      // contain markdown before, log it.
+      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description) &&
+          _markdownAnalytics.containsMarkdown(description)) {
         _markdownAnalytics.logMarkdownUsedHomework();
       }
       analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
