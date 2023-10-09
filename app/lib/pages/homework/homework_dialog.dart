@@ -196,26 +196,14 @@ class _SaveButton extends StatelessWidget {
 
   Future<void> onPressed(BuildContext context) async {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
-    final hasAttachments = bloc.hasAttachments;
     try {
       bloc.validateInputOrThrow();
       sendDataToFrankfurtSnackBar(context);
+      await bloc.submit();
 
-      if (editMode) {
-        if (hasAttachments) {
-          await bloc.submit();
-          if (!context.mounted) return;
-        } else {
-          bloc.submit();
-        }
-        hideSendDataToFrankfurtSnackBar(context);
-        Navigator.pop(context, true);
-      } else {
-        hasAttachments ? await bloc.submit() : bloc.submit();
-        if (!context.mounted) return;
-        hideSendDataToFrankfurtSnackBar(context);
-        Navigator.pop(context, true);
-      }
+      if (!context.mounted) return;
+      hideSendDataToFrankfurtSnackBar(context);
+      Navigator.pop(context, true);
     } on InvalidHomeworkInputException catch (e) {
       showSnackSec(
         text: switch (e) {
