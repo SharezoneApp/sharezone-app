@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -44,9 +45,10 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   final HomeworkDto? initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
+  final Analytics analytics;
 
-  HomeworkDialogBloc(
-      this.api, this.nextLessonCalculator, this._markdownAnalytics,
+  HomeworkDialogBloc(this.api, this.nextLessonCalculator,
+      this._markdownAnalytics, this.analytics,
       {HomeworkDto? homework})
       : initialHomework = homework {
     if (homework != null) {
@@ -197,7 +199,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     });
   }
 
-  bool isValid() {
+  void validateInputOrThrow() {
     final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
@@ -218,8 +220,6 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
           TextValidationException(HomeworkValidators.emptyDueDateUserMessage));
       throw InvalidTodoUntilException();
     }
-
-    return true;
   }
 
   Future<void> _loadInitialCloudFiles(
@@ -230,58 +230,60 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     initialCloudFiles.addAll(cloudFiles);
   }
 
-  Future<void> submit({HomeworkDto? oldHomework}) async {
-    if (isValid()) {
-      final todoUntil = DateTime(
-          _todoUntilSubject.valueOrNull!.year,
-          _todoUntilSubject.valueOrNull!.month,
-          _todoUntilSubject.valueOrNull!.day);
-      final description = _descriptionSubject.valueOrNull;
-      final private = _privateSubject.valueOrNull;
-      final localFiles = _localFilesSubject.valueOrNull;
+  Future<void> submit() async {
+    validateInputOrThrow();
+    final todoUntil = DateTime(
+        _todoUntilSubject.valueOrNull!.year,
+        _todoUntilSubject.valueOrNull!.month,
+        _todoUntilSubject.valueOrNull!.day);
+    final description = _descriptionSubject.valueOrNull;
+    final private = _privateSubject.valueOrNull;
+    final localFiles = _localFilesSubject.valueOrNull;
 
-      final userInput = UserInput(
-        _titleSubject.valueOrNull,
-        _courseSegmentSubject.valueOrNull,
-        todoUntil,
-        description,
-        private,
-        localFiles,
-        _sendNotificationSubject.valueOrNull,
-        _submissionTimeSubject.valueOrNull,
-        _withSubmissionsSubject.valueOrNull!,
-      );
+    final userInput = UserInput(
+      _titleSubject.valueOrNull,
+      _courseSegmentSubject.valueOrNull,
+      todoUntil,
+      description,
+      private,
+      localFiles,
+      _sendNotificationSubject.valueOrNull,
+      _submissionTimeSubject.valueOrNull,
+      _withSubmissionsSubject.valueOrNull!,
+    );
 
-      final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-      if (oldHomework == null) {
-        // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
-        // weil die Daten sofort in Firestore gespeichert werden können und somit
-        // auch offline hinzufügbar sind.
-        hasAttachments ? await api.create(userInput) : api.create(userInput);
+    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
 
-        if (_markdownAnalytics.containsMarkdown(description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
-      } else {
-        // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
-        // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
-        // von der Hausaufgabe entfernt.
-        final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.valueOrNull!);
-        if (hasAttachments) {
-          await api.edit(oldHomework, userInput,
-              removedCloudFiles: removedCloudFiles);
-        } else {
-          api.edit(oldHomework, userInput,
-              removedCloudFiles: removedCloudFiles);
-        }
+    if (initialHomework == null) {
+      // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
+      // weil die Daten sofort in Firestore gespeichert werden können und somit
+      // auch offline hinzufügbar sind.
+      hasAttachments ? await api.create(userInput) : api.create(userInput);
 
-        // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
-        // geloggt.
-        if (!_markdownAnalytics.containsMarkdown(oldHomework.description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
+      if (_markdownAnalytics.containsMarkdown(description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
       }
+      analytics.log(NamedAnalyticsEvent(name: "homework_add"));
+    } else {
+      // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
+      // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
+      // von der Hausaufgabe entfernt.
+      final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
+          initialCloudFiles, _cloudFilesSubject.valueOrNull!);
+      if (hasAttachments) {
+        await api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      } else {
+        api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      }
+
+      // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
+      // geloggt.
+      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
+      }
+      analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
     }
   }
 
@@ -332,6 +334,11 @@ class UserInput {
     } else {
       this.todoUntil = todoUntil;
     }
+  }
+
+  @override
+  String toString() {
+    return 'UserInput(description: $description, course: $course, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
   }
 }
 

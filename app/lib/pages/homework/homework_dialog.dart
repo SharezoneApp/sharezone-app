@@ -9,9 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -55,9 +53,14 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
   @override
   void initState() {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
-    bloc = HomeworkDialogBloc(widget.homeworkDialogApi,
-        widget.nextLessonCalculator, markdownAnalytics,
-        homework: widget.homework);
+    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
+    bloc = HomeworkDialogBloc(
+      widget.homeworkDialogApi,
+      widget.nextLessonCalculator,
+      markdownAnalytics,
+      homework: widget.homework,
+      analytics,
+    );
     super.initState();
   }
 
@@ -81,6 +84,7 @@ class HwDialogKeys {
   static const Key submissionTimeTile = Key("submission-time-tile");
   static const Key descriptionField = Key("description-field");
   static const Key addAttachmentTile = Key("add-attachment-tile");
+  static const Key attachmentOverflowMenuIcon = Key("attachment-overflow-menu");
   static const Key notifyCourseMembersTile = Key("notify-course-members-tile");
   static const Key isPrivateTile = Key("is-private-tile");
   static const Key saveButton = Key("save-button");
@@ -127,23 +131,14 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
         body: Column(
           children: <Widget>[
             _AppBar(
-              oldHomework: widget.homework,
-              editMode: editMode,
-              focusNodeTitle: titleNode,
-              onCloseTap: () => leaveDialog(),
-              titleField: MaxWidthConstraintBox(
-                child: StreamBuilder<String>(
-                    stream: widget.bloc!.title,
-                    builder: (context, snapshot) {
-                      return _TitleField(
-                        prefilledTitle: widget.homework?.title ?? "",
-                        focusNode: titleNode,
-                        onChanged: widget.bloc!.changeTitle,
-                        errorText: snapshot.error?.toString(),
-                      );
-                    }),
-              ),
-            ),
+                oldHomework: widget.homework,
+                editMode: editMode,
+                focusNodeTitle: titleNode,
+                onCloseTap: () => leaveDialog(),
+                titleField: _TitleField(
+                  focusNode: titleNode,
+                  prefilledTitle: widget.homework?.title,
+                )),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -158,7 +153,7 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
                     _SubmissionsSwitch(),
                     const _MobileDivider(),
                     _DescriptionField(
-                        oldDescription: widget.homework?.description ?? ""),
+                        prefilledDescription: widget.homework?.description),
                     const _MobileDivider(),
                     _AttachFile(),
                     const _MobileDivider(),
@@ -188,36 +183,31 @@ class _MobileDivider extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key? key, this.oldHomework, this.editMode = false})
-      : super(key: key);
+  const _SaveButton({Key? key, this.editMode = false}) : super(key: key);
 
-  final HomeworkDto? oldHomework;
   final bool editMode;
 
   Future<void> onPressed(BuildContext context) async {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
     final hasAttachments = bloc.hasAttachments;
     try {
-      if (bloc.isValid()) {
-        sendDataToFrankfurtSnackBar(context);
+      bloc.validateInputOrThrow();
+      sendDataToFrankfurtSnackBar(context);
 
-        if (editMode) {
-          if (hasAttachments) {
-            await bloc.submit(oldHomework: oldHomework);
-            if (!context.mounted) return;
-          } else {
-            bloc.submit(oldHomework: oldHomework);
-          }
-          logHomeworkEditEvent(context);
-          hideSendDataToFrankfurtSnackBar(context);
-          Navigator.pop(context, true);
-        } else {
-          hasAttachments ? await bloc.submit() : bloc.submit();
+      if (editMode) {
+        if (hasAttachments) {
+          await bloc.submit();
           if (!context.mounted) return;
-          logHomeworkAddEvent(context);
-          hideSendDataToFrankfurtSnackBar(context);
-          Navigator.pop(context, true);
+        } else {
+          bloc.submit();
         }
+        hideSendDataToFrankfurtSnackBar(context);
+        Navigator.pop(context, true);
+      } else {
+        hasAttachments ? await bloc.submit() : bloc.submit();
+        if (!context.mounted) return;
+        hideSendDataToFrankfurtSnackBar(context);
+        Navigator.pop(context, true);
       }
     } on InvalidTitleException {
       showSnackSec(
@@ -251,16 +241,6 @@ class _SaveButton extends StatelessWidget {
 
   void hideSendDataToFrankfurtSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  }
-
-  void logHomeworkEditEvent(BuildContext context) {
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
-  }
-
-  void logHomeworkAddEvent(BuildContext context) {
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    analytics.log(NamedAnalyticsEvent(name: "homework_add"));
   }
 
   @override
@@ -341,7 +321,6 @@ class _AppBar extends StatelessWidget {
                   ),
                   _SaveButton(
                     key: HwDialogKeys.saveButton,
-                    oldHomework: oldHomework,
                     editMode: editMode,
                   ),
                 ],
@@ -357,6 +336,33 @@ class _AppBar extends StatelessWidget {
 
 class _TitleField extends StatelessWidget {
   const _TitleField({
+    required this.focusNode,
+    this.prefilledTitle,
+  });
+
+  final String? prefilledTitle;
+  final FocusNode focusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    return MaxWidthConstraintBox(
+      child: StreamBuilder<String>(
+          stream: bloc.title,
+          builder: (context, snapshot) {
+            return _TitleFieldBase(
+              prefilledTitle: prefilledTitle,
+              focusNode: focusNode,
+              onChanged: bloc.changeTitle,
+              errorText: snapshot.error?.toString(),
+            );
+          }),
+    );
+  }
+}
+
+class _TitleFieldBase extends StatelessWidget {
+  const _TitleFieldBase({
     Key? key,
     required this.prefilledTitle,
     required this.onChanged,
@@ -448,20 +454,14 @@ class _SendNotification extends StatelessWidget {
           stream: bloc.sendNotification,
           builder: (context, snapshot) {
             final sendNotification = snapshot.data ?? false;
-            return ListTileWithDescription(
-              key: HwDialogKeys.notifyCourseMembersTile,
-              leading: const Icon(Icons.notifications_active),
-              title: Text(
-                  "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen"),
-              trailing: Switch.adaptive(
-                onChanged: bloc.changeSendNotification,
-                value: sendNotification,
-              ),
-              onTap: () => bloc.changeSendNotification(!sendNotification),
+            return _SendNotificationBase(
+              title:
+                  "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen",
+              onChanged: bloc.changeSendNotification,
+              sendNotification: sendNotification,
               description: editMode
                   ? null
-                  : const Text(
-                      "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast."),
+                  : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
             );
           },
         ),
@@ -470,14 +470,61 @@ class _SendNotification extends StatelessWidget {
   }
 }
 
-class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({required this.oldDescription});
+class _SendNotificationBase extends StatelessWidget {
+  const _SendNotificationBase({
+    required this.title,
+    required this.sendNotification,
+    required this.onChanged,
+    this.description,
+  });
 
-  final String oldDescription;
+  final String title;
+  final String? description;
+  final bool sendNotification;
+  final Function(bool) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTileWithDescription(
+      key: HwDialogKeys.notifyCourseMembersTile,
+      leading: const Icon(Icons.notifications_active),
+      title: Text(title),
+      trailing: Switch.adaptive(
+        onChanged: onChanged,
+        value: sendNotification,
+      ),
+      onTap: () => onChanged(!sendNotification),
+      description: description != null ? Text(description!) : null,
+    );
+  }
+}
+
+class _DescriptionField extends StatelessWidget {
+  const _DescriptionField({required this.prefilledDescription});
+
+  final String? prefilledDescription;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    return _DescriptionFieldBase(
+      onChanged: bloc.changeDescription,
+      prefilledDescription: prefilledDescription,
+    );
+  }
+}
+
+class _DescriptionFieldBase extends StatelessWidget {
+  const _DescriptionFieldBase({
+    required this.onChanged,
+    required this.prefilledDescription,
+  });
+
+  final Function(String) onChanged;
+  final String? prefilledDescription;
+
+  @override
+  Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -491,7 +538,7 @@ class _DescriptionField extends StatelessWidget {
                 leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
                   key: HwDialogKeys.descriptionField,
-                  prefilledText: oldDescription,
+                  prefilledText: prefilledDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
                   keyboardType: TextInputType.multiline,
@@ -499,7 +546,7 @@ class _DescriptionField extends StatelessWidget {
                     hintText: "Zusatzinformationen eingeben",
                     border: InputBorder.none,
                   ),
-                  onChanged: bloc.changeDescription,
+                  onChanged: onChanged,
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),

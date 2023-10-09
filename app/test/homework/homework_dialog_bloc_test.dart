@@ -27,11 +27,10 @@ class MockNextLessonCalculator implements NextLessonCalculator {
 
 void main() {
   late HomeworkDialogBloc bloc;
+  final analytics = Analytics(LocalAnalyticsBackend());
   setUp(() {
-    bloc = HomeworkDialogBloc(
-        MockHomeworkDialogApi(),
-        MockNextLessonCalculator(),
-        MarkdownAnalytics(Analytics(LocalAnalyticsBackend())));
+    bloc = HomeworkDialogBloc(MockHomeworkDialogApi(),
+        MockNextLessonCalculator(), MarkdownAnalytics(analytics), analytics);
   });
 
   test("If a homework title is given then the same value should be emitted",
