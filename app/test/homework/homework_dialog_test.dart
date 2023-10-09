@@ -240,7 +240,6 @@ void main() {
       expect(userInput.private, false);
       expect(cloudFilesToBeRemoved, hasLength(1));
       expect(cloudFilesToBeRemoved.first.name, 'foo_attachment1.png');
-      expect(analyticsBackend.loggedEvents, hasLength(2));
       expect(analyticsBackend.loggedEvents, [
         {'homework_edit': {}}
       ]);
@@ -309,7 +308,6 @@ void main() {
       expect(userInput.sendNotification, true);
       expect(userInput.private, false);
 
-      expect(analyticsBackend.loggedEvents, hasLength(1));
       expect(analyticsBackend.loggedEvents, [
         {'homework_add': {}},
       ]);
