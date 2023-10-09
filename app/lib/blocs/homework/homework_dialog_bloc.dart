@@ -205,6 +205,8 @@ class HomeworkDialogBloc extends BlocBase {
           handleData: (title, sink) {
     if (isEmptyOrNull(title)) {
       sink.addError(EmptyTitleException());
+    } else {
+      sink.add(title!);
     }
   });
 
