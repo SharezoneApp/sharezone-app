@@ -19,8 +19,6 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_common/homework_validators.dart';
-import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
