@@ -209,14 +209,7 @@ void main() {
 
       expect(userInput.title, 'New title text');
       expect(userInput.course!.id, 'foo_course');
-      // The following TestFailure was thrown running a test:
-      // Expected: 'Foo course'
-      //   Actual: 'Foo subject'
-      //    Which: is different.
-      //           Expected: Foo course
-      //             Actual: Foo subject
-      //                         ^
-      // expect(userInput.course!.name, 'Foo course');
+      expect(userInput.course!.name, 'Foo course');
       expect(userInput.course!.subject, 'Foo subject');
       // The following TestFailure was thrown running a test:
       // Expected: 'F'
@@ -379,7 +372,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(tester);
 
       expect(find.text('title text', findRichText: true), findsOneWidget);
-      expect(find.text('Foo subject'), findsOneWidget);
+      expect(find.text('Foo course'), findsOneWidget);
       // Not found, idk why:
       // expect(find.text('12. März 2024'), findsOneWidget);
       expect(find.text('Mit Abgabe'), findsOneWidget);
