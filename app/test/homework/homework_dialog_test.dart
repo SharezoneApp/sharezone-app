@@ -233,14 +233,8 @@ void main() {
       expect(userInput.private, false);
       expect(cloudFilesToBeRemoved, hasLength(1));
       expect(cloudFilesToBeRemoved.first.name, 'foo_attachment1.png');
-      expect(analyticsBackend.loggedEvents, hasLength(2));
       expect(analyticsBackend.loggedEvents, [
-        // The first is wrong, should be fixed (we don't use markdown here):
-        // https://github.com/SharezoneApp/sharezone-app/issues/1115
-        {
-          'markdown_used': {'feature': 'homework'}
-        },
-        {'homework_edit': {}},
+        {'homework_edit': {}}
       ]);
     });
 
@@ -307,7 +301,6 @@ void main() {
       expect(userInput.sendNotification, true);
       expect(userInput.private, false);
 
-      expect(analyticsBackend.loggedEvents, hasLength(1));
       expect(analyticsBackend.loggedEvents, [
         {'homework_add': {}},
       ]);
