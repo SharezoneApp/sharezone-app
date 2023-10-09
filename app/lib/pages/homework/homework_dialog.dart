@@ -10,10 +10,13 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -30,16 +33,16 @@ import 'package:time/time.dart';
 class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
     Key? key,
-    this.homework,
-    required this.homeworkDialogApi,
-    required this.nextLessonCalculator,
+    required this.id,
+    this.homeworkDialogApi,
+    this.nextLessonCalculator,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
 
-  final HomeworkDto? homework;
-  final HomeworkDialogApi homeworkDialogApi;
-  final NextLessonCalculator nextLessonCalculator;
+  final HomeworkId? id;
+  final HomeworkDialogApi? homeworkDialogApi;
+  final NextLessonCalculator? nextLessonCalculator;
 
   @override
   State createState() => _HomeworkDialogState();
@@ -47,29 +50,71 @@ class HomeworkDialog extends StatefulWidget {
 
 class _HomeworkDialogState extends State<HomeworkDialog> {
   late HomeworkDialogBloc bloc;
+  late Future<HomeworkDto?> homework;
 
   @override
   void initState() {
-    final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    bloc = HomeworkDialogBloc(
-      widget.homeworkDialogApi,
-      widget.nextLessonCalculator,
-      markdownAnalytics,
-      homework: widget.homework,
-      analytics,
-    );
     super.initState();
+    final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
+    final szContext = BlocProvider.of<SharezoneContext>(context);
+    final analytics = szContext.analytics;
+
+    late NextLessonCalculator nextLessonCalculator;
+    if (widget.nextLessonCalculator != null) {
+      widget.nextLessonCalculator!;
+    } else {
+      final holidayManager =
+          BlocProvider.of<HolidayBloc>(context).holidayManager;
+      nextLessonCalculator = NextLessonCalculator(
+          timetableGateway: szContext.api.timetable,
+          userGateway: szContext.api.user,
+          holidayManager: holidayManager);
+    }
+
+    if (widget.id != null) {
+      homework = szContext.api.homework
+          .singleHomework(widget.id!.id, source: Source.cache)
+          .then((value) {
+        bloc = HomeworkDialogBloc(
+          widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+          widget.nextLessonCalculator ?? nextLessonCalculator,
+          markdownAnalytics,
+          homework: value,
+          analytics,
+        );
+        return value;
+      });
+    } else {
+      homework = Future.value(null);
+      bloc = HomeworkDialogBloc(
+        widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+        widget.nextLessonCalculator ?? nextLessonCalculator,
+        markdownAnalytics,
+        homework: null,
+        analytics,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: bloc,
-      child: __HomeworkDialog(
-        homework: widget.homework,
-        bloc: bloc,
-      ),
+    return FutureBuilder(
+      future: homework,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator.adaptive();
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error!.toString()));
+        }
+        return BlocProvider(
+          bloc: bloc,
+          child: __HomeworkDialog(
+            homework: snapshot.data,
+            bloc: bloc,
+          ),
+        );
+      },
     );
   }
 }

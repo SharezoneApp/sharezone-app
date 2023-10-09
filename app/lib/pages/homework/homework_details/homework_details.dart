@@ -12,8 +12,6 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
@@ -26,7 +24,6 @@ import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/homework/delete_homework.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
@@ -383,12 +380,6 @@ class _EditIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final api = BlocProvider.of<SharezoneContext>(context).api;
-    final nextLessonCalculator = NextLessonCalculator(
-      timetableGateway: api.timetable,
-      userGateway: api.user,
-      holidayManager: BlocProvider.of<HolidayBloc>(context).holidayManager,
-    );
     return IconButton(
       icon: const Icon(Icons.edit),
       tooltip: 'Bearbeiten',
@@ -399,9 +390,7 @@ class _EditIcon extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => HomeworkDialog(
-              homeworkDialogApi: HomeworkDialogApi(api),
-              nextLessonCalculator: nextLessonCalculator,
-              homework: homework,
+              id: homework?.id != null ? HomeworkId(homework!.id) : null,
             ),
             settings: const RouteSettings(name: HomeworkDialog.tag),
           ),

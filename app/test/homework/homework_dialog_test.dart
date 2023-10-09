@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
@@ -25,6 +26,7 @@ import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
+import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
@@ -33,6 +35,7 @@ import '../analytics/analytics_test.dart';
   MockSpec<DocumentReference>(),
   MockSpec<SharezoneContext>(),
   MockSpec<SharezoneGateway>(),
+  MockSpec<HomeworkGateway>(),
   MockSpec<CourseGateway>(),
 ])
 import 'homework_dialog_test.mocks.dart';
@@ -90,6 +93,15 @@ void main() {
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
+      if (homework != null) {
+        final sharezoneGateway = MockSharezoneGateway();
+        final homeworkGateway = MockHomeworkGateway();
+        when(sharezoneContext.api).thenReturn(sharezoneGateway);
+        when(sharezoneGateway.homework).thenReturn(homeworkGateway);
+        when(homeworkGateway.singleHomework(any, source: Source.cache))
+            .thenAnswer((_) => Future.value(homework));
+      }
+
       await tester.pumpWidget(
         MultiBlocProvider(
           blocProviders: [
@@ -108,7 +120,7 @@ void main() {
               body: HomeworkDialog(
                 homeworkDialogApi: homeworkDialogApi,
                 nextLessonCalculator: nextLessonCalculator,
-                homework: homework,
+                id: homework?.id != null ? HomeworkId(homework!.id) : null,
               ),
             ),
           ),
@@ -167,6 +179,7 @@ void main() {
       homework = HomeworkDto.create(
               courseID: 'foo_course', courseReference: mockDocumentReference)
           .copyWith(
+        id: 'foo_homework_id',
         title: 'title text',
         courseID: 'foo_course',
         courseName: 'Foo course',
@@ -340,6 +353,7 @@ void main() {
       homework = HomeworkDto.create(
               courseID: 'foo_course', courseReference: mockDocumentReference)
           .copyWith(
+        id: 'foo_homework_id',
         title: 'title text',
         courseID: 'foo_course',
         courseName: 'Foo course',
