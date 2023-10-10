@@ -77,7 +77,7 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   HomeworkDto? homeworkToReturn;
   @override
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
-    return homeworkToReturn!;
+    return homeworkToReturn ?? HomeworkDto.create(courseID: 'courseID');
   }
 }
 

@@ -87,7 +87,7 @@ void main() {
             courseName: 'Foo course',
             isChangeable: false,
           ),
-          dueDate: DateTime(2024, 03, 12, 16, 30),
+          dueDate: DateTime(2024, 03, 12),
           submissions: const SubmissionsDisabled(isChangeable: true),
           description: 'description text',
           attachments: IList(),
