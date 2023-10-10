@@ -291,7 +291,7 @@ class _SaveButton extends StatelessWidget {
 class _TodoUntilPicker extends StatelessWidget {
   final Ready state;
 
-  const _TodoUntilPicker({super.key, required this.state});
+  const _TodoUntilPicker({required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -619,7 +619,7 @@ class _DescriptionFieldBase extends StatelessWidget {
 }
 
 class _AttachFile extends StatelessWidget {
-  const _AttachFile({super.key, required this.state});
+  const _AttachFile({required this.state});
 
   final Ready state;
 
@@ -648,7 +648,7 @@ class _AttachFile extends StatelessWidget {
 class _SubmissionsSwitch extends StatelessWidget {
   final Ready state;
 
-  const _SubmissionsSwitch({super.key, required this.state});
+  const _SubmissionsSwitch({required this.state});
 
   @override
   Widget build(BuildContext context) {
