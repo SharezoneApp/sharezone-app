@@ -23,8 +23,6 @@ import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dar
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
-import 'package:bloc/bloc.dart' hide BlocBase;
-import 'package:bloc/bloc.dart' as bloc show BlocBase;
 
 extension on DateTime {
   Time toTime() => Time(hour: hour, minute: minute);
