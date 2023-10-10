@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
@@ -28,17 +29,29 @@ class CourseTile extends StatelessWidget {
   final ValueChanged<Course> onChanged;
   final Stream<Course> courseStream;
 
-  Future<void> onTap(BuildContext context) async {
+  static Future<void> onTap(
+    BuildContext context, {
+    // Currently different callsite use different callbacks.
+    // We should move to returning `CourseId` in the future for all callsites.
+    void Function(Course)? onChanged,
+    void Function(CourseId)? onChangedId,
+  }) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
 
     FocusManager.instance.primaryFocus?.unfocus();
     await Future.delayed(const Duration(milliseconds: 150));
     if (!context.mounted) return;
 
-    _showCourseListDialog(context, api);
+    _showCourseListDialog(
+        context,
+        api,
+        (newCourse) => onChangedId != null
+            ? onChangedId(CourseId(newCourse.id))
+            : onChanged!(newCourse));
   }
 
-  void _showCourseListDialog(BuildContext context, SharezoneGateway api) =>
+  static void _showCourseListDialog(BuildContext context, SharezoneGateway api,
+          void Function(Course) onChanged) =>
       showDialog(
         context: context,
         builder: (context) => StreamBuilder<List<Course>>(
@@ -59,7 +72,7 @@ class CourseTile extends StatelessWidget {
         ),
       );
 
-  void _sortCourseListByAlphabet(List<Course> courseList) =>
+  static void _sortCourseListByAlphabet(List<Course> courseList) =>
       courseList.sort((a, b) => a.name.compareTo(b.name));
 
   @override
@@ -67,19 +80,43 @@ class CourseTile extends StatelessWidget {
     return StreamBuilder<Course>(
         stream: courseStream,
         builder: (context, snapshot) {
-          return ListTile(
-            leading: const Icon(Icons.book),
-            title: const Text("Kurs"),
-            subtitle: Text(
-              snapshot.data?.name ?? "Keinen Kurs ausgewählt",
-              style:
-                  snapshot.hasError ? const TextStyle(color: Colors.red) : null,
-            ),
-            trailing: const Icon(Icons.keyboard_arrow_down),
-            enabled: !editMode,
-            onTap: () => onTap(context),
+          return CourseTileBase(
+            courseName: snapshot.data?.name ?? 'Keinen Kurs ausgewählt',
+            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+            onTap: editMode ? null : () => onTap(context, onChanged: onChanged),
           );
         });
+  }
+}
+
+class CourseTileBase extends StatelessWidget {
+  final String? courseName;
+  final String? errorText;
+
+  /// If null disables tile.
+  final VoidCallback? onTap;
+
+  const CourseTileBase({
+    required this.courseName,
+    required this.errorText,
+    required this.onTap,
+    super.key,
+  }) : assert((courseName != null && errorText == null) ||
+            (courseName == null && errorText != null));
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.book),
+      title: const Text("Kurs"),
+      subtitle: Text(
+        courseName ?? errorText!,
+        style: errorText != null ? const TextStyle(color: Colors.red) : null,
+      ),
+      trailing: const Icon(Icons.keyboard_arrow_down),
+      enabled: onTap != null,
+      onTap: () => onTap!(),
+    );
   }
 }
 
