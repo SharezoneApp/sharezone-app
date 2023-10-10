@@ -14,6 +14,24 @@ import 'homework_dialog_test.mocks.dart';
 
 void main() {
   group('HomeworkDialogBloc', () {
+    late MockSharezoneGateway sharezoneGateway;
+    late MockCourseGateway courseGateway;
+    late MockHomeworkDialogApi homeworkDialogApi;
+    late MockNextLessonCalculator nextLessonCalculator;
+    late MockSharezoneContext sharezoneContext;
+    late LocalAnalyticsBackend analyticsBackend;
+    late Analytics analytics;
+
+    setUp(() {
+      courseGateway = MockCourseGateway();
+      sharezoneGateway = MockSharezoneGateway();
+      homeworkDialogApi = MockHomeworkDialogApi();
+      nextLessonCalculator = MockNextLessonCalculator();
+      sharezoneContext = MockSharezoneContext();
+      analyticsBackend = LocalAnalyticsBackend();
+      analytics = Analytics(analyticsBackend);
+    });
+
     test('Returns empty dialog when called for creating a new homework', () {
       final bloc = NewHomeworkDialogBloc(
         api: MockHomeworkDialogApi(),
@@ -41,16 +59,6 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      final homeworkDialogApi = MockHomeworkDialogApi();
-      final nextLessonCalculator = MockNextLessonCalculator();
-      final sharezoneContext = MockSharezoneContext();
-      final analyticsBackend = LocalAnalyticsBackend();
-      final analytics = Analytics(analyticsBackend);
-
-      final sharezoneGateway = MockSharezoneGateway();
-      final courseGateway = MockCourseGateway();
-      when(sharezoneContext.api).thenReturn(sharezoneGateway);
-      when(sharezoneGateway.course).thenReturn(courseGateway);
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([fooCourse]));
       when(sharezoneContext.analytics).thenReturn(analytics);
