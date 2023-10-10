@@ -29,7 +29,7 @@ sealed class HomeworkDialogState extends Equatable {
 }
 
 class Ready extends HomeworkDialogState {
-  // TODO: Add error states (title, Due date?)
+  // TODO: Add error states (title, course, Due date?)
   final String title;
   final CourseState course;
   final DateTime? dueDate;
