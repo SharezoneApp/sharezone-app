@@ -2,6 +2,8 @@ import 'package:analytics/analytics.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:files_basics/files_models.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -65,6 +67,26 @@ void main() {
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
+      homeworkDialogApi.loadCloudFilesResult.addAll([
+        CloudFile.create(
+                id: 'foo_attachment_id1',
+                creatorName: 'Assignment Creator Name 1',
+                courseID: 'foo_course',
+                creatorID: 'foo_creator_id',
+                path: FolderPath.fromPathString(
+                    '/foo_course/${FolderPath.attachments}'))
+            .copyWith(
+                name: 'foo_attachment1.png', fileFormat: FileFormat.image),
+        CloudFile.create(
+                id: 'foo_attachment_id2',
+                creatorName: 'Assignment Creator Name 2',
+                courseID: 'foo_course',
+                creatorID: 'foo_creator_id',
+                path: FolderPath.fromPathString(
+                    '/foo_course/${FolderPath.attachments}'))
+            .copyWith(name: 'foo_attachment2.pdf', fileFormat: FileFormat.pdf),
+      ]);
+
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('foo_course');
       final homework = HomeworkDto.create(
@@ -78,7 +100,7 @@ void main() {
         withSubmissions: false,
         todoUntil: DateTime(2024, 03, 12),
         description: 'description text',
-        attachments: [],
+        attachments: ['foo_attachment_id1', 'foo_attachment2.png'],
         private: false,
       );
       homeworkDialogApi.homeworkToReturn = homework;
@@ -98,7 +120,18 @@ void main() {
           dueDate: DateTime(2024, 03, 12),
           submissions: const SubmissionsDisabled(isChangeable: true),
           description: 'description text',
-          attachments: IList(),
+          attachments: IList([
+            FileView(
+              fileId: FileId('foo_attachment_id1'),
+              fileName: 'foo_attachment1.png',
+              format: FileFormat.image,
+            ),
+            FileView(
+              fileId: FileId('foo_attachment_id2'),
+              fileName: 'foo_attachment2.pdf',
+              format: FileFormat.pdf,
+            ),
+          ]),
           notifyCourseMembers: false,
           isPrivate: (false, isChangeable: false),
         ),

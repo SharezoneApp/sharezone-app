@@ -3,6 +3,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
@@ -48,13 +49,15 @@ class Ready extends HomeworkDialogState {
 }
 
 class FileView extends Equatable {
+  final FileId fileId;
   final String fileName;
   final FileFormat format;
 
   @override
-  List<Object?> get props => [fileName, format];
+  List<Object?> get props => [fileId, fileName, format];
 
-  const FileView({required this.fileName, required this.format});
+  const FileView(
+      {required this.fileId, required this.fileName, required this.format});
 }
 
 sealed class SubmissionState extends Equatable {
@@ -139,6 +142,7 @@ class NewHomeworkDialogBloc
     extends Bloc<HomeworkDialogEvent, HomeworkDialogState> {
   final HomeworkDialogApi api;
   late HomeworkDto _initialHomework;
+  late List<CloudFile> _initialAttachments;
 
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
       : super(homeworkId != null ? LoadingHomework(homeworkId) : emptyDialog) {
@@ -153,18 +157,29 @@ class NewHomeworkDialogBloc
         dueDate: _initialHomework.todoUntil,
         submissions: const SubmissionsDisabled(isChangeable: true),
         description: _initialHomework.description,
-        attachments: IList(),
+        attachments: IList([
+          for (final attachment in _initialAttachments)
+            FileView(
+              fileId: FileId(attachment.id!),
+              fileName: attachment.name,
+              format: attachment.fileFormat,
+            )
+        ]),
         notifyCourseMembers: false,
         isPrivate: (false, isChangeable: false),
       )),
     );
     if (homeworkId != null) {
-      _loadHomeworkForEditing(homeworkId);
+      _loadExistingData(homeworkId);
     }
   }
 
-  Future<void> _loadHomeworkForEditing(HomeworkId homeworkId) async {
+  Future<void> _loadExistingData(HomeworkId homeworkId) async {
     _initialHomework = await api.loadHomework(homeworkId);
+    _initialAttachments = await api.loadCloudFiles(
+      courseId: _initialHomework.courseID,
+      homeworkId: _initialHomework.id,
+    );
     add(_LoadedHomeworkData());
   }
 }
