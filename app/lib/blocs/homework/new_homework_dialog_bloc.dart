@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -8,13 +9,27 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
 
-sealed class HomeworkDialogEvent extends Equatable {}
+sealed class HomeworkDialogEvent extends Equatable {
+  const HomeworkDialogEvent();
+}
+
+class Submit extends HomeworkDialogEvent {
+  const Submit();
+
+  @override
+  List<Object?> get props => [];
+}
 
 sealed class HomeworkDialogState extends Equatable {
-  const HomeworkDialogState();
+  final bool isEditing;
+  @override
+  List<Object?> get props => [isEditing];
+
+  const HomeworkDialogState({required this.isEditing});
 }
 
 class Ready extends HomeworkDialogState {
+  // TODO: Add error states (title, Due date?)
   final String title;
   final CourseState course;
   final DateTime? dueDate;
@@ -23,6 +38,7 @@ class Ready extends HomeworkDialogState {
   final IList<FileView> attachments;
   final bool notifyCourseMembers;
   final (bool, {bool isChangeable}) isPrivate;
+  final bool hasModifiedData;
 
   @override
   List<Object?> get props => [
@@ -34,6 +50,8 @@ class Ready extends HomeworkDialogState {
         attachments,
         notifyCourseMembers,
         isPrivate,
+        hasModifiedData,
+        super.isEditing,
       ];
 
   const Ready({
@@ -45,6 +63,8 @@ class Ready extends HomeworkDialogState {
     required this.attachments,
     required this.notifyCourseMembers,
     required this.isPrivate,
+    required this.hasModifiedData,
+    required super.isEditing,
   });
 }
 
@@ -61,6 +81,8 @@ class FileView extends Equatable {
 }
 
 sealed class SubmissionState extends Equatable {
+  bool get isChangeable;
+  bool get isEnabled => this is SubmissionsEnabled;
   const SubmissionState();
 }
 
@@ -69,6 +91,7 @@ class SubmissionsDisabled extends SubmissionState {
   ///
   /// If a homework is private submissions can not be turned on. This field
   /// would be `true` in this case.
+  @override
   final bool isChangeable;
   @override
   List<Object?> get props => [isChangeable];
@@ -77,9 +100,12 @@ class SubmissionsDisabled extends SubmissionState {
 }
 
 class SubmissionsEnabled extends SubmissionState {
+  @override
+  bool get isChangeable => true;
+
   final Time deadline;
   @override
-  List<Object?> get props => [deadline];
+  List<Object?> get props => [isChangeable, deadline];
 
   const SubmissionsEnabled({required this.deadline});
 }
@@ -117,9 +143,9 @@ class CourseChosen extends CourseState {
 class LoadingHomework extends HomeworkDialogState {
   final HomeworkId homework;
   @override
-  List<Object?> get props => [homework];
+  List<Object?> get props => [homework, super.isEditing];
 
-  const LoadingHomework(this.homework);
+  const LoadingHomework(this.homework, {required super.isEditing});
 }
 
 final emptyDialog = Ready(
@@ -131,6 +157,8 @@ final emptyDialog = Ready(
   attachments: IList(),
   notifyCourseMembers: false,
   isPrivate: (false, isChangeable: true),
+  hasModifiedData: false,
+  isEditing: false,
 );
 
 class _LoadedHomeworkData extends HomeworkDialogEvent {
@@ -138,14 +166,33 @@ class _LoadedHomeworkData extends HomeworkDialogEvent {
   List<Object?> get props => [];
 }
 
+sealed class HomeworkDialogBlocPresentationEvent extends Equatable {
+  const HomeworkDialogBlocPresentationEvent();
+}
+
+// TODO: Maybe two different classes - one if trying to save with invalid data
+// and one if saving failed due to some other error?
+// TODO: test
+class SavingFailed extends HomeworkDialogBlocPresentationEvent {
+  const SavingFailed();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class NewHomeworkDialogBloc
-    extends Bloc<HomeworkDialogEvent, HomeworkDialogState> {
+    extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
+    with
+        BlocPresentationMixin<HomeworkDialogState,
+            HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
   late HomeworkDto _initialHomework;
   late List<CloudFile> _initialAttachments;
 
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
-      : super(homeworkId != null ? LoadingHomework(homeworkId) : emptyDialog) {
+      : super(homeworkId != null
+            ? LoadingHomework(homeworkId, isEditing: true)
+            : emptyDialog) {
     on<_LoadedHomeworkData>(
       (event, emit) => emit(Ready(
         title: _initialHomework.title,
@@ -167,6 +214,8 @@ class NewHomeworkDialogBloc
         ]),
         notifyCourseMembers: false,
         isPrivate: (false, isChangeable: false),
+        hasModifiedData: false,
+        isEditing: true,
       )),
     );
     if (homeworkId != null) {

@@ -48,7 +48,7 @@ void main() {
           HomeworkDto.create(courseID: 'courseID');
       final bloc =
           NewHomeworkDialogBloc(api: homeworkDialogApi, homeworkId: homeworkId);
-      expect(bloc.state, LoadingHomework(homeworkId));
+      expect(bloc.state, LoadingHomework(homeworkId, isEditing: true));
     });
     test('Returns homework data when called for existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');
@@ -134,6 +134,8 @@ void main() {
           ]),
           notifyCourseMembers: false,
           isPrivate: (false, isChangeable: false),
+          hasModifiedData: false,
+          isEditing: true,
         ),
       );
     });
