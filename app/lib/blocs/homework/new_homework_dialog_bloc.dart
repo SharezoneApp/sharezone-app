@@ -4,8 +4,10 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
 
@@ -18,6 +20,88 @@ class Submit extends HomeworkDialogEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class TitleChanged extends HomeworkDialogEvent {
+  final String newTitle;
+
+  const TitleChanged(this.newTitle);
+
+  @override
+  List<Object?> get props => [newTitle];
+}
+
+class DueDateChanged extends HomeworkDialogEvent {
+  final Date newDueDate;
+
+  const DueDateChanged(this.newDueDate);
+
+  @override
+  List<Object?> get props => [newDueDate];
+}
+
+class CourseChanged extends HomeworkDialogEvent {
+  final CourseId newCourseId;
+
+  const CourseChanged(this.newCourseId);
+
+  @override
+  List<Object?> get props => [newCourseId];
+}
+
+class SubmissionsChanged extends HomeworkDialogEvent {
+  final ({bool enabled, Time? submissionTime}) newSubmissionsOptions;
+
+  const SubmissionsChanged(this.newSubmissionsOptions);
+
+  @override
+  List<Object?> get props => [newSubmissionsOptions];
+}
+
+class DescriptionChanged extends HomeworkDialogEvent {
+  final String newDescription;
+
+  const DescriptionChanged(this.newDescription);
+
+  @override
+  List<Object?> get props => [newDescription];
+}
+
+class AttachmentAdded extends HomeworkDialogEvent {
+  final LocalFile newFile;
+
+  const AttachmentAdded(this.newFile);
+
+  @override
+  List<Object?> get props => [newFile];
+}
+
+class AttachmentRemoved extends HomeworkDialogEvent {
+  // TODO: Don't know if this is really what we need.
+  final FileId fileId;
+
+  const AttachmentRemoved(this.fileId);
+
+  @override
+  List<Object?> get props => [fileId];
+}
+
+class NotifyCourseMembersChanged extends HomeworkDialogEvent {
+  final bool newNotifyCourseMembers;
+
+  const NotifyCourseMembersChanged(this.newNotifyCourseMembers);
+
+  @override
+  List<Object?> get props => [newNotifyCourseMembers];
+}
+
+class IsPrivateChanged extends HomeworkDialogEvent {
+  final bool newIsPrivate;
+
+  const IsPrivateChanged(this.newIsPrivate);
+
+  @override
+  List<Object?> get props => [newIsPrivate];
 }
 
 sealed class HomeworkDialogState extends Equatable {
