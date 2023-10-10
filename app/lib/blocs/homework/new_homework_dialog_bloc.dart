@@ -156,18 +156,6 @@ class NewHomeworkDialogBloc
         attachments: IList(),
         notifyCourseMembers: false,
         isPrivate: (false, isChangeable: false),
-        // title: _initialHomework.title,
-        // course: CourseChosen(
-        //   courseId: CourseId('foo_course'),
-        //   courseName: 'Foo course',
-        //   isChangeable: false,
-        // ),
-        // dueDate: DateTime(2024, 03, 12, 16, 30),
-        // submissions: const SubmissionsDisabled(isChangeable: true),
-        // description: 'description text',
-        // attachments: IList(),
-        // notifyCourseMembers: false,
-        // isPrivate: (false, isChangeable: false),
       )),
     );
     if (homeworkId != null) {
