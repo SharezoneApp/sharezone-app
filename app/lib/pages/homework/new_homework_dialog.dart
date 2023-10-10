@@ -478,17 +478,21 @@ class _CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final courseState = state.course;
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: CourseTile(
+        child: CourseTileBase(
           key: HwDialogKeys.courseTile,
+          courseName:
+              courseState is CourseChosen ? courseState.courseName : null,
           // TODO:
-          courseStream: const Stream.empty(),
-          // TODO:
-          onChanged: (newCourse) => throw UnimplementedError(),
-          editMode: state.isEditing,
+          errorText: null,
+          onTap: () => CourseTile.onTap(context, onChangedId: (course) {
+            // TODO
+            throw UnimplementedError();
+          }),
         ),
       ),
     );
