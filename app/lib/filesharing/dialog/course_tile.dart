@@ -81,7 +81,7 @@ class CourseTile extends StatelessWidget {
         stream: courseStream,
         builder: (context, snapshot) {
           return CourseTileBase(
-            courseName: snapshot.data?.name ?? 'Keinen Kurs ausgewählt',
+            courseName: snapshot.data?.name,
             errorText: snapshot.hasError ? snapshot.error.toString() : null,
             onTap: editMode ? null : () => onTap(context, onChanged: onChanged),
           );
@@ -101,8 +101,7 @@ class CourseTileBase extends StatelessWidget {
     required this.errorText,
     required this.onTap,
     super.key,
-  }) : assert((courseName != null && errorText == null) ||
-            (courseName == null && errorText != null));
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,7 @@ class CourseTileBase extends StatelessWidget {
       leading: const Icon(Icons.book),
       title: const Text("Kurs"),
       subtitle: Text(
-        courseName ?? errorText!,
+        errorText ?? courseName ?? 'Keinen Kurs ausgewählt',
         style: errorText != null ? const TextStyle(color: Colors.red) : null,
       ),
       trailing: const Icon(Icons.keyboard_arrow_down),
