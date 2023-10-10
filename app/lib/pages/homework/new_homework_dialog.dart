@@ -16,6 +16,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart'
@@ -295,6 +296,7 @@ class _TodoUntilPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -310,8 +312,7 @@ class _TodoUntilPicker extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             selectedDate: state.dueDate,
             selectDate: (newDate) {
-              // TODO
-              throw UnimplementedError();
+              bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
             },
           ),
         ),
@@ -384,17 +385,17 @@ class _TitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
         // TODO: Will always rebuild with state change, fix.
         prefilledTitle: state.title,
         focusNode: focusNode,
         onChanged: (newTitle) {
-          // TODO
-          throw UnimplementedError();
+          bloc.add(TitleChanged(newTitle));
         },
         // TODO
-        // errorText: errorText,
+        errorText: null,
       ),
     );
     // return MaxWidthConstraintBox(
@@ -478,6 +479,7 @@ class _CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     final courseState = state.course;
     return MaxWidthConstraintBox(
       child: SafeArea(
@@ -490,8 +492,7 @@ class _CourseTile extends StatelessWidget {
           // TODO:
           errorText: null,
           onTap: () => CourseTile.onTap(context, onChangedId: (course) {
-            // TODO
-            throw UnimplementedError();
+            bloc.add(CourseChanged(course));
           }),
         ),
       ),
@@ -506,6 +507,8 @@ class _SendNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
+
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -513,8 +516,8 @@ class _SendNotification extends StatelessWidget {
         child: _SendNotificationBase(
           title:
               "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
-          // TODO:
-          onChanged: (newValue) => throw UnimplementedError(),
+          onChanged: (newValue) =>
+              bloc.add(NotifyCourseMembersChanged(newValue)),
           sendNotification: state.notifyCourseMembers,
           description: state.isEditing
               ? null
@@ -561,9 +564,10 @@ class _DescriptionField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     return _DescriptionFieldBase(
-      // TODO
-      onChanged: (newVal) => throw UnimplementedError(),
+      onChanged: (newDescription) =>
+          bloc.add(DescriptionChanged(newDescription)),
       // TODO: Will update with each state change, fix.
       prefilledDescription: state.description,
     );
@@ -653,17 +657,23 @@ class _SubmissionsSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final submissionsState = state.submissions;
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
+    final submissionTime = submissionsState is SubmissionsEnabled
+        ? submissionsState.deadline
+        : null;
+
     return MaxWidthConstraintBox(
       child: _SubmissionsSwitchBase(
         key: HwDialogKeys.submissionTile,
         isWidgetEnabled: state.submissions.isChangeable,
         submissionsEnabled: state.submissions.isEnabled,
-        // TODO:
-        onChanged: (newVal) => throw UnimplementedError(),
-        onTimeChanged: (newTime) => throw UnimplementedError(),
-        time: submissionsState is SubmissionsEnabled
-            ? submissionsState.deadline
-            : null,
+        onChanged: (newIsEnabled) => bloc.add(SubmissionsChanged((
+          enabled: newIsEnabled,
+          submissionTime: newIsEnabled ? submissionTime : null
+        ))),
+        onTimeChanged: (newTime) => bloc
+            .add(SubmissionsChanged((enabled: true, submissionTime: newTime))),
+        time: submissionTime,
       ),
     );
   }
@@ -739,6 +749,7 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -747,7 +758,7 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
           key: HwDialogKeys.isPrivateTile,
           isPrivate: state.isPrivate.$1,
           onChanged: state.isPrivate.isChangeable
-              ? (newVal) => throw UnimplementedError()
+              ? (newVal) => bloc.add(IsPrivateChanged(newVal))
               : null,
         ),
       ),
