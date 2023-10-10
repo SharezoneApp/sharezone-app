@@ -73,6 +73,12 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
       {required String courseId, required String homeworkId}) async {
     return loadCloudFilesResult;
   }
+
+  HomeworkDto? homeworkToReturn;
+  @override
+  Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
+    return homeworkToReturn!;
+  }
 }
 
 void main() {
@@ -101,6 +107,7 @@ void main() {
         when(homeworkGateway.singleHomework(any, source: Source.cache))
             .thenAnswer((_) => Future.value(homework));
       }
+      homeworkDialogApi.homeworkToReturn = homework;
 
       await tester.pumpWidget(
         MultiBlocProvider(

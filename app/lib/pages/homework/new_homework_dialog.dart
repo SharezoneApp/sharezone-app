@@ -30,8 +30,8 @@ import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
-class HomeworkDialog extends StatefulWidget {
-  const HomeworkDialog({
+class NewHomeworkDialog extends StatefulWidget {
+  const NewHomeworkDialog({
     Key? key,
     required this.id,
     this.homeworkDialogApi,
@@ -48,7 +48,7 @@ class HomeworkDialog extends StatefulWidget {
   State createState() => _HomeworkDialogState();
 }
 
-class _HomeworkDialogState extends State<HomeworkDialog> {
+class _HomeworkDialogState extends State<NewHomeworkDialog> {
   late HomeworkDialogBloc bloc;
   late Future<HomeworkDto?> homework;
 

@@ -10,6 +10,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/pages/homework/new_homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
@@ -19,7 +20,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   final successful = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
-      builder: (context) => HomeworkDialog(
+      builder: (context) => NewHomeworkDialog(
         id: homework?.id != null ? HomeworkId(homework!.id) : null,
       ),
       settings: const RouteSettings(name: HomeworkDialog.tag),

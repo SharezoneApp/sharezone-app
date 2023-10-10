@@ -24,6 +24,7 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/pages/homework/new_homework_dialog.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone_common/translations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -43,7 +44,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   final successful = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
-      builder: (context) => HomeworkDialog(
+      builder: (context) => NewHomeworkDialog(
         id: homework?.id != null ? HomeworkId(homework!.id) : null,
       ),
       settings: const RouteSettings(name: HomeworkDialog.tag),

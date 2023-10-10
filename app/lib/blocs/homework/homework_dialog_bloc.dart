@@ -10,6 +10,8 @@ import 'dart:async';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
@@ -21,6 +23,8 @@ import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dar
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
+import 'package:bloc/bloc.dart' hide BlocBase;
+import 'package:bloc/bloc.dart' as bloc show BlocBase;
 
 extension on DateTime {
   Time toTime() => Time(hour: hour, minute: minute);
@@ -355,6 +359,10 @@ class HomeworkDialogApi {
   final SharezoneGateway _api;
 
   HomeworkDialogApi(this._api);
+
+  Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
+    return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+  }
 
   Future<List<CloudFile>> loadCloudFiles(
       {required String courseId, required String homeworkId}) {
