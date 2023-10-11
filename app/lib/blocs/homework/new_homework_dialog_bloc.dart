@@ -315,7 +315,7 @@ class NewHomeworkDialogBloc
             )
         ]),
         notifyCourseMembers: false,
-        isPrivate: (false, isChangeable: false),
+        isPrivate: (_initialHomework.private, isChangeable: homeworkId == null),
         hasModifiedData: false,
         isEditing: true,
       )),

@@ -109,7 +109,7 @@ void main() {
         todoUntil: DateTime(2024, 03, 12),
         description: 'description text',
         attachments: ['foo_attachment_id1', 'foo_attachment2.png'],
-        private: false,
+        private: true,
       );
       homeworkDialogApi.homeworkToReturn = homework;
 
@@ -141,7 +141,7 @@ void main() {
             ),
           ]),
           notifyCourseMembers: false,
-          isPrivate: (false, isChangeable: false),
+          isPrivate: (true, isChangeable: false),
           hasModifiedData: false,
           isEditing: true,
         ),
