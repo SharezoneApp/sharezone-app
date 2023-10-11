@@ -17,6 +17,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/blocs/homework/new_homework_dialog_bloc.dart';
+import 'package:time/time.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -142,6 +143,64 @@ void main() {
           ]),
           notifyCourseMembers: false,
           isPrivate: (true, isChangeable: false),
+          hasModifiedData: false,
+          isEditing: true,
+        ),
+      );
+    });
+    test('Returns homework data when called for existing homework 2', () async {
+      final homeworkId = HomeworkId('bar_homework_id');
+
+      final barCourse = Course.create().copyWith(
+        id: 'bar_course',
+        name: 'Bar course',
+        subject: 'Bar subject',
+        abbreviation: 'B',
+        myRole: MemberRole.admin,
+      );
+
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([barCourse]));
+      when(sharezoneContext.analytics).thenReturn(analytics);
+      final nextLessonDate = Date('2024-03-08');
+      nextLessonCalculator.dateToReturn = nextLessonDate;
+
+      final mockDocumentReference = MockDocumentReference();
+      when(mockDocumentReference.id).thenReturn('bar_course');
+      final homework = HomeworkDto.create(
+              courseID: 'bar_course', courseReference: mockDocumentReference)
+          .copyWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseID: 'bar_course',
+        courseName: 'Bar course',
+        subject: 'Bar subject',
+        withSubmissions: true,
+        todoUntil: DateTime(2024, 03, 12, 16, 35),
+        description: 'description text',
+        attachments: [],
+        private: false,
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc =
+          NewHomeworkDialogBloc(api: homeworkDialogApi, homeworkId: homeworkId);
+      await pumpEventQueue();
+      expect(
+        bloc.state,
+        Ready(
+          title: 'title text',
+          course: CourseChosen(
+            courseId: CourseId('bar_course'),
+            courseName: 'Bar course',
+            isChangeable: false,
+          ),
+          dueDate: DateTime(2024, 03, 12, 16, 35),
+          submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 35)),
+          description: 'description text',
+          attachments: IList(),
+          notifyCourseMembers: false,
+          isPrivate: (false, isChangeable: false),
           hasModifiedData: false,
           isEditing: true,
         ),

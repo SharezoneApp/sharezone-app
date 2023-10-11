@@ -303,7 +303,9 @@ class NewHomeworkDialogBloc
           isChangeable: false,
         ),
         dueDate: _initialHomework.todoUntil,
-        submissions: const SubmissionsDisabled(isChangeable: true),
+        submissions: _initialHomework.withSubmissions
+            ? SubmissionsEnabled(deadline: _initialHomework.todoUntil.toTime())
+            : const SubmissionsDisabled(isChangeable: true),
         description: _initialHomework.description,
         attachments: IList([
           for (final attachment in _initialAttachments)

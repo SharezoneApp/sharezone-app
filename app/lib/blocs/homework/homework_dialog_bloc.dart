@@ -24,10 +24,6 @@ import 'package:sharezone_common/helper_functions.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
-extension on DateTime {
-  Time toTime() => Time(hour: hour, minute: minute);
-}
-
 class HomeworkDialogBloc extends BlocBase {
   List<CloudFile> initialCloudFiles = [];
   final _titleSubject = BehaviorSubject<String?>();
