@@ -178,7 +178,7 @@ void main() {
                 child: PlusAdvantages(),
               ),
             ),
-            wrapper: materialAppWrapper(theme: darkTheme),
+            wrapper: materialAppWrapper(theme: theme),
           );
         }
 
