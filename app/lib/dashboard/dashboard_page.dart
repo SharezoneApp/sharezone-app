@@ -99,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       navigationItem: NavigationItem.overview,
       body: const DashboardPageBody(),
-      floatingActionButton: _DashboardPageFAB(),
+      floatingActionButton: const _DashboardPageFAB(),
     );
   }
 }
