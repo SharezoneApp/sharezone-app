@@ -399,7 +399,8 @@ class _EditIcon extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => HomeworkDialog(
-              homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
+              homeworkDialogApi: HomeworkDialogApi(api),
+              nextLessonCalculator: nextLessonCalculator,
               homework: homework,
             ),
             settings: const RouteSettings(name: HomeworkDialog.tag),

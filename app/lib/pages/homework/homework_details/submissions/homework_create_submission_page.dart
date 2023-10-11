@@ -316,6 +316,7 @@ class _FileCard extends StatelessWidget {
                       ? const Icon(Icons.close)
                       : FileIcon(fileFormat: view.fileFormat),
                   title: Text(view.name),
+                  mouseCursor: SystemMouseCursors.click,
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[

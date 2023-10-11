@@ -186,8 +186,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await bloc.submit();
     } on Exception catch (e, s) {
-      setState(() => isLoading = false);
       if (context.mounted) {
+        setState(() => isLoading = false);
         showSnackSec(
           text: handleErrorMessage(e.toString(), s),
           context: context,

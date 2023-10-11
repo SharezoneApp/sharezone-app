@@ -27,8 +27,9 @@ class Design {
 
   factory Design.standard() => Design.fromColor(Colors.lightBlue);
 
-  factory Design.random() {
-    final value = Random().nextInt(designList.length);
+  factory Design.random([Random? random]) {
+    random ??= Random();
+    final value = random.nextInt(designList.length);
     return designList[value];
   }
 

@@ -10,7 +10,7 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,6 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
-import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';

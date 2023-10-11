@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "dev": "sharezone-debug",
+    "prod": "sharezone-c2bd8"
+  },
+  "targets": {
+    "sharezone-c2bd8": {
+      "hosting": {
+        "sharezone-website": [
+          "sharezone-webseite"
+        ]
+      }
+    },
+    "sharezone-debug": {
+      "hosting": {
+        "sharezone-website": [
+          "sharezone-debug"
+        ]
+      }
+    }
+  }
+}

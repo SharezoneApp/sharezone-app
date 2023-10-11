@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -75,17 +75,15 @@ void main() {
 
       Future<void> pumpSchoolClassSelection(WidgetTester tester) async {
         await tester.pumpWidget(
-          FeatureDiscovery(
-            child: MultiProvider(
-              providers: [
-                Provider<SubscriptionService>.value(value: subscriptionService),
-              ],
-              child: MaterialApp(
-                home: BlocProvider(
-                  bloc: bloc,
-                  child: const SingleChildScrollView(
-                    child: SchoolClassFilterBottomBar(),
-                  ),
+          MultiProvider(
+            providers: [
+              Provider<SubscriptionService>.value(value: subscriptionService),
+            ],
+            child: MaterialApp(
+              home: BlocProvider(
+                bloc: bloc,
+                child: const SingleChildScrollView(
+                  child: SchoolClassFilterBottomBar(),
                 ),
               ),
             ),

@@ -69,4 +69,12 @@ extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
     if (defaultValue != null) return defaultValue;
     throw ArgumentError.value(name, "name", "No enum value with that name");
   }
+
+  T? byNameOrNull(String? name) {
+    for (T value in this) {
+      if (value.name == name) return value;
+    }
+
+    return null;
+  }
 }

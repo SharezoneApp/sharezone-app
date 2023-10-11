@@ -64,7 +64,9 @@ class _AuthAppState extends State<AuthApp> {
           create: (context) => SupportPageController(
             // Inside the [AuthApp] the user can't be signed in and can't have
             // Sharezone Plus.
-            isUserSignedInStream: Stream.value(false),
+            userNameStream: Stream.value(null),
+            userIdStream: Stream.value(null),
+            userEmailStream: Stream.value(null),
             hasPlusSupportUnlockedStream: Stream.value(false),
             isUserInGroupOnboardingStream: Stream.value(false),
           ),

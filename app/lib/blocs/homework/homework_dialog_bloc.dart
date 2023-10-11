@@ -6,6 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
+import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -16,8 +19,6 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_common/homework_validators.dart';
-import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -25,7 +26,7 @@ extension on DateTime {
   Time toTime() => Time(hour: hour, minute: minute);
 }
 
-class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
+class HomeworkDialogBloc extends BlocBase {
   List<CloudFile> initialCloudFiles = [];
   final _titleSubject = BehaviorSubject<String?>();
   final _courseSegmentSubject = BehaviorSubject<Course>();
@@ -40,11 +41,15 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       BehaviorSubject<Time>.seeded(Time(hour: 23, minute: 59));
 
   final HomeworkDialogApi api;
+  final NextLessonCalculator nextLessonCalculator;
   final HomeworkDto? initialHomework;
 
   final MarkdownAnalytics _markdownAnalytics;
+  final Analytics analytics;
 
-  HomeworkDialogBloc(this.api, this._markdownAnalytics, {HomeworkDto? homework})
+  HomeworkDialogBloc(this.api, this.nextLessonCalculator,
+      this._markdownAnalytics, this.analytics,
+      {HomeworkDto? homework})
       : initialHomework = homework {
     if (homework != null) {
       _loadInitialCloudFiles(homework.courseReference!.id, homework.id);
@@ -60,7 +65,7 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
 
       final c = Course.create().copyWith(
         subject: homework.subject,
-        name: homework.subject,
+        name: homework.courseName,
         sharecode: "000000",
         abbreviation: homework.subjectAbbreviation,
         id: homework.courseReference!.id,
@@ -74,7 +79,8 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
       _localFilesSubject.valueOrNull != null &&
       _localFilesSubject.valueOrNull!.isNotEmpty;
 
-  Stream<String> get title => _titleSubject.stream.transform(validateTitle);
+  Stream<String> get title =>
+      _titleSubject.stream.transform(_validateTitleTransformer);
   Stream<DateTime> get todoUntil => _todoUntilSubject;
   Stream<String> get description => _descriptionSubject;
   Stream<Course> get courseSegment => _courseSegmentSubject;
@@ -181,7 +187,11 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 
   void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
-    api.nextLessonCalculator.calculateNextLesson(courseID).then((result) {
+    nextLessonCalculator.calculateNextLesson(courseID).then((result) {
+      // If the user has closed the dialog before the result is calculated, the
+      // stream is closed. In this case, the result is not used.
+      if (_todoUntilSubject.isClosed) return;
+
       if (result == null) {
         changeTodoUntil(_getSeedTodoUntilDate());
       } else {
@@ -190,85 +200,97 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
     });
   }
 
-  bool isValid() {
-    final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
-    if (!validatorTitle.isValid()) {
-      _titleSubject.addError(
-          TextValidationException(HomeworkValidators.emptyTitleUserMessage));
-      throw InvalidTitleException();
+  final _validateTitleTransformer =
+      StreamTransformer<String?, String>.fromHandlers(
+          handleData: (title, sink) {
+    if (isEmptyOrNull(title)) {
+      sink.addError(EmptyTitleException());
+    } else {
+      sink.add(title!);
+    }
+  });
+
+  void validateInputOrThrow() {
+    bool isNullOrEmpty(String? s) => s == null || s.isEmpty;
+
+    // This should be the same behavior as for [_validateTitleTransformer]
+    // above.
+    if (isNullOrEmpty(_titleSubject.valueOrNull)) {
+      throw EmptyTitleException();
     }
 
-    final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
-    if (!validatorCourse.isValid()) {
-      _courseSegmentSubject.addError(
-          TextValidationException(HomeworkValidators.emptyCourseUserMessage));
-      throw InvalidCourseException();
+    if (_courseSegmentSubject.valueOrNull == null) {
+      throw EmptyCourseException();
     }
 
-    return true;
+    if (_todoUntilSubject.valueOrNull == null) {
+      throw EmptyTodoUntilException();
+    }
   }
 
   Future<void> _loadInitialCloudFiles(
       String courseID, String homeworkID) async {
-    List<CloudFile> cloudFiles = await api.api.fileSharing.cloudFilesGateway
-        .filesStreamAttachment(courseID, homeworkID)
-        .first;
+    final cloudFiles =
+        await api.loadCloudFiles(courseId: courseID, homeworkId: homeworkID);
     _cloudFilesSubject.sink.add(cloudFiles);
     initialCloudFiles.addAll(cloudFiles);
   }
 
-  Future<void> submit({HomeworkDto? oldHomework}) async {
-    if (isValid()) {
-      final todoUntil = DateTime(
-          _todoUntilSubject.valueOrNull!.year,
-          _todoUntilSubject.valueOrNull!.month,
-          _todoUntilSubject.valueOrNull!.day);
-      final description = _descriptionSubject.valueOrNull;
-      final private = _privateSubject.valueOrNull;
-      final localFiles = _localFilesSubject.valueOrNull;
+  Future<void> submit() async {
+    validateInputOrThrow();
+    final todoUntil = DateTime(
+        _todoUntilSubject.valueOrNull!.year,
+        _todoUntilSubject.valueOrNull!.month,
+        _todoUntilSubject.valueOrNull!.day);
+    final description = _descriptionSubject.valueOrNull;
+    final private = _privateSubject.valueOrNull;
+    final localFiles = _localFilesSubject.valueOrNull;
 
-      final userInput = UserInput(
-        _titleSubject.valueOrNull,
-        _courseSegmentSubject.valueOrNull,
-        todoUntil,
-        description,
-        private,
-        localFiles,
-        _sendNotificationSubject.valueOrNull,
-        _submissionTimeSubject.valueOrNull,
-        _withSubmissionsSubject.valueOrNull!,
-      );
+    final userInput = UserInput(
+      _titleSubject.valueOrNull,
+      _courseSegmentSubject.valueOrNull,
+      todoUntil,
+      description,
+      private,
+      localFiles,
+      _sendNotificationSubject.valueOrNull,
+      _submissionTimeSubject.valueOrNull,
+      _withSubmissionsSubject.valueOrNull!,
+    );
 
-      final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-      if (oldHomework == null) {
-        // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
-        // weil die Daten sofort in Firestore gespeichert werden können und somit
-        // auch offline hinzufügbar sind.
-        hasAttachments ? await api.create(userInput) : api.create(userInput);
+    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
 
-        if (_markdownAnalytics.containsMarkdown(description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
-      } else {
-        // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
-        // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
-        // von der Hausaufgabe entfernt.
-        final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-            initialCloudFiles, _cloudFilesSubject.valueOrNull!);
-        if (hasAttachments) {
-          await api.edit(oldHomework, userInput,
-              removedCloudFiles: removedCloudFiles);
-        } else {
-          api.edit(oldHomework, userInput,
-              removedCloudFiles: removedCloudFiles);
-        }
+    if (initialHomework == null) {
+      // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
+      // weil die Daten sofort in Firestore gespeichert werden können und somit
+      // auch offline hinzufügbar sind.
+      hasAttachments ? await api.create(userInput) : api.create(userInput);
 
-        // Falls beim Bearbeiten ein Markdown-Text hinzugefügt wurde, wird dies
-        // geloggt.
-        if (!_markdownAnalytics.containsMarkdown(oldHomework.description)) {
-          _markdownAnalytics.logMarkdownUsedHomework();
-        }
+      if (_markdownAnalytics.containsMarkdown(description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
       }
+      analytics.log(NamedAnalyticsEvent(name: "homework_add"));
+    } else {
+      // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
+      // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
+      // von der Hausaufgabe entfernt.
+      final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
+          initialCloudFiles, _cloudFilesSubject.valueOrNull!);
+      if (hasAttachments) {
+        await api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      } else {
+        api.edit(initialHomework!, userInput,
+            removedCloudFiles: removedCloudFiles);
+      }
+
+      // If markdown is added to the edited homework and the homework didn't
+      // contain markdown before, log it.
+      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description) &&
+          _markdownAnalytics.containsMarkdown(description)) {
+        _markdownAnalytics.logMarkdownUsedHomework();
+      }
+      analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
     }
   }
 
@@ -287,9 +309,13 @@ class HomeworkDialogBloc extends BlocBase with HomeworkValidators {
   }
 }
 
-class InvalidTitleException implements Exception {}
+sealed class InvalidHomeworkInputException implements Exception {}
 
-class InvalidCourseException implements Exception {}
+class EmptyTitleException implements InvalidHomeworkInputException {}
+
+class EmptyCourseException implements InvalidHomeworkInputException {}
+
+class EmptyTodoUntilException implements InvalidHomeworkInputException {}
 
 class UserInput {
   final String? title, description;
@@ -318,27 +344,38 @@ class UserInput {
       this.todoUntil = todoUntil;
     }
   }
+
+  @override
+  String toString() {
+    return 'UserInput(description: $description, course: $course, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
+  }
 }
 
 class HomeworkDialogApi {
-  final SharezoneGateway api;
-  final NextLessonCalculator nextLessonCalculator;
+  final SharezoneGateway _api;
 
-  HomeworkDialogApi(this.api, this.nextLessonCalculator);
+  HomeworkDialogApi(this._api);
+
+  Future<List<CloudFile>> loadCloudFiles(
+      {required String courseId, required String homeworkId}) {
+    return _api.fileSharing.cloudFilesGateway
+        .filesStreamAttachment(courseId, homeworkId)
+        .first;
+  }
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
     final course = userInput.course!;
-    final authorReference = api.references.users.doc(api.user.authUser!.uid);
-    final authorName = (await api.user.userStream.first)!.name;
-    final authorID = api.user.authUser!.uid;
-    final typeOfUser = (await api.user.userStream.first)!.typeOfUser;
+    final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
+    final authorName = (await _api.user.userStream.first)!.name;
+    final authorID = _api.user.authUser!.uid;
+    final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
 
-    final attachments = await api.fileSharing.uploadAttachments(
+    final attachments = await _api.fileSharing.uploadAttachments(
         localFiles, userInput.course!.id, authorReference.id, authorName);
 
     final homework = HomeworkDto.create(
-            courseReference: api.references.getCourseReference(course.id),
+            courseReference: _api.references.getCourseReference(course.id),
             courseID: course.id)
         .copyWith(
       subject: course.subject,
@@ -364,11 +401,11 @@ class HomeworkDialogApi {
     );
 
     if (userInput.private!) {
-      await api.homework.addPrivateHomework(homework, false,
-          attachments: attachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addPrivateHomework(homework, false,
+          attachments: attachments, fileSharingGateway: _api.fileSharing);
     } else {
-      await api.homework.addHomeworkToCourse(homework,
-          attachments: attachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addHomeworkToCourse(homework,
+          attachments: attachments, fileSharingGateway: _api.fileSharing);
     }
 
     // If the homework will be added to the create, the wrong homework object will be return (the new forUsers map is missing)
@@ -378,17 +415,17 @@ class HomeworkDialogApi {
   Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     List<String> attachments = oldHomework.attachments.toList();
-    final editorName = (await api.user.userStream.first)!.name;
-    final editorID = api.user.authUser!.uid;
+    final editorName = (await _api.user.userStream.first)!.name;
+    final editorID = _api.user.authUser!.uid;
 
     for (int i = 0; i < removedCloudFiles.length; i++) {
       attachments.remove(removedCloudFiles[i].id);
-      api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
+      _api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
           ReferenceData(type: ReferenceType.blackboard, id: oldHomework.id));
     }
 
     final localFiles = userInput.localFiles;
-    final newAttachments = await api.fileSharing.uploadAttachments(
+    final newAttachments = await _api.fileSharing.uploadAttachments(
       localFiles,
       oldHomework.courseReference!.id,
       editorID,
@@ -408,11 +445,11 @@ class HomeworkDialogApi {
 
     final hasAttachments = attachments.isNotEmpty;
     if (hasAttachments) {
-      await api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: api.fileSharing);
+      await _api.homework.addPrivateHomework(homework, true,
+          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
     } else {
-      api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: api.fileSharing);
+      _api.homework.addPrivateHomework(homework, true,
+          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
     }
     return homework;
   }

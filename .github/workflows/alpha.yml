@@ -64,7 +64,7 @@ jobs:
   deploy-alpha-web-app:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -104,7 +104,7 @@ jobs:
   deploy-alpha-android-app:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -209,7 +209,7 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.45.1
@@ -274,33 +274,12 @@ jobs:
 
   deploy-alpha-macos-app:
     runs-on: macos-13
-    timeout-minutes: 120
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.45.1
-      - name: Setup signing
-        env:
-          # The following secrets are used by the Codemagic CLI tool. It's important
-          # to use the same names as the CLI tool expects.
-          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
-          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-          BUNDLE_ID: de.codingbrain.sharezone.app
-        run: |
-          app-store-connect fetch-signing-files $BUNDLE_ID \
-            --platform IOS \
-            --type MAC_APP_STORE \
-            --create
-
-          app-store-connect list-certificates \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --save
-
-          keychain initialize
-          keychain add-certificates
-          xcode-project use-profiles
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -319,75 +298,20 @@ jobs:
           flutter pub global activate fvm 2.4.1
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
-      - name: Activate sz_repo_cli package
-        run: fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+      - name: Install Sharezone Repo CLI
+        run: |
+          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(realpath ./bin) >> $GITHUB_PATH
 
-      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-      - run: echo $(realpath ./bin) >> $GITHUB_PATH
-
-      - name: Build macOS app
+      - name: Deploy macOS to TestFlight
         env:
-          # From https://appstoreconnect.apple.com/apps/1434868489/
-          MACOS_APP_ID: 1434868489
           # The following secrets are used by the Codemagic CLI tool. It's important
           # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
-          # Because TestFlight requires a build number that is higher than the
-          # latest build number, we need to get the latest build number and
-          # increment it by one.
-          #
-          # The "| head -2 | tail -1" part is to get the second line of the output
-          # of the "app-store-connect get-latest-build-number" command because the
-          # second line includes the build number.
-          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $MACOS_APP_ID --platform MAC_OS | head -2 | tail -1)
-          BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
-
-          # Workaround for https://github.com/flutter/flutter/issues/132725
-          sudo chown -R $USER .
-          sudo chmod -R a+rwx .
-
-          sz build macos \
-            --stage alpha \
-            --build-number $BUMPED_BUILD_NUMBER
-
-          # Workaround for https://github.com/flutter/flutter/issues/132725
-          sudo chown -R $USER .
-          sudo chmod -R a+rwx .
-
-      - name: Publish to App Store Connect
-        working-directory: app
-        env:
-          # The following secrets are used by the Codemagic CLI tool. It's important
-          # to use the same names as the CLI tool expects.
-          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-        run: |
-          # Package the app
-          #
-          # Copied from
-          # https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
-          APP_NAME=$(find $(pwd) -name "*.app")
-          PACKAGE_NAME=$(basename "$APP_NAME" .app).pkg
-          xcrun productbuild --component "$APP_NAME" /Applications/ unsigned.pkg                 
-
-          INSTALLER_CERT_NAME=$(keychain list-certificates \
-                    | jq '[.[]
-                      | select(.common_name
-                      | contains("Mac Developer Installer"))
-                      | .common_name][0]' \
-                    | xargs)
-
-          xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PACKAGE_NAME"
-          rm -f unsigned.pkg
-
-          # Workaround for https://github.com/flutter/flutter/issues/132725
-          sudo chown -R $USER .
-          sudo chmod -R a+rwx .
-
           # Because we are publishing every commit a new alpha version, we are
           # able to use the last commit message (title and description) as release
           # note for the alpha builds. This is not the most user friendly note but
@@ -402,9 +326,6 @@ jobs:
           # longer than 4000 characters.
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-          app-store-connect publish \
-            --path $PACKAGE_NAME \
-            --beta-group=alpha \
-            --testflight \
-            --release-type=AFTER_APPROVAL \
+          sz deploy macos \
+            --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE"

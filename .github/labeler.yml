@@ -241,6 +241,10 @@
 "feature: universal file features":
   - "**/filesharing/**"
 
+"feature: qr code scanner":
+  - "**/qr_code_scanner/**"
+  - "**/**qr_code_scanner**"
+
 "user: parent":
   - "**/parent/**"
   - "**/**parent**"
@@ -258,3 +262,6 @@
 "w: dashboard-page":
   - "**/dashboard/**"
   - "**/**dashboard**"
+
+"website":
+  - "website/**"
