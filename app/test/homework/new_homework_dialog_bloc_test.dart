@@ -130,15 +130,15 @@ void main() {
           description: 'description text',
           attachments: IList([
             FileView(
-              fileId: FileId('foo_attachment_id1'),
-              fileName: 'foo_attachment1.png',
-              format: FileFormat.image,
-            ),
+                fileId: FileId('foo_attachment_id1'),
+                fileName: 'foo_attachment1.png',
+                format: FileFormat.image,
+                cloudFile: homeworkDialogApi.loadCloudFilesResult[0]),
             FileView(
-              fileId: FileId('foo_attachment_id2'),
-              fileName: 'foo_attachment2.pdf',
-              format: FileFormat.pdf,
-            ),
+                fileId: FileId('foo_attachment_id2'),
+                fileName: 'foo_attachment2.pdf',
+                format: FileFormat.pdf,
+                cloudFile: homeworkDialogApi.loadCloudFilesResult[1]),
           ]),
           notifyCourseMembers: false,
           isPrivate: (true, isChangeable: false),
