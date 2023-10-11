@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blackboard/blackboard_dialog.dart';
@@ -28,9 +28,6 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../show_delete_blackboard_item_dialog.dart';
 import 'blackboard_details_bloc.dart';
-
-const blackboardItemReadByUsersListFeatureDiscoveryStepId =
-    '_blackboardItemReadByUsersListFeatureDiscovery';
 
 enum BlackboardPopOption { deleted, edited, added }
 
@@ -328,14 +325,6 @@ class _UserReadTile extends StatefulWidget {
 
 class __UserReadTileState extends State<_UserReadTile> {
   @override
-  void initState() {
-    super.initState();
-    FeatureDiscovery.discoverFeatures(context, {
-      blackboardItemReadByUsersListFeatureDiscoveryStepId,
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
@@ -363,18 +352,6 @@ class __UserReadTileState extends State<_UserReadTile> {
                     ],
                   ),
                 ),
-                DescribedFeatureOverlay(
-                  featureId:
-                      blackboardItemReadByUsersListFeatureDiscoveryStepId,
-                  tapTarget: rightArrow(),
-                  onDismiss: () async {
-                    FeatureDiscovery.completeCurrentStep(context);
-                    return true;
-                  },
-                  title: const Text(
-                      'Erhalte eine genaue Liste, welche Teilnehmer den Infozettel gelesen haben.'),
-                  child: rightArrow(),
-                ),
               ],
             ),
           ),
@@ -387,7 +364,6 @@ class __UserReadTileState extends State<_UserReadTile> {
     return GestureDetector(
       onTap: () {
         _navigateToBlackboardItemReadByUsersListPage();
-        FeatureDiscovery.completeCurrentStep(context);
       },
       child: Container(
         decoration: BoxDecoration(

@@ -291,6 +291,25 @@ class _PlusEmailTile extends StatelessWidget {
 class _VideoCallTile extends StatelessWidget {
   const _VideoCallTile();
 
+  void launchVideoCallPage(BuildContext context) {
+    try {
+      final url = context
+          .read<SupportPageController>()
+          .getVideoCallAppointmentsUnencodedUrlWithPrefills();
+      launchURL(url, context: context);
+    } on UserNotAuthenticatedException catch (_) {
+      showSnackSec(
+        context: context,
+        text: 'Du musst angemeldet sein, um einen Videocall zu vereinbaren.',
+      );
+    } on Exception catch (_) {
+      showSnackSec(
+        context: context,
+        text: 'Es ist ein Fehler aufgetreten.',
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
@@ -301,10 +320,7 @@ class _VideoCallTile extends StatelessWidget {
       title: 'Videocall-Support',
       subtitle:
           'Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.',
-      onPressed: () => launchURL(
-        'https://sharezone.net/sharezone-plus-video-call-support',
-        context: context,
-      ),
+      onPressed: () => launchVideoCallPage(context),
     );
   }
 }
@@ -342,7 +358,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
                   MarkdownBody(
                     data:
                         '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
-- Videocall-Support nach Termin-vereinbarung (ermöglicht das Teilen des Bildschirms)''',
+- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
                   )
                 ],
               ),

@@ -73,7 +73,7 @@ class TimetableBuilder {
       start: event.startTime,
       end: event.endTime,
       data: event,
-      groupInfo: groupInfo[event.groupID]!,
+      groupInfo: groupInfo[event.groupID],
       priority: 1,
       properties: properties,
     );

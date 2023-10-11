@@ -53,7 +53,8 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
       builder: (context) => HomeworkDialog(
-        homeworkDialogApi: HomeworkDialogApi(api, nextLessonCalculator),
+        homeworkDialogApi: HomeworkDialogApi(api),
+        nextLessonCalculator: nextLessonCalculator,
         homework: homework,
       ),
       settings: const RouteSettings(name: HomeworkDialog.tag),

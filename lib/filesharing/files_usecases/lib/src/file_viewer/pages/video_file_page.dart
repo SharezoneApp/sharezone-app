@@ -22,7 +22,7 @@ class VideoFilePage extends StatelessWidget {
   }) : super(key: key);
 
   final String name;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
   final String downloadURL;
   final List<Widget> actions;
 

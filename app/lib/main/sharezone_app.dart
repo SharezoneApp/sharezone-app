@@ -21,6 +21,7 @@ import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
 import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
+import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
@@ -184,6 +185,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                 TimetableAddPage.tag: (context) => const TimetableAddPage(),
                 WebAppSettingsPage.tag: (context) => const WebAppSettingsPage(),
                 ImprintPage.tag: (context) => const ImprintPage(),
+                PastCalendricalEventsPage.tag: (context) =>
+                    const PastCalendricalEventsPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),
