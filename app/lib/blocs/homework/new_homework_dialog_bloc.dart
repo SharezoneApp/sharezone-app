@@ -311,6 +311,57 @@ class NewHomeworkDialogBloc
         isEditing: true,
       )),
     );
+    on<Submit>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<TitleChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<DueDateChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<CourseChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<SubmissionsChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<DescriptionChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<AttachmentsAdded>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<AttachmentRemoved>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<NotifyCourseMembersChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+    on<IsPrivateChanged>(
+      (event, emit) {
+        // TODO
+      },
+    );
+
     if (homeworkId != null) {
       _loadExistingData(homeworkId);
     }
