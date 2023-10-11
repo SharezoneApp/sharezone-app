@@ -67,23 +67,24 @@ class DescriptionChanged extends HomeworkDialogEvent {
   List<Object?> get props => [newDescription];
 }
 
-class AttachmentAdded extends HomeworkDialogEvent {
-  final LocalFile newFile;
+class AttachmentsAdded extends HomeworkDialogEvent {
+  final IList<LocalFile> newFiles;
 
-  const AttachmentAdded(this.newFile);
+  const AttachmentsAdded(this.newFiles);
 
   @override
-  List<Object?> get props => [newFile];
+  List<Object?> get props => [newFiles];
 }
 
 class AttachmentRemoved extends HomeworkDialogEvent {
   // TODO: Don't know if this is really what we need.
-  final FileId fileId;
+  final LocalFile? localFile;
+  final CloudFile? cloudFile;
 
-  const AttachmentRemoved(this.fileId);
+  const AttachmentRemoved({this.localFile, this.cloudFile});
 
   @override
-  List<Object?> get props => [fileId];
+  List<Object?> get props => [localFile, cloudFile];
 }
 
 class NotifyCourseMembersChanged extends HomeworkDialogEvent {
@@ -156,12 +157,20 @@ class FileView extends Equatable {
   final FileId fileId;
   final String fileName;
   final FileFormat format;
+  final LocalFile? localFile;
+  final CloudFile? cloudFile;
 
   @override
-  List<Object?> get props => [fileId, fileName, format];
+  List<Object?> get props => [fileId, fileName, format, localFile, cloudFile];
 
-  const FileView(
-      {required this.fileId, required this.fileName, required this.format});
+  const FileView({
+    required this.fileId,
+    required this.fileName,
+    required this.format,
+    this.localFile,
+    this.cloudFile,
+  }) : assert((localFile != null && cloudFile == null) ||
+            (localFile == null && cloudFile != null));
 }
 
 sealed class SubmissionState extends Equatable {

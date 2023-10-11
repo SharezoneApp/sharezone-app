@@ -12,6 +12,7 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
@@ -629,20 +630,27 @@ class _AttachFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: AttachFile(
+        child: AttachFileBase(
           key: HwDialogKeys.addAttachmentTile,
-          // TODO:
-          addLocalFileToBlocMethod: (localFile) => throw UnimplementedError(),
-          removeLocalFileFromBlocMethod: (localFile) =>
-              throw UnimplementedError(),
-          removeCloudFileFromBlocMethod: (cloudFile) =>
-              throw UnimplementedError(),
-          localFilesStream: const Stream.empty(),
-          cloudFilesStream: const Stream.empty(),
+          onLocalFilesAdded: (localFiles) =>
+              bloc.add(AttachmentsAdded(localFiles.toIList())),
+          onLocalFileRemoved: (localFile) =>
+              bloc.add(AttachmentRemoved(localFile: localFile)),
+          onCloudFileRemoved: (cloudFile) =>
+              bloc.add(AttachmentRemoved(cloudFile: cloudFile)),
+          cloudFiles: state.attachments
+              .where((file) => file.cloudFile != null)
+              .map((file) => file.cloudFile!)
+              .toList(),
+          localFiles: state.attachments
+              .where((file) => file.localFile != null)
+              .map((file) => file.localFile!)
+              .toList(),
         ),
       ),
     );
