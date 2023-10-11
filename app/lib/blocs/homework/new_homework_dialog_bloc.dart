@@ -311,6 +311,7 @@ class NewHomeworkDialogBloc
               fileId: FileId(attachment.id!),
               fileName: attachment.name,
               format: attachment.fileFormat,
+              cloudFile: attachment,
             )
         ]),
         notifyCourseMembers: false,
