@@ -47,7 +47,7 @@ void main() {
       final bloc = NewHomeworkDialogBloc(
         api: MockHomeworkDialogApi(),
       );
-      expect(bloc.state, emptyDialog);
+      expect(bloc.state, emptyCreateHomeworkDialogState);
     });
     test('Returns loading state when called for an existing homework', () {
       final homeworkId = HomeworkId('foo');

@@ -16,6 +16,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
 
@@ -249,7 +250,8 @@ class LoadingHomework extends HomeworkDialogState {
   const LoadingHomework(this.homework, {required super.isEditing});
 }
 
-final emptyDialog = Ready(
+@visibleForTesting
+final emptyCreateHomeworkDialogState = Ready(
   title: '',
   course: const NoCourseChosen(),
   dueDate: null,
@@ -293,7 +295,7 @@ class NewHomeworkDialogBloc
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
       : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
-            : emptyDialog) {
+            : emptyCreateHomeworkDialogState) {
     on<_LoadedHomeworkData>(
       (event, emit) => emit(Ready(
         title: _initialHomework.title,
