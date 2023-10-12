@@ -127,6 +127,7 @@ class HomeworkDto {
       description: "",
       withSubmissions: false,
       submitters: [],
+      // TODO: use null instead?
       todoUntil: DateTime.now(),
       createdOn: null,
       attachments: [],
