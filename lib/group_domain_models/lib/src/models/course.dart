@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
 import 'package:flutter/foundation.dart';
@@ -159,6 +160,35 @@ class Course {
       groupType: GroupType.course,
       myRole: myRole,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Course &&
+        other.id == id &&
+        other.abbreviation == abbreviation &&
+        other.joinLink == joinLink &&
+        other.myRole == myRole &&
+        other.settings == settings &&
+        other.version2 == version2 &&
+        other.groupId == groupId &&
+        other.personalDesign == personalDesign &&
+        other.personalJoinLink == personalJoinLink;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        abbreviation.hashCode ^
+        joinLink.hashCode ^
+        myRole.hashCode ^
+        settings.hashCode ^
+        version2.hashCode ^
+        groupId.hashCode ^
+        personalDesign.hashCode ^
+        personalJoinLink.hashCode;
   }
 }
 

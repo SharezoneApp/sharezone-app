@@ -16,6 +16,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/blocs/homework/new_homework_dialog_bloc.dart';
 import 'package:time/time.dart';
 
@@ -48,6 +49,44 @@ void main() {
         api: MockHomeworkDialogApi(),
       );
       expect(bloc.state, emptyCreateHomeworkDialogState);
+    });
+    test('Sucessfully saves simple homework', () async {
+      final bloc = NewHomeworkDialogBloc(
+        api: homeworkDialogApi,
+      );
+
+      final mathCourse = Course.create().copyWith(
+        id: 'maths_course',
+        name: 'Maths',
+        subject: 'Math',
+        abbreviation: 'M',
+        myRole: MemberRole.admin,
+      );
+
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([mathCourse]));
+
+      bloc.add(TitleChanged('S. 32 8a)'));
+      bloc.add(CourseChanged(CourseId(mathCourse.id)));
+      bloc.add(DueDateChanged(Date.parse('2023-10-12')));
+      bloc.add(Submit());
+
+      await pumpEventQueue();
+
+      expect(bloc.state, SavedSucessfully(isEditing: false));
+      expect(
+          homeworkDialogApi.userInputToBeCreated,
+          UserInput(
+            'S. 32 8a)',
+            mathCourse,
+            DateTime(2023, 10, 12),
+            '',
+            false,
+            [],
+            false,
+            null,
+            false,
+          ));
     });
     test('Returns loading state when called for an existing homework', () {
       final homeworkId = HomeworkId('foo');

@@ -16,6 +16,7 @@ import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
@@ -160,6 +161,14 @@ class Ready extends HomeworkDialogState {
     required this.hasModifiedData,
     required super.isEditing,
   });
+}
+
+class SavedSucessfully extends HomeworkDialogState {
+  // TODO: Remove?
+  @override
+  List<Object?> get props => [super.isEditing];
+
+  const SavedSucessfully({required super.isEditing});
 }
 
 class FileView extends Equatable {
@@ -325,8 +334,26 @@ class NewHomeworkDialogBloc
       )),
     );
     on<Submit>(
-      (event, emit) {
-        // TODO
+      (event, emit) async {
+        await api.create(UserInput(
+          'S. 32 8a)',
+          Course.create().copyWith(
+            id: 'maths_course',
+            name: 'Maths',
+            subject: 'Math',
+            abbreviation: 'M',
+            myRole: MemberRole.admin,
+          ),
+          DateTime(2023, 10, 12),
+          '',
+          false,
+          [],
+          false,
+          null,
+          false,
+        ));
+
+        emit(SavedSucessfully(isEditing: false));
       },
     );
     on<TitleChanged>(

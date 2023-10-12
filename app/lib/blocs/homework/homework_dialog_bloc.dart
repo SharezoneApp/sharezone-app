@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -346,6 +347,32 @@ class UserInput {
   @override
   String toString() {
     return 'UserInput(description: $description, course: $course, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is UserInput &&
+        other.description == description &&
+        other.course == course &&
+        other.todoUntil == todoUntil &&
+        other.private == private &&
+        listEquals(other.localFiles, localFiles) &&
+        other.sendNotification == sendNotification &&
+        other.withSubmission == withSubmission;
+  }
+
+  @override
+  int get hashCode {
+    return description.hashCode ^
+        course.hashCode ^
+        todoUntil.hashCode ^
+        private.hashCode ^
+        localFiles.hashCode ^
+        sendNotification.hashCode ^
+        withSubmission.hashCode;
   }
 }
 

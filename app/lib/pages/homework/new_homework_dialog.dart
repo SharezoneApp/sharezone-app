@@ -18,7 +18,6 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart'
@@ -173,6 +172,8 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
       builder: (context, state) {
         return switch (state) {
           LoadingHomework() => const Center(child: CircularProgressIndicator()),
+          // TODO
+          SavedSucessfully() => Container(),
           Ready() => WillPopScope(
               onWillPop: () async => hasModifiedData()
                   ? warnUserAboutLeavingForm(context)
