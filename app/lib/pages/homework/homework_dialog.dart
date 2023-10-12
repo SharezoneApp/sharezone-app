@@ -101,11 +101,17 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     return FutureBuilder(
       future: homework,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container();
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error!.toString()));
+        if (snapshot.hasError ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          final hasError = snapshot.hasError;
+          return Scaffold(
+            body: Center(
+              child: hasError
+                  ? Text(
+                      'Ein Fehler ist aufgetreten:\n${snapshot.error!.toString()}')
+                  : Container(),
+            ),
+          );
         }
         return BlocProvider(
           bloc: bloc,
