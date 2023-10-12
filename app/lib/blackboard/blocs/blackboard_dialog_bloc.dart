@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -250,7 +251,7 @@ class BlackboardDialogApi {
     final authorID = api.user.authUser!.uid;
 
     final attachments = await api.fileSharing.uploadAttachments(
-      localFiles,
+      IList(localFiles ?? []),
       courseReference.id,
       authorID,
       authorName,
@@ -295,7 +296,7 @@ class BlackboardDialogApi {
 
     final localFiles = userInput.localFiles;
     final newAttachments = await api.fileSharing.uploadAttachments(
-      localFiles,
+      IList(localFiles ?? []),
       oldBlackboardItem.courseReference!.id,
       editorID,
       editorName,
