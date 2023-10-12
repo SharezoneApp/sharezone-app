@@ -385,7 +385,16 @@ class NewHomeworkDialogBloc
     );
     on<SubmissionsChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(
+          withSubmissions: event.newSubmissionsOptions.enabled,
+          todoUntil: DateTime(
+            _homework.todoUntil.year,
+            _homework.todoUntil.month,
+            _homework.todoUntil.day,
+            event.newSubmissionsOptions.submissionTime?.hour ?? 0,
+            event.newSubmissionsOptions.submissionTime?.minute ?? 0,
+          ),
+        );
       },
     );
     on<DescriptionChanged>(
@@ -407,7 +416,8 @@ class NewHomeworkDialogBloc
     );
     on<NotifyCourseMembersChanged>(
       (event, emit) {
-        // TODO
+        _homework =
+            _homework.copyWith(sendNotification: event.newNotifyCourseMembers);
       },
     );
     on<IsPrivateChanged>(

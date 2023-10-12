@@ -105,6 +105,46 @@ void main() {
             private: true,
           ));
     });
+    test('Sucessfully add homework with submissions', () async {
+      final bloc = NewHomeworkDialogBloc(
+        api: homeworkDialogApi,
+      );
+
+      final artCourse = Course.create().copyWith(
+        id: 'art_course',
+        name: 'Art',
+        subject: 'Art',
+        abbreviation: 'A',
+        myRole: MemberRole.admin,
+      );
+
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([artCourse]));
+
+      bloc.add(TitleChanged('Paint masterpiece'));
+      bloc.add(CourseChanged(CourseId(artCourse.id)));
+      bloc.add(DueDateChanged(Date.parse('2024-11-13')));
+      bloc.add(SubmissionsChanged(
+          (enabled: true, submissionTime: Time(hour: 16, minute: 30))));
+      bloc.add(DescriptionChanged('This is a description'));
+      bloc.add(NotifyCourseMembersChanged(true));
+      bloc.add(Submit());
+
+      await pumpEventQueue();
+
+      expect(bloc.state, SavedSucessfully(isEditing: false));
+      expect(
+          homeworkDialogApi.userInputToBeCreated,
+          UserInput(
+            title: 'Paint masterpiece',
+            todoUntil: DateTime(2024, 11, 13, 16, 30),
+            description: 'This is a description',
+            withSubmission: true,
+            localFiles: IList([]),
+            sendNotification: true,
+            private: false,
+          ));
+    });
     test('Returns loading state when called for an existing homework', () {
       final homeworkId = HomeworkId('foo');
 
