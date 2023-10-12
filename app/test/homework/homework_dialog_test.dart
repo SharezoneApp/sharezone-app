@@ -228,26 +228,10 @@ void main() {
 
       expect(userInput.title, 'New title text');
       expect(userInput.courseId.id, 'foo_course');
-      // expect(userInput.course!.name, 'Foo course');
-      // expect(userInput.course!.subject, 'Foo subject');
-      // The following TestFailure was thrown running a test:
-      // Expected: 'F'
-      //   Actual: ''
-      // expect(userInput.course!.abbreviation, 'F');
-      // The following TestFailure was thrown running a test:
-      // Expected: MemberRole:<MemberRole.admin>
-      //   Actual: MemberRole:<MemberRole.standard>
-      // expect(userInput.course!.myRole, MemberRole.admin);
       expect(userInput.withSubmission, true);
       // We didn't change it
       expect(userInput.todoUntil, homework!.todoUntil);
       expect(userInput.description, 'New description text');
-      // The following TestFailure was thrown running a test:
-      // Expected: an object with length of <1>
-      //   Actual: []
-      //    Which: has length of <0>
-      // expect(userInput.localFiles, hasLength(1));
-      // expect(userInput.localFiles?.first.getName(), 'foo_attachment2.png');
       expect(userInput.sendNotification, false);
       expect(userInput.private, false);
       expect(cloudFilesToBeRemoved, hasLength(1));
@@ -305,10 +289,6 @@ void main() {
       final userInput = homeworkDialogApi.userInputToBeCreated;
       expect(userInput.title, 'S. 24 a)');
       expect(userInput.courseId.id, 'foo_course');
-      // expect(userInput.course!.name, 'Foo course');
-      // expect(userInput.course!.subject, 'Foo subject');
-      // expect(userInput.course!.abbreviation, 'F');
-      // expect(userInput.course!.myRole, MemberRole.admin);
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.
