@@ -15,7 +15,6 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:files_basics/local_file_data.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,18 +30,15 @@ import 'homework_dialog_test.mocks.dart';
 
 void main() {
   group('HomeworkDialogBloc', () {
-    late MockSharezoneGateway sharezoneGateway;
     late MockCourseGateway courseGateway;
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
-    late NewHomeworkDialogBloc bloc;
 
     setUp(() {
       courseGateway = MockCourseGateway();
-      sharezoneGateway = MockSharezoneGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
       sharezoneContext = MockSharezoneContext();
@@ -89,11 +85,11 @@ void main() {
           .thenAnswer((_) => Stream.value([mathCourse]));
       homeworkDialogApi.courseToReturn = mathCourse;
 
-      bloc.add(TitleChanged('S. 32 8a)'));
+      bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
-      bloc.add(DescriptionChanged('This is a description'));
-      bloc.add(IsPrivateChanged(true));
+      bloc.add(const DescriptionChanged('This is a description'));
+      bloc.add(const IsPrivateChanged(true));
       // Create new test with more testing of removing/adding files (and remove
       // removing files here)
       bloc.add(
@@ -131,11 +127,11 @@ void main() {
             isEditing: false,
           ));
 
-      bloc.add(Submit());
+      bloc.add(const Submit());
 
       await pumpEventQueue();
 
-      expect(bloc.state, SavedSucessfully(isEditing: false));
+      expect(bloc.state, const SavedSucessfully(isEditing: false));
       expect(
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
@@ -163,13 +159,13 @@ void main() {
           .thenAnswer((_) => Stream.value([artCourse]));
       homeworkDialogApi.courseToReturn = artCourse;
 
-      bloc.add(TitleChanged('Paint masterpiece'));
+      bloc.add(const TitleChanged('Paint masterpiece'));
       bloc.add(CourseChanged(CourseId(artCourse.id)));
       bloc.add(DueDateChanged(Date.parse('2024-11-13')));
       bloc.add(SubmissionsChanged(
           (enabled: true, submissionTime: Time(hour: 16, minute: 30))));
-      bloc.add(DescriptionChanged('This is a description'));
-      bloc.add(NotifyCourseMembersChanged(true));
+      bloc.add(const DescriptionChanged('This is a description'));
+      bloc.add(const NotifyCourseMembersChanged(true));
       await pumpEventQueue();
 
       expect(
@@ -192,11 +188,11 @@ void main() {
             isEditing: false,
           ));
 
-      bloc.add(Submit());
+      bloc.add(const Submit());
 
       await pumpEventQueue();
 
-      expect(bloc.state, SavedSucessfully(isEditing: false));
+      expect(bloc.state, const SavedSucessfully(isEditing: false));
       expect(
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
@@ -204,7 +200,7 @@ void main() {
             todoUntil: DateTime(2024, 11, 13, 16, 30),
             description: 'This is a description',
             withSubmission: true,
-            localFiles: IList([]),
+            localFiles: IList(const []),
             sendNotification: true,
             private: false,
           ));
