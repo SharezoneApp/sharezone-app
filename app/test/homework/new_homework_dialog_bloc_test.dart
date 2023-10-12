@@ -6,11 +6,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:analytics/analytics.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
+import 'package:files_basics/local_file.dart';
+import 'package:files_basics/local_file_data.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -63,6 +68,13 @@ void main() {
         myRole: MemberRole.admin,
       );
 
+      final fooLocalFile = FakeLocalFile.fromData(
+          Uint8List.fromList([1, 2]), 'bar/foo.png', 'foo.png', 'png');
+      final barLocalFile = FakeLocalFile.fromData(
+          Uint8List.fromList([1, 2, 3, 4]), 'foo/bar.pdf', 'bar.pdf', 'pdf');
+      final quzLocalFile = FakeLocalFile.fromData(
+          Uint8List.fromList([9]), 'bar/quux/baz/quz.pdf', 'quz.mp4', 'mp4');
+
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([mathCourse]));
 
@@ -71,6 +83,9 @@ void main() {
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
       bloc.add(DescriptionChanged('This is a description'));
       bloc.add(IsPrivateChanged(true));
+      bloc.add(
+          AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
+      bloc.add(AttachmentRemoved(localFile: quzLocalFile));
       bloc.add(Submit());
 
       await pumpEventQueue();
@@ -83,7 +98,7 @@ void main() {
             todoUntil: DateTime(2023, 10, 12),
             description: 'This is a description',
             withSubmission: false,
-            localFiles: IList(),
+            localFiles: IList([fooLocalFile, barLocalFile]),
             sendNotification: false,
             private: true,
           ));
@@ -246,4 +261,64 @@ void main() {
       );
     });
   });
+}
+
+class FakeLocalFile extends LocalFile {
+  final File? file;
+  final Uint8List? fileData;
+  final String fileName;
+  final int sizeBytes;
+  final MimeType? mimeType;
+  final String? path;
+
+  FakeLocalFile._({
+    required this.file,
+    required this.fileData,
+    required this.fileName,
+    required this.path,
+    required this.sizeBytes,
+    required this.mimeType,
+  });
+
+  factory FakeLocalFile.fromData(
+      Uint8List data, String? path, String name, String? type) {
+    return FakeLocalFile._(
+      file: null,
+      fileData: data,
+      sizeBytes: data.lengthInBytes,
+      path: path,
+      mimeType: type == null ? null : MimeType(type),
+      fileName: name,
+    );
+  }
+
+  @override
+  getFile() {
+    return file;
+  }
+
+  @override
+  getData() {
+    return fileData;
+  }
+
+  @override
+  String? getPath() {
+    return path;
+  }
+
+  @override
+  MimeType? getType() {
+    return mimeType;
+  }
+
+  @override
+  String getName() {
+    return fileName;
+  }
+
+  @override
+  int getSizeBytes() {
+    return sizeBytes;
+  }
 }

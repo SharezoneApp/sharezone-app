@@ -302,6 +302,7 @@ class NewHomeworkDialogBloc
   late List<CloudFile> _initialAttachments;
 
   late HomeworkDto _homework;
+  var _localFiles = IList<LocalFile>();
 
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
       : super(homeworkId != null
@@ -361,7 +362,7 @@ class NewHomeworkDialogBloc
               todoUntil: _homework.todoUntil,
               description: _homework.description,
               withSubmission: _homework.withSubmissions,
-              localFiles: IList(),
+              localFiles: _localFiles,
               sendNotification: _homework.sendNotification,
               private: _homework.private,
             ));
@@ -396,12 +397,14 @@ class NewHomeworkDialogBloc
     );
     on<AttachmentsAdded>(
       (event, emit) {
-        // TODO
+        _localFiles = _localFiles.addAll(event.newFiles);
       },
     );
     on<AttachmentRemoved>(
       (event, emit) {
-        // TODO
+        if (event.localFile != null) {
+          _localFiles = _localFiles.remove(event.localFile!);
+        }
       },
     );
     on<NotifyCourseMembersChanged>(
