@@ -52,7 +52,8 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
   late CourseId courseIdForHomeworkToBeCreated;
   @override
-  Future<HomeworkDto> create(CourseId courseId, UserInput userInput) async {
+  Future<HomeworkDto> createHomework(
+      CourseId courseId, UserInput userInput) async {
     courseIdForHomeworkToBeCreated = courseId;
     userInputToBeCreated = userInput;
     return HomeworkDto.create(courseID: 'courseID');
@@ -61,7 +62,7 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputFromEditing;
   late List<CloudFile> removedCloudFilesFromEditing;
   @override
-  Future<HomeworkDto> edit(HomeworkId homeworkId, UserInput userInput,
+  Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     userInputFromEditing = userInput;
     removedCloudFilesFromEditing = removedCloudFiles;

@@ -266,8 +266,8 @@ class HomeworkDialogBloc extends BlocBase {
       // weil die Daten sofort in Firestore gespeichert werden können und somit
       // auch offline hinzufügbar sind.
       hasAttachments
-          ? await api.create(courseId, userInput)
-          : api.create(courseId, userInput);
+          ? await api.createHomework(courseId, userInput)
+          : api.createHomework(courseId, userInput);
 
       if (_markdownAnalytics.containsMarkdown(description)) {
         _markdownAnalytics.logMarkdownUsedHomework();
@@ -280,10 +280,10 @@ class HomeworkDialogBloc extends BlocBase {
       final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
           initialCloudFiles, _cloudFilesSubject.valueOrNull!);
       if (hasAttachments) {
-        await api.edit(HomeworkId(initialHomework!.id), userInput,
+        await api.editHomework(HomeworkId(initialHomework!.id), userInput,
             removedCloudFiles: removedCloudFiles);
       } else {
-        api.edit(HomeworkId(initialHomework!.id), userInput,
+        api.editHomework(HomeworkId(initialHomework!.id), userInput,
             removedCloudFiles: removedCloudFiles);
       }
 
@@ -367,7 +367,8 @@ class HomeworkDialogApi {
         .first;
   }
 
-  Future<HomeworkDto> create(CourseId courseId, UserInput userInput) async {
+  Future<HomeworkDto> createHomework(
+      CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
     final course = (await _api.course.streamCourse(courseId.id).first)!;
     final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
@@ -416,7 +417,7 @@ class HomeworkDialogApi {
     return homework;
   }
 
-  Future<HomeworkDto> edit(HomeworkId homeworkId, UserInput userInput,
+  Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     final oldHomework =
         await _api.homework.singleHomeworkStream(homeworkId.id).first;
