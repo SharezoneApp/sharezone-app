@@ -241,7 +241,7 @@ void main() {
       final state = bloc.state as Ready;
       expect(state.dueDate, null);
     });
-    test('Returns homework data when called for existing homework', () async {
+    test('Sucessfully displays and edits existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');
 
       final fooCourse = Course.create().copyWith(
@@ -328,8 +328,28 @@ void main() {
           isEditing: true,
         ),
       );
+
+      bloc.add(const Submit());
+      await pumpEventQueue();
+
+      expect(
+        homeworkDialogApi.userInputFromEditing,
+        UserInput(
+          title: 'title text',
+          withSubmission: false,
+          todoUntil: DateTime(2024, 03, 12),
+          description: 'description text',
+          localFiles: IList(),
+          private: true,
+          sendNotification: false,
+        ),
+      );
+      expect(homeworkDialogApi.removedCloudFilesFromEditing,
+          [homeworkDialogApi.loadCloudFilesResult[0]]);
+
+      expect(bloc.state, const SavedSucessfully(isEditing: true));
     });
-    test('Returns homework data when called for existing homework 2', () async {
+    test('Sucessfully displays and edits existing homework 2', () async {
       final homeworkId = HomeworkId('bar_homework_id');
 
       final barCourse = Course.create().copyWith(
@@ -389,6 +409,25 @@ void main() {
           isEditing: true,
         ),
       );
+
+      bloc.add(const Submit());
+      await pumpEventQueue();
+
+      expect(
+        homeworkDialogApi.userInputFromEditing,
+        UserInput(
+          title: 'title text',
+          withSubmission: true,
+          todoUntil: DateTime(2024, 03, 12, 16, 35),
+          description: 'description text',
+          localFiles: IList(),
+          private: false,
+          sendNotification: false,
+        ),
+      );
+      expect(homeworkDialogApi.removedCloudFilesFromEditing, []);
+
+      expect(bloc.state, const SavedSucessfully(isEditing: true));
     });
   });
 }

@@ -341,25 +341,31 @@ class NewHomeworkDialogBloc
     );
     on<Submit>(
       (event, emit) async {
-        await api.createHomework(
-            CourseId(_homework.courseID),
-            UserInput(
-              title: _homework.title,
-              todoUntil: DateTime(
-                _homework.todoUntil.year,
-                _homework.todoUntil.month,
-                _homework.todoUntil.day,
-                _homework.withSubmissions ? _homework.todoUntil.hour : 0,
-                _homework.withSubmissions ? _homework.todoUntil.minute : 0,
-              ),
-              description: _homework.description,
-              withSubmission: _homework.withSubmissions,
-              localFiles: _localFiles,
-              sendNotification: _homework.sendNotification,
-              private: _homework.private,
-            ));
+        final userInput = UserInput(
+          title: _homework.title,
+          todoUntil: DateTime(
+            _homework.todoUntil.year,
+            _homework.todoUntil.month,
+            _homework.todoUntil.day,
+            _homework.withSubmissions ? _homework.todoUntil.hour : 0,
+            _homework.withSubmissions ? _homework.todoUntil.minute : 0,
+          ),
+          description: _homework.description,
+          withSubmission: _homework.withSubmissions,
+          localFiles: _localFiles,
+          sendNotification: _homework.sendNotification,
+          private: _homework.private,
+        );
 
-        emit(SavedSucessfully(isEditing: homeworkId != null));
+        if (isEditing) {
+          await api.editHomework(HomeworkId(_homework.id), userInput,
+              removedCloudFiles:
+                  _initialAttachments.removeAll(_cloudFiles).toList());
+        } else {
+          await api.createHomework(CourseId(_homework.courseID), userInput);
+        }
+
+        emit(SavedSucessfully(isEditing: isEditing));
       },
     );
     on<TitleChanged>(
