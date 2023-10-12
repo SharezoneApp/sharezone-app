@@ -390,7 +390,7 @@ class _EditIcon extends StatelessWidget {
         final successful = await Navigator.push<bool>(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeworkDialog(
+            builder: (context) => NewHomeworkDialog(
               id: homework?.id != null ? HomeworkId(homework!.id) : null,
             ),
             settings: const RouteSettings(name: HomeworkDialog.tag),
