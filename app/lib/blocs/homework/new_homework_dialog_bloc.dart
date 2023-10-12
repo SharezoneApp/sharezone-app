@@ -9,13 +9,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
