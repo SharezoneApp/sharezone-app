@@ -36,8 +36,10 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^3.0.0
+  bloc: ^8.1.2
   bloc_base:
     path: ../lib/bloc_base
+  bloc_presentation: ^1.0.0
   bloc_provider:
     path: ../lib/bloc_provider
   build_context:
