@@ -33,7 +33,7 @@ class HomeworkDialogBloc extends BlocBase {
   final _todoUntilSubject = BehaviorSubject<DateTime>();
   final _descriptionSubject = BehaviorSubject<String>();
   final _privateSubject = BehaviorSubject.seeded(false);
-  final _sendNotificationSubject = BehaviorSubject<bool>();
+  final _sendNotificationSubject = BehaviorSubject<bool>.seeded(false);
   final _localFilesSubject = BehaviorSubject.seeded(<LocalFile>[]);
   final _cloudFilesSubject = BehaviorSubject.seeded(<CloudFile>[]);
   final _withSubmissionsSubject = BehaviorSubject.seeded(false);
@@ -245,14 +245,14 @@ class HomeworkDialogBloc extends BlocBase {
       _submissionTimeSubject.valueOrNull?.minute ?? 0,
     );
     final courseId = CourseId(_courseSegmentSubject.value.id);
-    final description = _descriptionSubject.valueOrNull;
+    final description = _descriptionSubject.valueOrNull ?? '';
     final private = _privateSubject.value;
     final localFiles = IList(_localFilesSubject.value);
 
     final userInput = UserInput(
       title: _titleSubject.value!,
       todoUntil: todoUntil,
-      description: _descriptionSubject.value,
+      description: description,
       private: private,
       localFiles: localFiles,
       sendNotification: _sendNotificationSubject.value,
