@@ -38,6 +38,7 @@ void main() {
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
+    late NewHomeworkDialogBloc bloc;
 
     setUp(() {
       courseGateway = MockCourseGateway();
@@ -49,16 +50,25 @@ void main() {
       analytics = Analytics(analyticsBackend);
     });
 
-    test('Returns empty dialog when called for creating a new homework', () {
-      final bloc = NewHomeworkDialogBloc(
-        api: MockHomeworkDialogApi(),
+    NewHomeworkDialogBloc createBlocForNewHomeworkDialog() {
+      return NewHomeworkDialogBloc(
+        api: homeworkDialogApi,
       );
+    }
+
+    NewHomeworkDialogBloc createBlocForEditingHomeworkDialog(HomeworkId id) {
+      return NewHomeworkDialogBloc(
+        api: homeworkDialogApi,
+        homeworkId: id,
+      );
+    }
+
+    test('Returns empty dialog when called for creating a new homework', () {
+      final bloc = createBlocForNewHomeworkDialog();
       expect(bloc.state, emptyCreateHomeworkDialogState);
     });
     test('Sucessfully add private homework with files', () async {
-      final bloc = NewHomeworkDialogBloc(
-        api: homeworkDialogApi,
-      );
+      final bloc = createBlocForNewHomeworkDialog();
 
       final mathCourse = Course.create().copyWith(
         id: 'maths_course',
@@ -106,9 +116,7 @@ void main() {
           ));
     });
     test('Sucessfully add homework with submissions', () async {
-      final bloc = NewHomeworkDialogBloc(
-        api: homeworkDialogApi,
-      );
+      final bloc = createBlocForNewHomeworkDialog();
 
       final artCourse = Course.create().copyWith(
         id: 'art_course',
@@ -147,12 +155,8 @@ void main() {
     });
     test('Returns loading state when called for an existing homework', () {
       final homeworkId = HomeworkId('foo');
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
 
-      final homeworkDialogApi = MockHomeworkDialogApi();
-      homeworkDialogApi.homeworkToReturn =
-          HomeworkDto.create(courseID: 'courseID');
-      final bloc =
-          NewHomeworkDialogBloc(api: homeworkDialogApi, homeworkId: homeworkId);
       expect(bloc.state, LoadingHomework(homeworkId, isEditing: true));
     });
     test('Returns homework data when called for existing homework', () async {
@@ -210,8 +214,7 @@ void main() {
       );
       homeworkDialogApi.homeworkToReturn = homework;
 
-      final bloc =
-          NewHomeworkDialogBloc(api: homeworkDialogApi, homeworkId: homeworkId);
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
       await pumpEventQueue();
       expect(
         bloc.state,
@@ -279,8 +282,7 @@ void main() {
       );
       homeworkDialogApi.homeworkToReturn = homework;
 
-      final bloc =
-          NewHomeworkDialogBloc(api: homeworkDialogApi, homeworkId: homeworkId);
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
       await pumpEventQueue();
       expect(
         bloc.state,
