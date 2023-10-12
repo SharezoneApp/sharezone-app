@@ -325,6 +325,14 @@ class NewHomeworkDialogBloc
 
     on<_LoadedHomeworkData>(
       (event, emit) {
+        // Because currently sendNotifications can be true for existing
+        // homeworks and because we don't want to set the UI value depending on
+        // the existing value, we set the value to false here.
+        // This also helps us when comparing if the user changed the homework by
+        // using `_initialHomework != _homework` since otherwise it might be
+        // false when the user didn't change anything as the sendNotification
+        // value might be `true` in the _initialHomework.
+        _initialHomework = _initialHomework!.copyWith(sendNotification: false);
         _homework = _initialHomework!;
         _cloudFiles = _initialAttachments;
 

@@ -361,6 +361,9 @@ void main() {
         todoUntil: DateTime(2024, 03, 12, 16, 35),
         description: 'description text',
         attachments: [],
+        // Sometimes sendNotficiation might be set to true for an existing
+        // homework, but we need to make sure that it will be ignored.
+        sendNotification: true,
         private: false,
       );
       homeworkDialogApi.homeworkToReturn = homework;
