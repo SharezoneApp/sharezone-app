@@ -229,8 +229,7 @@ class HomeworkDialogBloc extends BlocBase {
 
   Future<void> _loadInitialCloudFiles(
       String courseID, String homeworkID) async {
-    final cloudFiles =
-        await api.loadCloudFiles(courseId: courseID, homeworkId: homeworkID);
+    final cloudFiles = await api.loadCloudFiles(homeworkId: homeworkID);
     _cloudFilesSubject.sink.add(cloudFiles);
     initialCloudFiles.addAll(cloudFiles);
   }
@@ -385,10 +384,10 @@ class HomeworkDialogApi {
     return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
   }
 
-  Future<List<CloudFile>> loadCloudFiles(
-      {required String courseId, required String homeworkId}) {
+  Future<List<CloudFile>> loadCloudFiles({required String homeworkId}) async {
+    final homework = await _api.homework.singleHomeworkStream(homeworkId).first;
     return _api.fileSharing.cloudFilesGateway
-        .filesStreamAttachment(courseId, homeworkId)
+        .filesStreamAttachment(homework.courseID, homeworkId)
         .first;
   }
 

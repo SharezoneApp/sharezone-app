@@ -404,7 +404,6 @@ class NewHomeworkDialogBloc
   Future<void> _loadExistingData(HomeworkId homeworkId) async {
     _initialHomework = await api.loadHomework(homeworkId);
     _initialAttachments = await api.loadCloudFiles(
-      courseId: _initialHomework.courseID,
       homeworkId: _initialHomework.id,
     );
     add(_LoadedHomeworkData());

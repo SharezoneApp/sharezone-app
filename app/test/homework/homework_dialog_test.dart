@@ -69,8 +69,7 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   final loadCloudFilesResult = <CloudFile>[];
 
   @override
-  Future<List<CloudFile>> loadCloudFiles(
-      {required String courseId, required String homeworkId}) async {
+  Future<List<CloudFile>> loadCloudFiles({required String homeworkId}) async {
     return loadCloudFilesResult;
   }
 
