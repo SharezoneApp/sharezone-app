@@ -228,9 +228,9 @@ void main() {
           homeworkDialogApi.removedCloudFilesFromEditing;
 
       expect(userInput.title, 'New title text');
-      expect(userInput.course!.id, 'foo_course');
-      expect(userInput.course!.name, 'Foo course');
-      expect(userInput.course!.subject, 'Foo subject');
+      expect(userInput.courseId.id, 'foo_course');
+      // expect(userInput.course!.name, 'Foo course');
+      // expect(userInput.course!.subject, 'Foo subject');
       // The following TestFailure was thrown running a test:
       // Expected: 'F'
       //   Actual: ''
@@ -305,11 +305,11 @@ void main() {
 
       final userInput = homeworkDialogApi.userInputToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(userInput.course!.id, 'foo_course');
-      expect(userInput.course!.name, 'Foo course');
-      expect(userInput.course!.subject, 'Foo subject');
-      expect(userInput.course!.abbreviation, 'F');
-      expect(userInput.course!.myRole, MemberRole.admin);
+      expect(userInput.courseId.id, 'foo_course');
+      // expect(userInput.course!.name, 'Foo course');
+      // expect(userInput.course!.subject, 'Foo subject');
+      // expect(userInput.course!.abbreviation, 'F');
+      // expect(userInput.course!.myRole, MemberRole.admin);
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.

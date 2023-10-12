@@ -337,13 +337,7 @@ class NewHomeworkDialogBloc
       (event, emit) async {
         await api.create(UserInput(
           'S. 32 8a)',
-          Course.create().copyWith(
-            id: 'maths_course',
-            name: 'Maths',
-            subject: 'Math',
-            abbreviation: 'M',
-            myRole: MemberRole.admin,
-          ),
+          CourseId('maths_course'),
           DateTime(2023, 10, 12),
           '',
           false,

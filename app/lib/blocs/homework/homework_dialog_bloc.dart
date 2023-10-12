@@ -247,7 +247,7 @@ class HomeworkDialogBloc extends BlocBase {
 
     final userInput = UserInput(
       _titleSubject.valueOrNull,
-      _courseSegmentSubject.valueOrNull,
+      CourseId(_courseSegmentSubject.valueOrNull!.id),
       todoUntil,
       description,
       private,
@@ -318,7 +318,7 @@ class EmptyTodoUntilException implements InvalidHomeworkInputException {}
 
 class UserInput {
   final String? title, description;
-  final Course? course;
+  final CourseId courseId;
   DateTime? todoUntil;
   final bool? private;
   final List<LocalFile>? localFiles;
@@ -327,7 +327,7 @@ class UserInput {
 
   UserInput(
     this.title,
-    this.course,
+    this.courseId,
     final DateTime todoUntil,
     this.description,
     this.private,
@@ -346,7 +346,7 @@ class UserInput {
 
   @override
   String toString() {
-    return 'UserInput(description: $description, course: $course, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
+    return 'UserInput(description: $description, courseId: $courseId, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
   }
 
   @override
@@ -356,7 +356,7 @@ class UserInput {
 
     return other is UserInput &&
         other.description == description &&
-        other.course == course &&
+        other.courseId == courseId &&
         other.todoUntil == todoUntil &&
         other.private == private &&
         listEquals(other.localFiles, localFiles) &&
@@ -367,7 +367,7 @@ class UserInput {
   @override
   int get hashCode {
     return description.hashCode ^
-        course.hashCode ^
+        courseId.hashCode ^
         todoUntil.hashCode ^
         private.hashCode ^
         localFiles.hashCode ^
@@ -394,14 +394,16 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    final course = userInput.course!;
+    // TODO: Is cache used?
+    final course =
+        (await _api.course.streamCourse(userInput.courseId.id).first)!;
     final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
     final authorName = (await _api.user.userStream.first)!.name;
     final authorID = _api.user.authUser!.uid;
     final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, userInput.course!.id, authorReference.id, authorName);
+        localFiles, userInput.courseId.id, authorReference.id, authorName);
 
     final homework = HomeworkDto.create(
             courseReference: _api.references.getCourseReference(course.id),

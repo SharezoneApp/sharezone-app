@@ -78,7 +78,7 @@ void main() {
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
             'S. 32 8a)',
-            mathCourse,
+            CourseId(mathCourse.id),
             DateTime(2023, 10, 12),
             '',
             false,
