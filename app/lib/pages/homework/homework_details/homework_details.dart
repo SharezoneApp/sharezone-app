@@ -20,7 +20,6 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
-import 'package:sharezone/pages/homework/new_homework_dialog.dart';
 import 'package:sharezone/pages/homework_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';

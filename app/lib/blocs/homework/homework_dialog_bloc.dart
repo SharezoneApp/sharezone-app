@@ -393,7 +393,6 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> create(UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    // TODO: Is cache used?
     final course =
         (await _api.course.streamCourse(userInput.courseId.id).first)!;
     final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
