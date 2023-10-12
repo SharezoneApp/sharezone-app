@@ -61,7 +61,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
-      widget.nextLessonCalculator!;
+      nextLessonCalculator = widget.nextLessonCalculator!;
     } else {
       final holidayManager =
           BlocProvider.of<HolidayBloc>(context).holidayManager;
