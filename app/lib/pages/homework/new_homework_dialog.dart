@@ -484,6 +484,7 @@ class _CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<NewHomeworkDialogBloc>(context);
     final courseState = state.course;
+    final isDisabled = courseState is CourseChosen && !courseState.isChangeable;
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -494,9 +495,11 @@ class _CourseTile extends StatelessWidget {
               courseState is CourseChosen ? courseState.courseName : null,
           // TODO:
           errorText: null,
-          onTap: () => CourseTile.onTap(context, onChangedId: (course) {
-            bloc.add(CourseChanged(course));
-          }),
+          onTap: isDisabled
+              ? null
+              : () => CourseTile.onTap(context, onChangedId: (course) {
+                    bloc.add(CourseChanged(course));
+                  }),
         ),
       ),
     );
