@@ -211,6 +211,15 @@ void main() {
 
       expect(bloc.state, LoadingHomework(homeworkId, isEditing: true));
     });
+    test(
+        'regression test: No due date is automatically set when starting to change data',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const TitleChanged('abc'));
+      await pumpEventQueue();
+      final state = bloc.state as Ready;
+      expect(state.dueDate, null);
+    });
     test('Returns homework data when called for existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');
 

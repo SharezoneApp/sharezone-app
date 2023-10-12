@@ -290,6 +290,10 @@ class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   List<Object?> get props => [];
 }
 
+final _kNoDateSelectedDateTime = DateTime(1337, 13, 37);
+HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '')
+    .copyWith(todoUntil: _kNoDateSelectedDateTime);
+
 class NewHomeworkDialogBloc
     extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
@@ -312,9 +316,7 @@ class NewHomeworkDialogBloc
     if (isEditing) {
       _loadExistingData(homeworkId!);
     } else {
-      _homework = HomeworkDto.create(courseID: '').copyWith(
-        todoUntil: null,
-      );
+      _homework = _kNoDataChangedHomework;
       _initialAttachments = IList();
     }
 
@@ -418,8 +420,7 @@ class NewHomeworkDialogBloc
   Ready _getNewState() {
     final didHomeworkChange = isEditing
         ? _initialHomework != _homework
-        : _homework !=
-            HomeworkDto.create(courseID: '').copyWith(todoUntil: null);
+        : _homework != _kNoDataChangedHomework;
     final didFilesChange = _initialAttachments != _cloudFiles;
     final didLocalFilesChange = _localFiles.isNotEmpty;
     final didDataChange =
@@ -434,7 +435,9 @@ class NewHomeworkDialogBloc
               isChangeable: !isEditing,
             )
           : const NoCourseChosen(),
-      dueDate: Date.fromDateTime(_homework.todoUntil),
+      dueDate: _homework.todoUntil != _kNoDataChangedHomework.todoUntil
+          ? Date.fromDateTime(_homework.todoUntil)
+          : null,
       submissions: _homework.withSubmissions
           ? SubmissionsEnabled(deadline: _homework.todoUntil.toTime())
           : SubmissionsDisabled(isChangeable: !_homework.private),
