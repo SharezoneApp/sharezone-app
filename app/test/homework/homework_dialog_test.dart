@@ -50,8 +50,10 @@ class MockNextLessonCalculator implements NextLessonCalculator {
 
 class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
+  late CourseId courseIdForHomeworkToBeCreated;
   @override
-  Future<HomeworkDto> create(UserInput userInput) async {
+  Future<HomeworkDto> create(CourseId courseId, UserInput userInput) async {
+    courseIdForHomeworkToBeCreated = courseId;
     userInputToBeCreated = userInput;
     return HomeworkDto.create(courseID: 'courseID');
   }
@@ -227,7 +229,6 @@ void main() {
           homeworkDialogApi.removedCloudFilesFromEditing;
 
       expect(userInput.title, 'New title text');
-      expect(userInput.courseId.id, 'foo_course');
       expect(userInput.withSubmission, true);
       // We didn't change it
       expect(userInput.todoUntil, homework!.todoUntil);
@@ -287,8 +288,9 @@ void main() {
       await tester.tap(find.byKey(HwDialogKeys.saveButton));
 
       final userInput = homeworkDialogApi.userInputToBeCreated;
+      final courseId = homeworkDialogApi.courseIdForHomeworkToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(userInput.courseId.id, 'foo_course');
+      expect(courseId, CourseId('foo_course'));
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.

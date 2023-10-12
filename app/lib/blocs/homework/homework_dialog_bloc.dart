@@ -11,8 +11,8 @@ import 'dart:async';
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
@@ -237,32 +237,36 @@ class HomeworkDialogBloc extends BlocBase {
   Future<void> submit() async {
     validateInputOrThrow();
     final todoUntil = DateTime(
-        _todoUntilSubject.valueOrNull!.year,
-        _todoUntilSubject.valueOrNull!.month,
-        _todoUntilSubject.valueOrNull!.day);
+      _todoUntilSubject.value.year,
+      _todoUntilSubject.value.month,
+      _todoUntilSubject.value.day,
+      _submissionTimeSubject.valueOrNull?.hour ?? 0,
+      _submissionTimeSubject.valueOrNull?.minute ?? 0,
+    );
+    final courseId = CourseId(_courseSegmentSubject.value.id);
     final description = _descriptionSubject.valueOrNull;
-    final private = _privateSubject.valueOrNull;
-    final localFiles = _localFilesSubject.valueOrNull;
+    final private = _privateSubject.value;
+    final localFiles = IList(_localFilesSubject.value);
 
     final userInput = UserInput(
-      _titleSubject.valueOrNull,
-      CourseId(_courseSegmentSubject.valueOrNull!.id),
-      todoUntil,
-      description,
-      private,
-      localFiles,
-      _sendNotificationSubject.valueOrNull,
-      _submissionTimeSubject.valueOrNull,
-      _withSubmissionsSubject.valueOrNull!,
+      title: _titleSubject.value!,
+      todoUntil: todoUntil,
+      description: _descriptionSubject.value,
+      private: private,
+      localFiles: localFiles,
+      sendNotification: _sendNotificationSubject.value,
+      withSubmission: _withSubmissionsSubject.value,
     );
 
-    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
+    final hasAttachments = localFiles.isNotEmpty;
 
     if (initialHomework == null) {
       // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
       // weil die Daten sofort in Firestore gespeichert werden können und somit
       // auch offline hinzufügbar sind.
-      hasAttachments ? await api.create(userInput) : api.create(userInput);
+      hasAttachments
+          ? await api.create(courseId, userInput)
+          : api.create(courseId, userInput);
 
       if (_markdownAnalytics.containsMarkdown(description)) {
         _markdownAnalytics.logMarkdownUsedHomework();
@@ -316,57 +320,47 @@ class EmptyCourseException implements InvalidHomeworkInputException {}
 class EmptyTodoUntilException implements InvalidHomeworkInputException {}
 
 class UserInput {
-  final String? title, description;
-  final CourseId courseId;
-  DateTime? todoUntil;
-  final bool? private;
-  final List<LocalFile>? localFiles;
-  final bool? sendNotification;
+  final String title;
+  final String description;
+  final DateTime todoUntil;
+  final bool private;
+  final IList<LocalFile> localFiles;
+  final bool sendNotification;
   final bool withSubmission;
 
-  UserInput(
-    this.title,
-    this.courseId,
-    final DateTime todoUntil,
-    this.description,
-    this.private,
-    this.localFiles,
-    this.sendNotification,
-    final Time? submissionTime,
-    this.withSubmission,
-  ) {
-    if (withSubmission && submissionTime != null) {
-      this.todoUntil = DateTime(todoUntil.year, todoUntil.month, todoUntil.day,
-          submissionTime.hour, submissionTime.minute);
-    } else {
-      this.todoUntil = todoUntil;
-    }
-  }
+  const UserInput({
+    required this.title,
+    required this.todoUntil,
+    required this.description,
+    required this.private,
+    required this.localFiles,
+    required this.sendNotification,
+    required this.withSubmission,
+  });
 
   @override
   String toString() {
-    return 'UserInput(description: $description, courseId: $courseId, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
+    return 'UserInput(title: $title, description: $description, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
     return other is UserInput &&
+        other.title == title &&
         other.description == description &&
-        other.courseId == courseId &&
         other.todoUntil == todoUntil &&
         other.private == private &&
-        listEquals(other.localFiles, localFiles) &&
+        other.localFiles == localFiles &&
         other.sendNotification == sendNotification &&
         other.withSubmission == withSubmission;
   }
 
   @override
   int get hashCode {
-    return description.hashCode ^
-        courseId.hashCode ^
+    return title.hashCode ^
+        description.hashCode ^
         todoUntil.hashCode ^
         private.hashCode ^
         localFiles.hashCode ^
@@ -391,17 +385,16 @@ class HomeworkDialogApi {
         .first;
   }
 
-  Future<HomeworkDto> create(UserInput userInput) async {
+  Future<HomeworkDto> create(CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    final course =
-        (await _api.course.streamCourse(userInput.courseId.id).first)!;
+    final course = (await _api.course.streamCourse(courseId.id).first)!;
     final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
     final authorName = (await _api.user.userStream.first)!.name;
     final authorID = _api.user.authUser!.uid;
     final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, userInput.courseId.id, authorReference.id, authorName);
+        localFiles.toList(), courseId.id, authorReference.id, authorName);
 
     final homework = HomeworkDto.create(
             courseReference: _api.references.getCourseReference(course.id),
@@ -429,7 +422,7 @@ class HomeworkDialogApi {
       ),
     );
 
-    if (userInput.private!) {
+    if (userInput.private) {
       await _api.homework.addPrivateHomework(homework, false,
           attachments: attachments, fileSharingGateway: _api.fileSharing);
     } else {
@@ -457,7 +450,7 @@ class HomeworkDialogApi {
 
     final localFiles = userInput.localFiles;
     final newAttachments = await _api.fileSharing.uploadAttachments(
-      localFiles,
+      localFiles.toList(),
       oldHomework.courseReference!.id,
       editorID,
       editorName,
