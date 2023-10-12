@@ -301,68 +301,87 @@ class NewHomeworkDialogBloc
   late HomeworkDto _initialHomework;
   late List<CloudFile> _initialAttachments;
 
+  late HomeworkDto _homework;
+
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
       : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
+    if (homeworkId != null) {
+      _loadExistingData(homeworkId);
+    }
+    {
+      _homework = HomeworkDto.create(courseID: '').copyWith(
+        todoUntil: null,
+      );
+    }
+
     on<_LoadedHomeworkData>(
-      (event, emit) => emit(Ready(
-        title: _initialHomework.title,
-        course: CourseChosen(
-          courseId: CourseId(_initialHomework.courseID),
-          courseName: _initialHomework.courseName,
-          isChangeable: false,
-        ),
-        dueDate: _initialHomework.todoUntil,
-        submissions: _initialHomework.withSubmissions
-            ? SubmissionsEnabled(deadline: _initialHomework.todoUntil.toTime())
-            : const SubmissionsDisabled(isChangeable: true),
-        description: _initialHomework.description,
-        attachments: IList([
-          for (final attachment in _initialAttachments)
-            FileView(
-              fileId: FileId(attachment.id!),
-              fileName: attachment.name,
-              format: attachment.fileFormat,
-              cloudFile: attachment,
-            )
-        ]),
-        notifyCourseMembers: false,
-        isPrivate: (_initialHomework.private, isChangeable: homeworkId == null),
-        hasModifiedData: false,
-        isEditing: true,
-      )),
+      (event, emit) {
+        _homework = _initialHomework;
+
+        emit(Ready(
+          title: _initialHomework.title,
+          course: CourseChosen(
+            courseId: CourseId(_initialHomework.courseID),
+            courseName: _initialHomework.courseName,
+            isChangeable: false,
+          ),
+          dueDate: _initialHomework.todoUntil,
+          submissions: _initialHomework.withSubmissions
+              ? SubmissionsEnabled(
+                  deadline: _initialHomework.todoUntil.toTime())
+              : const SubmissionsDisabled(isChangeable: true),
+          description: _initialHomework.description,
+          attachments: IList([
+            for (final attachment in _initialAttachments)
+              FileView(
+                fileId: FileId(attachment.id!),
+                fileName: attachment.name,
+                format: attachment.fileFormat,
+                cloudFile: attachment,
+              )
+          ]),
+          notifyCourseMembers: false,
+          isPrivate: (
+            _initialHomework.private,
+            isChangeable: homeworkId == null
+          ),
+          hasModifiedData: false,
+          isEditing: true,
+        ));
+      },
     );
     on<Submit>(
       (event, emit) async {
-        await api.create(UserInput(
-          'S. 32 8a)',
-          CourseId('maths_course'),
-          DateTime(2023, 10, 12),
-          '',
-          false,
-          [],
-          false,
-          null,
-          false,
-        ));
+        await api.createHomework(
+            CourseId(_homework.courseID),
+            UserInput(
+              title: _homework.title,
+              todoUntil: _homework.todoUntil,
+              description: _homework.description,
+              withSubmission: _homework.withSubmissions,
+              localFiles: IList(),
+              sendNotification: _homework.sendNotification,
+              private: _homework.private,
+            ));
 
-        emit(SavedSucessfully(isEditing: false));
+        emit(SavedSucessfully(isEditing: homeworkId != null));
       },
     );
     on<TitleChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(title: event.newTitle);
       },
     );
     on<DueDateChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(todoUntil: event.newDueDate.toDateTime);
       },
     );
     on<CourseChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(courseID: event.newCourseId.id);
       },
     );
     on<SubmissionsChanged>(
@@ -395,10 +414,6 @@ class NewHomeworkDialogBloc
         // TODO
       },
     );
-
-    if (homeworkId != null) {
-      _loadExistingData(homeworkId);
-    }
   }
 
   Future<void> _loadExistingData(HomeworkId homeworkId) async {
