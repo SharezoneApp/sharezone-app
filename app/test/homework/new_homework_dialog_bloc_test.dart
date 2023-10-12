@@ -55,7 +55,7 @@ void main() {
       );
       expect(bloc.state, emptyCreateHomeworkDialogState);
     });
-    test('Sucessfully add private homework', () async {
+    test('Sucessfully add private homework with files', () async {
       final bloc = NewHomeworkDialogBloc(
         api: homeworkDialogApi,
       );
