@@ -85,7 +85,7 @@ void main() {
       bloc.add(IsPrivateChanged(true));
       bloc.add(
           AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
-      bloc.add(AttachmentRemoved(localFile: quzLocalFile));
+      bloc.add(AttachmentRemoved(quzLocalFile.fileId));
       bloc.add(Submit());
 
       await pumpEventQueue();

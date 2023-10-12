@@ -642,9 +642,9 @@ class _AttachFile extends StatelessWidget {
           onLocalFilesAdded: (localFiles) =>
               bloc.add(AttachmentsAdded(localFiles.toIList())),
           onLocalFileRemoved: (localFile) =>
-              bloc.add(AttachmentRemoved(localFile: localFile)),
+              bloc.add(AttachmentRemoved(localFile.fileId)),
           onCloudFileRemoved: (cloudFile) =>
-              bloc.add(AttachmentRemoved(cloudFile: cloudFile)),
+              bloc.add(AttachmentRemoved(FileId(cloudFile.id!))),
           cloudFiles: state.attachments
               .where((file) => file.cloudFile != null)
               .map((file) => file.cloudFile!)

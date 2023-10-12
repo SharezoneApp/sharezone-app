@@ -87,14 +87,12 @@ class AttachmentsAdded extends HomeworkDialogEvent {
 }
 
 class AttachmentRemoved extends HomeworkDialogEvent {
-  // TODO: Don't know if this is really what we need.
-  final LocalFile? localFile;
-  final CloudFile? cloudFile;
+  final FileId id;
 
-  const AttachmentRemoved({this.localFile, this.cloudFile});
+  const AttachmentRemoved(this.id);
 
   @override
-  List<Object?> get props => [localFile, cloudFile];
+  List<Object?> get props => [id];
 }
 
 class NotifyCourseMembersChanged extends HomeworkDialogEvent {
@@ -402,9 +400,9 @@ class NewHomeworkDialogBloc
     );
     on<AttachmentRemoved>(
       (event, emit) {
-        if (event.localFile != null) {
-          _localFiles = _localFiles.remove(event.localFile!);
-        }
+        // TODO: Implement removing CloudFile
+        _localFiles =
+            _localFiles.removeWhere((file) => file.fileId == event.id);
       },
     );
     on<NotifyCourseMembersChanged>(
@@ -426,4 +424,8 @@ class NewHomeworkDialogBloc
     );
     add(_LoadedHomeworkData());
   }
+}
+
+extension LocalFileHashcodeFileId on LocalFile {
+  FileId get fileId => FileId(hashCode.toString());
 }
