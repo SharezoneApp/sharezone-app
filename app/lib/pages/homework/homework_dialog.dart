@@ -34,8 +34,8 @@ class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
     Key? key,
     required this.id,
-    this.homeworkDialogApi,
-    this.nextLessonCalculator,
+    @visibleForTesting this.homeworkDialogApi,
+    @visibleForTesting this.nextLessonCalculator,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
