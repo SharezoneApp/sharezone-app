@@ -468,6 +468,7 @@ class NewHomeworkDialogBloc
       ]),
       notifyCourseMembers: _homework.sendNotification,
       isPrivate: (_homework.private, isChangeable: !_homework.withSubmissions),
+      // TODO: Implement and test
       hasModifiedData: true,
       isEditing: isEditing,
     );
