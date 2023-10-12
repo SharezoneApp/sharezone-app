@@ -377,8 +377,8 @@ class NewHomeworkDialogBloc
     on<DueDateChanged>(
       (event, emit) {
         _homework = _homework.copyWith(
-            // copyWith because we need to keep the magic "not changed" value to
-            // know if the user changed the submission time.
+            // copyWith because we need to keep the magic "not changed" value for
+            // the submission time (hour, minute, second, etc.).
             todoUntil: _homework.todoUntil.copyWith(
           year: event.newDueDate.year,
           month: event.newDueDate.month,
@@ -399,11 +399,13 @@ class NewHomeworkDialogBloc
       (event, emit) {
         _homework = _homework.copyWith(
           withSubmissions: event.newSubmissionsOptions.enabled,
-          // copyWith because we need to keep the magic "not changed" value to
-          // know if the user changed the due date.
+          // copyWith because we need to keep the magic "not changed" value for
+          // the due date (year, month, day attributes).
           todoUntil: _homework.todoUntil.copyWith(
             hour: event.newSubmissionsOptions.submissionTime?.hour ?? 23,
             minute: event.newSubmissionsOptions.submissionTime?.minute ?? 59,
+            // Remove magic number used to indicate that submission time has not
+            // been changed.
             millisecond: 0,
             microsecond: 0,
           ),
