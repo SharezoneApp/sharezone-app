@@ -12,9 +12,12 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
+import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
@@ -34,8 +37,8 @@ class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
     Key? key,
     required this.id,
-    @visibleForTesting this.homeworkDialogApi,
-    @visibleForTesting this.nextLessonCalculator,
+    this.homeworkDialogApi,
+    this.nextLessonCalculator,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
@@ -61,7 +64,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
-      nextLessonCalculator = widget.nextLessonCalculator!;
+      widget.nextLessonCalculator!;
     } else {
       final holidayManager =
           BlocProvider.of<HolidayBloc>(context).holidayManager;
@@ -70,30 +73,21 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           userGateway: szContext.api.user,
           holidayManager: holidayManager);
     }
-    final homeworkDialogApi =
-        widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api);
 
     if (widget.id != null) {
       homework = szContext.api.homework
           .singleHomework(widget.id!.id, source: Source.cache)
           .then((value) {
         bloc = HomeworkDialogBloc(
-          homework: value,
-          homeworkDialogApi,
-          nextLessonCalculator,
-          markdownAnalytics,
-          analytics,
+          homeworkId: widget.id,
+          api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
         );
         return value;
       });
     } else {
       homework = Future.value(null);
       bloc = HomeworkDialogBloc(
-        homework: null,
-        homeworkDialogApi,
-        nextLessonCalculator,
-        markdownAnalytics,
-        analytics,
+        api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
       );
     }
   }
@@ -103,22 +97,16 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     return FutureBuilder(
       future: homework,
       builder: (context, snapshot) {
-        if (snapshot.hasError ||
-            snapshot.connectionState == ConnectionState.waiting) {
-          final hasError = snapshot.hasError;
-          return Scaffold(
-            body: Center(
-              child: hasError
-                  ? Text(
-                      'Ein Fehler ist aufgetreten:\n${snapshot.error!.toString()}')
-                  : Container(),
-            ),
-          );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
         }
-        return BlocProvider(
-          bloc: bloc,
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error!.toString()));
+        }
+        return bloc_lib.BlocProvider(
+          create: (context) => bloc,
           child: __HomeworkDialog(
-            homework: snapshot.data,
+            isEditing: snapshot.data != null,
             bloc: bloc,
           ),
         );
@@ -142,11 +130,12 @@ class HwDialogKeys {
 }
 
 class __HomeworkDialog extends StatefulWidget {
-  const __HomeworkDialog({Key? key, this.homework, this.bloc})
+  const __HomeworkDialog(
+      {Key? key, required this.isEditing, required this.bloc})
       : super(key: key);
 
-  final HomeworkDto? homework;
-  final HomeworkDialogBloc? bloc;
+  final bool isEditing;
+  final HomeworkDialogBloc bloc;
 
   @override
   __HomeworkDialogState createState() => __HomeworkDialogState();
@@ -154,17 +143,20 @@ class __HomeworkDialog extends StatefulWidget {
 
 class __HomeworkDialogState extends State<__HomeworkDialog> {
   final titleNode = FocusNode();
-  bool editMode = false;
 
   @override
   void initState() {
-    if (widget.homework != null) editMode = true;
     delayKeyboard(context: context, focusNode: titleNode);
     super.initState();
   }
 
+  bool hasModifiedData() {
+    final state = widget.bloc.state;
+    return state is Ready && state.hasModifiedData;
+  }
+
   Future<void> leaveDialog() async {
-    if (widget.bloc!.hasInputChanged()) {
+    if (hasModifiedData()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
       if (confirmedLeave && context.mounted) Navigator.pop(context);
     } else {
@@ -174,51 +166,58 @@ class __HomeworkDialogState extends State<__HomeworkDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => widget.bloc!.hasInputChanged()
-          ? warnUserAboutLeavingForm(context)
-          : Future.value(true),
-      child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            _AppBar(
-                oldHomework: widget.homework,
-                editMode: editMode,
-                focusNodeTitle: titleNode,
-                onCloseTap: () => leaveDialog(),
-                titleField: _TitleField(
-                  focusNode: titleNode,
-                  prefilledTitle: widget.homework?.title,
-                )),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<HomeworkDialogBloc, HomeworkDialogState>(
+      builder: (context, state) {
+        return switch (state) {
+          LoadingHomework() => const Center(child: CircularProgressIndicator()),
+          // TODO
+          SavedSucessfully() => Container(),
+          Ready() => WillPopScope(
+              onWillPop: () async => hasModifiedData()
+                  ? warnUserAboutLeavingForm(context)
+                  : Future.value(true),
+              child: Scaffold(
+                body: Column(
                   children: <Widget>[
-                    const SizedBox(height: 8),
-                    _CourseTile(editMode: editMode),
-                    const _MobileDivider(),
-                    _TodoUntilPicker(),
-                    const _MobileDivider(),
-                    _SubmissionsSwitch(),
-                    const _MobileDivider(),
-                    _DescriptionField(
-                        prefilledDescription: widget.homework?.description),
-                    const _MobileDivider(),
-                    _AttachFile(),
-                    const _MobileDivider(),
-                    _SendNotification(editMode: editMode),
-                    const _MobileDivider(),
-                    _PrivateHomeworkSwitch(editMode: editMode),
-                    const _MobileDivider(),
+                    _AppBar(
+                        editMode: widget.isEditing,
+                        focusNodeTitle: titleNode,
+                        onCloseTap: () => leaveDialog(),
+                        titleField: _TitleField(
+                          focusNode: titleNode,
+                          state: state,
+                        )),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const SizedBox(height: 8),
+                            _CourseTile(state: state),
+                            const _MobileDivider(),
+                            _TodoUntilPicker(state: state),
+                            const _MobileDivider(),
+                            _SubmissionsSwitch(state: state),
+                            const _MobileDivider(),
+                            _DescriptionField(state: state),
+                            const _MobileDivider(),
+                            _AttachFile(state: state),
+                            const _MobileDivider(),
+                            _SendNotification(state: state),
+                            const _MobileDivider(),
+                            _PrivateHomeworkSwitch(state: state),
+                            const _MobileDivider(),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+        };
+      },
     );
   }
 }
@@ -248,24 +247,27 @@ class _SaveButton extends StatelessWidget {
   final bool editMode;
 
   Future<void> onPressed(BuildContext context) async {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     try {
-      bloc.validateInputOrThrow();
+      // bloc.validateInputOrThrow();
       sendDataToFrankfurtSnackBar(context);
-      await bloc.submit();
+      // TODO: How can we handle errors that might occure when submitting?
+      bloc.add(const Submit());
 
       if (!context.mounted) return;
       hideSendDataToFrankfurtSnackBar(context);
       Navigator.pop(context, true);
-    } on InvalidHomeworkInputException catch (e) {
-      showSnackSec(
-        text: switch (e) {
-          EmptyTitleException() => _ErrorStrings.emptyTitle,
-          EmptyCourseException() => _ErrorStrings.emptyCourse,
-          EmptyTodoUntilException() => _ErrorStrings.emptyTodoUntil
-        },
-        context: context,
-      );
+      //
+      // TODO: Implement
+      // } on InvalidHomeworkInputException catch (e) {
+      //   showSnackSec(
+      //     text: switch (e) {
+      //       EmptyTitleException() => _ErrorStrings.emptyTitle,
+      //       EmptyCourseException() => _ErrorStrings.emptyCourse,
+      //       EmptyTodoUntilException() => _ErrorStrings.emptyTodoUntil
+      //     },
+      //     context: context,
+      //   );
     } on Exception catch (e) {
       log("Exception when submitting: $e", error: e);
       showSnackSec(
@@ -291,25 +293,30 @@ class _SaveButton extends StatelessWidget {
 }
 
 class _TodoUntilPicker extends StatelessWidget {
+  final Ready state;
+
+  const _TodoUntilPicker({required this.state});
+
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: StreamBuilder<DateTime>(
-          stream: bloc.todoUntil,
-          builder: (context, snapshot) => DefaultTextStyle.merge(
-            style: TextStyle(
-              color: snapshot.hasError ? Colors.red : null,
-            ),
-            child: DatePicker(
-              key: HwDialogKeys.todoUntilTile,
-              padding: const EdgeInsets.all(12),
-              selectedDate: snapshot.data,
-              selectDate: bloc.changeTodoUntil,
-            ),
+        child: DefaultTextStyle.merge(
+          style: const TextStyle(
+            color: null,
+            // TODO:
+            // color: snapshot.hasError ? Colors.red : null,
+          ),
+          child: DatePicker(
+            key: HwDialogKeys.todoUntilTile,
+            padding: const EdgeInsets.all(12),
+            selectedDate: state.dueDate?.toDateTime,
+            selectDate: (newDate) {
+              bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
+            },
           ),
         ),
       ),
@@ -320,14 +327,12 @@ class _TodoUntilPicker extends StatelessWidget {
 class _AppBar extends StatelessWidget {
   const _AppBar({
     Key? key,
-    required this.oldHomework,
     required this.editMode,
     required this.focusNodeTitle,
     required this.onCloseTap,
     required this.titleField,
   }) : super(key: key);
 
-  final HomeworkDto? oldHomework;
   final bool editMode;
   final VoidCallback onCloseTap;
   final Widget titleField;
@@ -375,32 +380,44 @@ class _AppBar extends StatelessWidget {
 class _TitleField extends StatelessWidget {
   const _TitleField({
     required this.focusNode,
-    this.prefilledTitle,
+    required this.state,
   });
 
-  final String? prefilledTitle;
+  final Ready state;
   final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
-      child: StreamBuilder<String>(
-          stream: bloc.title,
-          builder: (context, snapshot) {
-            final errorText = switch (snapshot.error) {
-              EmptyTitleException => _ErrorStrings.emptyTitle,
-              _ => snapshot.error?.toString(),
-            };
-
-            return _TitleFieldBase(
-              prefilledTitle: prefilledTitle,
-              focusNode: focusNode,
-              onChanged: bloc.changeTitle,
-              errorText: errorText,
-            );
-          }),
+      child: _TitleFieldBase(
+        // TODO: Will always rebuild with state change, fix.
+        prefilledTitle: state.title,
+        focusNode: focusNode,
+        onChanged: (newTitle) {
+          bloc.add(TitleChanged(newTitle));
+        },
+        // TODO
+        errorText: null,
+      ),
     );
+    // return MaxWidthConstraintBox(
+    //   child: StreamBuilder<String>(
+    //       stream: bloc.title,
+    //       builder: (context, snapshot) {
+    //         final errorText = switch (snapshot.error) {
+    //           EmptyTitleException => _ErrorStrings.emptyTitle,
+    //           _ => snapshot.error?.toString(),
+    //         };
+
+    //         return _TitleFieldBase(
+    //           prefilledTitle: prefilledTitle,
+    //           focusNode: focusNode,
+    //           onChanged: bloc.changeTitle,
+    //           errorText: errorText,
+    //         );
+    //       }),
+    // );
   }
 }
 
@@ -459,22 +476,30 @@ class _TitleFieldBase extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key? key, required this.editMode}) : super(key: key);
+  const _CourseTile({Key? key, required this.state}) : super(key: key);
 
-  final bool editMode;
+  final Ready state;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    final courseState = state.course;
+    final isDisabled = courseState is CourseChosen && !courseState.isChangeable;
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: CourseTile(
+        child: CourseTileBase(
           key: HwDialogKeys.courseTile,
-          courseStream: bloc.courseSegment,
-          onChanged: bloc.changeCourseSegment,
-          editMode: editMode,
+          courseName:
+              courseState is CourseChosen ? courseState.courseName : null,
+          // TODO:
+          errorText: null,
+          onTap: isDisabled
+              ? null
+              : () => CourseTile.onTap(context, onChangedId: (course) {
+                    bloc.add(CourseChanged(course));
+                  }),
         ),
       ),
     );
@@ -482,31 +507,27 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification({Key? key, this.editMode = true}) : super(key: key);
+  const _SendNotification({Key? key, required this.state}) : super(key: key);
 
-  final bool editMode;
+  final Ready state;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: StreamBuilder<bool>(
-          stream: bloc.sendNotification,
-          builder: (context, snapshot) {
-            final sendNotification = snapshot.data ?? false;
-            return _SendNotificationBase(
-              title:
-                  "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen",
-              onChanged: bloc.changeSendNotification,
-              sendNotification: sendNotification,
-              description: editMode
-                  ? null
-                  : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
-            );
-          },
+        child: _SendNotificationBase(
+          title:
+              "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
+          onChanged: (newValue) =>
+              bloc.add(NotifyCourseMembersChanged(newValue)),
+          sendNotification: state.notifyCourseMembers,
+          description: state.isEditing
+              ? null
+              : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
         ),
       ),
     );
@@ -543,16 +564,18 @@ class _SendNotificationBase extends StatelessWidget {
 }
 
 class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({required this.prefilledDescription});
+  const _DescriptionField({required this.state});
 
-  final String? prefilledDescription;
+  final Ready state;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return _DescriptionFieldBase(
-      onChanged: bloc.changeDescription,
-      prefilledDescription: prefilledDescription,
+      onChanged: (newDescription) =>
+          bloc.add(DescriptionChanged(newDescription)),
+      // TODO: Will update with each state change, fix.
+      prefilledDescription: state.description,
     );
   }
 }
@@ -606,70 +629,64 @@ class _DescriptionFieldBase extends StatelessWidget {
 }
 
 class _AttachFile extends StatelessWidget {
+  const _AttachFile({required this.state});
+
+  final Ready state;
+
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: AttachFile(
+        child: AttachFileBase(
           key: HwDialogKeys.addAttachmentTile,
-          addLocalFileToBlocMethod: (localFile) => bloc.addLocalFile(localFile),
-          removeLocalFileFromBlocMethod: (localFile) =>
-              bloc.removeLocalFile(localFile),
-          removeCloudFileFromBlocMethod: (cloudFile) =>
-              bloc.removeCloudFile(cloudFile),
-          localFilesStream: bloc.localFiles,
-          cloudFilesStream: bloc.cloudFiles,
+          onLocalFilesAdded: (localFiles) =>
+              bloc.add(AttachmentsAdded(localFiles.toIList())),
+          onLocalFileRemoved: (localFile) =>
+              bloc.add(AttachmentRemoved(localFile.fileId)),
+          onCloudFileRemoved: (cloudFile) =>
+              bloc.add(AttachmentRemoved(FileId(cloudFile.id!))),
+          cloudFiles: state.attachments
+              .where((file) => file.cloudFile != null)
+              .map((file) => file.cloudFile!)
+              .toList(),
+          localFiles: state.attachments
+              .where((file) => file.localFile != null)
+              .map((file) => file.localFile!)
+              .toList(),
         ),
       ),
     );
   }
 }
 
-typedef _SubmissionsData = ({
-  bool isSubmissionEnableable,
-  Time submissionTime,
-  bool withSubmissions
-});
-
 class _SubmissionsSwitch extends StatelessWidget {
+  final Ready state;
+
+  const _SubmissionsSwitch({required this.state});
+
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
-
-    final combined =
-        CombineLatestStream.combine3<bool, Time, bool, _SubmissionsData>(
-      bloc.isSubmissionEnableable,
-      bloc.submissionTime,
-      bloc.withSubmissions,
-      (a, b, c) {
-        return (
-          isSubmissionEnableable: a,
-          submissionTime: b,
-          withSubmissions: c,
-        );
-      },
-    );
+    final submissionsState = state.submissions;
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    final submissionTime = submissionsState is SubmissionsEnabled
+        ? submissionsState.deadline
+        : null;
 
     return MaxWidthConstraintBox(
-      child: StreamBuilder(
-        stream: combined,
-        builder: (context, snapshot) {
-          final isEnabled = snapshot.data?.isSubmissionEnableable ?? true;
-          final withSubmissions = snapshot.data?.withSubmissions ?? false;
-          final time = snapshot.data?.submissionTime;
-
-          return _SubmissionsSwitchBase(
-            key: HwDialogKeys.submissionTile,
-            isWidgetEnabled: isEnabled,
-            submissionsEnabled: withSubmissions,
-            onChanged: (newVal) => bloc.changeWithSubmissions(newVal),
-            onTimeChanged: (newTime) => bloc.changeSubmissionTime(newTime),
-            time: time,
-          );
-        },
+      child: _SubmissionsSwitchBase(
+        key: HwDialogKeys.submissionTile,
+        isWidgetEnabled: state.submissions.isChangeable,
+        submissionsEnabled: state.submissions.isEnabled,
+        onChanged: (newIsEnabled) => bloc.add(SubmissionsChanged((
+          enabled: newIsEnabled,
+          submissionTime: newIsEnabled ? submissionTime : null
+        ))),
+        onTimeChanged: (newTime) => bloc
+            .add(SubmissionsChanged((enabled: true, submissionTime: newTime))),
+        time: submissionTime,
       ),
     );
   }
@@ -738,27 +755,24 @@ class _SubmissionsSwitchBase extends StatelessWidget {
 class _PrivateHomeworkSwitch extends StatelessWidget {
   const _PrivateHomeworkSwitch({
     Key? key,
-    required this.editMode,
+    required this.state,
   }) : super(key: key);
 
-  final bool editMode;
+  final Ready state;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkDialogBloc>(context);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: StreamBuilder<bool>(
-          stream: bloc.private,
-          builder: (context, snapshot) {
-            return _PrivateHomeworkSwitchBase(
-              key: HwDialogKeys.isPrivateTile,
-              isPrivate: snapshot.data ?? false,
-              onChanged: editMode ? null : bloc.changePrivate,
-            );
-          },
+        child: _PrivateHomeworkSwitchBase(
+          key: HwDialogKeys.isPrivateTile,
+          isPrivate: state.isPrivate.$1,
+          onChanged: state.isPrivate.isChangeable
+              ? (newVal) => bloc.add(IsPrivateChanged(newVal))
+              : null,
         ),
       ),
     );
