@@ -276,10 +276,10 @@ class HomeworkDialogBloc extends BlocBase {
       final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
           initialCloudFiles, _cloudFilesSubject.valueOrNull!);
       if (hasAttachments) {
-        await api.edit(initialHomework!, userInput,
+        await api.edit(HomeworkId(initialHomework!.id), userInput,
             removedCloudFiles: removedCloudFiles);
       } else {
-        api.edit(initialHomework!, userInput,
+        api.edit(HomeworkId(initialHomework!.id), userInput,
             removedCloudFiles: removedCloudFiles);
       }
 
@@ -443,8 +443,10 @@ class HomeworkDialogApi {
     return homework;
   }
 
-  Future<HomeworkDto> edit(HomeworkDto oldHomework, UserInput userInput,
+  Future<HomeworkDto> edit(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
+    final oldHomework =
+        await _api.homework.singleHomeworkStream(homeworkId.id).first;
     List<String> attachments = oldHomework.attachments.toList();
     final editorName = (await _api.user.userStream.first)!.name;
     final editorID = _api.user.authUser!.uid;
