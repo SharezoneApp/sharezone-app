@@ -77,15 +77,13 @@ void main() {
       expect(
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
-            'S. 32 8a)',
-            CourseId(mathCourse.id),
-            DateTime(2023, 10, 12),
-            '',
-            false,
-            [],
-            false,
-            null,
-            false,
+            title: 'S. 32 8a)',
+            todoUntil: DateTime(2023, 10, 12),
+            description: '',
+            withSubmission: false,
+            localFiles: IList(),
+            sendNotification: false,
+            private: false,
           ));
     });
     test('Returns loading state when called for an existing homework', () {
