@@ -83,6 +83,8 @@ void main() {
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
       bloc.add(DescriptionChanged('This is a description'));
       bloc.add(IsPrivateChanged(true));
+      // Create new test with more testing of removing/adding files (and remove
+      // removing files here)
       bloc.add(
           AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
       bloc.add(AttachmentRemoved(quzLocalFile.fileId));
