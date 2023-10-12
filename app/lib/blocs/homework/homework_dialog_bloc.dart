@@ -12,6 +12,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -319,7 +320,7 @@ class EmptyCourseException implements InvalidHomeworkInputException {}
 
 class EmptyTodoUntilException implements InvalidHomeworkInputException {}
 
-class UserInput {
+class UserInput extends Equatable {
   final String title;
   final String description;
   final DateTime todoUntil;
@@ -327,6 +328,17 @@ class UserInput {
   final IList<LocalFile> localFiles;
   final bool sendNotification;
   final bool withSubmission;
+
+  @override
+  List<Object?> get props => [
+        title,
+        description,
+        todoUntil,
+        private,
+        localFiles,
+        sendNotification,
+        withSubmission
+      ];
 
   const UserInput({
     required this.title,
@@ -337,36 +349,6 @@ class UserInput {
     required this.sendNotification,
     required this.withSubmission,
   });
-
-  @override
-  String toString() {
-    return 'UserInput(title: $title, description: $description, todoUntil: $todoUntil, private: $private, localFiles: $localFiles, sendNotification: $sendNotification, withSubmission: $withSubmission)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is UserInput &&
-        other.title == title &&
-        other.description == description &&
-        other.todoUntil == todoUntil &&
-        other.private == private &&
-        other.localFiles == localFiles &&
-        other.sendNotification == sendNotification &&
-        other.withSubmission == withSubmission;
-  }
-
-  @override
-  int get hashCode {
-    return title.hashCode ^
-        description.hashCode ^
-        todoUntil.hashCode ^
-        private.hashCode ^
-        localFiles.hashCode ^
-        sendNotification.hashCode ^
-        withSubmission.hashCode;
-  }
 }
 
 class HomeworkDialogApi {
