@@ -298,10 +298,11 @@ class NewHomeworkDialogBloc
             HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
   late HomeworkDto _initialHomework;
-  late List<CloudFile> _initialAttachments;
+  late IList<CloudFile> _initialAttachments;
   late final bool isEditing;
 
   late HomeworkDto _homework;
+  var _cloudFiles = IList<CloudFile>();
   var _localFiles = IList<LocalFile>();
 
   NewHomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
@@ -321,6 +322,7 @@ class NewHomeworkDialogBloc
     on<_LoadedHomeworkData>(
       (event, emit) {
         _homework = _initialHomework;
+        _cloudFiles = _initialAttachments;
 
         emit(Ready(
           title: _initialHomework.title,
@@ -420,9 +422,11 @@ class NewHomeworkDialogBloc
     );
     on<AttachmentRemoved>(
       (event, emit) {
-        // TODO: Implement removing CloudFile
         _localFiles =
             _localFiles.removeWhere((file) => file.fileId == event.id);
+        _cloudFiles = _cloudFiles
+            .removeWhere((cloudFile) => FileId(cloudFile.id!) == event.id);
+
         emit(_getNewState());
       },
     );
@@ -464,7 +468,14 @@ class NewHomeworkDialogBloc
             format:
                 fileFormatEnumFromFilenameWithExtension(attachment.getName()),
             localFile: attachment,
-          )
+          ),
+        for (final attachment in _cloudFiles)
+          FileView(
+            fileId: FileId(attachment.id!),
+            fileName: attachment.name,
+            format: attachment.fileFormat,
+            cloudFile: attachment,
+          ),
       ]),
       notifyCourseMembers: _homework.sendNotification,
       isPrivate: (_homework.private, isChangeable: !_homework.withSubmissions),
@@ -476,9 +487,10 @@ class NewHomeworkDialogBloc
 
   Future<void> _loadExistingData(HomeworkId homeworkId) async {
     _initialHomework = await api.loadHomework(homeworkId);
-    _initialAttachments = await api.loadCloudFiles(
+    _initialAttachments = (await api.loadCloudFiles(
       homeworkId: _initialHomework.id,
-    );
+    ))
+        .toIList();
     add(_LoadedHomeworkData());
   }
 }

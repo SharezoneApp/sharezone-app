@@ -273,6 +273,10 @@ void main() {
 
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);
       await pumpEventQueue();
+
+      bloc.add(AttachmentRemoved(FileId('foo_attachment_id1')));
+
+      await pumpEventQueue();
       expect(
         bloc.state,
         Ready(
@@ -283,14 +287,9 @@ void main() {
             isChangeable: false,
           ),
           dueDate: Date('2024-03-12'),
-          submissions: const SubmissionsDisabled(isChangeable: true),
+          submissions: const SubmissionsDisabled(isChangeable: false),
           description: 'description text',
           attachments: IList([
-            FileView(
-                fileId: FileId('foo_attachment_id1'),
-                fileName: 'foo_attachment1.png',
-                format: FileFormat.image,
-                cloudFile: homeworkDialogApi.loadCloudFilesResult[0]),
             FileView(
                 fileId: FileId('foo_attachment_id2'),
                 fileName: 'foo_attachment2.pdf',
@@ -298,8 +297,8 @@ void main() {
                 cloudFile: homeworkDialogApi.loadCloudFilesResult[1]),
           ]),
           notifyCourseMembers: false,
-          isPrivate: (true, isChangeable: false),
-          hasModifiedData: false,
+          isPrivate: (true, isChangeable: true),
+          hasModifiedData: true,
           isEditing: true,
         ),
       );
