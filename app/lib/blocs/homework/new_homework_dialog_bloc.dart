@@ -498,7 +498,10 @@ class NewHomeworkDialogBloc
           ),
       ]),
       notifyCourseMembers: _homework.sendNotification,
-      isPrivate: (_homework.private, isChangeable: !_homework.withSubmissions),
+      isPrivate: (
+        _homework.private,
+        isChangeable: !(isEditing || _homework.withSubmissions)
+      ),
       hasModifiedData: didDataChange,
       isEditing: isEditing,
     );

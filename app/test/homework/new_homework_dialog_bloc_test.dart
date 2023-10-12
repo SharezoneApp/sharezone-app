@@ -323,7 +323,7 @@ void main() {
                 cloudFile: homeworkDialogApi.loadCloudFilesResult[1]),
           ]),
           notifyCourseMembers: false,
-          isPrivate: (true, isChangeable: true),
+          isPrivate: (true, isChangeable: false),
           hasModifiedData: true,
           isEditing: true,
         ),
