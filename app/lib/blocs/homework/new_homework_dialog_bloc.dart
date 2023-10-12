@@ -125,7 +125,7 @@ class Ready extends HomeworkDialogState {
   // TODO: Add error states (title, course, Due date?)
   final String title;
   final CourseState course;
-  final DateTime? dueDate;
+  final Date? dueDate;
   final SubmissionState submissions;
   final String description;
   final IList<FileView> attachments;
@@ -173,6 +173,7 @@ class FileView extends Equatable {
   final FileId fileId;
   final String fileName;
   final FileFormat format;
+  // TODO: Should be able to remove, because we use FileId now
   final LocalFile? localFile;
   final CloudFile? cloudFile;
 
@@ -298,6 +299,7 @@ class NewHomeworkDialogBloc
   final HomeworkDialogApi api;
   late HomeworkDto _initialHomework;
   late List<CloudFile> _initialAttachments;
+  late final bool isEditing;
 
   late HomeworkDto _homework;
   var _localFiles = IList<LocalFile>();
@@ -306,8 +308,9 @@ class NewHomeworkDialogBloc
       : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
-    if (homeworkId != null) {
-      _loadExistingData(homeworkId);
+    isEditing = homeworkId != null;
+    if (isEditing) {
+      _loadExistingData(homeworkId!);
     }
     {
       _homework = HomeworkDto.create(courseID: '').copyWith(
@@ -326,7 +329,7 @@ class NewHomeworkDialogBloc
             courseName: _initialHomework.courseName,
             isChangeable: false,
           ),
-          dueDate: _initialHomework.todoUntil,
+          dueDate: Date.fromDateTime(_initialHomework.todoUntil),
           submissions: _initialHomework.withSubmissions
               ? SubmissionsEnabled(
                   deadline: _initialHomework.todoUntil.toTime())
@@ -371,16 +374,21 @@ class NewHomeworkDialogBloc
     on<TitleChanged>(
       (event, emit) {
         _homework = _homework.copyWith(title: event.newTitle);
+        emit(_getNewState());
       },
     );
     on<DueDateChanged>(
       (event, emit) {
         _homework = _homework.copyWith(todoUntil: event.newDueDate.toDateTime);
+        emit(_getNewState());
       },
     );
     on<CourseChanged>(
-      (event, emit) {
-        _homework = _homework.copyWith(courseID: event.newCourseId.id);
+      (event, emit) async {
+        final course = await api.loadCourse(event.newCourseId);
+        _homework =
+            _homework.copyWith(courseID: course.id, courseName: course.name);
+        emit(_getNewState());
       },
     );
     on<SubmissionsChanged>(
@@ -395,16 +403,19 @@ class NewHomeworkDialogBloc
             event.newSubmissionsOptions.submissionTime?.minute ?? 0,
           ),
         );
+        emit(_getNewState());
       },
     );
     on<DescriptionChanged>(
       (event, emit) {
         _homework = _homework.copyWith(description: event.newDescription);
+        emit(_getNewState());
       },
     );
     on<AttachmentsAdded>(
       (event, emit) {
         _localFiles = _localFiles.addAll(event.newFiles);
+        emit(_getNewState());
       },
     );
     on<AttachmentRemoved>(
@@ -412,18 +423,53 @@ class NewHomeworkDialogBloc
         // TODO: Implement removing CloudFile
         _localFiles =
             _localFiles.removeWhere((file) => file.fileId == event.id);
+        emit(_getNewState());
       },
     );
     on<NotifyCourseMembersChanged>(
       (event, emit) {
         _homework =
             _homework.copyWith(sendNotification: event.newNotifyCourseMembers);
+        emit(_getNewState());
       },
     );
     on<IsPrivateChanged>(
       (event, emit) {
         _homework = _homework.copyWith(private: event.newIsPrivate);
+        emit(_getNewState());
       },
+    );
+  }
+
+  Ready _getNewState() {
+    return Ready(
+      title: _homework.title,
+      course: _homework.courseID != ''
+          ? CourseChosen(
+              courseId: CourseId(_homework.courseID),
+              courseName: _homework.courseName,
+              isChangeable: !isEditing,
+            )
+          : const NoCourseChosen(),
+      dueDate: Date.fromDateTime(_homework.todoUntil),
+      submissions: _homework.withSubmissions
+          ? SubmissionsEnabled(deadline: _homework.todoUntil.toTime())
+          : SubmissionsDisabled(isChangeable: !_homework.private),
+      description: _homework.description,
+      attachments: IList([
+        for (final attachment in _localFiles)
+          FileView(
+            fileId: attachment.fileId,
+            fileName: attachment.getName(),
+            format:
+                fileFormatEnumFromFilenameWithExtension(attachment.getName()),
+            localFile: attachment,
+          )
+      ]),
+      notifyCourseMembers: _homework.sendNotification,
+      isPrivate: (_homework.private, isChangeable: !_homework.withSubmissions),
+      hasModifiedData: true,
+      isEditing: isEditing,
     );
   }
 

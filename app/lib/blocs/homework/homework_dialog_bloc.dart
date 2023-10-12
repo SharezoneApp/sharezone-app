@@ -367,6 +367,10 @@ class HomeworkDialogApi {
         .first;
   }
 
+  Future<Course> loadCourse(CourseId courseId) async {
+    return (await _api.course.streamCourse(courseId.id).first)!;
+  }
+
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;

@@ -313,7 +313,7 @@ class _TodoUntilPicker extends StatelessWidget {
           child: DatePicker(
             key: HwDialogKeys.todoUntilTile,
             padding: const EdgeInsets.all(12),
-            selectedDate: state.dueDate,
+            selectedDate: state.dueDate?.toDateTime,
             selectDate: (newDate) {
               bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
             },

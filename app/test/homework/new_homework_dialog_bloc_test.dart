@@ -87,6 +87,7 @@ void main() {
 
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([mathCourse]));
+      homeworkDialogApi.courseToReturn = mathCourse;
 
       bloc.add(TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
@@ -98,6 +99,38 @@ void main() {
       bloc.add(
           AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
       bloc.add(AttachmentRemoved(quzLocalFile.fileId));
+      await pumpEventQueue();
+
+      expect(
+          bloc.state,
+          Ready(
+            title: 'S. 32 8a)',
+            course: CourseChosen(
+              courseId: CourseId(mathCourse.id),
+              courseName: 'Maths',
+              isChangeable: true,
+            ),
+            dueDate: Date('2023-10-12'),
+            submissions: const SubmissionsDisabled(isChangeable: false),
+            description: 'This is a description',
+            attachments: IList([
+              FileView(
+                  fileId: fooLocalFile.fileId,
+                  fileName: 'foo.png',
+                  format: FileFormat.image,
+                  localFile: fooLocalFile),
+              FileView(
+                  fileId: barLocalFile.fileId,
+                  fileName: 'bar.pdf',
+                  format: FileFormat.pdf,
+                  localFile: barLocalFile),
+            ]),
+            notifyCourseMembers: false,
+            isPrivate: (true, isChangeable: true),
+            hasModifiedData: true,
+            isEditing: false,
+          ));
+
       bloc.add(Submit());
 
       await pumpEventQueue();
@@ -128,6 +161,7 @@ void main() {
 
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([artCourse]));
+      homeworkDialogApi.courseToReturn = artCourse;
 
       bloc.add(TitleChanged('Paint masterpiece'));
       bloc.add(CourseChanged(CourseId(artCourse.id)));
@@ -136,6 +170,28 @@ void main() {
           (enabled: true, submissionTime: Time(hour: 16, minute: 30))));
       bloc.add(DescriptionChanged('This is a description'));
       bloc.add(NotifyCourseMembersChanged(true));
+      await pumpEventQueue();
+
+      expect(
+          bloc.state,
+          Ready(
+            title: 'Paint masterpiece',
+            course: CourseChosen(
+              courseId: CourseId(artCourse.id),
+              courseName: 'Art',
+              isChangeable: true,
+            ),
+            dueDate: Date('2024-11-13'),
+            submissions:
+                SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
+            description: 'This is a description',
+            attachments: IList(),
+            notifyCourseMembers: true,
+            isPrivate: (false, isChangeable: false),
+            hasModifiedData: true,
+            isEditing: false,
+          ));
+
       bloc.add(Submit());
 
       await pumpEventQueue();
@@ -172,6 +228,7 @@ void main() {
 
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([fooCourse]));
+      homeworkDialogApi.courseToReturn = fooCourse;
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
@@ -225,7 +282,7 @@ void main() {
             courseName: 'Foo course',
             isChangeable: false,
           ),
-          dueDate: DateTime(2024, 03, 12),
+          dueDate: Date('2024-03-12'),
           submissions: const SubmissionsDisabled(isChangeable: true),
           description: 'description text',
           attachments: IList([
@@ -260,6 +317,7 @@ void main() {
 
       when(courseGateway.streamCourses())
           .thenAnswer((_) => Stream.value([barCourse]));
+      homeworkDialogApi.courseToReturn = barCourse;
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
@@ -293,7 +351,7 @@ void main() {
             courseName: 'Bar course',
             isChangeable: false,
           ),
-          dueDate: DateTime(2024, 03, 12, 16, 35),
+          dueDate: Date('2024-03-12'),
           submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 35)),
           description: 'description text',
           attachments: IList(),
