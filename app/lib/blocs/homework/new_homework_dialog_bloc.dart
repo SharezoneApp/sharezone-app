@@ -297,8 +297,8 @@ class NewHomeworkDialogBloc
         BlocPresentationMixin<HomeworkDialogState,
             HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
-  late HomeworkDto _initialHomework;
-  late IList<CloudFile> _initialAttachments;
+  HomeworkDto? _initialHomework;
+  late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
 
   late HomeworkDto _homework;
@@ -312,48 +312,19 @@ class NewHomeworkDialogBloc
     isEditing = homeworkId != null;
     if (isEditing) {
       _loadExistingData(homeworkId!);
-    }
-    {
+    } else {
       _homework = HomeworkDto.create(courseID: '').copyWith(
         todoUntil: null,
       );
+      _initialAttachments = IList();
     }
 
     on<_LoadedHomeworkData>(
       (event, emit) {
-        _homework = _initialHomework;
+        _homework = _initialHomework!;
         _cloudFiles = _initialAttachments;
 
-        emit(Ready(
-          title: _initialHomework.title,
-          course: CourseChosen(
-            courseId: CourseId(_initialHomework.courseID),
-            courseName: _initialHomework.courseName,
-            isChangeable: false,
-          ),
-          dueDate: Date.fromDateTime(_initialHomework.todoUntil),
-          submissions: _initialHomework.withSubmissions
-              ? SubmissionsEnabled(
-                  deadline: _initialHomework.todoUntil.toTime())
-              : const SubmissionsDisabled(isChangeable: true),
-          description: _initialHomework.description,
-          attachments: IList([
-            for (final attachment in _initialAttachments)
-              FileView(
-                fileId: FileId(attachment.id!),
-                fileName: attachment.name,
-                format: attachment.fileFormat,
-                cloudFile: attachment,
-              )
-          ]),
-          notifyCourseMembers: false,
-          isPrivate: (
-            _initialHomework.private,
-            isChangeable: homeworkId == null
-          ),
-          hasModifiedData: false,
-          isEditing: true,
-        ));
+        emit(_getNewState());
       },
     );
     on<Submit>(
@@ -446,6 +417,15 @@ class NewHomeworkDialogBloc
   }
 
   Ready _getNewState() {
+    final didHomeworkChange = isEditing
+        ? _initialHomework != _homework
+        : _homework !=
+            HomeworkDto.create(courseID: '').copyWith(todoUntil: null);
+    final didFilesChange = _initialAttachments != _cloudFiles;
+    final didLocalFilesChange = _localFiles.isNotEmpty;
+    final didDataChange =
+        didHomeworkChange || didFilesChange || didLocalFilesChange;
+
     return Ready(
       title: _homework.title,
       course: _homework.courseID != ''
@@ -479,8 +459,7 @@ class NewHomeworkDialogBloc
       ]),
       notifyCourseMembers: _homework.sendNotification,
       isPrivate: (_homework.private, isChangeable: !_homework.withSubmissions),
-      // TODO: Implement and test
-      hasModifiedData: true,
+      hasModifiedData: didDataChange,
       isEditing: isEditing,
     );
   }
@@ -488,7 +467,7 @@ class NewHomeworkDialogBloc
   Future<void> _loadExistingData(HomeworkId homeworkId) async {
     _initialHomework = await api.loadHomework(homeworkId);
     _initialAttachments = (await api.loadCloudFiles(
-      homeworkId: _initialHomework.id,
+      homeworkId: _initialHomework!.id,
     ))
         .toIList();
     add(_LoadedHomeworkData());
