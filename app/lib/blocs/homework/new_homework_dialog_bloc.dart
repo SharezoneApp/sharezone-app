@@ -439,7 +439,10 @@ class NewHomeworkDialogBloc
           ? Date.fromDateTime(_homework.todoUntil)
           : null,
       submissions: _homework.withSubmissions
-          ? SubmissionsEnabled(deadline: _homework.todoUntil.toTime())
+          ? SubmissionsEnabled(
+              deadline: _homework.todoUntil != _kNoDataChangedHomework.todoUntil
+                  ? _homework.todoUntil.toTime()
+                  : Time(hour: 23, minute: 59))
           : SubmissionsDisabled(isChangeable: !_homework.private),
       description: _homework.description,
       attachments: IList([

@@ -211,6 +211,15 @@ void main() {
 
       expect(bloc.state, LoadingHomework(homeworkId, isEditing: true));
     });
+    test('when submissions are toggled 23:59 is used as the default value',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const SubmissionsChanged((enabled: true, submissionTime: null)));
+      await pumpEventQueue();
+      final state = bloc.state as Ready;
+      expect(state.submissions,
+          SubmissionsEnabled(deadline: Time(hour: 23, minute: 59)));
+    });
     test(
         'regression test: No due date is automatically set when starting to change data',
         () async {
