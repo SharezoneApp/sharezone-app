@@ -221,6 +221,18 @@ void main() {
           SubmissionsEnabled(deadline: Time(hour: 23, minute: 59)));
     });
     test(
+        'Regression test: When choosing due date then the submission time should not reset to 00:00',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      await pumpEventQueue();
+      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(const SubmissionsChanged((enabled: true, submissionTime: null)));
+      await pumpEventQueue();
+      final state = bloc.state as Ready;
+      expect(state.submissions,
+          SubmissionsEnabled(deadline: Time(hour: 23, minute: 59)));
+    });
+    test(
         'regression test: No due date is automatically set when starting to change data',
         () async {
       final bloc = createBlocForNewHomeworkDialog();

@@ -290,7 +290,10 @@ class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   List<Object?> get props => [];
 }
 
-final _kNoDateSelectedDateTime = DateTime(1337, 13, 37);
+/// Since [HomeworkDto] can't have a null value for [todoUntil] we need to use
+/// a magic number to know if the user changed the due date and submission time
+/// or not.
+final _kNoDateSelectedDateTime = DateTime(1337, 13, 37, 13, 37, 13, 37);
 HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '')
     .copyWith(todoUntil: _kNoDateSelectedDateTime);
 
@@ -334,7 +337,13 @@ class NewHomeworkDialogBloc
             CourseId(_homework.courseID),
             UserInput(
               title: _homework.title,
-              todoUntil: _homework.todoUntil,
+              todoUntil: DateTime(
+                _homework.todoUntil.year,
+                _homework.todoUntil.month,
+                _homework.todoUntil.day,
+                _homework.withSubmissions ? _homework.todoUntil.hour : 0,
+                _homework.withSubmissions ? _homework.todoUntil.minute : 0,
+              ),
               description: _homework.description,
               withSubmission: _homework.withSubmissions,
               localFiles: _localFiles,
@@ -353,7 +362,14 @@ class NewHomeworkDialogBloc
     );
     on<DueDateChanged>(
       (event, emit) {
-        _homework = _homework.copyWith(todoUntil: event.newDueDate.toDateTime);
+        _homework = _homework.copyWith(
+            // copyWith because we need to keep the magic "not changed" value to
+            // know if the user changed the submission time.
+            todoUntil: _homework.todoUntil.copyWith(
+          year: event.newDueDate.year,
+          month: event.newDueDate.month,
+          day: event.newDueDate.day,
+        ));
         emit(_getNewState());
       },
     );
@@ -369,12 +385,13 @@ class NewHomeworkDialogBloc
       (event, emit) {
         _homework = _homework.copyWith(
           withSubmissions: event.newSubmissionsOptions.enabled,
-          todoUntil: DateTime(
-            _homework.todoUntil.year,
-            _homework.todoUntil.month,
-            _homework.todoUntil.day,
-            event.newSubmissionsOptions.submissionTime?.hour ?? 0,
-            event.newSubmissionsOptions.submissionTime?.minute ?? 0,
+          // copyWith because we need to keep the magic "not changed" value to
+          // know if the user changed the due date.
+          todoUntil: _homework.todoUntil.copyWith(
+            hour: event.newSubmissionsOptions.submissionTime?.hour ?? 23,
+            minute: event.newSubmissionsOptions.submissionTime?.minute ?? 59,
+            millisecond: 0,
+            microsecond: 0,
           ),
         );
         emit(_getNewState());
@@ -426,6 +443,11 @@ class NewHomeworkDialogBloc
     final didDataChange =
         didHomeworkChange || didFilesChange || didLocalFilesChange;
 
+    final hasChangedTodoDate =
+        _homework.todoUntil.year != _kNoDataChangedHomework.todoUntil.year;
+    final hasUserEditedSubmissionTime =
+        _homework.todoUntil.millisecond != _kNoDateSelectedDateTime.millisecond;
+
     return Ready(
       title: _homework.title,
       course: _homework.courseID != ''
@@ -435,12 +457,11 @@ class NewHomeworkDialogBloc
               isChangeable: !isEditing,
             )
           : const NoCourseChosen(),
-      dueDate: _homework.todoUntil != _kNoDataChangedHomework.todoUntil
-          ? Date.fromDateTime(_homework.todoUntil)
-          : null,
+      dueDate:
+          hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
       submissions: _homework.withSubmissions
           ? SubmissionsEnabled(
-              deadline: _homework.todoUntil != _kNoDataChangedHomework.todoUntil
+              deadline: hasUserEditedSubmissionTime
                   ? _homework.todoUntil.toTime()
                   : Time(hour: 23, minute: 59))
           : SubmissionsDisabled(isChangeable: !_homework.private),
