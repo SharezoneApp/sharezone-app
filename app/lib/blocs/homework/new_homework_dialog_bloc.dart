@@ -391,7 +391,7 @@ class NewHomeworkDialogBloc
     );
     on<DescriptionChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(description: event.newDescription);
       },
     );
     on<AttachmentsAdded>(
@@ -411,7 +411,7 @@ class NewHomeworkDialogBloc
     );
     on<IsPrivateChanged>(
       (event, emit) {
-        // TODO
+        _homework = _homework.copyWith(private: event.newIsPrivate);
       },
     );
   }

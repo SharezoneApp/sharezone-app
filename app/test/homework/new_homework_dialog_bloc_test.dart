@@ -50,7 +50,7 @@ void main() {
       );
       expect(bloc.state, emptyCreateHomeworkDialogState);
     });
-    test('Sucessfully saves simple homework', () async {
+    test('Sucessfully add private homework', () async {
       final bloc = NewHomeworkDialogBloc(
         api: homeworkDialogApi,
       );
@@ -69,6 +69,8 @@ void main() {
       bloc.add(TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
+      bloc.add(DescriptionChanged('This is a description'));
+      bloc.add(IsPrivateChanged(true));
       bloc.add(Submit());
 
       await pumpEventQueue();
@@ -79,11 +81,11 @@ void main() {
           UserInput(
             title: 'S. 32 8a)',
             todoUntil: DateTime(2023, 10, 12),
-            description: '',
+            description: 'This is a description',
             withSubmission: false,
             localFiles: IList(),
             sendNotification: false,
-            private: false,
+            private: true,
           ));
     });
     test('Returns loading state when called for an existing homework', () {
