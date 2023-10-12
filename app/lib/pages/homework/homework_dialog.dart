@@ -70,16 +70,18 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           userGateway: szContext.api.user,
           holidayManager: holidayManager);
     }
+    final homeworkDialogApi =
+        widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api);
 
     if (widget.id != null) {
       homework = szContext.api.homework
           .singleHomework(widget.id!.id, source: Source.cache)
           .then((value) {
         bloc = HomeworkDialogBloc(
-          widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
-          widget.nextLessonCalculator ?? nextLessonCalculator,
-          markdownAnalytics,
           homework: value,
+          homeworkDialogApi,
+          nextLessonCalculator,
+          markdownAnalytics,
           analytics,
         );
         return value;
@@ -87,10 +89,10 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     } else {
       homework = Future.value(null);
       bloc = HomeworkDialogBloc(
-        widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
-        widget.nextLessonCalculator ?? nextLessonCalculator,
-        markdownAnalytics,
         homework: null,
+        homeworkDialogApi,
+        nextLessonCalculator,
+        markdownAnalytics,
         analytics,
       );
     }
