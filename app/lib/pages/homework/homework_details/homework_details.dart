@@ -392,9 +392,6 @@ class _EditIcon extends StatelessWidget {
             builder: (context) => HomeworkDialog(
               id: homework?.id != null ? HomeworkId(homework!.id) : null,
             ),
-            // builder: (context) => NewHomeworkDialog(
-            //   id: homework?.id != null ? HomeworkId(homework!.id) : null,
-            // ),
             settings: const RouteSettings(name: HomeworkDialog.tag),
           ),
         );
