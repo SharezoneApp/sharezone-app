@@ -40,52 +40,81 @@ class AttachFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<List<LocalFile>>(
+        stream: localFilesStream,
+        builder: (context, localFilesSnapshot) {
+          return StreamBuilder<List<CloudFile>>(
+              stream: cloudFilesStream,
+              builder: (context, cloudFilesSnapshot) {
+                if (!localFilesSnapshot.hasData ||
+                    !cloudFilesSnapshot.hasData) {
+                  return Container();
+                }
+                return AttachFileBase(
+                  onLocalFilesAdded: addLocalFileToBlocMethod,
+                  onLocalFileRemoved: removeLocalFileFromBlocMethod,
+                  onCloudFileRemoved: removeCloudFileFromBlocMethod,
+                  cloudFiles: cloudFilesSnapshot.data!,
+                  localFiles: localFilesSnapshot.data!,
+                );
+              });
+        });
+  }
+}
+
+class AttachFileBase extends StatelessWidget {
+  const AttachFileBase({
+    Key? key,
+    required this.onLocalFilesAdded,
+    required this.onLocalFileRemoved,
+    required this.onCloudFileRemoved,
+    required this.cloudFiles,
+    required this.localFiles,
+  }) : super(key: key);
+
+  final ValueChanged<List<LocalFile>> onLocalFilesAdded;
+  final ValueChanged<LocalFile> onLocalFileRemoved;
+  final ValueChanged<CloudFile> onCloudFileRemoved;
+
+  final List<CloudFile> cloudFiles;
+  final List<LocalFile> localFiles;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _AddLocalFile(addLocalFileToBlocMethod: addLocalFileToBlocMethod),
-        StreamBuilder<List<CloudFile>>(
-          stream: cloudFilesStream,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data!.isEmpty) return Container();
-            return Column(
-              children: snapshot.data!
-                  .map((cloudFile) => FileCard(
-                      cloudFile: cloudFile,
-                      onTap: () => showRemoveFileFromBlocDialog(
-                            context: context,
-                            removeFileFromBlocMethod: () =>
-                                removeCloudFileFromBlocMethod(cloudFile),
-                          ),
-                      trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
-                          key: HwDialogKeys.attachmentOverflowMenuIcon,
-                          removeFileFromBlocMethod: () =>
-                              removeCloudFileFromBlocMethod(cloudFile))))
-                  .toList(),
-            );
-          },
-        ),
-        StreamBuilder<List<LocalFile>>(
-          stream: localFilesStream,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data!.isEmpty) return Container();
-            return Column(
-              children: snapshot.data!
-                  .map(
-                    (localFile) => FileCard(
-                      localFile: localFile,
-                      onTap: () => showRemoveFileFromBlocDialog(
+        _AddLocalFile(addLocalFileToBlocMethod: onLocalFilesAdded),
+        Column(
+          children: cloudFiles
+              .map((cloudFile) => FileCard(
+                  cloudFile: cloudFile,
+                  onTap: () => showRemoveFileFromBlocDialog(
                         context: context,
                         removeFileFromBlocMethod: () =>
-                            removeLocalFileFromBlocMethod(localFile),
+                            onCloudFileRemoved(cloudFile),
                       ),
-                      trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
-                          removeFileFromBlocMethod: () =>
-                              removeLocalFileFromBlocMethod(localFile)),
-                    ),
-                  )
-                  .toList(),
-            );
-          },
+                  trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
+                      key: HwDialogKeys.attachmentOverflowMenuIcon,
+                      removeFileFromBlocMethod: () =>
+                          onCloudFileRemoved(cloudFile))))
+              .toList(),
+        ),
+        Column(
+          children: localFiles
+              .map(
+                (localFile) => FileCard(
+                  localFile: localFile,
+                  onTap: () => showRemoveFileFromBlocDialog(
+                    context: context,
+                    removeFileFromBlocMethod: () =>
+                        onLocalFileRemoved(localFile),
+                  ),
+                  trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
+                      removeFileFromBlocMethod: () =>
+                          onLocalFileRemoved(localFile)),
+                ),
+              )
+              .toList(),
         ),
       ],
     );

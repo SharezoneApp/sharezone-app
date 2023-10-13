@@ -11,12 +11,11 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
-import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_page_bloc.dart';
 import 'package:sharezone/homework/homework_page_new.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -25,7 +24,6 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/pages/homework/homework_archived.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
-import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';
 import 'package:sharezone_common/translations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -42,20 +40,11 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   BuildContext context, {
   HomeworkDto? homework,
 }) async {
-  final api = BlocProvider.of<SharezoneContext>(context).api;
-  final nextLessonCalculator = NextLessonCalculator(
-    timetableGateway: api.timetable,
-    userGateway: api.user,
-    holidayManager: BlocProvider.of<HolidayBloc>(context).holidayManager,
-  );
-
   final successful = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
       builder: (context) => HomeworkDialog(
-        homeworkDialogApi: HomeworkDialogApi(api),
-        nextLessonCalculator: nextLessonCalculator,
-        homework: homework,
+        id: homework?.id != null ? HomeworkId(homework!.id) : null,
       ),
       settings: const RouteSettings(name: HomeworkDialog.tag),
     ),
