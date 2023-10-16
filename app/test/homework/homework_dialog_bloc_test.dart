@@ -448,6 +448,17 @@ class FakeLocalFile extends LocalFile {
     required this.mimeType,
   });
 
+  factory FakeLocalFile.empty({String name = '', MimeType? mimeType}) {
+    return FakeLocalFile._(
+      file: null,
+      fileData: Uint8List(0),
+      sizeBytes: 0,
+      path: null,
+      mimeType: null,
+      fileName: name,
+    );
+  }
+
   factory FakeLocalFile.fromData(
       Uint8List data, String? path, String name, String? type) {
     return FakeLocalFile._(
