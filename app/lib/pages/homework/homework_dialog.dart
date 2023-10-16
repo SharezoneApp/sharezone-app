@@ -81,6 +81,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
         bloc = HomeworkDialogBloc(
           homeworkId: widget.id,
           api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+          nextLessonCalculator: nextLessonCalculator,
         );
         return value;
       });
@@ -88,6 +89,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
       homework = Future.value(null);
       bloc = HomeworkDialogBloc(
         api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+        nextLessonCalculator: nextLessonCalculator,
       );
     }
   }

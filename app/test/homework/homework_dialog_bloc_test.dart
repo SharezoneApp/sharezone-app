@@ -47,17 +47,49 @@ void main() {
 
     HomeworkDialogBloc createBlocForNewHomeworkDialog() {
       return HomeworkDialogBloc(
-        api: homeworkDialogApi,
-      );
+          api: homeworkDialogApi, nextLessonCalculator: nextLessonCalculator);
     }
 
     HomeworkDialogBloc createBlocForEditingHomeworkDialog(HomeworkId id) {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
+        nextLessonCalculator: nextLessonCalculator,
         homeworkId: id,
       );
     }
 
+    test('Picks the next lesson as due date when a course is selected',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      final bloc = createBlocForNewHomeworkDialog();
+
+      final fooCourse = Course.create().copyWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+        abbreviation: 'F',
+        myRole: MemberRole.admin,
+      );
+
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([fooCourse]));
+      homeworkDialogApi.courseToReturn = fooCourse;
+      when(sharezoneContext.analytics).thenReturn(analytics);
+      final nextLessonDate = Date('2024-03-08');
+      nextLessonCalculator.dateToReturn = nextLessonDate;
+
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([fooCourse]));
+
+      bloc.add(CourseChanged(CourseId('foo_course')));
+      await pumpEventQueue();
+      await Future.delayed(Duration(seconds: 1));
+      await pumpEventQueue();
+      await pumpEventQueue();
+
+      final state = bloc.state as Ready;
+      expect(state.dueDate, nextLessonDate);
+    });
     test('Returns empty dialog when called for creating a new homework', () {
       final bloc = createBlocForNewHomeworkDialog();
       expect(bloc.state, emptyCreateHomeworkDialogState);

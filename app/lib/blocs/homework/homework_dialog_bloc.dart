@@ -20,6 +20,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -305,6 +306,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         BlocPresentationMixin<HomeworkDialogState,
             HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
+  final NextLessonCalculator nextLessonCalculator;
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
@@ -313,7 +315,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   var _cloudFiles = IList<CloudFile>();
   var _localFiles = IList<LocalFile>();
 
-  HomeworkDialogBloc({required this.api, HomeworkId? homeworkId})
+  HomeworkDialogBloc(
+      {required this.api,
+      required this.nextLessonCalculator,
+      HomeworkId? homeworkId})
       : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
@@ -395,6 +400,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         _homework =
             _homework.copyWith(courseID: course.id, courseName: course.name);
         emit(_getNewState());
+
+        final nextLesson =
+            await nextLessonCalculator.calculateNextLesson(course.id);
+        // TODO: test for null case
+        if (nextLesson != null) {
+          add(DueDateChanged(nextLesson));
+        }
       },
     );
     on<SubmissionsChanged>(

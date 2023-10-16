@@ -44,7 +44,7 @@ class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
   @override
   Future<Date?> calculateNextLesson(String courseID) async {
-    return dateToReturn ?? Date('2032-01-03');
+    return dateToReturn;
   }
 }
 
