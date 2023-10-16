@@ -11,6 +11,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
@@ -19,6 +20,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:time/time.dart';
 
 import '../../../test/homework/homework_dialog_bloc_test.dart';
 
@@ -137,6 +139,62 @@ void main() {
       await multiScreenGolden(
         tester,
         'homework_dialog_add_filled_1_dark',
+      );
+    });
+
+    testGoldens('renders filled edit homework dialog as expected',
+        (tester) async {
+      final state = Ready(
+        title: 'AB fertig bearbeiten',
+        course: CourseChosen(
+          courseId: CourseId('foo_course'),
+          courseName: 'Foo course',
+          isChangeable: false,
+        ),
+        dueDate: Date('2024-01-14'),
+        submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
+        description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
+        attachments: IList([
+          FileView(
+              fileId: FileId('foo_attachment_id'),
+              fileName: 'foo_attachment.pdf',
+              format: FileFormat.pdf,
+              cloudFile: CloudFile.create(
+                id: 'foo_attachment_id',
+                creatorID: 'creatorID',
+                creatorName: 'creatorName',
+                courseID: 'courseID',
+              ).copyWith(
+                name: 'foo_attachment.pdf',
+                createdOn: DateTime(2024, 01, 14, 10, 15),
+              )),
+        ]),
+        notifyCourseMembers: true,
+        isPrivate: (false, isChangeable: false),
+        hasModifiedData: true,
+        isEditing: true,
+      );
+
+      whenListen(
+        homeworkDialogBloc,
+        Stream.value(state),
+        initialState: state,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          isEditing: false, theme: lightTheme);
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_edit_filled_1_light',
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          isEditing: false, theme: darkTheme);
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_edit_filled_1_dark',
       );
     });
   });
