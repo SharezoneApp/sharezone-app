@@ -59,6 +59,12 @@ void main() {
       );
     }
 
+    void addCourse(Course course) {
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([course]));
+      homeworkDialogApi.addCourseForTesting(course);
+    }
+
     test('Picks the next lesson as due date when a course is selected',
         () async {
       final homeworkId = HomeworkId('foo_homework_id');
@@ -72,15 +78,10 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      homeworkDialogApi.courseToReturn = fooCourse;
+      addCourse(fooCourse);
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
-
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
 
       bloc.add(CourseChanged(CourseId('foo_course')));
 
@@ -104,6 +105,7 @@ void main() {
         abbreviation: 'M',
         myRole: MemberRole.admin,
       );
+      addCourse(mathCourse);
 
       final fooLocalFile = FakeLocalFile.fromData(
           Uint8List.fromList([1, 2]), 'bar/foo.png', 'foo.png', 'png');
@@ -111,10 +113,6 @@ void main() {
           Uint8List.fromList([1, 2, 3, 4]), 'foo/bar.pdf', 'bar.pdf', 'pdf');
       final quzLocalFile = FakeLocalFile.fromData(
           Uint8List.fromList([9]), 'bar/quux/baz/quz.pdf', 'quz.mp4', 'mp4');
-
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([mathCourse]));
-      homeworkDialogApi.courseToReturn = mathCourse;
 
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
@@ -186,9 +184,7 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([artCourse]));
-      homeworkDialogApi.courseToReturn = artCourse;
+      addCourse(artCourse);
 
       bloc.add(const TitleChanged('Paint masterpiece'));
       bloc.add(CourseChanged(CourseId(artCourse.id)));
@@ -283,9 +279,8 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      homeworkDialogApi.courseToReturn = fooCourse;
+      addCourse(fooCourse);
+
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
@@ -391,9 +386,7 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([barCourse]));
-      homeworkDialogApi.courseToReturn = barCourse;
+      addCourse(barCourse);
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;

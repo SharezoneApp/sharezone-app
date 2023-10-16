@@ -82,10 +82,15 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
     return homeworkToReturn ?? HomeworkDto.create(courseID: 'courseID');
   }
 
-  Course? courseToReturn;
+  void addCourseForTesting(Course course) {
+    courses[CourseId(course.id)] = course;
+  }
+
+  final courses = <CourseId, Course>{};
+
   @override
   Future<Course> loadCourse(CourseId courseId) async {
-    return courseToReturn ?? Course.create();
+    return courses[courseId] ?? Course.create();
   }
 }
 
@@ -96,9 +101,16 @@ void main() {
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
+    late MockSharezoneGateway sharezoneGateway;
+    late MockCourseGateway courseGateway;
+    late MockHomeworkGateway homeworkGateway;
+
     HomeworkDto? homework;
 
     setUp(() {
+      sharezoneGateway = MockSharezoneGateway();
+      courseGateway = MockCourseGateway();
+      homeworkGateway = MockHomeworkGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
       sharezoneContext = MockSharezoneContext();
@@ -108,8 +120,6 @@ void main() {
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
       if (homework != null) {
-        final sharezoneGateway = MockSharezoneGateway();
-        final homeworkGateway = MockHomeworkGateway();
         when(sharezoneContext.api).thenReturn(sharezoneGateway);
         when(sharezoneGateway.homework).thenReturn(homeworkGateway);
         when(homeworkGateway.singleHomework(any, source: Source.cache))
@@ -151,6 +161,12 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 25));
     }
 
+    void addCourse(Course course) {
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([course]));
+      homeworkDialogApi.addCourseForTesting(course);
+    }
+
     testWidgets('edits homework correctly', (tester) async {
       final fooCourse = Course.create().copyWith(
         id: 'foo_course',
@@ -160,13 +176,9 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      final sharezoneGateway = MockSharezoneGateway();
-      final courseGateway = MockCourseGateway();
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
       when(sharezoneGateway.course).thenReturn(courseGateway);
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      homeworkDialogApi.courseToReturn = fooCourse;
+      addCourse(fooCourse);
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
@@ -262,13 +274,9 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      final sharezoneGateway = MockSharezoneGateway();
-      final courseGateway = MockCourseGateway();
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
       when(sharezoneGateway.course).thenReturn(courseGateway);
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      homeworkDialogApi.courseToReturn = fooCourse;
+      addCourse(fooCourse);
       when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-01-03');
       nextLessonCalculator.dateToReturn = nextLessonDate;
@@ -358,7 +366,7 @@ void main() {
 
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('foo_course');
-      homeworkDialogApi.courseToReturn = fooCourse;
+      addCourse(fooCourse);
       homework = HomeworkDto.create(
               courseID: 'foo_course', courseReference: mockDocumentReference)
           .copyWith(
