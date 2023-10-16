@@ -94,6 +94,16 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   }
 }
 
+Course courseWith({required String id, String? name, String? subject}) {
+  return Course.create().copyWith(
+    id: id,
+    name: name ?? subject ?? 'Foo course',
+    subject: subject ?? (name != null ? '$name subject' : name),
+    abbreviation: name?.substring(0, 1) ?? subject?.substring(0, 1) ?? 'F',
+    myRole: MemberRole.admin,
+  );
+}
+
 void main() {
   group('HomeworkDialog', () {
     late MockHomeworkDialogApi homeworkDialogApi;
@@ -170,12 +180,10 @@ void main() {
     }
 
     testWidgets('edits homework correctly', (tester) async {
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
       addCourse(fooCourse);
@@ -265,12 +273,10 @@ void main() {
     testWidgets('wants to create the correct homework', (tester) async {
       homework = null;
 
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
       addCourse(fooCourse);
@@ -353,12 +359,10 @@ void main() {
     });
     testWidgets('should display a prefilled dialog if homework is passed',
         (WidgetTester tester) async {
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
       final mockDocumentReference = MockDocumentReference();

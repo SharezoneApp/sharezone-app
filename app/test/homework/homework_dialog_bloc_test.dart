@@ -70,12 +70,10 @@ void main() {
       final homeworkId = HomeworkId('foo_homework_id');
       final bloc = createBlocForNewHomeworkDialog();
 
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
       addCourse(fooCourse);
@@ -98,12 +96,10 @@ void main() {
     test('Sucessfully add private homework with files', () async {
       final bloc = createBlocForNewHomeworkDialog();
 
-      final mathCourse = Course.create().copyWith(
+      final mathCourse = courseWith(
         id: 'maths_course',
         name: 'Maths',
         subject: 'Math',
-        abbreviation: 'M',
-        myRole: MemberRole.admin,
       );
       addCourse(mathCourse);
 
@@ -176,12 +172,10 @@ void main() {
     test('Sucessfully add homework with submissions', () async {
       final bloc = createBlocForNewHomeworkDialog();
 
-      final artCourse = Course.create().copyWith(
+      final artCourse = courseWith(
         id: 'art_course',
         name: 'Art',
         subject: 'Art',
-        abbreviation: 'A',
-        myRole: MemberRole.admin,
       );
 
       addCourse(artCourse);
@@ -271,12 +265,10 @@ void main() {
     test('Sucessfully displays and edits existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');
 
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
       addCourse(fooCourse);
@@ -378,12 +370,10 @@ void main() {
     test('Sucessfully displays and edits existing homework 2', () async {
       final homeworkId = HomeworkId('bar_homework_id');
 
-      final barCourse = Course.create().copyWith(
+      final barCourse = courseWith(
         id: 'bar_course',
         name: 'Bar course',
         subject: 'Bar subject',
-        abbreviation: 'B',
-        myRole: MemberRole.admin,
       );
 
       addCourse(barCourse);
