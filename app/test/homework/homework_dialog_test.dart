@@ -119,8 +119,10 @@ void main() {
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
+      when(sharezoneGateway.course).thenReturn(courseGateway);
+      when(sharezoneContext.api).thenReturn(sharezoneGateway);
+      when(sharezoneContext.analytics).thenReturn(analytics);
       if (homework != null) {
-        when(sharezoneContext.api).thenReturn(sharezoneGateway);
         when(sharezoneGateway.homework).thenReturn(homeworkGateway);
         when(homeworkGateway.singleHomework(any, source: Source.cache))
             .thenAnswer((_) => Future.value(homework));
@@ -176,10 +178,7 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(sharezoneContext.api).thenReturn(sharezoneGateway);
-      when(sharezoneGateway.course).thenReturn(courseGateway);
       addCourse(fooCourse);
-      when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
@@ -274,10 +273,8 @@ void main() {
         myRole: MemberRole.admin,
       );
 
-      when(sharezoneContext.api).thenReturn(sharezoneGateway);
-      when(sharezoneGateway.course).thenReturn(courseGateway);
       addCourse(fooCourse);
-      when(sharezoneContext.analytics).thenReturn(analytics);
+
       final nextLessonDate = Date('2024-01-03');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
