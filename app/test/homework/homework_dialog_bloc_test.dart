@@ -20,6 +20,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:time/time.dart';
 
@@ -82,12 +83,11 @@ void main() {
           .thenAnswer((_) => Stream.value([fooCourse]));
 
       bloc.add(CourseChanged(CourseId('foo_course')));
-      await pumpEventQueue();
-      await Future.delayed(Duration(seconds: 1));
-      await pumpEventQueue();
-      await pumpEventQueue();
 
-      final state = bloc.state as Ready;
+      final state = await bloc.stream
+          .whereType<Ready>()
+          .firstWhere((element) => element.dueDate != null);
+
       expect(state.dueDate, nextLessonDate);
     });
     test('Returns empty dialog when called for creating a new homework', () {
