@@ -33,26 +33,26 @@ class NextLessonCalculator {
 
   Future<Date?> tryCalculateNextLesson(String courseID) async {
     try {
-      List<Lesson> lessons =
-          await _timetableGateway.getLessonsOfGroup(courseID);
-      AppUser user = await _userGateway.get();
-      List<Holiday?> holidays;
-      try {
-        holidays = await _holidayManager.load(toStateOrThrow(user.state));
-      } catch (e) {
-        holidays = [];
-      }
-      _NextLessonCalculation nextLessonCalculation =
-          _NextLessonCalculation(lessons, holidays, user.userSettings);
-      List<Date> results = nextLessonCalculation.calculate(days: 1);
-      if (results.isEmpty) {
-        return null;
-      } else {
-        return results.first;
-      }
+      final lessons = await _timetableGateway.getLessonsOfGroup(courseID);
+      final user = await _userGateway.get();
+      final holidays = await _tryLoadHolidays(user);
+      final results =
+          _NextLessonCalculation(lessons, holidays, user.userSettings)
+              .calculate(days: 1);
+      return results.firstOrNull;
     } catch (e, s) {
-      log('Could not calculate next lesson: $e', error: e, stackTrace: s);
+      log('Could not calculate next lesson: $e\n$s', error: e, stackTrace: s);
       return null;
+    }
+  }
+
+  Future<List<Holiday?>> _tryLoadHolidays(AppUser user) async {
+    try {
+      return await _holidayManager.load(toStateOrThrow(user.state));
+    } catch (e, s) {
+      log('Could not load holidays for calculating next lessons: $e',
+          error: e, stackTrace: s);
+      return [];
     }
   }
 }
