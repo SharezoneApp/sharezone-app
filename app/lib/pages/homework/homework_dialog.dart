@@ -105,7 +105,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
         }
         return bloc_lib.BlocProvider(
           create: (context) => bloc,
-          child: __HomeworkDialog(
+          child: HomeworkDialogMain(
             isEditing: snapshot.data != null,
             bloc: bloc,
           ),
@@ -129,8 +129,9 @@ class HwDialogKeys {
   static const Key saveButton = Key("save-button");
 }
 
-class __HomeworkDialog extends StatefulWidget {
-  const __HomeworkDialog(
+@visibleForTesting
+class HomeworkDialogMain extends StatefulWidget {
+  const HomeworkDialogMain(
       {Key? key, required this.isEditing, required this.bloc})
       : super(key: key);
 
@@ -138,10 +139,10 @@ class __HomeworkDialog extends StatefulWidget {
   final HomeworkDialogBloc bloc;
 
   @override
-  __HomeworkDialogState createState() => __HomeworkDialogState();
+  HomeworkDialogMainState createState() => HomeworkDialogMainState();
 }
 
-class __HomeworkDialogState extends State<__HomeworkDialog> {
+class HomeworkDialogMainState extends State<HomeworkDialogMain> {
   final titleNode = FocusNode();
 
   @override
