@@ -402,7 +402,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
 
         final nextLesson =
-            await nextLessonCalculator.calculateNextLesson(course.id);
+            await nextLessonCalculator.tryCalculateNextLesson(course.id);
         // TODO: test for null case
         if (nextLesson != null) {
           add(DueDateChanged(nextLesson));

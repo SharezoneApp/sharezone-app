@@ -43,7 +43,7 @@ import 'homework_dialog_test.mocks.dart';
 class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
   @override
-  Future<Date?> calculateNextLesson(String courseID) async {
+  Future<Date?> tryCalculateNextLesson(String courseID) async {
     return dateToReturn;
   }
 }

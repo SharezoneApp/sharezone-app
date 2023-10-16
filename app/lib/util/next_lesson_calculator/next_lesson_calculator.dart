@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -29,22 +31,28 @@ class NextLessonCalculator {
         _userGateway = userGateway,
         _holidayManager = holidayManager;
 
-  Future<Date?> calculateNextLesson(String courseID) async {
-    List<Lesson> lessons = await _timetableGateway.getLessonsOfGroup(courseID);
-    AppUser user = await _userGateway.get();
-    List<Holiday?> holidays;
+  Future<Date?> tryCalculateNextLesson(String courseID) async {
     try {
-      holidays = await _holidayManager.load(toStateOrThrow(user.state));
-    } catch (e) {
-      holidays = [];
-    }
-    _NextLessonCalculation nextLessonCalculation =
-        _NextLessonCalculation(lessons, holidays, user.userSettings);
-    List<Date> results = nextLessonCalculation.calculate(days: 3);
-    if (results.isEmpty) {
+      List<Lesson> lessons =
+          await _timetableGateway.getLessonsOfGroup(courseID);
+      AppUser user = await _userGateway.get();
+      List<Holiday?> holidays;
+      try {
+        holidays = await _holidayManager.load(toStateOrThrow(user.state));
+      } catch (e) {
+        holidays = [];
+      }
+      _NextLessonCalculation nextLessonCalculation =
+          _NextLessonCalculation(lessons, holidays, user.userSettings);
+      List<Date> results = nextLessonCalculation.calculate(days: 3);
+      if (results.isEmpty) {
+        return null;
+      } else {
+        return results.first;
+      }
+    } catch (e, s) {
+      log('Could not calculate next lesson: $e', error: e, stackTrace: s);
       return null;
-    } else {
-      return results.first;
     }
   }
 }
