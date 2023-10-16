@@ -52,14 +52,6 @@ void main() {
         ),
         wrapper: materialAppWrapper(theme: theme),
       );
-
-      // We have a delay for displaying the keyboard (using a Timer).
-      // We have to wait until the timer is finished, otherwise this happens:
-      //  The following assertion was thrown running a test:
-      //  A Timer is still pending even after the widget tree was disposed.
-      // We use a very long timer to show that it doesn't actually
-      // make the test slower.
-      await tester.pumpAndSettle(const Duration(seconds: 25));
     }
 
     testGoldens('renders empty create homework dialog as expected',
