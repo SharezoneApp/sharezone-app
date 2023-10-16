@@ -11,8 +11,8 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
 import 'package:flutter_test/flutter_test.dart';
@@ -96,13 +96,19 @@ void main() {
             fileId: FileId('foo'),
             fileName: 'foo.png',
             format: FileFormat.image,
-            localFile: FakeLocalFile.empty(name: 'foo.png'),
+            localFile: FakeLocalFile.empty(
+              name: 'foo.png',
+              mimeType: MimeType('png'),
+            ),
           ),
           FileView(
             fileId: FileId('bar'),
             fileName: 'bar.pdf',
             format: FileFormat.pdf,
-            localFile: FakeLocalFile.empty(name: 'bar.pdf'),
+            localFile: FakeLocalFile.empty(
+              name: 'bar.pdf',
+              mimeType: MimeType('pdf'),
+            ),
           ),
         ]),
         notifyCourseMembers: false,
@@ -159,6 +165,7 @@ void main() {
               ).copyWith(
                 name: 'foo_attachment.pdf',
                 createdOn: DateTime(2024, 01, 14, 10, 15),
+                fileFormat: FileFormat.pdf,
               )),
         ]),
         notifyCourseMembers: true,
