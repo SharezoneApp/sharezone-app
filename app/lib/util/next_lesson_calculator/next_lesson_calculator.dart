@@ -44,7 +44,7 @@ class NextLessonCalculator {
       }
       _NextLessonCalculation nextLessonCalculation =
           _NextLessonCalculation(lessons, holidays, user.userSettings);
-      List<Date> results = nextLessonCalculation.calculate(days: 3);
+      List<Date> results = nextLessonCalculation.calculate(days: 1);
       if (results.isEmpty) {
         return null;
       } else {
