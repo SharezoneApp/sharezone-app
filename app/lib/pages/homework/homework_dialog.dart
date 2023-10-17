@@ -238,8 +238,9 @@ class _MobileDivider extends StatelessWidget {
 class HwDialogErrorStrings {
   static const String emptyTitle =
       "Bitte gib einen Titel für die Hausaufgabe an!";
-  static const String emptyCourse =
+  static const String emptyCourseSnackbar =
       "Bitte gib einen Kurs für die Hausaufgabe an!";
+  static const String emptyCourse = "Keinen Kurs ausgewählt";
   static const String emptyTodoUntil =
       "Bitte gib ein Fälligkeitsdatum für die Hausaufgabe an!";
 }
@@ -490,6 +491,13 @@ class _CourseTile extends StatelessWidget {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     final courseState = state.course;
     final isDisabled = courseState is CourseChosen && !courseState.isChangeable;
+    String? errorText;
+    if (courseState is NoCourseChosen && courseState.error != null) {
+      errorText = courseState.error is NoCourseChosenException
+          ? HwDialogErrorStrings.emptyCourse
+          : courseState.error.toString();
+    }
+
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -498,8 +506,7 @@ class _CourseTile extends StatelessWidget {
           key: HwDialogKeys.courseTile,
           courseName:
               courseState is CourseChosen ? courseState.courseName : null,
-          // TODO:
-          errorText: null,
+          errorText: errorText,
           onTap: isDisabled
               ? null
               : () => CourseTile.onTap(context, onChangedId: (course) {

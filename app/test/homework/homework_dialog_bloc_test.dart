@@ -84,6 +84,19 @@ void main() {
       final state = bloc.state as Ready;
       expect(state.title.error, null);
     });
+    test(
+        'Shows error if course is not selected out when creating a new homework and Submit is called',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      bloc.add(const Submit());
+
+      Ready state = await bloc.stream.whereType<Ready>().first;
+      final courseState = state.course as NoCourseChosen;
+      expect(courseState.error, const NoCourseChosenException());
+    });
     test('Picks the next lesson as due date when a course is selected',
         () async {
       final bloc = createBlocForNewHomeworkDialog();

@@ -145,11 +145,7 @@ void main() {
       // TODO: Use copyWith instead of creating a new state from scratch?
       final state = Ready(
         title: ('', error: const EmptyTitleException()),
-        course: CourseChosen(
-          courseId: CourseId('maths'),
-          courseName: 'Maths',
-          isChangeable: true,
-        ),
+        course: NoCourseChosen(error: const NoCourseChosenException()),
         dueDate: Date('2023-10-12'),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',

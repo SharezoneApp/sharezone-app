@@ -228,9 +228,11 @@ sealed class CourseState extends Equatable {
 }
 
 class NoCourseChosen extends CourseState {
+  final dynamic error;
   @override
-  List<Object?> get props => [];
-  const NoCourseChosen();
+  List<Object?> get props => [error];
+
+  const NoCourseChosen({this.error});
 }
 
 class CourseChosen extends CourseState {
@@ -308,6 +310,13 @@ class EmptyTitleException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
+class NoCourseChosenException extends Equatable implements Exception {
+  const NoCourseChosenException();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
         BlocPresentationMixin<HomeworkDialogState,
@@ -319,6 +328,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   late final bool isEditing;
 
   bool showTitleEmptyError = false;
+  bool showNoCourseChosenError = false;
 
   late HomeworkDto _homework;
   var _cloudFiles = IList<CloudFile>();
@@ -357,8 +367,16 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     );
     on<Submit>(
       (event, emit) async {
+        bool hasInputErrors = false;
         if (_homework.title.isEmpty) {
           showTitleEmptyError = true;
+          hasInputErrors = true;
+        }
+        if (_homework.courseID.isEmpty) {
+          showNoCourseChosenError = true;
+          hasInputErrors = true;
+        }
+        if (hasInputErrors) {
           emit(_getNewState());
           return;
         }
@@ -415,8 +433,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     on<CourseChanged>(
       (event, emit) async {
         final course = await api.loadCourse(event.newCourseId);
+        if (showNoCourseChosenError) {
+          showNoCourseChosenError = false;
+        }
         _homework =
             _homework.copyWith(courseID: course.id, courseName: course.name);
+
         emit(_getNewState());
 
         final nextLesson =
@@ -507,7 +529,11 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
               courseName: _homework.courseName,
               isChangeable: !isEditing,
             )
-          : const NoCourseChosen(),
+          : NoCourseChosen(
+              error: showNoCourseChosenError
+                  ? const NoCourseChosenException()
+                  : null,
+            ),
       dueDate:
           hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
       submissions: _homework.withSubmissions
