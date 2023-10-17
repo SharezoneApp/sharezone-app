@@ -22,6 +22,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
+import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
 
 import '../analytics/analytics_test.dart';
@@ -65,10 +66,6 @@ void main() {
       homeworkDialogApi.addCourseForTesting(course);
     }
 
-    void setNextLessonDate(Date date) {
-      nextLessonCalculator.dateToReturn = date;
-    }
-
     test('Picks the next lesson as due date when a course is selected',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
@@ -76,7 +73,7 @@ void main() {
         id: 'foo_course',
       ));
       final nextLessonDate = Date('2024-03-08');
-      setNextLessonDate(nextLessonDate);
+      nextLessonCalculator.dateToReturn = nextLessonDate;
 
       bloc.add(CourseChanged(CourseId('foo_course')));
 
@@ -84,6 +81,30 @@ void main() {
           .whereType<Ready>()
           .firstWhere((element) => element.dueDate != null);
       expect(state.dueDate, nextLessonDate);
+    });
+    test(
+        'leaves due date as not selected if null is returned by $NextLessonCalculator',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+
+      bloc.add(CourseChanged(CourseId('foo_course')));
+
+      nextLessonCalculator.dateToReturn = null;
+      await bloc.stream
+          .whereType<Ready>()
+          .firstWhere((element) => element.course is CourseChosen);
+
+      // Make sure that we wait for the due date to be set (might be delayed,
+      // after the course is set and returned by the view)
+      await pumpEventQueue(times: 100);
+      await Future.delayed(Duration.zero);
+      await pumpEventQueue(times: 100);
+
+      final state = bloc.state as Ready;
+      expect(state.dueDate, null);
     });
     test('Returns empty dialog when called for creating a new homework', () {
       final bloc = createBlocForNewHomeworkDialog();
