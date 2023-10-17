@@ -12,7 +12,6 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +22,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 import '../../../test/homework/homework_dialog_bloc_test.dart';
+import '../../../test/homework/homework_dialog_test.dart';
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
@@ -154,19 +154,15 @@ void main() {
         description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
         attachments: IList([
           FileView(
-              fileId: FileId('foo_attachment_id'),
-              fileName: 'foo_attachment.pdf',
-              format: FileFormat.pdf,
-              cloudFile: CloudFile.create(
-                id: 'foo_attachment_id',
-                creatorID: 'creatorID',
-                creatorName: 'creatorName',
-                courseID: 'courseID',
-              ).copyWith(
-                name: 'foo_attachment.pdf',
-                createdOn: DateTime(2024, 01, 14, 10, 15),
-                fileFormat: FileFormat.pdf,
-              )),
+            fileId: FileId('foo_attachment_id'),
+            fileName: 'foo_attachment.pdf',
+            format: FileFormat.pdf,
+            cloudFile: randomAttachmentCloudFileWith(
+              id: 'foo_attachment_id',
+              name: 'foo_attachment.pdf',
+              courseId: 'foo_course',
+            ),
+          ),
         ]),
         notifyCourseMembers: true,
         isPrivate: (false, isChangeable: false),

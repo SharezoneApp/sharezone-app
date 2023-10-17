@@ -12,6 +12,7 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
@@ -22,6 +23,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
+import 'package:random_string/random_string.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
@@ -119,6 +121,22 @@ LocalFile randomLocalFileFrom({String path = 'foo/bar.png'}) {
   );
 }
 
+CloudFile randomAttachmentCloudFileWith(
+    {String? id, String? name, String? courseId}) {
+  name = name ?? 'random_file_name_${randomAlphaNumeric(5)}.png';
+  courseId = courseId ?? 'random_course_id_${randomAlphaNumeric(5)}';
+  final fileType = fileFormatEnumFromFilenameWithExtension(name);
+  return CloudFile.create(
+          id: id ?? 'random_id_${randomAlphaNumeric(10)}',
+          creatorName:
+              'Random Assignment Creator Name ${randomAlphaNumeric(5)}',
+          courseID: courseId,
+          creatorID: 'random_file_creator_id_${randomAlphaNumeric(5)}',
+          path:
+              FolderPath.fromPathString('/$courseId/${FolderPath.attachments}'))
+      .copyWith(name: name, fileFormat: fileType);
+}
+
 void main() {
   group('HomeworkDialog', () {
     late MockHomeworkDialogApi homeworkDialogApi;
@@ -205,23 +223,19 @@ void main() {
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
+      final attachment1 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id1',
+        courseId: 'foo_course',
+        name: 'foo_attachment1.png',
+      );
+      final attachment2 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id2',
+        courseId: 'foo_course',
+        name: 'foo_attachment2.pdf',
+      );
       homeworkDialogApi.loadCloudFilesResult.addAll([
-        CloudFile.create(
-                id: 'foo_attachment_id1',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment1.png'),
-        CloudFile.create(
-                id: 'foo_attachment_id2',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment2.png'),
+        attachment1,
+        attachment2,
       ]);
 
       final mockDocumentReference = MockDocumentReference();
@@ -398,16 +412,10 @@ void main() {
         attachments: ['foo_attachment_id'],
         private: false,
       );
-      homeworkDialogApi.loadCloudFilesResult.add(
-        CloudFile.create(
-                id: 'foo_attachment_id',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment.png'),
-      );
+      homeworkDialogApi.loadCloudFilesResult.add(randomAttachmentCloudFileWith(
+        name: 'foo_attachment.png',
+        courseId: 'foo_course',
+      ));
 
       await pumpAndSettleHomeworkDialog(tester);
 

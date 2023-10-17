@@ -274,24 +274,19 @@ void main() {
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
+      final attachment1 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id1',
+        courseId: 'foo_course',
+        name: 'foo_attachment1.png',
+      );
+      final attachment2 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id2',
+        courseId: 'foo_course',
+        name: 'foo_attachment2.pdf',
+      );
       homeworkDialogApi.loadCloudFilesResult.addAll([
-        CloudFile.create(
-                id: 'foo_attachment_id1',
-                creatorName: 'Assignment Creator Name 1',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(
-                name: 'foo_attachment1.png', fileFormat: FileFormat.image),
-        CloudFile.create(
-                id: 'foo_attachment_id2',
-                creatorName: 'Assignment Creator Name 2',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment2.pdf', fileFormat: FileFormat.pdf),
+        attachment1,
+        attachment2,
       ]);
 
       final mockDocumentReference = MockDocumentReference();
