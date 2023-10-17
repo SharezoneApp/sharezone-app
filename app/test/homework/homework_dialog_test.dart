@@ -391,10 +391,9 @@ void main() {
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.
-      // TODO: Setting todoUntil automatically is not yet implemented.
-      // final expected = DateTime(nextLessonDate.year, nextLessonDate.month,
-      //     nextLessonDate.day, 23, 59);
-      // expect(userInput.todoUntil, expected);
+      final expected = DateTime(nextLessonDate.year, nextLessonDate.month,
+          nextLessonDate.day, 23, 59);
+      expect(userInput.todoUntil, expected);
       expect(userInput.description, 'Rechenweg aufschreiben');
       expect(userInput.localFiles, isEmpty);
       expect(userInput.sendNotification, true);
