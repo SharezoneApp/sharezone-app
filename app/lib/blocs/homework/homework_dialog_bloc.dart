@@ -125,7 +125,6 @@ sealed class HomeworkDialogState extends Equatable {
 }
 
 class Ready extends HomeworkDialogState {
-  // TODO: Add error states (title, course, Due date?)
   final (String, {dynamic error}) title;
   final CourseState course;
   final (Date?, {dynamic error}) dueDate;
@@ -165,7 +164,6 @@ class Ready extends HomeworkDialogState {
 }
 
 class SavedSucessfully extends HomeworkDialogState {
-  // TODO: Remove?
   @override
   List<Object?> get props => [super.isEditing];
 
@@ -286,9 +284,7 @@ sealed class HomeworkDialogBlocPresentationEvent extends Equatable {
   const HomeworkDialogBlocPresentationEvent();
 }
 
-// TODO: Maybe two different classes - one if trying to save with invalid data
-// and one if saving failed due to some other error?
-// TODO: test
+// TODO: Use
 class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   const SavingFailed();
 
@@ -485,7 +481,6 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         }
         final nextLesson =
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
-        // TODO: test for null case
         if (nextLesson != null) {
           add(DueDateChanged(nextLesson));
         }

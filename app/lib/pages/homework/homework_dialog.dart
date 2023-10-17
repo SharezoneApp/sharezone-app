@@ -405,10 +405,9 @@ class _TitleField extends StatelessWidget {
         onChanged: (newTitle) {
           bloc.add(TitleChanged(newTitle));
         },
-        // TODO
         errorText: state.title.error is EmptyTitleException
             ? HwDialogErrorStrings.emptyTitle
-            : null,
+            : state.title.error.toString(),
       ),
     );
     // return MaxWidthConstraintBox(
