@@ -409,12 +409,35 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           private: _homework.private,
         );
 
+        // TODO: Can the offline behavior be tested?
         if (isEditing) {
-          await api.editHomework(HomeworkId(_homework.id), userInput,
-              removedCloudFiles:
-                  _initialAttachments.removeAll(_cloudFiles).toList());
+          if (userInput.localFiles.isEmpty) {
+            // If user is offline Firestore will add the homework locally but
+            // won't complete the future until the server has received the
+            // homework. We remove the await so that the user can save the
+            // homework while being offline.
+            api.editHomework(HomeworkId(_homework.id), userInput,
+                removedCloudFiles:
+                    _initialAttachments.removeAll(_cloudFiles).toList());
+          } else {
+            // As we can't save a homework with attachments when we are offline,
+            // we await the future here.
+            await api.editHomework(HomeworkId(_homework.id), userInput,
+                removedCloudFiles:
+                    _initialAttachments.removeAll(_cloudFiles).toList());
+          }
         } else {
-          await api.createHomework(CourseId(_homework.courseID), userInput);
+          if (userInput.localFiles.isEmpty) {
+            // If user is offline Firestore will add the homework locally but
+            // won't complete the future until the server has received the
+            // homework. We remove the await so that the user can save the
+            // homework while being offline.
+            api.createHomework(CourseId(_homework.courseID), userInput);
+          } else {
+            // As we can't save a homework with attachments when we are offline,
+            // we await the future here.
+            await api.createHomework(CourseId(_homework.courseID), userInput);
+          }
         }
 
         emit(SavedSucessfully(isEditing: isEditing));
