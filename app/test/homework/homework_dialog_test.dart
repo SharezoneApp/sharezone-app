@@ -432,18 +432,6 @@ void main() {
               (element) => element is Switch && element.value == true),
           findsNothing);
     });
-    testWidgets('shows error text on empty fields', (tester) async {
-      await pumpAndSettleHomeworkDialog(tester);
-
-      await tester.tap(find.byKey(HwDialogKeys.saveButton));
-      await tester.pumpAndSettle();
-
-      await generateGolden('name');
-
-      // Can't find it, idk why...
-      expect(find.text(HwDialogErrorStrings.emptyTitle, skipOffstage: false),
-          findsOneWidget);
-    }, skip: true);
 
     testWidgets('should display a prefilled dialog if homework is passed',
         (WidgetTester tester) async {
