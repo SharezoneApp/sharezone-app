@@ -65,28 +65,24 @@ void main() {
       homeworkDialogApi.addCourseForTesting(course);
     }
 
+    void setNextLessonDate(Date date) {
+      nextLessonCalculator.dateToReturn = date;
+    }
+
     test('Picks the next lesson as due date when a course is selected',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
       final bloc = createBlocForNewHomeworkDialog();
-
-      final fooCourse = courseWith(
+      addCourse(courseWith(
         id: 'foo_course',
-        name: 'Foo course',
-        subject: 'Foo subject',
-      );
-
-      addCourse(fooCourse);
-      when(sharezoneContext.analytics).thenReturn(analytics);
+      ));
       final nextLessonDate = Date('2024-03-08');
-      nextLessonCalculator.dateToReturn = nextLessonDate;
+      setNextLessonDate(nextLessonDate);
 
       bloc.add(CourseChanged(CourseId('foo_course')));
 
       final state = await bloc.stream
           .whereType<Ready>()
           .firstWhere((element) => element.dueDate != null);
-
       expect(state.dueDate, nextLessonDate);
     });
     test('Returns empty dialog when called for creating a new homework', () {
@@ -270,7 +266,6 @@ void main() {
 
       addCourse(fooCourse);
 
-      when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
@@ -325,7 +320,7 @@ void main() {
                 fileId: FileId('foo_attachment_id2'),
                 fileName: 'foo_attachment2.pdf',
                 format: FileFormat.pdf,
-                cloudFile: homeworkDialogApi.loadCloudFilesResult[1]),
+                cloudFile: attachment2),
           ]),
           notifyCourseMembers: false,
           isPrivate: (true, isChangeable: false),
@@ -349,9 +344,7 @@ void main() {
           sendNotification: false,
         ),
       );
-      expect(homeworkDialogApi.removedCloudFilesFromEditing,
-          [homeworkDialogApi.loadCloudFilesResult[0]]);
-
+      expect(homeworkDialogApi.removedCloudFilesFromEditing, [attachment1]);
       expect(bloc.state, const SavedSucessfully(isEditing: true));
     });
     test('Sucessfully displays and edits existing homework 2', () async {
@@ -364,7 +357,6 @@ void main() {
       );
 
       addCourse(barCourse);
-      when(sharezoneContext.analytics).thenReturn(analytics);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
