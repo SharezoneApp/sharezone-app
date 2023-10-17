@@ -131,18 +131,6 @@ class HwDialogKeys {
   static const Key saveButton = Key("save-button");
 }
 
-class BuildCallbackWidget extends StatelessWidget {
-  const BuildCallbackWidget({super.key, required this.onBuild});
-
-  final VoidCallback onBuild;
-
-  @override
-  Widget build(BuildContext context) {
-    onBuild();
-    return const Placeholder();
-  }
-}
-
 @visibleForTesting
 class HomeworkDialogMain extends StatefulWidget {
   const HomeworkDialogMain(
@@ -181,12 +169,18 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeworkDialogBloc, HomeworkDialogState>(
+    return BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
+      listener: (context, state) {
+        if (state is SavedSucessfully) {
+          Navigator.pop(context);
+        }
+      },
+      buildWhen: (previous, current) => current is! SavedSucessfully,
       builder: (context, state) {
         return switch (state) {
           LoadingHomework() => const Center(child: CircularProgressIndicator()),
-          SavedSucessfully() =>
-            BuildCallbackWidget(onBuild: () => Navigator.pop(context)),
+          SavedSucessfully() => throw UnimplementedError(
+              'Placeholder, we pop the Navigator above so this should not be reached.'),
           Ready() => WillPopScope(
               onWillPop: () async => hasModifiedData()
                   ? warnUserAboutLeavingForm(context)
@@ -266,7 +260,7 @@ class _SaveButton extends StatelessWidget {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     try {
       // bloc.validateInputOrThrow();
-      sendDataToFrankfurtSnackBar(context);
+      // sendDataToFrankfurtSnackBar(context);
       // TODO: How can we handle errors that might occure when submitting?
       bloc.add(const Submit());
 
