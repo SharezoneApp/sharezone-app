@@ -131,6 +131,18 @@ class HwDialogKeys {
   static const Key saveButton = Key("save-button");
 }
 
+class BuildCallbackWidget extends StatelessWidget {
+  const BuildCallbackWidget({super.key, required this.onBuild});
+
+  final VoidCallback onBuild;
+
+  @override
+  Widget build(BuildContext context) {
+    onBuild();
+    return const Placeholder();
+  }
+}
+
 @visibleForTesting
 class HomeworkDialogMain extends StatefulWidget {
   const HomeworkDialogMain(
@@ -173,8 +185,8 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
       builder: (context, state) {
         return switch (state) {
           LoadingHomework() => const Center(child: CircularProgressIndicator()),
-          // TODO
-          SavedSucessfully() => Container(),
+          SavedSucessfully() =>
+            BuildCallbackWidget(onBuild: () => Navigator.pop(context)),
           Ready() => WillPopScope(
               onWillPop: () async => hasModifiedData()
                   ? warnUserAboutLeavingForm(context)
