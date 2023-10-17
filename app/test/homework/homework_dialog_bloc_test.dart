@@ -66,6 +66,7 @@ void main() {
       homeworkDialogApi.addCourseForTesting(course);
     }
 
+    // TODO: Test edit dialog
     test(
         'Shows error if title is not filled out when creating a new homework and Submit is called',
         () async {
@@ -84,6 +85,7 @@ void main() {
       final state = bloc.state as Ready;
       expect(state.title.error, null);
     });
+    // TODO: Test edit dialog
     test(
         'Shows error if course is not selected out when creating a new homework and Submit is called',
         () async {
