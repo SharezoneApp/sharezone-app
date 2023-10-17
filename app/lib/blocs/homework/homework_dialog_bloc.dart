@@ -126,7 +126,7 @@ sealed class HomeworkDialogState extends Equatable {
 
 class Ready extends HomeworkDialogState {
   // TODO: Add error states (title, course, Due date?)
-  final String title;
+  final (String, {dynamic error}) title;
   final CourseState course;
   final Date? dueDate;
   final SubmissionState submissions;
@@ -263,7 +263,7 @@ class LoadingHomework extends HomeworkDialogState {
 
 @visibleForTesting
 final emptyCreateHomeworkDialogState = Ready(
-  title: '',
+  title: ('', error: null),
   course: const NoCourseChosen(),
   dueDate: null,
   submissions: const SubmissionsDisabled(isChangeable: true),
@@ -301,6 +301,13 @@ final _kNoDateSelectedDateTime = DateTime(1337, 13, 37, 13, 37, 13, 37);
 HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '')
     .copyWith(todoUntil: _kNoDateSelectedDateTime);
 
+class EmptyTitleException extends Equatable implements Exception {
+  const EmptyTitleException();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
         BlocPresentationMixin<HomeworkDialogState,
@@ -310,6 +317,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
+
+  bool showTitleEmptyError = false;
 
   late HomeworkDto _homework;
   var _cloudFiles = IList<CloudFile>();
@@ -348,6 +357,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     );
     on<Submit>(
       (event, emit) async {
+        if (_homework.title.isEmpty) {
+          showTitleEmptyError = true;
+          emit(_getNewState());
+          return;
+        }
+
         final userInput = UserInput(
           title: _homework.title,
           todoUntil: DateTime(
@@ -378,6 +393,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     on<TitleChanged>(
       (event, emit) {
         _homework = _homework.copyWith(title: event.newTitle);
+        if (showTitleEmptyError && _homework.title.isNotEmpty) {
+          showTitleEmptyError = false;
+        }
         emit(_getNewState());
       },
     );
@@ -479,7 +497,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         _homework.todoUntil.millisecond != _kNoDateSelectedDateTime.millisecond;
 
     return Ready(
-      title: _homework.title,
+      title: (
+        _homework.title,
+        error: showTitleEmptyError ? const EmptyTitleException() : null
+      ),
       course: _homework.courseID != ''
           ? CourseChosen(
               courseId: CourseId(_homework.courseID),

@@ -235,7 +235,7 @@ class _MobileDivider extends StatelessWidget {
   }
 }
 
-class _ErrorStrings {
+class HwDialogErrorStrings {
   static const String emptyTitle =
       "Bitte gib einen Titel für die Hausaufgabe an!";
   static const String emptyCourse =
@@ -257,9 +257,9 @@ class _SaveButton extends StatelessWidget {
       // TODO: How can we handle errors that might occure when submitting?
       bloc.add(const Submit());
 
-      if (!context.mounted) return;
-      hideSendDataToFrankfurtSnackBar(context);
-      Navigator.pop(context, true);
+      // if (!context.mounted) return;
+      // hideSendDataToFrankfurtSnackBar(context);
+      // Navigator.pop(context, true);
       //
       // TODO: Implement
       // } on InvalidHomeworkInputException catch (e) {
@@ -289,6 +289,7 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SaveButton(
+      key: HwDialogKeys.saveButton,
       tooltip: "Hausaufgabe speichern",
       onPressed: () => onPressed(context),
     );
@@ -366,7 +367,6 @@ class _AppBar extends StatelessWidget {
                     tooltip: "Schließen",
                   ),
                   _SaveButton(
-                    key: HwDialogKeys.saveButton,
                     editMode: editMode,
                   ),
                 ],
@@ -395,13 +395,15 @@ class _TitleField extends StatelessWidget {
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
         // TODO: Will always rebuild with state change, fix.
-        prefilledTitle: state.title,
+        prefilledTitle: state.title.$1,
         focusNode: focusNode,
         onChanged: (newTitle) {
           bloc.add(TitleChanged(newTitle));
         },
         // TODO
-        errorText: null,
+        errorText: state.title.error is EmptyTitleException
+            ? HwDialogErrorStrings.emptyTitle
+            : null,
       ),
     );
     // return MaxWidthConstraintBox(

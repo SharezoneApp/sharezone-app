@@ -82,7 +82,7 @@ void main() {
     testGoldens('renders filled create homework dialog as expected',
         (tester) async {
       final state = Ready(
-        title: 'S. 32 8a)',
+        title: ('S. 32 8a)', error: null),
         course: CourseChosen(
           courseId: CourseId('maths'),
           courseName: 'Maths',
@@ -140,10 +140,72 @@ void main() {
       );
     });
 
+    testGoldens('renders filled create homework dialog with errors as expected',
+        (tester) async {
+      // TODO: Use copyWith instead of creating a new state from scratch?
+      final state = Ready(
+        title: ('', error: const EmptyTitleException()),
+        course: CourseChosen(
+          courseId: CourseId('maths'),
+          courseName: 'Maths',
+          isChangeable: true,
+        ),
+        dueDate: Date('2023-10-12'),
+        submissions: const SubmissionsDisabled(isChangeable: false),
+        description: 'Das ist eine Beschreibung',
+        attachments: IList([
+          FileView(
+            fileId: FileId('foo'),
+            fileName: 'foo.png',
+            format: FileFormat.image,
+            localFile: FakeLocalFile.empty(
+              name: 'foo.png',
+              mimeType: MimeType('png'),
+            ),
+          ),
+          FileView(
+            fileId: FileId('bar'),
+            fileName: 'bar.pdf',
+            format: FileFormat.pdf,
+            localFile: FakeLocalFile.empty(
+              name: 'bar.pdf',
+              mimeType: MimeType('pdf'),
+            ),
+          ),
+        ]),
+        notifyCourseMembers: false,
+        isPrivate: (true, isChangeable: true),
+        hasModifiedData: true,
+        isEditing: false,
+      );
+
+      whenListen(
+        homeworkDialogBloc,
+        Stream.value(state),
+        initialState: state,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          isEditing: false, theme: lightTheme);
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_add_filled_with_error_light',
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          isEditing: false, theme: darkTheme);
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_add_filled_with_error_dark',
+      );
+    });
+
     testGoldens('renders filled edit homework dialog as expected',
         (tester) async {
       final state = Ready(
-        title: 'AB fertig bearbeiten',
+        title: ('AB fertig bearbeiten', error: null),
         course: CourseChosen(
           courseId: CourseId('foo_course'),
           courseName: 'Foo course',

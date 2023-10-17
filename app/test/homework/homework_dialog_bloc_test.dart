@@ -66,6 +66,24 @@ void main() {
       homeworkDialogApi.addCourseForTesting(course);
     }
 
+    test(
+        'Shows error if title is not filled out when creating a new homework and Submit is called',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const Submit());
+      await pumpEventQueue();
+      Ready state = bloc.state as Ready;
+      expect(state.title.error, const EmptyTitleException());
+    });
+    test('Removes error if title is changed to a valid value', () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const Submit());
+      await pumpEventQueue();
+      bloc.add(const TitleChanged('Foo'));
+      await pumpEventQueue();
+      final state = bloc.state as Ready;
+      expect(state.title.error, null);
+    });
     test('Picks the next lesson as due date when a course is selected',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
@@ -139,7 +157,7 @@ void main() {
       expect(
           bloc.state,
           Ready(
-            title: 'S. 32 8a)',
+            title: ('S. 32 8a)', error: null),
             course: CourseChosen(
               courseId: CourseId(mathCourse.id),
               courseName: 'Maths',
@@ -206,7 +224,7 @@ void main() {
       expect(
           bloc.state,
           Ready(
-            title: 'Paint masterpiece',
+            title: ('Paint masterpiece', error: null),
             course: CourseChosen(
               courseId: CourseId(artCourse.id),
               courseName: 'Art',
@@ -327,7 +345,7 @@ void main() {
       expect(
         bloc.state,
         Ready(
-          title: 'title text',
+          title: ('title text', error: null),
           course: CourseChosen(
             courseId: CourseId('foo_course'),
             courseName: 'Foo course',
@@ -404,7 +422,7 @@ void main() {
       expect(
         bloc.state,
         Ready(
-          title: 'title text',
+          title: ('title text', error: null),
           course: CourseChosen(
             courseId: CourseId('bar_course'),
             courseName: 'Bar course',
