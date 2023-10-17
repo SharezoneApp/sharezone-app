@@ -109,6 +109,28 @@ void main() {
       Ready state = await bloc.stream.whereType<Ready>().first;
       expect(state.dueDate.error, const NoDueDateSelectedException());
     });
+    test(
+        'if a date has been manually set it wont be overridden by next lesson date',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      nextLessonCalculator.dateToReturn = Date('2023-04-02');
+      bloc.add(DueDateChanged(Date('2023-03-28')));
+      bloc.add(CourseChanged(CourseId('foo_course')));
+
+      Ready state = await bloc.stream
+          .whereType<Ready>()
+          .where((event) => event.course is CourseChosen)
+          .first;
+
+      // Due date might be delayed because of async next lesson calculation
+      await pumpEventQueue();
+      state = bloc.state as Ready;
+
+      expect(state.dueDate.$1, Date('2023-03-28'));
+    });
     test('Removes error if due date is changed to a valid value', () async {
       final bloc = createBlocForNewHomeworkDialog();
       bloc.add(const Submit());

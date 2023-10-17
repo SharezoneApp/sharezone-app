@@ -479,6 +479,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
         emit(_getNewState());
 
+        // Manual date was already set, we don't want to overwrite it.
+        if (_homework.todoUntil.year != _kNoDateSelectedDateTime.year) {
+          return;
+        }
         final nextLesson =
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
         // TODO: test for null case
