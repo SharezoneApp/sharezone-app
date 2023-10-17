@@ -289,16 +289,11 @@ void main() {
         attachment2,
       ]);
 
-      final mockDocumentReference = MockDocumentReference();
-      when(mockDocumentReference.id).thenReturn('foo_course');
-      final homework = HomeworkDto.create(
-              courseID: 'foo_course', courseReference: mockDocumentReference)
-          .copyWith(
+      final homework = randomHomeworkWith(
         id: homeworkId.id,
         title: 'title text',
-        courseID: 'foo_course',
+        courseId: 'foo_course',
         courseName: 'Foo course',
-        subject: 'Foo subject',
         withSubmissions: false,
         todoUntil: DateTime(2024, 03, 12),
         description: 'description text',
@@ -375,23 +370,20 @@ void main() {
 
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('bar_course');
-      final homework = HomeworkDto.create(
-              courseID: 'bar_course', courseReference: mockDocumentReference)
-          .copyWith(
+
+      final homework = randomHomeworkWith(
         id: homeworkId.id,
         title: 'title text',
-        courseID: 'bar_course',
+        courseId: 'bar_course',
         courseName: 'Bar course',
-        subject: 'Bar subject',
         withSubmissions: true,
         todoUntil: DateTime(2024, 03, 12, 16, 35),
         description: 'description text',
         attachments: [],
-        // Sometimes sendNotficiation might be set to true for an existing
-        // homework, but we need to make sure that it will be ignored.
         sendNotification: true,
         private: false,
       );
+
       homeworkDialogApi.homeworkToReturn = homework;
 
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);

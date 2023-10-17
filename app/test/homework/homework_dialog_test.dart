@@ -121,6 +121,56 @@ LocalFile randomLocalFileFrom({String path = 'foo/bar.png'}) {
   );
 }
 
+bool randomBool() {
+  return randomBetween(0, 2).isEven;
+}
+
+HomeworkDto randomHomeworkWith({
+  String? id,
+  String? courseId,
+  String? courseName,
+  String? subject,
+  String? title,
+  String? description,
+  DateTime? todoUntil,
+  bool? withSubmissions,
+  bool? private,
+  bool? sendNotification,
+  List<String>? attachments,
+}) {
+  id = id ?? 'random_id_${randomAlphaNumeric(10)}';
+  courseId = courseId ?? 'random_course_id_${randomAlphaNumeric(5)}';
+  courseName = courseName ?? 'Random Course Name ${randomAlphaNumeric(5)}';
+  subject = subject ?? 'Random Subject ${randomAlphaNumeric(5)}';
+  title = title ?? 'Random Title ${randomAlphaNumeric(5)}';
+  description = description ?? 'Random Description ${randomAlphaNumeric(5)}';
+  withSubmissions = withSubmissions ?? randomBool();
+  todoUntil = todoUntil ??
+      (withSubmissions
+          ? DateTime(2023, 03, 12, 16, 30)
+          : DateTime(2023, 03, 12));
+  private = private ?? !withSubmissions;
+  sendNotification = sendNotification ?? randomBool();
+
+  final mockDocumentReference = MockDocumentReference();
+  when(mockDocumentReference.id).thenReturn(courseId);
+  return HomeworkDto.create(
+          courseID: courseId, courseReference: mockDocumentReference)
+      .copyWith(
+    id: id,
+    title: title,
+    courseID: courseId,
+    courseName: courseName,
+    subject: subject,
+    withSubmissions: withSubmissions,
+    todoUntil: todoUntil,
+    description: description,
+    attachments: attachments ?? [],
+    private: private,
+    sendNotification: sendNotification,
+  );
+}
+
 CloudFile randomAttachmentCloudFileWith(
     {String? id, String? name, String? courseId}) {
   name = name ?? 'random_file_name_${randomAlphaNumeric(5)}.png';
@@ -238,14 +288,10 @@ void main() {
         attachment2,
       ]);
 
-      final mockDocumentReference = MockDocumentReference();
-      when(mockDocumentReference.id).thenReturn('foo_course');
-      homework = HomeworkDto.create(
-              courseID: 'foo_course', courseReference: mockDocumentReference)
-          .copyWith(
+      homework = randomHomeworkWith(
         id: 'foo_homework_id',
         title: 'title text',
-        courseID: 'foo_course',
+        courseId: 'foo_course',
         courseName: 'Foo course',
         subject: 'Foo subject',
         // The submission time is included in the todoUntil date.
@@ -255,6 +301,7 @@ void main() {
         attachments: ['foo_attachment_id1', 'foo_attachment_id2'],
         private: false,
       );
+
       await pumpAndSettleHomeworkDialog(tester);
 
       await tester.enterText(
@@ -397,12 +444,10 @@ void main() {
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('foo_course');
       addCourse(fooCourse);
-      homework = HomeworkDto.create(
-              courseID: 'foo_course', courseReference: mockDocumentReference)
-          .copyWith(
+      homework = randomHomeworkWith(
         id: 'foo_homework_id',
         title: 'title text',
-        courseID: 'foo_course',
+        courseId: 'foo_course',
         courseName: 'Foo course',
         subject: 'Foo subject',
         // The submission time is included in the todoUntil date.
@@ -412,6 +457,7 @@ void main() {
         attachments: ['foo_attachment_id'],
         private: false,
       );
+
       homeworkDialogApi.loadCloudFilesResult.add(randomAttachmentCloudFileWith(
         name: 'foo_attachment.png',
         courseId: 'foo_course',
