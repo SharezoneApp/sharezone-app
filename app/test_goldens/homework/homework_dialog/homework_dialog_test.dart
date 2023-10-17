@@ -88,7 +88,7 @@ void main() {
           courseName: 'Maths',
           isChangeable: true,
         ),
-        dueDate: Date('2023-10-12'),
+        dueDate: (Date('2023-10-12'), error: null),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
         attachments: IList([
@@ -145,8 +145,11 @@ void main() {
       // TODO: Use copyWith instead of creating a new state from scratch?
       final state = Ready(
         title: ('', error: const EmptyTitleException()),
-        course: NoCourseChosen(error: const NoCourseChosenException()),
-        dueDate: Date('2023-10-12'),
+        course: const NoCourseChosen(error: NoCourseChosenException()),
+        dueDate: (
+          Date('2023-10-12'),
+          error: const NoDueDateSelectedException()
+        ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
         attachments: IList([
@@ -207,7 +210,7 @@ void main() {
           courseName: 'Foo course',
           isChangeable: false,
         ),
-        dueDate: Date('2024-01-14'),
+        dueDate: (Date('2024-01-14'), error: null),
         submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
         description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
         attachments: IList([

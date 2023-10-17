@@ -310,15 +310,13 @@ class _TodoUntilPicker extends StatelessWidget {
         top: false,
         bottom: false,
         child: DefaultTextStyle.merge(
-          style: const TextStyle(
-            color: null,
-            // TODO:
-            // color: snapshot.hasError ? Colors.red : null,
+          style: TextStyle(
+            color: state.dueDate.error != null ? Colors.red : null,
           ),
           child: DatePicker(
             key: HwDialogKeys.todoUntilTile,
             padding: const EdgeInsets.all(12),
-            selectedDate: state.dueDate?.toDateTime,
+            selectedDate: state.dueDate.$1?.toDateTime,
             selectDate: (newDate) {
               bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
             },

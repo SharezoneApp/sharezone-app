@@ -128,7 +128,7 @@ class Ready extends HomeworkDialogState {
   // TODO: Add error states (title, course, Due date?)
   final (String, {dynamic error}) title;
   final CourseState course;
-  final Date? dueDate;
+  final (Date?, {dynamic error}) dueDate;
   final SubmissionState submissions;
   final String description;
   final IList<FileView> attachments;
@@ -267,7 +267,7 @@ class LoadingHomework extends HomeworkDialogState {
 final emptyCreateHomeworkDialogState = Ready(
   title: ('', error: null),
   course: const NoCourseChosen(),
-  dueDate: null,
+  dueDate: (null, error: null),
   submissions: const SubmissionsDisabled(isChangeable: true),
   description: '',
   attachments: IList(),
@@ -317,6 +317,13 @@ class NoCourseChosenException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
+class NoDueDateSelectedException extends Equatable implements Exception {
+  const NoDueDateSelectedException();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
         BlocPresentationMixin<HomeworkDialogState,
@@ -329,6 +336,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
   bool showTitleEmptyError = false;
   bool showNoCourseChosenError = false;
+  bool showNoDueDateChosenError = false;
 
   late HomeworkDto _homework;
   var _cloudFiles = IList<CloudFile>();
@@ -374,6 +382,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         }
         if (_homework.courseID.isEmpty) {
           showNoCourseChosenError = true;
+          hasInputErrors = true;
+        }
+        if (_homework.todoUntil.year == _kNoDateSelectedDateTime.year) {
+          showNoDueDateChosenError = true;
           hasInputErrors = true;
         }
         if (hasInputErrors) {
@@ -427,6 +439,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           month: event.newDueDate.month,
           day: event.newDueDate.day,
         ));
+        if (showNoDueDateChosenError) {
+          showNoDueDateChosenError = false;
+        }
         emit(_getNewState());
       },
     );
@@ -534,8 +549,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                   ? const NoCourseChosenException()
                   : null,
             ),
-      dueDate:
-          hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
+      dueDate: (
+        hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
+        error: showNoDueDateChosenError
+            ? const NoDueDateSelectedException()
+            : null,
+      ),
       submissions: _homework.withSubmissions
           ? SubmissionsEnabled(
               deadline: hasUserEditedSubmissionTime

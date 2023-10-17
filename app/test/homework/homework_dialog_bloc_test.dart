@@ -99,6 +99,25 @@ void main() {
       final courseState = state.course as NoCourseChosen;
       expect(courseState.error, const NoCourseChosenException());
     });
+    // TODO: Test edit dialog
+    test(
+        'Shows error if due date is not selected when creating a new homework and Submit is called',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const Submit());
+
+      Ready state = await bloc.stream.whereType<Ready>().first;
+      expect(state.dueDate.error, const NoDueDateSelectedException());
+    });
+    test('Removes error if due date is changed to a valid value', () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const Submit());
+      await pumpEventQueue();
+      bloc.add(DueDateChanged(Date('2023-10-12')));
+      await pumpEventQueue();
+      final state = bloc.state as Ready;
+      expect(state.dueDate.error, null);
+    });
     test('Picks the next lesson as due date when a course is selected',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
@@ -112,8 +131,8 @@ void main() {
 
       final state = await bloc.stream
           .whereType<Ready>()
-          .firstWhere((element) => element.dueDate != null);
-      expect(state.dueDate, nextLessonDate);
+          .firstWhere((element) => element.dueDate.$1 != null);
+      expect(state.dueDate.$1, nextLessonDate);
     });
     test(
         'leaves due date as not selected if null is returned by $NextLessonCalculator',
@@ -137,7 +156,7 @@ void main() {
       await pumpEventQueue(times: 100);
 
       final state = bloc.state as Ready;
-      expect(state.dueDate, null);
+      expect(state.dueDate.$1, null);
     });
     test('Returns empty dialog when called for creating a new homework', () {
       final bloc = createBlocForNewHomeworkDialog();
@@ -178,7 +197,7 @@ void main() {
               courseName: 'Maths',
               isChangeable: true,
             ),
-            dueDate: Date('2023-10-12'),
+            dueDate: (Date('2023-10-12'), error: null),
             submissions: const SubmissionsDisabled(isChangeable: false),
             description: 'This is a description',
             attachments: IList([
@@ -245,7 +264,7 @@ void main() {
               courseName: 'Art',
               isChangeable: true,
             ),
-            dueDate: Date('2024-11-13'),
+            dueDate: (Date('2024-11-13'), error: null),
             submissions:
                 SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
             description: 'This is a description',
@@ -307,7 +326,7 @@ void main() {
       bloc.add(const TitleChanged('abc'));
       await pumpEventQueue();
       final state = bloc.state as Ready;
-      expect(state.dueDate, null);
+      expect(state.dueDate.$1, null);
     });
     test('Sucessfully displays and edits existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');
@@ -366,7 +385,7 @@ void main() {
             courseName: 'Foo course',
             isChangeable: false,
           ),
-          dueDate: Date('2024-03-12'),
+          dueDate: (Date('2024-03-12'), error: null),
           submissions: const SubmissionsDisabled(isChangeable: false),
           description: 'description text',
           attachments: IList([
@@ -443,7 +462,7 @@ void main() {
             courseName: 'Bar course',
             isChangeable: false,
           ),
-          dueDate: Date('2024-03-12'),
+          dueDate: (Date('2024-03-12'), error: null),
           submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 35)),
           description: 'description text',
           attachments: IList(),
