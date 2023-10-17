@@ -103,12 +103,9 @@ void main() {
       );
       addCourse(mathCourse);
 
-      final fooLocalFile = FakeLocalFile.fromData(
-          Uint8List.fromList([1, 2]), 'bar/foo.png', 'foo.png', 'png');
-      final barLocalFile = FakeLocalFile.fromData(
-          Uint8List.fromList([1, 2, 3, 4]), 'foo/bar.pdf', 'bar.pdf', 'pdf');
-      final quzLocalFile = FakeLocalFile.fromData(
-          Uint8List.fromList([9]), 'bar/quux/baz/quz.pdf', 'quz.mp4', 'mp4');
+      final fooLocalFile = randomLocalFileFrom(path: 'bar/foo.png');
+      final barLocalFile = randomLocalFileFrom(path: 'foo/bar.pdf');
+      final quzLocalFile = randomLocalFileFrom(path: 'bar/quux/baz/quz.mp4');
 
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
@@ -454,17 +451,17 @@ class FakeLocalFile extends LocalFile {
   final MimeType? mimeType;
   final String? path;
 
-  FakeLocalFile._({
-    required this.file,
-    required this.fileData,
+  FakeLocalFile({
+    this.file,
+    this.fileData,
     required this.fileName,
-    required this.path,
+    this.path,
     required this.sizeBytes,
-    required this.mimeType,
+    this.mimeType,
   });
 
   factory FakeLocalFile.empty({String name = '', MimeType? mimeType}) {
-    return FakeLocalFile._(
+    return FakeLocalFile(
       file: null,
       fileData: Uint8List(0),
       sizeBytes: 0,
@@ -476,7 +473,7 @@ class FakeLocalFile extends LocalFile {
 
   factory FakeLocalFile.fromData(
       Uint8List data, String? path, String name, String? type) {
-    return FakeLocalFile._(
+    return FakeLocalFile(
       file: null,
       fileData: data,
       sizeBytes: data.lengthInBytes,

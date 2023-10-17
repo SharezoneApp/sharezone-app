@@ -12,13 +12,16 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:path/path.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
@@ -31,6 +34,7 @@ import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
 import '../analytics/analytics_test.dart';
+import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
   MockSpec<SharezoneContext>(),
@@ -101,6 +105,17 @@ Course courseWith({required String id, String? name, String? subject}) {
     subject: subject ?? (name != null ? '$name subject' : name),
     abbreviation: name?.substring(0, 1) ?? subject?.substring(0, 1) ?? 'F',
     myRole: MemberRole.admin,
+  );
+}
+
+LocalFile randomLocalFileFrom({String path = 'foo/bar.png'}) {
+  final b = basename(path);
+  return FakeLocalFile(
+    fileName: b,
+    sizeBytes: b.length,
+    path: path,
+    fileData: Uint8List.fromList(b.codeUnits),
+    mimeType: MimeType.fromFileNameOrNull(b),
   );
 }
 
