@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -325,6 +326,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         BlocPresentationMixin<HomeworkDialogState,
             HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
+  final Analytics analytics;
   final NextLessonCalculator nextLessonCalculator;
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
@@ -338,11 +340,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   var _cloudFiles = IList<CloudFile>();
   var _localFiles = IList<LocalFile>();
 
-  HomeworkDialogBloc(
-      {required this.api,
-      required this.nextLessonCalculator,
-      HomeworkId? homeworkId})
-      : super(homeworkId != null
+  HomeworkDialogBloc({
+    required this.api,
+    required this.nextLessonCalculator,
+    required this.analytics,
+    HomeworkId? homeworkId,
+  }) : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
     isEditing = homeworkId != null;
@@ -422,6 +425,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 removedCloudFiles:
                     _initialAttachments.removeAll(_cloudFiles).toList());
           }
+          analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
         } else {
           if (userInput.localFiles.isEmpty) {
             // If user is offline Firestore will add the homework locally but
@@ -434,6 +438,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             // we await the future here.
             await api.createHomework(CourseId(_homework.courseID), userInput);
           }
+          analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
         }
 
         emit(SavedSucessfully(isEditing: isEditing));

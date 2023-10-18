@@ -79,18 +79,18 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           .singleHomework(widget.id!.id, source: Source.cache)
           .then((value) {
         bloc = HomeworkDialogBloc(
-          homeworkId: widget.id,
-          api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
-          nextLessonCalculator: nextLessonCalculator,
-        );
+            homeworkId: widget.id,
+            api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+            nextLessonCalculator: nextLessonCalculator,
+            analytics: analytics);
         return value;
       });
     } else {
       homework = Future.value(null);
       bloc = HomeworkDialogBloc(
-        api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
-        nextLessonCalculator: nextLessonCalculator,
-      );
+          api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+          nextLessonCalculator: nextLessonCalculator,
+          analytics: analytics);
     }
   }
 

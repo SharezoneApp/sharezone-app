@@ -47,13 +47,17 @@ void main() {
 
     HomeworkDialogBloc createBlocForNewHomeworkDialog() {
       return HomeworkDialogBloc(
-          api: homeworkDialogApi, nextLessonCalculator: nextLessonCalculator);
+        api: homeworkDialogApi,
+        nextLessonCalculator: nextLessonCalculator,
+        analytics: analytics,
+      );
     }
 
     HomeworkDialogBloc createBlocForEditingHomeworkDialog(HomeworkId id) {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
         nextLessonCalculator: nextLessonCalculator,
+        analytics: analytics,
         homeworkId: id,
       );
     }
@@ -347,6 +351,46 @@ void main() {
       await pumpEventQueue();
       final state = bloc.state as Ready;
       expect(state.dueDate.$1, null);
+    });
+    test('Analytics is called when a homework is successfully added', () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+
+      bloc.add(const TitleChanged('abc'));
+      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(const Submit());
+      await bloc.stream.whereType<SavedSucessfully>().first;
+
+      expect(analyticsBackend.loggedEvents, [
+        {'homework_add': {}},
+      ]);
+    });
+    test('Analytics is called when a homework is successfully edited',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await pumpEventQueue();
+
+      bloc.add(const TitleChanged('new title'));
+      bloc.add(const Submit());
+      await bloc.stream.whereType<SavedSucessfully>().first;
+
+      expect(analyticsBackend.loggedEvents, [
+        {'homework_edit': {}},
+      ]);
     });
     test('Sucessfully displays and edits existing homework', () async {
       final homeworkId = HomeworkId('foo_homework_id');

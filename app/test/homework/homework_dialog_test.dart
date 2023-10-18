@@ -340,10 +340,9 @@ void main() {
       expect(userInput.private, false);
       expect(cloudFilesToBeRemoved, hasLength(1));
       expect(cloudFilesToBeRemoved.first.name, 'foo_attachment1.png');
-      // TODO:
-      // expect(analyticsBackend.loggedEvents, [
-      //   {'homework_edit': {}}
-      // ]);
+      expect(analyticsBackend.loggedEvents, [
+        {'homework_edit': {}}
+      ]);
     });
 
     testWidgets('wants to create the correct homework', (tester) async {
@@ -399,10 +398,9 @@ void main() {
       expect(userInput.sendNotification, true);
       expect(userInput.private, false);
 
-      // TODO:
-      // expect(analyticsBackend.loggedEvents, [
-      //   {'homework_add': {}},
-      // ]);
+      expect(analyticsBackend.loggedEvents, [
+        {'homework_add': {}},
+      ]);
     });
 
     testWidgets('should display an empty dialog when no homework is passed',
