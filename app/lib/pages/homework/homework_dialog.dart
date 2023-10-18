@@ -410,23 +410,6 @@ class _TitleField extends StatelessWidget {
             : state.title.error?.toString(),
       ),
     );
-    // return MaxWidthConstraintBox(
-    //   child: StreamBuilder<String>(
-    //       stream: bloc.title,
-    //       builder: (context, snapshot) {
-    //         final errorText = switch (snapshot.error) {
-    //           EmptyTitleException => _ErrorStrings.emptyTitle,
-    //           _ => snapshot.error?.toString(),
-    //         };
-
-    //         return _TitleFieldBase(
-    //           prefilledTitle: prefilledTitle,
-    //           focusNode: focusNode,
-    //           onChanged: bloc.changeTitle,
-    //           errorText: errorText,
-    //         );
-    //       }),
-    // );
   }
 }
 
