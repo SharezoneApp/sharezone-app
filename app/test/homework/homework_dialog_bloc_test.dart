@@ -352,6 +352,100 @@ void main() {
       final state = bloc.state as Ready;
       expect(state.dueDate.$1, null);
     });
+    test(
+        'emits started saving uploading attachments presentation event when adding homework',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+
+      bloc.add(const TitleChanged('abc'));
+      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(
+          AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
+      bloc.add(const Submit());
+
+      expect(bloc.presentation, emits(const StartedUploadingAttachments()));
+    });
+    test(
+        'does not emit uploading attachments presentation event when adding homework without attachment',
+        () async {
+      final bloc = createBlocForNewHomeworkDialog();
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+
+      bloc.add(const TitleChanged('abc'));
+      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(DueDateChanged(Date('2024-03-08')));
+
+      // Add and remove attachment just to make it a bit more "tricky"
+      final file = randomLocalFileFrom(path: 'foo/bar.png');
+      bloc.add(AttachmentsAdded(IList([file])));
+      bloc.add(AttachmentRemoved(file.fileId));
+
+      bloc.add(const Submit());
+
+      expect(
+          bloc.presentation, neverEmits(const StartedUploadingAttachments()));
+
+      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.close();
+    });
+    test(
+        'emits started saving uploading attachments presentation event when editing homework',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await pumpEventQueue();
+
+      bloc.add(
+          AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
+      bloc.add(const Submit());
+
+      expect(bloc.presentation, emits(const StartedUploadingAttachments()));
+    });
+    test(
+        'does not emit started saving uploading attachments presentation event when editing homework without new attachment',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await pumpEventQueue();
+
+      // Add and remove attachment just to make it a bit more "tricky"
+      final file = randomLocalFileFrom(path: 'foo/bar.png');
+      bloc.add(AttachmentsAdded(IList([file])));
+      bloc.add(AttachmentRemoved(file.fileId));
+      bloc.add(const Submit());
+
+      expect(
+          bloc.presentation, neverEmits(const StartedUploadingAttachments()));
+
+      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.close();
+    });
     test('Analytics is called when a homework is successfully added', () async {
       final bloc = createBlocForNewHomeworkDialog();
       addCourse(courseWith(

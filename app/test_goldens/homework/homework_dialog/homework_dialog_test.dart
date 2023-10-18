@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_presentation_test/bloc_presentation_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -26,9 +27,10 @@ import '../../../test/homework/homework_dialog_test.dart';
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
-class MockHomeworkDialogBloc
-    extends MockBloc<HomeworkDialogEvent, HomeworkDialogState>
-    implements HomeworkDialogBloc {}
+class MockHomeworkDialogBloc extends MockPresentationBloc<
+    HomeworkDialogEvent,
+    HomeworkDialogState,
+    HomeworkDialogBlocPresentationEvent> implements HomeworkDialogBloc {}
 
 void main() {
   group('HomeworkDialog', () {
@@ -137,6 +139,93 @@ void main() {
       await multiScreenGolden(
         tester,
         'homework_dialog_add_filled_1_dark',
+      );
+    });
+
+    testGoldens(
+        'renders homework dialog when uploading attachments as expected',
+        (tester) async {
+      final state = Ready(
+        title: ('S. 32 8a)', error: null),
+        course: CourseChosen(
+          courseId: CourseId('maths'),
+          courseName: 'Maths',
+          isChangeable: true,
+        ),
+        dueDate: (Date('2023-10-12'), error: null),
+        submissions: const SubmissionsDisabled(isChangeable: false),
+        description: 'Das ist eine Beschreibung',
+        attachments: IList([
+          FileView(
+            fileId: FileId('foo'),
+            fileName: 'foo.png',
+            format: FileFormat.image,
+            localFile: FakeLocalFile.empty(
+              name: 'foo.png',
+              mimeType: MimeType('png'),
+            ),
+          ),
+          FileView(
+            fileId: FileId('bar'),
+            fileName: 'bar.pdf',
+            format: FileFormat.pdf,
+            localFile: FakeLocalFile.empty(
+              name: 'bar.pdf',
+              mimeType: MimeType('pdf'),
+            ),
+          ),
+        ]),
+        notifyCourseMembers: false,
+        isPrivate: (true, isChangeable: true),
+        hasModifiedData: true,
+        isEditing: false,
+      );
+
+      whenListen(
+        homeworkDialogBloc,
+        Stream.value(state),
+        initialState: state,
+      );
+
+      whenListenPresentation(homeworkDialogBloc,
+          initialEvents: [const StartedUploadingAttachments()]);
+      await pumpAndSettleHomeworkDialog(tester,
+          isEditing: false, theme: lightTheme);
+
+      // Wait for the SnackBar to appear.
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_add_uploading_attachments_light',
+        // Is usually `pumpAndSettle` but as the SnackBar has an endless loading
+        // animation we need to use `pump` here. Otherwise we get the error:
+        // `pumpAndSettle timed out`.
+        customPump: (tester) => tester.pump(),
+      );
+
+      // `whenListenPresentation` needs to be called again as internally only
+      // a normal instead of a broadcast stream is used and thus it would fail
+      // as a normal stream can only be listened to once.
+      whenListenPresentation(homeworkDialogBloc,
+          initialEvents: [const StartedUploadingAttachments()]);
+
+      await pumpAndSettleHomeworkDialog(
+        tester,
+        isEditing: false,
+        theme: darkTheme,
+      );
+      // Otherwise the theme is not completly applied (some text is still black
+      // instead of white).
+      await tester.pump(const Duration(milliseconds: 500));
+
+      // Wait for the SnackBar to appear.
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await multiScreenGolden(
+        tester,
+        'homework_dialog_add_uploading_attachments_dark',
+        customPump: (tester) => tester.pump(),
       );
     });
 

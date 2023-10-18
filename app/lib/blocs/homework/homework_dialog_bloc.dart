@@ -285,6 +285,13 @@ sealed class HomeworkDialogBlocPresentationEvent extends Equatable {
   const HomeworkDialogBlocPresentationEvent();
 }
 
+class StartedUploadingAttachments extends HomeworkDialogBlocPresentationEvent {
+  const StartedUploadingAttachments();
+
+  @override
+  List<Object?> get props => [];
+}
+
 // TODO: Use
 class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   const SavingFailed();
@@ -419,6 +426,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 removedCloudFiles:
                     _initialAttachments.removeAll(_cloudFiles).toList());
           } else {
+            emitPresentation(const StartedUploadingAttachments());
             // As we can't save a homework with attachments when we are offline,
             // we await the future here.
             await api.editHomework(HomeworkId(_homework.id), userInput,
@@ -434,6 +442,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             // homework while being offline.
             api.createHomework(CourseId(_homework.courseID), userInput);
           } else {
+            emitPresentation(const StartedUploadingAttachments());
             // As we can't save a homework with attachments when we are offline,
             // we await the future here.
             await api.createHomework(CourseId(_homework.courseID), userInput);

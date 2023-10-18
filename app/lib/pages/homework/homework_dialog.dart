@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -169,64 +170,74 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
-      listener: (context, state) {
-        if (state is SavedSucessfully) {
-          Navigator.pop(context);
-        }
+    return BlocPresentationListener<HomeworkDialogBloc,
+        HomeworkDialogBlocPresentationEvent>(
+      bloc: widget.bloc,
+      listener: (context, event) => switch (event) {
+        StartedUploadingAttachments() => sendDataToFrankfurtSnackBar(context),
+        SavingFailed() => throw UnimplementedError(),
       },
-      buildWhen: (previous, current) => current is! SavedSucessfully,
-      builder: (context, state) {
-        return switch (state) {
-          LoadingHomework() => const Center(child: CircularProgressIndicator()),
-          SavedSucessfully() => throw UnimplementedError(
-              'Placeholder, we pop the Navigator above so this should not be reached.'),
-          Ready() => WillPopScope(
-              onWillPop: () async => hasModifiedData()
-                  ? warnUserAboutLeavingForm(context)
-                  : Future.value(true),
-              child: Scaffold(
-                body: Column(
-                  children: <Widget>[
-                    _AppBar(
-                        editMode: widget.isEditing,
-                        focusNodeTitle: titleNode,
-                        onCloseTap: () => leaveDialog(),
-                        titleField: _TitleField(
-                          focusNode: titleNode,
-                          state: state,
-                        )),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(height: 8),
-                            _CourseTile(state: state),
-                            const _MobileDivider(),
-                            _TodoUntilPicker(state: state),
-                            const _MobileDivider(),
-                            _SubmissionsSwitch(state: state),
-                            const _MobileDivider(),
-                            _DescriptionField(state: state),
-                            const _MobileDivider(),
-                            _AttachFile(state: state),
-                            const _MobileDivider(),
-                            _SendNotification(state: state),
-                            const _MobileDivider(),
-                            _PrivateHomeworkSwitch(state: state),
-                            const _MobileDivider(),
-                          ],
+      child: BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
+        listener: (context, state) {
+          if (state is SavedSucessfully) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            Navigator.pop(context);
+          }
+        },
+        buildWhen: (previous, current) => current is! SavedSucessfully,
+        builder: (context, state) {
+          return switch (state) {
+            LoadingHomework() =>
+              const Center(child: CircularProgressIndicator()),
+            SavedSucessfully() => throw UnimplementedError(
+                'Placeholder, we pop the Navigator above so this should not be reached.'),
+            Ready() => WillPopScope(
+                onWillPop: () async => hasModifiedData()
+                    ? warnUserAboutLeavingForm(context)
+                    : Future.value(true),
+                child: Scaffold(
+                  body: Column(
+                    children: <Widget>[
+                      _AppBar(
+                          editMode: widget.isEditing,
+                          focusNodeTitle: titleNode,
+                          onCloseTap: () => leaveDialog(),
+                          titleField: _TitleField(
+                            focusNode: titleNode,
+                            state: state,
+                          )),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const SizedBox(height: 8),
+                              _CourseTile(state: state),
+                              const _MobileDivider(),
+                              _TodoUntilPicker(state: state),
+                              const _MobileDivider(),
+                              _SubmissionsSwitch(state: state),
+                              const _MobileDivider(),
+                              _DescriptionField(state: state),
+                              const _MobileDivider(),
+                              _AttachFile(state: state),
+                              const _MobileDivider(),
+                              _SendNotification(state: state),
+                              const _MobileDivider(),
+                              _PrivateHomeworkSwitch(state: state),
+                              const _MobileDivider(),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-        };
-      },
+              )
+          };
+        },
+      ),
     );
   }
 }
