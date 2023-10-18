@@ -409,7 +409,7 @@ void main() {
       homeworkDialogApi.homeworkToReturn = homework;
 
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);
-      await pumpEventQueue();
+      await bloc.stream.whereType<Ready>().first;
 
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));

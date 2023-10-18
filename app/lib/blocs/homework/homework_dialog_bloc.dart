@@ -339,6 +339,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
 
+  bool finishedInitializing = false;
+
   bool showTitleEmptyError = false;
   bool showNoCourseChosenError = false;
   bool showNoDueDateChosenError = false;
@@ -346,6 +348,17 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   late HomeworkDto _homework;
   var _cloudFiles = IList<CloudFile>();
   var _localFiles = IList<LocalFile>();
+
+  @override
+  void onEvent(HomeworkDialogEvent event) {
+    super.onEvent(event);
+    if (event is! _LoadedHomeworkData && !finishedInitializing) {
+      throw StateError('Bloc has not finished initializing yet. Events should '
+          'not be added before the initialization is finished. If you see this '
+          'error is thrown in a test, either await the first $Ready state or '
+          'use `pumpEventQueue` after creating the bloc.');
+    }
+  }
 
   HomeworkDialogBloc({
     required this.api,
@@ -361,6 +374,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     } else {
       _homework = _kNoDataChangedHomework;
       _initialAttachments = IList();
+      finishedInitializing = true;
     }
 
     on<_LoadedHomeworkData>(
@@ -375,6 +389,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         _initialHomework = _initialHomework!.copyWith(sendNotification: false);
         _homework = _initialHomework!;
         _cloudFiles = _initialAttachments;
+        finishedInitializing = true;
 
         emit(_getNewState());
       },
