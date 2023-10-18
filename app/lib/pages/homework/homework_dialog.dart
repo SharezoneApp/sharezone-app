@@ -407,7 +407,7 @@ class _TitleField extends StatelessWidget {
         },
         errorText: state.title.error is EmptyTitleException
             ? HwDialogErrorStrings.emptyTitle
-            : state.title.error.toString(),
+            : state.title.error?.toString(),
       ),
     );
     // return MaxWidthConstraintBox(
