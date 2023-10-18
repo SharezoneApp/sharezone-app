@@ -68,7 +68,6 @@ void main() {
       homeworkDialogApi.addCourseForTesting(course);
     }
 
-    // TODO: Test edit dialog
     test(
         'Shows error if title is not filled out when creating a new homework and Submit is called',
         () async {
@@ -87,25 +86,76 @@ void main() {
       final state = bloc.state as Ready;
       expect(state.title.error, null);
     });
-    // TODO: Test edit dialog
     test(
-        'Shows error if course is not selected out when creating a new homework and Submit is called',
+        'Shows error if title is set to blank when editing a homework and Submit is called',
         () async {
-      final bloc = createBlocForNewHomeworkDialog();
+      final homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await bloc.stream.whereType<Ready>().first;
+
+      bloc.add(const TitleChanged(''));
+      bloc.add(const Submit());
+
+      Ready state = await bloc.stream
+          .whereType<Ready>()
+          .firstWhere((event) => event.title.error != null);
+      expect(state.title.error, const EmptyTitleException());
+    });
+    test(
+        'Removes error if title is changed to a valid value (editing homework)',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await bloc.stream.whereType<Ready>().first;
+
+      bloc.add(const TitleChanged(''));
+      await pumpEventQueue();
+      bloc.add(const TitleChanged('Foo'));
+
+      final state = await bloc.stream.whereType<Ready>().first;
+      expect(state.title.error, null);
+    });
+    test(
+        'Shows error if course is not selected out when creating a new homework and Submit is called',
+        () async {
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final bloc = createBlocForNewHomeworkDialog();
+      assert(bloc.state is Ready);
+
       bloc.add(const Submit());
 
       Ready state = await bloc.stream.whereType<Ready>().first;
       final courseState = state.course as NoCourseChosen;
       expect(courseState.error, const NoCourseChosenException());
     });
-    // TODO: Test edit dialog
     test(
         'Shows error if due date is not selected when creating a new homework and Submit is called',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
+      assert(bloc.state is Ready);
+
       bloc.add(const Submit());
 
       Ready state = await bloc.stream.whereType<Ready>().first;
