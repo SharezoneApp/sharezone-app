@@ -13,6 +13,7 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 
 // All apps are deployed in the production firebase project but under different
 // domains.
@@ -104,28 +105,7 @@ class DeployWebAppCommand extends Command {
       deployMessage = 'Commit: $currentCommit';
     }
 
-    // If we run this inside the CI/CD system we want this call to be
-    // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
-    // variable.
-    //
-    // Unfortunately it doesn't work to export the environment variable
-    // inside the CI/CD job and let the firebase cli use it automatically.
-    // Even when using [Process.includeParentEnvironment] the variables
-    // are not passed to the firebase cli.
-    //
-    // Thus the CI/CD script can pass the
-    // [googleApplicationCredentialsFile] manually via an command line
-    // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
-    // below.
-    if (googleApplicationCredentialsFile != null) {
-      // Not sure if it is wrong usage of the environment variable (i.e. we
-      // shouldn't modify it in this way but rather create a new/modified
-      // ProcessRunner).
-      processRunner.environment['GOOGLE_APPLICATION_CREDENTIALS'] =
-          googleApplicationCredentialsFile.absolute.path;
-    }
-
-    await processRunner.runProcess(
+    await processRunner.runProcessCustom(
       [
         'firebase',
         'deploy',
@@ -137,6 +117,24 @@ class DeployWebAppCommand extends Command {
         deployMessage ?? overriddenDeployMessage!,
       ],
       workingDirectory: _repo.sharezoneFlutterApp.location,
+      addedEnvironment: {
+        // If we run this inside the CI/CD system we want this call to be
+        // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
+        // variable.
+        //
+        // Unfortunately it doesn't work to export the environment variable
+        // inside the CI/CD job and let the firebase cli use it automatically.
+        // Even when using [Process.includeParentEnvironment] the variables
+        // are not passed to the firebase cli.
+        //
+        // Thus the CI/CD script can pass the
+        // [googleApplicationCredentialsFile] manually via an command line
+        // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
+        // below.
+        if (googleApplicationCredentialsFile != null)
+          'GOOGLE_APPLICATION_CREDENTIALS':
+              googleApplicationCredentialsFile.absolute.path
+      },
     );
   }
 
