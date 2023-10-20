@@ -11,6 +11,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as p;
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
@@ -30,7 +31,15 @@ import 'commands/commands.dart';
 import 'common/common.dart';
 
 Future<void> main(List<String> args) async {
-  final projectRoot = await getProjectRootDirectory();
+  ProcessRunner processRunner = ProcessRunner();
+  final verbose = args.contains('-v') || args.contains('--verbose');
+  final projectRoot = await getProjectRootDirectory(processRunner);
+
+  processRunner = ProcessRunner(
+    defaultWorkingDirectory: projectRoot,
+    printOutputDefault: verbose,
+  );
+
   final packagesDir = Directory(p.join(projectRoot.path, 'lib'));
 
   if (!packagesDir.existsSync()) {
@@ -42,28 +51,29 @@ Future<void> main(List<String> args) async {
 
   final commandRunner = CommandRunner('pub global run sz_repo_cli',
       'Productivity utils for everything Sharezone.')
-    ..addCommand(AnalyzeCommand(repo))
-    ..addCommand(LocateSharezoneAppFlutterDirectoryCommand())
-    ..addCommand(TestCommand(repo))
-    ..addCommand(FormatCommand(repo))
+    ..addCommand(AnalyzeCommand(processRunner, repo))
+    ..addCommand(TestCommand(processRunner, repo))
+    ..addCommand(FormatCommand(processRunner, repo))
+    ..addCommand(ExecCommand(repo))
     ..addCommand(DoStuffCommand(repo))
     ..addCommand(FixCommentSpacingCommand(repo))
-    ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)))
+    ..addCommand(
+        PubCommand()..addSubcommand(PubGetCommand(processRunner, repo)))
     ..addCommand(LicenseHeadersCommand()
-      ..addSubcommand(CheckLicenseHeadersCommand(repo))
-      ..addSubcommand(AddLicenseHeadersCommand(repo)))
+      ..addSubcommand(CheckLicenseHeadersCommand(processRunner, repo))
+      ..addSubcommand(AddLicenseHeadersCommand(processRunner, repo)))
     ..addCommand(DeployCommand()
-      ..addSubcommand(DeployWebAppCommand(repo))
-      ..addSubcommand(DeployIosCommand(repo))
-      ..addSubcommand(DeployMacOsCommand(repo))
-      ..addSubcommand(DeployAndroidCommand(repo)))
+      ..addSubcommand(DeployWebAppCommand(processRunner, repo))
+      ..addSubcommand(DeployIosCommand(processRunner, repo))
+      ..addSubcommand(DeployMacOsCommand(processRunner, repo))
+      ..addSubcommand(DeployAndroidCommand(processRunner, repo)))
     ..addCommand(BuildCommand()
-      ..addSubcommand(BuildAndroidCommand(repo))
-      ..addSubcommand(BuildMacOsCommand(repo))
-      ..addSubcommand(BuildWebCommand(repo))
-      ..addSubcommand(BuildIosCommand(repo)))
-    ..addCommand(ExecCommand(repo))
-    ..addCommand(BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(repo)));
+      ..addSubcommand(BuildAndroidCommand(processRunner, repo))
+      ..addSubcommand(BuildMacOsCommand(processRunner, repo))
+      ..addSubcommand(BuildWebCommand(processRunner, repo))
+      ..addSubcommand(BuildIosCommand(processRunner, repo)))
+    ..addCommand(BuildRunnerCommand()
+      ..addSubcommand(BuildRunnerBuild(processRunner, repo)));
 
   await commandRunner.run(args).catchError((Object e) {
     final toolExit = e as ToolExit;

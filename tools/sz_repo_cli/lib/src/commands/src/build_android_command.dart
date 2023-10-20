@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
@@ -31,9 +32,10 @@ final _androidOutputType = [
 ];
 
 class BuildAndroidCommand extends Command {
+  final ProcessRunner processRunner;
   final SharezoneRepo _repo;
 
-  BuildAndroidCommand(this._repo) {
+  BuildAndroidCommand(this.processRunner, this._repo) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -94,9 +96,9 @@ When none is specified, the value from pubspec.yaml is used.''',
       final buildNumber = argResults![buildNumberOptionName] as String?;
       final buildNameWithStage =
           getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.run(
         [
+          'fvm',
           'flutter',
           'build',
           outputType,
@@ -110,7 +112,7 @@ When none is specified, the value from pubspec.yaml is used.''',
           if (buildNumber != null) ...['--build-number', buildNumber],
           if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
+        workingDirectory: _repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
