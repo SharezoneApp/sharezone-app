@@ -36,6 +36,7 @@ class ExecCommand extends ConcurrentCommand {
     List<bool Function(Package)> testFuncs = [];
     if (onlyDart) testFuncs.add((package) => package.isPureDartPackage);
     if (onlyFlutter) testFuncs.add((package) => package.isFlutterPackage);
+
     return super.packagesToProcess.where((event) {
       for (var testFunc in testFuncs) {
         if (testFunc(event)) {
