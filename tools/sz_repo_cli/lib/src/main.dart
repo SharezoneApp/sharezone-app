@@ -62,6 +62,7 @@ Future<void> main(List<String> args) async {
       ..addSubcommand(BuildMacOsCommand(repo))
       ..addSubcommand(BuildWebCommand(repo))
       ..addSubcommand(BuildIosCommand(repo)))
+    ..addCommand(ExecCommand(repo))
     ..addCommand(BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(repo)));
 
   await commandRunner.run(args).catchError((Object e) {
