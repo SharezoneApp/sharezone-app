@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:file/file.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
@@ -109,12 +110,14 @@ Future<void> keychainUseLogin(ProcessRunner processRunner) async {
 }
 
 Future<int> getNextBuildNumberFromAppStoreConnect(
+  FileSystem fileSystem,
   ProcessRunner processRunner, {
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
   required ApplePlatform platform,
 }) async {
   final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect(
+    fileSystem,
     processRunner,
     platform: platform,
     workingDirectory: workingDirectory,
@@ -127,6 +130,7 @@ Future<int> getNextBuildNumberFromAppStoreConnect(
 
 /// Returns the latest build number from App Store and all TestFlight tracks.
 Future<int> _getLatestBuildNumberFromAppStoreConnect(
+  FileSystem fileSystem,
   ProcessRunner processRunner, {
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
@@ -150,7 +154,7 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect(
         '--private-key',
         appStoreConnectConfig.privateKey,
       ],
-      workingDirectory: Directory(workingDirectory),
+      workingDirectory: fileSystem.directory(workingDirectory),
     );
     return int.parse(result.stdout);
   } catch (e) {

@@ -137,7 +137,7 @@ class DeployWebAppCommand extends CommandBase {
     File? googleApplicationCredentialsFile;
     final path = argResults[googleApplicationCredentialsOptionName] as String?;
     if (path != null) {
-      googleApplicationCredentialsFile = File(path);
+      googleApplicationCredentialsFile = fileSystem.file(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
         stdout.writeln(

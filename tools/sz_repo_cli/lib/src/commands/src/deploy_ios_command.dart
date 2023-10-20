@@ -122,6 +122,7 @@ class DeployIosCommand extends CommandBase {
       );
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        fileSystem,
         processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,

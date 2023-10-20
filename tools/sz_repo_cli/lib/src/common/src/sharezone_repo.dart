@@ -47,13 +47,11 @@ class SharezoneRepo {
         clientLibariesLocation: fileSystem.directory(path.join(root, 'lib')),
       ),
       sharezoneFlutterApp: Package.fromDirectory(
-        fileSystem.directory(path.join(root, 'app')),
+        rootDirectory.childDirectory('app'),
       ),
-      sharezoneCiCdTool: Package.fromDirectory(fileSystem.directory(path.join(
-        root,
-        'tools',
-        'sz_repo_cli',
-      ))),
+      sharezoneCiCdTool: Package.fromDirectory(
+        rootDirectory.childDirectory('tools').childDirectory('sz_repo_cli'),
+      ),
       sharezoneWebsite: Package.fromDirectory(
         fileSystem.directory(path.join(root, 'website')),
       ),

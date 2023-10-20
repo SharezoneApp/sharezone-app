@@ -105,7 +105,7 @@ class DeployAndroidCommand extends CommandBase {
       ProcessRunner processRunner) async {
     await processRunner.run(
       ['fastlane', 'run', 'validate_play_store_json_key'],
-      workingDirectory: Directory(
+      workingDirectory: fileSystem.directory(
           path.join(repo.sharezoneFlutterApp.location.path, 'android')),
     );
   }
@@ -195,9 +195,8 @@ class DeployAndroidCommand extends CommandBase {
       stdout.writeln('No changelog given. Skipping.');
       return;
     }
-
-    final appPath = repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
 
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
@@ -227,7 +226,7 @@ class DeployAndroidCommand extends CommandBase {
   }) async {
     await processRunner.run(
       ['fastlane', 'deploy'],
-      workingDirectory: Directory(
+      workingDirectory: fileSystem.directory(
           path.join(repo.sharezoneFlutterApp.location.path, '/android')),
       addedEnvironment: {
         'TRACK': track,
@@ -238,8 +237,8 @@ class DeployAndroidCommand extends CommandBase {
   }
 
   Future<void> _removeChangelogFile() async {
-    final appPath = repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
     if (await changelogFile.exists()) {
       await changelogFile.delete();
     }
