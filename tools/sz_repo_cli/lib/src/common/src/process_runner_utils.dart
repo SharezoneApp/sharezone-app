@@ -44,7 +44,7 @@ extension RunProcessCustom on ProcessRunner {
   /// result. This overrides the setting of [printOutputDefault].
   ///
   /// The `printOutput` argument defaults to the value of [printOutputDefault].
-  Future<ProcessRunnerResult> runProcessCustom(
+  Future<ProcessRunnerResult> run(
     List<String> commandLine, {
     Directory? workingDirectory,
     bool? printOutput,

@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:process_runner/process_runner.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 
 /// Throws an exception if [command] is not installed.
 ///
@@ -28,7 +29,7 @@ Future<void> throwIfCommandIsNotInstalled(
     return;
   }
 
-  final result = await processRunner.runProcess(
+  final result = await processRunner.run(
     ['which', '-s', command],
     failOk: true,
   );

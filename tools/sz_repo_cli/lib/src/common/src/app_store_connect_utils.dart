@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:process_runner/process_runner.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
@@ -44,7 +45,7 @@ Future<void> setUpSigning(
 /// [keychainUseLogin]) after the deployment to avoid potential authentication
 /// issues if you run the deployment on your local machine.
 Future<void> _keychainInitialize(ProcessRunner processRunner) async {
-  await processRunner.runProcess(['keychain', 'initialize']);
+  await processRunner.run(['keychain', 'initialize']);
 }
 
 /// Fetch the code signing files from App Store Connect.
@@ -53,7 +54,7 @@ Future<void> _fetchSigningFiles(
   required AppleSigningConfig config,
 }) async {
   const bundleId = 'de.codingbrain.sharezone.app';
-  await processRunner.runProcess(
+  await processRunner.run(
     [
       'app-store-connect',
       'fetch-signing-files',
@@ -76,7 +77,7 @@ Future<void> _fetchSigningFiles(
 }
 
 Future<void> _listMacCertificates(ProcessRunner processRunner) async {
-  await processRunner.runProcess(
+  await processRunner.run(
     [
       'app-store-connect',
       'list-certificates',
@@ -89,12 +90,12 @@ Future<void> _listMacCertificates(ProcessRunner processRunner) async {
 
 /// Adds the certificates to the keychain.
 Future<void> _keychainAddCertificates(ProcessRunner processRunner) async {
-  await processRunner.runProcess(['keychain', 'add-certificates']);
+  await processRunner.run(['keychain', 'add-certificates']);
 }
 
 /// Update the Xcode project settings to use fetched code signing profiles.
 Future<void> _xcodeProjectUseProfiles(ProcessRunner processRunner) async {
-  await processRunner.runProcess(['xcode-project', 'use-profiles']);
+  await processRunner.run(['xcode-project', 'use-profiles']);
 }
 
 /// Sets your login keychain as the default to avoid potential authentication
@@ -104,7 +105,7 @@ Future<void> _xcodeProjectUseProfiles(ProcessRunner processRunner) async {
 /// and have previously used the `keychain initialize' command. If you run it on
 /// a CI server, this step is not necessary.
 Future<void> keychainUseLogin(ProcessRunner processRunner) async {
-  await processRunner.runProcess(['keychain', 'use-login']);
+  await processRunner.run(['keychain', 'use-login']);
 }
 
 Future<int> getNextBuildNumberFromAppStoreConnect(
@@ -135,7 +136,7 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect(
     // From https://appstoreconnect.apple.com/apps/1434868489/
     const appId = 1434868489;
 
-    final result = await processRunner.runProcess(
+    final result = await processRunner.run(
       [
         'app-store-connect',
         'get-latest-build-number',
@@ -172,7 +173,7 @@ Future<void> publishToAppStoreConnect(
     stageToTracks: stageToTracks,
   );
 
-  await processRunner.runProcess(
+  await processRunner.run(
     [
       'app-store-connect',
       'publish',

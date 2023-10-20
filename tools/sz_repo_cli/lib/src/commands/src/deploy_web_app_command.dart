@@ -13,7 +13,6 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 
 // All apps are deployed in the production firebase project but under different
 // domains.
@@ -86,7 +85,7 @@ class DeployWebAppCommand extends Command {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await processRunner.runProcess([
+    await processRunner.run([
       'fvm',
       'dart',
       'run',
@@ -105,7 +104,7 @@ class DeployWebAppCommand extends Command {
       deployMessage = 'Commit: $currentCommit';
     }
 
-    await processRunner.runProcessCustom(
+    await processRunner.run(
       [
         'firebase',
         'deploy',
@@ -184,7 +183,7 @@ class DeployWebAppCommand extends Command {
   }
 
   Future<String> _getCurrentCommitHash(ProcessRunner processRunner) async {
-    final res = await processRunner.runProcess(['git', 'rev-parse', 'HEAD']);
+    final res = await processRunner.run(['git', 'rev-parse', 'HEAD']);
     if (res.stdout.isEmpty) {
       stderr.writeln(
           'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');

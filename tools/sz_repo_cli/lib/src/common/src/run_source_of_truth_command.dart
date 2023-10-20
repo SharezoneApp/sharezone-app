@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:process_runner/process_runner.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:yaml/yaml.dart';
 
@@ -29,7 +30,7 @@ Future<ProcessRunnerResult> runSourceOfTruthCommand(
   final arguments = _convertIntoArgumentsList(command)
     ..addAll(argumentsToAppend);
 
-  return processRunner.runProcess(
+  return processRunner.run(
     arguments,
     workingDirectory: repo.location,
   );

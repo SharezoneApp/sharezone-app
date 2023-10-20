@@ -168,7 +168,7 @@ class DeployIosCommand extends Command {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await processRunner.runProcess(
+      await processRunner.run(
         [
           'fvm',
           'dart',

@@ -71,7 +71,7 @@ Future<void> formatCode(
   /// Useful for code analysis in CI.
   bool throwIfCodeChanged = false,
 }) {
-  return processRunner.runProcess([
+  return processRunner.run([
     'fvm',
     'dart',
     'format',

@@ -12,7 +12,6 @@ import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:path/path.dart' as path;
-import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 
 final _androidStages = [
   'stable',
@@ -108,7 +107,7 @@ class DeployAndroidCommand extends Command {
   /// See https://docs.fastlane.tools/actions/validate_play_store_json_key
   Future<void> _checkIfGooglePlayCredentialsAreValid(
       ProcessRunner processRunner) async {
-    await processRunner.runProcess(
+    await processRunner.run(
       ['fastlane', 'run', 'validate_play_store_json_key'],
       workingDirectory: Directory(
           path.join(_repo.sharezoneFlutterApp.location.path, 'android')),
@@ -128,7 +127,7 @@ class DeployAndroidCommand extends Command {
       ProcessRunner processRunner) async {
     try {
       const packageName = 'de.codingbrain.sharezone';
-      final result = await processRunner.runProcess(
+      final result = await processRunner.run(
         [
           'google-play',
           'get-latest-build-number',
@@ -146,7 +145,7 @@ class DeployAndroidCommand extends Command {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.runProcess(
+      await processRunner.run(
         [
           'fvm',
           'dart',
@@ -230,7 +229,7 @@ class DeployAndroidCommand extends Command {
     required String track,
     required String rollout,
   }) async {
-    await processRunner.runProcessCustom(
+    await processRunner.run(
       ['fastlane', 'deploy'],
       workingDirectory: Directory(
           path.join(_repo.sharezoneFlutterApp.location.path, '/android')),

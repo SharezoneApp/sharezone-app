@@ -146,7 +146,7 @@ class DeployMacOsCommand extends Command {
       {required int buildNumber}) async {
     try {
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.runProcess(
+      await processRunner.run(
         [
           'fvm',
           'dart',
@@ -174,7 +174,7 @@ class DeployMacOsCommand extends Command {
   /// The steps are copied from the Flutter docs. You can find more details
   /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
   Future<void> _createSignedPackage() async {
-    await processRunner.runProcess(
+    await processRunner.run(
       [
         'bash',
         '-c',
