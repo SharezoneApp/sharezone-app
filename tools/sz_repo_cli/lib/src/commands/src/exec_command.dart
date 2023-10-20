@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class ExecCommand extends ConcurrentCommand {
-  ExecCommand(SharezoneRepo repo) : super(repo) {
+  ExecCommand(super.processRunner, super.repo) {
     argParser
       ..addFlag('onlyFlutter',
           help: 'Only run the command for Flutter packages.', defaultsTo: false)
@@ -59,10 +59,9 @@ class ExecCommand extends ConcurrentCommand {
 
   @override
   Future<void> runTaskForPackage(Package package) async {
-    await runProcessSuccessfullyOrThrow(
-      argResults!.rest.first,
-      argResults!.rest.sublist(1),
-      workingDirectory: package.path,
+    await processRunner.run(
+      argResults!.rest,
+      workingDirectory: package.location,
     );
   }
 }

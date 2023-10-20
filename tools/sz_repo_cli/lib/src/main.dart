@@ -54,7 +54,7 @@ Future<void> main(List<String> args) async {
     ..addCommand(AnalyzeCommand(processRunner, repo))
     ..addCommand(TestCommand(processRunner, repo))
     ..addCommand(FormatCommand(processRunner, repo))
-    ..addCommand(ExecCommand(repo))
+    ..addCommand(ExecCommand(processRunner, repo))
     ..addCommand(DoStuffCommand(repo))
     ..addCommand(FixCommentSpacingCommand(repo))
     ..addCommand(
