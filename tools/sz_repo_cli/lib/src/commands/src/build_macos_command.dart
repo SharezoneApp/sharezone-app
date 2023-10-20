@@ -8,8 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
-import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 final _macOsStages = [
@@ -17,11 +15,8 @@ final _macOsStages = [
   'alpha',
 ];
 
-class BuildMacOsCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  BuildMacOsCommand(this.processRunner, this._repo) {
+class BuildMacOsCommand extends CommandBase {
+  BuildMacOsCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -85,7 +80,7 @@ When none is specified, the value from pubspec.yaml is used.''',
           //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
           //  * https://github.com/flutter/flutter/issues/115483
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location,
+        workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');

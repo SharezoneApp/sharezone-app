@@ -8,8 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
-import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 final _iosStages = [
@@ -24,11 +22,8 @@ final _iosFlavors = [
   'dev',
 ];
 
-class BuildIosCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  BuildIosCommand(this.processRunner, this._repo) {
+class BuildIosCommand extends CommandBase {
+  BuildIosCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -112,7 +107,7 @@ When none is specified, the value from pubspec.yaml is used.''',
             exportOptionsPlist
           ],
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location,
+        workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');

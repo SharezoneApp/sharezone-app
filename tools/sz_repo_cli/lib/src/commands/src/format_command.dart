@@ -15,7 +15,7 @@ import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 class FormatCommand extends ConcurrentCommand {
-  FormatCommand(super.processRunner, super.repo);
+  FormatCommand(super.context);
 
   @override
   final String name = 'format';

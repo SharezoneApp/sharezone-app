@@ -8,7 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:path/path.dart' as path;
@@ -23,11 +22,8 @@ final _androidFlavors = [
   'prod',
 ];
 
-class DeployAndroidCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  DeployAndroidCommand(this.processRunner, this._repo) {
+class DeployAndroidCommand extends CommandBase {
+  DeployAndroidCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -110,7 +106,7 @@ class DeployAndroidCommand extends Command {
     await processRunner.run(
       ['fastlane', 'run', 'validate_play_store_json_key'],
       workingDirectory: Directory(
-          path.join(_repo.sharezoneFlutterApp.location.path, 'android')),
+          path.join(repo.sharezoneFlutterApp.location.path, 'android')),
     );
   }
 
@@ -160,7 +156,7 @@ class DeployAndroidCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.location,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
@@ -200,7 +196,7 @@ class DeployAndroidCommand extends Command {
       return;
     }
 
-    final appPath = _repo.sharezoneFlutterApp.location.path;
+    final appPath = repo.sharezoneFlutterApp.location.path;
     final changelogFile = File('$appPath/$_changelogFilePath');
 
     // Create folder, if it doesn't exist.
@@ -232,7 +228,7 @@ class DeployAndroidCommand extends Command {
     await processRunner.run(
       ['fastlane', 'deploy'],
       workingDirectory: Directory(
-          path.join(_repo.sharezoneFlutterApp.location.path, '/android')),
+          path.join(repo.sharezoneFlutterApp.location.path, '/android')),
       addedEnvironment: {
         'TRACK': track,
         'ROLLOUT': rollout,
@@ -242,7 +238,7 @@ class DeployAndroidCommand extends Command {
   }
 
   Future<void> _removeChangelogFile() async {
-    final appPath = _repo.sharezoneFlutterApp.location.path;
+    final appPath = repo.sharezoneFlutterApp.location.path;
     final changelogFile = File('$appPath/$_changelogFilePath');
     if (await changelogFile.exists()) {
       await changelogFile.delete();

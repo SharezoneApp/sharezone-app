@@ -12,7 +12,7 @@ import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class PubGetCommand extends ConcurrentCommand {
-  PubGetCommand(super.processRunner, super.repo);
+  PubGetCommand(super.context);
 
   @override
   String get description =>

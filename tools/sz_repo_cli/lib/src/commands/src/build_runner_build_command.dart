@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class BuildRunnerBuild extends ConcurrentCommand {
-  BuildRunnerBuild(super.processRunner, super.repo);
+  BuildRunnerBuild(super.context);
 
   @override
   final String name = 'build';
@@ -28,8 +28,8 @@ class BuildRunnerBuild extends ConcurrentCommand {
 
   @override
   Stream<Package> get packagesToProcess {
-    return repo
-        .streamPackages()
+    return super
+        .packagesToProcess
         .where((package) => package.hasBuildRunnerDependency);
   }
 
