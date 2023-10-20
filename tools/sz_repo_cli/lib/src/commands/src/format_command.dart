@@ -9,12 +9,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 class FormatCommand extends ConcurrentCommand {
-  FormatCommand(SharezoneRepo repo) : super(repo);
+  FormatCommand(super.processRunner, super.repo);
 
   @override
   final String name = 'format';
@@ -35,10 +36,11 @@ class FormatCommand extends ConcurrentCommand {
 
   @override
   Future<void> runTaskForPackage(Package package) async =>
-      await formatCode(package);
+      await formatCode(processRunner, package);
 
   Future<void> _throwIfPrettierIsNotInstalled() async {
     await throwIfCommandIsNotInstalled(
+      processRunner,
       command: 'prettier',
       instructionsToInstall: 'Run `npm install -g prettier` to install it.',
     );
@@ -48,6 +50,7 @@ class FormatCommand extends ConcurrentCommand {
     required SharezoneRepo repo,
   }) async {
     final results = await runSourceOfTruthCommand(
+      processRunner,
       commandKey: 'format_action_files',
       repo: repo,
     );
@@ -62,18 +65,17 @@ class FormatCommand extends ConcurrentCommand {
 }
 
 Future<void> formatCode(
+  ProcessRunner processRunner,
   Package package, {
   /// Throws if code is not already formatted properly.
   /// Useful for code analysis in CI.
   bool throwIfCodeChanged = false,
 }) {
-  return runProcessSuccessfullyOrThrow(
-      'fvm',
-      [
-        'dart',
-        'format',
-        if (throwIfCodeChanged) '--set-exit-if-changed',
-        '.',
-      ],
-      workingDirectory: package.path);
+  return processRunner.runProcess([
+    'fvm',
+    'dart',
+    'format',
+    if (throwIfCodeChanged) '--set-exit-if-changed',
+    '.',
+  ], workingDirectory: package.location);
 }

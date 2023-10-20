@@ -8,7 +8,6 @@
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:args/command_runner.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';

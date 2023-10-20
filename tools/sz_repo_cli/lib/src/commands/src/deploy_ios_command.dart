@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
@@ -50,9 +51,10 @@ final _iosFlavors = [
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
 class DeployIosCommand extends Command {
+  final ProcessRunner processRunner;
   final SharezoneRepo _repo;
 
-  DeployIosCommand(this._repo) {
+  DeployIosCommand(this.processRunner, this._repo) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -96,7 +98,7 @@ class DeployIosCommand extends Command {
   @override
   Future<void> run() async {
     _throwIfFlavorIsNotSupportForDeployment();
-    await throwIfCodemagicCliToolsAreNotInstalled();
+    await throwIfCodemagicCliToolsAreNotInstalled(processRunner);
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -108,6 +110,7 @@ class DeployIosCommand extends Command {
 
     try {
       await setUpSigning(
+        processRunner,
         config: AppleSigningConfig.create(
           argResults: argResults!,
           environment: Platform.environment,
@@ -123,6 +126,7 @@ class DeployIosCommand extends Command {
       );
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,
         // Using the app location as working directory because the default
@@ -130,8 +134,9 @@ class DeployIosCommand extends Command {
         // app/private_keys/AuthKey_{keyIdentifier}.p8.
         workingDirectory: _repo.sharezoneFlutterApp.path,
       );
-      await _buildApp(buildNumber: buildNumber);
+      await _buildApp(processRunner, buildNumber: buildNumber);
       await publishToAppStoreConnect(
+        processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
@@ -142,7 +147,7 @@ class DeployIosCommand extends Command {
     } finally {
       // Fixes potential authentication issues after running keychain commands.
       // Only really necessary when running on local machines.
-      await keychainUseLogin();
+      await keychainUseLogin(processRunner);
     }
 
     stdout.writeln('Deployment finished 🎉 ');
@@ -157,14 +162,15 @@ class DeployIosCommand extends Command {
     }
   }
 
-  Future<void> _buildApp({required int buildNumber}) async {
+  Future<void> _buildApp(ProcessRunner processRunner,
+      {required int buildNumber}) async {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.runProcess(
         [
+          'fvm',
           'dart',
           'run',
           'sz_repo_cli',
@@ -181,7 +187,7 @@ class DeployIosCommand extends Command {
             exportOptionsPlist,
           ],
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.path,
+        workingDirectory: _repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');

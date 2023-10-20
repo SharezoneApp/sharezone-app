@@ -11,6 +11,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 // All apps are deployed in the production firebase project but under different
@@ -29,9 +30,10 @@ final _webAppConfigs = {
 /// The command will automatically use the right firebase config as configured
 /// inside [_webAppConfigs].
 class DeployWebAppCommand extends Command {
+  final ProcessRunner processRunner;
   final SharezoneRepo _repo;
 
-  DeployWebAppCommand(this._repo) {
+  DeployWebAppCommand(this.processRunner, this._repo) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -83,59 +85,59 @@ class DeployWebAppCommand extends Command {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await runProcessSuccessfullyOrThrow(
+    await processRunner.runProcess([
       'fvm',
-      [
-        'dart',
-        'run',
-        'sz_repo_cli',
-        'build',
-        'web',
-        '--flavor',
-        webAppConfig.flavor,
-        '--stage',
-        releaseStage
-      ],
-      workingDirectory: _repo.sharezoneCiCdTool.path,
-    );
+      'dart',
+      'run',
+      'sz_repo_cli',
+      'build',
+      'web',
+      '--flavor',
+      webAppConfig.flavor,
+      '--stage',
+      releaseStage
+    ], workingDirectory: _repo.sharezoneCiCdTool.location);
 
     String? deployMessage;
     if (overriddenDeployMessage == null) {
-      final currentCommit = await _getCurrentCommitHash();
+      final currentCommit = await _getCurrentCommitHash(processRunner);
       deployMessage = 'Commit: $currentCommit';
     }
 
-    await runProcessSuccessfullyOrThrow(
-        'firebase',
-        [
-          'deploy',
-          '--only',
-          'hosting:${webAppConfig.deployTargetName}',
-          '--project',
-          webAppConfig.firebaseProjectId,
-          '--message',
-          deployMessage ?? overriddenDeployMessage!,
-        ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
+    // If we run this inside the CI/CD system we want this call to be
+    // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
+    // variable.
+    //
+    // Unfortunately it doesn't work to export the environment variable
+    // inside the CI/CD job and let the firebase cli use it automatically.
+    // Even when using [Process.includeParentEnvironment] the variables
+    // are not passed to the firebase cli.
+    //
+    // Thus the CI/CD script can pass the
+    // [googleApplicationCredentialsFile] manually via an command line
+    // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
+    // below.
+    if (googleApplicationCredentialsFile != null) {
+      // Not sure if it is wrong usage of the environment variable (i.e. we
+      // shouldn't modify it in this way but rather create a new/modified
+      // ProcessRunner).
+      processRunner.environment['GOOGLE_APPLICATION_CREDENTIALS'] =
+          googleApplicationCredentialsFile.absolute.path;
+    }
 
-        // If we run this inside the CI/CD system we want this call to be
-        // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
-        // variable.
-        //
-        // Unfortunately it doesn't work to export the environment variable
-        // inside the CI/CD job and let the firebase cli use it automatically.
-        // Even when using [Process.includeParentEnvironment] the variables
-        // are not passed to the firebase cli.
-        //
-        // Thus the CI/CD script can pass the
-        // [googleApplicationCredentialsFile] manually via an command line
-        // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
-        // below.
-        environment: {
-          if (googleApplicationCredentialsFile != null)
-            'GOOGLE_APPLICATION_CREDENTIALS':
-                googleApplicationCredentialsFile.absolute.path,
-        });
+    await processRunner.runProcess(
+      [
+        'firebase',
+        'deploy',
+        '--only',
+        'hosting:${webAppConfig.deployTargetName}',
+        '--project',
+        webAppConfig.firebaseProjectId,
+        '--message',
+        deployMessage ?? overriddenDeployMessage!,
+      ],
+      workingDirectory: _repo.sharezoneFlutterApp.location,
+    );
   }
 
   File? _parseCredentialsFile(ArgResults argResults) {
@@ -183,9 +185,9 @@ class DeployWebAppCommand extends Command {
     return overriddenDeployMessageOrNull;
   }
 
-  Future<String> _getCurrentCommitHash() async {
-    final res = await runProcess('git', ['rev-parse', 'HEAD']);
-    if (res.stdout == null || (res.stdout as String).isEmpty) {
+  Future<String> _getCurrentCommitHash(ProcessRunner processRunner) async {
+    final res = await processRunner.runProcess(['git', 'rev-parse', 'HEAD']);
+    if (res.stdout.isEmpty) {
       stderr.writeln(
           'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
       throw ToolExit(15);

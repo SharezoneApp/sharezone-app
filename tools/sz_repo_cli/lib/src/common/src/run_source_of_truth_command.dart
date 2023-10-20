@@ -8,14 +8,15 @@
 
 import 'dart:io';
 
-import 'package:sz_repo_cli/src/common/src/run_process.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:yaml/yaml.dart';
 
 /// Run a source of truth command via a key.
 ///
 /// The key can be seen in the [repo.commandsSourceOfTruthYamlFile] file.
-Future<ProcessResult> runSourceOfTruthCommand({
+Future<ProcessRunnerResult> runSourceOfTruthCommand(
+  ProcessRunner processRunner, {
   required String commandKey,
   required SharezoneRepo repo,
 
@@ -25,16 +26,12 @@ Future<ProcessResult> runSourceOfTruthCommand({
   final sot = repo.commandsSourceOfTruthYamlFile;
   final commands = loadYaml(sot.readAsStringSync()) as Map;
   final command = commands[commandKey] as String;
-  final splitted = command.split(' ');
-  final executable = splitted[0];
-  var argumentsString = command.replaceFirst('$executable ', '');
-  final arguments = _convertIntoArgumentsList(argumentsString)
+  final arguments = _convertIntoArgumentsList(command)
     ..addAll(argumentsToAppend);
 
-  return runProcess(
-    executable,
+  return processRunner.runProcess(
     arguments,
-    workingDirectory: repo.location.path,
+    workingDirectory: repo.location,
   );
 }
 

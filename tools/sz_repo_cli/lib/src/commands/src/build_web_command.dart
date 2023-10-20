@@ -9,6 +9,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
@@ -25,9 +26,10 @@ final _webFlavors = [
 ];
 
 class BuildWebCommand extends Command {
+  final ProcessRunner processRunner;
   final SharezoneRepo _repo;
 
-  BuildWebCommand(this._repo) {
+  BuildWebCommand(this.processRunner, this._repo) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -70,9 +72,9 @@ class BuildWebCommand extends Command {
       final stage = argResults![releaseStageOptionName] as String;
       final buildNameWithStage =
           getBuildNameWithStage(_repo.sharezoneFlutterApp, stage);
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.runProcess(
         [
+          'fvm',
           'flutter',
           'build',
           'web',
@@ -85,7 +87,7 @@ class BuildWebCommand extends Command {
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
+        workingDirectory: _repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
       throw Exception('Failed to build web app: $e');
