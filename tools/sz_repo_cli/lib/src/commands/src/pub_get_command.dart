@@ -8,10 +8,11 @@
 
 import 'dart:async';
 
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class PubGetCommand extends ConcurrentCommand {
-  PubGetCommand(SharezoneRepo repo) : super(repo);
+  PubGetCommand(super.processRunner, super.repo);
 
   @override
   String get description =>
@@ -27,26 +28,30 @@ class PubGetCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => const Duration(minutes: 5);
 
   @override
-  Future<void> runTaskForPackage(Package package) => getPackage(package);
+  Future<void> runTaskForPackage(Package package) =>
+      getPackage(processRunner, package);
 }
 
-Future<void> getPackage(Package package) async {
+Future<void> getPackage(ProcessRunner processRunner, Package package) async {
   if (package.isFlutterPackage) {
-    await getPackagesFlutter(package);
+    await getPackagesFlutter(processRunner, package);
   } else {
-    await getPackagesDart(package);
+    await getPackagesDart(processRunner, package);
   }
 }
 
-Future<void> getPackagesDart(Package package) async {
-  await runProcessSuccessfullyOrThrow('fvm', ['dart', 'pub', 'get'],
-      workingDirectory: package.path);
+Future<void> getPackagesDart(
+    ProcessRunner processRunner, Package package) async {
+  await processRunner.run(
+    ['fvm', 'dart', 'pub', 'get'],
+    workingDirectory: package.location,
+  );
 }
 
-Future<void> getPackagesFlutter(Package package) async {
-  await runProcessSuccessfullyOrThrow(
-    'fvm',
-    ['flutter', 'pub', 'get'],
-    workingDirectory: package.path,
+Future<void> getPackagesFlutter(
+    ProcessRunner processRunner, Package package) async {
+  await processRunner.run(
+    ['fvm', 'flutter', 'pub', 'get'],
+    workingDirectory: package.location,
   );
 }
