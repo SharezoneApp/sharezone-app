@@ -234,6 +234,11 @@ class DeployAndroidCommand extends Command {
       workingDirectory: Directory(
           path.join(_repo.sharezoneFlutterApp.location.path, '/android')),
       addedEnvironment: {
+        // Sets the number of retries for uploading the app bundle to Google
+        // Play. This is needed because sometimes the upload fails for unknown
+        // reasons.
+        //
+        // See: https://github.com/fastlane/fastlane/issues/21507#issuecomment-1723116829
         'TRACK': track,
         'ROLLOUT': rollout,
         'SUPPLY_UPLOAD_MAX_RETRIES': '5',
