@@ -16,7 +16,7 @@ import 'fix_comment_spacing_command.dart';
 import 'pub_get_command.dart';
 
 class AnalyzeCommand extends ConcurrentCommand {
-  AnalyzeCommand(super.processRunner, super.repo);
+  AnalyzeCommand(super.context);
 
   @override
   final String name = 'analyze';

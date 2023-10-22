@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
@@ -29,11 +28,8 @@ final _webAppConfigs = {
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_webAppConfigs].
-class DeployWebAppCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  DeployWebAppCommand(this.processRunner, this._repo) {
+class DeployWebAppCommand extends CommandBase {
+  DeployWebAppCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -96,7 +92,7 @@ class DeployWebAppCommand extends Command {
       webAppConfig.flavor,
       '--stage',
       releaseStage
-    ], workingDirectory: _repo.sharezoneCiCdTool.location);
+    ], workingDirectory: repo.sharezoneCiCdTool.location);
 
     String? deployMessage;
     if (overriddenDeployMessage == null) {
@@ -115,7 +111,7 @@ class DeployWebAppCommand extends Command {
         '--message',
         deployMessage ?? overriddenDeployMessage!,
       ],
-      workingDirectory: _repo.sharezoneFlutterApp.location,
+      workingDirectory: repo.sharezoneFlutterApp.location,
       addedEnvironment: {
         // If we run this inside the CI/CD system we want this call to be
         // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
@@ -141,7 +137,7 @@ class DeployWebAppCommand extends Command {
     File? googleApplicationCredentialsFile;
     final path = argResults[googleApplicationCredentialsOptionName] as String?;
     if (path != null) {
-      googleApplicationCredentialsFile = File(path);
+      googleApplicationCredentialsFile = fileSystem.file(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
         stdout.writeln(

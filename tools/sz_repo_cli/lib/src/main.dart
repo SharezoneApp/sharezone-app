@@ -10,7 +10,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:path/path.dart' as p;
+import 'package:file/local.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
@@ -31,49 +31,48 @@ import 'commands/commands.dart';
 import 'common/common.dart';
 
 Future<void> main(List<String> args) async {
+  const fileSystem = LocalFileSystem();
+
   ProcessRunner processRunner = ProcessRunner();
   final verbose = args.contains('-v') || args.contains('--verbose');
-  final projectRoot = await getProjectRootDirectory(processRunner);
+  final projectRoot = await getProjectRootDirectory(fileSystem, processRunner);
 
   processRunner = ProcessRunner(
     defaultWorkingDirectory: projectRoot,
     printOutputDefault: verbose,
   );
 
-  final packagesDir = Directory(p.join(projectRoot.path, 'lib'));
+  final repo = SharezoneRepo(fileSystem, projectRoot);
+  final context = Context(
+    fileSystem: fileSystem,
+    processRunner: processRunner,
+    repo: repo,
+  );
 
-  if (!packagesDir.existsSync()) {
-    stderr.writeln('Error: Cannot find a "lib" sub-directory');
-    exit(1);
-  }
-
-  final repo = SharezoneRepo(projectRoot);
-
-  final commandRunner = CommandRunner('pub global run sz_repo_cli',
-      'Productivity utils for everything Sharezone.')
-    ..addCommand(AnalyzeCommand(processRunner, repo))
-    ..addCommand(TestCommand(processRunner, repo))
-    ..addCommand(FormatCommand(processRunner, repo))
-    ..addCommand(ExecCommand(processRunner, repo))
-    ..addCommand(DoStuffCommand(repo))
-    ..addCommand(FixCommentSpacingCommand(repo))
-    ..addCommand(
-        PubCommand()..addSubcommand(PubGetCommand(processRunner, repo)))
-    ..addCommand(LicenseHeadersCommand()
-      ..addSubcommand(CheckLicenseHeadersCommand(processRunner, repo))
-      ..addSubcommand(AddLicenseHeadersCommand(processRunner, repo)))
-    ..addCommand(DeployCommand()
-      ..addSubcommand(DeployWebAppCommand(processRunner, repo))
-      ..addSubcommand(DeployIosCommand(processRunner, repo))
-      ..addSubcommand(DeployMacOsCommand(processRunner, repo))
-      ..addSubcommand(DeployAndroidCommand(processRunner, repo)))
-    ..addCommand(BuildCommand()
-      ..addSubcommand(BuildAndroidCommand(processRunner, repo))
-      ..addSubcommand(BuildMacOsCommand(processRunner, repo))
-      ..addSubcommand(BuildWebCommand(processRunner, repo))
-      ..addSubcommand(BuildIosCommand(processRunner, repo)))
-    ..addCommand(BuildRunnerCommand()
-      ..addSubcommand(BuildRunnerBuild(processRunner, repo)));
+  final commandRunner =
+      CommandRunner('sz', 'Sharezone CLI, a tool for Sharezone developers.')
+        ..addCommand(AnalyzeCommand(context))
+        ..addCommand(TestCommand(context))
+        ..addCommand(FormatCommand(context))
+        ..addCommand(ExecCommand(context))
+        ..addCommand(DoStuffCommand(context))
+        ..addCommand(FixCommentSpacingCommand(context))
+        ..addCommand(PubCommand()..addSubcommand(PubGetCommand(context)))
+        ..addCommand(LicenseHeadersCommand()
+          ..addSubcommand(CheckLicenseHeadersCommand(context))
+          ..addSubcommand(AddLicenseHeadersCommand(context)))
+        ..addCommand(DeployCommand()
+          ..addSubcommand(DeployWebAppCommand(context))
+          ..addSubcommand(DeployIosCommand(context))
+          ..addSubcommand(DeployMacOsCommand(context))
+          ..addSubcommand(DeployAndroidCommand(context)))
+        ..addCommand(BuildCommand()
+          ..addSubcommand(BuildAndroidCommand(context))
+          ..addSubcommand(BuildMacOsCommand(context))
+          ..addSubcommand(BuildWebCommand(context))
+          ..addSubcommand(BuildIosCommand(context)))
+        ..addCommand(
+            BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)));
 
   await commandRunner.run(args).catchError((Object e) {
     final toolExit = e as ToolExit;

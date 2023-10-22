@@ -8,7 +8,6 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'package:args/command_runner.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -30,10 +29,8 @@ import 'package:sz_repo_cli/src/common/common.dart';
 /// ```
 ///
 /// See: [findCommentsWithBadSpacingInCode]
-class FixCommentSpacingCommand extends Command {
-  FixCommentSpacingCommand(this.repo);
-
-  final SharezoneRepo repo;
+class FixCommentSpacingCommand extends CommandBase {
+  FixCommentSpacingCommand(super.context);
 
   @override
   String get description =>

@@ -9,17 +9,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
 
 /// Check that all files have correct license headers.
-class CheckLicenseHeadersCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo repo;
-
-  CheckLicenseHeadersCommand(this.processRunner, this.repo);
+class CheckLicenseHeadersCommand extends CommandBase {
+  CheckLicenseHeadersCommand(super.context);
 
   @override
   String get description =>

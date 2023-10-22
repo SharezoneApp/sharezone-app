@@ -8,7 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
@@ -50,11 +49,8 @@ final _iosFlavors = [
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployIosCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  DeployIosCommand(this.processRunner, this._repo) {
+class DeployIosCommand extends CommandBase {
+  DeployIosCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -126,13 +122,14 @@ class DeployIosCommand extends Command {
       );
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        fileSystem,
         processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,
         // Using the app location as working directory because the default
         // location for the App Store Connect private key is
         // app/private_keys/AuthKey_{keyIdentifier}.p8.
-        workingDirectory: _repo.sharezoneFlutterApp.path,
+        workingDirectory: repo.sharezoneFlutterApp.path,
       );
       await _buildApp(processRunner, buildNumber: buildNumber);
       await publishToAppStoreConnect(
@@ -141,7 +138,7 @@ class DeployIosCommand extends Command {
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
         path: 'build/ios/ipa/*.ipa',
-        repo: _repo,
+        repo: repo,
         stageToTracks: _iosStageToTracks,
       );
     } finally {
@@ -187,7 +184,7 @@ class DeployIosCommand extends Command {
             exportOptionsPlist,
           ],
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.location,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');

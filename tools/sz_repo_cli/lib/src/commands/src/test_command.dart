@@ -14,7 +14,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 import 'pub_get_command.dart';
 
 class TestCommand extends ConcurrentCommand {
-  TestCommand(super.processRunner, super.repo) {
+  TestCommand(super.context) {
     argParser.addFlag(
       'exclude-goldens',
       help: 'Run tests without golden tests.',

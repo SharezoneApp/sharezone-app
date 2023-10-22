@@ -6,15 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:file/local.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Ensure source of truth yaml file exists', () async {
-    final projectRoot = await getProjectRootDirectory(ProcessRunner());
+    const fs = LocalFileSystem();
+    final projectRoot = await getProjectRootDirectory(fs, ProcessRunner());
 
-    final repo = SharezoneRepo(projectRoot);
+    final repo = SharezoneRepo(fs, projectRoot);
 
     // If the file gets moved and the path for
     // [repo.commandsSourceOfTruthYamlFile] not updated this will cause the CI

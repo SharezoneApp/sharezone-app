@@ -9,6 +9,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file/file.dart' as file;
 import 'package:process/process.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -61,7 +62,7 @@ extension RunProcessCustom on ProcessRunner {
   /// The `printOutput` argument defaults to the value of [printOutputDefault].
   Future<ProcessRunnerResult> run(
     List<String> commandLine, {
-    Directory? workingDirectory,
+    file.Directory? workingDirectory,
     bool? printOutput,
     bool failOk = false,
     Stream<List<int>>? stdin,
@@ -73,9 +74,14 @@ extension RunProcessCustom on ProcessRunner {
     environment.addAll(addedEnvironment);
     final runner = copyWith(environment: environment);
 
+    Directory? workingDir;
+    if (workingDirectory != null) {
+      workingDir = Directory(workingDirectory.path);
+    }
+
     return runner.runProcess(
       commandLine,
-      workingDirectory: workingDirectory,
+      workingDirectory: workingDir,
       printOutput: printOutput ??= isVerbose ? true : null,
       failOk: failOk,
       stdin: stdin,

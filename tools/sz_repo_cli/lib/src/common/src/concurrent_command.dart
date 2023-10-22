@@ -9,18 +9,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
-import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Run a task via [runTaskForPackage] for many [Package] concurrently.
-abstract class ConcurrentCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo repo;
-
-  ConcurrentCommand(this.processRunner, this.repo) {
+abstract class ConcurrentCommand extends CommandBase {
+  ConcurrentCommand(super.context) {
     argParser
-      ..addVerboseFlag()
       ..addConcurrencyOption(defaultMaxConcurrency: defaultMaxConcurrency)
       ..addPackageTimeoutOption(
           defaultInMinutes: defaultPackageTimeout.inMinutes);

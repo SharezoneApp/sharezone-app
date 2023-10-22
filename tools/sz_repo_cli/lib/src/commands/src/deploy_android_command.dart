@@ -8,7 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:path/path.dart' as path;
@@ -23,11 +22,8 @@ final _androidFlavors = [
   'prod',
 ];
 
-class DeployAndroidCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  DeployAndroidCommand(this.processRunner, this._repo) {
+class DeployAndroidCommand extends CommandBase {
+  DeployAndroidCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -109,8 +105,8 @@ class DeployAndroidCommand extends Command {
       ProcessRunner processRunner) async {
     await processRunner.run(
       ['fastlane', 'run', 'validate_play_store_json_key'],
-      workingDirectory: Directory(
-          path.join(_repo.sharezoneFlutterApp.location.path, 'android')),
+      workingDirectory: fileSystem.directory(
+          path.join(repo.sharezoneFlutterApp.location.path, 'android')),
     );
   }
 
@@ -160,7 +156,7 @@ class DeployAndroidCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.location,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
@@ -199,9 +195,8 @@ class DeployAndroidCommand extends Command {
       stdout.writeln('No changelog given. Skipping.');
       return;
     }
-
-    final appPath = _repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
 
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
@@ -231,8 +226,8 @@ class DeployAndroidCommand extends Command {
   }) async {
     await processRunner.run(
       ['fastlane', 'deploy'],
-      workingDirectory: Directory(
-          path.join(_repo.sharezoneFlutterApp.location.path, '/android')),
+      workingDirectory:
+          repo.sharezoneFlutterApp.location.childDirectory('android'),
       addedEnvironment: {
         // Sets the number of retries for uploading the app bundle to Google
         // Play. This is needed because sometimes the upload fails for unknown
@@ -247,8 +242,8 @@ class DeployAndroidCommand extends Command {
   }
 
   Future<void> _removeChangelogFile() async {
-    final appPath = _repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
     if (await changelogFile.exists()) {
       await changelogFile.delete();
     }

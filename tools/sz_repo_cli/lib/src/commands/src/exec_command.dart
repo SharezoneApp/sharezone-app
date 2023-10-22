@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class ExecCommand extends ConcurrentCommand {
-  ExecCommand(super.processRunner, super.repo) {
+  ExecCommand(super.context) {
     argParser
       ..addFlag('onlyFlutter',
           help: 'Only run the command for Flutter packages.', defaultsTo: false)

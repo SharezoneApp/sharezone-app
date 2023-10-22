@@ -14,7 +14,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
@@ -48,11 +47,8 @@ final _macOsStageToTracks = {
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployMacOsCommand extends Command {
-  final ProcessRunner processRunner;
-  final SharezoneRepo _repo;
-
-  DeployMacOsCommand(this.processRunner, this._repo) {
+class DeployMacOsCommand extends CommandBase {
+  DeployMacOsCommand(super.context) {
     argParser.addOption(
       releaseStageOptionName,
       abbr: 's',
@@ -113,13 +109,14 @@ class DeployMacOsCommand extends Command {
       );
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        fileSystem,
         processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,
         // Using the app location as working directory because the default
         // location for the App Store Connect private key is
         // app/private_keys/AuthKey_{keyIdentifier}.p8.
-        workingDirectory: _repo.sharezoneFlutterApp.path,
+        workingDirectory: repo.sharezoneFlutterApp.path,
       );
 
       await _buildApp(processRunner, buildNumber: buildNumber);
@@ -131,7 +128,7 @@ class DeployMacOsCommand extends Command {
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
         path: '*.pkg',
-        repo: _repo,
+        repo: repo,
         stageToTracks: _macOsStageToTracks,
       );
       stdout.writeln('Deployment finished 🎉 ');
@@ -159,7 +156,7 @@ class DeployMacOsCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.location,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
@@ -185,7 +182,7 @@ INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_
 xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
 rm -f unsigned.pkg'''
       ],
-      workingDirectory: _repo.sharezoneFlutterApp.location,
+      workingDirectory: repo.sharezoneFlutterApp.location,
     );
   }
 }
