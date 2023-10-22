@@ -9,7 +9,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Useful to quickly script something for this repo. Helps by not having to use

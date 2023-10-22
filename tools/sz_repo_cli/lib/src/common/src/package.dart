@@ -40,7 +40,7 @@ class Package {
     required this.hasBuildRunnerDependency,
   });
 
-  factory Package.fromDirectory( Directory directory) {
+  factory Package.fromDirectory(Directory directory) {
     final pubspecFile = directory.childFile('pubspec.yaml');
     final YamlMap pubspecYaml = loadYaml(pubspecFile.readAsStringSync());
     final YamlMap dependencies = pubspecYaml['dependencies'] ?? YamlMap();
