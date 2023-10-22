@@ -226,8 +226,8 @@ class DeployAndroidCommand extends CommandBase {
   }) async {
     await processRunner.run(
       ['fastlane', 'deploy'],
-      workingDirectory: fileSystem.directory(
-          path.join(repo.sharezoneFlutterApp.location.path, '/android')),
+      workingDirectory:
+          repo.sharezoneFlutterApp.location.childDirectory('android'),
       addedEnvironment: {
         // Sets the number of retries for uploading the app bundle to Google
         // Play. This is needed because sometimes the upload fails for unknown
