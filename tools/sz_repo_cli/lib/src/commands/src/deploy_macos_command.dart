@@ -14,7 +14,7 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
@@ -47,10 +47,8 @@ final _macOsStageToTracks = {
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployMacOsCommand extends Command {
-  final SharezoneRepo _repo;
-
-  DeployMacOsCommand(this._repo) {
+class DeployMacOsCommand extends CommandBase {
+  DeployMacOsCommand(super.context) {
     argParser.addOption(
       releaseStageOptionName,
       abbr: 's',
@@ -78,7 +76,7 @@ class DeployMacOsCommand extends Command {
 
   @override
   Future<void> run() async {
-    await throwIfCodemagicCliToolsAreNotInstalled();
+    await throwIfCodemagicCliToolsAreNotInstalled(processRunner);
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -90,6 +88,7 @@ class DeployMacOsCommand extends Command {
 
     try {
       await setUpSigning(
+        processRunner,
         config: AppleSigningConfig.create(
           argResults: argResults!,
           environment: Platform.environment,
@@ -110,39 +109,43 @@ class DeployMacOsCommand extends Command {
       );
 
       final buildNumber = await getNextBuildNumberFromAppStoreConnect(
+        fileSystem,
+        processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         platform: platform,
         // Using the app location as working directory because the default
         // location for the App Store Connect private key is
         // app/private_keys/AuthKey_{keyIdentifier}.p8.
-        workingDirectory: _repo.sharezoneFlutterApp.path,
+        workingDirectory: repo.sharezoneFlutterApp.path,
       );
 
-      await _buildApp(buildNumber: buildNumber);
+      await _buildApp(processRunner, buildNumber: buildNumber);
 
       await _createSignedPackage();
       await publishToAppStoreConnect(
+        processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
         path: '*.pkg',
-        repo: _repo,
+        repo: repo,
         stageToTracks: _macOsStageToTracks,
       );
       stdout.writeln('Deployment finished 🎉 ');
     } finally {
       // Fixes potential authentication issues after running keychain commands.
       // Only really necessary when running on local machines.
-      await keychainUseLogin();
+      await keychainUseLogin(processRunner);
     }
   }
 
-  Future<void> _buildApp({required int buildNumber}) async {
+  Future<void> _buildApp(ProcessRunner processRunner,
+      {required int buildNumber}) async {
     try {
       final stage = argResults![releaseStageOptionName] as String;
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.run(
         [
+          'fvm',
           'dart',
           'run',
           'sz_repo_cli',
@@ -153,7 +156,7 @@ class DeployMacOsCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.path,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
@@ -168,9 +171,9 @@ class DeployMacOsCommand extends Command {
   /// The steps are copied from the Flutter docs. You can find more details
   /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
   Future<void> _createSignedPackage() async {
-    await runProcessSuccessfullyOrThrow(
-      'bash',
+    await processRunner.run(
       [
+        'bash',
         '-c',
         '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
 PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
@@ -179,7 +182,7 @@ INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_
 xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
 rm -f unsigned.pkg'''
       ],
-      workingDirectory: _repo.sharezoneFlutterApp.path,
+      workingDirectory: repo.sharezoneFlutterApp.location,
     );
   }
 }
