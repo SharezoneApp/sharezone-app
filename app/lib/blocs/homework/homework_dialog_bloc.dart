@@ -176,7 +176,6 @@ class FileView extends Equatable {
   final FileId fileId;
   final String fileName;
   final FileFormat format;
-  // TODO: Should be able to remove, because we use FileId now
   final LocalFile? localFile;
   final CloudFile? cloudFile;
 
@@ -293,7 +292,6 @@ class StartedUploadingAttachments extends HomeworkDialogBlocPresentationEvent {
   List<Object?> get props => [];
 }
 
-// TODO: Use
 class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   const SavingFailed(this.error, this.stackTrace);
 
@@ -436,7 +434,6 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           private: _homework.private,
         );
 
-        // TODO: Can the offline behavior be tested?
         if (isEditing) {
           try {
             // try-catch won't work for this case as we don't await the future.
@@ -721,8 +718,11 @@ class HomeworkDialogApi {
   HomeworkDialogApi(this._api);
 
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
-    // TODO: Fallback to internet?
-    return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+    try {
+      return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+    } catch (e) {
+      return _api.homework.singleHomework(homeworkId.id, source: Source.server);
+    }
   }
 
   Future<List<CloudFile>> loadCloudFiles({required String homeworkId}) async {
