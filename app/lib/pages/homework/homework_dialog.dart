@@ -190,13 +190,13 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
         }
       },
       child: BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
+        buildWhen: (previous, current) => current is! SavedSucessfully,
         listener: (context, state) {
           if (state is SavedSucessfully) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.pop(context);
           }
         },
-        buildWhen: (previous, current) => current is! SavedSucessfully,
         builder: (context, state) {
           return switch (state) {
             LoadingHomework() =>
