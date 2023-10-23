@@ -796,7 +796,7 @@ class FakeLocalFile extends LocalFile {
       fileData: Uint8List(0),
       sizeBytes: 0,
       path: null,
-      mimeType: null,
+      mimeType: mimeType,
       fileName: name,
     );
   }
