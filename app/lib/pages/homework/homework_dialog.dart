@@ -409,7 +409,6 @@ class _TitleField extends StatelessWidget {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
-        // TODO: Will always rebuild with state change, fix.
         prefilledTitle: state.title.$1,
         focusNode: focusNode,
         onChanged: (newTitle) {
@@ -582,7 +581,6 @@ class _DescriptionField extends StatelessWidget {
     return _DescriptionFieldBase(
       onChanged: (newDescription) =>
           bloc.add(DescriptionChanged(newDescription)),
-      // TODO: Will update with each state change, fix.
       prefilledDescription: state.description,
     );
   }
