@@ -33,7 +33,6 @@ void main() {
     late MockCourseGateway courseGateway;
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
-    late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
 
@@ -41,7 +40,6 @@ void main() {
       courseGateway = MockCourseGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
-      sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
     });
