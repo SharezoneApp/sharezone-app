@@ -256,7 +256,11 @@ void main() {
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
-      // TODO: Comment why attachment
+      // We add an attachment here because otherwise the bloc won't await the
+      // future when creating the homework because of the firestore offline
+      // behavior (await won't complete). In this case the try-catch doesn't
+      // work, currently we don't handle these errors. There might be a solution
+      // with Zones (handleUncaughtError), but this is not implemented yet.
       bloc.add(AttachmentsAdded(IList([fooLocalFile])));
       bloc.add(const Save());
 
@@ -323,11 +327,6 @@ void main() {
       bloc.add(const DescriptionChanged('This is a description'));
       bloc.add(const IsPrivateChanged(true));
 
-      // We add an attachment here because otherwise the bloc won't await the
-      // future when creating the homework because of the firestore offline
-      // behavior (await won't complete). In this case the try-catch doesn't
-      // work, currently we don't handle these errors. There might be a solution
-      // with Zones (handleUncaughtError), but this is not implemented yet.
       bloc.add(
           AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
       bloc.add(AttachmentRemoved(quzLocalFile.fileId));
