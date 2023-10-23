@@ -173,10 +173,21 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
     return BlocPresentationListener<HomeworkDialogBloc,
         HomeworkDialogBlocPresentationEvent>(
       bloc: widget.bloc,
-      listener: (context, event) => switch (event) {
-        StartedUploadingAttachments() => sendDataToFrankfurtSnackBar(context),
-        // TODO:
-        SavingFailed() => throw UnimplementedError(),
+      listener: (context, event) {
+        switch (event) {
+          case StartedUploadingAttachments():
+            sendDataToFrankfurtSnackBar(context);
+            break;
+          case SavingFailed(error: var error):
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            showLeftRightAdaptiveDialog(
+              content: Text(
+                  'Hausaufgabe konnte nicht gespeichert werden.\n\n$error\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.'),
+              left: null,
+              right: AdaptiveDialogAction.ok,
+              context: context,
+            );
+        }
       },
       child: BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
         listener: (context, state) {
