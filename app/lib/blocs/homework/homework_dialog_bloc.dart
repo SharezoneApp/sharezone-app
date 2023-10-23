@@ -20,6 +20,7 @@ import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:meta/meta.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
@@ -338,6 +339,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             HomeworkDialogBlocPresentationEvent> {
   final HomeworkDialogApi api;
   final Analytics analytics;
+  final MarkdownAnalytics markdownAnalytics;
   final NextLessonCalculator nextLessonCalculator;
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
@@ -368,6 +370,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.api,
     required this.nextLessonCalculator,
     required this.analytics,
+    required this.markdownAnalytics,
     HomeworkId? homeworkId,
   }) : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
@@ -461,6 +464,11 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           }
 
           analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
+          if (markdownAnalytics.containsMarkdown(_homework.description) &&
+              !markdownAnalytics
+                  .containsMarkdown(_initialHomework?.description ?? '')) {
+            markdownAnalytics.logMarkdownUsedHomework();
+          }
         } else {
           try {
             // try-catch won't work for this case as we don't await the future.
@@ -483,6 +491,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           }
 
           analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
+          if (markdownAnalytics.containsMarkdown(_homework.description)) {
+            markdownAnalytics.logMarkdownUsedHomework();
+          }
         }
 
         emit(SavedSucessfully(isEditing: isEditing));
