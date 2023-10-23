@@ -319,41 +319,15 @@ void main() {
       );
     });
 
-    testGoldens('renders filled create homework dialog with errors as expected',
+    testGoldens('renders create homework dialog with errors as expected',
         (tester) async {
-      final state = Ready(
+      final state = emptyCreateHomeworkDialogState.copyWith(
         title: ('', error: const EmptyTitleException()),
         course: const NoCourseChosen(error: NoCourseChosenException()),
         dueDate: (
           Date('2023-10-12'),
           error: const NoDueDateSelectedException()
         ),
-        submissions: const SubmissionsDisabled(isChangeable: false),
-        description: 'Das ist eine Beschreibung',
-        attachments: IList([
-          FileView(
-            fileId: FileId('foo'),
-            fileName: 'foo.png',
-            format: FileFormat.image,
-            localFile: FakeLocalFile.empty(
-              name: 'foo.png',
-              mimeType: MimeType('png'),
-            ),
-          ),
-          FileView(
-            fileId: FileId('bar'),
-            fileName: 'bar.pdf',
-            format: FileFormat.pdf,
-            localFile: FakeLocalFile.empty(
-              name: 'bar.pdf',
-              mimeType: MimeType('pdf'),
-            ),
-          ),
-        ]),
-        notifyCourseMembers: false,
-        isPrivate: (true, isChangeable: true),
-        hasModifiedData: true,
-        isEditing: false,
       );
 
       whenListen(
@@ -367,7 +341,7 @@ void main() {
 
       await multiScreenGolden(
         tester,
-        'homework_dialog_add_filled_with_error_light',
+        'homework_dialog_with_error_light',
       );
 
       await pumpAndSettleHomeworkDialog(tester,
@@ -375,7 +349,7 @@ void main() {
 
       await multiScreenGolden(
         tester,
-        'homework_dialog_add_filled_with_error_dark',
+        'homework_dialog_with_error_dark',
       );
     });
 
