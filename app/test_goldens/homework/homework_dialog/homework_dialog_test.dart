@@ -321,7 +321,6 @@ void main() {
 
     testGoldens('renders filled create homework dialog with errors as expected',
         (tester) async {
-      // TODO: Use copyWith instead of creating a new state from scratch?
       final state = Ready(
         title: ('', error: const EmptyTitleException()),
         course: const NoCourseChosen(error: NoCourseChosenException()),
