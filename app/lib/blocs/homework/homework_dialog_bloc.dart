@@ -740,10 +740,11 @@ class HomeworkDialogApi {
       CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
     final course = (await _api.course.streamCourse(courseId.id).first)!;
-    final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
-    final authorName = (await _api.user.userStream.first)!.name;
     final authorID = _api.user.authUser!.uid;
-    final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
+    final authorReference = _api.references.users.doc(authorID);
+    final user = (await _api.user.userStream.first)!;
+    final authorName = user.name;
+    final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
         localFiles, courseId.id, authorReference.id, authorName);
