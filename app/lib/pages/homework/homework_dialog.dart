@@ -287,25 +287,7 @@ class _SaveButton extends StatelessWidget {
   Future<void> onPressed(BuildContext context) async {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     try {
-      // bloc.validateInputOrThrow();
-      // sendDataToFrankfurtSnackBar(context);
-      // TODO: How can we handle errors that might occure when submitting?
       bloc.add(const Save());
-
-      // if (!context.mounted) return;
-      // hideSendDataToFrankfurtSnackBar(context);
-      // Navigator.pop(context, true);
-      //
-      // TODO: Implement
-      // } on InvalidHomeworkInputException catch (e) {
-      //   showSnackSec(
-      //     text: switch (e) {
-      //       EmptyTitleException() => _ErrorStrings.emptyTitle,
-      //       EmptyCourseException() => _ErrorStrings.emptyCourse,
-      //       EmptyTodoUntilException() => _ErrorStrings.emptyTodoUntil
-      //     },
-      //     context: context,
-      //   );
     } on Exception catch (e) {
       log("Exception when submitting: $e", error: e);
       showSnackSec(
