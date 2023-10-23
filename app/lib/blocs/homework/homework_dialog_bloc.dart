@@ -163,6 +163,32 @@ class Ready extends HomeworkDialogState {
     required this.hasModifiedData,
     required super.isEditing,
   });
+
+  Ready copyWith({
+    (String, {dynamic error})? title,
+    CourseState? course,
+    (Date?, {dynamic error})? dueDate,
+    SubmissionState? submissions,
+    String? description,
+    IList<FileView>? attachments,
+    bool? notifyCourseMembers,
+    (bool, {bool isChangeable})? isPrivate,
+    bool? hasModifiedData,
+    bool? isEditing,
+  }) {
+    return Ready(
+      title: title ?? this.title,
+      course: course ?? this.course,
+      dueDate: dueDate ?? this.dueDate,
+      submissions: submissions ?? this.submissions,
+      description: description ?? this.description,
+      attachments: attachments ?? this.attachments,
+      notifyCourseMembers: notifyCourseMembers ?? this.notifyCourseMembers,
+      isPrivate: isPrivate ?? this.isPrivate,
+      hasModifiedData: hasModifiedData ?? this.hasModifiedData,
+      isEditing: isEditing ?? this.isEditing,
+    );
+  }
 }
 
 class SavedSucessfully extends HomeworkDialogState {
