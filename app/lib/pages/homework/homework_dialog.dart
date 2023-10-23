@@ -290,7 +290,7 @@ class _SaveButton extends StatelessWidget {
       // bloc.validateInputOrThrow();
       // sendDataToFrankfurtSnackBar(context);
       // TODO: How can we handle errors that might occure when submitting?
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       // if (!context.mounted) return;
       // hideSendDataToFrankfurtSnackBar(context);

@@ -30,9 +30,8 @@ sealed class HomeworkDialogEvent extends Equatable {
   const HomeworkDialogEvent();
 }
 
-// TODO: Decide on using save or submit everywhere the same
-class Submit extends HomeworkDialogEvent {
-  const Submit();
+class Save extends HomeworkDialogEvent {
+  const Save();
 
   @override
   List<Object?> get props => [];
@@ -401,7 +400,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
       },
     );
-    on<Submit>(
+    on<Save>(
       (event, emit) async {
         bool hasInputErrors = false;
         if (_homework.title.isEmpty) {

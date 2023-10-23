@@ -72,17 +72,17 @@ void main() {
     }
 
     test(
-        'Shows error if title is not filled out when creating a new homework and Submit is called',
+        'Shows error if title is not filled out when creating a new homework and Save is called',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await pumpEventQueue();
       Ready state = bloc.state as Ready;
       expect(state.title.error, const EmptyTitleException());
     });
     test('Removes error if title is changed to a valid value', () async {
       final bloc = createBlocForNewHomeworkDialog();
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await pumpEventQueue();
       bloc.add(const TitleChanged('Foo'));
       await pumpEventQueue();
@@ -90,7 +90,7 @@ void main() {
       expect(state.title.error, null);
     });
     test(
-        'Shows error if title is set to blank when editing a homework and Submit is called',
+        'Shows error if title is set to blank when editing a homework and Save is called',
         () async {
       final homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
@@ -107,7 +107,7 @@ void main() {
       await bloc.stream.whereType<Ready>().first;
 
       bloc.add(const TitleChanged(''));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       Ready state = await bloc.stream
           .whereType<Ready>()
@@ -139,7 +139,7 @@ void main() {
       expect(state.title.error, null);
     });
     test(
-        'Shows error if course is not selected out when creating a new homework and Submit is called',
+        'Shows error if course is not selected out when creating a new homework and Save is called',
         () async {
       addCourse(courseWith(
         id: 'foo_course',
@@ -147,19 +147,19 @@ void main() {
       final bloc = createBlocForNewHomeworkDialog();
       assert(bloc.state is Ready);
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       Ready state = await bloc.stream.whereType<Ready>().first;
       final courseState = state.course as NoCourseChosen;
       expect(courseState.error, const NoCourseChosenException());
     });
     test(
-        'Shows error if due date is not selected when creating a new homework and Submit is called',
+        'Shows error if due date is not selected when creating a new homework and Save is called',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
       assert(bloc.state is Ready);
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       Ready state = await bloc.stream.whereType<Ready>().first;
       expect(state.dueDate.error, const NoDueDateSelectedException());
@@ -188,7 +188,7 @@ void main() {
     });
     test('Removes error if due date is changed to a valid value', () async {
       final bloc = createBlocForNewHomeworkDialog();
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await pumpEventQueue();
       bloc.add(DueDateChanged(Date('2023-10-12')));
       await pumpEventQueue();
@@ -260,7 +260,7 @@ void main() {
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
       // TODO: Comment why attachment
       bloc.add(AttachmentsAdded(IList([fooLocalFile])));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       final presentationEvents = bloc.presentation;
       expectLater(
@@ -296,7 +296,7 @@ void main() {
       // (handleUncaughtError), but this is not implemented yet.
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       final presentationEvents = bloc.presentation;
       expectLater(
@@ -365,7 +365,7 @@ void main() {
             isEditing: false,
           ));
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       await pumpEventQueue();
 
@@ -422,7 +422,7 @@ void main() {
             isEditing: false,
           ));
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       await pumpEventQueue();
 
@@ -488,7 +488,7 @@ void main() {
       bloc.add(DueDateChanged(Date('2024-03-08')));
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       expect(bloc.presentation, emits(const StartedUploadingAttachments()));
     });
@@ -509,7 +509,7 @@ void main() {
       bloc.add(AttachmentsAdded(IList([file])));
       bloc.add(AttachmentRemoved(file.fileId));
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       expect(
           bloc.presentation, neverEmits(const StartedUploadingAttachments()));
@@ -536,7 +536,7 @@ void main() {
 
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       expect(bloc.presentation, emits(const StartedUploadingAttachments()));
     });
@@ -561,7 +561,7 @@ void main() {
       final file = randomLocalFileFrom(path: 'foo/bar.png');
       bloc.add(AttachmentsAdded(IList([file])));
       bloc.add(AttachmentRemoved(file.fileId));
-      bloc.add(const Submit());
+      bloc.add(const Save());
 
       expect(
           bloc.presentation, neverEmits(const StartedUploadingAttachments()));
@@ -578,7 +578,7 @@ void main() {
       bloc.add(const TitleChanged('abc'));
       bloc.add(CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(Date('2024-03-08')));
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await bloc.stream.whereType<SavedSucessfully>().first;
 
       expect(analyticsBackend.loggedEvents, [
@@ -602,7 +602,7 @@ void main() {
       await pumpEventQueue();
 
       bloc.add(const TitleChanged('new title'));
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await bloc.stream.whereType<SavedSucessfully>().first;
 
       expect(analyticsBackend.loggedEvents, [
@@ -683,7 +683,7 @@ void main() {
         ),
       );
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await pumpEventQueue();
 
       expect(
@@ -754,7 +754,7 @@ void main() {
         ),
       );
 
-      bloc.add(const Submit());
+      bloc.add(const Save());
       await pumpEventQueue();
 
       expect(
