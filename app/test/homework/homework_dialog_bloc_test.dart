@@ -20,6 +20,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
 
@@ -50,6 +51,7 @@ void main() {
         api: homeworkDialogApi,
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
+        markdownAnalytics: MarkdownAnalytics(analytics),
       );
     }
 
@@ -59,6 +61,7 @@ void main() {
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
         homeworkId: id,
+        markdownAnalytics: MarkdownAnalytics(analytics),
       );
     }
 
