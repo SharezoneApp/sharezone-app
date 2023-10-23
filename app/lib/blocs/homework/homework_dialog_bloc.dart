@@ -29,6 +29,7 @@ sealed class HomeworkDialogEvent extends Equatable {
   const HomeworkDialogEvent();
 }
 
+// TODO: Decide on using save or submit everywhere the same
 class Submit extends HomeworkDialogEvent {
   const Submit();
 
