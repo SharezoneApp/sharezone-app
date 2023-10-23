@@ -236,6 +236,72 @@ void main() {
       final bloc = createBlocForNewHomeworkDialog();
       expect(bloc.state, emptyCreateHomeworkDialogState);
     });
+    test('emits presentation event if saving the homework fails', () async {
+      final bloc = createBlocForNewHomeworkDialog();
+
+      final exception =
+          Exception('Something went wrong when creating the homework! :((');
+      homeworkDialogApi.createHomeworkError = exception;
+
+      final mathCourse = courseWith(
+        id: 'maths_course',
+        name: 'Maths',
+        subject: 'Math',
+      );
+      addCourse(mathCourse);
+      final fooLocalFile = randomLocalFileFrom(path: 'bar/foo.png');
+
+      await pumpEventQueue();
+      bloc.add(const TitleChanged('S. 32 8a)'));
+      bloc.add(CourseChanged(CourseId(mathCourse.id)));
+      bloc.add(DueDateChanged(Date.parse('2023-10-12')));
+      // TODO: Comment why attachment
+      bloc.add(AttachmentsAdded(IList([fooLocalFile])));
+      bloc.add(const Submit());
+
+      final presentationEvents = bloc.presentation;
+      expectLater(
+        presentationEvents,
+        emitsThrough(predicate<SavingFailed>(
+            (event) => event.error == exception && event.stackTrace != null)),
+      );
+    });
+    test('emits presentation event if saving an edited homework fails',
+        () async {
+      final homeworkId = HomeworkId('foo_homework_id');
+      addCourse(courseWith(
+        id: 'foo_course',
+      ));
+      final homework = randomHomeworkWith(
+        id: homeworkId.id,
+        title: 'title text',
+        courseId: 'foo_course',
+      );
+      homeworkDialogApi.homeworkToReturn = homework;
+
+      final exception =
+          Exception('Something went wrong when editing the homework! :((');
+      homeworkDialogApi.editHomeworkError = exception;
+
+      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
+      await bloc.stream.whereType<Ready>().first;
+
+      // We add an attachment here because otherwise the bloc won't await the
+      // future when editing because of the firestore offline behavior (await
+      // won't complete). In this case the try-catch doesn't work, currently we
+      // don't handle these errors. There might be a solution with Zones
+      // (handleUncaughtError), but this is not implemented yet.
+      bloc.add(
+          AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
+      bloc.add(const Submit());
+
+      final presentationEvents = bloc.presentation;
+      expectLater(
+        presentationEvents,
+        emitsThrough(predicate<SavingFailed>(
+            (event) => event.error == exception && event.stackTrace != null)),
+      );
+    });
     test('Sucessfully add private homework with files', () async {
       final bloc = createBlocForNewHomeworkDialog();
 
@@ -255,8 +321,12 @@ void main() {
       bloc.add(DueDateChanged(Date.parse('2023-10-12')));
       bloc.add(const DescriptionChanged('This is a description'));
       bloc.add(const IsPrivateChanged(true));
-      // Create new test with more testing of removing/adding files (and remove
-      // removing files here)
+
+      // We add an attachment here because otherwise the bloc won't await the
+      // future when creating the homework because of the firestore offline
+      // behavior (await won't complete). In this case the try-catch doesn't
+      // work, currently we don't handle these errors. There might be a solution
+      // with Zones (handleUncaughtError), but this is not implemented yet.
       bloc.add(
           AttachmentsAdded(IList([fooLocalFile, barLocalFile, quzLocalFile])));
       bloc.add(AttachmentRemoved(quzLocalFile.fileId));

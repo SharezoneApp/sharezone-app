@@ -57,9 +57,14 @@ class MockNextLessonCalculator implements NextLessonCalculator {
 class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
   late CourseId courseIdForHomeworkToBeCreated;
+  Exception? createHomeworkError;
+
   @override
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
+    if (createHomeworkError != null) {
+      throw createHomeworkError!;
+    }
     courseIdForHomeworkToBeCreated = courseId;
     userInputToBeCreated = userInput;
     return HomeworkDto.create(courseID: 'courseID');
@@ -67,9 +72,14 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
 
   late UserInput userInputFromEditing;
   late List<CloudFile> removedCloudFilesFromEditing;
+  Exception? editHomeworkError;
+
   @override
   Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
+    if (editHomeworkError != null) {
+      throw editHomeworkError!;
+    }
     userInputFromEditing = userInput;
     removedCloudFilesFromEditing = removedCloudFiles;
     return HomeworkDto.create(courseID: 'courseID');

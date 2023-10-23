@@ -295,10 +295,13 @@ class StartedUploadingAttachments extends HomeworkDialogBlocPresentationEvent {
 
 // TODO: Use
 class SavingFailed extends HomeworkDialogBlocPresentationEvent {
-  const SavingFailed();
+  const SavingFailed(this.error, this.stackTrace);
+
+  final dynamic error;
+  final StackTrace? stackTrace;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error, stackTrace];
 }
 
 /// Since [HomeworkDto] can't have a null value for [todoUntil] we need to use
@@ -433,36 +436,52 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
         // TODO: Can the offline behavior be tested?
         if (isEditing) {
-          if (userInput.localFiles.isEmpty) {
-            // If user is offline Firestore will add the homework locally but
-            // won't complete the future until the server has received the
-            // homework. We remove the await so that the user can save the
-            // homework while being offline.
-            api.editHomework(HomeworkId(_homework.id), userInput,
-                removedCloudFiles:
-                    _initialAttachments.removeAll(_cloudFiles).toList());
-          } else {
-            emitPresentation(const StartedUploadingAttachments());
-            // As we can't save a homework with attachments when we are offline,
-            // we await the future here.
-            await api.editHomework(HomeworkId(_homework.id), userInput,
-                removedCloudFiles:
-                    _initialAttachments.removeAll(_cloudFiles).toList());
+          try {
+            // try-catch won't work for this case as we don't await the future.
+            // This might be solved with Zones (handleUncaughtError).
+            if (userInput.localFiles.isEmpty) {
+              // If user is offline Firestore will add the homework locally but
+              // won't complete the future until the server has received the
+              // homework. We remove the await so that the user can save the
+              // homework while being offline.
+              api.editHomework(HomeworkId(_homework.id), userInput,
+                  removedCloudFiles:
+                      _initialAttachments.removeAll(_cloudFiles).toList());
+            } else {
+              emitPresentation(const StartedUploadingAttachments());
+              // As we can't save a homework with attachments when we are offline,
+              // we await the future here.
+              await api.editHomework(HomeworkId(_homework.id), userInput,
+                  removedCloudFiles:
+                      _initialAttachments.removeAll(_cloudFiles).toList());
+            }
+          } catch (e, s) {
+            emitPresentation(SavingFailed(e, s));
+            return;
           }
+
           analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
         } else {
-          if (userInput.localFiles.isEmpty) {
-            // If user is offline Firestore will add the homework locally but
-            // won't complete the future until the server has received the
-            // homework. We remove the await so that the user can save the
-            // homework while being offline.
-            api.createHomework(CourseId(_homework.courseID), userInput);
-          } else {
-            emitPresentation(const StartedUploadingAttachments());
-            // As we can't save a homework with attachments when we are offline,
-            // we await the future here.
-            await api.createHomework(CourseId(_homework.courseID), userInput);
+          try {
+            // try-catch won't work for this case as we don't await the future.
+            // This might be solved with Zones (handleUncaughtError).
+            if (userInput.localFiles.isEmpty) {
+              // If user is offline Firestore will add the homework locally but
+              // won't complete the future until the server has received the
+              // homework. We remove the await so that the user can save the
+              // homework while being offline.
+              api.createHomework(CourseId(_homework.courseID), userInput);
+            } else {
+              emitPresentation(const StartedUploadingAttachments());
+              // As we can't save a homework with attachments when we are offline,
+              // we await the future here.
+              await api.createHomework(CourseId(_homework.courseID), userInput);
+            }
+          } catch (e, s) {
+            emitPresentation(SavingFailed(e, s));
+            return;
           }
+
           analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
         }
 
