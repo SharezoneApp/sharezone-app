@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/settings/change_data_bloc.dart';
+import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann

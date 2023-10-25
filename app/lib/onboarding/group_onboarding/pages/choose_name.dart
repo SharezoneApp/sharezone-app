@@ -17,7 +17,7 @@ import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/turn_on_notifications.dart';
-import 'package:sharezone/pages/profile/user_edit/user_edit_bloc.dart';
+import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

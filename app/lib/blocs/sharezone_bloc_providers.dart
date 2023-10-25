@@ -34,10 +34,10 @@ import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_fa
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
+import 'package:sharezone/account/type_of_user_bloc.dart';
 import 'package:sharezone/blocs/bloc_dependencies.dart';
-import 'package:sharezone/blocs/settings/change_data_bloc.dart';
-import 'package:sharezone/blocs/settings/notifications_bloc_factory.dart';
+import 'package:sharezone/account/change_data_bloc.dart';
+import 'package:sharezone/notifications/notifications_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/analytics/calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
@@ -80,17 +80,17 @@ import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
-import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
-import 'package:sharezone/pages/settings/timetable_settings/bloc/timetable_settings_bloc_factory.dart';
-import 'package:sharezone/pages/settings/timetable_settings/time_picker_settings_cache.dart';
+import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
+import 'package:sharezone/changelog/changelog_gateway.dart';
+import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
+import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
 import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
+import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
+import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
+import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
@@ -114,9 +114,9 @@ import 'package:sharezone/util/platform_information_manager/get_platform_informa
 import 'package:sharezone_common/references.dart';
 import 'package:user/user.dart';
 
-import '../blocs/homework/homework_page_bloc.dart' as old;
+import '../homework/parent/src/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
-import 'dashbord_widgets_blocs/holiday_bloc.dart';
+import '../holidays/holiday_bloc.dart';
 
 final navigationBloc = NavigationBloc();
 

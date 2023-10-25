@@ -21,7 +21,7 @@ import 'package:sharezone/blocs/sharezone_bloc_providers.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/main/auth_app.dart';
-import 'package:sharezone/main/dynamic_links.dart';
+import 'package:sharezone/dynamic_links/dynamic_links.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';

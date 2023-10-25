@@ -11,7 +11,7 @@ import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/blocs/file_sharing/file_sharing_page_bloc.dart';
+import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
 import 'package:sharezone/filesharing/logic/select_folder_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';

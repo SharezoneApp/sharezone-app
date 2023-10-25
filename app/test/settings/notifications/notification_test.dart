@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/blocs/settings/notifications_bloc.dart';
+import 'package:sharezone/notifications/notifications_bloc.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 

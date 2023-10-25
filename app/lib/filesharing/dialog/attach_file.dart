@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/file_card.dart';
-import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
