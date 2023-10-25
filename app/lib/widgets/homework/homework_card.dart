@@ -13,7 +13,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/parent/src/homework_card_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';

@@ -19,7 +19,7 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';

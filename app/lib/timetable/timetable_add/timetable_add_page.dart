@@ -14,7 +14,7 @@ import 'package:date/weektype.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';

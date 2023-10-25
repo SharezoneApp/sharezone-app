@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
-import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

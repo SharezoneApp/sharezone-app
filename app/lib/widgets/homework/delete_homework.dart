@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

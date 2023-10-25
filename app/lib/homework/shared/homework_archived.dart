@@ -11,7 +11,7 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/widgets/homework/homework_card.dart';

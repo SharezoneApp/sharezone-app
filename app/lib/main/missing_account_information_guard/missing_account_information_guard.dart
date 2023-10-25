@@ -10,7 +10,7 @@ import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/missing_account_information_guard/missing_account_information_guard_bloc.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 

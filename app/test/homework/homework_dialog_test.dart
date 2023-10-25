@@ -24,7 +24,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:random_string/random_string.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';

@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';

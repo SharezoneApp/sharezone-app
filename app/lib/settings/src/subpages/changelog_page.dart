@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/changelog/change_view.dart';
 import 'package:sharezone/changelog/changelog_bloc.dart';
 import 'package:sharezone/changelog/changelog_gateway.dart';

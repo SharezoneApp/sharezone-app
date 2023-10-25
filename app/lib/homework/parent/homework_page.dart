@@ -15,7 +15,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
 import 'package:sharezone/homework/homework_page_new.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';

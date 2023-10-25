@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_join/widgets/group_join_help.dart';
