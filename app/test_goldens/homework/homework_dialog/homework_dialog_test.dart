@@ -324,10 +324,7 @@ void main() {
       final state = emptyCreateHomeworkDialogState.copyWith(
         title: ('', error: const EmptyTitleException()),
         course: const NoCourseChosen(error: NoCourseChosenException()),
-        dueDate: (
-          Date('2023-10-12'),
-          error: const NoDueDateSelectedException()
-        ),
+        dueDate: (null, error: const NoDueDateSelectedException()),
       );
 
       whenListen(
