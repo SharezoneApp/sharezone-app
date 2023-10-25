@@ -1,0 +1,16 @@
+permittedLicenses:
+  - MIT
+  - BSD-3-Clause
+  - BSD-2-Clause
+  - Apache-2.0
+  - MPL-2.0
+  - Zlib
+  - MIT-Modern-Variant
+
+packageLicenseOverride:
+  rxdart: Apache-2.0
+  animated_stream_list_nullsafety: Apache-2.0
+
+
+rejectedLicenses:
+  - GPL
