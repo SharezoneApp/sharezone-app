@@ -54,6 +54,28 @@ void main() {
     }
 
     test(
+        // https://github.com/SharezoneApp/sharezone-app/issues/53
+        'Regressions test: Shows "Morgen" as section title if today is end of month (e.g. 31.10) and tomorrow is first of next month (e.g. 01.11)',
+        () async {
+      repository = createRepositoy();
+      final kvs = InMemoryKeyValueStore();
+      bloc = createBloc(repository,
+          keyValueStore: kvs, getCurrentDateTime: () => DateTime(2023, 10, 31));
+      homeworkSortingCache = HomeworkSortingCache(kvs);
+
+      await addToRepository([
+        createHomework(
+            id: 'hw', todoDate: const Date(year: 2023, month: 11, day: 1))
+      ], repository);
+
+      bloc.add(LoadHomeworks());
+
+      Success success = await bloc.stream.whereType<Success>().first;
+
+      expect(success.open.sections.first.title, 'Morgen');
+    });
+
+    test(
         'Regressions Test für #954 "Wenn man Hausaufgaben nach Fach sortiert und dann eine Aufgabe abhakt wechselt die App automatisch wieder in die Ansicht nach Datum."',
         () async {
       await addToRepository([createHomework(id: 'hw')]);
@@ -277,8 +299,8 @@ void main() {
     });
 
     test('date subcategory titles are only shown when necessary', () async {
-      final tomorrow = createHomework(
-          title: 'abc', todoDate: Date.now().addDaysWithNoChecking(1));
+      final tomorrow =
+          createHomework(title: 'abc', todoDate: Date.now().addDays(1));
       await addToRepository([tomorrow]);
       bloc.add(LoadHomeworks());
 
