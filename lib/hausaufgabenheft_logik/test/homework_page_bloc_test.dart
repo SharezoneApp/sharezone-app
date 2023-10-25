@@ -56,6 +56,7 @@ void main() {
 
     test(
         // https://github.com/SharezoneApp/sharezone-app/issues/53
+        // https://github.com/SharezoneApp/sharezone-app/pull/1134
         'Regressions test: Shows "Morgen" as section title if today is end of month (e.g. 31.10) and tomorrow is first of next month (e.g. 01.11)',
         () async {
       bloc = createBloc(repository,
