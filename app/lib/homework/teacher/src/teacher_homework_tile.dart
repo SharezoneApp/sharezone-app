@@ -13,7 +13,7 @@ import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_
 import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/widgets/homework/homework_tile_template.dart';
+import 'package:sharezone/homework/shared/homework_tile_template.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class TeacherHomeworkTile extends StatelessWidget {

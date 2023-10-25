@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
-import 'package:sharezone/widgets/homework/homework_card.dart';
+import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 

@@ -28,7 +28,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/widgets/homework/delete_homework.dart';
+import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 

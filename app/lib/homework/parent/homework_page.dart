@@ -24,7 +24,7 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/homework/shared/homework_archived.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
-import 'package:sharezone/widgets/homework/homework_card.dart';
+import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone_common/translations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
