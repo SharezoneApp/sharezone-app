@@ -35,10 +35,11 @@ void main() {
     late HomeworkPageBloc bloc;
     late InMemoryHomeworkRepository repository;
     late HomeworkSortingCache homeworkSortingCache;
+    late KeyValueStore kvs;
 
     setUp(() {
       repository = createRepositoy();
-      final kvs = InMemoryKeyValueStore();
+      kvs = InMemoryKeyValueStore();
       bloc = createBloc(repository, keyValueStore: kvs);
       homeworkSortingCache = HomeworkSortingCache(kvs);
     });
@@ -57,21 +58,16 @@ void main() {
         // https://github.com/SharezoneApp/sharezone-app/issues/53
         'Regressions test: Shows "Morgen" as section title if today is end of month (e.g. 31.10) and tomorrow is first of next month (e.g. 01.11)',
         () async {
-      repository = createRepositoy();
-      final kvs = InMemoryKeyValueStore();
       bloc = createBloc(repository,
           keyValueStore: kvs, getCurrentDateTime: () => DateTime(2023, 10, 31));
-      homeworkSortingCache = HomeworkSortingCache(kvs);
-
       await addToRepository([
         createHomework(
             id: 'hw', todoDate: const Date(year: 2023, month: 11, day: 1))
-      ], repository);
+      ]);
 
       bloc.add(LoadHomeworks());
 
       Success success = await bloc.stream.whereType<Success>().first;
-
       expect(success.open.sections.first.title, 'Morgen');
     });
 
