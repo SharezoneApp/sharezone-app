@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
-import 'package:sharezone/widgets/settings/my_profile/change_data.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';

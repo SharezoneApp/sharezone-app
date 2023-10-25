@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
-import 'package:sharezone/widgets/settings/my_profile/change_data.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
