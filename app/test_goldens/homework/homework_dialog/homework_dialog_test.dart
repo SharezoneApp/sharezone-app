@@ -333,6 +333,9 @@ void main() {
         initialState: state,
       );
 
+      whenListenPresentation(homeworkDialogBloc,
+          initialEvents: [const RequiredFieldsNotFilledOut()]);
+
       await pumpAndSettleHomeworkDialog(tester,
           isEditing: false, theme: lightTheme);
 
