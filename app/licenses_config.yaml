@@ -11,6 +11,50 @@ packageLicenseOverride:
   rxdart: Apache-2.0
   animated_stream_list_nullsafety: Apache-2.0
 
-
 rejectedLicenses:
   - GPL
+
+approvedPackages:
+  no-file:
+  - flutter_driver
+  - flutter_localizations
+  - flutter_test
+  - flutter_web_plugins
+  - fuchsia_remote_debug_protocol
+  - integration_test
+  - abgabe_client_lib
+  - abgabe_http_api
+  - analytics
+  - app_functions
+  - authentification_base
+  - authentification_qrcode
+  - bloc_base
+  - bloc_provider
+  - build_context
+  - common_domain_models
+  - crash_analytics
+  - date
+  - design
+  - dynamic_links
+  - files_basics
+  - files_usecases
+  - files_web
+  - filesharing_logic
+  - firebase_hausaufgabenheft_logik
+  - group_domain_implementation
+  - group_domain_models
+  - hausaufgabenheft_logik
+  - holidays
+  - key_value_store
+  - last_online_reporting
+  - notifications
+  - qr_code_scanner
+  - remote_configuration
+  - sharezone_common
+  - sharezone_lints
+  - sharezone_utils
+  - sharezone_widgets
+  - time
+  - url_launcher_extended
+  - user
+  - util
