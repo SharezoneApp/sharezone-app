@@ -14,7 +14,7 @@ import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:user/user.dart';
 
 import 'holiday_bloc_unit_test.dart';

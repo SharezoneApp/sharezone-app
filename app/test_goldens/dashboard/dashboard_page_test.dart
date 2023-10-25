@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:holidays/holidays.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 
 class FakeHolidayBloc extends Fake implements HolidayBloc {

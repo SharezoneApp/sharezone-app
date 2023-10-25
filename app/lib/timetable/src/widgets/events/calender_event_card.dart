@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';

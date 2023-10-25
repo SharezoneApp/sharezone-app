@@ -10,11 +10,11 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
-import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

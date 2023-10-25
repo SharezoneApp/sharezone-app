@@ -13,7 +13,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

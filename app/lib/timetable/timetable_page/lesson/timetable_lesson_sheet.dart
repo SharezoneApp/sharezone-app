@@ -11,7 +11,7 @@ import 'package:date/weekday.dart';
 import 'package:design/design.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/report/page/report_page.dart';

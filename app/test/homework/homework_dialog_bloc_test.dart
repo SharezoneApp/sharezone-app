@@ -19,7 +19,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
