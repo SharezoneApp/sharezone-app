@@ -36,8 +36,10 @@ dependencies:
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^3.0.0
+  bloc: ^8.1.2
   bloc_base:
     path: ../lib/bloc_base
+  bloc_presentation: ^1.0.0
   bloc_provider:
     path: ../lib/bloc_provider
   build_context:
@@ -175,6 +177,9 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.3.2
   random_string: ^2.0.1
+  bloc_test: ^9.1.4
+  bloc_presentation_test: ^1.0.0
+  path: ^1.8.3
 
 flutter:
   uses-material-design: true

@@ -14,6 +14,7 @@ import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
+import 'package:sharezone/pages/homework/homework_dialog.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -109,7 +110,7 @@ class CourseTileBase extends StatelessWidget {
       leading: const Icon(Icons.book),
       title: const Text("Kurs"),
       subtitle: Text(
-        errorText ?? courseName ?? 'Keinen Kurs ausgewählt',
+        errorText ?? courseName ?? HwDialogErrorStrings.emptyCourse,
         style: errorText != null ? const TextStyle(color: Colors.red) : null,
       ),
       trailing: const Icon(Icons.keyboard_arrow_down),

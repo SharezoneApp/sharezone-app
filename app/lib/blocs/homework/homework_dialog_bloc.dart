@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
 // Licensed under the EUPL-1.2-or-later.
 //
 // You may obtain a copy of the Licence at:
@@ -6,319 +6,715 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:async';
-
 import 'package:analytics/analytics.dart';
-import 'package:bloc_base/bloc_base.dart';
+import 'package:bloc/bloc.dart';
+import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:meta/meta.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone_common/helper_functions.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
-class HomeworkDialogBloc extends BlocBase {
-  List<CloudFile> initialCloudFiles = [];
-  final _titleSubject = BehaviorSubject<String?>();
-  final _courseSegmentSubject = BehaviorSubject<Course>();
-  final _todoUntilSubject = BehaviorSubject<DateTime>();
-  final _descriptionSubject = BehaviorSubject<String>();
-  final _privateSubject = BehaviorSubject.seeded(false);
-  final _sendNotificationSubject = BehaviorSubject<bool>.seeded(false);
-  final _localFilesSubject = BehaviorSubject.seeded(<LocalFile>[]);
-  final _cloudFilesSubject = BehaviorSubject.seeded(<CloudFile>[]);
-  final _withSubmissionsSubject = BehaviorSubject.seeded(false);
-  final _submissionTimeSubject =
-      BehaviorSubject<Time>.seeded(Time(hour: 23, minute: 59));
+sealed class HomeworkDialogEvent extends Equatable {
+  const HomeworkDialogEvent();
+}
 
-  final HomeworkDialogApi api;
-  final NextLessonCalculator nextLessonCalculator;
-  final HomeworkDto? initialHomework;
-
-  final MarkdownAnalytics _markdownAnalytics;
-  final Analytics analytics;
-
-  HomeworkDialogBloc(this.api, this.nextLessonCalculator,
-      this._markdownAnalytics, this.analytics,
-      {HomeworkDto? homework})
-      : initialHomework = homework {
-    if (homework != null) {
-      _loadInitialCloudFiles(homework.courseReference!.id, homework.id);
-
-      changeTitle(homework.title);
-      changeTodoUntil(homework.todoUntil);
-      changeDescription(homework.description);
-      changePrivate(homework.private);
-      changeWithSubmissions(homework.withSubmissions);
-      if (homework.withSubmissions) {
-        changeSubmissionTime(homework.todoUntil.toTime());
-      }
-
-      final c = Course.create().copyWith(
-        subject: homework.subject,
-        name: homework.courseName,
-        sharecode: "000000",
-        abbreviation: homework.subjectAbbreviation,
-        id: homework.courseReference!.id,
-      );
-      changeCourseSegment(c);
-      changeSendNotification(homework.sendNotification);
-    }
-  }
-
-  bool get hasAttachments =>
-      _localFilesSubject.valueOrNull != null &&
-      _localFilesSubject.valueOrNull!.isNotEmpty;
-
-  Stream<String> get title =>
-      _titleSubject.stream.transform(_validateTitleTransformer);
-  Stream<DateTime> get todoUntil => _todoUntilSubject;
-  Stream<String> get description => _descriptionSubject;
-  Stream<Course> get courseSegment => _courseSegmentSubject;
-  Stream<bool> get private => _privateSubject;
-  Stream<List<LocalFile>> get localFiles => _localFilesSubject;
-  Stream<List<CloudFile>> get cloudFiles => _cloudFilesSubject;
-  Stream<bool> get sendNotification => _sendNotificationSubject;
-  Stream<bool> get withSubmissions => _withSubmissionsSubject;
-  Stream<bool> get isSubmissionEnableable =>
-      _privateSubject.map((private) => !private);
-  Stream<Time> get submissionTime => _submissionTimeSubject;
-
-  Function(String) get changeTitle => _titleSubject.sink.add;
-  Function(String) get changeDescription => _descriptionSubject.sink.add;
-  Function(bool) get changeWithSubmissions => _withSubmissionsSubject.sink.add;
-  Function(Course) get changeCourseSegment => (courseSegment) {
-        _courseSegmentSubject.sink.add(courseSegment);
-        if (_todoUntilSubject.valueOrNull == null) {
-          changeTodoUntilNextLessonOrNextSchoolDay(courseSegment.id);
-        }
-      };
-  Function(DateTime) get changeTodoUntil => _todoUntilSubject.sink.add;
-  Function(bool) get changePrivate => (isPrivate) {
-        if (isPrivate) _withSubmissionsSubject.sink.add(false);
-        return _privateSubject.sink.add(isPrivate);
-      };
-
-  Function(Time) get changeSubmissionTime => _submissionTimeSubject.sink.add;
-
-  Function(bool) get changeSendNotification =>
-      _sendNotificationSubject.sink.add;
-
-  Function(List<LocalFile>) get addLocalFile => (localFiles) {
-        final list = <LocalFile>[];
-        if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull!);
-        }
-        list.addAll(localFiles);
-        _localFilesSubject.sink.add(list);
-      };
-  Function(LocalFile) get removeLocalFile => (localFile) {
-        final list = <LocalFile>[];
-        if (_localFilesSubject.valueOrNull != null) {
-          list.addAll(_localFilesSubject.valueOrNull!);
-        }
-        list.remove(localFile);
-        _localFilesSubject.sink.add(list);
-      };
-  Function(CloudFile) get removeCloudFile => (cloudFile) {
-        final list = <CloudFile>[];
-        if (_cloudFilesSubject.valueOrNull != null) {
-          list.addAll(_cloudFilesSubject.valueOrNull!);
-        }
-        list.remove(cloudFile);
-        _cloudFilesSubject.sink.add(list);
-      };
-
-  /// Prüfen, ob der Nutzer in den Eingabefelder etwas geändert hat. Falls ja,
-  /// wird true zurückgegeben.
-  ///
-  /// Attribut [private] & [sendNotifcation] werden vernachlässtig, da
-  /// dieser Input kein großer Verlust ist, wenn man versehentlich den
-  /// Dialog schließt.
-  bool hasInputChanged() {
-    final title = _titleSubject.valueOrNull;
-    final course = _courseSegmentSubject.valueOrNull;
-    final todoUntil = _todoUntilSubject.valueOrNull;
-    final description = _descriptionSubject.valueOrNull;
-    final localFiles = _localFilesSubject.valueOrNull;
-
-    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
-    final cloudFiles =
-        _cloudFilesSubject.valueOrNull!.map((cf) => cf.id).toList();
-
-    // Prüfen, ob Nutzer eine neue Hausaufgabe erstellt
-    if (initialHomework == null) {
-      return isNotEmptyOrNull(title) ||
-          isNotEmptyOrNull(description) ||
-          hasAttachments ||
-          course != null ||
-          todoUntil != null;
-    } else {
-      return title != initialHomework!.title ||
-          description != initialHomework!.description ||
-          course!.id != initialHomework!.courseID ||
-          todoUntil != initialHomework!.todoUntil ||
-          hasAttachments ||
-          initialHomework!.attachments.length != cloudFiles.length;
-    }
-  }
-
-  static DateTime _getSeedTodoUntilDate() {
-    DateTime now =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    if (DateTime.now().weekday == DateTime.friday ||
-        DateTime.now().weekday == DateTime.saturday) {
-      DateTime monday = now.add(
-          Duration(days: DateTime.now().weekday == DateTime.friday ? 3 : 2));
-      return monday;
-    } else {
-      DateTime tomorrow = now.add(const Duration(days: 1));
-      return tomorrow;
-    }
-  }
-
-  void changeTodoUntilNextLessonOrNextSchoolDay(String courseID) {
-    nextLessonCalculator.calculateNextLesson(courseID).then((result) {
-      // If the user has closed the dialog before the result is calculated, the
-      // stream is closed. In this case, the result is not used.
-      if (_todoUntilSubject.isClosed) return;
-
-      if (result == null) {
-        changeTodoUntil(_getSeedTodoUntilDate());
-      } else {
-        changeTodoUntil(result.toDateTime);
-      }
-    });
-  }
-
-  final _validateTitleTransformer =
-      StreamTransformer<String?, String>.fromHandlers(
-          handleData: (title, sink) {
-    if (isEmptyOrNull(title)) {
-      sink.addError(EmptyTitleException());
-    } else {
-      sink.add(title!);
-    }
-  });
-
-  void validateInputOrThrow() {
-    bool isNullOrEmpty(String? s) => s == null || s.isEmpty;
-
-    // This should be the same behavior as for [_validateTitleTransformer]
-    // above.
-    if (isNullOrEmpty(_titleSubject.valueOrNull)) {
-      throw EmptyTitleException();
-    }
-
-    if (_courseSegmentSubject.valueOrNull == null) {
-      throw EmptyCourseException();
-    }
-
-    if (_todoUntilSubject.valueOrNull == null) {
-      throw EmptyTodoUntilException();
-    }
-  }
-
-  Future<void> _loadInitialCloudFiles(
-      String courseID, String homeworkID) async {
-    final cloudFiles = await api.loadCloudFiles(homeworkId: homeworkID);
-    _cloudFilesSubject.sink.add(cloudFiles);
-    initialCloudFiles.addAll(cloudFiles);
-  }
-
-  Future<void> submit() async {
-    validateInputOrThrow();
-    final todoUntil = DateTime(
-      _todoUntilSubject.value.year,
-      _todoUntilSubject.value.month,
-      _todoUntilSubject.value.day,
-      _submissionTimeSubject.valueOrNull?.hour ?? 0,
-      _submissionTimeSubject.valueOrNull?.minute ?? 0,
-    );
-    final courseId = CourseId(_courseSegmentSubject.value.id);
-    final description = _descriptionSubject.valueOrNull ?? '';
-    final private = _privateSubject.value;
-    final localFiles = IList(_localFilesSubject.value);
-
-    final userInput = UserInput(
-      title: _titleSubject.value!,
-      todoUntil: todoUntil,
-      description: description,
-      private: private,
-      localFiles: localFiles,
-      sendNotification: _sendNotificationSubject.value,
-      withSubmission: _withSubmissionsSubject.value,
-    );
-
-    final hasAttachments = localFiles.isNotEmpty;
-
-    if (initialHomework == null) {
-      // Falls der Nutzer keine Anhänge hochlädt, wird kein 'await' verwendet,
-      // weil die Daten sofort in Firestore gespeichert werden können und somit
-      // auch offline hinzufügbar sind.
-      hasAttachments
-          ? await api.createHomework(courseId, userInput)
-          : api.createHomework(courseId, userInput);
-
-      if (_markdownAnalytics.containsMarkdown(description)) {
-        _markdownAnalytics.logMarkdownUsedHomework();
-      }
-      analytics.log(NamedAnalyticsEvent(name: "homework_add"));
-    } else {
-      // Falls ein Nutzer Anhänge beim Bearbeiten enfernt hat, werden die IDs
-      // dieser Anhänge in [removedCloudFiles] gespeichert und über das HomeworkGateway
-      // von der Hausaufgabe entfernt.
-      final removedCloudFiles = matchRemovedCloudFilesFromTwoList(
-          initialCloudFiles, _cloudFilesSubject.valueOrNull!);
-      if (hasAttachments) {
-        await api.editHomework(HomeworkId(initialHomework!.id), userInput,
-            removedCloudFiles: removedCloudFiles);
-      } else {
-        api.editHomework(HomeworkId(initialHomework!.id), userInput,
-            removedCloudFiles: removedCloudFiles);
-      }
-
-      // If markdown is added to the edited homework and the homework didn't
-      // contain markdown before, log it.
-      if (!_markdownAnalytics.containsMarkdown(initialHomework!.description) &&
-          _markdownAnalytics.containsMarkdown(description)) {
-        _markdownAnalytics.logMarkdownUsedHomework();
-      }
-      analytics.log(NamedAnalyticsEvent(name: "homework_edit"));
-    }
-  }
+class Save extends HomeworkDialogEvent {
+  const Save();
 
   @override
-  void dispose() {
-    _titleSubject.close();
-    _descriptionSubject.close();
-    _courseSegmentSubject.close();
-    _todoUntilSubject.close();
-    _privateSubject.close();
-    _localFilesSubject.close();
-    _cloudFilesSubject.close();
-    _sendNotificationSubject.close();
-    _withSubmissionsSubject.close();
-    _submissionTimeSubject.close();
+  List<Object?> get props => [];
+}
+
+class TitleChanged extends HomeworkDialogEvent {
+  final String newTitle;
+
+  const TitleChanged(this.newTitle);
+
+  @override
+  List<Object?> get props => [newTitle];
+}
+
+class DueDateChanged extends HomeworkDialogEvent {
+  final Date newDueDate;
+
+  const DueDateChanged(this.newDueDate);
+
+  @override
+  List<Object?> get props => [newDueDate];
+}
+
+class CourseChanged extends HomeworkDialogEvent {
+  final CourseId newCourseId;
+
+  const CourseChanged(this.newCourseId);
+
+  @override
+  List<Object?> get props => [newCourseId];
+}
+
+class SubmissionsChanged extends HomeworkDialogEvent {
+  final ({bool enabled, Time? submissionTime}) newSubmissionsOptions;
+
+  const SubmissionsChanged(this.newSubmissionsOptions);
+
+  @override
+  List<Object?> get props => [newSubmissionsOptions];
+}
+
+class DescriptionChanged extends HomeworkDialogEvent {
+  final String newDescription;
+
+  const DescriptionChanged(this.newDescription);
+
+  @override
+  List<Object?> get props => [newDescription];
+}
+
+class AttachmentsAdded extends HomeworkDialogEvent {
+  final IList<LocalFile> newFiles;
+
+  const AttachmentsAdded(this.newFiles);
+
+  @override
+  List<Object?> get props => [newFiles];
+}
+
+class AttachmentRemoved extends HomeworkDialogEvent {
+  final FileId id;
+
+  const AttachmentRemoved(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class NotifyCourseMembersChanged extends HomeworkDialogEvent {
+  final bool newNotifyCourseMembers;
+
+  const NotifyCourseMembersChanged(this.newNotifyCourseMembers);
+
+  @override
+  List<Object?> get props => [newNotifyCourseMembers];
+}
+
+class IsPrivateChanged extends HomeworkDialogEvent {
+  final bool newIsPrivate;
+
+  const IsPrivateChanged(this.newIsPrivate);
+
+  @override
+  List<Object?> get props => [newIsPrivate];
+}
+
+sealed class HomeworkDialogState extends Equatable {
+  final bool isEditing;
+  @override
+  List<Object?> get props => [isEditing];
+
+  const HomeworkDialogState({required this.isEditing});
+}
+
+class Ready extends HomeworkDialogState {
+  final (String, {dynamic error}) title;
+  final CourseState course;
+  final (Date?, {dynamic error}) dueDate;
+  final SubmissionState submissions;
+  final String description;
+  final IList<FileView> attachments;
+  final bool notifyCourseMembers;
+  final (bool, {bool isChangeable}) isPrivate;
+  final bool hasModifiedData;
+
+  @override
+  List<Object?> get props => [
+        title,
+        course,
+        dueDate,
+        submissions,
+        description,
+        attachments,
+        notifyCourseMembers,
+        isPrivate,
+        hasModifiedData,
+        super.isEditing,
+      ];
+
+  const Ready({
+    required this.title,
+    required this.course,
+    required this.dueDate,
+    required this.submissions,
+    required this.description,
+    required this.attachments,
+    required this.notifyCourseMembers,
+    required this.isPrivate,
+    required this.hasModifiedData,
+    required super.isEditing,
+  });
+
+  Ready copyWith({
+    (String, {dynamic error})? title,
+    CourseState? course,
+    (Date?, {dynamic error})? dueDate,
+    SubmissionState? submissions,
+    String? description,
+    IList<FileView>? attachments,
+    bool? notifyCourseMembers,
+    (bool, {bool isChangeable})? isPrivate,
+    bool? hasModifiedData,
+    bool? isEditing,
+  }) {
+    return Ready(
+      title: title ?? this.title,
+      course: course ?? this.course,
+      dueDate: dueDate ?? this.dueDate,
+      submissions: submissions ?? this.submissions,
+      description: description ?? this.description,
+      attachments: attachments ?? this.attachments,
+      notifyCourseMembers: notifyCourseMembers ?? this.notifyCourseMembers,
+      isPrivate: isPrivate ?? this.isPrivate,
+      hasModifiedData: hasModifiedData ?? this.hasModifiedData,
+      isEditing: isEditing ?? this.isEditing,
+    );
   }
 }
 
-sealed class InvalidHomeworkInputException implements Exception {}
+class SavedSuccessfully extends HomeworkDialogState {
+  @override
+  List<Object?> get props => [super.isEditing];
 
-class EmptyTitleException implements InvalidHomeworkInputException {}
+  const SavedSuccessfully({required super.isEditing});
+}
 
-class EmptyCourseException implements InvalidHomeworkInputException {}
+class FileView extends Equatable {
+  final FileId fileId;
+  final String fileName;
+  final FileFormat format;
+  final LocalFile? localFile;
+  final CloudFile? cloudFile;
 
-class EmptyTodoUntilException implements InvalidHomeworkInputException {}
+  @override
+  List<Object?> get props => [fileId, fileName, format, localFile, cloudFile];
+
+  const FileView({
+    required this.fileId,
+    required this.fileName,
+    required this.format,
+    this.localFile,
+    this.cloudFile,
+  }) : assert((localFile != null && cloudFile == null) ||
+            (localFile == null && cloudFile != null));
+}
+
+sealed class SubmissionState extends Equatable {
+  bool get isChangeable;
+  bool get isEnabled => this is SubmissionsEnabled;
+  const SubmissionState();
+}
+
+class SubmissionsDisabled extends SubmissionState {
+  /// If the user can update the [SubmissionState], i.e. turn on submissions.
+  ///
+  /// If a homework is private submissions can not be turned on. This field
+  /// would be `true` in this case.
+  @override
+  final bool isChangeable;
+  @override
+  List<Object?> get props => [isChangeable];
+
+  const SubmissionsDisabled({required this.isChangeable});
+}
+
+class SubmissionsEnabled extends SubmissionState {
+  @override
+  bool get isChangeable => true;
+
+  final Time deadline;
+  @override
+  List<Object?> get props => [isChangeable, deadline];
+
+  const SubmissionsEnabled({required this.deadline});
+}
+
+sealed class CourseState extends Equatable {
+  const CourseState();
+}
+
+class NoCourseChosen extends CourseState {
+  final dynamic error;
+  @override
+  List<Object?> get props => [error];
+
+  const NoCourseChosen({this.error});
+}
+
+class CourseChosen extends CourseState {
+  final CourseId courseId;
+  final String courseName;
+
+  /// If the user can update the [CourseState].
+  ///
+  /// If editing an existing homework this will be `false`, since one can't move
+  /// a homework from course a to course b.
+  final bool isChangeable;
+
+  @override
+  List<Object?> get props => [courseId, courseName, isChangeable];
+
+  const CourseChosen({
+    required this.courseId,
+    required this.courseName,
+    required this.isChangeable,
+  });
+}
+
+class LoadingHomework extends HomeworkDialogState {
+  final HomeworkId homework;
+  @override
+  List<Object?> get props => [homework, super.isEditing];
+
+  const LoadingHomework(this.homework, {required super.isEditing});
+}
+
+@visibleForTesting
+final emptyCreateHomeworkDialogState = Ready(
+  title: ('', error: null),
+  course: const NoCourseChosen(),
+  dueDate: (null, error: null),
+  submissions: const SubmissionsDisabled(isChangeable: true),
+  description: '',
+  attachments: IList(),
+  notifyCourseMembers: false,
+  isPrivate: (false, isChangeable: true),
+  hasModifiedData: false,
+  isEditing: false,
+);
+
+class _LoadedHomeworkData extends HomeworkDialogEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+sealed class HomeworkDialogBlocPresentationEvent extends Equatable {
+  const HomeworkDialogBlocPresentationEvent();
+}
+
+class StartedUploadingAttachments extends HomeworkDialogBlocPresentationEvent {
+  const StartedUploadingAttachments();
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// Gets emitted if a user tries to save but necessary Input is not filled out.
+class RequiredFieldsNotFilledOut extends HomeworkDialogBlocPresentationEvent {
+  const RequiredFieldsNotFilledOut();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SavingFailed extends HomeworkDialogBlocPresentationEvent {
+  const SavingFailed(this.error, this.stackTrace);
+
+  final dynamic error;
+  final StackTrace? stackTrace;
+
+  @override
+  List<Object?> get props => [error, stackTrace];
+}
+
+/// Since [HomeworkDto] can't have a null value for [todoUntil] we need to use
+/// a magic number to know if the user changed the due date and submission time
+/// or not.
+final _kNoDateSelectedDateTime = DateTime(1337, 13, 37, 13, 37, 13, 37);
+HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '')
+    .copyWith(todoUntil: _kNoDateSelectedDateTime);
+
+class EmptyTitleException extends Equatable implements Exception {
+  const EmptyTitleException();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class NoCourseChosenException extends Equatable implements Exception {
+  const NoCourseChosenException();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class NoDueDateSelectedException extends Equatable implements Exception {
+  const NoDueDateSelectedException();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
+    with
+        BlocPresentationMixin<HomeworkDialogState,
+            HomeworkDialogBlocPresentationEvent> {
+  final HomeworkDialogApi api;
+  final Analytics analytics;
+  final MarkdownAnalytics markdownAnalytics;
+  final NextLessonCalculator nextLessonCalculator;
+  HomeworkDto? _initialHomework;
+  late final IList<CloudFile> _initialAttachments;
+  late final bool isEditing;
+
+  bool finishedInitializing = false;
+
+  bool showTitleEmptyError = false;
+  bool showNoCourseChosenError = false;
+  bool showNoDueDateChosenError = false;
+
+  late HomeworkDto _homework;
+  var _cloudFiles = IList<CloudFile>();
+  var _localFiles = IList<LocalFile>();
+
+  @override
+  void onEvent(HomeworkDialogEvent event) {
+    super.onEvent(event);
+    if (event is! _LoadedHomeworkData && !finishedInitializing) {
+      throw StateError('Bloc has not finished initializing yet. Events should '
+          'not be added before the initialization is finished. If you see this '
+          'error is thrown in a test, either await the first $Ready state or '
+          'use `pumpEventQueue` after creating the bloc.');
+    }
+  }
+
+  HomeworkDialogBloc({
+    required this.api,
+    required this.nextLessonCalculator,
+    required this.analytics,
+    required this.markdownAnalytics,
+    HomeworkId? homeworkId,
+  }) : super(homeworkId != null
+            ? LoadingHomework(homeworkId, isEditing: true)
+            : emptyCreateHomeworkDialogState) {
+    isEditing = homeworkId != null;
+    if (isEditing) {
+      _loadExistingData(homeworkId!);
+    } else {
+      _homework = _kNoDataChangedHomework;
+      _initialAttachments = IList();
+      finishedInitializing = true;
+    }
+
+    on<_LoadedHomeworkData>(
+      (event, emit) {
+        // Because currently sendNotifications can be true for existing
+        // homeworks and because we don't want to set the UI value depending on
+        // the existing value, we set the value to false here.
+        // This also helps us when comparing if the user changed the homework by
+        // using `_initialHomework != _homework` since otherwise it might be
+        // false when the user didn't change anything as the sendNotification
+        // value might be `true` in the _initialHomework.
+        _initialHomework = _initialHomework!.copyWith(sendNotification: false);
+        _homework = _initialHomework!;
+        _cloudFiles = _initialAttachments;
+        finishedInitializing = true;
+
+        emit(_getNewState());
+      },
+    );
+    on<Save>(
+      (event, emit) async {
+        bool hasInputErrors = false;
+        if (_homework.title.isEmpty) {
+          showTitleEmptyError = true;
+          hasInputErrors = true;
+        }
+        if (_homework.courseID.isEmpty) {
+          showNoCourseChosenError = true;
+          hasInputErrors = true;
+        }
+        if (_homework.todoUntil.year == _kNoDateSelectedDateTime.year) {
+          showNoDueDateChosenError = true;
+          hasInputErrors = true;
+        }
+        if (hasInputErrors) {
+          emitPresentation(const RequiredFieldsNotFilledOut());
+          emit(_getNewState());
+          return;
+        }
+
+        final userInput = UserInput(
+          title: _homework.title,
+          todoUntil: DateTime(
+            _homework.todoUntil.year,
+            _homework.todoUntil.month,
+            _homework.todoUntil.day,
+            _homework.withSubmissions ? _homework.todoUntil.hour : 0,
+            _homework.withSubmissions ? _homework.todoUntil.minute : 0,
+          ),
+          description: _homework.description,
+          withSubmission: _homework.withSubmissions,
+          localFiles: _localFiles,
+          sendNotification: _homework.sendNotification,
+          private: _homework.private,
+        );
+
+        if (isEditing) {
+          try {
+            // try-catch won't work for this case as we don't await the future.
+            // This might be solved with Zones (handleUncaughtError).
+            if (userInput.localFiles.isEmpty) {
+              // If user is offline Firestore will add the homework locally but
+              // won't complete the future until the server has received the
+              // homework. We remove the await so that the user can save the
+              // homework while being offline.
+              api.editHomework(HomeworkId(_homework.id), userInput,
+                  removedCloudFiles:
+                      _initialAttachments.removeAll(_cloudFiles).toList());
+            } else {
+              emitPresentation(const StartedUploadingAttachments());
+              // As we can't save a homework with attachments when we are offline,
+              // we await the future here.
+              await api.editHomework(HomeworkId(_homework.id), userInput,
+                  removedCloudFiles:
+                      _initialAttachments.removeAll(_cloudFiles).toList());
+            }
+          } catch (e, s) {
+            emitPresentation(SavingFailed(e, s));
+            return;
+          }
+
+          analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
+          if (markdownAnalytics.containsMarkdown(_homework.description) &&
+              !markdownAnalytics
+                  .containsMarkdown(_initialHomework?.description ?? '')) {
+            markdownAnalytics.logMarkdownUsedHomework();
+          }
+        } else {
+          try {
+            // try-catch won't work for this case as we don't await the future.
+            // This might be solved with Zones (handleUncaughtError).
+            if (userInput.localFiles.isEmpty) {
+              // If user is offline Firestore will add the homework locally but
+              // won't complete the future until the server has received the
+              // homework. We remove the await so that the user can save the
+              // homework while being offline.
+              api.createHomework(CourseId(_homework.courseID), userInput);
+            } else {
+              emitPresentation(const StartedUploadingAttachments());
+              // As we can't save a homework with attachments when we are offline,
+              // we await the future here.
+              await api.createHomework(CourseId(_homework.courseID), userInput);
+            }
+          } catch (e, s) {
+            emitPresentation(SavingFailed(e, s));
+            return;
+          }
+
+          analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
+          if (markdownAnalytics.containsMarkdown(_homework.description)) {
+            markdownAnalytics.logMarkdownUsedHomework();
+          }
+        }
+
+        emit(SavedSuccessfully(isEditing: isEditing));
+      },
+    );
+    on<TitleChanged>(
+      (event, emit) {
+        _homework = _homework.copyWith(title: event.newTitle);
+        if (showTitleEmptyError && _homework.title.isNotEmpty) {
+          showTitleEmptyError = false;
+        }
+        emit(_getNewState());
+      },
+    );
+    on<DueDateChanged>(
+      (event, emit) {
+        _homework = _homework.copyWith(
+            // copyWith because we need to keep the magic "not changed" value for
+            // the submission time (hour, minute, second, etc.).
+            todoUntil: _homework.todoUntil.copyWith(
+          year: event.newDueDate.year,
+          month: event.newDueDate.month,
+          day: event.newDueDate.day,
+        ));
+        if (showNoDueDateChosenError) {
+          showNoDueDateChosenError = false;
+        }
+        emit(_getNewState());
+      },
+    );
+    on<CourseChanged>(
+      (event, emit) async {
+        final course = await api.loadCourse(event.newCourseId);
+        if (showNoCourseChosenError) {
+          showNoCourseChosenError = false;
+        }
+        _homework =
+            _homework.copyWith(courseID: course.id, courseName: course.name);
+
+        emit(_getNewState());
+
+        // Manual date was already set, we don't want to overwrite it.
+        if (_homework.todoUntil.year != _kNoDateSelectedDateTime.year) {
+          return;
+        }
+        final nextLesson =
+            await nextLessonCalculator.tryCalculateNextLesson(course.id);
+        if (nextLesson != null) {
+          add(DueDateChanged(nextLesson));
+        }
+      },
+    );
+    on<SubmissionsChanged>(
+      (event, emit) {
+        _homework = _homework.copyWith(
+          withSubmissions: event.newSubmissionsOptions.enabled,
+          // copyWith because we need to keep the magic "not changed" value for
+          // the due date (year, month, day attributes).
+          todoUntil: _homework.todoUntil.copyWith(
+            hour: event.newSubmissionsOptions.submissionTime?.hour ?? 23,
+            minute: event.newSubmissionsOptions.submissionTime?.minute ?? 59,
+            // Remove magic number used to indicate that submission time has not
+            // been changed.
+            millisecond: 0,
+            microsecond: 0,
+          ),
+        );
+        emit(_getNewState());
+      },
+    );
+    on<DescriptionChanged>(
+      (event, emit) {
+        _homework = _homework.copyWith(description: event.newDescription);
+        emit(_getNewState());
+      },
+    );
+    on<AttachmentsAdded>(
+      (event, emit) {
+        _localFiles = _localFiles.addAll(event.newFiles);
+        emit(_getNewState());
+      },
+    );
+    on<AttachmentRemoved>(
+      (event, emit) {
+        _localFiles =
+            _localFiles.removeWhere((file) => file.fileId == event.id);
+        _cloudFiles = _cloudFiles
+            .removeWhere((cloudFile) => FileId(cloudFile.id!) == event.id);
+
+        emit(_getNewState());
+      },
+    );
+    on<NotifyCourseMembersChanged>(
+      (event, emit) {
+        _homework =
+            _homework.copyWith(sendNotification: event.newNotifyCourseMembers);
+        emit(_getNewState());
+      },
+    );
+    on<IsPrivateChanged>(
+      (event, emit) {
+        _homework = _homework.copyWith(private: event.newIsPrivate);
+        emit(_getNewState());
+      },
+    );
+  }
+
+  Ready _getNewState() {
+    final didHomeworkChange = isEditing
+        ? _initialHomework != _homework
+        : _homework != _kNoDataChangedHomework;
+    final didFilesChange = _initialAttachments != _cloudFiles;
+    final didLocalFilesChange = _localFiles.isNotEmpty;
+    final didDataChange =
+        didHomeworkChange || didFilesChange || didLocalFilesChange;
+
+    final hasChangedTodoDate =
+        _homework.todoUntil.year != _kNoDataChangedHomework.todoUntil.year;
+    final hasUserEditedSubmissionTime =
+        _homework.todoUntil.millisecond != _kNoDateSelectedDateTime.millisecond;
+
+    return Ready(
+      title: (
+        _homework.title,
+        error: showTitleEmptyError ? const EmptyTitleException() : null
+      ),
+      course: _homework.courseID != ''
+          ? CourseChosen(
+              courseId: CourseId(_homework.courseID),
+              courseName: _homework.courseName,
+              isChangeable: !isEditing,
+            )
+          : NoCourseChosen(
+              error: showNoCourseChosenError
+                  ? const NoCourseChosenException()
+                  : null,
+            ),
+      dueDate: (
+        hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
+        error: showNoDueDateChosenError
+            ? const NoDueDateSelectedException()
+            : null,
+      ),
+      submissions: _homework.withSubmissions
+          ? SubmissionsEnabled(
+              deadline: hasUserEditedSubmissionTime
+                  ? _homework.todoUntil.toTime()
+                  : Time(hour: 23, minute: 59))
+          : SubmissionsDisabled(isChangeable: !_homework.private),
+      description: _homework.description,
+      attachments: IList([
+        for (final attachment in _localFiles)
+          FileView(
+            fileId: attachment.fileId,
+            fileName: attachment.getName(),
+            format:
+                fileFormatEnumFromFilenameWithExtension(attachment.getName()),
+            localFile: attachment,
+          ),
+        for (final attachment in _cloudFiles)
+          FileView(
+            fileId: FileId(attachment.id!),
+            fileName: attachment.name,
+            format: attachment.fileFormat,
+            cloudFile: attachment,
+          ),
+      ]),
+      notifyCourseMembers: _homework.sendNotification,
+      isPrivate: (
+        _homework.private,
+        isChangeable: !(isEditing || _homework.withSubmissions)
+      ),
+      hasModifiedData: didDataChange,
+      isEditing: isEditing,
+    );
+  }
+
+  Future<void> _loadExistingData(HomeworkId homeworkId) async {
+    _initialHomework = await api.loadHomework(homeworkId);
+    _initialAttachments = (await api.loadCloudFiles(
+      homeworkId: _initialHomework!.id,
+    ))
+        .toIList();
+    add(_LoadedHomeworkData());
+  }
+}
+
+extension LocalFileHashcodeFileId on LocalFile {
+  FileId get fileId => FileId(hashCode.toString());
+}
 
 class UserInput extends Equatable {
   final String title;
@@ -357,7 +753,11 @@ class HomeworkDialogApi {
   HomeworkDialogApi(this._api);
 
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
-    return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+    try {
+      return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+    } catch (e) {
+      return _api.homework.singleHomework(homeworkId.id, source: Source.server);
+    }
   }
 
   Future<List<CloudFile>> loadCloudFiles({required String homeworkId}) async {
@@ -367,14 +767,19 @@ class HomeworkDialogApi {
         .first;
   }
 
+  Future<Course> loadCourse(CourseId courseId) async {
+    return (await _api.course.streamCourse(courseId.id).first)!;
+  }
+
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
     final course = (await _api.course.streamCourse(courseId.id).first)!;
-    final authorReference = _api.references.users.doc(_api.user.authUser!.uid);
-    final authorName = (await _api.user.userStream.first)!.name;
     final authorID = _api.user.authUser!.uid;
-    final typeOfUser = (await _api.user.userStream.first)!.typeOfUser;
+    final authorReference = _api.references.users.doc(authorID);
+    final user = (await _api.user.userStream.first)!;
+    final authorName = user.name;
+    final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
         localFiles, courseId.id, authorReference.id, authorName);

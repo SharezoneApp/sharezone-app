@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
 class HomeworkDto {
@@ -234,6 +235,60 @@ class HomeworkDto {
       latestEditor: latestEditor ?? this.latestEditor,
       assignedUserArrays: assignedUserArrays ?? this.assignedUserArrays,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final collectionEquals = const DeepCollectionEquality().equals;
+
+    return other is HomeworkDto &&
+        other.id == id &&
+        other.courseReference == courseReference &&
+        other.courseID == courseID &&
+        other.subject == subject &&
+        other.subjectAbbreviation == subjectAbbreviation &&
+        other.courseName == courseName &&
+        other.authorReference == authorReference &&
+        other.authorID == authorID &&
+        other.authorName == authorName &&
+        other.title == title &&
+        other.description == description &&
+        other.todoUntil == todoUntil &&
+        other.createdOn == createdOn &&
+        collectionEquals(other.attachments, attachments) &&
+        other.private == private &&
+        other.withSubmissions == withSubmissions &&
+        collectionEquals(other.submitters, submitters) &&
+        collectionEquals(other.forUsers, forUsers) &&
+        other.sendNotification == sendNotification &&
+        other.latestEditor == latestEditor &&
+        other.assignedUserArrays == assignedUserArrays;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        courseReference.hashCode ^
+        courseID.hashCode ^
+        subject.hashCode ^
+        subjectAbbreviation.hashCode ^
+        courseName.hashCode ^
+        authorReference.hashCode ^
+        authorID.hashCode ^
+        authorName.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        todoUntil.hashCode ^
+        createdOn.hashCode ^
+        attachments.hashCode ^
+        private.hashCode ^
+        withSubmissions.hashCode ^
+        submitters.hashCode ^
+        forUsers.hashCode ^
+        sendNotification.hashCode ^
+        latestEditor.hashCode ^
+        assignedUserArrays.hashCode;
   }
 }
 

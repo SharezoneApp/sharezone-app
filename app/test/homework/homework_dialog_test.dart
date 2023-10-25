@@ -12,13 +12,18 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:files_basics/files_models.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:path/path.dart';
+import 'package:random_string/random_string.dart';
 import 'package:sharezone/blocs/application_bloc.dart';
 import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
@@ -31,6 +36,7 @@ import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 
 import '../analytics/analytics_test.dart';
+import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
   MockSpec<SharezoneContext>(),
@@ -43,17 +49,22 @@ import 'homework_dialog_test.mocks.dart';
 class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
   @override
-  Future<Date?> calculateNextLesson(String courseID) async {
-    return dateToReturn ?? Date('2032-01-03');
+  Future<Date?> tryCalculateNextLesson(String courseID) async {
+    return dateToReturn;
   }
 }
 
 class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
   late CourseId courseIdForHomeworkToBeCreated;
+  Exception? createHomeworkError;
+
   @override
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
+    if (createHomeworkError != null) {
+      throw createHomeworkError!;
+    }
     courseIdForHomeworkToBeCreated = courseId;
     userInputToBeCreated = userInput;
     return HomeworkDto.create(courseID: 'courseID');
@@ -61,9 +72,14 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
 
   late UserInput userInputFromEditing;
   late List<CloudFile> removedCloudFilesFromEditing;
+  Exception? editHomeworkError;
+
   @override
   Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
+    if (editHomeworkError != null) {
+      throw editHomeworkError!;
+    }
     userInputFromEditing = userInput;
     removedCloudFilesFromEditing = removedCloudFiles;
     return HomeworkDto.create(courseID: 'courseID');
@@ -81,6 +97,104 @@ class MockHomeworkDialogApi implements HomeworkDialogApi {
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
     return homeworkToReturn ?? HomeworkDto.create(courseID: 'courseID');
   }
+
+  void addCourseForTesting(Course course) {
+    courses[CourseId(course.id)] = course;
+  }
+
+  final courses = <CourseId, Course>{};
+
+  @override
+  Future<Course> loadCourse(CourseId courseId) async {
+    return courses[courseId] ?? Course.create();
+  }
+}
+
+Course courseWith({required String id, String? name, String? subject}) {
+  return Course.create().copyWith(
+    id: id,
+    name: name ?? subject ?? 'Foo course',
+    subject: subject ?? (name != null ? '$name subject' : name),
+    abbreviation: name?.substring(0, 1) ?? subject?.substring(0, 1) ?? 'F',
+    myRole: MemberRole.admin,
+  );
+}
+
+LocalFile randomLocalFileFrom({String path = 'foo/bar.png'}) {
+  final b = basename(path);
+  return FakeLocalFile(
+    fileName: b,
+    sizeBytes: b.length,
+    path: path,
+    fileData: Uint8List.fromList(b.codeUnits),
+    mimeType: MimeType.fromFileNameOrNull(b),
+  );
+}
+
+bool randomBool() {
+  return randomBetween(0, 2).isEven;
+}
+
+HomeworkDto randomHomeworkWith({
+  String? id,
+  String? courseId,
+  String? courseName,
+  String? subject,
+  String? title,
+  String? description,
+  DateTime? todoUntil,
+  bool? withSubmissions,
+  bool? private,
+  bool? sendNotification,
+  List<String>? attachments,
+}) {
+  id = id ?? 'random_id_${randomAlphaNumeric(10)}';
+  courseId = courseId ?? 'random_course_id_${randomAlphaNumeric(5)}';
+  courseName = courseName ?? 'Random Course Name ${randomAlphaNumeric(5)}';
+  subject = subject ?? 'Random Subject ${randomAlphaNumeric(5)}';
+  title = title ?? 'Random Title ${randomAlphaNumeric(5)}';
+  description = description ?? 'Random Description ${randomAlphaNumeric(5)}';
+  withSubmissions = withSubmissions ?? randomBool();
+  todoUntil = todoUntil ??
+      (withSubmissions
+          ? DateTime(2023, 03, 12, 16, 30)
+          : DateTime(2023, 03, 12));
+  private = private ?? !withSubmissions;
+  sendNotification = sendNotification ?? randomBool();
+
+  final mockDocumentReference = MockDocumentReference();
+  when(mockDocumentReference.id).thenReturn(courseId);
+  return HomeworkDto.create(
+          courseID: courseId, courseReference: mockDocumentReference)
+      .copyWith(
+    id: id,
+    title: title,
+    courseID: courseId,
+    courseName: courseName,
+    subject: subject,
+    withSubmissions: withSubmissions,
+    todoUntil: todoUntil,
+    description: description,
+    attachments: attachments ?? [],
+    private: private,
+    sendNotification: sendNotification,
+  );
+}
+
+CloudFile randomAttachmentCloudFileWith(
+    {String? id, String? name, String? courseId}) {
+  name = name ?? 'random_file_name_${randomAlphaNumeric(5)}.png';
+  courseId = courseId ?? 'random_course_id_${randomAlphaNumeric(5)}';
+  final fileType = fileFormatEnumFromFilenameWithExtension(name);
+  return CloudFile.create(
+          id: id ?? 'random_id_${randomAlphaNumeric(10)}',
+          creatorName:
+              'Random Assignment Creator Name ${randomAlphaNumeric(5)}',
+          courseID: courseId,
+          creatorID: 'random_file_creator_id_${randomAlphaNumeric(5)}',
+          path:
+              FolderPath.fromPathString('/$courseId/${FolderPath.attachments}'))
+      .copyWith(name: name, fileFormat: fileType);
 }
 
 void main() {
@@ -90,9 +204,16 @@ void main() {
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
+    late MockSharezoneGateway sharezoneGateway;
+    late MockCourseGateway courseGateway;
+    late MockHomeworkGateway homeworkGateway;
+
     HomeworkDto? homework;
 
     setUp(() {
+      sharezoneGateway = MockSharezoneGateway();
+      courseGateway = MockCourseGateway();
+      homeworkGateway = MockHomeworkGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
       sharezoneContext = MockSharezoneContext();
@@ -101,10 +222,10 @@ void main() {
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
+      when(sharezoneGateway.course).thenReturn(courseGateway);
+      when(sharezoneContext.api).thenReturn(sharezoneGateway);
+      when(sharezoneContext.analytics).thenReturn(analytics);
       if (homework != null) {
-        final sharezoneGateway = MockSharezoneGateway();
-        final homeworkGateway = MockHomeworkGateway();
-        when(sharezoneContext.api).thenReturn(sharezoneGateway);
         when(sharezoneGateway.homework).thenReturn(homeworkGateway);
         when(homeworkGateway.singleHomework(any, source: Source.cache))
             .thenAnswer((_) => Future.value(homework));
@@ -145,52 +266,42 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 25));
     }
 
+    void addCourse(Course course) {
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([course]));
+      homeworkDialogApi.addCourseForTesting(course);
+    }
+
     testWidgets('edits homework correctly', (tester) async {
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
-      final sharezoneGateway = MockSharezoneGateway();
-      final courseGateway = MockCourseGateway();
-      when(sharezoneContext.api).thenReturn(sharezoneGateway);
-      when(sharezoneGateway.course).thenReturn(courseGateway);
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      when(sharezoneContext.analytics).thenReturn(analytics);
+      addCourse(fooCourse);
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
+      final attachment1 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id1',
+        courseId: 'foo_course',
+        name: 'foo_attachment1.png',
+      );
+      final attachment2 = randomAttachmentCloudFileWith(
+        id: 'foo_attachment_id2',
+        courseId: 'foo_course',
+        name: 'foo_attachment2.pdf',
+      );
       homeworkDialogApi.loadCloudFilesResult.addAll([
-        CloudFile.create(
-                id: 'foo_attachment_id1',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment1.png'),
-        CloudFile.create(
-                id: 'foo_attachment_id2',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment2.png'),
+        attachment1,
+        attachment2,
       ]);
 
-      final mockDocumentReference = MockDocumentReference();
-      when(mockDocumentReference.id).thenReturn('foo_course');
-      homework = HomeworkDto.create(
-              courseID: 'foo_course', courseReference: mockDocumentReference)
-          .copyWith(
+      homework = randomHomeworkWith(
         id: 'foo_homework_id',
         title: 'title text',
-        courseID: 'foo_course',
+        courseId: 'foo_course',
         courseName: 'Foo course',
         subject: 'Foo subject',
         // The submission time is included in the todoUntil date.
@@ -200,6 +311,7 @@ void main() {
         attachments: ['foo_attachment_id1', 'foo_attachment_id2'],
         private: false,
       );
+
       await pumpAndSettleHomeworkDialog(tester);
 
       await tester.enterText(
@@ -246,21 +358,14 @@ void main() {
     testWidgets('wants to create the correct homework', (tester) async {
       homework = null;
 
-      final fooCourse = Course.create().copyWith(
+      final fooCourse = courseWith(
         id: 'foo_course',
         name: 'Foo course',
         subject: 'Foo subject',
-        abbreviation: 'F',
-        myRole: MemberRole.admin,
       );
 
-      final sharezoneGateway = MockSharezoneGateway();
-      final courseGateway = MockCourseGateway();
-      when(sharezoneContext.api).thenReturn(sharezoneGateway);
-      when(sharezoneGateway.course).thenReturn(courseGateway);
-      when(courseGateway.streamCourses())
-          .thenAnswer((_) => Stream.value([fooCourse]));
-      when(sharezoneContext.analytics).thenReturn(analytics);
+      addCourse(fooCourse);
+
       final nextLessonDate = Date('2024-01-03');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
@@ -335,16 +440,22 @@ void main() {
               (element) => element is Switch && element.value == true),
           findsNothing);
     });
+
     testWidgets('should display a prefilled dialog if homework is passed',
         (WidgetTester tester) async {
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
       final mockDocumentReference = MockDocumentReference();
       when(mockDocumentReference.id).thenReturn('foo_course');
-      homework = HomeworkDto.create(
-              courseID: 'foo_course', courseReference: mockDocumentReference)
-          .copyWith(
+      addCourse(fooCourse);
+      homework = randomHomeworkWith(
         id: 'foo_homework_id',
         title: 'title text',
-        courseID: 'foo_course',
+        courseId: 'foo_course',
         courseName: 'Foo course',
         subject: 'Foo subject',
         // The submission time is included in the todoUntil date.
@@ -354,16 +465,11 @@ void main() {
         attachments: ['foo_attachment_id'],
         private: false,
       );
-      homeworkDialogApi.loadCloudFilesResult.add(
-        CloudFile.create(
-                id: 'foo_attachment_id',
-                creatorName: 'Assignment Creator Name',
-                courseID: 'foo_course',
-                creatorID: 'foo_creator_id',
-                path: FolderPath.fromPathString(
-                    '/foo_course/${FolderPath.attachments}'))
-            .copyWith(name: 'foo_attachment.png'),
-      );
+
+      homeworkDialogApi.loadCloudFilesResult.add(randomAttachmentCloudFileWith(
+        name: 'foo_attachment.png',
+        courseId: 'foo_course',
+      ));
 
       await pumpAndSettleHomeworkDialog(tester);
 
