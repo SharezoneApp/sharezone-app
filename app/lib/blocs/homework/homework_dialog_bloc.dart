@@ -264,7 +264,7 @@ class CourseChosen extends CourseState {
   final CourseId courseId;
   final String courseName;
 
-  /// If the user can update the [CourseState]..
+  /// If the user can update the [CourseState].
   ///
   /// If editing an existing homework this will be `false`, since one can't move
   /// a homework from course a to course b.
