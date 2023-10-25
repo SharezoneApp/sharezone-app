@@ -191,11 +191,11 @@ class Ready extends HomeworkDialogState {
   }
 }
 
-class SavedSucessfully extends HomeworkDialogState {
+class SavedSuccessfully extends HomeworkDialogState {
   @override
   List<Object?> get props => [super.isEditing];
 
-  const SavedSucessfully({required super.isEditing});
+  const SavedSuccessfully({required super.isEditing});
 }
 
 class FileView extends Equatable {
@@ -518,7 +518,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           }
         }
 
-        emit(SavedSucessfully(isEditing: isEditing));
+        emit(SavedSuccessfully(isEditing: isEditing));
       },
     );
     on<TitleChanged>(

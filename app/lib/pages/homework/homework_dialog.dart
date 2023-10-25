@@ -195,9 +195,9 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
         }
       },
       child: BlocConsumer<HomeworkDialogBloc, HomeworkDialogState>(
-        buildWhen: (previous, current) => current is! SavedSucessfully,
+        buildWhen: (previous, current) => current is! SavedSuccessfully,
         listener: (context, state) {
-          if (state is SavedSucessfully) {
+          if (state is SavedSuccessfully) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.pop(context);
           }
@@ -206,7 +206,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
           return switch (state) {
             LoadingHomework() =>
               const Center(child: CircularProgressIndicator()),
-            SavedSucessfully() => throw UnimplementedError(
+            SavedSuccessfully() => throw UnimplementedError(
                 'Placeholder, we pop the Navigator above so this should not be reached.'),
             Ready() => WillPopScope(
                 onWillPop: () async => hasModifiedData()

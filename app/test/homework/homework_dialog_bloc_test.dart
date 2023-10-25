@@ -366,7 +366,7 @@ void main() {
 
       await pumpEventQueue();
 
-      expect(bloc.state, const SavedSucessfully(isEditing: false));
+      expect(bloc.state, const SavedSuccessfully(isEditing: false));
       expect(
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
@@ -423,7 +423,7 @@ void main() {
 
       await pumpEventQueue();
 
-      expect(bloc.state, const SavedSucessfully(isEditing: false));
+      expect(bloc.state, const SavedSuccessfully(isEditing: false));
       expect(
           homeworkDialogApi.userInputToBeCreated,
           UserInput(
@@ -511,7 +511,7 @@ void main() {
       expect(
           bloc.presentation, neverEmits(const StartedUploadingAttachments()));
 
-      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.stream.whereType<SavedSuccessfully>().first;
       await bloc.close();
     });
     test(
@@ -563,7 +563,7 @@ void main() {
       expect(
           bloc.presentation, neverEmits(const StartedUploadingAttachments()));
 
-      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.stream.whereType<SavedSuccessfully>().first;
       await bloc.close();
     });
     test('Analytics is called when a homework is successfully added', () async {
@@ -576,7 +576,7 @@ void main() {
       bloc.add(CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(Date('2024-03-08')));
       bloc.add(const Save());
-      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.stream.whereType<SavedSuccessfully>().first;
 
       expect(analyticsBackend.loggedEvents, [
         {'homework_add': {}},
@@ -600,7 +600,7 @@ void main() {
 
       bloc.add(const TitleChanged('new title'));
       bloc.add(const Save());
-      await bloc.stream.whereType<SavedSucessfully>().first;
+      await bloc.stream.whereType<SavedSuccessfully>().first;
 
       expect(analyticsBackend.loggedEvents, [
         {'homework_edit': {}},
@@ -696,7 +696,7 @@ void main() {
         ),
       );
       expect(homeworkDialogApi.removedCloudFilesFromEditing, [attachment1]);
-      expect(bloc.state, const SavedSucessfully(isEditing: true));
+      expect(bloc.state, const SavedSuccessfully(isEditing: true));
     });
     test('Sucessfully displays and edits existing homework 2', () async {
       final homeworkId = HomeworkId('bar_homework_id');
@@ -768,7 +768,7 @@ void main() {
       );
       expect(homeworkDialogApi.removedCloudFilesFromEditing, []);
 
-      expect(bloc.state, const SavedSucessfully(isEditing: true));
+      expect(bloc.state, const SavedSuccessfully(isEditing: true));
     });
   });
 }
