@@ -183,6 +183,12 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
           case StartedUploadingAttachments():
             sendDataToFrankfurtSnackBar(context);
             break;
+          case RequiredFieldsNotFilledOut():
+            showSnackSec(
+              text: "Bitte fülle alle erforderlichen Felder aus!",
+              context: context,
+              seconds: 2,
+            );
           case SavingFailed(error: var error):
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showLeftRightAdaptiveDialog(

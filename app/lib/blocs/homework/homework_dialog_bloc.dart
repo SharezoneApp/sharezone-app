@@ -318,6 +318,14 @@ class StartedUploadingAttachments extends HomeworkDialogBlocPresentationEvent {
   List<Object?> get props => [];
 }
 
+/// Gets emitted if a user tries to save but necessary Input is not filled out.
+class RequiredFieldsNotFilledOut extends HomeworkDialogBlocPresentationEvent {
+  const RequiredFieldsNotFilledOut();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   const SavingFailed(this.error, this.stackTrace);
 
@@ -440,6 +448,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           hasInputErrors = true;
         }
         if (hasInputErrors) {
+          emitPresentation(const RequiredFieldsNotFilledOut());
           emit(_getNewState());
           return;
         }

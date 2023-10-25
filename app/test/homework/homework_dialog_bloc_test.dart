@@ -88,7 +88,7 @@ void main() {
       expect(state.title.error, null);
     });
     test(
-        'Shows error if title is set to blank when editing a homework and Save is called',
+        'Shows error and emits presentation event if title is set to blank when editing a homework and Save is called',
         () async {
       final homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
@@ -107,6 +107,7 @@ void main() {
       bloc.add(const TitleChanged(''));
       bloc.add(const Save());
 
+      expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
       Ready state = await bloc.stream
           .whereType<Ready>()
           .firstWhere((event) => event.title.error != null);
@@ -137,7 +138,7 @@ void main() {
       expect(state.title.error, null);
     });
     test(
-        'Shows error if course is not selected out when creating a new homework and Save is called',
+        'Shows error and emits presentation event if course is not selected out when creating a new homework and Save is called',
         () async {
       addCourse(courseWith(
         id: 'foo_course',
@@ -147,18 +148,20 @@ void main() {
 
       bloc.add(const Save());
 
+      expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
       Ready state = await bloc.stream.whereType<Ready>().first;
       final courseState = state.course as NoCourseChosen;
       expect(courseState.error, const NoCourseChosenException());
     });
     test(
-        'Shows error if due date is not selected when creating a new homework and Save is called',
+        'Shows error and emits presentation event if due date is not selected when creating a new homework and Save is called',
         () async {
       final bloc = createBlocForNewHomeworkDialog();
       assert(bloc.state is Ready);
 
       bloc.add(const Save());
 
+      expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
       Ready state = await bloc.stream.whereType<Ready>().first;
       expect(state.dueDate.error, const NoDueDateSelectedException());
     });
