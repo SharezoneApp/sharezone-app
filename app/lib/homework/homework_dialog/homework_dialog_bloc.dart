@@ -9,9 +9,11 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:date/weekday.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
@@ -372,6 +374,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   final Analytics analytics;
   final MarkdownAnalytics markdownAnalytics;
   final NextLessonCalculator nextLessonCalculator;
+  final Clock _clock;
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
@@ -402,8 +405,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextLessonCalculator,
     required this.analytics,
     required this.markdownAnalytics,
+    Clock? clock,
     HomeworkId? homeworkId,
-  }) : super(homeworkId != null
+  })  : _clock = clock ?? const Clock(),
+        super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
     isEditing = homeworkId != null;
@@ -574,6 +579,14 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
         if (nextLesson != null) {
           add(DueDateChanged(nextLesson));
+        } else {
+          final today = _clock.now().toDate();
+          final daysUntilNextSchoolday = switch (today.weekDayEnum) {
+            WeekDay.friday => 3, // Monday
+            WeekDay.saturday => 2, // Monday
+            _ => 1 // Tomorrow
+          };
+          add(DueDateChanged(today.addDays(daysUntilNextSchoolday)));
         }
       },
     );

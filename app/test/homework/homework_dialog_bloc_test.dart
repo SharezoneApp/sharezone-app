@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:analytics/analytics.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -21,7 +22,6 @@ import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:time/time.dart';
 
 import '../analytics/analytics_test.dart';
@@ -44,9 +44,10 @@ void main() {
       analytics = Analytics(analyticsBackend);
     });
 
-    HomeworkDialogBloc createBlocForNewHomeworkDialog() {
+    HomeworkDialogBloc createBlocForNewHomeworkDialog({Clock? clock}) {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
+        clock: clock,
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
@@ -68,6 +69,43 @@ void main() {
           .thenAnswer((_) => Stream.value([course]));
       homeworkDialogApi.addCourseForTesting(course);
     }
+
+    test('If no next lesson date is found the next weekday will be taken',
+        () async {
+      Future<void> testNextLessonDate(
+          String currentDate, String expectedLessonDate) async {
+        // The course does not have any lessons in the timetable, so we fallback
+        // to automatically using the next schoolday. We currently assume that
+        // all users have schooldays from Monday to Friday. We also don't take
+        // holidays into account.
+        nextLessonCalculator.dateToReturn = null;
+        final testClock = Clock.fixed(Date.parse(currentDate).toDateTime);
+        addCourse(courseWith(id: 'foo'));
+        final bloc = createBlocForNewHomeworkDialog(clock: testClock);
+
+        bloc.add(CourseChanged(CourseId('foo')));
+        await pumpEventQueue();
+
+        final state = bloc.state as Ready;
+        expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+      }
+
+      //                    | Current date  | Next lesson date |
+      //                          Friday        Monday
+      await testNextLessonDate('2023-10-06', '2023-10-09');
+      //                         Saturday       Monday
+      await testNextLessonDate('2023-10-07', '2023-10-09');
+      //                          Sunday        Monday
+      await testNextLessonDate('2023-10-08', '2023-10-09');
+      //                          Monday        Tuesday
+      await testNextLessonDate('2023-10-09', '2023-10-10');
+      //                          Tuesday      Wednesday
+      await testNextLessonDate('2023-10-10', '2023-10-11');
+      //                         Wednesday      Thursday
+      await testNextLessonDate('2023-10-11', '2023-10-12');
+      //                         Thursday       Friday
+      await testNextLessonDate('2023-10-12', '2023-10-13');
+    });
 
     test(
         'Shows error if title is not filled out when creating a new homework and Save is called',
@@ -211,30 +249,6 @@ void main() {
           .whereType<Ready>()
           .firstWhere((element) => element.dueDate.$1 != null);
       expect(state.dueDate.$1, nextLessonDate);
-    });
-    test(
-        'leaves due date as not selected if null is returned by $NextLessonCalculator',
-        () async {
-      final bloc = createBlocForNewHomeworkDialog();
-      addCourse(courseWith(
-        id: 'foo_course',
-      ));
-
-      bloc.add(CourseChanged(CourseId('foo_course')));
-
-      nextLessonCalculator.dateToReturn = null;
-      await bloc.stream
-          .whereType<Ready>()
-          .firstWhere((element) => element.course is CourseChosen);
-
-      // Make sure that we wait for the due date to be set (might be delayed,
-      // after the course is set and returned by the view)
-      await pumpEventQueue(times: 100);
-      await Future.delayed(Duration.zero);
-      await pumpEventQueue(times: 100);
-
-      final state = bloc.state as Ready;
-      expect(state.dueDate.$1, null);
     });
     test('Returns empty dialog when called for creating a new homework', () {
       final bloc = createBlocForNewHomeworkDialog();
