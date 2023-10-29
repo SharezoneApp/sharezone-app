@@ -112,20 +112,11 @@ jobs:
           USER_1_EMAIL_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL_DART_DEFINE_BASE64 }}
           USER_1_PASSWORD_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD_DART_DEFINE_BASE64 }}
         run: |
-          # Flutter build is required to generate files in android/ to build the
-          # gradle project.
-          #
-          # We are using the prod flavor because we were not able to set up
-          # Firebase Test Lab with the dev flavor. We always got "No tests
-          # found.".
-          flutter build apk \
-            --target=lib/main_prod.dart \
-            --flavor prod
-
-          ./gradlew app:assembleProdDebugAndroidTest
-          ./gradlew app:assembleProdDebug \
-            -Ptarget=integration_test/app_test.dart \
-            -Pdart-defines="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
+          patrol build android \
+          --flavor prod \
+          --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
+          --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
+          -t integration_test/app_test.dart
 
       - name: Setup credentials
         env:
