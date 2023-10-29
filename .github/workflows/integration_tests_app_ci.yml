@@ -100,17 +100,6 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Build Instrumentation Test
-        env:
-          # In gradlew, we can't just pass --dart-define as we do with "flutter
-          # test". We need to convert the key and the value into base64, like
-          # "USER_1_EMAIL=user@example.com" becomes to
-          # "VVNFUl8xX0VNQUlMPXVzZXJAZXhhbXBsZS5jb20=".
-          #
-          # The secrets already contain the base64 encoded values. We don't
-          # encode them in the workflow file, because we could easily leak the
-          # base64 encoded version in logs.
-          USER_1_EMAIL_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL_DART_DEFINE_BASE64 }}
-          USER_1_PASSWORD_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD_DART_DEFINE_BASE64 }}
         run: |
           patrol build android \
           --flavor prod \
