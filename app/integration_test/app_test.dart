@@ -10,36 +10,36 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
+import 'package:patrol/patrol.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_utils/platform.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  // late AppDependencies dependencies;
+  // late _UserCredentials user1;
 
-  late AppDependencies dependencies;
-  late _UserCredentials user1;
+  // setUpAll(() async {
+  //   dependencies = await initializeDependencies(flavor: Flavor.prod);
+  // });
 
-  setUpAll(() async {
-    dependencies = await initializeDependencies(flavor: Flavor.prod);
-  });
+  // setUp(() async {
+  //   // Credentials are passed via environment variables. See "README.md" how to
+  //   // pass the them correctly.
+  //   user1 = const _UserCredentials(
+  //     email: String.fromEnvironment('USER_1_EMAIL'),
+  //     password: String.fromEnvironment('USER_1_PASSWORD'),
+  //   );
 
-  setUp(() async {
-    // Credentials are passed via environment variables. See "README.md" how to
-    // pass the them correctly.
-    user1 = const _UserCredentials(
-      email: String.fromEnvironment('USER_1_EMAIL'),
-      password: String.fromEnvironment('USER_1_PASSWORD'),
-    );
+  //   // We should ensure that the user is logged out before running a test, to
+  //   // have fresh start.
+  //   await dependencies.blocDependencies.auth.signOut();
+  // });
 
-    // We should ensure that the user is logged out before running a test, to
-    // have fresh start.
-    await dependencies.blocDependencies.auth.signOut();
-  });
-
-  Future<void> pumpSharezoneApp(WidgetTester tester) async {
+  Future<void> pumpSharezoneApp(
+      WidgetTester tester, AppDependencies dependencies) async {
     await tester.pumpWidget(
       Sharezone(
         beitrittsversuche: dependencies.beitrittsversuche,
@@ -51,95 +51,95 @@ void main() {
     );
   }
 
-  group('Authentication', () {
-    testWidgets('User should be able to sign in', (tester) async {
-      await pumpSharezoneApp(tester);
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+  patrolTest('sharezone e2e test',
+      nativeAutomation: true,
+      nativeAutomatorConfig: const NativeAutomatorConfig(
+        packageName: 'de.codingbrain.sharezone',
+        bundleId: 'de.codingbrain.sharezone.app',
+      ), ($) async {
+    final dependencies = await initializeDependencies(flavor: Flavor.prod);
 
-      // On web and desktop we don't show the welcome page, therefore we don't
-      // need to navigate to the login page.
-      if (!PlatformCheck.isDesktopOrWeb) {
-        await tester.tap(find.byKey(const Key('go-to-login-button-E2E')));
-        await tester.pumpAndSettle();
-      }
+    const user1 = _UserCredentials(
+      email: String.fromEnvironment('USER_1_EMAIL'),
+      password: String.fromEnvironment('USER_1_PASSWORD'),
+      // email: 'e2e-test1@sharezone.net',
+      // password: '^R#jH9np',
+    );
 
-      await tester.enterText(
-        find.byKey(const Key('email-text-field-E2E')),
-        user1.email,
-      );
-      await tester.enterText(
-        find.byKey(const Key('password-text-field-E2E')),
-        user1.password,
-      );
+    await $.pumpWidgetAndSettle(Sharezone(
+      beitrittsversuche: dependencies.beitrittsversuche,
+      blocDependencies: dependencies.blocDependencies,
+      dynamicLinkBloc: dependencies.dynamicLinkBloc,
+      flavor: Flavor.dev,
+      isIntegrationTest: true,
+    ));
 
-      await tester.tap(find.byKey(const Key('login-button-E2E')));
-      await tester.pumpAndSettle();
+    // On web and desktop we don't show the welcome page, therefore we don't
+    // need to navigate to the login page.
+    if (!PlatformCheck.isDesktopOrWeb) {
+      await $(K.goToLoginButton).tap();
+    }
 
-      // Ensure that the user document is loaded. Otherwise, the user might see
-      // for short a moment the page to select the type of user which could fail
-      // the test.
-      await tester
-          .pumpUntil(find.byKey(const Key('dashboard-appbar-title-E2E')));
+    await $(K.emailTextField).enterText(user1.email);
+    await $(K.passwordTextField).enterText(user1.password);
+    await $(K.loginButton).tap();
 
-      expect(
-        find.byKey(const Key('dashboard-appbar-title-E2E')),
-        findsOneWidget,
-      );
+    // Ensure that the user document is loaded. Otherwise, the user might see
+    // for short a moment the page to select the type of user which could fail
+    // the test.
+    await $(K.dashboardAppBarTitle).waitUntilExists();
+    expect($(K.dashboardAppBarTitle), findsOneWidget);
 
-      // At the moment, we can't log out properly / use the navigation when
-      // signing in again. This blocks to write more integration tests. As a
-      // workaround, we put all integration test into one test.
-      //
-      // We can remove this workaround, when the following issue are resolved:
-      // * https://github.com/SharezoneApp/sharezone-app/issues/497
-      // * https://github.com/SharezoneApp/sharezone-app/issues/117
+    // At the moment, we can't log out properly / use the navigation when
+    // signing in again. This blocks to write more integration tests. As a
+    // workaround, we put all integration test into one test.
+    //
+    // We can remove this workaround, when the following issue are resolved:
+    // * https://github.com/SharezoneApp/sharezone-app/issues/497
+    // * https://github.com/SharezoneApp/sharezone-app/issues/117
 
-      log("Test: User should be able to load groups");
-      await tester.tap(find.byKey(const Key('nav-item-group-E2E')));
-      await tester.pumpAndSettle();
+    log("Test: User should be able to load groups");
+    await $(K.groupsNavigationItem).tap();
 
-      // Ensure that the group list is loaded. When the school class is loaded,
-      // we assume that the courses list is loaded as well.
-      await tester.pumpUntil(find.text('Meine Klasse:'));
+    // Ensure that the group list is loaded. When the school class is loaded,
+    // we assume that the courses list is loaded as well.
+    // await $('Meine Klasse:').waitUntilVisible();
+    // await $('Meine Klasse:').waitUntilExists();
 
-      // We assume that the user is in at least 5 groups with the following
-      // group names.
-      expect(find.text('10A'), findsOneWidget);
-      expect(find.text('Deutsch LK'), findsOneWidget);
-      expect(find.text('Englisch LK'), findsOneWidget);
-      expect(find.text('Französisch LK'), findsOneWidget);
-      expect(find.text('Latein LK'), findsOneWidget);
-      expect(find.text('Spanisch LK'), findsOneWidget);
+    // We assume that the user is in at least 5 groups with the following
+    // group names.
+    expect($('10A'), findsOneWidget);
+    expect($('Deutsch LK'), findsOneWidget);
+    expect($('Englisch LK'), findsOneWidget);
+    expect($('Französisch LK'), findsOneWidget);
+    expect($('Latein LK'), findsOneWidget);
+    expect($('Spanisch LK'), findsOneWidget);
 
-      log("Test: User should be able to load timetable");
-      await tester.tap(find.byKey(const Key('nav-item-timetable-E2E')));
-      await tester.pumpAndSettle();
+    log("Test: User should be able to load timetable");
+    await $(K.timetableNavigationItem).tap();
 
-      // Ensure that the timetable is loaded. We assume that the timetable is
-      // loaded when we found one of the courses.
-      await tester.pumpUntil(find.text('Deutsch LK'));
+    // Ensure that the timetable is loaded. We assume that the timetable is
+    // loaded when we found one of the courses.
+    // await $('Deutsch LK').waitUntilVisible();
+    await $('Deutsch LK').waitUntilExists();
 
-      // We assume that we can load the timetable when we found x-times the name
-      // of the course (the name of the course is included a lesson).
-      expect(find.text('Deutsch LK'), findsNWidgets(6));
-      expect(find.text('Englisch LK'), findsNWidgets(2));
-      expect(find.text('Französisch LK'), findsNWidgets(4));
-      expect(find.text('Latein LK'), findsNWidgets(4));
-      expect(find.text('Spanisch LK'), findsNWidgets(4));
+    // We assume that we can load the timetable when we found x-times the name
+    // of the course (the name of the course is included a lesson).
+    expect($('Deutsch LK'), findsNWidgets(6));
+    expect($('Englisch LK'), findsNWidgets(2));
+    expect($('Französisch LK'), findsNWidgets(4));
+    expect($('Latein LK'), findsNWidgets(4));
+    expect($('Spanisch LK'), findsNWidgets(4));
 
-      log("Test: User should be able to load information sheets");
-      await tester.tap(find.byKey(const Key('nav-item-blackboard-E2E')));
-      await tester.pumpAndSettle();
+    log("Test: User should be able to load information sheets");
+    $(K.blackboardNavigationItem).tap();
 
-      // We a searching for an information sheet that is already created.
-      const informationSheetTitel = 'German Course Trip to Berlin';
-      await tester.pumpUntil(find.text(informationSheetTitel));
-      expect(find.text(informationSheetTitel), findsOneWidget);
-
-      // We don't check the text of the information sheet for now because the
-      // `find.text()` can't find text `MarkdownBody` which it a bit more
-      // complex.
-    });
+    // We a searching for an information sheet that is already created.
+    const informationSheetTitel = 'German Course Trip to Berlin';
+    // TODO: Is this line still needed?
+    // await $(informationSheetTitel).waitUntilVisible();
+    await $(informationSheetTitel).waitUntilExists();
+    expect($(informationSheetTitel), findsOneWidget);
   });
 }
 
