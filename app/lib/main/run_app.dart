@@ -109,14 +109,18 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
-  // From:
-  // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
-  FlutterError.onError =
-      pluginInitializations.crashAnalytics.recordFlutterError;
-  PlatformDispatcher.instance.onError = (error, stack) {
-    pluginInitializations.crashAnalytics.recordError(error, stack);
-    return true;
-  };
+  // `package:patrol` (e2e/integration tests) breaks when overriding onError, so
+  // we disable the override if we are running these tests.
+  if (!isIntegrationTest) {
+    // From:
+    // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
+    FlutterError.onError =
+        pluginInitializations.crashAnalytics.recordFlutterError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      pluginInitializations.crashAnalytics.recordError(error, stack);
+      return true;
+    };
+  }
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 

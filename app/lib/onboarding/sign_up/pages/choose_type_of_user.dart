@@ -42,7 +42,8 @@ class ChooseTypeOfUser extends StatelessWidget {
                           if (withLogin) ...[
                             const Divider(height: 46),
                             const _LoginButton(
-                                key: ValueKey('go-to-login-button-E2E')),
+                              key: K.goToLoginButton,
+                            ),
                           ]
                         ],
                       ),

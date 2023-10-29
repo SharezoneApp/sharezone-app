@@ -182,6 +182,13 @@ dev_dependencies:
   path: ^1.8.3
   patrol: ^2.3.1
 
+patrol:
+  app_name: Sharezone App
+  android:
+    package_name: de.codingbrain.sharezone
+  ios:
+    bundle_id: de.codingbrain.sharezone
+
 flutter:
   uses-material-design: true
 

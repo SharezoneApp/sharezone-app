@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/auth/login_page.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -186,7 +187,7 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BaseButton(
-      key: const Key('go-to-login-button-E2E'),
+      key: K.goToLoginButton,
       text: const Column(
         children: [
           Text(
