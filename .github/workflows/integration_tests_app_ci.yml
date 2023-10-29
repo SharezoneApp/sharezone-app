@@ -98,7 +98,9 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
-
+      
+      - run: flutter pub get
+      
       - name: Install patrol cli
         run: flutter pub global activate patrol_cli ^2.2.1
 
