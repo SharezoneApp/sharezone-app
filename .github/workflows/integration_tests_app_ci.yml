@@ -79,7 +79,7 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     defaults:
       run:
-        working-directory: app/android
+        working-directory: app
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
@@ -135,8 +135,8 @@ jobs:
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --app ../build/app/outputs/apk/prod/debug/app-prod-debug.apk \
-            --test ../build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
+            --app build/app/outputs/apk/prod/debug/app-prod-debug.apk \
+            --test build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
             --timeout 3m
 
