@@ -79,7 +79,7 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     defaults:
       run:
-        working-directory: app
+        working-directory: app/android
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
@@ -101,6 +101,18 @@ jobs:
 
       - name: Install patrol cli
         run: flutter pub global activate patrol_cli ^2.2.1
+      
+      - name: Run Flutter build
+        run: |
+          # Flutter build is required to generate files in android/ to build the
+          # gradle project.
+          #
+          # We are using the prod flavor because we were not able to set up
+          # Firebase Test Lab with the dev flavor. We always got "No tests
+          # found.".
+          flutter build apk \
+            --target=lib/main_prod.dart \
+            --flavor prod
 
       - name: Build Instrumentation Test
         run: |
