@@ -149,6 +149,7 @@ jobs:
           gcloud firebase test android run \
             --type instrumentation \
             --use-orchestrator \
+            --environment-variables clearPackageData=true \
             --app build/app/outputs/apk/prod/debug/app-prod-debug.apk \
             --test build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
