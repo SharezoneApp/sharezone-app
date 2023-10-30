@@ -148,12 +148,12 @@ jobs:
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --use-orchestrator \
-            --environment-variables clearPackageData=true \
             --app build/app/outputs/apk/prod/debug/app-prod-debug.apk \
             --test build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
-            --timeout 3m
+            --timeout 3m \
+            --use-orchestrator \
+            --environment-variables clearPackageData=true
 
       # It can easily happen that a dependency changed but the .lock file is not
       # updated. Or other cases where files are changed during a build.
