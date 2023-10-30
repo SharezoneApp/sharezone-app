@@ -57,6 +57,8 @@ void main() {
       await login($);
       await $(K.groupsNavigationItem).tap();
 
+      await $('Meine Klasse:').waitUntilExists();
+
       // We assume that the user is in at least 5 groups with the following
       // group names.
       expect($('10A'), findsOneWidget);
@@ -71,6 +73,7 @@ void main() {
       await login($);
       await $(K.timetableNavigationItem).tap();
 
+      await $('Deutsch LK').waitUntilExists();
       // We assume that we can load the timetable when we found x-times the name
       // of the course (the name of the course is included a lesson).
       expect($('Deutsch LK'), findsNWidgets(6));
@@ -83,6 +86,8 @@ void main() {
         nativeAutomation: true, ($) async {
       await login($);
       await $(K.blackboardNavigationItem).tap();
+
+      await $('German Course Trip to Berlin').waitUntilExists();
 
       // We a searching for an information sheet that is already created.
       expect($('German Course Trip to Berlin'), findsOneWidget);
