@@ -111,8 +111,9 @@ jobs:
           # Firebase Test Lab with the dev flavor. We always got "No tests
           # found.".
           flutter build apk \
-            --target=lib/main_prod.dart \
-            --flavor prod
+          --target=lib/main_prod.dart \
+          --flavor prod \
+          --config-only
 
       - name: Build Instrumentation Test
         run: |
