@@ -79,7 +79,7 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     defaults:
       run:
-        working-directory: app/android
+        working-directory: app
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
