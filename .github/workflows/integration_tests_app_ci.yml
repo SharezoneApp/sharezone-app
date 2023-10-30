@@ -120,7 +120,8 @@ jobs:
           # found.".
           flutter build apk \
             --target=lib/main_prod.dart \
-            --flavor prod
+            --flavor prod \
+            --config-only
 
           ./gradlew app:assembleProdDebugAndroidTest
           ./gradlew app:assembleProdDebug \
