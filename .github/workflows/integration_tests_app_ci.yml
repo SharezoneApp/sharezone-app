@@ -101,7 +101,7 @@ jobs:
 
       - name: Install patrol cli
         run: flutter pub global activate patrol_cli ^2.2.1
-      
+
       - name: Run Flutter build
         run: |
           # Flutter build is required to generate files in android/ to build the
