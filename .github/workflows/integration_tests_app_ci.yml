@@ -271,7 +271,7 @@ jobs:
           chromedriver --port=4444 &
           fvm flutter drive \
             --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
+            --target=integration_test/web_integration_test_old.dart \
             --flavor dev \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
