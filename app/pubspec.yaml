@@ -187,7 +187,7 @@ patrol:
   android:
     package_name: de.codingbrain.sharezone
   ios:
-    bundle_id: de.codingbrain.sharezone
+    bundle_id: de.codingbrain.sharezone.app
 
 flutter:
   uses-material-design: true
