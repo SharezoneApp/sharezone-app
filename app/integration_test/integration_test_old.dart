@@ -16,7 +16,7 @@ import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_utils/platform.dart';
 
-/// These are old integration tests that we keep for testing the web app.
+/// Old integration tests that we keep for testing the web and iOS app.
 ///
 /// We usually use `package:patrol` for our integration tests, but as `patrol`
 /// doesn't reliably currently work on the web, we keep the old integration
