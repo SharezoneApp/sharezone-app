@@ -2,7 +2,10 @@
 
 Unit tests and widget tests are handy for testing individual classes, functions, or widgets. However, they generally don’t test how individual pieces work together as a whole, or capture the performance of an application running on a real device. These tasks are performed with integration tests.
 
-Integration tests are written using the [patrol ](https://pub.dev/packages/patrol) package.
+Integration tests for Android are written using the [patrol ](https://pub.dev/packages/patrol) package.
+
+Integration tests for all other platforms are written using the [integration_test](https://github.com/flutter/flutter/tree/master/packages/integration_test) package, provided by the SDK.
+
 
 ## How to run integration tests
 
@@ -31,7 +34,7 @@ following data:
 
 ### Mobile
 
-You can run the integration tests using the [`patrol_cli`](https://pub.dev/packages/patrol_cli) command:
+You can run the Android integration tests using the [`patrol_cli`](https://pub.dev/packages/patrol_cli) command:
 
 ```sh
 patrol test \
@@ -39,6 +42,18 @@ patrol test \
   --dart-define USER_1_EMAIL="EMAIL" \
   --dart-define USER_1_PASSWORD="PASSWORD" \
   -t integration_test/app_test.dart
+```
+
+You can run the integration tests for the other platforms using the [`patrol_cli`](https://pub.dev/packages/patrol_cli) command:
+
+```sh
+fvm flutter test \
+  integration_test \
+  --flavor dev \
+  --dart-define \
+  USER_1_EMAIL="YOUR@EMAIL.COM" \
+  --dart-define \
+  USER_1_PASSWORD="YOUR_PASSWORD"
 ```
 
 ### Android Device Testing

@@ -16,15 +16,11 @@ import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_utils/platform.dart';
 
-/// Old integration tests that we keep for testing the web and iOS app.
+/// Old integration tests that we keep for testing non-Android platforms.
 ///
-/// We usually use `package:patrol` for our integration tests, but as `patrol`
-/// doesn't reliably currently work on the web, we keep the old integration
-/// tests for now and run them to test the web app.
-///
-/// Note that our integration tests using `package:patrol` SHOULD work on the
-/// web, as long as we don't use `$.native` features.
-/// Link to the issue: https://github.com/leancodepl/patrol/issues/733
+/// We usually use `package:patrol` for our integration tests, but it we
+/// couldn't set it up for iOS and web so far. Therefore, we use the old tests
+/// as a fallback to at least have some integration tests for these platforms.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
