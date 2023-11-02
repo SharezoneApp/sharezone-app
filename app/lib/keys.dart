@@ -8,6 +8,7 @@
 
 import 'package:flutter/foundation.dart';
 
+/// Widget keys, used for integration tests.
 class K {
   static const goToLoginButton = Key('go-to-login-button-E2E');
   static const emailTextField = Key('email-text-field-E2E');
