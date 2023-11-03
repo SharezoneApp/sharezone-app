@@ -8,6 +8,7 @@
 
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:sharezone_common/helper_functions.dart';
 import 'package:sharezone_utils/random_string.dart';
@@ -15,6 +16,7 @@ import 'package:sharezone_utils/random_string.dart';
 class Folder {
   final String id;
   final String? name;
+  final DateTime? createdOn;
 
   final String? creatorName;
   final String? creatorID;
@@ -25,6 +27,7 @@ class Folder {
   const Folder._({
     required this.id,
     required this.name,
+    required this.createdOn,
     required this.folders,
     required this.creatorID,
     required this.creatorName,
@@ -45,6 +48,7 @@ class Folder {
       creatorID: creatorID,
       creatorName: creatorName,
       folderType: folderType,
+      createdOn: null,
     );
   }
 
@@ -60,6 +64,7 @@ class Folder {
     return Folder._(
       id: id,
       name: data['name'],
+      createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       folders: mFolders ?? {},
       creatorID: data['creatorID'],
       creatorName: data['creatorName'] == ""
@@ -80,6 +85,10 @@ class Folder {
       'folderType': folderType.name,
       'creatorID': creatorID,
       'creatorName': creatorName,
+      if (createdOn == null)
+        'createdOn': FieldValue.serverTimestamp()
+      else
+        'createdOn': Timestamp.fromDate(createdOn!)
     };
   }
 
@@ -89,6 +98,7 @@ class Folder {
     String? creatorID,
     String? creatorName,
     FolderType? folderType,
+    DateTime? createdOn,
   }) {
     return Folder._(
       id: id,
@@ -97,6 +107,7 @@ class Folder {
       creatorID: creatorID ?? this.creatorID,
       creatorName: creatorName ?? this.creatorName,
       folderType: folderType ?? this.folderType,
+      createdOn: createdOn ?? this.createdOn,
     );
   }
 
