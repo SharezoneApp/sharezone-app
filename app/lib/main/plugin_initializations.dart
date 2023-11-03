@@ -83,10 +83,12 @@ class PluginInitializations {
     });
 
     try {
-      if (flavor == Flavor.dev) {
-        // Since we depend on some values from our Remote Config in the dev
-        // environment, we can't use the "Load new values for next startup"
-        // strategy.
+      // Since the web is never really restarted in the web, we need to fetch
+      // the remote configuration right away.
+      //
+      // We depend on some values from our Remote Config in the dev environment,
+      // so we can't use the "Load new values for next startup" strategy.
+      if (PlatformCheck.isWeb || flavor == Flavor.dev) {
         await remoteConfiguration.fetch();
         await remoteConfiguration.activate();
       } else {
