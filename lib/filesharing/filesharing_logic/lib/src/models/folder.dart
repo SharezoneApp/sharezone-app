@@ -127,7 +127,7 @@ class Folder {
           fileSharingData: fileSharingData,
           folderName: folderName,
           folderPath: folderPath,
-          attempt: attempt++);
+          attempt: attempt + 1);
     } else {
       return nameID;
     }
