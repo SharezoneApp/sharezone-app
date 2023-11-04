@@ -34,6 +34,8 @@ class CloudFile {
   final int? sizeBytes;
   final FileFormat fileFormat;
 
+  final bool isPrivate;
+
   /// Aufgrund der Security-Rules müssen die UIs in dem CloudFile-Dokument
   /// stehen. Da für die Anhänge bereits array_contains in der Query
   /// verwendet wird, kann nicht ein zweites array_contains benutzt
@@ -57,6 +59,7 @@ class CloudFile {
     required this.sizeBytes,
     required this.fileFormat,
     required this.forUsers,
+    required this.isPrivate,
   });
 
   factory CloudFile.create({
@@ -64,6 +67,7 @@ class CloudFile {
     required String creatorID,
     required String creatorName,
     required String courseID,
+    bool isPrivate = false,
     FolderPath path = FolderPath.root,
   }) {
     return CloudFile._(
@@ -82,6 +86,7 @@ class CloudFile {
       sizeBytes: null,
       fileFormat: FileFormat.unknown,
       forUsers: {},
+      isPrivate: isPrivate,
     );
   }
 
@@ -108,6 +113,7 @@ class CloudFile {
       // und somit direkt die Files-Dokumente geladen werden können (ohne auf die CF zu
       // warten).
       forUsers: {},
+      isPrivate: data['private'] ?? false,
     );
   }
 
@@ -129,6 +135,7 @@ class CloudFile {
       'sizeBytes': sizeBytes,
       'fileType': fileTypeEnumToString(fileFormat),
       'forUsers': forUsers,
+      'private': isPrivate,
     };
   }
 
@@ -148,6 +155,7 @@ class CloudFile {
     int? sizeBytes,
     FileFormat? fileFormat,
     Map<String, bool>? forUsers,
+    bool? isPrivate,
   }) {
     return CloudFile._(
       id: id ?? this.id,
@@ -165,6 +173,7 @@ class CloudFile {
       sizeBytes: sizeBytes ?? this.sizeBytes,
       fileFormat: fileFormat ?? this.fileFormat,
       forUsers: forUsers ?? this.forUsers,
+      isPrivate: isPrivate ?? this.isPrivate,
     );
   }
 

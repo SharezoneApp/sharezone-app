@@ -28,6 +28,7 @@ class FirebaseFileUploader {
     required String creatorID,
     required String creatorName,
     FolderPath path = FolderPath.root,
+    bool isPrivate = false,
   }) async {
     return implementation.uploadFile(
       localFile: localFile,
@@ -35,6 +36,7 @@ class FirebaseFileUploader {
       path: path,
       creatorID: creatorID,
       creatorName: creatorName,
+      isPrivate: isPrivate,
     );
   }
 }

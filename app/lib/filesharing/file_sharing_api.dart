@@ -55,8 +55,9 @@ class FileSharingGateway {
     IList<LocalFile> localFiles,
     String courseID,
     String authorID,
-    String authorName,
-  ) async {
+    String authorName, {
+    bool isPrivate = false,
+  }) async {
     final attachments = <String>[];
     final hasAttachments = localFiles.isNotEmpty;
     if (hasAttachments) {
@@ -67,6 +68,7 @@ class FileSharingGateway {
           creatorName: authorName,
           localFile: localFile,
           path: FolderPath.attachments,
+          isPrivate: isPrivate,
         );
 
         final snapshot = await uploadTask.onComplete;

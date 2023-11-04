@@ -70,6 +70,7 @@ Future<void> showCloudFileSheet({
       icon: FileIcon(fileFormat: cloudFile.fileFormat),
       creatorName: cloudFile.creatorName,
       sizeBytes: cloudFile.sizeBytes,
+      isPrivate: cloudFile.isPrivate,
       items: CloudFileActionsColumn(
         hasPermissionToEdit: hasPermissionToEdit,
         onSelectCloudFileAction: (context, sheetOption) =>
@@ -95,6 +96,7 @@ class FileSheet extends StatelessWidget {
     this.fileType,
     this.icon,
     this.sizeBytes,
+    this.isPrivate,
   }) : super(key: key);
 
   final String? name;
@@ -103,6 +105,7 @@ class FileSheet extends StatelessWidget {
   final FileFormat? fileType;
   final Widget? icon;
   final int? sizeBytes;
+  final bool? isPrivate;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +150,9 @@ class FileSheet extends StatelessWidget {
                             "Ersteller: $creatorName",
                             style: greyTextStyle,
                           ),
+                          if (isPrivate == true)
+                            Text('Privat (nur für dich sichtbar)',
+                                style: greyTextStyle),
                           sizeBytes != null
                               ? Text(
                                   "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
