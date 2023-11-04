@@ -73,7 +73,6 @@ class FirebaseFileUploader extends FileUploader {
     final metadata = fb.SettableMetadata(
       contentDisposition: getContentDispositionString(cloudFile.name),
       contentType: file.getType()!.toData(),
-      // TODO: Add private attribute here?
       customMetadata: Map.from(cloudFile.toMetaData().toJson()),
     );
 
