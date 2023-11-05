@@ -64,11 +64,11 @@ jobs:
       - name: Check licenses in app
         run: |
           cd app
-          fvm pub get
+          fvm flutter pub get
           lic_ck check-licenses --config ../licenses_config.yaml --problematic
 
       - name: Check licenses in sz cli
         run: |
           cd tools/sz_repo_cli
-          fvm pub get
+          fvm dart pub get
           lic_ck check-licenses --config ../../licenses_config.yaml --problematic
