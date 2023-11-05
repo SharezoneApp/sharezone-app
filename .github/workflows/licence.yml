@@ -53,6 +53,12 @@ jobs:
           # '.../flutter' as the FVM Flutter version cache folder.
           cache-path: "${{ runner.tool_cache }}/flutter/:version:"
 
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
       - name: Activate license_checker
         run: fvm dart pub global activate license_checker 1.6.0
 
