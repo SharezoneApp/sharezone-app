@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.dart';
+import 'package:sharezone/widgets/list_with_bottom_threshold.dart';
 
 void main() {
   group('ListWithBottomThreshold', () {

@@ -13,7 +13,7 @@ import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_period.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';

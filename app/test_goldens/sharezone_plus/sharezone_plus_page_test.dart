@@ -16,7 +16,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';

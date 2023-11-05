@@ -12,7 +12,7 @@ import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:holidays/holidays.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';

@@ -17,8 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:sharezone/blocs/homework/homework_dialog_bloc.dart';
-import 'package:sharezone/pages/homework/homework_dialog.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 

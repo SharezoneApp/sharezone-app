@@ -12,14 +12,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
-import 'package:sharezone/pages/homework/homework_details/homework_details.dart';
-import 'package:sharezone/pages/homework/homework_details/homework_details_view_factory.dart';
-import 'package:sharezone/pages/homework/homework_details/submissions/homework_create_submission_page.dart';
+import 'package:sharezone/homework/homework_details/homework_details.dart';
+import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
+import 'package:sharezone/submissions/homework_create_submission_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/widgets/homework/homework_card.dart';
-import 'package:sharezone/widgets/homework/homework_tile_template.dart';
+import 'package:sharezone/homework/shared/homework_card.dart';
+import 'package:sharezone/homework/shared/homework_tile_template.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum HomeworkStatus { open, completed }

@@ -12,7 +12,7 @@ import 'package:files_usecases/file_saver.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';

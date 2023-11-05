@@ -14,7 +14,7 @@ import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
-import 'package:sharezone/widgets/homework/delete_homework.dart';
+import 'package:sharezone/homework/shared/delete_homework.dart';
 
 class BlackboardGateway {
   final String uID;

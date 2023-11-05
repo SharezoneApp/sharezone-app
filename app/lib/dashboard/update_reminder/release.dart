@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/pages/settings/changelog/change.dart';
+import 'package:sharezone/changelog/change.dart';
 
 class Release {
   final Version version;

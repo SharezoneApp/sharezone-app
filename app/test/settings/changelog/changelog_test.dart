@@ -9,11 +9,11 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/pages/settings/changelog/change.dart';
-import 'package:sharezone/pages/settings/changelog/change_database_model.dart';
-import 'package:sharezone/pages/settings/changelog/changelog_bloc.dart';
-import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
-import 'package:sharezone/pages/settings/changelog/changelog_page_view.dart';
+import 'package:sharezone/changelog/change.dart';
+import 'package:sharezone/changelog/change_database_model.dart';
+import 'package:sharezone/changelog/changelog_bloc.dart';
+import 'package:sharezone/changelog/changelog_gateway.dart';
+import 'package:sharezone/changelog/changelog_page_view.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
 void main() {

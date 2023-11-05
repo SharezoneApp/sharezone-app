@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/file_sharing/file_sharing_page_bloc.dart';
+import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';

@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/comments/comment_view.dart';
 import 'package:sharezone/comments/comments_bloc.dart';
 import 'package:sharezone/comments/comments_bloc_factory.dart';

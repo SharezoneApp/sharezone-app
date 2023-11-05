@@ -17,7 +17,7 @@ import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_dialog_bloc.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';

@@ -105,6 +105,12 @@ class Date {
   }
 }
 
+extension DateTimeToDate on DateTime {
+  Date toDate() {
+    return Date.fromDateTime(this);
+  }
+}
+
 class DateParser {
   final Date _date;
 

@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:notifications/notifications.dart';
-import 'package:sharezone/pages/homework/homework_details/homework_details.dart';
+import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
 ActionRegistration<ShowHomeworkRequest> showHomeworkRegistrationWith(

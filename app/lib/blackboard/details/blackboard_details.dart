@@ -15,7 +15,7 @@ import 'package:sharezone/blackboard/blackboard_dialog.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_page.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
