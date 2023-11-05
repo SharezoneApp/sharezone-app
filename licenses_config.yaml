@@ -6,6 +6,13 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
+# This file is used to check that we only use dependencies with 
+# licenses that we are allowed to use / that we want to use.
+# It is used by the Dart `license_checker` package.
+# 
+# Run in `app` to show if some dependency are not allowed:
+# fvm dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
+
 permittedLicenses:
   - MIT
   - BSD-3-Clause
