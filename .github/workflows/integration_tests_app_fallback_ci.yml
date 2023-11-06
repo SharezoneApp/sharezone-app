@@ -41,4 +41,4 @@ jobs:
   macos-build-test:
     runs-on: ubuntu-latest
     steps:
-      - run: 'echo "No web-preview required"'
+      - run: 'echo "macos-build-test required"'
