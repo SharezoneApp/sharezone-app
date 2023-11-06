@@ -192,6 +192,7 @@ CloudFile randomAttachmentCloudFileWith(
               'Random Assignment Creator Name ${randomAlphaNumeric(5)}',
           courseID: courseId,
           creatorID: 'random_file_creator_id_${randomAlphaNumeric(5)}',
+          isPrivate: randomBool(),
           path:
               FolderPath.fromPathString('/$courseId/${FolderPath.attachments}'))
       .copyWith(name: name, fileFormat: fileType);

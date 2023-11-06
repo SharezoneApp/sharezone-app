@@ -795,7 +795,8 @@ class HomeworkDialogApi {
     final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, courseId.id, authorReference.id, authorName);
+        localFiles, courseId.id, authorReference.id, authorName,
+        isPrivate: userInput.private);
 
     final homework = HomeworkDto.create(
             courseReference: _api.references.getCourseReference(course.id),
@@ -855,6 +856,7 @@ class HomeworkDialogApi {
       oldHomework.courseReference!.id,
       editorID,
       editorName,
+      isPrivate: userInput.private,
     );
     attachments.addAll(newAttachments);
 
