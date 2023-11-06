@@ -79,7 +79,7 @@ jobs:
     # (~5% of the time) build takes longer and then is a long timeout needed.
     defaults:
       run:
-        working-directory: app/android
+        working-directory: app
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
@@ -99,18 +99,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
-      - name: Build Instrumentation Test
-        env:
-          # In gradlew, we can't just pass --dart-define as we do with "flutter
-          # test". We need to convert the key and the value into base64, like
-          # "USER_1_EMAIL=user@example.com" becomes to
-          # "VVNFUl8xX0VNQUlMPXVzZXJAZXhhbXBsZS5jb20=".
-          #
-          # The secrets already contain the base64 encoded values. We don't
-          # encode them in the workflow file, because we could easily leak the
-          # base64 encoded version in logs.
-          USER_1_EMAIL_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL_DART_DEFINE_BASE64 }}
-          USER_1_PASSWORD_BASE64: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD_DART_DEFINE_BASE64 }}
+      - name: Install patrol cli
+        run: flutter pub global activate patrol_cli ^2.2.1
+
+      - name: Run Flutter build
         run: |
           # Flutter build is required to generate files in android/ to build the
           # gradle project.
@@ -119,14 +111,17 @@ jobs:
           # Firebase Test Lab with the dev flavor. We always got "No tests
           # found.".
           flutter build apk \
-            --target=lib/main_prod.dart \
-            --flavor prod \
-            --config-only
+          --target=lib/main_prod.dart \
+          --flavor prod \
+          --config-only
 
-          ./gradlew app:assembleProdDebugAndroidTest
-          ./gradlew app:assembleProdDebug \
-            -Ptarget=integration_test/app_test.dart \
-            -Pdart-defines="$USER_1_EMAIL_BASE64,$USER_1_PASSWORD_BASE64"
+      - name: Build Instrumentation Test
+        run: |
+          patrol build android \
+          --flavor prod \
+          --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
+          --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
+          -t integration_test/app_test.dart
 
       - name: Setup credentials
         env:
@@ -153,10 +148,12 @@ jobs:
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --app ../build/app/outputs/apk/prod/debug/app-prod-debug.apk \
-            --test ../build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
+            --app build/app/outputs/apk/prod/debug/app-prod-debug.apk \
+            --test build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
             --device model=Pixel2,version=30,locale=en,orientation=portrait \
-            --timeout 3m
+            --timeout 10m \
+            --use-orchestrator \
+            --environment-variables clearPackageData=true
 
       # It can easily happen that a dependency changed but the .lock file is not
       # updated. Or other cases where files are changed during a build.
@@ -229,7 +226,7 @@ jobs:
           # https://github.com/flutter/flutter/issues/88690
           fvm flutter drive \
             --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
+            --target=integration_test/integration_test_old.dart \
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
@@ -274,7 +271,7 @@ jobs:
           chromedriver --port=4444 &
           fvm flutter drive \
             --driver=test_driver/integration_test.dart \
-            --target=integration_test/app_test.dart \
+            --target=integration_test/integration_test_old.dart \
             --flavor dev \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \

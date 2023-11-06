@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 
 class AppBarConfiguration {
@@ -58,7 +59,7 @@ class _AppBarTitle extends StatelessWidget {
       NavigationItem.overview.getName(),
       style:
           Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
-      key: const ValueKey('dashboard-appbar-title-E2E'),
+      key: K.dashboardAppBarTitle,
     );
   }
 }

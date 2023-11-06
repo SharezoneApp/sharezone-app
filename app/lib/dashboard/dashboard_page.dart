@@ -19,6 +19,7 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
@@ -166,7 +167,7 @@ class _AppBarTitle extends StatelessWidget {
       NavigationItem.overview.getName(),
       style:
           Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
-      key: const ValueKey('dashboard-appbar-title-E2E'),
+      key: K.dashboardAppBarTitle,
     );
   }
 }

@@ -181,6 +181,14 @@ dev_dependencies:
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3
+  patrol: ^2.3.1
+
+patrol:
+  app_name: Sharezone App
+  android:
+    package_name: de.codingbrain.sharezone
+  ios:
+    bundle_id: de.codingbrain.sharezone.app
 
 flutter:
   uses-material-design: true
