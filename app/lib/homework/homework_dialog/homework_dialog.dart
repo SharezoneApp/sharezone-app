@@ -17,6 +17,7 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
 import 'package:sharezone/main/application_bloc.dart';
@@ -331,21 +332,146 @@ class _TodoUntilPicker extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: DefaultTextStyle.merge(
-          style: TextStyle(
-            color: state.dueDate.error != null ? Colors.red : null,
-          ),
-          child: DatePicker(
-            key: HwDialogKeys.todoUntilTile,
-            padding: const EdgeInsets.all(12),
-            selectedDate: state.dueDate.$1?.toDateTime,
-            selectDate: (newDate) {
-              bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
-            },
-          ),
+        child: Column(
+          children: [
+            DefaultTextStyle.merge(
+              style: TextStyle(
+                color: state.dueDate.error != null ? Colors.red : null,
+              ),
+              child: DatePicker(
+                key: HwDialogKeys.todoUntilTile,
+                padding: const EdgeInsets.all(12),
+                selectedDate: state.dueDate.$1?.toDateTime,
+                selectDate: (newDate) {
+                  bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
+                },
+              ),
+            ),
+            _InXHours(
+              inXHoursSelected: (newValue) {},
+            )
+          ],
         ),
       ),
     );
+  }
+}
+
+class _InXHours extends StatefulWidget {
+  const _InXHours({required this.inXHoursSelected, super.key});
+
+  final void Function(int) inXHoursSelected;
+
+  @override
+  State<_InXHours> createState() => _InXHoursState();
+}
+
+typedef FilterData = (String label, {int inXHours});
+
+class _InXHoursState extends State<_InXHours> {
+  final filters = <int, FilterData>{
+    1: ("Nächste Stunde", inXHours: 1),
+    2: ("Übernächste Stunde", inXHours: 2),
+    // 3: (getName(3), inXHours: 3),
+  };
+  int? selectedFilter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData.from(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            for (final filter in filters.values)
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: InputChip(
+                  label: Text(filter.$1),
+                  selected: selectedFilter == filter.inXHours,
+                  onSelected: (newState) {
+                    setState(() {
+                      selectedFilter == filter.inXHours
+                          ? selectedFilter = null
+                          : selectedFilter = filter.inXHours;
+                    });
+                    widget.inXHoursSelected(filter.inXHours);
+                  },
+                  onDeleted: filter.inXHours == 1 ||
+                          filter.inXHours == 2 ||
+                          filter.inXHours == 3
+                      ? null
+                      : () {
+                          setState(() {
+                            if (filter.inXHours == selectedFilter) {
+                              selectedFilter = null;
+                            }
+                            filters.removeWhere(
+                                (key, value) => key == filter.inXHours);
+                          });
+                        },
+                ),
+              ),
+            InputChip(
+              avatar: const Icon(Icons.edit),
+              label: Text('Benutzerdefiniert'),
+              onPressed: () async {
+                final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
+                    context: context,
+                    title: 'Stundenzeit auswählen',
+                    right: AdaptiveDialogAction(
+                      title: 'OK',
+                      onPressed: () {
+                        Navigator.pop(context, 4);
+                      },
+                    ),
+                    content: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: TextField(
+                            maxLength: 2,
+                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Text('.-nächste Stunde'),
+                      ],
+                    ));
+
+                if (newInXHours != null && newInXHours is int) {
+                  filters[newInXHours] =
+                      (getName(newInXHours), inXHours: newInXHours);
+                  setState(() {
+                    selectedFilter = newInXHours;
+                  });
+                }
+              },
+            ),
+            const SizedBox(width: 10),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static String getName(int inXHours) {
+    return switch (inXHours) {
+      1 => 'Nächste Stunde',
+      2 => 'Übernächste Stunde',
+      >= 3 => '$inXHours.-nächste Stunde',
+      _ => throw Exception('Invalid inXHours: $inXHours'),
+    };
   }
 }
 
