@@ -329,6 +329,7 @@ class _TodoUntilPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    const showLessonChips = kDebugMode;
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -342,14 +343,16 @@ class _TodoUntilPicker extends StatelessWidget {
               ),
               child: DatePicker(
                 key: HwDialogKeys.todoUntilTile,
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 5),
+                padding: showLessonChips
+                    ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
+                    : const EdgeInsets.all(12),
                 selectedDate: state.dueDate.$1?.toDateTime,
                 selectDate: (newDate) {
                   bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
                 },
               ),
             ),
-            if (kDebugMode)
+            if (showLessonChips)
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
                 child: _InXHours(
