@@ -366,6 +366,32 @@ class NoDueDateSelectedException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
+sealed class DueDate {
+  const DueDate();
+
+  const factory DueDate.date(Date date) = DateDueDate;
+
+  factory DueDate.nextSchoolday() = NextSchooldayDueDate;
+
+  const factory DueDate.inXLessons(int inXLessons) = InXLessonsDueDate;
+}
+
+class DateDueDate extends DueDate {
+  const DateDueDate(this.date);
+
+  final Date date;
+}
+
+class NextSchooldayDueDate extends DueDate {
+  const NextSchooldayDueDate();
+}
+
+class InXLessonsDueDate extends DueDate {
+  const InXLessonsDueDate(this.inXLessons);
+
+  final int inXLessons;
+}
+
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
         BlocPresentationMixin<HomeworkDialogState,

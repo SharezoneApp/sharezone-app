@@ -28,7 +28,6 @@ import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -357,17 +356,17 @@ class _TodoUntilPicker extends StatelessWidget {
                     controller: _InXHoursController(
                   initialChips: const IListConst([
                     _ChipSpec(
-                      dueDate: _NextSchooldayDueDate(),
+                      dueDate: NextSchooldayDueDate(),
                     ),
                     _ChipSpec(
-                      dueDate: _InXLessonsDueDate(1),
+                      dueDate: InXLessonsDueDate(1),
                       isSelected: true,
                     ),
                     _ChipSpec(
-                      dueDate: _InXLessonsDueDate(2),
+                      dueDate: InXLessonsDueDate(2),
                     ),
                     _ChipSpec(
-                      dueDate: _InXLessonsDueDate(3),
+                      dueDate: InXLessonsDueDate(3),
                       isDeletable: true,
                     ),
                   ]),
@@ -380,34 +379,8 @@ class _TodoUntilPicker extends StatelessWidget {
   }
 }
 
-sealed class _DueDate {
-  const _DueDate();
-
-  const factory _DueDate.date(Date date) = _DateDueDate;
-
-  factory _DueDate.nextSchoolday() = _NextSchooldayDueDate;
-
-  const factory _DueDate.inXLessons(int inXLessons) = _InXLessonsDueDate;
-}
-
-class _DateDueDate extends _DueDate {
-  const _DateDueDate(this.date);
-
-  final Date date;
-}
-
-class _NextSchooldayDueDate extends _DueDate {
-  const _NextSchooldayDueDate();
-}
-
-class _InXLessonsDueDate extends _DueDate {
-  const _InXLessonsDueDate(this.inXLessons);
-
-  final int inXLessons;
-}
-
 class _ChipSpec {
-  final _DueDate dueDate;
+  final DueDate dueDate;
   final bool isSelected;
   final bool isDeletable;
 
@@ -422,7 +395,7 @@ class _LessonChip {
   final String label;
   final bool isSelected;
   final bool isDeletable;
-  final _DueDate dueDate;
+  final DueDate dueDate;
 
   const _LessonChip({
     required this.label,
@@ -435,7 +408,7 @@ class _LessonChip {
     String? label,
     bool? isSelected,
     bool? isDeletable,
-    _DueDate? dueDate,
+    DueDate? dueDate,
   }) {
     return _LessonChip(
       label: label ?? this.label,
@@ -462,24 +435,24 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String getName(_DueDate dueDate) {
+  String getName(DueDate dueDate) {
     switch (dueDate) {
-      case _NextSchooldayDueDate _:
+      case NextSchooldayDueDate _:
         return 'Nächster Schultag';
-      case _InXLessonsDueDate due:
+      case InXLessonsDueDate due:
         return switch (due.inXLessons) {
           1 => 'Nächste Stunde',
           2 => 'Übernächste Stunde',
           _ => '${due.inXLessons}.-nächste Stunde',
         };
-      case _DateDueDate _:
+      case DateDueDate _:
         throw Error();
     }
   }
 
   IList<_LessonChip> chips = const IListConst([]);
 
-  void selectChip(_DueDate dueDate) {
+  void selectChip(DueDate dueDate) {
     chips = chips.map((chip) {
       if (chip.dueDate == dueDate) {
         return chip.copyWith(isSelected: true);
@@ -490,7 +463,7 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addInXLessonsChip(_InXLessonsDueDate inXLessons) {
+  void addInXLessonsChip(InXLessonsDueDate inXLessons) {
     chips = chips.add(_LessonChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
@@ -499,7 +472,7 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteInXLessonsChip(_InXLessonsDueDate inXLessons) {
+  void deleteInXLessonsChip(InXLessonsDueDate inXLessons) {
     chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
   }
@@ -538,7 +511,7 @@ class _InXHours extends StatelessWidget {
                         onDeleted: filter.isDeletable
                             ? () {
                                 controller.deleteInXLessonsChip(
-                                    filter.dueDate as _InXLessonsDueDate);
+                                    filter.dueDate as InXLessonsDueDate);
                               }
                             : null,
                       ),
@@ -604,7 +577,7 @@ class _InXHours extends StatelessWidget {
         ));
 
     if (newInXHours != null && newInXHours is int) {
-      controller.addInXLessonsChip(_InXLessonsDueDate(newInXHours));
+      controller.addInXLessonsChip(InXLessonsDueDate(newInXHours));
     }
   }
 }
