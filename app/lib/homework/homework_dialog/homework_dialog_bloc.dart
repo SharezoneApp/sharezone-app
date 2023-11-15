@@ -371,7 +371,7 @@ sealed class DueDate {
 
   const factory DueDate.date(Date date) = DateDueDate;
 
-  factory DueDate.nextSchoolday() = NextSchooldayDueDate;
+  static const nextSchoolday = NextSchooldayDueDate();
 
   const factory DueDate.inXLessons(int inXLessons) = InXLessonsDueDate;
 }

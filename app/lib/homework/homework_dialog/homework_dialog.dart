@@ -356,17 +356,17 @@ class _TodoUntilPicker extends StatelessWidget {
                     controller: _InXHoursController(
                   initialChips: const IListConst([
                     _ChipSpec(
-                      dueDate: NextSchooldayDueDate(),
+                      dueDate: DueDate.nextSchoolday,
                     ),
                     _ChipSpec(
-                      dueDate: InXLessonsDueDate(1),
+                      dueDate: DueDate.inXLessons(1),
                       isSelected: true,
                     ),
                     _ChipSpec(
-                      dueDate: InXLessonsDueDate(2),
+                      dueDate: DueDate.inXLessons(2),
                     ),
                     _ChipSpec(
-                      dueDate: InXLessonsDueDate(3),
+                      dueDate: DueDate.inXLessons(3),
                       isDeletable: true,
                     ),
                   ]),
