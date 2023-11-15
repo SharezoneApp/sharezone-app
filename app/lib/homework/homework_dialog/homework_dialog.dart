@@ -21,13 +21,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/holidays/holiday_bloc.dart';
-import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
+import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -355,21 +356,17 @@ class _TodoUntilPicker extends StatelessWidget {
                 child: _InXHours(
                     controller: _InXHoursController(
                   initialChips: const IListConst([
-                    _LessonChip(
-                      label: 'Nächster Schultag',
+                    _ChipSpec(
                       dueDate: _NextSchooldayDueDate(),
                     ),
-                    _LessonChip(
-                      label: 'Nächste Stunde',
+                    _ChipSpec(
                       dueDate: _InXLessonsDueDate(1),
                       isSelected: true,
                     ),
-                    _LessonChip(
-                      label: 'Übernächste Stunde',
+                    _ChipSpec(
                       dueDate: _InXLessonsDueDate(2),
                     ),
-                    _LessonChip(
-                      label: '3.-nächste Stunde',
+                    _ChipSpec(
                       dueDate: _InXLessonsDueDate(3),
                       isDeletable: true,
                     ),
@@ -409,6 +406,18 @@ class _InXLessonsDueDate extends _DueDate {
   final int inXLessons;
 }
 
+class _ChipSpec {
+  final _DueDate dueDate;
+  final bool isSelected;
+  final bool isDeletable;
+
+  const _ChipSpec({
+    required this.dueDate,
+    this.isSelected = false,
+    this.isDeletable = false,
+  });
+}
+
 class _LessonChip {
   final String label;
   final bool isSelected;
@@ -421,14 +430,54 @@ class _LessonChip {
     this.isSelected = false,
     this.isDeletable = false,
   });
+
+  _LessonChip copyWith({
+    String? label,
+    bool? isSelected,
+    bool? isDeletable,
+    _DueDate? dueDate,
+  }) {
+    return _LessonChip(
+      label: label ?? this.label,
+      isSelected: isSelected ?? this.isSelected,
+      isDeletable: isDeletable ?? this.isDeletable,
+      dueDate: dueDate ?? this.dueDate,
+    );
+  }
 }
 
 class _InXHoursController extends ChangeNotifier {
   _InXHoursController({
-    IList<_LessonChip> initialChips = const IListConst([]),
-  }) : chips = initialChips;
+    required IList<_ChipSpec> initialChips,
+  }) {
+    final converted = initialChips
+        .map((config) => _LessonChip(
+              label: getName(config.dueDate),
+              dueDate: config.dueDate,
+              isSelected: config.isSelected,
+              isDeletable: config.isDeletable,
+            ))
+        .toIList();
+    chips = chips.addAll(converted);
+    notifyListeners();
+  }
 
-  IList<_LessonChip> chips;
+  String getName(_DueDate dueDate) {
+    switch (dueDate) {
+      case _NextSchooldayDueDate _:
+        return 'Nächster Schultag';
+      case _InXLessonsDueDate due:
+        return switch (due.inXLessons) {
+          1 => 'Nächste Stunde',
+          2 => 'Übernächste Stunde',
+          _ => '${due.inXLessons}.-nächste Stunde',
+        };
+      case _DateDueDate _:
+        throw Error();
+    }
+  }
+
+  IList<_LessonChip> chips = const IListConst([]);
 
   void selectChip(_DueDate dueDate) {}
 
