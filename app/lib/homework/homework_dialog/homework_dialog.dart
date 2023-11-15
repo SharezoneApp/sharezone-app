@@ -479,7 +479,7 @@ class _InXHoursController extends ChangeNotifier {
 }
 
 class _InXHours extends StatelessWidget {
-  const _InXHours({required this.controller, super.key});
+  const _InXHours({required this.controller});
 
   final _InXHoursController controller;
 
