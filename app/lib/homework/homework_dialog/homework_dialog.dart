@@ -16,6 +16,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
@@ -347,9 +348,10 @@ class _TodoUntilPicker extends StatelessWidget {
                 },
               ),
             ),
-            _InXHours(
-              inXHoursSelected: (newValue) {},
-            )
+            if (kDebugMode)
+              _InXHours(
+                inXHoursSelected: (newValue) {},
+              )
           ],
         ),
       ),
@@ -358,7 +360,7 @@ class _TodoUntilPicker extends StatelessWidget {
 }
 
 class _InXHours extends StatefulWidget {
-  const _InXHours({required this.inXHoursSelected, super.key});
+  const _InXHours({required this.inXHoursSelected});
 
   final void Function(int) inXHoursSelected;
 
@@ -370,9 +372,10 @@ typedef FilterData = (String label, {int inXHours});
 
 class _InXHoursState extends State<_InXHours> {
   final filters = <int, FilterData>{
+    0: ("Nächster Schultag", inXHours: 0),
     1: ("Nächste Stunde", inXHours: 1),
     2: ("Übernächste Stunde", inXHours: 2),
-    // 3: (getName(3), inXHours: 3),
+    3: (getName(3), inXHours: 3),
   };
   int? selectedFilter;
 
@@ -419,25 +422,40 @@ class _InXHoursState extends State<_InXHours> {
               ),
             InputChip(
               avatar: const Icon(Icons.edit),
-              label: Text('Benutzerdefiniert'),
+              label: const Text('Benutzerdefiniert'),
               onPressed: () async {
+                int? inXHours;
                 final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
                     context: context,
                     title: 'Stundenzeit auswählen',
                     right: AdaptiveDialogAction(
                       title: 'OK',
                       onPressed: () {
-                        Navigator.pop(context, 4);
+                        Navigator.pop(context, inXHours);
                       },
                     ),
                     content: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.baseline,
                       mainAxisAlignment: MainAxisAlignment.center,
+                      // textBaseline: TextBaseline.alphabetic,
                       children: [
                         SizedBox(
                           width: 50,
                           child: TextField(
                             maxLength: 2,
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: '5',
+                              border: OutlineInputBorder(),
+                            ),
+                            textAlignVertical: TextAlignVertical.center,
+                            onChanged: (value) {
+                              inXHours = int.tryParse(value);
+                            },
                             maxLengthEnforcement: MaxLengthEnforcement.enforced,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
@@ -445,7 +463,10 @@ class _InXHoursState extends State<_InXHours> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                        Text('.-nächste Stunde'),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 18),
+                          child: Text('.-nächste Stunde'),
+                        ),
                       ],
                     ));
 
@@ -453,7 +474,7 @@ class _InXHoursState extends State<_InXHours> {
                   filters[newInXHours] =
                       (getName(newInXHours), inXHours: newInXHours);
                   setState(() {
-                    selectedFilter = newInXHours;
+                    selectedFilter = inXHours;
                   });
                 }
               },
