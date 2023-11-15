@@ -479,7 +479,16 @@ class _InXHoursController extends ChangeNotifier {
 
   IList<_LessonChip> chips = const IListConst([]);
 
-  void selectChip(_DueDate dueDate) {}
+  void selectChip(_DueDate dueDate) {
+    chips = chips.map((chip) {
+      if (chip.dueDate == dueDate) {
+        return chip.copyWith(isSelected: true);
+      } else {
+        return chip.copyWith(isSelected: false);
+      }
+    }).toIList();
+    notifyListeners();
+  }
 
   void addInXLessonsChip(_InXLessonsDueDate inXLessons) {
     chips = chips.add(_LessonChip(
@@ -490,7 +499,10 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteInXLessonsChip(_InXLessonsDueDate inXLessons) {}
+  void deleteInXLessonsChip(_InXLessonsDueDate inXLessons) {
+    chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
+    notifyListeners();
+  }
 }
 
 class _InXHours extends StatelessWidget {
