@@ -334,6 +334,7 @@ class _TodoUntilPicker extends StatelessWidget {
         top: false,
         bottom: false,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultTextStyle.merge(
               style: TextStyle(
@@ -341,7 +342,7 @@ class _TodoUntilPicker extends StatelessWidget {
               ),
               child: DatePicker(
                 key: HwDialogKeys.todoUntilTile,
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 5),
                 selectedDate: state.dueDate.$1?.toDateTime,
                 selectDate: (newDate) {
                   bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
@@ -349,9 +350,32 @@ class _TodoUntilPicker extends StatelessWidget {
               ),
             ),
             if (kDebugMode)
-              _InXHours(
-                inXHoursSelected: (newValue) {},
-              )
+              Padding(
+                padding: const EdgeInsets.only(left: 3.0),
+                child: _InXHours(
+                    controller: _InXHoursController(
+                  initialChips: const IListConst([
+                    _LessonChip(
+                      label: 'Nächster Schultag',
+                      dueDate: _NextSchooldayDueDate(),
+                    ),
+                    _LessonChip(
+                      label: 'Nächste Stunde',
+                      dueDate: _InXLessonsDueDate(1),
+                      isSelected: true,
+                    ),
+                    _LessonChip(
+                      label: 'Übernächste Stunde',
+                      dueDate: _InXLessonsDueDate(2),
+                    ),
+                    _LessonChip(
+                      label: '3.-nächste Stunde',
+                      dueDate: _InXLessonsDueDate(3),
+                      isDeletable: true,
+                    ),
+                  ]),
+                )),
+              ),
           ],
         ),
       ),
@@ -359,28 +383,75 @@ class _TodoUntilPicker extends StatelessWidget {
   }
 }
 
-class _InXHours extends StatefulWidget {
-  const _InXHours({required this.inXHoursSelected});
+sealed class _DueDate {
+  const _DueDate();
 
-  final void Function(int) inXHoursSelected;
+  const factory _DueDate.date(Date date) = _DateDueDate;
 
-  @override
-  State<_InXHours> createState() => _InXHoursState();
+  factory _DueDate.nextSchoolday() = _NextSchooldayDueDate;
+
+  const factory _DueDate.inXLessons(int inXLessons) = _InXLessonsDueDate;
 }
 
-typedef FilterData = (String label, {int inXHours});
+class _DateDueDate extends _DueDate {
+  const _DateDueDate(this.date);
 
-class _InXHoursState extends State<_InXHours> {
-  final filters = <int, FilterData>{
-    0: ("Nächster Schultag", inXHours: 0),
-    1: ("Nächste Stunde", inXHours: 1),
-    2: ("Übernächste Stunde", inXHours: 2),
-    3: (getName(3), inXHours: 3),
-  };
-  int? selectedFilter;
+  final Date date;
+}
+
+class _NextSchooldayDueDate extends _DueDate {
+  const _NextSchooldayDueDate();
+}
+
+class _InXLessonsDueDate extends _DueDate {
+  const _InXLessonsDueDate(this.inXLessons);
+
+  final int inXLessons;
+}
+
+class _LessonChip {
+  final String label;
+  final bool isSelected;
+  final bool isDeletable;
+  final _DueDate dueDate;
+
+  const _LessonChip({
+    required this.label,
+    required this.dueDate,
+    this.isSelected = false,
+    this.isDeletable = false,
+  });
+}
+
+class _InXHoursController extends ChangeNotifier {
+  _InXHoursController({
+    IList<_LessonChip> initialChips = const IListConst([]),
+  }) : chips = initialChips;
+
+  IList<_LessonChip> chips;
+
+  void selectChip(_DueDate dueDate) {}
+
+  void addInXLessonsChip(_InXLessonsDueDate inXLessons) {
+    chips = chips.add(_LessonChip(
+      label: '${inXLessons.inXLessons}.-nächste Stunde',
+      dueDate: inXLessons,
+      isDeletable: true,
+    ));
+    notifyListeners();
+  }
+
+  void deleteInXLessonsChip(_InXLessonsDueDate inXLessons) {}
+}
+
+class _InXHours extends StatelessWidget {
+  const _InXHours({required this.controller, super.key});
+
+  final _InXHoursController controller;
 
   @override
   Widget build(BuildContext context) {
+    final beforeThemeChangeContext = context;
     return Theme(
       data: ThemeData.from(
         useMaterial3: true,
@@ -388,111 +459,92 @@ class _InXHoursState extends State<_InXHours> {
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            for (final filter in filters.values)
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: InputChip(
-                  label: Text(filter.$1),
-                  selected: selectedFilter == filter.inXHours,
-                  onSelected: (newState) {
-                    setState(() {
-                      selectedFilter == filter.inXHours
-                          ? selectedFilter = null
-                          : selectedFilter = filter.inXHours;
-                    });
-                    widget.inXHoursSelected(filter.inXHours);
-                  },
-                  onDeleted: filter.inXHours == 1 ||
-                          filter.inXHours == 2 ||
-                          filter.inXHours == 3
-                      ? null
-                      : () {
-                          setState(() {
-                            if (filter.inXHours == selectedFilter) {
-                              selectedFilter = null;
-                            }
-                            filters.removeWhere(
-                                (key, value) => key == filter.inXHours);
-                          });
+        child: ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) {
+              return Row(
+                children: [
+                  const SizedBox(width: 10),
+                  for (final filter in controller.chips)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: InputChip(
+                        label: Text(filter.label),
+                        selected: filter.isSelected,
+                        onSelected: (newState) {
+                          controller.selectChip(filter.dueDate);
                         },
-                ),
-              ),
-            InputChip(
-              avatar: const Icon(Icons.edit),
-              label: const Text('Benutzerdefiniert'),
-              onPressed: () async {
-                int? inXHours;
-                final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
-                    context: context,
-                    title: 'Stundenzeit auswählen',
-                    right: AdaptiveDialogAction(
-                      title: 'OK',
-                      onPressed: () {
-                        Navigator.pop(context, inXHours);
-                      },
+                        onDeleted: filter.isDeletable
+                            ? () {
+                                controller.deleteInXLessonsChip(
+                                    filter.dueDate as _InXLessonsDueDate);
+                              }
+                            : null,
+                      ),
                     ),
-                    content: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.baseline,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          child: TextField(
-                            maxLength: 2,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: '5',
-                              border: OutlineInputBorder(),
-                            ),
-                            textAlignVertical: TextAlignVertical.center,
-                            onChanged: (value) {
-                              inXHours = int.tryParse(value);
-                            },
-                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 18),
-                          child: Text('.-nächste Stunde'),
-                        ),
-                      ],
-                    ));
-
-                if (newInXHours != null && newInXHours is int) {
-                  filters[newInXHours] =
-                      (getName(newInXHours), inXHours: newInXHours);
-                  setState(() {
-                    selectedFilter = inXHours;
-                  });
-                }
-              },
-            ),
-            const SizedBox(width: 10),
-          ],
-        ),
+                  InputChip(
+                    avatar: const Icon(Icons.edit),
+                    label: const Text('Benutzerdefiniert'),
+                    onPressed: () async {
+                      // The normal theme would apply material3 to the dialog
+                      // which is not what we want.
+                      await _onCustomChipTap(beforeThemeChangeContext);
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              );
+            }),
       ),
     );
   }
 
-  static String getName(int inXHours) {
-    return switch (inXHours) {
-      1 => 'Nächste Stunde',
-      2 => 'Übernächste Stunde',
-      >= 3 => '$inXHours.-nächste Stunde',
-      _ => throw Exception('Invalid inXHours: $inXHours'),
-    };
+  Future<void> _onCustomChipTap(BuildContext context) async {
+    int? inXHours;
+    final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
+        context: context,
+        title: 'Stundenzeit auswählen',
+        right: AdaptiveDialogAction(
+          title: 'OK',
+          onPressed: () {
+            Navigator.pop(context, inXHours);
+          },
+        ),
+        content: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 50,
+              child: TextField(
+                maxLength: 2,
+                textAlign: TextAlign.end,
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+                decoration: const InputDecoration(
+                  hintText: '5',
+                  border: OutlineInputBorder(),
+                ),
+                textAlignVertical: TextAlignVertical.center,
+                onChanged: (value) {
+                  inXHours = int.tryParse(value);
+                },
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 18),
+              child: Text('.-nächste Stunde'),
+            ),
+          ],
+        ));
+
+    if (newInXHours != null && newInXHours is int) {
+      controller.addInXLessonsChip(_InXLessonsDueDate(newInXHours));
+    }
   }
 }
 
