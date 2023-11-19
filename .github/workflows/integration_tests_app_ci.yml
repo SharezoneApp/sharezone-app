@@ -258,7 +258,7 @@ jobs:
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@2c49495f83dd47aa7cee6b3d20cd5a5a3e1e016d
+        uses: nanasess/setup-chromedriver@e66222fd7ec9c46b83cc837781ce6930b5d95f90
 
       - name: Run integration tests
         working-directory: app
