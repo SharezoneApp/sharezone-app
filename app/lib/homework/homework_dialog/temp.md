@@ -19,5 +19,9 @@ Sollten wir dann einfach die Berechnung ohne diese Daten durchführen oder den U
     kleinen Infotext ("Aufgrund von Ferien wurden X Stunden ignoriert").
     Fehlertext, falls Ferien nicht geladen werden können.
 
+Was passiert wenn man den aktiv ausgewählten Chip (5.-nächste Stunde) löscht? Bleibt der Chip dann einfach
+implizit aktiv, solange man keinen anderen auswählt (oder ein anders Datum nimmt) oder wird dann der Wert
+aus dem Datumsfeld gelöscht und kein Chip ist aktiv?
+
 Falls noch kein Kurs ausgewählt wurde, dann kann man keinen Stundenchip benutzen (ausgrauen?)
 Falls ein ausgwählter Kurs keine Stundenbelegungen hat, dann kann man keine Stundenchips benutzen (ausgrauen?)
