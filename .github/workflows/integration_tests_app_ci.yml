@@ -100,7 +100,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
-        run: flutter pub global activate patrol_cli ^2.2.1
+        run: flutter pub global activate patrol_cli 2.2.1
 
       - name: Run Flutter build
         run: |
