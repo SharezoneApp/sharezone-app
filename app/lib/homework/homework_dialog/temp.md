@@ -29,6 +29,18 @@ Falls ein ausgwählter Kurs keine Stundenbelegungen hat, dann kann man keine Stu
 --> Sollte "Benutzerdefiniert" auch ausgegraut sein? Hätte ja gesagt, weil es einheitlicher mit den ausgegrauten Stundenchips
     aussehen wird und man dort ja eh nur Stundenchips erstellen kann, die man nicht auswählen kann.
 
+Flutter Bug: Wenn ein Chip deleteable ist, dann wird "selectable" ignoriert (sieht auswählbar aus)
+
+Ob Stundenchips ausgewählt werden können oder nicht, kann sich nach erstmaligem Kurs auswählen noch ändern, indem
+ein anderer Kurs ohne Stundenbelegung, ausgewählt wird.
+Was soll passieren, wenn ein Chip ausgewählt wird und dann der Kurs sich ändert?
+Falls neuer Kurs keine Stundenbelegung hat und ein Stundenchip ausgewählt wurde, dann wird das Datum zurückgesetzt und kein Chip ist ausgewählt.
+Falls neuer Kurs keine Stundenbelegung hat und "Nächster Schultag" ausgewählt wurde, dann bleibt das Datum und die Chipsauswahl erhalten.
+Falls neuer Kurs eine Stundenbelegung hat und ein Stundenchip ausgewählt wurde, dann bleibt der Chip ausgewählt und das Datum wird aktualisiert
+    - Was ist bei Fehlern? Altes Datum darf nicht erhalten bleiben, falls die Berechnung für das neue Datum fehlschlägt.
+Falls neuer Kurs eine Stundenbelegung hat und "Nächster Schultag" ausgewählt wurde, dann bleibt das Datum und die Chipsauswahl erhalten.
+ 
+
 States:
 1. Kein Kurs ausgewählt --> Ausgegraute Chips außer "Nächster Schultag"
 2. Ein Default-Chip ausgewählt
