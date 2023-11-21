@@ -359,17 +359,17 @@ class _TodoUntilPicker extends StatelessWidget {
                     controller: _InXHoursController(
                   initialChips: const IListConst([
                     _ChipSpec(
-                      dueDate: DueDate.nextSchoolday,
+                      dueDate: DueDateSelection.nextSchoolday,
                     ),
                     _ChipSpec(
-                      dueDate: DueDate.inXLessons(1),
+                      dueDate: DueDateSelection.inXLessons(1),
                       isSelected: true,
                     ),
                     _ChipSpec(
-                      dueDate: DueDate.inXLessons(2),
+                      dueDate: DueDateSelection.inXLessons(2),
                     ),
                     _ChipSpec(
-                      dueDate: DueDate.inXLessons(3),
+                      dueDate: DueDateSelection.inXLessons(3),
                       isDeletable: true,
                     ),
                   ]),
@@ -383,7 +383,7 @@ class _TodoUntilPicker extends StatelessWidget {
 }
 
 class _ChipSpec {
-  final DueDate dueDate;
+  final DueDateSelection dueDate;
   final bool isSelected;
   final bool isDeletable;
 
@@ -398,7 +398,7 @@ class _LessonChip {
   final String label;
   final bool isSelected;
   final bool isDeletable;
-  final DueDate dueDate;
+  final DueDateSelection dueDate;
 
   const _LessonChip({
     required this.label,
@@ -411,7 +411,7 @@ class _LessonChip {
     String? label,
     bool? isSelected,
     bool? isDeletable,
-    DueDate? dueDate,
+    DueDateSelection? dueDate,
   }) {
     return _LessonChip(
       label: label ?? this.label,
@@ -438,24 +438,24 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String getName(DueDate dueDate) {
+  String getName(DueDateSelection dueDate) {
     switch (dueDate) {
-      case NextSchooldayDueDate _:
+      case NextSchooldayDueDateSelection _:
         return 'Nächster Schultag';
-      case InXLessonsDueDate due:
+      case InXLessonsDueDateSelection due:
         return switch (due.inXLessons) {
           1 => 'Nächste Stunde',
           2 => 'Übernächste Stunde',
           _ => '${due.inXLessons}.-nächste Stunde',
         };
-      case DateDueDate _:
+      case DateDueDateSelection _:
         throw Error();
     }
   }
 
   IList<_LessonChip> chips = const IListConst([]);
 
-  void selectChip(DueDate dueDate) {
+  void selectChip(DueDateSelection dueDate) {
     chips = chips.map((chip) {
       if (chip.dueDate == dueDate) {
         return chip.copyWith(isSelected: true);
@@ -466,7 +466,7 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addInXLessonsChip(InXLessonsDueDate inXLessons) {
+  void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
     chips = chips.add(_LessonChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
@@ -475,7 +475,7 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteInXLessonsChip(InXLessonsDueDate inXLessons) {
+  void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
     chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
   }
@@ -513,8 +513,8 @@ class _InXHours extends StatelessWidget {
                         },
                         onDeleted: filter.isDeletable
                             ? () {
-                                controller.deleteInXLessonsChip(
-                                    filter.dueDate as InXLessonsDueDate);
+                                controller.deleteInXLessonsChip(filter.dueDate
+                                    as InXLessonsDueDateSelection);
                               }
                             : null,
                       ),
@@ -580,7 +580,7 @@ class _InXHours extends StatelessWidget {
         ));
 
     if (newInXHours != null && newInXHours is int) {
-      controller.addInXLessonsChip(InXLessonsDueDate(newInXHours));
+      controller.addInXLessonsChip(InXLessonsDueDateSelection(newInXHours));
     }
   }
 }

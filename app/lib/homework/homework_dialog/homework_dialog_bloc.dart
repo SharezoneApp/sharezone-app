@@ -366,18 +366,19 @@ class NoDueDateSelectedException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
-sealed class DueDate extends Equatable {
-  const DueDate();
+sealed class DueDateSelection extends Equatable {
+  const DueDateSelection();
 
-  const factory DueDate.date(Date date) = DateDueDate;
+  const factory DueDateSelection.date(Date date) = DateDueDateSelection;
 
-  static const nextSchoolday = NextSchooldayDueDate();
+  static const nextSchoolday = NextSchooldayDueDateSelection();
 
-  const factory DueDate.inXLessons(int inXLessons) = InXLessonsDueDate;
+  const factory DueDateSelection.inXLessons(int inXLessons) =
+      InXLessonsDueDateSelection;
 }
 
-class DateDueDate extends DueDate {
-  const DateDueDate(this.date);
+class DateDueDateSelection extends DueDateSelection {
+  const DateDueDateSelection(this.date);
 
   final Date date;
 
@@ -385,15 +386,15 @@ class DateDueDate extends DueDate {
   List<Object?> get props => [date];
 }
 
-class NextSchooldayDueDate extends DueDate {
-  const NextSchooldayDueDate();
+class NextSchooldayDueDateSelection extends DueDateSelection {
+  const NextSchooldayDueDateSelection();
 
   @override
   List<Object?> get props => [];
 }
 
-class InXLessonsDueDate extends DueDate {
-  const InXLessonsDueDate(this.inXLessons);
+class InXLessonsDueDateSelection extends DueDateSelection {
+  const InXLessonsDueDateSelection(this.inXLessons);
 
   final int inXLessons;
 
