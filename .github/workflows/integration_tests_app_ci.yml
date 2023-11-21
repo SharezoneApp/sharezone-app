@@ -203,7 +203,7 @@ jobs:
         working-directory: app/ios/Runner
         run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
 
-      - uses: futureware-tech/simulator-action@736249ceb5ed7916224ed6b6d3c3582fd8049deb
+      - uses: futureware-tech/simulator-action@427329dea8e4d6417cba1273ebb5c9ad4720082d
         id: simulator
         with:
           model: "iPhone 13"
