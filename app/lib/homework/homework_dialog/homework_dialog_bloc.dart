@@ -338,12 +338,7 @@ class SavingFailed extends HomeworkDialogBlocPresentationEvent {
   List<Object?> get props => [error, stackTrace];
 }
 
-/// Since [HomeworkDto] can't have a null value for [todoUntil] we need to use
-/// a magic number to know if the user changed the due date and submission time
-/// or not.
-final _kNoDateSelectedDateTime = DateTime(1337, 13, 37, 13, 37, 13, 37);
-HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '')
-    .copyWith(todoUntil: _kNoDateSelectedDateTime);
+HomeworkDto _kNoDataChangedHomework = HomeworkDto.create(courseID: '');
 
 class EmptyTitleException extends Equatable implements Exception {
   const EmptyTitleException();
@@ -366,6 +361,39 @@ class NoDueDateSelectedException extends Equatable implements Exception {
   List<Object?> get props => [];
 }
 
+/// State of due date and submission time in the homework dialog.
+///
+/// We use an extra class instead of _HomeworkDto as _HomeworkDto.todoUntil
+/// can't represent all due date and submission time states. For example
+/// _HomeworkDto.todoUntil can't be set to null.
+class _DateSelection extends Equatable {
+  final Date? dueDate;
+  final Time? submissionTime;
+
+  static const noSelection = _DateSelection(
+    dueDate: null,
+    submissionTime: null,
+  );
+
+  const _DateSelection({
+    this.dueDate,
+    this.submissionTime,
+  });
+
+  _DateSelection copyWith({
+    Date? dueDate,
+    Time? submissionTime,
+  }) {
+    return _DateSelection(
+      dueDate: dueDate ?? this.dueDate,
+      submissionTime: submissionTime ?? this.submissionTime,
+    );
+  }
+
+  @override
+  List<Object?> get props => [dueDate, submissionTime];
+}
+
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
         BlocPresentationMixin<HomeworkDialogState,
@@ -378,6 +406,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
+
+  _DateSelection _initialDateSelection = _DateSelection.noSelection;
+  _DateSelection _dateSelection = _DateSelection.noSelection;
 
   bool finishedInitializing = false;
 
@@ -431,6 +462,14 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         // value might be `true` in the _initialHomework.
         _initialHomework = _initialHomework!.copyWith(sendNotification: false);
         _homework = _initialHomework!;
+        _initialDateSelection = _DateSelection(
+          dueDate: _homework.todoUntil.toDate(),
+          submissionTime: _homework.todoUntil.toTime(),
+        );
+        _dateSelection = _DateSelection(
+          dueDate: _homework.todoUntil.toDate(),
+          submissionTime: _homework.todoUntil.toTime(),
+        );
         _cloudFiles = _initialAttachments;
         finishedInitializing = true;
 
@@ -448,7 +487,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           showNoCourseChosenError = true;
           hasInputErrors = true;
         }
-        if (_homework.todoUntil.year == _kNoDateSelectedDateTime.year) {
+        if (_dateSelection.dueDate == null) {
           showNoDueDateChosenError = true;
           hasInputErrors = true;
         }
@@ -461,11 +500,11 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         final userInput = UserInput(
           title: _homework.title,
           todoUntil: DateTime(
-            _homework.todoUntil.year,
-            _homework.todoUntil.month,
-            _homework.todoUntil.day,
-            _homework.withSubmissions ? _homework.todoUntil.hour : 0,
-            _homework.withSubmissions ? _homework.todoUntil.minute : 0,
+            _dateSelection.dueDate!.year,
+            _dateSelection.dueDate!.month,
+            _dateSelection.dueDate!.day,
+            _dateSelection.submissionTime?.hour ?? 0,
+            _dateSelection.submissionTime?.minute ?? 0,
           ),
           description: _homework.description,
           withSubmission: _homework.withSubmissions,
@@ -546,14 +585,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     );
     on<DueDateChanged>(
       (event, emit) {
-        _homework = _homework.copyWith(
-            // copyWith because we need to keep the magic "not changed" value for
-            // the submission time (hour, minute, second, etc.).
-            todoUntil: _homework.todoUntil.copyWith(
-          year: event.newDueDate.year,
-          month: event.newDueDate.month,
-          day: event.newDueDate.day,
-        ));
+        _dateSelection = _dateSelection.copyWith(dueDate: event.newDueDate);
         if (showNoDueDateChosenError) {
           showNoDueDateChosenError = false;
         }
@@ -572,7 +604,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
 
         // Manual date was already set, we don't want to overwrite it.
-        if (_homework.todoUntil.year != _kNoDateSelectedDateTime.year) {
+        if (_dateSelection.dueDate != null) {
           return;
         }
         final nextLesson =
@@ -592,19 +624,17 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     );
     on<SubmissionsChanged>(
       (event, emit) {
-        _homework = _homework.copyWith(
-          withSubmissions: event.newSubmissionsOptions.enabled,
-          // copyWith because we need to keep the magic "not changed" value for
-          // the due date (year, month, day attributes).
-          todoUntil: _homework.todoUntil.copyWith(
-            hour: event.newSubmissionsOptions.submissionTime?.hour ?? 23,
-            minute: event.newSubmissionsOptions.submissionTime?.minute ?? 59,
-            // Remove magic number used to indicate that submission time has not
-            // been changed.
-            millisecond: 0,
-            microsecond: 0,
-          ),
-        );
+        final enabled = event.newSubmissionsOptions.enabled;
+        _homework = _homework.copyWith(withSubmissions: enabled);
+
+        if (enabled) {
+          _dateSelection = _dateSelection.copyWith(
+              submissionTime: event.newSubmissionsOptions.submissionTime ??
+                  Time(hour: 23, minute: 59));
+        } else {
+          _dateSelection = _dateSelection.copyWith(submissionTime: null);
+        }
+
         emit(_getNewState());
       },
     );
@@ -649,15 +679,14 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     final didHomeworkChange = isEditing
         ? _initialHomework != _homework
         : _homework != _kNoDataChangedHomework;
+
+    final didDueDateChange = _dateSelection != _initialDateSelection;
     final didFilesChange = _initialAttachments != _cloudFiles;
     final didLocalFilesChange = _localFiles.isNotEmpty;
-    final didDataChange =
-        didHomeworkChange || didFilesChange || didLocalFilesChange;
-
-    final hasChangedTodoDate =
-        _homework.todoUntil.year != _kNoDataChangedHomework.todoUntil.year;
-    final hasUserEditedSubmissionTime =
-        _homework.todoUntil.millisecond != _kNoDateSelectedDateTime.millisecond;
+    final didDataChange = didHomeworkChange ||
+        didDueDateChange ||
+        didFilesChange ||
+        didLocalFilesChange;
 
     return Ready(
       title: (
@@ -676,16 +705,16 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                   : null,
             ),
       dueDate: (
-        hasChangedTodoDate ? Date.fromDateTime(_homework.todoUntil) : null,
+        _dateSelection.dueDate,
         error: showNoDueDateChosenError
             ? const NoDueDateSelectedException()
             : null,
       ),
       submissions: _homework.withSubmissions
           ? SubmissionsEnabled(
-              deadline: hasUserEditedSubmissionTime
-                  ? _homework.todoUntil.toTime()
-                  : Time(hour: 23, minute: 59))
+              deadline:
+                  _dateSelection.submissionTime ?? Time(hour: 23, minute: 59),
+            )
           : SubmissionsDisabled(isChangeable: !_homework.private),
       description: _homework.description,
       attachments: IList([
