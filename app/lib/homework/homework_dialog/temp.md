@@ -25,3 +25,11 @@ aus dem Datumsfeld gelöscht und kein Chip ist aktiv?
 
 Falls noch kein Kurs ausgewählt wurde, dann kann man keinen Stundenchip benutzen (ausgrauen?)
 Falls ein ausgwählter Kurs keine Stundenbelegungen hat, dann kann man keine Stundenchips benutzen (ausgrauen?)
+--> "Nächster Schultag" ist nicht ausgegraut und auswählbar
+--> Sollte "Benutzerdefiniert" auch ausgegraut sein? Hätte ja gesagt, weil es einheitlicher mit den ausgegrauten Stundenchips
+    aussehen wird und man dort ja eh nur Stundenchips erstellen kann, die man nicht auswählen kann.
+
+States:
+1. Kein Kurs ausgewählt --> Ausgegraute Chips außer "Nächster Schultag"
+2. Ein Default-Chip ausgewählt
+3. Ein Benutzerdefinierten-Chip ausgewählt (und vielleicht einen anderen nicht ausgewählt)
