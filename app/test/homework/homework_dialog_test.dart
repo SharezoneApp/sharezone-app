@@ -222,7 +222,8 @@ void main() {
       analytics = Analytics(analyticsBackend);
     });
 
-    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
+    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
+        {bool showDueDateSelectionChips = false}) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
       when(sharezoneContext.analytics).thenReturn(analytics);
@@ -252,6 +253,7 @@ void main() {
                 homeworkDialogApi: homeworkDialogApi,
                 nextLessonCalculator: nextLessonCalculator,
                 id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                showDueDateSelectionChips: showDueDateSelectionChips,
               ),
             ),
           ),
@@ -499,6 +501,29 @@ void main() {
           find.byWidgetPredicate(
               (element) => element is Switch && element.value == true),
           findsOneWidget);
+    });
+
+    testWidgets(
+        'homework lesson chips are visible if the function is activated',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(find.text('Nächster Schultag'), findsOneWidget);
+      expect(find.text('Nächste Stunde'), findsOneWidget);
+      expect(find.text('Übernächste Stunde'), findsOneWidget);
+      expect(find.text('Benutzerdefiniert'), findsOneWidget);
+    });
+    testWidgets(
+        'homework lesson chips are not visible if the function is deactivated',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: false);
+
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
     });
   });
 }

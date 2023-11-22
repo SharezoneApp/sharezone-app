@@ -42,6 +42,7 @@ class HomeworkDialog extends StatefulWidget {
     required this.id,
     this.homeworkDialogApi,
     this.nextLessonCalculator,
+    this.showDueDateSelectionChips = false,
   }) : super(key: key);
 
   static const tag = "homework-dialog";
@@ -49,6 +50,7 @@ class HomeworkDialog extends StatefulWidget {
   final HomeworkId? id;
   final HomeworkDialogApi? homeworkDialogApi;
   final NextLessonCalculator? nextLessonCalculator;
+  final bool showDueDateSelectionChips;
 
   @override
   State createState() => _HomeworkDialogState();
@@ -118,6 +120,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           child: HomeworkDialogMain(
             isEditing: snapshot.data != null,
             bloc: bloc,
+            showDueDateSelectionChips: widget.showDueDateSelectionChips,
           ),
         );
       },
@@ -141,11 +144,15 @@ class HwDialogKeys {
 
 @visibleForTesting
 class HomeworkDialogMain extends StatefulWidget {
-  const HomeworkDialogMain(
-      {Key? key, required this.isEditing, required this.bloc})
-      : super(key: key);
+  const HomeworkDialogMain({
+    Key? key,
+    required this.isEditing,
+    required this.bloc,
+    this.showDueDateSelectionChips = false,
+  }) : super(key: key);
 
   final bool isEditing;
+  final bool showDueDateSelectionChips;
   final HomeworkDialogBloc bloc;
 
   @override
@@ -240,7 +247,11 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
                               const SizedBox(height: 8),
                               _CourseTile(state: state),
                               const _MobileDivider(),
-                              _TodoUntilPicker(state: state),
+                              _TodoUntilPicker(
+                                state: state,
+                                showLessonChips:
+                                    widget.showDueDateSelectionChips,
+                              ),
                               const _MobileDivider(),
                               _SubmissionsSwitch(state: state),
                               const _MobileDivider(),
@@ -323,13 +334,13 @@ class _SaveButton extends StatelessWidget {
 
 class _TodoUntilPicker extends StatelessWidget {
   final Ready state;
+  final bool showLessonChips;
 
-  const _TodoUntilPicker({required this.state});
+  const _TodoUntilPicker({required this.state, required this.showLessonChips});
 
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-    const showLessonChips = kDebugMode;
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
