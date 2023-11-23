@@ -514,6 +514,24 @@ void main() {
       expect(find.text('Übernächste Stunde'), findsOneWidget);
       expect(find.text('Benutzerdefiniert'), findsOneWidget);
     });
+
+    testWidgets('when pressing a homework lesson chip it gets selected',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await tester.tap(find.text('Nächster Schultag'));
+      await tester.pumpAndSettle();
+
+      final chip = tester.widget<InputChip>(
+          find.widgetWithText(InputChip, 'Nächster Schultag'));
+      expect(chip.selected, true);
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is InputChip && !widget.selected),
+          findsNWidgets(4));
+    });
+
     testWidgets(
         'homework lesson chips are not visible if the function is deactivated',
         (tester) async {
