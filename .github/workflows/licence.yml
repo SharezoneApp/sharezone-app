@@ -29,7 +29,7 @@ jobs:
   check-files-licence-headers:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: actions/setup-go@bfd2fb341f32be7281829126376a12a780ca79fc
         with:
           go-version: "^1.13.1"
@@ -39,7 +39,7 @@ jobs:
   check-dependency-licenses:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
