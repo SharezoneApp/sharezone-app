@@ -49,7 +49,7 @@ class TitleChanged extends HomeworkDialogEvent {
 }
 
 class DueDateChanged extends HomeworkDialogEvent {
-  final Date newDueDate;
+  final DueDateSelection newDueDate;
 
   const DueDateChanged(this.newDueDate);
 
@@ -131,7 +131,7 @@ sealed class HomeworkDialogState extends Equatable {
 class Ready extends HomeworkDialogState {
   final (String, {dynamic error}) title;
   final CourseState course;
-  final (Date?, {dynamic error}) dueDate;
+  final (Date?, {DueDateSelection? selection, dynamic error}) dueDate;
   final SubmissionState submissions;
   final String description;
   final IList<FileView> attachments;
@@ -169,7 +169,7 @@ class Ready extends HomeworkDialogState {
   Ready copyWith({
     (String, {dynamic error})? title,
     CourseState? course,
-    (Date?, {dynamic error})? dueDate,
+    (Date?, {DueDateSelection? selection, dynamic error})? dueDate,
     SubmissionState? submissions,
     String? description,
     IList<FileView>? attachments,
@@ -294,7 +294,7 @@ class LoadingHomework extends HomeworkDialogState {
 final emptyCreateHomeworkDialogState = Ready(
   title: ('', error: null),
   course: const NoCourseChosen(),
-  dueDate: (null, error: null),
+  dueDate: (null, selection: null, error: null),
   submissions: const SubmissionsDisabled(isChangeable: true),
   description: '',
   attachments: IList(),
@@ -405,29 +405,34 @@ class InXLessonsDueDateSelection extends DueDateSelection {
 class _DateSelection extends Equatable {
   final Date? dueDate;
   final Time? submissionTime;
+  final DueDateSelection? dueDateSelection;
 
   static const noSelection = _DateSelection(
     dueDate: null,
     submissionTime: null,
+    dueDateSelection: null,
   );
 
   const _DateSelection({
     this.dueDate,
     this.submissionTime,
+    this.dueDateSelection,
   });
 
   _DateSelection copyWith({
     Date? dueDate,
     Time? submissionTime,
+    DueDateSelection? dueDateSelection,
   }) {
     return _DateSelection(
       dueDate: dueDate ?? this.dueDate,
       submissionTime: submissionTime ?? this.submissionTime,
+      dueDateSelection: dueDateSelection ?? this.dueDateSelection,
     );
   }
 
   @override
-  List<Object?> get props => [dueDate, submissionTime];
+  List<Object?> get props => [dueDate, submissionTime, dueDateSelection];
 }
 
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
@@ -472,9 +477,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextLessonCalculator,
     required this.analytics,
     required this.markdownAnalytics,
-    Clock? clock,
+    Clock? clockOverride,
     HomeworkId? homeworkId,
-  })  : _clock = clock ?? const Clock(),
+  })  : _clock = clockOverride ?? clock,
         super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
@@ -620,8 +625,33 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       },
     );
     on<DueDateChanged>(
-      (event, emit) {
-        _dateSelection = _dateSelection.copyWith(dueDate: event.newDueDate);
+      (event, emit) async {
+        switch (event.newDueDate) {
+          case DateDueDateSelection s:
+            _dateSelection =
+                _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
+            break;
+          case NextSchooldayDueDateSelection s:
+            final today = _clock.now().toDate();
+            final daysUntilNextSchoolday = switch (today.weekDayEnum) {
+              WeekDay.friday => 3, // Monday
+              WeekDay.saturday => 2, // Monday
+              _ => 1 // Tomorrow
+            };
+            final nextSchoolday = today.addDays(daysUntilNextSchoolday);
+            _dateSelection = _dateSelection.copyWith(
+              dueDate: nextSchoolday,
+              dueDateSelection: s,
+            );
+            break;
+          case InXLessonsDueDateSelection s:
+            final nextLesson = await nextLessonCalculator
+                .tryCalculateNextLesson(_homework.courseID);
+            _dateSelection = _dateSelection.copyWith(
+              dueDate: nextLesson,
+              dueDateSelection: s,
+            );
+        }
         if (showNoDueDateChosenError) {
           showNoDueDateChosenError = false;
         }
@@ -640,13 +670,17 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
 
         // Manual date was already set, we don't want to overwrite it.
-        if (_dateSelection.dueDate != null) {
+        if (_dateSelection.dueDateSelection is DateDueDateSelection) {
           return;
         }
         final nextLesson =
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
         if (nextLesson != null) {
-          add(DueDateChanged(nextLesson));
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: nextLesson,
+            dueDateSelection: const InXLessonsDueDateSelection(1),
+          );
+          emit(_getNewState());
         } else {
           final today = _clock.now().toDate();
           final daysUntilNextSchoolday = switch (today.weekDayEnum) {
@@ -654,7 +688,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             WeekDay.saturday => 2, // Monday
             _ => 1 // Tomorrow
           };
-          add(DueDateChanged(today.addDays(daysUntilNextSchoolday)));
+          final nextSchoolday = today.addDays(daysUntilNextSchoolday);
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: nextSchoolday,
+            dueDateSelection: const NextSchooldayDueDateSelection(),
+          );
+          emit(_getNewState());
         }
       },
     );
@@ -745,6 +784,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         error: showNoDueDateChosenError
             ? const NoDueDateSelectedException()
             : null,
+        selection: _dateSelection.dueDateSelection,
       ),
       submissions: _homework.withSubmissions
           ? SubmissionsEnabled(

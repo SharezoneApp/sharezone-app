@@ -341,6 +341,29 @@ class _TodoUntilPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+
+    var inXHoursController = _InXHoursController(
+      onChanged: (selection) => bloc.add(DueDateChanged(selection)),
+      initialChips: const IListConst([
+        _ChipSpec(
+          dueDate: DueDateSelection.nextSchoolday,
+        ),
+        _ChipSpec(
+          dueDate: DueDateSelection.inXLessons(1),
+          // isSelected: true,
+        ),
+        _ChipSpec(
+          dueDate: DueDateSelection.inXLessons(2),
+        ),
+        // _ChipSpec(
+        //   dueDate: DueDateSelection.inXLessons(3),
+        //   isDeletable: true,
+        // ),
+      ]),
+    );
+    if (state.dueDate.selection != null) {
+      inXHoursController.selectChip(state.dueDate.selection!);
+    }
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -359,32 +382,15 @@ class _TodoUntilPicker extends StatelessWidget {
                     : const EdgeInsets.all(12),
                 selectedDate: state.dueDate.$1?.toDateTime,
                 selectDate: (newDate) {
-                  bloc.add(DueDateChanged(Date.fromDateTime(newDate)));
+                  bloc.add(DueDateChanged(
+                      DueDateSelection.date(Date.fromDateTime(newDate))));
                 },
               ),
             ),
             if (showLessonChips)
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
-                child: _InXHours(
-                    controller: _InXHoursController(
-                  initialChips: const IListConst([
-                    _ChipSpec(
-                      dueDate: DueDateSelection.nextSchoolday,
-                    ),
-                    _ChipSpec(
-                      dueDate: DueDateSelection.inXLessons(1),
-                      isSelected: true,
-                    ),
-                    _ChipSpec(
-                      dueDate: DueDateSelection.inXLessons(2),
-                    ),
-                    // _ChipSpec(
-                    //   dueDate: DueDateSelection.inXLessons(3),
-                    //   isDeletable: true,
-                    // ),
-                  ]),
-                )),
+                child: _InXHours(controller: inXHoursController),
               ),
           ],
         ),
@@ -434,8 +440,11 @@ class _LessonChip {
 }
 
 class _InXHoursController extends ChangeNotifier {
+  final void Function(DueDateSelection) onChanged;
+
   _InXHoursController({
     required IList<_ChipSpec> initialChips,
+    required this.onChanged,
   }) {
     final converted = initialChips
         .map((config) => _LessonChip(
@@ -467,6 +476,7 @@ class _InXHoursController extends ChangeNotifier {
   IList<_LessonChip> chips = const IListConst([]);
 
   void selectChip(DueDateSelection dueDate) {
+    final old = chips;
     chips = chips.map((chip) {
       if (chip.dueDate == dueDate) {
         return chip.copyWith(isSelected: true);
@@ -474,6 +484,9 @@ class _InXHoursController extends ChangeNotifier {
         return chip.copyWith(isSelected: false);
       }
     }).toIList();
+    if (old != chips) {
+      onChanged(dueDate);
+    }
     notifyListeners();
   }
 

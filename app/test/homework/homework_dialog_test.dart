@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -20,6 +21,7 @@ import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -210,6 +212,7 @@ void main() {
     late MockSharezoneGateway sharezoneGateway;
     late MockCourseGateway courseGateway;
     late MockHomeworkGateway homeworkGateway;
+    Clock? clockOverride;
 
     HomeworkDto? homework;
 
@@ -223,6 +226,7 @@ void main() {
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
       homework = null;
+      clockOverride = null;
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
@@ -237,31 +241,33 @@ void main() {
       }
       homeworkDialogApi.homeworkToReturn = homework;
 
-      await tester.pumpWidget(
-        MultiBlocProvider(
-          blocProviders: [
-            BlocProvider<TimePickerSettingsCache>(
-              bloc: TimePickerSettingsCache(
-                InMemoryStreamingKeyValueStore(),
+      await withClock(clockOverride ?? clock, () async {
+        await tester.pumpWidget(
+          MultiBlocProvider(
+            blocProviders: [
+              BlocProvider<TimePickerSettingsCache>(
+                bloc: TimePickerSettingsCache(
+                  InMemoryStreamingKeyValueStore(),
+                ),
               ),
-            ),
-            BlocProvider<MarkdownAnalytics>(
-              bloc: MarkdownAnalytics(analytics),
-            ),
-            BlocProvider<SharezoneContext>(bloc: sharezoneContext),
-          ],
-          child: (context) => MaterialApp(
-            home: Scaffold(
-              body: HomeworkDialog(
-                homeworkDialogApi: homeworkDialogApi,
-                nextLessonCalculator: nextLessonCalculator,
-                id: homework?.id != null ? HomeworkId(homework!.id) : null,
-                showDueDateSelectionChips: showDueDateSelectionChips,
+              BlocProvider<MarkdownAnalytics>(
+                bloc: MarkdownAnalytics(analytics),
+              ),
+              BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+            ],
+            child: (context) => MaterialApp(
+              home: Scaffold(
+                body: HomeworkDialog(
+                  homeworkDialogApi: homeworkDialogApi,
+                  nextLessonCalculator: nextLessonCalculator,
+                  id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                  showDueDateSelectionChips: showDueDateSelectionChips,
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      });
 
       // We have a delay for displaying the keyboard (using a Timer).
       // We have to wait until the timer is finished, otherwise this happens:
@@ -538,7 +544,11 @@ void main() {
     });
 
     _TestController createController(WidgetTester tester) {
-      return _TestController(tester, nextLessonCalculator);
+      return _TestController(
+        tester,
+        nextLessonCalculator,
+        setClockOverride: (clock) => clockOverride = clock,
+      );
     }
 
     testWidgets(
@@ -546,9 +556,9 @@ void main() {
         (tester) async {
       final controller = createController(tester);
 
-      controller.setNextSchoolday(Date('2023-11-06'));
+      // controller.setNextSchoolday(Date('2023-11-06'));
       // Friday
-      // controller.setToday(Date('2023-11-04'));
+      controller.setToday(Date('2023-11-04'));
       // controller.setSchooldays('Mo-Fr');
       // expect(controller.isRegularSchoolday(Date('2023-11-06')), true);
 
@@ -556,11 +566,12 @@ void main() {
       //     showDueDateSelectionChips: true);
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
+
       await controller.selectLessonChip('Nächster Schultag');
 
       expect(controller.getSelectedLessonChip(), 'Nächster Schultag');
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
-    }, skip: true);
+    });
 
     testWidgets(
         'homework lesson chips are not visible if the function is deactivated',
@@ -579,10 +590,17 @@ void main() {
 class _TestController {
   final WidgetTester tester;
   final MockNextLessonCalculator nextLessonCalculator;
+  void Function(Clock clock) setClockOverride;
 
-  _TestController(this.tester, this.nextLessonCalculator);
+  _TestController(
+    this.tester,
+    this.nextLessonCalculator, {
+    required this.setClockOverride,
+  });
 
-  void setToday(Date date) {}
+  void setToday(Date date) {
+    setClockOverride(Clock.fixed(date.toDateTime));
+  }
 
   Future<void> selectLessonChip(String s) async {
     await tester.tap(find.text('Nächster Schultag'));
@@ -602,9 +620,7 @@ class _TestController {
     return datePicker.selectedDate?.toDate();
   }
 
-  void setNextSchoolday(Date date) {
-    nextLessonCalculator.dateToReturn = date;
-  }
+  void setNextSchoolday(Date date) {}
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
