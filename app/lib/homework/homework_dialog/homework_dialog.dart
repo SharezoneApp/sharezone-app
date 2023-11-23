@@ -379,10 +379,10 @@ class _TodoUntilPicker extends StatelessWidget {
                     _ChipSpec(
                       dueDate: DueDateSelection.inXLessons(2),
                     ),
-                    _ChipSpec(
-                      dueDate: DueDateSelection.inXLessons(3),
-                      isDeletable: true,
-                    ),
+                    // _ChipSpec(
+                    //   dueDate: DueDateSelection.inXLessons(3),
+                    //   isDeletable: true,
+                    // ),
                   ]),
                 )),
               ),

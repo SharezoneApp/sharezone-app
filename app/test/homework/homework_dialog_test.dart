@@ -523,14 +523,18 @@ void main() {
       await tester.tap(find.text('Nächster Schultag'));
       await tester.pumpAndSettle();
 
-      final chip = tester.widget<InputChip>(
-          find.widgetWithText(InputChip, 'Nächster Schultag'));
-      expect(chip.selected, true);
-      expect(
-          find.byWidgetPredicate(
-              (widget) => widget is InputChip && !widget.selected),
-          findsNWidgets(4));
+      final chips = tester.widgetList<InputChip>(find.byType(InputChip));
+      final mapped =
+          chips.map((e) => ((e.label as Text).data!, e.selected)).toList();
+
+      expect(mapped, [
+        ('Nächster Schultag', true),
+        ('Nächste Stunde', false),
+        ('Übernächste Stunde', false),
+        ('Benutzerdefiniert', false),
+      ]);
     });
+
 
     testWidgets(
         'homework lesson chips are not visible if the function is deactivated',
