@@ -222,6 +222,7 @@ void main() {
       sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
+      homework = null;
     });
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
