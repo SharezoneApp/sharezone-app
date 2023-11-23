@@ -12,6 +12,7 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -34,6 +35,7 @@ import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_bloc_test.dart';
@@ -514,7 +516,6 @@ void main() {
       expect(find.text('Übernächste Stunde'), findsOneWidget);
       expect(find.text('Benutzerdefiniert'), findsOneWidget);
     });
-
     testWidgets('when pressing a homework lesson chip it gets selected',
         (tester) async {
       await pumpAndSettleHomeworkDialog(tester,
@@ -535,6 +536,30 @@ void main() {
       ]);
     });
 
+    _TestController createController(WidgetTester tester) {
+      return _TestController(tester, nextLessonCalculator);
+    }
+
+    testWidgets(
+        'when pressing the "next schoolday" chip the next schoolday will be selected',
+        (tester) async {
+      final controller = createController(tester);
+
+      controller.setNextSchoolday(Date('2023-11-06'));
+      // Friday
+      // controller.setToday(Date('2023-11-04'));
+      // controller.setSchooldays('Mo-Fr');
+      // expect(controller.isRegularSchoolday(Date('2023-11-06')), true);
+
+      // await controller.pumpAndSettleHomeworkDialog(
+      //     showDueDateSelectionChips: true);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+      await controller.selectLessonChip('Nächster Schultag');
+
+      expect(controller.getSelectedLessonChip(), 'Nächster Schultag');
+      expect(controller.getSelectedDueDate(), Date('2023-11-06'));
+    }, skip: true);
 
     testWidgets(
         'homework lesson chips are not visible if the function is deactivated',
@@ -548,6 +573,37 @@ void main() {
       expect(find.text('Benutzerdefiniert'), findsNothing);
     });
   });
+}
+
+class _TestController {
+  final WidgetTester tester;
+  final MockNextLessonCalculator nextLessonCalculator;
+
+  _TestController(this.tester, this.nextLessonCalculator);
+
+  void setToday(Date date) {}
+
+  Future<void> selectLessonChip(String s) async {
+    await tester.tap(find.text('Nächster Schultag'));
+    await tester.pumpAndSettle();
+  }
+
+  String getSelectedLessonChip() {
+    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
+    final res = chips
+        .map((e) => ((e.label as Text).data!, isSelected: e.selected))
+        .singleWhere((element) => element.isSelected);
+    return res.$1;
+  }
+
+  Date? getSelectedDueDate() {
+    final datePicker = tester.widget<DatePicker>(find.byType(DatePicker));
+    return datePicker.selectedDate?.toDate();
+  }
+
+  void setNextSchoolday(Date date) {
+    nextLessonCalculator.dateToReturn = date;
+  }
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
