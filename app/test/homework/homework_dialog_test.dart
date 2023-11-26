@@ -540,24 +540,26 @@ void main() {
       return _TestController(
         tester,
         nextLessonCalculator,
+        homeworkDialogApi,
+        courseGateway,
         setClockOverride: (clock) => clockOverride = clock,
       );
     }
 
-    testWidgets('when pressing a homework lesson chip it gets selected',
+    testWidgets(
+        'when pressing "Nächste Stunde" the next lesson will be selected',
         (tester) async {
       final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-11-06'), Date('2023-11-08')]);
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
-      await controller.selectLessonChip('Nächster Schultag');
+      await controller.selectLessonChip('Nächste Stunde');
 
-      final mapped = controller.getSelectableLessonChips();
-      expect(mapped, [
-        ('Nächster Schultag', isSelected: true),
-        ('Nächste Stunde', isSelected: false),
-        ('Übernächste Stunde', isSelected: false),
-      ]);
+      expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
 
     testWidgets(
@@ -582,13 +584,22 @@ void main() {
 typedef LessonChip = (String label, {bool isSelected});
 
 class _TestController {
+  final MockHomeworkDialogApi homeworkDialogApi;
+  // final MockSharezoneContext sharezoneContext;
+  // final LocalAnalyticsBackend analyticsBackend;
+  // final Analytics analytics;
+  // final MockSharezoneGateway sharezoneGateway;
+  final MockCourseGateway courseGateway;
+  // final MockHomeworkGateway homeworkGateway;
   final WidgetTester tester;
   final MockNextLessonCalculator nextLessonCalculator;
   void Function(Clock clock) setClockOverride;
 
   _TestController(
     this.tester,
-    this.nextLessonCalculator, {
+    this.nextLessonCalculator,
+    this.homeworkDialogApi,
+    this.courseGateway, {
     required this.setClockOverride,
   });
 
@@ -597,7 +608,7 @@ class _TestController {
   }
 
   Future<void> selectLessonChip(String s) async {
-    await tester.tap(find.text('Nächster Schultag'));
+    await tester.tap(find.text(s));
     await tester.pumpAndSettle();
   }
 
@@ -623,6 +634,16 @@ class _TestController {
   }
 
   void setNextSchoolday(Date date) {}
+
+  void addCourse(Course course) {
+    when(courseGateway.streamCourses())
+        .thenAnswer((_) => Stream.value([course]));
+    homeworkDialogApi.addCourseForTesting(course);
+  }
+
+  void addNextLessonDates(String courseId, List<Date> nextDates) {
+    nextLessonCalculator.dateToReturn = nextDates.first;
+  }
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
