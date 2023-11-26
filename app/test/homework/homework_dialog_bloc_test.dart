@@ -325,19 +325,19 @@ void main() {
       );
     });
     test('Sucessfully add private homework with files', () async {
-      final bloc = createBlocForNewHomeworkDialog();
-
       final mathCourse = courseWith(
         id: 'maths_course',
         name: 'Maths',
         subject: 'Math',
       );
       addCourse(mathCourse);
+      nextLessonCalculator.dateToReturn = Date('2023-10-12');
 
       final fooLocalFile = randomLocalFileFrom(path: 'bar/foo.png');
       final barLocalFile = randomLocalFileFrom(path: 'foo/bar.pdf');
       final quzLocalFile = randomLocalFileFrom(path: 'bar/quux/baz/quz.mp4');
 
+      final bloc = createBlocForNewHomeworkDialog();
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
       bloc.add(DueDateChanged(DueDateSelection.date(Date.parse('2023-10-12'))));
@@ -361,6 +361,7 @@ void main() {
             dueDate: (
               Date('2023-10-12'),
               selection: DueDateSelection.date(Date('2023-10-12')),
+              lessonChipsSelectable: true,
               error: null
             ),
             submissions: const SubmissionsDisabled(isChangeable: false),
@@ -410,6 +411,7 @@ void main() {
       );
 
       addCourse(artCourse);
+      nextLessonCalculator.datesToReturn = [Date('2024-11-13')];
 
       bloc.add(const TitleChanged('Paint masterpiece'));
       bloc.add(CourseChanged(CourseId(artCourse.id)));
@@ -432,6 +434,7 @@ void main() {
             dueDate: (
               Date('2024-11-13'),
               selection: DateDueDateSelection(Date('2024-11-13')),
+              lessonChipsSelectable: true,
               error: null
             ),
             submissions:
@@ -688,7 +691,12 @@ void main() {
             courseName: 'Foo course',
             isChangeable: false,
           ),
-          dueDate: (Date('2024-03-12'), selection: null, error: null),
+          dueDate: (
+            Date('2024-03-12'),
+            selection: null,
+            lessonChipsSelectable: true,
+            error: null,
+          ),
           submissions: const SubmissionsDisabled(isChangeable: false),
           description: 'description text',
           attachments: IList([
@@ -765,7 +773,12 @@ void main() {
             courseName: 'Bar course',
             isChangeable: false,
           ),
-          dueDate: (Date('2024-03-12'), selection: null, error: null),
+          dueDate: (
+            Date('2024-03-12'),
+            selection: null,
+            lessonChipsSelectable: true,
+            error: null,
+          ),
           submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 35)),
           description: 'description text',
           attachments: IList(),

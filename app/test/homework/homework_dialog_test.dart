@@ -56,13 +56,13 @@ class MockNextLessonCalculator implements NextLessonCalculator {
 
   @override
   Future<Date?> tryCalculateNextLesson(String courseID) async {
-    return dateToReturn;
+    return dateToReturn ?? datesToReturn?.first;
   }
 
   @override
   Future<Date?> tryCalculateXNextLesson(String courseID,
       {int inLessons = 1}) async {
-    return datesToReturn?.elementAt(inLessons - 1);
+    return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
   }
 }
 
@@ -607,7 +607,32 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['5.-nächste Stunde']);
       expect(controller.getSelectedDueDate(), Date('2023-11-15'));
     });
+    testWidgets('when no course is selected then the lesson chips are disabled',
+        (tester) async {
+      final controller = createController(tester);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
 
+      expect(controller.getSelectableLessonChips(), ['Nächster Schultag']);
+      final chips =
+          controller.getLessonChips().map((e) => (e.$1, e.selectable)).toList();
+      expect(chips, [
+        ('Nächster Schultag', true),
+        ('Nächste Stunde', false),
+        ('Übernächste Stunde', false),
+        ('Benutzerdefiniert', false),
+      ]);
+      // Test that nothing happens when tapping on disabled chips
+      await controller.selectLessonChip('Nächste Stunde');
+      await controller.selectLessonChip('Übernächste Stunde');
+      expect(controller.getSelectedLessonChips(), []);
+
+      // "Benutzerdefiniert" is not selectable, thus it doesn't show the dialog.
+      await controller.selectLessonChip('Benutzerdefiniert');
+      expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
+          findsNothing);
+    });
+    // TODO Fix: Changing Course when lesson chip is selected it will still be selected
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
         (tester) async {
@@ -627,7 +652,7 @@ void main() {
   });
 }
 
-typedef LessonChip = (String label, {bool isSelected});
+typedef LessonChip = (String label, {bool isSelected, bool selectable});
 
 class _TestController {
   final MockHomeworkDialogApi homeworkDialogApi;
@@ -659,19 +684,32 @@ class _TestController {
     await tester.pumpAndSettle();
   }
 
+  Iterable<LessonChip> _toChips(Iterable<InputChip> chips) {
+    return chips.map((e) => (
+          (e.label as Text).data!,
+          isSelected: e.selected,
+          // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+          // chip uses onPressed.
+          selectable: e.onSelected != null || e.onPressed != null,
+        ));
+  }
+
   List<String> getSelectedLessonChips() {
     final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-    final res = chips
-        .map((e) => ((e.label as Text).data!, isSelected: e.selected))
-        .where((element) => element.isSelected);
+    final res = _toChips(chips).where((element) => element.isSelected);
     return res.map((e) => e.$1).toList();
   }
 
-  List<LessonChip> getSelectableLessonChips() {
+  List<LessonChip> getLessonChips() {
     final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-    return chips
-        .map((e) => ((e.label as Text).data!, isSelected: e.selected))
-        .where((element) => element.$1 != 'Benutzerdefiniert')
+    return _toChips(chips).toList();
+  }
+
+  List<String> getSelectableLessonChips() {
+    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
+    return _toChips(chips)
+        .where((element) => element.selectable)
+        .map((e) => e.$1)
         .toList();
   }
 

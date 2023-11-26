@@ -45,6 +45,7 @@ class NextLessonCalculator {
       final results =
           _NextLessonCalculation(lessons, holidays, user.userSettings)
               .calculate(days: inLessons);
+      if (results.isEmpty) return null;
       return results.elementAt(inLessons - 1);
     } catch (e, s) {
       log('Could not calculate next lesson: $e\n$s', error: e, stackTrace: s);

@@ -406,7 +406,10 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
             if (widget.showLessonChips)
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
-                child: _InXHours(controller: inXHoursController),
+                child: _InXHours(
+                    controller: inXHoursController,
+                    areLessonChipsSelectable:
+                        widget.state.dueDate.lessonChipsSelectable),
               ),
           ],
         ),
@@ -529,9 +532,13 @@ class _InXHoursController extends ChangeNotifier {
 }
 
 class _InXHours extends StatelessWidget {
-  const _InXHours({required this.controller});
+  const _InXHours({
+    required this.controller,
+    required this.areLessonChipsSelectable,
+  });
 
   final _InXHoursController controller;
+  final bool areLessonChipsSelectable;
 
   @override
   Widget build(BuildContext context) {
@@ -555,9 +562,13 @@ class _InXHours extends StatelessWidget {
                       child: InputChip(
                         label: Text(filter.label),
                         selected: filter.isSelected,
-                        onSelected: (newState) {
-                          controller.selectChip(filter.dueDate);
-                        },
+                        onSelected:
+                            filter.dueDate is! InXLessonsDueDateSelection ||
+                                    areLessonChipsSelectable
+                                ? (newState) {
+                                    controller.selectChip(filter.dueDate);
+                                  }
+                                : null,
                         onDeleted: filter.isDeletable
                             ? () {
                                 controller.deleteInXLessonsChip(filter.dueDate
@@ -569,11 +580,13 @@ class _InXHours extends StatelessWidget {
                   InputChip(
                     avatar: const Icon(Icons.edit),
                     label: const Text('Benutzerdefiniert'),
-                    onPressed: () async {
-                      // The normal theme would apply material3 to the dialog
-                      // which is not what we want.
-                      await _onCustomChipTap(beforeThemeChangeContext);
-                    },
+                    onPressed: areLessonChipsSelectable
+                        ? () async {
+                            // The normal theme would apply material3 to the dialog
+                            // which is not what we want.
+                            await _onCustomChipTap(beforeThemeChangeContext);
+                          }
+                        : null,
                   ),
                   const SizedBox(width: 10),
                 ],

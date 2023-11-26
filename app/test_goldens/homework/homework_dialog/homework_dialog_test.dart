@@ -93,6 +93,7 @@ void main() {
         dueDate: (
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: true,
           error: null
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
@@ -159,6 +160,7 @@ void main() {
         dueDate: (
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: false,
           error: null
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
@@ -249,6 +251,7 @@ void main() {
         dueDate: (
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: true,
           error: null
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
@@ -339,6 +342,7 @@ void main() {
         dueDate: (
           null,
           selection: null,
+          lessonChipsSelectable: false,
           error: const NoDueDateSelectedException()
         ),
       );
@@ -381,6 +385,7 @@ void main() {
         dueDate: (
           Date('2024-01-14'),
           selection: DueDateSelection.date(Date('2024-01-14')),
+          lessonChipsSelectable: true,
           error: null
         ),
         submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),

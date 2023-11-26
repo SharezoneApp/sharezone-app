@@ -128,10 +128,17 @@ sealed class HomeworkDialogState extends Equatable {
   const HomeworkDialogState({required this.isEditing});
 }
 
+typedef DueDateState = (
+  Date?, {
+  DueDateSelection? selection,
+  bool lessonChipsSelectable,
+  dynamic error
+});
+
 class Ready extends HomeworkDialogState {
   final (String, {dynamic error}) title;
   final CourseState course;
-  final (Date?, {DueDateSelection? selection, dynamic error}) dueDate;
+  final DueDateState dueDate;
   final SubmissionState submissions;
   final String description;
   final IList<FileView> attachments;
@@ -169,7 +176,7 @@ class Ready extends HomeworkDialogState {
   Ready copyWith({
     (String, {dynamic error})? title,
     CourseState? course,
-    (Date?, {DueDateSelection? selection, dynamic error})? dueDate,
+    DueDateState? dueDate,
     SubmissionState? submissions,
     String? description,
     IList<FileView>? attachments,
@@ -190,6 +197,11 @@ class Ready extends HomeworkDialogState {
       hasModifiedData: hasModifiedData ?? this.hasModifiedData,
       isEditing: isEditing ?? this.isEditing,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Ready(course: $course, dueDate: $dueDate, submissions: $submissions, description: $description, attachments: $attachments, notifyCourseMembers: $notifyCourseMembers, hasModifiedData: $hasModifiedData)';
   }
 }
 
@@ -294,7 +306,7 @@ class LoadingHomework extends HomeworkDialogState {
 final emptyCreateHomeworkDialogState = Ready(
   title: ('', error: null),
   course: const NoCourseChosen(),
-  dueDate: (null, selection: null, error: null),
+  dueDate: (null, selection: null, lessonChipsSelectable: false, error: null),
   submissions: const SubmissionsDisabled(isChangeable: true),
   description: '',
   attachments: IList(),
@@ -451,6 +463,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   _DateSelection _initialDateSelection = _DateSelection.noSelection;
   _DateSelection _dateSelection = _DateSelection.noSelection;
 
+  // TODO: Test in edit mode
+  bool hasLessonData = false;
   bool finishedInitializing = false;
 
   bool showTitleEmptyError = false;
@@ -670,12 +684,14 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
         emit(_getNewState());
 
+        final nextLesson =
+            await nextLessonCalculator.tryCalculateNextLesson(course.id);
+        hasLessonData = nextLesson != null;
+
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection is DateDueDateSelection) {
           return;
         }
-        final nextLesson =
-            await nextLessonCalculator.tryCalculateNextLesson(course.id);
         if (nextLesson != null) {
           _dateSelection = _dateSelection.copyWith(
             dueDate: nextLesson,
@@ -785,6 +801,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         error: showNoDueDateChosenError
             ? const NoDueDateSelectedException()
             : null,
+        lessonChipsSelectable: hasLessonData,
         selection: _dateSelection.dueDateSelection,
       ),
       submissions: _homework.withSubmissions
@@ -827,6 +844,11 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       homeworkId: _initialHomework!.id,
     ))
         .toIList();
+    // If one lesson time can be calculated, we assume that the user has lesson
+    // data.
+    hasLessonData = await nextLessonCalculator
+            .tryCalculateNextLesson(_initialHomework!.courseID) !=
+        null;
     add(_LoadedHomeworkData());
   }
 }
