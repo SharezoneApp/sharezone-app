@@ -556,14 +556,9 @@ void main() {
         (tester) async {
       final controller = createController(tester);
 
-      // controller.setNextSchoolday(Date('2023-11-06'));
-      // Friday
+      // Friday, thus next schoolday is Monday
       controller.setToday(Date('2023-11-04'));
-      // controller.setSchooldays('Mo-Fr');
-      // expect(controller.isRegularSchoolday(Date('2023-11-06')), true);
 
-      // await controller.pumpAndSettleHomeworkDialog(
-      //     showDueDateSelectionChips: true);
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
