@@ -132,6 +132,10 @@ class HwDialogKeys {
   static const Key titleTextField = Key("title-field");
   static const Key courseTile = Key("course-tile");
   static const Key todoUntilTile = Key("todo-until-tile");
+  static const Key customLessonChipDialogTextField =
+      Key("custom-lesson-chip-dialog-text-field");
+  static const Key customLessonChipDialogOkButton =
+      Key("custom-lesson-chip-dialog-ok-button");
   static const Key submissionTile = Key("submission-tile");
   static const Key submissionTimeTile = Key("submission-time-tile");
   static const Key descriptionField = Key("description-field");
@@ -332,17 +336,28 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-class _TodoUntilPicker extends StatelessWidget {
+class _TodoUntilPicker extends StatefulWidget {
   final Ready state;
   final bool showLessonChips;
 
-  const _TodoUntilPicker({required this.state, required this.showLessonChips});
+  const _TodoUntilPicker({
+    required this.state,
+    required this.showLessonChips,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+  State<_TodoUntilPicker> createState() => _TodoUntilPickerState();
+}
 
-    var inXHoursController = _InXHoursController(
+class _TodoUntilPickerState extends State<_TodoUntilPicker> {
+  late _InXHoursController inXHoursController;
+
+  @override
+  void initState() {
+    super.initState();
+    final bloc =
+        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: false);
+    inXHoursController = _InXHoursController(
       onChanged: (selection) => bloc.add(DueDateChanged(selection)),
       initialChips: const IListConst([
         _ChipSpec(
@@ -350,19 +365,20 @@ class _TodoUntilPicker extends StatelessWidget {
         ),
         _ChipSpec(
           dueDate: DueDateSelection.inXLessons(1),
-          // isSelected: true,
         ),
         _ChipSpec(
           dueDate: DueDateSelection.inXLessons(2),
         ),
-        // _ChipSpec(
-        //   dueDate: DueDateSelection.inXLessons(3),
-        //   isDeletable: true,
-        // ),
       ]),
     );
-    if (state.dueDate.selection != null) {
-      inXHoursController.selectChip(state.dueDate.selection!);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+
+    if (widget.state.dueDate.selection != null) {
+      inXHoursController.selectChip(widget.state.dueDate.selection!);
     }
     return MaxWidthConstraintBox(
       child: SafeArea(
@@ -373,21 +389,21 @@ class _TodoUntilPicker extends StatelessWidget {
           children: [
             DefaultTextStyle.merge(
               style: TextStyle(
-                color: state.dueDate.error != null ? Colors.red : null,
+                color: widget.state.dueDate.error != null ? Colors.red : null,
               ),
               child: DatePicker(
                 key: HwDialogKeys.todoUntilTile,
-                padding: showLessonChips
+                padding: widget.showLessonChips
                     ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
                     : const EdgeInsets.all(12),
-                selectedDate: state.dueDate.$1?.toDateTime,
+                selectedDate: widget.state.dueDate.$1?.toDateTime,
                 selectDate: (newDate) {
                   bloc.add(DueDateChanged(
                       DueDateSelection.date(Date.fromDateTime(newDate))));
                 },
               ),
             ),
-            if (showLessonChips)
+            if (widget.showLessonChips)
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
                 child: _InXHours(controller: inXHoursController),
@@ -437,6 +453,11 @@ class _LessonChip {
       dueDate: dueDate ?? this.dueDate,
     );
   }
+
+  @override
+  String toString() {
+    return '_LessonChip(label: $label, isSelected: $isSelected, isDeletable: $isDeletable, dueDate: $dueDate)';
+  }
 }
 
 class _InXHoursController extends ChangeNotifier {
@@ -446,6 +467,7 @@ class _InXHoursController extends ChangeNotifier {
     required IList<_ChipSpec> initialChips,
     required this.onChanged,
   }) {
+    print('constructor');
     final converted = initialChips
         .map((config) => _LessonChip(
               label: getName(config.dueDate),
@@ -496,6 +518,7 @@ class _InXHoursController extends ChangeNotifier {
       dueDate: inXLessons,
       isDeletable: true,
     ));
+    selectChip(inXLessons);
     notifyListeners();
   }
 
@@ -566,6 +589,7 @@ class _InXHours extends StatelessWidget {
         context: context,
         title: 'Stundenzeit auswählen',
         right: AdaptiveDialogAction(
+          key: HwDialogKeys.customLessonChipDialogOkButton,
           title: 'OK',
           onPressed: () {
             Navigator.pop(context, inXHours);
@@ -578,6 +602,7 @@ class _InXHours extends StatelessWidget {
             SizedBox(
               width: 50,
               child: TextField(
+                key: HwDialogKeys.customLessonChipDialogTextField,
                 maxLength: 2,
                 textAlign: TextAlign.end,
                 style: const TextStyle(

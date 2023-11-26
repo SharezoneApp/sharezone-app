@@ -584,6 +584,26 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
       expect(controller.getSelectedDueDate(), Date('2023-11-08'));
     });
+    testWidgets(
+        'when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates('foo_course', [
+        Date('2023-11-06'),
+        Date('2023-11-08'),
+        Date('2023-11-10'),
+        Date('2023-11-13'),
+        Date('2023-11-15'),
+      ]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.createCustomChip(inXLessons: 5);
+
+      expect(controller.getSelectedLessonChips(), ['5.-nächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-15'));
+    });
 
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
@@ -630,8 +650,9 @@ class _TestController {
     setClockOverride(Clock.fixed(date.toDateTime));
   }
 
-  Future<void> selectLessonChip(String s) async {
-    await tester.tap(find.text(s));
+  Future<void> selectLessonChip(String label) async {
+    await tester.ensureVisible(find.widgetWithText(InputChip, label));
+    await tester.tap(find.text(label));
     await tester.pumpAndSettle();
   }
 
@@ -666,6 +687,15 @@ class _TestController {
 
   void addNextLessonDates(String courseId, List<Date> nextDates) {
     nextLessonCalculator.datesToReturn = nextDates;
+  }
+
+  Future<void> createCustomChip({required int inXLessons}) async {
+    await selectLessonChip('Benutzerdefiniert');
+    await tester.enterText(
+        find.byKey(HwDialogKeys.customLessonChipDialogTextField),
+        '$inXLessons');
+    await tester.tap(find.byKey(HwDialogKeys.customLessonChipDialogOkButton));
+    await tester.pumpAndSettle();
   }
 }
 
