@@ -552,12 +552,11 @@ void main() {
 
       await controller.selectLessonChip('Nächster Schultag');
 
-      final mapped = controller.getLessonChips();
+      final mapped = controller.getSelectableLessonChips();
       expect(mapped, [
         ('Nächster Schultag', isSelected: true),
         ('Nächste Stunde', isSelected: false),
         ('Übernächste Stunde', isSelected: false),
-        ('Benutzerdefiniert', isSelected: false),
       ]);
     });
 
@@ -610,10 +609,11 @@ class _TestController {
     return res.map((e) => e.$1).toList();
   }
 
-  List<LessonChip> getLessonChips() {
+  List<LessonChip> getSelectableLessonChips() {
     final chips = tester.widgetList<InputChip>(find.byType(InputChip));
     return chips
         .map((e) => ((e.label as Text).data!, isSelected: e.selected))
+        .where((element) => element.$1 != 'Benutzerdefiniert')
         .toList();
   }
 
