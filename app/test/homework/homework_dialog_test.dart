@@ -614,13 +614,15 @@ void main() {
           showDueDateSelectionChips: true);
 
       expect(controller.getSelectableLessonChips(), ['Nächster Schultag']);
-      final chips =
-          controller.getLessonChips().map((e) => (e.$1, e.selectable)).toList();
+      final chips = controller
+          .getLessonChips()
+          .map((e) => (e.$1, selectable: e.selectable))
+          .toList();
       expect(chips, [
-        ('Nächster Schultag', true),
-        ('Nächste Stunde', false),
-        ('Übernächste Stunde', false),
-        ('Benutzerdefiniert', false),
+        ('Nächster Schultag', selectable: true),
+        ('Nächste Stunde', selectable: false),
+        ('Übernächste Stunde', selectable: false),
+        ('Benutzerdefiniert', selectable: false),
       ]);
       // Test that nothing happens when tapping on disabled chips
       await controller.selectLessonChip('Nächste Stunde');
