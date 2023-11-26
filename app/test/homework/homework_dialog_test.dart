@@ -569,7 +569,7 @@ void main() {
 
       await controller.selectLessonChip('Nächster Schultag');
 
-      expect(controller.getSelectedLessonChip(), 'Nächster Schultag');
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
 
@@ -607,12 +607,12 @@ class _TestController {
     await tester.pumpAndSettle();
   }
 
-  String getSelectedLessonChip() {
+  List<String> getSelectedLessonChips() {
     final chips = tester.widgetList<InputChip>(find.byType(InputChip));
     final res = chips
         .map((e) => ((e.label as Text).data!, isSelected: e.selected))
-        .singleWhere((element) => element.isSelected);
-    return res.$1;
+        .where((element) => element.isSelected);
+    return res.map((e) => e.$1).toList();
   }
 
   Date? getSelectedDueDate() {
