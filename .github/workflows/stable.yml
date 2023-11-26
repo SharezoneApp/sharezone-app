@@ -66,7 +66,7 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.47.0
@@ -117,7 +117,7 @@ jobs:
     if: github.event.inputs.deploy-web-app == 'true'
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -162,7 +162,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.47.0
@@ -229,7 +229,7 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.47.0
