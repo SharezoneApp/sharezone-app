@@ -536,26 +536,6 @@ void main() {
       expect(find.text('Benutzerdefiniert'), findsNothing);
     });
 
-    testWidgets('when pressing a homework lesson chip it gets selected',
-        (tester) async {
-      await pumpAndSettleHomeworkDialog(tester,
-          showDueDateSelectionChips: true);
-
-      await tester.tap(find.text('Nächster Schultag'));
-      await tester.pumpAndSettle();
-
-      final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-      final mapped =
-          chips.map((e) => ((e.label as Text).data!, e.selected)).toList();
-
-      expect(mapped, [
-        ('Nächster Schultag', true),
-        ('Nächste Stunde', false),
-        ('Übernächste Stunde', false),
-        ('Benutzerdefiniert', false),
-      ]);
-    });
-
     _TestController createController(WidgetTester tester) {
       return _TestController(
         tester,
@@ -563,6 +543,23 @@ void main() {
         setClockOverride: (clock) => clockOverride = clock,
       );
     }
+
+    testWidgets('when pressing a homework lesson chip it gets selected',
+        (tester) async {
+      final controller = createController(tester);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+
+      final mapped = controller.getLessonChips();
+      expect(mapped, [
+        ('Nächster Schultag', isSelected: true),
+        ('Nächste Stunde', isSelected: false),
+        ('Übernächste Stunde', isSelected: false),
+        ('Benutzerdefiniert', isSelected: false),
+      ]);
+    });
 
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
@@ -582,6 +579,8 @@ void main() {
     });
   });
 }
+
+typedef LessonChip = (String label, {bool isSelected});
 
 class _TestController {
   final WidgetTester tester;
@@ -609,6 +608,13 @@ class _TestController {
         .map((e) => ((e.label as Text).data!, isSelected: e.selected))
         .where((element) => element.isSelected);
     return res.map((e) => e.$1).toList();
+  }
+
+  List<LessonChip> getLessonChips() {
+    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
+    return chips
+        .map((e) => ((e.label as Text).data!, isSelected: e.selected))
+        .toList();
   }
 
   Date? getSelectedDueDate() {
