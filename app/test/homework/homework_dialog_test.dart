@@ -564,6 +564,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
+      await controller.selectCourse('foo_course');
       await controller.selectLessonChip('Nächste Stunde');
 
       expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
@@ -579,6 +580,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
+      await controller.selectCourse('foo_course');
       await controller.selectLessonChip('Übernächste Stunde');
 
       expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
@@ -588,7 +590,7 @@ void main() {
         'when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected',
         (tester) async {
       final controller = createController(tester);
-      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
       controller.addNextLessonDates('foo_course', [
         Date('2023-11-06'),
         Date('2023-11-08'),
@@ -599,6 +601,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
+      await controller.selectCourse('foo_course');
       await controller.createCustomChip(inXLessons: 5);
 
       expect(controller.getSelectedLessonChips(), ['5.-nächste Stunde']);
@@ -679,7 +682,14 @@ class _TestController {
 
   void setNextSchoolday(Date date) {}
 
+  String? addedCourseId;
   void addCourse(Course course) {
+    if (addedCourseId != null) {
+      // String? addedCourseId; only works with one course. If more
+      // courses are needed, this has to be changed.
+      throw UnimplementedError('Test code only supports one course');
+    }
+    addedCourseId = course.id;
     when(courseGateway.streamCourses())
         .thenAnswer((_) => Stream.value([course]));
     homeworkDialogApi.addCourseForTesting(course);
@@ -695,6 +705,17 @@ class _TestController {
         find.byKey(HwDialogKeys.customLessonChipDialogTextField),
         '$inXLessons');
     await tester.tap(find.byKey(HwDialogKeys.customLessonChipDialogOkButton));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> selectCourse(String courseId) async {
+    final course = homeworkDialogApi.courses[GroupId(courseId)];
+    if (course == null) {
+      throw ArgumentError('Course with id $courseId not found');
+    }
+    await tester.tap(find.byKey(HwDialogKeys.courseTile));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(course.name));
     await tester.pumpAndSettle();
   }
 }
