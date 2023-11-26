@@ -523,6 +523,19 @@ void main() {
       expect(find.text('Übernächste Stunde'), findsOneWidget);
       expect(find.text('Benutzerdefiniert'), findsOneWidget);
     });
+
+    testWidgets(
+        'homework lesson chips are not visible if the function is deactivated',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: false);
+
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+    });
+
     testWidgets('when pressing a homework lesson chip it gets selected',
         (tester) async {
       await pumpAndSettleHomeworkDialog(tester,
@@ -566,18 +579,6 @@ void main() {
 
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
-    });
-
-    testWidgets(
-        'homework lesson chips are not visible if the function is deactivated',
-        (tester) async {
-      await pumpAndSettleHomeworkDialog(tester,
-          showDueDateSelectionChips: false);
-
-      expect(find.text('Nächster Schultag'), findsNothing);
-      expect(find.text('Nächste Stunde'), findsNothing);
-      expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
     });
   });
 }
