@@ -52,9 +52,17 @@ import 'homework_dialog_test.mocks.dart';
 
 class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
+  List<Date>? datesToReturn;
+
   @override
   Future<Date?> tryCalculateNextLesson(String courseID) async {
     return dateToReturn;
+  }
+
+  @override
+  Future<Date?> tryCalculateXNextLesson(String courseID,
+      {int inLessons = 1}) async {
+    return datesToReturn?.elementAt(inLessons - 1);
   }
 }
 
@@ -561,6 +569,21 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
+    testWidgets(
+        'when pressing "Übernächste Stunde" the lesson after next lesson will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-11-06'), Date('2023-11-08')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Übernächste Stunde');
+
+      expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-08'));
+    });
 
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
@@ -642,7 +665,7 @@ class _TestController {
   }
 
   void addNextLessonDates(String courseId, List<Date> nextDates) {
-    nextLessonCalculator.dateToReturn = nextDates.first;
+    nextLessonCalculator.datesToReturn = nextDates;
   }
 }
 

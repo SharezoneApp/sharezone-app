@@ -32,14 +32,20 @@ class NextLessonCalculator {
         _holidayManager = holidayManager;
 
   Future<Date?> tryCalculateNextLesson(String courseID) async {
+    return tryCalculateXNextLesson(courseID, inLessons: 1);
+  }
+
+  Future<Date?> tryCalculateXNextLesson(String courseID,
+      {int inLessons = 1}) async {
+    assert(inLessons > 0);
     try {
       final lessons = await _timetableGateway.getLessonsOfGroup(courseID);
       final user = await _userGateway.get();
       final holidays = await _tryLoadHolidays(user);
       final results =
           _NextLessonCalculation(lessons, holidays, user.userSettings)
-              .calculate(days: 1);
-      return results.firstOrNull;
+              .calculate(days: inLessons);
+      return results.elementAt(inLessons - 1);
     } catch (e, s) {
       log('Could not calculate next lesson: $e\n$s', error: e, stackTrace: s);
       return null;

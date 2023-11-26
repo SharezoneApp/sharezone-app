@@ -646,7 +646,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             break;
           case InXLessonsDueDateSelection s:
             final nextLesson = await nextLessonCalculator
-                .tryCalculateNextLesson(_homework.courseID);
+                .tryCalculateXNextLesson(_homework.courseID,
+                    inLessons: s.inXLessons);
             _dateSelection = _dateSelection.copyWith(
               dueDate: nextLesson,
               dueDateSelection: s,
