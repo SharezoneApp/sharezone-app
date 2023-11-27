@@ -700,6 +700,18 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           );
           emit(_getNewState());
         } else {
+          if (_dateSelection.dueDateSelection is InXLessonsDueDateSelection) {
+            // .copyWith doesn't work if we want to replace a non-null value
+            // with null.
+            _dateSelection = _DateSelection(
+              dueDate: _dateSelection.dueDate,
+              submissionTime: _dateSelection.submissionTime,
+              dueDateSelection: null,
+            );
+            emit(_getNewState());
+            return;
+          }
+
           final today = _clock.now().toDate();
           final daysUntilNextSchoolday = switch (today.weekDayEnum) {
             WeekDay.friday => 3, // Monday

@@ -377,6 +377,12 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
 
+    if (widget.state.dueDate.selection == null &&
+        inXHoursController.chips.any((chip) => chip.isSelected)) {
+      inXHoursController.deselectChip();
+      bloc.add(DueDateChanged(DueDateSelection.date(widget.state.dueDate.$1!)));
+    }
+    // inXHoursController.updateSelection(widget.state.dueDate.selection);
     if (widget.state.dueDate.selection != null) {
       inXHoursController.selectChip(widget.state.dueDate.selection!);
     }
@@ -515,6 +521,15 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deselectChip() {
+    final old = chips;
+    chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
+    // if (old != chips) {
+    //   onChanged();
+    // }
+    notifyListeners();
+  }
+
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
     chips = chips.add(_LessonChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
@@ -528,6 +543,15 @@ class _InXHoursController extends ChangeNotifier {
   void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
     chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
+  }
+
+  /// Updates the selection of the chips to the given [selection].
+  void updateSelection(DueDateSelection? selection) {
+    if (selection == null) {
+      deselectChip();
+    } else {
+      selectChip(selection);
+    }
   }
 }
 

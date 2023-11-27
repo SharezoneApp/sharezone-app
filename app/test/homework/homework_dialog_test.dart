@@ -53,15 +53,25 @@ import 'homework_dialog_test.mocks.dart';
 class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
   List<Date>? datesToReturn;
+  final datesForCourses = <String, List<Date>>{};
+
+  void returnLessonsForCourse(String courseID, List<Date> dates) {
+    datesForCourses[courseID] = dates;
+  }
 
   @override
   Future<Date?> tryCalculateNextLesson(String courseID) async {
-    return dateToReturn ?? datesToReturn?.first;
+    return dateToReturn ??
+        datesToReturn?.first ??
+        datesForCourses[courseID]?.first;
   }
 
   @override
   Future<Date?> tryCalculateXNextLesson(String courseID,
       {int inLessons = 1}) async {
+    if (datesForCourses.isNotEmpty) {
+      return datesForCourses[courseID]?.elementAt(inLessons - 1);
+    }
     return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
   }
 }
@@ -410,8 +420,8 @@ void main() {
       // await tester.tap(find.text('OK'));
       await tester.enterText(
           find.byKey(HwDialogKeys.descriptionField), 'Rechenweg aufschreiben');
-      await tester
-          .ensureVisible(find.byKey(HwDialogKeys.notifyCourseMembersTile));
+      await tester.ensureVisible(find
+          .byKey(HwDialogKeys.notifyCourseMembersTile, skipOffstage: false));
       await tester.tap(find.byKey(HwDialogKeys.notifyCourseMembersTile));
       await tester.tap(find.byKey(HwDialogKeys.saveButton));
 
@@ -664,7 +674,33 @@ void main() {
       expect(controller.getSelectedLessonChips(), []);
     });
 
-    // TODO Fix: Changing Course when lesson chip is selected it will still be selected
+    testWidgets('when no course is chosen then no chip should be selected',
+        (tester) async {
+      final controller = createController(tester);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(controller.getSelectedLessonChips(), []);
+    });
+
+    testWidgets(
+        'when selecting next lesson for a course and changing to a course without any lessons the date should stay but the lesson chip should be deselected',
+        (tester) async {
+      // This test can pass but in the real app it can still not work. I don't
+      // know why :(
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), []);
+      expect(controller.getSelectedDueDate(), Date('2023-10-06'));
+    });
 
     testWidgets(
         'when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept',
@@ -726,7 +762,8 @@ class _TestController {
   }
 
   Future<void> selectLessonChip(String label) async {
-    await tester.ensureVisible(find.widgetWithText(InputChip, label));
+    await tester.ensureVisible(
+        find.widgetWithText(InputChip, label, skipOffstage: false));
     await tester.tap(find.text(label));
     await tester.pumpAndSettle();
   }
@@ -741,20 +778,23 @@ class _TestController {
         ));
   }
 
+  List<LessonChip> _getChips() {
+    final chips = tester
+        .widgetList<InputChip>(find.byType(InputChip, skipOffstage: false));
+    return _toChips(chips).toList();
+  }
+
   List<String> getSelectedLessonChips() {
-    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-    final res = _toChips(chips).where((element) => element.isSelected);
+    final res = _getChips().where((element) => element.isSelected);
     return res.map((e) => e.$1).toList();
   }
 
   List<LessonChip> getLessonChips() {
-    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-    return _toChips(chips).toList();
+    return _getChips();
   }
 
   List<String> getSelectableLessonChips() {
-    final chips = tester.widgetList<InputChip>(find.byType(InputChip));
-    return _toChips(chips)
+    return _getChips()
         .where((element) => element.selectable)
         .map((e) => e.$1)
         .toList();
@@ -767,21 +807,29 @@ class _TestController {
 
   void setNextSchoolday(Date date) {}
 
-  String? addedCourseId;
+  final _addedCourses = <String, Course>{};
   void addCourse(Course course) {
-    if (addedCourseId != null) {
-      // String? addedCourseId; only works with one course. If more
-      // courses are needed, this has to be changed.
-      throw UnimplementedError('Test code only supports one course');
-    }
-    addedCourseId = course.id;
+    _addedCourses[course.id] = course;
     when(courseGateway.streamCourses())
-        .thenAnswer((_) => Stream.value([course]));
+        .thenAnswer((_) => Stream.value(_addedCourses.values.toList()));
     homeworkDialogApi.addCourseForTesting(course);
   }
 
+  Future<void> selectCourse(String courseId) async {
+    await tester.ensureVisible(
+        find.byKey(HwDialogKeys.courseTile, skipOffstage: false));
+    final course = _addedCourses[courseId];
+    if (course == null) {
+      throw ArgumentError('Course with id $courseId not found');
+    }
+    await tester.tap(find.byKey(HwDialogKeys.courseTile));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(course.name));
+    await tester.pumpAndSettle();
+  }
+
   void addNextLessonDates(String courseId, List<Date> nextDates) {
-    nextLessonCalculator.datesToReturn = nextDates;
+    nextLessonCalculator.returnLessonsForCourse(courseId, nextDates);
   }
 
   Future<void> createCustomChip({required int inXLessons}) async {
@@ -790,18 +838,6 @@ class _TestController {
         find.byKey(HwDialogKeys.customLessonChipDialogTextField),
         '$inXLessons');
     await tester.tap(find.byKey(HwDialogKeys.customLessonChipDialogOkButton));
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> selectCourse(String courseId) async {
-    await tester.ensureVisible(find.byKey(HwDialogKeys.courseTile));
-    final course = homeworkDialogApi.courses[GroupId(courseId)];
-    if (course == null) {
-      throw ArgumentError('Course with id $courseId not found');
-    }
-    await tester.tap(find.byKey(HwDialogKeys.courseTile));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text(course.name));
     await tester.pumpAndSettle();
   }
 
