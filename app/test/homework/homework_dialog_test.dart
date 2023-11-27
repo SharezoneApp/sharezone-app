@@ -634,6 +634,36 @@ void main() {
       expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
           findsNothing);
     });
+    testWidgets(
+        'when the date is manually selected that equals the date of a lesson chip then the lesson chip will NOT be selected',
+        (tester) async {
+      /// We want this behavior to avoid potential confusion in the future.
+      /// For now a homework will always be due on the selected due date and
+      /// this will only change if a user explicitly changes the due date.
+      /// In the future we might allow setting a lesson as canceld, which would
+      /// change the due date to the next lesson. Then it might make sense
+      /// differentiating between a lesson that had its due date set to "next
+      /// lesson" via a chip and a lesson that had the due date set manually to
+      /// a specific date. In this case selecting a due date manually and using
+      /// a lesson chip would have different behavior. Thus for now we don't
+      /// want to make it look that setting a due date manually and using a
+      /// lesson chip have the same behavior. This means we won't select the
+      /// lesson chip for e.g. "next lesson" if the due date was manually set to
+      /// the date of the next lesson.
+      final controller = createController(tester);
+      // controller.setToday(Date('2023-10-04'));
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectDateManually(Date('2023-10-06'));
+
+      expect(controller.getSelectedDueDate(), Date('2023-10-06'));
+      expect(controller.getSelectedLessonChips(), []);
+    });
+
     // TODO Fix: Changing Course when lesson chip is selected it will still be selected
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
@@ -756,6 +786,15 @@ class _TestController {
     await tester.tap(find.byKey(HwDialogKeys.courseTile));
     await tester.pumpAndSettle();
     await tester.tap(find.text(course.name));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> selectDateManually(Date date) async {
+    // This is kinda hacky, but selecting a date manually via the UI is very
+    // difficult, I couldn't get it working. So this has to do for now.
+    tester
+        .widget<DatePicker>(find.byType(DatePicker))
+        .selectDate!(date.toDateTime);
     await tester.pumpAndSettle();
   }
 }
