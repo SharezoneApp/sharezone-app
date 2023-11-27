@@ -665,6 +665,21 @@ void main() {
     });
 
     // TODO Fix: Changing Course when lesson chip is selected it will still be selected
+
+    testWidgets(
+        'when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+      await controller.selectCourse('foo_course');
+
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    });
     testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
         (tester) async {
@@ -779,6 +794,7 @@ class _TestController {
   }
 
   Future<void> selectCourse(String courseId) async {
+    await tester.ensureVisible(find.byKey(HwDialogKeys.courseTile));
     final course = homeworkDialogApi.courses[GroupId(courseId)];
     if (course == null) {
       throw ArgumentError('Course with id $courseId not found');

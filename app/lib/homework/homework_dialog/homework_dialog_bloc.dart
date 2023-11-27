@@ -689,7 +689,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         hasLessonData = nextLesson != null;
 
         // Manual date was already set, we don't want to overwrite it.
-        if (_dateSelection.dueDateSelection is DateDueDateSelection) {
+        if (_dateSelection.dueDateSelection != null &&
+            _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
           return;
         }
         if (nextLesson != null) {
