@@ -360,11 +360,6 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
         bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: false);
     inXHoursController = _InXHoursController(
       onChanged: (selection) => bloc.add(DueDateChanged(selection)),
-      initialChips: const IListConst([
-        DueDateSelection.nextSchoolday,
-        DueDateSelection.inXLessons(1),
-        DueDateSelection.inXLessons(2),
-      ]),
     );
   }
 
@@ -400,9 +395,15 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
                 child: _InXHours(
-                    controller: inXHoursController,
-                    areLessonChipsSelectable:
-                        widget.state.dueDate.lessonChipsSelectable),
+                  controller: inXHoursController,
+                  areLessonChipsSelectable:
+                      widget.state.dueDate.lessonChipsSelectable,
+                  initialChips: const IListConst([
+                    DueDateSelection.nextSchoolday,
+                    DueDateSelection.inXLessons(1),
+                    DueDateSelection.inXLessons(2),
+                  ]),
+                ),
               ),
           ],
         ),
@@ -446,11 +447,24 @@ class _DueDateChip {
 
 class _InXHoursController extends ChangeNotifier {
   final void Function(DueDateSelection) onChanged;
+  IList<DueDateSelection>? initialChips;
+  IList<_DueDateChip> _chips = const IListConst([]);
+  IList<_DueDateChip> get chips {
+    if (initialChips == null) {
+      throw StateError('addInitialChips has not been called yet');
+    }
+    return _chips;
+  }
 
   _InXHoursController({
-    required IList<DueDateSelection> initialChips,
     required this.onChanged,
   }) {
+    notifyListeners();
+  }
+
+  void addInitialChips(IList<DueDateSelection> initialChips) {
+    if (this.initialChips != null) return;
+    this.initialChips = initialChips;
     final converted = initialChips
         .map((config) => _DueDateChip(
               label: _getName(config),
@@ -459,7 +473,7 @@ class _InXHoursController extends ChangeNotifier {
               isDeletable: false,
             ))
         .toIList();
-    chips = chips.addAll(converted);
+    _chips = converted;
     notifyListeners();
   }
 
@@ -478,8 +492,6 @@ class _InXHoursController extends ChangeNotifier {
     }
   }
 
-  IList<_DueDateChip> chips = const IListConst([]);
-
   /// Updates the selection of the chips to the given [selection].
   void updateSelection(DueDateSelection? selection) {
     if (selection == null) {
@@ -490,13 +502,13 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void deselectChips() {
-    chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
+    _chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
     notifyListeners();
   }
 
   void selectChip(DueDateSelection dueDate) {
     final old = chips;
-    chips = chips.map((chip) {
+    _chips = chips.map((chip) {
       if (chip.dueDate == dueDate) {
         return chip.copyWith(isSelected: true);
       } else {
@@ -510,7 +522,7 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    chips = chips.add(_DueDateChip(
+    _chips = chips.add(_DueDateChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
       isDeletable: true,
@@ -520,7 +532,7 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
+    _chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
   }
 }
@@ -529,13 +541,16 @@ class _InXHours extends StatelessWidget {
   const _InXHours({
     required this.controller,
     required this.areLessonChipsSelectable,
+    required this.initialChips,
   });
 
   final _InXHoursController controller;
   final bool areLessonChipsSelectable;
+  final IList<DueDateSelection> initialChips;
 
   @override
   Widget build(BuildContext context) {
+    controller.addInitialChips(initialChips);
     final beforeThemeChangeContext = context;
     return Theme(
       data: ThemeData.from(
