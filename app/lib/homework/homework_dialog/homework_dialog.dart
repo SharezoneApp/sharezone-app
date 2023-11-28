@@ -534,10 +534,12 @@ class _DueDateChipsState extends State<_DueDateChips> {
   Widget build(BuildContext context) {
     final bloc =
         bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: true);
+
     final state = bloc.state;
-    final areLessonChipsSelectable =
+    final lessonChipsSelectable =
         state is Ready ? state.dueDate.lessonChipsSelectable : false;
     final beforeThemeChangeContext = context;
+
     return Theme(
       data: ThemeData.from(
         useMaterial3: true,
@@ -551,17 +553,17 @@ class _DueDateChipsState extends State<_DueDateChips> {
               return Row(
                 children: [
                   const SizedBox(width: 10),
-                  for (final filter in controller.chips)
+                  for (final chip in controller.chips)
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: InputChip(
-                        label: Text(filter.label),
-                        selected: filter.isSelected,
+                        label: Text(chip.label),
+                        selected: chip.isSelected,
                         onSelected:
-                            filter.dueDate is! InXLessonsDueDateSelection ||
-                                    areLessonChipsSelectable
+                            chip.dueDate is! InXLessonsDueDateSelection ||
+                                    lessonChipsSelectable
                                 ? (newState) {
-                                    controller.selectChip(filter.dueDate);
+                                    controller.selectChip(chip.dueDate);
                                   }
                                 : null,
                         // If onSelected is null but onDeleted is not null then
@@ -570,11 +572,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
                         // chip is not selectable, we set onDeleted to null.
                         // Not being able to delete the chip if it is not
                         // selectable shouldn't be a problem for users.
-                        onDeleted: filter.isDeletable &&
-                                areLessonChipsSelectable
+                        onDeleted: chip.isDeletable && lessonChipsSelectable
                             ? () {
-                                controller.deleteInXLessonsChip(filter.dueDate
-                                    as InXLessonsDueDateSelection);
+                                controller.deleteInXLessonsChip(
+                                    chip.dueDate as InXLessonsDueDateSelection);
                               }
                             : null,
                       ),
@@ -582,10 +583,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
                   InputChip(
                     avatar: const Icon(Icons.edit),
                     label: const Text('Benutzerdefiniert'),
-                    onPressed: areLessonChipsSelectable
+                    onPressed: lessonChipsSelectable
                         ? () async {
-                            // The normal theme would apply material3 to the dialog
-                            // which is not what we want.
+                            // The normal context would cause material3 to be
+                            // applied the dialog which is not what we want.
                             await _onCustomChipTap(beforeThemeChangeContext);
                           }
                         : null,
