@@ -201,7 +201,7 @@ class Ready extends HomeworkDialogState {
 
   @override
   String toString() {
-    return 'Ready(course: $course, dueDate: $dueDate, submissions: $submissions, description: $description, attachments: $attachments, notifyCourseMembers: $notifyCourseMembers, hasModifiedData: $hasModifiedData)';
+    return 'Ready(title: $title, course: $course, dueDate: $dueDate, submissions: $submissions, description: $description, attachments: $attachments, notifyCourseMembers: $notifyCourseMembers, isPrivate: $isPrivate, hasModifiedData: $hasModifiedData, isEditing: $isEditing)';
   }
 }
 
