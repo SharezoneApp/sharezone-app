@@ -337,7 +337,7 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-class _TodoUntilPicker extends StatefulWidget {
+class _TodoUntilPicker extends StatelessWidget {
   final Ready state;
   final bool showLessonChips;
 
@@ -347,27 +347,9 @@ class _TodoUntilPicker extends StatefulWidget {
   });
 
   @override
-  State<_TodoUntilPicker> createState() => _TodoUntilPickerState();
-}
-
-class _TodoUntilPickerState extends State<_TodoUntilPicker> {
-  late _InXHoursController inXHoursController;
-
-  @override
-  void initState() {
-    super.initState();
-    final bloc =
-        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: false);
-    inXHoursController = _InXHoursController(
-      onChanged: (selection) => bloc.add(DueDateChanged(selection)),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
 
-    inXHoursController.updateSelection(widget.state.dueDate.selection);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -377,28 +359,25 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
           children: [
             DefaultTextStyle.merge(
               style: TextStyle(
-                color: widget.state.dueDate.error != null ? Colors.red : null,
+                color: state.dueDate.error != null ? Colors.red : null,
               ),
               child: DatePicker(
                 key: HwDialogKeys.todoUntilTile,
-                padding: widget.showLessonChips
+                padding: showLessonChips
                     ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
                     : const EdgeInsets.all(12),
-                selectedDate: widget.state.dueDate.$1?.toDateTime,
+                selectedDate: state.dueDate.$1?.toDateTime,
                 selectDate: (newDate) {
                   bloc.add(DueDateChanged(
                       DueDateSelection.date(Date.fromDateTime(newDate))));
                 },
               ),
             ),
-            if (widget.showLessonChips)
-              Padding(
-                padding: const EdgeInsets.only(left: 3.0),
+            if (showLessonChips)
+              const Padding(
+                padding: EdgeInsets.only(left: 3.0),
                 child: _DueDateChips(
-                  controller: inXHoursController,
-                  areLessonChipsSelectable:
-                      widget.state.dueDate.lessonChipsSelectable,
-                  initialChips: const IListConst([
+                  initialChips: IListConst([
                     DueDateSelection.nextSchoolday,
                     DueDateSelection.inXLessons(1),
                     DueDateSelection.inXLessons(2),
@@ -537,20 +516,41 @@ class _InXHoursController extends ChangeNotifier {
   }
 }
 
-class _DueDateChips extends StatelessWidget {
+class _DueDateChips extends StatefulWidget {
   const _DueDateChips({
-    required this.controller,
-    required this.areLessonChipsSelectable,
     required this.initialChips,
   });
 
-  final _InXHoursController controller;
-  final bool areLessonChipsSelectable;
   final IList<DueDateSelection> initialChips;
 
   @override
+  State<_DueDateChips> createState() => _DueDateChipsState();
+}
+
+class _DueDateChipsState extends State<_DueDateChips> {
+  late _InXHoursController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = _InXHoursController(
+      onChanged: (selection) {
+        final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context,
+            listen: false);
+        bloc.add(DueDateChanged(selection));
+      },
+    );
+    controller.addInitialChips(widget.initialChips);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    controller.addInitialChips(initialChips);
+    final bloc =
+        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: true);
+    final state = bloc.state;
+    final areLessonChipsSelectable =
+        state is Ready ? state.dueDate.lessonChipsSelectable : false;
+    controller.addInitialChips(widget.initialChips);
     final beforeThemeChangeContext = context;
     return Theme(
       data: ThemeData.from(
