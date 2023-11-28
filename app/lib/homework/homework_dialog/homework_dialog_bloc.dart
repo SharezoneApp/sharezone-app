@@ -463,9 +463,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   _DateSelection _initialDateSelection = _DateSelection.noSelection;
   _DateSelection _dateSelection = _DateSelection.noSelection;
 
-  // TODO: Test in edit mode
-  // courseId -> hasLessonData
+  /// Whether a specific course has lesson data (i.e. lessons in the timetable).
+  ///
+  /// This is used to determine if we can make the due date lesson chips
+  /// selectable (e.g. "In 2 lessons").
+  // <course id, hasLessonData>
   final _hasLessons = <String, bool>{};
+
   bool finishedInitializing = false;
 
   bool showTitleEmptyError = false;
