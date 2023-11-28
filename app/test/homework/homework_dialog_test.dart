@@ -776,6 +776,18 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
     });
     testWidgets(
+        'when a course without lessons "Nächster Schultag" should be automatically selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    }, skip: true);
+    testWidgets(
         'when pressing the "next schoolday" chip the next schoolday will be selected',
         (tester) async {
       final controller = createController(tester);
