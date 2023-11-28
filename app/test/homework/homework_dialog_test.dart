@@ -701,7 +701,30 @@ void main() {
       expect(controller.getSelectedLessonChips(), []);
       expect(controller.getSelectedDueDate(), Date('2023-10-06'));
     });
+    testWidgets(
+        'regression test: creating a custom chip for a course with lessons and then changing to a course without lessons should display the custom chip as not selectable',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [
+        // Don't matter, just need enough dates so that
+        // createCustomChip(inXLessons: 5) works.
+        Date('2023-10-06'),
+        Date('2023-10-08'),
+        Date('2023-10-10'),
+        Date('2023-10-13'),
+        Date('2023-10-15')
+      ]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
 
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 5);
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectableLessonChips(), ['Nächster Schultag']);
+    });
     testWidgets(
         'when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept',
         (tester) async {
@@ -768,20 +791,26 @@ class _TestController {
     await tester.pumpAndSettle();
   }
 
-  Iterable<LessonChip> _toChips(Iterable<InputChip> chips) {
-    return chips.map((e) => (
-          (e.label as Text).data!,
-          isSelected: e.selected,
-          // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
-          // chip uses onPressed.
-          selectable: e.onSelected != null || e.onPressed != null,
-        ));
-  }
-
   List<LessonChip> _getChips() {
     final chips = tester
         .widgetList<InputChip>(find.byType(InputChip, skipOffstage: false));
-    return _toChips(chips).toList();
+    return chips
+        .map((e) => (
+              (e.label as Text).data!,
+              isSelected: e.selected,
+              // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+              // chip uses onPressed.
+              // If onDeleted is not-null but everything else is null the chip
+              // looks like it's selectable in the UI, but it is only deletable,
+              // not selectable. To avoid confusion we explicitly mark it as
+              // selectable here so that developers know about this behavior and
+              // set onDeleted explicitly to null. Not being able to delete the
+              // chip if it is not selectable shouldn't be a problem for users.
+              selectable: e.onSelected != null ||
+                  e.onPressed != null ||
+                  e.onDeleted != null,
+            ))
+        .toList();
   }
 
   List<String> getSelectedLessonChips() {

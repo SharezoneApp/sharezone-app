@@ -585,7 +585,14 @@ class _InXHours extends StatelessWidget {
                                     controller.selectChip(filter.dueDate);
                                   }
                                 : null,
-                        onDeleted: filter.isDeletable
+                        // If onSelected is null but onDeleted is not null then
+                        // the chip will still look selectable, but only
+                        // tapping the delete icon will actually work. So if the
+                        // chip is not selectable, we set onDeleted to null.
+                        // Not being able to delete the chip if it is not
+                        // selectable shouldn't be a problem for users.
+                        onDeleted: filter.isDeletable &&
+                                areLessonChipsSelectable
                             ? () {
                                 controller.deleteInXLessonsChip(filter.dueDate
                                     as InXLessonsDueDateSelection);
