@@ -647,15 +647,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
           case NextSchooldayDueDateSelection s:
-            final today = _clock.now().toDate();
-            final daysUntilNextSchoolday = switch (today.weekDayEnum) {
-              WeekDay.friday => 3, // Monday
-              WeekDay.saturday => 2, // Monday
-              _ => 1 // Tomorrow
-            };
-            final nextSchoolday = today.addDays(daysUntilNextSchoolday);
             _dateSelection = _dateSelection.copyWith(
-              dueDate: nextSchoolday,
+              dueDate: _getNextSchoolday(),
               dueDateSelection: s,
             );
             break;
@@ -721,15 +714,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             return;
           }
 
-          final today = _clock.now().toDate();
-          final daysUntilNextSchoolday = switch (today.weekDayEnum) {
-            WeekDay.friday => 3, // Monday
-            WeekDay.saturday => 2, // Monday
-            _ => 1 // Tomorrow
-          };
-          final nextSchoolday = today.addDays(daysUntilNextSchoolday);
           _dateSelection = _dateSelection.copyWith(
-            dueDate: nextSchoolday,
+            dueDate: _getNextSchoolday(),
             dueDateSelection: const NextSchooldayDueDateSelection(),
           );
           emit(_getNewState());
@@ -787,6 +773,16 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
       },
     );
+  }
+
+  Date _getNextSchoolday() {
+    final today = _clock.now().toDate();
+    final daysUntilNextSchoolday = switch (today.weekDayEnum) {
+      WeekDay.friday => 3, // Monday
+      WeekDay.saturday => 2, // Monday
+      _ => 1 // Tomorrow
+    };
+    return today.addDays(daysUntilNextSchoolday);
   }
 
   Ready _getNewState() {
