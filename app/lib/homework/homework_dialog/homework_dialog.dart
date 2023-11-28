@@ -361,15 +361,9 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
     inXHoursController = _InXHoursController(
       onChanged: (selection) => bloc.add(DueDateChanged(selection)),
       initialChips: const IListConst([
-        _ChipSpec(
-          dueDate: DueDateSelection.nextSchoolday,
-        ),
-        _ChipSpec(
-          dueDate: DueDateSelection.inXLessons(1),
-        ),
-        _ChipSpec(
-          dueDate: DueDateSelection.inXLessons(2),
-        ),
+        DueDateSelection.nextSchoolday,
+        DueDateSelection.inXLessons(1),
+        DueDateSelection.inXLessons(2),
       ]),
     );
   }
@@ -417,38 +411,26 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
   }
 }
 
-class _ChipSpec {
-  final DueDateSelection dueDate;
-  final bool isSelected;
-  final bool isDeletable;
-
-  const _ChipSpec({
-    required this.dueDate,
-    this.isSelected = false,
-    this.isDeletable = false,
-  });
-}
-
-class _LessonChip {
+class _DueDateChip {
   final String label;
   final bool isSelected;
   final bool isDeletable;
   final DueDateSelection dueDate;
 
-  const _LessonChip({
+  const _DueDateChip({
     required this.label,
     required this.dueDate,
     this.isSelected = false,
     this.isDeletable = false,
   });
 
-  _LessonChip copyWith({
+  _DueDateChip copyWith({
     String? label,
     bool? isSelected,
     bool? isDeletable,
     DueDateSelection? dueDate,
   }) {
-    return _LessonChip(
+    return _DueDateChip(
       label: label ?? this.label,
       isSelected: isSelected ?? this.isSelected,
       isDeletable: isDeletable ?? this.isDeletable,
@@ -466,23 +448,22 @@ class _InXHoursController extends ChangeNotifier {
   final void Function(DueDateSelection) onChanged;
 
   _InXHoursController({
-    required IList<_ChipSpec> initialChips,
+    required IList<DueDateSelection> initialChips,
     required this.onChanged,
   }) {
-    print('constructor');
     final converted = initialChips
-        .map((config) => _LessonChip(
-              label: getName(config.dueDate),
-              dueDate: config.dueDate,
-              isSelected: config.isSelected,
-              isDeletable: config.isDeletable,
+        .map((config) => _DueDateChip(
+              label: _getName(config),
+              dueDate: config,
+              isSelected: false,
+              isDeletable: false,
             ))
         .toIList();
     chips = chips.addAll(converted);
     notifyListeners();
   }
 
-  String getName(DueDateSelection dueDate) {
+  String _getName(DueDateSelection dueDate) {
     switch (dueDate) {
       case NextSchooldayDueDateSelection _:
         return 'Nächster Schultag';
@@ -497,7 +478,21 @@ class _InXHoursController extends ChangeNotifier {
     }
   }
 
-  IList<_LessonChip> chips = const IListConst([]);
+  IList<_DueDateChip> chips = const IListConst([]);
+
+  /// Updates the selection of the chips to the given [selection].
+  void updateSelection(DueDateSelection? selection) {
+    if (selection == null) {
+      deselectChips();
+    } else {
+      selectChip(selection);
+    }
+  }
+
+  void deselectChips() {
+    chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
+    notifyListeners();
+  }
 
   void selectChip(DueDateSelection dueDate) {
     final old = chips;
@@ -514,17 +509,8 @@ class _InXHoursController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deselectChip() {
-    final old = chips;
-    chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
-    // if (old != chips) {
-    //   onChanged();
-    // }
-    notifyListeners();
-  }
-
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    chips = chips.add(_LessonChip(
+    chips = chips.add(_DueDateChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
       isDeletable: true,
@@ -536,15 +522,6 @@ class _InXHoursController extends ChangeNotifier {
   void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
     chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
-  }
-
-  /// Updates the selection of the chips to the given [selection].
-  void updateSelection(DueDateSelection? selection) {
-    if (selection == null) {
-      deselectChip();
-    } else {
-      selectChip(selection);
-    }
   }
 }
 

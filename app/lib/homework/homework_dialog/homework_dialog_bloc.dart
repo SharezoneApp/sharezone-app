@@ -862,15 +862,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       homeworkId: _initialHomework!.id,
     ))
         .toIList();
+
     // If one lesson time can be calculated, we assume that the user has lesson
     // data.
-
     _hasLessons[_initialHomework!.courseID] = await nextLessonCalculator
             .tryCalculateNextLesson(_initialHomework!.courseID) !=
         null;
-    // hasLessonData = await nextLessonCalculator
-    //         .tryCalculateNextLesson(_initialHomework!.courseID) !=
-    //     null;
     add(_LoadedHomeworkData());
   }
 }
