@@ -424,11 +424,11 @@ class _DueDateChip {
   }
 }
 
-class _InXHoursController extends ChangeNotifier {
+class _DueDateChipsController extends ChangeNotifier {
   final void Function(DueDateSelection) onChanged;
   IList<_DueDateChip> chips = IList();
 
-  _InXHoursController({
+  _DueDateChipsController({
     required IList<DueDateSelection> initialChips,
     required this.onChanged,
   }) {
@@ -515,12 +515,12 @@ class _DueDateChips extends StatefulWidget {
 }
 
 class _DueDateChipsState extends State<_DueDateChips> {
-  late _InXHoursController controller;
+  late _DueDateChipsController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = _InXHoursController(
+    controller = _DueDateChipsController(
       initialChips: widget.initialChips,
       onChanged: (selection) {
         final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context,
