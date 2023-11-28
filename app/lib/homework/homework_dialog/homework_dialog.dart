@@ -426,25 +426,13 @@ class _DueDateChip {
 
 class _InXHoursController extends ChangeNotifier {
   final void Function(DueDateSelection) onChanged;
-  IList<DueDateSelection>? initialChips;
-  IList<_DueDateChip> _chips = const IListConst([]);
-  IList<_DueDateChip> get chips {
-    if (initialChips == null) {
-      throw StateError('addInitialChips has not been called yet');
-    }
-    return _chips;
-  }
+  IList<_DueDateChip> chips = IList();
 
   _InXHoursController({
+    required IList<DueDateSelection> initialChips,
     required this.onChanged,
   }) {
-    notifyListeners();
-  }
-
-  void addInitialChips(IList<DueDateSelection> initialChips) {
-    if (this.initialChips != null) return;
-    this.initialChips = initialChips;
-    final converted = initialChips
+    chips = initialChips
         .map((config) => _DueDateChip(
               label: _getName(config),
               dueDate: config,
@@ -452,7 +440,6 @@ class _InXHoursController extends ChangeNotifier {
               isDeletable: false,
             ))
         .toIList();
-    _chips = converted;
     notifyListeners();
   }
 
@@ -481,13 +468,13 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void deselectChips() {
-    _chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
+    chips = chips.map((chip) => chip.copyWith(isSelected: false)).toIList();
     notifyListeners();
   }
 
   void selectChip(DueDateSelection dueDate) {
     final old = chips;
-    _chips = chips.map((chip) {
+    chips = chips.map((chip) {
       if (chip.dueDate == dueDate) {
         return chip.copyWith(isSelected: true);
       } else {
@@ -501,7 +488,7 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    _chips = chips.add(_DueDateChip(
+    chips = chips.add(_DueDateChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
       isDeletable: true,
@@ -511,7 +498,7 @@ class _InXHoursController extends ChangeNotifier {
   }
 
   void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    _chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
+    chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
     notifyListeners();
   }
 }
@@ -534,13 +521,13 @@ class _DueDateChipsState extends State<_DueDateChips> {
   void initState() {
     super.initState();
     controller = _InXHoursController(
+      initialChips: widget.initialChips,
       onChanged: (selection) {
         final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context,
             listen: false);
         bloc.add(DueDateChanged(selection));
       },
     );
-    controller.addInitialChips(widget.initialChips);
   }
 
   @override
@@ -550,7 +537,6 @@ class _DueDateChipsState extends State<_DueDateChips> {
     final state = bloc.state;
     final areLessonChipsSelectable =
         state is Ready ? state.dueDate.lessonChipsSelectable : false;
-    controller.addInitialChips(widget.initialChips);
     final beforeThemeChangeContext = context;
     return Theme(
       data: ThemeData.from(
