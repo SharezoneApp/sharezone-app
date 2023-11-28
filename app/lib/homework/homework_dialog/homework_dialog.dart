@@ -377,15 +377,7 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
 
-    if (widget.state.dueDate.selection == null &&
-        inXHoursController.chips.any((chip) => chip.isSelected)) {
-      inXHoursController.deselectChip();
-      bloc.add(DueDateChanged(DueDateSelection.date(widget.state.dueDate.$1!)));
-    }
-    // inXHoursController.updateSelection(widget.state.dueDate.selection);
-    if (widget.state.dueDate.selection != null) {
-      inXHoursController.selectChip(widget.state.dueDate.selection!);
-    }
+    inXHoursController.updateSelection(widget.state.dueDate.selection);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
