@@ -394,7 +394,7 @@ class _TodoUntilPickerState extends State<_TodoUntilPicker> {
             if (widget.showLessonChips)
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
-                child: _InXHours(
+                child: _DueDateChips(
                   controller: inXHoursController,
                   areLessonChipsSelectable:
                       widget.state.dueDate.lessonChipsSelectable,
@@ -537,8 +537,8 @@ class _InXHoursController extends ChangeNotifier {
   }
 }
 
-class _InXHours extends StatelessWidget {
-  const _InXHours({
+class _DueDateChips extends StatelessWidget {
+  const _DueDateChips({
     required this.controller,
     required this.areLessonChipsSelectable,
     required this.initialChips,
