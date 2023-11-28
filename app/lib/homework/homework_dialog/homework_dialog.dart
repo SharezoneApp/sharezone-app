@@ -534,10 +534,15 @@ class _DueDateChipsState extends State<_DueDateChips> {
   Widget build(BuildContext context) {
     final bloc =
         bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: true);
-
     final state = bloc.state;
-    final lessonChipsSelectable =
-        state is Ready ? state.dueDate.lessonChipsSelectable : false;
+
+    final bool lessonChipsSelectable;
+    if (state is Ready) {
+      lessonChipsSelectable = state.dueDate.lessonChipsSelectable;
+      controller.updateSelection(state.dueDate.selection);
+    } else {
+      lessonChipsSelectable = false;
+    }
     final beforeThemeChangeContext = context;
 
     return Theme(
