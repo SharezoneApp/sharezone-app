@@ -253,8 +253,9 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
                               const _MobileDivider(),
                               _TodoUntilPicker(
                                 state: state,
-                                showLessonChips:
-                                    widget.showDueDateSelectionChips,
+                                showLessonChips: widget.isEditing
+                                    ? false
+                                    : widget.showDueDateSelectionChips,
                               ),
                               const _MobileDivider(),
                               _SubmissionsSwitch(state: state),

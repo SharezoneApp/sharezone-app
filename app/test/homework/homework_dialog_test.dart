@@ -554,6 +554,42 @@ void main() {
       expect(find.text('Benutzerdefiniert'), findsNothing);
     });
 
+    testWidgets('homework lesson chips are not visible in edit mode',
+        (tester) async {
+      addCourse(courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+      ));
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        // The submission time is included in the todoUntil date.
+        withSubmissions: true,
+        todoUntil: DateTime(2024, 03, 12, 16, 30),
+        description: 'description text',
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: false);
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+    });
+
     _TestController createController(WidgetTester tester) {
       return _TestController(
         tester,
