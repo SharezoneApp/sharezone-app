@@ -683,7 +683,14 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         _homework =
             _homework.copyWith(courseID: course.id, courseName: course.name);
 
-        emit(_getNewState());
+        // This somehow leads to a race condition, which causes further emit
+        // calls in this method to not emit a new state (saw this behavior only
+        // on device, not in tests 🤷‍♂️).
+        // Originally I used this so that we instantly display the course change
+        // and don't wait for async next lesson calculation. But since otherwise
+        // we get the race condition, we just wait for the async call (
+        // calculation is currently done locally so it should be fast enough).
+        // emit(_getNewState());
 
         final nextLesson =
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
@@ -692,6 +699,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection != null &&
             _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
+          emit(_getNewState());
           return;
         }
         if (nextLesson != null) {
