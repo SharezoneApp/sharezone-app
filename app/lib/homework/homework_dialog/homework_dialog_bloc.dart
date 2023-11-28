@@ -464,7 +464,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   _DateSelection _dateSelection = _DateSelection.noSelection;
 
   // TODO: Test in edit mode
-  bool hasLessonData = false;
+  // courseId -> hasLessonData
+  final _hasLessons = <String, bool>{};
   bool finishedInitializing = false;
 
   bool showTitleEmptyError = false;
@@ -686,7 +687,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
         final nextLesson =
             await nextLessonCalculator.tryCalculateNextLesson(course.id);
-        hasLessonData = nextLesson != null;
+        _hasLessons[course.id] = nextLesson != null;
 
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection != null &&
@@ -814,7 +815,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         error: showNoDueDateChosenError
             ? const NoDueDateSelectedException()
             : null,
-        lessonChipsSelectable: hasLessonData,
+        lessonChipsSelectable: _hasLessons[_homework.courseID] ?? false,
         selection: _dateSelection.dueDateSelection,
       ),
       submissions: _homework.withSubmissions
@@ -859,9 +860,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         .toIList();
     // If one lesson time can be calculated, we assume that the user has lesson
     // data.
-    hasLessonData = await nextLessonCalculator
+
+    _hasLessons[_initialHomework!.courseID] = await nextLessonCalculator
             .tryCalculateNextLesson(_initialHomework!.courseID) !=
         null;
+    // hasLessonData = await nextLessonCalculator
+    //         .tryCalculateNextLesson(_initialHomework!.courseID) !=
+    //     null;
     add(_LoadedHomeworkData());
   }
 }
