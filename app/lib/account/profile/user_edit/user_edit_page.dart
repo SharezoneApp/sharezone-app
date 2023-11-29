@@ -115,10 +115,11 @@ class _UserEditPageState extends State<UserEditPage> {
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
-        onWillPop: () async => bloc.hasInputChanged
+        canPop: bloc.hasInputChanged,
+        onPopInvoked: (hasInputChanged) => hasInputChanged
             ? warnUserAboutLeavingOrSavingForm(context,
                 () => _submit(context, bloc: bloc, scaffoldKey: scaffoldKey))
-            : Future.value(true),
+            : null,
         child: Scaffold(
           key: scaffoldKey,
           appBar:

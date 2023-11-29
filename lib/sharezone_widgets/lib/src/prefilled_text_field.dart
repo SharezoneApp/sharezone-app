@@ -179,7 +179,6 @@ class PrefilledTextField extends StatefulWidget {
   /// }
   /// ```
   /// {@end-tool}
-  /// {@endtemplate}
   ///
   /// See also:
   ///

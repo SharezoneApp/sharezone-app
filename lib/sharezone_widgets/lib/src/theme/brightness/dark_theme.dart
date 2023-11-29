@@ -11,6 +11,8 @@ part of './general_theme.dart';
 const _accentColor = Colors.lightBlue;
 
 final darkTheme = ThemeData(
+  useMaterial3: false,
+
   // Brightness
   brightness: Brightness.dark,
   scaffoldBackgroundColor: ElevationColors.dp0,

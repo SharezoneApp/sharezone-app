@@ -9,6 +9,8 @@
 part of 'general_theme.dart';
 
 final lightTheme = ThemeData(
+  useMaterial3: false,
+
   // Brightness
   brightness: Brightness.light,
 
