@@ -117,10 +117,24 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => widget.bloc.hasInputChanged()
-          ? warnUserAboutLeavingForm(context)
-          : Future.value(true),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final hasInputChanged = widget.bloc.hasInputChanged();
+        final navigator = Navigator.of(context);
+        if (!hasInputChanged) {
+          navigator.pop();
+          return;
+        }
+
+        final shouldPop = await warnUserAboutLeavingForm(context);
+        if (shouldPop) {
+          navigator.pop();
+          return;
+        }
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         body: Column(

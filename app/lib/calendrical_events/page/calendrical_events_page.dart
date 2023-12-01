@@ -46,8 +46,12 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: BlocProvider(
         bloc: bloc,
         child: SharezoneMainScaffold(

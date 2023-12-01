@@ -45,8 +45,11 @@ class _HomeworkUserCreateSubmissionPageState
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
         final abgegeben =
             await bloc.pageView.map((pageView) => pageView.submitted).first;
         final dateienVorhanden = await bloc.pageView
@@ -58,16 +61,22 @@ class _HomeworkUserCreateSubmissionPageState
                 .isNotEmpty)
             .first;
 
-        if (!context.mounted) return true;
+        if (!context.mounted) return;
 
         if (dateienAmHochladen) {
-          await warnUserAboutUploadingFilesForm(context);
+          final shouldPop = await warnUserAboutUploadingFilesForm(context);
+          if (shouldPop == true && context.mounted) {
+            Navigator.of(context).pop();
+          }
         }
+
         if (dateienVorhanden && !abgegeben) {
-          if (!context.mounted) return true;
-          return (await warnUserAboutNotSubmittedForm(context))!;
+          if (!context.mounted) return;
+          final shouldPop = await warnUserAboutNotSubmittedForm(context);
+          if (shouldPop == true && context.mounted) {
+            Navigator.of(context).pop();
+          }
         }
-        return true;
       },
       child: BlocProvider(
         bloc: bloc,

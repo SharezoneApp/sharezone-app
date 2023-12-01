@@ -96,8 +96,12 @@ class GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     final gateway =
         BlocProvider.of<SharezoneContext>(context).api.connectionsGateway;
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: SharezoneMainScaffold(
         scaffoldKey: globalKey,
         // backgroundColor: Color(0xFFF6F7FB),

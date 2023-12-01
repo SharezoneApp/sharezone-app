@@ -86,9 +86,19 @@ class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => warnUserAboutLeavingOrSavingForm(context,
-          () => _submit(context, scaffoldKey: scaffoldKey, bloc: bloc)),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final shouldPop = await warnUserAboutLeavingOrSavingForm(
+          context,
+          () => _submit(context, scaffoldKey: scaffoldKey, bloc: bloc),
+        );
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
       child: BlocProvider(
         bloc: bloc,
         child: Scaffold(

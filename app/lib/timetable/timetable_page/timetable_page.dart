@@ -53,8 +53,11 @@ class TimetablePage extends StatelessWidget {
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: BlocProvider(
         bloc: TimetableSelectionBloc(),
         child: SharezoneMainScaffold(

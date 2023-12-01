@@ -114,12 +114,28 @@ class _UserEditPageState extends State<UserEditPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: WillPopScope(
-        canPop: bloc.hasInputChanged,
-        onPopInvoked: (hasInputChanged) => hasInputChanged
-            ? warnUserAboutLeavingOrSavingForm(context,
-                () => _submit(context, bloc: bloc, scaffoldKey: scaffoldKey))
-            : null,
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) {
+            return;
+          }
+
+          final hasInputChanged = bloc.hasInputChanged;
+          final navigator = Navigator.of(context);
+          if (!hasInputChanged) {
+            navigator.pop();
+            return;
+          }
+
+          final shouldPop = await warnUserAboutLeavingOrSavingForm(
+            context,
+            () => _submit(context, bloc: bloc, scaffoldKey: scaffoldKey),
+          );
+          if (shouldPop && context.mounted) {
+            navigator.pop();
+          }
+        },
         child: Scaffold(
           key: scaffoldKey,
           appBar:

@@ -46,8 +46,12 @@ class _SettingsPageBody extends StatelessWidget {
   static const double _spaceBetween = 16.0;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
         child: SafeArea(

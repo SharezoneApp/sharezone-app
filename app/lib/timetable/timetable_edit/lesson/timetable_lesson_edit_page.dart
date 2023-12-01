@@ -89,9 +89,22 @@ class _TimetableEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-    return WillPopScope(
+    return PopScope(
       onWillPop: () =>
           warnUserAboutLeavingOrSavingForm(context, () => _submit(context)),
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final shouldPop = await warnUserAboutLeavingOrSavingForm(
+          context,
+          () => _submit(context),
+        );
+
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         appBar: AppBar(title: const Text("Schulstunde bearbeiten")),

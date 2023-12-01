@@ -31,8 +31,12 @@ class FeedbackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: const SharezoneMainScaffold(
         appBarConfiguration: AppBarConfiguration(title: "Feedback-Box"),
         navigationItem: NavigationItem.feedbackBox,
