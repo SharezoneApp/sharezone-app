@@ -94,7 +94,15 @@ When you are using VS Code, no further steps should be necessary, because we inc
 
 ## Running the app
 
-After you have set up your development environment, you can run the app. To run the app, you need to execute the following command:
+After you have set up your development environment, you can run the app. 
+
+First change the working directory to the `app` folder by running:
+
+```sh
+cd app
+```
+
+To run the app, you can then execute the following command:
 
 ### Android & iOS
 
