@@ -39,8 +39,8 @@ dependencies:
   # https://github.com/ScerIO/packages.flutter/commit/8b105a7dfc6b90220c1d79fcb805fb764cab00c5.
   # However, this version isn't published yet.
   #
-  # When this version is published, we can remove the git dependency and use the
-  # published version.
+  # When a version >= 2.5.1 is published, we can remove the git dependency and
+  # use the published version.
   pdfx:
     git:
       url: https://github.com/ScerIO/packages.flutter

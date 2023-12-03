@@ -57,10 +57,7 @@ class BlackboardPage extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
-        if (didPop) {
-          return;
-        }
-
+        if (didPop) return;
         popToOverview(context);
       },
       child: const SharezoneMainScaffold(

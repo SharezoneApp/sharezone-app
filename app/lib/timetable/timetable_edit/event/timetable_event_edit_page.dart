@@ -100,6 +100,7 @@ class _TimetableEditEventPage extends StatelessWidget {
           context,
           () => _submit(context),
         );
+
         if (shouldPop && context.mounted) {
           Navigator.of(context).pop();
         }
