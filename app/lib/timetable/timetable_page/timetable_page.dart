@@ -54,6 +54,7 @@ class TimetablePage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
     return PopScope(
+      canPop: false,
       onPopInvoked: (didPop) {
         if (didPop) return;
         popToOverview(context);

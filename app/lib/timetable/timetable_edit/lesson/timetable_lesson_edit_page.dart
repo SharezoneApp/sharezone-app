@@ -90,8 +90,6 @@ class _TimetableEditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
     return PopScope(
-      onWillPop: () =>
-          warnUserAboutLeavingOrSavingForm(context, () => _submit(context)),
       canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) return;
