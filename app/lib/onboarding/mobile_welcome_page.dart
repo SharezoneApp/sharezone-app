@@ -235,9 +235,16 @@ class _BaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const textStyle = TextStyle(
+      fontWeight: FontWeight.normal,
+      fontSize: 18,
+    );
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: MediaQuery.of(context).textScaleFactor * 300,
+        minWidth:
+            MediaQuery.of(context).textScaler.scale(textStyle.fontSize!) * 18,
+        minHeight:
+            MediaQuery.of(context).textScaler.scale(textStyle.fontSize!) * 3.2,
       ),
       child: ElevatedButton(
         onPressed: onPressed,
@@ -248,10 +255,7 @@ class _BaseButton extends StatelessWidget {
           ),
           foregroundColor: foregroundColor,
           backgroundColor: backgroundColor,
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 18,
-          ),
+          textStyle: textStyle,
           elevation: 0,
           shadowColor: Colors.transparent,
         ),
