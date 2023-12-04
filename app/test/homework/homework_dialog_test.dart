@@ -391,6 +391,8 @@ void main() {
       // await tester.tap(find.text('OK'));
       await tester.enterText(
           find.byKey(HwDialogKeys.descriptionField), 'Rechenweg aufschreiben');
+      await tester
+          .ensureVisible(find.byKey(HwDialogKeys.notifyCourseMembersTile));
       await tester.tap(find.byKey(HwDialogKeys.notifyCourseMembersTile));
       await tester.tap(find.byKey(HwDialogKeys.saveButton));
 
