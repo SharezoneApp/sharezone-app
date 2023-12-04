@@ -302,7 +302,7 @@ This is not enough text to scroll the heading past the currently read threshold.
 
           final text = '''
 # Foo
-${generateText(200)}
+${generateText(20)}
 ''';
 
           await tester.pumpWidget(
