@@ -8,9 +8,13 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/stripe_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A fallback price if the price cannot be fetched from the backend.
 ///
@@ -24,14 +28,18 @@ class SharezonePlusPageController extends ChangeNotifier {
   // ignore: unused_field
   late SubscriptionService _subscriptionService;
 
+  late StripeSharezonePlusService _stripeService;
+
   StreamSubscription<bool>? _hasPlusSubscription;
 
   SharezonePlusPageController({
     required RevenueCatPurchaseService purchaseService,
     required SubscriptionService subscriptionService,
+    required StripeSharezonePlusService stripeService,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
+    _stripeService = stripeService;
 
     // Fake loading for development purposes.
     Future.delayed(const Duration(seconds: 1)).then((value) {
@@ -59,7 +67,21 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   Future<void> buySubscription() async {
     hasPlus = true;
+
+    if (PlatformCheck.isWeb) {
+      await _buyOnWeb();
+    }
+
     notifyListeners();
+  }
+
+  Future<void> _buyOnWeb() async {
+    final checkoutUrl = await _stripeService.createCheckoutUrl();
+    await launchUrl(
+      Uri.parse(checkoutUrl),
+      // TODO: Insert ticket for async link opening
+      webOnlyWindowName: "_self",
+    );
   }
 
   Future<void> cancelSubscription() async {
