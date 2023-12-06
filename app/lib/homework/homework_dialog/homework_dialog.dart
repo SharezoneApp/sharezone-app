@@ -42,7 +42,9 @@ class HomeworkDialog extends StatefulWidget {
     required this.id,
     this.homeworkDialogApi,
     this.nextLessonCalculator,
-    this.showDueDateSelectionChips = kDebugMode,
+    this.showDueDateSelectionChips = kDebugMode ||
+        const String.fromEnvironment('DEVELOPMENT_STAGE') == 'ALPHA' ||
+        const String.fromEnvironment('DEVELOPMENT_STAGE') == 'BETA',
   }) : super(key: key);
 
   static const tag = "homework-dialog";
