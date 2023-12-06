@@ -707,6 +707,18 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           return;
         }
         if (nextLesson != null) {
+          final dueDateSelection = _dateSelection.dueDateSelection;
+          if (dueDateSelection is InXLessonsDueDateSelection) {
+            final newDueDate =
+                await nextLessonCalculator.tryCalculateXNextLesson(course.id,
+                    inLessons: dueDateSelection.inXLessons);
+            _dateSelection = _dateSelection.copyWith(
+              dueDate: newDueDate,
+              dueDateSelection: _dateSelection.dueDateSelection,
+            );
+            emit(_getNewState());
+            return;
+          }
           _dateSelection = _dateSelection.copyWith(
             dueDate: nextLesson,
             dueDateSelection: const InXLessonsDueDateSelection(1),

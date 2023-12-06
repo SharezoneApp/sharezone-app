@@ -833,6 +833,26 @@ void main() {
 
       expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
     });
+    testWidgets(
+        'when selecting a lesson chip and then selecting another course with also lessons then the lesson chip should be kept active but the date should be updated',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-10-06'), Date('2023-10-08')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      controller.addNextLessonDates(
+          'bar_course', [Date('2023-10-08'), Date('2023-10-12')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectLessonChip('Übernächste Stunde');
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
   });
 }
 
