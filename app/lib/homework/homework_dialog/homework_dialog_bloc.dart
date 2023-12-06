@@ -696,52 +696,45 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         // calculation is currently done locally so it should be fast enough).
         // emit(_getNewState());
 
-        final nextLesson =
-            await nextLessonCalculator.tryCalculateNextLesson(course.id);
-        _hasLessons[course.id] = nextLesson != null;
+        final selection = _dateSelection.dueDateSelection;
+        final inXLessons =
+            selection is InXLessonsDueDateSelection ? selection.inXLessons : 1;
+        final newLessonDate = await nextLessonCalculator
+            .tryCalculateXNextLesson(course.id, inLessons: inXLessons);
+        _hasLessons[course.id] = newLessonDate != null;
 
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection != null &&
             _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
           emit(_getNewState());
           return;
-        }
-        if (nextLesson != null) {
-          final dueDateSelection = _dateSelection.dueDateSelection;
-          if (dueDateSelection is InXLessonsDueDateSelection) {
-            final newDueDate =
-                await nextLessonCalculator.tryCalculateXNextLesson(course.id,
-                    inLessons: dueDateSelection.inXLessons);
-            _dateSelection = _dateSelection.copyWith(
-              dueDate: newDueDate,
-              dueDateSelection: _dateSelection.dueDateSelection,
-            );
-            emit(_getNewState());
-            return;
-          }
-          _dateSelection = _dateSelection.copyWith(
-            dueDate: nextLesson,
-            dueDateSelection: const InXLessonsDueDateSelection(1),
-          );
-          emit(_getNewState());
         } else {
-          if (_dateSelection.dueDateSelection is InXLessonsDueDateSelection) {
-            // .copyWith doesn't work if we want to replace a non-null value
-            // with null.
-            _dateSelection = _DateSelection(
-              dueDate: _dateSelection.dueDate,
-              submissionTime: _dateSelection.submissionTime,
-              dueDateSelection: null,
+          if (newLessonDate != null) {
+            _dateSelection = _dateSelection.copyWith(
+              dueDate: newLessonDate,
+              dueDateSelection:
+                  selection ?? const DueDateSelection.inXLessons(1),
             );
             emit(_getNewState());
-            return;
-          }
+          } else {
+            if (_dateSelection.dueDateSelection is InXLessonsDueDateSelection) {
+              // .copyWith doesn't work if we want to replace a non-null value
+              // with null.
+              _dateSelection = _DateSelection(
+                dueDate: _dateSelection.dueDate,
+                submissionTime: _dateSelection.submissionTime,
+                dueDateSelection: null,
+              );
+              emit(_getNewState());
+              return;
+            }
 
-          _dateSelection = _dateSelection.copyWith(
-            dueDate: _getNextSchoolday(),
-            dueDateSelection: const NextSchooldayDueDateSelection(),
-          );
-          emit(_getNewState());
+            _dateSelection = _dateSelection.copyWith(
+              dueDate: _getNextSchoolday(),
+              dueDateSelection: const NextSchooldayDueDateSelection(),
+            );
+            emit(_getNewState());
+          }
         }
       },
     );
