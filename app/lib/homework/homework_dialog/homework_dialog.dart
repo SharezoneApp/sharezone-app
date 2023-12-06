@@ -601,10 +601,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
                       child: InputChip(
                         label: Text(chip.label),
                         selected: chip.isSelected,
-                        deleteIcon: const Icon(
-                          Icons.clear,
-                          key: HwDialogKeys.lessonChipDeleteIcon,
-                        ),
+                        // Copied from source code of InputChip, we need to add
+                        // our key here for tests.
+                        deleteIcon: const Icon(Icons.clear,
+                            key: HwDialogKeys.lessonChipDeleteIcon, size: 18),
                         onSelected: chip.dueDate
                                     is! InXLessonsDueDateSelection ||
                                 lessonChipsSelectable
