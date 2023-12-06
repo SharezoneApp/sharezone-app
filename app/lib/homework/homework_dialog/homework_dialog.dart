@@ -548,7 +548,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
     return Theme(
       data: ThemeData.from(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: blueColor),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: blueColor,
+          brightness: Theme.of(context).brightness,
+        ),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
