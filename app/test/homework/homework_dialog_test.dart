@@ -851,6 +851,29 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
       expect(controller.getSelectedDueDate(), Date('2023-10-12'));
     });
+    testWidgets(
+        'when choosing and then deleting a custom lesson chip then the date will stay the same when selecting another course',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course',
+          [Date('2023-10-06'), Date('2023-10-08'), Date('2023-10-12')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      controller.addNextLessonDates('bar_course',
+          [Date('2023-10-08'), Date('2023-10-12'), Date('2023-10-14')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 3);
+      await controller.deleteCustomChip(inXLessons: 3);
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), []);
+      // If we in 3 lessons selection would still exist then the date would be
+      // 2023-10-14
+      expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
   });
 }
 
@@ -972,6 +995,12 @@ class _TestController {
     tester
         .widget<DatePicker>(find.byType(DatePicker))
         .selectDate!(date.toDateTime);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> deleteCustomChip({required int inXLessons}) async {
+    // For now only works if only one custom chip exists.
+    await tester.tap(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
     await tester.pumpAndSettle();
   }
 }

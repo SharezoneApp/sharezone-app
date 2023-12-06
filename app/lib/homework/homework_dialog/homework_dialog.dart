@@ -139,6 +139,7 @@ class HwDialogKeys {
       Key("custom-lesson-chip-dialog-text-field");
   static const Key customLessonChipDialogOkButton =
       Key("custom-lesson-chip-dialog-ok-button");
+  static const Key lessonChipDeleteIcon = Key("lesson-chip-delete-icon");
   static const Key submissionTile = Key("submission-tile");
   static const Key submissionTimeTile = Key("submission-time-tile");
   static const Key descriptionField = Key("description-field");
@@ -433,7 +434,7 @@ class _DueDateChip {
 }
 
 class _DueDateChipsController extends ChangeNotifier {
-  final void Function(DueDateSelection) onChanged;
+  final void Function(DueDateSelection?) onChanged;
   IList<_DueDateChip> chips = IList();
 
   _DueDateChipsController({
@@ -506,7 +507,11 @@ class _DueDateChipsController extends ChangeNotifier {
   }
 
   void deleteInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
+    final old = chips;
     chips = chips.removeWhere((chip) => chip.dueDate == inXLessons);
+    if (old != chips) {
+      onChanged(null);
+    }
     notifyListeners();
   }
 }
@@ -539,12 +544,22 @@ class _DueDateChipsState extends State<_DueDateChips> {
   @override
   void initState() {
     super.initState();
+    final bloc =
+        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: false);
     controller = _DueDateChipsController(
       initialChips: widget.initialChips,
       onChanged: (selection) {
-        final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context,
-            listen: false);
-        bloc.add(DueDateChanged(selection));
+        if (selection != null) {
+          bloc.add(DueDateChanged(selection));
+          return;
+        }
+        // If a selected chip was deleted then selection will be null and we
+        // change to manual date selection with the previous selected date.
+        final state = bloc.state;
+        if (state is Ready && state.dueDate.$1 != null) {
+          final oldDate = state.dueDate.$1!;
+          bloc.add(DueDateChanged(DueDateSelection.date(oldDate)));
+        }
       },
     );
   }
@@ -586,6 +601,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
                       child: InputChip(
                         label: Text(chip.label),
                         selected: chip.isSelected,
+                        deleteIcon: const Icon(
+                          Icons.clear,
+                          key: HwDialogKeys.lessonChipDeleteIcon,
+                        ),
                         onSelected: chip.dueDate
                                     is! InXLessonsDueDateSelection ||
                                 lessonChipsSelectable
