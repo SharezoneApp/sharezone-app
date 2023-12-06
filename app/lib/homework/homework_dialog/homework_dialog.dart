@@ -362,15 +362,20 @@ class _TodoUntilPicker extends StatelessWidget {
                 color: state.dueDate.error != null ? Colors.red : null,
               ),
               child: DatePicker(
-                key: HwDialogKeys.todoUntilTile,
-                padding: showLessonChips
-                    ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
-                    : const EdgeInsets.all(12),
                 selectedDate: state.dueDate.$1?.toDateTime,
+                // If a user chooses a date that was already selected by using a
+                // due date selection chip, we want [selectDate] to be called
+                // anyways so we can change the selection to a manual due date
+                // selection (chip will be deselected).
+                ignoreSameDateSelection: false,
                 selectDate: (newDate) {
                   bloc.add(DueDateChanged(
                       DueDateSelection.date(Date.fromDateTime(newDate))));
                 },
+                key: HwDialogKeys.todoUntilTile,
+                padding: showLessonChips
+                    ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
+                    : const EdgeInsets.all(12),
               ),
             ),
             if (showLessonChips)
