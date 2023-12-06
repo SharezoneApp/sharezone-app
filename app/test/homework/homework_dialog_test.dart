@@ -818,7 +818,7 @@ void main() {
       await controller.selectCourse('foo_course');
 
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
-    }, skip: true);
+    });
   });
 }
 
