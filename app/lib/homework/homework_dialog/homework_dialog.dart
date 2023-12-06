@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -510,6 +511,17 @@ class _DueDateChipsController extends ChangeNotifier {
   }
 }
 
+Map<String, dynamic> _getAnalyticsData(DueDateSelection s) {
+  return switch (s) {
+    NextSchooldayDueDateSelection _ => {'type': 'in_x_school_days', 'value': 1},
+    InXLessonsDueDateSelection _ => {
+        'type': 'in_x_lessons',
+        'value': s.inXLessons
+      },
+    DateDueDateSelection _ => {'type': 'date'}
+  };
+}
+
 class _DueDateChips extends StatefulWidget {
   const _DueDateChips({
     required this.initialChips,
@@ -574,13 +586,23 @@ class _DueDateChipsState extends State<_DueDateChips> {
                       child: InputChip(
                         label: Text(chip.label),
                         selected: chip.isSelected,
-                        onSelected:
-                            chip.dueDate is! InXLessonsDueDateSelection ||
-                                    lessonChipsSelectable
-                                ? (newState) {
-                                    controller.selectChip(chip.dueDate);
-                                  }
-                                : null,
+                        onSelected: chip.dueDate
+                                    is! InXLessonsDueDateSelection ||
+                                lessonChipsSelectable
+                            ? (newState) {
+                                controller.selectChip(chip.dueDate);
+
+                                final analytics =
+                                    AnalyticsProvider.ofOrNullObject(context);
+                                analytics.log(NamedAnalyticsEvent(
+                                  name: 'due_date_chip_ui_tapped',
+                                  data: _getAnalyticsData(chip.dueDate)
+                                    ..addAll({
+                                      'was_selected': chip.isSelected,
+                                    }),
+                                ));
+                              }
+                            : null,
                         // If onSelected is null but onDeleted is not null then
                         // the chip will still look selectable, but only
                         // tapping the delete icon will actually work. So if the
@@ -591,6 +613,16 @@ class _DueDateChipsState extends State<_DueDateChips> {
                             ? () {
                                 controller.deleteInXLessonsChip(
                                     chip.dueDate as InXLessonsDueDateSelection);
+
+                                final analytics =
+                                    AnalyticsProvider.ofOrNullObject(context);
+                                analytics.log(NamedAnalyticsEvent(
+                                  name: 'due_date_chip_ui_deleted',
+                                  data: _getAnalyticsData(chip.dueDate)
+                                    ..addAll({
+                                      'was_selected': chip.isSelected,
+                                    }),
+                                ));
                               }
                             : null,
                       ),
@@ -615,6 +647,8 @@ class _DueDateChipsState extends State<_DueDateChips> {
   }
 
   Future<void> _onCustomChipTap(BuildContext context) async {
+    final analytics = AnalyticsProvider.ofOrNullObject(context);
+
     int? inXHours;
     final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
         context: context,
@@ -661,6 +695,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
     if (newInXHours != null && newInXHours is int) {
       controller.addInXLessonsChip(InXLessonsDueDateSelection(newInXHours));
+      analytics.log(NamedAnalyticsEvent(
+        name: 'due_date_chip_ui_added',
+        data: _getAnalyticsData(InXLessonsDueDateSelection(newInXHours)),
+      ));
     }
   }
 }
