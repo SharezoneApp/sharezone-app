@@ -709,6 +709,22 @@ void main() {
       expect(controller.getSelectedDueDate(), Date('2023-10-06'));
       expect(controller.getSelectedLessonChips(), []);
     });
+    testWidgets(
+        'when the date is manually selected that equals the date of the next schoolday then the corresponding chip will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      // Wednesday
+      controller.setToday(Date('2023-12-06'));
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectDateManually(Date('2023-12-07'));
+
+      expect(controller.getSelectedDueDate(), Date('2023-12-07'));
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    });
 
     testWidgets('when no course is chosen then no chip should be selected',
         (tester) async {

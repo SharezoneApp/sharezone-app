@@ -647,6 +647,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       (event, emit) async {
         switch (event.newDueDate) {
           case DateDueDateSelection s:
+            if (s.date == _getNextSchoolday()) {
+              _dateSelection = _dateSelection.copyWith(
+                dueDate: s.date,
+                dueDateSelection: const NextSchooldayDueDateSelection(),
+              );
+              break;
+            }
             _dateSelection =
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
