@@ -567,6 +567,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = AnalyticsProvider.ofOrNullObject(context);
     final bloc =
         bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: true);
     final state = bloc.state;
@@ -612,23 +613,21 @@ class _DueDateChipsState extends State<_DueDateChips> {
                           // our key here for tests.
                           deleteIcon: const Icon(Icons.clear,
                               key: HwDialogKeys.lessonChipDeleteIcon, size: 18),
-                          onSelected: chip.dueDate
-                                      is! InXLessonsDueDateSelection ||
-                                  lessonChipsSelectable
-                              ? (newState) {
-                                  controller.selectChip(chip.dueDate);
+                          onSelected:
+                              chip.dueDate is! InXLessonsDueDateSelection ||
+                                      lessonChipsSelectable
+                                  ? (newState) {
+                                      controller.selectChip(chip.dueDate);
 
-                                  final analytics =
-                                      AnalyticsProvider.ofOrNullObject(context);
-                                  analytics.log(NamedAnalyticsEvent(
-                                    name: 'due_date_chip_ui_tapped',
-                                    data: _getAnalyticsData(chip.dueDate)
-                                      ..addAll({
-                                        'was_selected': chip.isSelected,
-                                      }),
-                                  ));
-                                }
-                              : null,
+                                      analytics.log(NamedAnalyticsEvent(
+                                        name: 'due_date_chip_ui_tapped',
+                                        data: _getAnalyticsData(chip.dueDate)
+                                          ..addAll({
+                                            'was_selected': chip.isSelected,
+                                          }),
+                                      ));
+                                    }
+                                  : null,
                           // If onSelected is null but onDeleted is not null then
                           // the chip will still look selectable, but only
                           // tapping the delete icon will actually work. So if the
@@ -640,8 +639,6 @@ class _DueDateChipsState extends State<_DueDateChips> {
                                   controller.deleteInXLessonsChip(chip.dueDate
                                       as InXLessonsDueDateSelection);
 
-                                  final analytics =
-                                      AnalyticsProvider.ofOrNullObject(context);
                                   analytics.log(NamedAnalyticsEvent(
                                     name: 'due_date_chip_ui_deleted',
                                     data: _getAnalyticsData(chip.dueDate)
