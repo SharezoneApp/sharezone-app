@@ -26,11 +26,16 @@ class StripeCheckoutSession {
   /// of the user for whom the subscription is bought and is used for the
   /// "Parents buy for their children" feature.
   ///
+  /// [successUrl] and [cancelUrl] are the URLs to which the user is redirected
+  /// after the payment is completed or canceled.
+  ///
   /// Returns the URL of the Stripe checkout session. The user must be
   /// redirected to this URL to complete the payment.
   Future<String> create({
     String? userId,
     String? buysFor,
+    required Uri successUrl,
+    required Uri cancelUrl,
   }) async {
     assert(
       userId != null || buysFor != null,
@@ -48,6 +53,8 @@ class StripeCheckoutSession {
             {
               if (userId != null) 'userId': userId,
               if (buysFor != null) 'buysFor': buysFor,
+              'successUrl': '$successUrl',
+              'cancelUrl': '$cancelUrl',
             },
           ),
         );

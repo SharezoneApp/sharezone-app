@@ -79,8 +79,16 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   Future<void> _buyOnWeb() async {
+    final webAppUrl = _getBaseWebAppUrl();
+
     final checkoutUrl = await _stripeCheckoutSession.create(
       userId: '$_userId',
+      // Since we can't navigate with URLs on the web, we have to use the
+      // success and cancel URLs to redirect the user back to the web app.
+      //
+      // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/971
+      successUrl: webAppUrl,
+      cancelUrl: webAppUrl,
     );
 
     await launchUrl(
@@ -91,6 +99,22 @@ class SharezonePlusPageController extends ChangeNotifier {
       //
       // See https://github.com/flutter/flutter/issues/78524.
       webOnlyWindowName: "_self",
+    );
+  }
+
+  /// Returns the base URL of the web app.
+  ///
+  /// This is the URL of the web app without any path or query parameters.
+  ///
+  /// For example, if the web app is running on
+  /// `https://example.com/foo/bar?baz=qux` then this function returns
+  /// `https://example.com`.
+  Uri _getBaseWebAppUrl() {
+    final webAppUrl = Uri.base;
+    return Uri(
+      scheme: webAppUrl.scheme,
+      host: webAppUrl.host,
+      port: webAppUrl.port,
     );
   }
 
