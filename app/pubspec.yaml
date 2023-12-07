@@ -53,6 +53,8 @@ dependencies:
     path: ../lib/common_domain_models
   crash_analytics:
     path: ../lib/crash_analytics
+  stripe_checkout_session:
+    path: ../lib/sharezone_plus/stripe_checkout_session
   cupertino_icons: ^1.0.3
   date:
     path: ../lib/date
@@ -108,6 +110,7 @@ dependencies:
     path: ../lib/hausaufgabenheft_logik
   holidays:
     path: ../lib/holidays
+  http: ^0.13.5
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker: ^2.0.0+5

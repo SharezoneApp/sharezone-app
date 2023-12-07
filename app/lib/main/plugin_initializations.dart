@@ -80,6 +80,8 @@ class PluginInitializations {
       'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
+      'stripe_checkout_session_function_url':
+          'https://europe-west1-sharezone-c2bd8.cloudfunctions.net/createStripeCheckoutSession'
     });
 
     try {
