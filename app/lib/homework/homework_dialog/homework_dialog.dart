@@ -18,6 +18,7 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
@@ -587,80 +588,87 @@ class _DueDateChipsState extends State<_DueDateChips> {
           brightness: Theme.of(context).brightness,
         ),
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: ListenableBuilder(
-            listenable: controller,
-            builder: (context, _) {
-              return Row(
-                children: [
-                  const SizedBox(width: 10),
-                  for (final chip in controller.chips)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: InputChip(
-                        label: Text(chip.label),
-                        selected: chip.isSelected,
-                        // Copied from source code of InputChip, we need to add
-                        // our key here for tests.
-                        deleteIcon: const Icon(Icons.clear,
-                            key: HwDialogKeys.lessonChipDeleteIcon, size: 18),
-                        onSelected: chip.dueDate
-                                    is! InXLessonsDueDateSelection ||
-                                lessonChipsSelectable
-                            ? (newState) {
-                                controller.selectChip(chip.dueDate);
+      child: ScrollConfiguration(
+        // It's unintuitive if users can't drag the chips on desktop.
+        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        }),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) {
+                return Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    for (final chip in controller.chips)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: InputChip(
+                          label: Text(chip.label),
+                          selected: chip.isSelected,
+                          // Copied from source code of InputChip, we need to add
+                          // our key here for tests.
+                          deleteIcon: const Icon(Icons.clear,
+                              key: HwDialogKeys.lessonChipDeleteIcon, size: 18),
+                          onSelected: chip.dueDate
+                                      is! InXLessonsDueDateSelection ||
+                                  lessonChipsSelectable
+                              ? (newState) {
+                                  controller.selectChip(chip.dueDate);
 
-                                final analytics =
-                                    AnalyticsProvider.ofOrNullObject(context);
-                                analytics.log(NamedAnalyticsEvent(
-                                  name: 'due_date_chip_ui_tapped',
-                                  data: _getAnalyticsData(chip.dueDate)
-                                    ..addAll({
-                                      'was_selected': chip.isSelected,
-                                    }),
-                                ));
-                              }
-                            : null,
-                        // If onSelected is null but onDeleted is not null then
-                        // the chip will still look selectable, but only
-                        // tapping the delete icon will actually work. So if the
-                        // chip is not selectable, we set onDeleted to null.
-                        // Not being able to delete the chip if it is not
-                        // selectable shouldn't be a problem for users.
-                        onDeleted: chip.isDeletable && lessonChipsSelectable
-                            ? () {
-                                controller.deleteInXLessonsChip(
-                                    chip.dueDate as InXLessonsDueDateSelection);
+                                  final analytics =
+                                      AnalyticsProvider.ofOrNullObject(context);
+                                  analytics.log(NamedAnalyticsEvent(
+                                    name: 'due_date_chip_ui_tapped',
+                                    data: _getAnalyticsData(chip.dueDate)
+                                      ..addAll({
+                                        'was_selected': chip.isSelected,
+                                      }),
+                                  ));
+                                }
+                              : null,
+                          // If onSelected is null but onDeleted is not null then
+                          // the chip will still look selectable, but only
+                          // tapping the delete icon will actually work. So if the
+                          // chip is not selectable, we set onDeleted to null.
+                          // Not being able to delete the chip if it is not
+                          // selectable shouldn't be a problem for users.
+                          onDeleted: chip.isDeletable && lessonChipsSelectable
+                              ? () {
+                                  controller.deleteInXLessonsChip(chip.dueDate
+                                      as InXLessonsDueDateSelection);
 
-                                final analytics =
-                                    AnalyticsProvider.ofOrNullObject(context);
-                                analytics.log(NamedAnalyticsEvent(
-                                  name: 'due_date_chip_ui_deleted',
-                                  data: _getAnalyticsData(chip.dueDate)
-                                    ..addAll({
-                                      'was_selected': chip.isSelected,
-                                    }),
-                                ));
-                              }
-                            : null,
+                                  final analytics =
+                                      AnalyticsProvider.ofOrNullObject(context);
+                                  analytics.log(NamedAnalyticsEvent(
+                                    name: 'due_date_chip_ui_deleted',
+                                    data: _getAnalyticsData(chip.dueDate)
+                                      ..addAll({
+                                        'was_selected': chip.isSelected,
+                                      }),
+                                  ));
+                                }
+                              : null,
+                        ),
                       ),
+                    InputChip(
+                      avatar: const Icon(Icons.edit),
+                      label: const Text('Benutzerdefiniert'),
+                      onPressed: lessonChipsSelectable
+                          ? () async {
+                              // The normal context would cause material3 to be
+                              // applied the dialog which is not what we want.
+                              await _onCustomChipTap(beforeThemeChangeContext);
+                            }
+                          : null,
                     ),
-                  InputChip(
-                    avatar: const Icon(Icons.edit),
-                    label: const Text('Benutzerdefiniert'),
-                    onPressed: lessonChipsSelectable
-                        ? () async {
-                            // The normal context would cause material3 to be
-                            // applied the dialog which is not what we want.
-                            await _onCustomChipTap(beforeThemeChangeContext);
-                          }
-                        : null,
-                  ),
-                  const SizedBox(width: 10),
-                ],
-              );
-            }),
+                    const SizedBox(width: 10),
+                  ],
+                );
+              }),
+        ),
       ),
     );
   }
