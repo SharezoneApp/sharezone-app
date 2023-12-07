@@ -1170,7 +1170,7 @@ packages:
     source: hosted
     version: "2.0.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
@@ -2043,6 +2043,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  stripe_checkout_session:
+    dependency: "direct main"
+    description:
+      path: "../lib/sharezone_plus/stripe_checkout_session"
+      relative: true
+    source: path
+    version: "0.0.1"
   sync_http:
     dependency: transitive
     description:

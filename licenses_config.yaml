@@ -76,6 +76,7 @@ packageLicenseOverride:
   sharezone_lints: EUPL-1.2-or-later
   sharezone_utils: EUPL-1.2-or-later
   sharezone_widgets: EUPL-1.2-or-later
+  stripe_checkout_session: EUPL-1.2-or-later
   time: EUPL-1.2-or-later
   url_launcher_extended: EUPL-1.2-or-later
   user: EUPL-1.2-or-later
