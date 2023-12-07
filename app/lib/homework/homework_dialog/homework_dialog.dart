@@ -256,12 +256,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
                               const SizedBox(height: 8),
                               _CourseTile(state: state),
                               const _MobileDivider(),
-                              _TodoUntilPicker(
-                                state: state,
-                                showLessonChips: widget.isEditing
-                                    ? false
-                                    : widget.showDueDateSelectionChips,
-                              ),
+                              _TodoUntilPicker(state: state),
                               const _MobileDivider(),
                               _SubmissionsSwitch(state: state),
                               const _MobileDivider(),
@@ -344,16 +339,13 @@ class _SaveButton extends StatelessWidget {
 
 class _TodoUntilPicker extends StatelessWidget {
   final Ready state;
-  final bool showLessonChips;
 
-  const _TodoUntilPicker({
-    required this.state,
-    required this.showLessonChips,
-  });
+  const _TodoUntilPicker({required this.state});
 
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    final showLessonChips = !state.isEditing;
 
     return MaxWidthConstraintBox(
       child: SafeArea(
