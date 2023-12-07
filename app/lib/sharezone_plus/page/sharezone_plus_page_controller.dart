@@ -79,8 +79,18 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   Future<void> _buyOnWeb() async {
+    // The URL is used to redirect the user back to the web app after the
+    // payment is completed or canceled.
+    final webAppUrl = Uri.base;
+
     final checkoutUrl = await _stripeCheckoutSession.create(
       userId: '$_userId',
+      // Since we can't navigate with URLs on the web, we have to use the
+      // success and cancel URLs to redirect the user back to the web app.
+      //
+      // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/971
+      successUrl: webAppUrl,
+      cancelUrl: webAppUrl,
     );
 
     await launchUrl(

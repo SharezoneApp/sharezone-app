@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:convert';
+
 import 'package:mockito/annotations.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:test/test.dart';
@@ -21,6 +23,9 @@ void main() {
     late StripeCheckoutSession service;
     const testUrl = 'https://test.checkout.session';
     const functionsUrl = 'https://create-checkout.run.app';
+
+    const successUrl = 'https://sharezone.net/payment/success';
+    const cancelUrl = 'https://sharezone.net/payment/cancel';
 
     setUp(() {
       client = MockClient();
@@ -38,11 +43,19 @@ void main() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: '{"userId":"$userId"}',
+          body: jsonEncode({
+            'userId': userId,
+            'successUrl': successUrl,
+            'cancelUrl': cancelUrl,
+          }),
         ),
       ).thenAnswer((_) async => http.Response('{"url": "$testUrl"}', 200));
 
-      final result = await service.create(userId: userId);
+      final result = await service.create(
+        userId: userId,
+        successUrl: Uri.parse(successUrl),
+        cancelUrl: Uri.parse(cancelUrl),
+      );
 
       expect(result, equals(testUrl));
     });
@@ -55,11 +68,19 @@ void main() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: '{"buysFor":"$buysFor"}',
+          body: jsonEncode({
+            'buysFor': buysFor,
+            'successUrl': successUrl,
+            'cancelUrl': cancelUrl,
+          }),
         ),
       ).thenAnswer((_) async => http.Response('{"url": "$testUrl"}', 200));
 
-      final result = await service.create(buysFor: buysFor);
+      final result = await service.create(
+        buysFor: buysFor,
+        successUrl: Uri.parse(successUrl),
+        cancelUrl: Uri.parse(cancelUrl),
+      );
 
       expect(result, equals(testUrl));
     });
