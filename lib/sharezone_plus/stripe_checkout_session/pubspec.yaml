@@ -7,7 +7,9 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 name: stripe_checkout_session
-description: A package to create a Stripe checkout session.
+description: A package to create a Stripe checkout session. We extract this
+  functionality into a separate package to enable sharing it with the app and
+  the website.
 version: 0.0.1
 publish_to: none
 
