@@ -50,5 +50,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets[matrix.environment.serviceAccountSecret] }}'
           channelId: live
-          entryPoint: website/build/web
+          entryPoint: "./website"
           projectId: ${{ matrix.environment.projectId }}
