@@ -8,9 +8,14 @@
 
 import 'dart:async';
 
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_utils/platform.dart';
+import 'package:stripe_checkout_session/stripe_checkout_session.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A fallback price if the price cannot be fetched from the backend.
 ///
@@ -24,18 +29,25 @@ class SharezonePlusPageController extends ChangeNotifier {
   // ignore: unused_field
   late SubscriptionService _subscriptionService;
 
+  late StripeCheckoutSession _stripeCheckoutSession;
+  late UserId _userId;
+
   StreamSubscription<bool>? _hasPlusSubscription;
 
   SharezonePlusPageController({
     required RevenueCatPurchaseService purchaseService,
     required SubscriptionService subscriptionService,
+    required StripeCheckoutSession stripeCheckoutSession,
+    required UserId userId,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
+    _stripeCheckoutSession = stripeCheckoutSession;
+    _userId = userId;
 
     // Fake loading for development purposes.
     Future.delayed(const Duration(seconds: 1)).then((value) {
-      hasPlus = true;
+      hasPlus = false;
       price = fallbackPlusPrice;
       notifyListeners();
     });
@@ -58,8 +70,38 @@ class SharezonePlusPageController extends ChangeNotifier {
   String? price;
 
   Future<void> buySubscription() async {
+    if (PlatformCheck.isWeb) {
+      await _buyOnWeb();
+    }
+
     hasPlus = true;
     notifyListeners();
+  }
+
+  Future<void> _buyOnWeb() async {
+    // The URL is used to redirect the user back to the web app after the
+    // payment is completed or canceled.
+    final webAppUrl = Uri.base;
+
+    final checkoutUrl = await _stripeCheckoutSession.create(
+      userId: '$_userId',
+      // Since we can't navigate with URLs on the web, we have to use the
+      // success and cancel URLs to redirect the user back to the web app.
+      //
+      // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/971
+      successUrl: webAppUrl,
+      cancelUrl: webAppUrl,
+    );
+
+    await launchUrl(
+      Uri.parse(checkoutUrl),
+      // Since the request for creating the checkout session is asynchronous, we
+      // can't open the checkout in a new tab due to the browser security
+      // policy.
+      //
+      // See https://github.com/flutter/flutter/issues/78524.
+      webOnlyWindowName: "_self",
+    );
   }
 
   Future<void> cancelSubscription() async {

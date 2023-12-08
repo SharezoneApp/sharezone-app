@@ -165,6 +165,7 @@ jobs:
         run: |
           fvm flutter build web \
             --release \
+            --web-renderer canvaskit \
             --target=lib/main_dev.dart
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
