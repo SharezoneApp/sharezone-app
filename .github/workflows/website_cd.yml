@@ -8,6 +8,11 @@
 
 name: website-cd
 
+concurrency:
+  # Avoids running multiple deployments at the same time which would cause
+  # conflicts.
+  group: website-release
+
 on:
   push:
     branches:
