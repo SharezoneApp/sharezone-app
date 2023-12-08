@@ -66,12 +66,12 @@
             },
             {
                 "source": "/feature-ranking",
-                "destination": "https://github.com/sharezoneApp/sharezone-app/issues",
+                "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
                 "type": 302
             },
             {
                 "source": "/tickets",
-                "destination": "https://github.com/sharezoneApp/sharezone-app/issues",
+                "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
                 "type": 302
             },
             {
