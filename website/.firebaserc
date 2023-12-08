@@ -14,7 +14,7 @@
     "sharezone-debug": {
       "hosting": {
         "sharezone-website": [
-          "sharezone-debug"
+          "sharezone-website-dev"
         ]
       }
     }
