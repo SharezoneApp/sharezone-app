@@ -317,6 +317,7 @@ class _FooterSocialMedia extends StatelessWidget {
             _SocialMediaButton("Twitter"),
             _SocialMediaButton("Instagram"),
             _SocialMediaButton("Discord"),
+            _SocialMediaButton("GitHub"),
           ],
         ),
       ],
