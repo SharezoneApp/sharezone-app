@@ -1,220 +1,220 @@
 {
-    "hosting": {
-        "target": "sharezone-website",
-        "public": "build/web",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "cleanUrls": true,
-        "redirects": [
-            {
-                "source": "/social-logo",
-                "destination": "/images/logos/sharezone-logo-short.png",
-                "type": 302
-            },
-            {
-                "source": "/app",
-                "destination": "https://sharezone.page.link/app",
-                "type": 301
-            },
-            {
-                "source": "/instagram",
-                "destination": "https://www.instagram.com/sharezone.app",
-                "type": 302
-            },
-            {
-                "source": "/youtube",
-                "destination": "https://www.youtube.com/channel/UCVwVH2AXMhoyJlvC1GoENVQ",
-                "type": 302
-            },
-            {
-                "source": "/linkedin",
-                "destination": "https://www.linkedin.com/company/codingbrain",
-                "type": 302
-            },
-            {
-                "source": "/twitter",
-                "destination": "https://twitter.com/SharezoneApp",
-                "type": 302
-            },
-            {
-                "source": "/discord",
-                "destination": "https://discord.gg/8JJ4tBa",
-                "type": 302
-            },
-            {
-                "source": "/ios",
-                "destination": "https://itunes.apple.com/de/app/sharezone/id1434868489",
-                "type": 302
-            },
-            {
-                "source": "/android",
-                "destination": "https://play.google.com/store/apps/details?id=de.codingbrain.sharezone",
-                "type": 302
-            },
-            {
-                "source": "/download",
-                "destination": "https://sharezone.page.link/app",
-                "type": 302
-            },
-            {
-                "source": "/faq",
-                "destination": "https://sharezone.zendesk.com/hc/de/sections/360003173939-H%C3%A4ufige-Fragen",
-                "type": 302
-            },
-            {
-                "source": "/feature-ranking",
-                "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
-                "type": 302
-            },
-            {
-                "source": "/tickets",
-                "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
-                "type": 302
-            },
-            {
-                "source": "/link-account",
-                "destination": "https://sharezone.zendesk.com/hc/de/sections/360003173939-H%C3%A4ufige-Fragen",
-                "type": 302
-            },
-            {
-                "source": "/web",
-                "destination": "https://web.sharezone.net",
-                "type": 301
-            },
-            {
-                "source": "/sign_in_sign_out",
-                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Anleitungen%2Fsign_in_sign_out.mp4?alt=media&token=d5a166b4-3e24-4797-80eb-202a0f280724",
-                "type": 302
-            },
-            {
-                "source": "/markdown",
-                "destination": "https://sharezone.zendesk.com/hc/de/articles/360012514119-Was-ist-Markdown-und-wie-nutzt-man-das-",
-                "type": 302
-            },
-            {
-                "source": "/macos",
-                "destination": "https://apps.apple.com/de/app/sharezone-schulplaner/id1434868489?ls=1",
-                "type": 301
-            },
-            {
-                "source": "/macOS",
-                "destination": "https://apps.apple.com/de/app/sharezone-schulplaner/id1434868489?ls=1",
-                "type": 302
-            },
-            {
-                "source": "/einrichtung",
-                "destination": "https://youtu.be/RM-AEedpyuo",
-                "type": 302
-            },
-            {
-                "source": "/meme-no-members-for-submissions",
-                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2Fconfused.mp4?alt=media&token=279f805c-a41a-4d6f-a480-1f0fe7d77774",
-                "type": 302
-            },
-            {
-                "source": "/meme-submission-too-late",
-                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2FtooLate.mp4?alt=media&token=a6b7027f-0b8e-43c3-b327-02f2d678524a",
-                "type": 302
-            },
-            {
-                "source": "/impressum",
-                "destination": "https://sharezone.net/#imprint-page",
-                "type": 302
-            },
-            {
-                "source": "/datenschutzerklaerung",
-                "destination": "https://sharezone.net/privacy-app#privacy-app",
-                "type": 302
-            },
-            {
-                "source": "/dse",
-                "destination": "https://sharezone.net/privacy-app#privacy-app",
-                "type": 302
-            },
-            {
-                "source": "/dse-v1-0-0-pdf",
-                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FDatenschutzerkl%C3%A4rung%20Sharezone%20v1.0.0.pdf?alt=media&token=b48bcd88-013f-4d69-9501-e55ef8d10719",
-                "type": 302
-            },
-            {
-                "source": "/support",
-                "destination": "https://sharezone.net/#support-page",
-                "type": 301
-            },
-            {
-                "source": "/macos-direct",
-                "destination": "macappstore://itunes.apple.com/app/id1434868489",
-                "type": 302
-            },
-            {
-                "source": "/og-image",
-                "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2FOG-Grafik.png?alt=media&token=a8c3e604-3bf3-49f6-84e7-42a256b26f10",
-                "type": 302
-            },
-            {
-                "source": "/imprint#privacy-app",
-                "destination": "https://sharezone.net/#privacy-app",
-                "type": 302
-            },
-            {
-                "source": "/termin",
-                "destination": "https://calendly.com/sharezone/sharezone",
-                "type": 302
-            },
-            {
-                "source": "/android-alpha",
-                "destination": "https://appdistribution.firebase.dev/i/9c4942a1c01a5496",
-                "type": 302
-            },
-            {
-                "source": "/ios-alpha",
-                "destination": "https://testflight.apple.com/join/10tIrtLw",
-                "type": 302
-            },
-            {
-                "source": "/apple-alpha",
-                "destination": "https://testflight.apple.com/join/10tIrtLw",
-                "type": 302
-            },
-            {
-                "source": "/apple-beta",
-                "destination": "https://testflight.apple.com/join/4luKeRNN",
-                "type": 302
-            },
-            {
-                "source": "/github",
-                "destination": "https://github.com/SharezoneApp/sharezone-app",
-                "type": 302
-            },
-            {
-                "source": "/alpha",
-                "destination": "https://docs.sharezone.net/more/alpha-program",
-                "type": 302
-            },
-            {
-                "source": "/delete-account",
-                "destination": "https://docs.page/sharezoneapp/sharezone-app/account/delete",
-                "type": 302
-            },
-            {
-                "source": "/beta",
-                "destination": "https://docs.sharezone.net/more/beta-program",
-                "type": 302
-            },
-            {
-                "source": "/sharezone-plus-video-call-support",
-                "destination": "https://app.reclaim.ai/m/sharezone/plus-support",
-                "type": 302
-            }
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "destination": "/index.html"
-            }
-        ]
-    }
+  "hosting": {
+    "target": "sharezone-website",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "redirects": [
+      {
+        "source": "/social-logo",
+        "destination": "/images/logos/sharezone-logo-short.png",
+        "type": 302
+      },
+      {
+        "source": "/app",
+        "destination": "https://sharezone.page.link/app",
+        "type": 301
+      },
+      {
+        "source": "/instagram",
+        "destination": "https://www.instagram.com/sharezone.app",
+        "type": 302
+      },
+      {
+        "source": "/youtube",
+        "destination": "https://www.youtube.com/channel/UCVwVH2AXMhoyJlvC1GoENVQ",
+        "type": 302
+      },
+      {
+        "source": "/linkedin",
+        "destination": "https://www.linkedin.com/company/codingbrain",
+        "type": 302
+      },
+      {
+        "source": "/twitter",
+        "destination": "https://twitter.com/SharezoneApp",
+        "type": 302
+      },
+      {
+        "source": "/discord",
+        "destination": "https://discord.gg/8JJ4tBa",
+        "type": 302
+      },
+      {
+        "source": "/ios",
+        "destination": "https://itunes.apple.com/de/app/sharezone/id1434868489",
+        "type": 302
+      },
+      {
+        "source": "/android",
+        "destination": "https://play.google.com/store/apps/details?id=de.codingbrain.sharezone",
+        "type": 302
+      },
+      {
+        "source": "/download",
+        "destination": "https://sharezone.page.link/app",
+        "type": 302
+      },
+      {
+        "source": "/faq",
+        "destination": "https://sharezone.zendesk.com/hc/de/sections/360003173939-H%C3%A4ufige-Fragen",
+        "type": 302
+      },
+      {
+        "source": "/feature-ranking",
+        "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
+        "type": 302
+      },
+      {
+        "source": "/tickets",
+        "destination": "https://github.com/SharezoneApp/sharezone-app/issues",
+        "type": 302
+      },
+      {
+        "source": "/link-account",
+        "destination": "https://sharezone.zendesk.com/hc/de/sections/360003173939-H%C3%A4ufige-Fragen",
+        "type": 302
+      },
+      {
+        "source": "/web",
+        "destination": "https://web.sharezone.net",
+        "type": 301
+      },
+      {
+        "source": "/sign_in_sign_out",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Anleitungen%2Fsign_in_sign_out.mp4?alt=media&token=d5a166b4-3e24-4797-80eb-202a0f280724",
+        "type": 302
+      },
+      {
+        "source": "/markdown",
+        "destination": "https://sharezone.zendesk.com/hc/de/articles/360012514119-Was-ist-Markdown-und-wie-nutzt-man-das-",
+        "type": 302
+      },
+      {
+        "source": "/macos",
+        "destination": "https://apps.apple.com/de/app/sharezone-schulplaner/id1434868489?ls=1",
+        "type": 301
+      },
+      {
+        "source": "/macOS",
+        "destination": "https://apps.apple.com/de/app/sharezone-schulplaner/id1434868489?ls=1",
+        "type": 302
+      },
+      {
+        "source": "/einrichtung",
+        "destination": "https://youtu.be/RM-AEedpyuo",
+        "type": 302
+      },
+      {
+        "source": "/meme-no-members-for-submissions",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2Fconfused.mp4?alt=media&token=279f805c-a41a-4d6f-a480-1f0fe7d77774",
+        "type": 302
+      },
+      {
+        "source": "/meme-submission-too-late",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2FtooLate.mp4?alt=media&token=a6b7027f-0b8e-43c3-b327-02f2d678524a",
+        "type": 302
+      },
+      {
+        "source": "/impressum",
+        "destination": "https://sharezone.net/#imprint-page",
+        "type": 302
+      },
+      {
+        "source": "/datenschutzerklaerung",
+        "destination": "https://sharezone.net/privacy-app#privacy-app",
+        "type": 302
+      },
+      {
+        "source": "/dse",
+        "destination": "https://sharezone.net/privacy-app#privacy-app",
+        "type": 302
+      },
+      {
+        "source": "/dse-v1-0-0-pdf",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FDatenschutzerkl%C3%A4rung%20Sharezone%20v1.0.0.pdf?alt=media&token=b48bcd88-013f-4d69-9501-e55ef8d10719",
+        "type": 302
+      },
+      {
+        "source": "/support",
+        "destination": "https://sharezone.net/#support-page",
+        "type": 301
+      },
+      {
+        "source": "/macos-direct",
+        "destination": "macappstore://itunes.apple.com/app/id1434868489",
+        "type": 302
+      },
+      {
+        "source": "/og-image",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2FOG-Grafik.png?alt=media&token=a8c3e604-3bf3-49f6-84e7-42a256b26f10",
+        "type": 302
+      },
+      {
+        "source": "/imprint#privacy-app",
+        "destination": "https://sharezone.net/#privacy-app",
+        "type": 302
+      },
+      {
+        "source": "/termin",
+        "destination": "https://calendly.com/sharezone/sharezone",
+        "type": 302
+      },
+      {
+        "source": "/android-alpha",
+        "destination": "https://appdistribution.firebase.dev/i/9c4942a1c01a5496",
+        "type": 302
+      },
+      {
+        "source": "/ios-alpha",
+        "destination": "https://testflight.apple.com/join/10tIrtLw",
+        "type": 302
+      },
+      {
+        "source": "/apple-alpha",
+        "destination": "https://testflight.apple.com/join/10tIrtLw",
+        "type": 302
+      },
+      {
+        "source": "/apple-beta",
+        "destination": "https://testflight.apple.com/join/4luKeRNN",
+        "type": 302
+      },
+      {
+        "source": "/github",
+        "destination": "https://github.com/SharezoneApp/sharezone-app",
+        "type": 302
+      },
+      {
+        "source": "/alpha",
+        "destination": "https://docs.sharezone.net/more/alpha-program",
+        "type": 302
+      },
+      {
+        "source": "/delete-account",
+        "destination": "https://docs.page/sharezoneapp/sharezone-app/account/delete",
+        "type": 302
+      },
+      {
+        "source": "/beta",
+        "destination": "https://docs.sharezone.net/more/beta-program",
+        "type": 302
+      },
+      {
+        "source": "/sharezone-plus-video-call-support",
+        "destination": "https://app.reclaim.ai/m/sharezone/plus-support",
+        "type": 302
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
