@@ -25,7 +25,12 @@ void main() {
       }
 
       testGoldens('renders as expected (light mode)', (tester) async {
-        await pumpSharezonePlusChip(tester);
+        await pumpSharezonePlusChip(
+          tester,
+          theme: ThemeData.light(useMaterial3: false).copyWith(
+            primaryColor: primaryColor,
+          ),
+        );
 
         await screenMatchesGolden(tester, 'sharezone_plus_chip_light');
       });
@@ -38,7 +43,7 @@ void main() {
           // package can't load the font.
           //
           // See: https://github.com/eBay/flutter_glove_box/issues/158
-          theme: ThemeData.dark().copyWith(
+          theme: ThemeData.dark(useMaterial3: false).copyWith(
             primaryColor: primaryColor,
           ),
         );
@@ -65,7 +70,12 @@ void main() {
       }
 
       testGoldens('renders as expected (light mode)', (tester) async {
-        await pumpSharezonePlusFeatureInfoCard(tester);
+        await pumpSharezonePlusFeatureInfoCard(
+          tester,
+          theme: ThemeData.light(useMaterial3: false).copyWith(
+            primaryColor: primaryColor,
+          ),
+        );
 
         await screenMatchesGolden(
             tester, 'sharezone_plus_feature_info_card_light');
@@ -75,7 +85,7 @@ void main() {
         await pumpSharezonePlusFeatureInfoCard(
           tester,
           // We can't use our Sharezone `darkTheme` here. See comment above.
-          theme: ThemeData.dark().copyWith(
+          theme: ThemeData.dark(useMaterial3: false).copyWith(
             primaryColor: primaryColor,
           ),
         );

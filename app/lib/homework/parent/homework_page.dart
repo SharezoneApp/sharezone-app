@@ -139,8 +139,12 @@ class _HomeworkPageState extends State<_HomeworkPage> {
           currentUserType:
               typeOfUserToHomeworkPageTypeOfUserOrThrow(widget.typeOfUser));
     }
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: DefaultTabController(
         length: 2,
         child: SharezoneMainScaffold(

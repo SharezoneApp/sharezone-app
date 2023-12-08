@@ -94,10 +94,23 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: WillPopScope(
-        onWillPop: () async => bloc.hasUserEditInput()
-            ? warnUserAboutLeavingForm(context)
-            : Future.value(true),
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+
+          final hasInputChanged = bloc.hasUserEditInput();
+          final navigator = Navigator.of(context);
+          if (!hasInputChanged) {
+            navigator.pop();
+            return;
+          }
+
+          final shouldPop = await warnUserAboutLeavingForm(context);
+          if (shouldPop && context.mounted) {
+            navigator.pop();
+          }
+        },
         child: Scaffold(
           appBar:
               AppBar(title: const Text("Kurs erstellen"), centerTitle: true),

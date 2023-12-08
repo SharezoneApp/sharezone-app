@@ -16,7 +16,7 @@ environment:
 dependencies:
   args: ^2.3.1
   path: "^1.6.4"
-  http: ^0.13.5
+  http: ^1.1.2
   async: "^2.4.1"
   yaml: ^3.1.1
   quiver: any

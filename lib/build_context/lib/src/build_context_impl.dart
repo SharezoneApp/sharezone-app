@@ -13,8 +13,6 @@ extension MediaQueryExt on BuildContext {
 
   EdgeInsets get mediaQueryViewPadding => MediaQuery.of(this).viewPadding;
 
-  double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
-
   bool get isDesktopModus {
     if (mediaQuerySize.width < 700) {
       return false;

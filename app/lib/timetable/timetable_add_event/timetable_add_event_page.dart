@@ -91,8 +91,15 @@ class _TimetableAddEventPageState extends State<TimetableAddEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => warnUserAboutLeavingForm(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        final shouldPop = await warnUserAboutLeavingForm(context);
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
       child: BlocProvider(
         bloc: bloc,
         child: _TimetableAddEventPage(isExam: widget.isExam),

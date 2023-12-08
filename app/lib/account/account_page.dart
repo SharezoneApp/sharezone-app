@@ -49,8 +49,12 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: StreamBuilder<UserView>(
         stream: bloc.userViewStream,
         builder: (context, snapshot) {

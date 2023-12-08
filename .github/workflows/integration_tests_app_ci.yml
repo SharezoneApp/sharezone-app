@@ -100,7 +100,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
-        run: flutter pub global activate patrol_cli 2.2.1
+        run: flutter pub global activate patrol_cli 2.3.1+1
 
       - name: Run Flutter build
         run: |
@@ -111,17 +111,17 @@ jobs:
           # Firebase Test Lab with the dev flavor. We always got "No tests
           # found.".
           flutter build apk \
-          --target=lib/main_prod.dart \
-          --flavor prod \
-          --config-only
+            --target=lib/main_prod.dart \
+            --flavor prod \
+            --config-only
 
       - name: Build Instrumentation Test
         run: |
           patrol build android \
-          --flavor prod \
-          --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
-          --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
-          -t integration_test/app_test.dart
+            --flavor prod \
+            --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
+            --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
+            -t integration_test/app_test.dart
 
       - name: Setup credentials
         env:

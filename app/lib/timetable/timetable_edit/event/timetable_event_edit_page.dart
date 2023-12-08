@@ -91,9 +91,20 @@ class _TimetableEditEventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isExam = initialEvent.eventType == Exam();
-    return WillPopScope(
-      onWillPop: () =>
-          warnUserAboutLeavingOrSavingForm(context, () => _submit(context)),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final shouldPop = await warnUserAboutLeavingOrSavingForm(
+          context,
+          () => _submit(context),
+        );
+
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         appBar:

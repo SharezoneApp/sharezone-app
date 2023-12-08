@@ -76,9 +76,9 @@ class PrivacyPolicyPage extends StatelessWidget {
           ],
           builder: (context, _) => MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: context
+                  textScaler: TextScaler.linear(context
                       .watch<PrivacyPolicyThemeSettings>()
-                      .textScalingFactor),
+                      .textScalingFactor)),
               child: Theme(
                 data: Theme.of(context).copyWith(
                     visualDensity: context.ppVisualDensity,

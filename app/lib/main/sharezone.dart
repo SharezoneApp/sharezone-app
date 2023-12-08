@@ -207,7 +207,7 @@ class _ThemeSettingsProvider extends StatelessWidget {
           child: Builder(builder: (context) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                textScaleFactor: themeSettings.textScalingFactor,
+                textScaler: TextScaler.linear(themeSettings.textScalingFactor),
               ),
               child: Theme(
                 data: Theme.of(context).copyWith(
