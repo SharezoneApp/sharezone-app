@@ -12,8 +12,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    
+
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -23,9 +22,9 @@ jobs:
           - name: dev
             projectId: sharezone-debug
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
-          # - name: prod
-          #   projectId: sharezone-c2bd8
-          #   serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
+          - name: prod
+            projectId: sharezone-c2bd8
+            serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -47,8 +46,8 @@ jobs:
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets[matrix.environment.serviceAccountSecret] }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets[matrix.environment.serviceAccountSecret] }}"
           channelId: live
           entryPoint: "./website"
           projectId: ${{ matrix.environment.projectId }}
