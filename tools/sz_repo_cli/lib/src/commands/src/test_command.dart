@@ -29,8 +29,7 @@ class TestCommand extends ConcurrentCommand {
     );
     argParser.addFlag(
       'update-goldens',
-      help:
-          'Update golden tests. Is not used if "exclude-goldens" is set to "true".',
+      help: 'Update golden tests.',
       defaultsTo: false,
       negatable: false,
     );
@@ -126,7 +125,7 @@ Future<void> _runTestsFlutter(
   required bool onlyGoldens,
   required bool updateGoldens,
 }) async {
-  if (onlyGoldens) {
+  if (onlyGoldens || !excludeGoldens) {
     if (!package.hasGoldenTestsDirectory) {
       return;
     }
