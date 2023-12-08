@@ -123,9 +123,6 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
-      - working-directory: lib/filesharing/filesharing_logic
-        run: flutter pub cache repair
-
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
