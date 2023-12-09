@@ -348,7 +348,7 @@ class _SocialMediaButton extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: SvgPicture.asset(
               "assets/icons/$lowerCasePlatform.svg",
-              color: Theme.of(context).primaryColor,
+              theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
             ),
           ),
         ),

@@ -109,7 +109,7 @@ class _EmailTile extends StatelessWidget {
     return _SupportCard(
       icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: Theme.of(context).primaryColor,
+        theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
       ),
       title: 'support@sharezone.net',
       subtitle: 'E-Mail',
