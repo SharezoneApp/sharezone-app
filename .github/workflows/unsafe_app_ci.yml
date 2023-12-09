@@ -165,7 +165,7 @@ jobs:
         run: |
           fvm flutter build web \
             --release \
-            --dart-define DEVELOPMENT_STAGE=ALPHA \
+            --dart-define=DEVELOPMENT_STAGE=ALPHA \
             --web-renderer canvaskit \
             --target=lib/main_dev.dart
 
