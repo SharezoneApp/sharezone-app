@@ -254,22 +254,35 @@ class _PlusBaseColors extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _BackToSelectTypeButton(),
+        const Center(
+          child: Text(
+            'Grundfarbe auswählen',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.only(left: 30),
+          child: _BackToSelectTypeButton(),
+        ),
         const SizedBox(height: 16),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            ..._baseColors.map(
-              (color) {
-                final design = Design.fromColor(color);
-                return _ColorCircleSelectDesign(
-                  design: design,
-                  onTap: () => onBaseColorChanged!(color),
-                );
-              },
-            ).toList(),
-          ],
+        Center(
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ..._baseColors.map(
+                (color) {
+                  final design = Design.fromColor(color);
+                  return _ColorCircleSelectDesign(
+                    design: design,
+                    onTap: () => onBaseColorChanged!(color),
+                  );
+                },
+              ).toList(),
+            ],
+          ),
         ),
       ],
     );

@@ -80,7 +80,7 @@ void main() {
       });
 
       testGoldens(
-          'displays select an accurate color dialog as expected (light mode)',
+          'displays select a color shade dialog as expected (light mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: lightTheme);
 
@@ -92,7 +92,7 @@ void main() {
       });
 
       testGoldens(
-          'displays select an accurate color dialog as expected (dark mode)',
+          'displays select a color shade dialog as expected (dark mode)',
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: darkTheme);
 
