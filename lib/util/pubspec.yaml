@@ -17,7 +17,7 @@ environment:
 dependencies:
   asn1lib: ^1.4.0
   encrypt: ^5.0.1
-  http: ^0.13.5
+  http: ^1.1.2
   logging: ^1.1.1
   pointycastle: ^3.6.2
   rsa_pkcs: ^2.0.1

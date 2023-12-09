@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/privacy_policy/src/ui/common.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group('showDisplaySettingsDialog', () {
@@ -24,6 +25,7 @@ void main() {
     testGoldens('displays as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          theme: lightTheme,
           home: Scaffold(
             body: ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
               create: (context) {

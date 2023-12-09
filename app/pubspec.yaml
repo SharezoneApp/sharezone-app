@@ -30,7 +30,12 @@ dependencies:
   animator: ^3.2.0
   app_functions:
     path: ../lib/app_functions
-  app_review: ^2.1.1
+  app_review:
+    # We can use the published version once a new version is published that
+    # is newer than 2.1.2+1.
+    git:
+      url: https://github.com/fluttercommunity/app_review
+      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
@@ -53,6 +58,8 @@ dependencies:
     path: ../lib/common_domain_models
   crash_analytics:
     path: ../lib/crash_analytics
+  stripe_checkout_session:
+    path: ../lib/sharezone_plus/stripe_checkout_session
   cupertino_icons: ^1.0.3
   date:
     path: ../lib/date
@@ -108,6 +115,7 @@ dependencies:
     path: ../lib/hausaufgabenheft_logik
   holidays:
     path: ../lib/holidays
+  http: ^1.1.2
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker: ^2.0.0+5
@@ -124,7 +132,7 @@ dependencies:
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
-  package_info_plus: ^4.1.0
+  package_info_plus: ^5.0.1
   permission_handler: ^10.2.0
   photo_view: ^0.14.0
   provider: ^6.0.3
@@ -181,7 +189,7 @@ dev_dependencies:
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3
-  patrol: ^2.3.1
+  patrol: ^3.1.0
 
 patrol:
   app_name: Sharezone App

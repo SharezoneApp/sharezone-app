@@ -54,8 +54,12 @@ class BlackboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: const SharezoneMainScaffold(
         body: _BlackboardList(),
         floatingActionButton: _BlackboardPageFAB(),

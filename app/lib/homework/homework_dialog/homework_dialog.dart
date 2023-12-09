@@ -232,10 +232,23 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
               const Center(child: CircularProgressIndicator()),
             SavedSuccessfully() => throw UnimplementedError(
                 'Placeholder, we pop the Navigator above so this should not be reached.'),
-            Ready() => WillPopScope(
-                onWillPop: () async => hasModifiedData()
-                    ? warnUserAboutLeavingForm(context)
-                    : Future.value(true),
+            Ready() => PopScope(
+                canPop: false,
+                onPopInvoked: (didPop) async {
+                  if (didPop) return;
+
+                  final hasInputChanged = hasModifiedData();
+                  final navigator = Navigator.of(context);
+                  if (!hasInputChanged) {
+                    navigator.pop();
+                    return;
+                  }
+
+                  final shouldPop = await warnUserAboutLeavingForm(context);
+                  if (shouldPop && context.mounted) {
+                    navigator.pop();
+                  }
+                },
                 child: Scaffold(
                   body: Column(
                     children: <Widget>[

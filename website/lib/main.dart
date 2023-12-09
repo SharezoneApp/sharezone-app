@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         PrivacyPolicyPage.tag: (context) => const PrivacyPolicyPage(),
       },
       theme: ThemeData(
+        useMaterial3: false,
         primaryColor: SharezoneStyle.primaryColor,
         fontFamily: SharezoneStyle.font,
         scaffoldBackgroundColor: Colors.white,

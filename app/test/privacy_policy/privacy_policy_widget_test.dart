@@ -278,7 +278,7 @@ ${generateText(10)}
         /// contents, regardless of the last section heading not having passed
         /// the threshold yet.
         ///
-        /// This is done for a nicer user expierence.
+        /// This is done for a nicer user experience.
         /// There will still be edge-cases though: If chapters right before
         /// the last section are also too short to be scrolled past the
         /// "currently reading" threshold they will never get highlighted.
@@ -302,7 +302,7 @@ This is not enough text to scroll the heading past the currently read threshold.
 
           final text = '''
 # Foo
-${generateText(200)}
+${generateText(20)}
 ''';
 
           await tester.pumpWidget(

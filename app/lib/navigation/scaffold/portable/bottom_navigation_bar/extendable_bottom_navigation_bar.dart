@@ -120,10 +120,14 @@ class _ExtendableBottomNavigationBarContent extends StatefulWidget {
   static double height(BuildContext context) =>
       69.0 + (context.mediaQueryViewPadding.bottom);
 
-  static double expendedHeight(BuildContext context) =>
-      190.0 +
-      (context.mediaQueryViewPadding.bottom / 2) +
-      (context.textScaleFactor * 20);
+  static double expendedHeight(BuildContext context) {
+    final textStyle = DefaultTextStyle.of(context).style;
+    final scaledFontSize =
+        MediaQuery.textScalerOf(context).scale(textStyle.fontSize ?? 14);
+    return 190.0 +
+        (context.mediaQueryViewPadding.bottom / 2) +
+        (scaledFontSize * 0.25);
+  }
 }
 
 class _ExtendableBottomNavigationBarContentState

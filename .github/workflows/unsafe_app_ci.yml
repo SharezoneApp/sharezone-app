@@ -78,7 +78,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -137,7 +137,7 @@ jobs:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -165,8 +165,9 @@ jobs:
         run: |
           fvm flutter build web \
             --release \
-            --target=lib/main_dev.dart \
-            --dart-define DEVELOPMENT_STAGE=ALPHA
+            --dart-define DEVELOPMENT_STAGE=ALPHA \
+            --web-renderer canvaskit \
+            --target=lib/main_dev.dart
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2

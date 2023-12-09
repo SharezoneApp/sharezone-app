@@ -54,11 +54,11 @@ void main() {
       await $(K.loginButton).tap();
     }
 
-    patrolTest('can log in', nativeAutomation: true, config: config, ($) async {
+    patrolTest('can log in', config: config, ($) async {
       await login($);
     });
-    patrolTest('User should be able to load groups',
-        nativeAutomation: true, config: config, ($) async {
+
+    patrolTest('User should be able to load groups', config: config, ($) async {
       await login($);
       await $(K.groupsNavigationItem).tap();
 
@@ -73,8 +73,9 @@ void main() {
       expect($('Latein LK'), findsOneWidget);
       expect($('Spanisch LK'), findsOneWidget);
     });
-    patrolTest('User should be able to load timetable',
-        nativeAutomation: true, config: config, ($) async {
+
+    patrolTest('User should be able to load timetable', config: config,
+        ($) async {
       await login($);
       await $(K.timetableNavigationItem).tap();
 
@@ -87,8 +88,9 @@ void main() {
       expect($('Latein LK'), findsNWidgets(4));
       expect($('Spanisch LK'), findsNWidgets(4));
     });
-    patrolTest('User should be able to load information sheets',
-        nativeAutomation: true, config: config, ($) async {
+
+    patrolTest('User should be able to load information sheets', config: config,
+        ($) async {
       await login($);
       await $(K.blackboardNavigationItem).tap();
 

@@ -43,7 +43,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
         id: filter
         with:
@@ -82,11 +82,11 @@ jobs:
         working-directory: app
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       # Java is needed for building the APK, see
       # https://github.com/marketplace/actions/flutter-action.
-      - uses: actions/setup-java@0ab4596768b603586c0de567f2430c30f5b0d2b0
+      - uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93
         with:
           distribution: "temurin"
           java-version: "11"
@@ -100,7 +100,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
-        run: flutter pub global activate patrol_cli 2.2.1
+        run: flutter pub global activate patrol_cli 2.3.1+1
 
       - name: Run Flutter build
         run: |
@@ -111,17 +111,17 @@ jobs:
           # Firebase Test Lab with the dev flavor. We always got "No tests
           # found.".
           flutter build apk \
-          --target=lib/main_prod.dart \
-          --flavor prod \
-          --config-only
+            --target=lib/main_prod.dart \
+            --flavor prod \
+            --config-only
 
       - name: Build Instrumentation Test
         run: |
           patrol build android \
-          --flavor prod \
-          --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
-          --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
-          -t integration_test/app_test.dart
+            --flavor prod \
+            --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
+            --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
+            -t integration_test/app_test.dart
 
       - name: Setup credentials
         env:
@@ -178,7 +178,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -203,7 +203,7 @@ jobs:
         working-directory: app/ios/Runner
         run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
 
-      - uses: futureware-tech/simulator-action@736249ceb5ed7916224ed6b6d3c3582fd8049deb
+      - uses: futureware-tech/simulator-action@427329dea8e4d6417cba1273ebb5c9ad4720082d
         id: simulator
         with:
           model: "iPhone 13"
@@ -238,7 +238,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Set Flutter version from FVM config file to environment variables
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
@@ -258,7 +258,7 @@ jobs:
           fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@e66222fd7ec9c46b83cc837781ce6930b5d95f90
+        uses: nanasess/setup-chromedriver@480d644e773cd6d53e4cb76557c8ad5e5806d7da
 
       - name: Run integration tests
         working-directory: app
@@ -291,7 +291,7 @@ jobs:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.47.0

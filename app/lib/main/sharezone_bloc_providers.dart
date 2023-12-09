@@ -112,7 +112,9 @@ import 'package:sharezone/util/notification_token_adder.dart';
 import 'package:sharezone/util/platform_information_manager/flutter_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
+import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:user/user.dart';
+import 'package:http/http.dart' as http;
 
 import '../homework/parent/src/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
@@ -335,8 +337,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider(
         create: (context) => SharezonePlusPageController(
+          userId: UserId(api.uID),
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
+          stripeCheckoutSession: StripeCheckoutSession(
+            createCheckoutSessionFunctionUrl: widget
+                .blocDependencies.remoteConfiguration
+                .getString('stripe_checkout_session_function_url'),
+            client: http.Client(),
+          ),
         ),
       ),
       ChangeNotifierProvider(
