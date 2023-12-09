@@ -6,4 +6,4 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-include: package:flutter_lints/flutter.yaml
+include: package:sharezone_lints/analysis_options.yaml
