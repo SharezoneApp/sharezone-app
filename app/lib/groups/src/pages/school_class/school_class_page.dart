@@ -7,14 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:app_functions/app_functions.dart';
+import 'package:app_functions/app_functions_ui.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_details.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone/main/application_bloc.dart';
 
 abstract class SchoolClassDetailsPopOption {}
 
