@@ -7,11 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:markdown/markdown.dart';
+import 'package:diacritic/diacritic.dart' as pkg;
 
 /// We define our own classes for automatic ID generation as we don't want any
 /// chance of breakage if `package:markdown` changes/updates its algorithm.
-///
-/// It's the exact same algorithm (for now).
 ///
 /// It might break if we e.g. would use one updated algorithm in our backend to
 /// generate the anchor ids for the table of contents section list, but our
@@ -86,5 +85,28 @@ String _generateAnchorHashFromElement(Element element) =>
 String generateAnchorHash(String text) => text
     .toLowerCase()
     .trim()
+    .replaceAllMapped(regexp, (char) => _replacementMap[char.group(0)]!)
+    .removeDiacritics()
     .replaceAll(RegExp(r'[^a-z0-9 _-]'), '')
     .replaceAll(RegExp(r'\s'), '-');
+
+// Match every character in [_replacementMap.keys].
+RegExp get regexp => RegExp(_replacementMap.keys.join('|'));
+
+const _replacementMap = {
+  'Ä': 'ae',
+  'ä': 'ae',
+  'Ö': 'oe',
+  'ö': 'oe',
+  'Ü': 'ue',
+  'ü': 'ue',
+  'ẞ': 'ss',
+  'ß': 'ss',
+};
+
+extension on String {
+  /// E.g. `é` -> `e`
+  String removeDiacritics() {
+    return pkg.removeDiacritics(this);
+  }
+}

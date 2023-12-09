@@ -17,7 +17,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
@@ -109,14 +109,18 @@ Future<AppDependencies> initializeDependencies({
     functions: firebaseFunctions,
   );
 
-  // From:
-  // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
-  FlutterError.onError =
-      pluginInitializations.crashAnalytics.recordFlutterError;
-  PlatformDispatcher.instance.onError = (error, stack) {
-    pluginInitializations.crashAnalytics.recordError(error, stack);
-    return true;
-  };
+  // `package:patrol` (e2e/integration tests) breaks when overriding onError, so
+  // we disable the override if we are running these tests.
+  if (!isIntegrationTest) {
+    // From:
+    // https://firebase.google.com/docs/crashlytics/get-started?platform=flutter#configure-crash-handlers
+    FlutterError.onError =
+        pluginInitializations.crashAnalytics.recordFlutterError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      pluginInitializations.crashAnalytics.recordError(error, stack);
+      return true;
+    };
+  }
 
   final dynamicLinkBloc = runDynamicLinkBloc(pluginInitializations);
 

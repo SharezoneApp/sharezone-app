@@ -8,8 +8,9 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:path/path.dart' as path;
 
 final _androidStages = [
   'stable',
@@ -21,10 +22,8 @@ final _androidFlavors = [
   'prod',
 ];
 
-class DeployAndroidCommand extends Command {
-  final SharezoneRepo _repo;
-
-  DeployAndroidCommand(this._repo) {
+class DeployAndroidCommand extends CommandBase {
+  DeployAndroidCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -75,7 +74,7 @@ class DeployAndroidCommand extends Command {
   @override
   Future<void> run() async {
     _throwIfFlavorIsNotSupportForDeployment();
-    _checkIfGooglePlayCredentialsAreValid();
+    _checkIfGooglePlayCredentialsAreValid(processRunner);
 
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
@@ -83,7 +82,7 @@ class DeployAndroidCommand extends Command {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    final buildNumber = await _getNextBuildNumber();
+    final buildNumber = await _getNextBuildNumber(processRunner);
     await _buildApp(buildNumber: buildNumber);
     await _publish();
 
@@ -102,28 +101,31 @@ class DeployAndroidCommand extends Command {
   /// Checks if Fastlane can establish a connection to Google Play.
   ///
   /// See https://docs.fastlane.tools/actions/validate_play_store_json_key
-  Future<void> _checkIfGooglePlayCredentialsAreValid() async {
-    await runProcessSuccessfullyOrThrow(
-      'fastlane',
-      ['run', 'validate_play_store_json_key'],
-      workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
+  Future<void> _checkIfGooglePlayCredentialsAreValid(
+      ProcessRunner processRunner) async {
+    await processRunner.run(
+      ['fastlane', 'run', 'validate_play_store_json_key'],
+      workingDirectory: fileSystem.directory(
+          path.join(repo.sharezoneFlutterApp.location.path, 'android')),
     );
   }
 
-  Future<int> _getNextBuildNumber() async {
-    final latestBuildNumber = await _getLatestBuildNumberFromGooglePlay();
+  Future<int> _getNextBuildNumber(ProcessRunner processRunner) async {
+    final latestBuildNumber =
+        await _getLatestBuildNumberFromGooglePlay(processRunner);
     final nextBuildNumber = latestBuildNumber + 1;
     stdout.writeln('Next build number: $nextBuildNumber');
     return nextBuildNumber;
   }
 
   /// Returns the latest build number from Google Play across all tracks.
-  Future<int> _getLatestBuildNumberFromGooglePlay() async {
+  Future<int> _getLatestBuildNumberFromGooglePlay(
+      ProcessRunner processRunner) async {
     try {
       const packageName = 'de.codingbrain.sharezone';
-      final result = await runProcess(
-        'google-play',
+      final result = await processRunner.run(
         [
+          'google-play',
           'get-latest-build-number',
           '--package-name',
           packageName,
@@ -139,9 +141,9 @@ class DeployAndroidCommand extends Command {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.run(
         [
+          'fvm',
           'dart',
           'run',
           'sz_repo_cli',
@@ -154,7 +156,7 @@ class DeployAndroidCommand extends Command {
           '--build-number',
           '$buildNumber',
         ],
-        workingDirectory: _repo.sharezoneCiCdTool.path,
+        workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
@@ -170,6 +172,7 @@ class DeployAndroidCommand extends Command {
       _printRolloutPercentage(rolloutPercentage);
 
       await _uploadToGooglePlay(
+        processRunner,
         track: _getGooglePlayTrackFromStage(),
         rollout: rolloutPercentage,
       );
@@ -192,9 +195,8 @@ class DeployAndroidCommand extends Command {
       stdout.writeln('No changelog given. Skipping.');
       return;
     }
-
-    final appPath = _repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
 
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
@@ -217,24 +219,31 @@ class DeployAndroidCommand extends Command {
     }
   }
 
-  Future<void> _uploadToGooglePlay({
+  Future<void> _uploadToGooglePlay(
+    ProcessRunner processRunner, {
     required String track,
     required String rollout,
   }) async {
-    await runProcess(
-      'fastlane',
-      ['deploy'],
-      workingDirectory: '${_repo.sharezoneFlutterApp.location.path}/android',
-      environment: {
+    await processRunner.run(
+      ['fastlane', 'deploy'],
+      workingDirectory:
+          repo.sharezoneFlutterApp.location.childDirectory('android'),
+      addedEnvironment: {
+        // Sets the number of retries for uploading the app bundle to Google
+        // Play. This is needed because sometimes the upload fails for unknown
+        // reasons.
+        //
+        // See: https://github.com/fastlane/fastlane/issues/21507#issuecomment-1723116829
         'TRACK': track,
         'ROLLOUT': rollout,
+        'SUPPLY_UPLOAD_MAX_RETRIES': '5',
       },
     );
   }
 
   Future<void> _removeChangelogFile() async {
-    final appPath = _repo.sharezoneFlutterApp.location.path;
-    final changelogFile = File('$appPath/$_changelogFilePath');
+    final changelogFile =
+        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
     if (await changelogFile.exists()) {
       await changelogFile.delete();
     }

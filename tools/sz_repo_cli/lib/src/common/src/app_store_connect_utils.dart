@@ -9,8 +9,10 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:file/file.dart';
+import 'package:process_runner/process_runner.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
-import 'package:sz_repo_cli/src/common/src/run_process.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
@@ -22,15 +24,20 @@ const whatsNewOptionName = 'whats-new';
 const releaseStageOptionName = 'stage';
 
 /// Sets up signing that is required to deploy a macOS or iOS app.
-Future<void> setUpSigning({
+Future<void> setUpSigning(
+  ProcessRunner processRunner, {
   required AppleSigningConfig config,
+  required ApplePlatform platform,
 }) async {
   // Steps are from the docs to deploy an iOS / macOS app to App Store Connect:
   // https://github.com/flutter/website/blob/850ba5dcab36e81f7dfc71c5e46333173c764fac/src/deployment/ios.md#L322
-  await _keychainInitialize();
-  await _fetchSigningFiles(config: config);
-  await _keychainAddCertificates();
-  await _xcodeProjectUseProfiles();
+  await _keychainInitialize(processRunner);
+  await _fetchSigningFiles(processRunner, config: config);
+  if (platform == ApplePlatform.macOS) {
+    await _listMacCertificates(processRunner);
+  }
+  await _keychainAddCertificates(processRunner);
+  await _xcodeProjectUseProfiles(processRunner);
 }
 
 /// Sets up a temporary keychain to be used for code signing.
@@ -38,18 +45,19 @@ Future<void> setUpSigning({
 /// Keep in mind that you should call `keychain use-default` (see
 /// [keychainUseLogin]) after the deployment to avoid potential authentication
 /// issues if you run the deployment on your local machine.
-Future<void> _keychainInitialize() async {
-  await runProcessSuccessfullyOrThrow('keychain', ['initialize']);
+Future<void> _keychainInitialize(ProcessRunner processRunner) async {
+  await processRunner.run(['keychain', 'initialize']);
 }
 
 /// Fetch the code signing files from App Store Connect.
-Future<void> _fetchSigningFiles({
+Future<void> _fetchSigningFiles(
+  ProcessRunner processRunner, {
   required AppleSigningConfig config,
 }) async {
-  const bundleId = 'de.codingbrain.sharezone';
-  await runProcessSuccessfullyOrThrow(
-    'app-store-connect',
+  const bundleId = 'de.codingbrain.sharezone.app';
+  await processRunner.run(
     [
+      'app-store-connect',
       'fetch-signing-files',
       bundleId,
       '--platform',
@@ -62,19 +70,33 @@ Future<void> _fetchSigningFiles({
       config.appStoreConnectConfig.keyId,
       '--private-key',
       config.appStoreConnectConfig.privateKey,
-      '--create'
+      '--certificate-key',
+      config.certificatePrivateKey,
+      '--create',
+    ],
+  );
+}
+
+Future<void> _listMacCertificates(ProcessRunner processRunner) async {
+  await processRunner.run(
+    [
+      'app-store-connect',
+      'list-certificates',
+      '--type',
+      'MAC_INSTALLER_DISTRIBUTION',
+      '--save',
     ],
   );
 }
 
 /// Adds the certificates to the keychain.
-Future<void> _keychainAddCertificates() async {
-  await runProcessSuccessfullyOrThrow('keychain', ['add-certificates']);
+Future<void> _keychainAddCertificates(ProcessRunner processRunner) async {
+  await processRunner.run(['keychain', 'add-certificates']);
 }
 
 /// Update the Xcode project settings to use fetched code signing profiles.
-Future<void> _xcodeProjectUseProfiles() async {
-  await runProcessSuccessfullyOrThrow('xcode-project', ['use-profiles']);
+Future<void> _xcodeProjectUseProfiles(ProcessRunner processRunner) async {
+  await processRunner.run(['xcode-project', 'use-profiles']);
 }
 
 /// Sets your login keychain as the default to avoid potential authentication
@@ -83,16 +105,20 @@ Future<void> _xcodeProjectUseProfiles() async {
 /// This is only useful if you are running the deployment on your local machine
 /// and have previously used the `keychain initialize' command. If you run it on
 /// a CI server, this step is not necessary.
-Future<void> keychainUseLogin() async {
-  await runProcessSuccessfullyOrThrow('keychain', ['use-login']);
+Future<void> keychainUseLogin(ProcessRunner processRunner) async {
+  await processRunner.run(['keychain', 'use-login']);
 }
 
-Future<int> getNextBuildNumberFromAppStoreConnect({
+Future<int> getNextBuildNumberFromAppStoreConnect(
+  FileSystem fileSystem,
+  ProcessRunner processRunner, {
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
   required ApplePlatform platform,
 }) async {
   final latestBuildNumber = await _getLatestBuildNumberFromAppStoreConnect(
+    fileSystem,
+    processRunner,
     platform: platform,
     workingDirectory: workingDirectory,
     appStoreConnectConfig: appStoreConnectConfig,
@@ -103,7 +129,9 @@ Future<int> getNextBuildNumberFromAppStoreConnect({
 }
 
 /// Returns the latest build number from App Store and all TestFlight tracks.
-Future<int> _getLatestBuildNumberFromAppStoreConnect({
+Future<int> _getLatestBuildNumberFromAppStoreConnect(
+  FileSystem fileSystem,
+  ProcessRunner processRunner, {
   required String workingDirectory,
   required AppStoreConnectConfig appStoreConnectConfig,
   required ApplePlatform platform,
@@ -112,9 +140,9 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
     // From https://appstoreconnect.apple.com/apps/1434868489/
     const appId = 1434868489;
 
-    final result = await runProcessSuccessfullyOrThrow(
-      'app-store-connect',
+    final result = await processRunner.run(
       [
+        'app-store-connect',
         'get-latest-build-number',
         '$appId',
         '--platform',
@@ -126,7 +154,7 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
         '--private-key',
         appStoreConnectConfig.privateKey,
       ],
-      workingDirectory: workingDirectory,
+      workingDirectory: fileSystem.directory(workingDirectory),
     );
     return int.parse(result.stdout);
   } catch (e) {
@@ -135,7 +163,8 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect({
   }
 }
 
-Future<void> publishToAppStoreConnect({
+Future<void> publishToAppStoreConnect(
+  ProcessRunner processRunner, {
   required SharezoneRepo repo,
   required String path,
   required Map<String, AppleTrack> stageToTracks,
@@ -148,9 +177,9 @@ Future<void> publishToAppStoreConnect({
     stageToTracks: stageToTracks,
   );
 
-  await runProcessSuccessfullyOrThrow(
-    'app-store-connect',
+  await processRunner.run(
     [
+      'app-store-connect',
       'publish',
       '--path',
       path,
@@ -185,6 +214,8 @@ Future<void> publishToAppStoreConnect({
       // See: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/publish.md#--max-build-processing-wait--wmax_build_processing_wait
       '--max-build-processing-wait',
       '60',
+      '--max-find-build-wait',
+      '60',
       // Cancels previous submissions for the application in App Store Connect
       // before creating a new submission if the submissions are in a state
       // where it is possible.
@@ -193,7 +224,7 @@ Future<void> publishToAppStoreConnect({
       // previous submission is not approved yet.
       '--cancel-previous-submissions'
     ],
-    workingDirectory: repo.sharezoneFlutterApp.location.path,
+    workingDirectory: repo.sharezoneFlutterApp.location,
   );
 }
 
@@ -208,8 +239,10 @@ AppleTrack _getAppleTrack({
   return track;
 }
 
-Future<void> throwIfCodemagicCliToolsAreNotInstalled() async {
+Future<void> throwIfCodemagicCliToolsAreNotInstalled(
+    ProcessRunner processRunner) async {
   await throwIfCommandIsNotInstalled(
+    processRunner,
     command: 'app-store-connect',
     instructionsToInstall:
         'Docs to install them: https://github.com/codemagic-ci-cd/cli-tools#installing',

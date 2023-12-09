@@ -6,9 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:io';
-
-import 'package:path/path.dart' as p;
+import 'package:file/file.dart';
 import 'package:yaml/yaml.dart';
 
 enum PackageType { pureDart, flutter }
@@ -43,7 +41,7 @@ class Package {
   });
 
   factory Package.fromDirectory(Directory directory) {
-    final pubspecFile = File(p.join(directory.path, 'pubspec.yaml'));
+    final pubspecFile = directory.childFile('pubspec.yaml');
     final YamlMap pubspecYaml = loadYaml(pubspecFile.readAsStringSync());
     final YamlMap dependencies = pubspecYaml['dependencies'] ?? YamlMap();
     final YamlMap devDependencies =
@@ -57,10 +55,9 @@ class Package {
         'Package at "${directory.path}" has no name. Please add a name',
       );
     }
-    final hasTestDirectory =
-        Directory(p.join(directory.path, 'test')).existsSync();
+    final hasTestDirectory = directory.childDirectory('test').existsSync();
     final hasTestGoldensDirectory =
-        Directory(p.join(directory.path, 'test_goldens')).existsSync();
+        directory.childDirectory('test_goldens').existsSync();
 
     final hasBuildRunnerDependency = dependencies.containsKey('build_runner') ||
         devDependencies.containsKey('build_runner');

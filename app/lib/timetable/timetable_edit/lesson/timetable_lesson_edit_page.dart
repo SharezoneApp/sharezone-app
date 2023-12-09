@@ -13,7 +13,7 @@ import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_period.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
@@ -89,9 +89,20 @@ class _TimetableEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-    return WillPopScope(
-      onWillPop: () =>
-          warnUserAboutLeavingOrSavingForm(context, () => _submit(context)),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final shouldPop = await warnUserAboutLeavingOrSavingForm(
+          context,
+          () => _submit(context),
+        );
+
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         appBar: AppBar(title: const Text("Schulstunde bearbeiten")),

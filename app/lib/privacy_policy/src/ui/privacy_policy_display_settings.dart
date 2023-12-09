@@ -28,7 +28,7 @@ class DisplaySettingsDialog extends StatelessWidget {
       animation: themeSettings,
       builder: (context, _) => MediaQuery(
         data: MediaQuery.of(context).copyWith(
-          textScaleFactor: themeSettings.textScalingFactor,
+          textScaler: TextScaler.linear(themeSettings.textScalingFactor),
         ),
         child: Theme(
           data: ThemeData(

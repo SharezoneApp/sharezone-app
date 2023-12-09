@@ -13,7 +13,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.1 <3.0.0"
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   collection: ^1.17.2
@@ -22,10 +22,11 @@ dependencies:
   mobile_scanner: ^3.4.1
 
 dev_dependencies:
-  flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  golden_toolkit: ^0.13.0
+  golden_toolkit: ^0.15.0
+  sharezone_lints:
+    path: ../sharezone_lints
 
 flutter:
   uses-material-design: true

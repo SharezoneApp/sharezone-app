@@ -8,43 +8,53 @@
 
 import 'dart:io';
 
+import 'package:file/file.dart';
 import 'package:path/path.dart' as path;
 import 'package:rxdart/rxdart.dart';
 
 import 'package.dart';
 
 class SharezoneRepo {
+  final FileSystem fileSystem;
   final Directory location;
   final Package sharezoneFlutterApp;
   final Package sharezoneCiCdTool;
+  final Package sharezoneWebsite;
   final DartLibraries dartLibraries;
 
-  File get commandsSourceOfTruthYamlFile => File(path.join(location.path, 'bin',
-      'source_of_truth', 'commands_source_of_truth.yaml'));
+  File get commandsSourceOfTruthYamlFile => fileSystem.file(path.join(
+      location.path,
+      'bin',
+      'source_of_truth',
+      'commands_source_of_truth.yaml'));
 
   SharezoneRepo._({
+    required this.fileSystem,
     required this.location,
     required this.sharezoneFlutterApp,
     required this.dartLibraries,
     required this.sharezoneCiCdTool,
+    required this.sharezoneWebsite,
   });
 
-  factory SharezoneRepo(Directory rootDirectory) {
+  factory SharezoneRepo(FileSystem fileSystem, Directory rootDirectory) {
     final root = rootDirectory.path;
 
     return SharezoneRepo._(
+      fileSystem: fileSystem,
       location: rootDirectory,
       dartLibraries: DartLibraries(
-        clientLibariesLocation: Directory(path.join(root, 'lib')),
+        clientLibariesLocation: fileSystem.directory(path.join(root, 'lib')),
       ),
       sharezoneFlutterApp: Package.fromDirectory(
-        Directory(path.join(root, 'app')),
+        rootDirectory.childDirectory('app'),
       ),
-      sharezoneCiCdTool: Package.fromDirectory(Directory(path.join(
-        root,
-        'tools',
-        'sz_repo_cli',
-      ))),
+      sharezoneCiCdTool: Package.fromDirectory(
+        rootDirectory.childDirectory('tools').childDirectory('sz_repo_cli'),
+      ),
+      sharezoneWebsite: Package.fromDirectory(
+        fileSystem.directory(path.join(root, 'website')),
+      ),
     );
   }
 
@@ -90,6 +100,7 @@ class SharezoneRepo {
     return dartLibraries.streamPackages().endWithMany([
       sharezoneFlutterApp,
       sharezoneCiCdTool,
+      sharezoneWebsite,
     ]);
   }
 }
@@ -119,6 +130,6 @@ class DartLibraries {
   /// `pubspec.yaml` file.
   bool _isDartPackage(FileSystemEntity entity) {
     return entity is Directory &&
-        File(path.join(entity.path, 'pubspec.yaml')).existsSync();
+        entity.childFile(path.join(entity.path, 'pubspec.yaml')).existsSync();
   }
 }

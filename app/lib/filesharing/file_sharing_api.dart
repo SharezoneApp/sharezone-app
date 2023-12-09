@@ -8,6 +8,7 @@
 
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:sharezone/filesharing/gateways/filesharing_cloud_files_gateway.dart';
@@ -51,13 +52,14 @@ class FileSharingGateway {
   }
 
   Future<List<String>> uploadAttachments(
-    List<LocalFile>? localFiles,
+    IList<LocalFile> localFiles,
     String courseID,
     String authorID,
-    String authorName,
-  ) async {
+    String authorName, {
+    bool isPrivate = false,
+  }) async {
     final attachments = <String>[];
-    final hasAttachments = localFiles != null && localFiles.isNotEmpty;
+    final hasAttachments = localFiles.isNotEmpty;
     if (hasAttachments) {
       for (final localFile in localFiles) {
         final uploadTask = await fileUploader.uploadFile(
@@ -66,6 +68,7 @@ class FileSharingGateway {
           creatorName: authorName,
           localFile: localFile,
           path: FolderPath.attachments,
+          isPrivate: isPrivate,
         );
 
         final snapshot = await uploadTask.onComplete;

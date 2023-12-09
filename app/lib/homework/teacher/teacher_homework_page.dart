@@ -45,8 +45,12 @@ class TeacherHomeworkPage extends StatelessWidget {
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
       create: (_) => BottomOfScrollViewInvisibilityController(),
-      child: WillPopScope(
-        onWillPop: () => popToOverview(context),
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) return;
+          popToOverview(context);
+        },
         child: DefaultTabController(
           length: 2,
           child: SharezoneMainScaffold(

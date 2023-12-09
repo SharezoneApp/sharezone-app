@@ -73,6 +73,8 @@ const _featuresMap = {
     SharezonePlusFeature.changeHomeworkReminderTime,
     SharezonePlusFeature.plusSupport,
     SharezonePlusFeature.moreGroupColors,
+    SharezonePlusFeature.addEventToLocalCalendar,
+    SharezonePlusFeature.viewPastEvents,
   },
 };
 
@@ -84,6 +86,8 @@ enum SharezonePlusFeature {
   changeHomeworkReminderTime,
   plusSupport,
   moreGroupColors,
+  addEventToLocalCalendar,
+  viewPastEvents,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {

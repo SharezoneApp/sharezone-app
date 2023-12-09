@@ -18,9 +18,9 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/overview/views/user_view.dart';
-import 'package:sharezone/pages/settings/my_profile/change_state.dart';
-import 'package:sharezone/pages/settings/my_profile/my_profile_page.dart';
-import 'package:sharezone/pages/settings/web_app.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
+import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_utils/platform.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -49,8 +49,12 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: StreamBuilder<UserView>(
         stream: bloc.userViewStream,
         builder: (context, snapshot) {

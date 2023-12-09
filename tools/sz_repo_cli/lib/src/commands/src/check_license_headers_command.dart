@@ -9,15 +9,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/run_source_of_truth_command.dart';
 
 /// Check that all files have correct license headers.
-class CheckLicenseHeadersCommand extends Command {
-  CheckLicenseHeadersCommand(this.repo);
-
-  final SharezoneRepo repo;
+class CheckLicenseHeadersCommand extends CommandBase {
+  CheckLicenseHeadersCommand(super.context);
 
   @override
   String get description =>
@@ -29,6 +27,7 @@ class CheckLicenseHeadersCommand extends Command {
   @override
   Future<void> run() async {
     final results = await runLicenseHeaderCommand(
+      processRunner,
       commandKey: 'check_license_headers',
       repo: repo,
     );
@@ -47,11 +46,13 @@ class CheckLicenseHeadersCommand extends Command {
 /// Run a license header command via a key.
 ///
 /// The key can be seen in the [repo.commandsSourceOfTruthYamlFile] file.
-Future<ProcessResult> runLicenseHeaderCommand({
+Future<ProcessRunnerResult> runLicenseHeaderCommand(
+  ProcessRunner processRunner, {
   required String commandKey,
   required SharezoneRepo repo,
 }) {
   return runSourceOfTruthCommand(
+    processRunner,
     commandKey: commandKey,
     repo: repo,
     argumentsToAppend: [repo.location.path],

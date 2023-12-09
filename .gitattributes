@@ -1,2 +1,3 @@
 # Automatically collapses these files when looking at a diff in GitHub
 *.mocks.dart linguist-generated
+**/pubspec.lock linguist-generated

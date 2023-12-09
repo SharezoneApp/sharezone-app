@@ -15,8 +15,9 @@ import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
-import 'package:sharezone/pages/homework_page.dart';
-import 'package:sharezone/pages/settings_page.dart';
+import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/keys.dart';
+import 'package:sharezone/settings/settings_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -88,6 +89,7 @@ extension NavigationItemExtension on NavigationItem {
             cupertinoIcon: SFSymbols.checkmark_square_fill));
       case NavigationItem.group:
         return Icon(
+            key: K.groupsNavigationItem,
             themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill));
       case NavigationItem.timetable:
         return Icon(

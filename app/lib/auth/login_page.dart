@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                     : ContinueRoundButton(
                                         tooltip: 'Einloggen',
                                         onTap: () => handleLoginSubmit(context),
-                                        key: const ValueKey('login-button-E2E'),
+                                        key: K.loginButton,
                                       ),
                               ),
                             ],
@@ -186,8 +187,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await bloc.submit();
     } on Exception catch (e, s) {
-      setState(() => isLoading = false);
       if (context.mounted) {
+        setState(() => isLoading = false);
         showSnackSec(
           text: handleErrorMessage(e.toString(), s),
           context: context,
@@ -393,7 +394,7 @@ class EmailLoginField extends StatelessWidget {
       stream: emailStream,
       builder: (context, snapshot) {
         return TextField(
-          key: const ValueKey('email-text-field-E2E'),
+          key: K.emailTextField,
           focusNode: emailFocusNode,
           onChanged: (email) => onChanged(email.trim()),
           onEditingComplete: () =>
@@ -447,7 +448,7 @@ class _PasswordFieldState extends State<PasswordField> {
           label: 'Passwortfeld',
           enabled: true,
           child: TextField(
-            key: const ValueKey('password-text-field-E2E'),
+            key: K.passwordTextField,
             focusNode: widget.focusNode,
             onChanged: widget.onChanged,
             onEditingComplete: widget.onEditingComplete,

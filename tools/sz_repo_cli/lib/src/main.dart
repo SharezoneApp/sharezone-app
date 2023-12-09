@@ -10,7 +10,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:path/path.dart' as p;
+import 'package:file/local.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
@@ -30,39 +31,48 @@ import 'commands/commands.dart';
 import 'common/common.dart';
 
 Future<void> main(List<String> args) async {
-  final projectRoot = await getProjectRootDirectory();
-  final packagesDir = Directory(p.join(projectRoot.path, 'lib'));
+  const fileSystem = LocalFileSystem();
 
-  if (!packagesDir.existsSync()) {
-    stderr.writeln('Error: Cannot find a "lib" sub-directory');
-    exit(1);
-  }
+  ProcessRunner processRunner = ProcessRunner();
+  final verbose = args.contains('-v') || args.contains('--verbose');
+  final projectRoot = await getProjectRootDirectory(fileSystem, processRunner);
 
-  final repo = SharezoneRepo(projectRoot);
+  processRunner = ProcessRunner(
+    defaultWorkingDirectory: projectRoot,
+    printOutputDefault: verbose,
+  );
 
-  final commandRunner = CommandRunner('pub global run sz_repo_cli',
-      'Productivity utils for everything Sharezone.')
-    ..addCommand(AnalyzeCommand(repo))
-    ..addCommand(LocateSharezoneAppFlutterDirectoryCommand())
-    ..addCommand(TestCommand(repo))
-    ..addCommand(FormatCommand(repo))
-    ..addCommand(DoStuffCommand(repo))
-    ..addCommand(FixCommentSpacingCommand(repo))
-    ..addCommand(PubCommand()..addSubcommand(PubGetCommand(repo)))
-    ..addCommand(LicenseHeadersCommand()
-      ..addSubcommand(CheckLicenseHeadersCommand(repo))
-      ..addSubcommand(AddLicenseHeadersCommand(repo)))
-    ..addCommand(DeployCommand()
-      ..addSubcommand(DeployWebAppCommand(repo))
-      ..addSubcommand(DeployIosCommand(repo))
-      ..addSubcommand(DeployMacOsCommand(repo))
-      ..addSubcommand(DeployAndroidCommand(repo)))
-    ..addCommand(BuildCommand()
-      ..addSubcommand(BuildAndroidCommand(repo))
-      ..addSubcommand(BuildMacOsCommand(repo))
-      ..addSubcommand(BuildWebCommand(repo))
-      ..addSubcommand(BuildIosCommand(repo)))
-    ..addCommand(BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(repo)));
+  final repo = SharezoneRepo(fileSystem, projectRoot);
+  final context = Context(
+    fileSystem: fileSystem,
+    processRunner: processRunner,
+    repo: repo,
+  );
+
+  final commandRunner =
+      CommandRunner('sz', 'Sharezone CLI, a tool for Sharezone developers.')
+        ..addCommand(AnalyzeCommand(context))
+        ..addCommand(TestCommand(context))
+        ..addCommand(FormatCommand(context))
+        ..addCommand(ExecCommand(context))
+        ..addCommand(DoStuffCommand(context))
+        ..addCommand(FixCommentSpacingCommand(context))
+        ..addCommand(PubCommand()..addSubcommand(PubGetCommand(context)))
+        ..addCommand(LicenseHeadersCommand()
+          ..addSubcommand(CheckLicenseHeadersCommand(context))
+          ..addSubcommand(AddLicenseHeadersCommand(context)))
+        ..addCommand(DeployCommand()
+          ..addSubcommand(DeployWebAppCommand(context))
+          ..addSubcommand(DeployIosCommand(context))
+          ..addSubcommand(DeployMacOsCommand(context))
+          ..addSubcommand(DeployAndroidCommand(context)))
+        ..addCommand(BuildCommand()
+          ..addSubcommand(BuildAndroidCommand(context))
+          ..addSubcommand(BuildMacOsCommand(context))
+          ..addSubcommand(BuildWebCommand(context))
+          ..addSubcommand(BuildIosCommand(context)))
+        ..addCommand(
+            BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)));
 
   await commandRunner.run(args).catchError((Object e) {
     final toolExit = e as ToolExit;

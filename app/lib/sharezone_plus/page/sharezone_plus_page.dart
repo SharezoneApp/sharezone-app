@@ -234,10 +234,110 @@ class PlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        _MoreColors(),
+        _HomeworkReminder(),
+        _PastEvents(),
+        _AddEventsToLocalCalendar(),
         _HomeworkDoneLists(),
         _ReadByInformationSheets(),
+        _SelectTimetableBySchoolClass(),
+        _PlusSupport(),
         _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _MoreColors extends StatelessWidget {
+  const _MoreColors();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.color_lens),
+      title: Text('Mehr Farben für die Gruppen'),
+      description: Text(
+          'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.'),
+    );
+  }
+}
+
+class _SelectTimetableBySchoolClass extends StatelessWidget {
+  const _SelectTimetableBySchoolClass();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.calendar_month),
+      title: Text('Stundenplan nach Klasse auswählen'),
+      description: Text(
+          'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'),
+    );
+  }
+}
+
+class _PastEvents extends StatelessWidget {
+  const _PastEvents();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.history),
+      title: Text('Vergangene Termine einsehen'),
+      description: Text(
+          'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.'),
+    );
+  }
+}
+
+class _AddEventsToLocalCalendar extends StatelessWidget {
+  const _AddEventsToLocalCalendar();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.calendar_today),
+      title: Text('Termine zum lokalen Kalender hinzufügen'),
+      description: Text(
+          'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
+    );
+  }
+}
+
+class _PlusSupport extends StatelessWidget {
+  const _PlusSupport();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.support_agent),
+      title: Text('Premium Support'),
+      description: MarkdownBody(
+        data:
+            '''Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:
+- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
+- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
+      ),
+    );
+  }
+}
+
+class _HomeworkReminder extends StatelessWidget {
+  const _HomeworkReminder();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MatchingTypeOfUserBuilder(
+      // We only show this advantage to students because only students can
+      // get homework reminders.
+      expectedTypeOfUser: TypeOfUser.student,
+      matchesTypeOfUserWidget: _AdvantageTile(
+        icon: Icon(Icons.notifications),
+        title: Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
+        description: Text(
+            'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.'),
+      ),
+      notMatchingWidget: SizedBox(),
     );
   }
 }

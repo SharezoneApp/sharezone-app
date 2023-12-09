@@ -59,10 +59,23 @@ class _ReportPageState extends State<ReportPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: WillPopScope(
-        onWillPop: () async => bloc.wasEdited()
-            ? warnUserAboutLeavingForm(context)
-            : Future.value(true),
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+
+          final hasInputChanged = bloc.wasEdited();
+          final navigator = Navigator.of(context);
+          if (!hasInputChanged) {
+            navigator.pop();
+            return;
+          }
+
+          final shouldPop = await warnUserAboutLeavingForm(context);
+          if (shouldPop && context.mounted) {
+            navigator.pop();
+          }
+        },
         child: Scaffold(
           appBar: AppBar(
             title: Text(

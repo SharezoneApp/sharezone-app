@@ -1,0 +1,59 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: sharezone_website
+description: Sharezone Website
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.3"
+
+dependencies:
+  dio: ^5.4.0
+  flutter:
+    sdk: flutter
+  flutter_markdown: ^0.6.18+2
+  flutter_staggered_animations: ^1.1.1
+  flutter_svg: ^2.0.9
+  number_slide_animation: ^0.2.1
+  url_launcher: ^6.2.2
+
+dev_dependencies:
+  flutter_lints: ^2.0.1
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik/Rubik-Light.ttf
+          weight: 200
+        - asset: fonts/Rubik/Rubik-Regular.ttf
+          weight: 400
+        - asset: fonts/Rubik/Rubik-Medium.ttf
+          weight: 500
+        - asset: fonts/Rubik/Rubik-Bold.ttf
+          weight: 700
+        - asset: fonts/Rubik/Rubik-Black.ttf
+          weight: 900
+        - asset: fonts/Rubik/Rubik-Italic.ttf
+          style: italic
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/illustrations/
+    - assets/logo/
+    - assets/features/
+    - assets/get_it_on/
+    - assets/images/

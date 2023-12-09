@@ -9,6 +9,12 @@
 part of 'general_theme.dart';
 
 final lightTheme = ThemeData(
+  // Since 3.16 Material 3 became the standard. However, it requires a migration
+  // from Material 2 to 3 which is the reason why opt-out for now.
+  //
+  // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/1159
+  useMaterial3: false,
+
   // Brightness
   brightness: Brightness.light,
 

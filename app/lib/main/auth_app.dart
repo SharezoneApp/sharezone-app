@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/auth/sign_in_with_qr_code_page.dart';
-import 'package:sharezone/blocs/bloc_dependencies.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
@@ -22,10 +22,10 @@ import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/onboarding/welcome_page.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
-import 'package:sharezone/pages/settings/src/subpages/imprint/page/imprint_page.dart';
+import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
+import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
+import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
+import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
@@ -64,7 +64,9 @@ class _AuthAppState extends State<AuthApp> {
           create: (context) => SupportPageController(
             // Inside the [AuthApp] the user can't be signed in and can't have
             // Sharezone Plus.
-            isUserSignedInStream: Stream.value(false),
+            userNameStream: Stream.value(null),
+            userIdStream: Stream.value(null),
+            userEmailStream: Stream.value(null),
             hasPlusSupportUnlockedStream: Stream.value(false),
             isUserInGroupOnboardingStream: Stream.value(false),
           ),

@@ -11,14 +11,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
+import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_selection_bloc.dart';
 import 'package:sharezone/timetable/src/logic/timetable_builder.dart';
@@ -53,8 +53,12 @@ class TimetablePage extends StatelessWidget {
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: BlocProvider(
         bloc: TimetableSelectionBloc(),
         child: SharezoneMainScaffold(

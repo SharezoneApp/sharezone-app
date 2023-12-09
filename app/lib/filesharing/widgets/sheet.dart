@@ -10,8 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
-import 'package:sharezone/blocs/file_sharing/file_sharing_page_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
 import 'package:sharezone/filesharing/logic/select_folder_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
@@ -70,6 +70,7 @@ Future<void> showCloudFileSheet({
       icon: FileIcon(fileFormat: cloudFile.fileFormat),
       creatorName: cloudFile.creatorName,
       sizeBytes: cloudFile.sizeBytes,
+      isPrivate: cloudFile.isPrivate,
       items: CloudFileActionsColumn(
         hasPermissionToEdit: hasPermissionToEdit,
         onSelectCloudFileAction: (context, sheetOption) =>
@@ -95,6 +96,7 @@ class FileSheet extends StatelessWidget {
     this.fileType,
     this.icon,
     this.sizeBytes,
+    this.isPrivate,
   }) : super(key: key);
 
   final String? name;
@@ -103,6 +105,7 @@ class FileSheet extends StatelessWidget {
   final FileFormat? fileType;
   final Widget? icon;
   final int? sizeBytes;
+  final bool? isPrivate;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +150,9 @@ class FileSheet extends StatelessWidget {
                             "Ersteller: $creatorName",
                             style: greyTextStyle,
                           ),
+                          if (isPrivate == true)
+                            Text('Privat (nur für dich sichtbar)',
+                                style: greyTextStyle),
                           sizeBytes != null
                               ? Text(
                                   "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",

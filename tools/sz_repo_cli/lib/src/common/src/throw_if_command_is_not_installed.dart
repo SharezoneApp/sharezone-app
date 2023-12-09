@@ -8,7 +8,8 @@
 
 import 'dart:io';
 
-import 'package:sz_repo_cli/src/common/src/run_process.dart';
+import 'package:process_runner/process_runner.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 
 /// Throws an exception if [command] is not installed.
 ///
@@ -17,7 +18,8 @@ import 'package:sz_repo_cli/src/common/src/run_process.dart';
 ///
 /// Currently, we skip this method for [Platform.isWindows] because "which -s"
 /// is not available for Windows.
-Future<void> throwIfCommandIsNotInstalled({
+Future<void> throwIfCommandIsNotInstalled(
+  ProcessRunner processRunner, {
   required String command,
   String? instructionsToInstall,
 }) async {
@@ -27,9 +29,9 @@ Future<void> throwIfCommandIsNotInstalled({
     return;
   }
 
-  final result = await runProcess(
-    'which',
-    ['-s', command],
+  final result = await processRunner.run(
+    ['which', '-s', command],
+    failOk: true,
   );
   if (result.exitCode != 0) {
     String message = 'Command "$command" is not installed.';

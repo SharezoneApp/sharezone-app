@@ -143,6 +143,7 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
     final subscription = _memberReference(courseID)
         .doc(memberID)
         .snapshots()
+        .where((docSnapshot) => docSnapshot.exists)
         .map((docSnap) => MemberData.fromData(
             docSnap.data() as Map<String, dynamic>,
             id: docSnap.id))

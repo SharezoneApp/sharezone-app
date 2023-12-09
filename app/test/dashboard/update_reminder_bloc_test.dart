@@ -11,7 +11,7 @@ import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/dashboard/update_reminder/release.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/pages/settings/changelog/change.dart';
+import 'package:sharezone/changelog/change.dart';
 
 void main() {
   group('UpdateReminderBloc', () {

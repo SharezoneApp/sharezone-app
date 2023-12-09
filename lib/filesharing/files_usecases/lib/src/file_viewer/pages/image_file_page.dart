@@ -32,7 +32,7 @@ class ImageFilePage extends StatefulWidget {
 
   final String downloadURL;
   final String name;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
   final String id;
 
   @override

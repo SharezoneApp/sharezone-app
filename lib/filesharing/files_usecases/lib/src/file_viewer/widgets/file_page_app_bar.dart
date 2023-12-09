@@ -24,19 +24,29 @@ class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(56);
 
+  Widget? _getTitle() {
+    if (nameStream != null) {
+      return StreamBuilder<String>(
+        initialData: name,
+        stream: nameStream,
+        builder: (context, snapshot) {
+          final name = snapshot.data;
+          return _Title(name: name);
+        },
+      );
+    }
+
+    if (name != null) {
+      return _Title(name: name);
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: nameStream != null
-          ? StreamBuilder<String>(
-              initialData: name,
-              stream: nameStream,
-              builder: (context, snapshot) {
-                final name = snapshot.data;
-                return _Title(name: name);
-              },
-            )
-          : _Title(name: name),
+      title: _getTitle(),
       centerTitle: true,
       iconTheme: const IconThemeData(color: Colors.white60),
       backgroundColor: Colors.black,

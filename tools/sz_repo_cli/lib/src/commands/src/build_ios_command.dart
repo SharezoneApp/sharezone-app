@@ -8,7 +8,6 @@
 
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 final _iosStages = [
@@ -23,10 +22,8 @@ final _iosFlavors = [
   'dev',
 ];
 
-class BuildIosCommand extends Command {
-  final SharezoneRepo _repo;
-
-  BuildIosCommand(this._repo) {
+class BuildIosCommand extends CommandBase {
+  BuildIosCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -84,9 +81,9 @@ When none is specified, the value from pubspec.yaml is used.''',
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await runProcessSuccessfullyOrThrow(
-        'fvm',
+      await processRunner.run(
         [
+          'fvm',
           'flutter',
           'build',
           'ipa',
@@ -110,7 +107,7 @@ When none is specified, the value from pubspec.yaml is used.''',
             exportOptionsPlist
           ],
         ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
+        workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');

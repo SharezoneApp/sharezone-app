@@ -50,6 +50,6 @@ abstract class LocalFile {
 
   @override
   String toString() {
-    return 'LocaFile(name: ${getName()}, path: ${getPath()}, getType: ${getType()}, getSizeBytes: ${getSizeBytes()})';
+    return 'LocalFile(name: ${getName()}, path: ${getPath()}, getType: ${getType()}, getSizeBytes: ${getSizeBytes()})';
   }
 }

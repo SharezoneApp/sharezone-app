@@ -35,7 +35,17 @@ dependencies:
   flutter_image_compress: ^1.1.3
   image_picker: ^0.8.1+4
   mime: any
-  pdfx: ^2.4.0
+  # For Flutter 3.16 we need the fix from
+  # https://github.com/ScerIO/packages.flutter/commit/8b105a7dfc6b90220c1d79fcb805fb764cab00c5.
+  # However, this version isn't published yet.
+  #
+  # When a version >= 2.5.1 is published, we can remove the git dependency and
+  # use the published version.
+  pdfx:
+    git:
+      url: https://github.com/ScerIO/packages.flutter
+      path: packages/pdfx
+      ref: 8b105a7dfc6b90220c1d79fcb805fb764cab00c5
   open_file_plus: ^3.4.1
   path: ^1.8.3
   path_provider: ^2.0.11

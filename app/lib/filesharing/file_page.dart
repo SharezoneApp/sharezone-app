@@ -33,7 +33,7 @@ class FilePage extends StatefulWidget {
   final List<Widget>? actions;
 
   final String name;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
   final String downloadURL;
   final String id;
 
@@ -112,13 +112,13 @@ class _LoadingPage extends StatefulWidget {
   }) : super(key: key);
 
   final String name;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
 
   @override
-  __LoadingPageState createState() => __LoadingPageState();
+  State createState() => _LoadingPageState();
 }
 
-class __LoadingPageState extends State<_LoadingPage> {
+class _LoadingPageState extends State<_LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -141,7 +141,7 @@ class _EmptyPage extends StatelessWidget {
   }) : super(key: key);
 
   final String name;
-  final Stream<String> nameStream;
+  final Stream<String>? nameStream;
   final dynamic error;
 
   @override

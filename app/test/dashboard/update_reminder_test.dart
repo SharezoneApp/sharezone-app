@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';

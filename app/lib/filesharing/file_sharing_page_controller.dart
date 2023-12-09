@@ -27,8 +27,11 @@ class FileSharingPageController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageStateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
         final pageState = pageStateBloc.currentStateValue;
         if (pageState is FileSharingPageStateGroup) {
           final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
@@ -43,10 +46,10 @@ class FileSharingPageController extends StatelessWidget {
             );
             stateBloc.changeStateTo(newState);
           }
-          return false;
-        } else {
-          return popToOverview(context);
+          return;
         }
+
+        popToOverview(context);
       },
       child: StreamBuilder<FileSharingPageState>(
           initialData: FileSharingPageStateHome(),

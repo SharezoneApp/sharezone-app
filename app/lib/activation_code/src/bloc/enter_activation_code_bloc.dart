@@ -10,11 +10,10 @@ import 'package:analytics/analytics.dart';
 import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone_common/helper_functions.dart';
 
@@ -104,9 +103,6 @@ class EnterActivationCodeBloc extends BlocBase {
   Future<void> _clearCache(BuildContext context) async {
     await Future.wait([
       keyValueStore.clear(),
-      FeatureDiscovery.clearPreferences(context, [
-        blackboardItemReadByUsersListFeatureDiscoveryStepId,
-      ]),
     ]);
 
     _changeEnterActivationCodeResult(

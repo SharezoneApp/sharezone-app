@@ -1,0 +1,178 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# This workflow handles the CI for the website.
+#
+# Therefore, it's only triggered on pull requests that make changes to the
+# website. It only contains jobs that require secrets. The jobs that don't
+# require secrets are handled in the "safe_website_ci.yml" workflow.
+
+name: unsafe-website-ci
+
+concurrency:
+  group: unsafe-website-ci-${{ github.head_ref }}
+  # In order to conserve the use of GitHub Actions, we cancel the running action
+  # of the previous commit. This means that if you first commit "A" and then
+  # commit "B" to the pull request a few minutes later, the workflow for commit
+  # "A" will be cancelled.
+  cancel-in-progress: true
+
+on:
+  # Triggers the workflow on pull request events
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      # It's important to trigger this workflow again when the pull is changing
+      # from a draft pull request to a ready for review pull request.
+      #
+      # Some jobs are skipped when the pull request is a draft. Therefore, we
+      # need to trigger these jobs again when the pull request is changing to
+      # ready for review.
+      - ready_for_review
+      # Retrigger the workflow when label has been add to run the CI when the
+      # "safe to test" label is added.
+      - labeled
+  merge_group:
+    types:
+      - checks_requested
+
+# Set permissions to none.
+#
+# Using the broad default permissions is considered a bad security practice
+# and would cause alerts from our scanning tools.
+permissions: {}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # It's important that we run this job first, because we need to remove the
+  # "safe to test" label when the PR comes from a fork in order to ensure that
+  # every change is reviewed for security implications.
+  remove-safe-to-build-label:
+    runs-on: ubuntu-22.04
+    permissions:
+      # Required by the remove-safe-to-test-label action
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Remove "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/remove-safe-to-test-label@228977e0ec39c61eef543d130927065940d56907
+
+  # We can't use the official "paths" filter because it has no support for merge
+  # groups and we would need some kind of fallback CI when a check is required
+  # but ignored because of the path filter.
+  #
+  # See:
+  # * https://github.com/community/community/discussions/45899 (merge groups)
+  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
+  #   (workaround for required checks with path filters)
+  changes:
+    needs: remove-safe-to-build-label
+    runs-on: ubuntu-22.04
+    outputs:
+      changesFound: ${{ steps.filter.outputs.changesFound }}
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
+        id: filter
+        with:
+          filters: |
+            changesFound:
+              # When we change the Flutter version, we need to trigger this workflow.
+              - ".fvm/fvm_config.json"
+              # We only build and deploy a new version, when a user relevant files
+              # changed.
+              - "website/**"
+              - "lib/**"
+              # We trigger also this workflow, if this workflow is changed, so that new
+              # changes will be applied.
+              - ".github/workflows/unsafe_website_ci.yml"
+              # The following paths are excluded from the above paths. It's important to
+              # list the paths at the end of the file, so that the exclude paths are
+              # applied.
+              #
+              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+              - "!**/*.md"
+              - "!**/*.mdx"
+              - "!**/*.gitignore"
+              - "!**/firebase.json"
+              - "!**/.firebaserc"
+
+  # We are building for every PR a web preview, which will be deployed to
+  # Firebase Hosting. The link to the website will posted as comment (like:
+  # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
+  #
+  # The previews are helping reviewer and other users to quickly view the
+  # changes in a compiled version.
+  #
+  # A link to a preview expires after 3 days.
+  #
+  # Required steps to set this up:
+  # 1. Run "firebase init hosting:github"
+  # 2. Enable "Firebase Hosting API" in Google Cloud project
+  # 3. Write GitHub action job
+  # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
+  web-preview:
+    needs: changes
+    # We only want to build the website only for PRs.
+    #
+    # Otherwise this will be triggered inside a merge-queue.
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
+    runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
+      checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
+    steps:
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          # Because we are using the "pull_request_target" event, we need to
+          # checkout the PR head commit instead of the merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set Flutter version from FVM config file to environment variables
+        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          # Use format expected by FVM.
+          # Else this won't be recognized as an installed version when setting
+          # '.../flutter' as the FVM Flutter version cache folder.
+          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
+
+      - name: Install FVM
+        run: |
+          flutter pub global activate fvm 2.4.1
+          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
+
+      - name: Build website
+        working-directory: website
+        run: |
+          fvm flutter build web \
+            --web-renderer canvaskit
+
+      - name: Deploy to Firebase Hosting (sharezone-debug)
+        uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
+          projectId: sharezone-debug
+          entryPoint: "./website"
+          # The expiration date shouldn't be too high, because if we open a lot
+          # of pull requests, we will run out of quota (we get 429 errors).
+          expires: "3d"
+          target: "sharezone-website"
