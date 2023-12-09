@@ -25,59 +25,6 @@
             "program": "app/lib/main_dev.dart"
         },
         {
-            "name": "[Profiling] - Production flavor",
-            "type": "dart",
-            "request": "launch",
-            "args": [
-                "--profile",
-                "--flavor",
-                "prod"
-            ],
-            "program": "app/lib/main_prod.dart"
-        },
-        {
-            "name": "[Profiling] - Development flavor",
-            "type": "dart",
-            "request": "launch",
-            "args": [
-                "--profile",
-                "--flavor",
-                "dev"
-            ],
-            "program": "app/lib/main_dev.dart"
-        },
-        {
-            "name": "[Release] - Production Run flavor",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--release",
-                "--flavor",
-                "prod"
-            ],
-            "program": "app/lib/main_prod.dart"
-        },
-        {
-            "name": "[Release] - Web with SKIA",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--release",
-                "--dart-define=FLUTTER_WEB_USE_SKIA=true",
-            ],
-            "program": "app/lib/main_dev.dart"
-        },
-        {
-            "name": "Web with CanvasText",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--dart-define=FLUTTER_WEB_USE_EXPERIMENTAL_CANVAS_TEXT=true",
-                "--web-enable-expression-evaluation"
-            ],
-            "program": "app/lib/main_dev.dart"
-        },
-        {
             "name": "Website",
             "request": "launch",
             "type": "dart",
