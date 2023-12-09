@@ -28,6 +28,7 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
@@ -45,8 +46,8 @@ class HomeworkDialog extends StatefulWidget {
     this.homeworkDialogApi,
     this.nextLessonCalculator,
     this.showDueDateSelectionChips = kDebugMode ||
-        const String.fromEnvironment('DEVELOPMENT_STAGE') == 'ALPHA' ||
-        const String.fromEnvironment('DEVELOPMENT_STAGE') == 'BETA',
+        kDevelopmentStage == 'ALPHA' ||
+        kDevelopmentStage == 'BETA',
   }) : super(key: key);
 
   static const tag = "homework-dialog";

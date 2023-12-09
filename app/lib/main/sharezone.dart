@@ -21,6 +21,7 @@ import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
+import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/main/sharezone_app.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -69,8 +70,6 @@ class Sharezone extends StatefulWidget {
   State createState() => _SharezoneState();
 }
 
-const developmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
-
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late SignUpBloc signUpBloc;
 
@@ -114,7 +113,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
             child: _ThemeSettingsProvider(
               blocDependencies: widget.blocDependencies,
               child: AlphaVersionBanner(
-                enabled: developmentStage == 'ALPHA',
+                enabled: kDevelopmentStage == 'ALPHA',
                 child: Stack(
                   children: [
                     MultiProvider(
