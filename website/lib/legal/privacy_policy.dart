@@ -14,7 +14,7 @@ import 'package:sharezone_website/widgets/max_width_constraint_box.dart';
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
 
-  static const tag = "privacy-app";
+  static const tag = "privacy-policy";
 
   @override
   Widget build(BuildContext context) {

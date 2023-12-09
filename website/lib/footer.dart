@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharezone_website/legal/imprint_page.dart';
 import 'package:sharezone_website/legal/privacy_policy.dart';
 import 'package:sharezone_website/support_page.dart';
@@ -263,7 +264,7 @@ class _FooterSection extends StatelessWidget {
                 text: l.title,
                 onTap: () {
                   if (l.link == null) {
-                    Navigator.pushNamed(context, l.tag!);
+                    context.go('/${l.tag}');
                   } else {
                     launchUrl(l.link!);
                   }
