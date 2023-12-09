@@ -29,8 +29,8 @@ class Design {
 
   factory Design.random([Random? random]) {
     random ??= Random();
-    final value = random.nextInt(designList.length);
-    return designList[value];
+    final value = random.nextInt(freeDesigns.length);
+    return freeDesigns[value];
   }
 
   factory Design.fromColor(Color color) {
@@ -70,7 +70,9 @@ class Design {
   @override
   int get hashCode => Object.hash(hex, type);
 
-  static List<Design> designList = [
+  /// A list of designs that are available for free and don't require a
+  /// Sharezone Plus subscription.
+  static List<Design> freeDesigns = [
     Colors.pinkAccent,
     Colors.grey[700],
     Colors.green,

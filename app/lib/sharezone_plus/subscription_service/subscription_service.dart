@@ -72,6 +72,7 @@ const _featuresMap = {
     SharezonePlusFeature.filterTimetableByClass,
     SharezonePlusFeature.changeHomeworkReminderTime,
     SharezonePlusFeature.plusSupport,
+    SharezonePlusFeature.moreGroupColors,
     SharezonePlusFeature.addEventToLocalCalendar,
     SharezonePlusFeature.viewPastEvents,
   },
@@ -84,6 +85,7 @@ enum SharezonePlusFeature {
   filterTimetableByClass,
   changeHomeworkReminderTime,
   plusSupport,
+  moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
 }
