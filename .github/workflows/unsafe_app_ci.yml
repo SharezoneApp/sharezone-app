@@ -165,8 +165,8 @@ jobs:
         run: |
           fvm flutter build web \
             --release \
-            --dart-define DEVELOPMENT_STAGE=ALPHA \
-            --target=lib/main_dev.dart
+            --target=lib/main_dev.dart \
+            --dart-define DEVELOPMENT_STAGE=ALPHA
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
