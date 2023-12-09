@@ -18,6 +18,9 @@ dependencies:
   flutter:
     sdk: flutter
   cloud_functions: ^4.4.0
+  rxdart: ^0.27.1
+  sharezone_widgets:
+    path: ../sharezone_widgets
 
 dev_dependencies:
   flutter_test:
