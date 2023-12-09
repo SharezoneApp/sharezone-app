@@ -69,6 +69,8 @@ class Sharezone extends StatefulWidget {
   State createState() => _SharezoneState();
 }
 
+const developmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
+
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late SignUpBloc signUpBloc;
 
@@ -112,8 +114,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
             child: _ThemeSettingsProvider(
               blocDependencies: widget.blocDependencies,
               child: AlphaVersionBanner(
-                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
-                    'ALPHA',
+                enabled: developmentStage == 'ALPHA',
                 child: Stack(
                   children: [
                     MultiProvider(
