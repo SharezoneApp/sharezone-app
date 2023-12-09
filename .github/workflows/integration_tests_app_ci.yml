@@ -331,7 +331,14 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
+      # We need to install the FlutterFire CLI because we have Build Phases in
+      # XCode configured which are using the FlutterFire CLI. Without the CLI,
+      # the build would fail.
+      - name: Install FlutterFire CLI
+        run: flutter pub global activate flutterfire_cli 0.3.0-dev.18
+
       - name: Build macOS app
         run: |
           flutter build macos \
-            -t lib/main_prod.dart
+            --flavor dev \
+            -t lib/main_dev.dart
