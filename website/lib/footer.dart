@@ -314,7 +314,7 @@ class _FooterSocialMedia extends StatelessWidget {
           runSpacing: 8,
           alignment: WrapAlignment.center,
           children: [
-            _SocialMediaButton("Twitter"),
+            _SocialMediaButton("X"),
             _SocialMediaButton("Instagram"),
             _SocialMediaButton("Discord"),
             _SocialMediaButton("GitHub"),
