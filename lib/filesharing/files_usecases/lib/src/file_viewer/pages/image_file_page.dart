@@ -12,7 +12,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../../../file_downloader.dart';
 import '../widgets/file_page_app_bar.dart';

@@ -8,7 +8,7 @@
 
 import 'package:dynamic_links/test.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart' as fb;
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import '../dynamic_links.dart';
 import '../models/dynamic_link_data.dart';
 

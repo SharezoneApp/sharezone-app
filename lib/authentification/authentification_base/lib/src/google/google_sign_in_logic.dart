@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_sign_in_dartio/google_sign_in_dartio.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 const _desktopGoogleSignInClientID =
     '730263787697-c31kujlb53ajmm7jvuu2042t2m0nv5at';

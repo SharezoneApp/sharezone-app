@@ -14,7 +14,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 /// Old integration tests that we keep for testing non-Android platforms.
 ///

@@ -18,7 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:util/encryption.dart';
 import 'package:fast_rsa/fast_rsa.dart' as fastrsa;
 

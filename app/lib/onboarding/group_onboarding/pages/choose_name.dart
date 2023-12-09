@@ -19,7 +19,7 @@ import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_pag
 import 'package:sharezone/onboarding/group_onboarding/pages/turn_on_notifications.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 

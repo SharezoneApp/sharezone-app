@@ -10,7 +10,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 class OnboardingNavigator extends BlocBase {
   final SignUpBloc _signedUpBloc;

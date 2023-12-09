@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/logic/open_cloud_file.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
 import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 void openCreateSubmissionFile(BuildContext context, FileView view) {
   if (view.downloadUrl != null) {

@@ -21,10 +21,10 @@ dependencies:
     path: ../../analytics
   bloc_base:
     path: ../../bloc_base
+  platform_check:
+    path: ../../platform_check
   sharezone_common:
     path: ../../sharezone_common
-  sharezone_utils:
-    path: ../../sharezone_utils
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user

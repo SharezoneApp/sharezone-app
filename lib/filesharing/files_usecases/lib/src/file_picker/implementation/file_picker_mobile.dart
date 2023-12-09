@@ -15,7 +15,7 @@ import 'package:file_picker/file_picker.dart' as mobile_file_picker;
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:image_picker/image_picker.dart' as mobile_image_picker;
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 import '../file_picker_implementation.dart';
 import 'file_picker_desktop.dart' as desktop;

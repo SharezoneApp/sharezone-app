@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 /// Returns true if the current platform supports Firebase Messaging.
 bool isFirebaseMessagingSupported() {

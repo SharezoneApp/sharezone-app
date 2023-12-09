@@ -16,8 +16,8 @@ environment:
 
 dependencies:
   firebase_dynamic_links: ^5.3.5
-  sharezone_utils:
-    path: ../sharezone_utils
+  platform_check:
+    path: ../platform_check
   flutter:
     sdk: flutter
 

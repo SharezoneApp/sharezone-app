@@ -18,14 +18,10 @@ dependencies:
   device_info_plus: ^9.0.3
   flutter:
     sdk: flutter
-  # We need flutter_test as a normal dependency, because we use it in the
-  # platform_check.dart file. Otherwise we would have the lint warning "The
-  # imported package 'flutter_test' isn't a dependency of the importing package"
-  # (depend_on_referenced_packages).
-  flutter_test:
-    sdk: flutter
   rxdart: ^0.27.5
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   sharezone_lints:
     path: ../sharezone_lints

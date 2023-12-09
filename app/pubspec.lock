@@ -1654,6 +1654,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  platform_check:
+    dependency: "direct main"
+    description:
+      path: "../lib/platform_check"
+      relative: true
+    source: path
+    version: "0.0.1"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -2426,5 +2433,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"
   flutter: ">=3.16.0"
