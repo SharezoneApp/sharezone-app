@@ -334,22 +334,25 @@ class _SocialMediaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lowerCasePlatform = socialMediaPlatform.toLowerCase();
-    return InkWell(
-      onTap: () => launchUrl("https://sharezone.net/$lowerCasePlatform"),
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              "assets/icons/$lowerCasePlatform.svg",
-              theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
+    return Tooltip(
+      message: socialMediaPlatform,
+      child: InkWell(
+        onTap: () => launchUrl("https://sharezone.net/$lowerCasePlatform"),
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: SvgPicture.asset(
+                "assets/icons/$lowerCasePlatform.svg",
+                theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
+              ),
             ),
           ),
         ),
