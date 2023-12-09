@@ -31,8 +31,6 @@ bool isPhone(BuildContext context) {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static const tag = "home-page";
-
   @override
   Widget build(BuildContext context) {
     return const PageTemplate(

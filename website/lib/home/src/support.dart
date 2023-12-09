@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/section_action_button.dart';
@@ -40,7 +41,7 @@ class Support extends StatelessWidget {
             const SizedBox(height: 20),
             SectionActionButton(
               text: "Support kontaktieren",
-              onTap: () => Navigator.pushNamed(context, SupportPage.tag),
+              onTap: () => context.go('/$SupportPage.tag'),
             ),
           ],
         ),

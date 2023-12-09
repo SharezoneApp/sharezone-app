@@ -21,7 +21,7 @@ const phoneNumber = '+49 1516 7754541';
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
 
-  static const String tag = 'support-page';
+  static const String tag = 'support';
 
   @override
   Widget build(BuildContext context) {
