@@ -10,7 +10,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:args/command_runner.dart';
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 // All apps are deployed in the production firebase project but under different
@@ -28,10 +28,8 @@ final _webAppConfigs = {
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_webAppConfigs].
-class DeployWebAppCommand extends Command {
-  final SharezoneRepo _repo;
-
-  DeployWebAppCommand(this._repo) {
+class DeployWebAppCommand extends CommandBase {
+  DeployWebAppCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -83,41 +81,38 @@ class DeployWebAppCommand extends Command {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await runProcessSuccessfullyOrThrow(
+    await processRunner.run([
       'fvm',
-      [
-        'dart',
-        'run',
-        'sz_repo_cli',
-        'build',
-        'web',
-        '--flavor',
-        webAppConfig.flavor,
-        '--stage',
-        releaseStage
-      ],
-      workingDirectory: _repo.sharezoneCiCdTool.path,
-    );
+      'dart',
+      'run',
+      'sz_repo_cli',
+      'build',
+      'web',
+      '--flavor',
+      webAppConfig.flavor,
+      '--stage',
+      releaseStage
+    ], workingDirectory: repo.sharezoneCiCdTool.location);
 
     String? deployMessage;
     if (overriddenDeployMessage == null) {
-      final currentCommit = await _getCurrentCommitHash();
+      final currentCommit = await _getCurrentCommitHash(processRunner);
       deployMessage = 'Commit: $currentCommit';
     }
 
-    await runProcessSuccessfullyOrThrow(
+    await processRunner.run(
+      [
         'firebase',
-        [
-          'deploy',
-          '--only',
-          'hosting:${webAppConfig.deployTargetName}',
-          '--project',
-          webAppConfig.firebaseProjectId,
-          '--message',
-          deployMessage ?? overriddenDeployMessage!,
-        ],
-        workingDirectory: _repo.sharezoneFlutterApp.location.path,
-
+        'deploy',
+        '--only',
+        'hosting:${webAppConfig.deployTargetName}',
+        '--project',
+        webAppConfig.firebaseProjectId,
+        '--message',
+        deployMessage ?? overriddenDeployMessage!,
+      ],
+      workingDirectory: repo.sharezoneFlutterApp.location,
+      addedEnvironment: {
         // If we run this inside the CI/CD system we want this call to be
         // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
         // variable.
@@ -131,18 +126,18 @@ class DeployWebAppCommand extends Command {
         // [googleApplicationCredentialsFile] manually via an command line
         // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
         // below.
-        environment: {
-          if (googleApplicationCredentialsFile != null)
-            'GOOGLE_APPLICATION_CREDENTIALS':
-                googleApplicationCredentialsFile.absolute.path,
-        });
+        if (googleApplicationCredentialsFile != null)
+          'GOOGLE_APPLICATION_CREDENTIALS':
+              googleApplicationCredentialsFile.absolute.path
+      },
+    );
   }
 
   File? _parseCredentialsFile(ArgResults argResults) {
     File? googleApplicationCredentialsFile;
     final path = argResults[googleApplicationCredentialsOptionName] as String?;
     if (path != null) {
-      googleApplicationCredentialsFile = File(path);
+      googleApplicationCredentialsFile = fileSystem.file(path);
       final exists = googleApplicationCredentialsFile.existsSync();
       if (!exists) {
         stdout.writeln(
@@ -183,9 +178,9 @@ class DeployWebAppCommand extends Command {
     return overriddenDeployMessageOrNull;
   }
 
-  Future<String> _getCurrentCommitHash() async {
-    final res = await runProcess('git', ['rev-parse', 'HEAD']);
-    if (res.stdout == null || (res.stdout as String).isEmpty) {
+  Future<String> _getCurrentCommitHash(ProcessRunner processRunner) async {
+    final res = await processRunner.run(['git', 'rev-parse', 'HEAD']);
+    if (res.stdout.isEmpty) {
       stderr.writeln(
           'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
       throw ToolExit(15);

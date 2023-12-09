@@ -11,7 +11,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';

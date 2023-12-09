@@ -25,6 +25,7 @@ class FirebaseFileUploaderImplementation {
     required LocalFile localFile,
     required String creatorID,
     required String creatorName,
+    required isPrivate,
     FolderPath path = FolderPath.root,
   }) async {
     final ref = filesCollection.doc();
@@ -36,6 +37,7 @@ class FirebaseFileUploaderImplementation {
       creatorName: creatorName,
       courseID: courseID,
       path: path,
+      isPrivate: isPrivate,
     ).copyWith(
       fileFormat: fileFormat,
       forUsers: {creatorID: true},

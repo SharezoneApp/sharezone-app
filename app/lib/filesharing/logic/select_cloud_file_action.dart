@@ -11,7 +11,7 @@ import 'package:files_usecases/file_saver.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
 import 'package:sharezone/filesharing/widgets/move_file_page.dart';

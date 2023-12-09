@@ -22,6 +22,12 @@ class CalendricalEventsPageAnalytics {
       ),
     );
   }
+
+  void logPastEventsPageOpened() {
+    analytics.log(
+      const CalendricalEventsPageAnalyticsEvent('past_events_page_opened'),
+    );
+  }
 }
 
 class CalendricalEventsPageAnalyticsEvent extends AnalyticsEvent {

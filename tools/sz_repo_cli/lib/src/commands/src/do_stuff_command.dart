@@ -9,8 +9,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
-
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Useful to quickly script something for this repo. Helps by not having to use
@@ -19,10 +17,8 @@ import 'package:sz_repo_cli/src/common/common.dart';
 /// It's sort of a scaffold to quickly write a command.
 /// Run from the root of this repo with
 /// `dart ./tools/sz_repo_cli/bin/sz_repo_cli.dart do-stuff`
-class DoStuffCommand extends Command {
-  DoStuffCommand(this.repo);
-
-  final SharezoneRepo repo;
+class DoStuffCommand extends CommandBase {
+  DoStuffCommand(super.context);
 
   @override
   String get description =>

@@ -14,10 +14,10 @@ import 'package:date/weektype.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
-import 'package:sharezone/pages/settings/timetable_settings/timetable_settings_page.dart';
+import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weekday.dart';
@@ -70,8 +70,15 @@ class _TimetableAddPageState extends State<TimetableAddPage> {
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<TimetableAddBlocFactory>(context).create();
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-    return WillPopScope(
-      onWillPop: () => warnUserAboutLeavingForm(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        final shouldPop = await warnUserAboutLeavingForm(context);
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
       child: BlocProvider(
         bloc: bloc,
         child: _TimetableAddPage(

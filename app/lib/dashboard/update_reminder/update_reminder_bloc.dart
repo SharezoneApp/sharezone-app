@@ -9,8 +9,8 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:meta/meta.dart';
-import 'package:sharezone/pages/settings/changelog/change.dart';
-import 'package:sharezone/pages/settings/changelog/changelog_gateway.dart';
+import 'package:sharezone/changelog/change.dart';
+import 'package:sharezone/changelog/changelog_gateway.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
 import 'release.dart';

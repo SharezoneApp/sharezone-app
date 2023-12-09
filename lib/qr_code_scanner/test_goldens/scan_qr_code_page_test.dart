@@ -34,6 +34,7 @@ void main() {
     testGoldens('displays scanner page as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          theme: ThemeData.light(useMaterial3: false),
           home: Scaffold(
             body: Builder(builder: (context) {
               return ElevatedButton(

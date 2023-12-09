@@ -8,8 +8,7 @@ import 'dart:async' as _i9;
 import 'package:holidays/holidays.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/blackboard/blackboard_view.dart' as _i15;
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart'
-    as _i5;
+import 'package:sharezone/changelog/change.dart' as _i3;
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart' as _i13;
 import 'package:sharezone/dashboard/models/homework_view.dart' as _i14;
 import 'package:sharezone/dashboard/timetable/lesson_view.dart' as _i17;
@@ -19,8 +18,8 @@ import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart' as _i12;
 import 'package:sharezone/dashboard/update_reminder/release.dart' as _i2;
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart'
     as _i8;
+import 'package:sharezone/holidays/holiday_bloc.dart' as _i5;
 import 'package:sharezone/navigation/logic/navigation_bloc.dart' as _i7;
-import 'package:sharezone/pages/settings/changelog/change.dart' as _i3;
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart' as _i16;
 import 'package:user/user.dart' as _i10;
 

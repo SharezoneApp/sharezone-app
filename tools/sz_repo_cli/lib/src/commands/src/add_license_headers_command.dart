@@ -9,15 +9,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Add license headers to all files without one.
-class AddLicenseHeadersCommand extends Command {
-  AddLicenseHeadersCommand(this.repo);
-
-  final SharezoneRepo repo;
+class AddLicenseHeadersCommand extends CommandBase {
+  AddLicenseHeadersCommand(super.context);
 
   @override
   String get description =>
@@ -29,6 +26,7 @@ class AddLicenseHeadersCommand extends Command {
   @override
   Future<void> run() async {
     final results = await runLicenseHeaderCommand(
+      processRunner,
       commandKey: 'add_license_headers',
       repo: repo,
     );

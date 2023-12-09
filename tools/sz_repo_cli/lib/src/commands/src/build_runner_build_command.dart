@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 class BuildRunnerBuild extends ConcurrentCommand {
-  BuildRunnerBuild(SharezoneRepo repo) : super(repo);
+  BuildRunnerBuild(super.context);
 
   @override
   final String name = 'build';
@@ -28,16 +28,16 @@ class BuildRunnerBuild extends ConcurrentCommand {
 
   @override
   Stream<Package> get packagesToProcess {
-    return repo
-        .streamPackages()
+    return super
+        .packagesToProcess
         .where((package) => package.hasBuildRunnerDependency);
   }
 
   @override
   Future<void> runTaskForPackage(Package package) async {
-    await runProcessSuccessfullyOrThrow(
-      'fvm',
+    await processRunner.run(
       [
+        'fvm',
         'dart',
         'run',
         'build_runner',
@@ -53,7 +53,7 @@ class BuildRunnerBuild extends ConcurrentCommand {
         // Therefore, we hard code it to delete the conflicting outputs.
         '--delete-conflicting-outputs',
       ],
-      workingDirectory: package.path,
+      workingDirectory: package.location,
     );
   }
 }

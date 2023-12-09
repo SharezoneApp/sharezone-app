@@ -12,29 +12,70 @@ import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 void main() {
   /// We are testing this since changing the anchor hash generation algorithm
   /// might break stuff. See comments in [generateAnchorHash] file.
-  test('Generates correct anchor hashes', () {
-    final sections = [
-      '1. Einführung',
-      '2. Kontaktinformationen',
-      '3. Wichtige Begriffe, die du kennen solltest',
-      '4. Welche Informationen erfassen wir grundsätzlich?',
-      '5. An wen geben wir deine Daten weiter?',
-      '6. Wie lange speichern wir deine Daten?',
-      '7. Welche Rechte hast du?',
-      'Glückwunsch, du hast es geschafft'
-    ];
+  group('Generates correct anchor hashes', () {
+    test('real life examples', () {
+      final sections = [
+        '1. Einführung',
+        '2. Kontaktinformationen',
+        '3. Wichtige Begriffe, die du kennen solltest',
+        '4. Welche Informationen erfassen wir grundsätzlich?',
+        '5. An wen geben wir deine Daten weiter?',
+        '6. Wie lange speichern wir deine Daten?',
+        '7. Welche Rechte hast du?',
+        'Glückwunsch, du hast es geschafft',
+      ];
 
-    final anchorHashes = sections.map(generateAnchorHash).toList();
+      final anchorHashes = sections.map(generateAnchorHash).toList();
 
-    expect(anchorHashes, [
-      '1-einfhrung',
-      '2-kontaktinformationen',
-      '3-wichtige-begriffe-die-du-kennen-solltest',
-      '4-welche-informationen-erfassen-wir-grundstzlich',
-      '5-an-wen-geben-wir-deine-daten-weiter',
-      '6-wie-lange-speichern-wir-deine-daten',
-      '7-welche-rechte-hast-du',
-      'glckwunsch-du-hast-es-geschafft',
-    ]);
+      expect(anchorHashes, [
+        '1-einfuehrung',
+        '2-kontaktinformationen',
+        '3-wichtige-begriffe-die-du-kennen-solltest',
+        '4-welche-informationen-erfassen-wir-grundsaetzlich',
+        '5-an-wen-geben-wir-deine-daten-weiter',
+        '6-wie-lange-speichern-wir-deine-daten',
+        '7-welche-rechte-hast-du',
+        'glueckwunsch-du-hast-es-geschafft',
+      ]);
+    });
+    test('replaces special chars', () {
+      final sections = [
+        r'1-?!=""§$pokémon~+',
+        'Ist das eine Frage???',
+        'Wort-mit-Bindestrichen'
+      ];
+
+      final anchorHashes = sections.map(generateAnchorHash).toList();
+
+      expect(anchorHashes, [
+        '1-pokemon',
+        'ist-das-eine-frage',
+        'wort-mit-bindestrichen',
+      ]);
+    });
+
+    test('replaces umlaute', () {
+      final umlaute = [
+        'ä',
+        'Ä',
+        'ö',
+        'Ö',
+        'ü',
+        'Ü',
+        'ß',
+      ];
+
+      final anchorHashes = umlaute.map(generateAnchorHash).toList();
+
+      expect(anchorHashes, [
+        'ae',
+        'ae',
+        'oe',
+        'oe',
+        'ue',
+        'ue',
+        'ss',
+      ]);
+    });
   });
 }

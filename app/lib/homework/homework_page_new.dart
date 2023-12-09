@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone/pages/homework_page.dart';
+import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:user/user.dart';
 import 'student/student_homework_page.dart';
 import 'teacher/teacher_homework_page.dart';

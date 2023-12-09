@@ -1,0 +1,85 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# This file is used to check that we only use dependencies with 
+# licenses that we are allowed to use / that we want to use.
+# It is used by the Dart `license_checker` package.
+# 
+# Run in `app` to show if some dependency are not allowed:
+# fvm dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
+
+permittedLicenses:
+  - MIT
+  - BSD-3-Clause
+  - BSD-2-Clause
+  - Apache-2.0
+  - MPL-2.0
+  - Zlib
+  - MIT-Modern-Variant
+  - EUPL-1.2-or-later
+
+approvedPackages:
+  no-file:
+  - flutter_driver
+  - flutter_localizations
+  - flutter_test
+  - flutter_web_plugins
+  - fuchsia_remote_debug_protocol
+  - integration_test
+
+packageLicenseOverride:
+  rxdart: Apache-2.0
+  animated_stream_list_nullsafety: Apache-2.0
+  # The actual license is BSD-2-Clause with the following addition:
+  # > * All use of this software must display the following acknowledgement: This
+  # >   product includes software developed by Akshath Jain (https://akshathjain.com).
+  # Since the license text is included in the license page in our app it is technically
+  # present in our app. I don't know in what way it was intended.
+  # For now we'll just assume that it's okay like this.
+  # Open issue about the license: https://github.com/akshathjain/sliding_up_panel/issues/312
+  sliding_up_panel: BSD-2-Clause
+  # Our local packages
+  abgabe_client_lib: EUPL-1.2-or-later
+  abgabe_http_api: EUPL-1.2-or-later
+  analytics: EUPL-1.2-or-later
+  app_functions: EUPL-1.2-or-later
+  authentification_base: EUPL-1.2-or-later
+  authentification_qrcode: EUPL-1.2-or-later
+  bloc_base: EUPL-1.2-or-later
+  bloc_provider: EUPL-1.2-or-later
+  build_context: EUPL-1.2-or-later
+  common_domain_models: EUPL-1.2-or-later
+  crash_analytics: EUPL-1.2-or-later
+  date: EUPL-1.2-or-later
+  design: EUPL-1.2-or-later
+  dynamic_links: EUPL-1.2-or-later
+  files_basics: EUPL-1.2-or-later
+  files_usecases: EUPL-1.2-or-later
+  files_web: EUPL-1.2-or-later
+  filesharing_logic: EUPL-1.2-or-later
+  firebase_hausaufgabenheft_logik: EUPL-1.2-or-later
+  group_domain_implementation: EUPL-1.2-or-later
+  group_domain_models: EUPL-1.2-or-later
+  hausaufgabenheft_logik: EUPL-1.2-or-later
+  holidays: EUPL-1.2-or-later
+  key_value_store: EUPL-1.2-or-later
+  last_online_reporting: EUPL-1.2-or-later
+  notifications: EUPL-1.2-or-later
+  qr_code_scanner: EUPL-1.2-or-later
+  remote_configuration: EUPL-1.2-or-later
+  sharezone_common: EUPL-1.2-or-later
+  sharezone_lints: EUPL-1.2-or-later
+  sharezone_utils: EUPL-1.2-or-later
+  sharezone_widgets: EUPL-1.2-or-later
+  stripe_checkout_session: EUPL-1.2-or-later
+  time: EUPL-1.2-or-later
+  url_launcher_extended: EUPL-1.2-or-later
+  user: EUPL-1.2-or-later
+  util: EUPL-1.2-or-later
+
+

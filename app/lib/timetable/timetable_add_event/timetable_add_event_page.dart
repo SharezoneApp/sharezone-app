@@ -12,7 +12,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/groups/group_permission.dart';
@@ -91,8 +91,15 @@ class _TimetableAddEventPageState extends State<TimetableAddEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => warnUserAboutLeavingForm(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        final shouldPop = await warnUserAboutLeavingForm(context);
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
       child: BlocProvider(
         bloc: bloc,
         child: _TimetableAddEventPage(isExam: widget.isExam),

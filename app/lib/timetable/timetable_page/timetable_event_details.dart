@@ -13,12 +13,15 @@ import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_page.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/launch_link.dart';
@@ -327,12 +330,43 @@ class _AddToMyCalendarButton extends StatelessWidget {
 
   final CalendricalEvent event;
 
+  Future<void> addEventToLocalCalendar(BuildContext context) async {
+    final timezone = await _getTimezoneForMobile();
+    final calendarEvent = add_2_calendar.Event(
+      startDate: event.startDateTime,
+      endDate: event.endDateTime,
+      title: event.title,
+      description: event.detail,
+      location: event.place,
+      timeZone: timezone,
+    );
+    if (!context.mounted) return;
+
+    add_2_calendar.Add2Calendar.addEvent2Cal(calendarEvent);
+
+    _logAddEventToMyCalendarEvent(context);
+  }
+
+  void showPlusAdDialog(BuildContext context) {
+    showSharezonePlusFeatureInfoDialog(
+      context: context,
+      navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+      description: const Text(
+          'Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.'),
+      title: const Text('Termin zum Kalender hinzufügen'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Eigentlich sollte das Plugin auf Web funktioniert. Leider ist dies nicht
     // der Fall, weswegen der Button für Web ausgeblendet wird.
     // Ticket: https://github.com/ja2375/add_2_calendar/issues/32
     if (PlatformCheck.isDesktopOrWeb) return const Text("");
+
+    final isUnlocked = context
+        .read<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.addEventToLocalCalendar);
 
     return SafeArea(
       child: Column(
@@ -342,32 +376,45 @@ class _AddToMyCalendarButton extends StatelessWidget {
           MaxWidthConstraintBox(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: ButtonTheme(
-                minWidth: MediaQuery.of(context).size.width,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.add_circle),
-                  label: Text("Zu meinem Kalender hinzufügen".toUpperCase()),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () async {
-                    final timezone = await _getTimezoneForMobile();
-                    final calendarEvent = add_2_calendar.Event(
-                      startDate: event.startDateTime,
-                      endDate: event.endDateTime,
-                      title: event.title,
-                      description: event.detail,
-                      location: event.place,
-                      timeZone: timezone,
-                    );
-                    if (!context.mounted) return;
-
-                    add_2_calendar.Add2Calendar.addEvent2Cal(calendarEvent);
-
-                    _logAddEventToMyCalendarEvent(context);
-                  },
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.add_circle),
+                label: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        "In Kalender eintragen".toUpperCase(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    if (!isUnlocked) ...[
+                      const Padding(
+                        padding: EdgeInsets.only(left: 12, right: 4),
+                        child: SharezonePlusChip(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.white10,
+                        ),
+                      ),
+                    ]
+                  ],
                 ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  padding: EdgeInsets.only(
+                    left: 12,
+                    top: 6,
+                    right: isUnlocked ? 12 : 4,
+                    bottom: 6,
+                  ),
+                ),
+                onPressed: () async {
+                  if (isUnlocked) {
+                    await addEventToLocalCalendar(context);
+                  } else {
+                    showPlusAdDialog(context);
+                  }
+                },
               ),
             ),
           ),

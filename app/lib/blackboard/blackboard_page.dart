@@ -15,7 +15,7 @@ import 'package:sharezone/blackboard/blackboard_dialog.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
 import 'package:sharezone/blackboard/details/blackboard_details.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
@@ -54,8 +54,12 @@ class BlackboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: const SharezoneMainScaffold(
         body: _BlackboardList(),
         floatingActionButton: _BlackboardPageFAB(),

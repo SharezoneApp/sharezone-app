@@ -119,6 +119,29 @@ class TimetableGateway {
     });
   }
 
+  /// Streams the calendrical events that occurred before or on the specified
+  /// date.
+  ///
+  /// The [date] parameter specifies the end date for the events to be included
+  /// in the stream. If [descending] is `true`, the events are streamed in
+  /// descending order; otherwise, they are streamed in ascending order.
+  Stream<List<CalendricalEvent>> streamEventsBeforeOrOn(
+    Date date, {
+    bool descending = true,
+  }) {
+    return references.events
+        .where('users', arrayContains: memberID)
+        .where('date', isLessThanOrEqualTo: date.toDateString)
+        .orderBy('date', descending: descending)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs
+          .map((document) =>
+              CalendricalEvent.fromData(document.data(), id: document.id))
+          .toList();
+    });
+  }
+
   Stream<bool> isEventStreamEmpty() {
     return references.events
         .where('users', arrayContains: memberID)

@@ -16,8 +16,8 @@ import 'package:flutter/material.dart' as _i1;
 import 'package:mockito/mockito.dart' as _i2;
 import 'package:rxdart/rxdart.dart' as _i3;
 import 'package:shared_preferences/shared_preferences.dart' as _i7;
-import 'package:sharezone/blocs/application_bloc.dart' as _i29;
 import 'package:sharezone/filesharing/file_sharing_api.dart' as _i12;
+import 'package:sharezone/main/application_bloc.dart' as _i29;
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart'
     as _i28;
 import 'package:sharezone/navigation/logic/navigation_bloc.dart' as _i24;

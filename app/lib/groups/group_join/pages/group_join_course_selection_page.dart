@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/blocs/auth/type_of_user_bloc.dart';
+import 'package:sharezone/account/type_of_user_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';

@@ -6,8 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:io';
-
+import 'package:file/local.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 import 'package:test/test.dart';
@@ -17,7 +16,7 @@ void main() {
     group('getBuildNameWithStage()', () {
       Package createEmptyPackage({required String? version}) {
         return Package(
-          location: Directory(''),
+          location: const LocalFileSystem().directory(''),
           name: 'test_package',
           type: PackageType.flutter,
           hasTestDirectory: false,

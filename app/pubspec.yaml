@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 1.7.8+0
+version: 1.7.9+0
 publish_to: none
 
 environment:
@@ -30,14 +30,21 @@ dependencies:
   animator: ^3.2.0
   app_functions:
     path: ../lib/app_functions
-  app_review: ^2.1.1
+  app_review:
+    # We can use the published version once a new version is published that
+    # is newer than 2.1.2+1.
+    git:
+      url: https://github.com/fluttercommunity/app_review
+      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
     path: ../lib/authentification/authentification_qrcode
   auto_size_text: ^3.0.0
+  bloc: ^8.1.2
   bloc_base:
     path: ../lib/bloc_base
+  bloc_presentation: ^1.0.0
   bloc_provider:
     path: ../lib/bloc_provider
   build_context:
@@ -51,16 +58,19 @@ dependencies:
     path: ../lib/common_domain_models
   crash_analytics:
     path: ../lib/crash_analytics
+  stripe_checkout_session:
+    path: ../lib/sharezone_plus/stripe_checkout_session
   cupertino_icons: ^1.0.3
   date:
     path: ../lib/date
   design:
     path: ../lib/design
+  diacritic: ^0.1.4
   dio: ^5.3.2
   dynamic_links:
     path: ../lib/dynamic_links
+  equatable: ^2.0.5
   fast_immutable_collections: ^9.1.5
-  feature_discovery: ^0.14.0
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:
@@ -77,6 +87,7 @@ dependencies:
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
   flutter_cache_manager: ^3.1.2
   flutter_localizations:
     sdk: flutter
@@ -104,6 +115,7 @@ dependencies:
     path: ../lib/hausaufgabenheft_logik
   holidays:
     path: ../lib/holidays
+  http: ^1.1.2
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker: ^2.0.0+5
@@ -120,7 +132,7 @@ dependencies:
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
-  package_info_plus: ^4.1.0
+  package_info_plus: ^5.0.1
   permission_handler: ^10.2.0
   photo_view: ^0.14.0
   provider: ^6.0.3
@@ -167,7 +179,6 @@ dev_dependencies:
   async: ^2.4.1
   built_collection: ^5.1.0
   build_runner: ^2.3.3
-  equatable: ^2.0.5
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
@@ -175,6 +186,17 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.3.2
   random_string: ^2.0.1
+  bloc_test: ^9.1.4
+  bloc_presentation_test: ^1.0.0
+  path: ^1.8.3
+  patrol: ^3.1.0
+
+patrol:
+  app_name: Sharezone App
+  android:
+    package_name: de.codingbrain.sharezone
+  ios:
+    bundle_id: de.codingbrain.sharezone.app
 
 flutter:
   uses-material-design: true

@@ -80,13 +80,17 @@ class PluginInitializations {
       'revenuecat_api_android_key': 'goog_EyqDtrZhkswSqMAcfqawHGAqZnX',
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
+      'stripe_checkout_session_function_url':
+          'https://europe-west1-sharezone-c2bd8.cloudfunctions.net/createStripeCheckoutSession'
     });
 
     try {
-      if (flavor == Flavor.dev) {
-        // Since we depend on some values from our Remote Config in the dev
-        // environment, we can't use the "Load new values for next startup"
-        // strategy.
+      // Since the web is never really restarted in the web, we need to fetch
+      // the remote configuration right away.
+      //
+      // We depend on some values from our Remote Config in the dev environment,
+      // so we can't use the "Load new values for next startup" strategy.
+      if (PlatformCheck.isWeb || flavor == Flavor.dev) {
         await remoteConfiguration.fetch();
         await remoteConfiguration.activate();
       } else {

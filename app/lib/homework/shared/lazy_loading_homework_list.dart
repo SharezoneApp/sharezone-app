@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/homework/shared/glowing_overscroll_color_changer.dart';
 import 'package:sharezone/homework/shared/shared.dart';
-import 'package:sharezone/pages/settings/changelog/list_with_bottom_threshold.dart';
+import 'package:sharezone/widgets/list_with_bottom_threshold.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// A list to lazily load homeworks.

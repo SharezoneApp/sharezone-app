@@ -56,6 +56,12 @@ android {
         disable 'InvalidPackage'
     }
 
+    // From https://patrol.leancode.co/getting-started#create-a-simple-integration-test
+    testOptions {
+        execution "ANDROIDX_TEST_ORCHESTRATOR"
+    }
+
+
     defaultConfig {
         applicationId "de.codingbrain.sharezone"
         minSdkVersion 21
@@ -63,8 +69,9 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
-        // From https://pub.dev/packages/integration_test
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // From https://patrol.leancode.co/getting-started#create-a-simple-integration-test
+        testInstrumentationRunner "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: "true"
     }
 
     signingConfigs {
@@ -81,11 +88,6 @@ android {
         release {
             if(hasKeystorePropertiesFile) {
                 signingConfig signingConfigs.release
-            }
-
-            ndk {
-                // From: https://stackoverflow.com/a/46051246/8358501
-                abiFilters "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             }
         }
     }
@@ -119,6 +121,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // From https://patrol.leancode.co/getting-started#create-a-simple-integration-test
+    androidTestUtil "androidx.test:orchestrator:1.4.2"
 }
 
 apply plugin: 'com.google.firebase.firebase-perf'

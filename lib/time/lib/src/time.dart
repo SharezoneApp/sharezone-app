@@ -44,6 +44,10 @@ class Time {
         "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}");
   }
 
+  factory Time.fromDateTime(DateTime dateTime) {
+    return Time(hour: dateTime.hour, minute: dateTime.minute);
+  }
+
   factory Time.fromTotalMinutes(int totalMinutes) {
     final hour = (totalMinutes ~/ 60) % 24;
     final minute = totalMinutes.remainder(60);
@@ -118,5 +122,11 @@ class Time {
   @override
   String toString() {
     return _time;
+  }
+}
+
+extension DateTimeToTime on DateTime {
+  Time toTime() {
+    return Time.fromDateTime(this);
   }
 }

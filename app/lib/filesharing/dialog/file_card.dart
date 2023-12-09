@@ -88,6 +88,34 @@ class FileTile extends StatelessWidget {
         : cloudFile!.fileFormat;
     final name = localFile != null ? localFile!.getName() : cloudFile!.name;
 
+    return FileTileBase(
+      name: name,
+      fileType: fileType,
+      onTap: onTap,
+      trailing: trailing,
+      onLongPress: onLongPress,
+    );
+  }
+}
+
+class FileTileBase extends StatelessWidget {
+  const FileTileBase({
+    super.key,
+    required this.name,
+    required this.fileType,
+    this.trailing,
+    this.onTap,
+    this.onLongPress,
+  });
+
+  final String name;
+  final FileFormat fileType;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       leading: FileIcon(fileFormat: fileType),
       title: Text(name),

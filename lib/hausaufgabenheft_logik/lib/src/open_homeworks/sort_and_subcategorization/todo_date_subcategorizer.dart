@@ -22,8 +22,8 @@ class TodoDateSubcategorizer extends Subcategorizer {
   List<HomeworkSectionView> subcategorize(HomeworkList homeworks) {
     final latestHomeworkList = homeworks;
     final now = currentDate;
-    final tomorrow = now.addDaysWithNoChecking(1);
-    final in2Days = tomorrow.addDaysWithNoChecking(1);
+    final tomorrow = now.addDays(1);
+    final in2Days = tomorrow.addDays(1);
 
     final List<HomeworkReadModel> overdueHomework = latestHomeworkList
         .where((h) => Date.fromDateTime(h.todoDate) < now)

@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -94,10 +94,23 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: WillPopScope(
-        onWillPop: () async => bloc.hasUserEditInput()
-            ? warnUserAboutLeavingForm(context)
-            : Future.value(true),
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+
+          final hasInputChanged = bloc.hasUserEditInput();
+          final navigator = Navigator.of(context);
+          if (!hasInputChanged) {
+            navigator.pop();
+            return;
+          }
+
+          final shouldPop = await warnUserAboutLeavingForm(context);
+          if (shouldPop && context.mounted) {
+            navigator.pop();
+          }
+        },
         child: Scaffold(
           appBar:
               AppBar(title: const Text("Kurs erstellen"), centerTitle: true),

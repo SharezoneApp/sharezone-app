@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
@@ -96,8 +96,12 @@ class GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     final gateway =
         BlocProvider.of<SharezoneContext>(context).api.connectionsGateway;
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: SharezoneMainScaffold(
         scaffoldKey: globalKey,
         // backgroundColor: Color(0xFFF6F7FB),

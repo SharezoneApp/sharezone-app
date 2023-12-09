@@ -8,13 +8,16 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
+import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_events_layout.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
@@ -43,19 +46,54 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => popToOverview(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        popToOverview(context);
+      },
       child: BlocProvider(
         bloc: bloc,
         child: SharezoneMainScaffold(
           appBarConfiguration: const AppBarConfiguration(
-            actions: [_LayoutIconButton()],
+            actions: [
+              _PastEventsIconButton(),
+              _LayoutIconButton(),
+            ],
           ),
           body: const _CalendricalEventsPageBody(),
           floatingActionButton: _EventListFAB(),
           navigationItem: NavigationItem.events,
         ),
       ),
+    );
+  }
+}
+
+class _PastEventsIconButton extends StatelessWidget {
+  const _PastEventsIconButton();
+
+  void logAnalytics(BuildContext context) {
+    final bloc = BlocProvider.of<CalendricalEventsPageBloc>(context);
+    bloc.logPastEventsPageOpened();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isSharezonePlusEnabled =
+        context.watch<SubscriptionEnabledFlag>().isEnabled;
+
+    if (!isSharezonePlusEnabled) {
+      return const SizedBox();
+    }
+
+    return IconButton(
+      tooltip: 'Vergangene Termine',
+      onPressed: () {
+        logAnalytics(context);
+        Navigator.pushNamed(context, PastCalendricalEventsPage.tag);
+      },
+      icon: const Icon(Icons.history),
     );
   }
 }

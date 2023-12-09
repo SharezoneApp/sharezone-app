@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group('selectDesign', () {
     testGoldens('display select design dialog as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          theme: lightTheme,
           home: Scaffold(
             body: Center(
               child: Builder(builder: (context) {

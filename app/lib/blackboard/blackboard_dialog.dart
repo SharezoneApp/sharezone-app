@@ -17,7 +17,7 @@ import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_dialog_bloc.dart';
-import 'package:sharezone/blocs/application_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
@@ -117,10 +117,24 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => widget.bloc.hasInputChanged()
-          ? warnUserAboutLeavingForm(context)
-          : Future.value(true),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final hasInputChanged = widget.bloc.hasInputChanged();
+        final navigator = Navigator.of(context);
+        if (!hasInputChanged) {
+          navigator.pop();
+          return;
+        }
+
+        final shouldPop = await warnUserAboutLeavingForm(context);
+        if (shouldPop) {
+          navigator.pop();
+          return;
+        }
+      },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         body: Column(

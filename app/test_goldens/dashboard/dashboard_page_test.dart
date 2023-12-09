@@ -15,8 +15,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:holidays/holidays.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/blocs/dashbord_widgets_blocs/holiday_bloc.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FakeHolidayBloc extends Fake implements HolidayBloc {
   StreamController<bool> hasStateSelectedController = StreamController();
@@ -67,8 +68,9 @@ void main() {
       await tester.pumpWidget(
         BlocProvider<HolidayBloc>(
           bloc: holidayBloc,
-          child: const MaterialApp(
-            home: Scaffold(
+          child: MaterialApp(
+            theme: lightTheme,
+            home: const Scaffold(
               body: Center(
                 child: HolidayCountdownSection(),
               ),
