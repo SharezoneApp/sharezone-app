@@ -46,18 +46,22 @@ class LoadingCircle extends StatelessWidget {
 }
 
 class DatePicker extends StatelessWidget {
-  const DatePicker(
-      {Key? key,
-      this.labelText,
-      this.selectedDate,
-      this.selectDate,
-      this.padding})
-      : super(key: key);
+  const DatePicker({
+    Key? key,
+    this.labelText,
+    this.selectedDate,
+    this.selectDate,
+    this.padding,
+    this.ignoreSameDateSelection = true,
+  }) : super(key: key);
 
   final String? labelText;
   final DateTime? selectedDate;
   final ValueChanged<DateTime>? selectDate;
   final EdgeInsets? padding;
+
+  /// Whether to call [selectDate] if the chosen date equals [selectedDate].
+  final bool ignoreSameDateSelection;
 
   Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -70,7 +74,10 @@ class DatePicker extends StatelessWidget {
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate) selectDate!(picked);
+
+    if (picked == null) return;
+    if (ignoreSameDateSelection && picked == selectedDate) return;
+    selectDate!(picked);
   }
 
   @override

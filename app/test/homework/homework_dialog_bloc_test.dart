@@ -47,7 +47,7 @@ void main() {
     HomeworkDialogBloc createBlocForNewHomeworkDialog({Clock? clock}) {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
-        clock: clock,
+        clockOverride: clock,
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
@@ -211,7 +211,7 @@ void main() {
         id: 'foo_course',
       ));
       nextLessonCalculator.dateToReturn = Date('2023-04-02');
-      bloc.add(DueDateChanged(Date('2023-03-28')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2023-03-28'))));
       bloc.add(CourseChanged(CourseId('foo_course')));
 
       Ready state = await bloc.stream
@@ -229,7 +229,7 @@ void main() {
       final bloc = createBlocForNewHomeworkDialog();
       bloc.add(const Save());
       await pumpEventQueue();
-      bloc.add(DueDateChanged(Date('2023-10-12')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2023-10-12'))));
       await pumpEventQueue();
       final state = bloc.state as Ready;
       expect(state.dueDate.error, null);
@@ -272,7 +272,7 @@ void main() {
       await pumpEventQueue();
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
-      bloc.add(DueDateChanged(Date.parse('2023-10-12')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date.parse('2023-10-12'))));
       // We add an attachment here because otherwise the bloc won't await the
       // future when creating the homework because of the firestore offline
       // behavior (await won't complete). In this case the try-catch doesn't
@@ -325,22 +325,22 @@ void main() {
       );
     });
     test('Sucessfully add private homework with files', () async {
-      final bloc = createBlocForNewHomeworkDialog();
-
       final mathCourse = courseWith(
         id: 'maths_course',
         name: 'Maths',
         subject: 'Math',
       );
       addCourse(mathCourse);
+      nextLessonCalculator.dateToReturn = Date('2023-10-12');
 
       final fooLocalFile = randomLocalFileFrom(path: 'bar/foo.png');
       final barLocalFile = randomLocalFileFrom(path: 'foo/bar.pdf');
       final quzLocalFile = randomLocalFileFrom(path: 'bar/quux/baz/quz.mp4');
 
+      final bloc = createBlocForNewHomeworkDialog();
       bloc.add(const TitleChanged('S. 32 8a)'));
       bloc.add(CourseChanged(CourseId(mathCourse.id)));
-      bloc.add(DueDateChanged(Date.parse('2023-10-12')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date.parse('2023-10-12'))));
       bloc.add(const DescriptionChanged('This is a description'));
       bloc.add(const IsPrivateChanged(true));
 
@@ -358,7 +358,12 @@ void main() {
               courseName: 'Maths',
               isChangeable: true,
             ),
-            dueDate: (Date('2023-10-12'), error: null),
+            dueDate: (
+              Date('2023-10-12'),
+              selection: DueDateSelection.date(Date('2023-10-12')),
+              lessonChipsSelectable: true,
+              error: null
+            ),
             submissions: const SubmissionsDisabled(isChangeable: false),
             description: 'This is a description',
             attachments: IList([
@@ -406,10 +411,11 @@ void main() {
       );
 
       addCourse(artCourse);
+      nextLessonCalculator.datesToReturn = [Date('2024-11-13')];
 
       bloc.add(const TitleChanged('Paint masterpiece'));
       bloc.add(CourseChanged(CourseId(artCourse.id)));
-      bloc.add(DueDateChanged(Date.parse('2024-11-13')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date.parse('2024-11-13'))));
       bloc.add(SubmissionsChanged(
           (enabled: true, submissionTime: Time(hour: 16, minute: 30))));
       bloc.add(const DescriptionChanged('This is a description'));
@@ -425,7 +431,12 @@ void main() {
               courseName: 'Art',
               isChangeable: true,
             ),
-            dueDate: (Date('2024-11-13'), error: null),
+            dueDate: (
+              Date('2024-11-13'),
+              selection: DateDueDateSelection(Date('2024-11-13')),
+              lessonChipsSelectable: true,
+              error: null
+            ),
             submissions:
                 SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
             description: 'This is a description',
@@ -473,7 +484,7 @@ void main() {
         () async {
       final bloc = createBlocForNewHomeworkDialog();
       await pumpEventQueue();
-      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
       bloc.add(const SubmissionsChanged((enabled: true, submissionTime: null)));
       await pumpEventQueue();
       final state = bloc.state as Ready;
@@ -499,7 +510,7 @@ void main() {
 
       bloc.add(const TitleChanged('abc'));
       bloc.add(CourseChanged(CourseId('foo_course')));
-      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
       bloc.add(const Save());
@@ -516,7 +527,7 @@ void main() {
 
       bloc.add(const TitleChanged('abc'));
       bloc.add(CourseChanged(CourseId('foo_course')));
-      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
 
       // Add and remove attachment just to make it a bit more "tricky"
       final file = randomLocalFileFrom(path: 'foo/bar.png');
@@ -591,7 +602,7 @@ void main() {
 
       bloc.add(const TitleChanged('abc'));
       bloc.add(CourseChanged(CourseId('foo_course')));
-      bloc.add(DueDateChanged(Date('2024-03-08')));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
       bloc.add(const Save());
       await bloc.stream.whereType<SavedSuccessfully>().first;
 
@@ -680,7 +691,12 @@ void main() {
             courseName: 'Foo course',
             isChangeable: false,
           ),
-          dueDate: (Date('2024-03-12'), error: null),
+          dueDate: (
+            Date('2024-03-12'),
+            selection: null,
+            lessonChipsSelectable: true,
+            error: null,
+          ),
           submissions: const SubmissionsDisabled(isChangeable: false),
           description: 'description text',
           attachments: IList([
@@ -757,7 +773,12 @@ void main() {
             courseName: 'Bar course',
             isChangeable: false,
           ),
-          dueDate: (Date('2024-03-12'), error: null),
+          dueDate: (
+            Date('2024-03-12'),
+            selection: null,
+            lessonChipsSelectable: true,
+            error: null,
+          ),
           submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 35)),
           description: 'description text',
           attachments: IList(),

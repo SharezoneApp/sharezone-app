@@ -16,13 +16,14 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
-import 'package:sharezone/main/bloc_dependencies.dart';
-import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
-import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
+import 'package:sharezone/main/auth_app.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
+import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/main/sharezone_app.dart';
+import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
@@ -112,8 +113,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
             child: _ThemeSettingsProvider(
               blocDependencies: widget.blocDependencies,
               child: AlphaVersionBanner(
-                enabled: const String.fromEnvironment('DEVELOPMENT_STAGE') ==
-                    'ALPHA',
+                enabled: kDevelopmentStage == 'ALPHA',
                 child: Stack(
                   children: [
                     MultiProvider(
