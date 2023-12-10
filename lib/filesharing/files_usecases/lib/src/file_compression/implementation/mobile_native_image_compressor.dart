@@ -11,7 +11,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import '../image_compressor.dart';
 
 class FlutterNativeImageCompressor extends ImageCompressor {

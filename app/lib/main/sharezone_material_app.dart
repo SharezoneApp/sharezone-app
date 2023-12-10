@@ -14,7 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezoneMaterialApp extends StatelessWidget {

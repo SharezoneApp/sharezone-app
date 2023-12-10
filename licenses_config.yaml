@@ -70,6 +70,7 @@ packageLicenseOverride:
   key_value_store: EUPL-1.2-or-later
   last_online_reporting: EUPL-1.2-or-later
   notifications: EUPL-1.2-or-later
+  platform_check: EUPL-1.2-or-later
   qr_code_scanner: EUPL-1.2-or-later
   remote_configuration: EUPL-1.2-or-later
   sharezone_common: EUPL-1.2-or-later

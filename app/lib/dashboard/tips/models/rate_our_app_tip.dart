@@ -11,7 +11,7 @@ import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/models/action.dart';
 import 'package:sharezone/dashboard/tips/models/dashboard_tip.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 class RateOurAppTip implements DashboardTip {
   static const _showedDashboardRatingCardKey = "dashboard-showed-rating-card";

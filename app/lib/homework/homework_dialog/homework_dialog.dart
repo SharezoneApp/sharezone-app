@@ -35,7 +35,7 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 

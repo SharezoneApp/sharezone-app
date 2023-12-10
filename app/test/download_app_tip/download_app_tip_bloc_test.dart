@@ -12,7 +12,7 @@ import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
 import 'package:sharezone/download_app_tip/models/download_app_tip.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 import 'mock_analytics.dart';
 

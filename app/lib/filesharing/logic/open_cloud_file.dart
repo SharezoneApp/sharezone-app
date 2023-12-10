@@ -18,7 +18,7 @@ import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_actions.dart';
 import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 import '../file_page.dart';
 

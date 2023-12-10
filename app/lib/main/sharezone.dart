@@ -32,7 +32,7 @@ import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/alpha_version_banner.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Defines if the app is running in integration test mode.

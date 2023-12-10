@@ -15,7 +15,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:files_usecases/src/file_downloader/file_downloader.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 class MobileFileDownloader extends FileDownloader {
   @override
