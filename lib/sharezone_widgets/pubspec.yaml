@@ -17,8 +17,6 @@ environment:
 dependencies:
   sharezone_common:
     path: ../sharezone_common
-  app_functions:
-    path: ../app_functions
   sharezone_utils:
     path: ../sharezone_utils
   build_context:

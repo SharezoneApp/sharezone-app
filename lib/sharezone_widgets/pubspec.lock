@@ -10,7 +10,7 @@ packages:
     source: hosted
     version: "1.3.5"
   app_functions:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "../app_functions"
       relative: true

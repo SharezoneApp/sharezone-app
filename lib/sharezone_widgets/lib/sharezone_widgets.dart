@@ -65,7 +65,6 @@ export 'src/state_sheet/simple/simple_content_dialog.dart';
 export 'src/state_sheet/simple/simple_content_sheet.dart';
 export 'src/state_sheet/simple/simple_state_dialog.dart';
 export 'src/state_sheet/simple/simple_state_sheet.dart';
-export 'src/state_sheet/simple/appfunctions_state_dialog.dart';
 
 // svg
 export 'src/svg.dart';

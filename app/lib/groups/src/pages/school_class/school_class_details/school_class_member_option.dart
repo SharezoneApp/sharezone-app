@@ -9,15 +9,15 @@
 import 'dart:developer';
 
 import 'package:app_functions/app_functions.dart';
+import 'package:app_functions/app_functions_ui.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_common/helper_functions.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showSchoolClassMemberOptionsSheet({
   required BuildContext context,
