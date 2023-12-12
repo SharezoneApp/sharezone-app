@@ -14,7 +14,6 @@ import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'logic/open_cloud_file.dart';

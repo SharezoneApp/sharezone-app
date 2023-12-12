@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_utils/dimensions.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ModalFloatingActionButton extends StatelessWidget {
   final VoidCallback onPressed;

@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
-import 'package:sharezone_utils/dimensions.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'desktop/desktop_custom_scaffold.dart';
 import 'portable/portable_custom_scaffold.dart';
