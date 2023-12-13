@@ -411,7 +411,7 @@ packages:
     source: path
     version: "1.0.0"
   sharezone_utils:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "../sharezone_utils"
       relative: true
