@@ -385,7 +385,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#!/bin/bash\nPATH=${PATH}:$FLUTTER_ROOT/bin:$HOME/.pub-cache/bin\nflutterfire bundle-service-file --plist-destination=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app --build-configuration=${CONFIGURATION} --platform=macos --apple-project-path=${SRCROOT}\n";
+			shellScript = "\n#!/bin/bash\nPATH=${PATH}:$FLUTTER_ROOT/bin:$HOME/.pub-cache/bin\n# Define the Resources directory path\nRESOURCES_DIR=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Resources\n\n# Create the Resources directory if it does not exist\n mkdir -p \"$RESOURCES_DIR\"\n\n flutterfire bundle-service-file --plist-destination=\"$RESOURCES_DIR\" --build-configuration=${CONFIGURATION} --platform=macos --apple-project-path=${SRCROOT}\n";
 		};
 		F82A9A5C5200EA7289846B73 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
