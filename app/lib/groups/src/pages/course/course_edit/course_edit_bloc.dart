@@ -14,7 +14,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 class CourseEditPageBloc extends BlocBase with CourseValidators {
   final _subjectSubject = BehaviorSubject<String>();

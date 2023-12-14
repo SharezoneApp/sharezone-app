@@ -6,23 +6,14 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-name: analytics
-description: A new Flutter package project.
+name: helper_functions
+description: A package containing helper functions.
 version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
-
-dependencies:
-  flutter:
-    sdk: flutter
-  crash_analytics:
-    path: ../crash_analytics
-  firebase_analytics: ^10.4.5
+  sdk: '>=3.2.3 <4.0.0'
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   sharezone_lints:
     path: ../sharezone_lints

@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_item.dart' as ui;
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 import '../report.dart';
 import '../report_gateway.dart';

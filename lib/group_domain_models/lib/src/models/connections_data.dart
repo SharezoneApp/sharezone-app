@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 import 'package:sharezone_common/references.dart';
 
 class ConnectionsData {

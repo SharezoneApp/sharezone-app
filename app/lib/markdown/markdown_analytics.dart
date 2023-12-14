@@ -8,7 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 class MarkdownAnalytics extends BlocBase {
   final Analytics _analytics;

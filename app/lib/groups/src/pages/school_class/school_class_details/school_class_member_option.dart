@@ -17,7 +17,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 Future<void> showSchoolClassMemberOptionsSheet({
   required BuildContext context,
