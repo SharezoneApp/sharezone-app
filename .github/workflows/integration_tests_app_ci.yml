@@ -304,7 +304,7 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-          BUNDLE_ID: de.codingbrain.sharezone.app
+          BUNDLE_ID: de.codingbrain.sharezone.app.dev
         run: |
           # Even when are trying to build app, we need to use "--platform IOS".
           # The reason for this that our production bundle ID was created for
