@@ -1,0 +1,29 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: platform_check
+description: A mockable platform information abstraction for Dart.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=3.2.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # We need flutter_test as a normal dependency, because we use it in the
+  # platform_check.dart file. Otherwise we would have the lint warning "The
+  # imported package 'flutter_test' isn't a dependency of the importing package"
+  # (depend_on_referenced_packages).
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  sharezone_lints:
+    path: ../sharezone_lints

@@ -26,7 +26,7 @@ import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_pa
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _EventModelSheetAction { edit, delete, report }

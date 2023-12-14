@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -24,16 +25,17 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:random_string/random_string.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
-import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_bloc_test.dart';
@@ -48,9 +50,27 @@ import 'homework_dialog_test.mocks.dart';
 
 class MockNextLessonCalculator implements NextLessonCalculator {
   Date? dateToReturn;
+  List<Date>? datesToReturn;
+  final datesForCourses = <String, List<Date>>{};
+
+  void returnLessonsForCourse(String courseID, List<Date> dates) {
+    datesForCourses[courseID] = dates;
+  }
+
   @override
   Future<Date?> tryCalculateNextLesson(String courseID) async {
-    return dateToReturn;
+    return dateToReturn ??
+        datesToReturn?.first ??
+        datesForCourses[courseID]?.first;
+  }
+
+  @override
+  Future<Date?> tryCalculateXNextLesson(String courseID,
+      {int inLessons = 1}) async {
+    if (datesForCourses.isNotEmpty) {
+      return datesForCourses[courseID]?.elementAt(inLessons - 1);
+    }
+    return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
   }
 }
 
@@ -208,6 +228,7 @@ void main() {
     late MockSharezoneGateway sharezoneGateway;
     late MockCourseGateway courseGateway;
     late MockHomeworkGateway homeworkGateway;
+    Clock? clockOverride;
 
     HomeworkDto? homework;
 
@@ -220,9 +241,12 @@ void main() {
       sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
+      homework = null;
+      clockOverride = null;
     });
 
-    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester) async {
+    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
+        {bool showDueDateSelectionChips = false}) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
       when(sharezoneContext.analytics).thenReturn(analytics);
@@ -233,30 +257,33 @@ void main() {
       }
       homeworkDialogApi.homeworkToReturn = homework;
 
-      await tester.pumpWidget(
-        MultiBlocProvider(
-          blocProviders: [
-            BlocProvider<TimePickerSettingsCache>(
-              bloc: TimePickerSettingsCache(
-                InMemoryStreamingKeyValueStore(),
+      await withClock(clockOverride ?? clock, () async {
+        await tester.pumpWidget(
+          MultiBlocProvider(
+            blocProviders: [
+              BlocProvider<TimePickerSettingsCache>(
+                bloc: TimePickerSettingsCache(
+                  InMemoryStreamingKeyValueStore(),
+                ),
               ),
-            ),
-            BlocProvider<MarkdownAnalytics>(
-              bloc: MarkdownAnalytics(analytics),
-            ),
-            BlocProvider<SharezoneContext>(bloc: sharezoneContext),
-          ],
-          child: (context) => MaterialApp(
-            home: Scaffold(
-              body: HomeworkDialog(
-                homeworkDialogApi: homeworkDialogApi,
-                nextLessonCalculator: nextLessonCalculator,
-                id: homework?.id != null ? HomeworkId(homework!.id) : null,
+              BlocProvider<MarkdownAnalytics>(
+                bloc: MarkdownAnalytics(analytics),
+              ),
+              BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+            ],
+            child: (context) => MaterialApp(
+              home: Scaffold(
+                body: HomeworkDialog(
+                  homeworkDialogApi: homeworkDialogApi,
+                  nextLessonCalculator: nextLessonCalculator,
+                  id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                  showDueDateSelectionChips: showDueDateSelectionChips,
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      });
 
       // We have a delay for displaying the keyboard (using a Timer).
       // We have to wait until the timer is finished, otherwise this happens:
@@ -391,8 +418,8 @@ void main() {
       // await tester.tap(find.text('OK'));
       await tester.enterText(
           find.byKey(HwDialogKeys.descriptionField), 'Rechenweg aufschreiben');
-      await tester
-          .ensureVisible(find.byKey(HwDialogKeys.notifyCourseMembersTile));
+      await tester.ensureVisible(find
+          .byKey(HwDialogKeys.notifyCourseMembersTile, skipOffstage: false));
       await tester.tap(find.byKey(HwDialogKeys.notifyCourseMembersTile));
       await tester.tap(find.byKey(HwDialogKeys.saveButton));
 
@@ -500,7 +527,482 @@ void main() {
               (element) => element is Switch && element.value == true),
           findsOneWidget);
     });
+
+    testWidgets(
+        'homework lesson chips are visible if the function is activated',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(find.text('Nächster Schultag'), findsOneWidget);
+      expect(find.text('Nächste Stunde'), findsOneWidget);
+      expect(find.text('Übernächste Stunde'), findsOneWidget);
+      expect(find.text('Benutzerdefiniert'), findsOneWidget);
+    });
+
+    testWidgets(
+        'homework lesson chips are not visible if the function is deactivated',
+        (tester) async {
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: false);
+
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+    });
+
+    testWidgets('homework lesson chips are not visible in edit mode',
+        (tester) async {
+      addCourse(courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+      ));
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        // The submission time is included in the todoUntil date.
+        withSubmissions: true,
+        todoUntil: DateTime(2024, 03, 12, 16, 30),
+        description: 'description text',
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: false);
+      expect(find.text('Nächster Schultag'), findsNothing);
+      expect(find.text('Nächste Stunde'), findsNothing);
+      expect(find.text('Übernächste Stunde'), findsNothing);
+      expect(find.text('Benutzerdefiniert'), findsNothing);
+    });
+
+    _TestController createController(WidgetTester tester) {
+      return _TestController(
+        tester,
+        nextLessonCalculator,
+        homeworkDialogApi,
+        courseGateway,
+        setClockOverride: (clock) => clockOverride = clock,
+      );
+    }
+
+    testWidgets(
+        'when pressing "Nächste Stunde" the next lesson will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-11-06'), Date('2023-11-08')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectLessonChip('Nächste Stunde');
+
+      expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-06'));
+    });
+    testWidgets(
+        'when pressing "Übernächste Stunde" the lesson after next lesson will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-11-06'), Date('2023-11-08')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectLessonChip('Übernächste Stunde');
+
+      expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-08'));
+    });
+    testWidgets(
+        'when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [
+        Date('2023-11-06'),
+        Date('2023-11-08'),
+        Date('2023-11-10'),
+        Date('2023-11-13'),
+        Date('2023-11-15'),
+      ]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 5);
+
+      expect(controller.getSelectedLessonChips(), ['5.-nächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-15'));
+    });
+    testWidgets(
+        'when pressing the "next schoolday" chip the next schoolday will be selected',
+        (tester) async {
+      final controller = createController(tester);
+
+      // Friday, thus next schoolday is Monday
+      controller.setToday(Date('2023-11-04'));
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+      expect(controller.getSelectedDueDate(), Date('2023-11-06'));
+    });
+    testWidgets('when no course is selected then the lesson chips are disabled',
+        (tester) async {
+      final controller = createController(tester);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(controller.getSelectableLessonChips(), ['Nächster Schultag']);
+      final chips = controller
+          .getLessonChips()
+          .map((e) => (e.$1, selectable: e.selectable))
+          .toList();
+      expect(chips, [
+        ('Nächster Schultag', selectable: true),
+        ('Nächste Stunde', selectable: false),
+        ('Übernächste Stunde', selectable: false),
+        ('Benutzerdefiniert', selectable: false),
+      ]);
+      // Test that nothing happens when tapping on disabled chips
+      await controller.selectLessonChip('Nächste Stunde');
+      await controller.selectLessonChip('Übernächste Stunde');
+      expect(controller.getSelectedLessonChips(), []);
+
+      // "Benutzerdefiniert" is not selectable, thus it doesn't show the dialog.
+      await controller.selectLessonChip('Benutzerdefiniert');
+      expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
+          findsNothing);
+    });
+    testWidgets(
+        'when the date is manually selected that equals the date of a lesson chip then the lesson chip will NOT be selected',
+        (tester) async {
+      /// We want this behavior to avoid potential confusion in the future.
+      /// For now a homework will always be due on the selected due date and
+      /// this will only change if a user explicitly changes the due date.
+      /// In the future we might allow setting a lesson as canceld, which would
+      /// change the due date to the next lesson. Then it might make sense
+      /// differentiating between a lesson that had its due date set to "next
+      /// lesson" via a chip and a lesson that had the due date set manually to
+      /// a specific date. In this case selecting a due date manually and using
+      /// a lesson chip would have different behavior. Thus for now we don't
+      /// want to make it look that setting a due date manually and using a
+      /// lesson chip have the same behavior. This means we won't select the
+      /// lesson chip for e.g. "next lesson" if the due date was manually set to
+      /// the date of the next lesson.
+      final controller = createController(tester);
+      // controller.setToday(Date('2023-10-04'));
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectDateManually(Date('2023-10-06'));
+
+      expect(controller.getSelectedDueDate(), Date('2023-10-06'));
+      expect(controller.getSelectedLessonChips(), []);
+    });
+    testWidgets(
+        'when the date is manually selected that equals the date of the next schoolday then the corresponding chip will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      // Wednesday
+      controller.setToday(Date('2023-12-06'));
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectDateManually(Date('2023-12-07'));
+
+      expect(controller.getSelectedDueDate(), Date('2023-12-07'));
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    });
+
+    testWidgets('when no course is chosen then no chip should be selected',
+        (tester) async {
+      final controller = createController(tester);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      expect(controller.getSelectedLessonChips(), []);
+    });
+
+    testWidgets(
+        'when selecting next lesson for a course and changing to a course without any lessons the date should stay but the lesson chip should be deselected',
+        (tester) async {
+      // This test can pass but in the real app it can still not work. I don't
+      // know why :(
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), []);
+      expect(controller.getSelectedDueDate(), Date('2023-10-06'));
+    });
+    testWidgets(
+        'regression test: creating a custom chip for a course with lessons and then changing to a course without lessons should display the custom chip as not selectable',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [
+        // Don't matter, just need enough dates so that
+        // createCustomChip(inXLessons: 5) works.
+        Date('2023-10-06'),
+        Date('2023-10-08'),
+        Date('2023-10-10'),
+        Date('2023-10-13'),
+        Date('2023-10-15')
+      ]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 5);
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectableLessonChips(), ['Nächster Schultag']);
+    });
+    testWidgets(
+        'when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-10-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+      await controller.selectCourse('foo_course');
+
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    });
+    testWidgets(
+        'when a course without lessons is selected then "Nächster Schultag" should be automatically selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+
+      expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
+    });
+    testWidgets(
+        'when first selecting a course with lessons then the "Nächste Stunde" chip will be selected',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-10-06'), Date('2023-10-08')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+
+      expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
+    });
+    testWidgets(
+        'when selecting a lesson chip and then selecting another course with also lessons then the lesson chip should be kept active but the date should be updated',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-10-06'), Date('2023-10-08')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      controller.addNextLessonDates(
+          'bar_course', [Date('2023-10-08'), Date('2023-10-12')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.selectLessonChip('Übernächste Stunde');
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
+      expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
+    testWidgets(
+        'when choosing and then deleting a custom lesson chip then the date will stay the same when selecting another course',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.addNextLessonDates('foo_course',
+          [Date('2023-10-06'), Date('2023-10-08'), Date('2023-10-12')]);
+      controller.addCourse(courseWith(id: 'bar_course', name: 'Bar course'));
+      controller.addNextLessonDates('bar_course',
+          [Date('2023-10-08'), Date('2023-10-12'), Date('2023-10-14')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 3);
+      await controller.deleteCustomChip(inXLessons: 3);
+      await controller.selectCourse('bar_course');
+
+      expect(controller.getSelectedLessonChips(), []);
+      // If we in 3 lessons selection would still exist then the date would be
+      // 2023-10-14
+      expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
   });
+}
+
+typedef LessonChip = (String label, {bool isSelected, bool selectable});
+
+class _TestController {
+  final MockHomeworkDialogApi homeworkDialogApi;
+  // final MockSharezoneContext sharezoneContext;
+  // final LocalAnalyticsBackend analyticsBackend;
+  // final Analytics analytics;
+  // final MockSharezoneGateway sharezoneGateway;
+  final MockCourseGateway courseGateway;
+  // final MockHomeworkGateway homeworkGateway;
+  final WidgetTester tester;
+  final MockNextLessonCalculator nextLessonCalculator;
+  void Function(Clock clock) setClockOverride;
+
+  _TestController(
+    this.tester,
+    this.nextLessonCalculator,
+    this.homeworkDialogApi,
+    this.courseGateway, {
+    required this.setClockOverride,
+  });
+
+  void setToday(Date date) {
+    setClockOverride(Clock.fixed(date.toDateTime));
+  }
+
+  Future<void> selectLessonChip(String label) async {
+    await tester.ensureVisible(
+        find.widgetWithText(InputChip, label, skipOffstage: false));
+    await tester.tap(find.text(label));
+    await tester.pumpAndSettle();
+  }
+
+  List<LessonChip> _getChips() {
+    final chips = tester
+        .widgetList<InputChip>(find.byType(InputChip, skipOffstage: false));
+    return chips
+        .map((e) => (
+              (e.label as Text).data!,
+              isSelected: e.selected,
+              // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+              // chip uses onPressed.
+              // If onDeleted is not-null but everything else is null the chip
+              // looks like it's selectable in the UI, but it is only deletable,
+              // not selectable. To avoid confusion we explicitly mark it as
+              // selectable here so that developers know about this behavior and
+              // set onDeleted explicitly to null. Not being able to delete the
+              // chip if it is not selectable shouldn't be a problem for users.
+              selectable: e.onSelected != null ||
+                  e.onPressed != null ||
+                  e.onDeleted != null,
+            ))
+        .toList();
+  }
+
+  List<String> getSelectedLessonChips() {
+    final res = _getChips().where((element) => element.isSelected);
+    return res.map((e) => e.$1).toList();
+  }
+
+  List<LessonChip> getLessonChips() {
+    return _getChips();
+  }
+
+  List<String> getSelectableLessonChips() {
+    return _getChips()
+        .where((element) => element.selectable)
+        .map((e) => e.$1)
+        .toList();
+  }
+
+  Date? getSelectedDueDate() {
+    final datePicker = tester.widget<DatePicker>(find.byType(DatePicker));
+    return datePicker.selectedDate?.toDate();
+  }
+
+  void setNextSchoolday(Date date) {}
+
+  final _addedCourses = <String, Course>{};
+  void addCourse(Course course) {
+    _addedCourses[course.id] = course;
+    when(courseGateway.streamCourses())
+        .thenAnswer((_) => Stream.value(_addedCourses.values.toList()));
+    homeworkDialogApi.addCourseForTesting(course);
+  }
+
+  Future<void> selectCourse(String courseId) async {
+    await tester.ensureVisible(
+        find.byKey(HwDialogKeys.courseTile, skipOffstage: false));
+    final course = _addedCourses[courseId];
+    if (course == null) {
+      throw ArgumentError('Course with id $courseId not found');
+    }
+    await tester.tap(find.byKey(HwDialogKeys.courseTile));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(course.name));
+    await tester.pumpAndSettle();
+  }
+
+  void addNextLessonDates(String courseId, List<Date> nextDates) {
+    nextLessonCalculator.returnLessonsForCourse(courseId, nextDates);
+  }
+
+  Future<void> createCustomChip({required int inXLessons}) async {
+    await selectLessonChip('Benutzerdefiniert');
+    await tester.enterText(
+        find.byKey(HwDialogKeys.customLessonChipDialogTextField),
+        '$inXLessons');
+    await tester.tap(find.byKey(HwDialogKeys.customLessonChipDialogOkButton));
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> selectDateManually(Date date) async {
+    // This is kinda hacky, but selecting a date manually via the UI is very
+    // difficult, I couldn't get it working. So this has to do for now.
+    tester
+        .widget<DatePicker>(find.byType(DatePicker))
+        .selectDate!(date.toDateTime);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> deleteCustomChip({required int inXLessons}) async {
+    // For now only works if only one custom chip exists.
+    await tester.tap(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
+    await tester.pumpAndSettle();
+  }
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in

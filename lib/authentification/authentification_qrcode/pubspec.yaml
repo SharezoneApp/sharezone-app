@@ -27,8 +27,8 @@ dependencies:
     path: ../../crash_analytics
   sharezone_common:
     path: ../../sharezone_common
-  sharezone_utils:
-    path: ../../sharezone_utils
+  platform_check:
+    path: ../../platform_check
   util:
     path: ../../util
   cloud_firestore: ^4.8.5

@@ -121,28 +121,23 @@
       },
       {
         "source": "/impressum",
-        "destination": "https://sharezone.net/#imprint-page",
+        "destination": "https://sharezone.net/imprint",
         "type": 302
       },
       {
         "source": "/datenschutzerklaerung",
-        "destination": "https://sharezone.net/privacy-app#privacy-app",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {
         "source": "/dse",
-        "destination": "https://sharezone.net/privacy-app#privacy-app",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {
         "source": "/dse-v1-0-0-pdf",
         "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FDatenschutzerkl%C3%A4rung%20Sharezone%20v1.0.0.pdf?alt=media&token=b48bcd88-013f-4d69-9501-e55ef8d10719",
         "type": 302
-      },
-      {
-        "source": "/support",
-        "destination": "https://sharezone.net/#support-page",
-        "type": 301
       },
       {
         "source": "/macos-direct",
@@ -156,7 +151,7 @@
       },
       {
         "source": "/imprint#privacy-app",
-        "destination": "https://sharezone.net/#privacy-app",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {

@@ -25,6 +25,8 @@ dependencies:
     path: ../filesharing_logic
   sharezone_common:
     path: ../../sharezone_common
+  platform_check:
+    path: ../../platform_check
   sharezone_utils:
     path: ../../sharezone_utils
   sharezone_widgets:

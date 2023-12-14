@@ -32,7 +32,7 @@ final v2TocDocumentSections = [
   section('2-geltungsbereich', '2. Geltungsbereich'),
   section(
       '3-verantwortlichkeit-und-kontakt', '3. Verantwortlichkeit und Kontakt'),
-  section('4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten',
+  section('4-hosting-backend-infrastruktur-und-speicherort-fuer-eure-daten',
       '4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten'),
   section(
     '5-deine-rechte',
@@ -40,12 +40,12 @@ final v2TocDocumentSections = [
     [
       section('a-recht-auf-auskunft', 'a. Recht auf Auskunft'),
       section('b-recht-auf-berichtigung', 'b. Recht auf Berichtigung'),
-      section('c-recht-auf-lschung', 'c. Recht auf Löschung'),
-      section('d-recht-auf-einschrnkung-der-verarbeitung',
+      section('c-recht-auf-loeschung', 'c. Recht auf Löschung'),
+      section('d-recht-auf-einschraenkung-der-verarbeitung',
           'd. Recht auf Einschränkung der Verarbeitung'),
       section('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch'),
       section('f-recht-auf-widerruf', 'f. Recht auf Widerruf'),
-      section('g-recht-auf-datenbertragbarkeit',
+      section('g-recht-auf-datenuebertragbarkeit',
           'g. Recht auf Datenübertragbarkeit'),
       section('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde'),
     ],
@@ -59,14 +59,14 @@ final v2TocDocumentSections = [
       section('a-registrierung-mittels-anonymen-accounts',
           'a. Registrierung mittels anonymen Accounts'),
       section(
-          'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-lter',
+          'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-aelter',
           'b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter'),
     ],
   ),
   section('9-verarbeitung-der-ip-adresse', '9. Verarbeitung der IP-Adresse'),
   section('10-speicherdauer-und-speicherfristen',
       '10. Speicherdauer und Speicherfristen'),
-  section('11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes',
+  section('11-verarbeitung-des-gewaehlten-account-typs-und-des-bundeslandes',
       '11. Verarbeitung des gewählten Account-Typs und des Bundeslandes'),
   section('12-anonyme-statistische-auswertung-der-app-nutzung',
       '12. Anonyme statistische Auswertung der App-Nutzung'),
@@ -84,12 +84,12 @@ final v2TocDocumentSections = [
       section('googlefirebase-analytics', 'Google/Firebase Analytics'),
     ],
   ),
-  section('15-empfnger-oder-kategorien-von-empfngern',
+  section('15-empfaenger-oder-kategorien-von-empfaengern',
       '15. Empfänger oder Kategorien von Empfängern'),
-  section('16-ssltls-verschlsselung', '16. SSL/TLS-Verschlüsselung'),
+  section('16-ssltls-verschluesselung', '16. SSL/TLS-Verschlüsselung'),
   section('17-videokonferenzen', '17. Videokonferenzen'),
   section(
-    '18-datenbertragung-in-drittlnder-auerhalb-der-eu',
+    '18-datenuebertragung-in-drittlaender-ausserhalb-der-eu',
     '18. Datenübertragung in Drittländer außerhalb der EU',
     [
       section('a-firebase-authentication', 'a. Firebase Authentication'),
@@ -97,7 +97,7 @@ final v2TocDocumentSections = [
     ],
   ),
   section('19-datenschutzbeauftragter', '19. Datenschutzbeauftragter'),
-  section('20-vorbehalt-der-nderung-dieser-informationen',
+  section('20-vorbehalt-der-aenderung-dieser-informationen',
       '20. Vorbehalt der Änderung dieser Informationen'),
 ];
 

@@ -16,7 +16,7 @@ import 'package:sharezone/changelog/changelog_page_view.dart';
 import 'package:sharezone/widgets/list_with_bottom_threshold.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ChangelogPage extends StatelessWidget {

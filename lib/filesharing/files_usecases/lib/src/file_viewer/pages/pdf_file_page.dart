@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../widgets/file_page_app_bar.dart';
 

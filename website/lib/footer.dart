@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharezone_website/legal/imprint_page.dart';
 import 'package:sharezone_website/legal/privacy_policy.dart';
 import 'package:sharezone_website/support_page.dart';
@@ -263,7 +264,7 @@ class _FooterSection extends StatelessWidget {
                 text: l.title,
                 onTap: () {
                   if (l.link == null) {
-                    Navigator.pushNamed(context, l.tag!);
+                    context.go('/${l.tag}');
                   } else {
                     launchUrl(l.link!);
                   }
@@ -314,7 +315,7 @@ class _FooterSocialMedia extends StatelessWidget {
           runSpacing: 8,
           alignment: WrapAlignment.center,
           children: [
-            _SocialMediaButton("Twitter"),
+            _SocialMediaButton("X"),
             _SocialMediaButton("Instagram"),
             _SocialMediaButton("Discord"),
             _SocialMediaButton("GitHub"),
@@ -333,22 +334,25 @@ class _SocialMediaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lowerCasePlatform = socialMediaPlatform.toLowerCase();
-    return InkWell(
-      onTap: () => launchUrl("https://sharezone.net/$lowerCasePlatform"),
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              "assets/icons/$lowerCasePlatform.svg",
-              color: Theme.of(context).primaryColor,
+    return Tooltip(
+      message: socialMediaPlatform,
+      child: InkWell(
+        onTap: () => launchUrl("https://sharezone.net/$lowerCasePlatform"),
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: SvgPicture.asset(
+                "assets/icons/$lowerCasePlatform.svg",
+                theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
+              ),
             ),
           ),
         ),

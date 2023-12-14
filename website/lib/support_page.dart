@@ -21,7 +21,7 @@ const phoneNumber = '+49 1516 7754541';
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
 
-  static const String tag = 'support-page';
+  static const String tag = 'support';
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +109,7 @@ class _EmailTile extends StatelessWidget {
     return _SupportCard(
       icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: Theme.of(context).primaryColor,
+        theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
       ),
       title: 'support@sharezone.net',
       subtitle: 'E-Mail',

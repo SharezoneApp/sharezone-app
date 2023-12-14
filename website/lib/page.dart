@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
@@ -38,8 +39,7 @@ class PageTemplate extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.home),
                       title: const Text("Hauptseite"),
-                      onTap: () =>
-                          Navigator.popAndPushNamed(context, HomePage.tag),
+                      onTap: () => context.go('/'),
                     ),
                     ListTile(
                       leading: const Icon(Icons.question_answer),
@@ -49,8 +49,7 @@ class PageTemplate extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.help),
                       title: const Text("Support"),
-                      onTap: () =>
-                          Navigator.pushNamed(context, SupportPage.tag),
+                      onTap: () => context.go('/$SupportPage.tag'),
                     ),
                   ],
                 ),
@@ -116,8 +115,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                     )
                   else
                     TransparentButton(
-                      onTap: () =>
-                          Navigator.popAndPushNamed(context, HomePage.tag),
+                      onTap: () => context.go('/'),
                       child: const SharezoneLogo(
                         logoColor: LogoColor.blueShort,
                         height: 50,
@@ -131,8 +129,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                         if (!isPhone(context)) ...[
                           TransparentButton(
                             child: const Text("Support"),
-                            onTap: () =>
-                                Navigator.pushNamed(context, SupportPage.tag),
+                            onTap: () => context.go('/${SupportPage.tag}'),
                           ),
                           const SizedBox(width: 30),
                           TransparentButton.openLink(

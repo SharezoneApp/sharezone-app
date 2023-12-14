@@ -18,7 +18,7 @@ import 'imprint.dart';
 class ImprintPage extends StatelessWidget {
   const ImprintPage({super.key});
 
-  static const tag = 'imprint-page';
+  static const tag = 'imprint';
 
   @override
   Widget build(BuildContext context) {

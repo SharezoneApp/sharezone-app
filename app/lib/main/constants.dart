@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
 // Licensed under the EUPL-1.2-or-later.
 //
 // You may obtain a copy of the Licence at:
@@ -6,6 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library dimensions;
-
-export 'src/dimensions/dimensions.dart';
+const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');

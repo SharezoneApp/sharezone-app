@@ -11,7 +11,7 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 
 class NotificationsPermission {
   final MobileDeviceInformationRetriever mobileDeviceInformationRetriever;

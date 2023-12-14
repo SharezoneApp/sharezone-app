@@ -17,16 +17,14 @@ environment:
 dependencies:
   sharezone_common:
     path: ../sharezone_common
-  app_functions:
-    path: ../app_functions
-  sharezone_utils:
-    path: ../sharezone_utils
   build_context:
     path: ../build_context
   flutter_svg: ^2.0.2
   flutter_staggered_animations: ^1.1.1
   flare_flutter: ^3.0.2
   intl: ^0.18.1
+  platform_check:
+    path: ../platform_check
   shimmer: ^2.0.0
   rxdart: ^0.27.1
   flutter:

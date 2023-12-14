@@ -17,7 +17,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/file_card.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
-import 'package:sharezone_utils/platform.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachFile extends StatelessWidget {

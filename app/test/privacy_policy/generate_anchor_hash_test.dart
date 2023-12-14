@@ -77,5 +77,39 @@ void main() {
         'ss',
       ]);
     });
+
+    void expectCorrectAnchorHashes(PrivacyPolicy privacyPolicy) {
+      expect(
+          privacyPolicy.tableOfContentSections.where((section) => section
+              .subsections
+              .where((subsubsection) => subsubsection.subsections.isNotEmpty)
+              .isNotEmpty),
+          isEmpty,
+          reason:
+              'Table of contents subscections must not have subscections. E.g. Section "foo" can have subsection "bar" but "bar" must not have subsections.');
+
+      final actualAnchorHashes = privacyPolicy.tableOfContentSections
+          .expand((section) => [
+                section.id.id,
+                ...section.subsections.map((subsection) => subsection.id.id)
+              ])
+          .toList();
+      final expectedAnchorHashes = privacyPolicy.tableOfContentSections
+          .expand((section) => [
+                generateAnchorHash(section.sectionName),
+                ...section.subsections.map(
+                    (subsection) => generateAnchorHash(subsection.sectionName))
+              ])
+          .toList();
+
+      expect(actualAnchorHashes, expectedAnchorHashes);
+    }
+
+    test('privacy policy v1 anchors are correct', () {
+      expectCorrectAnchorHashes(v1PrivacyPolicy);
+    });
+    test('privacy policy v2 anchors are correct', () {
+      expectCorrectAnchorHashes(v2PrivacyPolicy);
+    });
   });
 }

@@ -18,11 +18,11 @@ final v1PrivacyPolicy = PrivacyPolicy(
 );
 
 final v1TocDocumentSections = [
-  _section('1-einfhrung', '1. Einführung'),
+  _section('1-einfuehrung', '1. Einführung'),
   _section('2-kontaktinformationen', '2. Kontaktinformationen'),
   _section('3-wichtige-begriffe-die-du-kennen-solltest',
       '3. Wichtige Begriffe, die du kennen solltest'),
-  _section('4-welche-informationen-erfassen-wir-grundstzlich',
+  _section('4-welche-informationen-erfassen-wir-grundsaetzlich',
       '4. Welche Informationen erfassen wir grundsätzlich?'),
   _section('5-an-wen-geben-wir-deine-daten-weiter',
       '5. An wen geben wir deine Daten weiter?'),
@@ -30,7 +30,7 @@ final v1TocDocumentSections = [
       '6. Wie lange speichern wir deine Daten?'),
   _section('7-welche-rechte-hast-du', '7. Welche Rechte hast du?'),
   _section(
-      'glckwunsch-du-hast-es-geschafft', 'Glückwunsch, du hast es geschafft'),
+      'glueckwunsch-du-hast-es-geschafft', 'Glückwunsch, du hast es geschafft'),
 ];
 
 DocumentSection _section(

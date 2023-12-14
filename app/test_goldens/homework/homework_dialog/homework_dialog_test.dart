@@ -90,7 +90,12 @@ void main() {
           courseName: 'Maths',
           isChangeable: true,
         ),
-        dueDate: (Date('2023-10-12'), error: null),
+        dueDate: (
+          Date('2023-10-12'),
+          selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: true,
+          error: null
+        ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
         attachments: IList([
@@ -152,7 +157,12 @@ void main() {
           courseName: 'Maths',
           isChangeable: true,
         ),
-        dueDate: (Date('2023-10-12'), error: null),
+        dueDate: (
+          Date('2023-10-12'),
+          selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: false,
+          error: null
+        ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
         attachments: IList([
@@ -238,7 +248,12 @@ void main() {
           courseName: 'Maths',
           isChangeable: true,
         ),
-        dueDate: (Date('2023-10-12'), error: null),
+        dueDate: (
+          Date('2023-10-12'),
+          selection: DueDateSelection.date(Date('2023-10-12')),
+          lessonChipsSelectable: true,
+          error: null
+        ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
         attachments: IList([
@@ -324,7 +339,12 @@ void main() {
       final state = emptyCreateHomeworkDialogState.copyWith(
         title: ('', error: const EmptyTitleException()),
         course: const NoCourseChosen(error: NoCourseChosenException()),
-        dueDate: (null, error: const NoDueDateSelectedException()),
+        dueDate: (
+          null,
+          selection: null,
+          lessonChipsSelectable: false,
+          error: const NoDueDateSelectedException()
+        ),
       );
 
       whenListen(
@@ -362,7 +382,12 @@ void main() {
           courseName: 'Foo course',
           isChangeable: false,
         ),
-        dueDate: (Date('2024-01-14'), error: null),
+        dueDate: (
+          Date('2024-01-14'),
+          selection: DueDateSelection.date(Date('2024-01-14')),
+          lessonChipsSelectable: true,
+          error: null
+        ),
         submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
         description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
         attachments: IList([
