@@ -92,6 +92,18 @@ To install & use FVM, follow the following steps:
 
 When you are using VS Code, no further steps should be necessary, because we included the `.vscode/setting.json` to git. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
 
+### FlutterFire CLI
+
+If you want to use build the macOS app, you need to install the [FlutterFire CLI](https://pub.dev/packages/flutterfire_cli). This CLI is used during the build process.
+
+To install the FlutterFire CLI, execute the following command:
+
+```sh
+fvm flutter pub global activate flutterfire_cli 0.3.0-dev.18
+```
+
+Make sure, you have the 0.3.0-dev.18 version or higher installed. You can check the version by running `flutterfire --version`.
+
 ## Running the app
 
 After you have set up your development environment, you can run the app. 
@@ -104,13 +116,15 @@ cd app
 
 To run the app, you can then execute the following command:
 
-### Android & iOS
+### Android, iOS & macOS
+
+```sh
 
 ```sh
 fvm flutter run --flavor dev --target lib/main_dev.dart
 ```
 
-### Web & macOS
+### Web
 
 ```sh
 fvm flutter run --target lib/main_dev.dart

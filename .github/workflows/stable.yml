@@ -256,6 +256,12 @@ jobs:
           fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
+      # We need to install the FlutterFire CLI because we have Build Phases in
+      # XCode configured which are using the FlutterFire CLI. Without the CLI,
+      # the build would fail.
+      - name: Install FlutterFire CLI
+        run: fvm flutter pub global activate flutterfire_cli 0.3.0-dev.18
+
       - name: Deploy to TestFlight
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important

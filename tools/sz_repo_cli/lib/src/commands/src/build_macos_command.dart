@@ -9,10 +9,16 @@
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 final _macOsStages = [
   'stable',
   'alpha',
+];
+
+final _macOsFlavors = [
+  'prod',
+  'dev',
 ];
 
 class BuildMacOsCommand extends CommandBase {
@@ -24,16 +30,21 @@ class BuildMacOsCommand extends CommandBase {
         allowed: _macOsStages,
         defaultsTo: 'stable',
       )
-      ..addOption(
-        buildNumberOptionName,
-        help: '''An identifier used as an internal version number.
+      ..addOption(buildNumberOptionName,
+          help: '''An identifier used as an internal version number.
 Each build must have a unique identifier to differentiate it from previous builds.
 It is used to determine whether one build is more recent than
 another, with higher numbers indicating more recent build.
-When none is specified, the value from pubspec.yaml is used.''',
+When none is specified, the value from pubspec.yaml is used.''')
+      ..addOption(
+        flavorOptionName,
+        allowed: _macOsFlavors,
+        help: 'The flavor to build for.',
+        defaultsTo: 'prod',
       );
   }
 
+  static const flavorOptionName = 'flavor';
   static const releaseStageOptionName = 'stage';
   static const buildNumberOptionName = 'build-number';
 
@@ -45,6 +56,8 @@ When none is specified, the value from pubspec.yaml is used.''',
 
   @override
   Future<void> run() async {
+    await throwIfFlutterFireCliIsNotInstalled();
+
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
     //
@@ -53,6 +66,15 @@ When none is specified, the value from pubspec.yaml is used.''',
 
     await _buildApp();
     stdout.writeln('Build finished 🎉 ');
+  }
+
+  Future<void> throwIfFlutterFireCliIsNotInstalled() async {
+    await throwIfCommandIsNotInstalled(
+      processRunner,
+      command: 'flutterfire',
+      instructionsToInstall:
+          'Docs to install them: https://pub.dev/packages/flutterfire_cli',
+    );
   }
 
   Future<void> _buildApp() async {
