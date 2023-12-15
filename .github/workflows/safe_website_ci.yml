@@ -108,7 +108,7 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
 
       - name: Pub get
-        run: find * -name 'pubspec.yaml' -execdir bash -c "pwd && flutter pub get" \; kann man flutter packages get
+        run: find * -name 'pubspec.yaml' -execdir bash -c "pwd && flutter pub get" \;
 
       # It can easily happen that a dependency changed but the .lock file is not
       # updated. Or other cases where files are changed during a build.
