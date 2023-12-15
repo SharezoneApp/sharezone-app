@@ -28,7 +28,6 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
-  google_sign_in_dartio: ^0.3.0
   cloud_firestore: ^4.8.5
   firebase_auth: ^4.7.3
   google_sign_in: ^6.1.6
