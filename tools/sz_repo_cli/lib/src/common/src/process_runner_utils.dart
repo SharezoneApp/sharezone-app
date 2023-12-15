@@ -91,6 +91,8 @@ extension RunProcessCustom on ProcessRunner {
     );
   }
 
+  /// Runs a Dart command using FVM if it is installed. Otherwise, it runs
+  /// the command using the Dart SDK.
   Future<ProcessRunnerResult> runDartCommand(
     List<String> commandLine, {
     file.Directory? workingDirectory,
@@ -113,6 +115,8 @@ extension RunProcessCustom on ProcessRunner {
     );
   }
 
+  /// Runs a Flutter command using FVM if it is installed. Otherwise, it runs
+  /// the command using the Flutter SDK.
   Future<ProcessRunnerResult> runFlutterCommand(
     List<String> commandLine, {
     file.Directory? workingDirectory,
