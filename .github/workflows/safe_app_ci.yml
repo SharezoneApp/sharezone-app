@@ -126,6 +126,11 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
 
+      # Sometimes, the Dart dependencies are broken. See
+      # https://github.com/SharezoneApp/sharezone-app/issues/1195.
+      - name: Dart Dependencies Repair
+        run: dart pub cache repair
+
       # It can easily happen that a dependency changed but the .lock file is not
       # updated. Or other cases where files are changed during a build.
       # Therefore, fails this check if there are Git changes.
