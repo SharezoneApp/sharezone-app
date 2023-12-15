@@ -112,8 +112,8 @@ Future<void> _runTestsDart(
 
   await getPackage(processRunner, package);
 
-  await processRunner.run(
-    ['fvm', 'dart', 'test'],
+  await processRunner.runDartCommand(
+    ['test'],
     workingDirectory: package.location,
   );
 }
@@ -130,10 +130,8 @@ Future<void> _runTestsFlutter(
       return;
     }
 
-    await processRunner.run(
+    await processRunner.runFlutterCommand(
       [
-        'fvm',
-        'flutter',
         'test',
         'test_goldens',
         if (updateGoldens) '--update-goldens',
@@ -147,8 +145,8 @@ Future<void> _runTestsFlutter(
   // command. Otherwise the throws the Flutter tool throws an error that it
   // couldn't find the "test_goldens" directory.
   if (excludeGoldens || !package.hasGoldenTestsDirectory) {
-    await processRunner.run(
-      ['fvm', 'flutter', 'test'],
+    await processRunner.runFlutterCommand(
+      ['test'],
       workingDirectory: package.location,
     );
     return;
@@ -157,10 +155,8 @@ Future<void> _runTestsFlutter(
   /// Flutter test lässt automatisch flutter pub get laufen.
   /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
-  await processRunner.run(
+  await processRunner.runFlutterCommand(
     [
-      'fvm',
-      'flutter',
       'test',
       // Directory for golden tests.
       'test_goldens',

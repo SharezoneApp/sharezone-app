@@ -143,10 +143,8 @@ class DeployMacOsCommand extends CommandBase {
       {required int buildNumber}) async {
     try {
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.run(
+      await processRunner.runDartCommand(
         [
-          'fvm',
-          'dart',
           'run',
           'sz_repo_cli',
           'build',

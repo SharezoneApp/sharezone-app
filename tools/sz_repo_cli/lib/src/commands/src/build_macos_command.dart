@@ -60,10 +60,8 @@ When none is specified, the value from pubspec.yaml is used.''',
       const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      await processRunner.run(
+      await processRunner.runFlutterCommand(
         [
-          'fvm',
-          'flutter',
           'build',
           'macos',
           '--target',

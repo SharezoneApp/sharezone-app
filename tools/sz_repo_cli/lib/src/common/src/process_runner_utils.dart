@@ -13,6 +13,7 @@ import 'package:file/file.dart' as file;
 import 'package:process/process.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 extension ProcessRunnerCopyWith on ProcessRunner {
   ProcessRunner copyWith({
@@ -82,6 +83,50 @@ extension RunProcessCustom on ProcessRunner {
     return runner.runProcess(
       commandLine,
       workingDirectory: workingDir,
+      printOutput: printOutput ??= isVerbose ? true : null,
+      failOk: failOk,
+      stdin: stdin,
+      runInShell: runInShell,
+      startMode: startMode,
+    );
+  }
+
+  Future<ProcessRunnerResult> runDartCommand(
+    List<String> commandLine, {
+    file.Directory? workingDirectory,
+    bool? printOutput,
+    bool failOk = false,
+    Stream<List<int>>? stdin,
+    bool runInShell = false,
+    ProcessStartMode startMode = ProcessStartMode.normal,
+    Map<String, String> addedEnvironment = const {},
+  }) async {
+    final isFvmInstalled = await isCommandInstalled(this, command: 'fvm');
+    return run(
+      [if (isFvmInstalled) 'fvm', 'dart', ...commandLine],
+      workingDirectory: workingDirectory,
+      printOutput: printOutput ??= isVerbose ? true : null,
+      failOk: failOk,
+      stdin: stdin,
+      runInShell: runInShell,
+      startMode: startMode,
+    );
+  }
+
+  Future<ProcessRunnerResult> runFlutterCommand(
+    List<String> commandLine, {
+    file.Directory? workingDirectory,
+    bool? printOutput,
+    bool failOk = false,
+    Stream<List<int>>? stdin,
+    bool runInShell = false,
+    ProcessStartMode startMode = ProcessStartMode.normal,
+    Map<String, String> addedEnvironment = const {},
+  }) async {
+    final isFvmInstalled = await isCommandInstalled(this, command: 'fvm');
+    return run(
+      [if (isFvmInstalled) 'fvm', 'flutter', ...commandLine],
+      workingDirectory: workingDirectory,
       printOutput: printOutput ??= isVerbose ? true : null,
       failOk: failOk,
       stdin: stdin,
