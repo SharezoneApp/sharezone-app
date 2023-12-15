@@ -28,12 +28,7 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
-  google_sign_in_dartio:
-    # We can use the published version once the following PR is merged and
-    # published: https://github.com/long1eu/google_sign_in_dart/pull/20
-    git:
-      url: https://github.com/nilsreichardt/google_sign_in_dart
-      ref: aa8dd1d7a43516b0815a92f0b5a470452ebb2efc
+  google_sign_in_dartio: ^0.3.0
   cloud_firestore: ^4.8.5
   firebase_auth: ^4.7.3
   google_sign_in: ^6.1.6
