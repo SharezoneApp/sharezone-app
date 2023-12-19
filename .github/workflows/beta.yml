@@ -258,7 +258,7 @@ jobs:
       # XCode configured which are using the FlutterFire CLI. Without the CLI,
       # the build would fail.
       - name: Install FlutterFire CLI
-        run: fvm flutter pub global activate flutterfire_cli 0.3.0-dev.18
+        run: fvm flutter pub global activate flutterfire_cli 0.3.0-dev.19
 
       - name: Deploy to TestFlight
         env:
