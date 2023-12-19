@@ -11,7 +11,7 @@ import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../drawer_controller.dart';

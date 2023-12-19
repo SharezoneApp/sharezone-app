@@ -8,7 +8,8 @@
 
 import 'dart:developer';
 
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
+
 import 'filesharing_type.dart';
 import 'folder.dart';
 import 'folder_path.dart';

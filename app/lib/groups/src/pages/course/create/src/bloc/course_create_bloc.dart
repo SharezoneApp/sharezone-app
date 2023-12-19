@@ -15,7 +15,7 @@ import 'package:sharezone/groups/src/pages/course/create/src/models/course_templ
 import 'package:sharezone/util/string_utils.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_common/validators.dart';
 
 import '../gateway/course_create_gateway.dart';

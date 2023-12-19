@@ -12,7 +12,7 @@ import 'package:sharezone/blackboard/blackboard_card.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_card_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Diese BlackboardCard wird nun auf der Dashboard-Seite verwendet

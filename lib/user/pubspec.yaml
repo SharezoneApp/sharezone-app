@@ -25,6 +25,8 @@ dependencies:
     path: ../time
   characters: ^1.0.0
   collection: ^1.15.0-nullsafety.4
+  helper_functions:
+    path: ../helper_functions
 
 dev_dependencies:
   flutter_test:

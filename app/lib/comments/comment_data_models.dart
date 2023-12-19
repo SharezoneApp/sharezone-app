@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone/comments/comment.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 
 class CommentDataModel {
   final String? id;

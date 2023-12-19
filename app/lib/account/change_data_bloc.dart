@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_utils/internet_access.dart';
 
 class ChangeDataBloc extends BlocBase with AuthentificationValidators {

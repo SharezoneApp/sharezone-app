@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 
 class HomeworkDto {
   final String id;

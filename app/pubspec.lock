@@ -1155,6 +1155,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  helper_functions:
+    dependency: "direct main"
+    description:
+      path: "../lib/helper_functions"
+      relative: true
+    source: path
+    version: "0.0.1"
   holidays:
     dependency: "direct main"
     description:
