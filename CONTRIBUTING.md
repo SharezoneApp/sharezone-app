@@ -99,10 +99,10 @@ If you want to use build the macOS app, you need to install the [FlutterFire CLI
 To install the FlutterFire CLI, execute the following command:
 
 ```sh
-fvm flutter pub global activate flutterfire_cli 0.3.0-dev.18
+fvm flutter pub global activate flutterfire_cli 0.3.0-dev.19
 ```
 
-Make sure, you have the 0.3.0-dev.18 version or higher installed. You can check the version by running `flutterfire --version`.
+Make sure, you have the 0.3.0-dev.19 version or higher installed. You can check the version by running `flutterfire --version`.
 
 ## Running the app
 

@@ -335,7 +335,7 @@ jobs:
       # XCode configured which are using the FlutterFire CLI. Without the CLI,
       # the build would fail.
       - name: Install FlutterFire CLI
-        run: flutter pub global activate flutterfire_cli 0.3.0-dev.18
+        run: flutter pub global activate flutterfire_cli 0.3.0-dev.19
 
       - name: Build macOS app
         run: |
