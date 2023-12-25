@@ -449,6 +449,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.2+1"
+  helper_functions:
+    dependency: transitive
+    description:
+      path: "../../helper_functions"
+      relative: true
+    source: path
+    version: "0.0.1"
   http:
     dependency: transitive
     description:
