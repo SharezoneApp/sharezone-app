@@ -505,6 +505,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -584,6 +585,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -662,6 +664,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.366164701221-fdv476f10fl969nd65dv97tfajqb9jr1";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -740,6 +743,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -872,6 +876,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -897,6 +902,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = AJ3PMPVZ7H;
+				GOOGLE_SIGN_IN_URL = "com.googleusercontent.apps.730263787697-r3ubdsbn4l752elbpnh6nu2tpiqq439p";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

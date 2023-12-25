@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.730263787697-c31kujlb53ajmm7jvuu2042t2m0nv5at</string>
+				<string>$(GOOGLE_SIGN_IN_URL)</string>
 			</array>
 		</dict>
 	</array>
