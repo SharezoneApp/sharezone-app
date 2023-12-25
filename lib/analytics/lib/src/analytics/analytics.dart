@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
-
 class AnalyticsEvent {
   final String name;
   final Map<String, dynamic>? data;
@@ -42,7 +40,7 @@ class Analytics {
   const Analytics(this._backend);
 
   void log(AnalyticsEvent event) {
-    if (!isEmptyOrNull(event.name)) {
+    if (event.name.isNotEmpty) {
       _backend.log(event.name, event.data ?? {});
     }
   }

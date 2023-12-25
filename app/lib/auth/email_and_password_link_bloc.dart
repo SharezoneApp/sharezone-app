@@ -17,7 +17,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // * Using a shortcut getter method on the class to create simpler and friendlier API for the class to provide access of a particular function on StreamController

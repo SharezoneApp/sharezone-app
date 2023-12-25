@@ -67,6 +67,7 @@ packageLicenseOverride:
   group_domain_models: EUPL-1.2-or-later
   hausaufgabenheft_logik: EUPL-1.2-or-later
   holidays: EUPL-1.2-or-later
+  helper_functions: EUPL-1.2-or-later
   key_value_store: EUPL-1.2-or-later
   last_online_reporting: EUPL-1.2-or-later
   notifications: EUPL-1.2-or-later

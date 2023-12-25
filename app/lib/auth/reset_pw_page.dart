@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';

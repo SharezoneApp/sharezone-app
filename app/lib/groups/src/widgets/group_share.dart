@@ -13,7 +13,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:share/share.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

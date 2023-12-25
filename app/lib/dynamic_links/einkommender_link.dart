@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:dynamic_links/dynamic_links.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 enum EinkommensZeitpunkt { appstart, laufzeit, unbekannt }
 

@@ -13,9 +13,9 @@ import 'package:authentification_base/authentification_google.dart';
 import 'package:authentification_base/src/apple/apple_sign_in_logic.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_common/helper_functions.dart';
 
 import 'authentification_validators.dart';
 

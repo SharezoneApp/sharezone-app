@@ -23,6 +23,8 @@ dependencies:
     path: ../../bloc_base
   platform_check:
     path: ../../platform_check
+  helper_functions:
+    path: ../../helper_functions
   sharezone_common:
     path: ../../sharezone_common
   streaming_shared_preferences: ^2.0.0

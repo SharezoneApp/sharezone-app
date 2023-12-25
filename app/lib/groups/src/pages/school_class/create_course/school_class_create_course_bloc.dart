@@ -18,7 +18,7 @@ import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/string_utils.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_common/validators.dart';
 
 class SchoolClassCourseCreateBloc extends BlocBase with CourseValidators {
