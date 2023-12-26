@@ -8,7 +8,6 @@
 
 import 'package:abgabe_client_lib/src/models/abgabedatei.dart';
 import 'package:abgabe_client_lib/src/models/dateiname.dart';
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/local_file.dart';
 
 class LokaleAbgabedatei extends Abgabedatei {
@@ -21,16 +20,13 @@ class LokaleAbgabedatei extends Abgabedatei {
   final LocalFile localFile;
 
   LokaleAbgabedatei({
-    required AbgabedateiId id,
-    required Dateiname name,
-    required Dateigroesse dateigroesse,
+    required super.id,
+    required super.name,
+    required super.dateigroesse,
     required DateTime erstellungsdatum,
     required this.localFile,
     this.pfad,
   }) : super(
-            id: id,
-            name: name,
-            dateigroesse: dateigroesse,
             erstellungsdatum: erstellungsdatum) {
     ArgumentError.checkNotNull(erstellungsdatum, 'erstellungsdatum');
     ArgumentError.checkNotNull(localFile, 'localFile');

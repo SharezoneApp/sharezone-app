@@ -11,12 +11,12 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CardWithIconAndText extends StatelessWidget {
   const CardWithIconAndText({
-    Key? key,
+    super.key,
     this.icon,
     this.text,
     this.onTap,
     this.trailing,
-  }) : super(key: key);
+  });
 
   final Widget? icon, trailing;
   final String? text;

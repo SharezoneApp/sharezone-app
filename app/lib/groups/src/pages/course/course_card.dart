@@ -54,7 +54,7 @@ Future<bool?> showDeleteCourseDialog(
 }
 
 class CourseCardRedesign extends StatelessWidget {
-  const CourseCardRedesign(this.course, {Key? key}) : super(key: key);
+  const CourseCardRedesign(this.course, {super.key});
 
   final Course course;
 
@@ -222,8 +222,8 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
   const SchoolClassVariantCourseTile({
     required this.course,
     required this.schoolClassId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   Future<void> onLongPress(
     BuildContext context,
@@ -389,11 +389,11 @@ enum _CourseCardLongPressResult { share, leave, edit, delete, join }
 
 class CourseCircleAvatar extends StatelessWidget {
   const CourseCircleAvatar({
-    Key? key,
+    super.key,
     this.abbreviation,
     required this.courseId,
     this.heroTag,
-  }) : super(key: key);
+  });
 
   final String courseId;
   final String? heroTag;

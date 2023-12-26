@@ -27,7 +27,7 @@ const double _padding = 12.0;
 class FeedbackPage extends StatelessWidget {
   static const tag = "feedback-box-page";
 
-  const FeedbackPage({Key? key}) : super(key: key);
+  const FeedbackPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class FeedbackPageBody extends StatelessWidget {
 // }
 
 class _AnonymousCheckbox extends StatelessWidget {
-  const _AnonymousCheckbox({Key? key}) : super(key: key);
+  const _AnonymousCheckbox();
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +164,7 @@ class _AnonymousCheckbox extends StatelessWidget {
 }
 
 class _HeardFromField extends StatelessWidget {
-  const _HeardFromField({Key? key}) : super(key: key);
+  const _HeardFromField();
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class _HeardFromField extends StatelessWidget {
 }
 
 class _MissingField extends StatelessWidget {
-  const _MissingField({Key? key}) : super(key: key);
+  const _MissingField();
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +194,7 @@ class _MissingField extends StatelessWidget {
 }
 
 class _DislikeField extends StatelessWidget {
-  const _DislikeField({Key? key}) : super(key: key);
+  const _DislikeField();
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +209,7 @@ class _DislikeField extends StatelessWidget {
 }
 
 class _GeneralRating extends StatelessWidget {
-  const _GeneralRating({Key? key}) : super(key: key);
+  const _GeneralRating();
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +248,7 @@ class _GeneralRating extends StatelessWidget {
 }
 
 class _LikeField extends StatelessWidget {
-  const _LikeField({Key? key}) : super(key: key);
+  const _LikeField();
 
   @override
   Widget build(BuildContext context) {
@@ -263,9 +263,7 @@ class _LikeField extends StatelessWidget {
 }
 
 class _Description extends StatelessWidget {
-  const _Description({
-    Key? key,
-  }) : super(key: key);
+  const _Description();
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +287,7 @@ class _Description extends StatelessWidget {
 }
 
 class FeedbackPageSubmitButton extends StatefulWidget {
-  const FeedbackPageSubmitButton({Key? key}) : super(key: key);
+  const FeedbackPageSubmitButton({super.key});
 
   @override
   State createState() => _FeedbackPageSubmitButtonState();
@@ -356,12 +354,11 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
 
 class _FeedbackTextField extends StatelessWidget {
   const _FeedbackTextField({
-    Key? key,
     required this.stream,
     this.labelText,
     this.onChanged,
     this.icon,
-  }) : super(key: key);
+  });
 
   final String? labelText;
   final ValueChanged<String>? onChanged;

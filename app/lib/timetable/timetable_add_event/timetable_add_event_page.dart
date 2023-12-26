@@ -72,8 +72,7 @@ class TimetableAddEventPage extends StatefulWidget {
   static const tag = 'timetable-add-event-page';
   final bool isExam;
 
-  const TimetableAddEventPage({Key? key, required this.isExam})
-      : super(key: key);
+  const TimetableAddEventPage({super.key, required this.isExam});
 
   @override
   State createState() => _TimetableAddEventPageState();
@@ -175,7 +174,7 @@ class _BottomNavigationBar extends StatelessWidget {
 }
 
 class _TabPageSelector extends StatelessWidget {
-  const _TabPageSelector({Key? key}) : super(key: key);
+  const _TabPageSelector();
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +187,7 @@ class _TabPageSelector extends StatelessWidget {
 }
 
 class _NavigateNextButton extends StatelessWidget {
-  const _NavigateNextButton({Key? key}) : super(key: key);
+  const _NavigateNextButton();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +223,7 @@ class _FinishButton extends StatelessWidget {
 }
 
 class _NavigateBackButton extends StatelessWidget {
-  const _NavigateBackButton({Key? key}) : super(key: key);
+  const _NavigateBackButton();
   @override
   Widget build(BuildContext context) {
     final controller = DefaultTabController.of(context);
@@ -250,12 +249,11 @@ class _NavigateBackButton extends StatelessWidget {
 
 class _RectangleButton extends StatelessWidget {
   const _RectangleButton({
-    Key? key,
     this.onTap,
     required this.leading,
     required this.title,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final Widget leading;
@@ -289,9 +287,7 @@ class _RectangleButton extends StatelessWidget {
 }
 
 class _EmptyCourseList extends StatelessWidget {
-  const _EmptyCourseList({
-    Key? key,
-  }) : super(key: key);
+  const _EmptyCourseList();
 
   @override
   Widget build(BuildContext context) {
@@ -319,11 +315,10 @@ class _EmptyCourseList extends StatelessWidget {
 
 class _TimetableAddSection extends StatelessWidget {
   const _TimetableAddSection({
-    Key? key,
     required this.title,
     required this.index,
     required this.child,
-  }) : super(key: key);
+  });
 
   final String title;
   final int index;

@@ -11,10 +11,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SaveButton extends StatelessWidget {
   const SaveButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.tooltip,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onPressed;
   final String? tooltip;

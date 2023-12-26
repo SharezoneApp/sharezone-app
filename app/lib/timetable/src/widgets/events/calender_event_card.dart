@@ -24,8 +24,8 @@ import '../../../timetable_permissions.dart';
 class CalenderEventCard extends StatelessWidget {
   const CalenderEventCard(
     this.view, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final EventView view;
 
@@ -65,10 +65,9 @@ class CalenderEventCard extends StatelessWidget {
 
 class _CourseName extends StatelessWidget {
   const _CourseName({
-    Key? key,
     required this.courseName,
     this.color,
-  }) : super(key: key);
+  });
 
   final String courseName;
   final Color? color;
@@ -86,9 +85,8 @@ class _CourseName extends StatelessWidget {
 
 class _Title extends StatelessWidget {
   const _Title({
-    Key? key,
     required this.title,
-  }) : super(key: key);
+  });
 
   final String title;
 

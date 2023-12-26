@@ -86,7 +86,7 @@ Future<void> _submit(BuildContext context,
 }
 
 class UserEditPage extends StatefulWidget {
-  const UserEditPage({Key? key, this.user}) : super(key: key);
+  const UserEditPage({super.key, this.user});
 
   static const tag = "user-edit-page";
   final AppUser? user;

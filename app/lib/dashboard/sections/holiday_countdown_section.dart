@@ -10,7 +10,7 @@ part of '../dashboard_page.dart';
 
 @visibleForTesting
 class HolidayCountdownSection extends StatelessWidget {
-  const HolidayCountdownSection({Key? key}) : super(key: key);
+  const HolidayCountdownSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +93,9 @@ class _HolidayText extends StatelessWidget {
   final List<Holiday?> holidayList;
 
   const _HolidayText({
-    Key? key,
     required this.maxItems,
     required this.holidayList,
-  })  : assert(maxItems > 0),
-        super(key: key);
+  })  : assert(maxItems > 0);
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +162,7 @@ class _HolidayText extends StatelessWidget {
 }
 
 class _SelectStateDropdown extends StatelessWidget {
-  const _SelectStateDropdown({Key? key}) : super(key: key);
+  const _SelectStateDropdown();
 
   @override
   Widget build(BuildContext context) {

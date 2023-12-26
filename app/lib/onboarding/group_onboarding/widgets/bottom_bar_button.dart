@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 
 class BottomBarButton extends StatelessWidget {
   const BottomBarButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final String text;

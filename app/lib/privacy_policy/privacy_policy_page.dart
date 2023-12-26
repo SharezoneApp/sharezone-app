@@ -19,7 +19,7 @@ class PrivacyPolicyPage extends StatelessWidget {
   static const tag = "privacy-policy-page";
 
   PrivacyPolicyPage({
-    Key? key,
+    super.key,
     PrivacyPolicy? privacyPolicy,
     PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
@@ -39,8 +39,7 @@ class PrivacyPolicyPage extends StatelessWidget {
               // when opening the page.
               threshold: const CurrentlyReadThreshold(0.08),
             ),
-        anchorController = AnchorController(),
-        super(key: key);
+        anchorController = AnchorController();
 
   final PrivacyPolicy privacyPolicy;
   final PrivacyPolicyPageConfig config;

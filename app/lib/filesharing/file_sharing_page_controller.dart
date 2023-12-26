@@ -75,7 +75,7 @@ class FileSharingPageController extends StatelessWidget {
 class FileSharingPageBody extends StatelessWidget {
   final FileSharingPageState? pageState;
 
-  const FileSharingPageBody({Key? key, this.pageState}) : super(key: key);
+  const FileSharingPageBody({super.key, this.pageState});
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(

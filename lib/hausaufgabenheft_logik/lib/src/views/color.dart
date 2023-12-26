@@ -8,6 +8,8 @@
 
 /// This color class was copied from flutter and strapped down as we wanted to
 /// have a nice color object, but no dependency on the flutter framework.
+library;
+
 
 /// An immutable 32 bit color value in ARGB format.
 ///

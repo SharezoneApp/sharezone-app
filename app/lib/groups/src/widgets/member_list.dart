@@ -110,12 +110,12 @@ class LoadingMemberList extends StatelessWidget {
 
 class MemberTile extends StatelessWidget {
   const MemberTile({
-    Key? key,
+    super.key,
     required this.memberData,
     this.onTap,
     this.onLongPress,
     this.withReportOption = false,
-  }) : super(key: key);
+  });
 
   final MemberData memberData;
   final VoidCallback? onTap, onLongPress;
@@ -149,7 +149,7 @@ class MemberTile extends StatelessWidget {
 }
 
 class _DividerWithText extends StatelessWidget {
-  const _DividerWithText({Key? key, required this.text}) : super(key: key);
+  const _DividerWithText({required this.text});
 
   final String text;
 

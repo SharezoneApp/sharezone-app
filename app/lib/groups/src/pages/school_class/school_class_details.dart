@@ -135,9 +135,8 @@ class SchoolClassDetailsPage extends StatelessWidget {
 
 class _EditIcon extends StatelessWidget {
   const _EditIcon({
-    Key? key,
     required this.schoolClass,
-  }) : super(key: key);
+  });
 
   final SchoolClass schoolClass;
 
@@ -153,9 +152,8 @@ class _EditIcon extends StatelessWidget {
 
 class _LeaveSchoolClassButton extends StatelessWidget {
   const _LeaveSchoolClassButton({
-    Key? key,
     required this.onDialogClose,
-  }) : super(key: key);
+  });
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -180,9 +178,8 @@ class _LeaveSchoolClassButton extends StatelessWidget {
 
 class _DeleteSchoolClassButton extends StatelessWidget {
   const _DeleteSchoolClassButton({
-    Key? key,
     required this.onDialogClose,
-  }) : super(key: key);
+  });
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -259,7 +256,7 @@ class _SchoolClassAvatarCard extends StatelessWidget {
 }
 
 class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({Key? key, required this.schoolClass}) : super(key: key);
+  const _SettingsCard({required this.schoolClass});
 
   final SchoolClass schoolClass;
 
@@ -278,8 +275,7 @@ class _SettingsCard extends StatelessWidget {
 }
 
 class SchoolClassSettingsCard extends StatelessWidget {
-  const SchoolClassSettingsCard({Key? key, required this.settings})
-      : super(key: key);
+  const SchoolClassSettingsCard({super.key, required this.settings});
 
   final CourseSettings settings;
 
@@ -305,7 +301,7 @@ class SchoolClassSettingsCard extends StatelessWidget {
 }
 
 class _IsPublic extends StatelessWidget {
-  const _IsPublic({Key? key, required this.isPublic}) : super(key: key);
+  const _IsPublic({required this.isPublic});
 
   final bool isPublic;
 

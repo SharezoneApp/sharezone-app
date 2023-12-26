@@ -170,10 +170,10 @@ class TimetableQuickCreateDialog extends StatelessWidget {
   final TimetableSelectionBloc selectionBloc;
 
   const TimetableQuickCreateDialog({
-    Key? key,
+    super.key,
     required this.periodSelection,
     required this.selectionBloc,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -290,9 +290,7 @@ class _EmptyCourseList extends StatelessWidget {
 }
 
 class _JoinGroupIconButton extends StatelessWidget {
-  const _JoinGroupIconButton({
-    Key? key,
-  }) : super(key: key);
+  const _JoinGroupIconButton();
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +304,7 @@ class _JoinGroupIconButton extends StatelessWidget {
 }
 
 class _CreateCourseIconButton extends StatelessWidget {
-  const _CreateCourseIconButton({Key? key}) : super(key: key);
+  const _CreateCourseIconButton();
 
   @override
   Widget build(BuildContext context) {
@@ -321,11 +319,10 @@ class _CreateCourseIconButton extends StatelessWidget {
 
 class _QuickCreateCourseTile extends StatelessWidget {
   const _QuickCreateCourseTile({
-    Key? key,
     required this.course,
     required this.selectionBloc,
     required this.periodSelection,
-  }) : super(key: key);
+  });
 
   final Course course;
   final TimetableSelectionBloc selectionBloc;
@@ -364,14 +361,13 @@ class _PositionedPeriodElementTile extends StatelessWidget {
   final ValueChanged<bool> onHighlightChanged;
 
   const _PositionedPeriodElementTile({
-    Key? key,
     required this.period,
     required this.hourHeight,
     required this.timetableBegin,
     this.onTap,
     required this.isSelected,
     required this.onHighlightChanged,
-  }) : super(key: key);
+  });
 
   final borderRadius = const BorderRadius.all(Radius.circular(5));
 

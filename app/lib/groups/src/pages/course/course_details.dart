@@ -84,7 +84,7 @@ void _showCourseLeaveConformationSnackbar(BuildContext context) {
 }
 
 class CourseDetailsPage extends StatelessWidget {
-  const CourseDetailsPage({Key? key, required this.course}) : super(key: key);
+  const CourseDetailsPage({super.key, required this.course});
 
   static const tag = "course-details-page";
   final Course course;
@@ -103,7 +103,7 @@ class CourseDetailsPage extends StatelessWidget {
 }
 
 class _CourseDetailsPage extends StatelessWidget {
-  const _CourseDetailsPage({Key? key}) : super(key: key);
+  const _CourseDetailsPage();
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +206,7 @@ class _CourseDetailsPage extends StatelessWidget {
 }
 
 class _ChangeColorIcon extends StatelessWidget {
-  const _ChangeColorIcon({Key? key, required this.courseID}) : super(key: key);
+  const _ChangeColorIcon({required this.courseID});
 
   final String courseID;
 
@@ -221,7 +221,7 @@ class _ChangeColorIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key? key, required this.course}) : super(key: key);
+  const _EditIcon({required this.course});
 
   final Course course;
 
@@ -245,9 +245,8 @@ class _EditIcon extends StatelessWidget {
 
 class _LeaveCourseButton extends StatelessWidget {
   const _LeaveCourseButton({
-    Key? key,
     required this.onDialogClose,
-  }) : super(key: key);
+  });
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
 
@@ -281,10 +280,9 @@ class _LeaveCourseButton extends StatelessWidget {
 
 class _DeleteCourseButton extends StatelessWidget {
   const _DeleteCourseButton({
-    Key? key,
     required this.onDialogClose,
     required this.courseName,
-  }) : super(key: key);
+  });
 
   final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
   final String courseName;
@@ -370,7 +368,7 @@ class _CourseAvatarCard extends StatelessWidget {
 }
 
 class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({Key? key, required this.course}) : super(key: key);
+  const _SettingsCard({required this.course});
 
   final Course course;
 

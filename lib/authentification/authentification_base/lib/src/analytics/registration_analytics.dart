@@ -31,8 +31,7 @@ class RegistrationAnalytics {
 /// we will additionally use them to our Analytics.
 class RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents
     extends RegistrationAnalytics {
-  RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(Analytics analytics)
-      : super(analytics);
+  RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(super.analytics);
 
   @override
   void logAnonymousRegistration() {

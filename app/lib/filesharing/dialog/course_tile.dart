@@ -20,11 +20,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseTile extends StatelessWidget {
   const CourseTile({
-    Key? key,
+    super.key,
     required this.editMode,
     required this.onChanged,
     required this.courseStream,
-  }) : super(key: key);
+  });
 
   final bool editMode;
   final ValueChanged<Course> onChanged;
@@ -122,10 +122,9 @@ class CourseTileBase extends StatelessWidget {
 
 class _CourseList extends StatelessWidget {
   const _CourseList({
-    Key? key,
     required this.courseList,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final List<Course> courseList;
   final ValueChanged<Course> onChanged;
@@ -182,7 +181,7 @@ class _EmptyCourseList extends StatelessWidget {
 }
 
 class _JoinCreateCourseFooter extends StatelessWidget {
-  const _JoinCreateCourseFooter({Key? key}) : super(key: key);
+  const _JoinCreateCourseFooter();
 
   @override
   Widget build(BuildContext context) {

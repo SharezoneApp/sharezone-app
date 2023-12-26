@@ -295,9 +295,9 @@ class TimetableConfigBuilder extends StatelessWidget {
   final Widget Function(BuildContext context, TimetableConfig config) builder;
 
   const TimetableConfigBuilder({
-    Key? key,
+    super.key,
     required this.builder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

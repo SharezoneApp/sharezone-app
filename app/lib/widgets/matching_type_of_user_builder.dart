@@ -14,11 +14,11 @@ import 'package:user/user.dart';
 /// is build else [notMatchingWidget] is build
 class MatchingTypeOfUserBuilder extends StatelessWidget {
   const MatchingTypeOfUserBuilder({
-    Key? key,
+    super.key,
     required this.expectedTypeOfUser,
     required this.matchesTypeOfUserWidget,
     required this.notMatchingWidget,
-  }) : super(key: key);
+  });
 
   final TypeOfUser expectedTypeOfUser;
   final Widget matchesTypeOfUserWidget;

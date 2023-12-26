@@ -16,8 +16,8 @@ class MainContentWide extends StatelessWidget {
   const MainContentWide({
     required this.privacyPolicy,
     this.showBackButton = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
@@ -99,9 +99,8 @@ class MainContentWide extends StatelessWidget {
 
 class _TableOfContentsDesktop extends StatelessWidget {
   const _TableOfContentsDesktop({
-    Key? key,
     required this.privacyPolicy,
-  }) : super(key: key);
+  });
 
   final PrivacyPolicy privacyPolicy;
 
@@ -142,9 +141,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
 }
 
 class _TocSectionHeadingListDesktop extends StatelessWidget {
-  _TocSectionHeadingListDesktop({
-    Key? key,
-  }) : super(key: key);
+  _TocSectionHeadingListDesktop();
   final scrollController = ScrollController();
 
   @override
@@ -178,7 +175,7 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
                   ),
                 );
               },
-            ).toList(),
+            ),
           ],
         ),
       ),
@@ -188,9 +185,9 @@ class _TocSectionHeadingListDesktop extends StatelessWidget {
 
 class _TocHeadingDesktop extends StatefulWidget {
   const _TocHeadingDesktop({
-    Key? key,
+    super.key,
     required this.section,
-  }) : super(key: key);
+  });
 
   final TocDocumentSectionView section;
 
@@ -375,10 +372,9 @@ class _TocHeadingDesktopState extends State<_TocHeadingDesktop>
 
 class _BottomFade extends StatelessWidget {
   const _BottomFade({
-    Key? key,
     required this.child,
     required this.scrollController,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final ScrollController scrollController;

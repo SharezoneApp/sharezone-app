@@ -13,9 +13,8 @@ part of '../extendable_bottom_navigation_bar.dart';
 /// changes, it will also directly changed in the tutorial.
 class _BnbTutorial extends StatefulWidget {
   const _BnbTutorial({
-    Key? key,
     required this.animationController,
-  }) : super(key: key);
+  });
 
   final AnimationController animationController;
 
@@ -118,7 +117,7 @@ class _BnbTutorialState extends State<_BnbTutorial> {
 }
 
 class _IconDownArrow extends StatelessWidget {
-  const _IconDownArrow({Key? key, this.number = 1}) : super(key: key);
+  const _IconDownArrow({this.number = 1});
 
   final int number;
 
@@ -144,9 +143,8 @@ class _IconDownArrow extends StatelessWidget {
 
 class _SkipTutorialButton extends StatelessWidget {
   const _SkipTutorialButton({
-    Key? key,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
 
@@ -169,7 +167,7 @@ class _SkipTutorialButton extends StatelessWidget {
 }
 
 class _BnBTutorialDescription extends StatelessWidget {
-  const _BnBTutorialDescription({Key? key}) : super(key: key);
+  const _BnBTutorialDescription();
 
   @override
   Widget build(BuildContext context) {
@@ -196,9 +194,8 @@ class _BnBTutorialDescription extends StatelessWidget {
 
 class _DemoBnb extends StatelessWidget {
   const _DemoBnb({
-    Key? key,
     required this.onTriedToSwipeUp,
-  }) : super(key: key);
+  });
 
   /// It can happens that a user tries to swipe up in the [_DemoBnb]. If this
   /// happens, [onTriedToSwipeUp] will be called to display further hints for
@@ -242,9 +239,8 @@ class _DemoBnb extends StatelessWidget {
 
 class _MovingFinger extends StatelessWidget {
   const _MovingFinger({
-    Key? key,
     required this.height,
-  }) : super(key: key);
+  });
 
   final double height;
 

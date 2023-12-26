@@ -18,10 +18,10 @@ class UserCommentField extends StatefulWidget {
   final String userAbbreviation;
 
   const UserCommentField({
-    Key? key,
+    super.key,
     this.textFieldMessage = "Gib deinen Senf ab...",
     this.userAbbreviation = "?",
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _UserCommentFieldState();

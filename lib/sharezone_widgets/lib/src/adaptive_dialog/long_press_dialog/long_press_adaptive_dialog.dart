@@ -37,8 +37,7 @@ Future<T?> showLongPressAdaptiveDialog<T>({
 }
 
 class _LongPressDialogMaterial<T> extends StatelessWidget {
-  const _LongPressDialogMaterial({Key? key, required this.longPressList})
-      : super(key: key);
+  const _LongPressDialogMaterial({super.key, required this.longPressList});
 
   final List<LongPress<T>> longPressList;
 
@@ -62,8 +61,7 @@ class _LongPressDialogMaterial<T> extends StatelessWidget {
 
 class _LongPressDialogCupertino<T> extends StatelessWidget {
   const _LongPressDialogCupertino(
-      {Key? key, this.title, this.subtitle, required this.longPressList})
-      : super(key: key);
+      {super.key, this.title, this.subtitle, required this.longPressList});
 
   final String? title, subtitle;
   final List<LongPress<T>> longPressList;

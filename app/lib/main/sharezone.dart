@@ -56,13 +56,13 @@ class Sharezone extends StatefulWidget {
   final bool isIntegrationTest;
 
   const Sharezone({
-    Key? key,
+    super.key,
     required this.blocDependencies,
     required this.dynamicLinkBloc,
     required this.beitrittsversuche,
     required this.flavor,
     this.isIntegrationTest = false,
-  }) : super(key: key);
+  });
 
   static Analytics analytics = Analytics(getBackend());
 
@@ -178,8 +178,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 }
 
 class _ThemeSettingsProvider extends StatelessWidget {
-  const _ThemeSettingsProvider({this.child, this.blocDependencies, Key? key})
-      : super(key: key);
+  const _ThemeSettingsProvider({this.child, this.blocDependencies});
 
   final Widget? child;
   final BlocDependencies? blocDependencies;

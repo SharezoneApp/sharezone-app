@@ -12,7 +12,7 @@ Color _getLessonCardTextColor(BuildContext context) =>
     Theme.of(context).isDarkTheme ? Colors.lightBlue : darkBlueColor;
 
 class _LessonCard extends StatelessWidget {
-  const _LessonCard(this.view, {Key? key}) : super(key: key);
+  const _LessonCard(this.view);
 
   final LessonView view;
 
@@ -81,12 +81,11 @@ class _LessonCard extends StatelessWidget {
 
 class _PassedLessonFade extends StatelessWidget {
   const _PassedLessonFade({
-    Key? key,
     this.hasAlreadyTakenPlace,
     this.child,
     this.lessonID,
     this.percentTimePassed,
-  }) : super(key: key);
+  });
 
   final Widget? child;
   final bool? hasAlreadyTakenPlace;
@@ -116,7 +115,7 @@ class _PassedLessonFade extends StatelessWidget {
 
 /// Erste Stunde = 1, zweite Stunde = 2, etc.
 class _LessonNumber extends StatelessWidget {
-  const _LessonNumber(this.periodNumber, {Key? key}) : super(key: key);
+  const _LessonNumber(this.periodNumber);
 
   final String? periodNumber;
 
@@ -136,7 +135,7 @@ class _LessonNumber extends StatelessWidget {
 }
 
 class _Time extends StatelessWidget {
-  const _Time({Key? key, this.start, this.end}) : super(key: key);
+  const _Time({this.start, this.end});
 
   final String? start, end;
 
@@ -161,7 +160,7 @@ class _Time extends StatelessWidget {
 }
 
 class _Room extends StatelessWidget {
-  const _Room({Key? key, this.room, this.isNow}) : super(key: key);
+  const _Room({this.room, this.isNow});
 
   final String? room;
   final bool? isNow;

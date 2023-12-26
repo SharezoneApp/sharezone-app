@@ -18,11 +18,10 @@ import '../widgets/file_page_app_bar.dart';
 class ViewInNewTabPage extends StatelessWidget {
   static const String tag = 'ViewInNewTabPage';
   const ViewInNewTabPage(
-      {Key? key,
+      {super.key,
       required this.attachment,
       required this.cloudFileAccessor,
-      this.actions})
-      : super(key: key);
+      this.actions});
 
   final CloudFile attachment;
   final CloudFileAccessor cloudFileAccessor;

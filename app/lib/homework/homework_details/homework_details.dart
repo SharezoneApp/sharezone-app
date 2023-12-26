@@ -125,9 +125,8 @@ class HomeworkDetails extends StatelessWidget {
 
 class _HomeworkDetailsBody extends StatelessWidget {
   const _HomeworkDetailsBody({
-    Key? key,
     required this.view,
-  }) : super(key: key);
+  });
 
   final HomeworkDetailsView view;
 
@@ -160,7 +159,7 @@ class _HomeworkDetailsBody extends StatelessWidget {
 class HomeworkTitleAppBar extends StatelessWidget {
   final HomeworkDetailsView? view;
 
-  const HomeworkTitleAppBar({Key? key, this.view}) : super(key: key);
+  const HomeworkTitleAppBar({super.key, this.view});
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +190,7 @@ class HomeworkTitleAppBar extends StatelessWidget {
 }
 
 class _DoneByTile extends StatelessWidget {
-  const _DoneByTile({Key? key, this.view}) : super(key: key);
+  const _DoneByTile({this.view});
 
   final HomeworkDetailsView? view;
 
@@ -229,8 +228,7 @@ class _DoneByTile extends StatelessWidget {
 class _UserSubmissionsTile extends StatelessWidget {
   const _UserSubmissionsTile({
     required this.view,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final HomeworkDetailsView view;
 
@@ -248,8 +246,7 @@ class _UserSubmissionsTile extends StatelessWidget {
 }
 
 class _UserSubmissionsTeacherTile extends StatelessWidget {
-  const _UserSubmissionsTeacherTile({Key? key, required this.view})
-      : super(key: key);
+  const _UserSubmissionsTeacherTile({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -293,8 +290,7 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
 }
 
 class _UserSubmissionsStudentTile extends StatelessWidget {
-  const _UserSubmissionsStudentTile({Key? key, required this.view})
-      : super(key: key);
+  const _UserSubmissionsStudentTile({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -358,7 +354,7 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key? key, required this.homework}) : super(key: key);
+  const _DeleteIcon({required this.homework});
 
   final HomeworkDto homework;
 
@@ -374,7 +370,7 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key? key, this.homework}) : super(key: key);
+  const _EditIcon({this.homework});
 
   final HomeworkDto? homework;
 
@@ -424,8 +420,7 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
-  const _BottomHomeworkIsDoneActionButton({Key? key, required this.view})
-      : super(key: key);
+  const _BottomHomeworkIsDoneActionButton({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -466,7 +461,7 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
 }
 
 class _HomeworkAuthorTile extends StatelessWidget {
-  const _HomeworkAuthorTile({Key? key, this.authorName}) : super(key: key);
+  const _HomeworkAuthorTile({this.authorName});
 
   final String? authorName;
 
@@ -481,7 +476,7 @@ class _HomeworkAuthorTile extends StatelessWidget {
 }
 
 class _HomeworkPrivateTile extends StatelessWidget {
-  const _HomeworkPrivateTile({Key? key, this.isPrivate}) : super(key: key);
+  const _HomeworkPrivateTile({this.isPrivate});
 
   final bool? isPrivate;
 
@@ -499,7 +494,7 @@ class _HomeworkPrivateTile extends StatelessWidget {
 }
 
 class _HomeworkDescription extends StatelessWidget {
-  const _HomeworkDescription({Key? key, this.description}) : super(key: key);
+  const _HomeworkDescription({this.description});
 
   final String? description;
 
@@ -535,7 +530,7 @@ class _HomeworkDescription extends StatelessWidget {
 }
 
 class _TodoUntil extends StatelessWidget {
-  const _TodoUntil({Key? key, this.todoUntil}) : super(key: key);
+  const _TodoUntil({this.todoUntil});
 
   final String? todoUntil;
 
@@ -549,7 +544,7 @@ class _TodoUntil extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key? key, this.courseName}) : super(key: key);
+  const _CourseTile({this.courseName});
 
   final String? courseName;
 
@@ -564,7 +559,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _AttachmentList extends StatelessWidget {
-  const _AttachmentList({Key? key, required this.view}) : super(key: key);
+  const _AttachmentList({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -594,7 +589,7 @@ class _AttachmentList extends StatelessWidget {
 }
 
 class HomeworkDetailsHomeworkTitle extends StatelessWidget {
-  const HomeworkDetailsHomeworkTitle({Key? key, this.title}) : super(key: key);
+  const HomeworkDetailsHomeworkTitle({super.key, this.title});
 
   final String? title;
 

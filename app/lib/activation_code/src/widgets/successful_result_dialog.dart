@@ -12,9 +12,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
   const SuccessfulEnterActivationCodeResultDialog({
-    Key? key,
+    super.key,
     required this.result,
-  }) : super(key: key);
+  });
 
   final SuccessfulEnterActivationCodeResult result;
 

@@ -17,7 +17,7 @@ class FilePage extends StatefulWidget {
   static const tag = "file-page";
 
   const FilePage({
-    Key? key,
+    super.key,
     required this.fileType,
     this.actions,
     required this.name,
@@ -26,8 +26,7 @@ class FilePage extends StatefulWidget {
     required this.id,
   })  : assert(!(fileType == FileFormat.pdf ||
             fileType == FileFormat.image ||
-            fileType == FileFormat.video)),
-        super(key: key);
+            fileType == FileFormat.video));
 
   final FileFormat fileType;
   final List<Widget>? actions;
@@ -106,10 +105,9 @@ class _FilePageState extends State<FilePage> {
 
 class _LoadingPage extends StatefulWidget {
   const _LoadingPage({
-    Key? key,
     required this.name,
     required this.nameStream,
-  }) : super(key: key);
+  });
 
   final String name;
   final Stream<String>? nameStream;
@@ -134,11 +132,10 @@ class _LoadingPageState extends State<_LoadingPage> {
 
 class _EmptyPage extends StatelessWidget {
   const _EmptyPage({
-    Key? key,
     required this.name,
     required this.nameStream,
     this.error,
-  }) : super(key: key);
+  });
 
   final String name;
   final Stream<String>? nameStream;

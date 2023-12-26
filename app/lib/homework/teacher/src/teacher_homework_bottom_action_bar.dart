@@ -13,9 +13,9 @@ import 'package:rxdart/rxdart.dart';
 
 class TeacherHomeworkBottomActionBar extends StatelessWidget {
   const TeacherHomeworkBottomActionBar({
-    Key? key,
+    super.key,
     required this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final Color? backgroundColor;
 

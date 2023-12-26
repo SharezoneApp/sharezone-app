@@ -15,7 +15,7 @@ import 'onboarding_navigator.dart';
 class OnboardingListener extends StatelessWidget {
   final Widget? child;
 
-  const OnboardingListener({Key? key, this.child}) : super(key: key);
+  const OnboardingListener({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {

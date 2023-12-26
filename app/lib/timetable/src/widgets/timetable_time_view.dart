@@ -60,11 +60,10 @@ class _PositionedPeriodTile extends StatelessWidget {
   final Time timetableBegin;
 
   const _PositionedPeriodTile({
-    Key? key,
     required this.period,
     required this.hourHeight,
     required this.timetableBegin,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +85,10 @@ class _PositionedHourTile extends StatelessWidget {
   final Time timetableBegin;
 
   const _PositionedHourTile({
-    Key? key,
     required this.hour,
     required this.hourHeight,
     required this.timetableBegin,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +107,8 @@ class _PeriodTile extends StatelessWidget {
   final Period period;
 
   const _PeriodTile({
-    Key? key,
     required this.period,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +162,8 @@ class _HourTile extends StatelessWidget {
   final Time hour;
 
   const _HourTile({
-    Key? key,
     required this.hour,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -124,5 +124,5 @@ class _TestValidator implements Validator {
 }
 
 class _TestInput extends Input {
-  _TestInput(List<Validator> validators) : super(validators);
+  _TestInput(super.validators);
 }

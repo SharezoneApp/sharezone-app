@@ -15,8 +15,8 @@ class MainContentMobile extends StatelessWidget {
   const MainContentMobile({
     required this.privacyPolicy,
     this.showBackButton = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;

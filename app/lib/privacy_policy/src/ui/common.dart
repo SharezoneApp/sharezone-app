@@ -19,8 +19,8 @@ import 'ui.dart';
 
 class PrivacyPolicyHeading extends StatelessWidget {
   const PrivacyPolicyHeading({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class PrivacyPolicyHeading extends StatelessWidget {
 
 class PrivacyPolicySubheading extends StatelessWidget {
   const PrivacyPolicySubheading({
-    Key? key,
+    super.key,
     required this.entersIntoForceOn,
-  }) : super(key: key);
+  });
 
   final DateTime? entersIntoForceOn;
 
@@ -67,8 +67,8 @@ class PrivacyPolicySubheading extends StatelessWidget {
 
 class ChangeAppearanceButton extends StatelessWidget {
   const ChangeAppearanceButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +95,14 @@ void showDisplaySettingsDialog(BuildContext context) {
 
 class DownloadAsPDFButton extends StatelessWidget {
   const DownloadAsPDFButton({
-    Key? key,
+    super.key,
     this.enabled = true,
-  })  : _isIconButton = false,
-        super(key: key);
+  })  : _isIconButton = false;
 
   const DownloadAsPDFButton.icon({
-    Key? key,
+    super.key,
     this.enabled = true,
-  })  : _isIconButton = true,
-        super(key: key);
+  })  : _isIconButton = true;
 
   final bool enabled;
   final bool _isIconButton;
@@ -133,10 +131,10 @@ class DownloadAsPDFButton extends StatelessWidget {
 
 class ExpansionArrow extends StatelessWidget {
   const ExpansionArrow({
-    Key? key,
+    super.key,
     required this.expansionArrowTurns,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final Animation<double>? expansionArrowTurns;
   final VoidCallback onPressed;
@@ -161,7 +159,7 @@ class ExpansionArrow extends StatelessWidget {
 /// Used to highlight a TOC section if it is currently read.
 class TocSectionHighlight extends StatelessWidget {
   const TocSectionHighlight({
-    Key? key,
+    super.key,
     required this.child,
     required this.shouldHighlight,
     required this.onTap,
@@ -169,7 +167,7 @@ class TocSectionHighlight extends StatelessWidget {
     this.shape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool shouldHighlight;
@@ -205,8 +203,8 @@ class PrivacyPolicyText extends StatelessWidget {
 
   const PrivacyPolicyText({
     required this.privacyPolicy,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

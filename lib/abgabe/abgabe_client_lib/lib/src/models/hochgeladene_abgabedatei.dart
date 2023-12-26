@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:common_domain_models/common_domain_models.dart';
 
 import 'abgabedatei.dart';
 import 'dateiname.dart';
@@ -17,15 +16,13 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
   final DateTime? zuletztBearbeitet;
 
   HochgeladeneAbgabedatei({
-    required AbgabedateiId id,
-    required Dateiname name,
+    required super.id,
+    required super.name,
     required Dateigroesse groesse,
     required this.downloadUrl,
     required DateTime erstellungsdatum,
     this.zuletztBearbeitet,
   }) : super(
-          id: id,
-          name: name,
           dateigroesse: groesse,
           erstellungsdatum: erstellungsdatum,
         ) {

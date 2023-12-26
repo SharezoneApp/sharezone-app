@@ -41,11 +41,11 @@ Future<T?> showColumnActionsAdaptiveDialog<T>({
 
 class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
   const _ColumnActionsDialogMaterial({
-    Key? key,
+    super.key,
     this.actions,
     this.title,
     this.message,
-  }) : super(key: key);
+  });
 
   final List<AdaptiveDialogAction<T>>? actions;
   final String? title;
@@ -79,8 +79,7 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
 
 class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
   const _ColumnActionsDialogCupertino(
-      {Key? key, this.actions, this.title, this.message})
-      : super(key: key);
+      {super.key, this.actions, this.title, this.message});
 
   final List<AdaptiveDialogAction<T>>? actions;
   final String? title;
@@ -99,7 +98,7 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
                   onPressed: () => Navigator.pop(context, action.popResult),
                   child: Text(action.title!),
                 ))
-            .toList(),
+            ,
         CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () => Navigator.pop(context),

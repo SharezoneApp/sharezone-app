@@ -19,11 +19,11 @@ import 'package:user/user.dart';
 
 class CommentSectionBuilder extends StatefulWidget {
   const CommentSectionBuilder({
-    Key? key,
+    super.key,
     required this.itemId,
     required this.commentOnType,
     required this.courseID,
-  }) : super(key: key);
+  });
 
   final String itemId;
   final CommentOnType commentOnType;
@@ -64,11 +64,10 @@ class _CommentSectionBuilderState extends State<CommentSectionBuilder> {
 
 class _CommentSectionStreamBuilder extends StatelessWidget {
   const _CommentSectionStreamBuilder({
-    Key? key,
     required this.widget,
     required this.api,
     required this.courseID,
-  }) : super(key: key);
+  });
 
   final CommentSectionBuilder widget;
   final SharezoneGateway api;

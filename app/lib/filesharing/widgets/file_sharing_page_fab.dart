@@ -24,7 +24,7 @@ import 'upload_file_dialog.dart';
 enum _FABAddOption { newFolder, camera, upload, gallery }
 
 class FileSharingPageFAB extends StatelessWidget {
-  const FileSharingPageFAB({Key? key, this.groupState}) : super(key: key);
+  const FileSharingPageFAB({super.key, this.groupState});
 
   final FileSharingPageStateGroup? groupState;
 
@@ -165,7 +165,7 @@ class FileSharingPageFAB extends StatelessWidget {
 }
 
 class _FABModalBottomSheetContent extends StatefulWidget {
-  const _FABModalBottomSheetContent({Key? key}) : super(key: key);
+  const _FABModalBottomSheetContent();
 
   @override
   __FABModalBottomSheetContentState createState() =>

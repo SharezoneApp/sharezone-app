@@ -18,9 +18,9 @@ class GroupQrCode extends StatelessWidget {
   final GroupInfo groupInfo;
 
   const GroupQrCode({
-    Key? key,
+    super.key,
     required this.groupInfo,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return QrImageView(

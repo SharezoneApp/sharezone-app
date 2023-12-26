@@ -20,7 +20,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../group_join_result_dialog.dart';
 
 class GroupJoinTextField extends StatefulWidget implements PreferredSizeWidget {
-  const GroupJoinTextField({Key? key}) : super(key: key);
+  const GroupJoinTextField({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(140);

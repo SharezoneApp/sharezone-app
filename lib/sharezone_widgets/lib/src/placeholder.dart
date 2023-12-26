@@ -16,7 +16,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// Hier wird definiert, wie das Widget aufgebaut sein soll
 class PlaceholderModel extends StatefulWidget {
   const PlaceholderModel({
-    Key? key,
+    super.key,
     this.title,
     this.subtitle,
     this.svgPath,
@@ -24,7 +24,7 @@ class PlaceholderModel extends StatefulWidget {
     required this.animateSVG,
     this.rivePath,
     this.riveAnimationName,
-  }) : super(key: key);
+  });
 
   final String? title, svgPath, rivePath;
   final Widget? subtitle;
@@ -111,7 +111,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
 
 class PlaceholderWidgetWithAnimation extends StatelessWidget {
   const PlaceholderWidgetWithAnimation({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     required this.svgPath,
@@ -119,7 +119,7 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
     this.animateSVG = false,
     this.scrollable = true,
     this.center = true,
-  }) : super(key: key);
+  });
 
   final String title, svgPath;
   final Widget? description;
@@ -145,7 +145,6 @@ class PlaceholderWidgetWithAnimation extends StatelessWidget {
 
 class _RotateAnimation extends StatelessWidget {
   _RotateAnimation({
-    Key? key,
     required this.controller,
     this.size,
     this.path,
@@ -163,8 +162,7 @@ class _RotateAnimation extends StatelessWidget {
               curve: Curves.ease, // Easy Ease Out
             ),
           ),
-        ),
-        super(key: key);
+        );
 
   final Animation<double> controller;
   final Animation<double> rotate;
@@ -202,11 +200,10 @@ class _RotateAnimation extends StatelessWidget {
 
 class _Rive extends StatelessWidget {
   const _Rive({
-    Key? key,
     required this.size,
     required this.path,
     required this.animationName,
-  }) : super(key: key);
+  });
 
   final Size? size;
   final String? path;
@@ -229,10 +226,10 @@ class _Rive extends StatelessWidget {
 /// Ghost SVG
 class SVGIcon extends StatefulWidget {
   const SVGIcon({
-    Key? key,
+    super.key,
     this.size,
     required this.path,
-  }) : super(key: key);
+  });
 
   final Size? size;
   final String? path;

@@ -11,11 +11,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingTextButton extends StatelessWidget {
   const GroupOnboardingTextButton({
-    Key? key,
+    super.key,
     this.text,
     this.onTap,
     this.icon,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final String? text;

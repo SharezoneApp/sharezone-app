@@ -192,8 +192,7 @@ class _MoreSection extends StatelessWidget {
 }
 
 class _SettingsSection extends StatelessWidget {
-  const _SettingsSection({Key? key, this.title, this.children})
-      : super(key: key);
+  const _SettingsSection({this.title, this.children});
 
   final String? title;
   final List<Widget>? children;

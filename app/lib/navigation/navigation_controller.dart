@@ -16,9 +16,9 @@ import 'models/navigation_item.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({
-    Key? key,
+    super.key,
     required this.fbMessagingConfigurator,
-  }) : super(key: key);
+  });
 
   final FirebaseMessagingCallbackConfigurator? fbMessagingConfigurator;
   @override

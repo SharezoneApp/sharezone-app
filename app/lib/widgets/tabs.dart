@@ -32,14 +32,13 @@ double _indexChangeProgress(TabController controller) {
 class SharezoneTabPageSelector extends StatelessWidget {
   /// Creates a compact widget that indicates which tab has been selected.
   const SharezoneTabPageSelector({
-    Key? key,
+    super.key,
     this.controller,
     this.indicatorSize = 12.0,
     this.color,
     this.selectedColor,
     this.withBorder,
-  })  : assert(indicatorSize > 0.0),
-        super(key: key);
+  })  : assert(indicatorSize > 0.0);
 
   /// This widget's selection and animation state.
   ///
@@ -145,11 +144,10 @@ class _TabPageSelectorIndicator extends StatelessWidget {
   ///
   /// The [backgroundColor], [borderColor], and [size] parameters must not be null.
   const _TabPageSelectorIndicator({
-    Key? key,
     this.backgroundColor,
     this.borderColor,
     required this.size,
-  }) : super(key: key);
+  });
 
   /// The indicator circle's background color.
   final Color? backgroundColor;

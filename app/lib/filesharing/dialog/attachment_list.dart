@@ -20,11 +20,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachmentStreamList extends StatelessWidget {
   const AttachmentStreamList({
-    Key? key,
+    super.key,
     required this.cloudFileStream,
     required this.courseID,
     this.initialAttachmentIDs,
-  }) : super(key: key);
+  });
 
   final Stream<List<CloudFile>> cloudFileStream;
   final String courseID;
@@ -58,7 +58,7 @@ class AttachmentStreamList extends StatelessWidget {
 }
 
 class _Placeholder extends StatelessWidget {
-  const _Placeholder({Key? key, this.initialAttachmentIDs}) : super(key: key);
+  const _Placeholder({this.initialAttachmentIDs});
 
   final List<String>? initialAttachmentIDs;
 
@@ -87,10 +87,10 @@ class _Placeholder extends StatelessWidget {
 
 class AttachmentList extends StatelessWidget {
   const AttachmentList({
-    Key? key,
+    super.key,
     this.cloudFiles,
     required this.courseID,
-  }) : super(key: key);
+  });
 
   final List<CloudFile>? cloudFiles;
   final String courseID;

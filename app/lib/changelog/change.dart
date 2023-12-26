@@ -19,12 +19,12 @@ class Change extends Release {
   late List<String> fixes;
 
   Change({
-    required Version version,
-    required DateTime releaseDate,
+    required super.version,
+    required super.releaseDate,
     required List<String> newFeatures,
     required List<String> improvements,
     required List<String> fixes,
-  }) : super(version: version, releaseDate: releaseDate) {
+  }) {
     this.newFeatures = LineStringList(newFeatures).toList();
     this.improvements = LineStringList(improvements).toList();
     this.fixes = LineStringList(fixes).toList();

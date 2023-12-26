@@ -19,11 +19,11 @@ import 'package:overlay_support/overlay_support.dart';
 /// ourselves with this class.
 class InAppNotification extends StatelessWidget {
   const InAppNotification({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.title,
     required this.body,
-  }) : super(key: key);
+  });
 
   /// Called when the user taps anywhere on the notification except the dismiss
   /// button. When [onTap] is called the notification will be removed from the

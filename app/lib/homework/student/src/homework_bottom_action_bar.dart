@@ -16,9 +16,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({
-    Key? key,
+    super.key,
     required this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final Color? backgroundColor;
 
@@ -61,9 +61,7 @@ class HomeworkBottomActionBar extends StatelessWidget {
 enum _BottomSheetAction { completeOverdue, abort }
 
 class _MoreActionsBottomSheet extends StatelessWidget {
-  const _MoreActionsBottomSheet({
-    Key? key,
-  }) : super(key: key);
+  const _MoreActionsBottomSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +90,7 @@ class _MoreActionsBottomSheet extends StatelessWidget {
 }
 
 class _CompleteOverdue extends StatelessWidget {
-  const _CompleteOverdue({
-    Key? key,
-  }) : super(key: key);
+  const _CompleteOverdue();
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +104,8 @@ class _CompleteOverdue extends StatelessWidget {
 
 class _MoreIdeas extends StatelessWidget {
   const _MoreIdeas({
-    Key? key,
     this.opacity = 1,
-  }) : super(key: key);
+  });
 
   final double opacity;
 
