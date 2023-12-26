@@ -121,7 +121,7 @@ dependencies:
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker: ^2.0.0+5
-  intl: ^0.19.0
+  intl: ^0.18.1
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
@@ -178,9 +178,7 @@ dependencies:
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
 # * ab wann der override entfernt werden kann.
-dependency_overrides:
-  intl: ^0.19.0
-
+# dependency_overrides:
 dev_dependencies:
   async: ^2.4.1
   built_collection: ^5.1.0
