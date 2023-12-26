@@ -31,7 +31,7 @@ dependencies:
     path: ../../platform_check
   util:
     path: ../../util
-  cloud_firestore: ^4.8.5
+  cloud_firestore: ^4.13.6
   fast_rsa: ^3.6.1
   firebase_auth: ^4.7.3
   rxdart: ^0.27.1

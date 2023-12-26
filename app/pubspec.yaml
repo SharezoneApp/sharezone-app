@@ -51,8 +51,8 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   clock: ^1.1.1
-  cloud_firestore: ^4.8.5
-  cloud_functions: ^4.4.0
+  cloud_firestore: ^4.13.6
+  cloud_functions: ^4.5.8
   collection: ^1.17.2
   common_domain_models:
     path: ../lib/common_domain_models
@@ -77,13 +77,13 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^4.7.3
-  firebase_core: ^2.15.1
+  firebase_auth: ^4.15.3
+  firebase_core: ^2.24.2
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^14.6.6
-  firebase_performance: ^0.9.2+5
-  firebase_storage: ^11.2.6
+  firebase_messaging: ^14.7.9
+  firebase_performance: ^0.9.3+8
+  firebase_storage: ^11.5.6
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter

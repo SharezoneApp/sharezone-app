@@ -30,12 +30,11 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
-  cloud_firestore: ^4.8.5
+  cloud_firestore: ^4.13.6
   firebase_auth: ^4.7.3
   google_sign_in: ^6.1.6
   meta: ^1.1.8
   rxdart: ^0.27.1
-  firebase_auth_platform_interface: ^6.16.2
 
 dev_dependencies:
   flutter_test:
