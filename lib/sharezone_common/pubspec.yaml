@@ -28,7 +28,7 @@ dependencies:
   helper_functions:
     path: ../helper_functions
 
-  intl: ^0.18.1
+  intl: ^0.19.0
   quiver: any
 
 dev_dependencies:

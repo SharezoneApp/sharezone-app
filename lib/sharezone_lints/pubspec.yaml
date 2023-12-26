@@ -24,4 +24,4 @@ dependencies:
   # The flutter_lints packages depends on the lints packages and does it the
   # same way:
   # https://github.com/flutter/packages/blob/master/packages/flutter_lints/pubspec.yaml
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1

@@ -30,7 +30,7 @@ dependencies:
   meta: ^1.1.8
   mime: ^1.0.0
   path: ^1.8.3
-  permission_handler: ^10.2.0
+  permission_handler: ^11.1.0
   helper_functions:
     path: ../../helper_functions
 

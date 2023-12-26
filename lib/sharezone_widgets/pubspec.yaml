@@ -22,10 +22,10 @@ dependencies:
   flutter_svg: ^2.0.2
   flutter_staggered_animations: ^1.1.1
   flare_flutter: ^3.0.2
-  intl: ^0.18.1
+  intl: ^0.19.0
   platform_check:
     path: ../platform_check
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   rxdart: ^0.27.1
   flutter:
     sdk: flutter
