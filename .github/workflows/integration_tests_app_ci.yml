@@ -97,7 +97,7 @@ jobs:
 
       - uses: subosito/flutter-action@main
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
@@ -187,7 +187,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
@@ -248,7 +248,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
           # Use format expected by FVM.
           # Else this won't be recognized as an installed version when setting
@@ -332,7 +332,7 @@ jobs:
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       # We need to install the FlutterFire CLI because we have Build Phases in
