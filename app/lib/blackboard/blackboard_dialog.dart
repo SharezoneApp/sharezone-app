@@ -31,11 +31,11 @@ import 'details/blackboard_details.dart';
 
 class BlackboardDialog extends StatefulWidget {
   const BlackboardDialog({
-    Key? key,
+    super.key,
     this.blackboardItem,
     this.course,
     this.popTwice = true,
-  }) : super(key: key);
+  });
 
   static const tag = "blackboard-dialog-page";
 
@@ -82,12 +82,11 @@ class _BlackboardDialog extends StatefulWidget {
   final bool popTwice;
 
   const _BlackboardDialog({
-    Key? key,
     this.oldBlackboardItem,
     this.course,
     required this.bloc,
     required this.popTwice,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => __BlackboardDialogState();
@@ -186,11 +185,10 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
 
 class _SaveButton extends StatelessWidget {
   const _SaveButton({
-    Key? key,
     this.oldBlackboardItem,
     required this.popTwice,
     required this.editMode,
-  }) : super(key: key);
+  });
 
   final BlackboardItem? oldBlackboardItem;
   final bool popTwice;
@@ -260,13 +258,12 @@ class _SaveButton extends StatelessWidget {
 
 class _AppBar extends StatelessWidget {
   const _AppBar({
-    Key? key,
     required this.oldBlackboardItem,
     required this.editMode,
     required this.popTwice,
     required this.focusNodeTitle,
     required this.onCloseTap,
-  }) : super(key: key);
+  });
 
   final BlackboardItem? oldBlackboardItem;
   final bool editMode;
@@ -321,10 +318,9 @@ class _AppBar extends StatelessWidget {
 
 class _TitleField extends StatelessWidget {
   const _TitleField({
-    Key? key,
     required this.initialTitle,
     required this.focusNode,
-  }) : super(key: key);
+  });
 
   final FocusNode focusNode;
   final String? initialTitle;
@@ -373,7 +369,7 @@ class _TitleField extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key? key, required this.editMode}) : super(key: key);
+  const _CourseTile({required this.editMode});
 
   final bool editMode;
 
@@ -495,7 +491,7 @@ class _AttachFile extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification({Key? key, this.editMode = true}) : super(key: key);
+  const _SendNotification({this.editMode = true});
 
   final bool editMode;
 

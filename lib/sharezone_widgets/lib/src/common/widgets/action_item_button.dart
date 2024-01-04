@@ -13,7 +13,7 @@ import '../models/action_item.dart';
 class ActionItemButton extends StatelessWidget {
   final ActionItem? item;
 
-  const ActionItemButton({Key? key, this.item}) : super(key: key);
+  const ActionItemButton({super.key, this.item});
 
   @override
   Widget build(BuildContext context) {

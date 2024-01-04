@@ -14,12 +14,12 @@ import 'package:flutter/material.dart';
 /// bis [controller.length] das [endWidget] angezeigt.
 class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
   const FadeSwitchBetweenIndexWithTabController({
-    Key? key,
+    super.key,
     this.controller,
     required this.startWidget,
     required this.endWidget,
     required this.transitionPoint,
-  }) : super(key: key);
+  });
 
   /// If a [TabController] is not provided, then there must be a [DefaultTabController]
   /// ancestor.
@@ -64,11 +64,10 @@ class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
 
 class _FadeBetween extends StatelessWidget {
   const _FadeBetween({
-    Key? key,
     required this.value,
     required this.to,
     required this.from,
-  }) : super(key: key);
+  });
 
   final double value;
   final Widget from;

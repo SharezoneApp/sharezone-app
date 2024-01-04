@@ -48,7 +48,7 @@ Future<void> _showUserConfirmationOfBlackboardArrival({
 }
 
 class BlackboardPage extends StatelessWidget {
-  const BlackboardPage({Key? key}) : super(key: key);
+  const BlackboardPage({super.key});
 
   static const tag = "blackboard-page";
 
@@ -70,7 +70,7 @@ class BlackboardPage extends StatelessWidget {
 }
 
 class _BlackboardPageFAB extends StatelessWidget {
-  const _BlackboardPageFAB({Key? key}) : super(key: key);
+  const _BlackboardPageFAB();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class _BlackboardList extends StatelessWidget {
 }
 
 class _NoItemsFound extends StatelessWidget {
-  const _NoItemsFound({Key? key}) : super(key: key);
+  const _NoItemsFound();
 
   @override
   Widget build(BuildContext context) {

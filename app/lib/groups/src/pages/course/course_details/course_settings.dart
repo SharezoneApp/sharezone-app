@@ -24,9 +24,9 @@ void showExplanation(BuildContext context, String text) {
 
 class CourseSettingsCard extends StatelessWidget {
   const CourseSettingsCard({
-    Key? key,
+    super.key,
     required this.course,
-  }) : super(key: key);
+  });
 
   final Course course;
 
@@ -52,9 +52,8 @@ class CourseSettingsCard extends StatelessWidget {
 
 class _IsPublic extends StatelessWidget {
   const _IsPublic({
-    Key? key,
     required this.isPublic,
-  }) : super(key: key);
+  });
 
   final bool isPublic;
 

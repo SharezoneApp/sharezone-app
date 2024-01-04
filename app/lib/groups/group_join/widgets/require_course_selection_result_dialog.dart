@@ -14,9 +14,9 @@ class RequireCourseSelectionsJoinResultDialog extends StatelessWidget {
   final RequireCourseSelectionsJoinResult result;
 
   const RequireCourseSelectionsJoinResultDialog({
-    Key? key,
+    super.key,
     required this.result,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

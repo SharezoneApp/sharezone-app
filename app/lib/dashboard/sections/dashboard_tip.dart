@@ -26,7 +26,7 @@ class _DashboardTipSection extends StatelessWidget {
 }
 
 class _DashboardTipCard extends StatelessWidget {
-  const _DashboardTipCard(this.dashboardTip, {Key? key}) : super(key: key);
+  const _DashboardTipCard(this.dashboardTip);
 
   final DashboardTip dashboardTip;
 

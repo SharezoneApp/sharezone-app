@@ -12,9 +12,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FileIcon extends StatelessWidget {
   const FileIcon({
-    Key? key,
+    super.key,
     required this.fileFormat,
-  }) : super(key: key);
+  });
 
   final FileFormat fileFormat;
 

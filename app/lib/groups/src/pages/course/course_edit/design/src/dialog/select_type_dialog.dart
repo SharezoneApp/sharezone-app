@@ -19,7 +19,9 @@ class _SelectTypePopResult {
 }
 
 class _SelectTypeDialog extends StatelessWidget {
-  const _SelectTypeDialog({Key? key, required this.bloc}) : super(key: key);
+  const _SelectTypeDialog({
+    required this.bloc,
+  });
 
   final CourseEditDesignBloc bloc;
 
@@ -39,7 +41,7 @@ class _SelectTypeDialog extends StatelessWidget {
 }
 
 class _CourseDesign extends StatelessWidget {
-  const _CourseDesign({Key? key}) : super(key: key);
+  const _CourseDesign();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class _CourseDesign extends StatelessWidget {
 }
 
 class _PersonalDesign extends StatelessWidget {
-  const _PersonalDesign({Key? key}) : super(key: key);
+  const _PersonalDesign();
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +143,10 @@ class _DesignTypeSection extends StatelessWidget {
 
 class _ColorCircleSelectType extends StatelessWidget {
   const _ColorCircleSelectType({
-    Key? key,
     required this.design,
     this.hasPermission = true,
     this.size = 50,
-  }) : super(key: key);
+  });
 
   final Design? design;
   final bool hasPermission;

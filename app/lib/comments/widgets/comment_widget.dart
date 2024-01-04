@@ -31,7 +31,7 @@ class Comment extends StatelessWidget {
   final VoidCallback onReport;
 
   const Comment({
-    Key? key,
+    super.key,
     this.avatarText = "?",
     this.userComment = "",
     this.userName = "Max Mustermann",
@@ -42,7 +42,7 @@ class Comment extends StatelessWidget {
     required this.onRated,
     required this.onReport,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   Comment.fromView(
     CommentView comment, {
@@ -204,7 +204,7 @@ class Comment extends StatelessWidget {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({Key? key, required this.avatarText}) : super(key: key);
+  const _Avatar({required this.avatarText});
 
   final String avatarText;
 
@@ -225,12 +225,11 @@ enum _CommentSheetAction { copy, report, delete }
 
 class _CommentSheet extends StatelessWidget {
   const _CommentSheet({
-    Key? key,
     required this.avatarAbbreviation,
     required this.authorName,
     required this.content,
     required this.hasPermissionsToMangeComments,
-  }) : super(key: key);
+  });
 
   final String avatarAbbreviation;
   final String authorName;

@@ -36,10 +36,10 @@ class AuthApp extends StatefulWidget {
   final BlocDependencies blocDependencies;
 
   const AuthApp({
-    Key? key,
+    super.key,
     required this.analytics,
     required this.blocDependencies,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _AuthAppState();

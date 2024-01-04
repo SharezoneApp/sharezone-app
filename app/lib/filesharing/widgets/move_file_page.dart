@@ -36,7 +36,7 @@ Future<void> openMoveFilePage(
 }
 
 class _MoveFilePage extends StatelessWidget {
-  const _MoveFilePage({Key? key}) : super(key: key);
+  const _MoveFilePage();
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +126,7 @@ class _FolderList extends StatelessWidget {
 }
 
 class _EmptyFoldersList extends StatelessWidget {
-  const _EmptyFoldersList({
-    Key? key,
-  }) : super(key: key);
+  const _EmptyFoldersList();
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +165,7 @@ class _FolderCard extends StatelessWidget {
 }
 
 class _MoveFileBottomBar extends StatelessWidget {
-  const _MoveFileBottomBar({Key? key}) : super(key: key);
+  const _MoveFileBottomBar();
 
   @override
   Widget build(BuildContext context) {

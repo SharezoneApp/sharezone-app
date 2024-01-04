@@ -193,12 +193,11 @@ class _SupportPlanBase extends StatelessWidget {
 
 class _SupportCard extends StatelessWidget {
   const _SupportCard({
-    Key? key,
     required this.icon,
     required this.title,
     this.subtitle,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -398,7 +397,7 @@ class _DiscordTile extends StatelessWidget {
 }
 
 class _NoteAboutPrivacyPolicy extends StatelessWidget {
-  const _NoteAboutPrivacyPolicy({Key? key}) : super(key: key);
+  const _NoteAboutPrivacyPolicy();
 
   @override
   Widget build(BuildContext context) {

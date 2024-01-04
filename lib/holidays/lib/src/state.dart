@@ -23,6 +23,7 @@
 /// SH	Schleswig-Holstein
 /// TH	Thüringen
 /// DE	Deutschland (Nur bei Feiertagen verfügbar)
+library;
 
 abstract class State {
   const State();

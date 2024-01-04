@@ -12,13 +12,13 @@ import 'theme/brightness/general_theme.dart';
 
 class RoundedSimpleDialog extends StatelessWidget {
   const RoundedSimpleDialog({
-    Key? key,
+    super.key,
     this.title,
     this.children,
     this.contentPadding = const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
     this.titlePadding = const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   final List<Widget>? children;
   final EdgeInsetsGeometry contentPadding;

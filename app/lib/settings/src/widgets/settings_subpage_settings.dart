@@ -11,10 +11,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SettingsSubpageSection extends StatelessWidget {
   const SettingsSubpageSection({
-    Key? key,
+    super.key,
     this.title,
     this.children,
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Widget>? children;

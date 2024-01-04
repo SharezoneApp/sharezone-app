@@ -18,7 +18,7 @@ typedef SharezoneAnimatedStreamListItemBuilder<T> = Widget Function(
 
 class SharezoneAnimatedStreamList<E> extends StatelessWidget {
   const SharezoneAnimatedStreamList({
-    Key? key,
+    super.key,
     required this.listStream,
     required this.itemBuilder,
     required this.itemRemovedBuilder,
@@ -28,7 +28,7 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
     this.scrollDirection = Axis.vertical,
     this.padding,
     this.initialList,
-  }) : super(key: key);
+  });
 
   final Stream<List<E>> listStream;
   final List<E>? initialList;

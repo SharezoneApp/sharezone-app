@@ -41,14 +41,14 @@ import 'package:time/time.dart';
 
 class HomeworkDialog extends StatefulWidget {
   const HomeworkDialog({
-    Key? key,
+    super.key,
     required this.id,
     this.homeworkDialogApi,
     this.nextLessonCalculator,
     this.showDueDateSelectionChips = kDebugMode ||
         kDevelopmentStage == 'ALPHA' ||
         kDevelopmentStage == 'BETA',
-  }) : super(key: key);
+  });
 
   static const tag = "homework-dialog";
 
@@ -155,11 +155,11 @@ class HwDialogKeys {
 @visibleForTesting
 class HomeworkDialogMain extends StatefulWidget {
   const HomeworkDialogMain({
-    Key? key,
+    super.key,
     required this.isEditing,
     required this.bloc,
     this.showDueDateSelectionChips = false,
-  }) : super(key: key);
+  });
 
   final bool isEditing;
   final bool showDueDateSelectionChips;
@@ -303,7 +303,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
 }
 
 class _MobileDivider extends StatelessWidget {
-  const _MobileDivider({Key? key}) : super(key: key);
+  const _MobileDivider();
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +323,7 @@ class HwDialogErrorStrings {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key? key, this.editMode = false}) : super(key: key);
+  const _SaveButton({this.editMode = false});
 
   final bool editMode;
 
@@ -743,12 +743,11 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
 class _AppBar extends StatelessWidget {
   const _AppBar({
-    Key? key,
     required this.editMode,
     required this.focusNodeTitle,
     required this.onCloseTap,
     required this.titleField,
-  }) : super(key: key);
+  });
 
   final bool editMode;
   final VoidCallback onCloseTap;
@@ -822,12 +821,11 @@ class _TitleField extends StatelessWidget {
 
 class _TitleFieldBase extends StatelessWidget {
   const _TitleFieldBase({
-    Key? key,
     required this.prefilledTitle,
     required this.onChanged,
     this.errorText,
     this.focusNode,
-  }) : super(key: key);
+  });
 
   final String? prefilledTitle;
   final String? errorText;
@@ -875,7 +873,7 @@ class _TitleFieldBase extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key? key, required this.state}) : super(key: key);
+  const _CourseTile({required this.state});
 
   final Ready state;
 
@@ -912,7 +910,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification({Key? key, required this.state}) : super(key: key);
+  const _SendNotification({required this.state});
 
   final Ready state;
 
@@ -1098,13 +1096,13 @@ class _SubmissionsSwitch extends StatelessWidget {
 
 class _SubmissionsSwitchBase extends StatelessWidget {
   const _SubmissionsSwitchBase({
-    Key? key,
+    super.key,
     required this.isWidgetEnabled,
     required this.submissionsEnabled,
     required this.onChanged,
     required this.onTimeChanged,
     required this.time,
-  }) : super(key: key);
+  });
 
   final bool isWidgetEnabled;
   final bool submissionsEnabled;
@@ -1158,9 +1156,8 @@ class _SubmissionsSwitchBase extends StatelessWidget {
 
 class _PrivateHomeworkSwitch extends StatelessWidget {
   const _PrivateHomeworkSwitch({
-    Key? key,
     required this.state,
-  }) : super(key: key);
+  });
 
   final Ready state;
 

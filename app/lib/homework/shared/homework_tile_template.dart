@@ -22,7 +22,7 @@ class HomeworkTileTemplate extends StatelessWidget {
   final String? heroTag;
 
   const HomeworkTileTemplate({
-    Key? key,
+    super.key,
     required this.title,
     required this.courseName,
     required this.todoDate,
@@ -33,7 +33,7 @@ class HomeworkTileTemplate extends StatelessWidget {
     required this.onTap,
     required this.onLongPress,
     this.heroTag,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -15,19 +15,18 @@ class StateDialogSimpleBody extends StatelessWidget {
   final String? description;
 
   const StateDialogSimpleBody({
-    Key? key,
+    super.key,
     this.iconData,
     this.iconColor,
     this.description,
-  }) : super(key: key);
+  });
 
   StateDialogSimpleBody.fromSimpleData({
-    Key? key,
+    super.key,
     required SimpleData simpleData,
   })  : iconData = simpleData.iconData,
         iconColor = simpleData.iconColor,
-        description = simpleData.description,
-        super(key: key);
+        description = simpleData.description;
 
   @override
   Widget build(BuildContext context) {

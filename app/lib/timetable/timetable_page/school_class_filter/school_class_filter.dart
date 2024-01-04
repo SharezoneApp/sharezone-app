@@ -26,8 +26,7 @@ import 'school_class_filter_view.dart';
 /// Feature ist vor allem für Eltern sehr hilfreich, um den Stundenplan nur für
 /// ein bestimmtes Kind anzuzeigen.
 class SchoolClassFilterBottomBar extends StatefulWidget {
-  const SchoolClassFilterBottomBar({Key? key, this.backgroundColor})
-      : super(key: key);
+  const SchoolClassFilterBottomBar({super.key, this.backgroundColor});
 
   final Color? backgroundColor;
 
@@ -196,9 +195,8 @@ class _SchoolClassFilterBottomBarState
 
 class _Text extends StatelessWidget {
   const _Text({
-    Key? key,
     required this.view,
-  }) : super(key: key);
+  });
 
   final SchoolClassFilterView view;
 
@@ -216,11 +214,10 @@ class _Text extends StatelessWidget {
 
 class _DesktopMenuTile extends StatelessWidget {
   const _DesktopMenuTile({
-    Key? key,
     required this.title,
     required this.isSelected,
     required this.filter,
-  }) : super(key: key);
+  });
 
   final String title;
   final bool isSelected;
@@ -253,7 +250,7 @@ class _DesktopMenuTile extends StatelessWidget {
 }
 
 class _SelectionSheet extends StatelessWidget {
-  const _SelectionSheet({Key? key, required this.view}) : super(key: key);
+  const _SelectionSheet({required this.view});
 
   final SchoolClassFilterView view;
 
@@ -289,11 +286,10 @@ class _SelectionSheet extends StatelessWidget {
 
 class _SelectionSheetTile extends StatelessWidget {
   const _SelectionSheetTile({
-    Key? key,
     required this.isSelected,
     required this.title,
     required this.filter,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final String title;

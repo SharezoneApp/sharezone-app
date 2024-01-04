@@ -32,7 +32,7 @@ Future<void> showUploadFileDialog({
 }
 
 class _UploadFileDialogContent extends StatefulWidget {
-  const _UploadFileDialogContent({Key? key, this.task}) : super(key: key);
+  const _UploadFileDialogContent({this.task});
 
   final Future<UploadTask>? task;
 
@@ -86,7 +86,7 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
 }
 
 class _UploadingDialog extends StatelessWidget {
-  const _UploadingDialog({Key? key, required this.percent}) : super(key: key);
+  const _UploadingDialog({required this.percent});
 
   final double percent;
 
@@ -114,8 +114,7 @@ class _UploadingDialog extends StatelessWidget {
 }
 
 class _UploadingDialogFailure extends StatelessWidget {
-  const _UploadingDialogFailure({Key? key, required this.error})
-      : super(key: key);
+  const _UploadingDialogFailure({required this.error});
 
   final dynamic error;
 

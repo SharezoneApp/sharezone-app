@@ -153,7 +153,7 @@ class _TimetableEditFAB extends StatelessWidget {
 }
 
 class _CourseField extends StatelessWidget {
-  const _CourseField(this.initialEvent, {Key? key}) : super(key: key);
+  const _CourseField(this.initialEvent);
 
   final CalendricalEvent initialEvent;
 
@@ -205,7 +205,7 @@ class _CourseField extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField(this.initialEvent, {Key? key}) : super(key: key);
+  const _TitleField(this.initialEvent);
 
   final CalendricalEvent initialEvent;
 
@@ -295,7 +295,7 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialEvent, {Key? key}) : super(key: key);
+  const _RoomField(this.initialEvent);
 
   final CalendricalEvent initialEvent;
 
@@ -348,7 +348,7 @@ class _SendNotificationField extends StatelessWidget {
 }
 
 class _DetailField extends StatelessWidget {
-  const _DetailField(this.initialEvent, {Key? key}) : super(key: key);
+  const _DetailField(this.initialEvent);
 
   final CalendricalEvent initialEvent;
 

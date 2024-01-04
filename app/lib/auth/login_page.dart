@@ -62,23 +62,21 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
-    Key? key,
+    super.key,
     this.withBackIcon = true,
     this.withQrCodeLogin = false,
     this.withRegistrationButton = false,
-  }) : super(key: key);
+  });
 
-  const LoginPage.desktop({Key? key})
+  const LoginPage.desktop({super.key})
       : withBackIcon = false,
         withQrCodeLogin = true,
-        withRegistrationButton = true,
-        super(key: key);
+        withRegistrationButton = true;
 
-  const LoginPage.mobile({Key? key})
+  const LoginPage.mobile({super.key})
       : withBackIcon = true,
         withQrCodeLogin = false,
-        withRegistrationButton = false,
-        super(key: key);
+        withRegistrationButton = false;
 
   static const tag = "login-page";
 
@@ -251,10 +249,9 @@ class _DebugLoginButtons extends StatelessWidget {
 
 class _EmailPassword extends StatelessWidget {
   const _EmailPassword({
-    Key? key,
     required this.passwordFocusNode,
     required this.onEditingComplete,
-  }) : super(key: key);
+  });
 
   final FocusNode passwordFocusNode;
   final VoidCallback onEditingComplete;
@@ -285,9 +282,7 @@ class _EmailPassword extends StatelessWidget {
 }
 
 class _LoadingCircle extends StatelessWidget {
-  const _LoadingCircle({
-    Key? key,
-  }) : super(key: key);
+  const _LoadingCircle();
 
   @override
   Widget build(BuildContext context) {
@@ -337,10 +332,9 @@ class _RegistrationSection extends StatelessWidget {
 
 class _PasswordField extends StatelessWidget {
   const _PasswordField({
-    Key? key,
     required this.passwordFocusNode,
     required this.onEditingComplete,
-  }) : super(key: key);
+  });
 
   final FocusNode passwordFocusNode;
   final VoidCallback onEditingComplete;
@@ -358,9 +352,7 @@ class _PasswordField extends StatelessWidget {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({
-    Key? key,
-  }) : super(key: key);
+  const _Logo();
 
   @override
   Widget build(BuildContext context) {
@@ -374,13 +366,13 @@ class _Logo extends StatelessWidget {
 
 class EmailLoginField extends StatelessWidget {
   const EmailLoginField({
-    Key? key,
+    super.key,
     required this.emailStream,
     required this.onChanged,
     required this.passwordFocusNode,
     this.autofocus = false,
     this.emailFocusNode,
-  }) : super(key: key);
+  });
 
   final FocusNode? emailFocusNode;
   final FocusNode passwordFocusNode;
@@ -417,13 +409,13 @@ class EmailLoginField extends StatelessWidget {
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
-    Key? key,
+    super.key,
     required this.focusNode,
     required this.passwordStream,
     required this.onChanged,
     required this.onEditingComplete,
     this.isNewPassword = false,
-  }) : super(key: key);
+  });
 
   final FocusNode focusNode;
   final Stream<String?> passwordStream;
@@ -508,9 +500,8 @@ class _ResetPasswordButton extends StatelessWidget {
 
 class _LoginWithGoogleButton extends StatelessWidget {
   const _LoginWithGoogleButton({
-    Key? key,
     required this.onLogin,
-  }) : super(key: key);
+  });
 
   final VoidCallback onLogin;
 
@@ -546,9 +537,8 @@ class _LoginWithQrCodeButton extends StatelessWidget {
 
 class _LoginWithAppleButton extends StatelessWidget {
   const _LoginWithAppleButton({
-    Key? key,
     required this.onLogin,
-  }) : super(key: key);
+  });
 
   final VoidCallback onLogin;
 
@@ -569,11 +559,10 @@ class _LoginWithAppleButton extends StatelessWidget {
 
 class _SignWithOAuthButton extends StatelessWidget {
   const _SignWithOAuthButton({
-    Key? key,
     required this.icon,
     required this.text,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String text;

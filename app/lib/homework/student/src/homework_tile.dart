@@ -31,10 +31,10 @@ class HomeworkTile extends StatefulWidget {
   final StatusChangeCallback onChanged;
 
   const HomeworkTile({
-    Key? key,
+    super.key,
     required this.homework,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _HomeworkTileState();
@@ -155,9 +155,8 @@ class _SubmissionUploadButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _SubmissionUploadButton({
-    Key? key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -173,10 +172,9 @@ class _Checkbox extends StatelessWidget {
   final void Function(bool? isCompleted) onCompletionChange;
 
   const _Checkbox({
-    Key? key,
     required this.isHomeworkCompleted,
     required this.onCompletionChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

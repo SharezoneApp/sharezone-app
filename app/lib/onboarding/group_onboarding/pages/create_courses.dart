@@ -22,9 +22,9 @@ import 'share_sharecode.dart';
 
 class GroupOnboardingCreateCourse extends StatelessWidget {
   const GroupOnboardingCreateCourse({
-    Key? key,
+    super.key,
     required this.schoolClassId,
-  }) : super(key: key);
+  });
 
   static const tag = 'onboarding-course-page';
   final String? schoolClassId;
@@ -70,9 +70,8 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
 
 class _CreateCustomCourse extends StatelessWidget {
   const _CreateCustomCourse({
-    Key? key,
     required this.schoolClassId,
-  }) : super(key: key);
+  });
 
   final String? schoolClassId;
 

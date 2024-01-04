@@ -19,6 +19,7 @@
 ///         firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds);
 ///     final homeworkPageBloc = createHomeworkPageBloc(dependencies, config);
 /// ```
+library;
 
 export 'src/setup/config.dart';
 export 'src/setup/dependencies.dart';

@@ -15,9 +15,9 @@ class ErrorJoinResultDialog extends StatelessWidget {
   final ErrorJoinResult errorJoinResult;
 
   const ErrorJoinResultDialog({
-    Key? key,
+    super.key,
     required this.errorJoinResult,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     if (errorJoinResult.groupJoinException is NoInternetGroupJoinException) {

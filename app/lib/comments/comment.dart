@@ -52,20 +52,13 @@ class CommentAge extends Duration {
   static const CommentAge zero = CommentAge(seconds: 0);
 
   const CommentAge({
-    int days = 0,
-    int hours = 0,
-    int minutes = 0,
-    int seconds = 0,
-    int milliseconds = 0,
-    int microseconds = 0,
-  }) : super(
-          days: days,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
-          milliseconds: milliseconds,
-          microseconds: microseconds,
-        );
+    super.days,
+    super.hours,
+    super.minutes,
+    super.seconds,
+    super.milliseconds,
+    super.microseconds,
+  });
 
   factory CommentAge.fromDuration(Duration duration) {
     return CommentAge(microseconds: duration.inMicroseconds);

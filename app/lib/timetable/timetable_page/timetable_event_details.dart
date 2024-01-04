@@ -242,10 +242,9 @@ class _TimetableEventDetailsPage extends StatelessWidget {
 
 class _TitleAndDate extends StatelessWidget {
   const _TitleAndDate({
-    Key? key,
     required this.design,
     required this.event,
-  }) : super(key: key);
+  });
 
   final Design? design;
   final CalendricalEvent event;
@@ -273,9 +272,8 @@ class _TitleAndDate extends StatelessWidget {
 
 class _Square extends StatelessWidget {
   const _Square({
-    Key? key,
     required this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -296,7 +294,7 @@ class _Square extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key? key}) : super(key: key);
+  const _DeleteIcon();
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +307,7 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key? key}) : super(key: key);
+  const _EditIcon();
 
   @override
   Widget build(BuildContext context) {
@@ -325,8 +323,7 @@ class _EditIcon extends StatelessWidget {
 /// Bei dem Kalendar auf dem Gerät wird direkt der Hinzufügen-Dialog mit den jeweiligen
 /// Daten aus dem [event] vorausgefüllt geöffnet.
 class _AddToMyCalendarButton extends StatelessWidget {
-  const _AddToMyCalendarButton({Key? key, required this.event})
-      : super(key: key);
+  const _AddToMyCalendarButton({required this.event});
 
   final CalendricalEvent event;
 

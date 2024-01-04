@@ -23,7 +23,7 @@ import 'src/teacher_homework_bottom_action_bar.dart';
 import 'src/teacher_open_homework_list.dart';
 
 class TeacherHomeworkPage extends StatelessWidget {
-  const TeacherHomeworkPage({Key? key}) : super(key: key);
+  const TeacherHomeworkPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class TeacherHomeworkPage extends StatelessWidget {
 final Color? overscrollColor = Colors.grey[600];
 
 class TeacherHomeworkBody extends StatelessWidget {
-  const TeacherHomeworkBody({Key? key}) : super(key: key);
+  const TeacherHomeworkBody({super.key});
 
   @override
   Widget build(BuildContext context) {

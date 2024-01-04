@@ -38,13 +38,12 @@ class AlternatingColoredList extends StatelessWidget {
   final AlternatingColoredListTheme? theme;
 
   const AlternatingColoredList({
-    Key? key,
+    super.key,
     required this.itemCount,
     required this.itemBuilder,
     this.alternatingInterval = 2,
     this.theme,
-  })  : assert(alternatingInterval > 0),
-        super(key: key);
+  }) : assert(alternatingInterval > 0);
 
   @override
   Widget build(BuildContext context) {

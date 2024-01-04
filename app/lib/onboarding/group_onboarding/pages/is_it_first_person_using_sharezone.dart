@@ -54,7 +54,7 @@ class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
 }
 
 class _JoinGroupButton extends StatelessWidget {
-  const _JoinGroupButton({Key? key}) : super(key: key);
+  const _JoinGroupButton();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _JoinGroupButton extends StatelessWidget {
 }
 
 class _CreateGroupsButton extends StatelessWidget {
-  const _CreateGroupsButton({Key? key}) : super(key: key);
+  const _CreateGroupsButton();
 
   @override
   Widget build(BuildContext context) {

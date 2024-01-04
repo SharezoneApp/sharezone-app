@@ -16,8 +16,7 @@ class GlowingOverscrollColorChanger extends StatelessWidget {
   final Widget? child;
   final Color? color;
 
-  const GlowingOverscrollColorChanger({Key? key, this.child, this.color})
-      : super(key: key);
+  const GlowingOverscrollColorChanger({super.key, this.child, this.color});
 
   @override
   Widget build(BuildContext context) {

@@ -177,7 +177,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
 }
 
 class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
-  const _SignOutAndDeleteAnonymousDialogTitle({Key? key}) : super(key: key);
+  const _SignOutAndDeleteAnonymousDialogTitle();
 
   @override
   Widget build(BuildContext context) =>
@@ -186,9 +186,9 @@ class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
 
 class DeleteAccountDialogErrorText extends StatelessWidget {
   const DeleteAccountDialogErrorText({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 
@@ -206,11 +206,11 @@ class DeleteAccountDialogErrorText extends StatelessWidget {
 
 class DeleteConfirmationCheckbox extends StatelessWidget {
   const DeleteConfirmationCheckbox({
-    Key? key,
+    super.key,
     required this.confirm,
     required this.onChanged,
     required this.text,
-  }) : super(key: key);
+  });
 
   final bool confirm;
   final ValueChanged<bool?> onChanged;

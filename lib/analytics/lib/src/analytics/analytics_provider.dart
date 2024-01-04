@@ -15,10 +15,10 @@ import 'backend/null_analytics_backend.dart';
 
 class AnalyticsProvider extends InheritedWidget {
   const AnalyticsProvider({
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
     required this.analytics,
-  }) : super(child: child, key: key);
+  });
 
   final Analytics analytics;
 

@@ -41,7 +41,7 @@ Future<void> showDeleteDialog({
 }
 
 class LeaveEditedFormAlert extends StatelessWidget {
-  const LeaveEditedFormAlert({Key? key}) : super(key: key);
+  const LeaveEditedFormAlert({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class LeaveEditedFormAlert extends StatelessWidget {
 
 class OneTextFieldDialog extends StatefulWidget {
   const OneTextFieldDialog({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.title,
     required this.hint,
@@ -91,7 +91,7 @@ class OneTextFieldDialog extends StatefulWidget {
     this.isEmptyAllowed = false,
     this.notAllowedChars,
     this.text,
-  }) : super(key: key);
+  });
 
   final ValueChanged<String?> onTap;
   final String? title, hint, actionName, notAllowedChars;

@@ -53,7 +53,7 @@ Future<dynamic> handleCourseDialogOption(
 }
 
 class GroupPage extends StatefulWidget {
-  const GroupPage({Key? key}) : super(key: key);
+  const GroupPage({super.key});
 
   static const String tag = "course-page";
 
@@ -150,9 +150,8 @@ class GroupPageState extends State<GroupPage> {
 
 class _SchoolClassList extends StatelessWidget {
   const _SchoolClassList({
-    Key? key,
     required this.schoolClasses,
-  }) : super(key: key);
+  });
 
   final List<SchoolClass> schoolClasses;
 
@@ -238,9 +237,8 @@ class _CourseList extends StatelessWidget {
 
 class _CoursePageFAB extends StatelessWidget {
   const _CoursePageFAB({
-    Key? key,
     required this.visible,
-  }) : super(key: key);
+  });
 
   final bool visible;
 
@@ -334,12 +332,11 @@ class _CreateCourse extends StatelessWidget {
 
 class _JoinGroupTile extends StatelessWidget {
   const _JoinGroupTile({
-    Key? key,
     required this.description,
     required this.title,
     this.iconData,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String description, title;
   final IconData? iconData;
@@ -428,12 +425,11 @@ class _EmptyGroupList extends StatelessWidget {
 
 class _EmptyGroupListAction extends StatelessWidget {
   const _EmptyGroupListAction({
-    Key? key,
     this.icon,
     required this.title,
     required this.subtitle,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final String title, subtitle;

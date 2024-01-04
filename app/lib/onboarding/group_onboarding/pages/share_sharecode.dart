@@ -23,9 +23,9 @@ import 'package:user/user.dart';
 
 class GroupOnboardingShareSharecode extends StatelessWidget {
   const GroupOnboardingShareSharecode({
-    Key? key,
+    super.key,
     required this.schoolClassId,
-  }) : super(key: key);
+  });
 
   static const tag = 'onboarding-share-sharecode-page';
   final String? schoolClassId;
@@ -106,9 +106,8 @@ class _CoursesSharecodeBox extends StatelessWidget {
 
 class _SchoolClassSharecodeBox extends StatelessWidget {
   const _SchoolClassSharecodeBox({
-    Key? key,
     required this.schoolClassId,
-  }) : super(key: key);
+  });
 
   final String schoolClassId;
 
@@ -145,9 +144,8 @@ class _LoadingSharecodeBox extends StatelessWidget {
 
 class _SharecodeBox extends StatelessWidget {
   const _SharecodeBox({
-    Key? key,
     required this.groupInfo,
-  }) : super(key: key);
+  });
 
   final GroupInfo groupInfo;
 

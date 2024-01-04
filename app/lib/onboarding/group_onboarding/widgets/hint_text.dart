@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 
 class GroupOnboardingHintText extends StatelessWidget {
-  const GroupOnboardingHintText(this.text, {Key? key}) : super(key: key);
+  const GroupOnboardingHintText(this.text, {super.key});
 
   final String text;
 

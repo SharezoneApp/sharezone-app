@@ -111,7 +111,7 @@ class _DashboardPageState extends State<DashboardPage> {
 // verschiedene Dependencies erstellt werden.
 class DashboardPageBody extends StatelessWidget {
   @visibleForTesting
-  const DashboardPageBody({Key? key}) : super(key: key);
+  const DashboardPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class _AppBarBottom extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _AppBarTitle extends StatelessWidget {
-  const _AppBarTitle({Key? key}) : super(key: key);
+  const _AppBarTitle();
 
   @override
   Widget build(BuildContext context) {

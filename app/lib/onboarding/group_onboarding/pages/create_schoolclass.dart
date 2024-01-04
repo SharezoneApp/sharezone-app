@@ -87,7 +87,7 @@ class _GroupOnboardingCreateSchoolClassState
 }
 
 class _TextFieldSubmitButton extends StatefulWidget {
-  const _TextFieldSubmitButton({Key? key}) : super(key: key);
+  const _TextFieldSubmitButton();
 
   @override
   __TextFieldSubmitButtonState createState() => __TextFieldSubmitButtonState();
@@ -182,8 +182,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({Key? key, required this.errorTextForUser})
-      : super(key: key);
+  const _ErrorText({required this.errorTextForUser});
 
   final String? errorTextForUser;
 

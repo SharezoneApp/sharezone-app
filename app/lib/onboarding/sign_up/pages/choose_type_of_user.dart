@@ -10,10 +10,10 @@ part of '../sign_up_page.dart';
 
 class ChooseTypeOfUser extends StatelessWidget {
   const ChooseTypeOfUser({
-    Key? key,
+    super.key,
     this.withLogin = true,
     this.withBackButton = false,
-  }) : super(key: key);
+  });
 
   static const tag = 'choose-type-of-user-page';
 
@@ -107,7 +107,7 @@ class ChooseTypeOfUser extends StatelessWidget {
 }
 
 class _StudentNew extends StatelessWidget {
-  const _StudentNew({Key? key}) : super(key: key);
+  const _StudentNew();
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ class _StudentNew extends StatelessWidget {
 }
 
 class _TeacherNew extends StatelessWidget {
-  const _TeacherNew({Key? key}) : super(key: key);
+  const _TeacherNew();
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class _TeacherNew extends StatelessWidget {
 }
 
 class _ParentsNew extends StatelessWidget {
-  const _ParentsNew({Key? key}) : super(key: key);
+  const _ParentsNew();
 
   @override
   Widget build(BuildContext context) {
@@ -147,10 +147,9 @@ class _TypeOfUserTileNew extends StatelessWidget {
   final String iconSvgPath;
 
   const _TypeOfUserTileNew({
-    Key? key,
     required this.typeOfUser,
     required this.iconSvgPath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +234,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  const _LoginButton({Key? key}) : super(key: key);
+  const _LoginButton({super.key});
 
   @override
   Widget build(BuildContext context) {

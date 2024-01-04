@@ -34,11 +34,11 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 /// erstellen kann.
 class MissingAccountInformationGuard extends StatelessWidget {
   const MissingAccountInformationGuard({
-    Key? key,
+    super.key,
     required this.child,
     required this.userCollection,
     this.gateway,
-  }) : super(key: key);
+  });
 
   final CollectionReference userCollection;
 
@@ -72,7 +72,7 @@ class MissingAccountInformationGuard extends StatelessWidget {
 }
 
 class _SignOutButton extends StatelessWidget {
-  const _SignOutButton({Key? key}) : super(key: key);
+  const _SignOutButton();
 
   @override
   Widget build(BuildContext context) {

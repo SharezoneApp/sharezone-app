@@ -19,13 +19,13 @@ class OverlayCard extends StatelessWidget {
   final VoidCallback? onAction;
 
   const OverlayCard({
-    Key? key,
+    super.key,
     this.title,
     this.content,
     this.onClose,
     this.actionText,
     this.onAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +76,9 @@ class OverlayCard extends StatelessWidget {
 
 class _Action extends StatelessWidget {
   const _Action({
-    Key? key,
     required this.onAction,
     required this.actionText,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onAction;
   final String? actionText;
@@ -104,7 +103,7 @@ class _Action extends StatelessWidget {
 }
 
 class _Close extends StatelessWidget {
-  const _Close({Key? key, required this.onClose}) : super(key: key);
+  const _Close({required this.onClose});
 
   final VoidCallback? onClose;
 
@@ -127,7 +126,7 @@ class _Close extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.content}) : super(key: key);
+  const _Content({required this.content});
 
   final Widget? content;
 
@@ -144,7 +143,7 @@ class _Content extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key, required this.title}) : super(key: key);
+  const _Title({required this.title});
 
   final Widget? title;
 
