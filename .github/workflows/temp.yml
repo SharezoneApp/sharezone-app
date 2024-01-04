@@ -1,0 +1,40 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: temp-pull-request-labeler
+
+on:
+  # Trigger "pull_request" would not work for pull request from a fork because
+  # the secrets would be not accessible. "pull_request_target" uses the context
+  # from the base branch which allows to use secrets for pull requests from a
+  # fork.
+  pull_request:
+
+# Declare default permissions as none.
+#
+# Having workflows without setting the permission for the workflow is considered
+# a bad security practice and it is causing alerts from our scanning tools.
+permissions: {}
+
+jobs:
+  # This workflow applies labels to pull requests based on the paths that are
+  # modified in the pull request.
+  #
+  # Edit `.github/labeler.yml` to configure labels.
+  #
+  # For more information, see: https://github.com/actions/labeler
+  label:
+    permissions:
+      # Required by the labeler action, see:
+      # https://github.com/actions/labeler#inputs
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9
