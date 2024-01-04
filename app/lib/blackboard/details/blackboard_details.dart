@@ -146,8 +146,7 @@ class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
 }
 
 class _PageWithPicture extends StatelessWidget {
-  const _PageWithPicture(
-    this.view);
+  const _PageWithPicture(this.view);
 
   static const double _appBarHeight = 250;
   double _getAppBarHeight(BuildContext context) =>

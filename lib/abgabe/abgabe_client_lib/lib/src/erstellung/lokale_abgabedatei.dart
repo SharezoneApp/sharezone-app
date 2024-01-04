@@ -26,8 +26,7 @@ class LokaleAbgabedatei extends Abgabedatei {
     required DateTime erstellungsdatum,
     required this.localFile,
     this.pfad,
-  }) : super(
-            erstellungsdatum: erstellungsdatum) {
+  }) : super(erstellungsdatum: erstellungsdatum) {
     ArgumentError.checkNotNull(erstellungsdatum, 'erstellungsdatum');
     ArgumentError.checkNotNull(localFile, 'localFile');
   }

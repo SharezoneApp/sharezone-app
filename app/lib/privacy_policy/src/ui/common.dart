@@ -97,12 +97,12 @@ class DownloadAsPDFButton extends StatelessWidget {
   const DownloadAsPDFButton({
     super.key,
     this.enabled = true,
-  })  : _isIconButton = false;
+  }) : _isIconButton = false;
 
   const DownloadAsPDFButton.icon({
     super.key,
     this.enabled = true,
-  })  : _isIconButton = true;
+  }) : _isIconButton = true;
 
   final bool enabled;
   final bool _isIconButton;

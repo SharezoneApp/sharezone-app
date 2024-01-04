@@ -29,7 +29,7 @@ class CommentSection extends StatelessWidget {
     required this.userAbbreviation,
     required this.userName,
     required this.courseID,
-  })  : _loading = false;
+  }) : _loading = false;
 
   const CommentSection.loading({
     super.key,

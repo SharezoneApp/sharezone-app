@@ -694,7 +694,9 @@ class InformationDialog extends StatelessWidget {
 
 class BottomSheetSlider extends StatelessWidget {
   const BottomSheetSlider(
-      {super.key, this.padding = const EdgeInsets.only(top: 8), this.width = 55});
+      {super.key,
+      this.padding = const EdgeInsets.only(top: 8),
+      this.width = 55});
 
   final EdgeInsets padding;
   final double width;
@@ -801,7 +803,7 @@ class CircleCheckbox extends StatelessWidget {
     this.activeColor,
     this.checkColor,
     this.materialTapTargetSize,
-  })  : assert(tristate);
+  }) : assert(tristate);
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-
 import 'abgabedatei.dart';
 import 'dateiname.dart';
 import 'download_url.dart';

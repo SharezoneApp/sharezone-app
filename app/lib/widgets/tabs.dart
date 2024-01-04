@@ -38,7 +38,7 @@ class SharezoneTabPageSelector extends StatelessWidget {
     this.color,
     this.selectedColor,
     this.withBorder,
-  })  : assert(indicatorSize > 0.0);
+  }) : assert(indicatorSize > 0.0);
 
   /// This widget's selection and animation state.
   ///

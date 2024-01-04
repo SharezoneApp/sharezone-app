@@ -215,8 +215,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _AddNewCourse extends StatelessWidget {
-  const _AddNewCourse(
-    this.schoolClassID);
+  const _AddNewCourse(this.schoolClassID);
 
   final String schoolClassID;
 

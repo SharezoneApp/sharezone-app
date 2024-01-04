@@ -95,7 +95,7 @@ class _HolidayText extends StatelessWidget {
   const _HolidayText({
     required this.maxItems,
     required this.holidayList,
-  })  : assert(maxItems > 0);
+  }) : assert(maxItems > 0);
 
   @override
   Widget build(BuildContext context) {

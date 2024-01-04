@@ -150,7 +150,7 @@ class _RotateAnimation extends StatelessWidget {
     this.path,
     this.rivePath,
     this.riveAnimationName,
-  })  : rotate = Tween<double>(
+  }) : rotate = Tween<double>(
           begin: 0,
           end: 1, // Do 1 Roation
         ).animate(

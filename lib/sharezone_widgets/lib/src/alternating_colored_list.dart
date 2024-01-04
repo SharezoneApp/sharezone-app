@@ -43,7 +43,7 @@ class AlternatingColoredList extends StatelessWidget {
     required this.itemBuilder,
     this.alternatingInterval = 2,
     this.theme,
-  })  : assert(alternatingInterval > 0);
+  }) : assert(alternatingInterval > 0);
 
   @override
   Widget build(BuildContext context) {

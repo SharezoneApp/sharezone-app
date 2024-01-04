@@ -65,8 +65,7 @@ class FileSharingViewHome extends StatelessWidget {
 }
 
 class _CourseFolderCard extends StatelessWidget {
-  const _CourseFolderCard(
-    this.fileSharingData);
+  const _CourseFolderCard(this.fileSharingData);
 
   final FileSharingData fileSharingData;
 

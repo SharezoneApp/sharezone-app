@@ -10,7 +10,6 @@
 /// have a nice color object, but no dependency on the flutter framework.
 library;
 
-
 /// An immutable 32 bit color value in ARGB format.
 ///
 /// Consider the light teal of the Flutter logo. It is fully opaque, with a red

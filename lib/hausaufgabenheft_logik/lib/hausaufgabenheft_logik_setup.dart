@@ -21,7 +21,6 @@
 /// ```
 library;
 
-
 export 'src/setup/config.dart';
 export 'src/setup/dependencies.dart';
 export 'src/setup/create_homework_page_bloc.dart';

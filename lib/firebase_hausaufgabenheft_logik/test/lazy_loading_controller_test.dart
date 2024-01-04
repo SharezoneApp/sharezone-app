@@ -16,8 +16,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'in_memory_homework_loader.dart';
 
 class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
-  ReportingInMemoryHomeworkLoader(
-      super.completedHomeworksSubject);
+  ReportingInMemoryHomeworkLoader(super.completedHomeworksSubject);
 
   bool wasInvoked = false;
   @override

@@ -91,14 +91,12 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
       title: isNotEmptyOrNull(title) ? Text(title!) : null,
       content: isNotEmptyOrNull(message) ? Text(message!) : null,
       actions: <Widget>[
-        ...actions!
-            .map((action) => CupertinoDialogAction(
-                  isDefaultAction: action.isDefaultAction,
-                  isDestructiveAction: action.isDestructiveAction,
-                  onPressed: () => Navigator.pop(context, action.popResult),
-                  child: Text(action.title!),
-                ))
-            ,
+        ...actions!.map((action) => CupertinoDialogAction(
+              isDefaultAction: action.isDefaultAction,
+              isDestructiveAction: action.isDestructiveAction,
+              onPressed: () => Navigator.pop(context, action.popResult),
+              child: Text(action.title!),
+            )),
         CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () => Navigator.pop(context),

@@ -428,9 +428,7 @@ class _StudentScaffoldBody extends StatelessWidget {
 
 class _ParentsHomeworkPageView extends StatelessWidget {
   const _ParentsHomeworkPageView(
-      {required this.homeworkList,
-      this.sortBy,
-      this.hideButtonController});
+      {required this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
@@ -449,9 +447,7 @@ class _ParentsHomeworkPageView extends StatelessWidget {
 
 class _TeacherHomeworkPageView extends StatelessWidget {
   const _TeacherHomeworkPageView(
-      {required this.homeworkList,
-      this.sortBy,
-      this.hideButtonController});
+      {required this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
