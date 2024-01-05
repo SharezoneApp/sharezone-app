@@ -42,16 +42,16 @@ Future<void> getPackage(ProcessRunner processRunner, Package package) async {
 
 Future<void> getPackagesDart(
     ProcessRunner processRunner, Package package) async {
-  await processRunner.runDartCommand(
-    ['pub', 'get'],
+  await processRunner.runCommand(
+    ['fvm', 'dart', 'pub', 'get'],
     workingDirectory: package.location,
   );
 }
 
 Future<void> getPackagesFlutter(
     ProcessRunner processRunner, Package package) async {
-  await processRunner.runFlutterCommand(
-    ['pub', 'get'],
+  await processRunner.runCommand(
+    ['fvm', 'flutter', 'pub', 'get'],
     workingDirectory: package.location,
   );
 }

@@ -43,8 +43,8 @@ Future<void> analyzePackage(
 
 Future<void> _runDartAnalyze(
     ProcessRunner processRunner, Package package) async {
-  await processRunner.runDartCommand(
-    ['analyze', '--fatal-infos', '--fatal-warnings'],
+  await processRunner.runCommand(
+    ['fvm', 'dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
     workingDirectory: package.location,
   );
 }

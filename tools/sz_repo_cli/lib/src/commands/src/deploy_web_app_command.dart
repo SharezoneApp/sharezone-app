@@ -81,7 +81,9 @@ class DeployWebAppCommand extends CommandBase {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await processRunner.runDartCommand([
+    await processRunner.runCommand([
+      'fvm',
+      'dart',
       'run',
       'sz_repo_cli',
       'build',

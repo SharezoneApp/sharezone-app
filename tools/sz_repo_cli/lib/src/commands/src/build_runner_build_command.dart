@@ -35,8 +35,10 @@ class BuildRunnerBuild extends ConcurrentCommand {
 
   @override
   Future<void> runTaskForPackage(Package package) async {
-    await processRunner.runDartCommand(
+    await processRunner.runCommand(
       [
+        'fvm',
+        'dart',
         'run',
         'build_runner',
         'build',

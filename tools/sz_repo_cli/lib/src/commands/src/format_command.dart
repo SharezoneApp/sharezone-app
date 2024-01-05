@@ -71,7 +71,9 @@ Future<void> formatCode(
   /// Useful for code analysis in CI.
   bool throwIfCodeChanged = false,
 }) {
-  return processRunner.runDartCommand([
+  return processRunner.runCommand([
+    'fvm',
+    'dart',
     'format',
     if (throwIfCodeChanged) '--set-exit-if-changed',
     '.',

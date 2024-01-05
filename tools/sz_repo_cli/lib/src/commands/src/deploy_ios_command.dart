@@ -165,8 +165,10 @@ class DeployIosCommand extends CommandBase {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await processRunner.runDartCommand(
+      await processRunner.runCommand(
         [
+          'fvm',
+          'dart',
           'run',
           'sz_repo_cli',
           'build',
