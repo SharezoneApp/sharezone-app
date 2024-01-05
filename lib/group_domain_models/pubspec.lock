@@ -338,6 +338,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  helper_functions:
+    dependency: transitive
+    description:
+      path: "../helper_functions"
+      relative: true
+    source: path
+    version: "0.0.1"
   http:
     dependency: transitive
     description:

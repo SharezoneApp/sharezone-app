@@ -286,7 +286,7 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-          BUNDLE_ID: de.codingbrain.sharezone.app
+          BUNDLE_ID: de.codingbrain.sharezone.app.dev
         run: |
           # Even when are trying to build app, we need to use "--platform IOS".
           # The reason for this that our production bundle ID was created for
@@ -313,7 +313,14 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
 
+      # We need to install the FlutterFire CLI because we have Build Phases in
+      # XCode configured which are using the FlutterFire CLI. Without the CLI,
+      # the build would fail.
+      - name: Install FlutterFire CLI
+        run: flutter pub global activate flutterfire_cli 0.3.0-dev.19
+
       - name: Build macOS app
         run: |
           flutter build macos \
-            -t lib/main_prod.dart
+            --flavor dev \
+            -t lib/main_dev.dart

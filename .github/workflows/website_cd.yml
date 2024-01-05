@@ -27,6 +27,7 @@ permissions: {}
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    name: website-deploy-${{ matrix.environment.name }}
     permissions:
       checks: write # for FirebaseExtended/action-hosting-deploy
     strategy:

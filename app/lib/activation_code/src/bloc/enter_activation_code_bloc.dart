@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 import '../models/enter_activation_code_result.dart';
 import 'enter_activation_code_activator.dart';

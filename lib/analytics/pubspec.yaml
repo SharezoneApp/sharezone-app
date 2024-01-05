@@ -19,12 +19,7 @@ dependencies:
     sdk: flutter
   crash_analytics:
     path: ../crash_analytics
-  sharezone_common:
-    path: ../sharezone_common
-  sharezone_utils:
-    path: ../sharezone_utils
   firebase_analytics: ^10.4.5
-  firebase_auth: ^4.7.3
 
 dev_dependencies:
   flutter_test:

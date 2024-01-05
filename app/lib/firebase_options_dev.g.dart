@@ -79,7 +79,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBS3rxcFvmskFvgynGhG4hfeOUZwXrZOro',
-    appId: '1:366164701221:ios:3ff9b2cb1c2a5a31',
+    appId: '1:366164701221:ios:785f107df46335d5bfcfcc',
     messagingSenderId: '366164701221',
     projectId: 'sharezone-debug',
     databaseURL: 'https://sharezone-debug.firebaseio.com',
@@ -87,7 +87,7 @@ class DefaultFirebaseOptions {
     androidClientId:
         '366164701221-9e41nmj0vhiqhgdpe2qebfdp91pht6ln.apps.googleusercontent.com',
     iosClientId:
-        '366164701221-obqtov9nvdds889ens9iu3fli9hltll7.apps.googleusercontent.com',
-    iosBundleId: 'de.codingbrain.sharezone.app',
+        '366164701221-fdv476f10fl969nd65dv97tfajqb9jr1.apps.googleusercontent.com',
+    iosBundleId: 'de.codingbrain.sharezone.app.dev',
   );
 }

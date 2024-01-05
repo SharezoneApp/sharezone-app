@@ -8,7 +8,7 @@
 
 import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_events_layout.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 class CalendricalEventsPageCache {
   final KeyValueStore keyValueStore;
