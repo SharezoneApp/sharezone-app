@@ -48,6 +48,7 @@ on:
       - "!**/example/**"
       - "!**/analysis_options.yaml"
       - "!**/dart_test.yaml"
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -63,7 +64,16 @@ permissions: {}
 
 jobs:
   deploy-alpha-web-app:
+    name: "deploy-alpha-web-app-${{ matrix.environment.flavor }}"
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - flavor: prod
+            serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
+          - flavor: dev
+            serviceAccountSecret: FIREBASE_HOSTING_DEV_KEY
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -89,10 +99,14 @@ jobs:
 
       - name: Build and deploy web-app
         env:
-          SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+          FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
         run: |
-          echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
-          sz deploy web-app --stage alpha --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" --credentials sharezone-prod-key.json
+          echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
+          sz deploy web-app \
+            --stage alpha \
+            --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
+            --credentials firebase-hosting-key.json \
+            --flavor ${{ matrix.environment.flavor }}
 
   deploy-alpha-android-app:
     runs-on: ubuntu-22.04
