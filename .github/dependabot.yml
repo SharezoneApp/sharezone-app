@@ -17,3 +17,7 @@ updates:
     directory: /
     schedule:
       interval: monthly
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "monthly"
