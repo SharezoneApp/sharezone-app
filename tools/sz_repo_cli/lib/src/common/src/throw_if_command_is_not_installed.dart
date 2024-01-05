@@ -42,3 +42,19 @@ Future<void> throwIfCommandIsNotInstalled(
     throw Exception(message);
   }
 }
+
+Future<bool> isCommandInstalled(
+  ProcessRunner processRunner, {
+  required String command,
+}) async {
+  try {
+    await throwIfCommandIsNotInstalled(
+      processRunner,
+      command: command,
+    );
+  } on Exception catch (_) {
+    return false;
+  }
+
+  return true;
+}

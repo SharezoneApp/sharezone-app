@@ -67,7 +67,7 @@ class BuildWebCommand extends CommandBase {
       final stage = argResults![releaseStageOptionName] as String;
       final buildNameWithStage =
           getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
-      await processRunner.run(
+      await processRunner.runCommand(
         [
           'fvm',
           'flutter',

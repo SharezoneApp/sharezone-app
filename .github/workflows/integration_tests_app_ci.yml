@@ -189,15 +189,6 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       # Because macos-12 doesn't have Metal support, we need to disable Impeller
       # https://github.com/flutter/flutter/issues/126768
@@ -226,7 +217,7 @@ jobs:
           # using not the default flavor will cause an exception when
           # uninstalling the app, see:
           # https://github.com/flutter/flutter/issues/88690
-          fvm flutter drive \
+          flutter drive \
             --driver=test_driver/integration_test.dart \
             --target=integration_test/integration_test_old.dart \
             --flavor prod \
@@ -250,15 +241,6 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install chromedriver
         uses: nanasess/setup-chromedriver@480d644e773cd6d53e4cb76557c8ad5e5806d7da
@@ -272,7 +254,7 @@ jobs:
         # available for the web yet.
         run: |
           chromedriver --port=4444 &
-          fvm flutter drive \
+          flutter drive \
             --driver=test_driver/integration_test.dart \
             --target=integration_test/integration_test_old.dart \
             --flavor dev \

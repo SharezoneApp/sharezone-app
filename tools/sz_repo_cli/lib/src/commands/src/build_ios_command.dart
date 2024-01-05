@@ -81,7 +81,7 @@ When none is specified, the value from pubspec.yaml is used.''',
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await processRunner.run(
+      await processRunner.runCommand(
         [
           'fvm',
           'flutter',

@@ -79,19 +79,10 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Sharezone Repo CLI
         run: |
-          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Deploy
@@ -127,19 +118,10 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Sharezone Repo CLI
         run: |
-          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Install Firebase CLI
@@ -189,22 +171,13 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Fastlane
         run: sudo gem install fastlane -v 2.216.0
 
       - name: Install Sharezone Repo CLI
         run: |
-          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Deploy
@@ -243,19 +216,10 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-          # Use format expected by FVM.
-          # Else this won't be recognized as an installed version when setting
-          # '.../flutter' as the FVM Flutter version cache folder.
-          cache-path: "${{ runner.tool_cache }}/flutter/:version:"
-
-      - name: Install FVM
-        run: |
-          flutter pub global activate fvm 2.4.1
-          fvm config --cache-path '${{ runner.tool_cache }}/flutter'
 
       - name: Install Sharezone Repo CLI
         run: |
-          fvm flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
       # We need to install the FlutterFire CLI because we have Build Phases in
