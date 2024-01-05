@@ -115,14 +115,14 @@ extension RunProcessCustom on ProcessRunner {
     // Flutter/Dart instead. E.g. `fvm flutter test` -> `flutter test`.
     if (commandLine.first == 'fvm') {
       if (_isFvmInstalled == null) {
-        _isFvmInstalled ??= await isCommandInstalled(this, command: 'fvm');
+        _isFvmInstalled = await isCommandInstalled(this, command: 'fvm');
         if (_isFvmInstalled == false) {
           stdout.writeln(
-              'FVM (Flutter Version Management) is not installed, using regular Flutter/Dart instead.');
+              '⚠️ FVM (Flutter Version Management) is not installed, using regular Flutter/Dart instead.');
         }
       }
       if (_isFvmInstalled == false) {
-        commandLine = commandLine.skip(0).toList();
+        commandLine = commandLine.skip(1).toList();
       }
     }
 
