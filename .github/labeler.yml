@@ -46,222 +46,306 @@
 # "feature: " label should be enough.
 
 "ci/cd":
-  - .github/workflows/**
-  - .github/labeler.yml
-  - .github/dependabot.yml
-  - codemagic.yaml
-  - "**/firebase.json"
-  - "**/.firebaserc"
-  - "bin/check_license_headers.sh"
-  - "bin/add_license_headers.sh"
-  - "bin/source_of_truth/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - .github/workflows/**
+      - .github/labeler.yml
+      - .github/dependabot.yml
+      - codemagic.yaml
+      - "**/firebase.json"
+      - "**/.firebaserc"
+      - "bin/check_license_headers.sh"
+      - "bin/add_license_headers.sh"
+      - "bin/source_of_truth/**"
 
 "documentation":
-  - "**/*.md"
-  - "**/*.mdx"
-  - "docs/**"
-  - "docs.yaml"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.md"
+      - "**/*.mdx"
+      - "docs/**"
+      - "docs.yaml"
 
 "dependencies":
-  - "**/pubspec.yaml"
-  - "**/pubspec.lock"
-  - ".fvm/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/pubspec.yaml"
+      - "**/pubspec.lock"
+      - ".fvm/**"
 
 "testing":
-  - "**/*_test.dart"
-  - "**/test_driver/**"
-  - "**/test/**"
-  - "**/test_goldens/**"
-  - "**/integration_test/**"
-  - "**/dart_test.yaml"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*_test.dart"
+      - "**/test_driver/**"
+      - "**/test/**"
+      - "**/test_goldens/**"
+      - "**/integration_test/**"
+      - "**/dart_test.yaml"
 
 "platform: android":
-  - "app/android/**"
-  - "**/**android**"
-  - "**/**_android/**"
-  - "**/android_**/**"
-  - "**/**_android_**/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/android/**"
+      - "**/**android**"
+      - "**/**_android/**"
+      - "**/android_**/**"
+      - "**/**_android_**/**"
 
 "platform: ios":
-  - "app/ios/**"
-  - "**/**ios**"
-  - "**/**_ios**/**"
-  - "**/ios_**/**"
-  - "**/**_ios_**/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/ios/**"
+      - "**/**ios**"
+      - "**/**_ios**/**"
+      - "**/ios_**/**"
+      - "**/**_ios_**/**"
 
 "platform: macos":
-  - "app/macos/**"
-  - "**/**macos**"
-  - "**/**_macos/**"
-  - "**/macos_**/**"
-  - "**/**_macos_**/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/macos/**"
+      - "**/**macos**"
+      - "**/**_macos/**"
+      - "**/macos_**/**"
+      - "**/**_macos_**/**"
 
 "platform: web":
-  - "app/web/**"
-  - "**/**web**"
-  - "**/**_web/**"
-  - "**/web_**/**"
-  - "**/**_web_**/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "app/web/**"
+      - "**/**web**"
+      - "**/**_web/**"
+      - "**/web_**/**"
+      - "**/**_web_**/**"
 
 "code quality":
-  - "**/analysis_options.yaml"
-  - "lib/sharezone_lints/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/analysis_options.yaml"
+      - "lib/sharezone_lints/**"
 
 "legal":
-  - "LICENSE"
-  - "**/**privacy_policy**"
-  - "**/**imprint**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "LICENSE"
+      - "**/**privacy_policy**"
+      - "**/**imprint**"
 
 "sharezone cli":
-  - "tools/sz_repo_cli/**"
-  - "bin/sz"
-  - "bin/sharezone"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "tools/sz_repo_cli/**"
+      - "bin/sz"
+      - "bin/sharezone"
 
 "ui / ux":
-  - "**/theme/**"
-  - "**/**theme**"
-  - app/fonts/**
-  - lib/sharezone_widgets/**
-  - app/**/widgets/**
-  # Assets like images, icons, etc.
-  - "**/assets/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/theme/**"
+      - "**/**theme**"
+      - app/fonts/**
+      - lib/sharezone_widgets/**
+      - app/**/widgets/**
+      # Assets like images, icons, etc.
+      - "**/assets/**"
 
 "ui: dark-mode":
-  - "**/**dark_theme**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/**dark_theme**"
 
 "ui: light-mode":
-  - "**/**light_theme**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/**light_theme**"
 
 "feature: analytics":
-  - "**/analytics/**"
-  - "**/**analytics**"
-  - "lib/analytics/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/analytics/**"
+      - "**/**analytics**"
+      - "lib/analytics/**"
 
 "feature: attachments":
-  - "**/attachments/**"
-  - "**/**attachment**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/attachments/**"
+      - "**/**attachment**"
 
 "feature: authentification":
-  - "**/authentication/**"
-  - "**/auth/**"
-  - "**/**sign_in**"
-  - "**/**sign_out**"
-  - "**/**sign_up**"
-  - "**/**registration**"
-  - "**/**login**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/authentication/**"
+      - "**/auth/**"
+      - "**/**sign_in**"
+      - "**/**sign_out**"
+      - "**/**sign_up**"
+      - "**/**registration**"
+      - "**/**login**"
 
 "feature: comments":
-  - "**/comments/**"
-  - "**/**comment**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/comments/**"
+      - "**/**comment**"
 
 "feature: feedback":
-  - "**/feedback/**"
-  - "**/**feedback**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/feedback/**"
+      - "**/**feedback**"
 
 "feature: file-sharing":
-  - "**/filesharing/**"
-  - "**/file_sharing/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/filesharing/**"
+      - "**/file_sharing/**"
 
 "feature: group permissions":
-  - "**/group_permissions/**"
-  - "**/**permission**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/group_permissions/**"
+      - "**/**permission**"
 
 "feature: groups:classes":
-  - "**/school_class/**"
-  - "**/school_class**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/school_class/**"
+      - "**/school_class**"
 
 "feature: groups:courses":
-  - "**/course/**"
-  - "**/**course**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/course/**"
+      - "**/**course**"
 
 "feature: groups":
-  - "**/groups/**"
-  - "**/**group**"
-  - "lib/group_domain_implementation/**"
-  - "lib/group_domain_models/**"
-  # We still have some old code that uses the term "gruppe" instead of "group"
-  - "**/**gruppe**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/groups/**"
+      - "**/**group**"
+      - "lib/group_domain_implementation/**"
+      - "lib/group_domain_models/**"
+      # We still have some old code that uses the term "gruppe" instead of "group"
+      - "**/**gruppe**"
 
 "feature: holidays":
-  - "**/holidays/**"
-  - "**/**holiday**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/holidays/**"
+      - "**/**holiday**"
 
 # We don't have any files for the homework reminder feature yet (only
 # notification.dart), so we can't list any paths here.
 #
 # "feature: homework reminder":
+#  - changed-files:
+#    - any-glob-to-any-file:
 
 "feature: homework":
-  - "**/homework/**"
-  - "**/**homework**"
-  - "lib/hausaufgabenheft_logik/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/homework/**"
+      - "**/**homework**"
+      - "lib/hausaufgabenheft_logik/**"
 
 "feature: homework-submissions":
-  # We still have some old code that uses the term "abgabe" instead of
-  # "submission"
-  - "**/abgabe/**"
-  - "**/**abgabe**"
-  - "**/**submission**/**"
-  - "**/**submission**"
+  - changed-files:
+    - any-glob-to-any-file:
+      # We still have some old code that uses the term "abgabe" instead of
+      # "submission"
+      - "**/abgabe/**"
+      - "**/**abgabe**"
+      - "**/**submission**/**"
+      - "**/**submission**"
 
 "feature: information sheet":
-  - "**/blackboard/**"
-  - "**/**blackboard**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/blackboard/**"
+      - "**/**blackboard**"
 
 "feature: navigation":
-  - "**/**navigation**/**"
-  - "**/navigation**"
-  - "**/drawer/**"
-  - "**/**drawer**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/**navigation**/**"
+      - "**/navigation**"
+      - "**/drawer/**"
+      - "**/**drawer**"
 
 "feature: notifications":
-  - "**/notifications/**"
-  - "**/**notification**"
-  - "app/**/firebase_auth_token_retreiver_impl.dart"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/notifications/**"
+      - "**/**notification**"
+      - "app/**/firebase_auth_token_retreiver_impl.dart"
 
 "feature: onboarding":
-  - "**/onboarding/**"
-  - "**/**onboarding**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/onboarding/**"
+      - "**/**onboarding**"
 
 "feature: report":
-  - "**/report/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/report/**"
 
 "feature: sharezone plus":
-  - "**/sharezone_plus/**"
-  - "**/**sharezone_plus**"
-  - "**/**subscription**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/sharezone_plus/**"
+      - "**/**sharezone_plus**"
+      - "**/**subscription**"
 
 "feature: timetable / calendar":
-  - "**/timetable/**"
-  - "**/**timetable**"
-  - "**/**lesson**"
-  - "**/**lesson**/**"
-  - "**/calendrical_events/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/timetable/**"
+      - "**/**timetable**"
+      - "**/**lesson**"
+      - "**/**lesson**/**"
+      - "**/calendrical_events/**"
 
 "feature: universal file features":
-  - "**/filesharing/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/filesharing/**"
 
 "feature: qr code scanner":
-  - "**/qr_code_scanner/**"
-  - "**/**qr_code_scanner**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/qr_code_scanner/**"
+      - "**/**qr_code_scanner**"
 
 "user: parent":
-  - "**/parent/**"
-  - "**/**parent**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/parent/**"
+      - "**/**parent**"
 
 "user: pupil / student":
-  - "**/student/**"
-  - "**/**student**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/student/**"
+      - "**/**student**"
 
 "user: teacher":
-  - "**/teacher/**"
-  - "**/**teacher**"
-  # We still have some old code that uses the term "lehrer" instead of "teacher"
-  - "**/lehrer/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/teacher/**"
+      - "**/**teacher**"
+      # We still have some old code that uses the term "lehrer" instead of "teacher"
+      - "**/lehrer/**"
 
 "w: dashboard-page":
-  - "**/dashboard/**"
-  - "**/**dashboard**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/dashboard/**"
+      - "**/**dashboard**"
 
 "website":
-  - "website/**"
+  - changed-files:
+    - any-glob-to-any-file:
+      - "website/**"
