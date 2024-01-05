@@ -43,10 +43,10 @@ packages:
     dependency: "direct main"
     description:
       name: add_2_calendar
-      sha256: "7153285bb68321a0e0733d4cbc86336a808ac25efcddce74f5194eda6c5a4906"
+      sha256: "8d7a82aba607d35f2a5bc913419e12f865a96a350a8ad2509a59322bc161f200"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "3.0.1"
   analytics:
     dependency: "direct main"
     description:
