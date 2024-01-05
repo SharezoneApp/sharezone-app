@@ -73,7 +73,7 @@ jobs:
           - flavor: prod
             serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
           - flavor: dev
-            serviceAccountSecret: FIREBASE_HOSTING_DEV_KEY
+            serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
