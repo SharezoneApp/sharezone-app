@@ -100,12 +100,13 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Activate sz_repo_cli package
         run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"

@@ -90,6 +90,8 @@ When none is specified, the value from pubspec.yaml is used.''')
           'macos',
           '--target',
           'lib/main_$flavor.dart',
+          '--flavor',
+          flavor,
           '--release',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
