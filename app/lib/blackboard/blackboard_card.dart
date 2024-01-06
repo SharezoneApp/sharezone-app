@@ -68,7 +68,7 @@ void logBlackboardEditEvent(BuildContext context) {
 }
 
 class BlackboardCard extends StatelessWidget {
-  const BlackboardCard(this.view, {Key? key}) : super(key: key);
+  const BlackboardCard(this.view, {super.key});
 
   final BlackboardView view;
 
@@ -127,10 +127,9 @@ class BlackboardCard extends StatelessWidget {
 
 class _HeadlineAndCourseName extends StatelessWidget {
   const _HeadlineAndCourseName({
-    Key? key,
     required this.maxWidth,
     required this.view,
-  }) : super(key: key);
+  });
 
   final double maxWidth;
   final BlackboardView view;
@@ -187,10 +186,9 @@ class _IsAuthorIcon extends StatelessWidget {
 
 class _TipIcon extends StatelessWidget {
   const _TipIcon({
-    Key? key,
     this.tooltip,
     this.icon,
-  }) : super(key: key);
+  });
 
   final String? tooltip;
   final IconData? icon;
@@ -212,10 +210,9 @@ class _TipIcon extends StatelessWidget {
 
 class _ReadPercent extends StatelessWidget {
   const _ReadPercent({
-    Key? key,
     required this.value,
     this.color,
-  }) : super(key: key);
+  });
 
   final int value;
   final Color? color;
@@ -233,7 +230,7 @@ class _ReadPercent extends StatelessWidget {
 }
 
 class _Text extends StatelessWidget {
-  const _Text(this.text, {Key? key}) : super(key: key);
+  const _Text(this.text);
 
   final String text;
 
@@ -264,9 +261,8 @@ class _Text extends StatelessWidget {
 
 class _Picture extends StatelessWidget {
   const _Picture({
-    Key? key,
     required this.view,
-  }) : super(key: key);
+  });
 
   final BlackboardView view;
 
@@ -290,10 +286,10 @@ class _Picture extends StatelessWidget {
 
 class BottomActionBar extends StatelessWidget {
   const BottomActionBar({
-    Key? key,
+    super.key,
     this.withDetailsButton = true,
     required this.view,
-  }) : super(key: key);
+  });
 
   final bool withDetailsButton;
   final BlackboardView view;

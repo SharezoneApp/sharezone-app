@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class PrefilledTextField extends StatefulWidget {
   const PrefilledTextField({
-    Key? key,
+    super.key,
     required this.prefilledText,
     this.autofocus = false,
     this.onEditingComplete,
@@ -27,7 +27,7 @@ class PrefilledTextField extends StatefulWidget {
     this.autofillHints,
     this.autoSelectAllCharactersOnFirstBuild = false,
     this.textCapitalization = TextCapitalization.none,
-  }) : super(key: key);
+  });
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.

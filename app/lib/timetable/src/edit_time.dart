@@ -143,11 +143,11 @@ Future<Time?> selectTime(
 
 class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
   const CupertinoTimerPickerWithTimeOfDay({
-    Key? key,
+    super.key,
     this.initialTime,
     required this.minutesInterval,
     this.title,
-  }) : super(key: key);
+  });
 
   final TimeOfDay? initialTime;
   final int minutesInterval;

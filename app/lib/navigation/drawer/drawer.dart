@@ -27,9 +27,9 @@ part 'account_section.dart';
 
 class SharezoneDrawer extends StatelessWidget {
   const SharezoneDrawer({
-    Key? key,
+    super.key,
     this.isDesktopModus = false,
-  }) : super(key: key);
+  });
 
   final bool isDesktopModus;
 
@@ -62,9 +62,8 @@ class _DrawerItems extends StatelessWidget {
   final bool isDesktopModus;
 
   const _DrawerItems({
-    Key? key,
     required this.isDesktopModus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +111,7 @@ class _DrawerItems extends StatelessWidget {
 
 /// Displays the sharezone logo and navigate to the about page, if use taps on it
 class _SharezoneLogo extends StatelessWidget {
-  const _SharezoneLogo({Key? key}) : super(key: key);
+  const _SharezoneLogo();
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +155,7 @@ class _SharezoneLogo extends StatelessWidget {
 }
 
 class DrawerIcon extends StatelessWidget {
-  const DrawerIcon({Key? key, this.color}) : super(key: key);
+  const DrawerIcon({super.key, this.color});
 
   final Color? color;
 

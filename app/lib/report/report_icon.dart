@@ -17,11 +17,11 @@ const reportIcon = Icon(Icons.flag);
 
 class ReportIcon extends StatelessWidget {
   const ReportIcon({
-    Key? key,
+    super.key,
     required this.item,
     this.color,
     this.tooltip,
-  }) : super(key: key);
+  });
 
   final ReportItemReference item;
   final Color? color;

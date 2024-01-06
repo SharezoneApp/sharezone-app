@@ -32,8 +32,7 @@ class NewHomeworkPage extends StatelessWidget {
   /// Can be converted from [TypeOfUser] via
   /// [typeOfUserToHomeworkPageTypeOfUserOrThrow].
   final HomeworkPageTypeOfUser currentUserType;
-  const NewHomeworkPage({Key? key, required this.currentUserType})
-      : super(key: key);
+  const NewHomeworkPage({super.key, required this.currentUserType});
 
   @override
   Widget build(BuildContext context) {

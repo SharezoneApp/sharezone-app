@@ -14,11 +14,11 @@ class WrappableList extends StatelessWidget {
   final int maxElementsPerSection;
 
   const WrappableList({
-    Key? key,
+    super.key,
     required this.children,
     required this.minWidth,
     this.maxElementsPerSection = 2,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

@@ -12,9 +12,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulJoinResultDialog extends StatelessWidget {
   const SuccessfulJoinResultDialog({
-    Key? key,
+    super.key,
     required this.result,
-  }) : super(key: key);
+  });
 
   final SuccessfulJoinResult result;
 

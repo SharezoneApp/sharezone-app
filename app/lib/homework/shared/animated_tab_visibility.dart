@@ -73,7 +73,7 @@ class AnimatedTabVisibility extends StatefulWidget {
   final VoidCallback? onEnd;
 
   const AnimatedTabVisibility({
-    Key? key,
+    super.key,
     required this.child,
     required this.visibleInTabIndicies,
     this.tabController,
@@ -81,7 +81,7 @@ class AnimatedTabVisibility extends StatefulWidget {
     this.maintainState = false,
     this.curve = Curves.linear,
     this.onEnd,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _AnimatedTabVisibilityState();

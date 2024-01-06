@@ -62,9 +62,8 @@ class _PictureGrid extends StatelessWidget {
 
 class _PictureBox extends StatelessWidget {
   const _PictureBox({
-    Key? key,
     required this.path,
-  }) : super(key: key);
+  });
 
   final String path;
 

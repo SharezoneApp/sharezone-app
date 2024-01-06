@@ -32,7 +32,7 @@ Future<void> openReportPage(
 }
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key, required this.item}) : super(key: key);
+  const ReportPage({super.key, required this.item});
 
   static const tag = 'report-page';
 
@@ -102,7 +102,7 @@ class _ReportPageState extends State<ReportPage> {
 }
 
 class _SendButton extends StatelessWidget {
-  const _SendButton({Key? key}) : super(key: key);
+  const _SendButton();
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +182,9 @@ class _ReasonRadioGroup extends StatelessWidget {
 
 class _ReasonTile extends StatelessWidget {
   const _ReasonTile({
-    Key? key,
     required this.reason,
     required this.currentReason,
-  }) : super(key: key);
+  });
 
   final ReportReason reason;
   final ReportReason? currentReason;

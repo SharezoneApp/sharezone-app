@@ -89,7 +89,7 @@ Future<void> showCloudFileSheet({
 
 class FileSheet extends StatelessWidget {
   const FileSheet({
-    Key? key,
+    super.key,
     this.items,
     required this.name,
     required this.creatorName,
@@ -97,7 +97,7 @@ class FileSheet extends StatelessWidget {
     this.icon,
     this.sizeBytes,
     this.isPrivate,
-  }) : super(key: key);
+  });
 
   final String? name;
   final String? creatorName;

@@ -9,7 +9,7 @@
 part of '../timetable_add_page.dart';
 
 class _TimeTab extends StatelessWidget {
-  const _TimeTab({Key? key, required this.index}) : super(key: key);
+  const _TimeTab({required this.index});
 
   final int index;
 
@@ -33,7 +33,7 @@ class _TimeTab extends StatelessWidget {
 }
 
 class _SwitchTimeType extends StatelessWidget {
-  const _SwitchTimeType({Key? key, required this.timeType}) : super(key: key);
+  const _SwitchTimeType({required this.timeType});
 
   final TimeType timeType;
 
@@ -60,7 +60,7 @@ class _SwitchTimeType extends StatelessWidget {
 }
 
 class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
-  const _NoteForChangingTheTimesOfTheTimetable({Key? key}) : super(key: key);
+  const _NoteForChangingTheTimesOfTheTimetable();
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +146,10 @@ class _PeriodTile extends StatelessWidget {
   final Period? selectedPeriod;
 
   const _PeriodTile({
-    Key? key,
     required this.period,
     this.onTap,
     this.selectedPeriod,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

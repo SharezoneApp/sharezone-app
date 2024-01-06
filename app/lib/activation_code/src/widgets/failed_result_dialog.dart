@@ -14,9 +14,9 @@ class FailedEnterActivationCodeResultDialog extends StatelessWidget {
   final FailedEnterActivationCodeResult failedEnterActivationCodeResult;
 
   const FailedEnterActivationCodeResultDialog({
-    Key? key,
+    super.key,
     required this.failedEnterActivationCodeResult,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     if (failedEnterActivationCodeResult.enterActivationCodeException

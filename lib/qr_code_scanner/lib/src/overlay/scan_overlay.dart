@@ -23,11 +23,11 @@ bool _shouldUseLandscapeLayout(BuildContext context) {
 /// torch (if [hasTorch] is true) and optionally a description text.
 class ScanOverlay extends StatelessWidget {
   const ScanOverlay({
-    Key? key,
+    super.key,
     required this.hasTorch,
     this.description,
     this.onTorchToggled,
-  }) : super(key: key);
+  });
 
   /// A description that is displayed below the scan selection or on the left
   /// side of the scan area.
@@ -65,9 +65,8 @@ class ScanOverlay extends StatelessWidget {
 
 class _Description extends StatelessWidget {
   const _Description({
-    Key? key,
     required this.description,
-  }) : super(key: key);
+  });
 
   final Widget description;
 
@@ -94,9 +93,8 @@ class _Description extends StatelessWidget {
 
 class _ToggleTorchButton extends StatefulWidget {
   const _ToggleTorchButton({
-    Key? key,
     required this.onTorchToggled,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTorchToggled;
 

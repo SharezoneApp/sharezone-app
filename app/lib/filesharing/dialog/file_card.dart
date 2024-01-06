@@ -47,13 +47,13 @@ class FileCard extends StatelessWidget {
   final VoidCallback? onTap, onLongPress;
 
   const FileCard({
-    Key? key,
+    super.key,
     this.localFile,
     this.cloudFile,
     this.trailing,
     this.onTap,
     this.onLongPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) => FileTile(
@@ -73,13 +73,13 @@ class FileTile extends StatelessWidget {
   final VoidCallback? onTap, onLongPress;
 
   const FileTile({
-    Key? key,
+    super.key,
     required this.cloudFile,
     this.localFile,
     this.onTap,
     this.onLongPress,
     this.trailing,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +128,9 @@ class FileTileBase extends StatelessWidget {
 
 class FileMoreOptionsWithOnlyRemoveFileFromBloc extends StatelessWidget {
   const FileMoreOptionsWithOnlyRemoveFileFromBloc({
-    Key? key,
+    super.key,
     required this.removeFileFromBlocMethod,
-  }) : super(key: key);
+  });
 
   final VoidCallback removeFileFromBlocMethod;
 

@@ -66,11 +66,10 @@ class _WeekDayList extends StatelessWidget {
 
 class _WeekDayTile extends StatelessWidget {
   const _WeekDayTile({
-    Key? key,
     required this.weekDay,
     this.onTap,
     this.selectedWeekDay,
-  }) : super(key: key);
+  });
 
   final WeekDay weekDay;
   final VoidCallback? onTap;

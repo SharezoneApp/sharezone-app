@@ -11,7 +11,7 @@ part of '../sign_up_page.dart';
 /// Shows the user the advantages of sharezone. This page is basically
 /// designed for students.
 class _Advantages extends StatelessWidget {
-  const _Advantages({Key? key}) : super(key: key);
+  const _Advantages();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _Advantages extends StatelessWidget {
 }
 
 class _AdvantageAllInOne extends StatelessWidget {
-  const _AdvantageAllInOne({Key? key}) : super(key: key);
+  const _AdvantageAllInOne();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _AdvantageAllInOne extends StatelessWidget {
 }
 
 class _AdvantageCloud extends StatelessWidget {
-  const _AdvantageCloud({Key? key}) : super(key: key);
+  const _AdvantageCloud();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _AdvantageCloud extends StatelessWidget {
 }
 
 class _AdvantageSaveTime extends StatelessWidget {
-  const _AdvantageSaveTime({Key? key}) : super(key: key);
+  const _AdvantageSaveTime();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _AdvantageSaveTime extends StatelessWidget {
 }
 
 class _AdvantageNotifications extends StatelessWidget {
-  const _AdvantageNotifications({Key? key}) : super(key: key);
+  const _AdvantageNotifications();
 
   @override
   Widget build(BuildContext context) {

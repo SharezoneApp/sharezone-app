@@ -57,9 +57,9 @@ Future<void> _submit(BuildContext context) async {
 
 class SchoolClassEditPage extends StatefulWidget {
   const SchoolClassEditPage({
-    Key? key,
+    super.key,
     required this.schoolClass,
-  }) : super(key: key);
+  });
 
   static const tag = "school-class-details-page";
   final SchoolClass schoolClass;
@@ -120,9 +120,8 @@ class _SchoolClassEditPageFAB extends StatelessWidget {
 
 class _NameField extends StatelessWidget {
   const _NameField({
-    Key? key,
     this.currentName,
-  }) : super(key: key);
+  });
 
   final String? currentName;
 

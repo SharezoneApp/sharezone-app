@@ -16,11 +16,11 @@ class DynamicLinkOverlay extends StatelessWidget {
   final Widget child;
 
   const DynamicLinkOverlay({
-    Key? key,
+    super.key,
     required this.einkommendeLinks,
     required this.child,
     this.activated,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<EinkommenderLink>(

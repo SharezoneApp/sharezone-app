@@ -63,10 +63,9 @@ class TimetableEntryEvent extends StatelessWidget {
 
 class _EventTitle extends StatelessWidget {
   const _EventTitle({
-    Key? key,
     required this.title,
     required this.color,
-  }) : super(key: key);
+  });
 
   final String? title;
   final Color? color;

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FileSharingHeadline extends StatelessWidget {
-  const FileSharingHeadline({Key? key, this.title}) : super(key: key);
+  const FileSharingHeadline({super.key, this.title});
 
   final String? title;
 

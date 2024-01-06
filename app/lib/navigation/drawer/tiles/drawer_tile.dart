@@ -49,13 +49,13 @@ class DrawerTile extends StatelessWidget {
 
   const DrawerTile(
     this.navigationItem, {
-    Key? key,
+    super.key,
     this.title,
     this.icon,
     this.trailing,
     this.tag,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -132,13 +132,12 @@ class DrawerTile extends StatelessWidget {
 
 class _SelectedDrawerTile extends StatelessWidget {
   const _SelectedDrawerTile({
-    Key? key,
     required this.icon,
     required this.title,
     this.subtitle,
     this.onTap,
     this.trailing,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -175,13 +174,12 @@ class _SelectedDrawerTile extends StatelessWidget {
 
 class _DefaultDrawerTile extends StatelessWidget {
   const _DefaultDrawerTile({
-    Key? key,
     required this.title,
     this.icon,
     this.subtitle,
     this.onTap,
     this.trailing,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final String title;

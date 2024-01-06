@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({Key? key}) : super(key: key);
+  const _ProfileAvatar();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _ProfileAvatar extends StatelessWidget {
 }
 
 class _AnonymousUserNote extends StatelessWidget {
-  const _AnonymousUserNote({Key? key, required this.cache}) : super(key: key);
+  const _AnonymousUserNote({required this.cache});
 
   final ProfilePageHintCache cache;
 

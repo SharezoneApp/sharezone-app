@@ -25,7 +25,7 @@ Future<dynamic> openMySchoolClassCreateDialog(
 }
 
 class SchoolClassCreateDialog extends StatefulWidget {
-  const SchoolClassCreateDialog({Key? key}) : super(key: key);
+  const SchoolClassCreateDialog({super.key});
 
   @override
   State createState() => _SchoolClassCreateDialogState();
@@ -103,11 +103,10 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
 
 class _NameField extends StatelessWidget {
   const _NameField({
-    Key? key,
     required this.value,
     required this.onChanged,
     required this.onSubmitted,
-  }) : super(key: key);
+  });
 
   final String value;
   final void Function(String) onChanged;

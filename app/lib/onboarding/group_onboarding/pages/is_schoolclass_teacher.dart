@@ -35,7 +35,7 @@ class GroupOnboardingIsClassTeacher extends StatelessWidget {
 }
 
 class _ClassTeacherButton extends StatelessWidget {
-  const _ClassTeacherButton({Key? key}) : super(key: key);
+  const _ClassTeacherButton();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _ClassTeacherButton extends StatelessWidget {
 }
 
 class _CourseTeacherButton extends StatelessWidget {
-  const _CourseTeacherButton({Key? key}) : super(key: key);
+  const _CourseTeacherButton();
 
   @override
   Widget build(BuildContext context) {

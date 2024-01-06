@@ -22,11 +22,11 @@ class CourseJoinListener extends StatelessWidget {
   final GroupJoinFunction groupJoinFunction;
 
   const CourseJoinListener({
-    Key? key,
+    super.key,
     required this.beitrittsversuche,
     required this.groupJoinFunction,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

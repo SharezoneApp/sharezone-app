@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 
 class ContinueRoundButton extends StatelessWidget {
   const ContinueRoundButton({
-    Key? key,
+    super.key,
     required this.onTap,
     this.tooltip,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final String? tooltip;

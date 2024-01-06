@@ -29,10 +29,10 @@ class SignUpPage extends StatefulWidget {
   static const tag = 'sign-up-page';
 
   const SignUpPage({
-    Key? key,
+    super.key,
     this.withLogin = true,
     this.withBackButton = false,
-  }) : super(key: key);
+  });
 
   final bool withLogin;
   final bool withBackButton;
@@ -94,11 +94,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
 class _AdvancedListTile extends StatelessWidget {
   const _AdvancedListTile({
-    Key? key,
     required this.title,
     this.subtitle,
     this.leading,
-  }) : super(key: key);
+  });
 
   factory _AdvancedListTile.dataProtection({
     required String title,
@@ -131,9 +130,9 @@ class _AdvancedListTile extends StatelessWidget {
 
 class OnboardingNavigationBar extends StatelessWidget {
   const OnboardingNavigationBar({
-    Key? key,
+    super.key,
     this.action,
-  }) : super(key: key);
+  });
 
   final Widget? action;
 
@@ -174,10 +173,10 @@ class OnboardingNavigationBar extends StatelessWidget {
 
 class OnboardingNavigationBarContinueButton extends StatelessWidget {
   const OnboardingNavigationBarContinueButton({
-    Key? key,
+    super.key,
     required this.nextPage,
     required this.nextTag,
-  }) : super(key: key);
+  });
 
   /// Dieses Widget wird angezeigt, sobald der Weiter-Button gedrückt wird.
   final Widget nextPage;

@@ -76,7 +76,7 @@ class MemberSection extends StatelessWidget {
 }
 
 class MemberCountText extends StatelessWidget {
-  const MemberCountText({Key? key, this.memberCount = 0}) : super(key: key);
+  const MemberCountText({super.key, this.memberCount = 0});
 
   final int memberCount;
 

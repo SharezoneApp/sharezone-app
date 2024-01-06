@@ -16,7 +16,7 @@ import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 /// Optionally, you can pass [instructionsToInstall] to throw an helpful
 /// exception.
 ///
-/// Currently, we skip this method for [Platform.isWindows] because "which -s"
+/// Currently, we skip this method for [Platform.isWindows] because "which"
 /// is not available for Windows.
 Future<void> throwIfCommandIsNotInstalled(
   ProcessRunner processRunner, {
@@ -24,13 +24,13 @@ Future<void> throwIfCommandIsNotInstalled(
   String? instructionsToInstall,
 }) async {
   if (Platform.isWindows) {
-    // We skip on Windows the check because "which -s" is not available for
+    // We skip on Windows the check because "which" is not available for
     // Windows.
     return;
   }
 
   final result = await processRunner.run(
-    ['which', '-s', command],
+    ['which', command],
     failOk: true,
   );
   if (result.exitCode != 0) {

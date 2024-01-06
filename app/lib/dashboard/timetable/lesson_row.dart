@@ -88,7 +88,7 @@ class _SchoolIsOver extends StatelessWidget {
 }
 
 class _EmptyStateMsg extends StatelessWidget {
-  const _EmptyStateMsg(this.text, {Key? key}) : super(key: key);
+  const _EmptyStateMsg(this.text);
 
   final String text;
 

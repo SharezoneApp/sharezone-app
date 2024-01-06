@@ -61,7 +61,7 @@ Future<void> _submit(
 }
 
 class _PeriodsEditPage extends StatefulWidget {
-  const _PeriodsEditPage({Key? key}) : super(key: key);
+  const _PeriodsEditPage();
 
   static const tag = "periods-edit-page";
 
@@ -213,10 +213,9 @@ class _TimetableStart extends StatelessWidget {
 
 class _PeriodTile extends StatelessWidget {
   const _PeriodTile({
-    Key? key,
     required this.period,
     required this.isLastPeriod,
-  }) : super(key: key);
+  });
 
   final bool isLastPeriod;
   final Period period;

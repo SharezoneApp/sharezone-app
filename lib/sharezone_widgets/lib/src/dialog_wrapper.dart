@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 
 class DialogWrapper extends StatelessWidget {
-  const DialogWrapper({Key? key, this.child}) : super(key: key);
+  const DialogWrapper({super.key, this.child});
 
   final Widget? child;
 

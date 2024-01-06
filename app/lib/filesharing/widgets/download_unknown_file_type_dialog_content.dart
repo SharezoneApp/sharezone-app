@@ -22,13 +22,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DownloadUnknownFileFormatPage extends StatelessWidget {
   const DownloadUnknownFileFormatPage({
-    Key? key,
+    super.key,
     required this.actions,
     required this.name,
     required this.id,
     required this.downloadURL,
     required this.nameStream,
-  }) : super(key: key);
+  });
 
   final List<Widget>? actions;
   final String? name;
@@ -57,12 +57,12 @@ class DownloadUnknownFileFormatPage extends StatelessWidget {
 
 class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   const DownloadUnknownFileTypeDialogContent({
-    Key? key,
+    super.key,
     required this.name,
     required this.nameStream,
     required this.downloadURL,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String? name;
   final String? downloadURL;
@@ -135,7 +135,7 @@ class _FinishDialog extends StatelessWidget {
 }
 
 class _ErrorDialog extends StatelessWidget {
-  const _ErrorDialog({Key? key, required this.error}) : super(key: key);
+  const _ErrorDialog({required this.error});
 
   final String error;
 
@@ -149,7 +149,7 @@ class _ErrorDialog extends StatelessWidget {
 }
 
 class _LoadingDialog extends StatelessWidget {
-  const _LoadingDialog({Key? key}) : super(key: key);
+  const _LoadingDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +161,7 @@ class _LoadingDialog extends StatelessWidget {
 }
 
 class _Dialog extends StatelessWidget {
-  const _Dialog({Key? key, this.leading, this.text}) : super(key: key);
+  const _Dialog({this.leading, this.text});
 
   final Widget? leading;
   final String? text;

@@ -18,14 +18,14 @@ class ModalFloatingActionButton extends StatelessWidget {
   final String? label;
 
   const ModalFloatingActionButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.icon,
     this.backgroundColor,
     required this.tooltip,
     this.label,
     this.heroTag,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -18,9 +18,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
   const SchoolClassCoursesList({
-    Key? key,
+    super.key,
     required this.schoolClassID,
-  }) : super(key: key);
+  });
 
   final String schoolClassID;
 
@@ -55,11 +55,10 @@ class _List extends StatelessWidget {
   final bool isAdmin;
 
   const _List({
-    Key? key,
     this.courses = const [],
     required this.schoolClassId,
     required this.isAdmin,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +91,10 @@ class _List extends StatelessWidget {
 
 class _SchoolCoursesActions extends StatelessWidget {
   const _SchoolCoursesActions({
-    Key? key,
     required this.title,
     this.onTap,
     this.iconData,
-  }) : super(key: key);
+  });
 
   final String title;
   final VoidCallback? onTap;
@@ -118,7 +116,7 @@ class _SchoolCoursesActions extends StatelessWidget {
 }
 
 class _AddExistingCourse extends StatelessWidget {
-  const _AddExistingCourse(this.schoolClassID, {Key? key}) : super(key: key);
+  const _AddExistingCourse(this.schoolClassID);
 
   final String schoolClassID;
 
@@ -187,10 +185,9 @@ class _AddExistingCourse extends StatelessWidget {
 
 class _CourseTile extends StatelessWidget {
   const _CourseTile({
-    Key? key,
     required this.course,
     required this.schoolClassID,
-  }) : super(key: key);
+  });
 
   final Course course;
   final String schoolClassID;
@@ -218,10 +215,7 @@ class _CourseTile extends StatelessWidget {
 }
 
 class _AddNewCourse extends StatelessWidget {
-  const _AddNewCourse(
-    this.schoolClassID, {
-    Key? key,
-  }) : super(key: key);
+  const _AddNewCourse(this.schoolClassID);
 
   final String schoolClassID;
 

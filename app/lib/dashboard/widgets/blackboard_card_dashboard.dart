@@ -19,7 +19,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// und ist für diese Seite extra angepasst (Größte, etc.)
 class BlackboardCardDashboard extends StatelessWidget {
   const BlackboardCardDashboard({
-    Key? key,
+    super.key,
     this.view,
     this.width,
     this.height,
@@ -27,7 +27,7 @@ class BlackboardCardDashboard extends StatelessWidget {
     this.withDetailsButton = true,
     this.forceIsRead,
     this.padding,
-  }) : super(key: key);
+  });
 
   final BlackboardView? view;
   final double? width, height;
@@ -69,8 +69,7 @@ class BlackboardCardDashboard extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key, this.view, this.width, this.hasText = true})
-      : super(key: key);
+  const _Header({this.view, this.width, this.hasText = true});
 
   final BlackboardView? view;
   final double? width;
@@ -104,7 +103,7 @@ class _Header extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({Key? key, this.name, this.color}) : super(key: key);
+  const _CourseName({this.name, this.color});
 
   final String? name;
   final Color? color;
@@ -124,7 +123,7 @@ class _Title extends StatelessWidget {
   final String title;
   final bool? hasText;
 
-  const _Title(this.title, {Key? key, this.hasText}) : super(key: key);
+  const _Title(this.title, {this.hasText});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +142,7 @@ class _Title extends StatelessWidget {
 }
 
 class _Text extends StatelessWidget {
-  const _Text({Key? key, this.text, this.maxLines}) : super(key: key);
+  const _Text({this.text, this.maxLines});
 
   final String? text;
   final int? maxLines;
