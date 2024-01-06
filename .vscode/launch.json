@@ -25,10 +25,13 @@
             "program": "app/lib/main_dev.dart"
         },
         {
-            "name": "Website",
+            "name": "Website (dev)",
             "request": "launch",
             "type": "dart",
-            "program": "website/lib/main.dart"
+            "program": "website/lib/main.dart",
+            "args": [
+                "--dart-define=FLAVOR=dev"
+            ]
         },
     ]
 }
