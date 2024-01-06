@@ -10,101 +10,109 @@ part of './general_theme.dart';
 
 const _accentColor = Colors.lightBlue;
 
-final darkTheme = ThemeData(
-  // Since 3.16 Material 3 became the standard. However, it requires a migration
-  // from Material 2 to 3 which is the reason why opt-out for now.
-  //
-  // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/1159
-  useMaterial3: false,
+/// Returns the dark theme for the app.
+///
+/// In golden tests outside of `/app`, it's recommended to override [fontFamily]
+/// to `Roboto` to because `golden_toolkit` can't load fonts of other packages.
+ThemeData getDarkTheme({
+  String? fontFamily = rubik,
+}) {
+  return ThemeData(
+    // Since 3.16 Material 3 became the standard. However, it requires a migration
+    // from Material 2 to 3 which is the reason why opt-out for now.
+    //
+    // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/1159
+    useMaterial3: false,
 
-  // Brightness
-  brightness: Brightness.dark,
-  scaffoldBackgroundColor: ElevationColors.dp0,
-
-  // Colors
-  primaryColor: primaryColor,
-  unselectedWidgetColor: _accentColor,
-  cardColor: ElevationColors.dp0,
-  indicatorColor: Colors.amberAccent,
-  dialogBackgroundColor: ElevationColors.dp12,
-  canvasColor: ElevationColors.dp2,
-  highlightColor: PlatformCheck.isIOS ? Colors.grey[800] : null,
-  splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
-
-  // Font:
-  fontFamily: rubik,
-
-  // Themes
-  appBarTheme: const AppBarTheme(
-    color: ElevationColors.dp8,
-    foregroundColor: Colors.white,
-    iconTheme: IconThemeData(color: Colors.white),
-  ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: _accentColor,
-    foregroundColor: Colors.white,
-  ),
-  textTheme: const TextTheme()
-      .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
-  pageTransitionsTheme: _pageTransitionsTheme,
-  snackBarTheme: _snackBarTheme.copyWith(
-    contentTextStyle: const TextStyle(color: Colors.white),
-    backgroundColor: Colors.black,
-  ),
-  bottomSheetTheme: _bottomSheetTheme,
-  dialogTheme: _dialogTheme,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: primaryColor,
+    // Brightness
     brightness: Brightness.dark,
-  ),
-  tabBarTheme: const TabBarTheme(labelColor: Colors.white),
-  checkboxTheme: CheckboxThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+    scaffoldBackgroundColor: ElevationColors.dp0,
+
+    // Colors
+    primaryColor: primaryColor,
+    unselectedWidgetColor: _accentColor,
+    cardColor: ElevationColors.dp0,
+    indicatorColor: Colors.amberAccent,
+    dialogBackgroundColor: ElevationColors.dp12,
+    canvasColor: ElevationColors.dp2,
+    highlightColor: PlatformCheck.isIOS ? Colors.grey[800] : null,
+    splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
+
+    // Font:
+    fontFamily: fontFamily,
+
+    // Themes
+    appBarTheme: const AppBarTheme(
+      color: ElevationColors.dp8,
+      foregroundColor: Colors.white,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: _accentColor,
+      foregroundColor: Colors.white,
+    ),
+    textTheme: const TextTheme()
+        .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
+    pageTransitionsTheme: _pageTransitionsTheme,
+    snackBarTheme: _snackBarTheme.copyWith(
+      contentTextStyle: const TextStyle(color: Colors.white),
+      backgroundColor: Colors.black,
+    ),
+    bottomSheetTheme: _bottomSheetTheme,
+    dialogTheme: _dialogTheme,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: primaryColor,
+      brightness: Brightness.dark,
+    ),
+    tabBarTheme: const TabBarTheme(labelColor: Colors.white),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return _accentColor;
+        }
         return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return _accentColor;
-      }
-      return null;
-    }),
-  ),
-  radioTheme: RadioThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+      }),
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return _accentColor;
+        }
         return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return _accentColor;
-      }
-      return null;
-    }),
-  ),
-  switchTheme: SwitchThemeData(
-    thumbColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return _accentColor;
+        }
         return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return _accentColor;
-      }
-      return null;
-    }),
-    trackColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return _accentColor;
+        }
         return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return _accentColor;
-      }
-      return null;
-    }),
-  ),
-);
+      }),
+    ),
+  );
+}
 
 extension ThemeExtension on ThemeData {
   bool get isDarkTheme => brightness == Brightness.dark;

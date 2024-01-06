@@ -9,7 +9,14 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+/// The default font family used in the app.
 const rubik = 'Rubik';
+
+/// The font family that is used for golden tests outside of `/app`.
+///
+/// We can't use [rubik] because `golden_toolkit` can't load fonts of other
+/// packages, see https://github.com/eBay/flutter_glove_box/issues/158.
+const roboto = 'Roboto';
 
 const Color accentColor = Colors.redAccent;
 const Color primaryColor = Color(0xFF68B3E9);

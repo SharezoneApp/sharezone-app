@@ -80,7 +80,7 @@ void main() {
       });
 
       testGoldens('(light mode)', (tester) async {
-        await pumpPage(tester, theme: lightTheme);
+        await pumpPage(tester, theme: getLightTheme());
 
         await multiScreenGolden(
           tester,
@@ -89,7 +89,7 @@ void main() {
       });
 
       testGoldens('(dark mode)', (tester) async {
-        await pumpPage(tester, theme: darkTheme);
+        await pumpPage(tester, theme: getDarkTheme());
 
         await multiScreenGolden(
           tester,
@@ -106,7 +106,7 @@ void main() {
       });
 
       testGoldens('(light mode)', (tester) async {
-        await pumpPage(tester, theme: lightTheme);
+        await pumpPage(tester, theme: getLightTheme());
 
         await multiScreenGolden(
           tester,
@@ -115,7 +115,7 @@ void main() {
       });
 
       testGoldens('(dark mode)', (tester) async {
-        await pumpPage(tester, theme: darkTheme);
+        await pumpPage(tester, theme: getDarkTheme());
 
         await multiScreenGolden(
           tester,

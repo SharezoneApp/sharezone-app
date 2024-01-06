@@ -42,9 +42,9 @@ class SharezoneMaterialApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
       color: primaryColor,
-      darkTheme: darkTheme.copyWith(
+      darkTheme: getDarkTheme().copyWith(
           visualDensity: themeSettings.visualDensitySetting.visualDensity),
-      theme: lightTheme.copyWith(
+      theme: getLightTheme().copyWith(
           visualDensity: themeSettings.visualDensitySetting.visualDensity),
       themeMode: _getThemeMode(themeSettings.themeBrightness),
       localizationsDelegates: const [

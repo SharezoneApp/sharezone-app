@@ -66,13 +66,13 @@ void main() {
     }
 
     testGoldens('renders as expected (light mode)', (tester) async {
-      await pumpNotificationPage(tester, themeData: lightTheme);
+      await pumpNotificationPage(tester, themeData: getLightTheme());
 
       await multiScreenGolden(tester, 'notification_page_light');
     });
 
     testGoldens('renders as expected (dark mode)', (tester) async {
-      await pumpNotificationPage(tester, themeData: darkTheme);
+      await pumpNotificationPage(tester, themeData: getDarkTheme());
 
       await multiScreenGolden(tester, 'notification_page_dark');
     });
@@ -82,7 +82,7 @@ void main() {
               SharezonePlusFeature.changeHomeworkReminderTime))
           .thenReturn(false);
 
-      await pumpNotificationPage(tester, themeData: lightTheme);
+      await pumpNotificationPage(tester, themeData: getLightTheme());
 
       await tester
           .tap(find.byKey(const Key('homework-notifications-time-tile')));

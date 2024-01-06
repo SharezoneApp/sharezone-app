@@ -69,7 +69,7 @@ void main() {
         BlocProvider<HolidayBloc>(
           bloc: holidayBloc,
           child: MaterialApp(
-            theme: lightTheme,
+            theme: getLightTheme(),
             home: const Scaffold(
               body: Center(
                 child: HolidayCountdownSection(),

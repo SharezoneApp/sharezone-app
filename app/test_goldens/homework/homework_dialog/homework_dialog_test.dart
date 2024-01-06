@@ -65,7 +65,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       await multiScreenGolden(
         tester,
@@ -73,7 +73,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: darkTheme);
+          isEditing: false, theme: getDarkTheme());
 
       await multiScreenGolden(
         tester,
@@ -131,7 +131,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       await multiScreenGolden(
         tester,
@@ -139,7 +139,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: darkTheme);
+          isEditing: false, theme: getDarkTheme());
 
       await multiScreenGolden(
         tester,
@@ -200,7 +200,7 @@ void main() {
       whenListenPresentation(homeworkDialogBloc,
           initialEvents: [const StartedUploadingAttachments()]);
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       // Wait for the SnackBar to appear.
       await tester.pump(const Duration(milliseconds: 500));
@@ -223,7 +223,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(
         tester,
         isEditing: false,
-        theme: darkTheme,
+        theme: getDarkTheme(),
       );
       // Otherwise the theme is not completly applied (some text is still black
       // instead of white).
@@ -293,7 +293,7 @@ void main() {
         SavingFailed(Exception('Test Exception Message'), null)
       ]);
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       // Wait for the SnackBar to appear.
       await tester.pump(const Duration(milliseconds: 500));
@@ -318,7 +318,7 @@ void main() {
       await pumpAndSettleHomeworkDialog(
         tester,
         isEditing: false,
-        theme: darkTheme,
+        theme: getDarkTheme(),
       );
       // Otherwise the theme is not completly applied (some text is still black
       // instead of white).
@@ -357,7 +357,7 @@ void main() {
           initialEvents: [const RequiredFieldsNotFilledOut()]);
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       await multiScreenGolden(
         tester,
@@ -365,7 +365,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: darkTheme);
+          isEditing: false, theme: getDarkTheme());
 
       await multiScreenGolden(
         tester,
@@ -415,7 +415,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: lightTheme);
+          isEditing: false, theme: getLightTheme());
 
       await multiScreenGolden(
         tester,
@@ -423,7 +423,7 @@ void main() {
       );
 
       await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: darkTheme);
+          isEditing: false, theme: getDarkTheme());
 
       await multiScreenGolden(
         tester,

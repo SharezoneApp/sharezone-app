@@ -119,7 +119,7 @@ void main() {
           await testSchoolClassSelection(
             tester,
             variant: 'with_plus_light',
-            themeData: lightTheme,
+            themeData: getLightTheme(),
           );
         });
 
@@ -127,7 +127,7 @@ void main() {
           await testSchoolClassSelection(
             tester,
             variant: 'with_plus_dark',
-            themeData: lightTheme,
+            themeData: getLightTheme(),
           );
         });
       });
@@ -143,7 +143,7 @@ void main() {
           await testSchoolClassSelection(
             tester,
             variant: 'with_without_plus_light',
-            themeData: lightTheme,
+            themeData: getLightTheme(),
           );
         });
 
@@ -151,7 +151,7 @@ void main() {
           await testSchoolClassSelection(
             tester,
             variant: 'with_without_plus_dark',
-            themeData: darkTheme,
+            themeData: getDarkTheme(),
           );
         });
       });
