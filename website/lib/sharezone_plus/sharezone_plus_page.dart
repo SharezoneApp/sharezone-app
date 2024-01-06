@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
-import 'package:sharezone_website/widgets/headline.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 final isSharezonePlusPageEnabledFlag =
     kDebugMode || Flavor.fromEnvironment() == Flavor.dev;
@@ -17,18 +17,58 @@ class SharezonePlusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const PageTemplate(
       children: [
-        const SharezonePlusPageHeader(),
-        const SizedBox(height: 18),
-        const WhyPlusSharezoneCard(),
-        const SizedBox(height: 18),
-        SharezonePlusAdvantages(typeOfUser: typeOfUser),
-        const SizedBox(height: 18),
-        const _CallToActionSection(),
-        const SizedBox(height: 32),
-        const SharezonePlusFaq(),
-        const SizedBox(height: 18),
-        const SharezonePlusSupportNote(),
+        MaxWidthConstraintBox(
+          maxWidth: 750,
+          child: Column(
+            children: [
+              SharezonePlusPageHeader(),
+              SizedBox(height: 18),
+              WhyPlusSharezoneCard(),
+              SizedBox(height: 18),
+              SharezonePlusAdvantages(
+                isHomeworkDoneListsFeatureVisible: true,
+                isHomeworkReminderFeatureVisible: true,
+              ),
+              SizedBox(height: 18),
+              _SubscribeSection(),
+              SizedBox(height: 32),
+              SharezonePlusFaq(),
+              SizedBox(height: 18),
+              SharezonePlusSupportNote(),
+              SizedBox(height: 32),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _SubscribeSection extends StatelessWidget {
+  const _SubscribeSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        SharezonePlusPrice('4,99€'),
+        SizedBox(height: 12),
+        _SubscribeButton(),
+        SizedBox(height: 12),
+        SharezonePlusLegalText(),
+      ],
+    );
+  }
+}
+
+class _SubscribeButton extends StatelessWidget {
+  const _SubscribeButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return CallToActionButton(
+      text: const Text('Abonnieren'),
+      onPressed: () {},
     );
   }
 }

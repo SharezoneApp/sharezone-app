@@ -31,6 +31,8 @@ dependencies:
   number_slide_animation: ^0.2.1
   sharezone_plus_page_ui:
     path: ../lib/sharezone_plus/sharezone_plus_page_ui
+  sharezone_widgets:
+    path: ../lib/sharezone_widgets
   url_launcher: ^6.2.2
 
 dev_dependencies:
@@ -66,3 +68,4 @@ flutter:
     - assets/features/
     - assets/get_it_on/
     - assets/images/
+    - packages/sharezone_plus_page_ui/assets/jonas-nils.png

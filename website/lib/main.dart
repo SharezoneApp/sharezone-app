@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -51,6 +52,13 @@ final GoRouter _router = GoRouter(
             return const PrivacyPolicyPage();
           },
         ),
+        if (isSharezonePlusPageEnabledFlag)
+          GoRoute(
+            path: SharezonePlusPage.tag,
+            builder: (BuildContext context, GoRouterState state) {
+              return const SharezonePlusPage();
+            },
+          ),
       ],
     ),
   ],

@@ -48,13 +48,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  cloud_firestore_helper:
-    dependency: transitive
-    description:
-      path: "../lib/cloud_firestore_helper"
-      relative: true
-    source: path
-    version: "0.0.1"
   collection:
     dependency: transitive
     description:
@@ -63,13 +56,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  date:
-    dependency: transitive
-    description:
-      path: "../lib/date"
-      relative: true
-    source: path
-    version: "1.0.0"
   dio:
     dependency: "direct main"
     description:
@@ -299,7 +285,7 @@ packages:
     source: path
     version: "0.0.1"
   sharezone_widgets:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../lib/sharezone_widgets"
       relative: true
@@ -366,13 +352,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
-  time:
-    dependency: transitive
-    description:
-      path: "../lib/time"
-      relative: true
-    source: path
-    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -445,13 +424,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
-  user:
-    dependency: transitive
-    description:
-      path: "../lib/user"
-      relative: true
-    source: path
-    version: "0.0.1"
   vector_graphics:
     dependency: transitive
     description:
