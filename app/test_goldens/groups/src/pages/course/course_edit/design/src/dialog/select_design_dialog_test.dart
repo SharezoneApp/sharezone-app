@@ -67,14 +67,14 @@ void main() {
 
       testGoldens('displays select base color dialog as expected (light mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: lightTheme);
+        await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
         await multiScreenGolden(tester, 'select_base_color_dialog_light');
       });
 
       testGoldens('displays select base color dialog as expected (dark mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: darkTheme);
+        await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'select_base_color_dialog_dark');
       });
@@ -82,7 +82,7 @@ void main() {
       testGoldens(
           'displays select a color shade dialog as expected (light mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: lightTheme);
+        await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
         await tester
             .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
@@ -94,7 +94,7 @@ void main() {
       testGoldens(
           'displays select a color shade dialog as expected (dark mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: darkTheme);
+        await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
         await tester
             .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
@@ -113,14 +113,14 @@ void main() {
 
       testGoldens('displays select design dialog as expected (light mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: lightTheme);
+        await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
         await multiScreenGolden(tester, 'select_free_design_dialog_light');
       });
 
       testGoldens('displays select design dialog as expected (dark mode)',
           (tester) async {
-        await pumpSelectDesignDialog(tester, theme: darkTheme);
+        await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'select_free_design_dialog_dark');
       });

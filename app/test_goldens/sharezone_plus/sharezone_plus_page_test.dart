@@ -125,13 +125,13 @@ void main() {
     }
 
     testGoldens('renders page as expected (light theme)', (tester) async {
-      await pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: getLightTheme());
 
       await multiScreenGolden(tester, 'sharezone_plus_page_light_theme');
     });
 
     testGoldens('renders page as expected (dark theme)', (tester) async {
-      await pumpPlusPage(tester, theme: darkTheme);
+      await pumpPlusPage(tester, theme: getDarkTheme());
 
       await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
     });
@@ -140,7 +140,7 @@ void main() {
         (tester) async {
       when(controller.hasPlus).thenAnswer((_) => true);
 
-      await pumpPlusPage(tester, theme: lightTheme);
+      await pumpPlusPage(tester, theme: getLightTheme());
 
       // Ensure visibility
       await tester.dragUntilVisible(
@@ -187,7 +187,7 @@ void main() {
             (tester) async {
           await pumpPlusAdvantages(
             tester,
-            theme: darkTheme,
+            theme: getDarkTheme(),
             typeOfUser: typeOfUser,
           );
 
@@ -209,7 +209,7 @@ void main() {
             (tester) async {
           await pumpPlusAdvantages(
             tester,
-            theme: lightTheme,
+            theme: getLightTheme(),
             typeOfUser: typeOfUser,
           );
 
@@ -231,7 +231,7 @@ void main() {
           (tester) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: PlusFaqSection()),
-          wrapper: materialAppWrapper(theme: darkTheme),
+          wrapper: materialAppWrapper(theme: getDarkTheme()),
         );
 
         await tapEveryExpansionCard(tester);
@@ -248,7 +248,7 @@ void main() {
           (tester) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: PlusFaqSection()),
-          wrapper: materialAppWrapper(theme: lightTheme),
+          wrapper: materialAppWrapper(theme: getLightTheme()),
         );
 
         await tapEveryExpansionCard(tester);

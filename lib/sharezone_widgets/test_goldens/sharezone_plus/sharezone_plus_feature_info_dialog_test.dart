@@ -46,8 +46,7 @@ void main() {
     testGoldens('renders as expected (light mode)', (tester) async {
       await pumpScaffoldWithButtonForDialog(
         tester,
-        theme: ThemeData.light(useMaterial3: false)
-            .copyWith(primaryColor: primaryColor),
+        theme: getLightTheme(fontFamily: roboto),
       );
 
       await openDialog(tester);
@@ -59,9 +58,7 @@ void main() {
     testGoldens('renders as expected (dark mode)', (tester) async {
       await pumpScaffoldWithButtonForDialog(
         tester,
-        theme: ThemeData.dark(useMaterial3: false).copyWith(
-          primaryColor: primaryColor,
-        ),
+        theme: getDarkTheme(fontFamily: roboto),
       );
 
       await openDialog(tester);

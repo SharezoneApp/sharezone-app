@@ -246,7 +246,7 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: Theme(
-              data: darkTheme,
+              data: getDarkTheme(),
               child: Checkbox(
                 value: confirm,
                 onChanged: onChanged,

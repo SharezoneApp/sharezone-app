@@ -27,9 +27,7 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         await pumpSharezonePlusChip(
           tester,
-          theme: ThemeData.light(useMaterial3: false).copyWith(
-            primaryColor: primaryColor,
-          ),
+          theme: getLightTheme(fontFamily: roboto),
         );
 
         await screenMatchesGolden(tester, 'sharezone_plus_chip_light');
@@ -38,14 +36,7 @@ void main() {
       testGoldens('renders as expected (dark mode)', (tester) async {
         await pumpSharezonePlusChip(
           tester,
-          // We can't use our Sharezone `darkTheme` here because we a custom
-          // font that is not included in this package and the `golden_toolkit`
-          // package can't load the font.
-          //
-          // See: https://github.com/eBay/flutter_glove_box/issues/158
-          theme: ThemeData.dark(useMaterial3: false).copyWith(
-            primaryColor: primaryColor,
-          ),
+          theme: getDarkTheme(fontFamily: roboto),
         );
 
         await screenMatchesGolden(tester, 'sharezone_plus_chip_dark');
@@ -72,9 +63,7 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         await pumpSharezonePlusFeatureInfoCard(
           tester,
-          theme: ThemeData.light(useMaterial3: false).copyWith(
-            primaryColor: primaryColor,
-          ),
+          theme: getLightTheme(fontFamily: roboto),
         );
 
         await screenMatchesGolden(
@@ -82,13 +71,8 @@ void main() {
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
-        await pumpSharezonePlusFeatureInfoCard(
-          tester,
-          // We can't use our Sharezone `darkTheme` here. See comment above.
-          theme: ThemeData.dark(useMaterial3: false).copyWith(
-            primaryColor: primaryColor,
-          ),
-        );
+        await pumpSharezonePlusFeatureInfoCard(tester,
+            theme: getDarkTheme(fontFamily: roboto));
 
         await screenMatchesGolden(
             tester, 'sharezone_plus_feature_info_card_dark');
