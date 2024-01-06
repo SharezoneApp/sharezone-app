@@ -178,6 +178,8 @@ PODS:
     - FirebaseCore (~> 10.0)
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - flutter_image_compress_macos (1.0.0):
+    - FlutterMacOS
   - flutter_native_timezone (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -287,6 +289,7 @@ DEPENDENCIES:
   - firebase_remote_config (from `Flutter/ephemeral/.symlinks/plugins/firebase_remote_config/macos`)
   - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.12.0`)
+  - flutter_image_compress_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos`)
   - flutter_native_timezone (from `Flutter/ephemeral/.symlinks/plugins/flutter_native_timezone/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - google_sign_in_ios (from `Flutter/ephemeral/.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -362,6 +365,8 @@ EXTERNAL SOURCES:
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 10.12.0
+  flutter_image_compress_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos
   flutter_native_timezone:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_native_timezone/macos
   FlutterMacOS:
@@ -425,6 +430,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: f145e7365d36bec0d724c4574a8750e6f82fa6c8
   FirebaseSharedSwift: 0eec812f08b6ec9e03196fc27635739781513028
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
+  flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
   flutter_native_timezone: 3a4724189c47dea215bb3e168e555e18308d312c
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
