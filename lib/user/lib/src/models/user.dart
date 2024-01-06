@@ -8,7 +8,7 @@
 
 import 'package:characters/characters.dart';
 import 'package:helper_functions/helper_functions.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:user/src/models/subscription.dart';
 
 import 'features.dart';

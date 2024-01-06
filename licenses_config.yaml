@@ -55,6 +55,7 @@ packageLicenseOverride:
   build_context: EUPL-1.2-or-later
   common_domain_models: EUPL-1.2-or-later
   crash_analytics: EUPL-1.2-or-later
+  cloud_firestore_helper: EUPL-1.2-or-later
   date: EUPL-1.2-or-later
   design: EUPL-1.2-or-later
   dynamic_links: EUPL-1.2-or-later

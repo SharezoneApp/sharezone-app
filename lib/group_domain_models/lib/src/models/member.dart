@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:user/user.dart';
 
 import 'member_role.dart';

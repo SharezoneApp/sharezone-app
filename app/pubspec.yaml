@@ -52,6 +52,8 @@ dependencies:
   characters: ^1.0.0
   clock: ^1.1.1
   cloud_firestore: ^4.8.5
+  cloud_firestore_helper:
+    path: ../lib/cloud_firestore_helper
   cloud_functions: ^4.4.0
   collection: ^1.17.2
   common_domain_models:

@@ -313,6 +313,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.1"
+  cloud_firestore_helper:
+    dependency: "direct main"
+    description:
+      path: "../lib/cloud_firestore_helper"
+      relative: true
+    source: path
+    version: "0.0.1"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:

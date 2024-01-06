@@ -16,8 +16,8 @@ environment:
 
 dependencies:
   collection: ^1.17.2
-  sharezone_common:
-    path: ../sharezone_common
+  cloud_firestore_helper:
+    path: ../cloud_firestore_helper
   hausaufgabenheft_logik:
     path: ../hausaufgabenheft_logik
   common_domain_models:

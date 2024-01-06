@@ -6,25 +6,18 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-name: group_domain_models
-description: A new Flutter package project.
+name: cloud_firestore_helper_example
+description: Example for cloud_firestore_helper.
 version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
+  cloud_firestore: ^4.8.5
   cloud_firestore_helper:
-    path: ../cloud_firestore_helper
-  common_domain_models:
-    path: ../common_domain_models
-  sharezone_common:
-    path: ../sharezone_common
-  user:
-    path: ../user
-  design:
-    path: ../design
+    path: ../
   flutter:
     sdk: flutter
 
@@ -32,4 +25,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   sharezone_lints:
-    path: ../sharezone_lints
+    path: ../../sharezone_lints

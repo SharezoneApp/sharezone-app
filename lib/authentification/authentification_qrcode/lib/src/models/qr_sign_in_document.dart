@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:authentification_qrcode/authentification_qrcode.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 class QrSignInDocument {
   final String? qrId;
@@ -31,7 +31,7 @@ class QrSignInDocument {
       encryptedCustomToken: data['encryptedCustomToken'],
       encryptedKey: data['encryptedKey'],
       iv: data['iv'],
-      created: dateTimeFromTimestamp(data['created']),
+      created: dateTimeFromTimestampOrNull(data['created']),
     );
   }
 

@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 typedef ObjectMapBuilder<T> = T Function(String key, dynamic decodedMapValue);
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 
@@ -38,9 +36,17 @@ List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
   return originaldata.map((dynamic value) => builder(value)).toList();
 }
 
-DateTime dateTimeFromTimestamp(Timestamp? timestamp) =>
-    (timestamp ?? Timestamp.now()).toDate();
-DateTime? dateTimeFromTimestampOrNull(Timestamp? timestamp) {
+/// Converts a [Timestamp] to a [DateTime].
+///
+/// If the [timestamp] is null, the current date and time is returned. This
+/// behavior is legacy and shouldn't be used anymore.
+DateTime dateTimeFromTimestamp(dynamic timestamp) {
+  final dateTime = dateTimeFromTimestampOrNull(timestamp);
+  return dateTime ?? DateTime.now();
+}
+
+DateTime? dateTimeFromTimestampOrNull(dynamic timestamp) {
   if (timestamp == null) return null;
-  return timestamp.toDate();
+  final microsecondsSinceEpoch = timestamp.microsecondsSinceEpoch;
+  return DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
 }
