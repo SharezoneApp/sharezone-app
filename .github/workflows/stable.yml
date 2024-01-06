@@ -107,7 +107,16 @@ jobs:
 
   deploy-web-app:
     if: github.event.inputs.deploy-web-app == 'true'
+    name: "deploy-stable-web-app-${{ matrix.environment.flavor }}"
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - flavor: prod
+            serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
+          - flavor: dev
+            serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -131,13 +140,14 @@ jobs:
 
       - name: Build and deploy web-app
         env:
-          SHAREZONE_PROD_KEY: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
+          FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
         run: |
-          echo $SHAREZONE_PROD_KEY > sharezone-prod-key.json
+          echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
           sz deploy web-app \
             --stage stable \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
-            --credentials sharezone-prod-key.json
+            --credentials firebase-hosting-key.json \
+            --flavor ${{ matrix.environment.flavor }}
 
   deploy-android:
     # We skip the deployment if no changelog is provided because we assume that
