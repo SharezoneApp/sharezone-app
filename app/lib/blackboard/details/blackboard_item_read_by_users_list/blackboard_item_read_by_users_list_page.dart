@@ -24,10 +24,10 @@ import 'user_view.dart';
 
 class BlackboardItemReadByUsersListPage extends StatefulWidget {
   const BlackboardItemReadByUsersListPage({
-    Key? key,
+    super.key,
     required this.itemId,
     required this.courseId,
-  }) : super(key: key);
+  });
 
   final String itemId;
   final CourseId courseId;
@@ -186,7 +186,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
-  const _List(this.views, {Key? key}) : super(key: key);
+  const _List(this.views);
 
   final List<UserView> views;
 
@@ -218,7 +218,7 @@ class _EmptyList extends StatelessWidget {
 }
 
 class _UserTile extends StatelessWidget {
-  const _UserTile(this.view, {Key? key}) : super(key: key);
+  const _UserTile(this.view);
 
   final UserView view;
 

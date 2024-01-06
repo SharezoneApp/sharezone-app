@@ -43,7 +43,7 @@ void showNotificationHandlingErrorDialog(
 }
 
 class _ErrorBanner extends StatefulWidget {
-  const _ErrorBanner({Key? key, required this.errorReason}) : super(key: key);
+  const _ErrorBanner({required this.errorReason});
 
   final NotificationHandlerErrorReason errorReason;
 

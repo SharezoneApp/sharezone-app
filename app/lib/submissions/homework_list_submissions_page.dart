@@ -22,8 +22,8 @@ import 'open_submission_file.dart';
 class HomeworkUserSubmissionsPage extends StatefulWidget {
   const HomeworkUserSubmissionsPage({
     required this.homeworkId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String homeworkId;
 
@@ -74,9 +74,9 @@ class _HomeworkUserSubmissionsPageState
 
 class _Abgabenbody extends StatelessWidget {
   const _Abgabenbody({
-    Key? key,
+    super.key,
     required this.pageView,
-  }) : super(key: key);
+  });
 
   final CreatedSubmissionsPageView? pageView;
 
@@ -124,7 +124,7 @@ class _Abgabenbody extends StatelessWidget {
 }
 
 class _LoadingPlaceholder extends StatelessWidget {
-  const _LoadingPlaceholder({Key? key}) : super(key: key);
+  const _LoadingPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +179,7 @@ class _NoMembersPlaceholder extends StatelessWidget {
 class _UserSubmissionTile extends StatelessWidget {
   const _UserSubmissionTile({
     required this.view,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final CreatedSubmissionView view;
 
@@ -214,8 +213,7 @@ class _FileTile extends StatelessWidget {
     required this.format,
     required this.title,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final FileFormat format;
   final String title;

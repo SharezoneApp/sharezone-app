@@ -13,8 +13,7 @@ import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DisplaySettingsDialog extends StatelessWidget {
-  const DisplaySettingsDialog({Key? key, required this.themeSettings})
-      : super(key: key);
+  const DisplaySettingsDialog({super.key, required this.themeSettings});
 
   final PrivacyPolicyThemeSettings themeSettings;
 
@@ -67,7 +66,7 @@ Brightness _getBrightness(
 }
 
 class _TextSize extends StatelessWidget {
-  const _TextSize({Key? key, required this.themeSettings}) : super(key: key);
+  const _TextSize({required this.themeSettings});
 
   final PrivacyPolicyThemeSettings themeSettings;
 
@@ -125,8 +124,7 @@ class _TextSize extends StatelessWidget {
 }
 
 class _LightOrDarkMode extends StatelessWidget {
-  const _LightOrDarkMode({Key? key, required this.themeSettings})
-      : super(key: key);
+  const _LightOrDarkMode({required this.themeSettings});
 
   final PrivacyPolicyThemeSettings themeSettings;
 
@@ -194,8 +192,7 @@ class _LightOrDarkMode extends StatelessWidget {
 }
 
 class _VisualDensity extends StatelessWidget {
-  const _VisualDensity({Key? key, required this.themeSettings})
-      : super(key: key);
+  const _VisualDensity({required this.themeSettings});
 
   final PrivacyPolicyThemeSettings themeSettings;
 
@@ -238,8 +235,7 @@ class _VisualDensity extends StatelessWidget {
 }
 
 class _DrawDebugThresholdIndicator extends StatelessWidget {
-  const _DrawDebugThresholdIndicator({Key? key, required this.themeSettings})
-      : super(key: key);
+  const _DrawDebugThresholdIndicator({required this.themeSettings});
 
   final PrivacyPolicyThemeSettings themeSettings;
 

@@ -115,14 +115,14 @@ class FirestoreFilePage extends StatelessWidget {
   static const String tag = "remote-file-page";
 
   const FirestoreFilePage({
-    Key? key,
+    super.key,
     required this.actions,
     required this.fileFormat,
     this.name,
     this.downloadURL,
     this.nameStream,
     this.id,
-  }) : super(key: key);
+  });
 
   final String? id;
   final String? name;

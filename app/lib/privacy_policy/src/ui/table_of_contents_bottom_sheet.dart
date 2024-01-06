@@ -42,7 +42,7 @@ void showTableOfContentsBottomSheet(BuildContext context) {
 }
 
 class _TableOfContentsBottomSheet extends StatefulWidget {
-  const _TableOfContentsBottomSheet({Key? key}) : super(key: key);
+  const _TableOfContentsBottomSheet();
 
   @override
   State<_TableOfContentsBottomSheet> createState() =>
@@ -95,9 +95,7 @@ class __TableOfContentsBottomSheetState
 }
 
 class _TocSectionHeadingList extends StatelessWidget {
-  _TocSectionHeadingList({
-    Key? key,
-  }) : super(key: key);
+  _TocSectionHeadingList();
   final itemScrollController = ItemScrollController();
 
   @override
@@ -130,9 +128,9 @@ class _TocSectionHeadingList extends StatelessWidget {
 
 class _TocHeading extends StatefulWidget {
   const _TocHeading({
-    Key? key,
+    super.key,
     required this.section,
-  }) : super(key: key);
+  });
 
   final TocDocumentSectionView section;
 
@@ -339,9 +337,8 @@ List<Widget> _buildSubheadings(
 
 class _Subheading extends StatelessWidget {
   const _Subheading({
-    Key? key,
     required this.subsection,
-  }) : super(key: key);
+  });
 
   final TocDocumentSectionView subsection;
 

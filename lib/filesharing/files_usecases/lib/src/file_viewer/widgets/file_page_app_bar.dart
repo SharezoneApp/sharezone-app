@@ -11,11 +11,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const FilePageAppBar({
-    Key? key,
+    super.key,
     this.actions,
     required this.name,
     this.nameStream,
-  }) : super(key: key);
+  });
 
   final String? name;
   final Stream<String>? nameStream;
@@ -56,7 +56,7 @@ class FilePageAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key, required this.name}) : super(key: key);
+  const _Title({required this.name});
 
   final String? name;
 

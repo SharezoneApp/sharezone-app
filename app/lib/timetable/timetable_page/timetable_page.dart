@@ -118,11 +118,11 @@ class _SettingsIcon extends StatelessWidget {
 
 class TimeTableUnit extends StatelessWidget {
   TimeTableUnit({
-    Key? key,
+    super.key,
     required this.groupInfos,
     required this.lessons,
     required this.timetableConfig,
-  }) : super(key: key);
+  });
 
   final Map<String, GroupInfo> groupInfos;
   final List<Lesson> lessons;

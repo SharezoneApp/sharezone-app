@@ -35,10 +35,9 @@ Future<SelectDesignPopResult?> selectDesign(
 
 class _SelectDesignAlert extends StatelessWidget {
   const _SelectDesignAlert({
-    Key? key,
     this.currentDesign,
     required this.type,
-  }) : super(key: key);
+  });
 
   final Design? currentDesign;
   final EditDesignType type;
@@ -123,18 +122,16 @@ class _FreeColors extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            ...Design.freeDesigns
-                .map(
-                  (design) => _ColorCircleSelectDesign(
-                    design: design,
-                    isSelected: _isDesignSelected(design),
-                    onTap: () => Navigator.pop(
-                      context,
-                      SelectDesignPopResult(design: design),
-                    ),
-                  ),
-                )
-                .toList(),
+            ...Design.freeDesigns.map(
+              (design) => _ColorCircleSelectDesign(
+                design: design,
+                isSelected: _isDesignSelected(design),
+                onTap: () => Navigator.pop(
+                  context,
+                  SelectDesignPopResult(design: design),
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -280,7 +277,7 @@ class _PlusBaseColors extends StatelessWidget {
                     onTap: () => onBaseColorChanged!(color),
                   );
                 },
-              ).toList(),
+              ),
             ],
           ),
         ),
@@ -329,18 +326,16 @@ class _PlusAccurateColors extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            ...getDesigns()
-                .map(
-                  (design) => _ColorCircleSelectDesign(
-                    design: design,
-                    isSelected: _isDesignSelected(design),
-                    onTap: () => Navigator.pop(
-                      context,
-                      SelectDesignPopResult(design: design),
-                    ),
-                  ),
-                )
-                .toList(),
+            ...getDesigns().map(
+              (design) => _ColorCircleSelectDesign(
+                design: design,
+                isSelected: _isDesignSelected(design),
+                onTap: () => Navigator.pop(
+                  context,
+                  SelectDesignPopResult(design: design),
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -350,11 +345,10 @@ class _PlusAccurateColors extends StatelessWidget {
 
 class _ColorCircleSelectDesign extends StatelessWidget {
   const _ColorCircleSelectDesign({
-    Key? key,
     required this.design,
     this.isSelected = false,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Design design;
   final bool isSelected;

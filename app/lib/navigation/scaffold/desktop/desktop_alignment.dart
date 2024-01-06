@@ -16,10 +16,10 @@ class DesktopAlignment extends StatelessWidget {
   final Widget scaffold;
 
   const DesktopAlignment({
-    Key? key,
+    super.key,
     required this.drawer,
     required this.scaffold,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

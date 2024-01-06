@@ -127,8 +127,7 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
 
 class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
   const _BottomBlackboardDetailsIsReadActionButton(
-      {Key? key, required this.hasUserReadItem})
-      : super(key: key);
+      {required this.hasUserReadItem});
 
   final bool hasUserReadItem;
 
@@ -147,10 +146,7 @@ class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
 }
 
 class _PageWithPicture extends StatelessWidget {
-  const _PageWithPicture(
-    this.view, {
-    Key? key,
-  }) : super(key: key);
+  const _PageWithPicture(this.view);
 
   static const double _appBarHeight = 250;
   double _getAppBarHeight(BuildContext context) =>
@@ -185,7 +181,7 @@ class _PageWithPicture extends StatelessWidget {
 }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key? key, this.view}) : super(key: key);
+  const _DeleteIcon({this.view});
 
   final BlackboardView? view;
 
@@ -201,7 +197,7 @@ class _DeleteIcon extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({Key? key, this.view}) : super(key: key);
+  const _EditIcon({this.view});
 
   final BlackboardView? view;
 
@@ -216,7 +212,7 @@ class _EditIcon extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body(this.view, {Key? key}) : super(key: key);
+  const _Body(this.view);
 
   final BlackboardView view;
 
@@ -259,7 +255,7 @@ class _Body extends StatelessWidget {
 }
 
 class _CourseChip extends StatelessWidget {
-  const _CourseChip({Key? key, this.courseName}) : super(key: key);
+  const _CourseChip({this.courseName});
 
   final String? courseName;
 
@@ -270,7 +266,7 @@ class _CourseChip extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key, this.title}) : super(key: key);
+  const _Title({this.title});
 
   final String? title;
 
@@ -288,7 +284,7 @@ class _Title extends StatelessWidget {
 }
 
 class _InformationHeader extends StatelessWidget {
-  const _InformationHeader(this.view, {Key? key}) : super(key: key);
+  const _InformationHeader(this.view);
 
   final BlackboardView view;
 
@@ -313,7 +309,7 @@ class _InformationHeader extends StatelessWidget {
 }
 
 class _UserReadTile extends StatefulWidget {
-  const _UserReadTile({Key? key, required this.view}) : super(key: key);
+  const _UserReadTile({required this.view});
 
   final BlackboardView view;
 
@@ -396,7 +392,7 @@ class __UserReadTileState extends State<_UserReadTile> {
 }
 
 class _Text extends StatelessWidget {
-  const _Text({Key? key, this.text}) : super(key: key);
+  const _Text({this.text});
 
   final String? text;
 
@@ -431,7 +427,7 @@ class _Text extends StatelessWidget {
 }
 
 class _AttachmentList extends StatelessWidget {
-  const _AttachmentList({Key? key, required this.view}) : super(key: key);
+  const _AttachmentList({required this.view});
 
   final BlackboardView view;
 

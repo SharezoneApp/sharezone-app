@@ -25,7 +25,7 @@ import 'src/empty_homework_list_widgets/homework_status.dart';
 import 'src/open_homework_list.dart';
 
 class StudentHomeworkPage extends StatelessWidget {
-  const StudentHomeworkPage({Key? key}) : super(key: key);
+  const StudentHomeworkPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class StudentHomeworkBody extends StatelessWidget {
     );
   }
 
-  const StudentHomeworkBody({Key? key}) : super(key: key);
+  const StudentHomeworkBody({super.key});
 
   @override
   Widget build(BuildContext context) {

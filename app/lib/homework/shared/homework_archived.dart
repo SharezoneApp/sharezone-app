@@ -118,7 +118,7 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
 }
 
 class _PopupMenu extends StatelessWidget {
-  const _PopupMenu({Key? key, this.onChangedSortBy}) : super(key: key);
+  const _PopupMenu({this.onChangedSortBy});
 
   final ValueChanged<SortBy?>? onChangedSortBy;
 

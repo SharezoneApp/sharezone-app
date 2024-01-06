@@ -16,10 +16,10 @@ import 'package:flutter/material.dart';
 /// [ScanAreaIndicatorOverlay] is just a visual indicator for the user.
 class ScanAreaIndicatorOverlay extends StatelessWidget {
   const ScanAreaIndicatorOverlay({
-    Key? key,
+    super.key,
     this.color = Colors.white,
     this.width = 250,
-  }) : super(key: key);
+  });
 
   /// The color of the scan area corners.
   ///
@@ -82,10 +82,9 @@ class _ScanAreaPainter extends CustomPainter {
 
 class _Corners extends StatelessWidget {
   const _Corners({
-    Key? key,
     this.color = Colors.white,
     this.width = 250,
-  }) : super(key: key);
+  });
 
   /// The color of the scan selection corners.
   ///

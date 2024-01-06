@@ -24,22 +24,20 @@ class CommentSection extends StatelessWidget {
   final String courseID;
 
   const CommentSection({
-    Key? key,
+    super.key,
     this.comments = const [],
     required this.userAbbreviation,
     required this.userName,
     required this.courseID,
-  })  : _loading = false,
-        super(key: key);
+  }) : _loading = false;
 
   const CommentSection.loading({
-    Key? key,
+    super.key,
     required this.userAbbreviation,
     required this.userName,
   })  : comments = const [],
         _loading = true,
-        courseID = '',
-        super(key: key);
+        courseID = '';
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +81,8 @@ class _CommentSectionTitle extends StatelessWidget {
   final int numberOfComments;
 
   const _CommentSectionTitle({
-    Key? key,
     this.numberOfComments = 0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

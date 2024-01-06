@@ -68,7 +68,7 @@ List<HomeworkDto> getNotArchived(List<HomeworkDto> homeworkList) {
 }
 
 class HomeworkPage extends StatelessWidget {
-  const HomeworkPage({Key? key}) : super(key: key);
+  const HomeworkPage({super.key});
   static const String tag = 'homework-page';
 
   @override
@@ -82,7 +82,7 @@ class HomeworkPage extends StatelessWidget {
 }
 
 class _HomeworkPage extends StatefulWidget {
-  const _HomeworkPage({Key? key, this.typeOfUser}) : super(key: key);
+  const _HomeworkPage({this.typeOfUser});
 
   final TypeOfUser? typeOfUser;
 
@@ -244,8 +244,7 @@ class _HomeworkPageState extends State<_HomeworkPage> {
 }
 
 class _PopupMenu extends StatelessWidget {
-  const _PopupMenu({Key? key, this.onChangedSortBy, this.typeOfUser})
-      : super(key: key);
+  const _PopupMenu({this.onChangedSortBy, this.typeOfUser});
 
   final ValueChanged<SortBy?>? onChangedSortBy;
   final TypeOfUser? typeOfUser;
@@ -360,8 +359,7 @@ class _PopupMenu extends StatelessWidget {
 
 class _ParentsScaffoldBody extends StatelessWidget {
   const _ParentsScaffoldBody(
-      {Key? key, this.homeworkList, this.sortBy, this.hideButtonController})
-      : super(key: key);
+      {this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
@@ -379,8 +377,7 @@ class _ParentsScaffoldBody extends StatelessWidget {
 
 class _TeacherScaffoldBody extends StatelessWidget {
   const _TeacherScaffoldBody(
-      {Key? key, this.homeworkList, this.sortBy, this.hideButtonController})
-      : super(key: key);
+      {this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
@@ -400,10 +397,9 @@ class _StudentScaffoldBody extends StatelessWidget {
   const _StudentScaffoldBody({
     required this.homeworkDoneList,
     required this.homeworkNotDoneList,
-    Key? key,
     this.hideButtonController,
     this.sortBy,
-  }) : super(key: key);
+  });
 
   final List<HomeworkDto>? homeworkDoneList;
   final List<HomeworkDto>? homeworkNotDoneList;
@@ -432,11 +428,7 @@ class _StudentScaffoldBody extends StatelessWidget {
 
 class _ParentsHomeworkPageView extends StatelessWidget {
   const _ParentsHomeworkPageView(
-      {Key? key,
-      required this.homeworkList,
-      this.sortBy,
-      this.hideButtonController})
-      : super(key: key);
+      {required this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
@@ -455,11 +447,7 @@ class _ParentsHomeworkPageView extends StatelessWidget {
 
 class _TeacherHomeworkPageView extends StatelessWidget {
   const _TeacherHomeworkPageView(
-      {Key? key,
-      required this.homeworkList,
-      this.sortBy,
-      this.hideButtonController})
-      : super(key: key);
+      {required this.homeworkList, this.sortBy, this.hideButtonController});
 
   final List<HomeworkDto>? homeworkList;
   final SortBy? sortBy;
@@ -483,7 +471,7 @@ void logHomeworkAddViaHomeworkPage(BuildContext context) {
 }
 
 class _HomeworkPageFAB extends StatelessWidget {
-  const _HomeworkPageFAB({Key? key, this.visible}) : super(key: key);
+  const _HomeworkPageFAB({this.visible});
 
   final bool? visible;
 
@@ -519,11 +507,9 @@ class _HomeworkPageLogic extends StatelessWidget {
   const _HomeworkPageLogic(
       {this.homeworkDoneList,
       this.homeworkNotDoneList,
-      Key? key,
       this.typeOfUser,
       this.hideButtonController,
-      this.sortBy})
-      : super(key: key);
+      this.sortBy});
 
   @override
   Widget build(BuildContext context) {
@@ -557,12 +543,11 @@ class _HomeworkPageLogic extends StatelessWidget {
 
 class _HomeworkListWithCards extends StatelessWidget {
   const _HomeworkListWithCards({
-    Key? key,
     this.homeworkList,
     this.typeOfUser,
     required this.hideButtonController,
     this.sortBy,
-  }) : super(key: key);
+  });
 
   final List<HomeworkDto>? homeworkList;
   final TypeOfUser? typeOfUser;
@@ -670,8 +655,7 @@ class _HomeworkListWithCards extends StatelessWidget {
 
 class _HomeworkViewerInCategories extends StatelessWidget {
   const _HomeworkViewerInCategories(
-      {Key? key, this.homeworkList, this.typeOfUser, this.title})
-      : super(key: key);
+      {this.homeworkList, this.typeOfUser, this.title});
 
   final List<HomeworkDto>? homeworkList;
   final TypeOfUser? typeOfUser;
@@ -774,7 +758,7 @@ class GameController extends StatelessWidget {
 }
 
 class _EmptyHomeworkListAddHomeworkCard extends StatelessWidget {
-  const _EmptyHomeworkListAddHomeworkCard({Key? key}) : super(key: key);
+  const _EmptyHomeworkListAddHomeworkCard();
 
   @override
   Widget build(BuildContext context) {

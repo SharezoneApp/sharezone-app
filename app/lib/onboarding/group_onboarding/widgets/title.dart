@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 
 class GroupOnboardingTitle extends StatelessWidget {
-  const GroupOnboardingTitle(this.title, {Key? key}) : super(key: key);
+  const GroupOnboardingTitle(this.title, {super.key});
 
   final String title;
 

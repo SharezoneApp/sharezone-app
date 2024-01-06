@@ -93,7 +93,7 @@ class ChangeEmailPageBody extends StatelessWidget {
 }
 
 class _WhyWeNeedTheEmail extends StatelessWidget {
-  const _WhyWeNeedTheEmail({Key? key}) : super(key: key);
+  const _WhyWeNeedTheEmail();
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +109,7 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
 }
 
 class _CurrentEmailField extends StatelessWidget {
-  const _CurrentEmailField({Key? key, required this.currentEmail})
-      : super(key: key);
+  const _CurrentEmailField({required this.currentEmail});
 
   final String? currentEmail;
 
@@ -127,10 +126,9 @@ class _CurrentEmailField extends StatelessWidget {
 
 class _NewEmailField extends StatefulWidget {
   const _NewEmailField({
-    Key? key,
     required this.currentEmail,
     required this.passwordNode,
-  }) : super(key: key);
+  });
 
   final String? currentEmail;
   final FocusNode passwordNode;

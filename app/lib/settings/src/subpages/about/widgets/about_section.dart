@@ -11,10 +11,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({
-    Key? key,
+    super.key,
     required this.title,
     this.child,
-  }) : super(key: key);
+  });
 
   final String title;
   final Widget? child;

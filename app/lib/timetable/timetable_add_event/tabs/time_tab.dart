@@ -9,7 +9,7 @@
 part of '../timetable_add_event_page.dart';
 
 class _TimeTab extends StatelessWidget {
-  const _TimeTab({Key? key}) : super(key: key);
+  const _TimeTab();
 
   @override
   Widget build(BuildContext context) {

@@ -61,11 +61,11 @@ class TimetableEntryLesson extends StatelessWidget {
 
 class GroupName extends StatelessWidget {
   const GroupName({
-    Key? key,
+    super.key,
     required this.groupName,
     required this.abbreviation,
     required this.color,
-  }) : super(key: key);
+  });
 
   final String groupName;
   final String? abbreviation;
@@ -100,10 +100,10 @@ class GroupName extends StatelessWidget {
 
 class Room extends StatelessWidget {
   const Room({
-    Key? key,
+    super.key,
     required this.room,
     this.color,
-  }) : super(key: key);
+  });
 
   final String room;
   final Color? color;

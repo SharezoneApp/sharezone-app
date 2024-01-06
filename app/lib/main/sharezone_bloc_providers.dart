@@ -129,12 +129,12 @@ class SharezoneBlocProviders extends StatefulWidget {
   final Stream<Beitrittsversuch?>? beitrittsversuche;
 
   const SharezoneBlocProviders({
-    Key? key,
+    super.key,
     required this.child,
     required this.blocDependencies,
     this.navigationService,
     this.beitrittsversuche,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _SharezoneBlocProvidersState();

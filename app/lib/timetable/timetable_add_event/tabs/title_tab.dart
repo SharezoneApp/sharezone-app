@@ -9,7 +9,7 @@
 part of '../timetable_add_event_page.dart';
 
 class _TitleTab extends StatelessWidget {
-  _TitleTab({Key? key, required this.isExam}) : super(key: key);
+  _TitleTab({required this.isExam});
 
   final roomFocusNode = FocusNode();
   final bool isExam;

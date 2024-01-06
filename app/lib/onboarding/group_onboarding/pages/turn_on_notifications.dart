@@ -42,7 +42,7 @@ class TurnOnNotifications extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key}) : super(key: key);
+  const _Title();
 
   @override
   Widget build(BuildContext context) {

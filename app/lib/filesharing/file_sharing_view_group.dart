@@ -120,11 +120,10 @@ class _FolderGrid extends StatelessWidget {
 
 class _FileGrid extends StatelessWidget {
   const _FileGrid({
-    Key? key,
     required this.courseID,
     required this.path,
     this.folderNumber = 0,
-  }) : super(key: key);
+  });
 
   final String courseID;
   final FolderPath path;

@@ -11,14 +11,14 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
   const ModalBottomSheetBigIconButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.iconData,
     required this.popValue,
     required this.tooltip,
     this.alignment = Alignment.center,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String title, tooltip;
   final IconData iconData;

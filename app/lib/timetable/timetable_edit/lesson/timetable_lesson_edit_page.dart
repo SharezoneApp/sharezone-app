@@ -84,7 +84,7 @@ class _TimetableEditLessonPageState extends State<TimetableEditLessonPage> {
 class _TimetableEditPage extends StatelessWidget {
   final Lesson initialLesson;
 
-  const _TimetableEditPage(this.initialLesson, {Key? key}) : super(key: key);
+  const _TimetableEditPage(this.initialLesson);
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +147,7 @@ class _TimetableEditFAB extends StatelessWidget {
 }
 
 class _CourseField extends StatelessWidget {
-  const _CourseField(this.initialLesson, {Key? key}) : super(key: key);
+  const _CourseField(this.initialLesson);
 
   final Lesson initialLesson;
 
@@ -322,7 +322,7 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialLesson, {Key? key}) : super(key: key);
+  const _RoomField(this.initialLesson);
 
   final Lesson initialLesson;
 

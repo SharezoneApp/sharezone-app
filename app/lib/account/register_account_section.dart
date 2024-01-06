@@ -108,7 +108,7 @@ class _SignInMethods extends StatelessWidget {
 }
 
 class _GoogleButton extends StatelessWidget {
-  const _GoogleButton._(this.title, {Key? key}) : super(key: key);
+  const _GoogleButton._(this.title);
   factory _GoogleButton.short() => const _GoogleButton._('Google');
   factory _GoogleButton.long() => const _GoogleButton._('Mit Google anmelden');
 
@@ -135,7 +135,7 @@ class _GoogleButton extends StatelessWidget {
 }
 
 class _AppleButton extends StatelessWidget {
-  const _AppleButton._(this.title, {Key? key}) : super(key: key);
+  const _AppleButton._(this.title);
 
   factory _AppleButton.short() => const _AppleButton._('Apple');
   factory _AppleButton.long() => const _AppleButton._('Mit Apple anmelden');
@@ -159,7 +159,7 @@ class _AppleButton extends StatelessWidget {
 }
 
 class _EmailButton extends StatelessWidget {
-  const _EmailButton._(this.title, {Key? key}) : super(key: key);
+  const _EmailButton._(this.title);
   factory _EmailButton.short() => const _EmailButton._('E-Mail');
   factory _EmailButton.long() => const _EmailButton._('Mit E-Mail anmelden');
 
@@ -203,11 +203,10 @@ class _EmailButton extends StatelessWidget {
 
 class _SignUpButton extends StatelessWidget {
   const _SignUpButton({
-    Key? key,
     required this.name,
     required this.icon,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String name;
   final Widget icon;

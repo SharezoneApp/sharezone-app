@@ -15,12 +15,12 @@ class ExpandedChip extends StatelessWidget {
   final TextAlign? textAlign;
 
   const ExpandedChip({
-    Key? key,
+    super.key,
     this.color = Colors.orange,
     required this.text,
     this.fontSize = 18,
     this.textAlign,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

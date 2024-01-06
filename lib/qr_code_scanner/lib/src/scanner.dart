@@ -17,11 +17,11 @@ import 'package:qr_code_scanner/src/overlay/scan_overlay.dart';
 /// [scanQrCodeScanner] method is used to open a full screen scanner.
 class Scanner extends StatefulWidget {
   const Scanner({
-    Key? key,
+    super.key,
     this.onDetect,
     this.description,
     this.mockController,
-  }) : super(key: key);
+  });
 
   /// A callback that is called when a code is detected.
   final ValueChanged<String>? onDetect;
@@ -90,9 +90,8 @@ class _ScannerState extends State<Scanner> {
 
 class _Error extends StatelessWidget {
   const _Error({
-    Key? key,
     required this.exception,
-  }) : super(key: key);
+  });
 
   final MobileScannerException exception;
 

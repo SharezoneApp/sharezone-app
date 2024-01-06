@@ -44,9 +44,9 @@ class CourseTemplatePage extends StatelessWidget {
 
 class CourseTemplatePageBody extends StatefulWidget {
   const CourseTemplatePageBody({
-    Key? key,
+    super.key,
     this.bottom,
-  }) : super(key: key);
+  });
 
   final Widget? bottom;
 
@@ -89,8 +89,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
 }
 
 class _CoursesAreNotLinkedWithSchoolClassWarning extends StatelessWidget {
-  const _CoursesAreNotLinkedWithSchoolClassWarning({Key? key})
-      : super(key: key);
+  const _CoursesAreNotLinkedWithSchoolClassWarning();
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +110,8 @@ class _CoursesAreNotLinkedWithSchoolClassWarning extends StatelessWidget {
 
 class CourseTemplatePageFinishButton extends StatelessWidget {
   const CourseTemplatePageFinishButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -218,9 +217,9 @@ class _Nebenfaecher extends StatelessWidget {
 
 class CreateCustomCourseSection extends StatelessWidget {
   const CreateCustomCourseSection({
-    Key? key,
+    super.key,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
 
@@ -265,11 +264,10 @@ class CreateCustomCourseSection extends StatelessWidget {
 
 class _CourseTemplateCategorySection extends StatelessWidget {
   const _CourseTemplateCategorySection({
-    Key? key,
     required this.title,
     required this.courseTemplates,
     this.showLastDivider = true,
-  }) : super(key: key);
+  });
 
   final String title;
   final List<CourseTemplate> courseTemplates;
@@ -300,10 +298,9 @@ class _CourseTemplateCategorySection extends StatelessWidget {
 class _CourseTemplateTile extends StatefulWidget {
   const _CourseTemplateTile(
     this.courseTemplate, {
-    Key? key,
     this.showDivider = true,
     this.isAlreadyAdded = false,
-  }) : super(key: key);
+  });
 
   final CourseTemplate courseTemplate;
   final bool showDivider;
@@ -409,11 +406,10 @@ class _CourseIsCreatedIcon extends StatelessWidget {
 
 class _CreateCourseButton extends StatelessWidget {
   const _CreateCourseButton({
-    Key? key,
     required this.onCreate,
     required this.courseTemplate,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   final VoidCallback onCreate;
   final ValueChanged<String> onDelete;

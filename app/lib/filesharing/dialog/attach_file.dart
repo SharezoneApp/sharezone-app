@@ -22,13 +22,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachFile extends StatelessWidget {
   const AttachFile({
-    Key? key,
+    super.key,
     required this.localFilesStream,
     required this.cloudFilesStream,
     required this.addLocalFileToBlocMethod,
     required this.removeLocalFileFromBlocMethod,
     required this.removeCloudFileFromBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
   final ValueChanged<LocalFile> removeLocalFileFromBlocMethod;
@@ -64,13 +64,13 @@ class AttachFile extends StatelessWidget {
 
 class AttachFileBase extends StatelessWidget {
   const AttachFileBase({
-    Key? key,
+    super.key,
     required this.onLocalFilesAdded,
     required this.onLocalFileRemoved,
     required this.onCloudFileRemoved,
     required this.cloudFiles,
     required this.localFiles,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> onLocalFilesAdded;
   final ValueChanged<LocalFile> onLocalFileRemoved;
@@ -123,9 +123,8 @@ class AttachFileBase extends StatelessWidget {
 
 class _AddLocalFile extends StatelessWidget {
   const _AddLocalFile({
-    Key? key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -169,9 +168,9 @@ class _AddLocalFile extends StatelessWidget {
 
 class AddLocalFileDialog extends StatelessWidget {
   const AddLocalFileDialog({
-    Key? key,
+    super.key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -191,9 +190,8 @@ class AddLocalFileDialog extends StatelessWidget {
 
 class _PickDocumentTile extends StatelessWidget {
   const _PickDocumentTile({
-    Key? key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -219,9 +217,8 @@ class _PickDocumentTile extends StatelessWidget {
 
 class _PickPictureTile extends StatelessWidget {
   const _PickPictureTile({
-    Key? key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -253,9 +250,8 @@ class _PickPictureTile extends StatelessWidget {
 
 class _PickVideoTile extends StatelessWidget {
   const _PickVideoTile({
-    Key? key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -287,9 +283,8 @@ class _PickVideoTile extends StatelessWidget {
 
 class _OpenCameraTile extends StatelessWidget {
   const _OpenCameraTile({
-    Key? key,
     required this.addLocalFileToBlocMethod,
-  }) : super(key: key);
+  });
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 

@@ -17,12 +17,12 @@ import '../widgets/file_page_app_bar.dart';
 
 class PdfFilePage extends StatelessWidget {
   const PdfFilePage({
-    Key? key,
+    super.key,
     required this.localFile,
     this.actions,
     required this.name,
     this.nameStream,
-  }) : super(key: key);
+  });
 
   final String name;
   final Stream<String>? nameStream;

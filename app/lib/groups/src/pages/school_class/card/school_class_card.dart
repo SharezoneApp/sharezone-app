@@ -110,9 +110,8 @@ class SchoolClassCard extends StatelessWidget {
 
 class _AbbreviationAvatar extends StatelessWidget {
   const _AbbreviationAvatar({
-    Key? key,
     required this.name,
-  }) : super(key: key);
+  });
 
   final String name;
 

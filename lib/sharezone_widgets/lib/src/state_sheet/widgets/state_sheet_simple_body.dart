@@ -16,21 +16,20 @@ class StateSheetSimpleBody extends StatelessWidget {
   final String? description;
 
   const StateSheetSimpleBody({
-    Key? key,
+    super.key,
     this.title,
     this.iconData,
     this.iconColor,
     this.description,
-  }) : super(key: key);
+  });
 
   StateSheetSimpleBody.fromSimpleData({
-    Key? key,
+    super.key,
     required SimpleData simpleData,
   })  : title = simpleData.title,
         iconData = simpleData.iconData,
         iconColor = simpleData.iconColor,
-        description = simpleData.description,
-        super(key: key);
+        description = simpleData.description;
   @override
   Widget build(BuildContext context) {
     return Column(

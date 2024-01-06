@@ -267,13 +267,13 @@ class HomeworkCard extends StatelessWidget {
 
 class HomeworkCardRedesigned extends StatelessWidget {
   const HomeworkCardRedesigned({
-    Key? key,
+    super.key,
     this.homeworkView,
     this.withUrgentText = true,
     this.width,
     this.forceIsDone,
     this.padding,
-  }) : super(key: key);
+  });
 
   final HomeworkView? homeworkView;
   final bool withUrgentText;
@@ -452,7 +452,7 @@ Future showLongPressIfUserHasPermissions(
 }
 
 class _Checkbox extends StatelessWidget {
-  const _Checkbox({Key? key, this.isDone, this.typeOfUser}) : super(key: key);
+  const _Checkbox({this.isDone, this.typeOfUser});
 
   final bool? isDone;
   final TypeOfUser? typeOfUser;
@@ -479,11 +479,10 @@ class _Checkbox extends StatelessWidget {
 
 class _CourseName extends StatelessWidget {
   const _CourseName({
-    Key? key,
     required this.courseName,
     required this.color,
     required this.typeOfUser,
-  }) : super(key: key);
+  });
 
   final String courseName;
   final Color color;
@@ -509,10 +508,9 @@ class _CourseName extends StatelessWidget {
 
 class _TodoUntil extends StatelessWidget {
   const _TodoUntil({
-    Key? key,
     required this.date,
     required this.color,
-  }) : super(key: key);
+  });
 
   final String date;
   final Color color;
@@ -535,7 +533,7 @@ class _TodoUntil extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key? key, this.isDone}) : super(key: key);
+  const _Title(this.title, {this.isDone});
 
   final String title;
   final bool? isDone;

@@ -46,8 +46,7 @@ class OnboardingChangeName extends StatelessWidget {
 class _OnboardingChangeNameLoaded extends StatefulWidget {
   final AppUser? user;
 
-  const _OnboardingChangeNameLoaded({Key? key, required this.user})
-      : super(key: key);
+  const _OnboardingChangeNameLoaded({required this.user});
 
   @override
   _OnboardingChangeNameState createState() => _OnboardingChangeNameState();
@@ -83,7 +82,7 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
 }
 
 class _TextFieldSubmitButton extends StatefulWidget {
-  const _TextFieldSubmitButton({Key? key, this.initialName}) : super(key: key);
+  const _TextFieldSubmitButton({this.initialName});
 
   final String? initialName;
 

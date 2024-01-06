@@ -10,8 +10,12 @@ import 'package:flutter/material.dart';
 
 class CircularButton extends StatelessWidget {
   const CircularButton(
-      {Key? key, this.title, this.subtitle, this.color, this.icon, this.onTap})
-      : super(key: key);
+      {super.key,
+      this.title,
+      this.subtitle,
+      this.color,
+      this.icon,
+      this.onTap});
 
   final String? title, subtitle;
   final Color? color;

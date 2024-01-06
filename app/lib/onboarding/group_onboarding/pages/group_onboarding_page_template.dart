@@ -16,14 +16,14 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingPageTemplate extends StatelessWidget {
   const GroupOnboardingPageTemplate({
-    Key? key,
+    super.key,
     this.title,
     this.children = const [],
     this.bottomNavigationBar,
     this.padding = const EdgeInsets.all(8),
     this.top,
     this.topPadding = 60,
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Widget> children;

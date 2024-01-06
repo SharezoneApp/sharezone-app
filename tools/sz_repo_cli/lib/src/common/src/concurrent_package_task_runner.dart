@@ -223,10 +223,10 @@ class Success extends PackageTaskStatus {
   final Duration timeToFinish;
 
   Success({
-    required Package package,
-    required DateTime startedOn,
+    required super.package,
+    required super.startedOn,
     required this.timeToFinish,
-  }) : super(package: package, startedOn: startedOn);
+  });
 }
 
 class Failure extends PackageTaskStatus {
@@ -235,19 +235,19 @@ class Failure extends PackageTaskStatus {
   final Duration timeToFinish;
 
   Failure({
-    required Package package,
-    required DateTime startedOn,
+    required super.package,
+    required super.startedOn,
     required this.timeToFinish,
     required this.error,
     this.stackTrace,
-  }) : super(package: package, startedOn: startedOn);
+  });
 }
 
 class Running extends PackageTaskStatus {
   Running.since({
-    required Package package,
-    required DateTime startedOn,
-  }) : super(package: package, startedOn: startedOn);
+    required super.package,
+    required super.startedOn,
+  });
 
   Success toSuccess({required DateTime now}) {
     return Success(

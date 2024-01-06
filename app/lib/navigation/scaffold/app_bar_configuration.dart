@@ -51,7 +51,7 @@ class SliverAppBarConfiguration {
 }
 
 class _AppBarTitle extends StatelessWidget {
-  const _AppBarTitle({Key? key}) : super(key: key);
+  const _AppBarTitle();
 
   @override
   Widget build(BuildContext context) {

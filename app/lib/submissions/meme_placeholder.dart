@@ -15,8 +15,7 @@ class MemePlaceholder extends StatefulWidget {
   final String url;
   final String? text;
 
-  const MemePlaceholder({Key? key, required this.url, this.text})
-      : super(key: key);
+  const MemePlaceholder({super.key, required this.url, this.text});
 
   @override
   State createState() => _MemePlaceholderState();

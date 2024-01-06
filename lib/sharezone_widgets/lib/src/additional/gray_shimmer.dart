@@ -11,8 +11,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class GrayShimmer extends StatelessWidget {
-  const GrayShimmer({Key? key, required this.child, this.enabled = true})
-      : super(key: key);
+  const GrayShimmer({super.key, required this.child, this.enabled = true});
 
   final Widget child;
   final bool enabled;

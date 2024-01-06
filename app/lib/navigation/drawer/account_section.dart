@@ -91,9 +91,8 @@ class _NameAndEMailColumn extends StatelessWidget {
   final String name;
 
   const _NameAndEMailColumn({
-    Key? key,
     required this.name,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +107,7 @@ class _NameAndEMailColumn extends StatelessWidget {
 }
 
 class _Name extends StatelessWidget {
-  const _Name({Key? key, required this.name}) : super(key: key);
+  const _Name({required this.name});
 
   final String name;
 
@@ -158,9 +157,8 @@ class _ProfileArrow extends StatelessWidget {
 
 class _ProfileAvatar extends StatelessWidget {
   const _ProfileAvatar({
-    Key? key,
     required this.abbreviation,
-  }) : super(key: key);
+  });
 
   final String abbreviation;
 

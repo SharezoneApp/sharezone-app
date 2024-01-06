@@ -64,11 +64,10 @@ class _WeekTypeTile extends StatelessWidget {
   final WeekType? selectedWeekType;
 
   const _WeekTypeTile({
-    Key? key,
     required this.weekType,
     this.onTap,
     this.selectedWeekType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

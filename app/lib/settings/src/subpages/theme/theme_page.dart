@@ -63,7 +63,7 @@ class _DarkModeSwitch extends StatelessWidget {
 }
 
 class _BrightnessRadioGroup extends StatelessWidget {
-  const _BrightnessRadioGroup({Key? key}) : super(key: key);
+  const _BrightnessRadioGroup();
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +98,11 @@ class _BrightnessRadioGroup extends StatelessWidget {
 
 class _BrightnessRadio extends StatelessWidget {
   const _BrightnessRadio({
-    Key? key,
     required this.icon,
     required this.title,
     required this.themeBrightness,
     required this.groupValue,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -128,7 +127,7 @@ class _BrightnessRadio extends StatelessWidget {
 }
 
 class _RateOurApp extends StatelessWidget {
-  const _RateOurApp({Key? key}) : super(key: key);
+  const _RateOurApp();
 
   @override
   Widget build(BuildContext context) {
@@ -188,9 +187,7 @@ class _NewNavigationExperiment extends StatelessWidget {
 }
 
 class _NavigationRadioGroup extends StatelessWidget {
-  const _NavigationRadioGroup({
-    Key? key,
-  }) : super(key: key);
+  const _NavigationRadioGroup();
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +213,7 @@ class _NavigationRadioGroup extends StatelessWidget {
 }
 
 class _RateAppButton extends StatelessWidget {
-  const _RateAppButton({Key? key}) : super(key: key);
+  const _RateAppButton();
 
   @override
   Widget build(BuildContext context) {
@@ -270,11 +267,10 @@ class _RateAppButton extends StatelessWidget {
 
 class _NavigationRadioTile extends StatelessWidget {
   const _NavigationRadioTile({
-    Key? key,
     this.option,
     this.number,
     this.currentValue,
-  }) : super(key: key);
+  });
 
   final NavigationExperimentOption? currentValue;
   final NavigationExperimentOption? option;
@@ -315,7 +311,7 @@ class _NavigationRadioTile extends StatelessWidget {
 }
 
 class _ContactSupportButton extends StatelessWidget {
-  const _ContactSupportButton({Key? key}) : super(key: key);
+  const _ContactSupportButton();
 
   @override
   Widget build(BuildContext context) {

@@ -22,10 +22,10 @@ class TeacherOpenHomeworkList extends StatelessWidget {
   final Color? overscrollColor;
 
   const TeacherOpenHomeworkList({
-    Key? key,
+    super.key,
     required this.homeworkListView,
     required this.overscrollColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

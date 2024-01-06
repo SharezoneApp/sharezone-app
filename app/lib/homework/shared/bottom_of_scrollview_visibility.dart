@@ -59,8 +59,7 @@ typedef IsAtEdge = void Function(bool isAtEdge);
 class BottomOfScrollViewInvisibility extends StatefulWidget {
   final Widget child;
 
-  const BottomOfScrollViewInvisibility({Key? key, required this.child})
-      : super(key: key);
+  const BottomOfScrollViewInvisibility({super.key, required this.child});
 
   @override
   State createState() => _BottomOfScrollViewInvisibilityState();
