@@ -13,21 +13,31 @@ import 'package:args/args.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-// All apps are deployed in the production firebase project but under different
-// domains.
-// All apps also have the production config (they use and display the production
-// data).
-final _webAppConfigs = {
-  'alpha': const _WebAppConfig('alpha-web-app', 'sharezone-c2bd8', 'prod'),
-  'beta': const _WebAppConfig('beta-web-app', 'sharezone-c2bd8', 'prod'),
-  'stable': const _WebAppConfig('release-web-app', 'sharezone-c2bd8', 'prod'),
+/// Maps the different release stages to the corresponding Firebase Hosting
+/// target.
+final _stageToTarget = {
+  'alpha': 'alpha-web-app',
+  'beta': 'beta-web-app',
+  'stable': 'release-web-app',
 };
+
+/// Maps the different flavors to the corresponding Firebase project ID.
+final _flavorToProjectId = {
+  'prod': 'sharezone-c2bd8',
+  'dev': 'sharezone-debug',
+};
+
+/// The different flavors of the web app that support deployment.
+final _webFlavors = [
+  'prod',
+  'dev',
+];
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
 /// or production).
 ///
 /// The command will automatically use the right firebase config as configured
-/// inside [_webAppConfigs].
+/// inside [_stageToTarget].
 class DeployWebAppCommand extends CommandBase {
   DeployWebAppCommand(super.context) {
     argParser
@@ -35,7 +45,6 @@ class DeployWebAppCommand extends CommandBase {
         releaseStageOptionName,
         abbr: 's',
         allowed: _webAppStages,
-        allowedHelp: _deployCommandStageOptionHelp,
       )
       ..addOption(
         firebaseDeployMessageOptionName,
@@ -46,18 +55,20 @@ class DeployWebAppCommand extends CommandBase {
         googleApplicationCredentialsOptionName,
         help:
             'Path to location of credentials .json file used to authenticate deployment. Should only be used for CI/CD, developers should use "firebase login" instead.',
+      )
+      ..addOption(
+        flavorOptionName,
+        allowed: _webFlavors,
+        help: 'The flavor to build for.',
+        defaultsTo: 'prod',
       );
   }
 
-  Iterable<String> get _webAppStages => _webAppConfigs.keys;
-
-  /// Used for helper text for deploy command.
-  Map<String, String> get _deployCommandStageOptionHelp =>
-      _webAppConfigs.map<String, String>((key, value) => MapEntry(
-          key, '${value.firebaseProjectId}: ${value.deployTargetName}'));
+  Iterable<String> get _webAppStages => _stageToTarget.keys;
 
   static const releaseStageOptionName = 'stage';
   static const firebaseDeployMessageOptionName = 'message';
+  static const flavorOptionName = 'flavor';
   static const googleApplicationCredentialsOptionName = 'credentials';
 
   @override
@@ -79,7 +90,7 @@ class DeployWebAppCommand extends CommandBase {
 
     final overriddenDeployMessage = _parseDeployMessage(argResults!);
     final releaseStage = _parseReleaseStage(argResults!);
-    final webAppConfig = _getMatchingWebAppConfig(releaseStage);
+    final flavor = argResults![flavorOptionName] as String;
 
     await processRunner.runCommand([
       'fvm',
@@ -89,7 +100,7 @@ class DeployWebAppCommand extends CommandBase {
       'build',
       'web',
       '--flavor',
-      webAppConfig.flavor,
+      flavor,
       '--stage',
       releaseStage
     ], workingDirectory: repo.sharezoneCiCdTool.location);
@@ -100,14 +111,16 @@ class DeployWebAppCommand extends CommandBase {
       deployMessage = 'Commit: $currentCommit';
     }
 
+    final firebaseHostingTarget = _stageToTarget[releaseStage]!;
+    final firebaseProjectId = _flavorToProjectId[flavor]!;
     await processRunner.run(
       [
         'firebase',
         'deploy',
         '--only',
-        'hosting:${webAppConfig.deployTargetName}',
+        'hosting:$firebaseHostingTarget',
         '--project',
-        webAppConfig.firebaseProjectId,
+        firebaseProjectId,
         '--message',
         deployMessage ?? overriddenDeployMessage!,
       ],
@@ -147,21 +160,6 @@ class DeployWebAppCommand extends CommandBase {
     return googleApplicationCredentialsFile;
   }
 
-  _WebAppConfig _getMatchingWebAppConfig(String releaseStage) {
-    final app = _webAppConfigs[releaseStage];
-
-    if (app == null) {
-      stderr.writeln(
-          'Given release stage $releaseStage does not match one the expected values: $_webAppStages');
-      throw ToolExit(2);
-    }
-
-    if (isVerbose) {
-      stdout.writeln('Got webApp config: $app');
-    }
-    return app;
-  }
-
   String _parseReleaseStage(ArgResults argResults) {
     final releaseStage = argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
@@ -191,28 +189,4 @@ class DeployWebAppCommand extends CommandBase {
     }
     return currentCommit;
   }
-}
-
-class _WebAppConfig {
-  /// As in /app/.firebaserc
-  final String deployTargetName;
-
-  /// E.g. sharezone-c2bd8 or sharezone-debug
-  final String firebaseProjectId;
-
-  /// E.g. prod or dev
-  ///
-  /// Will be used to select the correct main file, e.g. main_prod.dart for
-  /// prod.
-  final String flavor;
-
-  const _WebAppConfig(
-    this.deployTargetName,
-    this.firebaseProjectId,
-    this.flavor,
-  );
-
-  @override
-  String toString() =>
-      '_WebApp(deployTargetName: $deployTargetName, firebaseProjectId: $firebaseProjectId, flavor: $flavor)';
 }
