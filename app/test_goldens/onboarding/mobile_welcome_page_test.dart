@@ -22,7 +22,7 @@ void main() {
     }
 
     testGoldens('renders as expected (light theme)', (tester) async {
-      await pumpPage(tester, theme: lightTheme);
+      await pumpPage(tester, theme: getLightTheme());
 
       await multiScreenGolden(tester, 'mobile_welcome_page_light');
     });
@@ -32,7 +32,7 @@ void main() {
     //
     // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/916
     testGoldens('renders as expected (dark theme)', (tester) async {
-      await pumpPage(tester, theme: darkTheme);
+      await pumpPage(tester, theme: getDarkTheme());
 
       await multiScreenGolden(tester, 'mobile_welcome_page_dark');
     });

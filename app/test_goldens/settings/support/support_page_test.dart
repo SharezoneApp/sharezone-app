@@ -60,13 +60,13 @@ void main() {
       });
 
       testGoldens('renders as expected (light mode)', (tester) async {
-        await pumpSupportPage(tester, theme: lightTheme);
+        await pumpSupportPage(tester, theme: getLightTheme());
 
         await multiScreenGolden(tester, 'support_page_with_plus_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
-        await pumpSupportPage(tester, theme: darkTheme);
+        await pumpSupportPage(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'support_page_with_plus_dark');
       });
@@ -78,13 +78,13 @@ void main() {
       });
 
       testGoldens('renders as expected (light mode)', (tester) async {
-        await pumpSupportPage(tester, theme: lightTheme);
+        await pumpSupportPage(tester, theme: getLightTheme());
 
         await multiScreenGolden(tester, 'support_page_without_plus_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
-        await pumpSupportPage(tester, theme: darkTheme);
+        await pumpSupportPage(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'support_page_without_plus_dark');
       });

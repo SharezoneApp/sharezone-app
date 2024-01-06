@@ -25,7 +25,7 @@ void main() {
     testGoldens('displays as expected', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: lightTheme,
+          theme: getLightTheme(),
           home: Scaffold(
             body: ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
               create: (context) {
