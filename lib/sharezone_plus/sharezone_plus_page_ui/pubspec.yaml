@@ -1,0 +1,41 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: sharezone_plus_page_ui
+description: A package that provides the UI widgets for the Sharezone Plus Page.
+  This package is shared between the app and our website.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # See 'app/pubspec.yaml' why we use a custom version of flutter_markdown.
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
+  sharezone_widgets:
+    path: ../../sharezone_widgets
+  url_launcher: ^6.1.10
+  user:
+    path: ../../user
+
+dev_dependencies:
+  golden_toolkit: ^0.15.0
+  flutter_test:
+    sdk: flutter
+  sharezone_lints:
+    path: ../../sharezone_lints
+
+flutter:
+  uses-material-design: true

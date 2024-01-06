@@ -27,6 +27,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dar
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -160,7 +161,7 @@ void main() {
     });
 
     // ignore: invalid_use_of_visible_for_testing_member
-    group(PlusAdvantages, () {
+    group(SharezonePlusAdvantages, () {
       for (final typeOfUser in [
         TypeOfUser.parent,
         TypeOfUser.teacher,
@@ -172,10 +173,9 @@ void main() {
           required TypeOfUser typeOfUser,
         }) async {
           await tester.pumpWidgetBuilder(
-            Provider<TypeOfUser?>(
-              create: (context) => typeOfUser,
-              child: const SingleChildScrollView(
-                child: PlusAdvantages(),
+            SingleChildScrollView(
+              child: SharezonePlusAdvantages(
+                typeOfUser: typeOfUser,
               ),
             ),
             wrapper: materialAppWrapper(theme: theme),
@@ -226,11 +226,11 @@ void main() {
     });
 
     // ignore: invalid_use_of_visible_for_testing_member
-    group(PlusFaqSection, () {
+    group(SharezonePlusFaq, () {
       testGoldens('renders faq section as expected (dark theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          const SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: darkTheme),
         );
 
@@ -247,7 +247,7 @@ void main() {
       testGoldens('renders faq section as expected (light theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          const SingleChildScrollView(child: PlusFaqSection()),
+          const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: lightTheme),
         );
 

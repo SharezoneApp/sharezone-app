@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {
@@ -52,7 +53,7 @@ void main() {
     }
 
     testWidgets(
-        'shows $PriceLoadingIndicator if plus status has loaded but the price hasnt',
+        'shows $SharezonePlusPriceLoadingIndicator if plus status has loaded but the price hasnt',
         (tester) async {
       controller.hasPlus = true;
       controller.price = null;
@@ -60,10 +61,11 @@ void main() {
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
 
-      expect(find.byType(PriceLoadingIndicator), findsOneWidget);
+      expect(find.byType(SharezonePlusPriceLoadingIndicator), findsOneWidget);
     });
 
-    testWidgets('if loading then the $PriceLoadingIndicator is shown',
+    testWidgets(
+        'if loading then the $SharezonePlusPriceLoadingIndicator is shown',
         (tester) async {
       controller.hasPlus = null;
       controller.price = null;
@@ -71,7 +73,7 @@ void main() {
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
 
-      expect(find.byType(PriceLoadingIndicator), findsOneWidget);
+      expect(find.byType(SharezonePlusPriceLoadingIndicator), findsOneWidget);
     });
 
     testWidgets('if loading then the "subscribe" button is disabled',
