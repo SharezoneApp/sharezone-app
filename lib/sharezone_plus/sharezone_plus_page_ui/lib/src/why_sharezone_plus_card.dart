@@ -52,7 +52,7 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(17.5),
         child: Image.asset(
-          'assets/images/jonas-nils.png',
+          'packages/sharezone_plus_page_ui/assets/jonas-nils.png',
           fit: BoxFit.cover,
           width: double.infinity,
           semanticLabel: 'Ein Bild von Jonas und Nils.',

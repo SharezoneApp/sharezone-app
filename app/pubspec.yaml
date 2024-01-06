@@ -245,3 +245,4 @@ flutter:
     - packages/fast_rsa/web/assets/worker.js
     - packages/fast_rsa/web/assets/wasm_exec.js
     - packages/fast_rsa/web/assets/rsa.wasm
+    - packages/sharezone_plus_page_ui/assets/jonas-nils.png
