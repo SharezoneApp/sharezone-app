@@ -22,7 +22,7 @@ dependencies:
     path: ../lib/abgabe/abgabe_client_lib
   abgabe_http_api:
     path: ../lib/abgabe/abgabe_http_api
-  add_2_calendar: ^2.2.4
+  add_2_calendar: ^3.0.1
   analytics:
     path: ../lib/analytics
   animated_stream_list_nullsafety: ^2.0.3
@@ -135,10 +135,10 @@ dependencies:
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
   package_info_plus: ^5.0.1
-  permission_handler: ^10.2.0
+  permission_handler: ^11.1.0
   photo_view: ^0.14.0
   provider: ^6.0.3
-  purchases_flutter: ^5.6.2
+  purchases_flutter: ^6.6.0
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0

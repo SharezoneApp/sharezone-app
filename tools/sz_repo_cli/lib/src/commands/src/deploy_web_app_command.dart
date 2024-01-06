@@ -81,7 +81,7 @@ class DeployWebAppCommand extends CommandBase {
     final releaseStage = _parseReleaseStage(argResults!);
     final webAppConfig = _getMatchingWebAppConfig(releaseStage);
 
-    await processRunner.run([
+    await processRunner.runCommand([
       'fvm',
       'dart',
       'run',

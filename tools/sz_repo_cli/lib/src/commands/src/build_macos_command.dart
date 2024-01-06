@@ -82,7 +82,7 @@ When none is specified, the value from pubspec.yaml is used.''')
       const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      await processRunner.run(
+      await processRunner.runCommand(
         [
           'fvm',
           'flutter',
@@ -90,6 +90,8 @@ When none is specified, the value from pubspec.yaml is used.''')
           'macos',
           '--target',
           'lib/main_$flavor.dart',
+          '--flavor',
+          flavor,
           '--release',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',

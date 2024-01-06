@@ -33,7 +33,9 @@ class FlutterNativeImageCompressor extends ImageCompressor {
       quality: 90,
     );
     if (result == null) return null;
-    return LocalFileIo.fromFile(result);
+
+    final fileFromXFile = File(result.path);
+    return LocalFileIo.fromFile(fileFromXFile);
   }
 }
 
