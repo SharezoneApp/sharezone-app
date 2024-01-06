@@ -56,7 +56,7 @@ void main() {
             (tester) async {
           await pumpPlusAdvantages(
             tester,
-            theme: getDarkTheme(),
+            theme: getDarkTheme(fontFamily: roboto),
             typeOfUser: typeOfUser,
           );
 
@@ -78,7 +78,7 @@ void main() {
             (tester) async {
           await pumpPlusAdvantages(
             tester,
-            theme: getLightTheme(),
+            theme: getLightTheme(fontFamily: roboto),
             typeOfUser: typeOfUser,
           );
 
@@ -100,7 +100,7 @@ void main() {
           (tester) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
-          wrapper: materialAppWrapper(theme: getDarkTheme()),
+          wrapper: materialAppWrapper(theme: getDarkTheme(fontFamily: roboto)),
         );
 
         await tapEveryExpansionCard(tester);
@@ -117,7 +117,7 @@ void main() {
           (tester) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
-          wrapper: materialAppWrapper(theme: getLightTheme()),
+          wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
         );
 
         await tapEveryExpansionCard(tester);
