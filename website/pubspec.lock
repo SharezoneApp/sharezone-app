@@ -25,6 +25,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  build_context:
+    dependency: transitive
+    description:
+      path: "../lib/build_context"
+      relative: true
+    source: path
+    version: "0.0.1"
   characters:
     dependency: transitive
     description:
@@ -41,6 +48,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore_helper:
+    dependency: transitive
+    description:
+      path: "../lib/cloud_firestore_helper"
+      relative: true
+    source: path
+    version: "0.0.1"
   collection:
     dependency: transitive
     description:
@@ -49,6 +63,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  date:
+    dependency: transitive
+    description:
+      path: "../lib/date"
+      relative: true
+    source: path
+    version: "1.0.0"
   dio:
     dependency: "direct main"
     description:
@@ -65,6 +86,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  flare_flutter:
+    dependency: transitive
+    description:
+      name: flare_flutter
+      sha256: "99d63c60f00fac81249ce6410ee015d7b125c63d8278a30da81edf3317a1f6a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -81,11 +110,12 @@ packages:
   flutter_markdown:
     dependency: "direct main"
     description:
-      name: flutter_markdown
-      sha256: "35108526a233cc0755664d445f8a6b4b61e6f8fe993b3658b80b4a26827fc196"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.18+2"
+      path: "packages/flutter_markdown"
+      ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
+      resolved-ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
+      url: "https://github.com/SharezoneApp/packages"
+    source: git
+    version: "0.6.17+2"
   flutter_staggered_animations:
     dependency: "direct main"
     description:
@@ -120,6 +150,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "12.1.3"
+  helper_functions:
+    dependency: transitive
+    description:
+      path: "../lib/helper_functions"
+      relative: true
+    source: path
+    version: "0.0.1"
   http_parser:
     dependency: transitive
     description:
@@ -128,6 +165,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   lints:
     dependency: transitive
     description:
@@ -208,6 +253,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  platform_check:
+    dependency: transitive
+    description:
+      path: "../lib/platform_check"
+      relative: true
+    source: path
+    version: "0.0.1"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -216,6 +268,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   sharezone_lints:
     dependency: "direct dev"
     description:
@@ -223,6 +291,28 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  sharezone_plus_page_ui:
+    dependency: "direct main"
+    description:
+      path: "../lib/sharezone_plus/sharezone_plus_page_ui"
+      relative: true
+    source: path
+    version: "0.0.1"
+  sharezone_widgets:
+    dependency: transitive
+    description:
+      path: "../lib/sharezone_widgets"
+      relative: true
+    source: path
+    version: "0.0.1"
+  shimmer:
+    dependency: transitive
+    description:
+      name: shimmer
+      sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -276,6 +366,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  time:
+    dependency: transitive
+    description:
+      path: "../lib/time"
+      relative: true
+    source: path
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -348,6 +445,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  user:
+    dependency: transitive
+    description:
+      path: "../lib/user"
+      relative: true
+    source: path
+    version: "0.0.1"
   vector_graphics:
     dependency: transitive
     description:
@@ -397,5 +501,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"
   flutter: ">=3.16.3"
