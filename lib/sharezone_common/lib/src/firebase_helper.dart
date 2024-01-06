@@ -44,8 +44,3 @@ DateTime? dateTimeFromTimestampOrNull(Timestamp? timestamp) {
   if (timestamp == null) return null;
   return timestamp.toDate();
 }
-
-Timestamp? timestampFromDateTime(DateTime? dateTime) {
-  if (dateTime == null) return null;
-  return Timestamp.fromDate(dateTime);
-}

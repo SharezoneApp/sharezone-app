@@ -66,7 +66,7 @@ class MemberData {
       'abbreviation': abbreviation,
       'typeOfUser': typeOfUser.name,
       'role': role.name,
-      'joinedOn': timestampFromDateTime(joinedOn),
+      'joinedOn': joinedOn,
     };
   }
 

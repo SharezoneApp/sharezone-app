@@ -39,7 +39,7 @@ class QrSignInDocument {
     return {
       'qrId': qrId,
       'publicKey': publicKey,
-      'created': timestampFromDateTime(created),
+      'created': created,
     };
   }
 
