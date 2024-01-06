@@ -9,6 +9,15 @@
       "hosting": {
         "test-web-app": [
           "sharezone-test"
+        ],
+        "alpha-web-app": [
+          "sharezone-app-dev-alpha"
+        ],
+        "beta-web-app": [
+          "sharezone-app-dev-beta"
+        ],
+        "release-web-app": [
+          "sharezone-app-dev-stable"
         ]
       }
     },

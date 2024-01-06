@@ -25,6 +25,12 @@ final _macOsStageToTracks = {
   'alpha': const TestFlightTrack('alpha'),
 };
 
+/// The different flavors of the macOS app that support deployment.
+final _macOsFlavors = [
+  'prod',
+  'dev',
+];
+
 /// [DeployMacOsCommand] provides functionality for deploying the Sharezone macOS
 /// app to the App Store or TestFlight.
 ///
@@ -57,6 +63,12 @@ class DeployMacOsCommand extends CommandBase {
           'The deployment stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases. The value will be forwarded to the "sz build" command.',
       defaultsTo: 'stable',
     );
+    argParser.addOption(
+      flavorOptionName,
+      allowed: _macOsFlavors,
+      help: 'The flavor to build for. Only the "prod" flavor is supported.',
+      defaultsTo: 'prod',
+    );
 
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
@@ -64,6 +76,8 @@ class DeployMacOsCommand extends CommandBase {
     addCertificateKey(argParser);
     addWhatsNewOption(argParser);
   }
+
+  static const flavorOptionName = 'flavor';
 
   List<String> get _macOsStages => _macOsStageToTracks.keys.toList();
 
@@ -142,15 +156,18 @@ class DeployMacOsCommand extends CommandBase {
   Future<void> _buildApp(ProcessRunner processRunner,
       {required int buildNumber}) async {
     try {
+      final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.run(
+      await processRunner.runCommand(
         [
-          'fvm',
           'dart',
+          'fvm',
           'run',
           'sz_repo_cli',
           'build',
           'macos',
+          '--flavor',
+          flavor,
           '--stage',
           stage,
           '--build-number',
