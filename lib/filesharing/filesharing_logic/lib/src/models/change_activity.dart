@@ -30,7 +30,7 @@ class ChangeActivity {
     return {
       'authorID': authorID,
       'authorName': authorName,
-      'changedOn': timestampFromDateTime(changedOn),
+      'changedOn': changedOn,
     };
   }
 
