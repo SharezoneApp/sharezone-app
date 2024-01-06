@@ -160,8 +160,8 @@ class DeployMacOsCommand extends CommandBase {
       final stage = argResults![releaseStageOptionName] as String;
       await processRunner.runCommand(
         [
-          'dart',
           'fvm',
+          'dart',
           'run',
           'sz_repo_cli',
           'build',
