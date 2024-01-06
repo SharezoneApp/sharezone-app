@@ -6,12 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import Cocoa
 import FlutterMacOS
+import Cocoa
+import XCTest
 
-@NSApplicationMain
-class AppDelegate: FlutterAppDelegate {
-  override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-    return true
+class RunnerTests: XCTestCase {
+
+  func testExample() {
+    // If you add code to the Runner application, consider adding tests here.
+    // See https://developer.apple.com/documentation/xctest for more information about using XCTest.
   }
+
 }
