@@ -27,8 +27,6 @@ dependencies:
   sharezone_widgets:
     path: ../../sharezone_widgets
   url_launcher: ^6.1.10
-  user:
-    path: ../../user
 
 dev_dependencies:
   golden_toolkit: ^0.15.0

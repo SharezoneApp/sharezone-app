@@ -11,7 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:user/user.dart';
 
 void main() {
   group('sharezone_plus_page_ui', () {
@@ -31,67 +30,57 @@ void main() {
 
     // ignore: invalid_use_of_visible_for_testing_member
     group(SharezonePlusAdvantages, () {
-      for (final typeOfUser in [
-        TypeOfUser.parent,
-        TypeOfUser.teacher,
-        TypeOfUser.student
-      ]) {
-        Future<void> pumpPlusAdvantages(
-          WidgetTester tester, {
-          required ThemeData theme,
-          required TypeOfUser typeOfUser,
-        }) async {
-          await tester.pumpWidgetBuilder(
-            SingleChildScrollView(
-              child: SharezonePlusAdvantages(
-                typeOfUser: typeOfUser,
-              ),
+      Future<void> pumpPlusAdvantages(
+        WidgetTester tester, {
+        required ThemeData theme,
+      }) async {
+        await tester.pumpWidgetBuilder(
+          const SingleChildScrollView(
+            child: SharezonePlusAdvantages(
+              isHomeworkDoneListsFeatureVisible: true,
+              isHomeworkReminderFeatureVisible: true,
             ),
-            wrapper: materialAppWrapper(theme: theme),
-          );
-        }
-
-        testGoldens(
-            'renders advantages for ${typeOfUser.name} as expected (dark theme)',
-            (tester) async {
-          await pumpPlusAdvantages(
-            tester,
-            theme: getDarkTheme(fontFamily: roboto),
-            typeOfUser: typeOfUser,
-          );
-
-          await tapEveryExpansionCard(tester);
-
-          await multiScreenGolden(
-            tester,
-            'sharezone_plus_advantages_${typeOfUser.name}_dark_theme',
-            // Since we only need to test the expanded advantages and we have
-            // already tested the Sharezone Plus page for all devices, we don't
-            // need to test it for all devices. Using a tablet portrait is
-            // sufficient.
-            devices: [Device.tabletPortrait],
-          );
-        });
-
-        testGoldens(
-            'renders advantages for ${typeOfUser.name} as expected (light theme)',
-            (tester) async {
-          await pumpPlusAdvantages(
-            tester,
-            theme: getLightTheme(fontFamily: roboto),
-            typeOfUser: typeOfUser,
-          );
-
-          await tapEveryExpansionCard(tester);
-
-          await multiScreenGolden(
-            tester,
-            'sharezone_plus_advantages_${typeOfUser.name}_light_theme',
-            // See comment above.
-            devices: [Device.tabletPortrait],
-          );
-        });
+          ),
+          wrapper: materialAppWrapper(theme: theme),
+        );
       }
+
+      testGoldens('renders advantages as expected (dark theme)',
+          (tester) async {
+        await pumpPlusAdvantages(
+          tester,
+          theme: getDarkTheme(fontFamily: roboto),
+        );
+
+        await tapEveryExpansionCard(tester);
+
+        await multiScreenGolden(
+          tester,
+          'sharezone_plus_advantages_dark_theme',
+          // Since we only need to test the expanded advantages and we have
+          // already tested the Sharezone Plus page for all devices, we don't
+          // need to test it for all devices. Using a tablet portrait is
+          // sufficient.
+          devices: [Device.tabletPortrait],
+        );
+      });
+
+      testGoldens('renders advantages as expected (light theme)',
+          (tester) async {
+        await pumpPlusAdvantages(
+          tester,
+          theme: getLightTheme(fontFamily: roboto),
+        );
+
+        await tapEveryExpansionCard(tester);
+
+        await multiScreenGolden(
+          tester,
+          'sharezone_plus_advantages_light_theme',
+          // See comment above.
+          devices: [Device.tabletPortrait],
+        );
+      });
     });
 
     // ignore: invalid_use_of_visible_for_testing_member
