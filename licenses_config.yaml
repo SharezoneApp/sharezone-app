@@ -76,6 +76,7 @@ packageLicenseOverride:
   remote_configuration: EUPL-1.2-or-later
   sharezone_common: EUPL-1.2-or-later
   sharezone_lints: EUPL-1.2-or-later
+  sharezone_plus_page_ui: EUPL-1.2-or-later
   sharezone_utils: EUPL-1.2-or-later
   sharezone_widgets: EUPL-1.2-or-later
   stripe_checkout_session: EUPL-1.2-or-later

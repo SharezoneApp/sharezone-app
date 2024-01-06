@@ -156,6 +156,8 @@ dependencies:
     path: ../lib/sharezone_common
   sharezone_utils:
     path: ../lib/sharezone_utils
+  sharezone_plus_page_ui:
+    path: ../lib/sharezone_plus/sharezone_plus_page_ui
   sharezone_widgets:
     path: ../lib/sharezone_widgets
   showcaseview: ^2.0.1
