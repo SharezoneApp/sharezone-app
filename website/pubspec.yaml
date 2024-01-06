@@ -19,11 +19,20 @@ dependencies:
   dio: ^5.4.0
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.6.18+2
+  # See 'app/pubspec.yaml' why we use a custom version of flutter_markdown.
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.9
   go_router: ^12.1.3
   number_slide_animation: ^0.2.1
+  sharezone_plus_page_ui:
+    path: ../lib/sharezone_plus/sharezone_plus_page_ui
+  sharezone_widgets:
+    path: ../lib/sharezone_widgets
   url_launcher: ^6.2.2
 
 dev_dependencies:
@@ -59,3 +68,4 @@ flutter:
     - assets/features/
     - assets/get_it_on/
     - assets/images/
+    - packages/sharezone_plus_page_ui/assets/jonas-nils.png

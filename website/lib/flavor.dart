@@ -22,6 +22,8 @@ enum Flavor {
   dev;
 
   static Flavor fromEnvironment() {
-    return Flavor.values.byName(const String.fromEnvironment('FLAVOR'));
+    return Flavor.values.byName(
+      const String.fromEnvironment('FLAVOR', defaultValue: 'dev'),
+    );
   }
 }

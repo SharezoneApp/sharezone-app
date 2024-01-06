@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
@@ -127,6 +128,15 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (!isPhone(context)) ...[
+                          if (isSharezonePlusPageEnabledFlag)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 30),
+                              child: TransparentButton(
+                                child: const Text("Plus"),
+                                onTap: () =>
+                                    context.go('/${SharezonePlusPage.tag}'),
+                              ),
+                            ),
                           TransparentButton(
                             child: const Text("Support"),
                             onTap: () => context.go('/${SupportPage.tag}'),
