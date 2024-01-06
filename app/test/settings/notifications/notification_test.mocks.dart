@@ -117,21 +117,18 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Stream<_i3.AppUser?>.empty(),
         returnValueForMissingStub: _i7.Stream<_i3.AppUser?>.empty(),
       ) as _i7.Stream<_i3.AppUser?>);
-
   @override
   _i7.Stream<_i8.AuthUser?> get authUserStream => (super.noSuchMethod(
         Invocation.getter(#authUserStream),
         returnValue: _i7.Stream<_i8.AuthUser?>.empty(),
         returnValueForMissingStub: _i7.Stream<_i8.AuthUser?>.empty(),
       ) as _i7.Stream<_i8.AuthUser?>);
-
   @override
   _i7.Stream<bool> get isSignedInStream => (super.noSuchMethod(
         Invocation.getter(#isSignedInStream),
         returnValue: _i7.Stream<bool>.empty(),
         returnValueForMissingStub: _i7.Stream<bool>.empty(),
       ) as _i7.Stream<bool>);
-
   @override
   _i7.Stream<_i9.DocumentSnapshot<Object?>> get userDocument =>
       (super.noSuchMethod(
@@ -140,14 +137,12 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValueForMissingStub:
             _i7.Stream<_i9.DocumentSnapshot<Object?>>.empty(),
       ) as _i7.Stream<_i9.DocumentSnapshot<Object?>>);
-
   @override
   _i7.Stream<_i8.Provider?> get providerStream => (super.noSuchMethod(
         Invocation.getter(#providerStream),
         returnValue: _i7.Stream<_i8.Provider?>.empty(),
         returnValueForMissingStub: _i7.Stream<_i8.Provider?>.empty(),
       ) as _i7.Stream<_i8.Provider?>);
-
   @override
   _i7.Future<_i3.AppUser> get() => (super.noSuchMethod(
         Invocation.method(
@@ -169,7 +164,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
           ),
         )),
       ) as _i7.Future<_i3.AppUser>);
-
   @override
   _i7.Future<void> logOut() => (super.noSuchMethod(
         Invocation.method(
@@ -179,7 +173,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   bool isAnonymous() => (super.noSuchMethod(
         Invocation.method(
@@ -199,7 +192,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Stream<bool?>.empty(),
         returnValueForMissingStub: _i7.Stream<bool?>.empty(),
       ) as _i7.Stream<bool?>);
-
   @override
   _i7.Future<void> linkWithCredential(_i10.AuthCredential? credential) =>
       (super.noSuchMethod(
@@ -210,7 +202,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> changeState(_i3.StateEnum? state) => (super.noSuchMethod(
         Invocation.method(
@@ -220,7 +211,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> addNotificationToken(String? token) => (super.noSuchMethod(
         Invocation.method(
@@ -230,7 +220,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   void removeNotificationToken(String? token) => super.noSuchMethod(
         Invocation.method(
@@ -250,7 +239,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> updateSettings(_i3.UserSettings? userSettings) =>
       (super.noSuchMethod(
@@ -261,7 +249,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> updateSettingsSingleFiled(
     String? fieldName,
@@ -278,7 +265,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> updateUserTip(
     _i3.UserTipKey? userTipKey,
@@ -295,7 +281,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   void setBlackboardNotifications(bool? enabled) => super.noSuchMethod(
         Invocation.method(
@@ -323,7 +308,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<void> addUser({
     required _i3.AppUser? user,
@@ -341,7 +325,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
-
   @override
   _i7.Future<bool> deleteUser(_i12.SharezoneGateway? gateway) =>
       (super.noSuchMethod(
@@ -352,7 +335,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
         returnValue: _i7.Future<bool>.value(false),
         returnValueForMissingStub: _i7.Future<bool>.value(false),
       ) as _i7.Future<bool>);
-
   @override
   _i7.Future<_i4.AppFunctionsResult<bool>> updateUser(_i3.AppUser? userData) =>
       (super.noSuchMethod(
@@ -378,7 +360,6 @@ class MockUserGateway extends _i1.Mock implements _i5.UserGateway {
           ),
         )),
       ) as _i7.Future<_i4.AppFunctionsResult<bool>>);
-
   @override
   _i7.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(

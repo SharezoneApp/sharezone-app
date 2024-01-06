@@ -182,13 +182,13 @@ dependencies:
 dev_dependencies:
   async: ^2.4.1
   built_collection: ^5.1.0
-  build_runner: ^2.3.3
+  build_runner: ^2.4.7
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
   integration_test:
     sdk: flutter
-  mockito: ^5.3.2
+  mockito: ^5.4.4
   random_string: ^2.0.1
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0

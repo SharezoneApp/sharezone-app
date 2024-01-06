@@ -387,7 +387,6 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         returnValue: _i23.Future<void>.value(),
         returnValueForMissingStub: _i23.Future<void>.value(),
       ) as _i23.Future<void>);
-
   @override
   _i23.Future<void> update(Map<Object, Object?>? data) => (super.noSuchMethod(
         Invocation.method(
@@ -397,7 +396,6 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         returnValue: _i23.Future<void>.value(),
         returnValueForMissingStub: _i23.Future<void>.value(),
       ) as _i23.Future<void>);
-
   @override
   _i23.Future<_i2.DocumentSnapshot<T>> get([_i24.GetOptions? options]) =>
       (super.noSuchMethod(
@@ -422,7 +420,6 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
           ),
         )),
       ) as _i23.Future<_i2.DocumentSnapshot<T>>);
-
   @override
   _i23.Stream<_i2.DocumentSnapshot<T>> snapshots(
           {bool? includeMetadataChanges = false}) =>
@@ -435,7 +432,6 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         returnValue: _i23.Stream<_i2.DocumentSnapshot<T>>.empty(),
         returnValueForMissingStub: _i23.Stream<_i2.DocumentSnapshot<T>>.empty(),
       ) as _i23.Stream<_i2.DocumentSnapshot<T>>);
-
   @override
   _i23.Future<void> set(
     T? data, [
@@ -452,7 +448,6 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         returnValue: _i23.Future<void>.value(),
         returnValueForMissingStub: _i23.Future<void>.value(),
       ) as _i23.Future<void>);
-
   @override
   _i2.DocumentReference<R> withConverter<R>({
     required _i2.FromFirestore<R>? fromFirestore,
@@ -781,7 +776,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValue: _i23.Stream<_i26.TypeOfUser?>.empty(),
         returnValueForMissingStub: _i23.Stream<_i26.TypeOfUser?>.empty(),
       ) as _i23.Stream<_i26.TypeOfUser?>);
-
   @override
   _i23.Stream<List<_i18.HomeworkDto>> get homeworkForNowAndInFutureStream =>
       (super.noSuchMethod(
@@ -789,14 +783,12 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValue: _i23.Stream<List<_i18.HomeworkDto>>.empty(),
         returnValueForMissingStub: _i23.Stream<List<_i18.HomeworkDto>>.empty(),
       ) as _i23.Stream<List<_i18.HomeworkDto>>);
-
   @override
   _i23.Stream<List<_i18.HomeworkDto>> get homeworkStream => (super.noSuchMethod(
         Invocation.getter(#homeworkStream),
         returnValue: _i23.Stream<List<_i18.HomeworkDto>>.empty(),
         returnValueForMissingStub: _i23.Stream<List<_i18.HomeworkDto>>.empty(),
       ) as _i23.Stream<List<_i18.HomeworkDto>>);
-
   @override
   _i23.Stream<_i18.HomeworkDto> singleHomeworkStream(String? homeworkId) =>
       (super.noSuchMethod(
@@ -807,7 +799,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValue: _i23.Stream<_i18.HomeworkDto>.empty(),
         returnValueForMissingStub: _i23.Stream<_i18.HomeworkDto>.empty(),
       ) as _i23.Stream<_i18.HomeworkDto>);
-
   @override
   _i23.Future<_i18.HomeworkDto> singleHomework(
     String? homeworkId, {
@@ -837,7 +828,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           ),
         )),
       ) as _i23.Future<_i18.HomeworkDto>);
-
   @override
   _i23.Future<void> deleteHomework(
     _i18.HomeworkDto? homework, {
@@ -852,7 +842,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValue: _i23.Future<void>.value(),
         returnValueForMissingStub: _i23.Future<void>.value(),
       ) as _i23.Future<void>);
-
   @override
   void deleteHomeworkOnlyForCurrentUser(_i18.HomeworkDto? homework) =>
       super.noSuchMethod(
@@ -904,7 +893,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           ),
         )),
       ) as _i23.Future<_i2.DocumentReference<Object?>>);
-
   @override
   _i23.Future<void> addPrivateHomework(
     _i18.HomeworkDto? homework,
@@ -927,7 +915,6 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValue: _i23.Future<void>.value(),
         returnValueForMissingStub: _i23.Future<void>.value(),
       ) as _i23.Future<void>);
-
   @override
   void changeIsHomeworkDoneTo(
     String? homeworkDocumentID,
@@ -1057,7 +1044,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i23.Future<_i21.AppFunctionsResult<bool>> leaveCourse(String? courseID) =>
       (super.noSuchMethod(
@@ -1083,7 +1069,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i23.Future<_i21.AppFunctionsResult<bool>> kickMember(
     String? courseID,
@@ -1121,7 +1106,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i23.Future<_i21.AppFunctionsResult<bool>> editCourse(_i20.Course? course) =>
       (super.noSuchMethod(
@@ -1147,7 +1131,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i20.Course? getCourse(String? id) => (super.noSuchMethod(
         Invocation.method(
@@ -1194,7 +1177,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i23.Future<_i21.AppFunctionsResult<bool>> deleteCourse(String? courseID) =>
       (super.noSuchMethod(
@@ -1220,7 +1202,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i23.Future<bool> editCourseGeneralDesign({
     required String? courseID,
@@ -1238,7 +1219,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: _i23.Future<bool>.value(false),
         returnValueForMissingStub: _i23.Future<bool>.value(false),
       ) as _i23.Future<bool>);
-
   @override
   _i23.Future<bool> editCoursePersonalDesign({
     required String? courseID,
@@ -1256,7 +1236,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: _i23.Future<bool>.value(false),
         returnValueForMissingStub: _i23.Future<bool>.value(false),
       ) as _i23.Future<bool>);
-
   @override
   _i23.Future<bool> removeCoursePersonalDesign(String? courseID) =>
       (super.noSuchMethod(
@@ -1267,7 +1246,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: _i23.Future<bool>.value(false),
         returnValueForMissingStub: _i23.Future<bool>.value(false),
       ) as _i23.Future<bool>);
-
   @override
   _i23.Future<_i21.AppFunctionsResult<bool>> memberUpdateRole({
     required String? courseID,
@@ -1312,7 +1290,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
       ) as _i23.Future<_i21.AppFunctionsResult<bool>>);
-
   @override
   _i20.MemberRole? getRoleFromCourseNoSync(String? courseID) =>
       (super.noSuchMethod(
@@ -1333,7 +1310,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: _i23.Stream<_i20.Course?>.empty(),
         returnValueForMissingStub: _i23.Stream<_i20.Course?>.empty(),
       ) as _i23.Stream<_i20.Course?>);
-
   @override
   _i23.Stream<List<_i20.Course>> streamCourses() => (super.noSuchMethod(
         Invocation.method(
@@ -1343,7 +1319,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: _i23.Stream<List<_i20.Course>>.empty(),
         returnValueForMissingStub: _i23.Stream<List<_i20.Course>>.empty(),
       ) as _i23.Stream<List<_i20.Course>>);
-
   @override
   _i23.Stream<Map<String, _i20.GroupInfo>> getGroupInfoStream(
           _i16.SchoolClassGateway? schoolClassGateway) =>
@@ -1356,7 +1331,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValueForMissingStub:
             _i23.Stream<Map<String, _i20.GroupInfo>>.empty(),
       ) as _i23.Stream<Map<String, _i20.GroupInfo>>);
-
   @override
   _i23.Future<List<_i20.Course>> getCourses() => (super.noSuchMethod(
         Invocation.method(
@@ -1367,7 +1341,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValueForMissingStub:
             _i23.Future<List<_i20.Course>>.value(<_i20.Course>[]),
       ) as _i23.Future<List<_i20.Course>>);
-
   @override
   List<_i20.Course> getCurrentCourses() => (super.noSuchMethod(
         Invocation.method(

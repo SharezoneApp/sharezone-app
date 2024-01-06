@@ -180,6 +180,8 @@ PODS:
     - FirebaseCore (~> 10.0)
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - flutter_image_compress_macos (1.0.0):
+    - FlutterMacOS
   - flutter_native_timezone (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)

@@ -822,7 +822,6 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i22.Stream<_i31.AuthUser?>.empty(),
         returnValueForMissingStub: _i22.Stream<_i31.AuthUser?>.empty(),
       ) as _i22.Stream<_i31.AuthUser?>);
-
   @override
   _i22.Stream<bool> get isSignedInStream => (super.noSuchMethod(
         Invocation.getter(#isSignedInStream),
@@ -838,14 +837,12 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValueForMissingStub:
             _i22.Stream<_i32.DocumentSnapshot<Object?>>.empty(),
       ) as _i22.Stream<_i32.DocumentSnapshot<Object?>>);
-
   @override
   _i22.Stream<_i31.Provider?> get providerStream => (super.noSuchMethod(
         Invocation.getter(#providerStream),
         returnValue: _i22.Stream<_i31.Provider?>.empty(),
         returnValueForMissingStub: _i22.Stream<_i31.Provider?>.empty(),
       ) as _i22.Stream<_i31.Provider?>);
-
   @override
   _i22.Future<_i19.AppUser> get() => (super.noSuchMethod(
         Invocation.method(
