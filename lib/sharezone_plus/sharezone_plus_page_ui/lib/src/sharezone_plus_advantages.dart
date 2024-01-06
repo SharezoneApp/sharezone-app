@@ -10,25 +10,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:user/user.dart';
 
 class SharezonePlusAdvantages extends StatelessWidget {
   const SharezonePlusAdvantages({
     super.key,
-    required this.typeOfUser,
+    required this.isHomeworkReminderFeatureVisible,
+    required this.isHomeworkDoneListsFeatureVisible,
   });
 
-  final TypeOfUser? typeOfUser;
+  final bool isHomeworkReminderFeatureVisible;
+  final bool isHomeworkDoneListsFeatureVisible;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const _MoreColors(),
-        _HomeworkReminder(typeOfUser: typeOfUser),
+        if (isHomeworkReminderFeatureVisible) const _HomeworkReminder(),
         const _PastEvents(),
         const _AddEventsToLocalCalendar(),
-        _HomeworkDoneLists(typeOfUser: typeOfUser),
+        if (isHomeworkDoneListsFeatureVisible) const _HomeworkDoneLists(),
         const _ReadByInformationSheets(),
         const _SelectTimetableBySchoolClass(),
         const _PlusSupport(),
@@ -113,39 +114,29 @@ class _PlusSupport extends StatelessWidget {
 }
 
 class _HomeworkReminder extends StatelessWidget {
-  const _HomeworkReminder({
-    required this.typeOfUser,
-  });
-
-  final TypeOfUser? typeOfUser;
+  const _HomeworkReminder();
 
   @override
   Widget build(BuildContext context) {
-    if (typeOfUser != TypeOfUser.student) return const SizedBox();
     return const _AdvantageTile(
       icon: Icon(Icons.notifications),
       title: Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
       description: Text(
-          'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.'),
+          'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.'),
     );
   }
 }
 
 class _HomeworkDoneLists extends StatelessWidget {
-  const _HomeworkDoneLists({
-    required this.typeOfUser,
-  });
-
-  final TypeOfUser? typeOfUser;
+  const _HomeworkDoneLists();
 
   @override
   Widget build(BuildContext context) {
-    if (typeOfUser != TypeOfUser.teacher) return const SizedBox();
     return const _AdvantageTile(
       icon: Icon(Icons.checklist),
       title: Text('Erledigt-Status bei Hausaufgaben'),
       description: Text(
-          'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe.'),
+          'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe. Dieses Feature ist nur für Lehrkräfte verfügbar.'),
     );
   }
 }

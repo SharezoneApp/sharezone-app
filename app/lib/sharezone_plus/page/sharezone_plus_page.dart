@@ -63,7 +63,12 @@ class SharezonePlusPageMain extends StatelessWidget {
                     const SizedBox(height: 18),
                     const WhyPlusSharezoneCard(),
                     const SizedBox(height: 18),
-                    SharezonePlusAdvantages(typeOfUser: typeOfUser),
+                    SharezonePlusAdvantages(
+                      isHomeworkDoneListsFeatureVisible:
+                          typeOfUser == TypeOfUser.teacher,
+                      isHomeworkReminderFeatureVisible:
+                          typeOfUser == TypeOfUser.student,
+                    ),
                     const SizedBox(height: 18),
                     const _CallToActionSection(),
                     const SizedBox(height: 32),
