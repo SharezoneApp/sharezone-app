@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
