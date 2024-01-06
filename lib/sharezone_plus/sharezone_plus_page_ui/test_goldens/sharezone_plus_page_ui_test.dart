@@ -118,7 +118,10 @@ void main() {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: getLightTheme()),
+        );
+
         await tapEveryExpansionCard(tester);
+
         await multiScreenGolden(
           tester,
           'sharezone_plus_faq_section_light_theme',
