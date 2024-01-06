@@ -59,7 +59,7 @@ class DeployWebAppCommand extends CommandBase {
       ..addOption(
         flavorOptionName,
         allowed: _webFlavors,
-        help: 'The flavor to build for. Only the "prod" flavor is supported.',
+        help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
   }
