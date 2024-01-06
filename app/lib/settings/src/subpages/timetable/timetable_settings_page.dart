@@ -207,10 +207,10 @@ class _TimetablePreferencesField extends StatelessWidget {
 
 class LessonsLengthField extends StatelessWidget {
   const LessonsLengthField({
-    Key? key,
+    super.key,
     required this.streamLessonLength,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final Stream<LessonLength> streamLessonLength;
   final ValueChanged<LessonLength> onChanged;
@@ -279,9 +279,8 @@ class LessonsLengthField extends StatelessWidget {
 
 class _NumberPicker extends StatefulWidget {
   const _NumberPicker({
-    Key? key,
     required this.initialLength,
-  }) : super(key: key);
+  });
 
   final int initialLength;
 

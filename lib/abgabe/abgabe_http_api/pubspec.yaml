@@ -20,7 +20,7 @@ dependencies:
   dio: ^5.3.2
 
 dev_dependencies:
-  build_runner: ^2.3.3
+  build_runner: ^2.4.7
   built_value_generator: ^8.4.4
   test: ^1.20.2
   sharezone_lints:

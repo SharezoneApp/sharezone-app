@@ -141,7 +141,7 @@ class DeployAndroidCommand extends CommandBase {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.run(
+      await processRunner.runCommand(
         [
           'fvm',
           'dart',

@@ -24,7 +24,7 @@ class _CourseTab extends StatelessWidget {
 }
 
 class _CourseList extends StatelessWidget {
-  const _CourseList(this.courseList, {Key? key}) : super(key: key);
+  const _CourseList(this.courseList);
 
   final List<Course>? courseList;
 
@@ -86,8 +86,7 @@ class _CourseList extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({Key? key, required this.course, this.color})
-      : super(key: key);
+  const _CourseTile({required this.course, this.color});
 
   final Course course;
   final Color? color;
@@ -137,10 +136,9 @@ class _CourseTile extends StatelessWidget {
 
 class _LineWithTwoWidgets extends StatelessWidget {
   const _LineWithTwoWidgets({
-    Key? key,
     required this.first,
     required this.second,
-  }) : super(key: key);
+  });
 
   final Widget first;
   final Widget second;
@@ -195,11 +193,10 @@ class _CreateCourse extends StatelessWidget {
 
 class _CourseManagementButtons extends StatelessWidget {
   const _CourseManagementButtons({
-    Key? key,
     required this.title,
     this.iconData,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final IconData? iconData;
   final String title;

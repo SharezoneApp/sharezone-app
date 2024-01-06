@@ -11,7 +11,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 export 'prefilled_text_field.dart';
@@ -29,9 +29,9 @@ Future<void> closeKeyboardAndWait(BuildContext context) async {
 
 class LoadingCircle extends StatelessWidget {
   const LoadingCircle({
-    Key? key,
+    super.key,
     this.size = 25,
-  }) : super(key: key);
+  });
 
   final double size;
 
@@ -47,13 +47,13 @@ class LoadingCircle extends StatelessWidget {
 
 class DatePicker extends StatelessWidget {
   const DatePicker({
-    Key? key,
+    super.key,
     this.labelText,
     this.selectedDate,
     this.selectDate,
     this.padding,
     this.ignoreSameDateSelection = true,
-  }) : super(key: key);
+  });
 
   final String? labelText;
   final DateTime? selectedDate;
@@ -123,8 +123,7 @@ class DatePicker extends StatelessWidget {
 
 class AccentColorCircularProgressIndicator extends StatelessWidget {
   const AccentColorCircularProgressIndicator(
-      {Key? key, this.value, this.strokeWidth = 4.0})
-      : super(key: key);
+      {super.key, this.value, this.strokeWidth = 4.0});
 
   final double? value, strokeWidth;
 
@@ -143,7 +142,7 @@ class AccentColorCircularProgressIndicator extends StatelessWidget {
 }
 
 class CancelButton extends StatelessWidget {
-  const CancelButton({Key? key}) : super(key: key);
+  const CancelButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +157,7 @@ class CancelButton extends StatelessWidget {
 }
 
 class DeleteButtonWithPoppingTrue extends StatelessWidget {
-  const DeleteButtonWithPoppingTrue({Key? key, this.textColor})
-      : super(key: key);
+  const DeleteButtonWithPoppingTrue({super.key, this.textColor});
 
   final Color? textColor;
 
@@ -183,11 +181,11 @@ enum LogoColor {
 
 class SharezoneLogo extends StatelessWidget {
   const SharezoneLogo({
-    Key? key,
+    super.key,
     required this.logoColor,
     required this.height,
     required this.width,
-  }) : super(key: key);
+  });
 
   final double height;
   final double width;
@@ -222,14 +220,14 @@ class SharezoneLogo extends StatelessWidget {
 // Es darf entweder nur symbolText oder symbolIconData übergeben werden
 class DialogTile extends StatelessWidget {
   const DialogTile({
-    Key? key,
+    super.key,
     this.text,
     this.onPressed,
     this.symbolText,
     this.symbolIconData,
     this.enabled = true,
     this.trailing,
-  }) : super(key: key);
+  });
 
   final String? symbolText;
   final IconData? symbolIconData;
@@ -282,13 +280,12 @@ class DialogTile extends StatelessWidget {
 
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
-    Key? key,
     this.iconData,
     this.labelText,
     this.valueText,
     this.onPressed,
     this.padding,
-  }) : super(key: key);
+  });
 
   final String? labelText;
   final String? valueText;
@@ -350,8 +347,7 @@ class _InputDropdown extends StatelessWidget {
 }
 
 class MyCustomRoute<T> extends MaterialPageRoute<T> {
-  MyCustomRoute({required WidgetBuilder builder, RouteSettings? settings})
-      : super(builder: builder, settings: settings);
+  MyCustomRoute({required super.builder, super.settings});
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -415,8 +411,8 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = true,
     this.borderWidth = 1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   const CustomCard.roundVertical({
     required this.child,
@@ -434,8 +430,8 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = false,
     this.borderWidth = 1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final VoidCallback? onTap;
@@ -502,13 +498,13 @@ class CustomCard extends StatelessWidget {
 
 class CardListTile extends StatelessWidget {
   const CardListTile({
-    Key? key,
+    super.key,
     this.leading,
     this.title,
     this.subtitle,
     this.onTap,
     this.centerTitle = false,
-  }) : super(key: key);
+  });
 
   final Widget? leading, title, subtitle;
   final VoidCallback? onTap;
@@ -574,10 +570,10 @@ class CardListTile extends StatelessWidget {
 
 class ExpansionTileTitle extends StatelessWidget {
   const ExpansionTileTitle({
-    Key? key,
+    super.key,
     required this.title,
     this.icon,
-  }) : super(key: key);
+  });
 
   final String title;
   final Widget? icon;
@@ -607,7 +603,7 @@ class ExpansionTileTitle extends StatelessWidget {
 }
 
 class ShowCenteredError extends StatelessWidget {
-  const ShowCenteredError({Key? key, this.error}) : super(key: key);
+  const ShowCenteredError({super.key, this.error});
 
   final String? error;
 
@@ -621,8 +617,7 @@ class ShowCenteredError extends StatelessWidget {
 }
 
 class LongPressDialogTile extends StatelessWidget {
-  const LongPressDialogTile({Key? key, this.title, this.iconData, this.onTap})
-      : super(key: key);
+  const LongPressDialogTile({super.key, this.title, this.iconData, this.onTap});
 
   final String? title;
   final IconData? iconData;
@@ -640,7 +635,7 @@ class LongPressDialogTile extends StatelessWidget {
 }
 
 class CloseIconButton extends StatelessWidget {
-  const CloseIconButton({Key? key, this.color}) : super(key: key);
+  const CloseIconButton({super.key, this.color});
 
   final Color? color;
 
@@ -657,12 +652,12 @@ class CloseIconButton extends StatelessWidget {
 
 class InformationDialog extends StatelessWidget {
   const InformationDialog({
-    Key? key,
+    super.key,
     this.title,
     required this.text,
     this.actionText,
     this.closeOnTap = true,
-  }) : super(key: key);
+  });
 
   final String? title, text, actionText;
   final bool closeOnTap;
@@ -699,8 +694,9 @@ class InformationDialog extends StatelessWidget {
 
 class BottomSheetSlider extends StatelessWidget {
   const BottomSheetSlider(
-      {Key? key, this.padding = const EdgeInsets.only(top: 8), this.width = 55})
-      : super(key: key);
+      {super.key,
+      this.padding = const EdgeInsets.only(top: 8),
+      this.width = 55});
 
   final EdgeInsets padding;
   final double width;
@@ -725,8 +721,7 @@ class BottomSheetSlider extends StatelessWidget {
 }
 
 class TextFieldWithDescription extends StatelessWidget {
-  const TextFieldWithDescription({Key? key, this.textField, this.description})
-      : super(key: key);
+  const TextFieldWithDescription({super.key, this.textField, this.description});
 
   final Widget? textField;
   final String? description;
@@ -801,15 +796,14 @@ class CircleCheckbox extends StatelessWidget {
   final MaterialTapTargetSize? materialTapTargetSize;
 
   const CircleCheckbox({
-    Key? key,
+    super.key,
     required this.value,
     this.tristate = false,
     required this.onChanged,
     this.activeColor,
     this.checkColor,
     this.materialTapTargetSize,
-  })  : assert(tristate),
-        super(key: key);
+  }) : assert(tristate);
 
   @override
   Widget build(BuildContext context) {
@@ -850,12 +844,12 @@ class DestroyButton extends StatelessWidget {
   final Widget? icon;
 
   const DestroyButton({
-    Key? key,
+    super.key,
     this.color = Colors.redAccent,
     required this.title,
     this.onTap,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -887,7 +881,7 @@ class DestroyButton extends StatelessWidget {
 }
 
 class VerticalDivider extends StatelessWidget {
-  const VerticalDivider({Key? key}) : super(key: key);
+  const VerticalDivider({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -901,8 +895,7 @@ class VerticalDivider extends StatelessWidget {
 
 class CustomCardListTile extends StatelessWidget {
   const CustomCardListTile(
-      {Key? key, this.onTap, this.icon, required this.title, this.subtitle})
-      : super(key: key);
+      {super.key, this.onTap, this.icon, required this.title, this.subtitle});
 
   final VoidCallback? onTap;
   final Widget? icon;
@@ -950,8 +943,7 @@ class CustomCardListTile extends StatelessWidget {
 
 class DividerWithText extends StatelessWidget {
   const DividerWithText(
-      {Key? key, required this.text, this.fontSize = 14, this.textStyle})
-      : super(key: key);
+      {super.key, required this.text, this.fontSize = 14, this.textStyle});
 
   final String text;
   final double fontSize;

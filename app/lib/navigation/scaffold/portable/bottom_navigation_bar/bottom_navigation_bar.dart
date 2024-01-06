@@ -26,9 +26,9 @@ void _logNavBottomBarEvent(NavigationItem item, NavigationAnalytics analytics) {
 /// This is the Bnb for [NavigationExperimentOption.drawerAndBnB].
 class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
   const BnbAndDrawerBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.navigationItem,
-  }) : super(key: key);
+  });
 
   final NavigationItem navigationItem;
 
@@ -63,11 +63,11 @@ class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
 /// First row of [ExtendableBottomNavigationBar]. This row is always visibile.
 class FirstNavigationRow extends StatelessWidget {
   const FirstNavigationRow({
-    Key? key,
+    super.key,
     this.navigationItem,
     this.backgroundColor,
     this.controller,
-  }) : super(key: key);
+  });
 
   final NavigationItem? navigationItem;
   final Color? backgroundColor;
@@ -134,11 +134,11 @@ class FirstNavigationRow extends StatelessWidget {
 /// the user expands the navigation bar.
 class SecondNavigationRow extends StatelessWidget {
   const SecondNavigationRow({
-    Key? key,
+    super.key,
     required this.navigationItem,
     required this.controller,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final NavigationItem navigationItem;
   final Color? backgroundColor;
@@ -206,14 +206,13 @@ class SecondNavigationRow extends StatelessWidget {
 /// happens, a error will occure.
 class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
   const _BottomNavBarWithNonSelectionAllowed({
-    Key? key,
     required this.items,
     required this.currentItem,
     required this.onNavigationItemSelected,
     this.backgroundColor,
     this.onMoreButtonTapped,
     this.safeArea = false,
-  }) : super(key: key);
+  });
 
   final List<NavigationItem> items;
   final NavigationItem? currentItem;
@@ -255,12 +254,11 @@ class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
 
 class _BottomNavItem extends StatelessWidget {
   const _BottomNavItem({
-    Key? key,
     required this.item,
     required this.onMoreButtonTapped,
     required this.isSelected,
     required this.onNavigationItemSelected,
-  }) : super(key: key);
+  });
 
   final NavigationItem item;
   final bool isSelected;

@@ -49,7 +49,7 @@ import 'package:sharezone/widgets/animated_stream_list.dart';
 import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -111,7 +111,7 @@ class _DashboardPageState extends State<DashboardPage> {
 // verschiedene Dependencies erstellt werden.
 class DashboardPageBody extends StatelessWidget {
   @visibleForTesting
-  const DashboardPageBody({Key? key}) : super(key: key);
+  const DashboardPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class _AppBarBottom extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _AppBarTitle extends StatelessWidget {
-  const _AppBarTitle({Key? key}) : super(key: key);
+  const _AppBarTitle();
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -55,13 +55,13 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
   final bool withCancelButtonOnIOS;
 
   const LeftAndRightAdaptiveDialog({
-    Key? key,
+    super.key,
     this.left = AdaptiveDialogAction.cancel,
     this.right,
     this.title,
     this.content,
     this.withCancelButtonOnIOS = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +90,12 @@ class _ActionAndCancelDialogMaterial<T> extends StatelessWidget {
   final Widget? content;
 
   const _ActionAndCancelDialogMaterial({
-    Key? key,
+    super.key,
     this.right,
     this.title,
     this.content,
     this.left,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +138,12 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
   final bool? withCancelButtonOnIOS;
 
   const _ActionAndCancelDialogCupertino({
-    Key? key,
     this.right,
     this.title,
     this.content,
     this.left,
     this.withCancelButtonOnIOS,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

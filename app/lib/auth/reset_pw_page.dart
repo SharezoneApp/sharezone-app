@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
@@ -22,9 +22,9 @@ import 'login_button.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({
-    Key? key,
+    super.key,
     required this.loginMail,
-  }) : super(key: key);
+  });
 
   static const String tag = "reset-password-page";
   final String? loginMail;
@@ -44,9 +44,8 @@ class ResetPasswordPage extends StatelessWidget {
 
 class _ResetPasswordPage extends StatefulWidget {
   const _ResetPasswordPage({
-    Key? key,
     required this.loginMail,
-  }) : super(key: key);
+  });
 
   static const String erfolg =
       "E-Mail zum Passwort zurücksetzen wurde gesendet. Wehe du vergisst dein Passwort nochmal ;)";
@@ -109,7 +108,7 @@ class _ResetPasswordPageState extends State<_ResetPasswordPage> {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({Key? key}) : super(key: key);
+  const _Logo();
 
   @override
   Widget build(BuildContext context) {
@@ -123,11 +122,10 @@ class _Logo extends StatelessWidget {
 
 class _EmailField extends StatelessWidget {
   const _EmailField({
-    Key? key,
     required this.bloc,
     required this.focusNode,
     required this.label,
-  }) : super(key: key);
+  });
 
   final _ResetPasswordBloc bloc;
   final FocusNode focusNode;
@@ -181,9 +179,8 @@ class _EmailField extends StatelessWidget {
 
 class _SubmitButton extends StatelessWidget {
   const _SubmitButton({
-    Key? key,
     required this.bloc,
-  }) : super(key: key);
+  });
 
   final _ResetPasswordBloc bloc;
 

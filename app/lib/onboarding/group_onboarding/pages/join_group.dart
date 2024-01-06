@@ -57,7 +57,7 @@ class _GroupOnboardingGroupJoinPageState
 }
 
 class _FinishButton extends StatelessWidget {
-  const _FinishButton({Key? key}) : super(key: key);
+  const _FinishButton();
 
   @override
   Widget build(BuildContext context) {

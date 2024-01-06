@@ -15,7 +15,7 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MarkOverdueHomeworkPrompt extends StatefulWidget {
-  const MarkOverdueHomeworkPrompt({Key? key}) : super(key: key);
+  const MarkOverdueHomeworkPrompt({super.key});
 
   @override
   State createState() => _MarkOverdueHomeworkPromptState();

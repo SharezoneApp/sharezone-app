@@ -82,9 +82,9 @@ class _AccountPageState extends State<AccountPage> {
 @visibleForTesting
 class AccountPageBody extends StatelessWidget {
   const AccountPageBody({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final UserView user;
 
@@ -120,9 +120,8 @@ class _WebIcon extends StatelessWidget {
 
 class _SecondaryInformationCard extends StatelessWidget {
   const _SecondaryInformationCard({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final UserView user;
 
@@ -147,9 +146,8 @@ class _SecondaryInformationCard extends StatelessWidget {
 
 class _MainAccountInformationCard extends StatelessWidget {
   const _MainAccountInformationCard({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final UserView user;
 
@@ -179,7 +177,7 @@ class _MainAccountInformationCard extends StatelessWidget {
 }
 
 class _EditProfilButton extends StatelessWidget {
-  const _EditProfilButton({Key? key}) : super(key: key);
+  const _EditProfilButton();
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +201,7 @@ class _EditProfilButton extends StatelessWidget {
 }
 
 class _UserId extends StatelessWidget {
-  const _UserId({Key? key, required this.user}) : super(key: key);
+  const _UserId({required this.user});
 
   final UserView user;
 
@@ -234,7 +232,7 @@ class _UserId extends StatelessWidget {
 }
 
 class _Name extends StatelessWidget {
-  const _Name({Key? key, required this.userView}) : super(key: key);
+  const _Name({required this.userView});
 
   final UserView userView;
 
@@ -251,7 +249,7 @@ class _Name extends StatelessWidget {
 }
 
 class _EmailText extends StatelessWidget {
-  const _EmailText(this.user, {Key? key}) : super(key: key);
+  const _EmailText(this.user);
 
   final UserView user;
 
@@ -272,10 +270,9 @@ class _EmailText extends StatelessWidget {
 
 class _TypeOfUserText extends StatelessWidget {
   const _TypeOfUserText({
-    Key? key,
     required this.uid,
     required this.userType,
-  }) : super(key: key);
+  });
 
   final String userType;
   final String uid;

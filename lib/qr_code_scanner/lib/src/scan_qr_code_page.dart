@@ -45,11 +45,10 @@ Future<String?> showQrCodeScanner(
 /// A page with the [Scanner] and the [title] at the top.
 class _ScanQrCodePage extends StatefulWidget {
   const _ScanQrCodePage({
-    Key? key,
     required this.title,
     this.description,
     this.mockController,
-  }) : super(key: key);
+  });
 
   /// The title that is displayed at the top in the [AppBar]
   final Widget? title;

@@ -13,14 +13,14 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../group_join_result_dialog.dart';
 
 class GroupJoinTextField extends StatefulWidget implements PreferredSizeWidget {
-  const GroupJoinTextField({Key? key}) : super(key: key);
+  const GroupJoinTextField({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(140);

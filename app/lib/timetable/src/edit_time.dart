@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -143,11 +143,11 @@ Future<Time?> selectTime(
 
 class CupertinoTimerPickerWithTimeOfDay extends StatefulWidget {
   const CupertinoTimerPickerWithTimeOfDay({
-    Key? key,
+    super.key,
     this.initialTime,
     required this.minutesInterval,
     this.title,
-  }) : super(key: key);
+  });
 
   final TimeOfDay? initialTime;
   final int minutesInterval;

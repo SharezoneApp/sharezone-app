@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart' show IterableNullableExtension;
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 import 'package:time/time.dart';
 
 const Periods standardPeriods = Periods({
@@ -138,8 +138,7 @@ class Periods {
   }
 
   Map<String, dynamic> toJson() {
-    return _data.map((key, value) =>
-        MapEntry(key.toString(), value?.toJson() ?? emptyFirestoreValue()));
+    return _data.map((key, value) => MapEntry(key.toString(), value?.toJson()));
   }
 
   Period? getPeriod(int number) {

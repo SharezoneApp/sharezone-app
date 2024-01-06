@@ -37,7 +37,7 @@ class LazyLoadingHomeworkList extends StatelessWidget {
   static const double threshold = 200.0;
 
   const LazyLoadingHomeworkList({
-    Key? key,
+    super.key,
     required this.children,
     required this.loadedAllHomeworks,
     required this.loadMoreHomeworksCallback,
@@ -45,7 +45,7 @@ class LazyLoadingHomeworkList extends StatelessWidget {
     this.overscrollColor = const Color(0xFF757575),
     this.infiniteScrollLoadingIndicator =
         const _LazyLoadingHomeworkListLoadingIndicator(),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

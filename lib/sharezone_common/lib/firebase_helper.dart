@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library dimensions;
+library firebase_helper;
 
-export 'src/dimensions/dimensions.dart';
+export 'src/firebase_helper.dart';

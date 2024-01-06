@@ -178,6 +178,8 @@ PODS:
     - FirebaseCore (~> 10.0)
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - flutter_image_compress_macos (1.0.0):
+    - FlutterMacOS
   - flutter_native_timezone (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -256,12 +258,12 @@ PODS:
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
-  - purchases_flutter (5.6.4):
+  - purchases_flutter (6.6.0):
     - FlutterMacOS
-    - PurchasesHybridCommon (= 6.1.0)
-  - PurchasesHybridCommon (6.1.0):
-    - RevenueCat (= 4.25.7)
-  - RevenueCat (4.25.7)
+    - PurchasesHybridCommon (= 8.2.1)
+  - PurchasesHybridCommon (8.2.1):
+    - RevenueCat (= 4.31.6)
+  - RevenueCat (4.31.6)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -287,6 +289,7 @@ DEPENDENCIES:
   - firebase_remote_config (from `Flutter/ephemeral/.symlinks/plugins/firebase_remote_config/macos`)
   - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.12.0`)
+  - flutter_image_compress_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos`)
   - flutter_native_timezone (from `Flutter/ephemeral/.symlinks/plugins/flutter_native_timezone/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - google_sign_in_ios (from `Flutter/ephemeral/.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -362,6 +365,8 @@ EXTERNAL SOURCES:
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 10.12.0
+  flutter_image_compress_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos
   flutter_native_timezone:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_native_timezone/macos
   FlutterMacOS:
@@ -425,6 +430,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: f145e7365d36bec0d724c4574a8750e6f82fa6c8
   FirebaseSharedSwift: 0eec812f08b6ec9e03196fc27635739781513028
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
+  flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
   flutter_native_timezone: 3a4724189c47dea215bb3e168e555e18308d312c
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -442,9 +448,9 @@ SPEC CHECKSUMS:
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
-  purchases_flutter: 980e970f7cf75c7959b3b222230082e9d5c9310c
-  PurchasesHybridCommon: 195de137f1993af1a034099773eed15bf771b1d4
-  RevenueCat: a70e08e45bd96bea5187dbd7b18f5f1db39646be
+  purchases_flutter: d960a45de67746a2bdbfd4125cd5c15369bc434d
+  PurchasesHybridCommon: 9adfb3252d99e22142aae9b8456e0069f0cae72d
+  RevenueCat: a853fc1d6eb058e8546d91fba9c9c5cd2e041949
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95

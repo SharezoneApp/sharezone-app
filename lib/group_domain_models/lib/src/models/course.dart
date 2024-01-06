@@ -9,7 +9,7 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 
 import 'group_info.dart';
 import 'group_type.dart';

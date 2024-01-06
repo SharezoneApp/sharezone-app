@@ -34,9 +34,8 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  mockito: ^5.0.7
-  build_runner: ^2.1.4
+  mockito: ^5.4.4
+  build_runner: ^2.4.7
   built_value_generator: ^8.1.1
-  lints: ^2.0.1
   sharezone_lints:
     path: ../sharezone_lints

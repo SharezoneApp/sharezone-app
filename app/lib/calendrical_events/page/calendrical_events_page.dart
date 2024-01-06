@@ -176,7 +176,7 @@ class _LayoutIconButtonState extends State<_LayoutIconButton>
 }
 
 class _CalendricalEventsPageBody extends StatelessWidget {
-  const _CalendricalEventsPageBody({Key? key}) : super(key: key);
+  const _CalendricalEventsPageBody();
 
   @override
   Widget build(BuildContext context) {
@@ -354,9 +354,7 @@ class _EventListFABSheet extends StatelessWidget {
 }
 
 class _EmptyEventList extends StatelessWidget {
-  const _EmptyEventList({
-    Key? key,
-  }) : super(key: key);
+  const _EmptyEventList();
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +378,7 @@ class _EmptyEventList extends StatelessWidget {
 }
 
 class _AddEventTile extends StatelessWidget {
-  const _AddEventTile({Key? key}) : super(key: key);
+  const _AddEventTile();
 
   @override
   Widget build(BuildContext context) {
@@ -393,7 +391,7 @@ class _AddEventTile extends StatelessWidget {
 }
 
 class _AddExamTile extends StatelessWidget {
-  const _AddExamTile({Key? key}) : super(key: key);
+  const _AddExamTile();
 
   @override
   Widget build(BuildContext context) {

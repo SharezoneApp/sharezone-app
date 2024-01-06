@@ -17,11 +17,11 @@ class TimetableWeekViewDayTile extends StatelessWidget {
   final bool showMonthName;
 
   const TimetableWeekViewDayTile({
-    Key? key,
+    super.key,
     required this.date,
     this.showMonthName = false,
     this.isToday = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

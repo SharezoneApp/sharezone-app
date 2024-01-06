@@ -16,8 +16,7 @@ class AnimatedStaggeredScrollView extends StatelessWidget {
   final CrossAxisAlignment? crossAxisAlignment;
 
   const AnimatedStaggeredScrollView(
-      {Key? key, required this.children, this.crossAxisAlignment})
-      : super(key: key);
+      {super.key, required this.children, this.crossAxisAlignment});
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();

@@ -11,19 +11,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupOnboardingPageTemplate extends StatelessWidget {
   const GroupOnboardingPageTemplate({
-    Key? key,
+    super.key,
     this.title,
     this.children = const [],
     this.bottomNavigationBar,
     this.padding = const EdgeInsets.all(8),
     this.top,
     this.topPadding = 60,
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Widget> children;

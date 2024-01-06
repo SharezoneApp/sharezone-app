@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+// Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
 // Licensed under the EUPL-1.2-or-later.
 //
 // You may obtain a copy of the Licence at:
@@ -7,8 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-/// Convert Enum to String
 
 typedef ObjectMapBuilder<T> = T Function(String key, dynamic decodedMapValue);
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
@@ -40,14 +38,6 @@ List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
   return originaldata.map((dynamic value) => builder(value)).toList();
 }
 
-bool isNotEmptyOrNull(String? value) => !isEmptyOrNull(value);
-
-bool isEmptyOrNull(String? value) {
-  return value == null || value.isEmpty;
-}
-
-dynamic emptyFirestoreValue() => FieldValue.delete();
-
 DateTime dateTimeFromTimestamp(Timestamp? timestamp) =>
     (timestamp ?? Timestamp.now()).toDate();
 DateTime? dateTimeFromTimestampOrNull(Timestamp? timestamp) {
@@ -58,23 +48,4 @@ DateTime? dateTimeFromTimestampOrNull(Timestamp? timestamp) {
 Timestamp? timestampFromDateTime(DateTime? dateTime) {
   if (dateTime == null) return null;
   return Timestamp.fromDate(dateTime);
-}
-
-extension EnumByNameWithDefault<T extends Enum> on Iterable<T> {
-  T tryByName(String? name, {T? defaultValue}) {
-    for (T value in this) {
-      if (value.name == name) return value;
-    }
-
-    if (defaultValue != null) return defaultValue;
-    throw ArgumentError.value(name, "name", "No enum value with that name");
-  }
-
-  T? byNameOrNull(String? name) {
-    for (T value in this) {
-      if (value.name == name) return value;
-    }
-
-    return null;
-  }
 }

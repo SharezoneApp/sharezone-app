@@ -48,8 +48,7 @@ class StateSheet {
 class _DraggableStateSheetWidget extends StatelessWidget {
   final Stream<StateSheetContent>? stateSheetContent;
 
-  const _DraggableStateSheetWidget({Key? key, this.stateSheetContent})
-      : super(key: key);
+  const _DraggableStateSheetWidget({this.stateSheetContent});
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -72,8 +71,7 @@ class _DraggableStateSheetInner extends StatelessWidget {
   final ScrollController? scrollController;
 
   const _DraggableStateSheetInner(
-      {Key? key, this.stateSheetContent, this.scrollController})
-      : super(key: key);
+      {this.stateSheetContent, this.scrollController});
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -36,6 +36,9 @@ export 'src/common/widgets/action_item_button.dart';
 // dialog_wrapper
 export 'src/dialog_wrapper.dart';
 
+// dimensions
+export 'src/dimensions.dart';
+
 // form
 export 'src/form.dart';
 

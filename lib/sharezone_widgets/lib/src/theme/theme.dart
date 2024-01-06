@@ -59,7 +59,7 @@ TextStyle linkStyle(BuildContext context, [double? fontSize]) => TextStyle(
     );
 
 class Headline extends StatelessWidget {
-  const Headline(this.title, {Key? key, this.textAlign}) : super(key: key);
+  const Headline(this.title, {super.key, this.textAlign});
 
   final String title;
   final TextAlign? textAlign;
@@ -84,7 +84,7 @@ class Headline extends StatelessWidget {
 
 // Blau Titel - Unterteilen die Seite in Kategorien
 class CategoryTitle extends StatelessWidget {
-  const CategoryTitle(this.title, {Key? key}) : super(key: key);
+  const CategoryTitle(this.title, {super.key});
 
   final String title;
 

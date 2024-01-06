@@ -8,19 +8,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'course_settings.dart';
 
 class WritePermissions extends StatelessWidget {
   const WritePermissions({
-    Key? key,
+    super.key,
     required this.initialWritePermission,
     required this.writePermissionStream,
     required this.onChange,
     this.annotation,
-  }) : super(key: key);
+  });
 
   final WritePermission initialWritePermission;
   final Stream<WritePermission> writePermissionStream;
@@ -66,12 +66,11 @@ void showWritePermissionOptionsSheet({
 
 class _WritePermissionSheet extends StatelessWidget {
   const _WritePermissionSheet({
-    Key? key,
     required this.initialData,
     required this.permissionsStream,
     required this.onChange,
     this.annotation,
-  }) : super(key: key);
+  });
 
   final WritePermission initialData;
   final Stream<WritePermission> permissionsStream;
@@ -140,13 +139,12 @@ class _WritePermissionSheet extends StatelessWidget {
 
 class _WritePermissionTile extends StatelessWidget {
   const _WritePermissionTile({
-    Key? key,
     required this.writePermission,
     required this.currentPermission,
     required this.title,
     this.subtitle,
     required this.onChange,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? subtitle;

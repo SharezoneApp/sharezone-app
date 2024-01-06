@@ -23,9 +23,9 @@ import 'user_has_completed_homework_view.dart';
 
 class HomeworkCompletionUserListPage extends StatefulWidget {
   const HomeworkCompletionUserListPage({
-    Key? key,
+    super.key,
     required this.homeworkId,
-  }) : super(key: key);
+  });
 
   final HomeworkId homeworkId;
 
@@ -181,7 +181,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
-  const _List(this.views, {Key? key}) : super(key: key);
+  const _List(this.views);
 
   final List<UserHasCompletedHomeworkView>? views;
 
@@ -213,7 +213,7 @@ class _EmptyList extends StatelessWidget {
 }
 
 class _UserTile extends StatelessWidget {
-  const _UserTile(this.view, {Key? key}) : super(key: key);
+  const _UserTile(this.view);
 
   final UserHasCompletedHomeworkView view;
 

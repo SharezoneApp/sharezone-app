@@ -29,12 +29,12 @@ const _borderRadiusPanel = BorderRadius.only(
 /// A BottomNavigationBar which can be expaneded by swiping it up.
 class ExtendableBottomNavigationBar extends StatefulWidget {
   const ExtendableBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.page,
     required this.currentNavigationItem,
     required this.option,
     this.colorBehindBNB,
-  }) : super(key: key);
+  });
 
   /// The content that is shown behind the [ExtendableBottomNavigationBar].
   /// For example page could be [HomeworkPage], [DashboardPage]
@@ -98,11 +98,10 @@ class ExtendableBottomNavigationBarState
 
 class _ExtendableBottomNavigationBarContent extends StatefulWidget {
   const _ExtendableBottomNavigationBarContent({
-    Key? key,
     required this.controller,
     required this.currentNavigationItem,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final PanelController controller;
 
@@ -246,9 +245,8 @@ class _ExtendableBottomNavigationBarContentState
 /// [ExtendableBottomNavigationBar] if tapped on.
 class _SwipeUpLine extends StatelessWidget {
   const _SwipeUpLine({
-    Key? key,
     this.controller,
-  }) : super(key: key);
+  });
 
   /// [controller] is needed to open the [ExtendableBottomNavigationBar], if the
   /// user taps on this widget.
@@ -296,10 +294,9 @@ class _SwipeUpLine extends StatelessWidget {
 
 class _ProfileChip extends StatelessWidget {
   const _ProfileChip({
-    Key? key,
     required this.controller,
     required this.currentNavigationItem,
-  }) : super(key: key);
+  });
 
   final PanelController controller;
   final NavigationItem currentNavigationItem;
@@ -316,10 +313,9 @@ class _ProfileChip extends StatelessWidget {
 
 class _FeedbackBoxChip extends StatelessWidget {
   const _FeedbackBoxChip({
-    Key? key,
     required this.controller,
     required this.currentNavigationItem,
-  }) : super(key: key);
+  });
 
   final PanelController controller;
   final NavigationItem currentNavigationItem;
@@ -336,11 +332,10 @@ class _FeedbackBoxChip extends StatelessWidget {
 
 class _Chip extends StatelessWidget {
   const _Chip({
-    Key? key,
     required this.controller,
     required this.navigationItem,
     required this.currentNavigationItem,
-  }) : super(key: key);
+  });
 
   /// [PanelController] is from the "sliding_up_panel" and is needed to close
   /// the [ExtendableBottomNavigationBar], when the chip is tapped.

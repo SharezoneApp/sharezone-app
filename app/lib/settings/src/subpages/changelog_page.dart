@@ -98,8 +98,7 @@ class _ChangeList extends StatelessWidget {
 
 class _VersionSection extends StatelessWidget {
   const _VersionSection(
-      {Key? key, required this.change, this.showBottomDivider = true})
-      : super(key: key);
+      {super.key, required this.change, this.showBottomDivider = true});
 
   final bool showBottomDivider;
   final ChangeView change;
@@ -132,7 +131,7 @@ class _VersionSection extends StatelessWidget {
 }
 
 class _ChangeParagraph extends StatelessWidget {
-  const _ChangeParagraph({Key? key, this.list, this.title}) : super(key: key);
+  const _ChangeParagraph({this.list, this.title});
 
   final String? title;
   final List<String>? list;

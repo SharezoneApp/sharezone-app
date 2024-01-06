@@ -86,7 +86,7 @@ class _WhyWeNeedTheState extends StatelessWidget {
 }
 
 class _StateRadioGroup extends StatelessWidget {
-  const _StateRadioGroup({Key? key, this.initialState}) : super(key: key);
+  const _StateRadioGroup({this.initialState});
 
   final StateEnum? initialState;
 
@@ -120,8 +120,7 @@ class _StateRadioGroup extends StatelessWidget {
 }
 
 class _StateListTile extends StatelessWidget {
-  const _StateListTile(this.state, {Key? key, this.initialState})
-      : super(key: key);
+  const _StateListTile(this.state, {this.initialState});
 
   final StateEnum state;
   final StateEnum? initialState;

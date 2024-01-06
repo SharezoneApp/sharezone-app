@@ -35,7 +35,7 @@ class _EventsSection extends StatelessWidget {
 }
 
 class _EventsSectionTitle extends StatelessWidget {
-  const _EventsSectionTitle({Key? key}) : super(key: key);
+  const _EventsSectionTitle();
 
   @override
   Widget build(BuildContext context) {

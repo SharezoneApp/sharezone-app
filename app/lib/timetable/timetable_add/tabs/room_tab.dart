@@ -10,9 +10,8 @@ part of '../timetable_add_page.dart';
 
 class _RoomTab extends StatelessWidget {
   _RoomTab({
-    Key? key,
     required this.index,
-  }) : super(key: key);
+  });
 
   final roomFocusNode = FocusNode();
   final int index;

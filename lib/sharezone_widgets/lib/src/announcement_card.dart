@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:build_context/build_context.dart';
 
 class AnnouncementCard extends StatelessWidget {
   const AnnouncementCard({
-    Key? key,
+    super.key,
     this.title,
     this.actions,
     this.content,
@@ -22,7 +22,7 @@ class AnnouncementCard extends StatelessWidget {
     this.titleColor,
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
     this.padding = const EdgeInsets.only(bottom: 16),
-  }) : super(key: key);
+  });
 
   final String? title;
 
@@ -80,7 +80,7 @@ class AnnouncementCard extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title(this.title, {Key? key, this.color}) : super(key: key);
+  const _Title(this.title, {this.color});
 
   final String title;
 
@@ -107,9 +107,8 @@ class _Title extends StatelessWidget {
 
 class _ActionsAligment extends StatelessWidget {
   const _ActionsAligment({
-    Key? key,
     required this.actions,
-  }) : super(key: key);
+  });
 
   final List<Widget> actions;
 

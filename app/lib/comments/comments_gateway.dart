@@ -118,9 +118,9 @@ class CommentLocation extends CommentsLocation {
 
   CommentLocation({
     required this.commentId,
-    required CommentOnType commentOnType,
-    required String parentDocumentId,
-  }) : super(commentOnType: commentOnType, parentDocumentId: parentDocumentId);
+    required super.commentOnType,
+    required super.parentDocumentId,
+  });
 
   CommentLocation.fromCommentsLocation({
     required CommentsLocation commentsLocation,

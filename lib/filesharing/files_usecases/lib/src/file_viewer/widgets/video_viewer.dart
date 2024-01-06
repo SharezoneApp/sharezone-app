@@ -12,7 +12,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewer extends StatefulWidget {
-  const VideoViewer({Key? key, required this.downloadURL}) : super(key: key);
+  const VideoViewer({super.key, required this.downloadURL});
 
   final String downloadURL;
 

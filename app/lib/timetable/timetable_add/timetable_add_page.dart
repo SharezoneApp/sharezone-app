@@ -140,8 +140,8 @@ class _TimetableAddPage extends StatelessWidget {
 
 class TimetableAddAppBarLeading extends StatelessWidget {
   const TimetableAddAppBarLeading({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -159,8 +159,7 @@ class TimetableAddAppBarLeading extends StatelessWidget {
 }
 
 class _TimetableAddInfoMsg extends StatelessWidget {
-  const _TimetableAddInfoMsg({Key? key, required this.abWeekEnabled})
-      : super(key: key);
+  const _TimetableAddInfoMsg({required this.abWeekEnabled});
 
   final bool abWeekEnabled;
 
@@ -212,7 +211,7 @@ class _BottomNavigationBar extends StatelessWidget {
 }
 
 class _TabPageSelector extends StatelessWidget {
-  const _TabPageSelector({Key? key}) : super(key: key);
+  const _TabPageSelector();
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +224,7 @@ class _TabPageSelector extends StatelessWidget {
 }
 
 class _NavigateNextButton extends StatelessWidget {
-  const _NavigateNextButton({Key? key}) : super(key: key);
+  const _NavigateNextButton();
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +282,7 @@ class _FinishButton extends StatelessWidget {
 }
 
 class _NavigateBackButton extends StatelessWidget {
-  const _NavigateBackButton({Key? key}) : super(key: key);
+  const _NavigateBackButton();
   @override
   Widget build(BuildContext context) {
     final controller = DefaultTabController.of(context);
@@ -309,12 +308,11 @@ class _NavigateBackButton extends StatelessWidget {
 
 class _RectangleButton extends StatelessWidget {
   const _RectangleButton({
-    Key? key,
     required this.leading,
     required this.title,
     this.onTap,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final Widget leading;
@@ -348,9 +346,7 @@ class _RectangleButton extends StatelessWidget {
 }
 
 class _EmptyCourseList extends StatelessWidget {
-  const _EmptyCourseList({
-    Key? key,
-  }) : super(key: key);
+  const _EmptyCourseList();
 
   @override
   Widget build(BuildContext context) {
@@ -378,11 +374,10 @@ class _EmptyCourseList extends StatelessWidget {
 
 class _TimetableAddSection extends StatelessWidget {
   const _TimetableAddSection({
-    Key? key,
     required this.title,
     required this.index,
     required this.child,
-  }) : super(key: key);
+  });
 
   final String title;
   final int index;

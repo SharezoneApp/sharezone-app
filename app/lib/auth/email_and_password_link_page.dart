@@ -43,9 +43,9 @@ TextStyle _hintTextStyle(BuildContext context) => TextStyle(
 
 class EmailAndPasswordLinkPage extends StatefulWidget {
   const EmailAndPasswordLinkPage({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   static const tag = "email-and-password-link-page";
   final AppUser user;
@@ -139,9 +139,8 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
 
 class _PasswordField extends StatelessWidget {
   const _PasswordField({
-    Key? key,
     required this.passwordFocusNode,
-  }) : super(key: key);
+  });
 
   final FocusNode passwordFocusNode;
 
@@ -183,7 +182,7 @@ class BackIcon extends StatelessWidget {
 
 class NameField extends StatelessWidget {
   const NameField({
-    Key? key,
+    super.key,
     required this.onEditingComplete,
     this.focusNode,
     this.initialName,
@@ -193,7 +192,7 @@ class NameField extends StatelessWidget {
     this.textInputAction = TextInputAction.next,
     this.autofocus = false,
     this.selectText = false,
-  }) : super(key: key);
+  });
 
   final FocusNode? focusNode;
   final VoidCallback onEditingComplete;
@@ -250,10 +249,9 @@ class NameField extends StatelessWidget {
 
 class _EmailField extends StatelessWidget {
   const _EmailField({
-    Key? key,
     required this.focusNode,
     required this.nextFocusNode,
-  }) : super(key: key);
+  });
 
   final FocusNode focusNode;
   final FocusNode nextFocusNode;

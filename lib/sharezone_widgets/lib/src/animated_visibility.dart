@@ -187,7 +187,7 @@ class AnimatedVisibility extends StatefulWidget {
   final VoidCallback? onEnd;
 
   const AnimatedVisibility({
-    Key? key,
+    super.key,
     required this.child,
     required this.duration,
     this.visible = true,
@@ -199,7 +199,7 @@ class AnimatedVisibility extends StatefulWidget {
     this.curve = Curves.linear,
     this.onEnd,
     this.replacement = const SizedBox.shrink(),
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _AnimatedVisibilityState();

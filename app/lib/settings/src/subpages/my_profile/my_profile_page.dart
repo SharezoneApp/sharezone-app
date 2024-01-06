@@ -29,7 +29,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
@@ -85,7 +85,7 @@ class MyProfilePage extends StatelessWidget {
 }
 
 class _NameTile extends StatelessWidget {
-  const _NameTile({Key? key, required this.user}) : super(key: key);
+  const _NameTile({required this.user});
 
   final UserView user;
 
@@ -114,7 +114,7 @@ class _EnterActivationTile extends StatelessWidget {
 }
 
 class _EmailTile extends StatelessWidget {
-  const _EmailTile({Key? key, required this.user}) : super(key: key);
+  const _EmailTile({required this.user});
 
   final UserView user;
 
@@ -152,7 +152,7 @@ class _EmailTile extends StatelessWidget {
 }
 
 class _TypeOfUserTile extends StatelessWidget {
-  const _TypeOfUserTile({Key? key, this.user}) : super(key: key);
+  const _TypeOfUserTile({this.user});
 
   final UserView? user;
 
@@ -186,7 +186,7 @@ class _TypeOfUserTile extends StatelessWidget {
 }
 
 class _PasswordTile extends StatelessWidget {
-  const _PasswordTile({Key? key, required this.provider}) : super(key: key);
+  const _PasswordTile({required this.provider});
 
   final Provider provider;
 
@@ -218,7 +218,7 @@ class _PasswordTile extends StatelessWidget {
 }
 
 class _StateTile extends StatelessWidget {
-  const _StateTile({Key? key, required this.state}) : super(key: key);
+  const _StateTile({required this.state});
 
   final String? state;
 
@@ -240,7 +240,7 @@ class _StateTile extends StatelessWidget {
 }
 
 class _ProviderTile extends StatelessWidget {
-  const _ProviderTile({Key? key, required this.provider}) : super(key: key);
+  const _ProviderTile({required this.provider});
 
   final Provider provider;
 
@@ -313,7 +313,7 @@ class _PrivacyOptOut extends StatelessWidget {
 }
 
 class SignOutButton extends StatelessWidget {
-  const SignOutButton({Key? key, required this.isAnonymous}) : super(key: key);
+  const SignOutButton({super.key, required this.isAnonymous});
 
   final bool isAnonymous;
 
@@ -350,8 +350,7 @@ class _DeleteAccountButton extends StatelessWidget {
 }
 
 class _DangerButton extends StatelessWidget {
-  const _DangerButton({Key? key, this.onTap, this.title, this.icon})
-      : super(key: key);
+  const _DangerButton({this.onTap, this.title, this.icon});
 
   final VoidCallback? onTap;
   final String? title;
@@ -612,9 +611,7 @@ class _DeleteAccountDialogContentState
 }
 
 class _DeleteAccountDialogText extends StatelessWidget {
-  const _DeleteAccountDialogText({
-    Key? key,
-  }) : super(key: key);
+  const _DeleteAccountDialogText();
 
   @override
   Widget build(BuildContext context) {
@@ -624,7 +621,7 @@ class _DeleteAccountDialogText extends StatelessWidget {
 }
 
 class _DeleteAccountDialogTitle extends StatelessWidget {
-  const _DeleteAccountDialogTitle({Key? key}) : super(key: key);
+  const _DeleteAccountDialogTitle();
 
   @override
   Widget build(BuildContext context) =>

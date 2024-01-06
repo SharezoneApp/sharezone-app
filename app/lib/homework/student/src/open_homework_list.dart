@@ -34,11 +34,11 @@ class OpenHomeworkList extends StatelessWidget {
   final bool showCompleteAllOverdueCard;
 
   const OpenHomeworkList({
-    Key? key,
+    super.key,
     required this.homeworkListView,
     required this.overscrollColor,
     this.showCompleteAllOverdueCard = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

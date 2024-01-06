@@ -16,7 +16,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 Future<void> showCourseMemberOptionsSheet({
   required BuildContext context,
@@ -192,10 +192,9 @@ class _LeaveCourse extends StatelessWidget {
 
 class _KickUser extends StatelessWidget {
   const _KickUser({
-    Key? key,
     required this.memberID,
     required this.isAdmin,
-  }) : super(key: key);
+  });
 
   final String memberID;
   final bool isAdmin;
@@ -222,12 +221,11 @@ class _KickUser extends StatelessWidget {
 
 class _RoleTile extends StatelessWidget {
   const _RoleTile({
-    Key? key,
     required this.role,
     required this.memberData,
     this.description,
     required this.enabled,
-  }) : super(key: key);
+  });
 
   final bool enabled;
   final MemberRole role;

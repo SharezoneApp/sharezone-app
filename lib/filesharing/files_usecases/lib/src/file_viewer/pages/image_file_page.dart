@@ -19,13 +19,13 @@ import '../widgets/file_page_app_bar.dart';
 
 class ImageFilePage extends StatefulWidget {
   const ImageFilePage({
-    Key? key,
+    super.key,
     this.actions,
     required this.downloadURL,
     required this.name,
     required this.nameStream,
     required this.id,
-  }) : super(key: key);
+  });
 
   static const tag = "image-page";
   final List<Widget>? actions;

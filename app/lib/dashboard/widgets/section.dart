@@ -9,7 +9,7 @@
 part of '../dashboard_page.dart';
 
 class _Section extends StatelessWidget {
-  const _Section({Key? key, this.title, this.child}) : super(key: key);
+  const _Section({this.title, this.child});
 
   final Widget? title;
   final Widget? child;

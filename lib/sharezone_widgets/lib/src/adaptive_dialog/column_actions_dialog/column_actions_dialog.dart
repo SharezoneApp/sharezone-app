@@ -8,7 +8,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/src/dialog_wrapper.dart';
 
@@ -41,11 +41,11 @@ Future<T?> showColumnActionsAdaptiveDialog<T>({
 
 class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
   const _ColumnActionsDialogMaterial({
-    Key? key,
+    super.key,
     this.actions,
     this.title,
     this.message,
-  }) : super(key: key);
+  });
 
   final List<AdaptiveDialogAction<T>>? actions;
   final String? title;
@@ -79,8 +79,7 @@ class _ColumnActionsDialogMaterial<T> extends StatelessWidget {
 
 class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
   const _ColumnActionsDialogCupertino(
-      {Key? key, this.actions, this.title, this.message})
-      : super(key: key);
+      {super.key, this.actions, this.title, this.message});
 
   final List<AdaptiveDialogAction<T>>? actions;
   final String? title;
@@ -92,14 +91,12 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
       title: isNotEmptyOrNull(title) ? Text(title!) : null,
       content: isNotEmptyOrNull(message) ? Text(message!) : null,
       actions: <Widget>[
-        ...actions!
-            .map((action) => CupertinoDialogAction(
-                  isDefaultAction: action.isDefaultAction,
-                  isDestructiveAction: action.isDestructiveAction,
-                  onPressed: () => Navigator.pop(context, action.popResult),
-                  child: Text(action.title!),
-                ))
-            .toList(),
+        ...actions!.map((action) => CupertinoDialogAction(
+              isDefaultAction: action.isDefaultAction,
+              isDestructiveAction: action.isDestructiveAction,
+              onPressed: () => Navigator.pop(context, action.popResult),
+              child: Text(action.title!),
+            )),
         CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () => Navigator.pop(context),

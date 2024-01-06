@@ -63,9 +63,8 @@ Future<void> _submit(
 
 class _WeekDaysEditPage extends StatefulWidget {
   const _WeekDaysEditPage({
-    Key? key,
     required this.userSettingsBloc,
-  }) : super(key: key);
+  });
 
   static const tag = "week-days-edit-page";
   final UserSettingsBloc userSettingsBloc;
@@ -146,10 +145,9 @@ class _EnabledWeekDaysEditFAB extends StatelessWidget {
 
 class _WeekDayTile extends StatelessWidget {
   const _WeekDayTile({
-    Key? key,
     required this.weekDay,
     required this.isEnabled,
-  }) : super(key: key);
+  });
 
   final bool isEnabled;
   final WeekDay weekDay;

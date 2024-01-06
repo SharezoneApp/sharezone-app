@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/homework/shared/animated_staggered_scroll_view.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 /// A List of homeworks with a leading title.
 ///
@@ -21,10 +21,10 @@ class HomeworkListSection extends StatelessWidget {
   final List<Widget> children;
 
   const HomeworkListSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

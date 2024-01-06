@@ -15,10 +15,8 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
-  sharezone_common:
-    path: ../sharezone_common
-  sharezone_utils:
-    path: ../sharezone_utils
+  helper_functions:
+    path: ../helper_functions
   build_context:
     path: ../build_context
   flutter_svg: ^2.0.2

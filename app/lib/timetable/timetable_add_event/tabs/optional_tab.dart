@@ -10,7 +10,7 @@ part of '../timetable_add_event_page.dart';
 
 /// All optional fields in one tab
 class _OptionalTab extends StatelessWidget {
-  _OptionalTab({Key? key, required this.isExam}) : super(key: key);
+  _OptionalTab({required this.isExam});
 
   final bool isExam;
   final placeFocusNode = FocusNode();
@@ -35,7 +35,7 @@ class _OptionalTab extends StatelessWidget {
 }
 
 class _PlaceField extends StatelessWidget {
-  const _PlaceField({Key? key, required this.isExam}) : super(key: key);
+  const _PlaceField({required this.isExam});
 
   final bool isExam;
 
@@ -67,7 +67,7 @@ class _PlaceField extends StatelessWidget {
 }
 
 class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({Key? key, required this.isExam}) : super(key: key);
+  const _DescriptionField({required this.isExam});
 
   final bool isExam;
 
@@ -113,8 +113,7 @@ class _DescriptionField extends StatelessWidget {
 }
 
 class _SendNotificationField extends StatelessWidget {
-  const _SendNotificationField({Key? key, required this.isExam})
-      : super(key: key);
+  const _SendNotificationField({required this.isExam});
 
   final bool isExam;
 

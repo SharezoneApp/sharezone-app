@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -25,8 +25,7 @@ class HomeworkUserCreateSubmissionPage extends StatefulWidget {
 
   final String homeworkId;
 
-  const HomeworkUserCreateSubmissionPage({Key? key, required this.homeworkId})
-      : super(key: key);
+  const HomeworkUserCreateSubmissionPage({super.key, required this.homeworkId});
 
   @override
   State createState() => _HomeworkUserCreateSubmissionPageState();
@@ -166,9 +165,7 @@ class _HomeworkUserCreateSubmissionPageState
 enum SubmitDialogOption { cancel, submit }
 
 class _SubmissionReceivedInfo extends StatelessWidget {
-  const _SubmissionReceivedInfo({
-    Key? key,
-  }) : super(key: key);
+  const _SubmissionReceivedInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +175,7 @@ class _SubmissionReceivedInfo extends StatelessWidget {
 }
 
 class _FileList extends StatelessWidget {
-  const _FileList({Key? key}) : super(key: key);
+  const _FileList();
 
   @override
   Widget build(BuildContext context) {
@@ -217,9 +214,7 @@ class _FileList extends StatelessWidget {
 }
 
 class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
-  const _AfterDeadlineCanStillBeSubmitted({
-    Key? key,
-  }) : super(key: key);
+  const _AfterDeadlineCanStillBeSubmitted();
 
   @override
   Widget build(BuildContext context) {
@@ -232,9 +227,7 @@ class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
 }
 
 class _AddFileFab extends StatelessWidget {
-  const _AddFileFab({
-    Key? key,
-  }) : super(key: key);
+  const _AddFileFab();
 
   @override
   Widget build(BuildContext context) {
@@ -299,8 +292,7 @@ class _FileCard extends StatelessWidget {
   const _FileCard({
     required this.view,
     required this.submitted,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final FileView view;
   final bool submitted;
@@ -373,9 +365,8 @@ class _FileCard extends StatelessWidget {
 
 class _RenameFile extends StatelessWidget {
   const _RenameFile({
-    Key? key,
     required this.view,
-  }) : super(key: key);
+  });
 
   final FileView view;
 
@@ -405,11 +396,10 @@ class _RenameFile extends StatelessWidget {
 
 class _RenameDialog extends StatefulWidget {
   const _RenameDialog({
-    Key? key,
     required this.view,
     required this.invalidNames,
     required this.bloc,
-  }) : super(key: key);
+  });
 
   final FileView view;
   final List<String> invalidNames;
@@ -503,7 +493,7 @@ class __RenameDialogState extends State<_RenameDialog> {
 enum _RenameError { tooLong, alreadyExits, isEmpty }
 
 class _DeleteIcon extends StatelessWidget {
-  const _DeleteIcon({Key? key, required this.view}) : super(key: key);
+  const _DeleteIcon({required this.view});
 
   final FileView view;
 
@@ -536,9 +526,8 @@ class _EmptyState extends StatelessWidget {
   final SubmissionDeadlineState? submissionDeadlineState;
 
   const _EmptyState({
-    Key? key,
     required this.submissionDeadlineState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -547,9 +536,7 @@ class _EmptyState extends StatelessWidget {
 }
 
 class _NoFilesUploaded extends StatelessWidget {
-  const _NoFilesUploaded({
-    Key? key,
-  }) : super(key: key);
+  const _NoFilesUploaded();
 
   @override
   Widget build(BuildContext context) {

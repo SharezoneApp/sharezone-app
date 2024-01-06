@@ -18,14 +18,13 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone_utils/dimensions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
 
 class SignInWithQrCodePage extends StatelessWidget {
   static const tag = 'sign-in-with-qr-code-page';
-  const SignInWithQrCodePage({Key? key}) : super(key: key);
+  const SignInWithQrCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -191,10 +190,9 @@ class _QrCodeSteps extends StatelessWidget {
 
 class _Step extends StatelessWidget {
   const _Step({
-    Key? key,
     required this.step,
     required this.text,
-  }) : super(key: key);
+  });
 
   final int step;
   final String text;

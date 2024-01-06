@@ -17,8 +17,7 @@ class MoveFilePageHeader extends StatelessWidget
   final FolderPath? currentPath;
   final FileSharingData? fileSharingData;
 
-  const MoveFilePageHeader({Key? key, this.currentPath, this.fileSharingData})
-      : super(key: key);
+  const MoveFilePageHeader({super.key, this.currentPath, this.fileSharingData});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +57,7 @@ class _FileSharingPathRow extends StatelessWidget {
   final FileSharingData? fileSharingData;
   final FolderPath? path;
 
-  const _FileSharingPathRow({Key? key, this.fileSharingData, this.path})
-      : super(key: key);
+  const _FileSharingPathRow({this.fileSharingData, this.path});
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +93,7 @@ class _ClickableElement extends StatelessWidget {
   final String? text;
   final bool? isLast;
 
-  const _ClickableElement({Key? key, this.onTap, this.text, this.isLast})
-      : super(key: key);
+  const _ClickableElement({this.onTap, this.text, this.isLast});
 
   @override
   Widget build(BuildContext context) {

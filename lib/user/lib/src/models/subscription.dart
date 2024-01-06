@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/helper_functions.dart';
+import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_common/firebase_helper.dart';
 
 enum SubscriptionTier {
   teacherPlus,

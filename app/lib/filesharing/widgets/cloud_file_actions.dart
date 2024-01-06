@@ -70,11 +70,10 @@ class FolderActionsColumn extends StatelessWidget {
       onSelectFolderAction;
 
   const FolderActionsColumn(
-      {Key? key,
+      {super.key,
       this.isFolderDeletable,
       this.onSelectFolderAction,
-      this.hasPermissionsToEdit})
-      : super(key: key);
+      this.hasPermissionsToEdit});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,8 +98,7 @@ class CloudFileActionsColumn extends StatelessWidget {
       onSelectCloudFileAction;
 
   const CloudFileActionsColumn(
-      {Key? key, this.hasPermissionToEdit, this.onSelectCloudFileAction})
-      : super(key: key);
+      {super.key, this.hasPermissionToEdit, this.onSelectCloudFileAction});
   @override
   Widget build(BuildContext context) {
     return Column(

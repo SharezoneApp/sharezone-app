@@ -60,10 +60,9 @@ Future<void> submit(BuildContext context) async {
 
 class _CourseCreatePage extends StatefulWidget {
   const _CourseCreatePage({
-    Key? key,
     this.course,
     required this.schoolClassId,
-  }) : super(key: key);
+  });
 
   static const tag = "school-class-course-create-page";
 
@@ -149,10 +148,9 @@ class _CreateCourseFAB extends StatelessWidget {
 
 class _Subject extends StatelessWidget {
   const _Subject({
-    Key? key,
     this.subject,
     this.nextFocusNode,
-  }) : super(key: key);
+  });
 
   final String? subject;
   final FocusNode? nextFocusNode;
@@ -187,11 +185,10 @@ class _Subject extends StatelessWidget {
 
 class _Abbreviation extends StatelessWidget {
   const _Abbreviation({
-    Key? key,
     this.abbreviation,
     this.focusNode,
     this.nextFocusNode,
-  }) : super(key: key);
+  });
 
   final String? abbreviation;
   final FocusNode? focusNode;
@@ -218,9 +215,8 @@ class _Abbreviation extends StatelessWidget {
 
 class _CourseName extends StatelessWidget {
   const _CourseName({
-    Key? key,
     this.focusNode,
-  }) : super(key: key);
+  });
 
   final FocusNode? focusNode;
 
