@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library firebase_helper;
+library cloud_firestore_helper;
 
-export 'src/firebase_helper.dart';
+export 'src/cloud_firestore_helper.dart';

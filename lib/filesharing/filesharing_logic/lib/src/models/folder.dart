@@ -11,7 +11,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:helper_functions/helper_functions.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:sharezone_utils/random_string.dart';
 
 class Folder {

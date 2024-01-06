@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 import 'user_tip_key.dart';
 

@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sharezone/changelog/change.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 class ChangeDatabaseModel {
   final String id;

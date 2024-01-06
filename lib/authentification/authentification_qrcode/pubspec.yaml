@@ -25,8 +25,8 @@ dependencies:
     path: ../../bloc_base
   crash_analytics:
     path: ../../crash_analytics
-  sharezone_common:
-    path: ../../sharezone_common
+  cloud_firestore_helper:
+    path: ../../cloud_firestore_helper
   platform_check:
     path: ../../platform_check
   util:

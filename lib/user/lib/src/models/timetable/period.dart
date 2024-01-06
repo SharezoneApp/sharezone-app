@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart' show IterableNullableExtension;
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:time/time.dart';
 
 const Periods standardPeriods = Periods({

@@ -21,8 +21,8 @@ dependencies:
     path: ../files_basics
   files_usecases:
     path: ../files_usecases
-  sharezone_common:
-    path: ../../sharezone_common
+  cloud_firestore_helper:
+    path: ../../cloud_firestore_helper
   sharezone_utils:
     path: ../../sharezone_utils
   cloud_firestore: ^4.8.5

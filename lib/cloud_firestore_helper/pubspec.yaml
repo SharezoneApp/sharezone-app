@@ -6,30 +6,17 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-name: user
-description: A new Flutter package project.
+name: cloud_firestore_helper
+description: A helper package for Cloud Firestore.
 version: 0.0.1
 publish_to: none
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
 
-dependencies:
-  flutter:
-    sdk: flutter
-  cloud_firestore_helper:
-    path: ../cloud_firestore_helper
-  date:
-    path: ../date
-  time:
-    path: ../time
-  characters: ^1.0.0
-  collection: ^1.15.0-nullsafety.4
-  helper_functions:
-    path: ../helper_functions
+# This package shouldn't have a dependency on cloud_firestore, because it's used
+# on our website, which slows down the loading time.
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   sharezone_lints:
     path: ../sharezone_lints

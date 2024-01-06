@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 import 'change_activity.dart';
 import 'folder_path.dart';

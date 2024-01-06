@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:sharezone_common/firebase_helper.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 class HomeworkDto {
   final String id;
@@ -154,7 +154,7 @@ class HomeworkDto {
       title: data['title'],
       description: data['description'],
       todoUntil: dateTimeFromTimestamp(data['todoUntil']),
-      createdOn: dateTimeFromTimestamp(data['createdOn']),
+      createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       attachments: decodeList(data['attachments'], (it) => it),
       private: data['private'],
       withSubmissions: data['withSubmissions'] ?? false,
