@@ -27,16 +27,16 @@ permissions: {}
 jobs:
   deploy:
     runs-on: ubuntu-22.04
-    name: website-deploy-${{ matrix.environment.name }}
+    name: website-deploy-${{ matrix.environment.flavor }}
     permissions:
       checks: write # for FirebaseExtended/action-hosting-deploy
     strategy:
       matrix:
         environment:
-          - name: dev
+          - flavor: dev
             projectId: sharezone-debug
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
-          - name: prod
+          - flavor: prod
             projectId: sharezone-c2bd8
             serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
     steps:
@@ -57,7 +57,8 @@ jobs:
           # We use the canvaskit renderer because the html renderer is a bit
           # buggy.
           flutter build web \
-            --web-renderer canvaskit
+            --web-renderer canvaskit \
+            --dart-define=FLAVOR=${{ matrix.environment.flavor }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
