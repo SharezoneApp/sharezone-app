@@ -107,6 +107,7 @@ jobs:
 
   deploy-web-app:
     if: github.event.inputs.deploy-web-app == 'true'
+    name: "deploy-stable-web-app-${{ matrix.environment.flavor }}"
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
