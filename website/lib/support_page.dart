@@ -9,12 +9,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/page.dart';
+import 'package:sharezone_website/widgets/avatar_card.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'widgets/avatar_card.dart';
 import 'widgets/section.dart';
-import 'widgets/shadow_card.dart';
-import 'widgets/snackbars.dart';
 
 const phoneNumber = '+49 1516 7754541';
 

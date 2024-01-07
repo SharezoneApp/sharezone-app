@@ -12,8 +12,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
-import 'package:sharezone_website/widgets/max_width_constraint_box.dart';
 import 'package:sharezone_website/widgets/transparent_button.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../home_page.dart';
 

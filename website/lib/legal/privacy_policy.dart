@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:sharezone_website/widgets/headline.dart';
-import 'package:sharezone_website/widgets/max_width_constraint_box.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart' hide Headline;
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});

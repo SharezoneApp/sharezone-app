@@ -12,10 +12,11 @@ import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart'
+    hide SharezoneLogo, LogoColor;
 
 import 'footer.dart';
 import 'home/home_page.dart';
-import 'widgets/max_width_constraint_box.dart';
 import 'widgets/sharezone_logo.dart';
 import 'widgets/transparent_button.dart';
 

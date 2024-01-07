@@ -8,8 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'shadow_card.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Karte mit CircleAvatar und dahinter eine Karte
 // Wichtig: Es muss entweder ein SvgPath oder ein imagePath angeben werden!
