@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "[Debug] - Production flavor",
+            "name": "App (prod)",
             "type": "dart",
             "request": "launch",
             "args": [
@@ -15,7 +15,7 @@
             "program": "app/lib/main_prod.dart"
         },
         {
-            "name": "[Debug] - Development flavor",
+            "name": "App (dev)",
             "request": "launch",
             "type": "dart",
             "args": [
