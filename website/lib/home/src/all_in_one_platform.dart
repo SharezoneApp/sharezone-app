@@ -12,7 +12,7 @@ import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/row_spacing.dart';
 import 'package:sharezone_website/widgets/section.dart';
-import 'package:sharezone_website/widgets/shadow_card.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart' hide Headline;
 
 import '../../main.dart';
 import '../home_page.dart';

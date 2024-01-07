@@ -8,8 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_website/home/home_page.dart';
-
-import 'max_width_constraint_box.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class Section extends StatelessWidget {
   const Section({super.key, this.child});
