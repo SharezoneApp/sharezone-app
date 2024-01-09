@@ -139,6 +139,20 @@ class _DashboardFabSheet extends StatelessWidget {
                   ),
                   if (kDebugMode)
                     Padding(
+                      padding: const EdgeInsets.only(left: 310, top: 165),
+                      child: IconButton(
+                        // title: "V2 Annoucement",
+                        icon: Icon(themeIconData(Icons.newspaper,
+                            cupertinoIcon: CupertinoIcons.news)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          openSzV2AnnoucementDialog(context);
+                        },
+                        tooltip: "Sz V2 Annoucement",
+                      ),
+                    ),
+                  if (kDebugMode)
+                    Padding(
                       padding: const EdgeInsets.only(top: 250),
                       child: Center(
                         child: TextButton(
