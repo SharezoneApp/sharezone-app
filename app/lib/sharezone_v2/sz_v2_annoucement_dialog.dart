@@ -1,8 +1,15 @@
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-void openSzV2AnnoucementDialog(BuildContext context) {
-  Navigator.push(
+Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
+  await Navigator.push(
       context, MaterialPageRoute(builder: (context) => const _Dialog()));
 }
 
@@ -71,9 +78,39 @@ class _DialogState extends State<_Dialog> {
                       ),
                       ElevatedButton(
                         onPressed: !isLastPage || _allCheckboxesChecked
-                            ? () {
+                            ? () async {
                                 if (controller.page == lastPage) {
-                                  Navigator.pop(context);
+                                  final ctx = BlocProvider.of<SharezoneContext>(
+                                      context);
+                                  final uid = ctx.api.uID;
+
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'legal': {
+                                        'v2.0-terms-accepted': {
+                                          'deviceTime': clock.now(),
+                                          'serverTime':
+                                              FieldValue.serverTimestamp(),
+                                        },
+                                      },
+                                    });
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pop(context);
+                                    // ignore: use_build_context_synchronously
+                                    BlocProvider.of<NavigationBloc>(context)
+                                        .navigateTo(
+                                            NavigationItem.sharezonePlus);
+                                  } on Exception catch (e) {
+                                    // ignore: use_build_context_synchronously
+                                    await showLeftRightAdaptiveDialog(
+                                        context: context,
+                                        title: 'Fehler',
+                                        content: Text(
+                                            'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net'));
+                                  }
                                 } else {
                                   controller.nextPage(
                                       duration:
@@ -114,9 +151,14 @@ class _FinalPage extends StatefulWidget {
   State<_FinalPage> createState() => _FinalPageState();
 }
 
-class _FinalPageState extends State<_FinalPage> {
+class _FinalPageState extends State<_FinalPage>
+    with AutomaticKeepAliveClientMixin<_FinalPage> {
   bool _1Checked = false;
   bool _2Checked = false;
+
+  // So that checkbox state is kept when going back from the last page
+  @override
+  bool get wantKeepAlive => true;
 
   void _onCheckboxChanged() {
     widget.onCheckboxesChanged(_1Checked && _2Checked);
@@ -186,15 +228,6 @@ class _Checkbox extends StatelessWidget {
       ),
       title: MarkdownBody(data: text),
     );
-    // return Row(
-    //   children: [
-    //     Checkbox(
-    //       value: value,
-    //       onChanged: (newVal) => onChanged(newVal!),
-    //     ),
-    //     Expanded(child: MarkdownBody(data: text)),
-    //   ],
-    // );
   }
 }
 
