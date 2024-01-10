@@ -6,8 +6,15 @@ void openSzV2AnnoucementDialog(BuildContext context) {
       context, MaterialPageRoute(builder: (context) => const _Dialog()));
 }
 
-class _Dialog extends StatelessWidget {
+class _Dialog extends StatefulWidget {
   const _Dialog({super.key});
+
+  @override
+  State<_Dialog> createState() => _DialogState();
+}
+
+class _DialogState extends State<_Dialog> {
+  bool _allCheckboxesChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +32,22 @@ class _Dialog extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: PageView(
               controller: controller,
-              children: const <Widget>[
-                _JustText(markdownText: _markdownText),
-                _JustText(markdownText: _2markdownText),
-                _FinalPage(),
+              children: <Widget>[
+                const _JustText(markdownText: _markdownText),
+                const _JustText(markdownText: _2markdownText),
+                _FinalPage(onCheckboxesChanged: (allChecked) {
+                  setState(() {
+                    _allCheckboxesChecked = allChecked;
+                  });
+                }),
               ],
             ),
           ),
           bottomNavigationBar: ListenableBuilder(
               listenable: controller,
               builder: (context, _) {
+                final bool isLastPage = controller.page == 2;
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
@@ -55,16 +68,19 @@ class _Dialog extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          if (controller.page == 2) {
-                            Navigator.pop(context);
-                          } else {
-                            controller.nextPage(
-                                duration: const Duration(milliseconds: 250),
-                                curve: Curves.easeInOut);
-                          }
-                        },
-                        child: Text(controller.page == 2 ? 'Fertig' : 'Weiter'),
+                        onPressed: !isLastPage || _allCheckboxesChecked
+                            ? () {
+                                if (controller.page == 2) {
+                                  Navigator.pop(context);
+                                } else {
+                                  controller.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      curve: Curves.easeInOut);
+                                }
+                              }
+                            : null,
+                        child: Text(isLastPage ? 'Fertig' : 'Weiter'),
                       ),
                     ],
                   ),
@@ -87,8 +103,22 @@ class _JustText extends StatelessWidget {
   }
 }
 
-class _FinalPage extends StatelessWidget {
-  const _FinalPage({super.key});
+class _FinalPage extends StatefulWidget {
+  const _FinalPage({super.key, required this.onCheckboxesChanged});
+
+  final void Function(bool allCheckboxesChecked) onCheckboxesChanged;
+
+  @override
+  State<_FinalPage> createState() => _FinalPageState();
+}
+
+class _FinalPageState extends State<_FinalPage> {
+  bool _1Checked = false;
+  bool _2Checked = false;
+
+  void _onCheckboxChanged() {
+    widget.onCheckboxesChanged(_1Checked && _2Checked);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,14 +131,24 @@ class _FinalPage extends StatelessWidget {
         ),
         _Checkbox(
           text: 'Ich habe die ANB gelesen und akzeptiere diese.',
-          value: false,
-          onChanged: (newVal) {},
+          value: _1Checked,
+          onChanged: (newVal) {
+            setState(() {
+              _1Checked = newVal;
+            });
+            _onCheckboxChanged();
+          },
         ),
         _Checkbox(
           text:
               'Ich habe zur Kenntnis genommen, dass die "Sharezone UG (haftungsbeschränkt)" Sharezone betreibt.',
-          value: false,
-          onChanged: (newVal) {},
+          value: _2Checked,
+          onChanged: (newVal) {
+            setState(() {
+              _2Checked = newVal;
+            });
+            _onCheckboxChanged();
+          },
         ),
         const SizedBox(
           height: 30,
@@ -135,15 +175,24 @@ class _Checkbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          value: value,
-          onChanged: (newVal) => onChanged(newVal!),
-        ),
-        Expanded(child: MarkdownBody(data: text)),
-      ],
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      onTap: () => onChanged(!value),
+      leading: Checkbox(
+        value: value,
+        onChanged: (newVal) => onChanged(newVal!),
+      ),
+      title: MarkdownBody(data: text),
     );
+    // return Row(
+    //   children: [
+    //     Checkbox(
+    //       value: value,
+    //       onChanged: (newVal) => onChanged(newVal!),
+    //     ),
+    //     Expanded(child: MarkdownBody(data: text)),
+    //   ],
+    // );
   }
 }
 
@@ -165,9 +214,9 @@ Sharezone Plus ist ein Abbonement, mit welchem du “Plus-Features” freischalt
 
 Zum Beispiel hast du dadurch mehr Speicherplatz in der Dateiablage oder kannst unkomprimiert Bilder hochladen.  
 
-Das Abo kann auch ganz einfach online von z.B. deinen Eltern per Bezahl-Link bezahlt werden.
-
 Du kannst auch ohne Sharezone Plus weiterhin Sharezone kostenlos nutzen, allerdings mit ein paar kleinen Einschränkungen.  
+
+Das Abo kann ganz einfach online von z.B. deinen Eltern per Bezahl-Link bezahlt werden.
 
 ---
 
