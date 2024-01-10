@@ -166,6 +166,7 @@ class _FinalPageState extends State<_FinalPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
