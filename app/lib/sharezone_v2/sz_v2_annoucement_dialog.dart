@@ -35,6 +35,7 @@ class _DialogState extends State<_Dialog> {
               children: <Widget>[
                 const _JustText(markdownText: _markdownText),
                 const _JustText(markdownText: _2markdownText),
+                const _JustText(markdownText: _3markdownText),
                 _FinalPage(onCheckboxesChanged: (allChecked) {
                   setState(() {
                     _allCheckboxesChecked = allChecked;
@@ -46,7 +47,8 @@ class _DialogState extends State<_Dialog> {
           bottomNavigationBar: ListenableBuilder(
               listenable: controller,
               builder: (context, _) {
-                final bool isLastPage = controller.page == 2;
+                const lastPage = 3;
+                final bool isLastPage = controller.page == lastPage;
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
@@ -70,7 +72,7 @@ class _DialogState extends State<_Dialog> {
                       ElevatedButton(
                         onPressed: !isLastPage || _allCheckboxesChecked
                             ? () {
-                                if (controller.page == 2) {
+                                if (controller.page == lastPage) {
                                   Navigator.pop(context);
                                 } else {
                                   controller.nextPage(
@@ -125,7 +127,7 @@ class _FinalPageState extends State<_FinalPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const _JustText(markdownText: _3markdownText),
+        const _JustText(markdownText: _4markdownText),
         const SizedBox(
           height: 30,
         ),
@@ -217,10 +219,14 @@ Zum Beispiel hast du dadurch mehr Speicherplatz in der Dateiablage oder kannst u
 Du kannst auch ohne Sharezone Plus weiterhin Sharezone kostenlos nutzen, allerdings mit ein paar kleinen Einschränkungen.  
 
 Das Abo kann ganz einfach online von z.B. deinen Eltern per Bezahl-Link bezahlt werden.
+''';
 
----
-
+const _3markdownText = '''
 Außerdem gibt es folgende Änderungen:
+
+**Version 2.0**  
+Wir haben das Design für dich überarbeitet, eine neue Navigation eingeführt und ein paar kleine Verbesserungen eingebaut.
+Lass uns doch Feedback da, wie es dir gefällt.
 
 **Geänderte Rechtsform**  
 Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.  
@@ -233,9 +239,8 @@ Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünf
 
 Diese regeln z.B., dass keine gewaltverherrlichenden Inhalte hochgeladen werden dürfen. Wir hoffen, dass das auch vorher klar war 😅
 ''';
-
-const _3markdownText = '''
-... und damit erreichen wir auch die Version 2.0 von Sharezone 🎉💙
+const _4markdownText = '''
+**Das war's!**
 
 Damit du weitermachen kannst, brauchen wir noch deine Zustimmung zu den unten aufgeführten Punkten.
 
