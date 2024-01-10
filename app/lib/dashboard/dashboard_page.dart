@@ -136,6 +136,13 @@ class DashboardPageBody extends StatelessWidget {
               _EventsSection(),
               _BlackboardSection(),
               const HolidayCountdownSection(),
+              if (kDebugMode)
+                TextButton(
+                  child: const Text('V2 Dialog öffnen'),
+                  onPressed: () {
+                    openSzV2AnnoucementDialog(context);
+                  },
+                ),
               const SizedBox(height: 32)
             ],
           ),
