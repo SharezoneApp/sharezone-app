@@ -14,7 +14,7 @@ Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
 }
 
 class _Dialog extends StatefulWidget {
-  const _Dialog({super.key});
+  const _Dialog();
 
   @override
   State<_Dialog> createState() => _DialogState();
@@ -40,9 +40,9 @@ class _DialogState extends State<_Dialog> {
             child: PageView(
               controller: controller,
               children: <Widget>[
-                const _JustText(markdownText: _markdownText),
-                const _JustText(markdownText: _2markdownText),
-                const _JustText(markdownText: _3markdownText),
+                const _JustText(markdownText: _markdownText1),
+                const _JustText(markdownText: _markdownText2),
+                const _JustText(markdownText: _markdownText3),
                 _FinalPage(onCheckboxesChanged: (allChecked) {
                   setState(() {
                     _allCheckboxesChecked = allChecked;
@@ -130,7 +130,7 @@ class _DialogState extends State<_Dialog> {
 }
 
 class _JustText extends StatelessWidget {
-  const _JustText({super.key, required this.markdownText});
+  const _JustText({required this.markdownText});
 
   final String markdownText;
 
@@ -143,7 +143,7 @@ class _JustText extends StatelessWidget {
 }
 
 class _FinalPage extends StatefulWidget {
-  const _FinalPage({super.key, required this.onCheckboxesChanged});
+  const _FinalPage({required this.onCheckboxesChanged});
 
   final void Function(bool allCheckboxesChecked) onCheckboxesChanged;
 
@@ -153,15 +153,15 @@ class _FinalPage extends StatefulWidget {
 
 class _FinalPageState extends State<_FinalPage>
     with AutomaticKeepAliveClientMixin<_FinalPage> {
-  bool _1Checked = false;
-  bool _2Checked = false;
+  bool _box1Checked = false;
+  bool _box2Checked = false;
 
   // So that checkbox state is kept when going back from the last page
   @override
   bool get wantKeepAlive => true;
 
   void _onCheckboxChanged() {
-    widget.onCheckboxesChanged(_1Checked && _2Checked);
+    widget.onCheckboxesChanged(_box1Checked && _box2Checked);
   }
 
   @override
@@ -170,16 +170,16 @@ class _FinalPageState extends State<_FinalPage>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const _JustText(markdownText: _4markdownText),
+        const _JustText(markdownText: _markdownText4),
         const SizedBox(
           height: 30,
         ),
         _Checkbox(
           text: 'Ich habe die ANB gelesen und akzeptiere diese.',
-          value: _1Checked,
+          value: _box1Checked,
           onChanged: (newVal) {
             setState(() {
-              _1Checked = newVal;
+              _box1Checked = newVal;
             });
             _onCheckboxChanged();
           },
@@ -187,10 +187,10 @@ class _FinalPageState extends State<_FinalPage>
         _Checkbox(
           text:
               'Ich habe zur Kenntnis genommen, dass die "Sharezone UG (haftungsbeschränkt)" Sharezone betreibt.',
-          value: _2Checked,
+          value: _box2Checked,
           onChanged: (newVal) {
             setState(() {
-              _2Checked = newVal;
+              _box2Checked = newVal;
             });
             _onCheckboxChanged();
           },
@@ -232,7 +232,7 @@ class _Checkbox extends StatelessWidget {
   }
 }
 
-const _markdownText = '''
+const _markdownText1 = '''
 Hey du, schön dich hier zu haben! :)
 
 Wir haben Sharezone bis jetzt mit Herz, Blut und Tränen kostenlos für euch betrieben, weil wir vor allem anderen erstmal eine geile Schulapp machen wollten.
@@ -244,7 +244,7 @@ Wie genau, das verraten wir dir, wenn du auf "Weiter" klickst ;)
 
 ''';
 
-const _2markdownText = '''
+const _markdownText2 = '''
 **Sharezone Plus**  
 Sharezone Plus ist ein Abbonement, mit welchem du “Plus-Features” freischalten kannst.  
 
@@ -255,7 +255,7 @@ Du kannst auch ohne Sharezone Plus weiterhin Sharezone kostenlos nutzen, allerdi
 Das Abo kann ganz einfach online von z.B. deinen Eltern per Bezahl-Link bezahlt werden.
 ''';
 
-const _3markdownText = '''
+const _markdownText3 = '''
 Außerdem gibt es folgende Änderungen:
 
 **Version 2.0**  
@@ -273,7 +273,7 @@ Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünf
 
 Diese regeln z.B., dass keine gewaltverherrlichenden Inhalte hochgeladen werden dürfen. Wir hoffen, dass das auch vorher klar war 😅
 ''';
-const _4markdownText = '''
+const _markdownText4 = '''
 **Das war's!**
 
 Damit du weitermachen kannst, brauchen wir noch deine Zustimmung zu den unten aufgeführten Punkten.
