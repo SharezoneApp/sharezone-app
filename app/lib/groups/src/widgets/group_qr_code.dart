@@ -104,13 +104,7 @@ class _QRCodeBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: Icon(Icons.close, color: Colors.grey[600]),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
+          const Align(alignment: Alignment.centerRight, child: CloseButton()),
           const SizedBox(height: 2),
           SizedBox(
             height: 200,
