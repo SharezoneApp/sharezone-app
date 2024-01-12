@@ -169,7 +169,7 @@ class _SchoolClassList extends StatelessWidget {
             children: AnimationConfiguration.toStaggeredList(
               duration: const Duration(milliseconds: 225),
               childAnimationBuilder: (widget) => SlideAnimation(
-                horizontalOffset: 25,
+                verticalOffset: 25,
                 child: FadeInAnimation(
                   child: widget,
                 ),
@@ -213,7 +213,7 @@ class _CourseList extends StatelessWidget {
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 225),
                   childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 20,
+                    verticalOffset: 20,
                     child: FadeInAnimation(
                       child: widget,
                     ),
