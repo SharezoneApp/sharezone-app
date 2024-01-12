@@ -26,12 +26,12 @@ ThemeData getDarkTheme({
 
     // Brightness
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: ElevationColors.dp0,
+    scaffoldBackgroundColor: ElevationColors.dp1,
 
     // Colors
     primaryColor: primaryColor,
     unselectedWidgetColor: _accentColor,
-    cardColor: ElevationColors.dp0,
+    cardColor: ElevationColors.dp4,
     indicatorColor: Colors.amberAccent,
     dialogBackgroundColor: ElevationColors.dp12,
     canvasColor: ElevationColors.dp2,
