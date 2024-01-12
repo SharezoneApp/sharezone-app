@@ -358,8 +358,10 @@ void main() {
       // await tester.tap(find.text('OK'));
       await tester.enterText(
           find.byKey(HwDialogKeys.descriptionField), 'New description text');
-      await tester
-          .tap(find.byKey(HwDialogKeys.attachmentOverflowMenuIcon).first);
+      final firstAttachment =
+          find.byKey(HwDialogKeys.attachmentOverflowMenuIcon).first;
+      await tester.ensureVisible(firstAttachment);
+      await tester.tap(firstAttachment);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Anhang entfernen'));
       await tester.pumpAndSettle();
