@@ -77,7 +77,7 @@ class _BlackboardPageFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed: () =>
           openBlackboardDialogAndShowConfirmationIfSuccessful(context),
-      tooltip: "Infozettel hinzufügen",
+      tooltip: "Neuen Infozettel",
       heroTag: 'sharezone-fab',
       icon: const Icon(Icons.add),
     );

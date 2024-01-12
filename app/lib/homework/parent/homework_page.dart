@@ -484,7 +484,7 @@ class _HomeworkPageFAB extends StatelessWidget {
         logHomeworkAddViaHomeworkPage(context);
         await openHomeworkDialogAndShowConfirmationIfSuccessful(context);
       },
-      tooltip: "Hausaufgabe hinzufügen",
+      tooltip: "Neue Hausaufgabe",
       icon: const Icon(Icons.add),
     );
   }
