@@ -89,56 +89,34 @@ ThemeData getLightTheme({
     inputDecorationTheme: inputDecorationTheme,
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
-    checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return primaryColor;
-        }
-        return null;
-      }),
-    ),
-    radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return primaryColor;
-        }
-        return null;
-      }),
-    ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
+      trackColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
           return primaryColor;
         }
-        return null;
+        return Colors.grey[200];
       }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
+      trackOutlineColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
           return primaryColor;
         }
-        return null;
+        return Colors.grey;
+      }),
+      thumbColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return primaryColor.withOpacity(0.2);
+        }
+        if (states.contains(MaterialState.selected)) {
+          return Colors.white;
+        }
+        return Colors.grey;
       }),
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.grey[600],
       brightness: Brightness.light,
       error: _errorCode,
+      primary: primaryColor,
     ),
   );
 }
