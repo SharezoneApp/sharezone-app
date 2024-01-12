@@ -1022,6 +1022,10 @@ class _DescriptionFieldBase extends StatelessWidget {
                   decoration: const InputDecoration(
                     hintText: "Zusatzinformationen eingeben",
                     border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    fillColor: Colors.transparent,
                   ),
                   onChanged: onChanged,
                   textCapitalization: TextCapitalization.sentences,
