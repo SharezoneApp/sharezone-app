@@ -57,8 +57,10 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             child: Theme(
               data: Theme.of(context).copyWith(
                 primaryColor: Colors.white,
-                colorScheme:
-                    ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+                colorScheme: Theme.of(context).isDarkTheme
+                    ? null
+                    : ColorScheme.fromSwatch()
+                        .copyWith(secondary: Colors.white),
               ),
               child: TextField(
                 maxLength: 6,
@@ -75,26 +77,30 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 },
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
                   labelText: 'Sharecode',
                   hintText: "z.B. Qb32vF",
-                  suffixIcon: IconButton(
-                    tooltip: 'QR-Code scannen',
-                    onPressed: () async {
-                      hideKeyboard(context: context);
-                      final qrCode = await _scanQRCode();
-                      if (_isValidQrCode(qrCode)) {
-                        bloc.enterValue(qrCode);
-                        final groupJoinResultDialog =
-                            GroupJoinResultDialog(bloc);
-                        if (context.mounted) {
-                          groupJoinResultDialog.show(context);
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: IconButton(
+                      tooltip: 'QR-Code scannen',
+                      iconSize: 48,
+                      onPressed: () async {
+                        hideKeyboard(context: context);
+                        final qrCode = await _scanQRCode();
+                        if (_isValidQrCode(qrCode)) {
+                          bloc.enterValue(qrCode);
+                          final groupJoinResultDialog =
+                              GroupJoinResultDialog(bloc);
+                          if (context.mounted) {
+                            groupJoinResultDialog.show(context);
+                          }
                         }
-                      }
-                    },
-                    icon: PlatformSvg.asset(
-                      "assets/icons/qr-code.svg",
-                      color: Colors.white,
+                      },
+                      icon: PlatformSvg.asset(
+                        "assets/icons/qr-code.svg",
+                        color: Colors.white,
+                        width: 32,
+                      ),
                     ),
                   ),
                 ),

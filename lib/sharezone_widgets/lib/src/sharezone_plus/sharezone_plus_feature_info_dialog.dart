@@ -39,9 +39,6 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12.5),
-    );
     return AlertDialog(
       title: title == null
           ? null
@@ -59,20 +56,10 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).primaryColor,
-            shape: buttonShape,
-          ),
           child: const Text('ZURÜCK'),
         ),
-        ElevatedButton(
+        FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            shape: buttonShape,
-          ),
           child: const Text('MEHR ERFAHREN'),
         ),
       ],

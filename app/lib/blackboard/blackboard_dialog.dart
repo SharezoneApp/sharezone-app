@@ -336,7 +336,8 @@ class _TitleField extends StatelessWidget {
         child: StreamBuilder<String>(
           stream: bloc.title,
           builder: (context, snapshot) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20)
+                .add(const EdgeInsets.only(top: 8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -345,11 +346,19 @@ class _TitleField extends StatelessWidget {
                   focusNode: focusNode,
                   cursorColor: Colors.white,
                   maxLines: null,
-                  style: const TextStyle(color: Colors.white, fontSize: 20.0),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400,
+                  ),
                   decoration: const InputDecoration(
                     hintText: "Titel eingeben",
                     hintStyle: TextStyle(color: Colors.white),
                     border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    fillColor: Colors.transparent,
                   ),
                   onChanged: (String title) => bloc.changeTitle(title),
                   textCapitalization: TextCapitalization.sentences,

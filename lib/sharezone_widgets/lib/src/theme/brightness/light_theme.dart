@@ -8,6 +8,8 @@
 
 part of 'general_theme.dart';
 
+const _errorCode = Colors.red;
+
 /// Returns the light theme for the app.
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
@@ -16,12 +18,6 @@ ThemeData getLightTheme({
   String? fontFamily = rubik,
 }) {
   return ThemeData(
-    // Since 3.16 Material 3 became the standard. However, it requires a migration
-    // from Material 2 to 3 which is the reason why opt-out for now.
-    //
-    // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/1159
-    useMaterial3: false,
-
     // Brightness
     brightness: Brightness.light,
 
@@ -51,10 +47,46 @@ ThemeData getLightTheme({
         fontFamily: fontFamily,
       ),
     ),
+    chipTheme: ChipThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(512),
+      ),
+    ),
+    listTileTheme: ListTileThemeData(
+      iconColor: Colors.grey[700]!,
+      shape: listTileShape,
+      mouseCursor: MaterialStateMouseCursor.clickable,
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: primaryColor,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: primaryColor,
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: primaryColor,
+      ),
+    ),
+    dialogBackgroundColor: Colors.white,
+    dividerTheme: const DividerThemeData(
+      color: Color(0xFFE5E5E5),
+    ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
     pageTransitionsTheme: _pageTransitionsTheme,
-    snackBarTheme: _snackBarTheme,
+    snackBarTheme: _snackBarTheme.copyWith(
+      backgroundColor: const Color(0xFF2B2525),
+    ),
+    inputDecorationTheme: inputDecorationTheme,
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
     checkboxTheme: CheckboxThemeData(
@@ -103,8 +135,10 @@ ThemeData getLightTheme({
         return null;
       }),
     ),
-    colorScheme: ColorScheme.fromSwatch()
-        .copyWith(secondary: Colors.grey[600], brightness: Brightness.light)
-        .copyWith(error: Colors.red),
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: Colors.grey[600],
+      brightness: Brightness.light,
+      error: _errorCode,
+    ),
   );
 }

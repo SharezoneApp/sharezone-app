@@ -34,7 +34,7 @@ class BottomActionBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              const Divider(height: 0),
+              const Divider(),
               MaxWidthConstraintBox(
                 child: Align(
                   alignment: Alignment.centerRight,
@@ -50,6 +50,7 @@ class BottomActionBar extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
             ],
           ),
         ),

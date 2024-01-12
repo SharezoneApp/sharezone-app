@@ -307,7 +307,7 @@ class _MobileDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (PlatformCheck.isDesktopOrWeb) return Container();
+    if (PlatformCheck.isDesktopOrWeb) return const SizedBox(height: 4);
     return const Divider(height: 0);
   }
 }
@@ -399,7 +399,7 @@ class _TodoUntilPicker extends StatelessWidget {
             ),
             if (showLessonChips)
               const Padding(
-                padding: EdgeInsets.only(left: 3.0),
+                padding: EdgeInsets.only(top: 4, left: 3.0),
                 child: _DueDateChips(
                   initialChips: IListConst([
                     DueDateSelection.nextSchoolday,
@@ -840,7 +840,8 @@ class _TitleFieldBase extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20)
+              .add(const EdgeInsets.only(top: 8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -850,11 +851,19 @@ class _TitleFieldBase extends StatelessWidget {
                 focusNode: focusNode,
                 cursorColor: Colors.white,
                 maxLines: null,
-                style: const TextStyle(color: Colors.white, fontSize: 22),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400,
+                ),
                 decoration: const InputDecoration(
                   hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
                   hintStyle: TextStyle(color: Colors.white),
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  fillColor: Colors.transparent,
                 ),
                 onChanged: onChanged,
                 textCapitalization: TextCapitalization.sentences,

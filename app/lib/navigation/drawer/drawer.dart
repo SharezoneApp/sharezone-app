@@ -41,6 +41,8 @@ class SharezoneDrawer extends StatelessWidget {
       bloc: SharezoneDrawerController(isDesktopModus),
       child: Drawer(
         semanticLabel: 'Navigation öffnen',
+        // No border
+        shape: const Border(),
         child: _DrawerItems(isDesktopModus: isDesktopModus),
       ),
     );
@@ -69,43 +71,35 @@ class _DrawerItems extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSubscriptionEnabled =
         context.watch<SubscriptionEnabledFlag>().isEnabled;
-    return Material(
-      color: getDrawerBackgroundColor(context),
-      child: SafeArea(
-        right: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _AccountSection(isDesktopModus: isDesktopModus),
+    return SafeArea(
+      right: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _AccountSection(isDesktopModus: isDesktopModus),
+                  const Divider(),
+                  if (isDesktopModus) ...[
+                    ...onlyDesktopTiles,
                     const Divider(),
-                    if (isDesktopModus) ...[
-                      ...onlyDesktopTiles,
-                      const Divider(),
-                    ],
-                    ...functionTiles,
-                    const Divider(),
-                    if (isSubscriptionEnabled) sharezonePlusTile,
-                    feedbackBoxTile,
-                    settingsPageTile,
                   ],
-                ),
+                  ...functionTiles,
+                  const Divider(),
+                  if (isSubscriptionEnabled) sharezonePlusTile,
+                  feedbackBoxTile,
+                  settingsPageTile,
+                ],
               ),
             ),
-            const _SharezoneLogo(),
-          ],
-        ),
+          ),
+          const _SharezoneLogo(),
+        ],
       ),
     );
-  }
-
-  Color? getDrawerBackgroundColor(BuildContext context) {
-    if (!isDesktopModus || Theme.of(context).isDarkTheme) return null;
-    return const Color(0xFFF4F5F7);
   }
 }
 
