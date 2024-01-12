@@ -105,7 +105,7 @@ class _BlackboardList extends StatelessWidget {
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 250),
                   childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 20,
+                    verticalOffset: 20,
                     child: FadeInAnimation(child: widget),
                   ),
                   children: [
