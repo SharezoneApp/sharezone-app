@@ -35,18 +35,11 @@ void main() {
         required ThemeData theme,
       }) async {
         await tester.pumpWidgetBuilder(
-          Builder(
-            builder: (context) {
-              return Material(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: const SingleChildScrollView(
-                  child: SharezonePlusAdvantages(
-                    isHomeworkDoneListsFeatureVisible: true,
-                    isHomeworkReminderFeatureVisible: true,
-                  ),
-                ),
-              );
-            },
+          const SingleChildScrollView(
+            child: SharezonePlusAdvantages(
+              isHomeworkDoneListsFeatureVisible: true,
+              isHomeworkReminderFeatureVisible: true,
+            ),
           ),
           wrapper: materialAppWrapper(theme: theme),
         );
@@ -112,16 +105,7 @@ void main() {
       testGoldens('renders faq section as expected (light theme)',
           (tester) async {
         await tester.pumpWidgetBuilder(
-          Builder(
-            builder: (context) {
-              return Material(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: const SingleChildScrollView(
-                  child: SharezonePlusFaq(),
-                ),
-              );
-            },
-          ),
+          const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
         );
 

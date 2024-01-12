@@ -117,6 +117,7 @@ ThemeData getLightTheme({
       brightness: Brightness.light,
       error: _errorCode,
       primary: primaryColor,
+      surfaceTint: Colors.white,
     ),
   );
 }

@@ -19,16 +19,7 @@ void main() {
         ThemeData? theme,
       }) async {
         await tester.pumpWidgetBuilder(
-          Builder(
-            builder: (context) {
-              return Material(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: const Center(
-                  child: SharezonePlusChip(),
-                ),
-              );
-            },
-          ),
+          const Center(child: SharezonePlusChip()),
           wrapper: materialAppWrapper(theme: theme),
         );
       }
@@ -58,19 +49,13 @@ void main() {
         ThemeData? theme,
       }) async {
         await tester.pumpWidgetBuilder(
-          Builder(
-            builder: (context) {
-              return Material(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Center(
-                    child: SharezonePlusFeatureInfoCard(
-                  withLearnMoreButton: true,
-                  child: const Text(
-                      'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
-                  onLearnMorePressed: () {},
-                )),
-              );
-            },
+          Center(
+            child: SharezonePlusFeatureInfoCard(
+              withLearnMoreButton: true,
+              child: const Text(
+                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+              onLearnMorePressed: () {},
+            ),
           ),
           wrapper: materialAppWrapper(theme: theme),
         );
