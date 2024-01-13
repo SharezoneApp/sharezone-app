@@ -55,7 +55,7 @@ class _LessonRow extends StatelessWidget {
                           position: index,
                           duration: const Duration(milliseconds: 250),
                           child: SlideAnimation(
-                            horizontalOffset: 10,
+                            verticalOffset: 10,
                             child: FadeInAnimation(
                               child: _LessonCard(views[index]),
                             ),
