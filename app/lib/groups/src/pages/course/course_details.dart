@@ -12,6 +12,7 @@ import 'package:app_functions/app_functions_ui.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
@@ -178,21 +179,18 @@ class _CourseDetailsPage extends StatelessWidget {
                           );
                         },
                       ),
-                      SafeArea(
-                        bottom: !isAdmin,
-                        child: _LeaveCourseButton(
-                          onDialogClose: (appFunction) => Navigator.pop(
-                            context,
-                            LeaveCourseDetailsPopOption(appFunction),
-                          ),
+                      _DangerSection(
+                        onDeleteDialogClose: (appFunction) => Navigator.pop(
+                          context,
+                          DeleteCourseDetailsPopOption(appFunction),
                         ),
+                        onLeaveDialogClose: (appFunction) => Navigator.pop(
+                          context,
+                          LeaveCourseDetailsPopOption(appFunction),
+                        ),
+                        isAdmin: isAdmin,
+                        courseName: course.name,
                       ),
-                      if (isAdmin)
-                        _DeleteCourseButton(
-                          onDialogClose: (appFunction) => Navigator.pop(context,
-                              DeleteCourseDetailsPopOption(appFunction)),
-                          courseName: course.name,
-                        ),
                     ],
                   ),
                 ),
@@ -201,6 +199,63 @@ class _CourseDetailsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _DangerSection extends StatelessWidget {
+  const _DangerSection({
+    required this.onDeleteDialogClose,
+    required this.onLeaveDialogClose,
+    required this.isAdmin,
+    required this.courseName,
+  });
+
+  final Function(Future<AppFunctionsResult<bool>>) onDeleteDialogClose;
+  final Function(Future<AppFunctionsResult<bool>>) onLeaveDialogClose;
+  final bool isAdmin;
+  final String courseName;
+
+  void _logCourseLeaveButtonViaCourseDetailsPage(Analytics analytics) {
+    analytics.log(NamedAnalyticsEvent(
+        name: "course_leave_button_via_course_details_page"));
+  }
+
+  void _logCourseDeleteButtonViaCourseDetailsPage(Analytics analytics) {
+    analytics.log(NamedAnalyticsEvent(
+        name: "course_delete_button_via_course_details_page"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DangerSection(
+      deleteButtonLabel: const Text("KURS LÖSCHEN"),
+      onPressedDeleteButton: () async {
+        final bloc = BlocProvider.of<CourseDetailsBloc>(context);
+        final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
+
+        _logCourseDeleteButtonViaCourseDetailsPage(analytics);
+        final result = await showDeleteCourseDialog(context, courseName);
+
+        if (result == true) {
+          onDeleteDialogClose(bloc.deleteCourse());
+        }
+      },
+      leaveButtonLabel: const Text("KURS VERLASSEN"),
+      onPressedLeaveButton: () async {
+        final bloc = BlocProvider.of<CourseDetailsBloc>(context);
+        final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
+
+        _logCourseLeaveButtonViaCourseDetailsPage(analytics);
+        final isLastMember = (await bloc.members.first).length <= 1;
+        if (!context.mounted) return;
+        final result = await showCourseLeaveDialog(context, isLastMember);
+
+        if (result == true) {
+          onLeaveDialogClose(bloc.leaveCourse());
+        }
+      },
+      hasDeleteButton: isAdmin,
     );
   }
 }
@@ -240,79 +295,6 @@ class _EditIcon extends StatelessWidget {
 
   void _logCourseEditViaAppBar(Analytics analytics) {
     analytics.log(NamedAnalyticsEvent(name: "course_edit_via_app_bar"));
-  }
-}
-
-class _LeaveCourseButton extends StatelessWidget {
-  const _LeaveCourseButton({
-    required this.onDialogClose,
-  });
-
-  final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: DestroyButton(
-        title: const Text("KURS VERLASSEN"),
-        color: const Color(0xFFff7d7d),
-        onTap: () async {
-          _logCourseLeaveButtonViaCourseDetailsPage(analytics);
-          final isLastMember = (await bloc.members.first).length <= 1;
-          if (!context.mounted) return;
-          final result = await showCourseLeaveDialog(context, isLastMember);
-          if (result == true) {
-            onDialogClose(bloc.leaveCourse());
-          }
-        },
-      ),
-    );
-  }
-
-  void _logCourseLeaveButtonViaCourseDetailsPage(Analytics analytics) {
-    analytics.log(NamedAnalyticsEvent(
-        name: "course_leave_button_via_course_details_page"));
-  }
-}
-
-class _DeleteCourseButton extends StatelessWidget {
-  const _DeleteCourseButton({
-    required this.onDialogClose,
-    required this.courseName,
-  });
-
-  final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
-  final String courseName;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CourseDetailsBloc>(context);
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    return SafeArea(
-      bottom: true,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: DestroyButton(
-          title: const Text("KURS LÖSCHEN"),
-          onTap: () async {
-            _logCourseDeleteButtonViaCourseDetailsPage(analytics);
-            final result = await showDeleteCourseDialog(context, courseName);
-            if (result == true) {
-              final deleteCourseFunction = bloc.deleteCourse();
-              onDialogClose(deleteCourseFunction);
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  void _logCourseDeleteButtonViaCourseDetailsPage(Analytics analytics) {
-    analytics.log(NamedAnalyticsEvent(
-        name: "course_delete_button_via_course_details_page"));
   }
 }
 
