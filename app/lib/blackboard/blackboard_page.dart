@@ -77,7 +77,7 @@ class _BlackboardPageFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed: () =>
           openBlackboardDialogAndShowConfirmationIfSuccessful(context),
-      tooltip: "Infozettel hinzufügen",
+      tooltip: "Neuen Infozettel",
       heroTag: 'sharezone-fab',
       icon: const Icon(Icons.add),
     );
@@ -105,7 +105,7 @@ class _BlackboardList extends StatelessWidget {
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 250),
                   childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 20,
+                    verticalOffset: 20,
                     child: FadeInAnimation(child: widget),
                   ),
                   children: [

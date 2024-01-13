@@ -19,6 +19,7 @@ import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_p
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_details/school_class_member_option.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_page.dart';
+import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
@@ -112,23 +113,63 @@ class SchoolClassDetailsPage extends StatelessWidget {
                       );
                     },
                   ),
-                  SafeArea(
-                    bottom: !isAdmin,
-                    child: _LeaveSchoolClassButton(
-                      onDialogClose: (appFunction) => Navigator.pop(context,
-                          LeaveSchoolClassDetailsPopOption(appFunction)),
+                  _DangerSection(
+                    onDeleteDialogClose: (appFunction) => Navigator.pop(
+                      context,
+                      DeleteSchoolClassDetailsPopOption(appFunction),
                     ),
-                  ),
-                  if (isAdmin)
-                    _DeleteSchoolClassButton(
-                        onDialogClose: (appFunction) => Navigator.pop(context,
-                            DeleteSchoolClassDetailsPopOption(appFunction))),
+                    onLeaveDialogClose: (appFunction) => Navigator.pop(
+                      context,
+                      LeaveSchoolClassDetailsPopOption(appFunction),
+                    ),
+                    isAdmin: isAdmin,
+                  )
                 ],
               );
             },
           ),
         ),
       ),
+    );
+  }
+}
+
+class _DangerSection extends StatelessWidget {
+  const _DangerSection({
+    required this.isAdmin,
+    required this.onDeleteDialogClose,
+    required this.onLeaveDialogClose,
+  });
+
+  final bool isAdmin;
+  final Function(Future<AppFunctionsResult<bool>>) onDeleteDialogClose;
+  final Function(Future<AppFunctionsResult<bool>>) onLeaveDialogClose;
+
+  @override
+  Widget build(BuildContext context) {
+    return DangerSection(
+      deleteButtonLabel: const Text("KLASSE LÖSCHEN"),
+      onPressedDeleteButton: () async {
+        final bloc = BlocProvider.of<MySchoolClassBloc>(context);
+
+        final schoolClassDeleteType =
+            await showDeleteSchoolClassDialog(context);
+        if (schoolClassDeleteType != null) {
+          final deleteFuture = bloc.deleteSchoolClass(schoolClassDeleteType);
+          onLeaveDialogClose(deleteFuture);
+        }
+      },
+      leaveButtonLabel: const Text("KLASSE VERLASSEN"),
+      onPressedLeaveButton: () async {
+        final bloc = BlocProvider.of<MySchoolClassBloc>(context);
+
+        final confirmed = await showLeaveSchoolClassDialog(context);
+        if (confirmed == true) {
+          final leaveFuture = bloc.leaveSchoolClass();
+          onLeaveDialogClose(leaveFuture);
+        }
+      },
+      hasDeleteButton: isAdmin,
     );
   }
 }
@@ -146,62 +187,6 @@ class _EditIcon extends StatelessWidget {
       tooltip: 'Bearbeiten',
       icon: const Icon(Icons.edit),
       onPressed: () => openSchoolClassEditPage(context, schoolClass),
-    );
-  }
-}
-
-class _LeaveSchoolClassButton extends StatelessWidget {
-  const _LeaveSchoolClassButton({
-    required this.onDialogClose,
-  });
-
-  final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: DestroyButton(
-        color: const Color(0xFFff7d7d),
-        title: const Text("KLASSE VERLASSEN"),
-        onTap: () async {
-          final confirmed = await showLeaveSchoolClassDialog(context);
-          if (confirmed == true) {
-            onDialogClose(bloc.leaveSchoolClass());
-          }
-        },
-      ),
-    );
-  }
-}
-
-class _DeleteSchoolClassButton extends StatelessWidget {
-  const _DeleteSchoolClassButton({
-    required this.onDialogClose,
-  });
-
-  final Function(Future<AppFunctionsResult<bool>>) onDialogClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    return SafeArea(
-      bottom: true,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: DestroyButton(
-          title: const Text("KLASSE LÖSCHEN"),
-          color: Colors.redAccent,
-          onTap: () async {
-            final schoolClassDeleteType =
-                await showDeleteSchoolClassDialog(context);
-            if (schoolClassDeleteType != null) {
-              onDialogClose(bloc.deleteSchoolClass(schoolClassDeleteType));
-            }
-          },
-        ),
-      ),
     );
   }
 }

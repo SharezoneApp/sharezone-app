@@ -65,7 +65,7 @@ class PlaceholderModelState extends State<PlaceholderModel>
         children: AnimationConfiguration.toStaggeredList(
           duration: const Duration(milliseconds: 370),
           childAnimationBuilder: (widget) => SlideAnimation(
-            horizontalOffset: 20,
+            verticalOffset: 20,
             child: FadeInAnimation(child: widget),
           ),
           children: <Widget>[

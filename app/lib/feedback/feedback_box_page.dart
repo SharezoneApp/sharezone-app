@@ -53,6 +53,7 @@ class FeedbackPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.all(8),
       child: SafeArea(
         child: MaxWidthConstraintBox(
           child: Column(
@@ -108,52 +109,39 @@ class _AnonymousCheckbox extends StatelessWidget {
           children: <Widget>[
             const Divider(),
             const SizedBox(height: 8),
-            InkWell(
-              onTap: () => bloc.changeIsAnonymous(!isAnonymous),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.security,
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.grey
-                            : Colors.grey[600]),
-                    const SizedBox(width: 16),
-                    Flexible(
-                      child: Text(
-                        "Ich möchte mein Feedback anonym abschicken",
-                        style: TextStyle(
-                            color: Theme.of(context).isDarkTheme
-                                ? Colors.grey[400]
-                                : Colors.grey[600],
-                            fontSize: 16),
-                      ),
-                    ),
-                    Checkbox(
-                      value: isAnonymous,
-                      onChanged:
-                          bloc.changeIsAnonymous as void Function(bool?)?,
-                    ),
-                  ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: CheckboxListTile(
+                value: isAnonymous,
+                onChanged: (v) {
+                  if (v == null) return;
+                  bloc.changeIsAnonymous(v);
+                },
+                secondary: const Icon(Icons.security),
+                title: const Text(
+                  "Ich möchte mein Feedback anonym abschicken",
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: isAnonymous
-                  ? const Text(
-                      "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: _FeedbackTextField(
-                        labelText: "Kontaktdaten für Rückfragen",
-                        icon: const Icon(Icons.question_answer),
-                        onChanged: bloc.changeContactOptions,
-                        stream: bloc.contactOptions,
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: isAnonymous
+                    ? const Text(
+                        "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: _FeedbackTextField(
+                          labelText: "Kontaktdaten für Rückfragen",
+                          icon: const Icon(Icons.question_answer),
+                          onChanged: bloc.changeContactOptions,
+                          stream: bloc.contactOptions,
+                        ),
                       ),
-                    ),
+              ),
             ),
             SizedBox(height: isAnonymous ? 8 : 16),
           ],
