@@ -10,6 +10,9 @@ part of './general_theme.dart';
 
 const _accentColor = Colors.lightBlue;
 
+// const _backgroundColor = Color.fromARGB(255, 16, 19, 20);
+const _backgroundColor = ElevationColors.dp0;
+
 /// Returns the dark theme for the app.
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
@@ -26,12 +29,12 @@ ThemeData getDarkTheme({
 
     // Brightness
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: ElevationColors.dp0,
+    scaffoldBackgroundColor: _backgroundColor,
 
     // Colors
     primaryColor: primaryColor,
     unselectedWidgetColor: _accentColor,
-    cardColor: ElevationColors.dp0,
+    cardColor: _backgroundColor,
     indicatorColor: Colors.amberAccent,
     dialogBackgroundColor: ElevationColors.dp12,
     canvasColor: ElevationColors.dp2,

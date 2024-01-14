@@ -410,7 +410,7 @@ class CustomCard extends StatelessWidget {
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
     this.onLongPress,
     this.withBorder = true,
-    this.borderWidth = 1,
+    this.borderWidth = 1.5,
     super.key,
   });
 
