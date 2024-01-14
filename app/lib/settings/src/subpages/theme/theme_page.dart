@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:app_review/app_review.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,7 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
 import 'package:sharezone/settings/src/widgets/settings_subpage_settings.dart';
-import 'package:sharezone/util/launch_link.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-
-import '../../../../support/support_page.dart';
 
 class ThemePage extends StatelessWidget {
   static const tag = 'theme-page';
@@ -52,44 +47,34 @@ class ThemePage extends StatelessWidget {
 class _DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SettingsSubpageSection(
-      title: "Light & Dark Mode",
-      children: [
-        _BrightnessRadioGroup(),
-        _RateOurApp(),
-      ],
-    );
-  }
-}
-
-class _BrightnessRadioGroup extends StatelessWidget {
-  const _BrightnessRadioGroup();
-
-  @override
-  Widget build(BuildContext context) {
     final themeBrightness = context.select<ThemeSettings, ThemeBrightness>(
         (settings) => settings.themeBrightness);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _BrightnessRadio(
-          title: "Heller Modus",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_high),
-          themeBrightness: ThemeBrightness.light,
-        ),
-        _BrightnessRadio(
-          title: "Dunkler Modus",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_low),
-          themeBrightness: ThemeBrightness.dark,
-        ),
-        _BrightnessRadio(
-          title: "System",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.settings_brightness),
-          themeBrightness: ThemeBrightness.system,
+    return SettingsSubpageSection(
+      title: "Light & Dark Mode",
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _BrightnessRadio(
+              title: "Heller Modus",
+              groupValue: themeBrightness,
+              icon: const Icon(Icons.brightness_high),
+              themeBrightness: ThemeBrightness.light,
+            ),
+            _BrightnessRadio(
+              title: "Dunkler Modus",
+              groupValue: themeBrightness,
+              icon: const Icon(Icons.brightness_low),
+              themeBrightness: ThemeBrightness.dark,
+            ),
+            _BrightnessRadio(
+              title: "System",
+              groupValue: themeBrightness,
+              icon: const Icon(Icons.settings_brightness),
+              themeBrightness: ThemeBrightness.system,
+            ),
+          ],
         ),
       ],
     );
@@ -121,41 +106,6 @@ class _BrightnessRadio extends StatelessWidget {
             themeSettings.themeBrightness = newBrightness!,
         value: themeBrightness,
         groupValue: groupValue,
-      ),
-    );
-  }
-}
-
-class _RateOurApp extends StatelessWidget {
-  const _RateOurApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: AnnouncementCard(
-        title: "Gefällt dir Sharezone?",
-        color: Theme.of(context).isDarkTheme
-            ? ElevationColors.dp12
-            : context.primaryColor.withOpacity(0.15),
-        content: const Text(
-          "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
-        ),
-        actions: const [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 8, 8),
-              child: Row(
-                children: [
-                  _ContactSupportButton(),
-                  SizedBox(width: 12),
-                  _RateAppButton(),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -212,59 +162,6 @@ class _NavigationRadioGroup extends StatelessWidget {
   }
 }
 
-class _RateAppButton extends StatelessWidget {
-  const _RateAppButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      color: context.primaryColor,
-      textColor: Colors.white,
-      onPressed: () {
-        if (PlatformCheck.isWeb) {
-          _showAppRatingIsNotAvailableOnWeb(context);
-          return;
-        }
-
-        // Die In-App-Bewertung funktioniert momentan nur über iOS zuverlässig.
-        // Aus diesem Grund soll für andere Plattformen einfach der Store-Link
-        // geöffnet werden, solange es noch nicht zuverlässig funktioniert.
-        if (PlatformCheck.isIOS) {
-          _launchInAppReview();
-          return;
-        }
-
-        launchURL(_getStoreLink());
-      },
-      elevation: 0,
-      highlightElevation: 0,
-      child: Text("Bewerten".toUpperCase()),
-    );
-  }
-
-  Future<void> _launchInAppReview() async {
-    AppReview.requestReview;
-  }
-
-  String _getStoreLink() {
-    const sharezoneLink = 'https://sharezone.net';
-    if (PlatformCheck.isAndroid) return '$sharezoneLink/android';
-    if (PlatformCheck.isIOS) return '$sharezoneLink/ios';
-    if (PlatformCheck.isMacOS) return '$sharezoneLink/macos';
-    return sharezoneLink;
-  }
-
-  void _showAppRatingIsNotAvailableOnWeb(BuildContext context) {
-    showLeftRightAdaptiveDialog(
-      context: context,
-      title: 'App-Bewertung nur über iOS & Android möglich!',
-      content: const Text(
-          'Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍'),
-      left: AdaptiveDialogAction.ok,
-    );
-  }
-}
-
 class _NavigationRadioTile extends StatelessWidget {
   const _NavigationRadioTile({
     this.option,
@@ -307,21 +204,5 @@ class _NavigationRadioTile extends StatelessWidget {
     if (await bloc.shouldShowBnbTutorial().first && context.mounted) {
       Navigator.pop(context);
     }
-  }
-}
-
-class _ContactSupportButton extends StatelessWidget {
-  const _ContactSupportButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
-      style: TextButton.styleFrom(
-        foregroundColor:
-            Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600],
-      ),
-      child: Text("Support kontaktieren".toUpperCase()),
-    );
   }
 }
