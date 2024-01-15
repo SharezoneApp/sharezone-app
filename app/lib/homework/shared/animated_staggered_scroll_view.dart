@@ -31,7 +31,7 @@ class AnimatedStaggeredScrollView extends StatelessWidget {
         children: AnimationConfiguration.toStaggeredList(
           duration: const Duration(milliseconds: 350),
           childAnimationBuilder: (widget) => SlideAnimation(
-            horizontalOffset: 25,
+            verticalOffset: 25,
             child: FadeInAnimation(child: widget),
           ),
           children: children,

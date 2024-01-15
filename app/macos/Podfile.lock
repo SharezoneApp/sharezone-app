@@ -16,6 +16,7 @@ PODS:
     - Firebase/Functions (~> 10.12.0)
     - firebase_core
     - FlutterMacOS
+  - CocoaAsyncSocket (7.6.5)
   - device_info_plus (0.0.1):
     - FlutterMacOS
   - fast_rsa (0.6.0):
@@ -253,6 +254,10 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - patrol (0.0.1):
+    - CocoaAsyncSocket (~> 7.6)
+    - Flutter
+    - FlutterMacOS
   - pdfx (1.0.0):
     - FlutterMacOS
   - PromisesObjC (2.3.1)
@@ -296,6 +301,7 @@ DEPENDENCIES:
   - mobile_scanner (from `Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+  - patrol (from `Flutter/ephemeral/.symlinks/plugins/patrol/darwin`)
   - pdfx (from `Flutter/ephemeral/.symlinks/plugins/pdfx/macos`)
   - purchases_flutter (from `Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -306,6 +312,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - CocoaAsyncSocket
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -379,6 +386,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+  patrol:
+    :path: Flutter/ephemeral/.symlinks/plugins/patrol/darwin
   pdfx:
     :path: Flutter/ephemeral/.symlinks/plugins/pdfx/macos
   purchases_flutter:
@@ -401,6 +410,7 @@ SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   cloud_firestore: bba2d937f3624375a4777b894a2ad93ff42efe7f
   cloud_functions: 9d395a58496dc3522f776555d58a1006b7749599
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   device_info_plus: 5401765fde0b8d062a2f8eb65510fb17e77cf07f
   fast_rsa: 47a50bec1042c8c01726007dc0590a078418f997
   file_selector_macos: 468fb6b81fac7c0e88d71317f3eec34c3b008ff9
@@ -445,6 +455,7 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  patrol: 3e21d514020dbee24b3e3383caac9e8e051292ac
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265

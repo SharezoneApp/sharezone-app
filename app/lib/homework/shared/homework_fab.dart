@@ -19,7 +19,7 @@ class HomeworkFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
       icon: const Icon(Icons.add),
-      tooltip: "Hausaufgabe hinzufügen",
+      tooltip: "Neue Hausaufgabe",
       onPressed: () async {
         AnalyticsProvider.ofOrNullObject(context)
             .log(const AnalyticsEvent("homework_add_via_fab"));

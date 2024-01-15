@@ -455,10 +455,12 @@ class _PasswordFieldState extends State<PasswordField> {
               icon: const Icon(Icons.vpn_key),
               errorText: snapshot.error?.toString(),
               border: const OutlineInputBorder(),
-              suffixIcon: GestureDetector(
-                onTap: () => setState(() => obscureText = !obscureText),
-                child:
+              suffixIcon: IconButton(
+                tooltip:
+                    obscureText ? 'Passwort anzeigen' : 'Passwort verstecken',
+                icon:
                     Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+                onPressed: () => setState(() => obscureText = !obscureText),
               ),
             ),
             obscureText: obscureText,

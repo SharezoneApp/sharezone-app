@@ -279,7 +279,7 @@ class _EventListFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed: () => openEventListFABSheet(context),
       icon: const Icon(Icons.add),
-      tooltip: 'Termin oder Prüfung hinzufügen',
+      tooltip: 'Neue Prüfung oder Termin',
     );
   }
 

@@ -46,7 +46,7 @@ void main() {
         colorDate: false,
         subjectColor: white,
         subject: 'Mathematik',
-        todoDate: '28. Januar 2019',
+        todoDate: 'Mo, 28. Jan 19',
         withSubmissions: false,
         title: 'S. 35 6a) und 8c)',
       );
@@ -82,7 +82,7 @@ void main() {
 
       final view = viewFactory.createFrom(hw);
 
-      expect(view.todoDate, '3. Dezember 2018');
+      expect(view.todoDate, 'Mo, 3. Dez 18');
     });
 
     test(
