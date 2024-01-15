@@ -222,14 +222,17 @@ class _Checkbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      onTap: () => onChanged(!value),
-      leading: Checkbox(
-        value: value,
-        onChanged: (newVal) => onChanged(newVal!),
+    return SizedBox(
+      width: 600,
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        onTap: () => onChanged(!value),
+        leading: Checkbox(
+          value: value,
+          onChanged: (newVal) => onChanged(newVal!),
+        ),
+        title: MarkdownBody(data: text),
       ),
-      title: MarkdownBody(data: text),
     );
   }
 }
