@@ -35,20 +35,22 @@ class _DialogState extends State<_Dialog> {
             elevation: 0,
             automaticallyImplyLeading: false,
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: PageView(
-              controller: controller,
-              children: <Widget>[
-                const _JustText(markdownText: _markdownText1),
-                const _JustText(markdownText: _markdownText2),
-                const _JustText(markdownText: _markdownText3),
-                _FinalPage(onCheckboxesChanged: (allChecked) {
-                  setState(() {
-                    _allCheckboxesChecked = allChecked;
-                  });
-                }),
-              ],
+          body: MaxWidthConstraintBox(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: PageView(
+                controller: controller,
+                children: <Widget>[
+                  const _JustText(markdownText: _markdownText1),
+                  const _JustText(markdownText: _markdownText2),
+                  const _JustText(markdownText: _markdownText3),
+                  _FinalPage(onCheckboxesChanged: (allChecked) {
+                    setState(() {
+                      _allCheckboxesChecked = allChecked;
+                    });
+                  }),
+                ],
+              ),
             ),
           ),
           bottomNavigationBar: ListenableBuilder(
