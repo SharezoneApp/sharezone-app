@@ -1,6 +1,4 @@
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:clock/clock.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -85,21 +83,22 @@ class _DialogState extends State<_Dialog> {
                                 if (controller.page == lastPage) {
                                   final ctx = BlocProvider.of<SharezoneContext>(
                                       context);
+                                  // ignore: unused_local_variable
                                   final uid = ctx.api.uID;
 
                                   try {
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(uid)
-                                        .update({
-                                      'legal': {
-                                        'v2.0-terms-accepted': {
-                                          'deviceTime': clock.now(),
-                                          'serverTime':
-                                              FieldValue.serverTimestamp(),
-                                        },
-                                      },
-                                    });
+                                    // await FirebaseFirestore.instance
+                                    //     .collection('users')
+                                    //     .doc(uid)
+                                    //     .update({
+                                    //   'legal': {
+                                    //     'v2.0-terms-accepted': {
+                                    //       'deviceTime': clock.now(),
+                                    //       'serverTime':
+                                    //           FieldValue.serverTimestamp(),
+                                    //     },
+                                    //   },
+                                    // });
                                     // ignore: use_build_context_synchronously
                                     Navigator.pop(context);
                                     // ignore: use_build_context_synchronously
