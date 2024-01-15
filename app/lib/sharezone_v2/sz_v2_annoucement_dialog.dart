@@ -36,6 +36,7 @@ class _DialogState extends State<_Dialog> {
             automaticallyImplyLeading: false,
           ),
           body: MaxWidthConstraintBox(
+            maxWidth: 800,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: PageView(
@@ -139,6 +140,7 @@ class _JustText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
+      alignment: Alignment.centerLeft,
       child: MarkdownBody(data: markdownText),
     );
   }
@@ -271,7 +273,8 @@ Lass uns doch Feedback da, wie es dir gefällt.
 Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.  
 
 **Überarbeitung der Datenschutzerklärung**  
-Wir haben die Datenschutzerklärung überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden.   
+Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden.   
+Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung).
 
 **Allgemeine Nutzungsbedingungen**  
 Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen. 
