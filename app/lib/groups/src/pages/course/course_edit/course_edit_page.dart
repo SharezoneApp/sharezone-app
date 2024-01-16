@@ -122,9 +122,11 @@ class _CourseEditPage extends StatelessWidget {
             children: <Widget>[
               _SubjectField(
                   initialSubject: course.subject, nextNode: abbreviationNode),
+              const SizedBox(height: 28),
               _AbbreviationField(
                   initialAbbreviation: course.abbreviation,
                   nextNode: courseNameNode),
+              const SizedBox(height: 12),
               _CourseNameField(initialCourseName: course.name),
             ],
           ),

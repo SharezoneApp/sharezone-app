@@ -39,7 +39,7 @@ class BnbAndDrawerBottomNavigationBar extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Divider(height: 0, color: Colors.grey[400]),
+        Divider(height: 0, color: Colors.grey[400], thickness: 0.5),
         _BottomNavBarWithNonSelectionAllowed(
           safeArea: true,
           currentItem: navigationItem,
@@ -228,25 +228,22 @@ class _BottomNavBarWithNonSelectionAllowed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: backgroundColor,
-      child: SafeArea(
-        bottom: safeArea,
-        top: safeArea,
-        left: safeArea,
-        right: safeArea,
-        child: Row(
-          children: <Widget>[
-            const SizedBox(width: 4),
-            for (final item in items)
-              _BottomNavItem(
-                item: item,
-                isSelected: item == currentItem,
-                onMoreButtonTapped: onMoreButtonTapped,
-                onNavigationItemSelected: onNavigationItemSelected,
-              ),
-          ],
-        ),
+    return SafeArea(
+      bottom: safeArea,
+      top: safeArea,
+      left: safeArea,
+      right: safeArea,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(width: 4),
+          for (final item in items)
+            _BottomNavItem(
+              item: item,
+              isSelected: item == currentItem,
+              onMoreButtonTapped: onMoreButtonTapped,
+              onNavigationItemSelected: onNavigationItemSelected,
+            ),
+        ],
       ),
     );
   }

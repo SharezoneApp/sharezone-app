@@ -19,12 +19,6 @@ ThemeData getDarkTheme({
   String? fontFamily = rubik,
 }) {
   return ThemeData(
-    // Since 3.16 Material 3 became the standard. However, it requires a migration
-    // from Material 2 to 3 which is the reason why opt-out for now.
-    //
-    // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/1159
-    useMaterial3: false,
-
     // Brightness
     brightness: Brightness.dark,
     scaffoldBackgroundColor: _backgroundColor,
@@ -41,7 +35,6 @@ ThemeData getDarkTheme({
 
     // Font:
     fontFamily: fontFamily,
-
     // Themes
     appBarTheme: const AppBarTheme(
       color: ElevationColors.dp8,
@@ -55,15 +48,23 @@ ThemeData getDarkTheme({
     textTheme: const TextTheme()
         .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
     pageTransitionsTheme: _pageTransitionsTheme,
-    snackBarTheme: _snackBarTheme.copyWith(
-      contentTextStyle: const TextStyle(color: Colors.white),
-      backgroundColor: Colors.black,
-    ),
+    snackBarTheme: _snackBarTheme,
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
+    listTileTheme: ListTileThemeData(
+      shape: listTileShape,
+    ),
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.dark,
+    ),
+    inputDecorationTheme: inputDecorationTheme.copyWith(
+      fillColor: ElevationColors.dp2,
+      enabledBorder: inputDecorationTheme.enabledBorder?.copyWith(
+        borderSide: inputDecorationTheme.enabledBorder?.borderSide.copyWith(
+          color: ElevationColors.dp24,
+        ),
+      ),
     ),
     tabBarTheme: const TabBarTheme(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
@@ -80,28 +81,6 @@ ThemeData getDarkTheme({
     ),
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _accentColor;
-        }
-        return null;
-      }),
-    ),
-    switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _accentColor;
-        }
-        return null;
-      }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) {
           return null;

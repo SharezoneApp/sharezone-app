@@ -75,12 +75,12 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
                     cache.setAlreadyDismissed(true);
                   },
                 ),
-                ElevatedButton(
-                  child: const Text("Abhaken"),
+                FilledButton(
                   onPressed: () {
                     analytics.log(_OverdueAnalyticsEvent.confirmed());
                     bloc.add(CompletedAllOverdue());
                   },
+                  child: const Text("Abhaken"),
                 )
               ],
             ),
