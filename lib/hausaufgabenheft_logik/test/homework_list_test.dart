@@ -74,9 +74,9 @@ void main() {
     });
   });
   test('getDistinctSubjects', () {
-    var mathe = Subject('Mathe');
-    var englisch = Subject('Englisch');
-    var deutsch = Subject('Deutsch');
+    var mathe = Subject('Mathe', abbreviation: 'Ma');
+    var englisch = Subject('Englisch', abbreviation: 'En');
+    var deutsch = Subject('Deutsch', abbreviation: 'De');
     final subjects = [mathe, englisch, mathe, mathe, deutsch];
     final homeworks = [
       for (final subject in subjects) createHomework(subject: subject.name)

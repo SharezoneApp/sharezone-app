@@ -11,15 +11,14 @@ import 'package:hausaufgabenheft_logik/src/views/color.dart';
 class Subject {
   final String name;
   final Color? color;
+  final String abbreviation;
 
-  Subject(this.name, {this.color}) {
+  Subject(this.name, {this.color, required this.abbreviation}) {
     if (name.isEmpty) {
       throw ArgumentError.value(
           name, 'name', "The subject name can't be empty");
     }
   }
-
-  String get abbreviation => name.length >= 2 ? name.substring(0, 2) : name;
 
   @override
   int get hashCode => name.hashCode;
