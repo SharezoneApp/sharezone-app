@@ -82,41 +82,20 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          primary: Theme.of(context).primaryColor,
-          seedColor: Theme.of(context).primaryColor,
-          brightness: Theme.of(context).isDarkTheme
-              ? Brightness.dark
-              : Brightness.light,
-        ),
-      ),
-      child: Builder(
-        builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              _InputDropdown(
-                iconData: Icons.today,
-                labelText: labelText,
-                valueText: selectedDate != null
-                    ? DateFormat.yMMMd().format(selectedDate!)
-                    : "Datum auswählen",
-                padding: padding,
-                onPressed: () async {
-                  FocusManager.instance.primaryFocus
-                      ?.unfocus(); // Close keyboard
-                  await Future.delayed(const Duration(
-                      milliseconds: 150)); // Waiting for closing keyboard
-                  // ignore: use_build_context_synchronously
-                  _selectDate(context);
-                },
-              ),
-            ],
-          );
-        },
-      ),
+    return _InputDropdown(
+      iconData: Icons.today,
+      labelText: labelText,
+      valueText: selectedDate != null
+          ? DateFormat.yMMMd().format(selectedDate!)
+          : "Datum auswählen",
+      padding: padding,
+      onPressed: () async {
+        FocusManager.instance.primaryFocus?.unfocus(); // Close keyboard
+        await Future.delayed(
+            const Duration(milliseconds: 150)); // Waiting for closing keyboard
+        // ignore: use_build_context_synchronously
+        _selectDate(context);
+      },
     );
   }
 }
@@ -298,9 +277,13 @@ class _InputDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
+      borderRadius: focusBorderRadius,
       child: InputDecorator(
         decoration: const InputDecoration(
           border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          fillColor: Colors.transparent,
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 4),
         ),
         child: Padding(
           padding: padding ?? const EdgeInsets.all(0),
@@ -310,13 +293,12 @@ class _InputDropdown extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  const SizedBox(width: 4.0),
                   Icon(
                     iconData,
                     color:
                         Theme.of(context).isDarkTheme ? null : Colors.grey[600],
                   ),
-                  const SizedBox(width: 32.0),
+                  const SizedBox(width: 16),
                   labelText != null
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

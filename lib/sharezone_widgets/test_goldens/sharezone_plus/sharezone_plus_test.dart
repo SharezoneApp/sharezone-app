@@ -50,12 +50,13 @@ void main() {
       }) async {
         await tester.pumpWidgetBuilder(
           Center(
-              child: SharezonePlusFeatureInfoCard(
-            withLearnMoreButton: true,
-            child: const Text(
-                'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
-            onLearnMorePressed: () {},
-          )),
+            child: SharezonePlusFeatureInfoCard(
+              withLearnMoreButton: true,
+              child: const Text(
+                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+              onLearnMorePressed: () {},
+            ),
+          ),
           wrapper: materialAppWrapper(theme: theme),
         );
       }

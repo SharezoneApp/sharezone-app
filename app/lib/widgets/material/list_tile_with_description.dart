@@ -37,10 +37,13 @@ class ListTileWithDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canPress =
+        onTap != null || onLongPress != null || onDoubleTap != null;
     return InkWell(
       onTap: onTap,
       onLongPress: onLongPress,
       onDoubleTap: onDoubleTap,
+      borderRadius: focusBorderRadius,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -49,6 +52,7 @@ class ListTileWithDescription extends StatelessWidget {
             title: title,
             subtitle: subtitle,
             trailing: trailing,
+            mouseCursor: canPress ? SystemMouseCursors.click : null,
           ),
           if (description != null)
             Padding(

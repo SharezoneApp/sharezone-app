@@ -198,7 +198,7 @@ class CourseCardRedesign extends StatelessWidget {
                       color: Theme.of(context).isDarkTheme
                           ? Colors.lightBlue[100]
                           : darkBlueColor,
-                      fontSize: 18,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

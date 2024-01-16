@@ -27,6 +27,7 @@ class ContinueRoundButton extends StatelessWidget {
       child: IconButton(
         tooltip: tooltip,
         icon: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
@@ -41,9 +42,9 @@ class ContinueRoundButton extends StatelessWidget {
                 ),
               ),
             ),
-            const Align(
-              alignment: Alignment.center,
-              child: Icon(Icons.chevron_right, color: Colors.white),
+            const Icon(
+              Icons.chevron_right,
+              color: Colors.white,
             )
           ],
         ),
