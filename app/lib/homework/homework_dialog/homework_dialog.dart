@@ -669,7 +669,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                         Icons.edit,
                         color: Theme.of(context).iconTheme.color,
                       ),
-                      label: const Text('Benutzerdefiniert'),
+                      label: const Text('In X Stunden'),
                       onPressed: lessonChipsSelectable
                           ? () async {
                               // The normal context would cause material3 to be
