@@ -33,6 +33,7 @@ class TestCommand extends ConcurrentCommand {
       help: 'Update golden tests.',
       defaultsTo: false,
       negatable: false,
+      abbr: 'u',
     );
   }
 
