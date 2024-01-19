@@ -665,7 +665,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
                         ),
                       ),
                     InputChip(
-                      avatar: const Icon(Icons.edit),
+                      avatar: Icon(
+                        Icons.edit,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                       label: const Text('Benutzerdefiniert'),
                       onPressed: lessonChipsSelectable
                           ? () async {
