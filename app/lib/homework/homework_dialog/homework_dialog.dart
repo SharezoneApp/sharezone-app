@@ -692,47 +692,62 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
     int? inXHours;
     final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
-        context: context,
-        title: 'Stundenzeit auswählen',
-        right: AdaptiveDialogAction(
-          key: HwDialogKeys.customLessonChipDialogOkButton,
-          title: 'OK',
-          onPressed: () {
-            Navigator.pop(context, inXHours);
-          },
-        ),
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 50,
-              child: TextField(
-                key: HwDialogKeys.customLessonChipDialogTextField,
-                maxLength: 2,
-                textAlign: TextAlign.end,
-                style: const TextStyle(
-                  fontSize: 20,
+      context: context,
+      title: 'Stundenzeit auswählen',
+      right: AdaptiveDialogAction(
+        key: HwDialogKeys.customLessonChipDialogOkButton,
+        title: 'OK',
+        onPressed: () {
+          Navigator.pop(context, inXHours);
+        },
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MaxWidthConstraintBox(
+            maxWidth: 270,
+            child: Text(
+              'Wähle aus, in wie vielen Stunden die Hausaufgabe fällig ist.',
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 50,
+                child: TextField(
+                  key: HwDialogKeys.customLessonChipDialogTextField,
+                  maxLength: 2,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: '5',
+                    border: OutlineInputBorder(),
+                  ),
+                  textAlignVertical: TextAlignVertical.center,
+                  onChanged: (value) {
+                    inXHours = int.tryParse(value);
+                  },
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
                 ),
-                decoration: const InputDecoration(
-                  hintText: '5',
-                  border: OutlineInputBorder(),
-                ),
-                textAlignVertical: TextAlignVertical.center,
-                onChanged: (value) {
-                  inXHours = int.tryParse(value);
-                },
-                maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 18),
-              child: Text('.-nächste Stunde'),
-            ),
-          ],
-        ));
+              const Padding(
+                padding: EdgeInsets.only(bottom: 18),
+                child: Text('.-nächste Stunde'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
 
     if (newInXHours != null && newInXHours is int) {
       controller.addInXLessonsChip(InXLessonsDueDateSelection(newInXHours));
