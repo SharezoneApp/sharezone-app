@@ -1131,6 +1131,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
     return Column(
       children: <Widget>[
         ListTile(
+          enabled: isWidgetEnabled,
           leading: const Icon(Icons.folder_open),
           title: const Text("Mit Abgabe"),
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
