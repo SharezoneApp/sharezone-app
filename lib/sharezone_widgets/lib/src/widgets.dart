@@ -86,7 +86,7 @@ class DatePicker extends StatelessWidget {
       iconData: Icons.today,
       labelText: labelText,
       valueText: selectedDate != null
-          ? DateFormat.yMMMd().format(selectedDate!)
+          ? DateFormat('E, MMM d, yy').format(selectedDate!)
           : "Datum auswählen",
       padding: padding,
       onPressed: () async {
