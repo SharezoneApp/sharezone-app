@@ -35,7 +35,11 @@ void main() {
         id: HomeworkId('Id'),
         status: CompletionStatus.open,
         todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),
-        subject: Subject('Mathematik', color: white),
+        subject: Subject(
+          'Mathematik',
+          color: white,
+          abbreviation: 'Ma',
+        ),
         withSubmissions: false,
         title: const Title('S. 35 6a) und 8c)'),
       );

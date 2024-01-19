@@ -59,9 +59,16 @@ Future<HomeworkReadModel?> tryToConvertToHomework(
     }
     Subject subject;
     if (courseColorHex != null) {
-      subject = Subject(homework.subject, color: Color(courseColorHex));
+      subject = Subject(
+        homework.subject,
+        color: Color(courseColorHex),
+        abbreviation: homework.subjectAbbreviation,
+      );
     } else {
-      subject = Subject(homework.subject);
+      subject = Subject(
+        homework.subject,
+        abbreviation: homework.subjectAbbreviation,
+      );
     }
 
     converted = HomeworkReadModel(

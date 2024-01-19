@@ -51,4 +51,45 @@ const _bottomSheetTheme = BottomSheetThemeData(
   ),
 );
 
+final splashBorderRadius = BorderRadius.circular(10);
+final focusBorderRadius = BorderRadius.circular(10);
+
+final listTileShape = RoundedRectangleBorder(
+  borderRadius: focusBorderRadius,
+);
+
+const _textFieldFocusedBorderWidth = 2.5;
+final _textFieldBorderRadius = BorderRadius.circular(10);
+
+final inputDecorationTheme = InputDecorationTheme(
+  filled: true,
+  fillColor: Colors.grey.withOpacity(0.1),
+  border: OutlineInputBorder(
+    borderRadius: _textFieldBorderRadius,
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: _textFieldBorderRadius,
+    borderSide: BorderSide(color: Colors.grey[300]!, width: 1),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: _textFieldBorderRadius,
+    borderSide: const BorderSide(
+      color: primaryColor,
+      width: _textFieldFocusedBorderWidth,
+    ),
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: _textFieldBorderRadius,
+    borderSide: const BorderSide(color: _errorCode),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: _textFieldBorderRadius,
+    borderSide: const BorderSide(
+      color: _errorCode,
+      width: _textFieldFocusedBorderWidth,
+    ),
+  ),
+  errorStyle: const TextStyle(color: _errorCode),
+);
+
 const _dialogTheme = DialogTheme(shape: _roundedShape);

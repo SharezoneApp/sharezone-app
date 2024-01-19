@@ -33,7 +33,7 @@ List<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
           id: HomeworkId("$index"),
           todoDate: DateTime.now(),
           status: CompletionStatus.completed,
-          subject: Subject("Mathe"),
+          subject: Subject("Mathe", abbreviation: 'Ma'),
           title: const Title("ABC"),
           withSubmissions: false),
     );

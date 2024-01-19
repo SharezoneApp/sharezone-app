@@ -200,7 +200,11 @@ class ShareGroupSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             "Verschicke einfach den Link zum Beitreten über eine beliebige App oder zeige den QR-Code an, damit deine Mitschüler & Lehrer diesen abscannen können 👍🚀",
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).isDarkTheme
+                    ? Colors.grey[400]
+                    : Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ),

@@ -222,6 +222,7 @@ class LessonsLengthField extends StatelessWidget {
       builder: (context, snapshot) {
         final lessonLength = snapshot.data ?? LessonLength.standard();
         return InkWell(
+          borderRadius: splashBorderRadius,
           onTap: () async {
             final selectedLessonLength =
                 await showNumberPickerDialog(context, lessonLength.minutes);
@@ -238,6 +239,7 @@ class LessonsLengthField extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.timelapse),
                 title: const Text("Länge einer Stunde"),
+                mouseCursor: SystemMouseCursors.click,
                 trailing: Text(lessonLength.isValid
                     ? "${lessonLength.minutes} Min."
                     : "-"),

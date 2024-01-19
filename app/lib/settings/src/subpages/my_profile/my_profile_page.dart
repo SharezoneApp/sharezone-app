@@ -71,6 +71,7 @@ class MyProfilePage extends StatelessWidget {
                       _PrivacyOptOut(),
                       const Divider(),
                       SignOutButton(isAnonymous: user.isAnonymous),
+                      const SizedBox(height: 8),
                       _DeleteAccountButton(),
                     ],
                   );
@@ -320,13 +321,16 @@ class SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: TextButton(
+      child: ElevatedButton.icon(
         key: const ValueKey('sign-out-button-E2E'),
-        style: TextButton.styleFrom(
+        icon: const Icon(Icons.exit_to_app),
+        style: ElevatedButton.styleFrom(
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.red.withOpacity(0.2),
           foregroundColor: Colors.red,
         ),
         onPressed: () => signOut(context, isAnonymous),
-        child: Text("Abmelden".toUpperCase()),
+        label: Text("Abmelden".toUpperCase()),
       ),
     );
   }

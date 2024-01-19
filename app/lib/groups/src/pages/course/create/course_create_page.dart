@@ -129,10 +129,12 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
                 _Subject(
                     subject: widget.course?.subject,
                     nextFocusNode: abbreviationNode),
+                const SizedBox(height: 28),
                 _Abbreviation(
                     abbreviation: widget.course?.abbreviation,
                     focusNode: abbreviationNode,
                     nextFocusNode: nameNode),
+                const SizedBox(height: 12),
                 _CourseName(focusNode: nameNode),
               ],
             ),
