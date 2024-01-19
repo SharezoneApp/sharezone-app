@@ -49,15 +49,11 @@ class HomeworkTileTemplate extends StatelessWidget {
             maxLines: 2,
             style: Theme.of(context).textTheme.bodyLarge!,
           ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Text.rich(
-              TextSpan(children: <TextSpan>[
-                TextSpan(text: "$courseName\n"),
-                TextSpan(
-                    text: todoDate, style: TextStyle(color: todoDateColor)),
-              ], style: TextStyle(color: Colors.grey[600])),
-            ),
+          subtitle: Text.rich(
+            TextSpan(children: <TextSpan>[
+              TextSpan(text: "$courseName\n"),
+              TextSpan(text: todoDate, style: TextStyle(color: todoDateColor)),
+            ], style: TextStyle(color: Colors.grey[600])),
           ),
           leading: CircleAvatar(
             backgroundColor: courseColor.withOpacity(0.2),
