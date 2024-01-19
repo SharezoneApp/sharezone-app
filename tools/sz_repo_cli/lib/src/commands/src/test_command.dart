@@ -26,12 +26,14 @@ class TestCommand extends ConcurrentCommand {
       help: 'Run only golden tests.',
       defaultsTo: false,
       negatable: false,
+      abbr: 'g',
     );
     argParser.addFlag(
       'update-goldens',
       help: 'Update golden tests.',
       defaultsTo: false,
       negatable: false,
+      abbr: 'u',
     );
   }
 
