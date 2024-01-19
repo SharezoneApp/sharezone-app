@@ -486,64 +486,69 @@ class CardListTile extends StatelessWidget {
     this.subtitle,
     this.onTap,
     this.centerTitle = false,
+    this.maxWidth = 550,
   });
 
   final Widget? leading, title, subtitle;
   final VoidCallback? onTap;
   final bool centerTitle;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     final hasLeading = leading != null;
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: CustomCard(
-        onTap: onTap,
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: <Widget>[
-            if (hasLeading) ...[
-              IconTheme(
-                data: Theme.of(context)
-                    .iconTheme
-                    .copyWith(color: Colors.grey[600]),
-                child: leading!,
-              ),
-              const SizedBox(width: 16)
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  DefaultTextStyle(
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: rubik,
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.white
-                            : Colors.black),
-                    child: centerTitle
-                        ? Padding(
-                            padding:
-                                EdgeInsets.only(right: hasLeading ? 30 : 0),
-                            child: Center(child: title),
-                          )
-                        : title!,
-                  ),
-                  if (subtitle != null)
+    return MaxWidthConstraintBox(
+      maxWidth: maxWidth,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: CustomCard(
+          onTap: onTap,
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: <Widget>[
+              if (hasLeading) ...[
+                IconTheme(
+                  data: Theme.of(context)
+                      .iconTheme
+                      .copyWith(color: Colors.grey[600]),
+                  child: leading!,
+                ),
+                const SizedBox(width: 16)
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
                     DefaultTextStyle(
                       style: TextStyle(
-                        color: Colors.grey.withOpacity(0.95),
-                        fontSize: 12,
-                        fontFamily: rubik,
-                      ),
-                      child: subtitle!,
-                    )
-                ],
-              ),
-            )
-          ],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: rubik,
+                          color: Theme.of(context).isDarkTheme
+                              ? Colors.white
+                              : Colors.black),
+                      child: centerTitle
+                          ? Padding(
+                              padding:
+                                  EdgeInsets.only(right: hasLeading ? 30 : 0),
+                              child: Center(child: title),
+                            )
+                          : title!,
+                    ),
+                    if (subtitle != null)
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.95),
+                          fontSize: 12,
+                          fontFamily: rubik,
+                        ),
+                        child: subtitle!,
+                      )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
