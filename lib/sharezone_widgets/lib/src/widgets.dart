@@ -486,17 +486,19 @@ class CardListTile extends StatelessWidget {
     this.subtitle,
     this.onTap,
     this.centerTitle = false,
+    this.maxWidth = 550,
   });
 
   final Widget? leading, title, subtitle;
   final VoidCallback? onTap;
   final bool centerTitle;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     final hasLeading = leading != null;
     return MaxWidthConstraintBox(
-      maxWidth: 550,
+      maxWidth: maxWidth,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: CustomCard(
