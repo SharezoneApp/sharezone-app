@@ -539,7 +539,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsOneWidget);
       expect(find.text('Nächste Stunde'), findsOneWidget);
       expect(find.text('Übernächste Stunde'), findsOneWidget);
-      expect(find.text('Benutzerdefiniert'), findsOneWidget);
+      expect(find.text('In X Stunden'), findsOneWidget);
     });
 
     testWidgets(
@@ -551,7 +551,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     testWidgets('homework lesson chips are not visible in edit mode',
@@ -580,14 +580,14 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
 
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: false);
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     _TestController createController(WidgetTester tester) {
@@ -684,15 +684,15 @@ void main() {
         ('Nächster Schultag', selectable: true),
         ('Nächste Stunde', selectable: false),
         ('Übernächste Stunde', selectable: false),
-        ('Benutzerdefiniert', selectable: false),
+        ('In X Stunden', selectable: false),
       ]);
       // Test that nothing happens when tapping on disabled chips
       await controller.selectLessonChip('Nächste Stunde');
       await controller.selectLessonChip('Übernächste Stunde');
       expect(controller.getSelectedLessonChips(), []);
 
-      // "Benutzerdefiniert" is not selectable, thus it doesn't show the dialog.
-      await controller.selectLessonChip('Benutzerdefiniert');
+      // "In X Stunden" is not selectable, thus it doesn't show the dialog.
+      await controller.selectLessonChip('In X Stunden');
       expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
           findsNothing);
     });
@@ -919,7 +919,7 @@ class _TestController {
         .map((e) => (
               (e.label as Text).data!,
               isSelected: e.selected,
-              // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+              // Normal chips use onSelected, "In X Stunden" (custom value)
               // chip uses onPressed.
               // If onDeleted is not-null but everything else is null the chip
               // looks like it's selectable in the UI, but it is only deletable,
@@ -983,7 +983,7 @@ class _TestController {
   }
 
   Future<void> createCustomChip({required int inXLessons}) async {
-    await selectLessonChip('Benutzerdefiniert');
+    await selectLessonChip('In X Stunden');
     await tester.enterText(
         find.byKey(HwDialogKeys.customLessonChipDialogTextField),
         '$inXLessons');
