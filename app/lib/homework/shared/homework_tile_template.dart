@@ -47,10 +47,7 @@ class HomeworkTileTemplate extends StatelessWidget {
             title,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .apply(fontSizeFactor: 1.1),
+            style: Theme.of(context).textTheme.bodyLarge!,
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(bottom: 6),
