@@ -31,7 +31,13 @@ class _DialogState extends State<_Dialog> {
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
+    late final PageController controller;
+
+    @override
+    void initState() {
+      super.initState();
+      controller = PageController();
+    }
     return PopScope(
       canPop: false,
       child: Scaffold(
