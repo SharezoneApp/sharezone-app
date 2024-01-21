@@ -28,16 +28,16 @@ class _Dialog extends StatefulWidget {
 
 class _DialogState extends State<_Dialog> {
   bool _allCheckboxesChecked = false;
+  late final PageController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    late final PageController controller;
-
-    @override
-    void initState() {
-      super.initState();
-      controller = PageController();
-    }
     return PopScope(
       canPop: false,
       child: Scaffold(
