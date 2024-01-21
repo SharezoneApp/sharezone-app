@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -35,7 +36,6 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
@@ -512,6 +512,9 @@ class _DueDateChipsController extends ChangeNotifier {
   }
 
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
+    if (inXLessons.inXLessons <= 0) {
+      return;
+    }
     chips = chips.add(_DueDateChip(
       label: '${inXLessons.inXLessons}.-nächste Stunde',
       dueDate: inXLessons,
