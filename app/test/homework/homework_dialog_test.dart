@@ -633,7 +633,7 @@ void main() {
       expect(controller.getSelectedDueDate(), Date('2023-11-08'));
     });
     testWidgets(
-        'regression test: when trying to create a custom "in 0 lessons" chip nothing will happen ',
+        'regression test: when trying to create a custom "in 0 lessons" chip nothing will happen',
         (tester) async {
       final controller = createController(tester);
       controller.addCourse(courseWith(id: 'foo_course'));
