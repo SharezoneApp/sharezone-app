@@ -633,6 +633,45 @@ void main() {
       expect(controller.getSelectedDueDate(), Date('2023-11-08'));
     });
     testWidgets(
+        'Regression test: When creating a "in 2 lesson" custom chip the "übernächste Stunde" chip will be selected and no custom chip will be created',
+        (tester) async {
+      // https://github.com/SharezoneApp/sharezone-app/issues/1272
+
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates(
+          'foo_course', [Date('2023-11-06'), Date('2023-11-08')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      final nrOfChipsBefore = controller.getLessonChips().length;
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 2);
+      final nrOfChipsAfter = controller.getLessonChips().length;
+
+      expect(controller.getSelectedLessonChips(), ['Übernächste Stunde']);
+      expect(nrOfChipsBefore, nrOfChipsAfter);
+    });
+    testWidgets(
+        'Regression test: When creating a "in 1 lesson" custom chip the "Nächste Stunde" chip will be selected and no custom chip will be created',
+        (tester) async {
+      // https://github.com/SharezoneApp/sharezone-app/issues/1272
+
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-11-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      final nrOfChipsBefore = controller.getLessonChips().length;
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 1);
+      final nrOfChipsAfter = controller.getLessonChips().length;
+
+      expect(controller.getSelectedLessonChips(), ['Nächste Stunde']);
+      expect(nrOfChipsBefore, nrOfChipsAfter);
+    });
+    testWidgets(
         'when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected',
         (tester) async {
       final controller = createController(tester);
