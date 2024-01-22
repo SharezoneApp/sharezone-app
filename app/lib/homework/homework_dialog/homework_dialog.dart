@@ -13,6 +13,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -515,11 +516,17 @@ class _DueDateChipsController extends ChangeNotifier {
     if (inXLessons.inXLessons <= 0) {
       return;
     }
-    chips = chips.add(_DueDateChip(
-      label: '${inXLessons.inXLessons}.-nächste Stunde',
-      dueDate: inXLessons,
-      isDeletable: true,
-    ));
+    final alreadyExists = chips.firstWhereOrNull(
+          (chip) => chip.dueDate == inXLessons,
+        ) !=
+        null;
+    if (!alreadyExists) {
+      chips = chips.add(_DueDateChip(
+        label: '${inXLessons.inXLessons}.-nächste Stunde',
+        dueDate: inXLessons,
+        isDeletable: true,
+      ));
+    }
     selectChip(inXLessons);
     notifyListeners();
   }
