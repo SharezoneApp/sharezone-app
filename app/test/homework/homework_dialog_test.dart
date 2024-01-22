@@ -672,6 +672,22 @@ void main() {
       expect(nrOfChipsBefore, nrOfChipsAfter);
     });
     testWidgets(
+        'regression test: when trying to create a custom "in 0 lessons" chip no chip will be added',
+        (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course'));
+      controller.addNextLessonDates('foo_course', [Date('2023-11-06')]);
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      final nrOfChipsBefore = controller.getLessonChips().length;
+      await controller.selectCourse('foo_course');
+      await controller.createCustomChip(inXLessons: 0);
+      final nrOfChipsAfter = controller.getLessonChips().length;
+
+      expect(nrOfChipsBefore, nrOfChipsAfter);
+    });
+    testWidgets(
         'when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected',
         (tester) async {
       final controller = createController(tester);

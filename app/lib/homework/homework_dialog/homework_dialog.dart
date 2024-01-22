@@ -513,6 +513,9 @@ class _DueDateChipsController extends ChangeNotifier {
   }
 
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
+    if (inXLessons.inXLessons <= 0) {
+      return;
+    }
     final alreadyExists = chips.firstWhereOrNull(
           (chip) => chip.dueDate == inXLessons,
         ) !=
