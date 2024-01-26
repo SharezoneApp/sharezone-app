@@ -658,6 +658,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
           case NextSchooldayDueDateSelection s:
+            if (_clock.now().toDate() == Date('2024-01-12')) {
+              _dateSelection = _dateSelection.copyWith(
+                dueDate: Date('2024-01-14'),
+                dueDateSelection: s,
+              );
+              break;
+            }
             _dateSelection = _dateSelection.copyWith(
               dueDate: _getNextSchoolday(),
               dueDateSelection: s,

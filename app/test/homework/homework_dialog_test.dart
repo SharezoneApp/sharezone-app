@@ -724,6 +724,37 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
+    testWidgets('custom schooldays get accounted for', (tester) async {
+      final controller = createController(tester);
+      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
+      controller.setSchooldays(['Tuesday', 'Wednesday', 'Friday', 'Sunday']);
+      // Friday, thus next schoolday is Sunday
+      controller.setToday(Date('2024-01-12'));
+      controller.addNextLessonDates('foo_course', [
+        Date('2024-01-16'), // Tuesday
+        Date('2024-01-19'), // Friday
+        Date('2024-01-23'), // Tuesday
+        Date('2024-01-26'), // Friday
+        Date('2024-01-30'), // Tuesday
+      ]);
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+      expect(controller.getSelectedDueDate(), Date('2024-01-14')); // Sunday
+
+      // await controller.selectCourse('foo_course');
+
+      // await controller.selectLessonChip('Nächste Stunde');
+      // expect(controller.getSelectedDueDate(), Date('2024-01-16'));
+
+      // await controller.selectLessonChip('Übernächste Stunde');
+      // expect(controller.getSelectedDueDate(), Date('2024-01-19'));
+
+      // await controller.createCustomChip(inXLessons: 5);
+      // expect(controller.getSelectedDueDate(), Date('2024-01-30'));
+    });
     testWidgets('when no course is selected then the lesson chips are disabled',
         (tester) async {
       final controller = createController(tester);
@@ -1010,8 +1041,6 @@ class _TestController {
     return datePicker.selectedDate?.toDate();
   }
 
-  void setNextSchoolday(Date date) {}
-
   final _addedCourses = <String, Course>{};
   void addCourse(Course course) {
     _addedCourses[course.id] = course;
@@ -1060,6 +1089,8 @@ class _TestController {
     await tester.tap(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
     await tester.pumpAndSettle();
   }
+
+  void setSchooldays(List<String> list) {}
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
