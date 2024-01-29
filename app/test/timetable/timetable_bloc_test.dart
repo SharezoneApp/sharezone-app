@@ -61,6 +61,7 @@ void main() {
 
     CalendricalEvent createEvent(String groupId) {
       return CalendricalEvent(
+        createdOn: DateTime(2021, 1, 1),
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,

@@ -168,6 +168,7 @@ class _SharezonePlusAd extends StatelessWidget {
       title: title,
       courseName: courseName,
       event: CalendricalEvent(
+        createdOn: DateTime(2023, 1, 1),
         authorID: 'authorId',
         groupID: 'groupId',
         title: 'title',
