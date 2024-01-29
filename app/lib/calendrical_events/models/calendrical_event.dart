@@ -74,6 +74,7 @@ class CalendricalEvent {
 
   Map<String, dynamic> toJson() {
     return {
+      'createdOn': createdOn,
       'groupID': groupID,
       'groupType': groupType.name,
       'eventType': getEventTypeToString(eventType),
