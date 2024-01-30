@@ -459,6 +459,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
+  final List<WeekDay> enabledWeekdays;
 
   _DateSelection _initialDateSelection = _DateSelection.noSelection;
   _DateSelection _dateSelection = _DateSelection.noSelection;
@@ -496,6 +497,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextLessonCalculator,
     required this.analytics,
     required this.markdownAnalytics,
+    required this.enabledWeekdays,
     Clock? clockOverride,
     HomeworkId? homeworkId,
   })  : _clock = clockOverride ?? clock,
@@ -658,13 +660,6 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
           case NextSchooldayDueDateSelection s:
-            if (_clock.now().toDate() == Date('2024-01-12')) {
-              _dateSelection = _dateSelection.copyWith(
-                dueDate: Date('2024-01-14'),
-                dueDateSelection: s,
-              );
-              break;
-            }
             _dateSelection = _dateSelection.copyWith(
               dueDate: _getNextSchoolday(),
               dueDateSelection: s,
@@ -799,13 +794,17 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   }
 
   Date _getNextSchoolday() {
-    final today = _clock.now().toDate();
-    final daysUntilNextSchoolday = switch (today.weekDayEnum) {
-      WeekDay.friday => 3, // Monday
-      WeekDay.saturday => 2, // Monday
-      _ => 1 // Tomorrow
-    };
-    return today.addDays(daysUntilNextSchoolday);
+    var candidate = _clock.now().toDate();
+    // hope this awful code is refactored by then 🤡
+    while (candidate.year < 2050) {
+      candidate = candidate.addDays(1);
+      if (enabledWeekdays.contains(candidate.weekDayEnum)) {
+        return candidate;
+      }
+    }
+
+    // Should never happen, but who knows ¯\_(ツ)_/¯
+    return _clock.now().toDate().addDays(1);
   }
 
   Ready _getNewState() {

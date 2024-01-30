@@ -13,6 +13,7 @@ import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:date/weekday.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -33,9 +34,11 @@ import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_c
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
+import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_bloc_test.dart';
@@ -43,6 +46,7 @@ import 'homework_dialog_bloc_test.dart';
   MockSpec<DocumentReference>(),
   MockSpec<SharezoneContext>(),
   MockSpec<SharezoneGateway>(),
+  MockSpec<UserGateway>(),
   MockSpec<HomeworkGateway>(),
   MockSpec<CourseGateway>(),
 ])
@@ -228,6 +232,8 @@ void main() {
     late MockSharezoneGateway sharezoneGateway;
     late MockCourseGateway courseGateway;
     late MockHomeworkGateway homeworkGateway;
+    late MockUserGateway userGateway;
+    late AppUser appUser;
     Clock? clockOverride;
 
     HomeworkDto? homework;
@@ -236,11 +242,13 @@ void main() {
       sharezoneGateway = MockSharezoneGateway();
       courseGateway = MockCourseGateway();
       homeworkGateway = MockHomeworkGateway();
+      userGateway = MockUserGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
       sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
+      appUser = AppUser.create(id: '123');
       homework = null;
       clockOverride = null;
     });
@@ -249,6 +257,8 @@ void main() {
         {bool showDueDateSelectionChips = false}) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
+      when(sharezoneGateway.user).thenReturn(userGateway);
+      when(userGateway.data).thenAnswer((_) => appUser);
       when(sharezoneContext.analytics).thenReturn(analytics);
       if (homework != null) {
         when(sharezoneGateway.homework).thenReturn(homeworkGateway);
@@ -597,6 +607,9 @@ void main() {
         homeworkDialogApi,
         courseGateway,
         setClockOverride: (clock) => clockOverride = clock,
+        editUser: (callback) {
+          appUser = callback(appUser);
+        },
       );
     }
 
@@ -724,36 +737,20 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
+    // TODO: No active day
     testWidgets('custom schooldays get accounted for', (tester) async {
       final controller = createController(tester);
       controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
-      controller.setSchooldays(['Tuesday', 'Wednesday', 'Friday', 'Sunday']);
+      controller.setSchooldays(
+          [WeekDay.tuesday, WeekDay.wednesday, WeekDay.friday, WeekDay.sunday]);
       // Friday, thus next schoolday is Sunday
       controller.setToday(Date('2024-01-12'));
-      controller.addNextLessonDates('foo_course', [
-        Date('2024-01-16'), // Tuesday
-        Date('2024-01-19'), // Friday
-        Date('2024-01-23'), // Tuesday
-        Date('2024-01-26'), // Friday
-        Date('2024-01-30'), // Tuesday
-      ]);
 
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: true);
 
       await controller.selectLessonChip('Nächster Schultag');
       expect(controller.getSelectedDueDate(), Date('2024-01-14')); // Sunday
-
-      // await controller.selectCourse('foo_course');
-
-      // await controller.selectLessonChip('Nächste Stunde');
-      // expect(controller.getSelectedDueDate(), Date('2024-01-16'));
-
-      // await controller.selectLessonChip('Übernächste Stunde');
-      // expect(controller.getSelectedDueDate(), Date('2024-01-19'));
-
-      // await controller.createCustomChip(inXLessons: 5);
-      // expect(controller.getSelectedDueDate(), Date('2024-01-30'));
     });
     testWidgets('when no course is selected then the lesson chips are disabled',
         (tester) async {
@@ -978,12 +975,14 @@ class _TestController {
   final WidgetTester tester;
   final MockNextLessonCalculator nextLessonCalculator;
   void Function(Clock clock) setClockOverride;
+  void Function(AppUser Function(AppUser) f) editUser;
 
   _TestController(
     this.tester,
     this.nextLessonCalculator,
     this.homeworkDialogApi,
     this.courseGateway, {
+    required this.editUser,
     required this.setClockOverride,
   });
 
@@ -1090,7 +1089,13 @@ class _TestController {
     await tester.pumpAndSettle();
   }
 
-  void setSchooldays(List<String> list) {}
+  void setSchooldays(List<WeekDay> list) {
+    editUser((a) {
+      return a.copyWith(
+          userSettings: a.userSettings.copyWith(
+              enabledWeekDays: EnabledWeekDays.fromEnabledWeekDaysList(list)));
+    });
+  }
 }
 
 // Used temporarily when testing so one can see what happens "on the screen" in
