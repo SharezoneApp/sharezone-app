@@ -795,7 +795,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
   Date _getNextSchoolday() {
     var candidate = _clock.now().toDate();
-    // hope this awful code is refactored by then 🤡
+    // hope this code is refactored by then 🤡
     while (candidate.year < 2050) {
       candidate = candidate.addDays(1);
       if (enabledWeekdays.contains(candidate.weekDayEnum)) {
