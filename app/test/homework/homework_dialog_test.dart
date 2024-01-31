@@ -1103,9 +1103,9 @@ class _TestController {
   }
 
   void setSchooldays(List<WeekDay> list) {
-    editUser((a) {
-      return a.copyWith(
-          userSettings: a.userSettings.copyWith(
+    editUser((appUser) {
+      return appUser.copyWith(
+          userSettings: appUser.userSettings.copyWith(
               enabledWeekDays: EnabledWeekDays.fromEnabledWeekDaysList(list)));
     });
   }
