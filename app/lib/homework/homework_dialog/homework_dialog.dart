@@ -72,6 +72,9 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     final szContext = BlocProvider.of<SharezoneContext>(context);
     final analytics = szContext.analytics;
+    final enabledWeekDays = szContext
+        .api.user.data!.userSettings.enabledWeekDays
+        .getEnabledWeekDaysList();
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
@@ -94,6 +97,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           homeworkId: widget.id,
           api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
           nextLessonCalculator: nextLessonCalculator,
+          enabledWeekdays: enabledWeekDays,
           markdownAnalytics: markdownAnalytics,
           analytics: analytics,
         );
@@ -104,6 +108,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
       bloc = HomeworkDialogBloc(
         api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
         nextLessonCalculator: nextLessonCalculator,
+        enabledWeekdays: enabledWeekDays,
         markdownAnalytics: markdownAnalytics,
         analytics: analytics,
       );

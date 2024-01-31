@@ -23,6 +23,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -51,6 +52,7 @@ void main() {
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
+        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -61,6 +63,7 @@ void main() {
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
+        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
