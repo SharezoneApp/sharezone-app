@@ -28,12 +28,13 @@ class EnabledWeekDays {
 
   factory EnabledWeekDays.fromEnabledWeekDaysList(
       List<WeekDay> enabledWeekDays) {
-    var f = EnabledWeekDays.standard;
-    for (final it in enabledWeekDays) {
-      f = f.copyWith(it, true);
+    var wkd = EnabledWeekDays.standard;
+
+    for (var weekday in WeekDay.values) {
+      wkd = wkd.copyWith(weekday, enabledWeekDays.contains(weekday));
     }
 
-    return f;
+    return wkd;
   }
 
   factory EnabledWeekDays.fromData(Map<String, dynamic>? data) {

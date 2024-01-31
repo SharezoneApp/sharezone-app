@@ -737,10 +737,8 @@ void main() {
       expect(controller.getSelectedLessonChips(), ['Nächster Schultag']);
       expect(controller.getSelectedDueDate(), Date('2023-11-06'));
     });
-    // TODO: No active day
     testWidgets('custom schooldays get accounted for', (tester) async {
       final controller = createController(tester);
-      controller.addCourse(courseWith(id: 'foo_course', name: 'Foo course'));
       controller.setSchooldays(
           [WeekDay.tuesday, WeekDay.wednesday, WeekDay.friday, WeekDay.sunday]);
       // Friday, thus next schoolday is Sunday
@@ -751,6 +749,21 @@ void main() {
 
       await controller.selectLessonChip('Nächster Schultag');
       expect(controller.getSelectedDueDate(), Date('2024-01-14')); // Sunday
+    });
+    testWidgets(
+        'if user has schooldays set to empty, tomorrow will be returned for the next school day',
+        (tester) async {
+      final controller = createController(tester);
+      // Right now people can actually deselect all schooldays. This doesn't
+      // really make sense but we should still handle it.
+      controller.setSchooldays([]);
+      controller.setToday(Date('2024-02-10'));
+
+      await pumpAndSettleHomeworkDialog(tester,
+          showDueDateSelectionChips: true);
+
+      await controller.selectLessonChip('Nächster Schultag');
+      expect(controller.getSelectedDueDate(), Date('2024-02-11'));
     });
     testWidgets('when no course is selected then the lesson chips are disabled',
         (tester) async {
