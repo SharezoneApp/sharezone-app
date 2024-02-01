@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -14,6 +15,13 @@ import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart'
 import 'package:time/time.dart';
 
 class Lesson {
+  /// The date and time when the event was created.
+  ///
+  /// Clients with a lower version than 1.7.9 will not have this field.
+  /// Therefore, we will always have events without a [createdOn] field in the
+  /// database.
+  final DateTime? createdOn;
+
   final String? lessonID;
   final String groupID;
   final GroupType groupType;
@@ -26,6 +34,7 @@ class Lesson {
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
   Lesson({
+    required this.createdOn,
     required this.lessonID,
     required this.groupID,
     required this.groupType,
@@ -42,6 +51,7 @@ class Lesson {
 
   factory Lesson.fromData(Map<String, dynamic> data, {required String id}) {
     return Lesson(
+      createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       lessonID: id,
       groupID: data['groupID'] as String,
       groupType: GroupType.values.byName(data['groupType'] as String),
@@ -74,6 +84,7 @@ class Lesson {
   }
 
   Lesson copyWith({
+    DateTime? createdOn,
     String? lessonID,
     String? groupID,
     GroupType? groupType,
@@ -88,6 +99,7 @@ class Lesson {
     String? place,
   }) {
     return Lesson(
+      createdOn: createdOn ?? this.createdOn,
       groupType: groupType ?? this.groupType,
       lessonID: lessonID ?? this.lessonID,
       groupID: groupID ?? this.groupID,
