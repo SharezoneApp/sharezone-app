@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -13,6 +14,7 @@ import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:time/time.dart';
 
 final _titleNode = FocusNode();
 
@@ -308,32 +310,65 @@ class _DateAndTimePicker extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListTile(
+                  _DateAndTimeTile(
                     leading: const Icon(Icons.today),
-                    title: const Text('Do. 1 Feb. 2024'),
-                    trailing: const Text('11:30'),
-                    onTap: () {},
+                    date: Date('2024-02-03'),
+                    time: Time(hour: 11, minute: 00),
                   ),
-                  ListTile(
-                    leading: const SizedBox(),
-                    title: const Text('Do. 1 Feb. 2024'),
-                    trailing: const Text('12:30'),
-                    onTap: () {},
+                  _DateAndTimeTile(
+                    date: Date('2024-02-03'),
+                    time: Time(hour: 12, minute: 30),
                   ),
-                  ListTile(
-                    leading: const SizedBox(),
-                    title: OutlinedButton(
-                      onPressed: () {},
-                      child: const Text('Schulstunde auswählen'),
-                    ),
-                    trailing: const SizedBox(),
-                  )
+                  Row(
+                    children: [
+                      const SizedBox(width: 34),
+                      OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14))),
+                        child: const Text('Schulstunde auswählen'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DateAndTimeTile extends StatelessWidget {
+  const _DateAndTimeTile({
+    super.key,
+    this.leading,
+    this.date,
+    this.time,
+  });
+
+  final Widget? leading;
+  final Date? date;
+  final Time? time;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: leading ?? const SizedBox(),
+      title: Text(date?.parser.toYMMMEd ?? 'Datum auswählen...'),
+      // trailing: const Text('11:30'),
+      trailing: TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+          textStyle: const TextStyle(fontSize: 15),
+        ),
+        onPressed: () {},
+        child: Text(time?.toString() ?? ''),
+      ),
+      onTap: () {},
     );
   }
 }
