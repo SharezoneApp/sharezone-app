@@ -43,7 +43,7 @@ Future<TimetableResult?> showTimetableAddEventPage(
   BuildContext context, {
   required bool isExam,
 }) async {
-  if (kDebugMode) {
+  if (true) {
     await Navigator.push(
         context,
         IgnoreWillPopScopeWhenIosSwipeBackRoute(
