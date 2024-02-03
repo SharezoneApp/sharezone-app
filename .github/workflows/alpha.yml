@@ -204,7 +204,7 @@ jobs:
             --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
@@ -263,7 +263,7 @@ jobs:
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
