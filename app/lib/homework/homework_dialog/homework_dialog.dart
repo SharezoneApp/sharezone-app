@@ -1190,7 +1190,10 @@ class _SubmissionsSwitchBase extends StatelessWidget {
                   },
                   trailing: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: Text(time.toString()),
+                    child: Text(
+                      time.toString(),
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                 )
               : Container(),
