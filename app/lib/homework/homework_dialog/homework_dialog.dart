@@ -1193,7 +1193,6 @@ class _SubmissionsSwitchBase extends StatelessWidget {
                     child: Text(
                       time.toString(),
                       style: const TextStyle(fontSize: 14),
-                      ),
                     ),
                   ),
                 )
