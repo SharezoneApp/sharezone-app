@@ -185,6 +185,12 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
+      # Because GitHub Action runners don't have Metal support, we need to
+      # disable Impeller https://github.com/flutter/flutter/issues/126768
+      - name: Disable Impeller
+        working-directory: app/ios/Runner
+        run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
+
       - uses: futureware-tech/simulator-action@427329dea8e4d6417cba1273ebb5c9ad4720082d
         id: simulator
         with:
