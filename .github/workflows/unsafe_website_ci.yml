@@ -62,7 +62,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Remove "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/remove-safe-to-test-label@228977e0ec39c61eef543d130927065940d56907
+        uses: SharezoneApp/remove-safe-to-test-label@91b378205db41bb08dde8e4c4f2685847eb3d168
 
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
@@ -83,7 +83,7 @@ jobs:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
+      - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
           filters: |

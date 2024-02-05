@@ -22,6 +22,7 @@ class TimetableGateway {
     String lessonID = references.lessons.doc().id;
     Map<String, dynamic> data = lesson.copyWith(lessonID: lessonID).toJson();
     data['users'] = [memberID];
+    data['createdOn'] = FieldValue.serverTimestamp();
     return references.lessons
         .doc(lessonID)
         .set(data, SetOptions(merge: true))
