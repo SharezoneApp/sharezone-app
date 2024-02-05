@@ -515,7 +515,7 @@ class _Location extends StatelessWidget {
                 prefilledText: '',
                 maxLines: null,
                 scrollPadding: const EdgeInsets.all(16.0),
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
                   hintText: "Ort/Raum",
                   border: InputBorder.none,
