@@ -341,7 +341,14 @@ class _DateAndTimePicker extends StatelessWidget {
                     children: [
                       const SizedBox(width: 34),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const _LessonPickerPage(),
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14))),
@@ -356,6 +363,17 @@ class _DateAndTimePicker extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _LessonPickerPage extends StatelessWidget {
+  const _LessonPickerPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: Text('Hier soll die Stunde ausgewählt werden...')),
     );
   }
 }
