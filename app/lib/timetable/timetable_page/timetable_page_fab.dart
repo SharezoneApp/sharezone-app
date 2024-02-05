@@ -47,7 +47,9 @@ Future<TimetableResult?> showTimetableAddEventPage(
     await Navigator.push(
         context,
         IgnoreWillPopScopeWhenIosSwipeBackRoute(
-            builder: (context) => const TimetableAddEventDialog(),
+            builder: (context) => TimetableAddEventDialog(
+                  isExam: isExam,
+                ),
             settings: const RouteSettings(name: TimetableAddEventDialog.tag)));
     return null;
   } else {

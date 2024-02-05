@@ -19,7 +19,9 @@ import 'package:time/time.dart';
 final _titleNode = FocusNode();
 
 class TimetableAddEventDialog extends StatelessWidget {
-  const TimetableAddEventDialog({super.key});
+  const TimetableAddEventDialog({super.key, required this.isExam});
+
+  final bool isExam;
 
   static const tag = "timetable-event-dialog";
 
@@ -51,9 +53,12 @@ class TimetableAddEventDialog extends StatelessWidget {
                 editMode: false,
                 focusNodeTitle: _titleNode,
                 // onCloseTap: () => leaveDialog(),
-                onCloseTap: () {},
+                onCloseTap: () {
+                  Navigator.pop(context);
+                },
                 titleField: _TitleField(
                   focusNode: _titleNode,
+                  isExam: isExam,
                   // state: state,
                 )),
             Expanded(
@@ -62,15 +67,18 @@ class TimetableAddEventDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const SizedBox(height: 8),
                     const _CourseTile(),
                     const _MobileDivider(),
                     const _DateAndTimePicker(),
                     const _MobileDivider(),
                     _DescriptionFieldBase(
+                      hintText:
+                          isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
                       onChanged: (p0) {},
                       prefilledDescription: '',
                     ),
+                    const _MobileDivider(),
+                    const _Location(),
                     const _MobileDivider(),
                     const _SendNotification(),
                   ],
@@ -151,6 +159,7 @@ class _SaveButton extends StatelessWidget {
   final bool editMode;
 
   Future<void> onPressed(BuildContext context) async {
+    Navigator.pop(context);
     // final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     // try {
     //   bloc.add(const Save());
@@ -182,11 +191,13 @@ class _SaveButton extends StatelessWidget {
 class _TitleField extends StatelessWidget {
   const _TitleField({
     required this.focusNode,
+    required this.isExam,
     // required this.state,
   });
 
   // final Ready state;
   final FocusNode focusNode;
+  final bool isExam;
 
   @override
   Widget build(BuildContext context) {
@@ -199,6 +210,9 @@ class _TitleField extends StatelessWidget {
         onChanged: (newTitle) {
           // bloc.add(TitleChanged(newTitle));
         },
+        hintText: isExam
+            ? 'Titel (z.B. Statistik-Klausur)'
+            : 'Titel eingeben (z.B. Sportfest)',
         // errorText: state.title.error is EmptyTitleException
         //     ? HwDialogErrorStrings.emptyTitle
         //     : state.title.error?.toString(),
@@ -213,11 +227,13 @@ class _TitleFieldBase extends StatelessWidget {
     required this.onChanged,
     this.errorText,
     this.focusNode,
+    required this.hintText,
   });
 
   final String? prefilledTitle;
   final String? errorText;
   final FocusNode? focusNode;
+  final String hintText;
   final Function(String) onChanged;
 
   @override
@@ -244,9 +260,9 @@ class _TitleFieldBase extends StatelessWidget {
                   fontSize: 22,
                   fontWeight: FontWeight.w400,
                 ),
-                decoration: const InputDecoration(
-                  hintText: "Titel eingeben (z.B. Sportfest)",
-                  hintStyle: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: const TextStyle(color: Colors.white),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -318,6 +334,7 @@ class _DateAndTimePicker extends StatelessWidget {
                   _DateAndTimeTile(
                     date: Date('2024-02-03'),
                     time: Time(hour: 12, minute: 30),
+                    isDatePickingEnabled: false,
                   ),
                   Row(
                     children: [
@@ -348,17 +365,26 @@ class _DateAndTimeTile extends StatelessWidget {
     this.leading,
     this.date,
     this.time,
+    this.isDatePickingEnabled = true,
   });
 
   final Widget? leading;
   final Date? date;
   final Time? time;
+  final bool isDatePickingEnabled;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: leading ?? const SizedBox(),
-      title: Text(date?.parser.toYMMMEd ?? 'Datum auswählen...'),
+      title: Text(
+        date?.parser.toYMMMEd ?? 'Datum auswählen...',
+        style: TextStyle(
+          color: isDatePickingEnabled
+              ? Theme.of(context).textTheme.bodyMedium!.color
+              : Theme.of(context).disabledColor,
+        ),
+      ),
       // trailing: const Text('11:30'),
       trailing: TextButton(
         style: TextButton.styleFrom(
@@ -368,7 +394,7 @@ class _DateAndTimeTile extends StatelessWidget {
         onPressed: () {},
         child: Text(time?.toString() ?? ''),
       ),
-      onTap: () {},
+      onTap: isDatePickingEnabled ? () {} : null,
     );
   }
 }
@@ -377,10 +403,12 @@ class _DescriptionFieldBase extends StatelessWidget {
   const _DescriptionFieldBase({
     required this.onChanged,
     required this.prefilledDescription,
+    required this.hintText,
   });
 
   final Function(String) onChanged;
   final String? prefilledDescription;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -401,8 +429,8 @@ class _DescriptionFieldBase extends StatelessWidget {
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
                   keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    hintText: "Zusatzinformationen eingeben",
+                  decoration: InputDecoration(
+                    hintText: hintText,
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -425,6 +453,45 @@ class _DescriptionFieldBase extends StatelessWidget {
   }
 }
 
+class _Location extends StatelessWidget {
+  const _Location();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.location_pin),
+              title: PrefilledTextField(
+                // key: ,
+                prefilledText: '',
+                maxLines: null,
+                scrollPadding: const EdgeInsets.all(16.0),
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                  hintText: "Ort/Raum",
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  fillColor: Colors.transparent,
+                ),
+                onChanged: (_) {},
+                textCapitalization: TextCapitalization.sentences,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SendNotification extends StatelessWidget {
   const _SendNotification();
 
@@ -438,6 +505,7 @@ class _SendNotification extends StatelessWidget {
           title: "Kursmitglieder benachrichtigen",
           onChanged: (newValue) {},
           sendNotification: true,
+          // TODO: Termin/Klausur je nach dem auswählen
           description:
               "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Termin erstellt hast.",
         ),
