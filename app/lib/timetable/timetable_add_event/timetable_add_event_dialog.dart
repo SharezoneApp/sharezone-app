@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
@@ -394,7 +395,17 @@ class _DateAndTimeTile extends StatelessWidget {
         onPressed: () {},
         child: Text(time?.toString() ?? ''),
       ),
-      onTap: isDatePickingEnabled ? () {} : null,
+      onTap: isDatePickingEnabled
+          ? () async {
+              final DateTime? picked = await showDatePicker(
+                context: context,
+                initialDate: clock.now(),
+                firstDate: DateTime(2015, 8),
+                lastDate: DateTime(2101),
+              );
+              print('picked: $picked');
+            }
+          : null,
     );
   }
 }
