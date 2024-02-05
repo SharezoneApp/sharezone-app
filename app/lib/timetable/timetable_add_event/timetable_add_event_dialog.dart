@@ -392,7 +392,13 @@ class _DateAndTimeTile extends StatelessWidget {
           foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
           textStyle: const TextStyle(fontSize: 15),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          final picked = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.fromDateTime(clock.now()),
+          );
+          print('picked: $picked');
+        },
         child: Text(time?.toString() ?? ''),
       ),
       onTap: isDatePickingEnabled
