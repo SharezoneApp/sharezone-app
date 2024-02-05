@@ -8,6 +8,7 @@
 
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -337,26 +338,28 @@ class _DateAndTimePicker extends StatelessWidget {
                     time: Time(hour: 12, minute: 30),
                     isDatePickingEnabled: false,
                   ),
-                  Row(
-                    children: [
-                      const SizedBox(width: 34),
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const _LessonPickerPage(),
-                            ),
-                          );
-                        },
-                        style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14))),
-                        child: const Text('Schulstunde auswählen'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
+                  if (kDebugMode) ...[
+                    Row(
+                      children: [
+                        const SizedBox(width: 34),
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const _LessonPickerPage(),
+                              ),
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14))),
+                          child: const Text('Schulstunde auswählen'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ],
               ),
             ),
