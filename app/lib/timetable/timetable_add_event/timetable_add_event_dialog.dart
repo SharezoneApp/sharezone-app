@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +43,10 @@ class TimetableAddEventDialog extends StatelessWidget {
           return;
         }
 
-        final shouldPop = await warnUserAboutLeavingForm(context);
-        if (shouldPop && context.mounted) {
-          navigator.pop();
-        }
+        // final shouldPop = await warnUserAboutLeavingForm(context);
+        // if (shouldPop && context.mounted) {
+        //   navigator.pop();
+        // }
       },
       child: Scaffold(
         body: Column(
@@ -231,13 +233,11 @@ class _TitleFieldBase extends StatelessWidget {
   const _TitleFieldBase({
     required this.prefilledTitle,
     required this.onChanged,
-    this.errorText,
     this.focusNode,
     required this.hintText,
   });
 
   final String? prefilledTitle;
-  final String? errorText;
   final FocusNode? focusNode;
   final String hintText;
   final Function(String) onChanged;
@@ -279,7 +279,8 @@ class _TitleFieldBase extends StatelessWidget {
                 textCapitalization: TextCapitalization.sentences,
               ),
               Text(
-                errorText ?? "",
+                // errorText ?? "",
+                "",
                 style: TextStyle(color: Colors.red[700], fontSize: 12),
               ),
               const SizedBox(height: 10),
@@ -376,7 +377,7 @@ class _DateAndTimePicker extends StatelessWidget {
 }
 
 class _LessonPickerPage extends StatelessWidget {
-  const _LessonPickerPage({super.key});
+  const _LessonPickerPage();
 
   @override
   Widget build(BuildContext context) {
@@ -388,7 +389,6 @@ class _LessonPickerPage extends StatelessWidget {
 
 class _DateAndTimeTile extends StatelessWidget {
   const _DateAndTimeTile({
-    super.key,
     this.leading,
     this.date,
     this.time,
@@ -423,7 +423,7 @@ class _DateAndTimeTile extends StatelessWidget {
             context: context,
             initialTime: TimeOfDay.fromDateTime(clock.now()),
           );
-          print('picked: $picked');
+          log('picked: $picked');
         },
         child: Text(time?.toString() ?? ''),
       ),
@@ -435,7 +435,7 @@ class _DateAndTimeTile extends StatelessWidget {
                 firstDate: DateTime(2015, 8),
                 lastDate: DateTime(2101),
               );
-              print('picked: $picked');
+              log('picked: $picked');
             }
           : null,
     );

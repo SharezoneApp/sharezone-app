@@ -43,7 +43,8 @@ Future<TimetableResult?> showTimetableAddEventPage(
   BuildContext context, {
   required bool isExam,
 }) async {
-  if (true) {
+  // ignore: dead_code
+  if (false) {
     await Navigator.push(
         context,
         IgnoreWillPopScopeWhenIosSwipeBackRoute(
