@@ -43,18 +43,30 @@ Future<TimetableResult?> showTimetableAddEventPage(
   BuildContext context, {
   required bool isExam,
 }) async {
-  final result = await Navigator.push<TimetableResult>(
-      context,
-      IgnoreWillPopScopeWhenIosSwipeBackRoute(
-          builder: (context) => TimetableAddEventPage(isExam: isExam),
-          settings: const RouteSettings(name: TimetableAddEventPage.tag)));
-  if (result != null) {
-    await waitingForPopAnimation();
-    if (!context.mounted) return null;
+  // ignore: dead_code
+  if (false) {
+    await Navigator.push(
+        context,
+        IgnoreWillPopScopeWhenIosSwipeBackRoute(
+            builder: (context) => TimetableAddEventDialog(
+                  isExam: isExam,
+                ),
+            settings: const RouteSettings(name: TimetableAddEventDialog.tag)));
+    return null;
+  } else {
+    final result = await Navigator.push<TimetableResult>(
+        context,
+        IgnoreWillPopScopeWhenIosSwipeBackRoute(
+            builder: (context) => TimetableAddEventPage(isExam: isExam),
+            settings: const RouteSettings(name: TimetableAddEventPage.tag)));
+    if (result != null) {
+      await waitingForPopAnimation();
+      if (!context.mounted) return null;
 
-    showDataArrivalConfirmedSnackbar(context: context);
+      showDataArrivalConfirmedSnackbar(context: context);
+    }
+    return result;
   }
-  return result;
 }
 
 Future<void> openTimetableAddSheet(BuildContext context) async {
