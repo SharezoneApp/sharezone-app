@@ -8,7 +8,6 @@
 
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -343,7 +342,8 @@ class _DateAndTimePicker extends StatelessWidget {
                     time: Time(hour: 12, minute: 30),
                     isDatePickingEnabled: false,
                   ),
-                  if (kDebugMode) ...[
+                  // ignore: dead_code
+                  if (false) ...[
                     Row(
                       children: [
                         const SizedBox(width: 34),
