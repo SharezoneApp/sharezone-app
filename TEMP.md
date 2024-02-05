@@ -2,9 +2,7 @@
 * Time picker für Uhrzeit öffnen
 * Erstmal irgendeine leere Seite für die Stundenauswahl öffnen
 
-* Unteres Datumsfeld ausgrauen?
-* Hatten bei Terminen "Ort" und "Zusatzinformationen", bei Klausuren "Raum" und "Themen der Prüfung". So übernehmen?
-* Titel Hint-Text bei Klausur umändern
+* Neue UI fürs editieren nehmen?
 
 UI Checklist:
 
