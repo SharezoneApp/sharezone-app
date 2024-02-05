@@ -58,6 +58,7 @@ class TimetableAddEventDialog extends StatelessWidget {
                 onCloseTap: () {
                   Navigator.pop(context);
                 },
+                isExam: isExam,
                 titleField: _TitleField(
                   focusNode: _titleNode,
                   isExam: isExam,
@@ -82,7 +83,7 @@ class TimetableAddEventDialog extends StatelessWidget {
                     const _MobileDivider(),
                     const _Location(),
                     const _MobileDivider(),
-                    const _SendNotification(),
+                    _SendNotification(isExam: isExam),
                   ],
                 ),
               ),
@@ -110,11 +111,13 @@ class _AppBar extends StatelessWidget {
     required this.focusNodeTitle,
     required this.onCloseTap,
     required this.titleField,
+    required this.isExam,
   });
 
   final bool editMode;
   final VoidCallback onCloseTap;
   final Widget titleField;
+  final bool isExam;
 
   final FocusNode focusNodeTitle;
 
@@ -143,6 +146,7 @@ class _AppBar extends StatelessWidget {
                   ),
                   _SaveButton(
                     editMode: editMode,
+                    isExam: isExam,
                   ),
                 ],
               ),
@@ -156,9 +160,10 @@ class _AppBar extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({this.editMode = false});
+  const _SaveButton({this.editMode = false, required this.isExam});
 
   final bool editMode;
+  final bool isExam;
 
   Future<void> onPressed(BuildContext context) async {
     Navigator.pop(context);
@@ -184,7 +189,7 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SaveButton(
       // key: HwDialogKeys.saveButton,
-      tooltip: "Termin speichern",
+      tooltip: isExam ? "Klausur speichern" : "Termin speichern",
       onPressed: () => onPressed(context),
     );
   }
@@ -531,7 +536,9 @@ class _Location extends StatelessWidget {
 }
 
 class _SendNotification extends StatelessWidget {
-  const _SendNotification();
+  const _SendNotification({required this.isExam});
+
+  final bool isExam;
 
   @override
   Widget build(BuildContext context) {
@@ -543,9 +550,8 @@ class _SendNotification extends StatelessWidget {
           title: "Kursmitglieder benachrichtigen",
           onChanged: (newValue) {},
           sendNotification: true,
-          // TODO: Termin/Klausur je nach dem auswählen
           description:
-              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Termin erstellt hast.",
+              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
         ),
       ),
     );
