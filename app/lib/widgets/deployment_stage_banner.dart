@@ -34,7 +34,7 @@ class DeploymentStageBanner extends StatelessWidget {
   final Widget child;
 
   bool get _isStable =>
-      kDevelopmentStageOrNull == 'stable' || kDevelopmentStageOrNull == null;
+      kDevelopmentStageOrNull == null || _uppercasedStage == 'STABLE';
   String get _uppercasedStage => kDevelopmentStage.toUpperCase();
 
   @override
