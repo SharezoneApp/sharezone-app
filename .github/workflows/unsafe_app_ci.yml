@@ -164,7 +164,7 @@ jobs:
           FIREBASE_HOSTING_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
-          flutter deploy web \
+          sz deploy web \
             --flavor dev \
             --stage preview \
             --expires 3d \
