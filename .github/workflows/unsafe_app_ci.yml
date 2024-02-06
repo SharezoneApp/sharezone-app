@@ -24,7 +24,7 @@ concurrency:
 
 on:
   # Triggers the workflow on pull request events
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - synchronize
@@ -79,10 +79,10 @@ jobs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-        with:
-          # Because we are using the "pull_request_target" event, we need to
-          # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
+        # with:
+        #   # Because we are using the "pull_request_target" event, we need to
+        #   # checkout the PR head commit instead of the merge commit.
+        #   ref: ${{ github.event.pull_request.head.sha }}
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
