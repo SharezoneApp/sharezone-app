@@ -16,6 +16,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 /// Maps the different release stages to the corresponding Firebase Hosting
 /// target.
 final _stageToTarget = {
+  'preview': 'test-web-app',
   'alpha': 'alpha-web-app',
   'beta': 'beta-web-app',
   'stable': 'release-web-app',
