@@ -128,7 +128,8 @@ jobs:
     # We only want to build the web app only for PRs.
     #
     # Otherwise this will be triggered inside a merge-queue.
-    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
+    # if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
+    if: ${{ needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
@@ -138,10 +139,10 @@ jobs:
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-        with:
-          # Because we are using the "pull_request_target" event, we need to
-          # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
+        # with:
+        #   # Because we are using the "pull_request_target" event, we need to
+        #   # checkout the PR head commit instead of the merge commit.
+        #   ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
