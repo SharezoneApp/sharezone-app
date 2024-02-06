@@ -8,4 +8,4 @@
 
 const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
 String? get kDevelopmentStageOrNull =>
-    kDevelopmentStage.isEmpty ? null : kDevelopmentStage;
+    kDevelopmentStage == "" ? null : kDevelopmentStage;
