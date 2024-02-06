@@ -53,6 +53,11 @@ class DeployWebAppCommand extends CommandBase {
             '(Optional) The message given to "firebase deploy --only:hosting" via the "--message" flag. Will default to the current commit hash.',
       )
       ..addOption(
+        previewExpiresOptionName,
+        help:
+            'Set the expiration duration for the preview deployment (e.g. "2d" for two days). Has to be defined if the stage is "preview". Ignored if the stage is not "preview".',
+      )
+      ..addOption(
         googleApplicationCredentialsOptionName,
         help:
             'Path to location of credentials .json file used to authenticate deployment. Should only be used for CI/CD, developers should use "firebase login" instead.',
@@ -71,6 +76,7 @@ class DeployWebAppCommand extends CommandBase {
   static const firebaseDeployMessageOptionName = 'message';
   static const flavorOptionName = 'flavor';
   static const googleApplicationCredentialsOptionName = 'credentials';
+  static const previewExpiresOptionName = 'expires';
 
   @override
   String get description =>
@@ -93,6 +99,15 @@ class DeployWebAppCommand extends CommandBase {
     final releaseStage = _parseReleaseStage(argResults!);
     final flavor = argResults![flavorOptionName] as String;
 
+    final expirey = argResults![previewExpiresOptionName] as String?;
+    final isPreview = releaseStage == 'preview';
+    if (isPreview && expirey == null) {
+      stderr.writeln(
+          'Expected --$previewExpiresOptionName option for preview stage.');
+      throw ToolExit(1);
+    }
+    final useExpirey = isPreview && expirey != null;
+
     await processRunner.runCommand([
       'fvm',
       'dart',
@@ -103,7 +118,7 @@ class DeployWebAppCommand extends CommandBase {
       '--flavor',
       flavor,
       '--stage',
-      releaseStage
+      releaseStage,
     ], workingDirectory: repo.sharezoneCiCdTool.location);
 
     String? deployMessage;
@@ -124,6 +139,7 @@ class DeployWebAppCommand extends CommandBase {
         firebaseProjectId,
         '--message',
         deployMessage ?? overriddenDeployMessage!,
+        if (useExpirey) ...['--expires', expirey],
       ],
       workingDirectory: repo.sharezoneFlutterApp.location,
       addedEnvironment: {
