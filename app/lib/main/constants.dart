@@ -7,3 +7,5 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
+String? get kDevelopmentStageOrNull =>
+    kDevelopmentStage.isEmpty ? null : kDevelopmentStage;
