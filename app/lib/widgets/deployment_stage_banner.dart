@@ -49,6 +49,11 @@ class DeploymentStageBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('kDevelopmentStage: $kDevelopmentStage');
+    print('kDevelopmentStageOrNull: $kDevelopmentStageOrNull');
+    print('_isStable: $_isStable');
+    print('_uppercasedStage: $_uppercasedStage');
+
     if (_isStable) {
       return child;
     }
