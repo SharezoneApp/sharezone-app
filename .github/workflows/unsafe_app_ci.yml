@@ -158,7 +158,7 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
-      - name: Build & deploy web app
+      - name: Build web app
         working-directory: app
         run: |
           sz build web \
