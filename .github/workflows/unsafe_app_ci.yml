@@ -167,8 +167,8 @@ jobs:
         run: |
           sz build web \
             --flavor dev \
-            --stage preview 
-            
+            --stage preview
+
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
