@@ -8,49 +8,53 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/main/constants.dart';
 
-/// Displays a [Banner] saying "ALPHA" when running an alpha version at top left
-/// hand corner.
+/// Displays the current deployment stage as a [Banner] if it is not stable.
 ///
-/// Displays nothing when [enabled] is false.
+/// Sharezone has different deployment stages e.g. "alpha", "beta", "preview".
+/// This widget displays the current deployment stage as a [Banner] at the top
+/// hand corner of the screen if we are not in the stable/production deployment
+/// stage.
+///
+/// This is intended so that users know that they are using a non-stable version
+/// of the app and that they should expect bugs and other issues.
 ///
 /// This widget is similar and inspired by the [CheckedModeBanner] which displays
 /// "DEBUG" at the top right hand corner when running a Flutter app in debug
 /// mode.
-class AlphaVersionBanner extends StatelessWidget {
+class DeploymentStageBanner extends StatelessWidget {
   /// Creates a const alpha version banner.
-  const AlphaVersionBanner({
+  const DeploymentStageBanner({
     super.key,
     required this.child,
-    required this.enabled,
   });
 
   /// The widget to show behind the banner.
   final Widget child;
 
-  /// Defines if the alpha banner should shown.
-  ///
-  /// If set to false, the banner will not be shown and is not visible.
-  final bool enabled;
+  bool get _isStable =>
+      kDevelopmentStageOrNull == null || _uppercasedStage == 'STABLE';
+  String? get _uppercasedStage => kDevelopmentStageOrNull?.toUpperCase();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     String message = 'disabled';
-    if (enabled) {
-      message = 'ALPHA';
+    if (!_isStable) {
+      message = _uppercasedStage!;
     }
     properties.add(DiagnosticsNode.message(message));
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!enabled) {
+    if (_isStable) {
       return child;
     }
 
     return Banner(
-      message: 'ALPHA',
+      message: _uppercasedStage!,
       textDirection: TextDirection.ltr,
       location: BannerLocation.topEnd,
       color: Colors.blue,
