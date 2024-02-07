@@ -152,13 +152,18 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
+      - name: Activate sz_repo_cli package
+        run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+
       - name: Build web app
         working-directory: app
         run: |
-          flutter build web \
-            --release \
-            --web-renderer canvaskit \
-            --target=lib/main_dev.dart
+          sz build web \
+            --flavor dev \
+            --stage preview
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
