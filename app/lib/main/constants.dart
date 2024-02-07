@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+String? kDevelopmentStageOrNullOverridable = kDevelopmentStageOrNull;
 const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
 String? get kDevelopmentStageOrNull =>
     kDevelopmentStage == "" ? null : kDevelopmentStage;

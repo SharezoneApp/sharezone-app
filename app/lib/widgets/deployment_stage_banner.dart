@@ -34,32 +34,29 @@ class DeploymentStageBanner extends StatelessWidget {
   final Widget child;
 
   bool get _isStable =>
-      kDevelopmentStageOrNull == null || _uppercasedStage == 'STABLE';
-  String get _uppercasedStage => kDevelopmentStage.toUpperCase();
+      kDevelopmentStageOrNullOverridable == null ||
+      _uppercasedStage == 'STABLE';
+  String? get _uppercasedStage =>
+      kDevelopmentStageOrNullOverridable?.toUpperCase();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     String message = 'disabled';
     if (!_isStable) {
-      message = _uppercasedStage;
+      message = _uppercasedStage!;
     }
     properties.add(DiagnosticsNode.message(message));
   }
 
   @override
   Widget build(BuildContext context) {
-    print('kDevelopmentStage: $kDevelopmentStage');
-    print('kDevelopmentStageOrNull: $kDevelopmentStageOrNull');
-    print('_isStable: $_isStable');
-    print('_uppercasedStage: $_uppercasedStage');
-
     if (_isStable) {
       return child;
     }
 
     return Banner(
-      message: _uppercasedStage,
+      message: _uppercasedStage!,
       textDirection: TextDirection.ltr,
       location: BannerLocation.topEnd,
       color: Colors.blue,
