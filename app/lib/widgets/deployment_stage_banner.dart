@@ -34,10 +34,8 @@ class DeploymentStageBanner extends StatelessWidget {
   final Widget child;
 
   bool get _isStable =>
-      kDevelopmentStageOrNullOverridable == null ||
-      _uppercasedStage == 'STABLE';
-  String? get _uppercasedStage =>
-      kDevelopmentStageOrNullOverridable?.toUpperCase();
+      kDevelopmentStageOrNull == null || _uppercasedStage == 'STABLE';
+  String? get _uppercasedStage => kDevelopmentStageOrNull?.toUpperCase();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

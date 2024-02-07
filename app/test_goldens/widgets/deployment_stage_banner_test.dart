@@ -17,7 +17,7 @@ void main() {
     testGoldens(
       'displays the banner at the correct position',
       (tester) async {
-        kDevelopmentStageOrNullOverridable = 'alpha';
+        kDevelopmentStageOrNull = 'alpha';
 
         await tester.pumpWidgetBuilder(
           const DeploymentStageBanner(
@@ -37,7 +37,7 @@ void main() {
     testWidgets("does display the banner if stage is alpha, beta or preview",
         (tester) async {
       for (var stage in ['alpha', 'beta', 'preview']) {
-        kDevelopmentStageOrNullOverridable = stage;
+        kDevelopmentStageOrNull = stage;
 
         await tester.pumpWidget(
           const Directionality(
@@ -61,7 +61,7 @@ void main() {
     testWidgets("does not display the banner if stage is 'stable' or null",
         (tester) async {
       for (var stage in ['stable', null]) {
-        kDevelopmentStageOrNullOverridable = stage;
+        kDevelopmentStageOrNull = stage;
 
         await tester.pumpWidget(
           const Directionality(
