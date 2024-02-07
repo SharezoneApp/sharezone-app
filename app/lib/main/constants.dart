@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// Can be overridden for testing purposes to override the development stage.
+// Can be overridden for testing purposes.
 String? kDevelopmentStageOrNull =
     kDevelopmentStage == "" ? null : kDevelopmentStage;
 const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
