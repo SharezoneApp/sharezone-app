@@ -10,11 +10,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/main/constants.dart';
 
-/// Displays the current deployment stage as a [Banner] if it is not stable.
+/// Displays the current development stage as a [Banner] if it is not stable.
 ///
-/// Sharezone has different deployment stages e.g. "alpha", "beta", "preview".
-/// This widget displays the current deployment stage as a [Banner] at the top
-/// hand corner of the screen if we are not in the stable/production deployment
+/// Sharezone has different development stages e.g. "alpha", "beta", "preview".
+/// This widget displays the current development stage as a [Banner] at the top
+/// hand corner of the screen if we are not in the stable/production development
 /// stage.
 ///
 /// This is intended so that users know that they are using a non-stable version
@@ -23,9 +23,9 @@ import 'package:sharezone/main/constants.dart';
 /// This widget is similar and inspired by the [CheckedModeBanner] which displays
 /// "DEBUG" at the top right hand corner when running a Flutter app in debug
 /// mode.
-class DeploymentStageBanner extends StatelessWidget {
+class DevelopmentStageBanner extends StatelessWidget {
   /// Creates a const alpha version banner.
-  const DeploymentStageBanner({
+  const DevelopmentStageBanner({
     super.key,
     required this.child,
   });

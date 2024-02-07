@@ -30,7 +30,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart'
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
-import 'package:sharezone/widgets/deployment_stage_banner.dart';
+import 'package:sharezone/widgets/development_stage_banner.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -111,7 +111,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
             textDirection: TextDirection.ltr,
             child: _ThemeSettingsProvider(
               blocDependencies: widget.blocDependencies,
-              child: DeploymentStageBanner(
+              child: DevelopmentStageBanner(
                 child: Stack(
                   children: [
                     MultiProvider(

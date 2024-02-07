@@ -10,17 +10,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone/main/constants.dart';
-import 'package:sharezone/widgets/deployment_stage_banner.dart';
+import 'package:sharezone/widgets/development_stage_banner.dart';
 
 void main() {
-  group('$DeploymentStageBanner', () {
+  group('$DevelopmentStageBanner', () {
     testGoldens(
       'displays the banner at the correct position',
       (tester) async {
         kDevelopmentStageOrNull = 'alpha';
 
         await tester.pumpWidgetBuilder(
-          const DeploymentStageBanner(
+          const DevelopmentStageBanner(
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(
@@ -42,7 +42,7 @@ void main() {
         await tester.pumpWidget(
           const Directionality(
             textDirection: TextDirection.ltr,
-            child: DeploymentStageBanner(
+            child: DevelopmentStageBanner(
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 home: Scaffold(
@@ -66,7 +66,7 @@ void main() {
         await tester.pumpWidget(
           const Directionality(
             textDirection: TextDirection.ltr,
-            child: DeploymentStageBanner(
+            child: DevelopmentStageBanner(
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 home: Scaffold(
