@@ -53,13 +53,13 @@ class TestCommand extends ConcurrentCommand {
   @override
   Stream<Package> get packagesToProcess {
     if (argResults!['only-goldens'] as bool) {
-      return repo.streamPackages().where(
+      return super.packagesToProcess.where(
             (package) =>
                 package.isFlutterPackage && package.hasGoldenTestsDirectory,
           );
     }
 
-    return repo.streamPackages().where((package) => package.hasTestDirectory);
+    return super.packagesToProcess.where((package) => package.hasTestDirectory);
   }
 
   @override
