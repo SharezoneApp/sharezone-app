@@ -67,14 +67,6 @@ sidebar:
     - - - Bundesland ändern
         - "/account/changeProvince"
 
-  - - App-Einstellungen
-    - - - Benachrichtigungen aktivieren
-        - "/app-settings/notifications"
-    - - - Systemerscheinungsbild ändern
-        - "/app-settings/theme"
-    - - - Stundenplaneinstellungen
-        - "/app-settings/timetable"
-
   - - Weiteres
     - - - Beta-Programm
         - "/more/beta-program"
