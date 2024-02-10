@@ -56,6 +56,25 @@ sidebar:
   - - Mein Konto
     - - - Konto löschen
         - "/account/delete"
+    - - - E-Mail verknüpfen
+        - "/account/setupEmail"
+    - - - E-Mail ändern
+        - "/account/changeEmail"
+    - - - Passwort ändern
+        - "/account/changePassword"
+    - - - Namen ändern
+        - "/account/changeName"
+    - - - Bundesland ändern
+        - "/account/changeProvince"
+
+    - - App-Einstellungen
+      - - - Benachrichtigungen aktivieren
+          - "/app-settings/notifications"
+      - - - Systemerscheinungsbild ändern
+          - "/app-settings/theme"
+      - - - Stundenplaneinstellungen
+          - "/app-settings/timetable"
+
   - - Weiteres
     - - - Beta-Programm
         - "/more/beta-program"
