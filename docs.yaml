@@ -68,7 +68,7 @@ sidebar:
         - "/account/changeProvince"
 
   - - App-Einstellungen
-      - - Benachrichtigungen aktivieren
+    - - - Benachrichtigungen aktivieren
         - "/app-settings/notifications"
       - - Systemerscheinungsbild ändern
         - "/app-settings/theme"
