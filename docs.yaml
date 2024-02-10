@@ -52,7 +52,7 @@ anchors:
 # The sidebar only supports a single level of nesting.
 sidebar:
   - - Übersicht
-    - "/"
+    -
   - - Mein Konto
     - - - Konto löschen
         - "/account/delete"
