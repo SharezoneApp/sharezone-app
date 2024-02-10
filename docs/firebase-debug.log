@@ -1,0 +1,31 @@
+[debug] [2024-02-10T19:15:55.734Z] ----------------------------------------------------------------------
+[debug] [2024-02-10T19:15:55.736Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy -P sharezone-c2bd8
+[debug] [2024-02-10T19:15:55.737Z] CLI Version:   13.2.1
+[debug] [2024-02-10T19:15:55.737Z] Platform:      darwin
+[debug] [2024-02-10T19:15:55.738Z] Node Version:  v20.11.0
+[debug] [2024-02-10T19:15:55.738Z] Time:          Sat Feb 10 2024 20:15:55 GMT+0100 (Central European Standard Time)
+[debug] [2024-02-10T19:15:55.738Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-02-10T19:15:55.801Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-02-10T19:15:55.802Z] > authorizing via signed-in user (nils@sharezone.net)
+[debug] [2024-02-10T19:15:55.802Z] [iam] checking project sharezone-c2bd8 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-02-10T19:15:55.804Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/sharezone-c2bd8:testIamPermissions [none]
+[debug] [2024-02-10T19:15:55.804Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/sharezone-c2bd8:testIamPermissions x-goog-quota-user=projects/sharezone-c2bd8
+[debug] [2024-02-10T19:15:55.804Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sharezone-c2bd8:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-02-10T19:15:56.884Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/sharezone-c2bd8:testIamPermissions 200
+[debug] [2024-02-10T19:15:56.885Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sharezone-c2bd8:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-02-10T19:15:56.887Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sharezone-c2bd8 [none]
+[debug] [2024-02-10T19:15:57.428Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sharezone-c2bd8 200
+[debug] [2024-02-10T19:15:57.429Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sharezone-c2bd8 {"projectId":"sharezone-c2bd8","projectNumber":"730263787697","displayName":"Sharezone","name":"projects/sharezone-c2bd8","resources":{"hostingSite":"sharezone-c2bd8","realtimeDatabaseInstance":"sharezone-c2bd8","storageBucket":"sharezone-c2bd8.appspot.com","locationId":"europe-west3"},"state":"ACTIVE","etag":"1_db237e38-6189-400e-b238-2440f4d3dae0"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-02-10T19:16:01.460Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/sharezone-c2bd8/sites/sharezone-c2bd8 [none]
