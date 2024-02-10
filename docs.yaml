@@ -56,9 +56,9 @@ sidebar:
   - - Mein Konto
     - - - Konto löschen
         - "/account/delete"
-    - - - E-Mail verknüpfen
+    - - - "E-Mail verknüpfen"
         - "/account/setupEmail"
-    - - - E-Mail ändern
+    - - - "E-Mail ändern"
         - "/account/changeEmail"
 
   - - Weiteres
