@@ -56,8 +56,16 @@ sidebar:
   - - Mein Konto
     - - - Konto löschen
         - "/account/delete"
-    - - - "E Mail verknüpfen"
+      - - E-Mail verknüpfen
         - "/account/setupEmail"
+      - - E-Mail ändern
+        - "/account/changeEmail"
+      - - Passwort ändern
+        - "/account/changePassword"
+      - - Namen ändern
+        - "/account/changeName"
+      - - Bundesland ändern
+        - "/account/changeProvince"
 
   - - Weiteres
     - - - Beta-Programm
