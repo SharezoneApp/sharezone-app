@@ -1,8 +1,9 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+
 # Mein Konto löschen
 
-import { Callout } from "nextra/components";
-
-<Callout type="warning" emoji="⚠️">
+<Callout type="warning">
   Dieser Schritt wird sofort ausgeführt und kann nicht rückgängig gemacht
   werden!
 </Callout>
@@ -10,9 +11,13 @@ import { Callout } from "nextra/components";
 Falls du dein Konto und somit alle deine Daten löschen möchtest, kannst du dies
 über die Einstellungen machen. Führe dazu folgende Schritte aus:
 
-1. Einstellungen in Sharezone öffnen
-2. "Mein Konto" öffnen
-3. "Konto löschen" auswählen (unten auf der Seite)
+<Steps>
+### Einstellungen in Sharezone öffnen
+### "Mein Konto" öffnen
+### "Konto löschen" auswählen (unten auf der Seite)
+</Steps>
 
+<Callout type="info">
 Solltest du dich anonym angemeldet haben, wird dein Konto ebenfalls gelöscht,
 wenn du dich abmeldest.
+</Callout>
