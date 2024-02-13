@@ -56,7 +56,7 @@ class OpenHomeworkList extends StatelessWidget {
               children: [
                 for (final hw in section.homeworks)
                   HomeworkTile(
-                    key: Key('${hw.id}${hw.isCompleted}'),
+                    key: Key(hw.id),
                     homework: hw,
                     onChanged: (newStatus) {
                       // Spamming the checkbox causes the homework to sometimes

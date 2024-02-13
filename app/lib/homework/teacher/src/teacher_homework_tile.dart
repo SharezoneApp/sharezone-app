@@ -27,6 +27,7 @@ class TeacherHomeworkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeworkTileTemplate(
+      isCompleted: false,
       title: homework.title,
       courseName: homework.subject,
       courseAbbreviation: homework.abbreviation,

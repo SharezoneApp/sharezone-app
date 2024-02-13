@@ -50,15 +50,25 @@ class _HomeworkTileState extends State<HomeworkTile> {
   }
 
   @override
+  void didUpdateWidget(HomeworkTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    /// If the homework changed, then we need to update the [isCompleted]
+    /// variable. Otherwise, the checkbox will not be updated.
+    isCompleted = widget.homework.isCompleted;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return HomeworkTileTemplate(
+      isCompleted: isCompleted,
       title: widget.homework.title,
       trailing: widget.homework.withSubmissions
           ? _SubmissionUploadButton(
               onPressed: () => _navigateToSubmissionPage(context),
             )
           : _Checkbox(
-              isHomeworkCompleted: widget.homework.isCompleted,
+              isHomeworkCompleted: isCompleted,
               onCompletionChange: _changeCompletionState,
             ),
       courseName: widget.homework.subject,
@@ -74,7 +84,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
     );
   }
 
-  void _changeCompletionState(bool? newCompletionState) {
+  Future<void> _changeCompletionState(bool? newCompletionState) async {
     if (newCompletionState == null) return;
 
     /// [mounted] prüft, dass das Widget noch im Widget-Tree ist. Es ist ein Fehler
@@ -94,8 +104,14 @@ class _HomeworkTileState extends State<HomeworkTile> {
       });
     }
 
+    await _delayOnChangeToDisplayAnimations();
+
     widget.onChanged(
         isCompleted ? HomeworkStatus.completed : HomeworkStatus.open);
+  }
+
+  Future<void> _delayOnChangeToDisplayAnimations() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   Future<void> _navigateToSubmissionPage(BuildContext context) {
