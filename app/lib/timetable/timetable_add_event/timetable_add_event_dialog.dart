@@ -9,6 +9,7 @@
 import 'dart:developer';
 
 import 'package:clock/clock.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
@@ -25,6 +26,7 @@ final _titleNode = FocusNode();
 @visibleForTesting
 class EventDialogKeys {
   static const Key titleTextField = Key("title-field");
+  static const Key courseTile = Key("course-tile");
   static const Key descriptionTextField = Key("description-field");
 }
 
@@ -46,6 +48,22 @@ class AddEventDialogController extends ChangeNotifier {
     _description = value;
     notifyListeners();
   }
+
+  CourseView? _course;
+
+  CourseView? get course => _course;
+
+  selectCourse(CourseId courseId) {
+    _course = CourseView(id: courseId);
+    notifyListeners();
+  }
+}
+
+class CourseView {
+  // TODO: Use CourseId/GroupId
+  final CourseId id;
+
+  CourseView({required this.id});
 }
 
 class TimetableAddEventDialog extends StatelessWidget {

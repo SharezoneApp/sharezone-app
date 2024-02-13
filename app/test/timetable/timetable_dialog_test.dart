@@ -1,3 +1,4 @@
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,18 @@ void main() {
 
       expect(find.text('Test'), findsOneWidget);
       expect(controller.title, 'Test');
+    });
+
+    testWidgets('selected course is forwarded to controller', (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tester.tap(find.byKey(EventDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Foo course'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Foo course'), findsOneWidget);
+      expect(controller.course?.id, CourseId('Test'));
     });
 
     testWidgets('entered description is forwarded to controller',
