@@ -25,6 +25,7 @@ final _titleNode = FocusNode();
 @visibleForTesting
 class EventDialogKeys {
   static const Key titleTextField = Key("title-field");
+  static const Key descriptionTextField = Key("description-field");
 }
 
 class AddEventDialogController extends ChangeNotifier {
@@ -34,6 +35,15 @@ class AddEventDialogController extends ChangeNotifier {
 
   set title(String value) {
     _title = value;
+    notifyListeners();
+  }
+
+  String _description = '';
+
+  String get description => _description;
+
+  set description(String value) {
+    _description = value;
     notifyListeners();
   }
 }
@@ -97,7 +107,11 @@ class TimetableAddEventDialog extends StatelessWidget {
                     _DescriptionFieldBase(
                       hintText:
                           isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
-                      onChanged: (p0) {},
+                      onChanged: (newDescription) {
+                        Provider.of<AddEventDialogController>(context,
+                                listen: false)
+                            .description = newDescription;
+                      },
                       prefilledDescription: '',
                     ),
                     const _MobileDivider(),
@@ -489,7 +503,11 @@ class _DescriptionFieldBase extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
-                  // key: HwDialogKeys.descriptionField,
+                  // TODO: If this is assigned to _DescriptionFieldBase, not
+                  // PrefilledTextField, the test fails because of too many
+                  // elements instead of one (for the key) when calling
+                  // tester.enterText.
+                  key: EventDialogKeys.descriptionTextField,
                   prefilledText: prefilledDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),

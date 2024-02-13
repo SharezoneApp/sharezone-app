@@ -44,5 +44,17 @@ void main() {
       expect(find.text('Test'), findsOneWidget);
       expect(controller.title, 'Test');
     });
+
+    testWidgets('entered description is forwarded to controller',
+        (tester) async {
+      final controller = AddEventDialogController();
+      await pumpDialog(tester, isExam: false, controller: controller);
+
+      await tester.enterText(
+          find.byKey(EventDialogKeys.descriptionTextField), 'Test description');
+
+      expect(find.text('Test description'), findsOneWidget);
+      expect(controller.description, 'Test description');
+    });
   });
 }
