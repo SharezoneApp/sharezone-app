@@ -5,10 +5,13 @@ import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dial
 
 void main() {
   group('event add dialog', () {
-    Future<void> pumpDialog(WidgetTester tester,
-        {required bool isExam, AddEventDialogController? controller}) async {
-      controller ??= AddEventDialogController();
+    late AddEventDialogController controller;
 
+    setUp(() {
+      controller = AddEventDialogController();
+    });
+
+    Future<void> pumpDialog(WidgetTester tester, {required bool isExam}) async {
       await tester.pumpWidget(
         ChangeNotifierProvider(
           create: (context) => controller,
@@ -35,8 +38,7 @@ void main() {
     });
 
     testWidgets('entered title is forwarded to controller', (tester) async {
-      final controller = AddEventDialogController();
-      await pumpDialog(tester, isExam: false, controller: controller);
+      await pumpDialog(tester, isExam: false);
 
       await tester.enterText(
           find.byKey(EventDialogKeys.titleTextField), 'Test');
@@ -47,8 +49,7 @@ void main() {
 
     testWidgets('entered description is forwarded to controller',
         (tester) async {
-      final controller = AddEventDialogController();
-      await pumpDialog(tester, isExam: false, controller: controller);
+      await pumpDialog(tester, isExam: false);
 
       await tester.enterText(
           find.byKey(EventDialogKeys.descriptionTextField), 'Test description');
