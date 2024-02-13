@@ -26,5 +26,14 @@ void main() {
       expect(find.textContaining('Klausur'), findsWidgets);
       expect(find.textContaining('Termin'), findsNothing);
     });
+
+    testWidgets('can enter text', (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tester.enterText(
+          find.byKey(EventDialogKeys.titleTextField), 'Test');
+
+      expect(find.text('Test'), findsOneWidget);
+    });
   });
 }

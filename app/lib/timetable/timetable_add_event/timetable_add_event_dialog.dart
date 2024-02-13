@@ -21,6 +21,11 @@ import 'package:time/time.dart';
 
 final _titleNode = FocusNode();
 
+@visibleForTesting
+class EventDialogKeys {
+  static const Key titleTextField = Key("title-field");
+}
+
 class TimetableAddEventDialog extends StatelessWidget {
   const TimetableAddEventDialog({super.key, required this.isExam});
 
@@ -61,8 +66,10 @@ class TimetableAddEventDialog extends StatelessWidget {
                 },
                 isExam: isExam,
                 titleField: _TitleField(
+                  key: EventDialogKeys.titleTextField,
                   focusNode: _titleNode,
                   isExam: isExam,
+
                   // state: state,
                 )),
             Expanded(
@@ -198,6 +205,7 @@ class _SaveButton extends StatelessWidget {
 
 class _TitleField extends StatelessWidget {
   const _TitleField({
+    super.key,
     required this.focusNode,
     required this.isExam,
     // required this.state,
