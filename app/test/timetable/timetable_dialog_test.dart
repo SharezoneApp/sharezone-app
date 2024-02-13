@@ -4,16 +4,27 @@ import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dial
 
 void main() {
   group('event add dialog', () {
-    testWidgets('shows empty event state if `isExam` is false', (tester) async {
+    Future<void> pumpDialog(WidgetTester tester, {required bool isExam}) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
-            body: TimetableAddEventDialog(isExam: false),
+            body: TimetableAddEventDialog(isExam: isExam),
           ),
         ),
       );
+    }
 
-      expect(find.textContaining('Termin'), findsOneWidget);
+    testWidgets('shows empty event state if `isExam` is false', (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      expect(find.textContaining('Termin'), findsWidgets);
+      expect(find.textContaining('Klausur'), findsNothing);
+    });
+    testWidgets('shows empty exam state if `isExam` is true', (tester) async {
+      await pumpDialog(tester, isExam: true);
+
+      expect(find.textContaining('Klausur'), findsWidgets);
+      expect(find.textContaining('Termin'), findsNothing);
     });
   });
 }
