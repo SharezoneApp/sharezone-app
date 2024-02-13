@@ -12,6 +12,7 @@ import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -24,6 +25,17 @@ final _titleNode = FocusNode();
 @visibleForTesting
 class EventDialogKeys {
   static const Key titleTextField = Key("title-field");
+}
+
+class AddEventDialogController extends ChangeNotifier {
+  String _title = '';
+
+  String get title => _title;
+
+  set title(String value) {
+    _title = value;
+    notifyListeners();
+  }
 }
 
 class TimetableAddEventDialog extends StatelessWidget {
@@ -224,6 +236,8 @@ class _TitleField extends StatelessWidget {
         prefilledTitle: null,
         focusNode: focusNode,
         onChanged: (newTitle) {
+          Provider.of<AddEventDialogController>(context, listen: false).title =
+              newTitle;
           // bloc.add(TitleChanged(newTitle));
         },
         hintText: isExam

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 
 void main() {
   group('event add dialog', () {
-    Future<void> pumpDialog(WidgetTester tester, {required bool isExam}) async {
+    Future<void> pumpDialog(WidgetTester tester,
+        {required bool isExam, AddEventDialogController? controller}) async {
+      controller ??= AddEventDialogController();
+
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimetableAddEventDialog(isExam: isExam),
+        ChangeNotifierProvider(
+          create: (context) => controller,
+          child: MaterialApp(
+            home: Scaffold(
+              body: TimetableAddEventDialog(isExam: isExam),
+            ),
           ),
         ),
       );
@@ -27,13 +34,15 @@ void main() {
       expect(find.textContaining('Termin'), findsNothing);
     });
 
-    testWidgets('can enter text', (tester) async {
-      await pumpDialog(tester, isExam: false);
+    testWidgets('entered title is forwarded to controller', (tester) async {
+      final controller = AddEventDialogController();
+      await pumpDialog(tester, isExam: false, controller: controller);
 
       await tester.enterText(
           find.byKey(EventDialogKeys.titleTextField), 'Test');
 
       expect(find.text('Test'), findsOneWidget);
+      expect(controller.title, 'Test');
     });
   });
 }
