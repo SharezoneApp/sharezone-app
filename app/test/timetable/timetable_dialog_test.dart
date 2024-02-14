@@ -63,6 +63,13 @@ void main() {
       // homeworkDialogApi.addCourseForTesting(course);
     }
 
+    Future<void> selectCourse(WidgetTester tester, String courseName) async {
+      await tester.tap(find.byKey(EventDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Foo course'));
+      await tester.pumpAndSettle();
+    }
+
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
       await pumpDialog(tester, isExam: false);
 
@@ -92,10 +99,7 @@ void main() {
 
       await pumpDialog(tester, isExam: false);
 
-      await tester.tap(find.byKey(EventDialogKeys.courseTile));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Foo course'));
-      await tester.pumpAndSettle();
+      await selectCourse(tester, 'Foo course');
 
       expect(find.text('Foo course'), findsOneWidget);
       expect(controller.course?.id, CourseId('fooId'));
