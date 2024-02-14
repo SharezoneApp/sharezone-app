@@ -1,5 +1,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -30,30 +31,34 @@ void main() {
       courseGateway = MockCourseGateway();
       sharezoneContext = MockSharezoneContext();
       api = MockEventDialogApi();
-      controller = AddEventDialogController(api: api);
     });
 
-    Future<void> pumpDialog(WidgetTester tester, {required bool isExam}) async {
+    Future<void> pumpDialog(WidgetTester tester,
+        {required bool isExam, Clock? clockOverride}) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
 
-      await tester.pumpWidget(
-        MultiBlocProvider(
-          blocProviders: [
-            BlocProvider<SharezoneContext>(
-              bloc: sharezoneContext,
-            )
-          ],
-          child: (context) => MaterialApp(
-            home: Scaffold(
-              body: TimetableAddEventDialog(
-                isExam: isExam,
-                controller: controller,
+      await withClock(clockOverride ?? clock, () async {
+        controller = AddEventDialogController(api: api);
+
+        await tester.pumpWidget(
+          MultiBlocProvider(
+            blocProviders: [
+              BlocProvider<SharezoneContext>(
+                bloc: sharezoneContext,
+              )
+            ],
+            child: (context) => MaterialApp(
+              home: Scaffold(
+                body: TimetableAddEventDialog(
+                  isExam: isExam,
+                  controller: controller,
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      });
     }
 
     void addCourse(Course course) {
@@ -109,9 +114,9 @@ void main() {
       final course = courseWith(id: 'fooId', name: 'Foo course');
       addCourse(course);
 
-      await pumpDialog(tester, isExam: false);
+      await pumpDialog(tester,
+          isExam: false, clockOverride: Clock.fixed(DateTime(2024, 2, 13)));
 
-      // TODO: Make "now" input from test
       await tester.tap(find.byKey(EventDialogKeys.startDateField));
       await tester.pumpAndSettle();
       await tester.tap(find.text('16'));

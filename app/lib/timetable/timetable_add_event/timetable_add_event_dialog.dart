@@ -77,7 +77,7 @@ class AddEventDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Date _date = Date.today();
+  Date _date = Date.fromDateTime(clock.now());
 
   Date get date => _date;
 
