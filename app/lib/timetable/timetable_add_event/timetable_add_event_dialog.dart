@@ -32,6 +32,7 @@ class EventDialogKeys {
   static const Key titleTextField = Key("title-field");
   static const Key courseTile = Key("course-tile");
   static const Key descriptionTextField = Key("description-field");
+  static const Key startDateField = Key("start-date-field");
 }
 
 class EventDialogApi {
@@ -73,6 +74,15 @@ class AddEventDialogController extends ChangeNotifier {
   Future<void> selectCourse(CourseId courseId) async {
     final c = await api.loadCourse(courseId);
     _course = CourseView(id: courseId, name: c.name);
+    notifyListeners();
+  }
+
+  Date _date = Date.today();
+
+  Date get date => _date;
+
+  set date(Date value) {
+    _date = value;
     notifyListeners();
   }
 }
@@ -406,6 +416,8 @@ class _DateAndTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<AddEventDialogController>(context);
+
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -423,8 +435,9 @@ class _DateAndTimePicker extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _DateAndTimeTile(
+                    key: EventDialogKeys.startDateField,
                     leading: const Icon(Icons.today),
-                    date: Date('2024-02-03'),
+                    date: controller.date,
                     time: Time(hour: 11, minute: 00),
                   ),
                   _DateAndTimeTile(
@@ -478,6 +491,7 @@ class _LessonPickerPage extends StatelessWidget {
 
 class _DateAndTimeTile extends StatelessWidget {
   const _DateAndTimeTile({
+    super.key,
     this.leading,
     this.date,
     this.time,
@@ -518,13 +532,18 @@ class _DateAndTimeTile extends StatelessWidget {
       ),
       onTap: isDatePickingEnabled
           ? () async {
+              final controller =
+                  Provider.of<AddEventDialogController>(context, listen: false);
+
               final DateTime? picked = await showDatePicker(
                 context: context,
                 initialDate: clock.now(),
                 firstDate: DateTime(2015, 8),
                 lastDate: DateTime(2101),
               );
-              log('picked: $picked');
+              if (picked != null) {
+                controller.date = Date.fromDateTime(picked);
+              }
             }
           : null,
     );

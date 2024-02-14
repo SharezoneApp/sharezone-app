@@ -1,6 +1,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -102,6 +103,26 @@ void main() {
 
       expect(find.text('Foo course'), findsOneWidget);
       expect(controller.course?.id, CourseId('fooId'));
+    });
+
+    testWidgets('selected date is forwarded to controller', (tester) async {
+      final course = courseWith(id: 'fooId', name: 'Foo course');
+      addCourse(course);
+
+      await pumpDialog(tester, isExam: false);
+
+      // TODO: Make "now" input from test
+      await tester.tap(find.byKey(EventDialogKeys.startDateField));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('16'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+
+      // I don't know why its the english date format in widget tests.
+      // In German it would be "Fr., 16. Feb. 2024"
+      expect(find.text('Fri, Feb 16, 2024'), findsOneWidget);
+      expect(controller.date, Date('2024-02-16'));
     });
 
     testWidgets('entered description is forwarded to controller',
