@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 
@@ -44,11 +43,11 @@ void main() {
               bloc: sharezoneContext,
             )
           ],
-          child: (context) => ChangeNotifierProvider(
-            create: (context) => controller,
-            child: MaterialApp(
-              home: Scaffold(
-                body: TimetableAddEventDialog(isExam: isExam),
+          child: (context) => MaterialApp(
+            home: Scaffold(
+              body: TimetableAddEventDialog(
+                isExam: isExam,
+                controller: controller,
               ),
             ),
           ),

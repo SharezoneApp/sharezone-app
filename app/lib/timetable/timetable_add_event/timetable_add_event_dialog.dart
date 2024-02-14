@@ -8,6 +8,7 @@
 
 import 'dart:developer';
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -16,6 +17,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -83,80 +85,92 @@ class CourseView {
 }
 
 class TimetableAddEventDialog extends StatelessWidget {
-  const TimetableAddEventDialog({super.key, required this.isExam});
+  TimetableAddEventDialog({
+    super.key,
+    required this.isExam,
+    @visibleForTesting this.controller,
+  });
 
   final bool isExam;
+  late AddEventDialogController? controller;
 
   static const tag = "timetable-event-dialog";
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      // canPop: false,
-      onPopInvoked: (didPop) async {
-        if (didPop) return;
+    controller ??= AddEventDialogController(
+      api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
+    );
+    return ChangeNotifierProvider(
+      create: (context) => controller,
+      builder: (context, __) => PopScope(
+        // canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
 
-        // final hasInputChanged = hasModifiedData();
-        const hasInputChanged = false;
-        final navigator = Navigator.of(context);
-        if (!hasInputChanged) {
-          navigator.pop();
-          return;
-        }
+          // final hasInputChanged = hasModifiedData();
+          const hasInputChanged = false;
+          final navigator = Navigator.of(context);
+          if (!hasInputChanged) {
+            navigator.pop();
+            return;
+          }
 
-        // final shouldPop = await warnUserAboutLeavingForm(context);
-        // if (shouldPop && context.mounted) {
-        //   navigator.pop();
-        // }
-      },
-      child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            _AppBar(
-                // editMode: widget.isEditing,
-                editMode: false,
-                focusNodeTitle: _titleNode,
-                // onCloseTap: () => leaveDialog(),
-                onCloseTap: () {
-                  Navigator.pop(context);
-                },
-                isExam: isExam,
-                titleField: _TitleField(
-                  key: EventDialogKeys.titleTextField,
-                  focusNode: _titleNode,
+          // final shouldPop = await warnUserAboutLeavingForm(context);
+          // if (shouldPop && context.mounted) {
+          //   navigator.pop();
+          // }
+        },
+        child: Scaffold(
+          body: Column(
+            children: <Widget>[
+              _AppBar(
+                  // editMode: widget.isEditing,
+                  editMode: false,
+                  focusNodeTitle: _titleNode,
+                  // onCloseTap: () => leaveDialog(),
+                  onCloseTap: () {
+                    Navigator.pop(context);
+                  },
                   isExam: isExam,
+                  titleField: _TitleField(
+                    key: EventDialogKeys.titleTextField,
+                    focusNode: _titleNode,
+                    isExam: isExam,
 
-                  // state: state,
-                )),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const _CourseTile(),
-                    const _MobileDivider(),
-                    const _DateAndTimePicker(),
-                    const _MobileDivider(),
-                    _DescriptionFieldBase(
-                      hintText:
-                          isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
-                      onChanged: (newDescription) {
-                        Provider.of<AddEventDialogController>(context,
-                                listen: false)
-                            .description = newDescription;
-                      },
-                      prefilledDescription: '',
-                    ),
-                    const _MobileDivider(),
-                    const _Location(),
-                    const _MobileDivider(),
-                    _SendNotification(isExam: isExam),
-                  ],
+                    // state: state,
+                  )),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const _CourseTile(),
+                      const _MobileDivider(),
+                      const _DateAndTimePicker(),
+                      const _MobileDivider(),
+                      _DescriptionFieldBase(
+                        hintText: isExam
+                            ? 'Themen der Prüfung'
+                            : 'Zusatzinformationen',
+                        onChanged: (newDescription) {
+                          Provider.of<AddEventDialogController>(context,
+                                  listen: false)
+                              .description = newDescription;
+                        },
+                        prefilledDescription: '',
+                      ),
+                      const _MobileDivider(),
+                      const _Location(),
+                      const _MobileDivider(),
+                      _SendNotification(isExam: isExam),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
