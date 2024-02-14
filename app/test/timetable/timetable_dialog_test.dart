@@ -1,28 +1,66 @@
+import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:group_domain_models/group_domain_models.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
+
+import '../homework/homework_dialog_test.dart';
+import '../homework/homework_dialog_test.mocks.dart';
+@GenerateNiceMocks([
+  MockSpec<EventDialogApi>(),
+])
+import 'timetable_dialog_test.mocks.dart';
 
 void main() {
   group('event add dialog', () {
     late AddEventDialogController controller;
+    late MockEventDialogApi api;
+    late MockSharezoneGateway sharezoneGateway;
+    late MockCourseGateway courseGateway;
+    late MockSharezoneContext sharezoneContext;
 
     setUp(() {
-      controller = AddEventDialogController();
+      sharezoneGateway = MockSharezoneGateway();
+      courseGateway = MockCourseGateway();
+      sharezoneContext = MockSharezoneContext();
+      api = MockEventDialogApi();
+      controller = AddEventDialogController(api: api);
     });
 
     Future<void> pumpDialog(WidgetTester tester, {required bool isExam}) async {
+      when(sharezoneGateway.course).thenReturn(courseGateway);
+      when(sharezoneContext.api).thenReturn(sharezoneGateway);
+
       await tester.pumpWidget(
-        ChangeNotifierProvider(
-          create: (context) => controller,
-          child: MaterialApp(
-            home: Scaffold(
-              body: TimetableAddEventDialog(isExam: isExam),
+        MultiBlocProvider(
+          blocProviders: [
+            BlocProvider<SharezoneContext>(
+              bloc: sharezoneContext,
+            )
+          ],
+          child: (context) => ChangeNotifierProvider(
+            create: (context) => controller,
+            child: MaterialApp(
+              home: Scaffold(
+                body: TimetableAddEventDialog(isExam: isExam),
+              ),
             ),
           ),
         ),
       );
+    }
+
+    void addCourse(Course course) {
+      when(courseGateway.streamCourses())
+          .thenAnswer((_) => Stream.value([course]));
+      when(api.loadCourse(any)).thenAnswer((_) => Future.value(course));
+      // homeworkDialogApi.addCourseForTesting(course);
     }
 
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
@@ -49,6 +87,9 @@ void main() {
     });
 
     testWidgets('selected course is forwarded to controller', (tester) async {
+      final course = courseWith(id: 'fooId', name: 'Foo course');
+      addCourse(course);
+
       await pumpDialog(tester, isExam: false);
 
       await tester.tap(find.byKey(EventDialogKeys.courseTile));
@@ -57,7 +98,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Foo course'), findsOneWidget);
-      expect(controller.course?.id, CourseId('Test'));
+      expect(controller.course?.id, CourseId('fooId'));
     });
 
     testWidgets('entered description is forwarded to controller',

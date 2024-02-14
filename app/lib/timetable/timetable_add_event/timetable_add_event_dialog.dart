@@ -8,14 +8,18 @@
 
 import 'dart:developer';
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
+import 'package:sharezone/util/api.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -30,7 +34,20 @@ class EventDialogKeys {
   static const Key descriptionTextField = Key("description-field");
 }
 
+class EventDialogApi {
+  final SharezoneGateway _api;
+
+  EventDialogApi(this._api);
+
+  Future<Course> loadCourse(CourseId courseId) async {
+    return (await _api.course.streamCourse(courseId.id).first)!;
+  }
+}
+
 class AddEventDialogController extends ChangeNotifier {
+  AddEventDialogController({required this.api});
+  final EventDialogApi api;
+
   String _title = '';
 
   String get title => _title;
@@ -53,17 +70,18 @@ class AddEventDialogController extends ChangeNotifier {
 
   CourseView? get course => _course;
 
-  selectCourse(CourseId courseId) {
-    _course = CourseView(id: courseId);
+  Future<void> selectCourse(CourseId courseId) async {
+    final c = await api.loadCourse(courseId);
+    _course = CourseView(id: courseId, name: c.name);
     notifyListeners();
   }
 }
 
 class CourseView {
-  // TODO: Use CourseId/GroupId
   final CourseId id;
+  final String name;
 
-  CourseView({required this.id});
+  CourseView({required this.id, required this.name});
 }
 
 class TimetableAddEventDialog extends StatelessWidget {
@@ -75,6 +93,7 @@ class TimetableAddEventDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final api = BlocProvider.of<SharezoneContext>(context);
     return PopScope(
       // canPop: false,
       onPopInvoked: (didPop) async {
@@ -351,15 +370,20 @@ class _CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<AddEventDialogController>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
         child: CourseTileBase(
-          // key: HwDialogKeys.courseTile,
-          courseName: null,
+          key: EventDialogKeys.courseTile,
+          courseName: controller.course?.name ?? '',
           errorText: null,
-          onTap: () {},
+          onTap: () {
+            CourseTile.onTap(context, onChangedId: (courseId) {
+              controller.selectCourse(courseId);
+            });
+          },
         ),
       ),
     );
