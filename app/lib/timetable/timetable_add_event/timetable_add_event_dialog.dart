@@ -8,7 +8,6 @@
 
 import 'dart:developer';
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -17,7 +16,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
@@ -93,7 +91,6 @@ class TimetableAddEventDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final api = BlocProvider.of<SharezoneContext>(context);
     return PopScope(
       // canPop: false,
       onPopInvoked: (didPop) async {
