@@ -10,6 +10,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
+import 'package:time/time.dart';
 
 import '../homework/homework_dialog_test.dart';
 import '../homework/homework_dialog_test.mocks.dart';
@@ -33,12 +34,19 @@ void main() {
       api = MockEventDialogApi();
     });
 
-    Future<void> pumpDialog(WidgetTester tester,
-        {required bool isExam, Clock? clockOverride}) async {
+    Future<void> pumpDialog(
+      WidgetTester tester, {
+      required bool isExam,
+      Clock? clockOverride,
+      required,
+      TimeOfDay Function()? showTimeDialogTestOverride,
+    }) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
 
       await withClock(clockOverride ?? clock, () async {
+        // Since the controller currently calls clock.now() when being created,
+        // we need to move it here instead of `setUp` so that `withClock` works.
         controller = AddEventDialogController(api: api);
 
         await tester.pumpWidget(
@@ -53,6 +61,7 @@ void main() {
                 body: TimetableAddEventDialog(
                   isExam: isExam,
                   controller: controller,
+                  showTimePickerTestOverride: showTimeDialogTestOverride,
                 ),
               ),
             ),
@@ -128,6 +137,56 @@ void main() {
       // In German it would be "Fr., 16. Feb. 2024"
       expect(find.text('Fri, Feb 16, 2024'), findsOneWidget);
       expect(controller.date, Date('2024-02-16'));
+    });
+
+    testWidgets('selected start time is forwarded to controller',
+        (tester) async {
+      await pumpDialog(
+        tester,
+        isExam: false,
+        clockOverride: Clock.fixed(
+          DateTime(2024, 2, 13),
+        ),
+        showTimeDialogTestOverride: () => const TimeOfDay(hour: 11, minute: 30),
+      );
+
+      await tester.tap(find.byKey(EventDialogKeys.startTimeField));
+      // await tester.pumpAndSettle(const Duration(seconds: 1));
+      // await tester.tap(find.text('11'));
+      // await tester.pumpAndSettle();
+      // await tester.tap(find.text('30'));
+      // await tester.pumpAndSettle();
+      // await tester.tap(find.text('OK'));
+      // await tester.pumpAndSettle();
+
+      // I don't know why its the english date format in widget tests.
+      // In German it would be "Fr., 16. Feb. 2024"
+      // expect(find.text('11:30'), findsOneWidget);
+      expect(controller.startTime, Time(hour: 11, minute: 30));
+    });
+    testWidgets('selected end time is forwarded to controller', (tester) async {
+      await pumpDialog(
+        tester,
+        isExam: false,
+        clockOverride: Clock.fixed(
+          DateTime(2024, 2, 13),
+        ),
+        showTimeDialogTestOverride: () => const TimeOfDay(hour: 12, minute: 30),
+      );
+
+      await tester.tap(find.byKey(EventDialogKeys.endTimeField));
+      // await tester.pumpAndSettle(const Duration(seconds: 1));
+      // await tester.tap(find.text('11'));
+      // await tester.pumpAndSettle();
+      // await tester.tap(find.text('30'));
+      // await tester.pumpAndSettle();
+      // await tester.tap(find.text('OK'));
+      // await tester.pumpAndSettle();
+
+      // I don't know why its the english date format in widget tests.
+      // In German it would be "Fr., 16. Feb. 2024"
+      // expect(find.text('11:30'), findsOneWidget);
+      expect(controller.endTime, Time(hour: 12, minute: 30));
     });
 
     testWidgets('entered description is forwarded to controller',

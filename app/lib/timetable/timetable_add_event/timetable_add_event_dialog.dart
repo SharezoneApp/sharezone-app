@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:developer';
-
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -33,6 +31,8 @@ class EventDialogKeys {
   static const Key courseTile = Key("course-tile");
   static const Key descriptionTextField = Key("description-field");
   static const Key startDateField = Key("start-date-field");
+  static const Key startTimeField = Key("start-time-field");
+  static const Key endTimeField = Key("end-time-field");
 }
 
 class EventDialogApi {
@@ -85,6 +85,24 @@ class AddEventDialogController extends ChangeNotifier {
     _date = value;
     notifyListeners();
   }
+
+  Time _startTime = Time(hour: 11, minute: 00);
+
+  Time get startTime => _startTime;
+
+  set startTime(Time value) {
+    _startTime = value;
+    notifyListeners();
+  }
+
+  Time _endTime = Time(hour: 12, minute: 00);
+
+  Time get endTime => _endTime;
+
+  set endTime(Time value) {
+    _endTime = value;
+    notifyListeners();
+  }
 }
 
 class CourseView {
@@ -94,12 +112,17 @@ class CourseView {
   CourseView({required this.id, required this.name});
 }
 
+TimeOfDay Function()? _timePickerOverride;
+
 class TimetableAddEventDialog extends StatelessWidget {
   TimetableAddEventDialog({
     super.key,
     required this.isExam,
     @visibleForTesting this.controller,
-  });
+    @visibleForTesting TimeOfDay Function()? showTimePickerTestOverride,
+  }) {
+    _timePickerOverride = showTimePickerTestOverride;
+  }
 
   final bool isExam;
   late AddEventDialogController? controller;
@@ -436,14 +459,22 @@ class _DateAndTimePicker extends StatelessWidget {
                 children: [
                   _DateAndTimeTile(
                     key: EventDialogKeys.startDateField,
+                    timeFieldKey: EventDialogKeys.startTimeField,
                     leading: const Icon(Icons.today),
                     date: controller.date,
-                    time: Time(hour: 11, minute: 00),
+                    time: controller.startTime,
+                    onTimeChanged: (newTime) {
+                      controller.startTime = newTime;
+                    },
                   ),
                   _DateAndTimeTile(
                     date: Date('2024-02-03'),
+                    timeFieldKey: EventDialogKeys.endTimeField,
                     time: Time(hour: 12, minute: 30),
                     isDatePickingEnabled: false,
+                    onTimeChanged: (newTime) {
+                      controller.endTime = newTime;
+                    },
                   ),
                   // ignore: dead_code
                   if (false) ...[
@@ -495,12 +526,16 @@ class _DateAndTimeTile extends StatelessWidget {
     this.leading,
     this.date,
     this.time,
+    this.timeFieldKey,
     this.isDatePickingEnabled = true,
+    required this.onTimeChanged,
   });
 
   final Widget? leading;
   final Date? date;
   final Time? time;
+  final void Function(Time newTime) onTimeChanged;
+  final Key? timeFieldKey;
   final bool isDatePickingEnabled;
 
   @override
@@ -517,16 +552,24 @@ class _DateAndTimeTile extends StatelessWidget {
       ),
       // trailing: const Text('11:30'),
       trailing: TextButton(
+        key: timeFieldKey,
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
           textStyle: const TextStyle(fontSize: 15),
         ),
         onPressed: () async {
-          final picked = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay.fromDateTime(clock.now()),
-          );
-          log('picked: $picked');
+          TimeOfDay? picked;
+          if (_timePickerOverride != null) {
+            picked = _timePickerOverride!();
+          } else {
+            picked = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.fromDateTime(clock.now()),
+            );
+          }
+          if (picked != null) {
+            onTimeChanged(Time(hour: picked.hour, minute: picked.minute));
+          }
         },
         child: Text(time?.toString() ?? ''),
       ),
