@@ -77,10 +77,35 @@ void main() {
       // homeworkDialogApi.addCourseForTesting(course);
     }
 
+    Future<void> enterTitle(WidgetTester tester, String title) async {
+      await tester.enterText(find.byKey(EventDialogKeys.titleTextField), title);
+    }
+
     Future<void> selectCourse(WidgetTester tester, String courseName) async {
       await tester.tap(find.byKey(EventDialogKeys.courseTile));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Foo course'));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> selectDate(WidgetTester tester,
+        {required String dayOfCurrentMonth}) async {
+      await tester.tap(find.byKey(EventDialogKeys.startDateField));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('16'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> enterDescription(
+        WidgetTester tester, String description) async {
+      await tester.enterText(
+          find.byKey(EventDialogKeys.descriptionTextField), description);
+    }
+
+    Future<void> tapSaveButton(WidgetTester tester) async {
+      await tester.tap(find.byKey(EventDialogKeys.saveButton));
       await tester.pumpAndSettle();
     }
 
@@ -91,12 +116,9 @@ void main() {
       await pumpDialog(tester,
           isExam: false, clockOverride: Clock.fixed(DateTime(2024, 3, 15)));
 
-      await tester.enterText(
-          find.byKey(EventDialogKeys.titleTextField), 'Test');
+      await enterTitle(tester, 'Test');
       await selectCourse(tester, 'Foo course');
-      await tester.tap(find.byKey(EventDialogKeys.saveButton));
-      await tester.pumpAndSettle();
-      await tester.idle();
+      await tapSaveButton(tester);
 
       final command = verify(api.createEvent(captureAny)).captured.single
           as CreateEventCommand;
@@ -121,8 +143,7 @@ void main() {
     testWidgets('entered title is forwarded to controller', (tester) async {
       await pumpDialog(tester, isExam: false);
 
-      await tester.enterText(
-          find.byKey(EventDialogKeys.titleTextField), 'Test');
+      await enterTitle(tester, 'Test');
 
       expect(find.text('Test'), findsOneWidget);
       expect(controller.title, 'Test');
@@ -133,7 +154,6 @@ void main() {
       addCourse(course);
 
       await pumpDialog(tester, isExam: false);
-
       await selectCourse(tester, 'Foo course');
 
       expect(find.text('Foo course'), findsOneWidget);
@@ -146,13 +166,7 @@ void main() {
 
       await pumpDialog(tester,
           isExam: false, clockOverride: Clock.fixed(DateTime(2024, 2, 13)));
-
-      await tester.tap(find.byKey(EventDialogKeys.startDateField));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('16'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('OK'));
-      await tester.pumpAndSettle();
+      await selectDate(tester, dayOfCurrentMonth: '16');
 
       // I don't know why its the english date format in widget tests.
       // In German it would be "Fr., 16. Feb. 2024"
@@ -214,8 +228,7 @@ void main() {
         (tester) async {
       await pumpDialog(tester, isExam: false);
 
-      await tester.enterText(
-          find.byKey(EventDialogKeys.descriptionTextField), 'Test description');
+      await enterDescription(tester, 'Test description');
 
       expect(find.text('Test description'), findsOneWidget);
       expect(controller.description, 'Test description');
