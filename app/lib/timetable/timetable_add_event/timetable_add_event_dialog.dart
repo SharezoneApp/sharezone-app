@@ -15,6 +15,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/util/api.dart';
@@ -479,7 +480,8 @@ class _CourseTile extends StatelessWidget {
         bottom: false,
         child: CourseTileBase(
           key: EventDialogKeys.courseTile,
-          courseName: controller.course?.name ?? '',
+          courseName:
+              controller.course?.name ?? HwDialogErrorStrings.emptyCourse,
           errorText: null,
           onTap: () {
             CourseTile.onTap(context, onChangedId: (courseId) {
