@@ -183,6 +183,18 @@ void main() {
       await baseTest(tester, isExam: true);
     });
 
+    testWidgets(
+        'changes both dates (start and end) on screen if the date is changed',
+        (tester) async {
+      await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
+        await pumpDialog(tester, isExam: false);
+
+        await selectDate(tester, dayOfCurrentMonth: '27');
+      });
+
+      expect(find.textContaining('27'), findsNWidgets(2));
+    });
+
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
       await pumpDialog(tester, isExam: false);
 

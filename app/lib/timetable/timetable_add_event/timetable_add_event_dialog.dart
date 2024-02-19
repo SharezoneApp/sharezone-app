@@ -541,7 +541,7 @@ class _DateAndTimePicker extends StatelessWidget {
                     },
                   ),
                   _DateAndTimeTile(
-                    date: Date('2024-02-03'),
+                    date: controller.date,
                     timeFieldKey: EventDialogKeys.endTimeField,
                     time: controller.endTime,
                     isDatePickingEnabled: false,
