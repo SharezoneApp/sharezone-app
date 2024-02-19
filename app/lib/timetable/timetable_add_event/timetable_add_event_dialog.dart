@@ -27,13 +27,14 @@ final _titleNode = FocusNode();
 
 @visibleForTesting
 class EventDialogKeys {
+  static const Key saveButton = Key("save-button");
   static const Key titleTextField = Key("title-field");
   static const Key courseTile = Key("course-tile");
   static const Key descriptionTextField = Key("description-field");
   static const Key startDateField = Key("start-date-field");
   static const Key startTimeField = Key("start-time-field");
   static const Key endTimeField = Key("end-time-field");
-  static const Key saveButton = Key("save-button");
+  static const Key locationField = Key("location-field");
   static const Key notifyCourseMembersSwitch =
       Key("notify-course-members-switch");
 }
@@ -149,6 +150,15 @@ class AddEventDialogController extends ChangeNotifier {
 
   set notifyCourseMembers(bool value) {
     _notifyCourseMembers = value;
+    notifyListeners();
+  }
+
+  String _location = '';
+
+  String get location => _location;
+
+  set location(String value) {
+    _location = value;
     notifyListeners();
   }
 }
@@ -704,6 +714,7 @@ class _Location extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<AddEventDialogController>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -714,8 +725,8 @@ class _Location extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.location_pin),
               title: PrefilledTextField(
-                // key: ,
-                prefilledText: '',
+                key: EventDialogKeys.locationField,
+                prefilledText: controller.location,
                 maxLines: null,
                 scrollPadding: const EdgeInsets.all(16.0),
                 keyboardType: TextInputType.text,
@@ -727,7 +738,9 @@ class _Location extends StatelessWidget {
                   errorBorder: InputBorder.none,
                   fillColor: Colors.transparent,
                 ),
-                onChanged: (_) {},
+                onChanged: (newLocation) {
+                  controller.location = newLocation;
+                },
                 textCapitalization: TextCapitalization.sentences,
               ),
             ),

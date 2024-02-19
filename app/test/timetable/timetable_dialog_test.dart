@@ -104,6 +104,11 @@ void main() {
           find.byKey(EventDialogKeys.descriptionTextField), description);
     }
 
+    Future<void> enterLocation(WidgetTester tester, String location) async {
+      await tester.enterText(
+          find.byKey(EventDialogKeys.locationField), location);
+    }
+
     Future<void> tapNotifyCourseMembersSwitch(WidgetTester tester) async {
       await tester.tap(find.byKey(EventDialogKeys.notifyCourseMembersSwitch));
       await tester.pumpAndSettle();
@@ -237,6 +242,16 @@ void main() {
 
       expect(find.text('Test description'), findsOneWidget);
       expect(controller.description, 'Test description');
+    });
+
+    testWidgets('entered location/room is forwarded to controller',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await enterLocation(tester, 'Raum M12');
+
+      expect(find.text('Raum M12'), findsOneWidget);
+      expect(controller.location, 'Raum M12');
     });
 
     testWidgets('notify course members is forwarded to controller',
