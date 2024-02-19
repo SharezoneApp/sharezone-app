@@ -104,6 +104,11 @@ void main() {
           find.byKey(EventDialogKeys.descriptionTextField), description);
     }
 
+    Future<void> tapNotifyCourseMembersSwitch(WidgetTester tester) async {
+      await tester.tap(find.byKey(EventDialogKeys.notifyCourseMembersSwitch));
+      await tester.pumpAndSettle();
+    }
+
     Future<void> tapSaveButton(WidgetTester tester) async {
       await tester.tap(find.byKey(EventDialogKeys.saveButton));
       await tester.pumpAndSettle();
@@ -238,8 +243,7 @@ void main() {
         (tester) async {
       await pumpDialog(tester, isExam: false);
 
-      await tester.tap(find.byKey(EventDialogKeys.notifyCourseMembersSwitch));
-      await tester.pumpAndSettle();
+      await tapNotifyCourseMembersSwitch(tester);
 
       expect(
           find.byWidgetPredicate(
