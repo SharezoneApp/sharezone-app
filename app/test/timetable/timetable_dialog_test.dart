@@ -84,6 +84,27 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    testWidgets('saves basic event', (tester) async {
+      final course = courseWith(id: 'fooId', name: 'Foo course');
+      addCourse(course);
+
+      await pumpDialog(tester,
+          isExam: false, clockOverride: Clock.fixed(DateTime(2024, 3, 15)));
+
+      await tester.enterText(
+          find.byKey(EventDialogKeys.titleTextField), 'Test');
+      await selectCourse(tester, 'Foo course');
+      await tester.tap(find.byKey(EventDialogKeys.saveButton));
+      await tester.pumpAndSettle();
+      await tester.idle();
+
+      final command = verify(api.createEvent(captureAny)).captured.single
+          as CreateEventCommand;
+      expect(command.title, 'Test');
+      expect(command.courseId, CourseId('fooId'));
+      expect(command.date, Date('2024-03-15'));
+    });
+
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
       await pumpDialog(tester, isExam: false);
 

@@ -60,4 +60,14 @@ class MockEventDialogApi extends _i1.Mock implements _i3.EventDialogApi {
           ),
         )),
       ) as _i4.Future<_i2.Course>);
+  @override
+  _i4.Future<void> createEvent(_i3.CreateEventCommand? command) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createEvent,
+          [command],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

@@ -33,6 +33,7 @@ class EventDialogKeys {
   static const Key startDateField = Key("start-date-field");
   static const Key startTimeField = Key("start-time-field");
   static const Key endTimeField = Key("end-time-field");
+  static const Key saveButton = Key("save-button");
 }
 
 class EventDialogApi {
@@ -43,6 +44,31 @@ class EventDialogApi {
   Future<Course> loadCourse(CourseId courseId) async {
     return (await _api.course.streamCourse(courseId.id).first)!;
   }
+
+  Future<void> createEvent(
+    CreateEventCommand command,
+  ) async {
+    //
+    print('Event created: ${command.title}');
+  }
+}
+
+class CreateEventCommand {
+  final String title;
+  final String description;
+  final CourseId courseId;
+  final Date date;
+  final Time startTime;
+  final Time endTime;
+
+  CreateEventCommand({
+    required this.title,
+    required this.description,
+    required this.courseId,
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+  });
 }
 
 class AddEventDialogController extends ChangeNotifier {
@@ -102,6 +128,17 @@ class AddEventDialogController extends ChangeNotifier {
   set endTime(Time value) {
     _endTime = value;
     notifyListeners();
+  }
+
+  Future<void> createEvent() async {
+    return api.createEvent(CreateEventCommand(
+      title: title,
+      description: description,
+      courseId: course!.id,
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+    ));
   }
 }
 
@@ -281,11 +318,11 @@ class _SaveButton extends StatelessWidget {
   final bool isExam;
 
   Future<void> onPressed(BuildContext context) async {
+    final controller =
+        Provider.of<AddEventDialogController>(context, listen: false);
+    controller.createEvent();
     Navigator.pop(context);
-    // final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-    // try {
-    //   bloc.add(const Save());
-    // } on Exception catch (e) {
+    // TODO: Error handling?
     //   log("Exception when submitting: $e", error: e);
     //   showSnackSec(
     //     text:
@@ -303,7 +340,7 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SaveButton(
-      // key: HwDialogKeys.saveButton,
+      key: EventDialogKeys.saveButton,
       tooltip: isExam ? "Klausur speichern" : "Termin speichern",
       onPressed: () => onPressed(context),
     );
