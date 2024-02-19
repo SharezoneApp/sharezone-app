@@ -238,6 +238,7 @@ void main() {
         await tapStartTimeField(tester);
       });
 
+      expect(find.text('11:30'), findsOneWidget);
       expect(controller.startTime, Time(hour: 11, minute: 30));
     });
     testWidgets('selected end time is forwarded to controller', (tester) async {
@@ -252,6 +253,7 @@ void main() {
         await tapEndTimeField(tester);
       });
 
+      expect(find.text('12:30'), findsOneWidget);
       expect(controller.endTime, Time(hour: 12, minute: 30));
     });
 

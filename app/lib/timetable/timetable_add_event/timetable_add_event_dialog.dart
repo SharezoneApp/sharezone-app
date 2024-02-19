@@ -536,7 +536,7 @@ class _DateAndTimePicker extends StatelessWidget {
                   _DateAndTimeTile(
                     date: Date('2024-02-03'),
                     timeFieldKey: EventDialogKeys.endTimeField,
-                    time: Time(hour: 12, minute: 30),
+                    time: controller.endTime,
                     isDatePickingEnabled: false,
                     onTimeChanged: (newTime) {
                       controller.endTime = newTime;
