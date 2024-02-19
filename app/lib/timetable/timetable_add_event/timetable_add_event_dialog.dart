@@ -59,11 +59,13 @@ class EventDialogApi {
 
 class CreateEventCommand {
   final String title;
-  final String description;
   final CourseId courseId;
+  final String description;
   final Date date;
   final Time startTime;
   final Time endTime;
+  final String location;
+  final bool notifyCourseMembers;
 
   CreateEventCommand({
     required this.title,
@@ -72,6 +74,8 @@ class CreateEventCommand {
     required this.date,
     required this.startTime,
     required this.endTime,
+    required this.location,
+    required this.notifyCourseMembers,
   });
 }
 
@@ -142,6 +146,8 @@ class AddEventDialogController extends ChangeNotifier {
       date: date,
       startTime: startTime,
       endTime: endTime,
+      location: location,
+      notifyCourseMembers: notifyCourseMembers,
     ));
   }
 

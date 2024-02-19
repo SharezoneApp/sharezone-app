@@ -83,7 +83,7 @@ void main() {
     Future<void> selectCourse(WidgetTester tester, String courseName) async {
       await tester.tap(find.byKey(EventDialogKeys.courseTile));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Foo course'));
+      await tester.tap(find.text(courseName));
       await tester.pumpAndSettle();
     }
 
@@ -91,7 +91,7 @@ void main() {
         {required String dayOfCurrentMonth}) async {
       await tester.tap(find.byKey(EventDialogKeys.startDateField));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('16'));
+      await tester.tap(find.text(dayOfCurrentMonth));
       await tester.pumpAndSettle();
       await tester.tap(find.text('OK'));
       await tester.pumpAndSettle();
@@ -128,22 +128,51 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('saves basic event', (tester) async {
-      final course = courseWith(id: 'fooId', name: 'Foo course');
-      addCourse(course);
+    testWidgets('saves event', (tester) async {
+      await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
+        final course = courseWith(id: 'sportCourseId', name: 'Sport');
+        addCourse(course);
 
-      await pumpDialog(tester,
-          isExam: false, clockOverride: Clock.fixed(DateTime(2024, 3, 15)));
+        int counter = 0;
+        await pumpDialog(
+          tester,
+          isExam: false,
+          clockOverride: Clock.fixed(DateTime(2024, 3, 15)),
+          showTimeDialogTestOverride: () {
+            counter++;
+            if (counter == 1) {
+              return const TimeOfDay(hour: 13, minute: 40);
+            } else {
+              return const TimeOfDay(hour: 15, minute: 50);
+            }
+          },
+        );
 
-      await enterTitle(tester, 'Test');
-      await selectCourse(tester, 'Foo course');
-      await tapSaveButton(tester);
+        await enterTitle(tester, 'Sportfest');
+        await selectCourse(tester, 'Sport');
+        await selectDate(tester, dayOfCurrentMonth: '20');
+        await tapStartTimeField(tester);
+        await tapEndTimeField(tester);
+        await enterDescription(tester,
+            'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
+        await enterLocation(tester, 'Sportplatz');
+        await tapNotifyCourseMembersSwitch(tester);
+
+        await tapSaveButton(tester);
+      });
 
       final command = verify(api.createEvent(captureAny)).captured.single
           as CreateEventCommand;
-      expect(command.title, 'Test');
-      expect(command.courseId, CourseId('fooId'));
-      expect(command.date, Date('2024-03-15'));
+
+      expect(command.title, 'Sportfest');
+      expect(command.courseId, CourseId('sportCourseId'));
+      expect(command.date, Date('2024-03-20'));
+      expect(command.startTime, Time(hour: 13, minute: 40));
+      expect(command.endTime, Time(hour: 15, minute: 50));
+      expect(command.description,
+          'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
+      expect(command.location, 'Sportplatz');
+      expect(command.notifyCourseMembers, false);
     });
 
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
