@@ -544,6 +544,8 @@ class _DateAndTimePicker extends StatelessWidget {
                     date: controller.date,
                     timeFieldKey: EventDialogKeys.endTimeField,
                     time: controller.endTime,
+                    showEndNotAfterBeginningError:
+                        !controller.endTime.isAfter(controller.startTime),
                     isDatePickingEnabled: false,
                     onTimeChanged: (newTime) {
                       controller.endTime = newTime;
@@ -602,6 +604,7 @@ class _DateAndTimeTile extends StatelessWidget {
     this.timeFieldKey,
     this.isDatePickingEnabled = true,
     required this.onTimeChanged,
+    this.showEndNotAfterBeginningError = false,
   });
 
   final Widget? leading;
@@ -609,12 +612,19 @@ class _DateAndTimeTile extends StatelessWidget {
   final Time? time;
   final void Function(Time newTime) onTimeChanged;
   final Key? timeFieldKey;
+  final bool showEndNotAfterBeginningError;
   final bool isDatePickingEnabled;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: leading ?? const SizedBox(),
+      subtitle: showEndNotAfterBeginningError
+          ? Text(
+              'Die Endzeit muss nach der Startzeit liegen.',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            )
+          : null,
       title: Text(
         date?.parser.toYMMMEd ?? 'Datum auswählen...',
         style: TextStyle(
@@ -623,11 +633,12 @@ class _DateAndTimeTile extends StatelessWidget {
               : Theme.of(context).disabledColor,
         ),
       ),
-      // trailing: const Text('11:30'),
       trailing: TextButton(
         key: timeFieldKey,
         style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+          foregroundColor: showEndNotAfterBeginningError
+              ? Theme.of(context).colorScheme.error
+              : Theme.of(context).textTheme.bodyMedium!.color,
           textStyle: const TextStyle(fontSize: 15),
         ),
         onPressed: () async {
