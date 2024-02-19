@@ -38,7 +38,6 @@ void main() {
       WidgetTester tester, {
       required bool isExam,
       Clock? clockOverride,
-      required,
       TimeOfDay Function()? showTimeDialogTestOverride,
     }) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
@@ -95,6 +94,16 @@ void main() {
       await tester.tap(find.text('16'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> tapStartTimeField(WidgetTester tester) async {
+      await tester.tap(find.byKey(EventDialogKeys.startTimeField));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> tapEndTimeField(WidgetTester tester) async {
+      await tester.tap(find.byKey(EventDialogKeys.endTimeField));
       await tester.pumpAndSettle();
     }
 
@@ -195,7 +204,7 @@ void main() {
         showTimeDialogTestOverride: () => const TimeOfDay(hour: 11, minute: 30),
       );
 
-      await tester.tap(find.byKey(EventDialogKeys.startTimeField));
+      await tapStartTimeField(tester);
       // await tester.pumpAndSettle(const Duration(seconds: 1));
       // await tester.tap(find.text('11'));
       // await tester.pumpAndSettle();
@@ -219,7 +228,7 @@ void main() {
         showTimeDialogTestOverride: () => const TimeOfDay(hour: 12, minute: 30),
       );
 
-      await tester.tap(find.byKey(EventDialogKeys.endTimeField));
+      await tapEndTimeField(tester);
       // await tester.pumpAndSettle(const Duration(seconds: 1));
       // await tester.tap(find.text('11'));
       // await tester.pumpAndSettle();
