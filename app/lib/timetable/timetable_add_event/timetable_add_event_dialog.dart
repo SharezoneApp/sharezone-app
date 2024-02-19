@@ -57,6 +57,8 @@ class EventDialogApi {
   }
 }
 
+enum EventType { event, exam }
+
 class CreateEventCommand {
   final String title;
   final CourseId courseId;
@@ -66,6 +68,7 @@ class CreateEventCommand {
   final Time endTime;
   final String location;
   final bool notifyCourseMembers;
+  final EventType eventType;
 
   CreateEventCommand({
     required this.title,
@@ -76,12 +79,14 @@ class CreateEventCommand {
     required this.endTime,
     required this.location,
     required this.notifyCourseMembers,
+    required this.eventType,
   });
 }
 
 class AddEventDialogController extends ChangeNotifier {
-  AddEventDialogController({required this.api});
+  AddEventDialogController({required this.api, required this.isExam});
   final EventDialogApi api;
+  final bool isExam;
 
   String _title = '';
 
@@ -148,6 +153,7 @@ class AddEventDialogController extends ChangeNotifier {
       endTime: endTime,
       location: location,
       notifyCourseMembers: notifyCourseMembers,
+      eventType: isExam ? EventType.exam : EventType.event,
     ));
   }
 
@@ -197,6 +203,7 @@ class TimetableAddEventDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller ??= AddEventDialogController(
+      isExam: isExam,
       api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
     );
     return ChangeNotifierProvider(

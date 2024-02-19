@@ -44,7 +44,7 @@ void main() {
 
       // Since the controller currently uses clock.now() when being created,
       // we need to move it here instead of `setUp` so that `withClock` works.
-      controller = AddEventDialogController(api: api);
+      controller = AddEventDialogController(api: api, isExam: isExam);
 
       await tester.pumpWidget(
         MultiBlocProvider(
@@ -125,7 +125,7 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('saves event', (tester) async {
+    Future<void> baseTest(WidgetTester tester, {required bool isExam}) async {
       await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
         final course = courseWith(id: 'sportCourseId', name: 'Sport');
         addCourse(course);
@@ -133,7 +133,7 @@ void main() {
         int counter = 0;
         await pumpDialog(
           tester,
-          isExam: false,
+          isExam: isExam,
           showTimeDialogTestOverride: () {
             counter++;
             if (counter == 1) {
@@ -169,6 +169,18 @@ void main() {
           'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
       expect(command.location, 'Sportplatz');
       expect(command.notifyCourseMembers, false);
+      expect(
+        command.eventType,
+        isExam ? EventType.exam : EventType.event,
+      );
+    }
+
+    testWidgets('saves event', (tester) async {
+      await baseTest(tester, isExam: false);
+    });
+
+    testWidgets('saves exam', (tester) async {
+      await baseTest(tester, isExam: true);
     });
 
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
