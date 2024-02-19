@@ -233,5 +233,19 @@ void main() {
       expect(find.text('Test description'), findsOneWidget);
       expect(controller.description, 'Test description');
     });
+
+    testWidgets('notify course members is forwarded to controller',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tester.tap(find.byKey(EventDialogKeys.notifyCourseMembersSwitch));
+      await tester.pumpAndSettle();
+
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is Switch && widget.value == false),
+          findsOneWidget);
+      expect(controller.notifyCourseMembers, false);
+    });
   });
 }

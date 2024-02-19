@@ -34,6 +34,8 @@ class EventDialogKeys {
   static const Key startTimeField = Key("start-time-field");
   static const Key endTimeField = Key("end-time-field");
   static const Key saveButton = Key("save-button");
+  static const Key notifyCourseMembersSwitch =
+      Key("notify-course-members-switch");
 }
 
 class EventDialogApi {
@@ -139,6 +141,15 @@ class AddEventDialogController extends ChangeNotifier {
       startTime: startTime,
       endTime: endTime,
     ));
+  }
+
+  bool _notifyCourseMembers = true;
+
+  bool get notifyCourseMembers => _notifyCourseMembers;
+
+  set notifyCourseMembers(bool value) {
+    _notifyCourseMembers = value;
+    notifyListeners();
   }
 }
 
@@ -734,14 +745,17 @@ class _SendNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<AddEventDialogController>(context);
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
         child: _SendNotificationBase(
           title: "Kursmitglieder benachrichtigen",
-          onChanged: (newValue) {},
-          sendNotification: true,
+          onChanged: (newValue) {
+            controller.notifyCourseMembers = newValue;
+          },
+          sendNotification: controller.notifyCourseMembers,
           description:
               "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
         ),
@@ -766,10 +780,10 @@ class _SendNotificationBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileWithDescription(
-      // key: HwDialogKeys.notifyCourseMembersTile,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
       trailing: Switch.adaptive(
+        key: EventDialogKeys.notifyCourseMembersSwitch,
         onChanged: onChanged,
         value: sendNotification,
       ),
