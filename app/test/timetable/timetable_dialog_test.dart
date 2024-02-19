@@ -37,36 +37,33 @@ void main() {
     Future<void> pumpDialog(
       WidgetTester tester, {
       required bool isExam,
-      Clock? clockOverride,
       TimeOfDay Function()? showTimeDialogTestOverride,
     }) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
 
-      await withClock(clockOverride ?? clock, () async {
-        // Since the controller currently calls clock.now() when being created,
-        // we need to move it here instead of `setUp` so that `withClock` works.
-        controller = AddEventDialogController(api: api);
+      // Since the controller currently uses clock.now() when being created,
+      // we need to move it here instead of `setUp` so that `withClock` works.
+      controller = AddEventDialogController(api: api);
 
-        await tester.pumpWidget(
-          MultiBlocProvider(
-            blocProviders: [
-              BlocProvider<SharezoneContext>(
-                bloc: sharezoneContext,
-              )
-            ],
-            child: (context) => MaterialApp(
-              home: Scaffold(
-                body: TimetableAddEventDialog(
-                  isExam: isExam,
-                  controller: controller,
-                  showTimePickerTestOverride: showTimeDialogTestOverride,
-                ),
+      await tester.pumpWidget(
+        MultiBlocProvider(
+          blocProviders: [
+            BlocProvider<SharezoneContext>(
+              bloc: sharezoneContext,
+            )
+          ],
+          child: (context) => MaterialApp(
+            home: Scaffold(
+              body: TimetableAddEventDialog(
+                isExam: isExam,
+                controller: controller,
+                showTimePickerTestOverride: showTimeDialogTestOverride,
               ),
             ),
           ),
-        );
-      });
+        ),
+      );
     }
 
     void addCourse(Course course) {
@@ -137,7 +134,6 @@ void main() {
         await pumpDialog(
           tester,
           isExam: false,
-          clockOverride: Clock.fixed(DateTime(2024, 3, 15)),
           showTimeDialogTestOverride: () {
             counter++;
             if (counter == 1) {
@@ -209,12 +205,13 @@ void main() {
     });
 
     testWidgets('selected date is forwarded to controller', (tester) async {
-      final course = courseWith(id: 'fooId', name: 'Foo course');
-      addCourse(course);
+      await withClock(Clock.fixed(DateTime(2024, 2, 13)), () async {
+        final course = courseWith(id: 'fooId', name: 'Foo course');
+        addCourse(course);
 
-      await pumpDialog(tester,
-          isExam: false, clockOverride: Clock.fixed(DateTime(2024, 2, 13)));
-      await selectDate(tester, dayOfCurrentMonth: '16');
+        await pumpDialog(tester, isExam: false);
+        await selectDate(tester, dayOfCurrentMonth: '16');
+      });
 
       // I don't know why its the english date format in widget tests.
       // In German it would be "Fr., 16. Feb. 2024"
@@ -224,51 +221,37 @@ void main() {
 
     testWidgets('selected start time is forwarded to controller',
         (tester) async {
-      await pumpDialog(
-        tester,
-        isExam: false,
-        clockOverride: Clock.fixed(
-          DateTime(2024, 2, 13),
-        ),
-        showTimeDialogTestOverride: () => const TimeOfDay(hour: 11, minute: 30),
-      );
+      await withClock(
+          Clock.fixed(
+            DateTime(2024, 2, 13),
+          ), () async {
+        await pumpDialog(
+          tester,
+          isExam: false,
+          // We can't select anything in the time picker, its like its not
+          // visible to the widget tests. So we have to return a fake time and
+          // not use the real time picker at all.
+          showTimeDialogTestOverride: () =>
+              const TimeOfDay(hour: 11, minute: 30),
+        );
 
-      await tapStartTimeField(tester);
-      // await tester.pumpAndSettle(const Duration(seconds: 1));
-      // await tester.tap(find.text('11'));
-      // await tester.pumpAndSettle();
-      // await tester.tap(find.text('30'));
-      // await tester.pumpAndSettle();
-      // await tester.tap(find.text('OK'));
-      // await tester.pumpAndSettle();
+        await tapStartTimeField(tester);
+      });
 
-      // I don't know why its the english date format in widget tests.
-      // In German it would be "Fr., 16. Feb. 2024"
-      // expect(find.text('11:30'), findsOneWidget);
       expect(controller.startTime, Time(hour: 11, minute: 30));
     });
     testWidgets('selected end time is forwarded to controller', (tester) async {
-      await pumpDialog(
-        tester,
-        isExam: false,
-        clockOverride: Clock.fixed(
-          DateTime(2024, 2, 13),
-        ),
-        showTimeDialogTestOverride: () => const TimeOfDay(hour: 12, minute: 30),
-      );
+      await withClock(Clock.fixed(DateTime(2024, 2, 13)), () async {
+        await pumpDialog(
+          tester,
+          isExam: false,
+          showTimeDialogTestOverride: () =>
+              const TimeOfDay(hour: 12, minute: 30),
+        );
 
-      await tapEndTimeField(tester);
-      // await tester.pumpAndSettle(const Duration(seconds: 1));
-      // await tester.tap(find.text('11'));
-      // await tester.pumpAndSettle();
-      // await tester.tap(find.text('30'));
-      // await tester.pumpAndSettle();
-      // await tester.tap(find.text('OK'));
-      // await tester.pumpAndSettle();
+        await tapEndTimeField(tester);
+      });
 
-      // I don't know why its the english date format in widget tests.
-      // In German it would be "Fr., 16. Feb. 2024"
-      // expect(find.text('11:30'), findsOneWidget);
       expect(controller.endTime, Time(hour: 12, minute: 30));
     });
 
