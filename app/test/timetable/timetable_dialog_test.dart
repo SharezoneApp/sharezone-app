@@ -239,7 +239,7 @@ void main() {
 
       // I don't know why its the english date format in widget tests.
       // In German it would be "Fr., 16. Feb. 2024"
-      expect(find.text('Fri, Feb 16, 2024'), findsOneWidget);
+      expect(find.text('Fri, Feb 16, 2024'), findsNWidgets(2));
       expect(controller.date, Date('2024-02-16'));
     });
 
