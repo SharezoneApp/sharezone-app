@@ -55,6 +55,7 @@ class TimetableAddEventDialog extends StatelessWidget {
       builder: (context, __) => PopScope(
         // canPop: false,
         onPopInvoked: (didPop) async {
+          // TODO: Implement
           if (didPop) return;
 
           // final hasInputChanged = hasModifiedData();
@@ -210,8 +211,11 @@ class _SaveButton extends StatelessWidget {
           context: context,
           seconds: 5,
         );
-        Navigator.pop(context);
+        return;
       }
+    }
+    if (context.mounted) {
+      Navigator.pop(context);
     }
   }
 
