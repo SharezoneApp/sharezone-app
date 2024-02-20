@@ -265,6 +265,22 @@ void main() {
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
     });
+    testWidgets('doesnt shows error message if end time after start time',
+        (tester) async {
+      late TimeOfDay timeOfDay;
+      await pumpDialog(
+        tester,
+        isExam: false,
+        showTimeDialogTestOverride: () => timeOfDay,
+      );
+
+      timeOfDay = const TimeOfDay(hour: 13, minute: 15);
+      await tapStartTimeField(tester);
+      timeOfDay = const TimeOfDay(hour: 15, minute: 30);
+      await tapEndTimeField(tester);
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          findsNothing);
+    });
 
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
       await pumpDialog(tester, isExam: false);
