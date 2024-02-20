@@ -959,25 +959,31 @@ class _SendNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
         bottom: false,
-        child: _SendNotificationBase(
-          title:
-              "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
+        child: ListTile(
+        leading: const Icon(Icons.notifications_active),
+        title: Text(
+          "Kursmitglieder ${state.isEditing ? "über Änderungen " : ""}benachrichtigen",
+        ),
+        subtitle: state.isEditing
+            ? null
+            : const Text(
+                "Kursmitglieder über neue Hausaufgabe benachrichtigen",
+              ),
+        trailing: Switch(
+          value: state.notifyCourseMembers,
           onChanged: (newValue) =>
               bloc.add(NotifyCourseMembersChanged(newValue)),
-          sendNotification: state.notifyCourseMembers,
-          description: state.isEditing
-              ? null
-              : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
+          ),
         ),
-      ),
+      )
     );
   }
 }
+
 
 class _SendNotificationBase extends StatelessWidget {
   const _SendNotificationBase({
@@ -1247,7 +1253,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = onChanged != null;
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: const EdgeInsets.only(left: 18 ,right: 24),
       leading: const Icon(Icons.security),
       title: const Text("Privat"),
       subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
