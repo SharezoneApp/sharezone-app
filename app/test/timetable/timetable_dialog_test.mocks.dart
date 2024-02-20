@@ -8,7 +8,7 @@ import 'dart:async' as _i4;
 import 'package:common_domain_models/common_domain_models.dart' as _i5;
 import 'package:group_domain_models/group_domain_models.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart'
+import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_event_dialog_api.dart'
     as _i3;
 
 // ignore_for_file: type=lint

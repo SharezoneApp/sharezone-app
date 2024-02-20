@@ -10,187 +10,22 @@ import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
-import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone/util/api.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
+import 'src/timetable_add_event_dialog_src.dart';
+
 final _titleNode = FocusNode();
-
-@visibleForTesting
-class EventDialogKeys {
-  static const Key saveButton = Key("save-button");
-  static const Key titleTextField = Key("title-field");
-  static const Key courseTile = Key("course-tile");
-  static const Key descriptionTextField = Key("description-field");
-  static const Key startDateField = Key("start-date-field");
-  static const Key startTimeField = Key("start-time-field");
-  static const Key endTimeField = Key("end-time-field");
-  static const Key locationField = Key("location-field");
-  static const Key notifyCourseMembersSwitch =
-      Key("notify-course-members-switch");
-}
-
-class EventDialogApi {
-  final SharezoneGateway _api;
-
-  EventDialogApi(this._api);
-
-  Future<Course> loadCourse(CourseId courseId) async {
-    return (await _api.course.streamCourse(courseId.id).first)!;
-  }
-
-  Future<void> createEvent(
-    CreateEventCommand command,
-  ) async {
-    //
-    print('Event created: ${command.title}');
-  }
-}
-
-enum EventType { event, exam }
-
-class CreateEventCommand {
-  final String title;
-  final CourseId courseId;
-  final String description;
-  final Date date;
-  final Time startTime;
-  final Time endTime;
-  final String location;
-  final bool notifyCourseMembers;
-  final EventType eventType;
-
-  CreateEventCommand({
-    required this.title,
-    required this.description,
-    required this.courseId,
-    required this.date,
-    required this.startTime,
-    required this.endTime,
-    required this.location,
-    required this.notifyCourseMembers,
-    required this.eventType,
-  });
-}
-
-class AddEventDialogController extends ChangeNotifier {
-  AddEventDialogController({required this.api, required this.isExam});
-  final EventDialogApi api;
-  final bool isExam;
-
-  String _title = '';
-
-  String get title => _title;
-  bool showEmptyTitleError = false;
-
-  set title(String value) {
-    showEmptyTitleError = value.isEmpty;
-    _title = value;
-    notifyListeners();
-  }
-
-  String _description = '';
-
-  String get description => _description;
-
-  set description(String value) {
-    _description = value;
-    notifyListeners();
-  }
-
-  CourseView? _course;
-
-  CourseView? get course => _course;
-
-  Future<void> selectCourse(CourseId courseId) async {
-    final c = await api.loadCourse(courseId);
-    _course = CourseView(id: courseId, name: c.name);
-    notifyListeners();
-  }
-
-  Date _date = Date.fromDateTime(clock.now());
-
-  Date get date => _date;
-
-  set date(Date value) {
-    _date = value;
-    notifyListeners();
-  }
-
-  Time _startTime = Time(hour: 11, minute: 00);
-
-  Time get startTime => _startTime;
-
-  set startTime(Time value) {
-    _startTime = value;
-    notifyListeners();
-  }
-
-  Time _endTime = Time(hour: 12, minute: 00);
-
-  Time get endTime => _endTime;
-
-  set endTime(Time value) {
-    _endTime = value;
-    notifyListeners();
-  }
-
-  Future<void> createEvent() async {
-    if (title.isEmpty) {
-      showEmptyTitleError = true;
-      notifyListeners();
-      return;
-    }
-    return api.createEvent(CreateEventCommand(
-      title: title,
-      description: description,
-      courseId: course!.id,
-      date: date,
-      startTime: startTime,
-      endTime: endTime,
-      location: location,
-      notifyCourseMembers: notifyCourseMembers,
-      eventType: isExam ? EventType.exam : EventType.event,
-    ));
-  }
-
-  bool _notifyCourseMembers = true;
-
-  bool get notifyCourseMembers => _notifyCourseMembers;
-
-  set notifyCourseMembers(bool value) {
-    _notifyCourseMembers = value;
-    notifyListeners();
-  }
-
-  String _location = '';
-
-  String get location => _location;
-
-  set location(String value) {
-    _location = value;
-    notifyListeners();
-  }
-}
-
-class CourseView {
-  final CourseId id;
-  final String name;
-
-  CourseView({required this.id, required this.name});
-}
 
 TimeOfDay Function()? _timePickerOverride;
 

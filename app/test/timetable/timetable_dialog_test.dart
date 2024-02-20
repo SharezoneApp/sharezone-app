@@ -9,6 +9,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_dialog_src.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 import 'package:time/time.dart';
 
