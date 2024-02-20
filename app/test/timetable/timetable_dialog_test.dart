@@ -201,8 +201,6 @@ void main() {
         (tester) async {
       await pumpDialog(tester, isExam: false);
 
-      // TODO: Make error messages defined in one place and use them in the
-      //  dialog and the tests.
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
     testWidgets(
