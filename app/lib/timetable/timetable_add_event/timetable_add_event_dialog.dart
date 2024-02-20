@@ -93,8 +93,10 @@ class AddEventDialogController extends ChangeNotifier {
   String _title = '';
 
   String get title => _title;
+  bool showEmptyTitleError = false;
 
   set title(String value) {
+    showEmptyTitleError = value.isEmpty;
     _title = value;
     notifyListeners();
   }
@@ -147,10 +149,10 @@ class AddEventDialogController extends ChangeNotifier {
 
   Future<void> createEvent() async {
     if (title.isEmpty) {
-      // throw Exception('Title is empty');
+      showEmptyTitleError = true;
+      notifyListeners();
       return;
     }
-
     return api.createEvent(CreateEventCommand(
       title: title,
       description: description,
@@ -405,7 +407,6 @@ class _TitleField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<AddEventDialogController>(context);
-    final showTitleError = controller.title.isEmpty;
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
           prefilledTitle: controller.title,
@@ -417,7 +418,9 @@ class _TitleField extends StatelessWidget {
           hintText: isExam
               ? 'Titel (z.B. Statistik-Klausur)'
               : 'Titel eingeben (z.B. Sportfest)',
-          errorText: showTitleError ? 'Der Titel darf nicht leer sein.' : null),
+          errorText: controller.showEmptyTitleError
+              ? 'Der Titel darf nicht leer sein.'
+              : null),
     );
   }
 }

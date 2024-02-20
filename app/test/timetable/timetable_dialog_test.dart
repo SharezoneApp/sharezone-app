@@ -196,15 +196,33 @@ void main() {
     });
 
     testWidgets(
-        'shows title error message if save is pressed an the title is empty',
+        'doesnt show title error message if save is not pressed and the title is empty',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      // TODO: Make error messages defined in one place and use them in the
+      //  dialog and the tests.
+      expect(find.text('Der Titel darf nicht leer sein.'), findsNothing);
+    });
+    testWidgets(
+        'shows title error message if save is pressed and the title is empty',
         (tester) async {
       await pumpDialog(tester, isExam: false);
 
       await tapSaveButton(tester);
 
-      // TODO: Make error messages defined in one place and use them in the
-      //  dialog and the tests.
       expect(find.text('Der Titel darf nicht leer sein.'), findsOneWidget);
+    });
+    testWidgets(
+        'removes title error message if save is pressed with an empty title but text is entered afterwards',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tapSaveButton(tester);
+      await enterTitle(tester, 'Foo');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Der Titel darf nicht leer sein.'), findsNothing);
     });
 
     testWidgets('shows error message if end time is not after start time',
