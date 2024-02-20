@@ -203,7 +203,7 @@ void main() {
 
       // TODO: Make error messages defined in one place and use them in the
       //  dialog and the tests.
-      expect(find.text('Der Titel darf nicht leer sein.'), findsNothing);
+      expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
     testWidgets(
         'shows title error message if save is pressed and the title is empty',
@@ -212,7 +212,7 @@ void main() {
 
       await tapSaveButton(tester);
 
-      expect(find.text('Der Titel darf nicht leer sein.'), findsOneWidget);
+      expect(find.text(EventDialogErrorStrings.emptyTitle), findsOneWidget);
     });
     testWidgets(
         'removes title error message if save is pressed with an empty title but text is entered afterwards',
@@ -223,7 +223,7 @@ void main() {
       await enterTitle(tester, 'Foo');
       await tester.pumpAndSettle();
 
-      expect(find.text('Der Titel darf nicht leer sein.'), findsNothing);
+      expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
 
     testWidgets('shows error message if end time is not after start time',
