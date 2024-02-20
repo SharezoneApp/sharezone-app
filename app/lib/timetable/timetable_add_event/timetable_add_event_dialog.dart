@@ -338,7 +338,9 @@ class _CourseTile extends StatelessWidget {
           key: EventDialogKeys.courseTile,
           courseName:
               controller.course?.name ?? HwDialogErrorStrings.emptyCourse,
-          errorText: null,
+          errorText: controller.showEmptyCourseError
+              ? EventDialogErrorStrings.emptyCourse
+              : null,
           onTap: () {
             CourseTile.onTap(context, onChangedId: (courseId) {
               controller.selectCourse(courseId);
@@ -690,6 +692,7 @@ class EventDialogKeys {
 
 class EventDialogErrorStrings {
   static const emptyTitle = "Bitte gib einen Titel ein.";
+  static const emptyCourse = "Bitte wähle einen Kurs aus.";
   static const endTimeMustBeAfterStartTime =
       "Die Endzeit muss nach der Startzeit liegen.";
 }

@@ -223,6 +223,15 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
+    testWidgets(
+        'shows course error message if save is pressed and no course is chosen',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tapSaveButton(tester);
+
+      expect(find.text(EventDialogErrorStrings.emptyCourse), findsOneWidget);
+    });
 
     testWidgets('shows error message if end time is not after start time',
         (tester) async {

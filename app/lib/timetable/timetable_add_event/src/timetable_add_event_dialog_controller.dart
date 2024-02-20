@@ -34,6 +34,7 @@ class AddEventDialogController extends ChangeNotifier {
   CourseView? _course;
 
   CourseView? get course => _course;
+  bool showEmptyCourseError = false;
 
   Future<void> selectCourse(CourseId courseId) async {
     final c = await api.loadCourse(courseId);
@@ -69,11 +70,20 @@ class AddEventDialogController extends ChangeNotifier {
   }
 
   Future<void> createEvent() async {
+    bool hasError = false;
     if (title.isEmpty) {
       showEmptyTitleError = true;
+      hasError = true;
+    }
+    if (course == null) {
+      showEmptyCourseError = true;
+      hasError = true;
+    }
+    if (hasError) {
       notifyListeners();
       return;
     }
+
     return api.createEvent(CreateEventCommand(
       title: title,
       description: description,
