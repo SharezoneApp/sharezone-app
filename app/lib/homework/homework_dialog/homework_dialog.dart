@@ -35,7 +35,6 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -963,27 +962,20 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: ListTile(
-        leading: const Icon(Icons.notifications_active),
-        title: Text(
-          "Kursmitglieder ${state.isEditing ? "über Änderungen " : ""}benachrichtigen",
-        ),
-        subtitle: state.isEditing
-            ? null
-            : const Text(
-                "Kursmitglieder über neue Hausaufgabe benachrichtigen",
-              ),
-        trailing: Switch(
-          value: state.notifyCourseMembers,
+        child: _SendNotificationBase(
+          title:
+              "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
           onChanged: (newValue) =>
               bloc.add(NotifyCourseMembersChanged(newValue)),
-          ),
+          sendNotification: state.notifyCourseMembers,
+          description: state.isEditing
+              ? null
+              : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
         ),
-      )
+      ),
     );
   }
 }
-
 
 class _SendNotificationBase extends StatelessWidget {
   const _SendNotificationBase({
@@ -1000,7 +992,7 @@ class _SendNotificationBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileWithDescription(
+    return ListTile(
       key: HwDialogKeys.notifyCourseMembersTile,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
@@ -1009,7 +1001,7 @@ class _SendNotificationBase extends StatelessWidget {
         value: sendNotification,
       ),
       onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
+      subtitle: description != null ? Text(description!) : null,
     );
   }
 }
@@ -1253,7 +1245,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = onChanged != null;
     return ListTile(
-      contentPadding: const EdgeInsets.only(left: 18 ,right: 24),
+      contentPadding: const EdgeInsets.only(left: 18, right: 24),
       leading: const Icon(Icons.security),
       title: const Text("Privat"),
       subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
