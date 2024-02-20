@@ -43,7 +43,6 @@ Future<TimetableResult?> showTimetableAddEventPage(
   BuildContext context, {
   required bool isExam,
 }) async {
-  // ignore: dead_code
   if (kDebugMode || kDevelopmentStageOrNull?.toLowerCase() == 'preview') {
     await Navigator.push(
         context,
