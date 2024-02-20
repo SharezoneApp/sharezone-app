@@ -232,6 +232,17 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyCourse), findsOneWidget);
     });
+    testWidgets('removes course error message if a course is chosen',
+        (tester) async {
+      final course = courseWith(id: 'fooId', name: 'Foo course');
+      addCourse(course);
+      await pumpDialog(tester, isExam: false);
+
+      await tapSaveButton(tester);
+      await selectCourse(tester, 'Foo course');
+
+      expect(find.text(EventDialogErrorStrings.emptyCourse), findsNothing);
+    });
 
     testWidgets('shows error message if end time is not after start time',
         (tester) async {

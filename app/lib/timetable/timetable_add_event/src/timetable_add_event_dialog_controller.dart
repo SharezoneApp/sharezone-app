@@ -39,6 +39,7 @@ class AddEventDialogController extends ChangeNotifier {
   Future<void> selectCourse(CourseId courseId) async {
     final c = await api.loadCourse(courseId);
     _course = CourseView(id: courseId, name: c.name);
+    showEmptyCourseError = false;
     notifyListeners();
   }
 
