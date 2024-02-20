@@ -40,7 +40,7 @@ class TimetableAddEventDialog extends StatelessWidget {
   }
 
   final bool isExam;
-  late AddEventDialogController? controller;
+  late final AddEventDialogController? controller;
 
   static const tag = "timetable-event-dialog";
 
