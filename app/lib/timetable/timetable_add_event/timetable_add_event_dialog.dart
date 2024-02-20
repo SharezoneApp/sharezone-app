@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -144,6 +146,11 @@ class AddEventDialogController extends ChangeNotifier {
   }
 
   Future<void> createEvent() async {
+    if (title.isEmpty) {
+      // throw Exception('Title is empty');
+      return;
+    }
+
     return api.createEvent(CreateEventCommand(
       title: title,
       description: description,
@@ -355,17 +362,20 @@ class _SaveButton extends StatelessWidget {
   Future<void> onPressed(BuildContext context) async {
     final controller =
         Provider.of<AddEventDialogController>(context, listen: false);
-    controller.createEvent();
-    Navigator.pop(context);
-    // TODO: Error handling?
-    //   log("Exception when submitting: $e", error: e);
-    //   showSnackSec(
-    //     text:
-    //         "Es gab einen unbekannten Fehler (${e.toString()}) 😖 Bitte kontaktiere den Support!",
-    //     context: context,
-    //     seconds: 5,
-    //   );
-    // }
+    try {
+      await controller.createEvent();
+    } catch (e) {
+      log("Exception when submitting: $e", error: e);
+      if (context.mounted) {
+        showSnackSec(
+          text:
+              "Es gab einen unbekannten Fehler (${e.toString()}) 😖 Bitte kontaktiere den Support!",
+          context: context,
+          seconds: 5,
+        );
+        Navigator.pop(context);
+      }
+    }
   }
 
   void hideSendDataToFrankfurtSnackBar(BuildContext context) {
@@ -387,33 +397,27 @@ class _TitleField extends StatelessWidget {
     super.key,
     required this.focusNode,
     required this.isExam,
-    // required this.state,
   });
 
-  // final Ready state;
   final FocusNode focusNode;
   final bool isExam;
 
   @override
   Widget build(BuildContext context) {
-    // final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    final controller = Provider.of<AddEventDialogController>(context);
+    final showTitleError = controller.title.isEmpty;
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
-        // prefilledTitle: state.title.$1,
-        prefilledTitle: null,
-        focusNode: focusNode,
-        onChanged: (newTitle) {
-          Provider.of<AddEventDialogController>(context, listen: false).title =
-              newTitle;
-          // bloc.add(TitleChanged(newTitle));
-        },
-        hintText: isExam
-            ? 'Titel (z.B. Statistik-Klausur)'
-            : 'Titel eingeben (z.B. Sportfest)',
-        // errorText: state.title.error is EmptyTitleException
-        //     ? HwDialogErrorStrings.emptyTitle
-        //     : state.title.error?.toString(),
-      ),
+          prefilledTitle: controller.title,
+          focusNode: focusNode,
+          onChanged: (newTitle) {
+            Provider.of<AddEventDialogController>(context, listen: false)
+                .title = newTitle;
+          },
+          hintText: isExam
+              ? 'Titel (z.B. Statistik-Klausur)'
+              : 'Titel eingeben (z.B. Sportfest)',
+          errorText: showTitleError ? 'Der Titel darf nicht leer sein.' : null),
     );
   }
 }
@@ -424,11 +428,13 @@ class _TitleFieldBase extends StatelessWidget {
     required this.onChanged,
     this.focusNode,
     required this.hintText,
+    this.errorText,
   });
 
   final String? prefilledTitle;
   final FocusNode? focusNode;
   final String hintText;
+  final String? errorText;
   final Function(String) onChanged;
 
   @override
@@ -445,7 +451,7 @@ class _TitleFieldBase extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               PrefilledTextField(
-                // key: HwDialogKeys.titleTextField,
+                key: HwDialogKeys.titleTextField,
                 prefilledText: prefilledTitle,
                 focusNode: focusNode,
                 cursorColor: Colors.white,
@@ -468,8 +474,7 @@ class _TitleFieldBase extends StatelessWidget {
                 textCapitalization: TextCapitalization.sentences,
               ),
               Text(
-                // errorText ?? "",
-                "",
+                errorText ?? "",
                 style: TextStyle(color: Colors.red[700], fontSize: 12),
               ),
               const SizedBox(height: 10),

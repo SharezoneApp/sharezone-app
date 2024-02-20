@@ -195,6 +195,18 @@ void main() {
       expect(find.textContaining('27'), findsNWidgets(2));
     });
 
+    testWidgets(
+        'shows title error message if save is pressed an the title is empty',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await tapSaveButton(tester);
+
+      // TODO: Make error messages defined in one place and use them in the
+      //  dialog and the tests.
+      expect(find.text('Der Titel darf nicht leer sein.'), findsOneWidget);
+    });
+
     testWidgets('shows error message if end time is not after start time',
         (tester) async {
       late TimeOfDay timeOfDay;
