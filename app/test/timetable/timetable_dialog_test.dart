@@ -239,12 +239,12 @@ void main() {
       await tapStartTimeField(tester);
       timeOfDay = const TimeOfDay(hour: 13, minute: 15);
       await tapEndTimeField(tester);
-      expect(find.text('Die Endzeit muss nach der Startzeit liegen.'),
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
 
       timeOfDay = const TimeOfDay(hour: 12, minute: 00);
       await tapEndTimeField(tester);
-      expect(find.text('Die Endzeit muss nach der Startzeit liegen.'),
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
     });
 

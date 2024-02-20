@@ -464,7 +464,7 @@ class _DateAndTimeTile extends StatelessWidget {
       leading: leading ?? const SizedBox(),
       subtitle: showEndNotAfterBeginningError
           ? Text(
-              'Die Endzeit muss nach der Startzeit liegen.',
+              EventDialogErrorStrings.endTimeMustBeAfterStartTime,
               style: TextStyle(color: Theme.of(context).colorScheme.error),
             )
           : null,
@@ -690,4 +690,6 @@ class EventDialogKeys {
 
 class EventDialogErrorStrings {
   static const emptyTitle = "Bitte gib einen Titel ein.";
+  static const endTimeMustBeAfterStartTime =
+      "Die Endzeit muss nach der Startzeit liegen.";
 }
