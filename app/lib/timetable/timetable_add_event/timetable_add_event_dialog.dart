@@ -201,7 +201,10 @@ class _SaveButton extends StatelessWidget {
     final controller =
         Provider.of<AddEventDialogController>(context, listen: false);
     try {
-      await controller.createEvent();
+      final success = await controller.createEvent();
+      if (success && context.mounted) {
+        Navigator.pop(context);
+      }
     } catch (e) {
       log("Exception when submitting: $e", error: e);
       if (context.mounted) {
@@ -213,9 +216,6 @@ class _SaveButton extends StatelessWidget {
         );
         return;
       }
-    }
-    if (context.mounted) {
-      Navigator.pop(context);
     }
   }
 

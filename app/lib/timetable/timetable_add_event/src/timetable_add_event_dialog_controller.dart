@@ -70,7 +70,7 @@ class AddEventDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createEvent() async {
+  Future<bool> createEvent() async {
     bool hasError = false;
     if (title.isEmpty) {
       showEmptyTitleError = true;
@@ -82,10 +82,10 @@ class AddEventDialogController extends ChangeNotifier {
     }
     if (hasError) {
       notifyListeners();
-      return;
+      return false;
     }
 
-    return api.createEvent(CreateEventCommand(
+    await api.createEvent(CreateEventCommand(
       title: title,
       description: description,
       courseId: course!.id,
@@ -96,6 +96,8 @@ class AddEventDialogController extends ChangeNotifier {
       notifyCourseMembers: notifyCourseMembers,
       eventType: isExam ? EventType.exam : EventType.event,
     ));
+
+    return true;
   }
 
   bool _notifyCourseMembers = true;
