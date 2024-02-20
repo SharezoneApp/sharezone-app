@@ -9,6 +9,8 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:time/time.dart';
 
@@ -24,8 +26,30 @@ class EventDialogApi {
   Future<void> createEvent(
     CreateEventCommand command,
   ) async {
-    //
-    print('Event created: ${command.title}');
+    //TODO: log markdown used?
+
+    final event = CalendricalEvent(
+      // The 'createdOn' field will be added in the gateway because we use
+      // serverTimestamp().
+      createdOn: null,
+      groupID: command.courseId.id,
+      groupType: GroupType.course,
+      eventType: switch (command.eventType) {
+        EventType.event => Meeting(),
+        EventType.exam => Exam(),
+      },
+      date: command.date,
+      place: command.location,
+      startTime: command.startTime,
+      endTime: command.endTime,
+      eventID: 'temp', authorID: 'temp', // WILL BE ADDED IN THE GATEWAY!
+      title: command.title,
+      detail: command.description,
+      sendNotification: command.notifyCourseMembers,
+      latestEditor: _api.memberID,
+    );
+
+    _api.timetable.createEvent(event);
   }
 }
 
