@@ -161,6 +161,7 @@ void main() {
       final command = verify(api.createEvent(captureAny)).captured.single
           as CreateEventCommand;
 
+      // TODO Just check against own create CreateEventCommand?
       expect(command.title, 'Sportfest');
       expect(command.courseId, CourseId('sportCourseId'));
       expect(command.date, Date('2024-03-20'));
