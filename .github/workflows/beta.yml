@@ -141,7 +141,7 @@ jobs:
           FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
-          sz deploy web-app \
+          sz deploy web \
             --stage beta \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --credentials firebase-hosting-key.json \
