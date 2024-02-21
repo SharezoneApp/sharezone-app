@@ -59,7 +59,6 @@ class TimetableAddEventDialog extends StatelessWidget {
       builder: (context, __) => PopScope(
           canPop: false,
           onPopInvoked: (didPop) async {
-            // TODO: Implement
             if (didPop) return;
 
             final hasInputChanged = hasModifiedData();
