@@ -1163,6 +1163,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.folder_open),
           title: const Text("Mit Abgabe"),
+          enabled: isWidgetEnabled,
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
           trailing: Switch.adaptive(
             value: submissionsEnabled,
