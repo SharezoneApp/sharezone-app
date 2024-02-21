@@ -736,6 +736,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                 width: 50,
                 child: TextField(
                   key: HwDialogKeys.customLessonChipDialogTextField,
+                  autofocus: true,
                   maxLength: 2,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
