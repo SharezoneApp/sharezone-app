@@ -206,6 +206,20 @@ void main() {
     });
 
     testWidgets(
+        'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (title)',
+        (tester) async {
+      await pumpDialog(tester, isExam: false);
+
+      await enterTitle(tester, 'Test');
+      await tester.pumpAndSettle();
+
+      await tester.pageBack();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+
+      expect(find.text('Eingabe verlassen?'), findsOneWidget);
+    });
+
+    testWidgets(
         'doesnt show title error message if save is not pressed and the title is empty',
         (tester) async {
       await pumpDialog(tester, isExam: false);

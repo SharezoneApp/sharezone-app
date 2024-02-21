@@ -44,6 +44,10 @@ class TimetableAddEventDialog extends StatelessWidget {
 
   static const tag = "timetable-event-dialog";
 
+  bool hasModifiedData() {
+    return controller!.title.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     controller ??= AddEventDialogController(
@@ -53,76 +57,80 @@ class TimetableAddEventDialog extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => controller,
       builder: (context, __) => PopScope(
-        // canPop: false,
-        onPopInvoked: (didPop) async {
-          // TODO: Implement
-          if (didPop) return;
+          // canPop: false,
+          onPopInvoked: (didPop) async {
+            // TODO: Implement
+            if (didPop) return;
 
-          // final hasInputChanged = hasModifiedData();
-          const hasInputChanged = false;
-          final navigator = Navigator.of(context);
-          if (!hasInputChanged) {
-            navigator.pop();
-            return;
-          }
+            final hasInputChanged = hasModifiedData();
+            final navigator = Navigator.of(context);
+            if (!hasInputChanged) {
+              navigator.pop();
+              return;
+            }
 
-          // final shouldPop = await warnUserAboutLeavingForm(context);
-          // if (shouldPop && context.mounted) {
-          //   navigator.pop();
-          // }
-        },
-        child: Scaffold(
-          body: Column(
-            children: <Widget>[
-              _AppBar(
-                  // editMode: widget.isEditing,
-                  editMode: false,
-                  focusNodeTitle: _titleNode,
-                  // onCloseTap: () => leaveDialog(),
-                  onCloseTap: () {
-                    Navigator.pop(context);
-                  },
-                  isExam: isExam,
-                  titleField: _TitleField(
-                    key: EventDialogKeys.titleTextField,
-                    focusNode: _titleNode,
+            final shouldPop = await warnUserAboutLeavingForm(context);
+            if (shouldPop && context.mounted) {
+              navigator.pop();
+            }
+          },
+          child: Scaffold(
+            body: Column(
+              children: <Widget>[
+                _AppBar(
+                    editMode: false,
+                    focusNodeTitle: _titleNode,
+                    onCloseTap: () async {
+                      if (hasModifiedData()) {
+                        final confirmedLeave =
+                            await warnUserAboutLeavingForm(context);
+                        if (confirmedLeave && context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
                     isExam: isExam,
+                    titleField: _TitleField(
+                      key: EventDialogKeys.titleTextField,
+                      focusNode: _titleNode,
+                      isExam: isExam,
 
-                    // state: state,
-                  )),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const _CourseTile(),
-                      const _MobileDivider(),
-                      const _DateAndTimePicker(),
-                      const _MobileDivider(),
-                      _DescriptionFieldBase(
-                        hintText: isExam
-                            ? 'Themen der Prüfung'
-                            : 'Zusatzinformationen',
-                        onChanged: (newDescription) {
-                          Provider.of<AddEventDialogController>(context,
-                                  listen: false)
-                              .description = newDescription;
-                        },
-                        prefilledDescription: '',
-                      ),
-                      const _MobileDivider(),
-                      const _Location(),
-                      const _MobileDivider(),
-                      _SendNotification(isExam: isExam),
-                    ],
+                      // state: state,
+                    )),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const _CourseTile(),
+                        const _MobileDivider(),
+                        const _DateAndTimePicker(),
+                        const _MobileDivider(),
+                        _DescriptionFieldBase(
+                          hintText: isExam
+                              ? 'Themen der Prüfung'
+                              : 'Zusatzinformationen',
+                          onChanged: (newDescription) {
+                            Provider.of<AddEventDialogController>(context,
+                                    listen: false)
+                                .description = newDescription;
+                          },
+                          prefilledDescription: '',
+                        ),
+                        const _MobileDivider(),
+                        const _Location(),
+                        const _MobileDivider(),
+                        _SendNotification(isExam: isExam),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
+          )),
     );
   }
 }
@@ -171,11 +179,15 @@ class _AppBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
+                  BackButton(
                     onPressed: onCloseTap,
-                    tooltip: "Schließen",
                   ),
+                  // TODO: Ask Nils why we didnt use BackButton
+                  // IconButton(
+                  //   icon: const Icon(Icons.close, color: Colors.white),
+                  //   onPressed: onCloseTap,
+                  //   tooltip: "Schließen",
+                  // ),
                   _SaveButton(
                     editMode: editMode,
                     isExam: isExam,
