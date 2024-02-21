@@ -45,7 +45,7 @@ class TimetableAddEventDialog extends StatelessWidget {
   static const tag = "timetable-event-dialog";
 
   bool hasModifiedData() {
-    return controller!.title.isNotEmpty;
+    return controller!.title.isNotEmpty || controller!.description.isNotEmpty;
   }
 
   @override
