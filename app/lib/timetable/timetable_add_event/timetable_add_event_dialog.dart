@@ -57,7 +57,7 @@ class TimetableAddEventDialog extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => controller,
       builder: (context, __) => PopScope(
-          // canPop: false,
+          canPop: false,
           onPopInvoked: (didPop) async {
             // TODO: Implement
             if (didPop) return;

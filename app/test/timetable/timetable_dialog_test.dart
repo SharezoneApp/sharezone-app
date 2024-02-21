@@ -134,6 +134,23 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    /// Emulates going back via the native platform back button.
+    ///
+    /// For example for old Android phones this would be the back button at the
+    /// bottom left of the phone (the triangle pointing to the left).
+    Future<void> goBackViaPlatformButton(WidgetTester tester) async {
+      // Copied from flutter code:
+      // https://github.com/flutter/flutter/blob/bfeaf5a7f2c67d9efdde58874a452da46e722a45/packages/flutter/test/material/will_pop_test.dart#L139C1-L144C54
+      // See also: https://stackoverflow.com/questions/65239597/flutter-testing-willpopscope-with-back-button
+      final dynamic widgetsAppState = tester.state(find.byType(WidgetsApp));
+      await widgetsAppState.didPopRoute();
+    }
+
+    Future<void> goBackViaWidgetBackButton(WidgetTester tester) async {
+      await tester.pageBack();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+    }
+
     Future<void> baseTest(WidgetTester tester, {required bool isExam}) async {
       await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
         final course = courseWith(id: 'sportCourseId', name: 'Sport');
@@ -205,44 +222,45 @@ void main() {
       expect(find.textContaining('27'), findsNWidgets(2));
     });
 
-    testWidgets(
-        'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (title)',
-        (tester) async {
-      await pumpDialog(tester, isExam: false);
+    for (var goBack in [goBackViaWidgetBackButton, goBackViaPlatformButton]) {
+      testWidgets(
+          'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (title)',
+          (tester) async {
+        await pumpDialog(tester, isExam: false);
 
-      await enterTitle(tester, 'Test');
-      await tester.pumpAndSettle();
+        await enterTitle(tester, 'Test');
 
-      await tester.pageBack();
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+        await goBack(tester);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      expect(find.text('Eingabe verlassen?'), findsOneWidget);
-    });
+        expect(find.text('Eingabe verlassen?'), findsOneWidget);
+      });
 
-    testWidgets(
-        'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (description/details)',
-        (tester) async {
-      await pumpDialog(tester, isExam: false);
+      testWidgets(
+          'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (description/details)',
+          (tester) async {
+        await pumpDialog(tester, isExam: false);
 
-      await enterDescription(tester, 'Test');
-      await tester.pumpAndSettle();
+        await enterDescription(tester, 'Test');
+        await tester.pumpAndSettle();
 
-      await tester.pageBack();
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+        await goBack(tester);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      expect(find.text('Eingabe verlassen?'), findsOneWidget);
-    });
+        expect(find.text('Eingabe verlassen?'), findsOneWidget);
+      });
 
-    testWidgets(
-        'doesnt show "are you sure" dialog if the user tries to close the dialog with no changes',
-        (tester) async {
-      await pumpDialog(tester, isExam: false);
-      await tester.pageBack();
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+      testWidgets(
+          'doesnt show "are you sure" dialog if the user tries to close the dialog with no changes',
+          (tester) async {
+        await pumpDialog(tester, isExam: false);
+        await goBack(tester);
+        await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      expect(find.text('Eingabe verlassen?'), findsNothing);
-      expect(find.byType(TimetableAddEventDialog), findsNothing);
-    });
+        expect(find.text('Eingabe verlassen?'), findsNothing);
+        expect(find.byType(TimetableAddEventDialog), findsNothing);
+      });
+    }
 
     testWidgets(
         'doesnt show title error message if save is not pressed and the title is empty',
