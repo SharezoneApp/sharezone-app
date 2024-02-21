@@ -99,6 +99,7 @@ class TimetableAddEventDialog extends StatelessWidget {
                         const _DateAndTimePicker(),
                         const _MobileDivider(),
                         _DescriptionFieldBase(
+                          textFieldKey: EventDialogKeys.descriptionTextField,
                           hintText: isExam
                               ? 'Themen der Prüfung'
                               : 'Zusatzinformationen',
@@ -522,11 +523,21 @@ class _DescriptionFieldBase extends StatelessWidget {
     required this.onChanged,
     required this.prefilledDescription,
     required this.hintText,
+    this.textFieldKey,
   });
 
   final Function(String) onChanged;
   final String? prefilledDescription;
   final String hintText;
+
+  /// Key for the [PrefilledTextField] (used for testing).
+  ///
+  /// If the key is assigned to [_DescriptionFieldBase] from the outside via
+  /// this field to the [PrefilledTextField] then calling
+  /// `tester.enterText(Key('description'))` will fail because of "too many
+  /// elements" for the key. I don't really understand why this happens, but
+  /// assigning the key to the [PrefilledTextField] fixes the problem.
+  final Key? textFieldKey;
 
   @override
   Widget build(BuildContext context) {
@@ -542,11 +553,7 @@ class _DescriptionFieldBase extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.subject),
                 title: PrefilledTextField(
-                  // TODO: If this is assigned to _DescriptionFieldBase, not
-                  // PrefilledTextField, the test fails because of too many
-                  // elements instead of one (for the key) when calling
-                  // tester.enterText.
-                  key: EventDialogKeys.descriptionTextField,
+                  key: textFieldKey,
                   prefilledText: prefilledDescription,
                   maxLines: null,
                   scrollPadding: const EdgeInsets.all(16.0),
