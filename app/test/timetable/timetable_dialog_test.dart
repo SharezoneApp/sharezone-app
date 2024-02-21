@@ -186,19 +186,20 @@ void main() {
       final command = verify(api.createEvent(captureAny)).captured.single
           as CreateEventCommand;
 
-      // TODO Just check against own create CreateEventCommand?
-      expect(command.title, 'Sportfest');
-      expect(command.courseId, CourseId('sportCourseId'));
-      expect(command.date, Date('2024-03-20'));
-      expect(command.startTime, Time(hour: 13, minute: 40));
-      expect(command.endTime, Time(hour: 15, minute: 50));
-      expect(command.description,
-          'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
-      expect(command.location, 'Sportplatz');
-      expect(command.notifyCourseMembers, false);
       expect(
-        command.eventType,
-        isExam ? EventType.exam : EventType.event,
+        command,
+        CreateEventCommand(
+          title: 'Sportfest',
+          courseId: CourseId('sportCourseId'),
+          date: Date('2024-03-20'),
+          startTime: Time(hour: 13, minute: 40),
+          endTime: Time(hour: 15, minute: 50),
+          description:
+              'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.',
+          location: 'Sportplatz',
+          notifyCourseMembers: false,
+          eventType: isExam ? EventType.exam : EventType.event,
+        ),
       );
     }
 

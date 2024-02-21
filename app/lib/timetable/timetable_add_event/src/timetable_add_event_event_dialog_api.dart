@@ -8,6 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:equatable/equatable.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
@@ -55,7 +56,7 @@ class EventDialogApi {
 
 enum EventType { event, exam }
 
-class CreateEventCommand {
+class CreateEventCommand extends Equatable {
   final String title;
   final CourseId courseId;
   final String description;
@@ -66,7 +67,20 @@ class CreateEventCommand {
   final bool notifyCourseMembers;
   final EventType eventType;
 
-  CreateEventCommand({
+  @override
+  List<Object?> get props => [
+        title,
+        courseId,
+        description,
+        date,
+        startTime,
+        endTime,
+        location,
+        notifyCourseMembers,
+        eventType,
+      ];
+
+  const CreateEventCommand({
     required this.title,
     required this.description,
     required this.courseId,
