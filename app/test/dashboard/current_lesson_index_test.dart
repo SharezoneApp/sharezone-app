@@ -25,6 +25,7 @@ void main() {
       abbreviation: "D",
       design: Design.standard(),
       lesson: Lesson(
+        createdOn: DateTime(2024, 1, 1),
         lessonID: "1",
         groupID: "1",
         groupType: GroupType.course,

@@ -176,6 +176,9 @@ Time _calculateEndTime(Time startTime, int lessonsLength) {
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $place $date $sendNotification");
 
       final event = CalendricalEvent(
+        // The 'createdOn' field will be added in the gateway because we use
+        // serverTimestamp().
+        createdOn: null,
         groupID: course.id,
         groupType: GroupType.course,
         eventType: eventType,

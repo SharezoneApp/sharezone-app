@@ -625,7 +625,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: f145e7365d36bec0d724c4574a8750e6f82fa6c8
   FirebaseSharedSwift: 0eec812f08b6ec9e03196fc27635739781513028
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -670,6 +670,6 @@ SPEC CHECKSUMS:
   video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
 
-PODFILE CHECKSUM: 9539e6dbccd01883ad4634f68be3ebd9b99b2b6c
+PODFILE CHECKSUM: 350e007cfd69dd0abbff45ff8220f15ed48ec552
 
 COCOAPODS: 1.12.1

@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
@@ -15,6 +16,13 @@ import 'package:time/time.dart';
 import 'calendrical_event_types.dart';
 
 class CalendricalEvent {
+  /// The date and time when the event was created.
+  ///
+  /// Clients with a lower version than 1.7.9 will not have this field.
+  /// Therefore, we will always have events without a [createdOn] field in the
+  /// database.
+  final DateTime? createdOn;
+
   final String eventID, groupID, authorID;
   final GroupType groupType;
   final CalendricalEventType eventType;
@@ -26,6 +34,7 @@ class CalendricalEvent {
   final String? latestEditor;
 
   CalendricalEvent({
+    required this.createdOn,
     required this.eventID,
     required this.groupID,
     required this.groupType,
@@ -46,6 +55,7 @@ class CalendricalEvent {
     required String id,
   }) {
     return CalendricalEvent(
+      createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       eventID: id,
       groupID: data['groupID'] as String,
       authorID: data['authorID'] as String,
@@ -64,6 +74,7 @@ class CalendricalEvent {
 
   Map<String, dynamic> toJson() {
     return {
+      'createdOn': createdOn,
       'groupID': groupID,
       'groupType': groupType.name,
       'eventType': getEventTypeToString(eventType),
@@ -95,6 +106,7 @@ class CalendricalEvent {
     String? latestEditor,
   }) {
     return CalendricalEvent(
+      createdOn: createdOn,
       authorID: authorID ?? this.authorID,
       eventID: eventID ?? this.eventID,
       groupID: groupID ?? this.groupID,
