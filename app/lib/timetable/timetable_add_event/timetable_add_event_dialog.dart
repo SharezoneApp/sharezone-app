@@ -80,17 +80,6 @@ class TimetableAddEventDialog extends StatelessWidget {
                 _AppBar(
                     editMode: false,
                     focusNodeTitle: _titleNode,
-                    onCloseTap: () async {
-                      if (hasModifiedData()) {
-                        final confirmedLeave =
-                            await warnUserAboutLeavingForm(context);
-                        if (confirmedLeave && context.mounted) {
-                          Navigator.pop(context);
-                        }
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    },
                     isExam: isExam,
                     titleField: _TitleField(
                       key: EventDialogKeys.titleTextField,
@@ -149,13 +138,11 @@ class _AppBar extends StatelessWidget {
   const _AppBar({
     required this.editMode,
     required this.focusNodeTitle,
-    required this.onCloseTap,
     required this.titleField,
     required this.isExam,
   });
 
   final bool editMode;
-  final VoidCallback onCloseTap;
   final Widget titleField;
   final bool isExam;
 
@@ -179,15 +166,7 @@ class _AppBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  BackButton(
-                    onPressed: onCloseTap,
-                  ),
-                  // TODO: Ask Nils why we didnt use BackButton
-                  // IconButton(
-                  //   icon: const Icon(Icons.close, color: Colors.white),
-                  //   onPressed: onCloseTap,
-                  //   tooltip: "Schließen",
-                  // ),
+                  const CloseButton(),
                   _SaveButton(
                     editMode: editMode,
                     isExam: isExam,

@@ -146,8 +146,8 @@ void main() {
       await widgetsAppState.didPopRoute();
     }
 
-    Future<void> goBackViaWidgetBackButton(WidgetTester tester) async {
-      await tester.pageBack();
+    Future<void> goBackViaWidgetCloseButton(WidgetTester tester) async {
+      await tester.tap(find.byType(CloseButton));
       await tester.pumpAndSettle(const Duration(seconds: 1));
     }
 
@@ -222,7 +222,7 @@ void main() {
       expect(find.textContaining('27'), findsNWidgets(2));
     });
 
-    for (var goBack in [goBackViaWidgetBackButton, goBackViaPlatformButton]) {
+    for (var goBack in [goBackViaWidgetCloseButton, goBackViaPlatformButton]) {
       testWidgets(
           'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (title)',
           (tester) async {
