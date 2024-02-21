@@ -45,6 +45,7 @@ void main() {
 
     Lesson createLesson(String groupId) {
       return Lesson(
+        createdOn: DateTime(2024, 1, 1),
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
@@ -61,6 +62,7 @@ void main() {
 
     CalendricalEvent createEvent(String groupId) {
       return CalendricalEvent(
+        createdOn: DateTime(2021, 1, 1),
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,

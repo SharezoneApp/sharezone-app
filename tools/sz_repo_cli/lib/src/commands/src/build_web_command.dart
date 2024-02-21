@@ -15,6 +15,7 @@ final _webStages = [
   'stable',
   'beta',
   'alpha',
+  'preview',
 ];
 
 /// The different flavors of the Web app.

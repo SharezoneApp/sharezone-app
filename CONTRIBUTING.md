@@ -119,8 +119,6 @@ To run the app, you can then execute the following command:
 ### Android, iOS & macOS
 
 ```sh
-
-```sh
 fvm flutter run --flavor dev --target lib/main_dev.dart
 ```
 
