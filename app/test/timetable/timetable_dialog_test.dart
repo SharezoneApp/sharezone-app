@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
+import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -17,6 +19,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_dialog_src.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 import 'package:time/time.dart';
@@ -53,14 +56,18 @@ void main() {
 
       // Since the controller currently uses clock.now() when being created,
       // we need to move it here instead of `setUp` so that `withClock` works.
-      controller = AddEventDialogController(api: api, isExam: isExam);
+      controller = AddEventDialogController(
+        api: api,
+        isExam: isExam,
+        markdownAnalytics: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
+      );
 
       await tester.pumpWidget(
         MultiBlocProvider(
           blocProviders: [
             BlocProvider<SharezoneContext>(
               bloc: sharezoneContext,
-            )
+            ),
           ],
           child: (context) => MaterialApp(
             home: Scaffold(

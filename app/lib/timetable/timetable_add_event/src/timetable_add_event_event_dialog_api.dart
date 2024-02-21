@@ -27,8 +27,6 @@ class EventDialogApi {
   Future<void> createEvent(
     CreateEventCommand command,
   ) async {
-    //TODO: log markdown used?
-
     final event = CalendricalEvent(
       // The 'createdOn' field will be added in the gateway because we use
       // serverTimestamp().

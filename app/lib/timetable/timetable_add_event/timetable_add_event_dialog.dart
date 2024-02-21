@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
@@ -53,6 +54,7 @@ class TimetableAddEventDialog extends StatelessWidget {
     controller ??= AddEventDialogController(
       isExam: isExam,
       api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
+      markdownAnalytics: BlocProvider.of<MarkdownAnalytics>(context),
     );
     return ChangeNotifierProvider(
       create: (context) => controller,

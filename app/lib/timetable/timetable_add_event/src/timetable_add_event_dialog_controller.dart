@@ -10,12 +10,18 @@ import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
 
 import 'timetable_add_event_dialog_src.dart';
 
 class AddEventDialogController extends ChangeNotifier {
-  AddEventDialogController({required this.api, required this.isExam});
+  AddEventDialogController({
+    required this.api,
+    required this.isExam,
+    required this.markdownAnalytics,
+  });
+  final MarkdownAnalytics markdownAnalytics;
   final EventDialogApi api;
   final bool isExam;
 
@@ -104,6 +110,10 @@ class AddEventDialogController extends ChangeNotifier {
       notifyCourseMembers: notifyCourseMembers,
       eventType: isExam ? EventType.exam : EventType.event,
     ));
+
+    if (markdownAnalytics.containsMarkdown(description)) {
+      markdownAnalytics.logMarkdownUsedEvent();
+    }
 
     return true;
   }
