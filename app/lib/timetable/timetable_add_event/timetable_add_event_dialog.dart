@@ -30,6 +30,15 @@ final _titleNode = FocusNode();
 
 TimeOfDay Function()? _timePickerOverride;
 
+/// [TimetableAddEventDialog.controller] can't be final because then using `??=`
+/// in the build method (to assign the controller if not null) will throw this
+/// error:
+/// ```
+/// LateInitializationError: Field 'controller' has already been initialized
+/// ```
+/// Not using final will cause the linter to complain about the lint below, so
+/// we have to ignore it.
+// ignore: must_be_immutable
 class TimetableAddEventDialog extends StatelessWidget {
   TimetableAddEventDialog({
     super.key,
