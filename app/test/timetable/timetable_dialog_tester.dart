@@ -45,8 +45,6 @@ class TimetableDialogTester {
   Future<void> pumpDialog({
     required bool isExam,
   }) async {
-    // Since the controller currently uses clock.now() when being created,
-    // we need to move it here instead of `setUp` so that `withClock` works.
     dialogController = AddEventDialogController(
       api: api,
       isExam: isExam,
@@ -82,11 +80,6 @@ class TimetableDialogTester {
     required ThemeData theme,
     TimeOfDay Function()? showTimeDialogTestOverride,
   }) async {
-    when(sharezoneGateway.course).thenReturn(courseGateway);
-    when(sharezoneContext.api).thenReturn(sharezoneGateway);
-
-    // Since the controller currently uses clock.now() when being created,
-    // we need to move it here instead of `setUp` so that `withClock` works.
     dialogController = AddEventDialogController(
       api: api,
       isExam: isExam,
