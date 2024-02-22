@@ -166,6 +166,7 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
+
     testWidgets(
         'shows title error message if save is pressed and the title is empty',
         (tester) async {
@@ -176,6 +177,7 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsOneWidget);
     });
+
     testWidgets(
         'removes title error message if save is pressed with an empty title but text is entered afterwards',
         (tester) async {
@@ -188,6 +190,7 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
+
     testWidgets(
         'shows course error message if save is pressed and no course is chosen',
         (tester) async {
@@ -198,6 +201,7 @@ void main() {
 
       expect(find.text(EventDialogErrorStrings.emptyCourse), findsOneWidget);
     });
+
     testWidgets('removes course error message if a course is chosen',
         (tester) async {
       final dt = createDialogTester(tester);
@@ -225,6 +229,7 @@ void main() {
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
     });
+
     testWidgets('doesnt shows error message if end time after start time',
         (tester) async {
       final dt = createDialogTester(tester);

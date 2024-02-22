@@ -67,6 +67,7 @@ void main() {
           'event_dialog_add_empty_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
         );
       });
+
       testGoldens(
           'renders full event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
@@ -96,6 +97,7 @@ void main() {
           'event_dialog_add_full_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
         );
       });
+
       testGoldens(
           'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
