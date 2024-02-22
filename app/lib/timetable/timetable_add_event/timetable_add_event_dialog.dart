@@ -9,6 +9,7 @@
 import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -201,7 +202,11 @@ class _AppBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const CloseButton(),
+                  CloseButton(
+                    color: context.isDarkThemeEnabled
+                        ? Theme.of(context).iconTheme.color
+                        : Theme.of(context).colorScheme.onPrimary,
+                  ),
                   _SaveButton(
                     editMode: editMode,
                     isExam: isExam,
