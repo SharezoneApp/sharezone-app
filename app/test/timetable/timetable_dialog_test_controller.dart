@@ -4,6 +4,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -62,6 +63,42 @@ class TimetableDialogTestController {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> pumpAndSettleForGolden(
+    WidgetTester tester, {
+    required bool isExam,
+    required ThemeData theme,
+    TimeOfDay Function()? showTimeDialogTestOverride,
+  }) async {
+    when(sharezoneGateway.course).thenReturn(courseGateway);
+    when(sharezoneContext.api).thenReturn(sharezoneGateway);
+
+    // Since the controller currently uses clock.now() when being created,
+    // we need to move it here instead of `setUp` so that `withClock` works.
+    controller = AddEventDialogController(
+      api: api,
+      isExam: isExam,
+      markdownAnalytics: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
+    );
+
+    await tester.pumpWidgetBuilder(
+      MultiBlocProvider(
+        blocProviders: [
+          BlocProvider<SharezoneContext>(
+            bloc: sharezoneContext,
+          ),
+        ],
+        child: (context) => Scaffold(
+          body: TimetableAddEventDialog(
+            isExam: isExam,
+            controller: controller,
+            showTimePickerTestOverride: showTimeDialogTestOverride,
+          ),
+        ),
+      ),
+      wrapper: materialAppWrapper(theme: theme),
     );
   }
 
