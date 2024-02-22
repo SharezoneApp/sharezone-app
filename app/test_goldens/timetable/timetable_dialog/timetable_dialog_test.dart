@@ -17,7 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../../../test/homework/homework_dialog_test.dart';
 import '../../../test/homework/homework_dialog_test.mocks.dart';
 import '../../../test/timetable/timetable_dialog_test.mocks.dart';
-import '../../../test/timetable/timetable_dialog_test_controller.dart';
+import '../../../test/timetable/timetable_dialog_tester.dart';
 
 void main() {
   group('event add dialog', () {
@@ -33,8 +33,8 @@ void main() {
       api = MockEventDialogApi();
     });
 
-    TimetableDialogTestController createController(WidgetTester tester) {
-      return TimetableDialogTestController(
+    TimetableDialogTester createDialogTester(WidgetTester tester) {
+      return TimetableDialogTester(
         tester: tester,
         api: api,
         sharezoneContext: sharezoneContext,
@@ -55,10 +55,10 @@ void main() {
       testGoldens(
           'renders empty event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final controller = createController(tester);
-        controller.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        final dTester = createDialogTester(tester);
+        dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await controller.pumpAndSettleForGolden(tester,
+        await dTester.pumpAndSettleForGolden(tester,
             isExam: testConfig.isExam, theme: testConfig.theme.data);
 
         await multiScreenGolden(
@@ -69,25 +69,25 @@ void main() {
       testGoldens(
           'renders full event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final controller = createController(tester);
-        controller.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        final dTester = createDialogTester(tester);
+        dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await controller.pumpAndSettleForGolden(tester,
+        await dTester.pumpAndSettleForGolden(tester,
             isExam: testConfig.isExam, theme: testConfig.theme.data);
 
-        await controller.enterTitle('Test title');
-        await controller.selectCourse('Foo course');
+        await dTester.enterTitle('Test title');
+        await dTester.selectCourse('Foo course');
         await withClock(
           Clock.fixed(
             DateTime(2022, 1, 1),
           ),
           () async {
-            await controller.selectDate(dayOfCurrentMonth: '10');
+            await dTester.selectDate(dayOfCurrentMonth: '10');
           },
         );
-        await controller.enterDescription('Test description');
-        await controller.enterLocation('M12');
-        await controller.tapNotifyCourseMembersSwitch();
+        await dTester.enterDescription('Test description');
+        await dTester.enterLocation('M12');
+        await dTester.tapNotifyCourseMembersSwitch();
 
         await multiScreenGolden(
           tester,
@@ -97,19 +97,19 @@ void main() {
       testGoldens(
           'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final controller = createController(tester);
-        await controller.pumpAndSettleForGolden(
+        final dTester = createDialogTester(tester);
+        await dTester.pumpAndSettleForGolden(
           tester,
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
         );
 
         // Set end time before start time to trigger the error message.
-        await controller.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
-        await controller.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
+        await dTester.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
+        await dTester.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
 
         // Triggers empty title and no course chosen error messages.
-        await controller.tapSaveButton();
+        await dTester.tapSaveButton();
 
         await multiScreenGolden(
           tester,

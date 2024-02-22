@@ -15,8 +15,8 @@ import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dial
 import '../homework/homework_dialog_test.mocks.dart';
 import 'timetable_dialog_test.mocks.dart';
 
-class TimetableDialogTestController {
-  late AddEventDialogController controller;
+class TimetableDialogTester {
+  late AddEventDialogController dialogController;
   late final MockEventDialogApi api;
   late final SharezoneContext sharezoneContext;
   late final MockCourseGateway courseGateway;
@@ -31,7 +31,7 @@ class TimetableDialogTestController {
     return _overriddenTime!;
   }
 
-  TimetableDialogTestController({
+  TimetableDialogTester({
     required this.api,
     required this.sharezoneContext,
     required this.courseGateway,
@@ -47,7 +47,7 @@ class TimetableDialogTestController {
   }) async {
     // Since the controller currently uses clock.now() when being created,
     // we need to move it here instead of `setUp` so that `withClock` works.
-    controller = AddEventDialogController(
+    dialogController = AddEventDialogController(
       api: api,
       isExam: isExam,
       markdownAnalytics: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
@@ -64,7 +64,7 @@ class TimetableDialogTestController {
           home: Scaffold(
             body: TimetableAddEventDialog(
               isExam: isExam,
-              controller: controller,
+              controller: dialogController,
               // We can't select anything in the time picker, its like its not
               // visible to the widget tests. So we have to return a fake time
               // and not use the real time picker at all.
@@ -87,7 +87,7 @@ class TimetableDialogTestController {
 
     // Since the controller currently uses clock.now() when being created,
     // we need to move it here instead of `setUp` so that `withClock` works.
-    controller = AddEventDialogController(
+    dialogController = AddEventDialogController(
       api: api,
       isExam: isExam,
       markdownAnalytics: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
@@ -103,7 +103,7 @@ class TimetableDialogTestController {
         child: (context) => Scaffold(
           body: TimetableAddEventDialog(
             isExam: isExam,
-            controller: controller,
+            controller: dialogController,
             // We can't select anything in the time picker, its like its not
             // visible to the widget tests. So we have to return a fake time and
             // not use the real time picker at all.

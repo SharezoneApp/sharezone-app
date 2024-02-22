@@ -23,7 +23,7 @@ import '../homework/homework_dialog_test.mocks.dart';
   MockSpec<EventDialogApi>(),
 ])
 import 'timetable_dialog_test.mocks.dart';
-import 'timetable_dialog_test_controller.dart';
+import 'timetable_dialog_tester.dart';
 
 void main() {
   group('event add dialog', () {
@@ -39,8 +39,8 @@ void main() {
       api = MockEventDialogApi();
     });
 
-    TimetableDialogTestController createController(WidgetTester tester) {
-      return TimetableDialogTestController(
+    TimetableDialogTester createDialogTester(WidgetTester tester) {
+      return TimetableDialogTester(
         tester: tester,
         api: api,
         sharezoneContext: sharezoneContext,
@@ -50,27 +50,27 @@ void main() {
     }
 
     Future<void> baseTest(WidgetTester tester, {required bool isExam}) async {
-      final controller = createController(tester);
+      final dTester = createDialogTester(tester);
       await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
         final course = courseWith(id: 'sportCourseId', name: 'Sport');
-        controller.addCourse(course);
+        dTester.addCourse(course);
 
-        await controller.pumpDialog(isExam: isExam);
+        await dTester.pumpDialog(isExam: isExam);
 
-        await controller.enterTitle('Sportfest');
-        await controller.selectCourse('Sport');
-        await controller.selectDate(dayOfCurrentMonth: '20');
-        await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 40));
-        await controller.selectEndTime(const TimeOfDay(hour: 15, minute: 50));
-        await controller.enterDescription(
+        await dTester.enterTitle('Sportfest');
+        await dTester.selectCourse('Sport');
+        await dTester.selectDate(dayOfCurrentMonth: '20');
+        await dTester.selectStartTime(const TimeOfDay(hour: 13, minute: 40));
+        await dTester.selectEndTime(const TimeOfDay(hour: 15, minute: 50));
+        await dTester.enterDescription(
             'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
-        await controller.enterLocation('Sportplatz');
-        await controller.tapNotifyCourseMembersSwitch();
+        await dTester.enterLocation('Sportplatz');
+        await dTester.tapNotifyCourseMembersSwitch();
 
-        await controller.tapSaveButton();
+        await dTester.tapSaveButton();
       });
 
-      final command = verify(controller.api.createEvent(captureAny))
+      final command = verify(dTester.api.createEvent(captureAny))
           .captured
           .single as CreateEventCommand;
 
@@ -103,30 +103,28 @@ void main() {
         'changes both dates (start and end) on screen if the date is changed',
         (tester) async {
       await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
-        final controller = createController(tester);
-        await controller.pumpDialog(isExam: false);
+        final dTester = createDialogTester(tester);
+        await dTester.pumpDialog(isExam: false);
 
-        await controller.selectDate(dayOfCurrentMonth: '27');
+        await dTester.selectDate(dayOfCurrentMonth: '27');
       });
 
       expect(find.textContaining('27'), findsNWidgets(2));
     });
 
     for (var goBack in [
-      (TimetableDialogTestController controller) =>
-          controller.goBackViaWidgetCloseButton(),
-      (TimetableDialogTestController controller) =>
-          controller.goBackViaPlatformButton()
+      (TimetableDialogTester dTester) => dTester.goBackViaWidgetCloseButton(),
+      (TimetableDialogTester dTester) => dTester.goBackViaPlatformButton()
     ]) {
       testWidgets(
           'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (title)',
           (tester) async {
-        final controller = createController(tester);
-        await controller.pumpDialog(isExam: false);
+        final dTester = createDialogTester(tester);
+        await dTester.pumpDialog(isExam: false);
 
-        await controller.enterTitle('Test');
+        await dTester.enterTitle('Test');
 
-        await goBack(controller);
+        await goBack(dTester);
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
         expect(find.text('Eingabe verlassen?'), findsOneWidget);
@@ -135,13 +133,13 @@ void main() {
       testWidgets(
           'shows "are you sure" dialog if the user tries to close the dialog with unsaved changes (description/details)',
           (tester) async {
-        final controller = createController(tester);
-        await controller.pumpDialog(isExam: false);
+        final dTester = createDialogTester(tester);
+        await dTester.pumpDialog(isExam: false);
 
-        await controller.enterDescription('Test');
+        await dTester.enterDescription('Test');
         await tester.pumpAndSettle();
 
-        await goBack(controller);
+        await goBack(dTester);
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
         expect(find.text('Eingabe verlassen?'), findsOneWidget);
@@ -150,9 +148,9 @@ void main() {
       testWidgets(
           'doesnt show "are you sure" dialog if the user tries to close the dialog with no changes',
           (tester) async {
-        final controller = createController(tester);
-        await controller.pumpDialog(isExam: false);
-        await goBack(controller);
+        final dTester = createDialogTester(tester);
+        await dTester.pumpDialog(isExam: false);
+        await goBack(dTester);
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
         expect(find.text('Eingabe verlassen?'), findsNothing);
@@ -163,30 +161,30 @@ void main() {
     testWidgets(
         'doesnt show title error message if save is not pressed and the title is empty',
         (tester) async {
-      final controller = createController(tester);
+      final dTester = createDialogTester(tester);
 
-      await controller.pumpDialog(isExam: false);
+      await dTester.pumpDialog(isExam: false);
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
     });
     testWidgets(
         'shows title error message if save is pressed and the title is empty',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.tapSaveButton();
+      await dTester.tapSaveButton();
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsOneWidget);
     });
     testWidgets(
         'removes title error message if save is pressed with an empty title but text is entered afterwards',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.tapSaveButton();
-      await controller.enterTitle('Foo');
+      await dTester.tapSaveButton();
+      await dTester.enterTitle('Foo');
       await tester.pumpAndSettle();
 
       expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
@@ -194,166 +192,164 @@ void main() {
     testWidgets(
         'shows course error message if save is pressed and no course is chosen',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.tapSaveButton();
+      await dTester.tapSaveButton();
 
       expect(find.text(EventDialogErrorStrings.emptyCourse), findsOneWidget);
     });
     testWidgets('removes course error message if a course is chosen',
         (tester) async {
-      final controller = createController(tester);
+      final dTester = createDialogTester(tester);
       final course = courseWith(id: 'fooId', name: 'Foo course');
-      controller.addCourse(course);
-      await controller.pumpDialog(isExam: false);
+      dTester.addCourse(course);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.tapSaveButton();
-      await controller.selectCourse('Foo course');
+      await dTester.tapSaveButton();
+      await dTester.selectCourse('Foo course');
 
       expect(find.text(EventDialogErrorStrings.emptyCourse), findsNothing);
     });
 
     testWidgets('shows error message if end time is not after start time',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
-      await controller.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
+      await dTester.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await dTester.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
 
-      await controller.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
+      await dTester.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
     });
     testWidgets('doesnt shows error message if end time after start time',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
-      await controller.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
+      await dTester.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await dTester.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsNothing);
     });
 
     testWidgets('shows empty event state if `isExam` is false', (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
       expect(find.textContaining('Termin'), findsWidgets);
       expect(find.textContaining('Klausur'), findsNothing);
     });
 
     testWidgets('shows empty exam state if `isExam` is true', (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: true);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: true);
 
       expect(find.textContaining('Klausur'), findsWidgets);
       expect(find.textContaining('Termin'), findsNothing);
     });
 
-    testWidgets('entered title is forwarded to controller', (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+    testWidgets('entered title is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.enterTitle('Test');
+      await dTester.enterTitle('Test');
 
       expect(find.text('Test'), findsOneWidget);
-      expect(controller.controller.title, 'Test');
+      expect(dTester.dialogController.title, 'Test');
     });
 
-    testWidgets('selected course is forwarded to controller', (tester) async {
-      final controller = createController(tester);
+    testWidgets('selected course is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
       final course = courseWith(id: 'fooId', name: 'Foo course');
-      controller.addCourse(course);
+      dTester.addCourse(course);
 
-      await controller.pumpDialog(isExam: false);
-      await controller.selectCourse('Foo course');
+      await dTester.pumpDialog(isExam: false);
+      await dTester.selectCourse('Foo course');
 
       expect(find.text('Foo course'), findsOneWidget);
-      expect(controller.controller.course?.id, CourseId('fooId'));
+      expect(dTester.dialogController.course?.id, CourseId('fooId'));
     });
 
-    testWidgets('selected date is forwarded to controller', (tester) async {
-      final controller = createController(tester);
+    testWidgets('selected date is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
       await withClock(Clock.fixed(DateTime(2024, 2, 13)), () async {
         final course = courseWith(id: 'fooId', name: 'Foo course');
-        controller.addCourse(course);
+        dTester.addCourse(course);
 
-        await controller.pumpDialog(isExam: false);
-        await controller.selectDate(dayOfCurrentMonth: '16');
+        await dTester.pumpDialog(isExam: false);
+        await dTester.selectDate(dayOfCurrentMonth: '16');
       });
 
       // I don't know why its the english date format in widget tests.
       // In German it would be "Fr., 16. Feb. 2024"
       expect(find.text('Fri, Feb 16, 2024'), findsNWidgets(2));
-      expect(controller.controller.date, Date('2024-02-16'));
+      expect(dTester.dialogController.date, Date('2024-02-16'));
     });
 
-    testWidgets('selected start time is forwarded to controller',
-        (tester) async {
-      final controller = createController(tester);
+    testWidgets('selected start time is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
       await withClock(
           Clock.fixed(
             DateTime(2024, 2, 13),
           ), () async {
-        await controller.pumpDialog(isExam: false);
+        await dTester.pumpDialog(isExam: false);
 
-        await controller.selectStartTime(const TimeOfDay(hour: 11, minute: 30));
+        await dTester.selectStartTime(const TimeOfDay(hour: 11, minute: 30));
       });
 
       expect(find.text('11:30'), findsOneWidget);
-      expect(controller.controller.startTime, Time(hour: 11, minute: 30));
+      expect(dTester.dialogController.startTime, Time(hour: 11, minute: 30));
     });
-    testWidgets('selected end time is forwarded to controller', (tester) async {
-      final controller = createController(tester);
+    testWidgets('selected end time is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
       await withClock(Clock.fixed(DateTime(2024, 2, 13)), () async {
-        await controller.pumpDialog(isExam: false);
+        await dTester.pumpDialog(isExam: false);
 
-        await controller.selectEndTime(const TimeOfDay(hour: 12, minute: 30));
+        await dTester.selectEndTime(const TimeOfDay(hour: 12, minute: 30));
       });
 
       expect(find.text('12:30'), findsOneWidget);
-      expect(controller.controller.endTime, Time(hour: 12, minute: 30));
+      expect(dTester.dialogController.endTime, Time(hour: 12, minute: 30));
     });
 
-    testWidgets('entered description is forwarded to controller',
-        (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+    testWidgets('entered description is forwarded to dTester', (tester) async {
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.enterDescription('Test description');
+      await dTester.enterDescription('Test description');
 
       expect(find.text('Test description'), findsOneWidget);
-      expect(controller.controller.description, 'Test description');
+      expect(dTester.dialogController.description, 'Test description');
     });
 
-    testWidgets('entered location/room is forwarded to controller',
+    testWidgets('entered location/room is forwarded to dTester',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.enterLocation('Raum M12');
+      await dTester.enterLocation('Raum M12');
 
       expect(find.text('Raum M12'), findsOneWidget);
-      expect(controller.controller.location, 'Raum M12');
+      expect(dTester.dialogController.location, 'Raum M12');
     });
 
-    testWidgets('notify course members is forwarded to controller',
+    testWidgets('notify course members is forwarded to dTester',
         (tester) async {
-      final controller = createController(tester);
-      await controller.pumpDialog(isExam: false);
+      final dTester = createDialogTester(tester);
+      await dTester.pumpDialog(isExam: false);
 
-      await controller.tapNotifyCourseMembersSwitch();
+      await dTester.tapNotifyCourseMembersSwitch();
 
       expect(
           find.byWidgetPredicate(
               (widget) => widget is Switch && widget.value == false),
           findsOneWidget);
-      expect(controller.controller.notifyCourseMembers, false);
+      expect(dTester.dialogController.notifyCourseMembers, false);
     });
   });
 }
