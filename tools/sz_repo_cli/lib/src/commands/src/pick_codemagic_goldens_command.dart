@@ -36,7 +36,7 @@ class PickCodemagicGoldens extends CommandBase {
 
   @override
   String get description =>
-      'Pick all golden files from codemagic, rename them and put them in a serperate folder.\n'
+      'Picks all golden files from codemagic, rename them and put them in a serperate folder.\n'
       'To use this command, drop the golden files from Codemagic somewhere in a folder in this repo.\n'
       'Then run this command. It will pick all the files that end with `_testImage.png`, remove the `_testImage` part and put them in a new folder called `corrected`.\n'
       'These images can then be taken by the developer to replace the old golden files with the same name.';
