@@ -23,6 +23,14 @@ class TimetableDialogTestController {
   late final MockSharezoneGateway sharezoneGateway;
   final WidgetTester tester;
 
+  // We can't select anything in the time picker, its like its not
+  // visible to the widget tests. So we have to return a fake time
+  // and not use/show the real time picker at all in our widget tests.
+  TimeOfDay? _overriddenTime;
+  TimeOfDay _showTimePickerDialogTestOverride() {
+    return _overriddenTime!;
+  }
+
   TimetableDialogTestController({
     required this.api,
     required this.sharezoneContext,
@@ -36,7 +44,6 @@ class TimetableDialogTestController {
 
   Future<void> pumpDialog({
     required bool isExam,
-    TimeOfDay Function()? showTimeDialogTestOverride,
   }) async {
     // Since the controller currently uses clock.now() when being created,
     // we need to move it here instead of `setUp` so that `withClock` works.
@@ -58,7 +65,10 @@ class TimetableDialogTestController {
             body: TimetableAddEventDialog(
               isExam: isExam,
               controller: controller,
-              showTimePickerTestOverride: showTimeDialogTestOverride,
+              // We can't select anything in the time picker, its like its not
+              // visible to the widget tests. So we have to return a fake time
+              // and not use the real time picker at all.
+              showTimePickerTestOverride: _showTimePickerDialogTestOverride,
             ),
           ),
         ),
@@ -94,7 +104,10 @@ class TimetableDialogTestController {
           body: TimetableAddEventDialog(
             isExam: isExam,
             controller: controller,
-            showTimePickerTestOverride: showTimeDialogTestOverride,
+            // We can't select anything in the time picker, its like its not
+            // visible to the widget tests. So we have to return a fake time and
+            // not use the real time picker at all.
+            showTimePickerTestOverride: _showTimePickerDialogTestOverride,
           ),
         ),
       ),
@@ -128,12 +141,22 @@ class TimetableDialogTestController {
     await tester.pumpAndSettle();
   }
 
-  Future<void> tapStartTimeField() async {
+  Future<void> selectStartTime(TimeOfDay time) async {
+    _overriddenTime = time;
+    // We just have to tap the field, the timer picker dialog will not show as
+    // we use our overridden method that just returns our overridden time.
+    // This is because the time picker dialog is not visible to the widget tests
+    // and we can't select anything in it.
     await tester.tap(find.byKey(EventDialogKeys.startTimeField));
     await tester.pumpAndSettle();
   }
 
-  Future<void> tapEndTimeField() async {
+  Future<void> selectEndTime(TimeOfDay time) async {
+    _overriddenTime = time;
+    // We just have to tap the field, the timer picker dialog will not show as
+    // we use our overridden method that just returns our overridden time.
+    // This is because the time picker dialog is not visible to the widget tests
+    // and we can't select anything in it.
     await tester.tap(find.byKey(EventDialogKeys.endTimeField));
     await tester.pumpAndSettle();
   }

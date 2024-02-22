@@ -55,24 +55,13 @@ void main() {
         final course = courseWith(id: 'sportCourseId', name: 'Sport');
         controller.addCourse(course);
 
-        int counter = 0;
-        await controller.pumpDialog(
-          isExam: isExam,
-          showTimeDialogTestOverride: () {
-            counter++;
-            if (counter == 1) {
-              return const TimeOfDay(hour: 13, minute: 40);
-            } else {
-              return const TimeOfDay(hour: 15, minute: 50);
-            }
-          },
-        );
+        await controller.pumpDialog(isExam: isExam);
 
         await controller.enterTitle('Sportfest');
         await controller.selectCourse('Sport');
         await controller.selectDate(dayOfCurrentMonth: '20');
-        await controller.tapStartTimeField();
-        await controller.tapEndTimeField();
+        await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 40));
+        await controller.selectEndTime(const TimeOfDay(hour: 15, minute: 50));
         await controller.enterDescription(
             'Beim Sportfest treten wir in verschiedenen Disziplinen gegeneinander an.');
         await controller.enterLocation('Sportplatz');
@@ -228,37 +217,24 @@ void main() {
     testWidgets('shows error message if end time is not after start time',
         (tester) async {
       final controller = createController(tester);
-      late TimeOfDay timeOfDay;
-      await controller.pumpDialog(
-        isExam: false,
-        showTimeDialogTestOverride: () => timeOfDay,
-      );
+      await controller.pumpDialog(isExam: false);
 
-      timeOfDay = const TimeOfDay(hour: 13, minute: 15);
-      await controller.tapStartTimeField();
-      timeOfDay = const TimeOfDay(hour: 13, minute: 15);
-      await controller.tapEndTimeField();
+      await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await controller.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
 
-      timeOfDay = const TimeOfDay(hour: 12, minute: 00);
-      await controller.tapEndTimeField();
+      await controller.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsOneWidget);
     });
     testWidgets('doesnt shows error message if end time after start time',
         (tester) async {
       final controller = createController(tester);
-      late TimeOfDay timeOfDay;
-      await controller.pumpDialog(
-        isExam: false,
-        showTimeDialogTestOverride: () => timeOfDay,
-      );
+      await controller.pumpDialog(isExam: false);
 
-      timeOfDay = const TimeOfDay(hour: 13, minute: 15);
-      await controller.tapStartTimeField();
-      timeOfDay = const TimeOfDay(hour: 15, minute: 30);
-      await controller.tapEndTimeField();
+      await controller.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await controller.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsNothing);
     });
@@ -324,16 +300,9 @@ void main() {
           Clock.fixed(
             DateTime(2024, 2, 13),
           ), () async {
-        await controller.pumpDialog(
-          isExam: false,
-          // We can't select anything in the time picker, its like its not
-          // visible to the widget tests. So we have to return a fake time and
-          // not use the real time picker at all.
-          showTimeDialogTestOverride: () =>
-              const TimeOfDay(hour: 11, minute: 30),
-        );
+        await controller.pumpDialog(isExam: false);
 
-        await controller.tapStartTimeField();
+        await controller.selectStartTime(const TimeOfDay(hour: 11, minute: 30));
       });
 
       expect(find.text('11:30'), findsOneWidget);
@@ -342,13 +311,9 @@ void main() {
     testWidgets('selected end time is forwarded to controller', (tester) async {
       final controller = createController(tester);
       await withClock(Clock.fixed(DateTime(2024, 2, 13)), () async {
-        await controller.pumpDialog(
-          isExam: false,
-          showTimeDialogTestOverride: () =>
-              const TimeOfDay(hour: 12, minute: 30),
-        );
+        await controller.pumpDialog(isExam: false);
 
-        await controller.tapEndTimeField();
+        await controller.selectEndTime(const TimeOfDay(hour: 12, minute: 30));
       });
 
       expect(find.text('12:30'), findsOneWidget);

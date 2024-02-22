@@ -97,20 +97,16 @@ void main() {
       testGoldens(
           'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        late TimeOfDay timeOfDay;
         final controller = createController(tester);
         await controller.pumpAndSettleForGolden(
           tester,
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
-          showTimeDialogTestOverride: () => timeOfDay,
         );
 
         // Set end time before start time to trigger the error message.
-        timeOfDay = const TimeOfDay(hour: 12, minute: 0);
-        await controller.tapStartTimeField();
-        timeOfDay = const TimeOfDay(hour: 10, minute: 0);
-        await controller.tapEndTimeField();
+        await controller.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
+        await controller.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
 
         // Triggers empty title and no course chosen error messages.
         await controller.tapSaveButton();
