@@ -450,18 +450,18 @@ class _DateAndTimeTile extends StatelessWidget {
   const _DateAndTimeTile({
     super.key,
     this.leading,
-    this.date,
-    this.time,
+    required this.date,
+    required this.time,
     this.timeFieldKey,
     this.isDatePickingEnabled = true,
     required this.onTimeChanged,
     this.showEndNotAfterBeginningError = false,
   });
 
-  final Widget? leading;
-  final Date? date;
-  final Time? time;
+  final Date date;
+  final Time time;
   final void Function(Time newTime) onTimeChanged;
+  final Widget? leading;
   final Key? timeFieldKey;
   final bool showEndNotAfterBeginningError;
   final bool isDatePickingEnabled;
@@ -477,7 +477,7 @@ class _DateAndTimeTile extends StatelessWidget {
             )
           : null,
       title: Text(
-        date?.parser.toYMMMEd ?? 'Datum auswählen...',
+        date.parser.toYMMMEd,
         style: TextStyle(
           color: isDatePickingEnabled
               ? Theme.of(context).textTheme.bodyMedium!.color
@@ -506,7 +506,7 @@ class _DateAndTimeTile extends StatelessWidget {
             onTimeChanged(Time(hour: picked.hour, minute: picked.minute));
           }
         },
-        child: Text(time?.toString() ?? ''),
+        child: Text(time.toString()),
       ),
       onTap: isDatePickingEnabled
           ? () async {
