@@ -44,41 +44,7 @@ class TimetableDialogTester {
 
   Future<void> pumpDialog({
     required bool isExam,
-  }) async {
-    dialogController = AddEventDialogController(
-      api: api,
-      isExam: isExam,
-      markdownAnalytics: MarkdownAnalytics(Analytics(NullAnalyticsBackend())),
-    );
-
-    await tester.pumpWidget(
-      MultiBlocProvider(
-        blocProviders: [
-          BlocProvider<SharezoneContext>(
-            bloc: sharezoneContext,
-          ),
-        ],
-        child: (context) => MaterialApp(
-          home: Scaffold(
-            body: TimetableAddEventDialog(
-              isExam: isExam,
-              controller: dialogController,
-              // We can't select anything in the time picker, its like its not
-              // visible to the widget tests. So we have to return a fake time
-              // and not use the real time picker at all.
-              showTimePickerTestOverride: _showTimePickerDialogTestOverride,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> pumpAndSettleForGolden(
-    WidgetTester tester, {
-    required bool isExam,
-    required ThemeData theme,
-    TimeOfDay Function()? showTimeDialogTestOverride,
+    ThemeData? theme,
   }) async {
     dialogController = AddEventDialogController(
       api: api,
@@ -93,15 +59,13 @@ class TimetableDialogTester {
             bloc: sharezoneContext,
           ),
         ],
-        child: (context) => Scaffold(
-          body: TimetableAddEventDialog(
-            isExam: isExam,
-            controller: dialogController,
-            // We can't select anything in the time picker, its like its not
-            // visible to the widget tests. So we have to return a fake time and
-            // not use the real time picker at all.
-            showTimePickerTestOverride: _showTimePickerDialogTestOverride,
-          ),
+        child: (context) => TimetableAddEventDialog(
+          isExam: isExam,
+          controller: dialogController,
+          // We can't select anything in the time picker, its like its not
+          // visible to the widget tests. So we have to return a fake time
+          // and not use the real time picker at all.
+          showTimePickerTestOverride: _showTimePickerDialogTestOverride,
         ),
       ),
       wrapper: materialAppWrapper(theme: theme),

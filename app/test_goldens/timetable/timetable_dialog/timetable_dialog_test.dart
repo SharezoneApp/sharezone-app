@@ -58,9 +58,10 @@ void main() {
         final dTester = createDialogTester(tester);
         dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await dTester.pumpAndSettleForGolden(tester,
-            isExam: testConfig.isExam, theme: testConfig.theme.data);
-
+        await dTester.pumpDialog(
+          isExam: testConfig.isExam,
+          theme: testConfig.theme.data,
+        );
         await multiScreenGolden(
           tester,
           'event_dialog_add_empty_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
@@ -72,9 +73,10 @@ void main() {
         final dTester = createDialogTester(tester);
         dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await dTester.pumpAndSettleForGolden(tester,
-            isExam: testConfig.isExam, theme: testConfig.theme.data);
-
+        await dTester.pumpDialog(
+          isExam: testConfig.isExam,
+          theme: testConfig.theme.data,
+        );
         await dTester.enterTitle('Test title');
         await dTester.selectCourse('Foo course');
         await withClock(
@@ -98,8 +100,7 @@ void main() {
           'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
         final dTester = createDialogTester(tester);
-        await dTester.pumpAndSettleForGolden(
-          tester,
+        await dTester.pumpDialog(
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
         );
