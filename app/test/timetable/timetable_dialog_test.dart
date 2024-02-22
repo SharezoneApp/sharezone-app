@@ -50,8 +50,8 @@ void main() {
     }
 
     Future<void> baseTest(WidgetTester tester, {required bool isExam}) async {
+      final controller = createController(tester);
       await withClock(Clock.fixed(DateTime(2024, 3, 15)), () async {
-        final controller = createController(tester);
         final course = courseWith(id: 'sportCourseId', name: 'Sport');
         controller.addCourse(course);
 
@@ -81,8 +81,9 @@ void main() {
         await controller.tapSaveButton();
       });
 
-      final command = verify(api.createEvent(captureAny)).captured.single
-          as CreateEventCommand;
+      final command = verify(controller.api.createEvent(captureAny))
+          .captured
+          .single as CreateEventCommand;
 
       expect(
         command,
