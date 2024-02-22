@@ -240,5 +240,15 @@ void main() {
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
           findsNothing);
     });
+
+    testWidgets('focuses title field when opening page', (tester) async {
+      final dt = createDialogTester(tester);
+      final titleFocusNode = FocusNode();
+      addTearDown(() => titleFocusNode.dispose());
+
+      await dt.pumpDialog(isExam: false, titleFocusNode: titleFocusNode);
+
+      expect(titleFocusNode.hasFocus, isTrue);
+    });
   });
 }

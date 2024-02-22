@@ -53,6 +53,21 @@ class TimetableDialogTester {
   Future<void> pumpDialog({
     required bool isExam,
     ThemeData? theme,
+    FocusNode? titleFocusNode,
+
+    /// The duration of `pumpAndSettle` after the dialog has been built.
+    ///
+    /// We use this because in the dialog we delay focusing the title field
+    /// by awaiting a delayed future. This will create a Timer which will cause
+    /// some widget tests to fail because of this:
+    /// ```
+    /// The following assertion was thrown running a test:
+    /// A Timer is still pending even after the widget tree was disposed.
+    /// ```
+    ///
+    /// Since we don't want to add a additional call to pumpAndSettle to every
+    /// test that uses this method, we add this parameter.
+    Duration? additionalPumpAndSettleDuration = const Duration(seconds: 1),
   }) async {
     dialogController = AddEventDialogController(
       api: api,
@@ -74,10 +89,14 @@ class TimetableDialogTester {
           // visible to the widget tests. So we have to return a fake time
           // and not use the real time picker at all.
           showTimePickerTestOverride: _showTimePickerDialogTestOverride,
+          titleFocusNode: titleFocusNode,
         ),
       ),
       wrapper: materialAppWrapper(theme: theme),
     );
+
+    await tester.pumpAndSettle(
+        additionalPumpAndSettleDuration ?? const Duration(milliseconds: 100));
   }
 
   void addCourse(Course course) {

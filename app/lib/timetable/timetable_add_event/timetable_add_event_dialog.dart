@@ -26,8 +26,6 @@ import 'package:time/time.dart';
 
 import 'src/timetable_add_event_dialog_src.dart';
 
-final _titleNode = FocusNode();
-
 TimeOfDay Function()? _timePickerOverride;
 
 /// [TimetableAddEventDialog.controller] can't be final because then using `??=`
@@ -45,12 +43,16 @@ class TimetableAddEventDialog extends StatelessWidget {
     required this.isExam,
     @visibleForTesting this.controller,
     @visibleForTesting TimeOfDay Function()? showTimePickerTestOverride,
+    @visibleForTesting FocusNode? titleFocusNode,
   }) {
+    this.titleFocusNode = titleFocusNode ?? FocusNode();
     _timePickerOverride = showTimePickerTestOverride;
   }
 
   final bool isExam;
   late AddEventDialogController? controller;
+  late final FocusNode titleFocusNode;
+  bool _hasRequestedTitleFocus = false;
 
   static const tag = "timetable-event-dialog";
 
@@ -60,6 +62,10 @@ class TimetableAddEventDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!_hasRequestedTitleFocus) {
+      _hasRequestedTitleFocus = true;
+      delayKeyboard(context: context, focusNode: titleFocusNode);
+    }
     controller ??= AddEventDialogController(
       isExam: isExam,
       api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
@@ -89,14 +95,11 @@ class TimetableAddEventDialog extends StatelessWidget {
               children: <Widget>[
                 _AppBar(
                     editMode: false,
-                    focusNodeTitle: _titleNode,
                     isExam: isExam,
                     titleField: _TitleField(
                       key: EventDialogKeys.titleTextField,
-                      focusNode: _titleNode,
+                      focusNode: titleFocusNode,
                       isExam: isExam,
-
-                      // state: state,
                     )),
                 Expanded(
                   child: SingleChildScrollView(
@@ -148,7 +151,6 @@ class _MobileDivider extends StatelessWidget {
 class _AppBar extends StatelessWidget {
   const _AppBar({
     required this.editMode,
-    required this.focusNodeTitle,
     required this.titleField,
     required this.isExam,
   });
@@ -156,8 +158,6 @@ class _AppBar extends StatelessWidget {
   final bool editMode;
   final Widget titleField;
   final bool isExam;
-
-  final FocusNode focusNodeTitle;
 
   @override
   Widget build(BuildContext context) {
