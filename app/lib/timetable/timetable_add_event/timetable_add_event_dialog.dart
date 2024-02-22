@@ -28,6 +28,30 @@ import 'src/timetable_add_event_dialog_src.dart';
 
 TimeOfDay Function()? _timePickerOverride;
 
+Future<void> openEventDialogAndShowConfirmationIfSuccessful(
+    BuildContext context,
+    {required bool isExam}) async {
+  final successful = await Navigator.push<bool>(
+    context,
+    IgnoreWillPopScopeWhenIosSwipeBackRoute(
+      builder: (context) => TimetableAddEventDialog(isExam: isExam),
+      settings: const RouteSettings(name: TimetableAddEventDialog.tag),
+    ),
+  );
+
+  if (successful == true && context.mounted) {
+    await _showUserConfirmationOfEventArrival(context: context);
+  }
+}
+
+Future<void> _showUserConfirmationOfEventArrival({
+  required BuildContext context,
+}) async {
+  await waitingForPopAnimation();
+  if (!context.mounted) return;
+  showDataArrivalConfirmedSnackbar(context: context);
+}
+
 /// [TimetableAddEventDialog.controller] can't be final because then using `??=`
 /// in the build method (to assign the controller if not null) will throw this
 /// error:
@@ -205,7 +229,7 @@ class _SaveButton extends StatelessWidget {
     try {
       final success = await controller.createEvent();
       if (success && context.mounted) {
-        Navigator.pop(context);
+        Navigator.pop<bool>(context, true);
       }
     } catch (e) {
       log("Exception when submitting: $e", error: e);
