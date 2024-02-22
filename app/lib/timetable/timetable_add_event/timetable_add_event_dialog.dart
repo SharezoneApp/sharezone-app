@@ -402,46 +402,12 @@ class _DateAndTimePicker extends StatelessWidget {
                       controller.endTime = newTime;
                     },
                   ),
-                  // ignore: dead_code
-                  if (false) ...[
-                    Row(
-                      children: [
-                        const SizedBox(width: 34),
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const _LessonPickerPage(),
-                              ),
-                            );
-                          },
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14))),
-                          child: const Text('Schulstunde auswählen'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                  ],
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _LessonPickerPage extends StatelessWidget {
-  const _LessonPickerPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Hier soll die Stunde ausgewählt werden...')),
     );
   }
 }
