@@ -66,12 +66,20 @@ class AddEventDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool showEndTimeNotAfterStartTimeError = false;
+  void maybeClearEndTimeNotAfterStartTimeError() {
+    if (endTime.isAfter(startTime)) {
+      showEndTimeNotAfterStartTimeError = false;
+    }
+  }
+
   Time _startTime = Time(hour: 11, minute: 00);
 
   Time get startTime => _startTime;
 
   set startTime(Time value) {
     _startTime = value;
+    maybeClearEndTimeNotAfterStartTimeError();
     notifyListeners();
   }
 
@@ -81,6 +89,7 @@ class AddEventDialogController extends ChangeNotifier {
 
   set endTime(Time value) {
     _endTime = value;
+    maybeClearEndTimeNotAfterStartTimeError();
     notifyListeners();
   }
 
@@ -92,6 +101,10 @@ class AddEventDialogController extends ChangeNotifier {
     }
     if (course == null) {
       showEmptyCourseError = true;
+      hasError = true;
+    }
+    if (!endTime.isAfter(startTime)) {
+      showEndTimeNotAfterStartTimeError = true;
       hasError = true;
     }
     if (hasError) {

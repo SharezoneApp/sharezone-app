@@ -396,7 +396,7 @@ class _DateAndTimePicker extends StatelessWidget {
                     timeFieldKey: EventDialogKeys.endTimeField,
                     time: controller.endTime,
                     showEndNotAfterBeginningError:
-                        !controller.endTime.isAfter(controller.startTime),
+                        controller.showEndTimeNotAfterStartTimeError,
                     isDatePickingEnabled: false,
                     onTimeChanged: (newTime) {
                       controller.endTime = newTime;

@@ -107,11 +107,11 @@ void main() {
           theme: testConfig.theme.data,
         );
 
-        // Set end time before start time to trigger the error message.
+        // Set end time before start time.
         await dt.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
         await dt.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
 
-        // Triggers empty title and no course chosen error messages.
+        // Triggers "empty title", "no course chosen" and "end time is before start time" error messages.
         await dt.tapSaveButton();
 
         await multiScreenGolden(

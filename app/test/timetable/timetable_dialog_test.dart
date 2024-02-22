@@ -215,7 +215,25 @@ void main() {
       expect(find.text(EventDialogErrorStrings.emptyCourse), findsNothing);
     });
 
-    testWidgets('shows error message if end time is not after start time',
+    testWidgets(
+        'shows "end time not after start time" error message when save was pressed',
+        (tester) async {
+      final dt = createDialogTester(tester);
+      await dt.pumpDialog(isExam: false);
+
+      await dt.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await dt.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
+      await dt.tapSaveButton();
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          findsOneWidget);
+
+      await dt.tapSaveButton();
+      await dt.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          findsOneWidget);
+    });
+    testWidgets(
+        'doesnt show "end time not after start time" error message when save was not pressed',
         (tester) async {
       final dt = createDialogTester(tester);
       await dt.pumpDialog(isExam: false);
@@ -223,14 +241,29 @@ void main() {
       await dt.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
       await dt.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
-          findsOneWidget);
+          findsNothing);
 
       await dt.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
       expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
-          findsOneWidget);
+          findsNothing);
     });
 
-    testWidgets('doesnt shows error message if end time after start time',
+    testWidgets(
+        'removes "end time not after start time" error message when the error is fixed by the user',
+        (tester) async {
+      final dt = createDialogTester(tester);
+      await dt.pumpDialog(isExam: false);
+
+      await dt.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
+      await dt.selectEndTime(const TimeOfDay(hour: 10, minute: 30));
+      await dt.tapSaveButton();
+      await dt.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
+      expect(find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          findsNothing);
+    });
+
+    testWidgets(
+        'doesnt show "end time not after start time" error message when end time is after start time',
         (tester) async {
       final dt = createDialogTester(tester);
       await dt.pumpDialog(isExam: false);
