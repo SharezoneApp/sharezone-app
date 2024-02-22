@@ -499,7 +499,7 @@ class _DateAndTimeTile extends StatelessWidget {
           } else {
             picked = await showTimePicker(
               context: context,
-              initialTime: TimeOfDay.fromDateTime(clock.now()),
+              initialTime: time.toTimeOfDay(),
             );
           }
           if (picked != null) {
