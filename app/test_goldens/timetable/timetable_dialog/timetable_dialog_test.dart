@@ -55,10 +55,10 @@ void main() {
       testGoldens(
           'renders empty event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final dTester = createDialogTester(tester);
-        dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        final dt = createDialogTester(tester);
+        dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await dTester.pumpDialog(
+        await dt.pumpDialog(
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
         );
@@ -70,26 +70,26 @@ void main() {
       testGoldens(
           'renders full event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final dTester = createDialogTester(tester);
-        dTester.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        final dt = createDialogTester(tester);
+        dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await dTester.pumpDialog(
+        await dt.pumpDialog(
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
         );
-        await dTester.enterTitle('Test title');
-        await dTester.selectCourse('Foo course');
+        await dt.enterTitle('Test title');
+        await dt.selectCourse('Foo course');
         await withClock(
           Clock.fixed(
             DateTime(2022, 1, 1),
           ),
           () async {
-            await dTester.selectDate(dayOfCurrentMonth: '10');
+            await dt.selectDate(dayOfCurrentMonth: '10');
           },
         );
-        await dTester.enterDescription('Test description');
-        await dTester.enterLocation('M12');
-        await dTester.tapNotifyCourseMembersSwitch();
+        await dt.enterDescription('Test description');
+        await dt.enterLocation('M12');
+        await dt.tapNotifyCourseMembersSwitch();
 
         await multiScreenGolden(
           tester,
@@ -99,18 +99,18 @@ void main() {
       testGoldens(
           'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
           (tester) async {
-        final dTester = createDialogTester(tester);
-        await dTester.pumpDialog(
+        final dt = createDialogTester(tester);
+        await dt.pumpDialog(
           isExam: testConfig.isExam,
           theme: testConfig.theme.data,
         );
 
         // Set end time before start time to trigger the error message.
-        await dTester.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
-        await dTester.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
+        await dt.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
+        await dt.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
 
         // Triggers empty title and no course chosen error messages.
-        await dTester.tapSaveButton();
+        await dt.tapSaveButton();
 
         await multiScreenGolden(
           tester,
