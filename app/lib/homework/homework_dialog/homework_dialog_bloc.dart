@@ -750,9 +750,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
               submissionTime: event.newSubmissionsOptions.submissionTime ??
                   Time(hour: 23, minute: 59));
         } else {
-          _dateSelection = _dateSelection.copyWith(submissionTime: null);
+          _dateSelection = _DateSelection(
+            dueDate: _dateSelection.dueDate,
+            dueDateSelection: _dateSelection.dueDateSelection,
+            submissionTime: null,
+          );
         }
-
         emit(_getNewState());
       },
     );
