@@ -5,9 +5,9 @@ import 'package:random_string/random_string.dart' as lib;
 const randomnessSeed =
     int.fromEnvironment('TEST_RANDOMNESS_SEED', defaultValue: 0);
 
-final szSeededTestRandom = Random(randomnessSeed);
+final szTestRandom = Random(randomnessSeed);
 
-final _randomProvider = lib.CoreRandomProvider.from(szSeededTestRandom);
+final _randomProvider = lib.CoreRandomProvider.from(szTestRandom);
 
 /// Generates a random integer where [from] <= [to] inclusive
 /// where 0 <= from <= to <= 999999999999999

@@ -34,17 +34,17 @@ void main() {
 
   EventView randomEventView() {
     return EventView(
-      design: Design.random(szSeededTestRandom),
+      design: Design.random(szTestRandom),
       // Generate random date
       dateText: DateTime(
         2021,
-        szSeededTestRandom.nextInt(12) + 1,
-        szSeededTestRandom.nextInt(28) + 1,
+        szTestRandom.nextInt(12) + 1,
+        szTestRandom.nextInt(28) + 1,
       ).toIso8601String(),
       event: MockCalendricalEvent(),
-      groupID: '${szSeededTestRandom.nextInt(1000)}',
-      courseName: 'Course ${szSeededTestRandom.nextInt(1000)}',
-      title: 'Title ${szSeededTestRandom.nextInt(1000)}',
+      groupID: '${szTestRandom.nextInt(1000)}',
+      courseName: 'Course ${szTestRandom.nextInt(1000)}',
+      title: 'Title ${szTestRandom.nextInt(1000)}',
     );
   }
 

@@ -49,7 +49,7 @@ void main() {
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
         groupType: GroupType.course,
-        lessonID: szSeededTestRandom.nextInt(200).toString(),
+        lessonID: szTestRandom.nextInt(200).toString(),
         place: "",
         teacher: "",
         weekday: WeekDay.monday,

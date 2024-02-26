@@ -138,6 +138,6 @@ void main() {
 Release _releaseWith({required String version, DateTime? releaseTime}) {
   return Release(
       version: Version.parse(name: version),
-      releaseDate: releaseTime ??
-          DateTime(2020, 02, szSeededTestRandom.nextInt(25) + 1));
+      releaseDate:
+          releaseTime ?? DateTime(2020, 02, szTestRandom.nextInt(25) + 1));
 }
