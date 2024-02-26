@@ -135,7 +135,8 @@ Future<void> _runTestsDart(
       'dart',
       'test',
       '--test-randomize-ordering-seed',
-      testRandomizeOrderingSeed
+      testRandomizeOrderingSeed,
+      '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
     ],
     workingDirectory: package.location,
   );
@@ -161,6 +162,8 @@ Future<void> _runTestsFlutter(
         'test',
         '--test-randomize-ordering-seed',
         testRandomizeOrderingSeed,
+        testRandomizeOrderingSeed,
+        '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
         'test_goldens',
         if (updateGoldens) '--update-goldens',
       ],
@@ -180,6 +183,7 @@ Future<void> _runTestsFlutter(
         'test',
         '--test-randomize-ordering-seed',
         testRandomizeOrderingSeed,
+        '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
       ],
       workingDirectory: package.location,
     );
@@ -200,6 +204,7 @@ Future<void> _runTestsFlutter(
       'test',
       '--test-randomize-ordering-seed',
       testRandomizeOrderingSeed,
+      '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
     ],
     workingDirectory: package.location,
   );
