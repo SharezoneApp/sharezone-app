@@ -2,9 +2,18 @@ import 'dart:math';
 
 import 'package:random_string/random_string.dart' as lib;
 
+/// The seed to use for randomness.
+///
+/// This is used to ensure that tests are deterministic.
+/// The `TEST_RANDOMNESS_SEED` environment variable will be provided when
+/// running `sz test`.
 const randomnessSeed =
     int.fromEnvironment('TEST_RANDOMNESS_SEED', defaultValue: 0);
 
+/// The [Random] that should be used for randomness in tests.
+///
+/// This is a [Random] that is seeded with [randomnessSeed].
+/// This is used to ensure that tests are deterministic.
 final szTestRandom = Random(randomnessSeed);
 
 final _randomProvider = lib.CoreRandomProvider.from(szTestRandom);
