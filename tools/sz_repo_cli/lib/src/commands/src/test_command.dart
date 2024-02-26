@@ -174,7 +174,13 @@ Future<void> _runTestsFlutter(
   // couldn't find the "test_goldens" directory.
   if (excludeGoldens || !package.hasGoldenTestsDirectory) {
     await processRunner.runCommand(
-      ['fvm', 'flutter', 'test'],
+      [
+        'fvm',
+        'flutter',
+        'test',
+        '--test-randomize-ordering-seed',
+        testRandomizeOrderingSeed,
+      ],
       workingDirectory: package.location,
     );
     return;
@@ -192,6 +198,8 @@ Future<void> _runTestsFlutter(
       'test_goldens',
       // Directory for unit and widget tests.
       'test',
+      '--test-randomize-ordering-seed',
+      testRandomizeOrderingSeed,
     ],
     workingDirectory: package.location,
   );
