@@ -58,7 +58,7 @@ void main() {
         final dt = createDialogTester(tester);
         dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await withClock(Clock.fixed(DateTime(2022, 1, 1)), () async {
+        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
           await dt.pumpDialog(
             isExam: testConfig.isExam,
             theme: testConfig.theme.data,
@@ -77,7 +77,7 @@ void main() {
         final dt = createDialogTester(tester);
         dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await withClock(Clock.fixed(DateTime(2022, 1, 1)), () async {
+        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
           await dt.pumpDialog(
             isExam: testConfig.isExam,
             theme: testConfig.theme.data,
@@ -109,7 +109,7 @@ void main() {
           (tester) async {
         final dt = createDialogTester(tester);
 
-        await withClock(Clock.fixed(DateTime(2022, 1, 1)), () async {
+        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
           await dt.pumpDialog(
             isExam: testConfig.isExam,
             theme: testConfig.theme.data,
