@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:user/user.dart';
 
 import 'member_role.dart';
@@ -41,7 +42,7 @@ class MemberData {
       abbreviation: generateAbbreviation(user.name),
       role: role,
       typeOfUser: user.typeOfUser,
-      joinedOn: DateTime.now(),
+      joinedOn: clock.now(),
     );
   }
 

@@ -9,12 +9,13 @@
 import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
 import 'package:sharezone/homework/shared/homework_card.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -63,8 +64,8 @@ class _HomeworkArchivedPageState extends State<HomeworkArchivedPage> {
                   return ShowCenteredError(error: snapshot.error.toString());
                 }
 
-                DateTime today = DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day);
+                DateTime today = DateTime(
+                    clock.now().year, clock.now().month, clock.now().day);
                 List<HomeworkDto> homeworkList =
                     snapshot.data!.where((HomeworkDto homework) {
                   DateTime todoUntil = DateTime(homework.todoUntil.year,

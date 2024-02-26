@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:collection/collection.dart';
 
 class HomeworkDto {
   final String id;
@@ -128,7 +129,7 @@ class HomeworkDto {
       description: "",
       withSubmissions: false,
       submitters: [],
-      todoUntil: DateTime.now(),
+      todoUntil: clock.now(),
       createdOn: null,
       attachments: [],
       private: false,

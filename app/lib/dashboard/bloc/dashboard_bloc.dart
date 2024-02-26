@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
@@ -52,7 +53,7 @@ extension RepeatEveryExtension<T> on Stream<T> {
 class DashboardBloc extends BlocBase {
   final String _uid;
   final todayDateTimeWithoutTime =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(clock.now().year, clock.now().month, clock.now().day);
 
   final _unreadBlackboardViewsSubject = BehaviorSubject<List<BlackboardView>>();
   final _unreadBlackboardItemsEmptySubject = BehaviorSubject<bool>();
@@ -152,7 +153,7 @@ class DashboardBloc extends BlocBase {
 
   List<HomeworkDto> _filterUrgentHomeworks(
       List<HomeworkDto> allHomeworks, TypeOfUser typeOfUser) {
-    final now = DateTime.now();
+    final now = clock.now();
     final dayAfterTomorrow = DateTime(now.year, now.month, now.day + 2);
     // Was passiert, wenn der 30. Oktober ist und 2 Tage dazu gezählt werden? Springt es dann auf den 1. November um?
     // Antwort: Springt um auf den 1.November, gechekt, auf wenn der Code unschön ist, besser wäre dayAfterTomorrow = now.add(Duration(days:2))
@@ -286,7 +287,7 @@ extension on DateTime {
   bool get isDayAfterTomorrow => dayAfterTomorrow == withoutTime;
 
   static DateTime get today =>
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(clock.now().year, clock.now().month, clock.now().day);
   static DateTime get tomorrow =>
       DateTime(today.year, today.month, today.day + 1);
   static DateTime get dayAfterTomorrow =>

@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
@@ -338,7 +339,7 @@ void main() {
         'should show dialog to check all completed homework when more than 2 open overdue homeworks',
         () async {
       final yesterday =
-          Date.fromDateTime(DateTime.now().subtract(const Duration(days: 1)));
+          Date.fromDateTime(clock.now().subtract(const Duration(days: 1)));
       final homeworks = List.generate(
           3, (_) => createHomework(done: false, todoDate: yesterday));
 
@@ -352,9 +353,9 @@ void main() {
         'does not show dialog to check all completed homework with less than 3 overdue homeworks',
         () async {
       final yesterday =
-          Date.fromDateTime(DateTime.now().subtract(const Duration(days: 1)));
+          Date.fromDateTime(clock.now().subtract(const Duration(days: 1)));
       final tomorrow =
-          Date.fromDateTime(DateTime.now().add(const Duration(days: 1)));
+          Date.fromDateTime(clock.now().add(const Duration(days: 1)));
 
       final homeworks = [
         ...List.generate(

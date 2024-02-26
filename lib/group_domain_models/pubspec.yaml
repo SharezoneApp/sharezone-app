@@ -27,6 +27,7 @@ dependencies:
     path: ../design
   flutter:
     sdk: flutter
+  clock: ^1.1.1
 
 dev_dependencies:
   flutter_test:

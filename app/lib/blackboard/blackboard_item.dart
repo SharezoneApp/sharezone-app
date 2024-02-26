@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
@@ -64,7 +65,7 @@ class BlackboardItem {
       title: "",
       text: null,
       pictureURL: "",
-      createdOn: DateTime.now(),
+      createdOn: clock.now(),
       attachments: [],
       sendNotification: true,
       forUsers: {},
