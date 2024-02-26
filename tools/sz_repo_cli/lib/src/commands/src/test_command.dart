@@ -35,6 +35,15 @@ class TestCommand extends ConcurrentCommand {
       negatable: false,
       abbr: 'u',
     );
+    argParser.addOption(
+      'test-randomize-ordering-seed',
+      help: '''
+Use the specified seed to randomize the execution order of test cases.
+Must be a 32bit unsigned integer or "random".
+If "random", pick a random seed to use.
+If not passed, do not randomize test case execution order.''',
+      defaultsTo: 'random',
+    );
   }
 
   @override
@@ -70,6 +79,8 @@ class TestCommand extends ConcurrentCommand {
       excludeGoldens: argResults!['exclude-goldens'] as bool,
       onlyGoldens: argResults!['only-goldens'] as bool,
       updateGoldens: argResults!['update-goldens'] as bool,
+      testRandomizeOrderingSeed:
+          argResults!['test-randomize-ordering-seed'] as String,
     );
   }
 }
@@ -80,6 +91,7 @@ Future<void> runTests(
   required bool excludeGoldens,
   required bool onlyGoldens,
   required bool updateGoldens,
+  required String testRandomizeOrderingSeed,
 }) {
   if (package.isFlutterPackage) {
     return _runTestsFlutter(
@@ -88,6 +100,7 @@ Future<void> runTests(
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
       updateGoldens: updateGoldens,
+      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
     );
   } else {
     return _runTestsDart(
@@ -95,6 +108,7 @@ Future<void> runTests(
       package,
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
+      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
     );
   }
 }
@@ -106,6 +120,7 @@ Future<void> _runTestsDart(
   // don't have golden tests.
   required bool excludeGoldens,
   required bool onlyGoldens,
+  required String testRandomizeOrderingSeed,
 }) async {
   if (onlyGoldens) {
     // Golden tests are only run in the flutter package.
@@ -115,7 +130,13 @@ Future<void> _runTestsDart(
   await getPackage(processRunner, package);
 
   await processRunner.runCommand(
-    ['fvm', 'dart', 'test'],
+    [
+      'fvm',
+      'dart',
+      'test',
+      '--test-randomize-ordering-seed',
+      testRandomizeOrderingSeed
+    ],
     workingDirectory: package.location,
   );
 }
@@ -126,6 +147,7 @@ Future<void> _runTestsFlutter(
   required bool excludeGoldens,
   required bool onlyGoldens,
   required bool updateGoldens,
+  required String testRandomizeOrderingSeed,
 }) async {
   if (onlyGoldens || !excludeGoldens) {
     if (!package.hasGoldenTestsDirectory) {
@@ -137,6 +159,8 @@ Future<void> _runTestsFlutter(
         'fvm',
         'flutter',
         'test',
+        '--test-randomize-ordering-seed',
+        testRandomizeOrderingSeed,
         'test_goldens',
         if (updateGoldens) '--update-goldens',
       ],
