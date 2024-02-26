@@ -104,15 +104,11 @@ void main() {
 
     group('without Sharezone Plus', () {
       setUp(() {
-        const state = PastCalendricalEventsPageNotUnlockedState(
-          sortingOrder: EventsSortingOrder.descending,
+        when(controller.state).thenReturn(
+          const PastCalendricalEventsPageNotUnlockedState(
+            sortingOrder: EventsSortingOrder.descending,
+          ),
         );
-        // Mockito does not support mocking sealed classes yet, so we have to
-        // provide a dummy implementation of the state.
-        //
-        // Ticket: https://github.com/dart-lang/mockito/issues/675
-        provideDummy<PastCalendricalEventsPageState>(state);
-        when(controller.state).thenReturn(state);
       });
 
       testGoldens('renders correctly (light theme)', (tester) async {
