@@ -28,7 +28,8 @@ dependencies:
     path: ../bloc_base
   # For teacher fake bloc currently in use (can be removed when bloc is implemented)
   # https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1460
-  random_string: ^2.0.1
+  test_randomness:
+    path: ../test_randomness
 
 dev_dependencies:
   async: ^2.11.0

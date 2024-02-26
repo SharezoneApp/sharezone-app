@@ -25,7 +25,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 
-import 'package:random_string/random_string.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:flutter_test/flutter_test.dart';
 
