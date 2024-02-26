@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/src/date.dart';
 import 'package:date/weekday.dart';
@@ -19,6 +17,7 @@ import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:time/time.dart';
 
 import 'mock/mock_course_gateway.dart';
@@ -50,7 +49,7 @@ void main() {
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
         groupType: GroupType.course,
-        lessonID: Random().nextInt(200).toString(),
+        lessonID: szSeededTestRandom.nextInt(200).toString(),
         place: "",
         teacher: "",
         weekday: WeekDay.monday,

@@ -6,12 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sharezone/changelog/change.dart';
 import 'package:sharezone/dashboard/update_reminder/release.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
-import 'package:sharezone/changelog/change.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group('UpdateReminderBloc', () {
@@ -139,6 +138,6 @@ void main() {
 Release _releaseWith({required String version, DateTime? releaseTime}) {
   return Release(
       version: Version.parse(name: version),
-      releaseDate:
-          releaseTime ?? DateTime(2020, 02, Random.secure().nextInt(25) + 1));
+      releaseDate: releaseTime ??
+          DateTime(2020, 02, szSeededTestRandom.nextInt(25) + 1));
 }
