@@ -283,5 +283,17 @@ void main() {
 
       expect(titleFocusNode.hasFocus, isTrue);
     });
+
+    testWidgets(
+        'opens a dialog when pressing end-date saying multi-day events are not possible yet',
+        (tester) async {
+      final dt = createDialogTester(tester);
+
+      await dt.pumpDialog(isExam: false);
+      await dt.tapOnEndDateField();
+
+      expect(
+          find.byKey(EventDialogKeys.dateCantBeChangedDialog), findsOneWidget);
+    });
   });
 }

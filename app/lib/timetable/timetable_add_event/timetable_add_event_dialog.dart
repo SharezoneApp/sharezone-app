@@ -421,6 +421,7 @@ class _DateAndTimePicker extends StatelessWidget {
                     },
                   ),
                   _DateAndTimeTile(
+                    key: EventDialogKeys.endDateField,
                     date: controller.date,
                     timeFieldKey: EventDialogKeys.endTimeField,
                     time: controller.endTime,
@@ -471,12 +472,25 @@ class _DateAndTimeTile extends StatelessWidget {
               style: TextStyle(color: Theme.of(context).colorScheme.error),
             )
           : null,
-      title: Text(
-        date.parser.toYMMMEd,
-        style: TextStyle(
-          color: isDatePickingEnabled
-              ? Theme.of(context).textTheme.bodyMedium!.color
-              : Theme.of(context).disabledColor,
+      title: GestureDetector(
+        onTap: isDatePickingEnabled
+            ? null
+            : () {
+                showLeftRightAdaptiveDialog(
+                  key: EventDialogKeys.dateCantBeChangedDialog,
+                  context: context,
+                  title: 'Auswahl nicht möglich',
+                  content: const Text(
+                      'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.'),
+                );
+              },
+        child: Text(
+          date.parser.toYMMMEd,
+          style: TextStyle(
+            color: isDatePickingEnabled
+                ? Theme.of(context).textTheme.bodyMedium!.color
+                : Theme.of(context).disabledColor,
+          ),
         ),
       ),
       trailing: TextButton(
@@ -690,6 +704,8 @@ class EventDialogKeys {
   static const Key courseTile = Key("course-tile");
   static const Key descriptionTextField = Key("description-field");
   static const Key startDateField = Key("start-date-field");
+  static const Key endDateField = Key("end-date-field");
+  static const Key dateCantBeChangedDialog = Key("date-cant-be-changed-dialog");
   static const Key startTimeField = Key("start-time-field");
   static const Key endTimeField = Key("end-time-field");
   static const Key locationField = Key("location-field");

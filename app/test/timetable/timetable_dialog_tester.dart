@@ -125,6 +125,11 @@ class TimetableDialogTester {
     await tester.pumpAndSettle();
   }
 
+  Future<void> tapOnEndDateField() async {
+    await tester.tap(find.byKey(EventDialogKeys.endDateField));
+    await tester.pumpAndSettle();
+  }
+
   Future<void> selectStartTime(TimeOfDay time) async {
     _overriddenTime = time;
     // We just have to tap the field, the timer picker dialog will not show as
