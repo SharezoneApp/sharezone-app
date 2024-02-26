@@ -43,15 +43,9 @@ Future<TimetableResult?> showTimetableAddEventPage(
   BuildContext context, {
   required bool isExam,
 }) async {
-  // ignore: dead_code
-  if (false) {
-    await Navigator.push(
-        context,
-        IgnoreWillPopScopeWhenIosSwipeBackRoute(
-            builder: (context) => TimetableAddEventDialog(
-                  isExam: isExam,
-                ),
-            settings: const RouteSettings(name: TimetableAddEventDialog.tag)));
+  if (kDebugMode || kDevelopmentStageOrNull?.toLowerCase() == 'preview') {
+    await openEventDialogAndShowConfirmationIfSuccessful(context,
+        isExam: isExam);
     return null;
   } else {
     final result = await Navigator.push<TimetableResult>(
