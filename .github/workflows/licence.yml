@@ -64,3 +64,9 @@ jobs:
           cd tools/sz_repo_cli
           dart pub get
           lic_ck check-licenses --config ../../licenses_config.yaml --problematic
+ 
+      - name: Check licenses in website
+        run: |
+          cd website
+          flutter pub get
+          lic_ck check-licenses --config ../licenses_config.yaml --problematic
