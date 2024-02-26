@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +20,6 @@ import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/user_view.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
 import 'blackboard_item_read_by_users_list_page_test.mocks.dart';
@@ -36,11 +37,12 @@ void main() {
     late MockSubscriptionService subscriptionService;
 
     void setUserViews() {
+      final random = Random(42);
       final dummyUsers = [
         for (var i = 0; i < 10; i++)
           UserView(
             uid: "user$i",
-            hasRead: szTestRandom.nextBool(),
+            hasRead: random.nextBool(),
             typeOfUser: TypeOfUser.student.toReadableString(),
             name: 'User $i',
           )

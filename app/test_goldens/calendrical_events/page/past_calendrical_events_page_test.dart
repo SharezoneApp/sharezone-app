@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,7 +21,6 @@ import 'package:sharezone/calendrical_events/provider/past_calendrical_events_pa
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:test_randomness/test_randomness.dart';
 
 import 'past_calendrical_events_page_test.mocks.dart';
 
@@ -31,26 +32,28 @@ import 'past_calendrical_events_page_test.mocks.dart';
 void main() {
   late MockPastCalendricalEventsPageController controller;
   late MockPastCalendricalEventsPageControllerFactory controllerFactory;
+  late Random random;
 
   EventView randomEventView() {
     return EventView(
-      design: Design.random(szTestRandom),
+      design: Design.random(random),
       // Generate random date
       dateText: DateTime(
         2021,
-        szTestRandom.nextInt(12) + 1,
-        szTestRandom.nextInt(28) + 1,
+        random.nextInt(12) + 1,
+        random.nextInt(28) + 1,
       ).toIso8601String(),
       event: MockCalendricalEvent(),
-      groupID: '${szTestRandom.nextInt(1000)}',
-      courseName: 'Course ${szTestRandom.nextInt(1000)}',
-      title: 'Title ${szTestRandom.nextInt(1000)}',
+      groupID: '${random.nextInt(1000)}',
+      courseName: 'Course ${random.nextInt(1000)}',
+      title: 'Title ${random.nextInt(1000)}',
     );
   }
 
   setUp(() {
     controller = MockPastCalendricalEventsPageController();
     controllerFactory = MockPastCalendricalEventsPageControllerFactory();
+    random = Random(42);
 
     when(controllerFactory.create()).thenReturn(controller);
   });
