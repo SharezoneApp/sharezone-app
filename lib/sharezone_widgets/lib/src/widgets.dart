@@ -729,6 +729,8 @@ class TextFieldWithDescription extends StatelessWidget {
 
 Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
@@ -748,6 +750,8 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
 Future<bool> warnUserAboutLeavingOrSavingForm(
     BuildContext context, VoidCallback onSave) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   final result = await showLeftRightAdaptiveDialog<bool>(
     title: 'Verlassen oder Speichern?',

@@ -18,7 +18,7 @@ class CompletedHomeworkListView {
   int get numberOfHomeworks => orderedHomeworks.length;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is CompletedHomeworkListView &&
             other.orderedHomeworks == orderedHomeworks &&

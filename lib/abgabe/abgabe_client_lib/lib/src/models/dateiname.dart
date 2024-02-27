@@ -35,7 +35,7 @@ class Dateiname {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is Dateiname && other.mitExtension == mitExtension;
   }

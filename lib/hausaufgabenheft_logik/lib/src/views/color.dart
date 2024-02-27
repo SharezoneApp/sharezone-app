@@ -125,11 +125,11 @@ class Color {
   int get blue => (0x000000ff & value) >> 0;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    final Color typedOther = other;
-    return value == typedOther.value;
+    if (other is! Color) return false;
+    return value == other.value;
   }
 
   @override
