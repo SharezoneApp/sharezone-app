@@ -39,6 +39,7 @@ dependencies:
   meta: ^1.1.8
   rxdart: ^0.27.1
   collection: ^1.17.2
+  clock: ^1.1.1
 
 dev_dependencies:
   flutter_test:

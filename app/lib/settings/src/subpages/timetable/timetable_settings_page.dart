@@ -7,20 +7,21 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/periods/periods_edit_page.dart';
-import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/weekdays/weekdays_edit_page.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
@@ -112,7 +113,7 @@ class _ABWeekField extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                       child: Text(
-                        "Diese Woche ist Kalenderwoche ${getWeekNumber(DateTime.now()).toString()}. A-Wochen sind ${_getAWeekIsEvenOrOddName(userSettings.isAWeekEvenWeek)} Kalenderwochen und somit ist aktuell eine ${_getCurrentWeekTypeName(userSettings.isAWeekEvenWeek)}.",
+                        "Diese Woche ist Kalenderwoche ${getWeekNumber(clock.now()).toString()}. A-Wochen sind ${_getAWeekIsEvenOrOddName(userSettings.isAWeekEvenWeek)} Kalenderwochen und somit ist aktuell eine ${_getCurrentWeekTypeName(userSettings.isAWeekEvenWeek)}.",
                         textAlign: TextAlign.left,
                         style:
                             const TextStyle(fontSize: 12, color: Colors.grey),
@@ -137,7 +138,7 @@ class _ABWeekField extends StatelessWidget {
   }
 
   WeekType _getCurrentWeekType(bool isAWeekEvenWeek) {
-    final isCurrentWeekEven = getWeekNumber(DateTime.now()).isEven;
+    final isCurrentWeekEven = getWeekNumber(clock.now()).isEven;
     if (isCurrentWeekEven) {
       return isAWeekEvenWeek ? WeekType.a : WeekType.b;
     } else {

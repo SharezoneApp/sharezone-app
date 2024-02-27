@@ -27,6 +27,7 @@ dependencies:
   cloud_firestore: ^4.8.5
   flutter:
     sdk: flutter
+  clock: ^1.1.1
 
 dev_dependencies:
   rxdart: ^0.27.1

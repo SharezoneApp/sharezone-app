@@ -142,7 +142,7 @@ packages:
     source: hosted
     version: "1.7.0"
   clock:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: clock
       sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
@@ -956,12 +956,11 @@ packages:
   pdfx:
     dependency: transitive
     description:
-      path: "packages/pdfx"
-      ref: "8b105a7dfc6b90220c1d79fcb805fb764cab00c5"
-      resolved-ref: "8b105a7dfc6b90220c1d79fcb805fb764cab00c5"
-      url: "https://github.com/ScerIO/packages.flutter"
-    source: git
-    version: "2.5.0"
+      name: pdfx
+      sha256: c0f70ab6691b7cde02c0c204763a1edb2689ce245ac34eb629c66273a6aa1caf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.0"
   permission_handler:
     dependency: transitive
     description:

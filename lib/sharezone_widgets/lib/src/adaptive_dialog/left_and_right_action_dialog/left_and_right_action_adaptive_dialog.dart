@@ -20,12 +20,14 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
   AdaptiveDialogAction? right,
   bool withCancelButtonOnIOS = false,
   T? defaultValue,
+  Key? key,
 }) async {
   final T? result;
   if (PlatformCheck.isIOS) {
     result = await showCupertinoDialog<T>(
       context: context,
       builder: (context) => _ActionAndCancelDialogCupertino(
+        key: key,
         title: title,
         content: content,
         left: left,
@@ -37,6 +39,7 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
     result = await showDialog<T>(
       context: context,
       builder: (context) => _ActionAndCancelDialogMaterial(
+        key: key,
         title: title,
         content: content,
         left: left,
@@ -138,6 +141,7 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
   final bool? withCancelButtonOnIOS;
 
   const _ActionAndCancelDialogCupertino({
+    super.key,
     this.right,
     this.title,
     this.content,

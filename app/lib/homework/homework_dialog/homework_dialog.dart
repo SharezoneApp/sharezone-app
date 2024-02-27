@@ -735,6 +735,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                 width: 50,
                 child: TextField(
                   key: HwDialogKeys.customLessonChipDialogTextField,
+                  autofocus: true,
                   maxLength: 2,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
@@ -1161,6 +1162,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.folder_open),
           title: const Text("Mit Abgabe"),
+          enabled: isWidgetEnabled,
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
           trailing: Switch.adaptive(
             value: submissionsEnabled,

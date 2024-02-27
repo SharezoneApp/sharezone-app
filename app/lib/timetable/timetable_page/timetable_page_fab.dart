@@ -39,36 +39,6 @@ void _showLessonAddConfirmation(BuildContext context) {
   );
 }
 
-Future<TimetableResult?> showTimetableAddEventPage(
-  BuildContext context, {
-  required bool isExam,
-}) async {
-  // ignore: dead_code
-  if (false) {
-    await Navigator.push(
-        context,
-        IgnoreWillPopScopeWhenIosSwipeBackRoute(
-            builder: (context) => TimetableAddEventDialog(
-                  isExam: isExam,
-                ),
-            settings: const RouteSettings(name: TimetableAddEventDialog.tag)));
-    return null;
-  } else {
-    final result = await Navigator.push<TimetableResult>(
-        context,
-        IgnoreWillPopScopeWhenIosSwipeBackRoute(
-            builder: (context) => TimetableAddEventPage(isExam: isExam),
-            settings: const RouteSettings(name: TimetableAddEventPage.tag)));
-    if (result != null) {
-      await waitingForPopAnimation();
-      if (!context.mounted) return null;
-
-      showDataArrivalConfirmedSnackbar(context: context);
-    }
-    return result;
-  }
-}
-
 Future<void> openTimetableAddSheet(BuildContext context) async {
   final fabOptionValue = await showModalBottomSheet<_FABAddTimetableOption>(
       context: context, builder: (context) => _TimetableAddSheet());
@@ -79,10 +49,10 @@ Future<void> openTimetableAddSheet(BuildContext context) async {
       showTimetableAddLessonPage(context);
       break;
     case _FABAddTimetableOption.event:
-      showTimetableAddEventPage(context, isExam: false);
+      openEventDialogAndShowConfirmationIfSuccessful(context, isExam: false);
       break;
     case _FABAddTimetableOption.exam:
-      showTimetableAddEventPage(context, isExam: true);
+      openEventDialogAndShowConfirmationIfSuccessful(context, isExam: true);
       break;
     case null:
       break;

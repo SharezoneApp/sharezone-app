@@ -10,6 +10,7 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/sharezone_v2/sz_v2_annoucement_dialog.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
+import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';

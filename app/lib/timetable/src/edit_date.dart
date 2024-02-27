@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 
@@ -76,7 +77,7 @@ Future<Date?> selectDate(
 }) async {
   return showDatePicker(
     context: context,
-    initialDate: initialDate?.toDateTime ?? DateTime.now(),
+    initialDate: initialDate?.toDateTime ?? clock.now(),
     firstDate: Date("2019-01-01").toDateTime,
     lastDate: Date("2029-12-31").toDateTime,
   ).then((newDateTime) {

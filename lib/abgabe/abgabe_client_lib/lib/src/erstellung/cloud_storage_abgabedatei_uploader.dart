@@ -12,7 +12,7 @@ import 'package:abgabe_client_lib/src/erstellung/datei_upload_prozess.dart';
 import 'package:abgabe_client_lib/src/erstellung/local_file_saver.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
 import 'package:abgabe_http_api/api/abgabedatei_api.dart';
-
+import 'package:clock/clock.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/file_uploader.dart';
@@ -20,7 +20,7 @@ import 'package:filesharing_logic/file_uploader.dart';
 import 'uploader/abgabedatei_uploader.dart';
 import 'use_cases/abgabedatei_hinzufueger.dart';
 
-DateTime _lastUploaded = DateTime.now();
+DateTime _lastUploaded = clock.now();
 
 class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   final FileUploader fileUploader;
@@ -57,11 +57,11 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
           /// passieren kann, dass das hinzufügen einer Datei "überschrieben"
           /// also sozusagen rückgängig gemacht wird, wenn die Anfragen parallel
           /// verarbeitet werden.
-          while (DateTime.now().difference(_lastUploaded).abs() <
+          while (clock.now().difference(_lastUploaded).abs() <
               const Duration(milliseconds: 900)) {
             await Future.delayed(const Duration(milliseconds: 300));
           }
-          _lastUploaded = DateTime.now();
+          _lastUploaded = clock.now();
           await _fuegeAbgabedateireferenzZuAbgabeHinzu(befehl);
         } catch (e, s) {
           await _logAbgabedateireferenzHinzufuegeError(e, s);

@@ -74,7 +74,7 @@ HolidayBloc setupBloc(MockSharezoneAppFunctions szAppFunctions,
   HolidayApi api = HolidayApi(
     CloudFunctionHolidayApiClient(szAppFunctions),
     getCurrentTime: () => currentTime,
-  ); // Return ended Holidays, as I can't manipulate DateTime.now(). This would lead to flaky tests.
+  ); // Return ended Holidays, as I can't manipulate clock.now(). This would lead to flaky tests.
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
   HolidayCache cache =
       HolidayCache(keyValueStore, getCurrentTime: () => currentTime);
