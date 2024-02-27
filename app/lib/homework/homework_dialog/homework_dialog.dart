@@ -191,7 +191,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
   Future<void> leaveDialog() async {
     if (hasModifiedData()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
-      if (confirmedLeave && context.mounted) Navigator.pop(context);
+      if (confirmedLeave && mounted) Navigator.pop(context);
     } else {
       Navigator.pop(context);
     }

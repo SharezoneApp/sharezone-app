@@ -39,8 +39,13 @@ class Date implements Comparable<Date> {
   }
 
   @override
-  bool operator ==(dynamic other) {
-    return compareTo(other) == 0;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Date &&
+        other.day == day &&
+        other.month == month &&
+        other.year == year;
   }
 
   @override

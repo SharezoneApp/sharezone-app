@@ -26,7 +26,7 @@ dependencies:
       ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
   sharezone_widgets:
     path: ../../sharezone_widgets
-  url_launcher: ^6.1.10
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   golden_toolkit: ^0.15.0
