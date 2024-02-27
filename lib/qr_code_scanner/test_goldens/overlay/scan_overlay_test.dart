@@ -24,7 +24,7 @@ void main() {
               // widget not loaded. Therefore, will Flutter use the default font
               // "Ahem".
               description: Text(
-                'Go to web.sharezone.net to get a QR Code',
+                '123 Go to web.sharezone.net to get a QR Code',
               ),
               hasTorch: true,
             ),
