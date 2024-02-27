@@ -425,7 +425,7 @@ class HochladeneLokaleAbgabedatei extends LokaleAbgabedatei {
       'HochladeneDatei(datei: ${super.toString()}, fortschritt: $fortschritt)';
 
   @override
-  bool operator ==(Object? other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is HochladeneLokaleAbgabedatei &&

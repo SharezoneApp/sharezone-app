@@ -35,7 +35,7 @@ class OpenHomeworkListView {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is OpenHomeworkListView &&
             showCompleteOverdueHomeworkPrompt ==

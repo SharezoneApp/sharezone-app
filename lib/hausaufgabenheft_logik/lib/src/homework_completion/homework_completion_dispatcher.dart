@@ -25,7 +25,7 @@ class HomeworkCompletion {
   HomeworkCompletion(this.homeworkId, this.newCompletionValue);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is HomeworkCompletion && other.homeworkId == homeworkId;
   }
