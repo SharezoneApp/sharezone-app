@@ -45,6 +45,9 @@ export 'src/form.dart';
 // placeholder
 export 'src/placeholder.dart';
 
+// creation_editing_dialogs
+export 'src/creation_editing_dialogs/creation_editing_dialogs.dart';
+
 // rounded_simple_dialog
 export 'src/rounded_simple_dialog.dart';
 

@@ -374,6 +374,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  flutter_markdown:
+    dependency: transitive
+    description:
+      path: "packages/flutter_markdown"
+      ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
+      resolved-ref: "494fa74182c1993cfd39d804f24c4ee136e3905a"
+      url: "https://github.com/SharezoneApp/packages"
+    source: git
+    version: "0.6.17+2"
   flutter_staggered_animations:
     dependency: transitive
     description:
@@ -511,6 +520,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      sha256: "1b134d9f8ff2da15cb298efe6cd8b7d2a78958c1b00384ebcbdf13fe340a6c90"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.1"
   matcher:
     dependency: transitive
     description:
@@ -662,6 +679,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shared_preferences:
     dependency: transitive
     description:

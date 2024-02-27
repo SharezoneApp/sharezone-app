@@ -15,7 +15,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
