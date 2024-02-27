@@ -158,6 +158,8 @@ jobs:
   test-with-goldens:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
+    # require macOS arm64. Therefore, we need to use macos-14.
     runs-on: macos-14
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
