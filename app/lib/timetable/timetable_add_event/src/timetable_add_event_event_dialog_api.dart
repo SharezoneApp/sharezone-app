@@ -11,9 +11,11 @@ import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:time/time.dart';
+
+export 'package:sharezone/calendrical_events/models/calendrical_event.dart'
+    show EventType;
 
 class EventDialogApi {
   final SharezoneGateway _api;
@@ -33,10 +35,7 @@ class EventDialogApi {
       createdOn: null,
       groupID: command.courseId.id,
       groupType: GroupType.course,
-      eventType: switch (command.eventType) {
-        EventType.event => Meeting(),
-        EventType.exam => Exam(),
-      },
+      eventType: command.eventType,
       date: command.date,
       place: command.location,
       startTime: command.startTime,
@@ -51,8 +50,6 @@ class EventDialogApi {
     _api.timetable.createEvent(event);
   }
 }
-
-enum EventType { event, exam }
 
 class CreateEventCommand extends Equatable {
   final String title;

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'report.dart';
@@ -26,7 +27,7 @@ class ReportFactory extends BlocBase {
       String description, ReportReason reason, ui.ReportItemReference item) {
     validatePath(item.path);
     return Report(
-      createdOn: DateTime.now(),
+      createdOn: clock.now(),
       creatorID: uid,
       description: description,
       reason: reason,

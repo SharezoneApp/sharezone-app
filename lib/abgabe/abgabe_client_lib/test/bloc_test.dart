@@ -19,15 +19,14 @@ import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_loescher.dart';
 import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_umbenenner.dart';
 import 'package:abgabe_client_lib/src/erstellung/views.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
-
 import 'package:async/async.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-
-import 'package:test_randomness/test_randomness.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group(
@@ -753,9 +752,9 @@ void main() {
         });
 
         test('Die Dateien werden nach hinzufuegedatum sortiert.', () async {
-          final now = DateTime.now();
+          final now = clock.now();
           abgabezeitpunktStream.add(now.add(const Duration(days: 20)));
-          kriegeAktuelleZeit = () => DateTime.now();
+          kriegeAktuelleZeit = () => clock.now();
 
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
@@ -853,7 +852,7 @@ HochgeladeneAbgabedatei hochgeladeneAbgabedatei({
     groesse: Dateigroesse(12345),
     downloadUrl: DateiDownloadUrl('https://some-url.com'),
     // Sollte letzte sein (auch wenn es eigentlich nicht sein)
-    erstellungsdatum: erstellungsdatum ?? DateTime.now(),
+    erstellungsdatum: erstellungsdatum ?? clock.now(),
   );
 }
 
@@ -864,7 +863,7 @@ ErstellerAbgabeModelSnapshot erstelleAbgabenModelSnapshot(
           abgabeId: AbgabeId(
               AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
               UserId('ValidUserId')),
-          abgegebenUm: abgegeben ? DateTime.now() : null,
+          abgegebenUm: abgegeben ? clock.now() : null,
           abgabedateien: abgabedateien)
       .toSnapshot();
 }

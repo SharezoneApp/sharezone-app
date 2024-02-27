@@ -19,6 +19,7 @@ dependencies:
   rxdart: ^0.27.1
   flutter:
     sdk: flutter
+  clock: ^1.1.1
 
 dev_dependencies:
   sharezone_lints:

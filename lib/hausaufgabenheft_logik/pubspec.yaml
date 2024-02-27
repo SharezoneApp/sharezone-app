@@ -30,6 +30,7 @@ dependencies:
   # https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1460
   test_randomness:
     path: ../test_randomness
+  clock: ^1.1.1
 
 dev_dependencies:
   async: ^2.11.0

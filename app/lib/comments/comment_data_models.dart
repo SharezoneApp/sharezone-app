@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sharezone/comments/comment.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:sharezone/comments/comment.dart';
 
 class CommentDataModel {
   final String? id;
@@ -73,8 +74,7 @@ class CommentDataModel {
       author: author.toModel(),
       content: comment,
       ratings: _createRatings(),
-      age: CommentAge.fromDuration(
-          DateTime.now().difference(writtenOn!.toDate())),
+      age: CommentAge.fromDuration(clock.now().difference(writtenOn!.toDate())),
       id: id,
     );
   }

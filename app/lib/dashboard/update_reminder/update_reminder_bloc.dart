@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/changelog/change.dart';
@@ -41,7 +42,7 @@ class UpdateReminderBloc extends BlocBase {
       getCurrentVersion: () => platformInformationRetriever.init().then(
           (_) => Version.parse(name: platformInformationRetriever.version)),
       updateGracePeriod: updateGracePeriod,
-      getCurrentDateTime: () => DateTime.now(),
+      getCurrentDateTime: () => clock.now(),
       crashAnalytics: crashAnalytics,
     );
   }

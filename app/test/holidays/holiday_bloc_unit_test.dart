@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
 import 'package:mockito/annotations.dart';
@@ -175,7 +176,7 @@ class InMemoryHolidayStateGateway extends HolidayStateGateway {
 List<Holiday> generateHolidayList(int length) {
   List<Holiday> holidays = [];
   for (int i = 0; i < length; i++) {
-    final start = DateTime.now().add(Duration(days: i + 1));
+    final start = clock.now().add(Duration(days: i + 1));
     final end = start.add(Duration(days: i + 4));
     holidays.add(generateHoliday(start, end));
   }
