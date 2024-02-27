@@ -42,6 +42,9 @@ export 'src/dimensions.dart';
 // form
 export 'src/form.dart';
 
+// list_tile_with_description
+export 'src/list_tile_with_description.dart';
+
 // placeholder
 export 'src/placeholder.dart';
 

@@ -19,7 +19,6 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -590,7 +589,8 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: _SendNotificationBase(
+        child: SendNotificationBase(
+          switchKey: EventDialogKeys.notifyCourseMembersSwitch,
           title: "Kursmitglieder benachrichtigen",
           onChanged: (newValue) {
             controller.notifyCourseMembers = newValue;
@@ -600,35 +600,6 @@ class _SendNotification extends StatelessWidget {
               "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
         ),
       ),
-    );
-  }
-}
-
-class _SendNotificationBase extends StatelessWidget {
-  const _SendNotificationBase({
-    required this.title,
-    required this.sendNotification,
-    required this.onChanged,
-    this.description,
-  });
-
-  final String title;
-  final String? description;
-  final bool sendNotification;
-  final Function(bool) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTileWithDescription(
-      leading: const Icon(Icons.notifications_active),
-      title: Text(title),
-      trailing: Switch.adaptive(
-        key: EventDialogKeys.notifyCourseMembersSwitch,
-        onChanged: onChanged,
-        value: sendNotification,
-      ),
-      onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
     );
   }
 }
