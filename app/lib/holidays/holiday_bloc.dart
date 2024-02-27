@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:holidays/holidays.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/util/api/user_api.dart';
@@ -34,7 +35,7 @@ class HolidayBloc extends BlocBase {
       {required this.holidayManager,
       required this.stateGateway,
       this.getCurrentTime}) {
-    getCurrentTime ??= () => DateTime.now();
+    getCurrentTime ??= () => clock.now();
 
     final holidaysStream = userState
         // StateEnum.notSelected would result into an UnsupportedStateException

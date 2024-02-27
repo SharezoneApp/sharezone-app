@@ -8,6 +8,7 @@
 
 import 'dart:math';
 
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/src/date.dart';
 import 'package:date/weekday.dart';
@@ -55,8 +56,8 @@ void main() {
         teacher: "",
         weekday: WeekDay.monday,
         weektype: WeekType.always,
-        startDate: Date.fromDateTime(DateTime.now()),
-        endDate: Date.fromDateTime(DateTime.now()),
+        startDate: Date.fromDateTime(clock.now()),
+        endDate: Date.fromDateTime(clock.now()),
       );
     }
 

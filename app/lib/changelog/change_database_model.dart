@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sharezone/changelog/change.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:sharezone/changelog/change.dart';
 
 class ChangeDatabaseModel {
   final String id;
@@ -32,7 +33,7 @@ class ChangeDatabaseModel {
     return ChangeDatabaseModel._(
       id: "",
       version: "",
-      releaseDate: DateTime.now(),
+      releaseDate: clock.now(),
       newFeatures: [],
       improvements: [],
       fixes: [],

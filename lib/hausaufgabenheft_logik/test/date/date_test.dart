@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/src/models/date.dart';
 import 'package:test/test.dart';
 
@@ -50,7 +51,7 @@ void main() {
 
     test('Date.now', () {
       final now = Date.now();
-      var nowDateTime = DateTime.now();
+      var nowDateTime = clock.now();
       expect(now.year, nowDateTime.year);
       expect(now.month, nowDateTime.month);
       expect(now.day, nowDateTime.day);

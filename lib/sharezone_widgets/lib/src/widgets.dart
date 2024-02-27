@@ -9,9 +9,10 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 export 'prefilled_text_field.dart';
@@ -66,7 +67,7 @@ class DatePicker extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final DateTime tomorrow =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        DateTime(clock.now().year, clock.now().month, clock.now().day)
             .add(const Duration(days: 1));
     final DateTime? picked = await showDatePicker(
       context: context,
