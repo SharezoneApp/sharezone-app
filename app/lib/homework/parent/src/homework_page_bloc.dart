@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/util/api.dart';
@@ -116,8 +117,8 @@ class HomeworkPageBloc extends BlocBase {
       for (HomeworkDto homework in homeworkNotDone) {
         final DateTime homeworkDateTime = DateTime(homework.todoUntil.year,
             homework.todoUntil.month, homework.todoUntil.day);
-        final DateTime todayDateTime = DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day);
+        final DateTime todayDateTime =
+            DateTime(clock.now().year, clock.now().month, clock.now().day);
         if (homeworkDateTime.isBefore(todayDateTime)) {
           api.homework.changeIsHomeworkDoneTo(homework.id, true);
         }

@@ -123,8 +123,7 @@ class _HolidayText extends StatelessWidget {
     }
     // For each Holiday create a Widget and add to the list.
     for (var holiday in holidayList) {
-      int daysTillHolidayBeginn =
-          holiday!.start.difference(DateTime.now()).inDays;
+      int daysTillHolidayBeginn = holiday!.start.difference(clock.now()).inDays;
       String holidayTitle = capitalize(holiday.name);
 
       String emoji;
@@ -139,7 +138,7 @@ class _HolidayText extends StatelessWidget {
         emoji = "🎉🎉🙌";
         textWidget = Text("$holidayTitle: JETZT, WOOOOOOO! $emoji");
       } else {
-        int daysTillHolidayEnd = holiday.end.difference(DateTime.now()).inDays;
+        int daysTillHolidayEnd = holiday.end.difference(clock.now()).inDays;
         if (daysTillHolidayEnd == 0) {
           textWidget = Text("$holidayTitle: Letzer Tag 😱");
         } else {

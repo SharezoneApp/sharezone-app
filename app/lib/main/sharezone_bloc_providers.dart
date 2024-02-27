@@ -546,7 +546,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         holidayManager: HolidayService(
           HolidayApi(
             holidayApiClient,
-            getCurrentTime: () => DateTime.now(),
+            getCurrentTime: () => clock.now(),
           ),
           HolidayCache(
             FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),

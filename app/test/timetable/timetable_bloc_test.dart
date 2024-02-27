@@ -8,6 +8,7 @@
 
 import 'dart:math';
 
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/src/date.dart';
 import 'package:date/weekday.dart';
@@ -15,7 +16,6 @@ import 'package:date/weektype.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
@@ -55,8 +55,8 @@ void main() {
         teacher: "",
         weekday: WeekDay.monday,
         weektype: WeekType.always,
-        startDate: Date.fromDateTime(DateTime.now()),
-        endDate: Date.fromDateTime(DateTime.now()),
+        startDate: Date.fromDateTime(clock.now()),
+        endDate: Date.fromDateTime(clock.now()),
       );
     }
 
@@ -72,7 +72,7 @@ void main() {
         date: Date.today(),
         detail: '',
         eventID: 'eventId',
-        eventType: Meeting(),
+        eventType: EventType.event,
         latestEditor: '',
         sendNotification: false,
         title: 'title',

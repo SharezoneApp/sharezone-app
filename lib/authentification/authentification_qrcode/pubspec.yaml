@@ -35,6 +35,7 @@ dependencies:
   fast_rsa: ^3.6.1
   firebase_auth: ^4.7.3
   rxdart: ^0.27.1
+  clock: ^1.1.1
 
 dev_dependencies:
   flutter_test:

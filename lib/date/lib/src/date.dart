@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';
+
 import 'weekday.dart';
 
 class Date {
@@ -31,7 +33,7 @@ class Date {
     return Date._(dateTime.toIso8601String().substring(0, 10));
   }
 
-  factory Date.today() => Date.fromDateTime(DateTime.now());
+  factory Date.today() => Date.fromDateTime(clock.now());
 
   /// Gibt das aktuelle [Date] als Stream zurück.
   ///

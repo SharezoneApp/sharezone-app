@@ -20,3 +20,6 @@ environment:
 dev_dependencies:
   sharezone_lints:
     path: ../sharezone_lints
+    
+dependencies:
+  clock: ^1.1.1
