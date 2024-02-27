@@ -51,7 +51,7 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   clock: ^1.1.1
-  cloud_firestore: ^4.8.5
+  cloud_firestore: ^4.15.5
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
   cloud_functions: ^4.4.0
@@ -79,13 +79,13 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^4.7.3
-  firebase_core: ^2.15.1
+  firebase_auth: ^4.17.5
+  firebase_core: ^2.25.4
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^14.6.6
-  firebase_performance: ^0.9.2+5
-  firebase_storage: ^11.2.6
+  firebase_messaging: ^14.7.16
+  firebase_performance: ^0.9.3+14
+  firebase_storage: ^11.6.6
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
@@ -198,6 +198,12 @@ dependency_overrides:
       url: https://github.com/fluttercommunity/plus_plugins
       path: packages/package_info_plus/package_info_plus
       ref: d24474d7b388fe43a9dd339b708834470bb14c90
+  # Is required to be able to build the app using Flutter 3.19. Can be removed
+  # when firebase_core uses web >= 0.5.1.
+  web:
+    git:
+      url: https://github.com/dart-lang/web/
+      ref: d96c01d2252372c9e0fa7ffa52d2d1df331c248b
 
 dev_dependencies:
   async: ^2.4.1
