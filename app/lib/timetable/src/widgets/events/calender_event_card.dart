@@ -8,10 +8,9 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
@@ -112,7 +111,7 @@ Future<void> onEventLongPress(
   final isAuthor = api.uID == event.authorID;
   final hasPermissionsToManageEvents = hasPermissionToManageEvents(
       api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
-  final isExam = event.eventType == Exam();
+  final isExam = event.eventType == EventType.exam;
   final result = await showLongPressAdaptiveDialog<_EventLongPressResult>(
     context: context,
     title: "${isExam ? "Prüfung" : "Termin"}: ${event.title}",
