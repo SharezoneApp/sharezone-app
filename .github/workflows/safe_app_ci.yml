@@ -151,7 +151,7 @@ jobs:
             --package-timeout-minutes 15 \
             --exclude-goldens
 
-    # We split the tests into two jobs, because we want to run the golden tests on
+  # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
   # the time that macOS runner are used, we run the other tests on a Linux
   # runner.
