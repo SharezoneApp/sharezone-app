@@ -194,9 +194,9 @@ jobs:
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
         with:
           name: failed-golden-tests
-          # When a golden test failed, are the results stored in the "failures"
-          # folder. The failures can be at several places, like in the app
-          # folder and in different packages.
+          # When golden test fail then the results are stored in "failures"
+          # folders. Since golden tests run in several different places (e.g. /app,
+          # or packages in /lib) the failures folder will be spread in different places.
           path: "**/failures/*.png"
 
   # Checks if the generated files are up to date.
