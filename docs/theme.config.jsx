@@ -1,17 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-const footerNav = [
-  {
-    name: "Support",
-    href: "https://sharezone.net/support",
-  },
-];
-
 const footerLegalNav = [
   { name: "Imprint", href: "https://sharezone.net/imprint" },
   {
-    name: "Privacy",
+    name: "Privacy Policy",
     href: "https://sharezone.net/privacy",
   },
 ];
@@ -38,9 +31,18 @@ export default {
     "https://github.com/SharezoneApp/sharezone-app/tree/main/docs",
   footer: {
     text: (
-      <span className="text-primary/80">
-        MIT {new Date().getFullYear()} © Sharezone UG (haftungsbeschränkt)
-      </span>
+      <div>
+        {footerLegalNav.map((nav) => (
+          <Link
+            key={nav.name}
+            href={nav.href}
+            style={{ paddingRight: "1rem" }}
+            target="_blank"
+          >
+            {nav.name}
+          </Link>
+        ))}
+      </div>
     ),
   },
 };
