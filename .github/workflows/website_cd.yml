@@ -58,7 +58,8 @@ jobs:
           # buggy.
           flutter build web \
             --web-renderer canvaskit \
-            --dart-define=FLAVOR=${{ matrix.environment.flavor }}
+            --dart-define=FLAVOR=${{ matrix.environment.flavor }} \
+            --pwa-strategy none
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
