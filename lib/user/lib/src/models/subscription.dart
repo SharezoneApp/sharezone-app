@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:helper_functions/helper_functions.dart';
 
 class Subscription {
   /// The date the user last purchased the subscription.
@@ -17,17 +18,14 @@ class Subscription {
   /// The date the latest user's subscription expires.
   final DateTime expiresAt;
 
+  /// The source where the subscription was purchased.
+  final SubscriptionSource source;
+
   const Subscription(
     this.purchasedAt,
     this.expiresAt,
+    this.source,
   );
-
-  Map<String, dynamic> toJson() {
-    return {
-      'purchasedAt': purchasedAt,
-      'expiresAt': expiresAt,
-    };
-  }
 
   static Subscription? fromData(Map<String, dynamic>? map) {
     if (map == null) return null;
@@ -38,12 +36,16 @@ class Subscription {
     return Subscription(
       dateTimeFromTimestamp(map['purchasedAt']),
       dateTimeFromTimestamp(map['expiresAt']),
+      SubscriptionSource.values.tryByName(
+        map['source'],
+        defaultValue: SubscriptionSource.unknown,
+      ),
     );
   }
 
   @override
   String toString() =>
-      'Subscription(purchasedAt: $purchasedAt, expiresAt: $expiresAt)';
+      'Subscription(purchasedAt: $purchasedAt, expiresAt: $expiresAt, source: $source)';
 
   @override
   bool operator ==(Object other) {
@@ -51,9 +53,22 @@ class Subscription {
 
     return other is Subscription &&
         other.purchasedAt == purchasedAt &&
-        other.expiresAt == expiresAt;
+        other.expiresAt == expiresAt &&
+        other.source == source;
   }
 
   @override
-  int get hashCode => purchasedAt.hashCode ^ expiresAt.hashCode;
+  int get hashCode =>
+      purchasedAt.hashCode ^ expiresAt.hashCode ^ source.hashCode;
+}
+
+enum SubscriptionSource {
+  playStore('Play Store'),
+  appStore('App Store'),
+  stripe('Stripe'),
+  unknown('Unknown');
+
+  const SubscriptionSource(this.uiString);
+
+  final String uiString;
 }

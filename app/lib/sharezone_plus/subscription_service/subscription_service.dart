@@ -62,6 +62,10 @@ class SubscriptionService {
 
     return user.map((event) => hasFeatureUnlocked(feature));
   }
+
+  SubscriptionSource? getSource() {
+    return _user?.subscription?.source;
+  }
 }
 
 enum SharezonePlusFeature {

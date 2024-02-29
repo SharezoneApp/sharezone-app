@@ -21,4 +21,10 @@ class RevenueCatPurchaseService implements PurchaseService {
         .singleWhere((package) => package.offeringIdentifier == id.toString());
     await Purchases.purchasePackage(packageToPurchase);
   }
+
+  @override
+  Future<String?> getManagementUrl() async {
+    final customerInfo = await Purchases.getCustomerInfo();
+    return customerInfo.managementURL;
+  }
 }

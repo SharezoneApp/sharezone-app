@@ -14,4 +14,5 @@ class ProductId extends Id {
 
 abstract class PurchaseService {
   Future<void> purchase(ProductId id);
+  Future<String?> getManagementUrl();
 }

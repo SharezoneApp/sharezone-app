@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
@@ -17,6 +18,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:platform_check/platform_check.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:user/user.dart';
 
 /// A fallback price if the price cannot be fetched from the backend.
 ///
@@ -45,13 +47,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     _subscriptionService = subscriptionService;
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
-
-    // Fake loading for development purposes.
-    Future.delayed(const Duration(seconds: 1)).then((value) {
-      hasPlus = false;
-      price = fallbackPlusPrice;
-      notifyListeners();
-    });
+    hasPlus = subscriptionService.isSubscriptionActive();
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -109,8 +105,35 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   Future<void> cancelSubscription() async {
-    hasPlus = false;
-    notifyListeners();
+    final source = _subscriptionService.getSource();
+    if (source == null) {
+      throw StateError(
+          '$SubscriptionSource was null, can not cancel subscription.');
+    }
+
+    if (!canCancelSubscription(source)) {
+      throw CanNotCancelOnThisPlatform(source);
+    }
+
+    if (PlatformCheck.isWeb) {
+      // ...
+    } else {
+      final managementUrl = await _purchaseService.getManagementUrl();
+      if (managementUrl != null) {
+        await launchUrl(Uri.parse(managementUrl));
+      } else {
+        throw const CouldNotGetManagementUrl();
+      }
+    }
+  }
+
+  bool canCancelSubscription(SubscriptionSource source) {
+    return switch (source) {
+      SubscriptionSource.appStore => PlatformCheck.isIOS,
+      SubscriptionSource.playStore => PlatformCheck.isAndroid,
+      SubscriptionSource.stripe => true,
+      SubscriptionSource.unknown => false,
+    };
   }
 
   @override
@@ -118,4 +141,14 @@ class SharezonePlusPageController extends ChangeNotifier {
     _hasPlusSubscription?.cancel();
     super.dispose();
   }
+}
+
+class CanNotCancelOnThisPlatform implements Exception {
+  final SubscriptionSource? source;
+
+  const CanNotCancelOnThisPlatform(this.source);
+}
+
+class CouldNotGetManagementUrl implements Exception {
+  const CouldNotGetManagementUrl();
 }

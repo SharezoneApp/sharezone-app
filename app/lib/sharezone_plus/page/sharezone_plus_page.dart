@@ -164,11 +164,42 @@ class _UnsubscribeButton extends StatelessWidget {
     const flatRed = Color(0xFFF55F4B);
     return CallToActionButton(
       onPressed: () async {
+        await showDialog(
+          context: context,
+          builder: (context) => const _UnsubscribeNoteDialog(),
+        );
+        if (!context.mounted) {
+          return;
+        }
+
         final controller = context.read<SharezonePlusPageController>();
-        await controller.cancelSubscription();
+        try {
+          await controller.cancelSubscription();
+        } on Exception catch (e) {
+          // TODO
+        }
       },
       text: const Text('Kündigen'),
       backgroundColor: flatRed,
+    );
+  }
+}
+
+class _UnsubscribeNoteDialog extends StatelessWidget {
+  const _UnsubscribeNoteDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Kündigen-Button weiterhin sichtbar'),
+      content: const Text(
+          'Beachte, dass auch bei einer erfolgreichen Kündigung, der Kündigen-Button solange angezeigt wird, bis das Abonnement ausgelaufen ist.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
