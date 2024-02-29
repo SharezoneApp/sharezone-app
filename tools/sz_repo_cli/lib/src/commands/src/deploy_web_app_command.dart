@@ -76,7 +76,7 @@ class DeployWebAppCommand extends CommandBase {
       'Deploy the Sharezone web app in the given environment';
 
   @override
-  String get name => 'web-app';
+  String get name => 'web';
 
   @override
   Future<void> run() async {

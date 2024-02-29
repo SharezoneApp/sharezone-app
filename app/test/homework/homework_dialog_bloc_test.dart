@@ -23,6 +23,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
+import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -51,6 +52,7 @@ void main() {
         nextLessonCalculator: nextLessonCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
+        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -61,6 +63,7 @@ void main() {
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
+        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -464,6 +467,7 @@ void main() {
             private: false,
           ));
     });
+
     test('Returns loading state when called for an existing homework', () {
       final homeworkId = HomeworkId('foo');
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);
@@ -479,6 +483,40 @@ void main() {
       expect(state.submissions,
           SubmissionsEnabled(deadline: Time(hour: 23, minute: 59)));
     });
+
+    // https://github.com/SharezoneApp/sharezone-app/issues/1306
+    test(
+        'Regression Test: Sets submission time to null when submission is disabled',
+        () async {
+      final mathCourse = courseWith(id: 'maths_course');
+      addCourse(mathCourse);
+
+      final bloc = createBlocForNewHomeworkDialog();
+      bloc.add(const TitleChanged('S. 32 8a)'));
+      bloc.add(CourseChanged(CourseId(mathCourse.id)));
+      bloc.add(DueDateChanged(DueDateSelection.date(Date.parse('2023-10-12'))));
+
+      // Enable submissions and set a submission time.
+      bloc.add(SubmissionsChanged(
+          (enabled: true, submissionTime: Time(hour: 16, minute: 30))));
+
+      await pumpEventQueue();
+
+      // Now, disable submissions.
+      bloc.add(
+          const SubmissionsChanged((enabled: false, submissionTime: null)));
+
+      await pumpEventQueue();
+      bloc.add(const Save());
+      await pumpEventQueue();
+
+      expect(
+        homeworkDialogApi.userInputToBeCreated.todoUntil,
+        // Ensure that the submission time is reset to 00:00
+        DateTime(2023, 10, 12, 0, 0),
+      );
+    });
+
     test(
         'Regression test: When choosing due date then the submission time should not reset to 00:00',
         () async {

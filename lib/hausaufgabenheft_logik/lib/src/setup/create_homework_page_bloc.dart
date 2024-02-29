@@ -6,19 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
+import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
 import '../completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
 import '../completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart';
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
-import '../student_homework_page_bloc/student_homework_page_bloc.dart';
 import '../models/homework/models_used_by_homework.dart';
 import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
 import '../open_homeworks/sort_and_subcategorization/subcategorizer_factory.dart';
 import '../open_homeworks/views/open_homework_list_view_factory.dart';
+import '../student_homework_page_bloc/student_homework_page_bloc.dart';
 import '../views/student_homework_view_factory.dart';
 import 'config.dart';
 import 'dependencies.dart';
@@ -54,6 +55,6 @@ HomeworkPageBloc createHomeworkPageBloc(
     completedHomeworksViewBloc: completedHomeworksViewBloc,
     homeworkCompletionReceiver: homeworkPageCompletionReceiver,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),
-    getCurrentDateTime: dependencies.getCurrentDateTime ?? () => DateTime.now(),
+    getCurrentDateTime: dependencies.getCurrentDateTime ?? () => clock.now(),
   );
 }

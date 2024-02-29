@@ -8,11 +8,13 @@
 
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/realtime_updating_lazy_loading_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rxdart/subjects.dart' as rx;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:rxdart/subjects.dart' as rx;
+
 import 'in_memory_homework_loader.dart';
 
 class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
@@ -31,7 +33,7 @@ List<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
       length,
       (index) => HomeworkReadModel(
           id: HomeworkId("$index"),
-          todoDate: DateTime.now(),
+          todoDate: clock.now(),
           status: CompletionStatus.completed,
           subject: Subject("Mathe", abbreviation: 'Ma'),
           title: const Title("ABC"),

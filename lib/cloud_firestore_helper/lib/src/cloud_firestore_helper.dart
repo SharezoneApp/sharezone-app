@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
+
 typedef ObjectMapBuilder<T> = T Function(String key, dynamic decodedMapValue);
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 
@@ -42,7 +44,7 @@ List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
 /// behavior is legacy and shouldn't be used anymore.
 DateTime dateTimeFromTimestamp(dynamic timestamp) {
   final dateTime = dateTimeFromTimestampOrNull(timestamp);
-  return dateTime ?? DateTime.now();
+  return dateTime ?? clock.now();
 }
 
 DateTime? dateTimeFromTimestampOrNull(dynamic timestamp) {

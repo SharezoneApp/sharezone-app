@@ -22,6 +22,7 @@ class TimetableGateway {
     String lessonID = references.lessons.doc().id;
     Map<String, dynamic> data = lesson.copyWith(lessonID: lessonID).toJson();
     data['users'] = [memberID];
+    data['createdOn'] = FieldValue.serverTimestamp();
     return references.lessons
         .doc(lessonID)
         .set(data, SetOptions(merge: true))
@@ -44,6 +45,7 @@ class TimetableGateway {
     Map<String, dynamic> data =
         event.copyWith(eventID: eventID, authorID: memberID).toJson();
     data['users'] = [memberID];
+    data['createdOn'] = FieldValue.serverTimestamp();
     return references.events
         .doc(eventID)
         .set(data, SetOptions(merge: true))

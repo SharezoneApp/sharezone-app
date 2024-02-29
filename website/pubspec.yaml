@@ -33,7 +33,7 @@ dependencies:
     path: ../lib/sharezone_plus/sharezone_plus_page_ui
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  url_launcher: ^6.2.2
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:

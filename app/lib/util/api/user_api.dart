@@ -174,7 +174,7 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   Future<void> changeEmail(String email) async {
-    await authUser!.firebaseUser.updateEmail(email);
+    await authUser!.firebaseUser.verifyBeforeUpdateEmail(email);
     return;
   }
 

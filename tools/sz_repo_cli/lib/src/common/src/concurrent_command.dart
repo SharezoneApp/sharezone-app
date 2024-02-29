@@ -9,12 +9,18 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Run a task via [runTaskForPackage] for many [Package] concurrently.
 abstract class ConcurrentCommand extends CommandBase {
   ConcurrentCommand(super.context) {
     argParser
+      ..addOption(
+        'only',
+        help:
+            'Only run the task for the given package(s). Package names can be separated by comma. E.g. `--only package1` or `--only=package1,package2`.',
+      )
       ..addConcurrencyOption(defaultMaxConcurrency: defaultMaxConcurrency)
       ..addPackageTimeoutOption(
           defaultInMinutes: defaultPackageTimeout.inMinutes);
@@ -54,7 +60,25 @@ abstract class ConcurrentCommand extends CommandBase {
   ///
   /// Can be overridden to e.g. add a filter (`.where((package) =>
   /// package.hasTestDirectory`).
-  Stream<Package> get packagesToProcess => repo.streamPackages();
+  Stream<Package> get packagesToProcess {
+    var stream = repo.streamPackages();
+
+    final onlyPackageNames = _parseOnlyArg();
+    if (onlyPackageNames.isNotEmpty) {
+      stream =
+          stream.where((package) => onlyPackageNames.contains(package.name));
+    }
+
+    return stream;
+  }
+
+  List<String> _parseOnlyArg() {
+    final onlyArg = argResults!['only'] as String?;
+    if (onlyArg == null) {
+      return [];
+    }
+    return onlyArg.split(',');
+  }
 
   @override
   Future<void> run() async {
@@ -68,7 +92,7 @@ abstract class ConcurrentCommand extends CommandBase {
         : null;
 
     final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
+      getCurrentDateTime: () => clock.now(),
     );
 
     final res = taskRunner

@@ -69,7 +69,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.47.0
+        run: pip3 install codemagic-cli-tools==0.50.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -143,7 +143,7 @@ jobs:
           FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
-          sz deploy web-app \
+          sz deploy web \
             --stage stable \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --credentials firebase-hosting-key.json \
@@ -159,7 +159,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.47.0
+        run: pip3 install codemagic-cli-tools==0.50.3
 
       - name: Setup signing
         working-directory: app/android
@@ -218,7 +218,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.47.0
+        run: pip3 install codemagic-cli-tools==0.50.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action

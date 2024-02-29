@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:app_functions/sharezone_app_functions.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/qr_sign_in_document.dart';
 import '../models/qr_sign_in_state.dart';
 
@@ -48,7 +50,7 @@ class QrCodeUserAuthenticator {
     final qrSignInDocument = QrSignInDocument(
       qrId: qrId,
       publicKey: publicKey,
-      created: DateTime.now(),
+      created: clock.now(),
     );
     _qrSignInCollection.doc(qrId).set(qrSignInDocument.toData());
     return qrId;

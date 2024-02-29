@@ -13,6 +13,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -33,7 +34,6 @@ import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -70,6 +70,9 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     final szContext = BlocProvider.of<SharezoneContext>(context);
     final analytics = szContext.analytics;
+    final enabledWeekDays = szContext
+        .api.user.data!.userSettings.enabledWeekDays
+        .getEnabledWeekDaysList();
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
@@ -92,6 +95,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           homeworkId: widget.id,
           api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
           nextLessonCalculator: nextLessonCalculator,
+          enabledWeekdays: enabledWeekDays,
           markdownAnalytics: markdownAnalytics,
           analytics: analytics,
         );
@@ -102,6 +106,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
       bloc = HomeworkDialogBloc(
         api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
         nextLessonCalculator: nextLessonCalculator,
+        enabledWeekdays: enabledWeekDays,
         markdownAnalytics: markdownAnalytics,
         analytics: analytics,
       );
@@ -185,7 +190,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
   Future<void> leaveDialog() async {
     if (hasModifiedData()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
-      if (confirmedLeave && context.mounted) Navigator.pop(context);
+      if (confirmedLeave && mounted) Navigator.pop(context);
     } else {
       Navigator.pop(context);
     }
@@ -511,11 +516,20 @@ class _DueDateChipsController extends ChangeNotifier {
   }
 
   void addInXLessonsChip(InXLessonsDueDateSelection inXLessons) {
-    chips = chips.add(_DueDateChip(
-      label: '${inXLessons.inXLessons}.-nächste Stunde',
-      dueDate: inXLessons,
-      isDeletable: true,
-    ));
+    if (inXLessons.inXLessons <= 0) {
+      return;
+    }
+    final alreadyExists = chips.firstWhereOrNull(
+          (chip) => chip.dueDate == inXLessons,
+        ) !=
+        null;
+    if (!alreadyExists) {
+      chips = chips.add(_DueDateChip(
+        label: '${inXLessons.inXLessons}.-nächste Stunde',
+        dueDate: inXLessons,
+        isDeletable: true,
+      ));
+    }
     selectChip(inXLessons);
     notifyListeners();
   }
@@ -691,47 +705,63 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
     int? inXHours;
     final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
-        context: context,
-        title: 'Stundenzeit auswählen',
-        right: AdaptiveDialogAction(
-          key: HwDialogKeys.customLessonChipDialogOkButton,
-          title: 'OK',
-          onPressed: () {
-            Navigator.pop(context, inXHours);
-          },
-        ),
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 50,
-              child: TextField(
-                key: HwDialogKeys.customLessonChipDialogTextField,
-                maxLength: 2,
-                textAlign: TextAlign.end,
-                style: const TextStyle(
-                  fontSize: 20,
+      context: context,
+      title: 'Stundenzeit auswählen',
+      right: AdaptiveDialogAction(
+        key: HwDialogKeys.customLessonChipDialogOkButton,
+        title: 'OK',
+        onPressed: () {
+          Navigator.pop(context, inXHours);
+        },
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MaxWidthConstraintBox(
+            maxWidth: 270,
+            child: Text(
+              'Wähle aus, in wie vielen Stunden die Hausaufgabe fällig ist.',
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 50,
+                child: TextField(
+                  key: HwDialogKeys.customLessonChipDialogTextField,
+                  autofocus: true,
+                  maxLength: 2,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: '5',
+                    border: OutlineInputBorder(),
+                  ),
+                  textAlignVertical: TextAlignVertical.center,
+                  onChanged: (value) {
+                    inXHours = int.tryParse(value);
+                  },
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
                 ),
-                decoration: const InputDecoration(
-                  hintText: '5',
-                  border: OutlineInputBorder(),
-                ),
-                textAlignVertical: TextAlignVertical.center,
-                onChanged: (value) {
-                  inXHours = int.tryParse(value);
-                },
-                maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 18),
-              child: Text('.-nächste Stunde'),
-            ),
-          ],
-        ));
+              const Padding(
+                padding: EdgeInsets.only(bottom: 18),
+                child: Text('.-nächste Stunde'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
 
     if (newInXHours != null && newInXHours is int) {
       controller.addInXLessonsChip(InXLessonsDueDateSelection(newInXHours));
@@ -928,7 +958,6 @@ class _SendNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -941,7 +970,7 @@ class _SendNotification extends StatelessWidget {
           sendNotification: state.notifyCourseMembers,
           description: state.isEditing
               ? null
-              : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
+              : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
         ),
       ),
     );
@@ -963,7 +992,7 @@ class _SendNotificationBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileWithDescription(
+    return ListTile(
       key: HwDialogKeys.notifyCourseMembersTile,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
@@ -972,7 +1001,7 @@ class _SendNotificationBase extends StatelessWidget {
         value: sendNotification,
       ),
       onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
+      subtitle: description != null ? Text(description!) : null,
     );
   }
 }
@@ -1107,6 +1136,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.folder_open),
           title: const Text("Mit Abgabe"),
+          enabled: isWidgetEnabled,
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
           trailing: Switch.adaptive(
             value: submissionsEnabled,
@@ -1134,7 +1164,10 @@ class _SubmissionsSwitchBase extends StatelessWidget {
                   },
                   trailing: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: Text(time.toString()),
+                    child: Text(
+                      time.toString(),
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                 )
               : Container(),
@@ -1188,7 +1221,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = onChanged != null;
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: const EdgeInsets.only(left: 18, right: 24),
       leading: const Icon(Icons.security),
       title: const Text("Privat"),
       subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),

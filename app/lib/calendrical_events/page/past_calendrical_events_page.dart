@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
@@ -168,6 +167,7 @@ class _SharezonePlusAd extends StatelessWidget {
       title: title,
       courseName: courseName,
       event: CalendricalEvent(
+        createdOn: DateTime(2023, 1, 1),
         authorID: 'authorId',
         groupID: 'groupId',
         title: 'title',
@@ -175,7 +175,7 @@ class _SharezonePlusAd extends StatelessWidget {
         detail: null,
         endTime: Time(hour: 12, minute: 0),
         eventID: 'eventId',
-        eventType: Exam(),
+        eventType: EventType.exam,
         groupType: GroupType.course,
         latestEditor: null,
         place: null,

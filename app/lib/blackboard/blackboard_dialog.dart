@@ -105,7 +105,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
   Future<void> leaveDialog() async {
     if (widget.bloc.hasInputChanged()) {
       final leaveDialog = await warnUserAboutLeavingForm(context);
-      if (leaveDialog && context.mounted) {
+      if (leaveDialog && mounted) {
         Navigator.pop(context);
       }
     } else {

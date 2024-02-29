@@ -60,6 +60,9 @@ class TimetableSelectionBloc extends BlocBase {
     Course course,
   ) {
     final lesson = Lesson(
+      // The 'createdOn' field will be added in the gateway because we use
+      // serverTimestamp().
+      createdOn: null,
       weekday: emptyPeriodSelection.date.weekDayEnum,
       weektype: emptyPeriodSelection.weekType,
       startTime: emptyPeriodSelection.period.startTime,

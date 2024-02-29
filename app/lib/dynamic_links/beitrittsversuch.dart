@@ -14,7 +14,7 @@ class Beitrittsversuch {
   Beitrittsversuch({required this.sharecode});
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is Beitrittsversuch && sharecode == other.sharecode;
   }

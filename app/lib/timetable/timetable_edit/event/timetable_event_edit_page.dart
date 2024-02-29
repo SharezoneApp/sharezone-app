@@ -12,9 +12,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
@@ -89,7 +88,7 @@ class _TimetableEditEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isExam = initialEvent.eventType == Exam();
+    final isExam = initialEvent.eventType == EventType.exam;
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
@@ -353,7 +352,7 @@ class _DetailField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isExam = initialEvent.eventType == Exam();
+    final isExam = initialEvent.eventType == EventType.exam;
     final bloc = BlocProvider.of<TimetableEditEventBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),

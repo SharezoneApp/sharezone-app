@@ -11,20 +11,21 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_page_new.dart';
+import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
+import 'package:sharezone/homework/shared/homework_archived.dart';
+import 'package:sharezone/homework/shared/homework_card.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone/homework/shared/homework_archived.dart';
-import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
-import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone_common/translations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -59,7 +60,7 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
 List<HomeworkDto> getNotArchived(List<HomeworkDto> homeworkList) {
   final List<HomeworkDto> notArchivedHomeworks = <HomeworkDto>[];
   for (var homework in homeworkList) {
-    final int dif = homework.todoUntil.difference(DateTime.now()).inDays;
+    final int dif = homework.todoUntil.difference(clock.now()).inDays;
     if (dif > -1) {
       notArchivedHomeworks.add(homework);
     }
@@ -572,8 +573,8 @@ class _HomeworkListWithCards extends StatelessWidget {
       final List<HomeworkDto> dayAfterTomorrowList = <HomeworkDto>[];
       final List<HomeworkDto> severalDaysList = <HomeworkDto>[];
 
-      DateTime today = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime today =
+          DateTime(clock.now().year, clock.now().month, clock.now().day);
       for (var homework in homeworkList!) {
         DateTime homeworkDate = DateTime(homework.todoUntil.year,
             homework.todoUntil.month, homework.todoUntil.day);

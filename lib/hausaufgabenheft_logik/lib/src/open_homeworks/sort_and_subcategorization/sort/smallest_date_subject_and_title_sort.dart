@@ -30,7 +30,7 @@ class SmallestDateSubjectAndTitleSort extends Sort<HomeworkReadModel> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is SmallestDateSubjectAndTitleSort &&
             other.getCurrentDate == getCurrentDate;

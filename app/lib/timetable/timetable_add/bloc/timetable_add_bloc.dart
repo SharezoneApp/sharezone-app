@@ -127,6 +127,9 @@ class TimetableAddBloc extends BlocBase {
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
 
       final lesson = Lesson(
+        // The 'createdOn' field will be added in the gateway because we use
+        // serverTimestamp().
+        createdOn: null,
         groupID: course.id,
         groupType: GroupType.course,
         startDate: null,

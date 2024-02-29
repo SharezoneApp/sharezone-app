@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
@@ -29,7 +30,7 @@ void main() {
         "Returns no cooldown if cached last send time is more than cooldown range",
         () async {
       const cooldownDuration = Duration(minutes: 2);
-      final lastFeedbackSend = DateTime.now().subtract(cooldownDuration +
+      final lastFeedbackSend = clock.now().subtract(cooldownDuration +
           const Duration(seconds: 10)); // So Feedback should get no cooldown
 
       dummyKeyValueStore.setString(
@@ -44,7 +45,7 @@ void main() {
         "Returns cooldown if cached last send time is less than cooldown range",
         () async {
       const cooldownDuration = Duration(minutes: 2);
-      final lastFeedbackSend = DateTime.now().subtract(cooldownDuration -
+      final lastFeedbackSend = clock.now().subtract(cooldownDuration -
           const Duration(seconds: 10)); // So Feedback should get cooldown
 
       await dummyKeyValueStore.setString(

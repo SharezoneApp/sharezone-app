@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:date/weekday.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:date/weekday.dart';
 
 const weekDayDefaults = {
   WeekDay.monday: true,
@@ -25,6 +25,17 @@ class EnabledWeekDays {
   const EnabledWeekDays._(this._internalMap);
 
   static const EnabledWeekDays standard = EnabledWeekDays._({});
+
+  factory EnabledWeekDays.fromEnabledWeekDaysList(
+      List<WeekDay> enabledWeekDays) {
+    var wkd = EnabledWeekDays.standard;
+
+    for (var weekday in WeekDay.values) {
+      wkd = wkd.copyWith(weekday, enabledWeekDays.contains(weekday));
+    }
+
+    return wkd;
+  }
 
   factory EnabledWeekDays.fromData(Map<String, dynamic>? data) {
     return EnabledWeekDays._(decodeMap<bool?>(data, (key, value) => value));

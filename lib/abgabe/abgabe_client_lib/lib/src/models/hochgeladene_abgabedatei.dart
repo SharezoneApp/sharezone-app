@@ -42,7 +42,7 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
   }
 
   @override
-  bool operator ==(Object? other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is HochgeladeneAbgabedatei &&

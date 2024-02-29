@@ -9,9 +9,10 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 export 'prefilled_text_field.dart';
@@ -66,7 +67,7 @@ class DatePicker extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final DateTime tomorrow =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        DateTime(clock.now().year, clock.now().month, clock.now().day)
             .add(const Duration(days: 1));
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -86,7 +87,7 @@ class DatePicker extends StatelessWidget {
       iconData: Icons.today,
       labelText: labelText,
       valueText: selectedDate != null
-          ? DateFormat.yMMMd().format(selectedDate!)
+          ? DateFormat('E, MMM d, yy').format(selectedDate!)
           : "Datum auswählen",
       padding: padding,
       onPressed: () async {
@@ -728,6 +729,8 @@ class TextFieldWithDescription extends StatelessWidget {
 
 Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
@@ -747,6 +750,8 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
 Future<bool> warnUserAboutLeavingOrSavingForm(
     BuildContext context, VoidCallback onSave) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   final result = await showLeftRightAdaptiveDialog<bool>(
     title: 'Verlassen oder Speichern?',
