@@ -23,6 +23,16 @@ class GoogleSignInLogic {
   }
 
   Future<AuthCredential> _getCredentials() async {
+    // Disconnect the user before signing in again to ensure that the user
+    // selects the account again.
+    //
+    // Otherwise, the user would be signed in with the last selected account
+    // without the possibility to select another account. This is a problem when
+    // the user wasn't sure which Google account was the right one, signs in
+    // with the wrong account, and then wants to sign in with the correct
+    // account.
+    await _googleSignIn.disconnect();
+
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     if (googleUser == null) throw NoGoogleSignAccountSelected();
 
