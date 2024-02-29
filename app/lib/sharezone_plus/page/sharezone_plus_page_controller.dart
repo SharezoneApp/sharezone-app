@@ -51,6 +51,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
     hasPlus = subscriptionService.isSubscriptionActive();
+    price = fallbackPlusPrice;
     _buyingFlagApi = buyingFlagApi;
   }
 
