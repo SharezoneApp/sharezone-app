@@ -11,7 +11,9 @@ import 'package:patrol/patrol.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/util/flavor.dart';
+import 'package:http/http.dart' as http;
 import 'package:platform_check/platform_check.dart';
 
 void main() {
@@ -98,6 +100,13 @@ void main() {
 
       // We a searching for an information sheet that is already created.
       expect($('German Course Trip to Berlin'), findsOneWidget);
+    });
+
+    patrolTest('"isBuyingEnabled" flag callable', config: config, ($) async {
+      final client = http.Client();
+      BuyingFlagApi api = BuyingFlagApi(client: client);
+
+      expect(await api.isBuyingEnabled() != BuyingFlag.unknown, true);
     });
   });
 }
