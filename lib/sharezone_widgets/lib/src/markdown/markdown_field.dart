@@ -83,7 +83,12 @@ class MarkdownFieldState extends State<MarkdownField> {
             child: isFocused
                 ? Padding(
                     key: ValueKey(isFocused),
-                    padding: const EdgeInsets.fromLTRB(50, 0, 16, 12),
+                    padding: EdgeInsets.fromLTRB(
+                      widget.icon == null ? 26 : 67,
+                      0,
+                      16,
+                      12,
+                    ),
                     child: const MarkdownSupport(),
                   )
                 : SizedBox(key: ValueKey(isFocused)),
