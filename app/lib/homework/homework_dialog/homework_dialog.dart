@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -30,12 +31,10 @@ import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
@@ -1005,43 +1004,18 @@ class _DescriptionFieldBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.subject),
-                title: PrefilledTextField(
-                  key: HwDialogKeys.descriptionField,
-                  prefilledText: prefilledDescription,
-                  maxLines: null,
-                  scrollPadding: const EdgeInsets.all(16.0),
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    hintText: "Zusatzinformationen eingeben",
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                  ),
-                  onChanged: onChanged,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
-        ),
+    return MarkdownField(
+      inputDecoration: const InputDecoration(
+        hintText: "Zusatzinformationen eingeben",
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        fillColor: Colors.transparent,
       ),
+      onChanged: onChanged,
+      prefilledText: prefilledDescription,
+      icon: const Icon(Icons.subject),
     );
   }
 }

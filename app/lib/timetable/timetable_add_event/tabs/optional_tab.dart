@@ -78,34 +78,22 @@ class _DescriptionField extends StatelessWidget {
       stream: bloc.detail,
       builder: (context, snapshot) {
         final description = snapshot.hasData ? snapshot.data : null;
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              PrefilledTextField(
-                prefilledText: description,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText:
-                      isExam ? "Themen der Prüfung" : "Zusatzinformationen",
-                  hintText: isExam
-                      ? "z.B. Lineare Funktionen"
-                      : "z.B. Sportsachen mitbringen!",
-                ),
-                onChanged: bloc.changeDetail,
-                maxLines: null,
-                onEditingComplete: () => _submit(context),
-                textInputAction: TextInputAction.newline,
-                textCapitalization: TextCapitalization.sentences,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            MarkdownField(
+              prefilledText: description,
+              inputDecoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText:
+                    isExam ? "Themen der Prüfung" : "Zusatzinformationen",
+                hintText: isExam
+                    ? "z.B. Lineare Funktionen"
+                    : "z.B. Sportsachen mitbringen!",
               ),
-              const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.only(left: 4.0),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
+              onChanged: bloc.changeDetail,
+            ),
+          ],
         );
       },
     );

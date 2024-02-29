@@ -17,7 +17,6 @@ import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';

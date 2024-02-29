@@ -1,0 +1,50 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+void main() {
+  group(MarkdownSupport, () {
+    // In the golden tests, the **fett** is not rendered as bold, because the
+    // font family is not properly load by golden_toolkit. This is not a problem
+    // in the app.
+
+    testGoldens('renders as expected (dark mode)', (tester) async {
+      await tester.pumpWidgetBuilder(
+        const Center(child: MarkdownSupport()),
+        wrapper: materialAppWrapper(
+          theme: getDarkTheme(fontFamily: roboto),
+        ),
+      );
+
+      await screenMatchesGolden(tester, 'markdown_support_dark');
+    });
+
+    testGoldens('renders as expected (light mode)', (tester) async {
+      await tester.pumpWidgetBuilder(
+        const Center(child: MarkdownSupport()),
+        wrapper: materialAppWrapper(
+          theme: getLightTheme(fontFamily: roboto),
+        ),
+      );
+
+      await screenMatchesGolden(tester, 'markdown_support_light');
+    });
+
+    testGoldens('should break lines as expected', (tester) async {
+      await tester.pumpWidgetBuilder(
+        const Center(
+          child: SizedBox(
+            width: 100,
+            child: MarkdownSupport(),
+          ),
+        ),
+        wrapper: materialAppWrapper(
+          theme: getLightTheme(fontFamily: roboto),
+        ),
+      );
+
+      await screenMatchesGolden(tester, 'markdown_support_lines');
+    });
+  });
+}
