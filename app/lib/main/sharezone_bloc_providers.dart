@@ -93,6 +93,7 @@ import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -335,6 +336,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider(
         create: (context) => SharezonePlusPageController(
+          buyingFlagApi: BuyingFlagApi(client: http.Client()),
           userId: UserId(api.uID),
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,

@@ -248,10 +248,80 @@ class _SubscribeButton extends StatelessWidget {
                 : () async {
                     final controller =
                         context.read<SharezonePlusPageController>();
-                    await controller.buySubscription();
+
+                    try {
+                      final isBuyingEnabled =
+                          await controller.isBuyingEnabled();
+
+                      if (!context.mounted) {
+                        return;
+                      }
+
+                      if (!isBuyingEnabled) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const BuyingDisabledDialog(),
+                        );
+                        return;
+                      }
+
+                      await controller.buySubscription();
+                    } catch (e) {
+                      if (!context.mounted) {
+                        return;
+                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) => const BuyingFailedDialog(),
+                      );
+                    }
                   },
             backgroundColor: Theme.of(context).primaryColor,
           ),
+        )
+      ],
+    );
+  }
+}
+
+class BuyingDisabledDialog extends StatelessWidget {
+  const BuyingDisabledDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: const Text("Buying disabled, piss off alder"),
+      actions: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).primaryColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: const Text("OK"),
+        )
+      ],
+    );
+  }
+}
+
+class BuyingFailedDialog extends StatelessWidget {
+  const BuyingFailedDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: const Text("Buying failed, contact support "),
+      actions: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).primaryColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: const Text("OK"),
         )
       ],
     );

@@ -9,13 +9,13 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:user/user.dart';
@@ -35,6 +35,8 @@ class SharezonePlusPageController extends ChangeNotifier {
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
 
+  late BuyingFlagApi _buyingFlagApi;
+
   StreamSubscription<bool>? _hasPlusSubscription;
 
   SharezonePlusPageController({
@@ -42,12 +44,14 @@ class SharezonePlusPageController extends ChangeNotifier {
     required SubscriptionService subscriptionService,
     required StripeCheckoutSession stripeCheckoutSession,
     required UserId userId,
+    required BuyingFlagApi buyingFlagApi,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
     hasPlus = subscriptionService.isSubscriptionActive();
+    _buyingFlagApi = buyingFlagApi;
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -76,6 +80,16 @@ class SharezonePlusPageController extends ChangeNotifier {
 
     hasPlus = true;
     notifyListeners();
+  }
+
+  Future<bool> isBuyingEnabled() async {
+    final flag = await _buyingFlagApi.isBuyingEnabled();
+
+    return switch (flag) {
+      BuyingFlag.enabled => true,
+      BuyingFlag.disabled => false,
+      BuyingFlag.unknown => throw const CouldNotDetermineIsBuyingEnabled(),
+    };
   }
 
   Future<void> _buyOnWeb() async {
@@ -151,4 +165,8 @@ class CanNotCancelOnThisPlatform implements Exception {
 
 class CouldNotGetManagementUrl implements Exception {
   const CouldNotGetManagementUrl();
+}
+
+class CouldNotDetermineIsBuyingEnabled implements Exception {
+  const CouldNotDetermineIsBuyingEnabled();
 }
