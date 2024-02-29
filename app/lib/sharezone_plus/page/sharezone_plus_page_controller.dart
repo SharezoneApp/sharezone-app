@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:platform_check/platform_check.dart';
@@ -72,6 +73,9 @@ class SharezonePlusPageController extends ChangeNotifier {
   Future<void> buySubscription() async {
     if (PlatformCheck.isWeb) {
       await _buyOnWeb();
+    } else {
+      final product = await _purchaseService.getPlusSubscriptionProduct();
+      await _purchaseService.purchase(ProductId(product!.identifier));
     }
 
     hasPlus = true;
