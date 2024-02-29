@@ -5,6 +5,7 @@ class MarkdownField extends StatefulWidget {
   const MarkdownField({
     super.key,
     required this.onChanged,
+    this.textFieldKey,
     this.prefilledText,
     this.inputDecoration,
     this.icon,
@@ -12,6 +13,10 @@ class MarkdownField extends StatefulWidget {
   });
 
   final Function(String) onChanged;
+
+  /// Key for the [PrefilledTextField] (used for testing).
+  final Key? textFieldKey;
+
   final String? prefilledText;
   final InputDecoration? inputDecoration;
   final Widget? icon;
@@ -49,51 +54,51 @@ class MarkdownFieldState extends State<MarkdownField> {
   @override
   Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ListTile(
-            leading: widget.icon,
-            title: PrefilledTextField(
-              prefilledText: widget.prefilledText,
-              focusNode: focusNode,
-              maxLines: null,
-              scrollPadding: const EdgeInsets.all(16.0),
-              keyboardType: TextInputType.multiline,
-              decoration: widget.inputDecoration,
-              onChanged: widget.onChanged,
-              textCapitalization: TextCapitalization.sentences,
-              textInputAction: TextInputAction.newline,
+      child: SafeArea(
+        bottom: false,
+        top: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ListTile(
+              leading: widget.icon,
+              title: PrefilledTextField(
+                key: widget.textFieldKey,
+                prefilledText: widget.prefilledText,
+                focusNode: focusNode,
+                maxLines: null,
+                scrollPadding: const EdgeInsets.all(16.0),
+                keyboardType: TextInputType.multiline,
+                decoration: widget.inputDecoration,
+                onChanged: widget.onChanged,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.newline,
+              ),
             ),
-          ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            transitionBuilder: (child, animation) {
-              return FadeTransition(
-                opacity: animation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0, -0.1),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                ),
-              );
-            },
-            child: isFocused
-                ? Padding(
-                    key: ValueKey(isFocused),
-                    padding: EdgeInsets.fromLTRB(
-                      widget.icon == null ? 26 : 67,
-                      0,
-                      16,
-                      12,
-                    ),
-                    child: const MarkdownSupport(),
-                  )
-                : SizedBox(key: ValueKey(isFocused)),
-          ),
-        ],
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              transitionBuilder: (child, animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.1),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                );
+              },
+              child: isFocused
+                  ? Padding(
+                      key: ValueKey(isFocused),
+                      padding: const EdgeInsets.fromLTRB(67, 0, 16, 12),
+                      child: const MarkdownSupport(),
+                    )
+                  : SizedBox(key: ValueKey(isFocused)),
+            ),
+          ],
+        ),
       ),
     );
   }
