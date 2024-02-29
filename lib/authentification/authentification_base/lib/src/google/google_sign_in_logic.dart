@@ -30,7 +30,7 @@ class GoogleSignInLogic {
     // without the possibility to select another account. This is a problem when
     // the user wasn't sure which Google account was the right one, signs in
     // with the wrong account, and then wants to sign in with the correct
-    // account.
+    // account. Especially on Android is this a problem.
     //
     // From: https://stackoverflow.com/a/58509980/8358501
     await _googleSignIn.disconnect();
