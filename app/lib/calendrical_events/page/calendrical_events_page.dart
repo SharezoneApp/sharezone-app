@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
-import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_events_layout.dart';
+import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -20,7 +20,7 @@ import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
-import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
+import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -283,7 +283,7 @@ class _EventListFAB extends StatelessWidget {
     );
   }
 
-  Future<TimetableResult?> openEventListFABSheet(BuildContext context) async {
+  Future<void> openEventListFABSheet(BuildContext context) async {
     final result = await showModalBottomSheet(
       context: context,
       builder: (context) => _EventListFABSheet(),
@@ -291,13 +291,13 @@ class _EventListFAB extends StatelessWidget {
 
     if (result != null && context.mounted) {
       if (result == _FABEventListOption.event) {
-        return showTimetableAddEventPage(context, isExam: false);
+        await openEventDialogAndShowConfirmationIfSuccessful(context,
+            isExam: false);
       } else if (result == _FABEventListOption.exam) {
-        return showTimetableAddEventPage(context, isExam: true);
+        await openEventDialogAndShowConfirmationIfSuccessful(context,
+            isExam: true);
       }
     }
-
-    return null;
   }
 }
 
@@ -385,7 +385,8 @@ class _AddEventTile extends StatelessWidget {
     return CardListTile(
       title: const Text("Termin eintragen"),
       centerTitle: true,
-      onTap: () => showTimetableAddEventPage(context, isExam: false),
+      onTap: () => openEventDialogAndShowConfirmationIfSuccessful(context,
+          isExam: false),
     );
   }
 }
@@ -398,7 +399,8 @@ class _AddExamTile extends StatelessWidget {
     return CardListTile(
       title: const Text("Prüfung eintragen"),
       centerTitle: true,
-      onTap: () => showTimetableAddEventPage(context, isExam: true),
+      onTap: () =>
+          openEventDialogAndShowConfirmationIfSuccessful(context, isExam: true),
     );
   }
 }

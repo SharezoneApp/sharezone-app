@@ -3,31 +3,29 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i16;
+import 'dart:ui' as _i15;
 
 import 'package:clock/clock.dart' as _i6;
-import 'package:date/date.dart' as _i10;
-import 'package:group_domain_models/group_domain_models.dart' as _i17;
+import 'package:date/date.dart' as _i9;
+import 'package:group_domain_models/group_domain_models.dart' as _i16;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i15;
+import 'package:mockito/src/dummies.dart' as _i14;
 import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart'
     as _i7;
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart'
-    as _i13;
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart'
-    as _i9;
+    as _i12;
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller.dart'
     as _i8;
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart'
-    as _i14;
+    as _i13;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
     as _i2;
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart'
-    as _i12;
+    as _i11;
 import 'package:sharezone/util/api/course_gateway.dart' as _i4;
 import 'package:sharezone/util/api/school_class_gateway.dart' as _i5;
 import 'package:sharezone/util/api/timetable_gateway.dart' as _i3;
-import 'package:time/time.dart' as _i11;
+import 'package:time/time.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -117,9 +115,8 @@ class _FakePastCalendricalEventsPageController_6 extends _i1.SmartFake
         );
 }
 
-class _FakeCalendricalEventType_7 extends _i1.SmartFake
-    implements _i9.CalendricalEventType {
-  _FakeCalendricalEventType_7(
+class _FakeDate_7 extends _i1.SmartFake implements _i9.Date {
+  _FakeDate_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -128,8 +125,8 @@ class _FakeCalendricalEventType_7 extends _i1.SmartFake
         );
 }
 
-class _FakeDate_8 extends _i1.SmartFake implements _i10.Date {
-  _FakeDate_8(
+class _FakeTime_8 extends _i1.SmartFake implements _i10.Time {
+  _FakeTime_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -138,8 +135,8 @@ class _FakeDate_8 extends _i1.SmartFake implements _i10.Date {
         );
 }
 
-class _FakeTime_9 extends _i1.SmartFake implements _i11.Time {
-  _FakeTime_9(
+class _FakeLessonLength_9 extends _i1.SmartFake implements _i11.LessonLength {
+  _FakeLessonLength_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -148,8 +145,8 @@ class _FakeTime_9 extends _i1.SmartFake implements _i11.Time {
         );
 }
 
-class _FakeLessonLength_10 extends _i1.SmartFake implements _i12.LessonLength {
-  _FakeLessonLength_10(
+class _FakeDateTime_10 extends _i1.SmartFake implements DateTime {
+  _FakeDateTime_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -158,19 +155,9 @@ class _FakeLessonLength_10 extends _i1.SmartFake implements _i12.LessonLength {
         );
 }
 
-class _FakeDateTime_11 extends _i1.SmartFake implements DateTime {
-  _FakeDateTime_11(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeCalendricalEvent_12 extends _i1.SmartFake
-    implements _i13.CalendricalEvent {
-  _FakeCalendricalEvent_12(
+class _FakeCalendricalEvent_11 extends _i1.SmartFake
+    implements _i12.CalendricalEvent {
+  _FakeCalendricalEvent_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -183,7 +170,7 @@ class _FakeCalendricalEvent_12 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
-    implements _i14.PastCalendricalEventsPageControllerFactory {
+    implements _i13.PastCalendricalEventsPageControllerFactory {
   @override
   _i2.SubscriptionService get subscriptionService => (super.noSuchMethod(
         Invocation.getter(#subscriptionService),
@@ -287,12 +274,12 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
   @override
   _i8.PastCalendricalEventsPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i15.dummyValue<_i8.PastCalendricalEventsPageState>(
+        returnValue: _i14.dummyValue<_i8.PastCalendricalEventsPageState>(
           this,
           Invocation.getter(#state),
         ),
         returnValueForMissingStub:
-            _i15.dummyValue<_i8.PastCalendricalEventsPageState>(
+            _i14.dummyValue<_i8.PastCalendricalEventsPageState>(
           this,
           Invocation.getter(#state),
         ),
@@ -376,7 +363,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -384,7 +371,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -404,15 +391,15 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
 /// A class which mocks [CalendricalEvent].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
+class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
   @override
   String get eventID => (super.noSuchMethod(
         Invocation.getter(#eventID),
-        returnValue: _i15.dummyValue<String>(
+        returnValue: _i14.dummyValue<String>(
           this,
           Invocation.getter(#eventID),
         ),
-        returnValueForMissingStub: _i15.dummyValue<String>(
+        returnValueForMissingStub: _i14.dummyValue<String>(
           this,
           Invocation.getter(#eventID),
         ),
@@ -420,11 +407,11 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
   @override
   String get groupID => (super.noSuchMethod(
         Invocation.getter(#groupID),
-        returnValue: _i15.dummyValue<String>(
+        returnValue: _i14.dummyValue<String>(
           this,
           Invocation.getter(#groupID),
         ),
-        returnValueForMissingStub: _i15.dummyValue<String>(
+        returnValueForMissingStub: _i14.dummyValue<String>(
           this,
           Invocation.getter(#groupID),
         ),
@@ -432,77 +419,71 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
   @override
   String get authorID => (super.noSuchMethod(
         Invocation.getter(#authorID),
-        returnValue: _i15.dummyValue<String>(
+        returnValue: _i14.dummyValue<String>(
           this,
           Invocation.getter(#authorID),
         ),
-        returnValueForMissingStub: _i15.dummyValue<String>(
+        returnValueForMissingStub: _i14.dummyValue<String>(
           this,
           Invocation.getter(#authorID),
         ),
       ) as String);
   @override
-  _i17.GroupType get groupType => (super.noSuchMethod(
+  _i16.GroupType get groupType => (super.noSuchMethod(
         Invocation.getter(#groupType),
-        returnValue: _i17.GroupType.course,
-        returnValueForMissingStub: _i17.GroupType.course,
-      ) as _i17.GroupType);
+        returnValue: _i16.GroupType.course,
+        returnValueForMissingStub: _i16.GroupType.course,
+      ) as _i16.GroupType);
   @override
-  _i9.CalendricalEventType get eventType => (super.noSuchMethod(
+  _i12.EventType get eventType => (super.noSuchMethod(
         Invocation.getter(#eventType),
-        returnValue: _FakeCalendricalEventType_7(
-          this,
-          Invocation.getter(#eventType),
-        ),
-        returnValueForMissingStub: _FakeCalendricalEventType_7(
-          this,
-          Invocation.getter(#eventType),
-        ),
-      ) as _i9.CalendricalEventType);
+        returnValue: _i12.EventType.event,
+        returnValueForMissingStub: _i12.EventType.event,
+      ) as _i12.EventType);
   @override
-  _i10.Date get date => (super.noSuchMethod(
+  _i9.Date get date => (super.noSuchMethod(
         Invocation.getter(#date),
-        returnValue: _FakeDate_8(
+        returnValue: _FakeDate_7(
           this,
           Invocation.getter(#date),
         ),
-        returnValueForMissingStub: _FakeDate_8(
+        returnValueForMissingStub: _FakeDate_7(
           this,
           Invocation.getter(#date),
         ),
-      ) as _i10.Date);
+      ) as _i9.Date);
   @override
-  _i11.Time get startTime => (super.noSuchMethod(
+  _i10.Time get startTime => (super.noSuchMethod(
         Invocation.getter(#startTime),
-        returnValue: _FakeTime_9(
+        returnValue: _FakeTime_8(
           this,
           Invocation.getter(#startTime),
         ),
-        returnValueForMissingStub: _FakeTime_9(
+        returnValueForMissingStub: _FakeTime_8(
           this,
           Invocation.getter(#startTime),
         ),
-      ) as _i11.Time);
+      ) as _i10.Time);
   @override
-  _i11.Time get endTime => (super.noSuchMethod(
+  _i10.Time get endTime => (super.noSuchMethod(
         Invocation.getter(#endTime),
-        returnValue: _FakeTime_9(
+        returnValue: _FakeTime_8(
           this,
           Invocation.getter(#endTime),
         ),
-        returnValueForMissingStub: _FakeTime_9(
+        returnValueForMissingStub: _FakeTime_8(
           this,
           Invocation.getter(#endTime),
         ),
-      ) as _i11.Time);
+      ) as _i10.Time);
   @override
   String get title => (super.noSuchMethod(
         Invocation.getter(#title),
-        returnValue: _i15.dummyValue<String>(
+        returnValue: _i14.dummyValue<String>(
           this,
           Invocation.getter(#title),
         ),
-        returnValueForMissingStub: _i15.dummyValue<String>(
+        returnValueForMissingStub: _i14.dummyValue<String>(
           this,
           Invocation.getter(#title),
         ),
@@ -514,25 +495,25 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i12.LessonLength get length => (super.noSuchMethod(
+  _i11.LessonLength get length => (super.noSuchMethod(
         Invocation.getter(#length),
-        returnValue: _FakeLessonLength_10(
+        returnValue: _FakeLessonLength_9(
           this,
           Invocation.getter(#length),
         ),
-        returnValueForMissingStub: _FakeLessonLength_10(
+        returnValueForMissingStub: _FakeLessonLength_9(
           this,
           Invocation.getter(#length),
         ),
-      ) as _i12.LessonLength);
+      ) as _i11.LessonLength);
   @override
   DateTime get startDateTime => (super.noSuchMethod(
         Invocation.getter(#startDateTime),
-        returnValue: _FakeDateTime_11(
+        returnValue: _FakeDateTime_10(
           this,
           Invocation.getter(#startDateTime),
         ),
-        returnValueForMissingStub: _FakeDateTime_11(
+        returnValueForMissingStub: _FakeDateTime_10(
           this,
           Invocation.getter(#startDateTime),
         ),
@@ -540,11 +521,11 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
   @override
   DateTime get endDateTime => (super.noSuchMethod(
         Invocation.getter(#endDateTime),
-        returnValue: _FakeDateTime_11(
+        returnValue: _FakeDateTime_10(
           this,
           Invocation.getter(#endDateTime),
         ),
-        returnValueForMissingStub: _FakeDateTime_11(
+        returnValueForMissingStub: _FakeDateTime_10(
           this,
           Invocation.getter(#endDateTime),
         ),
@@ -559,15 +540,15 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
         returnValueForMissingStub: <String, dynamic>{},
       ) as Map<String, dynamic>);
   @override
-  _i13.CalendricalEvent copyWith({
+  _i12.CalendricalEvent copyWith({
     String? eventID,
     String? groupID,
     String? authorID,
-    _i17.GroupType? groupType,
-    _i9.CalendricalEventType? eventType,
-    _i10.Date? date,
-    _i11.Time? startTime,
-    _i11.Time? endTime,
+    _i16.GroupType? groupType,
+    _i12.EventType? eventType,
+    _i9.Date? date,
+    _i10.Time? startTime,
+    _i10.Time? endTime,
     String? title,
     String? detail,
     String? place,
@@ -594,7 +575,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
             #latestEditor: latestEditor,
           },
         ),
-        returnValue: _FakeCalendricalEvent_12(
+        returnValue: _FakeCalendricalEvent_11(
           this,
           Invocation.method(
             #copyWith,
@@ -616,7 +597,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
             },
           ),
         ),
-        returnValueForMissingStub: _FakeCalendricalEvent_12(
+        returnValueForMissingStub: _FakeCalendricalEvent_11(
           this,
           Invocation.method(
             #copyWith,
@@ -638,5 +619,5 @@ class MockCalendricalEvent extends _i1.Mock implements _i13.CalendricalEvent {
             },
           ),
         ),
-      ) as _i13.CalendricalEvent);
+      ) as _i12.CalendricalEvent);
 }

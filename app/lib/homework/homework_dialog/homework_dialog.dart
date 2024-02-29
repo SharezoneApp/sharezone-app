@@ -35,7 +35,6 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -192,7 +191,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
   Future<void> leaveDialog() async {
     if (hasModifiedData()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
-      if (confirmedLeave && context.mounted) Navigator.pop(context);
+      if (confirmedLeave && mounted) Navigator.pop(context);
     } else {
       Navigator.pop(context);
     }
@@ -736,6 +735,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                 width: 50,
                 child: TextField(
                   key: HwDialogKeys.customLessonChipDialogTextField,
+                  autofocus: true,
                   maxLength: 2,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
@@ -959,7 +959,6 @@ class _SendNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -972,7 +971,7 @@ class _SendNotification extends StatelessWidget {
           sendNotification: state.notifyCourseMembers,
           description: state.isEditing
               ? null
-              : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
+              : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
         ),
       ),
     );
@@ -994,7 +993,7 @@ class _SendNotificationBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileWithDescription(
+    return ListTile(
       key: HwDialogKeys.notifyCourseMembersTile,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
@@ -1003,7 +1002,7 @@ class _SendNotificationBase extends StatelessWidget {
         value: sendNotification,
       ),
       onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
+      subtitle: description != null ? Text(description!) : null,
     );
   }
 }
@@ -1163,6 +1162,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.folder_open),
           title: const Text("Mit Abgabe"),
+          enabled: isWidgetEnabled,
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
           trailing: Switch.adaptive(
             value: submissionsEnabled,
@@ -1247,7 +1247,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = onChanged != null;
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: const EdgeInsets.only(left: 18, right: 24),
       leading: const Icon(Icons.security),
       title: const Text("Privat"),
       subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),

@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
@@ -54,7 +55,7 @@ class HomeworkGateway {
 
   Future<void> _setUpStreams(
       FirebaseFirestore firestore, TypeOfUser typeOfUser) async {
-    final now = DateTime.now();
+    final now = clock.now();
     final startOfThisDay = DateTime(now.year, now.month, now.day);
 
     if (typeOfUser == TypeOfUser.student) {

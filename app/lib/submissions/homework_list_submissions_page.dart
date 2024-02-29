@@ -8,6 +8,7 @@
 
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -136,14 +137,14 @@ class _LoadingPlaceholder extends StatelessWidget {
               abbreviation: 'A',
               username: 'Patrick Star',
               submittedFiles: [],
-              lastActionDateTime: DateTime.now(),
+              lastActionDateTime: clock.now(),
               wasEditedAfterwards: false,
             ),
             CreatedSubmissionView(
               abbreviation: 'S',
               username: 'Spongebob Schwammkopf',
               submittedFiles: [],
-              lastActionDateTime: DateTime.now(),
+              lastActionDateTime: clock.now(),
               wasEditedAfterwards: false,
             ),
           ], afterDeadlineSubmissions: [
@@ -151,7 +152,7 @@ class _LoadingPlaceholder extends StatelessWidget {
               abbreviation: 'B',
               username: 'Thaddäus Tentakel',
               submittedFiles: [],
-              lastActionDateTime: DateTime.now(),
+              lastActionDateTime: clock.now(),
               wasEditedAfterwards: false,
             ),
           ], missingSubmissions: [

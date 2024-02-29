@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
+
 import 'misc.dart';
 
 class Comment {
@@ -66,7 +68,7 @@ class CommentAge extends Duration {
 
   int get inApproximateYears => (inDays / approximateDaysPerMonth).round();
 
-  DateTime get writtenOnDateTime => DateTime.now().subtract(this);
+  DateTime get writtenOnDateTime => clock.now().subtract(this);
 }
 
 class CommentAuthor {

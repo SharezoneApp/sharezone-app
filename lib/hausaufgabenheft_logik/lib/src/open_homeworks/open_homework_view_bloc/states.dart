@@ -18,7 +18,7 @@ class Success extends OpenHomeworksViewBlocState {
   Success(this.openHomeworkListView);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is Success && other.openHomeworkListView == openHomeworkListView;
   }

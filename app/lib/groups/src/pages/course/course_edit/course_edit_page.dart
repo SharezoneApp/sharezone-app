@@ -51,7 +51,12 @@ Future<void> submit(BuildContext context) async {
   final bloc = BlocProvider.of<CourseEditPageBloc>(context);
   sendDataToFrankfurtSnackBar(context);
   try {
-    Navigator.pop(context, await bloc.submit());
+    final successful = await bloc.submit();
+    if (!context.mounted) {
+      return;
+    }
+
+    Navigator.pop(context, successful);
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
     if (!context.mounted) return;

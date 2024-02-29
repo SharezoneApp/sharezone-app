@@ -31,7 +31,7 @@ abstract class AbgabeCommand {
       : id = AbgabeEventId(AutoIdGenerator.autoId());
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is AbgabeCommand && other.id == id && other.abgabeId == abgabeId;
   }

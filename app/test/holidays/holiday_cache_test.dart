@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:built_collection/built_collection.dart';
+import 'package:clock/clock.dart';
 import "package:flutter_test/flutter_test.dart";
 import 'package:holidays/holidays.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
@@ -37,14 +38,14 @@ void main() {
     State state = const NordrheinWestfalen();
 
     Holiday holidayInTheFuture = generateHoliday(
-        DateTime.now().add(const Duration(days: 1)),
-        DateTime.now().add(const Duration(days: 5)));
+        clock.now().add(const Duration(days: 1)),
+        clock.now().add(const Duration(days: 5)));
     Holiday holidayInThePast = generateHoliday(
-        DateTime.now().subtract(const Duration(days: 10)),
-        DateTime.now().subtract(const Duration(days: 5)));
+        clock.now().subtract(const Duration(days: 10)),
+        clock.now().subtract(const Duration(days: 5)));
     holidayCacheData = HolidayCacheData((b) => b
       ..holidays = ListBuilder([holidayInThePast, holidayInTheFuture])
-      ..saved = DateTime.now());
+      ..saved = clock.now());
     kVstore.setString(
         HolidayCache.getKeyString(state), holidayCacheData.toJson());
 
@@ -66,8 +67,8 @@ void main() {
       expect(cacheResponse.inValidTimeframe, true);
     });
     test("Correctly returns false", () async {
-      final sixtyDaysBefore = DateTime.now().subtract(const Duration(days: 60));
-      final now = DateTime.now();
+      final sixtyDaysBefore = clock.now().subtract(const Duration(days: 60));
+      final now = clock.now();
       var currentTimeReturnedToCache = sixtyDaysBefore;
       HolidayCache cache = HolidayCache(kVstore,
           getCurrentTime: () => currentTimeReturnedToCache);

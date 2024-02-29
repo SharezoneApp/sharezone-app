@@ -12,11 +12,11 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
@@ -26,7 +26,6 @@ import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_pa
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
@@ -152,7 +151,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
     final isAuthor = api.uID == event.authorID;
     final hasPermissionsToManageLessons = hasPermissionToManageEvents(
         api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
-    final isExam = event.eventType == Exam();
+    final isExam = event.eventType == EventType.exam;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -198,11 +197,6 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (event.eventType is OtherEventType == false)
-                  ListTile(
-                    leading: const Icon(Icons.label),
-                    title: Text("Art: ${event.eventType.name}"),
-                  ),
                 ListTile(
                   leading: const Icon(Icons.place),
                   title: Text("Raum: ${event.place ?? "-"}"),
@@ -424,7 +418,7 @@ class _AddToMyCalendarButton extends StatelessWidget {
   // dieses Widget niemals für Web & macOS gebuildet wird, wird hier kein Fehler
   // geworfen.
   Future<String> _getTimezoneForMobile() async {
-    return FlutterNativeTimezone.getLocalTimezone();
+    return FlutterTimezone.getLocalTimezone();
   }
 
   void _logAddEventToMyCalendarEvent(BuildContext context) {

@@ -8,6 +8,7 @@
 
 import 'dart:developer';
 
+import 'package:clock/clock.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:meta/meta.dart';
 
@@ -37,13 +38,13 @@ class FeedbackCache {
     }
 
     final durationPassedFromLastSubmit =
-        lastSubmit.difference(DateTime.now()).abs();
+        lastSubmit.difference(clock.now()).abs();
     if (durationPassedFromLastSubmit < feedbackCooldown) return true;
     return false;
   }
 
   Future<void> setLastSubmit() async {
-    _cache.setString(lastSubmitCacheKey, DateTime.now().toIso8601String());
+    _cache.setString(lastSubmitCacheKey, clock.now().toIso8601String());
   }
 
   Future<DateTime?> _getLastSubmitTime() async {

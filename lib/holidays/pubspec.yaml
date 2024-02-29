@@ -23,6 +23,7 @@ dependencies:
   cloud_functions: ^4.4.0
   app_functions:
     path: ../app_functions
+  clock: ^1.1.1
 
 dev_dependencies:
   # We need to add the `flutter` package as dev dependency as workaround for the

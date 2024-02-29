@@ -8,27 +8,28 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/homework/parent/src/homework_card_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
-import 'package:sharezone/homework/shared/homework_permissions.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/parent/src/homework_card_bloc.dart';
+import 'package:sharezone/homework/shared/delete_homework.dart';
+import 'package:sharezone/homework/shared/homework_permissions.dart';
+import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -52,8 +53,8 @@ class HomeworkCard extends StatelessWidget {
     final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
-    DateTime tomorrowWithoutTime = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime tomorrowWithoutTime =
+        DateTime(clock.now().year, clock.now().month, clock.now().day + 1);
     DateTime todoUntilWithoutTime = DateTime(homework!.todoUntil.year,
         homework!.todoUntil.month, homework!.todoUntil.day);
 
