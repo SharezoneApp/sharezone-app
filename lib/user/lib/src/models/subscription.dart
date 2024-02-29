@@ -6,17 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:helper_functions/helper_functions.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
-enum SubscriptionTier {
-  teacherPlus,
-  unknown,
-}
-
 class Subscription {
-  final SubscriptionTier tier;
-
   /// The date the user last purchased the subscription.
   ///
   /// This will be updated every month as the subscription is renewed.
@@ -26,14 +18,12 @@ class Subscription {
   final DateTime expiresAt;
 
   const Subscription(
-    this.tier,
     this.purchasedAt,
     this.expiresAt,
   );
 
   Map<String, dynamic> toJson() {
     return {
-      'tier': tier.name,
       'purchasedAt': purchasedAt,
       'expiresAt': expiresAt,
     };
@@ -46,10 +36,6 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> map) {
     return Subscription(
-      SubscriptionTier.values.tryByName(
-        map['tier'],
-        defaultValue: SubscriptionTier.unknown,
-      ),
       dateTimeFromTimestamp(map['purchasedAt']),
       dateTimeFromTimestamp(map['expiresAt']),
     );
@@ -57,18 +43,17 @@ class Subscription {
 
   @override
   String toString() =>
-      'Subscription(tier: $tier, purchasedAt: $purchasedAt, expiresAt: $expiresAt)';
+      'Subscription(purchasedAt: $purchasedAt, expiresAt: $expiresAt)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is Subscription &&
-        other.tier == tier &&
         other.purchasedAt == purchasedAt &&
         other.expiresAt == expiresAt;
   }
 
   @override
-  int get hashCode => tier.hashCode ^ purchasedAt.hashCode ^ expiresAt.hashCode;
+  int get hashCode => purchasedAt.hashCode ^ expiresAt.hashCode;
 }

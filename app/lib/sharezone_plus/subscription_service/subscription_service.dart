@@ -53,7 +53,7 @@ class SubscriptionService {
     if (!_isEnabled) return true;
 
     if (!isSubscriptionActive()) return false;
-    return _user!.subscription!.tier.hasUnlocked(feature);
+    return true;
   }
 
   Stream<bool> hasFeatureUnlockedStream(SharezonePlusFeature feature) {
@@ -63,20 +63,6 @@ class SubscriptionService {
     return user.map((event) => hasFeatureUnlocked(feature));
   }
 }
-
-const _featuresMap = {
-  SubscriptionTier.teacherPlus: {
-    SharezonePlusFeature.submissionsList,
-    SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDoneByUsersList,
-    SharezonePlusFeature.filterTimetableByClass,
-    SharezonePlusFeature.changeHomeworkReminderTime,
-    SharezonePlusFeature.plusSupport,
-    SharezonePlusFeature.moreGroupColors,
-    SharezonePlusFeature.addEventToLocalCalendar,
-    SharezonePlusFeature.viewPastEvents,
-  },
-};
 
 enum SharezonePlusFeature {
   submissionsList,
@@ -88,10 +74,4 @@ enum SharezonePlusFeature {
   moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
-}
-
-extension SubscriptionTierExtension on SubscriptionTier {
-  bool hasUnlocked(SharezonePlusFeature feature) {
-    return _featuresMap[this]?.contains(feature) ?? false;
-  }
 }
