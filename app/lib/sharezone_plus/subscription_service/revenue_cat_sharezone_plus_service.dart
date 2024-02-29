@@ -21,29 +21,4 @@ class RevenueCatPurchaseService implements PurchaseService {
         .singleWhere((package) => package.offeringIdentifier == id.toString());
     await Purchases.purchasePackage(packageToPurchase);
   }
-
-  Future<StoreProduct?> getPlusSubscriptionProduct() async {
-    return (await getProducts()).firstOrNull;
-  }
-
-  @override
-  Future<List<StoreProduct>> getProducts() async {
-    final offerings = await Purchases.getOfferings();
-
-    final offering = offerings.getOffering('default-dev-plus-subscription');
-    if (offering == null) {
-      return [];
-    }
-
-    final availablePackages = offering.availablePackages;
-    final identifiers = availablePackages
-        .map((package) => package.storeProduct.identifier)
-        .toList();
-
-    final products = await Purchases.getProducts(
-      identifiers,
-    );
-
-    return products;
-  }
 }

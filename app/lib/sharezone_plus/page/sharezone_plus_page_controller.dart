@@ -74,8 +74,8 @@ class SharezonePlusPageController extends ChangeNotifier {
     if (PlatformCheck.isWeb) {
       await _buyOnWeb();
     } else {
-      final product = await _purchaseService.getPlusSubscriptionProduct();
-      await _purchaseService.purchase(ProductId(product!.identifier));
+      await _purchaseService
+          .purchase(ProductId('default-dev-plus-subscription'));
     }
 
     hasPlus = true;
