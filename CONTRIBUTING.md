@@ -6,7 +6,7 @@ _Note: The `CONTRIBUTING.md` is in the process of making. See [#28](https://gith
 
 We love, that you are interested in contributing to Sharezone 💙 There are many ways to contribute and we appreciate all of them. This document gives a rough overview of how you can contribute to Sharezone and which steps you need to follow to set up the development environment.
 
-* [How to set up your development environment](#how-to-set-up-your-development-environment)
+- [How to set up your development environment](#how-to-set-up-your-development-environment)
 
 If you have any questions, please join our [Discord](https://sharezone.net/discord).
 
@@ -22,8 +22,8 @@ You can use the operating system you like. But we recommend to use macOS because
 
 #### Known issues:
 
-* Golden tests are only passing with macOS
-* The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
+- Golden tests are only passing with macOS
+- The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
 
 If you discover unknown issues which are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
 
@@ -44,26 +44,29 @@ Please follow the official documentation: [Install Flutter](https://docs.flutter
 ### Sharezone CLI
 
 We written our own CLI to manage our repository. Common use cases for the CLI are:
-* Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
-* Run all tests for all packages inside this repository (`sz test`)
-* Analyze all packages inside this repository (`sz analyze`)
+
+- Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
+- Run all tests for all packages inside this repository (`sz test`)
+- Analyze all packages inside this repository (`sz analyze`)
 
 #### macOS
 
 Execute the following steps to install the Sharezone CLI:
+
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
 3. Run `dart pub get -C tools/sz_repo_cli`
 4. Add the `./bin` to your environment variables
 5. Restart your terminal
 
-You should now be able to run `sz` or `sharezone` in your terminal. 
+You should now be able to run `sz` or `sharezone` in your terminal.
 
 #### Windows
 
 At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart pub get`. Please keep this in mind when reading commands like `sz pub get`.
 
 Execute the following steps to install the Sharezone CLI:
+
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
 3. Run `dart pub get -C tools/sz_repo_cli`
@@ -79,6 +82,7 @@ git clone https://github.com/SharezoneApp/sharezone-app.git
 ```
 
 After cloning the repository, we recommend to execute the following steps:
+
 1. Get all dependencies with `sz pub get`
 
 ### Flutter Version Management (FVM)
@@ -86,6 +90,7 @@ After cloning the repository, we recommend to execute the following steps:
 We use [FVM](https://fvm.app) to have a consistent Flutter version across the developers and our CI/CD. You find in `.fvm/fvm_config.json` the Flutter, which we currently using.
 
 To install & use FVM, follow the following steps:
+
 1. Install FVM by running `dart pub global activate fvm` or use the other installation methods (see [FVM docs](https://fvm.app/docs/getting_started/installation))
 2. Navigate to the root of the repository
 3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
@@ -106,7 +111,7 @@ Make sure, you have the 0.3.0-dev.19 version or higher installed. You can check 
 
 ## Running the app
 
-After you have set up your development environment, you can run the app. 
+After you have set up your development environment, you can run the app.
 
 First change the working directory to the `app` folder by running:
 
@@ -128,4 +133,4 @@ fvm flutter run --flavor dev --target lib/main_dev.dart
 fvm flutter run --target lib/main_dev.dart
 ```
 
-This command runs the app in the development mode. Keep in mind that the app will not use our production backend. Instead, it will use the development backend. This means that you can't use the app with your production account. You need to create a new account on the development backend. 
+This command runs the app in the development mode. Keep in mind that the app will not use our production backend. Instead, it will use the development backend. This means that you can't use the app with your production account. You need to create a new account on the development backend.
