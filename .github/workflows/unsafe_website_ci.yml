@@ -146,7 +146,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}

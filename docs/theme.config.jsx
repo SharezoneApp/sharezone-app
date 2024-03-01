@@ -15,7 +15,7 @@ const footerLegalNav = [
   { name: "Imprint", href: "https://sharezone.net/imprint" },
   {
     name: "Privacy Policy",
-    href: "https://sharezone.net/privacy",
+    href: "https://sharezone.net/privacy-policy",
   },
 ];
 
