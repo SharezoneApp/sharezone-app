@@ -24,8 +24,7 @@ concurrency:
 
 on:
   # Triggers the workflow on pull request events
-  # pull_request_target:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - synchronize
@@ -83,7 +82,7 @@ jobs:
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request_target.head.sha }}
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -98,7 +97,7 @@ jobs:
 
   format:
     needs: changes
-    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
@@ -124,7 +123,7 @@ jobs:
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     needs: changes
-    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.changesFound == 'true'}}
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
