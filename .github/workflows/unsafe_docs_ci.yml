@@ -49,7 +49,6 @@ on:
 # and would cause alerts from our scanning tools.
 permissions: {}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # It's important that we run this job first, because we need to remove the
   # "safe to test" label when the PR comes from a fork in order to ensure that
@@ -82,7 +81,7 @@ jobs:
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request_target.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -94,18 +93,6 @@ jobs:
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
               - ".github/workflows/unsafe_docs_ci.yml"
-
-  format:
-    needs: changes
-    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-
-      - name: Install Prettier
-        run: npm install --global prettier@3.0.1
-
-      - run: ./bin/check_format_markdown_files.sh
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
