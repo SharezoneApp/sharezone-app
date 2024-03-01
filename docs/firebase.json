@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "sharezone-docs-prod",
+    "target": "docs",
     "source": ".",
     "ignore": [
       "firebase.json",

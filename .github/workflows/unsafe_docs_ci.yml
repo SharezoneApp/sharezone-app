@@ -152,6 +152,7 @@ jobs:
           # The expiration date shouldn't be too high, because if we open a lot
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
+          target: "docs"
         env:
           # Required to deploy Next.js applications to Firebase Hosting
           FIREBASE_CLI_EXPERIMENTS: webframeworks
