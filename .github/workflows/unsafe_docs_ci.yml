@@ -105,7 +105,7 @@ jobs:
 
       - name: Install Prettier
         run: npm install --global prettier@3.0.1
-        
+
       - run: ./bin/check_format_markdown_files.sh
 
   # We are building for every PR a web preview, which will be deployed to
