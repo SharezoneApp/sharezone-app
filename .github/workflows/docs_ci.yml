@@ -129,7 +129,7 @@ jobs:
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Deploy to Firebase Hosting (sharezone-debug)
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
