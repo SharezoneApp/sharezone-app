@@ -146,8 +146,8 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_HOSTING_PROD_KEY }}
-          projectId: sharezone-c2bd8
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
+          projectId: sharezone-debug
           entryPoint: "./docs"
           # The expiration date shouldn't be too high, because if we open a lot
           # of pull requests, we will run out of quota (we get 429 errors).
