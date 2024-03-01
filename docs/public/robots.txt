@@ -1,5 +1,5 @@
 # Disallow all robots from indexing non production docs. Otherwise, our users
-would find the dev docs in search results.
+# would find the dev docs in search results.
 # 
 # When deploying to production, remove this file before building the site.
 User-agent: *
