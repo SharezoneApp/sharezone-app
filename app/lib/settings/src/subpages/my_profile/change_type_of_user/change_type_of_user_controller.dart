@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_repository.dart';
 import 'package:user/user.dart';
 
 class ChangeTypeOfUserController extends ChangeNotifier {
-  /// The user ID of the user whose type of user should be changed.
   final UserId userId;
   final ChangeTypeOfUserAnalytics analytics;
+  final ChangeTypeOfUserRepository repository;
   StreamSubscription<TypeOfUser?>? _typeOfUserSubscription;
 
   late ChangeTypeOfUserState state;
@@ -22,6 +24,7 @@ class ChangeTypeOfUserController extends ChangeNotifier {
   ChangeTypeOfUserController({
     required this.userId,
     required this.analytics,
+    required this.repository,
     required Stream<TypeOfUser?> typeOfUserStream,
   }) {
     state = const ChangeTypeOfUserInitial();
@@ -38,20 +41,15 @@ class ChangeTypeOfUserController extends ChangeNotifier {
   Future<void> changeTypeOfUser() async {
     final typeOfUser = selectedTypeOfUser;
     if (typeOfUser == null) {
-      state = const NoTypeOfUserSelectedException();
-      notifyListeners();
-      return;
+      throw const NoTypeOfUserSelectedException();
     }
 
     if (typeOfUser == initialTypeOfUser) {
-      state = const TypeUserOfUserHasNotChangedException();
-      notifyListeners();
-      return;
+      throw const TypeUserOfUserHasNotChangedException();
     }
 
     try {
-      // Call backend...
-      await Future.delayed(const Duration(seconds: 1));
+      await repository.changeTypeOfUser(typeOfUser);
 
       analytics.logChangedOrder(
         from: initialTypeOfUser,
@@ -59,8 +57,11 @@ class ChangeTypeOfUserController extends ChangeNotifier {
       );
       initialTypeOfUser = typeOfUser;
       state = const ChangedTypeOfUserSuccessfully();
+    } on FirebaseFunctionsException catch (e) {
+      throw ChangeTypeOfUserUnknownException(
+          '[${e.plugin}/${e.code}] ${e.message}');
     } catch (e) {
-      state = ChangeTypeOfUserUnknownException(e);
+      throw ChangeTypeOfUserUnknownException(e);
     } finally {
       notifyListeners();
     }
@@ -90,7 +91,7 @@ class ChangedTypeOfUserSuccessfully extends ChangeTypeOfUserState {
   const ChangedTypeOfUserSuccessfully();
 }
 
-sealed class ChangeTypeOfUserFailed extends ChangeTypeOfUserState {
+sealed class ChangeTypeOfUserFailed {
   const ChangeTypeOfUserFailed();
 }
 

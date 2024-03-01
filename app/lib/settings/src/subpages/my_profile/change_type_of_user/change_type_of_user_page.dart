@@ -45,6 +45,7 @@ class _SaveFab extends StatelessWidget {
         TypeUserOfUserHasNotChangedException() =>
           'Der Account-Typ hat sich nicht geändert.',
       },
+      context: context,
     );
   }
 
@@ -60,6 +61,7 @@ class _SaveFab extends StatelessWidget {
           await controller.changeTypeOfUser();
 
           if (context.mounted) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             _showRestartDialog(context);
           }
         } on ChangeTypeOfUserFailed catch (e) {
@@ -112,7 +114,8 @@ class _ChangeTypeOfUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<ChangeTypeOfUserController>();
-    final selectedTypeOfUser = controller.selectedTypeOfUser;
+    final selectedTypeOfUser =
+        controller.selectedTypeOfUser ?? controller.initialTypeOfUser;
     return Column(
       children: [
         for (final typeOfUser in [
