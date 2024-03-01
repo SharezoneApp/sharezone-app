@@ -102,10 +102,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491
-        with:
-          go-version: "^1.13.1"
-      - run: go install github.com/google/addlicense@v1.1.1
+
+      - name: Install Prettier
+        run: npm install --global prettier@3.0.1
+        
       - run: ./bin/check_format_markdown_files.sh
 
   # We are building for every PR a web preview, which will be deployed to
@@ -138,6 +138,9 @@ jobs:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install dependencies
+        run: npm install -C docs/
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
