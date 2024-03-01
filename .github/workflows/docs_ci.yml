@@ -93,7 +93,19 @@ jobs:
               - "docs/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
-              - ".github/workflows/unsafe_website_ci.yml"
+              - ".github/workflows/unsafe_docs_ci.yml"
+
+  format:
+    needs: changes
+    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491
+        with:
+          go-version: "^1.13.1"
+      - run: go install github.com/google/addlicense@v1.1.1
+      - run: ./bin/check_format_markdown_files.sh
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
@@ -111,9 +123,6 @@ jobs:
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     needs: changes
-    # We only want to build the website only for PRs.
-    #
-    # Otherwise this will be triggered inside a merge-queue.
     if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
