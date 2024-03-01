@@ -51,15 +51,13 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - name: Build
-        working-directory: website
+      - name: Install Sharezone CLI
         run: |
-          # We use the canvaskit renderer because the html renderer is a bit
-          # buggy.
-          flutter build web \
-            --web-renderer canvaskit \
-            --dart-define=FLAVOR=${{ matrix.environment.flavor }} \
-            --pwa-strategy none
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Build
+        run: sz build website --flavor ${{ matrix.environment.flavor }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
