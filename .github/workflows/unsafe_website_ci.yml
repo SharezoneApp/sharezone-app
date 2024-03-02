@@ -151,12 +151,13 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - name: Build website
-        working-directory: website
+      - name: Install Sharezone CLI
         run: |
-          flutter build web \
-            --web-renderer canvaskit \
-            --pwa-strategy none
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Build
+        run: sz build website --flavor dev
 
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
