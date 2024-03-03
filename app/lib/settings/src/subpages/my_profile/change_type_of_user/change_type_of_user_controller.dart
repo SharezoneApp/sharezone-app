@@ -87,7 +87,8 @@ class ChangeTypeOfUserController extends ChangeNotifier {
         throw ChangedTypeOfUserTooOftenException(
           blockedUntil: blockedUntil,
         );
-      } catch (_) {
+      } catch (e) {
+        if (e is ChangedTypeOfUserTooOftenException) rethrow;
         throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
       }
     } else {

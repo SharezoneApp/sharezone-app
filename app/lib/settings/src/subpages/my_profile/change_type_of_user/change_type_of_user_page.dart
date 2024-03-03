@@ -43,13 +43,13 @@ class _SaveFab extends StatelessWidget {
     );
   }
 
-  Future<void> _showErrorSnackBar({
+  Future<void> _showErrorDialog({
     required BuildContext context,
     required ChangeTypeOfUserFailed e,
   }) async {
     showDialog(
       context: context,
-      builder: (context) => _FailureDialog(failure: e),
+      builder: (context) => _ErrorDialog(failure: e),
     );
   }
 
@@ -68,12 +68,11 @@ class _SaveFab extends StatelessWidget {
                 await controller.changeTypeOfUser();
 
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   _showRestartDialog(context);
                 }
               } on ChangeTypeOfUserFailed catch (e) {
                 if (context.mounted) {
-                  _showErrorSnackBar(context: context, e: e);
+                  _showErrorDialog(context: context, e: e);
                 }
               }
             }
@@ -83,8 +82,8 @@ class _SaveFab extends StatelessWidget {
   }
 }
 
-class _FailureDialog extends StatelessWidget {
-  const _FailureDialog({
+class _ErrorDialog extends StatelessWidget {
+  const _ErrorDialog({
     required this.failure,
   });
 
