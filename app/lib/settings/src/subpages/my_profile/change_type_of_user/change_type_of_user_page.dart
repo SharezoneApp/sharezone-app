@@ -7,8 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -44,41 +47,97 @@ class _SaveFab extends StatelessWidget {
     required BuildContext context,
     required ChangeTypeOfUserFailed e,
   }) async {
-    showSnackSec(
-      text: switch (e) {
-        ChangeTypeOfUserUnknownException(error: final error) =>
-          'Fehler: $error. Bitte kontaktiere den Support.',
-        NoTypeOfUserSelectedException() =>
-          'Es wurde kein Account-Typ ausgewählt.',
-        TypeUserOfUserHasNotChangedException() =>
-          'Der Account-Typ hat sich nicht geändert.',
-      },
+    showDialog(
       context: context,
+      builder: (context) => _FailureDialog(failure: e),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.select<ChangeTypeOfUserController, bool>(
+        (controller) => controller.state is ChangeTypeOfUserLoading);
     return FloatingActionButton.extended(
-      label: const Text("Speichern"),
-      onPressed: () async {
-        sendDataToFrankfurtSnackBar(context);
+      label: isLoading ? const _Loading() : const Text("Speichern"),
+      mouseCursor:
+          isLoading ? SystemMouseCursors.basic : SystemMouseCursors.click,
+      onPressed: !isLoading
+          ? () async {
+              final controller = context.read<ChangeTypeOfUserController>();
+              try {
+                await controller.changeTypeOfUser();
 
-        final controller = context.read<ChangeTypeOfUserController>();
-        try {
-          await controller.changeTypeOfUser();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  _showRestartDialog(context);
+                }
+              } on ChangeTypeOfUserFailed catch (e) {
+                if (context.mounted) {
+                  _showErrorSnackBar(context: context, e: e);
+                }
+              }
+            }
+          : null,
+      icon: isLoading ? null : const Icon(Icons.check),
+    );
+  }
+}
 
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            _showRestartDialog(context);
-          }
-        } on ChangeTypeOfUserFailed catch (e) {
-          if (context.mounted) {
-            _showErrorSnackBar(context: context, e: e);
-          }
-        }
-      },
-      icon: const Icon(Icons.check),
+class _FailureDialog extends StatelessWidget {
+  const _FailureDialog({
+    required this.failure,
+  });
+
+  final ChangeTypeOfUserFailed failure;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 500,
+      child: AlertDialog(
+        title: const Text('Fehler'),
+        content: Text(
+          switch (failure) {
+            ChangeTypeOfUserUnknownException(error: final error) =>
+              'Fehler: $error. Bitte kontaktiere den Support.',
+            NoTypeOfUserSelectedException() =>
+              'Es wurde kein Account-Typ ausgewählt.',
+            TypeUserOfUserHasNotChangedException() =>
+              'Der Account-Typ hat sich nicht geändert.',
+            ChangedTypeOfUserTooOftenException(
+              blockedUntil: final blockedUntil
+            ) =>
+              'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis ${DateFormat().format(blockedUntil)}.',
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('SCHLIESSEN'),
+          ),
+          if (failure is ChangeTypeOfUserUnknownException)
+            TextButton(
+              onPressed: () =>
+                  Navigator.of(context).pushReplacementNamed(SupportPage.tag),
+              child: const Text('SUPPORT KONTAKTIEREN'),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 25,
+      width: 25,
+      child: CircularProgressIndicator(
+        color: Colors.white,
+      ),
     );
   }
 }
@@ -109,9 +168,15 @@ class _PermissionNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Hinweis: Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen ("Administrator", "Aktives Mitglied", "Passives Mitglied").',
-      style: TextStyle(color: Colors.grey),
+    const textStyle = TextStyle(color: Colors.grey);
+    return MarkdownBody(
+      data: '''Beachte die folgende Hinweise:
+* Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.
+* Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen ("Administrator", "Aktives Mitglied", "Passives Mitglied").''',
+      styleSheet: MarkdownStyleSheet(
+        p: textStyle,
+        listBullet: textStyle,
+      ),
     );
   }
 }

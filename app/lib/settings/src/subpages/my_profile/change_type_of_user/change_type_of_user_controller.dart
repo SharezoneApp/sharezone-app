@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -57,6 +58,9 @@ class ChangeTypeOfUserController extends ChangeNotifier {
     }
 
     try {
+      state = const ChangeTypeOfUserLoading();
+      notifyListeners();
+
       await repository.changeTypeOfUser(typeOfUser);
 
       analytics.logChangedOrder(
@@ -66,12 +70,30 @@ class ChangeTypeOfUserController extends ChangeNotifier {
       initialTypeOfUser = typeOfUser;
       state = const ChangedTypeOfUserSuccessfully();
     } on FirebaseFunctionsException catch (e) {
-      throw ChangeTypeOfUserUnknownException(
-          '[${e.plugin}/${e.code}] ${e.message}');
+      state = const ChangeTypeOfUserInitial();
+      _parseException(e);
     } catch (e) {
+      state = const ChangeTypeOfUserInitial();
       throw ChangeTypeOfUserUnknownException(e);
     } finally {
       notifyListeners();
+    }
+  }
+
+  void _parseException(FirebaseFunctionsException e) {
+    final unknownErrorMessage = '[${e.plugin}/${e.code}] ${e.message}';
+    if (e.code == 'failed-precondition') {
+      try {
+        final json = jsonDecode(e.message!);
+        final blockedUntil = DateTime.parse(json['blockedUntil']);
+        throw ChangedTypeOfUserTooOftenException(
+          blockedUntil: blockedUntil,
+        );
+      } catch (_) {
+        throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
+      }
+    } else {
+      throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
     }
   }
 
@@ -95,6 +117,10 @@ class ChangeTypeOfUserInitial extends ChangeTypeOfUserState {
   const ChangeTypeOfUserInitial();
 }
 
+class ChangeTypeOfUserLoading extends ChangeTypeOfUserState {
+  const ChangeTypeOfUserLoading();
+}
+
 class ChangedTypeOfUserSuccessfully extends ChangeTypeOfUserState {
   const ChangedTypeOfUserSuccessfully();
 }
@@ -111,8 +137,16 @@ class TypeUserOfUserHasNotChangedException extends ChangeTypeOfUserFailed {
   const TypeUserOfUserHasNotChangedException();
 }
 
-class ChangeTypeOfUserUnknownException extends ChangeTypeOfUserFailed {
-  const ChangeTypeOfUserUnknownException(this.error);
+class ChangedTypeOfUserTooOftenException extends ChangeTypeOfUserFailed {
+  final DateTime blockedUntil;
 
+  const ChangedTypeOfUserTooOftenException({
+    required this.blockedUntil,
+  });
+}
+
+class ChangeTypeOfUserUnknownException extends ChangeTypeOfUserFailed {
   final Object? error;
+
+  const ChangeTypeOfUserUnknownException(this.error);
 }
