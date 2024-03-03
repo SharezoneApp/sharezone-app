@@ -58,3 +58,6 @@ jobs:
           entryPoint: "./docs"
           target: docs
           projectId: ${{ matrix.environment.projectId }}
+        env:
+          # Required to deploy Next.js applications to Firebase Hosting
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
