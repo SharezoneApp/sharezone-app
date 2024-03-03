@@ -14,6 +14,7 @@ concurrency:
   group: website-release
 
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -71,9 +72,9 @@ jobs:
           - flavor: dev
             projectId: sharezone-debug
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
-          - flavor: prod
-            projectId: sharezone-c2bd8
-            serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
+          # - flavor: prod
+          #   projectId: sharezone-c2bd8
+          #   serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -91,13 +92,15 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      - name: Build
-        run: sz build website --flavor ${{ matrix.environment.flavor }}
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools@11.24.1
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets[matrix.environment.serviceAccountSecret] }}"
-          channelId: live
-          entryPoint: "./website"
-          projectId: ${{ matrix.environment.projectId }}
+      - name: Build and deploy web-app
+        env:
+          FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
+        run: |
+          echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-hosting-key.json
+          sz deploy website \
+            --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
+            --flavor ${{ matrix.environment.flavor }}
